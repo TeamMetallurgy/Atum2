@@ -18,9 +18,9 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "${minecraft_version}-${mod_version}" + "." + getBuildNumber()
+version = "${minecraft_version}-${mod_version}" + ".alpha" + getBuildNumber()
 group= "com.teammetallurgy.atum"
-archivesBaseName = "Atum"
+archivesBaseName = "Atum2"
 
 minecraft {
     version = "${minecraft_version}-${forge_version}"
