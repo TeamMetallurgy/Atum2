@@ -1,0 +1,6 @@
+{
+  "parent": "item/bow_pulling_1",
+  "textures": {
+    "layer0": "atum:items/neiths_audacity_pulling_1"
+  }
+}

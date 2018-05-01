@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "atum:limestone_smooth_slab" },
+    "type=top": { "model": "atum:limestone_smooth_slab_top" },
+    "type=double": { "model": "atum:limestone" }
+  }
+}

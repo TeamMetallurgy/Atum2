@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "atum:deadwood_slab" },
+    "type=top": { "model": "atum:deadwood_slab_top" },
+    "type=double": { "model": "atum:deadwood_planks" }
+  }
+}

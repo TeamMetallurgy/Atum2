@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "atum:deadwood_ladder" },
+        "facing=east":  { "model": "atum:deadwood_ladder", "y": 90 },
+        "facing=south": { "model": "atum:deadwood_ladder", "y": 180 },
+        "facing=west":  { "model": "atum:deadwood_ladder", "y": 270 }
+    }
+}

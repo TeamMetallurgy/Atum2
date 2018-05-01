@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "atum:palm_slab" },
+    "type=top": { "model": "atum:palm_slab_top" },
+    "type=double": { "model": "atum:palm_planks" }
+  }
+}

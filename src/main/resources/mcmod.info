@@ -1,0 +1,16 @@
+[
+{
+  "modid": "atum",
+  "name": "Atum",
+  "description": "Atum is a dimension mod that opens up a whole new desert dimension that contains an eternal world full of sand, temples, and tons of new foes. Journey into Atum and discover ancient artifacts as you battle your way through vicious new enemies!\nAtum is not for the faint of heart! Bring your best armor, weapon, and food/torches before you embark!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "http://minecraft.curseforge.com/projects/atum",
+  "updateUrl": "",
+  "authorList": ["Shadowclaimer", "Glassmaker"],
+  "credits": "Girafi, lclc98, RebelKeithy, KanonBaum, Logomaster256, and DragonChef",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

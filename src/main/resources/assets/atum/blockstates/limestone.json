@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": [
+      { "model": "atum:limestone" },
+      { "model": "atum:limestone_mirrored" },
+      { "model": "atum:limestone", "y": 180 },
+      { "model": "atum:limestone_mirrored", "y": 180 }
+    ]
+  }
+}

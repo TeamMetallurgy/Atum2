@@ -1,0 +1,7 @@
+{
+    "parent": "block/ladder",
+     "textures": {
+        "particle": "atum:blocks/palm_ladder",
+        "texture": "atum:blocks/palm_ladder"
+    }
+}

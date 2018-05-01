@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "axis=y": { "model": "atum:deadwood_log" },
+    "axis=z": { "model": "atum:deadwood_log", "x": 90 },
+    "axis=x": { "model": "atum:deadwood_log", "x": 90, "y": 90 },
+    "axis=none": { "model": "atum:deadwood_bark" }
+  }
+}

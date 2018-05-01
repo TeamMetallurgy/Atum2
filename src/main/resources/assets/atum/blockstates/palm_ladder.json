@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "atum:palm_ladder" },
+        "facing=east":  { "model": "atum:palm_ladder", "y": 90 },
+        "facing=south": { "model": "atum:palm_ladder", "y": 180 },
+        "facing=west":  { "model": "atum:palm_ladder", "y": 270 }
+    }
+}

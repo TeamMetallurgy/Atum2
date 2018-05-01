@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "normal": [
+      { "model": "atum:sand" },
+      { "model": "atum:sand", "y": 90 },
+      { "model": "atum:sand", "y": 180 },
+      { "model": "atum:sand", "y": 270 }
+    ]
+  }
+}

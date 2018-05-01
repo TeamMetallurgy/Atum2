@@ -1,0 +1,494 @@
+# Misc
+itemGroup.atum=Atum
+biome.desert.name=Desert
+
+# Blocks
+tile.atum.portal.name=Atum Portal
+tile.atum.chestSpawner.name=Atum Chest
+tile.atum.sand.name=Strange Sand
+tile.atum.limestoneGravel.name=Limestone Gravel
+tile.atum.limestone.name=Limestone
+tile.atum.limestoneCracked.name=Cracked Limestone
+tile.atum.limestoneBrickSmall.name=Small Limestone Bricks
+tile.atum.limestoneBrickLarge.name=Large Limestone Bricks
+tile.atum.limestoneBrickCrackedBrick.name=Cracked Limestone Bricks
+tile.atum.limestoneBrickChiseled.name=Chiseled Limestone Bricks
+tile.atum.limestoneSmoothSlab.name=Smooth Limestone Slab
+tile.atum.limestoneCrackedSlab.name=Cracked Limestone Slab
+tile.atum.limestoneSmallSlab.name=Small Limestone Bricks Slab
+tile.atum.limestoneLargeSlab.name=Large Limestone Bricks Slab
+tile.atum.limestoneCrackedBrickSlab.name=Cracked Limestone Bricks Slab
+tile.atum.limestoneChiseledSlab.name=Chiseled Limestone Bricks Slab
+tile.atum.smoothStairs.name=Limestone Stairs
+tile.atum.crackedStairs.name=Cracked Limestone Stairs
+tile.atum.largeStairs.name=Limestone Large Brick Stairs
+tile.atum.smallStairs.name=Limestone Small Brick Stairs
+tile.atum.crackedBrickStairs.name=Limestone Cracked Brick Stairs
+tile.atum.chiseledStairs.name=Limestone Chiseled Brick Stairs
+tile.atum.sandLayer.name=Sand Layer
+tile.atum.limestoneWall.name=Smooth Limestone Wall
+tile.atum.limestoneCrackedWall.name=Cracked Limestone Wall
+tile.atum.smallWall.name=Small Limestone Brick Wall
+tile.atum.largeWall.name=Large Limestone Brick Wall
+tile.atum.crackedBrickWall.name=Limestone Cracked Brick Wall
+tile.atum.chiseledWall.name=Limestone Chiseled Brick Wall
+tile.atum.crystalGlass.name=Crystal Glass
+tile.atum.framedGlass.name=Framed Glass
+tile.atum.palmSapling.name=Palm Sapling
+tile.atum.dateBlock.name=Date
+tile.atum.shrub.name=Shrub
+tile.atum.weed.name=Weed
+tile.atum.papyrus.name=Papyrus
+tile.atum.flaxBlock.name=Flax
+tile.atum.fertileSoil.name=Fertile Soil
+tile.atum.fertileSoilTilled.name=Tilled Fertile Soil
+tile.atum.palmLog.name=Palm Wood
+tile.atum.palmLeaves.name=Palm Leaves
+tile.atum.palmPlanks.name=Palm Planks
+tile.atum.thinCrystalGlass.name=Thin Crystal Glass
+tile.atum.thinFramedGlass.name=Thin Framed Glass
+tile.atum.burningTrap.name=Burning Trap
+tile.atum.pharaohChest.name=Pharaoh's Chest
+tile.atum.redstoneOre.name=Redstone Ore
+tile.atum.litRedstoneOre.name=Redstone Ore
+tile.atum.coalOre.name=Coal Ore
+tile.atum.ironOre.name=Iron Ore
+tile.atum.goldOre.name=Gold Ore
+tile.atum.lapisOre.name=Lapis Ore
+tile.atum.diamondOre.name=Diamond Ore
+tile.atum.limestoneFurnace.name=Limestone Furnace
+tile.atum.limestoneFurnaceLit.name=Limestone Furnace
+tile.atum.deadwoodLog.name=Deadwood Wood
+tile.atum.palmDoor.name=Palm Door
+tile.atum.palmFence.name=Palm Fence
+tile.atum.palmFenceGate.name=Palm Fence Gate
+tile.atum.palmHatch.name=Palm Hatch
+tile.atum.palmLadder.name=Palm Ladder
+tile.atum.deadwoodPlanks.name=Deadwood Planks
+tile.atum.deadwoodDoor.name=Deadwood Door
+tile.atum.deadwoodFence.name=Deadwood Fence
+tile.atum.deadwoodFenceGate.name=Deadwood Fence Gate
+tile.atum.deadwoodHatch.name=Deadwood Hatch
+tile.atum.deadwoodLadder.name=Deadwood Ladder
+tile.atum.palmSlab.name=Palm Wood Slab
+tile.atum.deadwoodSlab.name=Deadwood Slab
+tile.atum.palmStairs.name=Palm Stairs
+tile.atum.deadwoodStairs.name=Deadwood Stairs
+tile.atum.palmCrate.name=Palm Crate
+tile.atum.deadwoodCrate.name=Deadwood Crate
+
+# Stained Glass
+tile.atum.crystalBlackStainedGlass.name=Black Stained Crystal Glass
+tile.atum.crystalRedStainedGlass.name=Red Stained Crystal Glass
+tile.atum.crystalGreenStainedGlass.name=Green Stained Crystal Glass
+tile.atum.crystalBrownStainedGlass.name=Brown Stained Crystal Glass
+tile.atum.crystalBlueStainedGlass.name=Blue Stained Crystal Glass
+tile.atum.crystalPurpleStainedGlass.name=Purple Stained Crystal Glass
+tile.atum.crystalCyanStainedGlass.name=Cyan Stained Crystal Glass
+tile.atum.crystalSilverStainedGlass.name=Silver Stained Crystal Glass
+tile.atum.crystalGrayStainedGlass.name=Gray Stained Crystal Glass
+tile.atum.crystalPinkStainedGlass.name=Pink Stained Crystal Glass
+tile.atum.crystalLimeStainedGlass.name=Lime Stained Crystal Glass
+tile.atum.crystalYellowStainedGlass.name=Yellow Stained Crystal Glass
+tile.atum.crystalLightBlueStainedGlass.name=Light Blue Stained Crystal Glass
+tile.atum.crystalMagentaStainedGlass.name=Magenta Stained Crystal Glass
+tile.atum.crystalOrangeStainedGlass.name=Orange Stained Crystal Glass
+tile.atum.crystalWhiteStainedGlass.name=White Stained Crystal Glass
+
+tile.atum.framedBlackStainedGlass.name=Black Stained Framed Glass
+tile.atum.framedRedStainedGlass.name=Red Stained Framed Glass
+tile.atum.framedGreenStainedGlass.name=Green Stained Framed Glass
+tile.atum.framedBrownStainedGlass.name=Brown Stained Framed Glass
+tile.atum.framedBlueStainedGlass.name=Blue Stained Framed Glass
+tile.atum.framedPurpleStainedGlass.name=Purple Stained Framed Glass
+tile.atum.framedCyanStainedGlass.name=Cyan Stained Framed Glass
+tile.atum.framedSilverStainedGlass.name=Silver Stained Framed Glass
+tile.atum.framedGrayStainedGlass.name=Gray Stained Framed Glass
+tile.atum.framedPinkStainedGlass.name=Pink Stained Framed Glass
+tile.atum.framedLimeStainedGlass.name=Lime Stained Framed Glass
+tile.atum.framedYellowStainedGlass.name=Yellow Stained Framed Glass
+tile.atum.framedLightBlueStainedGlass.name=Light Blue Stained Framed Glass
+tile.atum.framedMagentaStainedGlass.name=Magenta Stained Framed Glass
+tile.atum.framedOrangeStainedGlass.name=Orange Stained Framed Glass
+tile.atum.framedWhiteStainedGlass.name=White Stained Framed Glass
+
+tile.atum.thinCrystalBlackStainedGlass.name=Black Stained Thin Crystal Glass
+tile.atum.thinCrystalRedStainedGlass.name=Red Stained Thin Crystal Glass
+tile.atum.thinCrystalGreenStainedGlass.name=Green Stained Thin Crystal Glass
+tile.atum.thinCrystalBrownStainedGlass.name=Brown Stained Thin Crystal Glass
+tile.atum.thinCrystalBlueStainedGlass.name=Blue Stained Thin Crystal Glass
+tile.atum.thinCrystalPurpleStainedGlass.name=Purple Stained Thin Crystal Glass
+tile.atum.thinCrystalCyanStainedGlass.name=Cyan Stained Thin Crystal Glass
+tile.atum.thinCrystalSilverStainedGlass.name=Silver Stained Thin Crystal Glass
+tile.atum.thinCrystalGrayStainedGlass.name=Gray Stained Thin Crystal Glass
+tile.atum.thinCrystalPinkStainedGlass.name=Pink Stained Thin Crystal Glass
+tile.atum.thinCrystalLimeStainedGlass.name=Lime Stained Thin Crystal Glass
+tile.atum.thinCrystalYellowStainedGlass.name=Yellow Stained Thin Crystal Glass
+tile.atum.thinCrystalLightBlueStainedGlass.name=Light Blue Stained Thin Crystal Glass
+tile.atum.thinCrystalMagentaStainedGlass.name=Magenta Stained Thin Crystal Glass
+tile.atum.thinCrystalOrangeStainedGlass.name=Orange Stained Thin Crystal Glass
+tile.atum.thinCrystalWhiteStainedGlass.name=White Stained Thin Crystal Glass
+
+tile.atum.thinFramedBlackStainedGlass.name=Black Stained Thin Framed Glass
+tile.atum.thinFramedRedStainedGlass.name=Red Stained Thin Framed Glass
+tile.atum.thinFramedGreenStainedGlass.name=Green Stained Thin Framed Glass
+tile.atum.thinFramedBrownStainedGlass.name=Brown Stained Thin Framed Glass
+tile.atum.thinFramedBlueStainedGlass.name=Blue Stained Thin Framed Glass
+tile.atum.thinFramedPurpleStainedGlass.name=Purple Stained Thin Framed Glass
+tile.atum.thinFramedCyanStainedGlass.name=Cyan Stained Thin Framed Glass
+tile.atum.thinFramedSilverStainedGlass.name=Silver Stained Thin Framed Glass
+tile.atum.thinFramedGrayStainedGlass.name=Gray Stained Thin Framed Glass
+tile.atum.thinFramedPinkStainedGlass.name=Pink Stained Thin Framed Glass
+tile.atum.thinFramedLimeStainedGlass.name=Lime Stained Thin Framed Glass
+tile.atum.thinFramedYellowStainedGlass.name=Yellow Stained Thin Framed Glass
+tile.atum.thinFramedLightBlueStainedGlass.name=Light Blue Stained Thin Framed Glass
+tile.atum.thinFramedMagentaStainedGlass.name=Magenta Stained Thin Framed Glass
+tile.atum.thinFramedOrangeStainedGlass.name=Orange Stained Thin Framed Glass
+tile.atum.thinFramedWhiteStainedGlass.name=White Stained Thin Framed Glass
+
+# Containers
+container.limestoneFurnace=Limestone Furnace
+container.crate.palm=Palm Crate
+container.crate.deadwood=Deadwood Crate
+
+# Item
+item.atum.scarab.name=Scarab
+item.atum.loot.name=Loot
+item.atum.scimitar.name=Scimitar
+item.atum.greatsword.name=Greatsword
+item.atum.scepter.name=Scepter
+item.atum.stoneguardSword.name=Stoneguard Sword
+item.atum.shortBow.name=Shortbow
+item.atum.limestoneShovel.name=Limestone Shovel
+item.atum.limestonePickaxe.name=Limestone Pickaxe
+item.atum.limestoneAxe.name=Limestone Axe
+item.atum.limestoneSword.name=Limestone Sword
+item.atum.limestoneHoe.name=Limestone Hoe
+item.atum.mummyHelmet.name=Mummy Helmet
+item.atum.mummyChest.name=Mummy Chestplate
+item.atum.mummyLegs.name=Mummy Leggings
+item.atum.mummyBoots.name=Mummy Boots
+item.atum.wandererHelmet.name=Wanderer Helmet
+item.atum.wandererChest.name=Wanderer Chestplate
+item.atum.wandererLegs.name=Wanderer Leggings
+item.atum.wandererBoots.name=Wanderer Boots
+item.atum.desertHelmet.name=Desert Helmet
+item.atum.desertChest.name=Desert Chestplate
+item.atum.desertLegs.name=Desert Leggings
+item.atum.desertBoots.name=Desert Boots
+item.atum.papyrusPlant.name=Papyrus
+item.atum.ectoplasm.name=Ectoplasm
+item.atum.dustyBone.name=Dusty Bone
+item.atum.stoneChunk.name=Stone Chunk
+item.atum.clothScrap.name=Cloth Scrap
+item.atum.scroll.name=Scroll
+item.atum.wolfPelt.name=Wolf Pelt
+item.atum.date.name=Date
+item.atum.goldenDate.name=Golden Date
+item.atum.goldenDateEnchanted.name=Enchanted Golden Date
+item.atum.linen.name=Linen
+item.atum.flax.name=Flax
+item.atum.flaxSeeds.name=Flax Seeds
+item.atum.fishForsaken.name=Forsaken Fish
+item.atum.fishMummified.name=Mummified Fish
+item.atum.fishJeweled.name=Jeweled Fish
+item.atum.fishSkeletal.name=Skeletal Fish
+
+item.atum.ptahsDecadence.name=Ptah's Decadence
+item.atum.soteksRage.name=Sotek's Rage
+item.atum.osirisWill.name=Osiris's Will
+item.atum.akersToil.name=Aker's Toil
+item.atum.gebsBlessing.name=Geb's Blessing
+item.atum.atensFury.name=Aten's Fury
+item.atum.rasGlory.name=Ra's Glory
+item.atum.sekhmetsWrath.name=Sekhmet's Wrath
+item.atum.nutsAgility.name=Nut's Agility
+item.atum.horusFlight.name=Horus's Flight
+item.atum.monthusStrike.name=Monthu's Strike
+item.atum.anhursMight.name=Anhur's Might
+item.atum.hedetetsSting.name=Hedetet's Sting
+item.atum.horusSoaring.name=Horus's Soaring
+item.atum.shusBreath.name=Shu's Breath
+item.atum.ptahsDestruction.name=Ptah's Destruction
+item.atum.monthusBlast.name=Monthu's Blast
+item.atum.nusFlux.name=Nu's Flux
+item.atum.mnevisHorns.name=Mnevis's Horns
+item.atum.isisEmbrace.name=Isis's Embrace
+item.atum.maatsBalance.name=Maat's Balance
+item.atum.hedetetsVenom.name=Hedetet's Venom
+item.atum.gebsSolidarity.name=Geb's Solidarity
+item.atum.nutsCall.name=Nut's Call
+item.atum.anuketsBounty.name=Anuket's Bounty
+item.atum.mafdetsQuickness.name=Mafdet's Quickness
+item.atum.isisHealing.name=Isis's Healing
+item.atum.amunetsHomecoming.name=Amunet's Homecoming
+item.atum.anubisMercy.name=Anubis's Mercy
+item.atum.neithsAudacity.name=Neith's Audacity
+
+item.atum.deadwoodDoor.name=Deadwood Door
+item.atum.palmDoor.name=Palm Door
+
+item.atum.palmStick.name=Palm Stick
+item.atum.deadwoodStick.name=Deadwood Stick
+
+item.atum.deadwoodBeetle.name=Deadwood Beetle
+
+# Item Information
+item.atum.akersToil.line1=Performance I: Faster, does
+item.atum.akersToil.line2=not consume fatigue
+item.atum.akersToil.line3=Performance I
+
+item.atum.amunetsHomecoming.line1=Return I: Teleports you back
+item.atum.amunetsHomecoming.line2=to your spawn point
+item.atum.amunetsHomecoming.line3=Return I
+
+item.atum.anhursMight.line1=Mighty I: Slows player,
+item.atum.anhursMight.line2=Chance to stun foes
+item.atum.anhursMight.line3=Mighty I
+
+item.atum.ptahsDecadence.line1=Wealth I: Gain an extra
+item.atum.ptahsDecadence.line2=diamond from each ore
+item.atum.ptahsDecadence.line3=Wealth I
+
+item.atum.soteksRage.line1=Exile I: Knocks foes
+item.atum.soteksRage.line2=back a large amount
+item.atum.soteksRage.line3=Exile I
+
+item.atum.osirisWill.line1=Banish I: Bonus damage to undead,
+item.atum.osirisWill.line2=chance to drop ectoplasm
+item.atum.osirisWill.line3=Banish I
+
+item.atum.gebsBlessing.line1=Sowing I: Tilled ground is blessed,
+item.atum.gebsBlessing.line2=granting increased growth rate
+item.atum.gebsBlessing.line3=Sowing I
+
+item.atum.atensFury.line1=Fire Shot I: Flaming arrow
+item.atum.atensFury.line2=ignites blocks and foes
+item.atum.atensFury.line3=Fire Shot I
+
+item.atum.rasGlory.line1=Divine Vision I: Night vision, increased
+item.atum.rasGlory.line2=range of vision in Atum
+item.atum.rasGlory.line3=Divine Vision I
+
+item.atum.sekhmetsWrath.line1=Immolation I: Protection from fire,
+item.atum.sekhmetsWrath.line2=chance to ignite attackers
+item.atum.sekhmetsWrath.line3=Immolation I
+
+item.atum.nutsAgility.line1=Agility I: Increased run
+item.atum.nutsAgility.line2=and swinging speed
+item.atum.nutsAgility.line3=Agility I
+
+item.atum.horusFlight.line1=Nimbleness I: Increased jump height,
+item.atum.horusFlight.line2=protection from fall damage
+item.atum.horusFlight.line3=Nimbleness I
+
+item.atum.monthusStrike.line1=Slam I: Increased damage,
+item.atum.monthusStrike.line2=charge for AOE knockback
+item.atum.monthusStrike.line3=Slam I
+
+item.atum.hedetetsSting.line1=Poison II: Chance
+item.atum.hedetetsSting.line2=to poison foes
+item.atum.hedetetsSting.line3=Poison II
+
+item.atum.horusSoaring.line1=Velocity I: Arrow Velocity,
+item.atum.horusSoaring.line2=increases arrow velocity by 50%
+item.atum.horusSoaring.line3=Velocity I
+
+item.atum.shusBreath.line1=Quickdraw I: Reduced
+item.atum.shusBreath.line2=drawback speed
+item.atum.shusBreath.line3=Quickdraw I
+
+item.atum.ptahsDestruction.line1=Stonecutter I: Increases damage
+item.atum.ptahsDestruction.line2=to stone enemies
+item.atum.ptahsDestruction.line3=Stonecutter I
+
+item.atum.monthusBlast.line1=Explosive Shot I: Arrows explode
+item.atum.monthusBlast.line2=on impact
+item.atum.monthusBlast.line3=Explosive Shot I
+
+item.atum.nusFlux.line1=Sweep I: Chance to launch
+item.atum.nusFlux.line2=foes into the air
+item.atum.nusFlux.line3=Sweep I
+
+item.atum.mnevisHorns.line1=Melee Reflection I: Deals
+item.atum.mnevisHorns.line2=damage to attackers
+item.atum.mnevisHorns.line3=Melee Reflection I
+
+item.atum.isisEmbrace.line1=Regeneration I: Regens
+item.atum.isisEmbrace.line2=health slowly
+item.atum.isisEmbrace.line3=Regeneration I
+
+item.atum.maatsBalance.line1=Balance I: Decreases damage
+item.atum.maatsBalance.line2=dealt, Decreases damage taken
+item.atum.maatsBalance.line3=Balance I
+
+item.atum.hedetetsVenom.line1=Poison Arrow I: Fires an
+item.atum.hedetetsVenom.line2=arrow that poisons foes
+item.atum.hedetetsVenom.line3=Poison Arrow I
+
+item.atum.gebsSolidarity.line1=Stalwart I: Decreased movement
+item.atum.gebsSolidarity.line2=speed, decreased knockback (WIP)
+item.atum.gebsSolidarity.line3=Stalwart I
+
+item.atum.nutsCall.line1=Wrath I: Chance to strike
+item.atum.nutsCall.line2=foe with lightning
+item.atum.nutsCall.line3=Wrath I
+
+item.atum.anuketsBounty.line1=Alluring I: Chance to catch
+item.atum.anuketsBounty.line2=special fish in Atum
+item.atum.anuketsBounty.line3=Alluring I
+
+item.atum.mafdetsQuickness.line1=Swiftness I: You run
+item.atum.mafdetsQuickness.line2=faster when held
+item.atum.mafdetsQuickness.line3=Swiftness I
+
+item.atum.isisHealing.line1=Regeneration I: Regenerates
+item.atum.isisHealing.line2=health slowly while held
+item.atum.isisHealing.line3=Regeneration I
+
+item.atum.anubisMercy.line1=Return I: On Death teleports you back,
+item.atum.anubisMercy.line2=to your spawn point
+item.atum.anubisMercy.line3=Return I
+
+item.atum.neithsAudacity.line1=Double Shot I: Fires
+item.atum.neithsAudacity.line2=two arrows
+item.atum.neithsAudacity.line3=Double Shot I
+
+tooltip.atum.minutesRemaining=%d Minutes Remaining
+tooltip.atum.usesRemaining=%d Uses Remaining
+
+# Loot
+item.atum.loot.dirty.idol.name=Dirty Idol
+item.atum.loot.dirty.necklace.name=Dirty Necklace
+item.atum.loot.dirty.ring.name=Dirty Ring
+item.atum.loot.dirty.broach.name=Dirty Broach
+item.atum.loot.dirty.scepter.name=Dirty Scepter
+item.atum.loot.silver.idol.name=Silver Idol
+item.atum.loot.silver.necklace.name=Silver Necklace
+item.atum.loot.silver.ring.name=Silver Ring
+item.atum.loot.silver.broach.name=Silver Broach
+item.atum.loot.silver.scepter.name=Silver Scepter
+item.atum.loot.gold.idol.name=Golden Idol
+item.atum.loot.gold.necklace.name=Gold Necklace
+item.atum.loot.gold.ring.name=Gold Ring
+item.atum.loot.gold.broach.name=Golden Broach
+item.atum.loot.gold.scepter.name=Golden Scepter
+item.atum.loot.sapphire.idol.name=Sapphire Idol
+item.atum.loot.sapphire.necklace.name=Sapphire Necklace
+item.atum.loot.sapphire.ring.name=Sapphire Ring
+item.atum.loot.sapphire.broach.name=Sapphire Broach
+item.atum.loot.sapphire.scepter.name=Sapphire Scepter
+item.atum.loot.ruby.idol.name=Ruby Idol
+item.atum.loot.ruby.necklace.name=Ruby Necklace
+item.atum.loot.ruby.ring.name=Ruby Ring
+item.atum.loot.ruby.broach.name=Ruby Broach
+item.atum.loot.ruby.scepter.name=Ruby Scepter
+item.atum.loot.emerald.idol.name=Emerald Idol
+item.atum.loot.emerald.necklace.name=Emerald Necklace
+item.atum.loot.emerald.ring.name=Emerald Ring
+item.atum.loot.emerald.broach.name=Emerald Broach
+item.atum.loot.emerald.scepter.name=Emerald Scepter
+item.atum.loot.diamond.idol.name=Diamond Idol
+item.atum.loot.diamond.necklace.name=Diamond Necklace
+item.atum.loot.diamond.ring.name=Diamond Ring
+item.atum.loot.diamond.broach.name=Diamond Broach
+item.atum.loot.diamond.scepter.name=Diamond Scepter
+
+# Entity
+entity.atum.mummy.name=Mummy
+entity.atum.brigand.name=Brigand
+entity.atum.nomad.name=Nomad
+entity.atum.pharaoh.name=Pharaoh
+entity.atum.forsaken.name=Forsaken
+entity.atum.wraith.name=Wraith
+entity.atum.stoneguard.name=Stoneguard
+entity.atum.desertWolf.name=Desert Wolf
+entity.atum.banditWarlord.name=Warlord
+entity.atum.barbarian.name=Barbarian
+entity.atum.bonestorm.name=Bonestorm
+
+# Pharaoh Names
+entity.atum.pharaoh.Ama=Ama'
+entity.atum.pharaoh.Ata=Ata'
+entity.atum.pharaoh.Ato=Ato'
+entity.atum.pharaoh.Bak=Bak'
+entity.atum.pharaoh.Cal=Cal'
+entity.atum.pharaoh.Djet=Djet'
+entity.atum.pharaoh.Eje=Eje'
+entity.atum.pharaoh.For=For'
+entity.atum.pharaoh.Gol=Gol'
+entity.atum.pharaoh.Gut=Gut'
+entity.atum.pharaoh.Hop=Hop'
+entity.atum.pharaoh.Hor=Hor'
+entity.atum.pharaoh.Huni=Huni'
+entity.atum.pharaoh.Iam=Iam'
+entity.atum.pharaoh.Jor=Jor'
+entity.atum.pharaoh.Kal=Kal'
+entity.atum.pharaoh.Khas=Khas'
+entity.atum.pharaoh.Khor=Khor'
+entity.atum.pharaoh.Lat=Lat'
+entity.atum.pharaoh.Mal=Mal'
+entity.atum.pharaoh.Not=Not'
+entity.atum.pharaoh.Oap=Oap'
+entity.atum.pharaoh.Pra=Pra'
+entity.atum.pharaoh.Qo=Qo'
+entity.atum.pharaoh.Ras=Ras'
+entity.atum.pharaoh.Shas=Shas'
+entity.atum.pharaoh.Thoth=Thoth'
+entity.atum.pharaoh.Tui=Tui'
+entity.atum.pharaoh.Uld=Uld'
+entity.atum.pharaoh.Ver=Ver'
+entity.atum.pharaoh.Wot=Wot'
+entity.atum.pharaoh.Xo=Xo'
+entity.atum.pharaoh.Yat=Yat'
+entity.atum.pharaoh.Zyt=Zyt'
+entity.atum.pharaoh.Khep=Khep'
+
+entity.atum.pharaoh.Ahat=ahat
+entity.atum.pharaoh.Amesh=amesh
+entity.atum.pharaoh.Amon=amon
+entity.atum.pharaoh.Anut=anut
+entity.atum.pharaoh.Baroom=baroom
+entity.atum.pharaoh.Chanta=chanta
+entity.atum.pharaoh.Erant=erant
+entity.atum.pharaoh.Funam=funam
+entity.atum.pharaoh.Daresh=daresh
+entity.atum.pharaoh.Djer=djer
+entity.atum.pharaoh.Hotesh=hotesh
+entity.atum.pharaoh.Khaden=khaden
+entity.atum.pharaoh.Kron=kron
+entity.atum.pharaoh.Gorkum=gorkum
+entity.atum.pharaoh.Ialenter=ialenter
+entity.atum.pharaoh.Ma'at=ma'at
+entity.atum.pharaoh.Narmer=narmer
+entity.atum.pharaoh.Radeem=radeem
+entity.atum.pharaoh.Jaloom=jaloom
+entity.atum.pharaoh.Lepsha=lepsha
+entity.atum.pharaoh.Quor=quor
+entity.atum.pharaoh.Oleshet=oleshet
+entity.atum.pharaoh.Peput=peput
+entity.atum.pharaoh.Talat=talat
+entity.atum.pharaoh.Ulam=ulam
+entity.atum.pharaoh.Veresh=veresh
+entity.atum.pharaoh.Ranesh=ranesh
+entity.atum.pharaoh.Snef=snef
+entity.atum.pharaoh.Wollolo=wollolo
+entity.atum.pharaoh.Hathor=hathor
+entity.atum.pharaoh.Intef=intef
+entity.atum.pharaoh.Neferk=neferk
+entity.atum.pharaoh.Khatne=khatne
+entity.atum.pharaoh.Tepy=tepy
+entity.atum.pharaoh.Moret=moret
+
+# Chat
+chat.atum.disabled=Scarab portal creation is disabled
+chat.atum.enemies=There are too many enemies nearby to search this chest
+chat.atum.summonPharaoh=was summoned by
+chat.atum.killPharaoh=was slain by
+
+# GUI
+atum.configGui.portalCreation=Atum Portal
+atum.configGui.fog=Atum Fog
+atum.configGui.oasis=Atum Oasis
+atum.configGui.dimensionID=Atum Dimension ID
+atum.configGui.biomeID=Atum Desert Biome ID

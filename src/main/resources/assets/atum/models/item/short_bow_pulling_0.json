@@ -1,0 +1,6 @@
+{
+  "parent": "item/bow_pulling_0",
+  "textures": {
+    "layer0": "atum:items/short_bow_pulling_0"
+  }
+}

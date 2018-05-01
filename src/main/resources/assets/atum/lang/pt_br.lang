@@ -1,0 +1,384 @@
+# Misc
+itemGroup.atum=Atum
+biome.desert.name=Deserto
+
+# Blocks
+tile.atum.portal.name=Portal do Atum
+tile.atum.chestSpawner.name=Báu do Atum
+tile.atum.sand.name=Areia Estranha 
+tile.atum.stone.name=Calcário
+tile.atum.limestoneCracked.name=Calcário Rachado
+tile.atum.limestoneBrickSmall.name=Tijolos Pequenos de Calcário
+tile.atum.limestoneBrickLarge.name=Tijolos Grandes de Calcário
+tile.atum.limestone_brick.cracked.name=Tijolos de Calcário Rachado
+tile.atum.limestoneBrickCrackedBrick.name=Tijolos Talhados de Calcário
+tile.atum.limestoneSmoothSlab.name=Laje de Calcário Polido
+tile.atum.limestoneCrackedSlab.name=Tijolos Rachados de Calcário
+tile.atum.limestoneSmallSlab.name.name=Laje de Tijolos Pequenos de Calcário
+tile.atum.limestoneLargeSlab.name=Laje de Tijolos Grandes de Calcário
+tile.atum.smoothStairs.name=Escadas de Calcário
+tile.atum.crackedStairs.name=Escadas de Pedregulho Calcário
+tile.atum.largeStairs.name=Escadas de Tijolos Grandes de Calcário
+tile.atum.smallStairs.name=Escadas de Tijolos Pequenos de Calcário
+tile.atum.sandLayer.name=Camada de Areia 
+tile.atum.limestoneWall.name=Parede de Calcário Polido
+tile.atum.limestoneCrackedWall.name=Parede de Calcário Rachado
+tile.atum.largeWall.name=Parede de Tijolos Grandes de Calcário
+tile.atum.smallWall.name=Parede de Tijolos Pequenos de Calcário
+tile.atum.crystalGlass.name=Vidro Cristalino 
+tile.atum.framedGlass.name=Vidro Emoldurado 
+tile.atum.palmSapling.name=Muda de Palmeira
+tile.atum.dateBlock.name=Tâmara
+tile.atum.shrub.name=Arbusto
+tile.atum.weed.name=Erva Daninha
+tile.atum.papyrus.name=Papiro
+tile.atum.flaxBlock.name=Linho
+tile.atum.fertileSoil.name=Solo Fértil
+tile.atum.fertileSoilTilled.name=Solo Fértil Lavrado 
+tile.atum.palmLog.name=Madeira de Palmeira
+tile.atum.palmLeaves.name=Folhas de Palmeira
+tile.atum.palmPlanks.name=Tábuas de Palmeira
+tile.atum.thinCrystalGlass.name=Vidro Fino Cristalino
+tile.atum.thinFramedGlass.name=Vidro Fino Emoldurado
+tile.atum.burningTrap.name=Armadilha Incendiária 
+tile.atum.pharaohChest.name=Baú do Faraó 
+tile.atum.redstoneOre.name=Minério de Redstone
+tile.atum.litRedstoneOre.name=Minério de Redstone
+tile.atum.coalOre.name=Minério de Carvão 
+tile.atum.ironOre.name=Minério de Ferro 
+tile.atum.goldOre.name=Minério de Ouro 
+tile.atum.lapisOre.name=Minério de Lápis-Lazuli 
+tile.atum.diamondOre.name=Minério de Diamante 
+tile.atum.limestoneFurnace.name=Fornalha de Calcário
+tile.atum.limestoneFurnaceLit.name=Fornalha de Calcário
+
+# Containers
+container.limestoneFurnace=Fornalha de Calcário
+
+# Item
+item.atum.scarab.name=Escaravelho
+item.atum.loot.name=Despojo
+item.atum.scimitar.name=Cimitarra
+item.atum.greatsword.name=Espada Larga 
+item.atum.scepter.name=Cetro
+item.atum.stoneguardSword.name=Espada do Soldado de Pedra
+item.atum.shortBow.name=Arco Curto
+item.atum.limestoneShovel.name=Pá de Calcário
+item.atum.limestonePickaxe.name=Picareta de Calcário
+item.atum.limestoneAxe.name=Machado de Calcário
+item.atum.limestoneSword.name=Espada de Calcário
+item.atum.limestoneHoe.name=Enxada de Calcário
+item.atum.mummyHelmet.name=Elmo da Múmia
+item.atum.mummyChest.name=Peitoral da Múmia
+item.atum.mummyLegs.name=Calça da Múmia
+item.atum.mummyBoots.name=Botas da Múmia
+item.atum.wandererHelmet.name=Elmo do Andarilho
+item.atum.wandererChest.name=Peitoral do Andarilho
+item.atum.wandererLegs.name=Calça do Andarilho
+item.atum.wandererBoots.name=Botas do Andarilho
+item.atum.desertHelmet.name=Elmo do Deserto
+item.atum.desertChest.name=Peitoral do Deserto
+item.atum.desertLegs.name=Calça do Deserto
+item.atum.desertBoots.name=Botas do Deserto
+item.atum.papyrusPlant.name=Papiro
+item.atum.ectoplasm.name=Ectoplasma
+item.atum.stoneChunk.name=Pedaço de Pedra
+item.atum.clothScrap.name=Retalho
+item.atum.scroll.name=Pergaminho
+item.atum.wolfPelt.name=Pele de Chacal
+item.atum.date.name=Tâmara
+item.atum.linen.name=Linho
+item.atum.flax.name=Linho
+item.atum.flaxSeeds.name=Sementes de Linho
+item.atum.fishForsaken.name=Peixe Forsaken
+item.atum.fishMummified.name=Peixe Mumificado
+item.atum.fishJeweled.name=Peixe de Jóias
+item.atum.fishSkeletal.name=Espinha de Peixe
+
+item.atum.ptahsDecadence.name=Decadência de Ptahs
+item.atum.soteksRage.name=Raiva de Soteks
+item.atum.osirisWill.name=Vontade de Osiris
+item.atum.akersToil.name=Labuta de Akers
+item.atum.gebsBlessing.name=Bênção de Gebs
+item.atum.atensFury.name=Fúria de Atens
+item.atum.rasGlory.name=Glória de Ras
+item.atum.sekhmetsWrath.name=Ira de Sekhmets
+item.atum.nutsAgility.name=Agilidade de Nuts
+item.atum.horusFlight.name=Voo de Horus
+item.atum.monthusStrike.name=Golpe de Monthus
+item.atum.anhursMight.name=Poder de Anhurs
+item.atum.hedetetsSting.name=Ferrão de Hedetets
+item.atum.horusSoaring.name=Ascendência de Horus
+item.atum.shusBreath.name=Respiração de Shus
+item.atum.ptahsDestruction.name=Destruição de Ptahs
+item.atum.monthusBlast.name=Explosão de Monthus
+item.atum.nusFlux.name=Fluxo de Nus
+item.atum.mnevisHorns.name=Chifres de Mnevis
+item.atum.isisEmbrace.name=Abraço de Isis
+item.atum.maatsBalance.name=Equilíbrio de Maats
+item.atum.hedetetsVenom.name=Veneno de Hedetets
+item.atum.gebsSolidarity.name=Solidariedade de Gebs
+item.atum.nutsCall.name=Chamado de Nuts
+item.atum.anuketsBounty.name=Recompensa de Anukets
+item.atum.mafdetsQuickness.name=Rapidez de Mafdets
+item.atum.isisHealing.name=Cura de Isis
+item.atum.amunetsHomecoming.name=Reencontro de Amunets
+item.atum.anubisMercy.name=Misericórdia de Anubis
+item.atum.neithsAudacity.name=Audácia de Neiths
+
+
+# Item Information
+item.atum.akersToil.line1=Desempenho I: Mais rápidez,
+item.atum.akersToil.line2=não dá fadiga 
+item.atum.akersToil.line3=Desempenho I 
+
+item.atum.amunetsHomecoming.line1=Retorno I: Teleporta você de volta ao
+item.atum.amunetsHomecoming.line2=seu ponto de desova
+item.atum.amunetsHomecoming.line3=Retorno I 
+
+item.atum.anhursMight.line1=Poderoso I: Retarda o jogador,
+item.atum.anhursMight.line2=Chance de atordoar os inimigos
+item.atum.anhursMight.line3=Poderoso I 
+
+item.atum.ptahsDecadence.line1=Riqueza I: Ganhe um diamante
+item.atum.ptahsDecadence.line2=extra de cada minério
+item.atum.ptahsDecadence.line3=Riqueza I 
+
+item.atum.soteksRage.line1=Exílio I: Golpeia para longe
+item.atum.soteksRage.line2=um grande número de inimigos
+item.atum.soteksRage.line3=Exílio I 
+
+item.atum.osirisWill.line1=Banimento I: Bônus de dano em mortos-vivos,
+item.atum.osirisWill.line2=chance de cair ectoplasma
+item.atum.osirisWill.line3=Banimento I 
+
+item.atum.gebsBlessing.line1=Semear I: Terra lavrada e abençoada,
+item.atum.gebsBlessing.line2=lhe concede aumento da taxa de crescimento
+item.atum.gebsBlessing.line3=Semear I 
+
+item.atum.atensFury.line1=Tiro de Fogo I: Uma flecha flamejante
+item.atum.atensFury.line2=Que inflama blocos e inimigos
+item.atum.atensFury.line3=Tiro de Fogo I 
+
+item.atum.rasGlory.line1=Visão Divina I: Visão noturna, aumenta o 
+item.atum.rasGlory.line2=campo de visão em Atum
+item.atum.rasGlory.line3=Visão Divina I 
+
+item.atum.sekhmetsWrath.line1=Imolação I: Proteção contra fogo,
+item.atum.sekhmetsWrath.line2=chance de inflamar atacantes
+item.atum.sekhmetsWrath.line3=Imolação I 
+
+item.atum.nutsAgility.line1=Agilidade I: Aumenta a corrida
+item.atum.nutsAgility.line2=balaceando a velocidade
+item.atum.nutsAgility.line3=Agilidade I 
+
+item.atum.horusFlight.line1=Destreza I: Aumento da altura do salto,
+item.atum.horusFlight.line2=proteção contra danos de queda
+item.atum.horusFlight.line3=Destreza I 
+
+item.atum.monthusStrike.line1=Bater I: Aumento dos danos,
+item.atum.monthusStrike.line2=e chance para dar tranco AOE
+item.atum.monthusStrike.line3=Bater I 
+
+item.atum.hedetetsSting.line1=Veneno II: Chance
+item.atum.hedetetsSting.line2=para envenenar inimigos
+item.atum.hedetetsSting.line3=Veneno II 
+
+# I need to talk to shadow
+item.atum.horusSoaring.line1=Poderoso I: Retarda o jogador,
+item.atum.horusSoaring.line2=Chance de atordoar os inimigos
+item.atum.horusSoaring.line3=Poderoso I 
+
+item.atum.shusBreath.line1=Tração I: Redução da
+item.atum.shusBreath.line2=velocidade do obstáculo
+item.atum.shusBreath.line3=Tração I 
+
+item.atum.ptahsDestruction.line1=Pedreiro I: Aumenta o dano
+item.atum.ptahsDestruction.line2=nos inimigos de pedra
+item.atum.ptahsDestruction.line3=Pedreiro I 
+
+item.atum.monthusBlast.line1=Tiro Explosivo I: Flechas explodem
+item.atum.monthusBlast.line2=no impacto
+item.atum.monthusBlast.line3=Tiro Explosivo I 
+
+item.atum.nusFlux.line1=Varrer I: Chance para lançar
+item.atum.nusFlux.line2=os inimigos para o ar
+item.atum.nusFlux.line3=Varrer I 
+
+item.atum.mnevisHorns.line1=Reflexão I: Dá
+item.atum.mnevisHorns.line2=dano aos atacantes
+item.atum.mnevisHorns.line3=Reflexão I 
+
+item.atum.isisEmbrace.line1=Regeneração I: Regenera
+item.atum.isisEmbrace.line2=lentamente a saúde
+item.atum.isisEmbrace.line3=Regeneração I 
+
+item.atum.maatsBalance.line1=Equilíbrio I: Diminui o dano
+item.atum.maatsBalance.line2=distribuido, diminui o dano recebido
+item.atum.maatsBalance.line3=Equilíbrio I 
+
+item.atum.hedetetsVenom.line1=Flecha Venenosa I: Dispara uma
+item.atum.hedetetsVenom.line2=flecha que envenena os inimigos
+item.atum.hedetetsVenom.line3=Flecha Venenosa I 
+
+item.atum.gebsSolidarity.line1=Valente I: Diminui a velocidade
+item.atum.gebsSolidarity.line2=de movimento, diminui o tranco (WIP)
+item.atum.gebsSolidarity.line3=Valente I 
+
+item.atum.nutsCall.line1=Ira I: Chance de acertar
+item.atum.nutsCall.line2=o inimigo com um raio
+item.atum.nutsCall.line3=Ira I 
+
+item.atum.anuketsBounty.line1=Atração I: Chance de pegar
+item.atum.anuketsBounty.line2=um peixe especial em Atum
+item.atum.anuketsBounty.line3=Atração I 
+
+item.atum.mafdetsQuickness.line1=Rapidez I: Você corre
+item.atum.mafdetsQuickness.line2=mais rápido enquanto segurar 
+item.atum.mafdetsQuickness.line3=Rapidez I 
+
+item.atum.isisHealing.line1=Regeneração I: Regenera
+item.atum.isisHealing.line2=lentamente a saúde enquanto segurar 
+item.atum.isisHealing.line3=Regeneração I 
+
+item.atum.anubisMercy.line1=Retorno I: Teleporta você de volta ao
+item.atum.anubisMercy.line2=seu ponto de desova
+item.atum.anubisMercy.line3=Retorno I 
+
+item.atum.neithsAudacity.line1=Tiro Duplo I: Atira
+item.atum.neithsAudacity.line2=duas flechas
+item.atum.neithsAudacity.line3=Tiro Duplo I 
+
+# Loot
+item.atum.loot.dirty.idol.name=Sujo Ídolo
+item.atum.loot.dirty.necklace.name=Sujo Colar
+item.atum.loot.dirty.ring.name=Sujo Anel
+item.atum.loot.dirty.broach.name=Sujo Broche
+item.atum.loot.dirty.scepter.name=Sujo Cetro
+item.atum.loot.silver.idol.name=Prata Ídolo
+item.atum.loot.silver.necklace.name=Prata Colar
+item.atum.loot.silver.ring.name=Prata Anel
+item.atum.loot.silver.broach.name=Prata Broche
+item.atum.loot.silver.scepter.name=Prata Cetro
+item.atum.loot.gold.idol.name=Ouro Ídolo
+item.atum.loot.gold.necklace.name=Ouro Colar
+item.atum.loot.gold.ring.name=Ouro Anel
+item.atum.loot.gold.broach.name=Ouro Broche
+item.atum.loot.gold.scepter.name=Ouro Cetro
+item.atum.loot.sapphire.idol.name=Safira Ídolo
+item.atum.loot.sapphire.necklace.name=Safira Colar
+item.atum.loot.sapphire.ring.name=Safira Anel
+item.atum.loot.sapphire.broach.name=Safira Broche
+item.atum.loot.sapphire.scepter.name=Safira Cetro
+item.atum.loot.ruby.idol.name=Rubi Ídolo
+item.atum.loot.ruby.necklace.name=Rubi Colar
+item.atum.loot.ruby.ring.name=Rubi Anel
+item.atum.loot.ruby.broach.name=Rubi Broche
+item.atum.loot.ruby.scepter.name=Rubi Cetro
+item.atum.loot.emerald.idol.name=Esmeralda Ídolo
+item.atum.loot.emerald.necklace.name=Esmeralda Colar
+item.atum.loot.emerald.ring.name=Esmeralda Anel
+item.atum.loot.emerald.broach.name=Esmeralda Broche
+item.atum.loot.emerald.scepter.name=Esmeralda Cetro
+item.atum.loot.diamond.idol.name=Diamante Ídolo
+item.atum.loot.diamond.necklace.name=Diamante Colar
+item.atum.loot.diamond.ring.name=Diamante Anel
+item.atum.loot.diamond.broach.name=Diamante Broche
+item.atum.loot.diamond.scepter.name=Diamante Cetro
+
+# Entity
+entity.atum:mummy.name=Múmia
+entity.atum:brigand.name=Bandido Guerreiro
+entity.atum:nomad.name=Bandido Arqueiro
+entity.atum:pharaoh.name=Faraó
+entity.atum:forsaken.name=Esqueleto Empoeirado
+entity.atum:wraith.name=Fantasma do Deserto
+entity.atum:stoneguard.name=Soldado de Pedra
+entity.atum:desertWolf.name=Chacal
+entity.atum:banditWarlord.name=Banddido Chefe
+entity.atum:barbarian.name=Bárbaro
+
+# Pharaoh Names
+entity.atum.pharaoh.Ama=Ama
+entity.atum.pharaoh.Ata=Ata
+entity.atum.pharaoh.Ato=Ato
+entity.atum.pharaoh.Bak=Bak
+entity.atum.pharaoh.Cal=Cal
+entity.atum.pharaoh.Djet=Djet
+entity.atum.pharaoh.Eje=Eje
+entity.atum.pharaoh.For=For
+entity.atum.pharaoh.Gol=Gol
+entity.atum.pharaoh.Gut=Gut
+entity.atum.pharaoh.Hop=Hop
+entity.atum.pharaoh.Hor=Hor
+entity.atum.pharaoh.Huni=Huni
+entity.atum.pharaoh.Iam=Iam
+entity.atum.pharaoh.Jor=Jor
+entity.atum.pharaoh.Kal=Kal
+entity.atum.pharaoh.Khas=Khas
+entity.atum.pharaoh.Khor=Khor
+entity.atum.pharaoh.Lat=Lat
+entity.atum.pharaoh.Mal=Mal
+entity.atum.pharaoh.Not=Not
+entity.atum.pharaoh.Oap=Oap
+entity.atum.pharaoh.Pra=Pra
+entity.atum.pharaoh.Qo=Qo
+entity.atum.pharaoh.Ras=Ras
+entity.atum.pharaoh.Shas=Shas
+entity.atum.pharaoh.Thoth=Thoth
+entity.atum.pharaoh.Tui=Tui
+entity.atum.pharaoh.Uld=Uld
+entity.atum.pharaoh.Ver=Ver
+entity.atum.pharaoh.Wot=Wot
+entity.atum.pharaoh.Xo=Xo
+entity.atum.pharaoh.Yat=Yat
+entity.atum.pharaoh.Zyt=Zyt
+entity.atum.pharaoh.Khep=Khep
+
+entity.atum.pharaoh.Ahat=Ahat
+entity.atum.pharaoh.Amesh=Amesh
+entity.atum.pharaoh.Amon=Amon
+entity.atum.pharaoh.Anut=Anut
+entity.atum.pharaoh.Baroom=Baroom
+entity.atum.pharaoh.Chanta=Chanta
+entity.atum.pharaoh.Erant=Erant
+entity.atum.pharaoh.Funam=Funam
+entity.atum.pharaoh.Daresh=Daresh
+entity.atum.pharaoh.Djer=Djer
+entity.atum.pharaoh.Hotesh=Hotesh
+entity.atum.pharaoh.Khaden=Khaden
+entity.atum.pharaoh.Kron=Kron
+entity.atum.pharaoh.Gorkum=Gorkum
+entity.atum.pharaoh.Ialenter=Ialenter
+entity.atum.pharaoh.Ma'at=Maat
+entity.atum.pharaoh.Narmer=Narmer
+entity.atum.pharaoh.Radeem=Radeem
+entity.atum.pharaoh.Jaloom=Jaloom
+entity.atum.pharaoh.Lepsha=Lepsha
+entity.atum.pharaoh.Quor=Quor
+entity.atum.pharaoh.Oleshet=Oleshet
+entity.atum.pharaoh.Peput=Peput
+entity.atum.pharaoh.Talat=Talat
+entity.atum.pharaoh.Ulam=Ulam
+entity.atum.pharaoh.Veresh=Veresh
+entity.atum.pharaoh.Ranesh=Ranesh
+entity.atum.pharaoh.Snef=Snef
+entity.atum.pharaoh.Wollolo=Wollolo
+entity.atum.pharaoh.Hathor=Hathor
+entity.atum.pharaoh.Intef=Intef
+entity.atum.pharaoh.Neferk=Neferk
+entity.atum.pharaoh.Khatne=Khatne
+entity.atum.pharaoh.Tepy=Tepy
+entity.atum.pharaoh.Moret=Moret
+
+# Chat
+chat.atum.disabled=Criação do portal de escaravelho está desabilitada
+chat.atum.enemies=Existem muitos inimigos nas proximidades para você poder vasculhar este baú
+chat.atum.summonPharaoh=foi invocado por
+chat.atum.killPharaoh=foi morto por
+
+# Gui
+atum.configGui.portalCreation=Portal do Atum
+atum.configGui.fog=Nevoeiro do Atum
+atum.configGui.dimensionID=ID da dimensão do Atum
+atum.configGui.biomeID=ID do bioma Deserto do Atum

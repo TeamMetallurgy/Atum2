@@ -1,0 +1,30 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "pane": "atum:blocks/crystal_glass_brown",
+            "edge": "atum:blocks/thin_glass_top"
+        },
+        "model": "pane_post",
+        "uvlock": true
+    },
+    "variants": {
+        "normal": [{}],
+        "north":{
+        	"true":{"submodel":{"north_submodel":{"model":"pane_side"}}},
+        	"false":{"submodel":{"north_submodel":{"model":"pane_noside"}}}
+        },
+        "east":{
+        	"true":{"submodel":{"east_submodel":{"model":"pane_side", "y": 90}}},
+        	"false":{"submodel":{"east_submodel":{"model":"pane_noside_alt"}}}
+        },
+        "south":{
+        	"true":{"submodel":{"south_submodel":{"model":"pane_side_alt"}}},
+        	"false":{"submodel":{"south_submodel":{"model":"pane_noside_alt", "y": 90}}}
+        },
+        "west":{
+        	"true":{"submodel":{"west_submodel":{"model":"pane_side_alt", "y": 90}}},
+        	"false":{"submodel":{"west_submodel":{"model":"pane_noside", "y": 270}}}
+        }
+    }
+}

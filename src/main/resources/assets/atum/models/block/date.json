@@ -1,0 +1,35 @@
+{
+    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
+    "textures": {
+        "particle": "atum:blocks/date",
+        "date": "atum:blocks/date"
+    },
+    "elements": [
+        {
+            "name": "Fruit",
+            "from": [ 5.0, 2.0, 5.0 ], 
+            "to": [ 11.0, 10.0, 11.0 ], 
+            "faces": {
+                "north": { "texture": "#date", "uv": [ 0.0, 6.0, 6.0, 14.0 ] },
+                "east": { "texture": "#date", "uv": [ 0.0, 6.0, 6.0, 14.0 ] },
+                "south": { "texture": "#date", "uv": [ 0.0, 6.0, 6.0, 14.0 ] },
+                "west": { "texture": "#date", "uv": [ 0.0, 6.0, 6.0, 14.0 ] },
+                "up": { "texture": "#date", "uv": [ 0.0, 0.0, 6.0, 6.0 ] },
+                "down": { "texture": "#date", "uv": [ 0.0, 0.0, 6.0, 6.0 ] }
+            }
+        },
+        {
+            "name": "Stem",
+            "from": [ 7.0, 10.0, 7.0 ], 
+            "to": [ 9.0, 16.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#date", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "east": { "texture": "#date", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "south": { "texture": "#date", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "west": { "texture": "#date", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "up": { "texture": "#date", "uv": [ 6.0, 0.0, 8.0, 2.0 ] },
+                "down": { "texture": "#date", "uv": [ 6.0, 0.0, 8.0, 2.0 ] }
+            }
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+* text eol=lf
+*.jar binary
+*.png binary
+*.xcf binary
+*.ogg binary
+*.java text eol=lf
+mcmod.info text eol=lf
+*.sh text eol=lf
+*.bat text eol=crlf
