@@ -10,13 +10,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeGenLimestoneCrags extends AtumBiome {
 
     private WorldGenerator genSpikes;
 
-    public BiomeGenLimestoneCrags(BiomeProperties properties) {
+    public BiomeGenLimestoneCrags(AtumBiomeProperties properties) {
         super(properties);
 
         super.palmRarity = -1;
@@ -29,7 +30,7 @@ public class BiomeGenLimestoneCrags extends AtumBiome {
     }
 
     @Override
-    public void decorate(World world, Random random, BlockPos pos) {
+    public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         for (int i = 0; i < 3; ++i) {
             int j = random.nextInt(16) + 8;
             int k = random.nextInt(16) + 8;
@@ -51,8 +52,7 @@ public class BiomeGenLimestoneCrags extends AtumBiome {
         }
 
         @Override
-        public boolean generate(World world, Random rand, BlockPos pos) {
-
+        public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
             // find the surface
             while (world.isAirBlock(pos) && pos.getY() > 2) {
                 pos = pos.down();

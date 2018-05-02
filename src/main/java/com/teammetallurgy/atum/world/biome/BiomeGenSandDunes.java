@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 
 public class BiomeGenSandDunes extends AtumBiome {
 
-    public BiomeGenSandDunes(BiomeProperties properties) {
+    public BiomeGenSandDunes(AtumBiomeProperties properties) {
         super(properties);
 
         super.fillerBlock = AtumBlocks.SAND.getDefaultState();

@@ -1,10 +1,8 @@
 package com.teammetallurgy.atum.world.biome;
 
-import net.minecraft.world.biome.Biome;
-
 public class BiomeGenSandHills extends AtumBiome {
 
-    public BiomeGenSandHills(Biome.BiomeProperties properties) {
+    public BiomeGenSandHills(AtumBiomeProperties properties) {
         super(properties);
 
         super.palmRarity *= 4;

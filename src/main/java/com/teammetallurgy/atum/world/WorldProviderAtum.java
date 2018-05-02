@@ -16,21 +16,22 @@ public class WorldProviderAtum extends WorldProvider {
     @Override
     @Nonnull
     public DimensionType getDimensionType() {
-        return AtumDimension.atum;
+        return AtumDimension.ATUM;
     }
 
     @Override
     protected void init() {
+        this.hasSkyLight = true;
         this.biomeProvider = new AtumBiomeProvider(world.getWorldInfo());
     }
 
     @Override
     @Nonnull
     public IChunkGenerator createChunkGenerator() {
-        return new ChunkProviderAtum(world, world.getSeed(), true, world.getWorldInfo().getGeneratorOptions());
+        return new ChunkGeneratorAtum(world, world.getSeed(), false, world.getWorldInfo().getGeneratorOptions());
     }
 
-    @Override
+    /*@Override
     protected void generateLightBrightnessTable() {
         float f = 0.0F;
 
@@ -43,30 +44,28 @@ public class WorldProviderAtum extends WorldProvider {
                 super.lightBrightnessTable[i] = scaledBrightness / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
             }
         }
-
-    }
+    }*/
 
     @Override
     public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        int j = (int) (worldTime % 48000L);
-        float f1 = ((float) j + partialTicks) / 48000.0F - 0.25F;
-        if (f1 < 0.0F) {
-            ++f1;
+        int i = (int) (worldTime % 48000L);
+        float f = ((float) i + partialTicks) / 48000.0F - 0.25F;
+
+        if (f < 0.0F) {
+            ++f;
+        }
+        if (f > 1.0F) {
+            --f;
         }
 
-        if (f1 > 1.0F) {
-            --f1;
-        }
-
-        float f2 = f1;
-        f1 = 1.0F - (float) ((Math.cos((double) f1 * 3.141592653589793D) + 1.0D) / 2.0D);
-        f1 = f2 + (f1 - f2) / 3.0F;
-        return f1;
+        float f1 = 1.0F - (float) ((Math.cos((double) f * Math.PI) + 1.0D) / 2.0D);
+        f = f + (f1 - f) / 3.0F;
+        return f;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
     @Nonnull
+    @SideOnly(Side.CLIENT)
     public Vec3d getFogColor(float par1, float par2) {
         float f = MathHelper.cos(par1 * 3.1415927F * 2.0F) * 2.0F + 0.5F;
         if (f < 0.2F) {
@@ -81,10 +80,5 @@ public class WorldProviderAtum extends WorldProvider {
         float f2 = 0.75F * f;
         float f3 = 0.6F * f;
         return new Vec3d((double) f1, (double) f2, (double) f3);
-    }
-
-    @Override
-    public boolean doesXZShowFog(int x, int z) {
-        return false;
     }
 }

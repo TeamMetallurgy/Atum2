@@ -11,14 +11,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenPalm extends WorldGenAbstractTree {
     private static final IBlockState BLOCK_LOG = BlockAtumLog.getLog(BlockAtumPlank.WoodType.PALM).getDefaultState();
     private static final IBlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false);
     private final int minTreeHeight;
-    private final IBlockState metaWood;
-    private final IBlockState metaLeaves;
+    private final IBlockState stateWood;
+    private final IBlockState stateLeaves;
 
     public WorldGenPalm(boolean notify) {
         this(notify, 5, BLOCK_LOG, BLOCK_LEAVES);
@@ -31,12 +32,12 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     public WorldGenPalm(boolean notify, int minTreeHeight, IBlockState wood, IBlockState leaves) {
         super(notify);
         this.minTreeHeight = minTreeHeight;
-        this.metaWood = wood;
-        this.metaLeaves = leaves;
+        this.stateWood = wood;
+        this.stateLeaves = leaves;
     }
 
     @Override
-    public boolean generate(World world, Random random, BlockPos pos) {
+    public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
         Block blocks = world.getBlockState(pos.down()).getBlock();
@@ -128,7 +129,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     IBlockState stateUpN = world.getBlockState(upN);
 
                     if (stateUpN.getBlock().isAir(stateUpN, world, upN) || stateUpN.getBlock().isLeaves(stateUpN, world, upN)) {
-                        this.setBlockAndNotifyAdequately(world, pos.up(j3), this.metaWood);
+                        this.setBlockAndNotifyAdequately(world, pos.up(j3), this.stateWood);
                     }
                 }
                 return true;
@@ -138,10 +139,10 @@ public class WorldGenPalm extends WorldGenAbstractTree {
         }
     }
 
-    public void spawnLeaf(World world, BlockPos pos) {
+    private void spawnLeaf(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (world.isAirBlock(pos) || state.getBlock().canBeReplacedByLeaves(state, world, pos)) {
-            this.setBlockAndNotifyAdequately(world, pos, this.metaLeaves);
+            this.setBlockAndNotifyAdequately(world, pos, this.stateLeaves);
         }
     }
 }

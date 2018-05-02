@@ -4,9 +4,11 @@ import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.IRenderMapper;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.proxy.ClientProxy;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -16,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -31,6 +34,7 @@ import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
 public class AtumRegistry {
+    public static final NonNullList<AtumBiome> BIOMES = NonNullList.create();
     private static final NonNullList<EntityEntry> MOBS = NonNullList.create();
     private static final NonNullList<EntityEntry> ENTITIES = NonNullList.create();
 
@@ -142,6 +146,12 @@ public class AtumRegistry {
         return entry;
     }
 
+    public static AtumBiome registerBiome(AtumBiome biome, String name) {
+        biome.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        BIOMES.add(biome);
+        return biome;
+    }
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         AtumItems.registerItems();
@@ -150,6 +160,11 @@ public class AtumRegistry {
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
         AtumBlocks.registerBlocks();
+    }
+
+    @SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
+        AtumBiomes.registerBiomes();
     }
 
     @SubscribeEvent

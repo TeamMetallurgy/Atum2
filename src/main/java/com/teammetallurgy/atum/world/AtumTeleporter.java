@@ -10,6 +10,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class AtumTeleporter extends Teleporter {
@@ -23,33 +24,10 @@ public class AtumTeleporter extends Teleporter {
     }
 
     @Override
-    public void placeInPortal(Entity entity, float rotationYaw) {
-        if (this.worldServerInstance.provider.getDimension() != 1) {
-            if (!this.placeInExistingPortal(entity, rotationYaw)) {
-                this.makePortal(entity);
-                this.placeInExistingPortal(entity, rotationYaw);
-            }
-        } else {
-            int x = MathHelper.floor(entity.posX);
-            int y = MathHelper.floor(entity.posY) - 1;
-            int z = MathHelper.floor(entity.posZ);
-            int l = 1;
-            int i1 = 0;
-
-            for (int j1 = -2; j1 <= 2; ++j1) {
-                for (int k1 = -2; k1 <= 2; ++k1) {
-                    for (int l1 = -1; l1 < 3; ++l1) {
-                        int i2 = x + k1 * l + j1 * i1;
-                        int j2 = y + l1;
-                        int k2 = z + k1 * i1 - j1 * l;
-                        boolean flag = l1 < 0;
-                        this.worldServerInstance.setBlockState(new BlockPos(i2, j2, k2), flag ? Blocks.SANDSTONE.getDefaultState() : Blocks.AIR.getDefaultState());
-                    }
-                }
-            }
-
-            entity.setLocationAndAngles((double) x, (double) y, (double) z, entity.rotationYaw, 0.0F);
-            entity.motionX = entity.motionY = entity.motionZ = 0.0D;
+    public void placeInPortal(@Nonnull Entity entity, float rotationYaw) {
+        if (!this.placeInExistingPortal(entity, rotationYaw)) {
+            this.makePortal(entity);
+            this.placeInExistingPortal(entity, rotationYaw);
         }
     }
 

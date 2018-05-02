@@ -3,8 +3,6 @@ package com.teammetallurgy.atum.world.biome;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
-import static com.teammetallurgy.atum.world.biome.AtumBiomes.BiomeType;
-
 public class GenLayerAtumRiverMix extends GenLayer {
     private GenLayer biomePatternGeneratorChain;
     private GenLayer riverPatternGeneratorChain;
@@ -27,7 +25,7 @@ public class GenLayerAtumRiverMix extends GenLayer {
         int[] rInts = this.riverPatternGeneratorChain.getInts(x, z, width, length);
         int[] cache = IntCache.getIntCache(width * length);
 
-        final int badId_1 = BiomeType.SAND_DUNES.getID();
+        /*final int badId_1 = BiomeType.SAND_DUNES.getID();
         final int badId_2 = BiomeType.SAND_HILLS.getID();
         final int badId_3 = BiomeType.LIMESTONE_MOUNTAINS.getID();
         final int riverId = BiomeType.DRIED_RIVER.getID();
@@ -38,7 +36,7 @@ public class GenLayerAtumRiverMix extends GenLayer {
             } else {
                 cache[idx] = bInts[idx];
             }
-        }
+        }*/
 
         return cache;
     }

@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.handler;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
+import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.biome.AtumBiomes;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -74,11 +76,11 @@ public class AtumConfig {
         propOrder.add(prop.getName());
 
         ////////// biomes
-        for (AtumBiomes.BiomeType biome : AtumBiomes.BiomeType.values()) {
-            prop = config.get(CATEGORY_GENERAL, "Atum " + biome.toString() + " Biome ID", biome.getID());
-            prop.setComment("The ID of the Atum Dimension biome " + biome.toString());
-            prop.setLanguageKey("atum.configGui.biomeID." + biome.name()).setRequiresMcRestart(true);
-            biome.setID(prop.getInt());
+        for (AtumBiome biome : AtumRegistry.BIOMES) {
+            prop = config.get(CATEGORY_GENERAL, "Atum " + biome.getBiomeName() + " Biome Weight", biome.getWeight());
+            prop.setComment("The weight of the Atum biome " + biome.toString());
+            prop.setLanguageKey("atum.configGui.biomeWeight." + biome.getBiomeName()).setRequiresMcRestart(true);
+            biome.setWeight(prop.getInt());
             propOrder.add(prop.getName());
         }
 

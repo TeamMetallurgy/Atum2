@@ -12,9 +12,9 @@ public class AtumFogEventListener {
 
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
-        if (event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
+        /*if (event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
             GlStateManager.setFog(GlStateManager.FogMode.EXP);
             GlStateManager.setFogDensity(0.08F);
-        }
+        }*/ //TODO Uncomment. Disable while testing
     }
 }

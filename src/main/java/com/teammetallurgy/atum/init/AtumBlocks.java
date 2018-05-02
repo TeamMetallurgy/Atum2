@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.blocks.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.blocks.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
 
+@GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumBlocks {
     public static final BlockPortal PORTAL = new BlockPortal();
     public static final Block CURSED_CHEST = new BlockChestSpawner();

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.*;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.decorators.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.decorators.WorldGenPalm;
@@ -14,17 +15,19 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private int weight = AtumBiomes.DEFAULT_BIOME_WEIGHT;
-    protected AtumBiomes.BiomeType biomeType;
+    private int weight = 20;
     protected int deadwoodRarity = 5;
-    protected int palmRarity = 5;
-    protected int pyramidRarity = 240;
+    int palmRarity = 5;
+    int pyramidRarity = 240;
 
-    public AtumBiome(Biome.BiomeProperties properties) {
+    public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
+        properties.weight = weight;
+        this.decorator = createBiomeDecorator();
 
         super.spawnableMonsterList.clear();
         super.spawnableCreatureList.clear();
@@ -39,19 +42,24 @@ public class AtumBiome extends Biome {
         return weight;
     }
 
-    protected void addDefaultSpawns() {
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    void addDefaultSpawns() {
         super.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 4, 4));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 6, 2, 2));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 4, 4));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 4, 4));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 6, 4, 4));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 4, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
+        //super.spawnableMonsterList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 6, 4, 4));
         super.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 4, 4));
     }
 
     @Override
+    @Nonnull
     public BiomeDecorator createBiomeDecorator() {
         final BiomeDecorator dec = new BiomeDecoratorAtum();
         dec.deadBushPerChunk = 5;
@@ -62,12 +70,14 @@ public class AtumBiome extends Biome {
     }
 
     @Override
-    public void decorate(World world, Random random, BlockPos pos) {
+    public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         super.decorate(world, random, pos);
 
         int x = random.nextInt(16) + 8;
         int z = random.nextInt(16) + 8;
         int height;
+
+        this.decorator.decorate(world, random, this, pos);
 
         if (palmRarity > 0 && random.nextInt(palmRarity) == 0) {
             height = random.nextInt(4) + 5;
@@ -78,18 +88,17 @@ public class AtumBiome extends Biome {
             height = random.nextInt(1) + 6;
             (new WorldGenDeadwood(true, height)).generate(world, random, pos.add(x, height, z));
         }
-
     }
 
     @Override
-    public void genTerrainBlocks(World world, Random random, ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) {
+    public void genTerrainBlocks(World world, Random random, @Nonnull ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) {
         int height = 63;
         IBlockState stateTop = this.topBlock;
         IBlockState stateFiller = this.fillerBlock;
         int flag = -1;
         int elevation = (int) (stoneNoise / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-        final int xx = x & 15;
-        final int zz = z & 15;
+        int xx = x & 15;
+        int zz = z & 15;
 
         for (int yy = 255; yy >= 0; --yy) {
             if (yy <= random.nextInt(5)) {
@@ -102,7 +111,7 @@ public class AtumBiome extends Biome {
                 } else if (existingState == AtumBlocks.LIMESTONE.getDefaultState()) {
                     if (flag == -1) {
                         if (elevation <= 0) {
-                            stateTop = null;
+                            stateTop = Blocks.AIR.getDefaultState();
                             stateFiller = AtumBlocks.LIMESTONE.getDefaultState();
                         } else if (yy >= height - 4 && yy <= height + 1) {
                             stateTop = this.topBlock;
@@ -119,7 +128,7 @@ public class AtumBiome extends Biome {
                         --flag;
                         chunkPrimer.setBlockState(zz, yy, xx, stateFiller);
 
-                        if (flag == 0 && stateFiller.getBlock() == AtumBlocks.SAND) {
+                        if (flag == 0 && stateFiller.getBlock() == AtumBlocks.SAND && elevation > 1) {
                             flag = random.nextInt(4) + Math.max(0, zz - height);
                             stateFiller = AtumBlocks.LIMESTONE.getDefaultState();
                         }
@@ -130,20 +139,29 @@ public class AtumBiome extends Biome {
     }
 
     public static class AtumBiomeProperties extends BiomeProperties {
+        private int weight;
 
-        public AtumBiomeProperties(String biomeName) {
+        public AtumBiomeProperties(String biomeName, int weight) {
             super(biomeName);
             this.setBaseHeight(0.125F); // same as plains
             this.setHeightVariation(0.05F);
             this.setRainDisabled();
-            //this.weight = biomeType.getWeight(); //TODO Fix Weight
-            //biomeType.setGen(new AtumBiome(this));
-            //this.setColor(16421912); //TODO
+            this.setWaterColor(16421912);
+            this.weight = weight;
         }
 
-        /*public AtumBiomeProperties setWeight(int weight) {
-            this.weight = weight;
+        @Override
+        @Nonnull
+        public AtumBiomeProperties setBaseHeight(float height) {
+            super.setBaseHeight(height);
             return this;
-        }*/
+        }
+
+        @Override
+        @Nonnull
+        public AtumBiomeProperties setHeightVariation(float variation) {
+            super.setHeightVariation(variation);
+            return this;
+        }
     }
 }

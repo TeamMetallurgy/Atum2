@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 
 public class BiomeGenDeadOasis extends AtumBiome {
 
-    public BiomeGenDeadOasis(BiomeProperties properties) {
+    public BiomeGenDeadOasis(AtumBiomeProperties properties) {
         super(properties);
 
         super.topBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();

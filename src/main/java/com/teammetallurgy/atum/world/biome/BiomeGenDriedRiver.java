@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 
 public class BiomeGenDriedRiver extends AtumBiome {
 
-	public BiomeGenDriedRiver(BiomeProperties properties) {
+	public BiomeGenDriedRiver(AtumBiomeProperties properties) {
 		super(properties);
 
 		super.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();

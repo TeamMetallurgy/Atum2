@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.*;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -11,9 +12,11 @@ import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
 
+@GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumItems {
     //TODO Move ArmorMaterials to somewhere else
     private static final ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{1, 3, 2, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);

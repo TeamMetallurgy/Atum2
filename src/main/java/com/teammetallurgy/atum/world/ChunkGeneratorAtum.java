@@ -1,11 +1,14 @@
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.decorators.WorldGenLava;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.init.Biomes;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldEntitySpawner;
@@ -16,7 +19,6 @@ import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.*;
 import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraft.world.gen.structure.MapGenMineshaft;
-import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.terraingen.InitMapGenEvent;
 import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
@@ -28,41 +30,39 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class ChunkProviderAtum implements IChunkGenerator {
+public class ChunkGeneratorAtum implements IChunkGenerator {
     private static final IBlockState LIMESTONE = AtumBlocks.LIMESTONE.getDefaultState();
     private final Random rand;
     private NoiseGeneratorOctaves minLimitPerlinNoise;
     private NoiseGeneratorOctaves maxLimitPerlinNoise;
     private NoiseGeneratorOctaves mainPerlinNoise;
     private NoiseGeneratorPerlin surfaceNoise;
-    public NoiseGeneratorOctaves scaleNoise;
-    public NoiseGeneratorOctaves depthNoise;
-    public NoiseGeneratorOctaves forestNoise;
+    private NoiseGeneratorOctaves scaleNoise;
+    private NoiseGeneratorOctaves depthNoise;
+    private NoiseGeneratorOctaves forestNoise;
     private final World world;
     private final boolean mapFeaturesEnabled;
-    private final WorldType terrainType;
     private final double[] heightMap;
     private final float[] biomeWeights;
     private ChunkGeneratorSettings settings;
     private double[] depthBuffer = new double[256];
     private MapGenBase caveGenerator;
-    private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
+    private MapGenMineshaft mineshaftGenerator;
     private MapGenBase ravineGenerator;
     private Biome[] biomesForGeneration;
-    double[] mainNoiseRegion;
-    double[] minLimitRegion;
-    double[] maxLimitRegion;
-    double[] depthRegion;
+    private double[] mainNoiseRegion;
+    private double[] minLimitRegion;
+    private double[] maxLimitRegion;
+    private double[] depthRegion;
 
-    public ChunkProviderAtum(World world, long seed, boolean mapFeaturesEnabled, String generatorOptions) {
+    public ChunkGeneratorAtum(World world, long seed, boolean mapFeaturesEnabled, String generatorOptions) {
         {
             caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, InitMapGenEvent.EventType.CAVE);
             ravineGenerator = TerrainGen.getModdedMapGen(ravineGenerator, InitMapGenEvent.EventType.RAVINE);
-            mineshaftGenerator = (MapGenMineshaft)net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(mineshaftGenerator, InitMapGenEvent.EventType.MINESHAFT);
+            mineshaftGenerator = (MapGenMineshaft) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(mineshaftGenerator, InitMapGenEvent.EventType.MINESHAFT);
         }
         this.world = world;
         this.mapFeaturesEnabled = mapFeaturesEnabled;
-        this.terrainType = world.getWorldInfo().getTerrainType();
         this.rand = new Random(seed);
         this.minLimitPerlinNoise = new NoiseGeneratorOctaves(this.rand, 16);
         this.maxLimitPerlinNoise = new NoiseGeneratorOctaves(this.rand, 16);
@@ -151,7 +151,7 @@ public class ChunkProviderAtum implements IChunkGenerator {
     }
 
     private void replaceBiomeBlocks(int x, int z, ChunkPrimer primer, Biome[] biomes) {
-        if (!ForgeEventFactory.onReplaceBiomeBlocks(this, x, z, primer, this.world)) return;
+        //if (!ForgeEventFactory.onReplaceBiomeBlocks(this, x, z, primer, this.world)) return;
         this.depthBuffer = this.surfaceNoise.getRegion(this.depthBuffer, (double) (x * 16), (double) (z * 16), 16, 16, 0.0625D, 0.0625D, 1.0D);
 
         for (int i = 0; i < 16; ++i) {
@@ -171,7 +171,7 @@ public class ChunkProviderAtum implements IChunkGenerator {
         this.biomesForGeneration = this.world.getBiomeProvider().getBiomes(this.biomesForGeneration, x * 16, z * 16, 16, 16);
         this.replaceBiomeBlocks(x, z, chunkprimer, this.biomesForGeneration);
 
-        if (this.settings.useCaves) {
+        /*if (this.settings.useCaves) {
             this.caveGenerator.generate(this.world, x, z, chunkprimer);
         }
 
@@ -179,12 +179,19 @@ public class ChunkProviderAtum implements IChunkGenerator {
             this.ravineGenerator.generate(this.world, x, z, chunkprimer);
         }
 
-        Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
-        byte[] biomeArray = chunk.getBiomeArray();
+        if (this.mapFeaturesEnabled) {
+            if (this.settings.useMineShafts) {
+                this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
+            }
+        }*/
 
-        for (int i = 0; i < biomeArray.length; ++i) {
-            biomeArray[i] = (byte) Biome.getIdForBiome(this.biomesForGeneration[i]);
+        Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
+        byte[] abyte = chunk.getBiomeArray();
+
+        for (int i = 0; i < abyte.length; ++i) {
+            abyte[i] = (byte) Biome.getIdForBiome(this.biomesForGeneration[i]);
         }
+
         chunk.generateSkylightMap();
         return chunk;
     }
@@ -205,24 +212,20 @@ public class ChunkProviderAtum implements IChunkGenerator {
                 float f3 = 0.0F;
                 float f4 = 0.0F;
                 int i1 = 2;
-                Biome biome = this.biomesForGeneration[k + i1 + (l + i1) * 10];
+                Biome biome = this.biomesForGeneration[k + 2 + (l + 2) * 10];
 
                 for (int j1 = -2; j1 <= 2; ++j1) {
                     for (int k1 = -2; k1 <= 2; ++k1) {
-                        Biome biome1 = this.biomesForGeneration[k + j1 + i1 + (l + k1 + i1) * 10];
+                        Biome biome1 = this.biomesForGeneration[k + j1 + 2 + (l + k1 + 2) * 10];
                         float f5 = this.settings.biomeDepthOffSet + biome1.getBaseHeight() * this.settings.biomeDepthWeight;
                         float f6 = this.settings.biomeScaleOffset + biome1.getHeightVariation() * this.settings.biomeScaleWeight;
 
-                        if (this.terrainType == WorldType.AMPLIFIED && f5 > 0.0F) {
-                            f5 = 1.0F + f5 * 2.0F;
-                            f6 = 1.0F + f6 * 4.0F;
-                        }
-
-                        float f7 = this.biomeWeights[j1 + i1 + (k1 + i1) * 5] / (f5 + 2.0F);
+                        float f7 = this.biomeWeights[j1 + 2 + (k1 + 2) * 5] / (f5 + 2.0F);
 
                         if (biome1.getBaseHeight() > biome.getBaseHeight()) {
                             f7 /= 2.0F;
                         }
+
                         f2 += f6 * f7;
                         f3 += f5 * f7;
                         f4 += f7;
@@ -271,6 +274,7 @@ public class ChunkProviderAtum implements IChunkGenerator {
                     if (d1 < 0.0D) {
                         d1 *= 4.0D;
                     }
+
                     double d2 = this.minLimitRegion[i] / (double) this.settings.lowerLimitScale;
                     double d3 = this.maxLimitRegion[i] / (double) this.settings.upperLimitScale;
                     double d4 = (this.mainNoiseRegion[i] / 10.0D + 1.0D) / 2.0D;
@@ -298,28 +302,24 @@ public class ChunkProviderAtum implements IChunkGenerator {
         long k = this.rand.nextLong() / 2L * 2L + 1L;
         long l = this.rand.nextLong() / 2L * 2L + 1L;
         this.rand.setSeed((long) x * k + (long) z * l ^ this.world.getSeed());
-        boolean flag = false;
+        ChunkPos chunkpos = new ChunkPos(x, z);
 
-        ForgeEventFactory.onChunkPopulate(true, this, this.world, this.rand, x, z, flag);
 
-        if (!flag && this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
-            if (net.minecraftforge.event.terraingen.TerrainGen.populate(this, this.world, this.rand, x, z, flag, PopulateChunkEvent.Populate.EventType.LAVA)) {
-                int i2 = this.rand.nextInt(16) + 8;
-                int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
-                int k3 = this.rand.nextInt(16) + 8;
+        /*if (this.mapFeaturesEnabled) {
+            if (this.settings.useMineShafts) {
+                this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
+            }
+        }*/
 
-                if (this.rand.nextInt(this.settings.lavaLakeChance / 8) == 0) {
-                    (new WorldGenLakes(Blocks.LAVA)).generate(this.world, this.rand, blockpos.add(i2, l2, k3));
-                }
+        if (this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
+            int i2 = this.rand.nextInt(16) + 8;
+            int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
+            int k3 = this.rand.nextInt(16) + 8;
+
+            if (l2 < this.world.getSeaLevel() || this.rand.nextInt(this.settings.lavaLakeChance / 8) == 0) {
+                (new WorldGenLava(Blocks.LAVA)).generate(this.world, this.rand, blockpos.add(i2, l2, k3));
             }
         }
-
-        biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
-        if (TerrainGen.populate(this, this.world, this.rand, x, z, flag, PopulateChunkEvent.Populate.EventType.ANIMALS)) {
-            WorldEntitySpawner.performWorldGenSpawning(this.world, biome, i + 8, j + 8, 16, 16, this.rand);
-        }
-
-        ForgeEventFactory.onChunkPopulate(false, this, this.world, this.rand, x, z, flag);
 
         BlockFalling.fallInstantly = false;
     }
@@ -342,11 +342,21 @@ public class ChunkProviderAtum implements IChunkGenerator {
     }
 
     @Override
-    public void recreateStructures(@Nonnull Chunk chunk, int x, int z) { //TODO Recreate Atum structures here
+    public boolean isInsideStructure(@Nonnull World world, @Nonnull String structureName, @Nonnull BlockPos pos) {
+        /*if (!this.mapFeaturesEnabled) {
+            return false;
+        } else if ("Mineshaft".equals(structureName) && this.mineshaftGenerator != null) {
+            return this.mineshaftGenerator.isInsideStructure(pos);
+        }*/
+        return false;
     }
 
     @Override
-    public boolean isInsideStructure(@Nonnull World world, @Nonnull String structureName, @Nonnull BlockPos pos) {
-        return false;
+    public void recreateStructures(@Nonnull Chunk chunk, int x, int z) { //TODO Recreate Atum structures here
+        /*if (this.mapFeaturesEnabled) {
+            if (this.settings.useMineShafts) {
+                this.mineshaftGenerator.generate(this.world, x, z, null);
+            }
+        }*/
     }
 }

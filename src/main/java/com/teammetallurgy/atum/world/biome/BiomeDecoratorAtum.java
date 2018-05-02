@@ -22,10 +22,9 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeDecoratorAtum extends BiomeDecorator {
-
     private float shrubChance;
 
-    public BiomeDecoratorAtum() {
+    BiomeDecoratorAtum() {
         super();
         this.dirtGen = generateMinable(AtumBlocks.SAND.getDefaultState(), 32);
         this.gravelGen = generateMinable(AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32);
@@ -60,7 +59,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
     @Override
     public void decorate(World world, @Nonnull Random random, @Nonnull Biome biomeGenBase, @Nonnull BlockPos pos) {
-        if (world != null) {
+        if (this.decorating) {
             throw new RuntimeException("Already decorating!!");
         } else {
             this.chunkPos = pos;

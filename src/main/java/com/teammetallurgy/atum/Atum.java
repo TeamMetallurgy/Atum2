@@ -10,7 +10,7 @@ import com.teammetallurgy.atum.items.AtumLoot;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
-import com.teammetallurgy.atum.world.biome.AtumBiomes;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -49,7 +49,6 @@ public class Atum {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
-        AtumBiomes.register();
         AtumLoot.register();
     }
 

@@ -69,7 +69,6 @@ public class BlockPortal extends BlockBreakable { //TODO Redo for 1.9. Switch ov
             BlockPos blockpos;
 
             for (blockpos = pos; !world.getBlockState(blockpos).isTopSolid() && blockpos.getY() > 0; blockpos = blockpos.down()) {
-                ;
             }
 
             if (i > 0 && !world.getBlockState(blockpos.up()).isNormalCube()) {

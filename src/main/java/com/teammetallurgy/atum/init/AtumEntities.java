@@ -3,11 +3,14 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.arrow.*;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerEntity;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerMob;
 
+@GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumEntities {
     //Mobs
     public static final EntityEntry MUMMY = registerMob(EntityMummy.class, 0x515838, 0x868F6B);

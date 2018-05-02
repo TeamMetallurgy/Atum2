@@ -9,13 +9,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenLakes;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeGenOasis extends AtumBiome {
     protected final int lakeRarity = 3;
     protected final int waterLevel = 64;
 
-    public BiomeGenOasis(BiomeProperties properties) {
+    public BiomeGenOasis(AtumBiomeProperties properties) {
         super(properties);
 
         super.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
@@ -32,7 +33,7 @@ public class BiomeGenOasis extends AtumBiome {
     }
 
     @Override
-    public void decorate(World world, Random random, BlockPos pos) {
+    public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int x = random.nextInt(16) + 8;
         int z = random.nextInt(16) + 8;
         int height = random.nextInt(random.nextInt(248) + 8);
@@ -44,7 +45,7 @@ public class BiomeGenOasis extends AtumBiome {
     }
 
     @Override
-    public void genTerrainBlocks(World world, Random random, ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) { //TODO Figure out what this is based of
+    public void genTerrainBlocks(World world, Random random, @Nonnull ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) { //TODO Figure out what this is based of
         double noise = GRASS_COLOR_NOISE.getValue((double) x * 0.25D, (double) z * 0.25D);
 
         boolean makingPond = false;
@@ -67,7 +68,7 @@ public class BiomeGenOasis extends AtumBiome {
                     } else if (yy <= waterLevel && state == this.topBlock) {
                         state = Blocks.WATER.getDefaultState();
                         if (noise < 0.12D) {
-                            yy = yy +1;
+                            yy = yy + 1;
                             state = Blocks.WATERLILY.getDefaultState(); //TODO
                         }
                         makingPond = true;
