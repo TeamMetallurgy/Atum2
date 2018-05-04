@@ -1,7 +1,5 @@
 package com.teammetallurgy.atum.handler.event;
 
-import com.teammetallurgy.atum.handler.AtumConfig;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

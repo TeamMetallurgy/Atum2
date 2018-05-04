@@ -1,14 +1,17 @@
 package com.teammetallurgy.atum.handler.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -18,23 +21,33 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientEvents {
 
     @SubscribeEvent
-    public static void onRender(TickEvent.RenderTickEvent event) {
+    public static void onRender(RenderGameOverlayEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().player;
+        Minecraft mc = Minecraft.getMinecraft();
 
-        if (player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
-            ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
+        if (player != null && mc.gameSettings.thirdPersonView == 0 && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
+            ScaledResolution scaledResolution = new ScaledResolution(mc);
             int width = scaledResolution.getScaledWidth();
             int height = scaledResolution.getScaledHeight();
 
-            Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation("atum", "textures/hud/mummyblur.png"));
+            GlStateManager.disableDepth();
+            GlStateManager.depthMask(false);
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.disableAlpha();
+            mc.getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/hud/mummyblur.png"));
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferBuilder = tessellator.getBuffer();
-            bufferBuilder.begin(7, DefaultVertexFormats.POSITION);
-            bufferBuilder.pos(0.0D, height, -100).tex(0.0D, 1.0D).endVertex();
-            bufferBuilder.pos(width, height, -100).tex(1.0D, 1.0D).endVertex();
-            bufferBuilder.pos(width, 0.0D, -100).tex(1.0D, 0.0D).endVertex();
-            bufferBuilder.pos(0.0D, 0.0D, -100).tex(0.0D, 0.0D).endVertex();
+            BufferBuilder bufferbuilder = tessellator.getBuffer();
+            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+            bufferbuilder.pos(0.0D, (double) height, -90.0D).tex(0.0D, 1.0D).endVertex();
+            bufferbuilder.pos((double) width, (double) height, -90.0D).tex(1.0D, 1.0D).endVertex();
+            bufferbuilder.pos((double) width, 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
+            bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
             tessellator.draw();
+            GlStateManager.depthMask(true);
+            GlStateManager.enableDepth();
+            GlStateManager.enableAlpha();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 

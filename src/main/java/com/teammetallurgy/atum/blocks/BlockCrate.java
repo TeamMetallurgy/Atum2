@@ -54,8 +54,9 @@ public class BlockCrate extends BlockContainer {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
-        if (world.isRemote)
+        if (world.isRemote) {
             return true;
+        }
 
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityCrate) {
@@ -81,6 +82,16 @@ public class BlockCrate extends BlockContainer {
     @Nonnull
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos);
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+
+        if (tileEntity instanceof TileEntityCrate) {
+            tileEntity.updateContainingBlockInfo();
+        }
     }
 
     @Override

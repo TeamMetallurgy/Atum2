@@ -19,7 +19,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumItems {
     //TODO Move ArmorMaterials to somewhere else
-    private static final ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{1, 3, 2, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
+    private static final ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{2, 3, 2, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
     private static final ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{2, 3, 3, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
     private static final ArmorMaterial DESERT_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("DESERT", "desert", 20, new int[]{3, 6, 5, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 
@@ -69,7 +69,7 @@ public class AtumItems {
     public static final Item LIMESTONE_AXE = new ItemLimestoneAxe(ToolMaterial.STONE);
     public static final Item LIMESTONE_SWORD = new ItemLimestoneSword(ToolMaterial.STONE);
     public static final Item LIMESTONE_HOE = new ItemLimestoneHoe(ToolMaterial.STONE);
-    public static final Item MUMMY_HELMET = new ItemTexturedArmor(ArmorMaterial.CHAIN, 0, EntityEquipmentSlot.HEAD).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
+    public static final Item MUMMY_HELMET = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
     public static final Item MUMMY_CHEST = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
     public static final Item MUMMY_LEGS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.LEGS).setRepairItem(SCRAP).setTextureFile("mummy_armor_2");
     public static final Item MUMMY_BOOTS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.FEET).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");

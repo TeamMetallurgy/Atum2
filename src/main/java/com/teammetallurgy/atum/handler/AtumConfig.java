@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.handler;
 
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.AtumBiome;

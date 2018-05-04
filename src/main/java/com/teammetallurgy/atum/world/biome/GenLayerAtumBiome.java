@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.gen.layer.GenLayer;

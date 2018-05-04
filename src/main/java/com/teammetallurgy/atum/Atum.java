@@ -10,7 +10,6 @@ import com.teammetallurgy.atum.items.AtumLoot;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
