@@ -24,13 +24,14 @@ import javax.annotation.Nonnull;
 public class TileEntityCrate extends TileEntityLockableLoot implements ITickable {
     private static int inventorySize = 27;
     private NonNullList<ItemStack> inventory = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
-    private String customName;
     private int ticksSinceSync;
     public int numPlayersUsing;
-    public float lidAngle;
-    public float prevLidAngle;
+    private float lidAngle;
+    private float prevLidAngle;
+    private BlockAtumPlank.WoodType woodType;
 
-    public TileEntityCrate() {
+    public TileEntityCrate(BlockAtumPlank.WoodType type) {
+        this.woodType = type;
     }
 
     @Override
@@ -49,20 +50,9 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
         return this.hasCustomName() ? this.customName : getDefaultName();
     }
 
-    @Override
-    public boolean hasCustomName() {
-        return this.customName != null && !this.customName.isEmpty();
-    }
-
-    @Override
-    public void setCustomName(@Nonnull String name) {
-        customName = name;
-    }
-
     private String getDefaultName() {
-        BlockAtumPlank.WoodType type = BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length);
         String name = "container.crate.";
-        switch (type) {
+        switch (woodType) {
             case PALM:
                 name += "palm";
                 break;
@@ -97,7 +87,6 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
 
         if (!this.world.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0) {
             this.numPlayersUsing = 0;
-            float f = 5.0F;
 
             for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - 5.0F), (double) ((float) j - 5.0F), (double) ((float) k - 5.0F), (double) ((float) (i + 1) + 5.0F), (double) ((float) (j + 1) + 5.0F), (double) ((float) (k + 1) + 5.0F)))) {
                 if (entityplayer.openContainer instanceof ContainerCrate) {
@@ -126,7 +115,6 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
             } else {
                 this.lidAngle -= 0.1F;
             }
-
             if (this.lidAngle > 1.0F) {
                 this.lidAngle = 1.0F;
             }

@@ -20,6 +20,13 @@ public class GuiLimestoneFurnace extends GuiContainer {
     }
 
     @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
         String s = this.tileLimestoneFurnace.getDisplayName().getUnformattedText();
         this.fontRenderer.drawString(s, this.xSize / 2 - this.fontRenderer.getStringWidth(s) / 2, 6, 4210752);
@@ -50,7 +57,6 @@ public class GuiLimestoneFurnace extends GuiContainer {
 
     private int getBurnLeftScaled(int pixels) {
         int i = this.tileLimestoneFurnace.getField(1);
-
         if (i == 0) {
             i = 200;
         }

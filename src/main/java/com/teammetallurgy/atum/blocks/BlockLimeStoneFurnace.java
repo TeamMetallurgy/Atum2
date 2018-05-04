@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -29,7 +30,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockLimeStoneFurnace extends BlockContainer {
-    public static final PropertyDirection FACING = PropertyDirection.create("facing", EnumFacing.Plane.HORIZONTAL);
+    private static final PropertyDirection FACING = BlockHorizontal.FACING;
     private final boolean isBurning;
     private static boolean keepInventory;
 
@@ -73,7 +74,6 @@ public class BlockLimeStoneFurnace extends BlockContainer {
             } else if (facing == EnumFacing.EAST && stateEast.isFullBlock() && !stateWest.isFullBlock()) {
                 facing = EnumFacing.WEST;
             }
-
             world.setBlockState(pos, state.withProperty(FACING, facing), 2);
         }
     }

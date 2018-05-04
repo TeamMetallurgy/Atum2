@@ -30,16 +30,18 @@ import java.util.Map;
 
 public class BlockCrate extends BlockContainer {
     private static final Map<BlockAtumPlank.WoodType, Block> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
+    private BlockAtumPlank.WoodType woodType;
 
-    public BlockCrate() {
+    public BlockCrate(BlockAtumPlank.WoodType type) {
         super(Material.WOOD);
         this.setHardness(3.0F);
         this.setSoundType(SoundType.WOOD);
+        this.woodType = type;
     }
 
     public static void registerCrates() {
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            Block crate = new BlockCrate();
+            Block crate = new BlockCrate(type);
             CRATES.put(type, crate);
             AtumRegistry.registerBlock(crate, type.getName() + "_crate");
         }
@@ -51,7 +53,7 @@ public class BlockCrate extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityCrate();
+        return new TileEntityCrate(woodType);
     }
 
     @Override
@@ -74,10 +76,11 @@ public class BlockCrate extends BlockContainer {
 
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityCrate) {
+            TileEntityCrate crate = ((TileEntityCrate) tileEntity);
             player.openGui(Atum.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
+            player.displayGUIChest(crate); //To handle custom names
             return true;
         }
-
         return false;
     }
 

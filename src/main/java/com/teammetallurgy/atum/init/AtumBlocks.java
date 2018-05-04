@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.blocks.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.blocks.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -68,7 +69,7 @@ public class AtumBlocks {
         registerBlock(PORTAL, "portal", null);
         registerBlock(CURSED_CHEST, "chest_spawner");
         registerBlock(SAND, "sand");
-        registerBlock(SAND_LAYERED, "sand_layer");
+        registerBlock(SAND_LAYERED, new ItemSand(SAND_LAYERED), "sand_layer");
         registerBlock(DATE_BLOCK, "date_block", null);
         registerBlock(SHRUB, "shrub");
         registerBlock(WEED, "weed");
