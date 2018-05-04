@@ -14,17 +14,19 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockDate extends Block {
-
 	public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.3125D, 0.125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
+
     public BlockDate() {
         super(Material.PLANTS);
-        this.setHardness(0.5F);
+        this.setHardness(0.35F);
     }
 
     @Override
+    @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return BOUNDING_BOX;
     }
@@ -49,6 +51,7 @@ public class BlockDate extends Block {
     }
 
     @Override
+    @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return AtumItems.DATE;
     }
@@ -59,7 +62,8 @@ public class BlockDate extends Block {
     }
 
     @Override
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+    @Nonnull
+    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
         return new ItemStack(AtumItems.DATE);
     }
 }

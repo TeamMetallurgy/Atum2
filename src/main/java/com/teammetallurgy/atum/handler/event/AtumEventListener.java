@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockFarmland;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -13,12 +15,21 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class AtumEventListener {
+
+    @SubscribeEvent
+    public static void onDirtPlacing(BlockEvent.PlaceEvent event) {
+        Block block = event.getPlacedBlock().getBlock();
+        if (event.getPlayer().world.provider.getDimension() == AtumConfig.DIMENSION_ID && (block instanceof BlockDirt || (block instanceof BlockFarmland && block != AtumBlocks.FERTILE_SOIL_TILLED))) {
+            event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState());
+        }
+    }
 
     @SubscribeEvent
     public static void onFallDamage(LivingFallEvent event) {

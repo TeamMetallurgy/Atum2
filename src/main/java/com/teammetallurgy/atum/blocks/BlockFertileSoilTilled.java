@@ -1,21 +1,19 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
@@ -23,76 +21,47 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockFertileSoilTilled extends Block {
-    public static final PropertyInteger MOISTURE = PropertyInteger.create("moisture", 0, 7);
-    protected static final AxisAlignedBB TILLED_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
+public class BlockFertileSoilTilled extends BlockFarmland {
 
     public BlockFertileSoilTilled() {
-        super(Material.GROUND);
+        super();
         this.setHardness(0.5F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(MOISTURE, Integer.valueOf(0)));
-        this.setTickRandomly(true);
-        this.setLightOpacity(255);
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return TILLED_AABB;
-    }
-
-    @Override
-    public boolean isOpaqueCube(IBlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
-    }
-
-    /*@Override
-    @SideOnly(Side.CLIENT) //TODO Is this needed?
-    public void randomDisplayTick(World world, BlockPos pos, IBlockState state, Random rand) {
-        int enchanted = (world.getBlockMetadata(par2, par3, par4) & 4 & 4) >> 2;
-        if (enchanted == 1 && rand.nextDouble() > 0.6D) {
-            double d0 = rand.nextGaussian() * 0.02D;
-            double d1 = rand.nextGaussian() * 0.02D;
-            double d2 = rand.nextGaussian() * 0.02D;
-            world.spawnParticle("happyVillager", (double) ((float) par2 + par5Random.nextFloat()), (double) par3 + (double) par5Random.nextFloat() * this.getBlockBoundsMaxY() * 0.4D + 1.0D, (double) ((float) par4 + par5Random.nextFloat()), d0, d1, d2);
-        }
-    }*/
-
-    @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(@Nonnull World world, BlockPos pos, IBlockState state, Random rand) {
         int i = state.getValue(MOISTURE);
 
         if (!this.hasWater(world, pos) && !world.isRainingAt(pos.up())) {
-            if ((i & 3) > 0 && rand.nextDouble() > 0.5D) {
+            if (i > 0) {
                 world.setBlockState(pos, state.withProperty(MOISTURE, i - 1), 2);
             } else if (!this.hasCrops(world, pos)) {
-                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState());
+                turnToSoil(world, pos);
             }
         } else if (i < 7) {
             world.setBlockState(pos, state.withProperty(MOISTURE, 7), 2);
         }
-
-        Block blockUp = world.getBlockState(pos.up()).getBlock();
-        if (blockUp != null) {
-            for (int j = 0; j < 2; ++i) {
-                blockUp.updateTick(world, pos.up(), state, rand);
-            }
-        }
     }
 
     @Override
-    public void onFallenUpon(World world, BlockPos pos, Entity entity, float fallDistance) {
-        if (!world.isRemote && world.rand.nextFloat() < fallDistance - 0.5F && entity instanceof EntityLivingBase && (entity instanceof EntityPlayer || world.getGameRules().getBoolean("mobGriefing")) && entity.width * entity.width * entity.height > 0.512F) {
-            world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState());
+    public void onFallenUpon(World world, @Nonnull BlockPos pos, Entity entity, float fallDistance) {
+        if (!world.isRemote && entity.canTrample(world, this, pos, fallDistance)) {
+            turnToSoil(world, pos);
         }
-
         super.onFallenUpon(world, pos, entity, fallDistance);
+    }
+
+    private static void turnToSoil(World world, BlockPos pos) {
+        world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState());
+        AxisAlignedBB axisAlignedBB = field_194405_c.offset(pos);
+
+        for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(null, axisAlignedBB)) {
+            double axisY = Math.min(axisAlignedBB.maxY - axisAlignedBB.minY, axisAlignedBB.maxY - entity.getEntityBoundingBox().minY);
+            entity.setPositionAndUpdate(entity.posX, entity.posY + axisY + 0.001D, entity.posZ);
+        }
     }
 
     private boolean hasCrops(World world, BlockPos pos) {
@@ -110,16 +79,25 @@ public class BlockFertileSoilTilled extends Block {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
-        super.neighborChanged(state, world, pos, neighborBlock, neighborPos);
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+        super.neighborChanged(state, world, pos, block, fromPos);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
-            world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState());
+            turnToSoil(world, pos);
         }
     }
 
     @Override
-    public boolean canSustainPlant(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing direction, IPlantable plantable) {
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(world, pos, state);
+
+        if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
+            turnToSoil(world, pos);
+        }
+    }
+
+    @Override
+    public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull EnumFacing direction, IPlantable plantable) {
         EnumPlantType plantType = plantable.getPlantType(world, pos.up());
 
         switch (plantType) {
@@ -134,7 +112,7 @@ public class BlockFertileSoilTilled extends Block {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
         switch (side) {
             case UP:
                 return true;
@@ -151,27 +129,18 @@ public class BlockFertileSoilTilled extends Block {
     }
 
     @Override
+    @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return AtumBlocks.SAND.getItemDropped(AtumBlocks.SAND.getDefaultState(), rand, fortune);
+        return AtumItems.FERTILE_SOIL_PILE;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
-        return new ItemStack(AtumBlocks.SAND);
+    public int quantityDropped(Random random) {
+        return MathHelper.getInt(random, 3, 5);
     }
 
     @Override
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(MOISTURE, meta & 7);
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return state.getValue(MOISTURE);
-    }
-
-    @Override
+    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, MOISTURE);
     }

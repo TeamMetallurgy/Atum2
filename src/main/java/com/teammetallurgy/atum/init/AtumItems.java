@@ -26,7 +26,7 @@ public class AtumItems {
     public static final Item SCRAP = new Item();
     public static final Item LINEN = new Item();
     public static final Item SCARAB = new ItemScarab();
-    public static final Item LOOT = new ItemLoot();
+    public static final Item FERTILE_SOIL_PILE = new Item();
     public static final Item DATE = new ItemFood(4, 0.3F, false);
     public static final Item GOLDEN_DATE = new ItemDateGold(5, 1.5F, false).setAlwaysEdible();
     public static final Item ENCHANTED_GOLDEN_DATE = new ItemDateGoldEnchanted(5, 1.5F, false).setAlwaysEdible();
@@ -162,6 +162,7 @@ public class AtumItems {
         registerItem(STONE_CHUNK, "stone_chunk");
         registerItem(SCROLL, "scroll");
         registerItem(WOLF_PELT, "wolf_pelt");
+        registerItem(FERTILE_SOIL_PILE, "fertile_soil_pile");
         registerItem(FLAX, "flax");
         registerItem(FLAX_SEED, "flax_seeds");
         registerItem(FORSAKEN_FISH, "fish_forsaken");
