@@ -23,7 +23,7 @@ public class AtumGuiHandler implements IGuiHandler {
                 case 0:
                     return new ContainerFurnace(player.inventory, (TileEntityLimestoneFurnace) te);
                 case 1:
-                    return new ContainerCrate(player.inventory, (TileEntityCrate) te);
+                    return new ContainerCrate(player.inventory, (TileEntityCrate) te, player);
             }
         }
         return null;

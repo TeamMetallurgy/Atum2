@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.tileentity.crate;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.IInventory;
@@ -14,13 +15,20 @@ public class GuiCrate extends GuiContainer {
     private int inventoryRows;
 
     public GuiCrate(IInventory crateInv, IInventory playerInv) {
-        super(new ContainerCrate(crateInv, playerInv));
+        super(new ContainerCrate(crateInv, playerInv, Minecraft.getMinecraft().player));
         this.crateInventory = crateInv;
         this.allowUserInput = false;
         int i = 222;
         int j = i - 108;
         this.inventoryRows = playerInv.getSizeInventory() / 9;
         this.ySize = j + this.inventoryRows * 18;
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
     }
 
     @Override

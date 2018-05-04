@@ -9,12 +9,13 @@ import net.minecraft.item.ItemStack;
 import javax.annotation.Nonnull;
 
 public class ContainerCrate extends Container {
-    private IInventory crateInventory;
-    private int numRows = 3;
+    private final IInventory crateInventory;
+    private final int numRows;
 
-    public ContainerCrate(IInventory playerInventory, IInventory chestInventory) {
+    public ContainerCrate(IInventory playerInventory, IInventory chestInventory, EntityPlayer player) {
         this.crateInventory = chestInventory;
         this.numRows = chestInventory.getSizeInventory() / 9;
+        crateInventory.openInventory(player);
         int i = (this.numRows - 4) * 18;
 
         for (int j = 0; j < this.numRows; ++j) {
@@ -64,5 +65,15 @@ public class ContainerCrate extends Container {
             }
         }
         return slotStack;
+    }
+
+    @Override
+    public void onContainerClosed(EntityPlayer player) {
+        super.onContainerClosed(player);
+        this.crateInventory.closeInventory(player);
+    }
+
+    IInventory getCrateInventory() {
+        return crateInventory;
     }
 }
