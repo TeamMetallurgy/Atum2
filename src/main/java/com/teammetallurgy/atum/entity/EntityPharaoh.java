@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -150,7 +151,7 @@ public class EntityPharaoh extends EntityMob {
                 tepc.setOpenable();
             }
         } else {
-            Constants.LOG.error("Unable to find chest coords for " + this.getName() + " on " + chestPos);
+            Atum.LOG.error("Unable to find chest coords for " + this.getName() + " on " + chestPos);
         }
     }
 

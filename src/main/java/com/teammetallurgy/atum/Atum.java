@@ -17,6 +17,8 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = Constants.FACTORY)
 public class Atum {
@@ -27,21 +29,18 @@ public class Atum {
     @SidedProxy(clientSide = Constants.CLIENT, serverSide = Constants.SERVER)
     public static CommonProxy proxy;
 
+    public static final Logger LOG = LogManager.getLogger(Constants.MOD_NAME);
     public static final CreativeTabs CREATIVE_TAB = new AtumCreativeTab();
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        Constants.LOG = event.getModLog();
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
         AtumBlocks.setBlockInfo();
         AtumBlocks.registerTileEntities();
-        //AtumOreDictionary.init();
-
         proxy.initRenders();
-
         new AtumEntities();
-
+        //AtumOreDictionary.init();
         CraftingHandler.register();
     }
 
