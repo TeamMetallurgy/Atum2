@@ -1,27 +1,36 @@
 package com.teammetallurgy.atum.blocks.tileentity.chests;
 
 import com.teammetallurgy.atum.blocks.BlockChestSpawner;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedSpawnerEntity;
+import net.minecraft.util.datafix.DataFixer;
+import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.CompoundDataFixer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 public class TileEntityChestSpawner extends TileEntityChest {
 
@@ -32,6 +41,7 @@ public class TileEntityChestSpawner extends TileEntityChest {
         }
 
         @Override
+        @Nonnull
         public World getSpawnerWorld() {
             return TileEntityChestSpawner.this.world;
         }
@@ -47,8 +57,8 @@ public class TileEntityChestSpawner extends TileEntityChest {
             super.setNextSpawnData(spawnerEntity);
 
             if (this.getSpawnerWorld() != null) {
-                IBlockState state = this.getSpawnerWorld().getBlockState(this.getSpawnerPosition());
-                this.getSpawnerWorld().notifyBlockUpdate(TileEntityChestSpawner.this.pos, state, state, 4);
+                IBlockState iblockstate = this.getSpawnerWorld().getBlockState(this.getSpawnerPosition());
+                this.getSpawnerWorld().notifyBlockUpdate(TileEntityChestSpawner.this.pos, iblockstate, iblockstate, 4);
             }
         }
     };
@@ -56,29 +66,49 @@ public class TileEntityChestSpawner extends TileEntityChest {
     private NonNullList<ItemStack> chestContents = NonNullList.withSize(27, ItemStack.EMPTY);
 
     public TileEntityChestSpawner() {
-        //this.spawnerLogic.setEntityName(entityName()); //TODO
+        this.spawnerLogic.setEntityId(entityName());
+        DataFixer fixer = new DataFixer(1343);
+        fixer = new CompoundDataFixer(fixer);
+        registerFixesMobSpawner(fixer);
     }
 
-    private String entityName() {
-        int entityID = (int) (Math.random() * 6.0D);
-        switch (entityID) {
+    private ResourceLocation entityName() {
+        int i = MathHelper.getInt(new Random(), 0, 6);
+        switch (i) {
             case 0:
-                return "AtumMummy";
+                return AtumEntities.MUMMY.getRegistryName();
             case 1:
-                return "AtumBanditWarrior";
+                return AtumEntities.BANDIT_WARLORD.getRegistryName();
             case 2:
-                return "AtumBanditArcher";
+                return AtumEntities.NOMAD.getRegistryName();
             case 3:
-                return "AtumDustySkeleton";
+                return AtumEntities.BONESTORM.getRegistryName();
             case 4:
-                return "AtumDesertGhost";
+                return AtumEntities.WRAITH.getRegistryName();
             case 5:
-                return "AtumStoneSoldier";
-            case 6:
-                return "AtumDesertWolf";
+                return AtumEntities.STONEGUARD.getRegistryName();
+            /*case 6:
+                return AtumEntities.DESERT_WOLF.getRegistryName();*/ //TODO Renable when desert wolf is fixed
             default:
-                return "";
+                return AtumEntities.FORSAKEN.getRegistryName();
         }
+    }
+
+    public static void registerFixesMobSpawner(DataFixer dataFixer) {
+        dataFixer.registerWalker(FixTypes.BLOCK_ENTITY, (fixer, compound, versionIn) -> {
+            if (TileEntity.getKey(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id")))) {
+                if (compound.hasKey("SpawnPotentials", 9)) {
+                    NBTTagList tagList = compound.getTagList("SpawnPotentials", 10);
+
+                    for (int i = 0; i < tagList.tagCount(); ++i) {
+                        NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+                        tagCompound.setTag("Entity", fixer.process(FixTypes.ENTITY, tagCompound.getCompoundTag("Entity"), versionIn));
+                    }
+                }
+                compound.setTag("SpawnData", fixer.process(FixTypes.ENTITY, compound.getCompoundTag("SpawnData"), versionIn));
+            }
+            return compound;
+        });
     }
 
     @Override
@@ -95,15 +125,6 @@ public class TileEntityChestSpawner extends TileEntityChest {
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.chestContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-
-        if (!this.checkLootAndRead(compound)) {
-            ItemStackHelper.loadAllItems(compound, this.chestContents);
-        }
-
-        if (compound.hasKey("CustomName", 8)) {
-            this.customName = compound.getString("CustomName");
-        }
-
         this.spawnerLogic.readFromNBT(compound);
     }
 
@@ -111,15 +132,6 @@ public class TileEntityChestSpawner extends TileEntityChest {
     @Nonnull
     public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         super.writeToNBT(compound);
-
-        if (!this.checkLootAndWrite(compound)) {
-            ItemStackHelper.saveAllItems(compound, this.chestContents);
-        }
-
-        if (this.hasCustomName()) {
-            compound.setString("CustomName", this.customName);
-        }
-
         this.spawnerLogic.writeToNBT(compound);
 
         return compound;
@@ -145,19 +157,12 @@ public class TileEntityChestSpawner extends TileEntityChest {
         if (!player.isSpectator() && this.getBlockType() instanceof BlockChestSpawner) {
             --this.numPlayersUsing;
             this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-
             this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
 
             if (this.getChestType() == BlockChest.Type.TRAP) {
                 this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType(), false);
             }
         }
-    }
-
-    @Override
-    public void invalidate() {
-        this.tileEntityInvalid = true;
-        this.updateContainingBlockInfo();
     }
 
     @Override
@@ -168,6 +173,7 @@ public class TileEntityChestSpawner extends TileEntityChest {
 
     @Override
     public void update() {
+        super.update();
         this.spawnerLogic.updateSpawner();
     }
 

@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks;
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityChestSpawner;
 import com.teammetallurgy.atum.items.AtumLoot;
 import net.minecraft.block.BlockChest;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
@@ -19,6 +20,8 @@ public class BlockChestSpawner extends BlockChest {
 
     public BlockChestSpawner() {
         super(Type.BASIC);
+        this.setHardness(2.5F);
+        this.setSoundType(SoundType.WOOD);
     }
 
     @Override

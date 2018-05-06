@@ -23,12 +23,12 @@ public class ModelBonestorm extends ModelBase {
     }
 
     @Override
-    public void render(Entity entity, float p_78088_2_, float limbSwing, float ageInTicks, float netHeadYaw, float headPitch, float scale) { //TODO Proper parameters
-        this.setRotationAngles(p_78088_2_, limbSwing, ageInTicks, netHeadYaw, headPitch, scale, entity);
+    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+        this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
         this.bonestormHead.render(scale);
 
-        for (int i = 0; i < this.bonestormSticks.length; ++i) {
-            this.bonestormSticks[i].render(scale);
+        for (ModelRenderer bonestormStick : this.bonestormSticks) {
+            bonestormStick.render(scale);
         }
     }
 

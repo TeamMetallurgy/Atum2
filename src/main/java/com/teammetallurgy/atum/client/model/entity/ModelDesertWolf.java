@@ -88,13 +88,13 @@ public class ModelDesertWolf extends ModelBase {
     }
 
     @Override
-    public void setLivingAnimations(EntityLivingBase entityLivingBase, float par2, float par3, float partialTickTime) {
-        EntityDesertWolf entityDesertWolf = (EntityDesertWolf) entityLivingBase;
+    public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
+        EntityDesertWolf entityDesertWolf = (EntityDesertWolf) livingBase;
 
         if (entityDesertWolf.isAngry()) {
             this.wolfTail.rotateAngleY = 0.0F;
         } else {
-            this.wolfTail.rotateAngleY = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+            this.wolfTail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
 
         if (entityDesertWolf.isSitting()) {
@@ -122,10 +122,10 @@ public class ModelDesertWolf extends ModelBase {
             this.wolfLeg2.setRotationPoint(0.5F, 16.0F, 7.0F);
             this.wolfLeg3.setRotationPoint(-2.5F, 16.0F, -4.0F);
             this.wolfLeg4.setRotationPoint(0.5F, 16.0F, -4.0F);
-            this.wolfLeg1.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-            this.wolfLeg2.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float) Math.PI) * 1.4F * par3;
-            this.wolfLeg3.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float) Math.PI) * 1.4F * par3;
-            this.wolfLeg4.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+            this.wolfLeg1.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            this.wolfLeg2.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+            this.wolfLeg3.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
+            this.wolfLeg4.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
 
         this.wolfHeadMain.rotateAngleZ = entityDesertWolf.getInterestedAngle(partialTickTime) + entityDesertWolf.getShakeAngle(partialTickTime, 0.0F);
