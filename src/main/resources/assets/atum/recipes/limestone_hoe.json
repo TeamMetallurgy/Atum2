@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LL",
+    " S",
+    " S"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "L": {
+      "item": "atum:limestone_cracked"
+    }
+  },
+  "result": {
+    "item": "atum:limestone_hoe"
+  }
+}

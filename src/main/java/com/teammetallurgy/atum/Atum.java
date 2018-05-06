@@ -3,7 +3,6 @@ package com.teammetallurgy.atum;
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.handler.AtumCreativeTab;
-import com.teammetallurgy.atum.handler.CraftingHandler;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.AtumLoot;
@@ -41,7 +40,6 @@ public class Atum {
         proxy.initRenders();
         new AtumEntities();
         //AtumOreDictionary.init();
-        CraftingHandler.register();
     }
 
     @Mod.EventHandler

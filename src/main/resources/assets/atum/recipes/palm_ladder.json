@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "S S",
+    "SSS",
+    "S S"
+  ],
+  "key": {
+    "S": {
+      "item": "atum:palm_stick"
+    }
+  },
+  "result": {
+    "item": "atum:palm_ladder",
+    "count": 3
+  }
+}

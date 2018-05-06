@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP ",
+    "PP ",
+    "PP "
+  ],
+  "key": {
+    "P": {
+      "item": "atum:deadwood_planks"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_door"
+  }
+}

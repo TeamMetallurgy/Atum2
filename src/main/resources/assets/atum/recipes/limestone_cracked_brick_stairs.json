@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:limestone_brick_cracked_brick"
+    }
+  },
+  "result": {
+    "item": "atum:cracked_brick_stairs",
+    "count": 4
+  }
+}

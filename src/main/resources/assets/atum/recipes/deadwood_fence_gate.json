@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "SPS"
+  ],
+  "key": {
+    "P": {
+      "item": "atum:deadwood_planks"
+    },
+    "S": {
+      "item": "atum:deadwood_stick"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_fence_gate"
+  }
+}

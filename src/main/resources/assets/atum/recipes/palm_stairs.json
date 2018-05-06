@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P  ",
+    "PP ",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "atum:palm_planks"
+    }
+  },
+  "result": {
+    "item": "atum:palm_stairs",
+    "count": 4
+  }
+}

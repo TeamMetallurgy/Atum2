@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SPS",
+    "SPS"
+  ],
+  "key": {
+    "P": {
+      "item": "atum:palm_planks"
+    },
+    "S": {
+      "item": "atum:palm_stick"
+    }
+  },
+  "result": {
+    "item": "atum:palm_fence_gate"
+  }
+}

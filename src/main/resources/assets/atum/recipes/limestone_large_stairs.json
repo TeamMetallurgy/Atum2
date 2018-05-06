@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:limestone_brick_large"
+    }
+  },
+  "result": {
+    "item": "atum:large_stairs",
+    "count": 4
+  }
+}

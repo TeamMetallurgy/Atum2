@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XBX",
+    " X "
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:potion"
+    },
+    "X": {
+      "item": "atum:ectoplasm"
+    }
+  },
+  "result": {
+    "item": "minecraft:experience_bottle"
+  }
+}

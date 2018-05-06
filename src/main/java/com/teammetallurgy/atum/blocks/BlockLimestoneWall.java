@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
+import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFenceGate;
@@ -22,8 +23,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Map;
 
 public class BlockLimestoneWall extends Block {
+    private static final Map<BlockLimestoneBricks.BrickType, Block> WALLS = Maps.newEnumMap(BlockLimestoneBricks.BrickType.class);
     public static final PropertyBool UP = PropertyBool.create("up");
     public static final PropertyBool NORTH = PropertyBool.create("north");
     public static final PropertyBool EAST = PropertyBool.create("east");
@@ -40,8 +43,14 @@ public class BlockLimestoneWall extends Block {
 
     public static void registerWalls() {
         for (BlockLimestoneBricks.BrickType type : BlockLimestoneBricks.BrickType.values()) {
-            AtumRegistry.registerBlock(new BlockLimestoneWall(), type.getName() + "_wall");
+            Block wall = new BlockLimestoneWall();
+            WALLS.put(type, wall);
+            AtumRegistry.registerBlock(wall, type.getName() + "_wall");
         }
+    }
+
+    public static Block getWall(BlockLimestoneBricks.BrickType type) {
+        return WALLS.get(type);
     }
 
     @Override

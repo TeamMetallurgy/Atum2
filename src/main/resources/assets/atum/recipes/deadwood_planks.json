@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:palm_log"
+    }
+  ],
+  "result": {
+    "item": "atum:deadwood_planks",
+    "count": 4
+  }
+}

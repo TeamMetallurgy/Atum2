@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:cloth_scrap"
+    }
+  },
+  "result": {
+    "item": "atum:mummy_chest"
+  }
+}

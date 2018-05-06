@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:flax"
+    }
+  },
+  "result": {
+    "item": "atum:linen"
+  }
+}

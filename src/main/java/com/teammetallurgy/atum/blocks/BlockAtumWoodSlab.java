@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
+import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
@@ -11,8 +12,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class BlockAtumWoodSlab extends BlockAtumSlab {
+    private static final Map<BlockAtumPlank.WoodType, Block> SLABS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
     private final BlockAtumPlank.WoodType type;
 
     public BlockAtumWoodSlab(BlockAtumPlank.WoodType type) {
@@ -32,8 +35,13 @@ public class BlockAtumWoodSlab extends BlockAtumSlab {
 
     public static void registerSlabs() {
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            Block WOOD_SLAB = new BlockAtumWoodSlab(type);
-            AtumRegistry.registerBlock(WOOD_SLAB, new ItemAtumSlab(WOOD_SLAB, (BlockAtumSlab) WOOD_SLAB), type.getName() + "_slab");
+            Block woodSlab = new BlockAtumWoodSlab(type);
+            SLABS.put(type, woodSlab);
+            AtumRegistry.registerBlock(woodSlab, new ItemAtumSlab(woodSlab, (BlockAtumSlab) woodSlab), type.getName() + "_slab");
         }
+    }
+
+    public static Block getSlab(BlockAtumPlank.WoodType type) {
+        return SLABS.get(type);
     }
 }

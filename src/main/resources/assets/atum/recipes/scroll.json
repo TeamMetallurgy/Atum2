@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "SXS",
+    "XXX"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "X": {
+      "item": "atum:papyrus_plant"
+    }
+  },
+  "result": {
+    "item": "atum:scroll"
+  }
+}

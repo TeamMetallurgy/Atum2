@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "P"
+  ],
+  "key": {
+    "P": {
+      "item": "atum:deadwood_planks"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_stick",
+    "count": 4
+  }
+}

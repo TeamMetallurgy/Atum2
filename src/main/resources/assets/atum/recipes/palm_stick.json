@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "P",
+    "P"
+  ],
+  "key": {
+    "P": {
+      "item": "atum:palm_planks"
+    }
+  },
+  "result": {
+    "item": "atum:palm_stick",
+    "count": 4
+  }
+}

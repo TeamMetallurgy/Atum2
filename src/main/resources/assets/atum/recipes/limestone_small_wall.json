@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:limestone_brick_small"
+    }
+  },
+  "result": {
+    "item": "atum:small_wall",
+    "count": 6
+  }
+}

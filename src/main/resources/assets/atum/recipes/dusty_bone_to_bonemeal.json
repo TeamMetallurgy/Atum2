@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:dusty_bone"
+    }
+  ],
+  "result": {
+    "item": "minecraft:dye",
+    "data": 15
+  }
+}
