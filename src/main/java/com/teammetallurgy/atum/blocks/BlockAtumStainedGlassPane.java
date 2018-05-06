@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks;
 
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeacon;
 import net.minecraft.block.BlockPane;
@@ -10,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -32,6 +34,11 @@ public class BlockAtumStainedGlassPane extends BlockPane {
             Preconditions.checkNotNull(glassBlock.getRegistryName(), "registryName");
             AtumRegistry.registerBlock(new BlockAtumStainedGlassPane(), glassBlock.getRegistryName().getResourcePath().replace("_glass", "") + "_" + color.getName() + "_stained_glass");
         }
+    }
+
+    public static Block getGlass(Block baseGlassBlack, EnumDyeColor color) {
+        Preconditions.checkNotNull(baseGlassBlack.getRegistryName(), "registryName");
+        return REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, "thin_" + baseGlassBlack.getRegistryName().getResourcePath().replace("_glass", "") + "_" + color.getName() + "_stained_glass"));
     }
 
     @Override
