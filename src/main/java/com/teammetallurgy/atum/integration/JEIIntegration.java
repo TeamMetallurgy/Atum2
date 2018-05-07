@@ -16,7 +16,7 @@ public class JEIIntegration implements IModPlugin {
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.DATE_BLOCK));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.FLAX));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.PAPYRUS));
-        blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.PORTAL));
+        //blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.PORTAL));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.LIMESTONE_FURNACE_LIT));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.LIT_REDSTONE_ORE));
     }

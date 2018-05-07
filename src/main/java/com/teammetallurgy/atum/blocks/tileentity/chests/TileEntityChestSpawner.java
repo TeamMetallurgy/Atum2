@@ -94,7 +94,7 @@ public class TileEntityChestSpawner extends TileEntityChest {
         }
     }
 
-    public static void registerFixesMobSpawner(DataFixer dataFixer) {
+    private static void registerFixesMobSpawner(DataFixer dataFixer) {
         dataFixer.registerWalker(FixTypes.BLOCK_ENTITY, (fixer, compound, versionIn) -> {
             if (TileEntity.getKey(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id")))) {
                 if (compound.hasKey("SpawnPotentials", 9)) {

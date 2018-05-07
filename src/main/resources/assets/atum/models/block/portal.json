@@ -7,12 +7,7 @@
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 14, 16 ],
             "faces": {
-                "down":  { "texture": "#portal", "cullface": "portal" },
-                "up":    { "texture": "#portal", "cullface": "portal" },
-                "north": { "texture": "#portal", "cullface": "portal" },
-                "south": { "texture": "#portal", "cullface": "portal" },
-                "west":  { "texture": "#portal", "cullface": "portal" },
-                "east":  { "texture": "#portal", "cullface": "portal" }
+                "up":    { "texture": "#portal", "cullface": "portal" }
             }
         }
     ]
