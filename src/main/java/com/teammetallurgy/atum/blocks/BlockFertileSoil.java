@@ -9,7 +9,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -21,7 +20,6 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockFertileSoil extends Block {
-    protected static final AxisAlignedBB FERTILE_SOIL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.9375D, 1.0D);
 
     public BlockFertileSoil() {
         super(Material.GROUND);
@@ -29,12 +27,6 @@ public class BlockFertileSoil extends Block {
         this.setSoundType(SoundType.GROUND);
         this.setTickRandomly(true);
         this.setLightOpacity(255);
-    }
-
-    @Override
-    @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        return FERTILE_SOIL_AABB;
     }
 
     @Override

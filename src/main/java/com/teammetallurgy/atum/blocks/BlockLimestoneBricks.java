@@ -32,7 +32,7 @@ public class BlockLimestoneBricks extends Block {
         for (BrickType type : BrickType.values()) {
             Block brick = new BlockLimestoneBricks();
             BRICKS.put(type, brick);
-            AtumRegistry.registerBlock(new BlockLimestoneBricks(), "limestone_brick_" + type.getName());
+            AtumRegistry.registerBlock(brick, "limestone_brick_" + type.getName());
         }
     }
 

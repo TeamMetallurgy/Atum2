@@ -4,13 +4,15 @@ import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockDirt;
-import net.minecraft.block.BlockFarmland;
+import net.minecraft.block.*;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -19,14 +21,34 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 @Mod.EventBusSubscriber
 public class AtumEventListener {
 
     @SubscribeEvent
+    public static void playerTick(TickEvent.PlayerTickEvent event) {
+        EntityPlayer player = event.player;
+        World world = player.world;
+        if (!world.isRemote && AtumConfig.ALLOW_CREATION && event.phase == TickEvent.Phase.END && player.ticksExisted % 40 == 0) {
+            if (world.provider.getDimension() == 0 || world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+                for (EntityItem entityItem : world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().grow(3.0F, 1.0F, 3.0F))) {
+                    IBlockState state = world.getBlockState(entityItem.getPosition());
+                    if (entityItem.getItem().getItem() == AtumItems.SCARAB && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.getDefaultState())) {
+                        if (AtumBlocks.PORTAL.trySpawnPortal(world, entityItem.getPosition())) {
+                            entityItem.setDead();
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onDirtPlacing(BlockEvent.PlaceEvent event) {
         Block block = event.getPlacedBlock().getBlock();
-        if (event.getPlayer().world.provider.getDimension() == AtumConfig.DIMENSION_ID && (block instanceof BlockDirt || (block instanceof BlockFarmland && block != AtumBlocks.FERTILE_SOIL_TILLED))) {
+        if (event.getPlayer().world.provider.getDimension() == AtumConfig.DIMENSION_ID && (block instanceof BlockDirt || block instanceof BlockGrass || block instanceof BlockMycelium || (block instanceof BlockFarmland && block != AtumBlocks.FERTILE_SOIL_TILLED))) {
             event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState());
         }
     }
