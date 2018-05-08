@@ -22,7 +22,6 @@ import java.util.Random;
 
 public class AtumBiomeProvider extends BiomeProvider {
     private GenLayer genBiomes;
-    private GenLayer biomeIndexLayer;
     private final BiomeCache biomeCache;
     private final List<Biome> biomesToSpawnIn;
     public static final int BIOME_SCALE = 4;
@@ -31,12 +30,11 @@ public class AtumBiomeProvider extends BiomeProvider {
         this.biomesToSpawnIn = Lists.newArrayList(AtumBiomes.SAND_PLAINS); //TODO
 
         this.biomeCache = new BiomeCache(this);
-        this.genBiomes = initializeAllBiomeGenerators(info.getSeed())[0];
-        this.biomeIndexLayer = initializeAllBiomeGenerators(info.getSeed())[1];
+        this.genBiomes = initializeAllBiomeGenerators(info)[0];
     }
 
-    public GenLayer[] initializeAllBiomeGenerators(long seed) { //TODO Atum biome height lays somewhere within this method
-        /*GenLayer layerBiome = new GenLayerAtumBiome(info.getSeed());
+    public GenLayer[] initializeAllBiomeGenerators(WorldInfo info) { //TODO Atum biome height lays somewhere within this method
+        GenLayer layerBiome = new GenLayerAtumBiome(info.getSeed());
         for (int k = 0; k < BIOME_SCALE; ++k) {
             layerBiome = new GenLayerZoom((long) (1000 + k), layerBiome);
         }
@@ -51,32 +49,7 @@ public class AtumBiomeProvider extends BiomeProvider {
         layerRiver = new GenLayerSmooth(1000L, layerRiver);
         layerRiver = new GenLayerAtumRiverMix(100L, layerVoronoi, layerRiver);
 
-        return new GenLayer[]{layerRiver, layerVoronoi, layerRiver};*/
-
-        GenLayer genlayer = new GenLayerAtumBiome(seed);
-        genlayer = new GenLayerFuzzyZoom(2000L, genlayer);
-        GenLayer genlayerzoom = new GenLayerZoom(2001L, genlayer);
-        GenLayer genlayerzoom1 = new GenLayerZoom(2002L, genlayerzoom);
-        genlayerzoom1 = new GenLayerZoom(2003L, genlayerzoom1);
-        GenLayer genlayer4 = GenLayerZoom.magnify(1000L, genlayerzoom1, 0);
-        GenLayer lvt_7_1_ = GenLayerZoom.magnify(1000L, genlayer4, 0);
-        GenLayer genlayerriverinit = new GenLayerRiverInit(100L, lvt_7_1_);
-        GenLayer lvt_9_1_ = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
-        GenLayer genlayer5 = GenLayerZoom.magnify(1000L, lvt_9_1_, 2);
-        genlayer5 = GenLayerZoom.magnify(1000L, genlayer5, 4);
-        GenLayer genlayerriver = new GenLayerAtumRiver(1L, genlayer5);
-        GenLayer genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
-
-        for (int k = 0; k < BIOME_SCALE; ++k) {
-            genlayersmooth = new GenLayerZoom((long) (1000 + k), genlayersmooth);
-        }
-
-        GenLayer genlayersmooth1 = new GenLayerSmooth(1000L, genlayersmooth);
-        GenLayer genlayerrivermix = new GenLayerAtumRiverMix(100L, genlayersmooth1, genlayersmooth);
-        GenLayer genlayer3 = new GenLayerVoronoiZoom(10L, genlayerrivermix);
-        genlayerrivermix.initWorldGenSeed(seed);
-        genlayer3.initWorldGenSeed(seed);
-        return new GenLayer[]{genlayerrivermix, genlayer3, genlayerrivermix};
+        return new GenLayer[]{layerRiver, layerVoronoi, layerRiver};
     }
 
     @Override
@@ -133,7 +106,7 @@ public class AtumBiomeProvider extends BiomeProvider {
             System.arraycopy(abiome, 0, listToReuse, 0, width * length);
             return listToReuse;
         } else {
-            int[] cache = this.biomeIndexLayer.getInts(x, z, width, length);
+            int[] cache = this.genBiomes.getInts(x, z, width, length);
 
             for (int i = 0; i < width * length; ++i) {
                 listToReuse[i] = Biome.getBiome(cache[i], Biomes.DEFAULT);
