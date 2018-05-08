@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
@@ -184,7 +185,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         byte[] abyte = chunk.getBiomeArray();
 
         for (int i = 0; i < abyte.length; ++i) {
-            abyte[i] = (byte) Biome.getIdForBiome(this.biomesForGeneration[i]);
+            abyte[i] = (byte) AtumBiome.getIdForBiome(this.biomesForGeneration[i]);
         }
 
         chunk.generateSkylightMap();
@@ -315,7 +316,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 (new WorldGenLava(Blocks.LAVA)).generate(this.world, this.rand, blockpos.add(i2, l2, k3));
             }
         }
-
+        biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
         BlockFalling.fallInstantly = false;
     }
 
