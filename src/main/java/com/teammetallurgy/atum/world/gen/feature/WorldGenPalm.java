@@ -41,7 +41,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
         Block blocks = world.getBlockState(pos.down()).getBlock();
-        if ((blocks == AtumBlocks.SAND || blocks == AtumBlocks.FERTILE_SOIL || blocks == Blocks.DIRT) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256) {
+        if ((blocks == AtumBlocks.SAND || blocks == AtumBlocks.FERTILE_SOIL) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256) {
             for (int j = pos.getY(); j <= pos.getY() + 1 + treeHeight; ++j) {
 
                 int k = 1;

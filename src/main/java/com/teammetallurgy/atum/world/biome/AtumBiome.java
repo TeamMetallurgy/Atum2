@@ -80,12 +80,12 @@ public class AtumBiome extends Biome {
 
         if (palmRarity > 0 && random.nextInt(palmRarity) == 0) {
             height = random.nextInt(4) + 5;
-            (new WorldGenPalm(true, height)).generate(world, random, pos.add(x, height, z));
+            new WorldGenPalm(true, height).generate(world, random, pos.add(x, height, z));
         } else if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
-            (new WorldGenPyramid()).generate(world, random, pos.add(x, 0, z));
+            new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
         } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
             height = random.nextInt(1) + 6;
-            (new WorldGenDeadwood(true, height)).generate(world, random, pos.add(x, height, z));
+            new WorldGenDeadwood(true, height).generate(world, random, pos.add(x, height, z));
         }
     }
 
@@ -142,7 +142,7 @@ public class AtumBiome extends Biome {
 
         public AtumBiomeProperties(String biomeName, int weight) {
             super(biomeName);
-            this.setBaseHeight(0.125F); // same as plains
+            this.setBaseHeight(0.125F);
             this.setHeightVariation(0.05F);
             this.setRainDisabled();
             this.setWaterColor(16421912);

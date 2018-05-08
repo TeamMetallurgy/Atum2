@@ -41,7 +41,7 @@ public class BiomeGenLimestoneCrags extends AtumBiome {
     }
 
     /**
-     * Adapted from WorldGenIceSpike
+     * Adapted from {@link net.minecraft.world.gen.feature.WorldGenIceSpike}
      */
     public class WorldGenLimestoneSpike extends WorldGenerator {
         private final Block spikeBlock = AtumBlocks.LIMESTONE;
