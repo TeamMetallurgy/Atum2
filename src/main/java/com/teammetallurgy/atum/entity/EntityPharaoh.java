@@ -158,15 +158,13 @@ public class EntityPharaoh extends EntityMob {
         }
     }
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player)
-    {
+    public void addTrackingPlayer(EntityPlayerMP player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player)
-    {
+    public void removeTrackingPlayer(EntityPlayerMP player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }
