@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.world.decorators.WorldGenPalm;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;

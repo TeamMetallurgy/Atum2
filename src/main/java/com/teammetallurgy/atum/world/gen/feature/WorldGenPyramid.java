@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.decorators;
+package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.init.Blocks;

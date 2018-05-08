@@ -2,6 +2,9 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.init.AtumBiomes;
+import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumBiome;
+import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumRiver;
+import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumRiverMix;
 import net.minecraft.crash.CrashReport;
 import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.init.Biomes;
@@ -28,12 +31,12 @@ public class AtumBiomeProvider extends BiomeProvider {
         this.biomesToSpawnIn = Lists.newArrayList(AtumBiomes.SAND_PLAINS); //TODO
 
         this.biomeCache = new BiomeCache(this);
-        this.genBiomes = initializeAllBiomeGenerators(info)[0];
-        this.biomeIndexLayer = initializeAllBiomeGenerators(info)[1];
+        this.genBiomes = initializeAllBiomeGenerators(info.getSeed())[0];
+        this.biomeIndexLayer = initializeAllBiomeGenerators(info.getSeed())[1];
     }
 
-    public GenLayer[] initializeAllBiomeGenerators(WorldInfo info) {
-        GenLayer layerBiome = new GenLayerAtumBiome(info.getSeed());
+    public GenLayer[] initializeAllBiomeGenerators(long seed) { //TODO Atum biome height lays somewhere within this method
+        /*GenLayer layerBiome = new GenLayerAtumBiome(info.getSeed());
         for (int k = 0; k < BIOME_SCALE; ++k) {
             layerBiome = new GenLayerZoom((long) (1000 + k), layerBiome);
         }
@@ -43,12 +46,37 @@ public class AtumBiomeProvider extends BiomeProvider {
 
         GenLayer layerRiver = new GenLayerRiverInit(100L, layerSmooth);
         layerRiver = GenLayerZoom.magnify(1000L, layerRiver, 2);
-        layerRiver = GenLayerZoom.magnify(1000L, layerRiver, BIOME_SCALE);
+        layerRiver = GenLayerZoom.magnify(1000L, layerRiver, 0);
         layerRiver = new GenLayerAtumRiver(1L, layerRiver);
         layerRiver = new GenLayerSmooth(1000L, layerRiver);
         layerRiver = new GenLayerAtumRiverMix(100L, layerVoronoi, layerRiver);
 
-        return new GenLayer[]{layerRiver, layerVoronoi, layerRiver};
+        return new GenLayer[]{layerRiver, layerVoronoi, layerRiver};*/
+
+        GenLayer genlayer = new GenLayerAtumBiome(seed);
+        genlayer = new GenLayerFuzzyZoom(2000L, genlayer);
+        GenLayer genlayerzoom = new GenLayerZoom(2001L, genlayer);
+        GenLayer genlayerzoom1 = new GenLayerZoom(2002L, genlayerzoom);
+        genlayerzoom1 = new GenLayerZoom(2003L, genlayerzoom1);
+        GenLayer genlayer4 = GenLayerZoom.magnify(1000L, genlayerzoom1, 0);
+        GenLayer lvt_7_1_ = GenLayerZoom.magnify(1000L, genlayer4, 0);
+        GenLayer genlayerriverinit = new GenLayerRiverInit(100L, lvt_7_1_);
+        GenLayer lvt_9_1_ = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
+        GenLayer genlayer5 = GenLayerZoom.magnify(1000L, lvt_9_1_, 2);
+        genlayer5 = GenLayerZoom.magnify(1000L, genlayer5, 4);
+        GenLayer genlayerriver = new GenLayerAtumRiver(1L, genlayer5);
+        GenLayer genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
+
+        for (int k = 0; k < BIOME_SCALE; ++k) {
+            genlayersmooth = new GenLayerZoom((long) (1000 + k), genlayersmooth);
+        }
+
+        GenLayer genlayersmooth1 = new GenLayerSmooth(1000L, genlayersmooth);
+        GenLayer genlayerrivermix = new GenLayerAtumRiverMix(100L, genlayersmooth1, genlayersmooth);
+        GenLayer genlayer3 = new GenLayerVoronoiZoom(10L, genlayerrivermix);
+        genlayerrivermix.initWorldGenSeed(seed);
+        genlayer3.initWorldGenSeed(seed);
+        return new GenLayer[]{genlayerrivermix, genlayer3, genlayerrivermix};
     }
 
     @Override

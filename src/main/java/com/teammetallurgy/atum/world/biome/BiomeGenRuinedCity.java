@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.world.decorators.WorldGenRuins;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenRuins;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;

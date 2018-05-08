@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.decorators.WorldGenDeadwood;
-import com.teammetallurgy.atum.world.decorators.WorldGenPalm;
-import com.teammetallurgy.atum.world.decorators.WorldGenPyramid;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenPyramid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;

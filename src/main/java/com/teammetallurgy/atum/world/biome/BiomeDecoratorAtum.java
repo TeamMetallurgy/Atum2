@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.decorators.WorldGenShrub;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenShrub;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;

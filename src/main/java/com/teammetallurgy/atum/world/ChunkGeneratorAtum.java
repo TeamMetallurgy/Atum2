@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.decorators.WorldGenLava;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
