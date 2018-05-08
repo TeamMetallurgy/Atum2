@@ -29,6 +29,8 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -50,6 +52,8 @@ public class EntityPharaoh extends EntityMob {
     private int prefixID = 0;
     private int numID = 0;
     private int regenTime = 0;
+
+    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS)).setCreateFog(true);
 
     public EntityPharaoh(World world) {
         super(world);
@@ -152,6 +156,17 @@ public class EntityPharaoh extends EntityMob {
         } else {
             Atum.LOG.error("Unable to find chest coords for " + this.getName() + " on " + chestPos);
         }
+    }
+    @Override
+    public void addTrackingPlayer(EntityPlayerMP player) {
+        super.addTrackingPlayer(player);
+        this.bossInfo.addPlayer(player);
+    }
+
+    @Override
+    public void removeTrackingPlayer(EntityPlayerMP player) {
+        super.removeTrackingPlayer(player);
+        this.bossInfo.removePlayer(player);
     }
 
     @Override
@@ -366,6 +381,7 @@ public class EntityPharaoh extends EntityMob {
             }
             this.setDead();
         }
+        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
     }
 
     @Override

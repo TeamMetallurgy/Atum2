@@ -53,7 +53,8 @@ public class ItemLoot extends Item {
             for (Quality quality : Quality.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
                 Type type = Type.byString(item.getRegistryName().getResourcePath().replace("loot_", "").replace(quality.getName(), "").replace("_", ""));
-                return type != null ? type : Type.IDOL;
+                if (type != null)
+                    return type;
             }
         }
         return Type.IDOL;
