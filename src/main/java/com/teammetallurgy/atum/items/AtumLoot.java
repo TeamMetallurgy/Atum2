@@ -26,7 +26,6 @@ public class AtumLoot {
 
     @Nonnull
     public static ItemStack getRandomArtifact() {
-
         int i = (new Random()).nextInt(artifacts.size());
         return artifacts.get(i).copy();
     }

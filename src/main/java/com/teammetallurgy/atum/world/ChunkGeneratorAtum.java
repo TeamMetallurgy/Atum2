@@ -53,7 +53,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         {
             caveGenerator = TerrainGen.getModdedMapGen(caveGenerator, InitMapGenEvent.EventType.CAVE);
             ravineGenerator = TerrainGen.getModdedMapGen(ravineGenerator, InitMapGenEvent.EventType.RAVINE);
-            mineshaftGenerator = (MapGenMineshaft) net.minecraftforge.event.terraingen.TerrainGen.getModdedMapGen(mineshaftGenerator, InitMapGenEvent.EventType.MINESHAFT);
+            mineshaftGenerator = (MapGenMineshaft) TerrainGen.getModdedMapGen(mineshaftGenerator, InitMapGenEvent.EventType.MINESHAFT);
         }
         this.world = world;
         this.mapFeaturesEnabled = mapFeaturesEnabled;
@@ -78,6 +78,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         if (generatorOptions != null) {
             this.settings = ChunkGeneratorSettings.Factory.jsonToFactory(generatorOptions).build();
         }
+        world.setSeaLevel(63);
 
         InitNoiseGensEvent.ContextOverworld ctx = new InitNoiseGensEvent.ContextOverworld(minLimitPerlinNoise, maxLimitPerlinNoise, mainPerlinNoise, surfaceNoise, scaleNoise, depthNoise, forestNoise);
         ctx = TerrainGen.getModdedNoiseGenerators(world, this.rand, ctx);

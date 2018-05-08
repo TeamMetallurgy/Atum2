@@ -1,7 +1,11 @@
 package com.teammetallurgy.atum.items;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -30,10 +34,6 @@ public class ItemLoot extends Item {
         return new ItemStack(getLootItem(Type.byIndex(type), Quality.byIndex(quality)));
     }
 
-    public static Item getLootItem(Type type, Quality quality) {
-        return Item.REGISTRY.getObject(new ResourceLocation("loot." + quality.getName() + "." + type.getName()));
-    }
-
     public static void createLootItems() {
         for (Type type : Type.values()) {
             for (Quality quality : Quality.values()) {
@@ -42,21 +42,35 @@ public class ItemLoot extends Item {
         }
     }
 
+    public static Item getLootItem(Type type, Quality quality) {
+        return Item.REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName("loot." + quality.getName() + "." + type.getName())));
+    }
+
+    public static Type getType(Item item) {
+        if (!(item instanceof ItemLoot)) {
+            Atum.LOG.error("Item is not a loot artifact");
+        } else {
+            for (Quality quality : Quality.values()) {
+                Preconditions.checkNotNull(item.getRegistryName(), "registryName");
+                Type type = Type.byString(item.getRegistryName().getResourcePath().replace("loot_", "").replace(quality.getName(), "").replace("_", ""));
+                return type != null ? type : Type.IDOL;
+            }
+        }
+        return Type.IDOL;
+    }
+
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
         Block block = entityItem.world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ))).getBlock();
         if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
-            ItemStack item = entityItem.getItem();
-            int damage = item.getItemDamage() >> 1;
-            int quality = damage & 15;
-            if (quality == 0) {
-                damage |= (int) (Math.random() * 6.0D) + 1;
+            ItemStack stack = entityItem.getItem();
+
+            if (String.valueOf(stack.getItem().getRegistryName()).contains("dirty")) {
+                int quality = new Random().ints(2, Quality.values().length).findAny().getAsInt();
+                Item item = getLootItem(getType(stack.getItem()), Quality.byIndex(quality));
+                entityItem.setItem(new ItemStack(item));
             }
-
-            item.setItemDamage(damage << 1);
-            entityItem.setItem(item);
         }
-
         return super.onEntityItemUpdate(entityItem);
     }
 
@@ -83,6 +97,15 @@ public class ItemLoot extends Item {
         public static Type byIndex(int index) {
             Type type = INDEX_LOOKUP.get(index);
             return type == null ? IDOL : type;
+        }
+
+        public static Type byString(String name) {
+            for (Type type : Type.values()) {
+                if (type.getName().equals(name)) {
+                    return type;
+                }
+            }
+            return null;
         }
 
         @Override
@@ -124,7 +147,6 @@ public class ItemLoot extends Item {
             Quality quality = INDEX_LOOKUP.get(index);
             return quality == null ? DIRTY : quality;
         }
-
 
         @Override
         @Nonnull

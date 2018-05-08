@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.*;
 import com.teammetallurgy.atum.world.biome.AtumBiome.AtumBiomeProperties;
+import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -24,6 +25,7 @@ public class AtumBiomes {
     public static void registerBiomes() {
         for (AtumBiome biome : AtumRegistry.BIOMES) {
             ForgeRegistries.BIOMES.register(biome);
+            BiomeDictionary.addTypes(biome, BiomeDictionary.Type.HOT);
         }
     }
 }
