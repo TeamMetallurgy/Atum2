@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity;
 
-import com.teammetallurgy.atum.entity.ai.EntityAIAttackRangedBowBandit;
+import com.teammetallurgy.atum.entity.ai.AtumEntityAIAttackRangedBow;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     protected static final DataParameter<Boolean> canShoot = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.BOOLEAN);
-    private EntityAIAttackRangedBowBandit aiArrowAttack = new EntityAIAttackRangedBowBandit(this, 1.0D, 20, 15.0F);
+    private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 1.0D, 20, 15.0F);
     private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.2D, false) {
         @Override
         public void resetTask() {

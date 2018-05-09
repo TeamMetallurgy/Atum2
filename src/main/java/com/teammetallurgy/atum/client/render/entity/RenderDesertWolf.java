@@ -11,10 +11,12 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
-    private static final ResourceLocation tamedDesertWolfTextures = new ResourceLocation(Constants.MOD_ID + ":" + "textures/entities/desert_wolf_tame.png");
-    private static final ResourceLocation angryDesertWolfTextures = new ResourceLocation(Constants.MOD_ID + ":" + "textures/entities/desert_wolf_angry.png");
+    private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entities/desert_wolf_tame.png");
+    private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entities/desert_wolf_angry.png");
 
     public RenderDesertWolf(RenderManager renderManager, ModelBase modelBase, float shadowSize) {
         super(renderManager, modelBase, shadowSize);
@@ -27,17 +29,16 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     }
 
     @Override
-    public void doRender(EntityDesertWolf entityDesertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nonnull EntityDesertWolf entityDesertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
         if (entityDesertWolf.isWolfWet()) {
             float f = entityDesertWolf.getBrightness() * entityDesertWolf.getShadingWhileWet(partialTicks);
             GlStateManager.color(f, f, f);
         }
-
         super.doRender(entityDesertWolf, x, y, z, entityYaw, partialTicks);
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityDesertWolf entityDesertWolf) {
-        return entityDesertWolf.isAngry() ? angryDesertWolfTextures : tamedDesertWolfTextures;
+    protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf entityDesertWolf) {
+        return entityDesertWolf.isAngry() ? TAMED_DESERT_WOLF_TEXTURES : ANGRY_DESERT_WOLF_TEXTURES;
     }
 }
