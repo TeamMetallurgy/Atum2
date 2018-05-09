@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
@@ -168,7 +169,7 @@ public class EntityArrowExplosive extends CustomArrow {
     }
 
     @Override
-    public String getTexture() {
-        return Constants.MOD_ID + ":" + "textures/projectiles/arrows_exploding.png";
+    public ResourceLocation getTexture() {
+        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_exploding.png");
     }
 }

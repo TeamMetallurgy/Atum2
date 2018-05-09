@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.arrow;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityArrowPoison extends CustomArrow {
@@ -20,7 +21,7 @@ public class EntityArrowPoison extends CustomArrow {
     }
 
     @Override
-    public String getTexture() {
-        return Constants.MOD_ID + ":" + "textures/projectiles/arrows_poison.png";
+    public ResourceLocation getTexture() {
+        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_poison.png");
     }
 }

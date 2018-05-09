@@ -83,7 +83,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         return livingdata;
     }
 
-    public void setCombatTask() {
+    private void setCombatTask() {
         if (this.world != null && !this.world.isRemote) {
             this.tasks.removeTask(this.aiAttackOnCollide);
             this.tasks.removeTask(this.aiArrowAttack);

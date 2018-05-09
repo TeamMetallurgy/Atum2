@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.IThrowableEntity;
 
@@ -48,7 +49,7 @@ public class CustomArrow extends EntityArrow implements IThrowableEntity {
         shootingEntity = entity;
     }
 
-    public String getTexture() {
-        return "minecraft:arrow";
+    public ResourceLocation getTexture() {
+        return new ResourceLocation("minecraft", "arrow");
     }
 }

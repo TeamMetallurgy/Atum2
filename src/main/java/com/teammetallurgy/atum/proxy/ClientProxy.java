@@ -86,7 +86,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {
-                return new ResourceLocation((entity).getTexture());
+                return entity.getTexture();
             }
         });
         RenderingRegistry.registerEntityRenderingHandler(EntitySmallBone.class, manager -> new RenderBone(manager, 0.35F));

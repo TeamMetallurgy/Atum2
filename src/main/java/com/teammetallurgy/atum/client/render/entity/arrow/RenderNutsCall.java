@@ -52,6 +52,6 @@ public class RenderNutsCall extends Render<EntityNutsCall> {
 
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityNutsCall nutsCall) {
-        return new ResourceLocation(Constants.MOD_ID + ":" + "textures/projectiles/nutscall.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/nutscall.png");
     }
 }

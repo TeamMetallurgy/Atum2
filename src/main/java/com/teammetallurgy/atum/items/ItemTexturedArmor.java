@@ -7,6 +7,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
@@ -35,6 +36,6 @@ public class ItemTexturedArmor extends ItemArmor {
 
     @Override
     public String getArmorTexture(@Nonnull ItemStack stack, Entity entity, EntityEquipmentSlot slot, String type) {
-        return Constants.MOD_ID + ":" + "textures/armor/" + this.textureFile + ".png";
+        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/armor/" + this.textureFile + ".png"));
     }
 }
