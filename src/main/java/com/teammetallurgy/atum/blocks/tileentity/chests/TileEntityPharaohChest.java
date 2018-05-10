@@ -1,19 +1,22 @@
 package com.teammetallurgy.atum.blocks.tileentity.chests;
 
-import com.teammetallurgy.atum.entity.EntityMummy;
+import com.teammetallurgy.atum.blocks.BlockPharaohChest;
 import com.teammetallurgy.atum.entity.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumSounds;
+import com.teammetallurgy.atum.utils.AtumUtils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 
 public class TileEntityPharaohChest extends TileEntityChest implements IInventory {
     private boolean hasSpawned = false;
@@ -22,7 +25,6 @@ public class TileEntityPharaohChest extends TileEntityChest implements IInventor
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-
         this.hasSpawned = compound.getBoolean("spawned");
         this.isOpenable = compound.getBoolean("openable");
     }
@@ -31,7 +33,6 @@ public class TileEntityPharaohChest extends TileEntityChest implements IInventor
     @Nonnull
     public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         super.writeToNBT(compound);
-
         compound.setBoolean("spawned", this.hasSpawned);
         compound.setBoolean("openable", this.isOpenable);
 
@@ -53,39 +54,25 @@ public class TileEntityPharaohChest extends TileEntityChest implements IInventor
     }
 
     public void spawn(EntityPlayer player) {
-        EntityPharaoh pharaoh = new EntityPharaoh(super.world);
-        pharaoh.setPosition((double) this.pos.getX() + 0.5D, (double) (this.pos.getX() + 1), (double) this.pos.getX() + 0.5D);
-        pharaoh.link(this.pos);
-        if (!super.world.isRemote) {
-            super.world.spawnEntity(pharaoh);
+        EntityPharaoh pharaoh = new EntityPharaoh(this.world, true);
+        pharaoh.setPosition(pos.getX(), pos.getY(), pos.getZ());
+        pharaoh.setSarcophagusPos(pos);
+        if (!this.world.isRemote) {
+            this.world.spawnEntity(pharaoh);
         }
-
         pharaoh.spawnExplosionParticle();
         this.hasSpawned = true;
-        EntityMummy mummy1 = new EntityMummy(super.world);
-        mummy1.setPosition((double) this.pos.getX() + 0.5D, (double) this.pos.getX(), (double) this.pos.getX() - 0.5D);
-        if (!super.world.isRemote) {
-            super.world.spawnEntity(mummy1);
-        }
 
-        mummy1.spawnExplosionParticle();
-        EntityMummy mummy2 = new EntityMummy(super.world);
-        mummy2.setPosition((double) this.pos.getX() + 0.5D, (double) this.pos.getX(), (double) this.pos.getX() + 1.5D);
-        if (!super.world.isRemote) {
-            super.world.spawnEntity(mummy2);
-        }
+        IBlockState state = world.getBlockState(pos);
+        EnumFacing facing = state.getValue(BlockPharaohChest.FACING);
+        pharaoh.trySpawnMummy(pos.offset(facing.rotateY()));
+        pharaoh.trySpawnMummy(pos.offset(facing.rotateYCCW()));
 
-        mummy2.spawnExplosionParticle();
         if (!this.world.isRemote) {
-            List<EntityPlayerMP> players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
-
-            for (EntityPlayerMP p : players) {
-                p.sendMessage(new TextComponentTranslation(pharaoh.getName() + " " + "chat.atum.summonPharaoh" + " " + player.getGameProfile().getName()));
+            for (EntityPlayerMP playerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+                playerMP.sendMessage(new TextComponentString(TextFormatting.YELLOW + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
             }
-        }
-
-        if (!this.world.isRemote) {
-            this.world.playSound(player, player.getPosition(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 1.0F, 1.0F);
+            this.world.playSound(null, player.getPosition(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
 
     }

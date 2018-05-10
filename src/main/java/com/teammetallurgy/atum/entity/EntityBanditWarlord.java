@@ -7,10 +7,13 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.BossInfo;
+import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityBanditWarlord extends EntityBanditBase {
+    private final BossInfoServer bossInfo = (BossInfoServer)(new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
 
     public EntityBanditWarlord(World world) {
         super(world);
@@ -23,7 +26,7 @@ public class EntityBanditWarlord extends EntityBanditBase {
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.53000000417232513D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
     @Override
@@ -36,16 +39,16 @@ public class EntityBanditWarlord extends EntityBanditBase {
     protected void setEnchantmentBasedOnDifficulty(DifficultyInstance difficulty) {
         float f = difficulty.getClampedAdditionalDifficulty();
 
-        if (this.getHeldItemMainhand() != null && this.rand.nextFloat() < 0.25F * f) {
+        if (!this.getHeldItemMainhand().isEmpty() && this.rand.nextFloat() < 0.25F * f) {
             EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItemMainhand(), (int) (5.0F + f * (float) this.rand.nextInt(6)), false);
         }
 
         for (EntityEquipmentSlot entityequipmentslot : EntityEquipmentSlot.values()) {
             if (entityequipmentslot.getSlotType() == EntityEquipmentSlot.Type.ARMOR) {
-                ItemStack itemstack = this.getItemStackFromSlot(entityequipmentslot);
+                ItemStack stack = this.getItemStackFromSlot(entityequipmentslot);
 
-                if (itemstack != null && this.rand.nextFloat() < 0.5F * f) {
-                    EnchantmentHelper.addRandomEnchantment(this.rand, itemstack, (int) (5.0F + f * (float) this.rand.nextInt(18)), false);
+                if (!stack.isEmpty() && this.rand.nextFloat() < 0.5F * f) {
+                    EnchantmentHelper.addRandomEnchantment(this.rand, stack, (int) (5.0F + f * (float) this.rand.nextInt(18)), false);
                 }
             }
         }
