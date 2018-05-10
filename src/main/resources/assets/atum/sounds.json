@@ -1,0 +1,9 @@
+{
+    "pharaohspawn": {
+        "category": "hostile",
+        "sounds": [
+            "atum:pharaohspawn"
+        ],
+        "subtitle": "atum:subtitles.pharaohspawn"
+    }
+}

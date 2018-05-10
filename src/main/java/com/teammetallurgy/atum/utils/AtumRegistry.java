@@ -18,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
@@ -37,6 +38,7 @@ public class AtumRegistry {
     public static final NonNullList<AtumBiome> BIOMES = NonNullList.create();
     private static final NonNullList<EntityEntry> MOBS = NonNullList.create();
     private static final NonNullList<EntityEntry> ENTITIES = NonNullList.create();
+    private static final NonNullList<SoundEvent> SOUNDS = NonNullList.create();
     //Entity tracking values
     private static int trackingRange;
     private static int updateFrequency;
@@ -169,6 +171,14 @@ public class AtumRegistry {
         return biome;
     }
 
+    public static SoundEvent registerSound(String name) {
+        ResourceLocation resourceLocation = new ResourceLocation(Constants.MOD_ID, name);
+        SoundEvent sound = new SoundEvent(resourceLocation);
+        sound.setRegistryName(resourceLocation);
+        SOUNDS.add(sound);
+        return sound;
+    }
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         AtumItems.registerItems();
@@ -208,6 +218,13 @@ public class AtumRegistry {
                     .tracker(trackingRange, updateFrequency, sendsVelocityUpdates)
                     .name(AtumUtils.toUnlocalizedName(entry.getName()))
                     .build());
+        }
+    }
+
+    @SubscribeEvent
+    public static void registerSound(RegistryEvent.Register<SoundEvent> event) {
+        for (SoundEvent sound : SOUNDS) {
+            event.getRegistry().register(sound);
         }
     }
 }

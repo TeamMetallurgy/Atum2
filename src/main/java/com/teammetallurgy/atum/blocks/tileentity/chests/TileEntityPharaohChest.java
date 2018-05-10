@@ -2,11 +2,13 @@ package com.teammetallurgy.atum.blocks.tileentity.chests;
 
 import com.teammetallurgy.atum.entity.EntityMummy;
 import com.teammetallurgy.atum.entity.EntityPharaoh;
+import com.teammetallurgy.atum.init.AtumSounds;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -74,7 +76,7 @@ public class TileEntityPharaohChest extends TileEntityChest implements IInventor
         }
 
         mummy2.spawnExplosionParticle();
-        if (!super.world.isRemote) {
+        if (!this.world.isRemote) {
             List<EntityPlayerMP> players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
 
             for (EntityPlayerMP p : players) {
@@ -82,8 +84,8 @@ public class TileEntityPharaohChest extends TileEntityChest implements IInventor
             }
         }
 
-        if (!super.world.isRemote) {
-            //super.world.playSound(pharaoh, "Atum.pharaohspawn", 1.0F, 1.0F); //TODO Fix custom sound
+        if (!this.world.isRemote) {
+            this.world.playSound(player, player.getPosition(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
 
     }
