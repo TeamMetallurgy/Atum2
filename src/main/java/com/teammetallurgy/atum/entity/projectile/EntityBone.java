@@ -1,13 +1,11 @@
 package com.teammetallurgy.atum.entity.projectile;
 
-import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -19,24 +17,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 public abstract class EntityBone extends Entity {
-    private int xTile = -1;
-    private int yTile = -1;
-    private int zTile = -1;
-    private Block inTile;
-    private boolean inGround;
-    public EntityLivingBase shootingEntity;
+    EntityLivingBase shootingEntity;
     private int ticksAlive;
     private int ticksInAir;
-    public double accelerationX;
-    public double accelerationY;
-    public double accelerationZ;
+    private double accelerationX;
+    private double accelerationY;
+    private double accelerationZ;
 
-    public EntityBone(World world) {
+    EntityBone(World world) {
         super(world);
         this.setSize(1.0F, 1.0F);
     }
 
-    public EntityBone(World world, double x, double y, double z, double accelX, double accelY, double accelZ) {
+    EntityBone(World world, double x, double y, double z, double accelX, double accelY, double accelZ) {
         super(world);
         this.setSize(1.0F, 1.0F);
         this.setLocationAndAngles(x, y, z, this.rotationYaw, this.rotationPitch);
@@ -47,13 +40,15 @@ public abstract class EntityBone extends Entity {
         this.accelerationZ = accelZ / d0 * 0.1D;
     }
 
-    public EntityBone(World world, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+    EntityBone(World world, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
         super(world);
         this.shootingEntity = shooter;
         this.setSize(1.0F, 1.0F);
         this.setLocationAndAngles(shooter.posX, shooter.posY, shooter.posZ, shooter.rotationYaw, shooter.rotationPitch);
         this.setPosition(this.posX, this.posY, this.posZ);
-        this.motionX = this.motionY = this.motionZ = 0.0D;
+        this.motionX = 0.0D;
+        this.motionY = 0.0D;
+        this.motionZ = 0.0D;
         accelX = accelX + this.rand.nextGaussian() * 0.4D;
         accelY = accelY + this.rand.nextGaussian() * 0.4D;
         accelZ = accelZ + this.rand.nextGaussian() * 0.4D;
@@ -75,8 +70,8 @@ public abstract class EntityBone extends Entity {
         if (Double.isNaN(d0)) {
             d0 = 4.0D;
         }
-        d0 = d0 * 64.0D;
 
+        d0 = d0 * 64.0D;
         return distance < d0 * d0;
     }
 
@@ -84,40 +79,18 @@ public abstract class EntityBone extends Entity {
     public void onUpdate() {
         if (this.world.isRemote || (this.shootingEntity == null || !this.shootingEntity.isDead) && this.world.isBlockLoaded(new BlockPos(this))) {
             super.onUpdate();
+            ++this.ticksInAir;
+            RayTraceResult raytraceresult = ProjectileHelper.forwardsRaycast(this, true, this.ticksInAir >= 25, this.shootingEntity);
 
-            if (this.inGround) {
-                if (this.world.getBlockState(new BlockPos(this.xTile, this.yTile, this.zTile)).getBlock() == this.inTile) {
-                    ++this.ticksAlive;
-
-                    if (this.ticksAlive == 600) {
-                        this.setDead();
-                    }
-
-                    return;
-                }
-
-
-                this.inGround = false;
-                this.motionX *= (double) (this.rand.nextFloat() * 0.2F);
-                this.motionY *= (double) (this.rand.nextFloat() * 0.2F);
-                this.motionZ *= (double) (this.rand.nextFloat() * 0.2F);
-                this.ticksAlive = 0;
-                this.ticksInAir = 0;
-            } else {
-                ++this.ticksInAir;
-            }
-
-            RayTraceResult rayTraceResult = ProjectileHelper.forwardsRaycast(this, true, this.ticksInAir >= 25, this.shootingEntity);
-
-            if (rayTraceResult != null) {
-                this.onImpact(rayTraceResult);
+            if (raytraceresult != null && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult)) {
+                this.onImpact(raytraceresult);
             }
 
             this.posX += this.motionX;
             this.posY += this.motionY;
             this.posZ += this.motionZ;
             ProjectileHelper.rotateTowardsMovement(this, 0.2F);
-            float f = this.getMotionFactor();
+            float f = 0.95F;
 
             this.motionX += this.accelerationX;
             this.motionY += this.accelerationY;
@@ -131,20 +104,10 @@ public abstract class EntityBone extends Entity {
         }
     }
 
-    private float getMotionFactor() {
-        return 0.95F;
-    }
-
     protected abstract void onImpact(RayTraceResult result);
 
     @Override
     public void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
-        compound.setInteger("xTile", this.xTile);
-        compound.setInteger("yTile", this.yTile);
-        compound.setInteger("zTile", this.zTile);
-        ResourceLocation resourceLocation = Block.REGISTRY.getNameForObject(this.inTile);
-        compound.setString("inTile", resourceLocation == null ? "" : resourceLocation.toString());
-        compound.setByte("inGround", (byte) (this.inGround ? 1 : 0));
         compound.setTag("direction", this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
         compound.setTag("power", this.newDoubleNBTList(this.accelerationX, this.accelerationY, this.accelerationZ));
         compound.setInteger("life", this.ticksAlive);
@@ -152,18 +115,6 @@ public abstract class EntityBone extends Entity {
 
     @Override
     public void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-        this.xTile = compound.getInteger("xTile");
-        this.yTile = compound.getInteger("yTile");
-        this.zTile = compound.getInteger("zTile");
-
-        if (compound.hasKey("inTile", 8)) {
-            this.inTile = Block.getBlockFromName(compound.getString("inTile"));
-        } else {
-            this.inTile = Block.getBlockById(compound.getByte("inTile") & 255);
-        }
-
-        this.inGround = compound.getByte("inGround") == 1;
-
         if (compound.hasKey("power", 9)) {
             NBTTagList nbttaglist = compound.getTagList("power", 6);
 
@@ -218,6 +169,7 @@ public abstract class EntityBone extends Entity {
                 if (source.getTrueSource() instanceof EntityLivingBase) {
                     this.shootingEntity = (EntityLivingBase) source.getTrueSource();
                 }
+
                 return true;
             } else {
                 return false;

@@ -7,8 +7,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerEntity;
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerMob;
+import static com.teammetallurgy.atum.utils.AtumRegistry.*;
 
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumEntities {
@@ -26,13 +25,13 @@ public class AtumEntities {
     public static final EntityEntry BONESTORM = registerMob(EntityBonestorm.class, 0xFFFFFF, 0xFFFFFF);
 
     //Entities
-    public static final EntityEntry VELOCITY_ARROW = registerEntity(EntityArrowVelocity.class);
-    public static final EntityEntry EXPLOSIVE_ARROW = registerEntity(EntityArrowExplosive.class);
-    public static final EntityEntry POISON_ARROW = registerEntity(EntityArrowPoison.class);
-    public static final EntityEntry FIRE_ARROW = registerEntity(EntityArrowFire.class);
-    public static final EntityEntry DOUBLE_SHOT_ARROW = registerEntity(EntityArrowDoubleShot.class);
-    public static final EntityEntry QUICKDRAW_ARROW = registerEntity(EntityArrowQuickdraw.class);
-    public static final EntityEntry NUTS_CALL = registerEntity(EntityNutsCall.class);
+    public static final EntityEntry VELOCITY_ARROW = registerArrow(EntityArrowVelocity.class);
+    public static final EntityEntry EXPLOSIVE_ARROW = registerArrow(EntityArrowExplosive.class);
+    public static final EntityEntry POISON_ARROW = registerArrow(EntityArrowPoison.class);
+    public static final EntityEntry FIRE_ARROW = registerArrow(EntityArrowFire.class);
+    public static final EntityEntry DOUBLE_SHOT_ARROW = registerArrow(EntityArrowDoubleShot.class);
+    public static final EntityEntry QUICKDRAW_ARROW = registerArrow(EntityArrowQuickdraw.class);
+    public static final EntityEntry NUTS_CALL = registerArrow(EntityNutsCall.class);
     //public static final EntityEntry FISH_HOOK = registerEntity(EntityAtumFishHook.class); //TODO
-    public static final EntityEntry SMALL_BONE = registerEntity(EntitySmallBone.class);
+    public static final EntityEntry SMALL_BONE = registerEntity(EntitySmallBone.class, 64, 10, true);
 }

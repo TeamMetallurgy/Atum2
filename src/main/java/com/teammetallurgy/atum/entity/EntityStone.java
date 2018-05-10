@@ -2,7 +2,9 @@ package com.teammetallurgy.atum.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
@@ -12,13 +14,31 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class EntityStone extends EntityMob {
 
-    public EntityStone(World world) {
+    EntityStone(World world) {
         super(world);
     }
 
     @Override
+    protected void initEntityAI() {
+        this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(8, new EntityAILookIdle(this));
+        applyEntityAI();
+    }
+
+    protected void applyEntityAI() {
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
+    }
+
+    @Override
+    @Nonnull
     public EnumCreatureAttribute getCreatureAttribute() {
         return EnumCreatureAttribute.UNDEFINED;
     }
@@ -26,7 +46,7 @@ public class EntityStone extends EntityMob {
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.BLOCK_STONE_PLACE;
-    } //TODO Check how the sounds is
+    }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
@@ -39,6 +59,7 @@ public class EntityStone extends EntityMob {
     }
 
     @Override
+    @Nonnull
     protected SoundEvent getFallSound(int height) {
         return height > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.BLOCK_STONE_FALL;
     }
@@ -55,7 +76,7 @@ public class EntityStone extends EntityMob {
     }
 
     @Override
-    public boolean isPotionApplicable(PotionEffect potioneffect) {
-        return potioneffect.getPotion() != MobEffects.POISON;
+    public boolean isPotionApplicable(@Nonnull PotionEffect effect) {
+        return effect.getPotion() != MobEffects.POISON;
     }
 }

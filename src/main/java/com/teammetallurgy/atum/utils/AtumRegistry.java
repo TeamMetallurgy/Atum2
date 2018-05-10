@@ -37,6 +37,10 @@ public class AtumRegistry {
     public static final NonNullList<AtumBiome> BIOMES = NonNullList.create();
     private static final NonNullList<EntityEntry> MOBS = NonNullList.create();
     private static final NonNullList<EntityEntry> ENTITIES = NonNullList.create();
+    //Entity tracking values
+    private static int trackingRange;
+    private static int updateFrequency;
+    private static boolean sendsVelocityUpdates;
 
     /**
      * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs)}, but have CreativeTab set by default
@@ -132,15 +136,28 @@ public class AtumRegistry {
     }
 
     /**
+     * Registers arrows.
+     *
+     * @param entityClass The arrow entity class
+     * @return The EntityEntry that was registered
+     */
+    public static EntityEntry registerArrow(@Nonnull Class<? extends Entity> entityClass) {
+        return registerEntity(entityClass, 64, 20, false);
+    }
+
+    /**
      * Registers any kind of entity, that is not a mob.
      *
      * @param entityClass The entity class
      * @return The EntityEntry that was registered
      */
-    public static EntityEntry registerEntity(@Nonnull Class<? extends Entity> entityClass) {
+    public static EntityEntry registerEntity(@Nonnull Class<? extends Entity> entityClass, int range, int updateFreq, boolean sendVelocityUpdates) {
         ResourceLocation location = new ResourceLocation(Constants.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
         EntityEntry entry = new EntityEntry(entityClass, location.toString());
         entry.setRegistryName(location);
+        trackingRange = range;
+        updateFrequency = updateFreq;
+        sendsVelocityUpdates = sendVelocityUpdates;
         ENTITIES.add(entry);
 
         return entry;
@@ -169,24 +186,26 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
-        int networkId = 0;
+        int networkIdMob = 0;
         for (EntityEntry entry : MOBS) {
             Preconditions.checkNotNull(entry.getRegistryName(), "registryName");
-            networkId++;
+            networkIdMob++;
             event.getRegistry().register(EntityEntryBuilder.create()
                     .entity(entry.getEntityClass())
-                    .id(entry.getRegistryName(), networkId)
+                    .id(entry.getRegistryName(), networkIdMob)
                     .name(AtumUtils.toUnlocalizedName(entry.getName()))
-                    .tracker(64, 1, true)
+                    .tracker(80, 3, true)
                     .egg(entry.getEgg().primaryColor, entry.getEgg().secondaryColor)
                     .build());
         }
+        int networkIdEntity = MOBS.size() + 1;
         for (EntityEntry entry : ENTITIES) {
             Preconditions.checkNotNull(entry.getRegistryName(), "registryName");
-            networkId++;
+            networkIdEntity++;
             event.getRegistry().register(EntityEntryBuilder.create()
                     .entity(entry.getEntityClass())
-                    .id(entry.getRegistryName(), networkId)
+                    .id(entry.getRegistryName(), networkIdEntity)
+                    .tracker(trackingRange, updateFrequency, sendsVelocityUpdates)
                     .name(AtumUtils.toUnlocalizedName(entry.getName()))
                     .build());
         }

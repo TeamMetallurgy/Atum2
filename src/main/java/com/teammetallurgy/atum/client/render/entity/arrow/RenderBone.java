@@ -15,6 +15,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+
 @SideOnly(Side.CLIENT)
 public class RenderBone extends Render<EntityBone> {
     private float scale;
@@ -25,7 +27,7 @@ public class RenderBone extends Render<EntityBone> {
     }
 
     @Override
-    public void doRender(EntityBone entityBone, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nonnull EntityBone entityBone, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
         this.bindEntityTexture(entityBone);
         GlStateManager.translate((float) x, (float) y, (float) z);
@@ -64,7 +66,7 @@ public class RenderBone extends Render<EntityBone> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(EntityBone entityBone) {
+    protected ResourceLocation getEntityTexture(@Nonnull EntityBone entityBone) {
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }

@@ -5,6 +5,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class EntitySmallBone extends EntityBone {
 
     public EntitySmallBone(World worldIn) {
@@ -23,7 +25,7 @@ public class EntitySmallBone extends EntityBone {
     }
 
     @Override
-    protected void onImpact(RayTraceResult result) {
+    protected void onImpact(@Nonnull RayTraceResult result) {
         if (!this.world.isRemote) {
             if (result.entityHit != null) {
                 boolean flag = result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), 2.0F);
@@ -42,7 +44,7 @@ public class EntitySmallBone extends EntityBone {
     }
 
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount) {
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
         return false;
     }
 }
