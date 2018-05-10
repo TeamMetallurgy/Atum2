@@ -27,12 +27,6 @@ public class EntityWraith extends EntityUndeadBase {
 
         cycleTime = (int) ((Math.random() * 40) + 80);
         cycleHeight = (int) (Math.random() * cycleTime);
-
-        this.setAlwaysRenderNameTag(false); //Renders nameTag by default for some reason
-    }
-
-    @Override
-    public void setCustomNameTag(@Nonnull String name) {
     }
 
     @Override
@@ -43,7 +37,7 @@ public class EntityWraith extends EntityUndeadBase {
 
     protected void applyEntityAI() {
         super.applyEntityAI();
-        //this.targetTasks.addTask(1, new EntityWraith.AIWraithTarget<>(this, EntityPlayer.class));
+        this.targetTasks.addTask(1, new EntityWraith.AIWraithTarget<>(this, EntityPlayer.class));
     }
 
     @Override
