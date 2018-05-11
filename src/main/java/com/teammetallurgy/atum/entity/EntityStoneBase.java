@@ -20,6 +20,7 @@ public class EntityStoneBase extends EntityMob {
 
     EntityStoneBase(World world) {
         super(world);
+        this.isImmuneToFire = true;
     }
 
     @Override
@@ -35,6 +36,11 @@ public class EntityStoneBase extends EntityMob {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
+    }
+
+    @Override
+    public boolean isPotionApplicable(@Nonnull PotionEffect potionEffect) {
+        return potionEffect.getPotion() != MobEffects.POISON && super.isPotionApplicable(potionEffect);
     }
 
     @Override
@@ -73,10 +79,5 @@ public class EntityStoneBase extends EntityMob {
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor(this.getEntityBoundingBox().minY);
         return i <= 62 && super.getCanSpawnHere();
-    }
-
-    @Override
-    public boolean isPotionApplicable(@Nonnull PotionEffect effect) {
-        return effect.getPotion() != MobEffects.POISON;
     }
 }

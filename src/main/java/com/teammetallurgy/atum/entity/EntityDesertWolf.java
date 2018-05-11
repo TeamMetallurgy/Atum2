@@ -51,6 +51,7 @@ public class EntityDesertWolf extends EntityTameable {
     private boolean isShaking;
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
+    private int angryTimer;
 
     public EntityDesertWolf(World world) {
         super(world);
@@ -181,16 +182,25 @@ public class EntityDesertWolf extends EntityTameable {
             this.prevTimeWolfIsShaking = 0.0F;
             this.world.setEntityState(this, (byte) 8);
         }
-
-        if (!this.world.isRemote && this.getAttackTarget() == null && this.isAngry()) {
-            this.setAngry(false);
-        }
     }
 
     @Override
     public void onUpdate() {
         super.onUpdate();
         this.headRotationCourseWild = this.headRotationCourse;
+        
+        if (angryTimer > 0) {
+            this.setAngry(false);
+            if (getAttackTarget() instanceof EntityPlayer) {
+                this.setAttackTarget(null);
+            }
+            if (!this.isAngry()) {
+                angryTimer--;
+            }
+            if (this.isTamed()) {
+                angryTimer = 0;
+            }
+        }
 
         if (this.isBegging()) {
             this.headRotationCourse += (1.0F - this.headRotationCourse) * 0.4F;
@@ -345,22 +355,26 @@ public class EntityDesertWolf extends EntityTameable {
                 this.navigator.clearPath();
                 this.setAttackTarget(null);
             }
-        } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE) && !this.isAngry()) {
+        } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE)) {
             if (!player.capabilities.isCreativeMode) {
                 heldStack.shrink(1);
             }
-            if (!this.world.isRemote) {
-                if (this.rand.nextInt(3) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
-                    this.setTamedBy(player);
-                    this.navigator.clearPath();
-                    this.setAttackTarget(null);
-                    this.aiSit.setSitting(true);
-                    this.setHealth(40.0F);
-                    this.playTameEffect(true);
-                    this.world.setEntityState(this, (byte) 7);
-                } else {
-                    this.playTameEffect(false);
-                    this.world.setEntityState(this, (byte) 6);
+            if (this.isAngry() && !world.isRemote) {
+                this.angryTimer = 200;
+            } else if (!this.isAngry() && angryTimer > 0) {
+                if (!this.world.isRemote) {
+                    if (this.rand.nextInt(2) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+                        this.setTamedBy(player);
+                        this.navigator.clearPath();
+                        this.setAttackTarget(null);
+                        this.aiSit.setSitting(true);
+                        this.setHealth(40.0F);
+                        this.playTameEffect(true);
+                        this.world.setEntityState(this, (byte) 7);
+                    } else {
+                        this.playTameEffect(false);
+                        this.world.setEntityState(this, (byte) 6);
+                    }
                 }
             }
             return true;
@@ -492,12 +506,16 @@ public class EntityDesertWolf extends EntityTameable {
         super.writeEntityToNBT(compound);
         compound.setBoolean("Angry", this.isAngry());
         compound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
+        if (angryTimer > 0) {
+            compound.setInteger("AngryTimer", angryTimer);
+        }
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.setAngry(compound.getBoolean("Angry"));
+        angryTimer = compound.getInteger("AngryTimer");
 
         if (compound.hasKey("CollarColor", 99)) {
             this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getByte("CollarColor")));

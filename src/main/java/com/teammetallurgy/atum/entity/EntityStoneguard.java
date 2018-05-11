@@ -20,7 +20,6 @@ public class EntityStoneguard extends EntityStoneBase {
 
     public EntityStoneguard(World world) {
         super(world);
-        this.isImmuneToFire = true;
         this.experienceValue = 8;
 
     }
