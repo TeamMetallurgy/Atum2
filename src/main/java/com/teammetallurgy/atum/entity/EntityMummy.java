@@ -79,7 +79,7 @@ public class EntityMummy extends EntityUndeadBase {
             }
             if (entity instanceof EntityLivingBase) {
                 EntityLivingBase base = (EntityLivingBase) entity;
-                base.addPotionEffect(new PotionEffect(MobEffects.WITHER, 40, 1));
+                base.addPotionEffect(new PotionEffect(MobEffects.WITHER, 80, 1));
             }
         }
 
