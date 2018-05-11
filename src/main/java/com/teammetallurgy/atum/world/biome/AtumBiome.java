@@ -46,15 +46,15 @@ public class AtumBiome extends Biome {
     }
 
     void addDefaultSpawns() {
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 4, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 6, 2, 2));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 4, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 4, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 6, 4, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 4, 4));
-        //super.spawnableMonsterList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 6, 4, 4));
-        super.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 6, 2, 2));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 4, 4));
     }
 
     @Override

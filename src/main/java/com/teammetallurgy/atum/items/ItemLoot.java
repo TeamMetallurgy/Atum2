@@ -28,7 +28,7 @@ public class ItemLoot extends Item {
     }
 
     @Nonnull
-    public static ItemStack getRandomLoot(Random random, boolean includeDirty) { //TODO Test
+    public static ItemStack getRandomLoot(Random random, boolean includeDirty) {
         int type = random.ints(includeDirty ? 1 : 2, Type.values().length).findAny().getAsInt();
         int quality = random.ints(includeDirty ? 1 : 2, Quality.values().length).findAny().getAsInt();
         return new ItemStack(getLootItem(Type.byIndex(type), Quality.byIndex(quality)));

@@ -87,8 +87,8 @@ public class TileEntityChestSpawner extends TileEntityChest {
                 return AtumEntities.WRAITH.getRegistryName();
             case 5:
                 return AtumEntities.STONEGUARD.getRegistryName();
-            /*case 6:
-                return AtumEntities.DESERT_WOLF.getRegistryName();*/ //TODO Renable when desert wolf is fixed
+            case 6:
+                return AtumEntities.DESERT_WOLF.getRegistryName();
             default:
                 return AtumEntities.FORSAKEN.getRegistryName();
         }

@@ -188,7 +188,7 @@ public class EntityDesertWolf extends EntityTameable {
     public void onUpdate() {
         super.onUpdate();
         this.headRotationCourseWild = this.headRotationCourse;
-        
+
         if (angryTimer > 0) {
             this.setAngry(false);
             if (getAttackTarget() instanceof EntityPlayer) {
