@@ -16,9 +16,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class EntityStone extends EntityMob {
+public class EntityStoneBase extends EntityMob {
 
-    EntityStone(World world) {
+    EntityStoneBase(World world) {
         super(world);
     }
 

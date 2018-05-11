@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
@@ -15,7 +16,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class EntityStoneguard extends EntityStone {
+public class EntityStoneguard extends EntityStoneBase {
 
     public EntityStoneguard(World world) {
         super(world);
@@ -25,12 +26,18 @@ public class EntityStoneguard extends EntityStone {
     }
 
     @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
+    }
+
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(80.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.53000000417232513D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
     @Override
@@ -93,7 +100,7 @@ public class EntityStoneguard extends EntityStone {
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
         if (this.rand.nextInt(4) == 0) {
-            this.dropItem(AtumItems.STONE_CHUNK, rand.nextInt(2) + 1);
+            this.dropItem(AtumItems.STONE_CHUNK, MathHelper.getInt(rand, 1, 2) + looting);
         }
     }
 }

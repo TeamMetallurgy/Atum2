@@ -1,11 +1,14 @@
 package com.teammetallurgy.atum.entity;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
@@ -17,12 +20,18 @@ public class EntityBrigand extends EntityBanditBase {
     }
 
     @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
+    }
+
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.53000000417232513D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
     @Override
@@ -43,20 +52,18 @@ public class EntityBrigand extends EntityBanditBase {
         for (int i = 0; i < this.inventoryArmorDropChances.length; ++i) {
             this.inventoryArmorDropChances[i] = 0F;
         }
-
         return livingdata;
     }
 
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
         if (rand.nextInt(20) == 0) {
-            ItemStack sctimitarStack = new ItemStack(AtumItems.SCIMITAR);
-            int damage = (int) (AtumItems.SCIMITAR.getMaxDamage(sctimitarStack) - rand.nextInt(AtumItems.SCIMITAR.getMaxDamage(sctimitarStack)) * 0.5 + 20);
-            this.entityDropItem(new ItemStack(AtumItems.SCIMITAR, 1, damage), 0.0F);
+            ItemStack scimitarStack = new ItemStack(AtumItems.SCIMITAR);
+            this.entityDropItem(new ItemStack(scimitarStack.getItem(), 1, MathHelper.getInt(rand, 20, scimitarStack.getMaxDamage())), 0.0F);
         }
 
         if (rand.nextInt(10) == 0) {
-            int amount = rand.nextInt(2) + 1;
+            int amount = MathHelper.getInt(rand, 1, 2) + looting;
             this.dropItem(Items.GOLD_NUGGET, amount);
         }
     }

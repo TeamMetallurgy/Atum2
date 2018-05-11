@@ -8,12 +8,14 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
@@ -22,23 +24,26 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
-    protected static final DataParameter<Boolean> canShoot = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(AbstractSkeleton.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> canShoot = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.BOOLEAN);
     private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 1.0D, 20, 15.0F);
-    private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.2D, false) {
+    private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.0D, false) {
         @Override
         public void resetTask() {
             super.resetTask();
-            EntityNomad.this.startShooting(false);
+            EntityNomad.this.setSwingingArms(false);
         }
 
         @Override
         public void startExecuting() {
             super.startExecuting();
-            EntityNomad.this.startShooting(true);
+            EntityNomad.this.setSwingingArms(true);
         }
     };
 
@@ -52,16 +57,17 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(25.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(canShoot, false);
+        this.dataManager.register(SWINGING_ARMS, Boolean.FALSE);
     }
 
     @Override
@@ -77,7 +83,6 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         this.tasks.addTask(4, this.aiArrowAttack);
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
-
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
         return livingdata;
@@ -87,9 +92,8 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         if (this.world != null && !this.world.isRemote) {
             this.tasks.removeTask(this.aiAttackOnCollide);
             this.tasks.removeTask(this.aiArrowAttack);
-            ItemStack heldStack = this.getHeldItemMainhand();
 
-            if (!heldStack.isEmpty() && heldStack.getItem() == AtumItems.SHORT_BOW) {
+            if (this.getHeldItemMainhand().getItem() instanceof ItemBow) {
                 this.tasks.addTask(4, this.aiArrowAttack);
             } else {
                 this.tasks.addTask(4, this.aiAttackOnCollide);
@@ -120,7 +124,6 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         if (EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FLAME, this) > 0) {
             entityarrow.setFire(100);
         }
-
         this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.spawnEntity(entityarrow);
     }
@@ -160,22 +163,28 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     protected void dropFewItems(boolean recentlyHit, int looting) {
         if (rand.nextInt(20) == 0) {
             ItemStack shortbowStack = new ItemStack(AtumItems.SHORT_BOW);
-            int damage = (int) (AtumItems.SHORT_BOW.getMaxDamage(shortbowStack) - rand.nextInt(AtumItems.SHORT_BOW.getMaxDamage(shortbowStack)) * 0.5 + 20);
-            this.entityDropItem(new ItemStack(AtumItems.SHORT_BOW, 1, damage), 0.0F);
+            this.entityDropItem(new ItemStack(shortbowStack.getItem(), 1, MathHelper.getInt(rand, 20, shortbowStack.getMaxDamage())), 0.0F);
         }
 
         if (rand.nextInt(10) == 0) {
-            int amount = rand.nextInt(2) + 1;
+            int amount = MathHelper.getInt(rand, 1, 2) + looting;
             this.dropItem(Items.GOLD_NUGGET, amount);
         }
 
         if (rand.nextInt(4) == 0) {
-            int amount = rand.nextInt(3) + 1;
+            int amount = MathHelper.getInt(rand, 1, 3) + looting;
             this.dropItem(Items.ARROW, amount);
         }
     }
 
-    @Override
-    public void setSwingingArms(boolean swingingArms) {
+    @SideOnly(Side.CLIENT)
+    public boolean isSwingingArms()
+    {
+        return ((Boolean)this.dataManager.get(SWINGING_ARMS)).booleanValue();
+    }
+
+    public void setSwingingArms(boolean swingingArms)
+    {
+        this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
     }
 }

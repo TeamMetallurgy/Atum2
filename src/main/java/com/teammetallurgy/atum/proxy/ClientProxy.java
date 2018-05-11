@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.proxy;
 import com.teammetallurgy.atum.blocks.IRenderMapper;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
+import com.teammetallurgy.atum.client.model.entity.ModelNomad;
 import com.teammetallurgy.atum.client.render.entity.RenderBonestorm;
 import com.teammetallurgy.atum.client.render.entity.RenderDesertWolf;
 import com.teammetallurgy.atum.client.render.entity.RenderGhost;
@@ -50,7 +51,7 @@ public class ClientProxy extends CommonProxy {
                 return new ResourceLocation(Constants.MOD_ID, "textures/entities/barbarian.png");
             }
         });
-        RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBiped<EntityNomad>(manager, new ModelBiped(), 0.5F) {
+        RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBiped<EntityNomad>(manager, new ModelNomad(), 0.5F) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull EntityNomad entity) {
                 return new ResourceLocation(Constants.MOD_ID, "textures/entities/nomad.png");

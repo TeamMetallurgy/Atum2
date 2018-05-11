@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -22,12 +23,18 @@ public class EntityBarbarian extends EntityBanditBase {
     }
 
     @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
+    }
+
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.53000000417232513D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
     @Override
@@ -37,8 +44,8 @@ public class EntityBarbarian extends EntityBanditBase {
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingData) {
+        livingData = super.onInitialSpawn(difficulty, livingData);
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
@@ -46,22 +53,20 @@ public class EntityBarbarian extends EntityBanditBase {
         for (int i = 0; i < this.inventoryArmorDropChances.length; ++i) {
             this.inventoryArmorDropChances[i] = 0F;
         }
-
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
-        return livingdata;
+        return livingData;
     }
 
     @Override
     protected void dropFewItems(boolean recentlyHit, int looting) {
         if (rand.nextInt(20) == 0) {
             ItemStack greatswordStack = new ItemStack(AtumItems.GREATSWORD);
-            int damage = (int) (AtumItems.GREATSWORD.getMaxDamage(greatswordStack) - rand.nextInt(AtumItems.GREATSWORD.getMaxDamage(greatswordStack)) * 0.5 + 20);
-            this.entityDropItem(new ItemStack(AtumItems.GREATSWORD, 1, damage), 0.0F);
+            this.entityDropItem(new ItemStack(greatswordStack.getItem(), 1, MathHelper.getInt(rand, 20, greatswordStack.getMaxDamage())), 0.0F);
         }
 
         if (rand.nextInt(4) == 0) {
-            int amount = rand.nextInt(2) + 1;
+            int amount = MathHelper.getInt(rand, 1, 2) + looting;
             this.dropItem(Items.GOLD_NUGGET, amount);
         }
     }
