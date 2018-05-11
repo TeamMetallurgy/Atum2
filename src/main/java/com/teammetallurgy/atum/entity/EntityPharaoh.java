@@ -263,6 +263,11 @@ public class EntityPharaoh extends EntityUndeadBase {
             }
             this.setDead();
         }
+    }
+
+    @Override
+    protected void updateAITasks() {
+        super.updateAITasks();
         this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
     }
 

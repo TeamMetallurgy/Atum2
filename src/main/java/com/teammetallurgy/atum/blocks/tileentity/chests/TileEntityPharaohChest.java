@@ -2,12 +2,15 @@ package com.teammetallurgy.atum.blocks.tileentity.chests;
 
 import com.teammetallurgy.atum.blocks.BlockPharaohChest;
 import com.teammetallurgy.atum.entity.EntityPharaoh;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
@@ -55,6 +58,7 @@ public class TileEntityPharaohChest extends TileEntityChest implements IInventor
 
     public void spawn(EntityPlayer player) {
         EntityPharaoh pharaoh = new EntityPharaoh(this.world, true);
+        pharaoh.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCEPTER));
         pharaoh.setPosition(pos.getX(), pos.getY(), pos.getZ());
         pharaoh.setSarcophagusPos(pos);
         if (!this.world.isRemote) {
