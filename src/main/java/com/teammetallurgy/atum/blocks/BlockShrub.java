@@ -30,12 +30,18 @@ public class BlockShrub extends BlockDeadBush {
     @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return BlockAtumPlank.getStick(BlockAtumPlank.WoodType.DEADWOOD);
+        return new ItemStack(this).getItem();
     }
+
+    @Override
+    public int quantityDropped(Random random) {
+        return 1;
+    }
+
 
     @Override
     @Nonnull
     public List<ItemStack> onSheared(@Nonnull ItemStack stack, IBlockAccess world, BlockPos pos, int fortune) {
-        return Collections.singletonList(new ItemStack(AtumBlocks.SHRUB));
+        return Collections.singletonList(new ItemStack(this));
     }
 }

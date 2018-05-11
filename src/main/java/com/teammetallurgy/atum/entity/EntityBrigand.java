@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;

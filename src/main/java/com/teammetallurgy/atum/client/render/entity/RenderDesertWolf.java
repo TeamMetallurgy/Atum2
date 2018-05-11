@@ -39,6 +39,6 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
 
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf entityDesertWolf) {
-        return entityDesertWolf.isAngry() ? TAMED_DESERT_WOLF_TEXTURES : ANGRY_DESERT_WOLF_TEXTURES;
+        return entityDesertWolf.isTamed() ? TAMED_DESERT_WOLF_TEXTURES : ANGRY_DESERT_WOLF_TEXTURES;
     }
 }
