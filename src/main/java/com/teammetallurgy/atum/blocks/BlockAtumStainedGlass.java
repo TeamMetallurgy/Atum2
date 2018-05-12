@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.blocks;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeacon;
 import net.minecraft.block.BlockBreakable;
@@ -22,7 +24,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockAtumStainedGlass extends BlockBreakable {
+public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEntry {
 
     public BlockAtumStainedGlass() {
         super(Material.GLASS, false);
@@ -67,8 +69,12 @@ public class BlockAtumStainedGlass extends BlockBreakable {
     @Override
     @Nullable
     public float[] getBeaconColorMultiplier(IBlockState state, World world, BlockPos pos, BlockPos beaconPos) {
+        return EnumDyeColor.valueOf(WordUtils.swapCase(getColorString())).getColorComponentValues();
+    }
+
+    private String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
-        return EnumDyeColor.valueOf(WordUtils.swapCase(this.getRegistryName().getResourcePath().replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", ""))).getColorComponentValues();
+        return this.getRegistryName().getResourcePath().replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", "");
     }
 
     @Override
@@ -88,5 +94,11 @@ public class BlockAtumStainedGlass extends BlockBreakable {
     @Override
     public int getMetaFromState(IBlockState state) {
         return 0;
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "blockGlass", getColorString().replace("silver", "light_gray"));
+        OreDictHelper.add(this, "blockGlass");
     }
 }

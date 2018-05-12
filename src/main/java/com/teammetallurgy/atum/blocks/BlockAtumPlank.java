@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.blocks;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -14,8 +16,9 @@ import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Objects;
 
-public class BlockAtumPlank extends Block {
+public class BlockAtumPlank extends Block implements IOreDictEntry {
     private static final Map<WoodType, Block> PLANKS = Maps.newEnumMap(WoodType.class);
     private static final Map<WoodType, Item> STICKS = Maps.newEnumMap(WoodType.class);
 
@@ -59,6 +62,12 @@ public class BlockAtumPlank extends Block {
     @Override
     public int getMetaFromState(IBlockState state) {
         return 0;
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "plank", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_planks", ""));
+        OreDictHelper.add(this, "plankWood");
     }
 
     public enum WoodType implements IStringSerializable {

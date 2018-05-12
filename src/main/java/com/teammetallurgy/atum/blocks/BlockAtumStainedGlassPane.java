@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.blocks;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeacon;
 import net.minecraft.block.BlockPane;
@@ -21,7 +23,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BlockAtumStainedGlassPane extends BlockPane {
+public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntry {
 
     protected BlockAtumStainedGlassPane() {
         super(Material.GLASS, false);
@@ -51,8 +53,12 @@ public class BlockAtumStainedGlassPane extends BlockPane {
     @Override
     @Nullable
     public float[] getBeaconColorMultiplier(IBlockState state, World world, BlockPos pos, BlockPos beaconPos) {
+        return EnumDyeColor.valueOf(WordUtils.swapCase(getColorString())).getColorComponentValues();
+    }
+
+    private String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
-        return EnumDyeColor.valueOf(WordUtils.swapCase(this.getRegistryName().getResourcePath().replace("thin_", "").replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", ""))).getColorComponentValues();
+        return this.getRegistryName().getResourcePath().replace("thin_", "").replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", "");
     }
 
     @Override
@@ -67,5 +73,11 @@ public class BlockAtumStainedGlassPane extends BlockPane {
         if (!world.isRemote) {
             BlockBeacon.updateColorAsync(world, pos);
         }
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "paneGlass", getColorString().replace("silver", "light_gray"));
+        OreDictHelper.add(this, "paneGlass");
     }
 }

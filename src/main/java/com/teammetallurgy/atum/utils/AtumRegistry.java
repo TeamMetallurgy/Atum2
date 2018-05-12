@@ -68,6 +68,11 @@ public class AtumRegistry {
             item.setCreativeTab(tab);
         }
 
+        if (item instanceof IOreDictEntry) {
+            IOreDictEntry entry = (IOreDictEntry) item;
+            OreDictHelper.entries.add(entry);
+        }
+
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)), "inventory"));
         }
@@ -112,6 +117,11 @@ public class AtumRegistry {
 
         if (tab != null) {
             block.setCreativeTab(tab);
+        }
+
+        if (block instanceof IOreDictEntry) {
+            IOreDictEntry entry = (IOreDictEntry) block;
+            OreDictHelper.entries.add(entry);
         }
 
         if (block instanceof IRenderMapper && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
@@ -182,6 +192,7 @@ public class AtumRegistry {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         AtumItems.registerItems();
+        OreDictHelper.register();
     }
 
     @SubscribeEvent

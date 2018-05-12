@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.blocks;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
 import net.minecraft.block.BlockPlanks;
@@ -26,7 +28,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class BlockLeave extends BlockLeaves implements IRenderMapper {
+public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEntry {
     private static final Map<BlockAtumPlank.WoodType, Block> LEAVES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     public BlockLeave() {
@@ -105,5 +107,10 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper {
     @Override
     public boolean isOpaqueCube(IBlockState state) {
         return Blocks.LEAVES.isOpaqueCube(Blocks.LEAVES.getDefaultState());
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "treeLeaves");
     }
 }

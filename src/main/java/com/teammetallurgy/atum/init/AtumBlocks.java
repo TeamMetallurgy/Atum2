@@ -23,7 +23,7 @@ public class AtumBlocks {
     public static final Block CURSED_CHEST = new BlockChestSpawner();
     public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
     public static final Block LIMESTONE_GRAVEL = new BlockAtumGravel();
-    public static final Block LIMESTONE = new Block(Material.ROCK).setHardness(1.5F).setResistance(10.0F);
+    public static final Block LIMESTONE = new BlockLimestone();
     public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();

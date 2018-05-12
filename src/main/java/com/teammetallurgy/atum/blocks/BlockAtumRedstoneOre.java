@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -21,9 +23,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.Random;
 
-public class BlockAtumRedstoneOre extends Block {
+public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     private final boolean isLit;
 
     public BlockAtumRedstoneOre(boolean isLit) {
@@ -155,13 +158,20 @@ public class BlockAtumRedstoneOre extends Block {
 
     @Override
     @Nonnull
-    protected ItemStack getSilkTouchDrop(IBlockState state) {
+    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
         return new ItemStack(AtumBlocks.REDSTONE_ORE);
     }
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(IBlockState state, RayTraceResult target, World world, BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
         return new ItemStack(AtumBlocks.REDSTONE_ORE, 1, this.damageDropped(state));
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        if (!this.isLit) {
+            OreDictHelper.add(this, "ore", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_ore", ""));
+        }
     }
 }

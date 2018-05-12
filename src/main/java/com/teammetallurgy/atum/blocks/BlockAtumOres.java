@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -11,9 +13,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.Random;
 
-public class BlockAtumOres extends BlockOre {
+public class BlockAtumOres extends BlockOre implements IOreDictEntry {
 
     public BlockAtumOres() {
         super();
@@ -23,6 +27,7 @@ public class BlockAtumOres extends BlockOre {
     }
 
     @Override
+    @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return this == AtumBlocks.COAL_ORE ? Items.COAL : (this == AtumBlocks.DIAMOND_ORE ? Items.DIAMOND : (this == AtumBlocks.LAPIS_ORE ? Items.DYE : Item.getItemFromBlock(this)));
     }
@@ -43,7 +48,7 @@ public class BlockAtumOres extends BlockOre {
             } else if (this == AtumBlocks.DIAMOND_ORE) {
                 xp = MathHelper.getInt(rand, 3, 7);
             } else if (this == AtumBlocks.LAPIS_ORE) {
-                xp = MathHelper.getInt(rand, 3, 7);
+                xp = MathHelper.getInt(rand, 2, 5);
             }
             return xp;
         }
@@ -53,5 +58,10 @@ public class BlockAtumOres extends BlockOre {
     @Override
     public int damageDropped(IBlockState state) {
         return this == AtumBlocks.LAPIS_ORE ? EnumDyeColor.BLUE.getDyeDamage() : 0;
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "ore", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_ore", ""));
     }
 }

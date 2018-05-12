@@ -31,6 +31,16 @@ public class AtumUtils {
     }
 
     /**
+     * Turns a string into camel case
+     *
+     * @param name the string to turn into camel case
+     * @return Camel case name
+     */
+    public static String toCamelCase(String name) {
+        return CaseFormat.UPPER_CAMEL.to(CaseFormat.UPPER_CAMEL, name).replace("_", "");
+    }
+
+    /**
      * Mirror of {@link I18n#translateToLocal(String)}, to prevent warnings
      *
      * @param key the string to format

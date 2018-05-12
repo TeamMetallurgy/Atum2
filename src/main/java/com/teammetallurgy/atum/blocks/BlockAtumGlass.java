@@ -1,10 +1,13 @@
 package com.teammetallurgy.atum.blocks;
 
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -14,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockAtumGlass extends BlockBreakable {
+public class BlockAtumGlass extends BlockBreakable implements IOreDictEntry {
 
     public BlockAtumGlass(Material material) {
         super(Material.GLASS, false, material.getMaterialMapColor());
@@ -42,5 +45,10 @@ public class BlockAtumGlass extends BlockBreakable {
     @Override
     public boolean canSilkHarvest(World world, BlockPos pos, @Nonnull IBlockState state, EntityPlayer player) {
         return true;
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(new ItemStack(this), "blockGlass");
     }
 }

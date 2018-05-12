@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.blocks;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
@@ -11,12 +13,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.Objects;
 
-public class BlockAtumLog extends BlockLog {
+public class BlockAtumLog extends BlockLog implements IOreDictEntry {
     private static final Map<BlockAtumPlank.WoodType, Block> LOGS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     public BlockAtumLog() {
@@ -114,8 +118,14 @@ public class BlockAtumLog extends BlockLog {
     public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
         if (BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.DEADWOOD && RANDOM.nextInt(100) <= 25) {
             // Drop Beetles.
-            int amount = RANDOM.nextInt(1) + 1;
+            int amount = MathHelper.getInt(RANDOM, 1, 2) + fortune;
             drops.add(new ItemStack(AtumItems.DEADWOOD_BEETLE, amount));
         }
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "log", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_log", ""));
+        OreDictHelper.add(this, "logWood");
     }
 }
