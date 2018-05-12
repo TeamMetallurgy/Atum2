@@ -35,8 +35,8 @@ public class AtumTeleporter extends Teleporter {
     }
 
     @Override
-    public boolean placeInExistingPortal(Entity entityIn, float rotationYaw) {
-        final long chunkId = ChunkPos.asLong(MathHelper.floor(entityIn.posX), MathHelper.floor(entityIn.posZ));
+    public boolean placeInExistingPortal(Entity entity, float rotationYaw) {
+        final long chunkId = ChunkPos.asLong(MathHelper.floor(entity.posX), MathHelper.floor(entity.posZ));
 
         double distance = -1.0D;
         boolean doesPortalExist = true;
@@ -49,7 +49,7 @@ public class AtumTeleporter extends Teleporter {
             portalPosition.lastUpdateTime = this.world.getTotalWorldTime();
             doesPortalExist = false;
         } else {
-            final BlockPos entityPos = new BlockPos(entityIn);
+            final BlockPos entityPos = new BlockPos(entity);
             for (int offsetX = -128; offsetX <= 128; ++offsetX) {
                 BlockPos positionCache;
 
@@ -99,7 +99,7 @@ public class AtumTeleporter extends Teleporter {
                 direction = EnumFacing.WEST;
             }
 
-            final EnumFacing enumfacing1 = EnumFacing.getHorizontal(MathHelper.floor(entityIn.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+            final EnumFacing enumfacing1 = EnumFacing.getHorizontal(MathHelper.floor(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
 
             if (direction != null) {
                 EnumFacing enumfacing2 = direction.rotateYCCW();
@@ -151,16 +151,16 @@ public class AtumTeleporter extends Teleporter {
                     f5 = 1.0F;
                 }
 
-                final double d2 = entityIn.motionX;
-                final double d3 = entityIn.motionZ;
-                entityIn.motionX = d2 * f2 + d3 * f5;
-                entityIn.motionZ = d2 * f4 + d3 * f3;
-                entityIn.rotationYaw = rotationYaw - enumfacing1.getHorizontalIndex() * 90 + direction.getHorizontalIndex() * 90;
+                final double d2 = entity.motionX;
+                final double d3 = entity.motionZ;
+                entity.motionX = d2 * f2 + d3 * f5;
+                entity.motionZ = d2 * f4 + d3 * f3;
+                entity.rotationYaw = rotationYaw - enumfacing1.getHorizontalIndex() * 90 + direction.getHorizontalIndex() * 90;
             } else {
-                entityIn.motionX = entityIn.motionY = entityIn.motionZ = 0.0D;
+                entity.motionX = entity.motionY = entity.motionZ = 0.0D;
             }
 
-            entityIn.setLocationAndAngles(tpX, tpY, tpZ, entityIn.rotationYaw, entityIn.rotationPitch);
+            entity.setLocationAndAngles(tpX, tpY, tpZ, entity.rotationYaw, entity.rotationPitch);
             return true;
         } else {
             return false;
@@ -177,11 +177,20 @@ public class AtumTeleporter extends Teleporter {
         IBlockState portalState = AtumBlocks.PORTAL.getDefaultState();
         IBlockState sandState;
 
+        while (pos.getY() > 1 && world.isAirBlock(pos)) {
+            pos = pos.down();
+        }
+
+        while (!world.isAirBlock(pos.up()) && (world.getBlockState(pos).getBlock() != AtumBlocks.SAND || world.getBlockState(pos).getBlock() != Blocks.GRASS)) {
+            pos = pos.up();
+        }
+
         if (entity.dimension == 0) {
             sandState = Blocks.SANDSTONE.getDefaultState();
         } else {
             sandState = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState();
         }
+
 
         //Bottom layers
         for (BlockPos.MutableBlockPos basePos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-2, 0, -2), pos.add(2, 1, 2))) {
@@ -199,6 +208,11 @@ public class AtumTeleporter extends Teleporter {
         //Portal blocks
         for (BlockPos.MutableBlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-1, 1, -1), pos.add(1, 1, 1))) {
             this.world.setBlockState(portalPos, portalState, 2);
+        }
+
+        //Set air above portal blocks
+        for (BlockPos.MutableBlockPos airPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-2, 2, -1), pos.add(2, 3, 1))) {
+            this.world.setBlockState(airPos, Blocks.AIR.getDefaultState(), 2);
         }
         return true;
     }
