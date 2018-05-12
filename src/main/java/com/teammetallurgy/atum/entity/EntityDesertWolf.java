@@ -32,6 +32,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
@@ -200,6 +201,10 @@ public class EntityDesertWolf extends EntityTameable {
             if (this.isTamed()) {
                 angryTimer = 0;
             }
+        }
+
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+            this.setDead();
         }
 
         if (this.isBegging()) {

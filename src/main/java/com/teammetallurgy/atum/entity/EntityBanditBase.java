@@ -70,6 +70,8 @@ public class EntityBanditBase extends EntityMob {
         return SoundEvents.ENTITY_PLAYER_DEATH;
     }
 
+
+
     @Override
     public boolean getCanSpawnHere() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);

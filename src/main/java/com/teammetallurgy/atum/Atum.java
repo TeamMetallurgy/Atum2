@@ -3,7 +3,6 @@ package com.teammetallurgy.atum;
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.handler.AtumCreativeTab;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.AtumLoot;
 import com.teammetallurgy.atum.proxy.CommonProxy;
@@ -35,11 +34,8 @@ public class Atum {
     public void preInit(FMLPreInitializationEvent event) {
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
-        AtumBlocks.setBlockInfo();
-        AtumBlocks.registerTileEntities();
         proxy.initRenders();
         new AtumEntities();
-        //AtumOreDictionary.init();
     }
 
     @Mod.EventHandler

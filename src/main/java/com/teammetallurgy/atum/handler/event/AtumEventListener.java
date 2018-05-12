@@ -4,24 +4,32 @@ import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+
+import java.util.List;
 
 @Mod.EventBusSubscriber
 public class AtumEventListener {
@@ -88,9 +96,26 @@ public class AtumEventListener {
     */
 
     @SubscribeEvent
-    public static void onFishEvent(EntityJoinWorldEvent event) {
-        if (event.getEntity().world.provider.getDimension() == AtumConfig.DIMENSION_ID && event.getEntity() instanceof EntityFishHook) {
-            event.setCanceled(true);
+    public static void onFishLoot(ItemFishedEvent event) {
+        World world = event.getEntityPlayer().world;
+        EntityFishHook fishHook = event.getHookEntity();
+        EntityPlayer angler = fishHook.getAngler();
+        LootContext.Builder builder = new LootContext.Builder((WorldServer) world);
+        builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(angler.getHeldItem(angler.getActiveHand())) + angler.getLuck()).withPlayer(angler).withLootedEntity(fishHook);
+        if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+            event.setCanceled(true); //We don't want any vanilla loot
+            List<ItemStack> lootTable = world.getLootTableManager().getLootTableFromLocation(AtumLootTables.FISH).generateLootForPools(world.rand, builder.build());
+            for (ItemStack loot : lootTable) {
+                EntityItem fish = new EntityItem(fishHook.world, fishHook.posX, fishHook.posY, fishHook.posZ, loot);
+                double x = angler.posX - fishHook.posX;
+                double y = angler.posY - fishHook.posY;
+                double z = angler.posZ - fishHook.posZ;
+                double swush = (double) MathHelper.sqrt(x * x + y * y + z * z);
+                fish.motionX = x * 0.1D;
+                fish.motionY = y * 0.1D + (double) MathHelper.sqrt(swush) * 0.08D;
+                fish.motionZ = z * 0.1D;
+                world.spawnEntity(fish);
+            }
         }
     }
 
