@@ -6,18 +6,6 @@
       "entries": [
         {
           "type": "item",
-          "name": "minecraft:fish",
-          "entryName": "fish_cod",
-          "functions": [
-            {
-              "function": "set_data",
-              "data": 0
-            }
-          ],
-          "weight": 100
-        },
-        {
-          "type": "item",
           "name": "atum:fish_forsaken",
           "entryName": "fish_forsaken",
           "weight": 30

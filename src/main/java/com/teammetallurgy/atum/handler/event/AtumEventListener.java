@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.items.artifacts.ItemAnuketsBounty;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -100,21 +101,24 @@ public class AtumEventListener {
         World world = event.getEntityPlayer().world;
         EntityFishHook fishHook = event.getHookEntity();
         EntityPlayer angler = fishHook.getAngler();
+        ItemStack heldStack = angler.getHeldItem(angler.getActiveHand());
         LootContext.Builder builder = new LootContext.Builder((WorldServer) world);
-        builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(angler.getHeldItem(angler.getActiveHand())) + angler.getLuck()).withPlayer(angler).withLootedEntity(fishHook);
+        builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withPlayer(angler).withLootedEntity(fishHook);
         if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
             event.setCanceled(true); //We don't want any vanilla loot
-            List<ItemStack> lootTable = world.getLootTableManager().getLootTableFromLocation(AtumLootTables.FISH).generateLootForPools(world.rand, builder.build());
-            for (ItemStack loot : lootTable) {
-                EntityItem fish = new EntityItem(fishHook.world, fishHook.posX, fishHook.posY, fishHook.posZ, loot);
-                double x = angler.posX - fishHook.posX;
-                double y = angler.posY - fishHook.posY;
-                double z = angler.posZ - fishHook.posZ;
-                double swush = (double) MathHelper.sqrt(x * x + y * y + z * z);
-                fish.motionX = x * 0.1D;
-                fish.motionY = y * 0.1D + (double) MathHelper.sqrt(swush) * 0.08D;
-                fish.motionZ = z * 0.1D;
-                world.spawnEntity(fish);
+            if (heldStack.getItem() instanceof ItemAnuketsBounty) {
+                List<ItemStack> lootTable = world.getLootTableManager().getLootTableFromLocation(AtumLootTables.FISH).generateLootForPools(world.rand, builder.build());
+                for (ItemStack loot : lootTable) {
+                    EntityItem fish = new EntityItem(fishHook.world, fishHook.posX, fishHook.posY, fishHook.posZ, loot);
+                    double x = angler.posX - fishHook.posX;
+                    double y = angler.posY - fishHook.posY;
+                    double z = angler.posZ - fishHook.posZ;
+                    double swush = (double) MathHelper.sqrt(x * x + y * y + z * z);
+                    fish.motionX = x * 0.1D;
+                    fish.motionY = y * 0.1D + (double) MathHelper.sqrt(swush) * 0.08D;
+                    fish.motionZ = z * 0.1D;
+                    world.spawnEntity(fish);
+                }
             }
         }
     }
