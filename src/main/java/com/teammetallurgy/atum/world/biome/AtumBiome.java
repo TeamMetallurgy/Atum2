@@ -139,9 +139,11 @@ public class AtumBiome extends Biome {
 
         public AtumBiomeProperties(String biomeName, int weight) {
             super(biomeName);
-            this.setBaseHeight(0.125F);
+            this.setBaseHeight(0.135F);
             this.setHeightVariation(0.05F);
+            this.setRainfall(0.0F);
             this.setRainDisabled();
+            this.setTemperature(2.0F);
             this.setWaterColor(16421912);
             this.weight = weight;
         }

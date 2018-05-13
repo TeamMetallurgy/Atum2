@@ -49,7 +49,7 @@ public class BlockFertileSoil extends Block {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-4, 0, -4), pos.add(4, 2, 4))) {
+        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-4, 0, -4), pos.add(4, 4, 4))) {
             if (world.getBlockState(mutableBlockPos).getMaterial() == Material.WATER) {
                 return true;
             }
