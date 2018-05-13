@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.blocks.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.AtumLoot;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
@@ -247,7 +246,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         int amount = MathHelper.getInt(rand, 1, 2) + looting;
         this.dropItem(Items.GOLD_INGOT, amount);
 
-        this.entityDropItem(AtumLoot.getRandomArtifact(), 0.0F);
+        //this.entityDropItem(AtumLoot.getRandomArtifact(), 0.0F); //TODO
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
-import com.teammetallurgy.atum.items.AtumLoot;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
@@ -52,7 +51,7 @@ public class BlockPharaohChest extends BlockChest {
             }
         }
 
-        AtumLoot.fillChest((TileEntityPharaohChest) world.getTileEntity(pos), 15, 0.9F);
+        //AtumLoot.fillChest((TileEntityPharaohChest) world.getTileEntity(pos), 15, 0.9F); //TODO Readd when lootables is added
     }
 
     @Override

@@ -13,25 +13,21 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Random;
 
 public class ItemLoot extends Item {
+    private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
     public ItemLoot() {
         this.setMaxDamage(0);
-    }
-
-    @Nonnull
-    public static ItemStack getRandomLoot(Random random, boolean includeDirty) {
-        int type = random.ints(includeDirty ? 1 : 2, Type.values().length).findAny().getAsInt();
-        int quality = random.ints(includeDirty ? 1 : 2, Quality.values().length).findAny().getAsInt();
-        return new ItemStack(getLootItem(Type.byIndex(type), Quality.byIndex(quality)));
     }
 
     public static void createLootItems() {
@@ -43,6 +39,7 @@ public class ItemLoot extends Item {
                 } else {
                     item.setMaxStackSize(1);
                 }
+                LOOT_ENTRIES.add(new LootEntry(quality, quality.getWeight()));
                 AtumRegistry.registerItem(item, "loot." + quality.getName() + "." + type.getName());
             }
         }
@@ -69,19 +66,22 @@ public class ItemLoot extends Item {
 
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
-        Block block = entityItem.world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ))).getBlock();
+        World world = entityItem.world;
+        Block block = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ))).getBlock();
         if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
             ItemStack stack = entityItem.getItem();
 
-            if (stack.getItem() instanceof ItemLoot && String.valueOf(stack.getItem().getRegistryName()).contains("dirty")) {
-                int quality = itemRand.ints(2, Quality.values().length).findAny().getAsInt();
-                Item item = getLootItem(getType(stack.getItem()), Quality.byIndex(quality));
-                if (itemRand.nextFloat() <= 0.10F) {
-                    entityItem.setDead();
-                    entityItem.world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
-                } else {
-                    entityItem.setItem(new ItemStack(item));
-                    entityItem.world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+            if (stack.getItem() instanceof ItemLoot && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
+                while (stack.getCount() > 0) {
+                    Item item = getLootItem(getType(stack.getItem()), WeightedRandom.getRandomItem(itemRand, LOOT_ENTRIES).quality);
+                    if (itemRand.nextFloat() <= 0.10F) {
+                        stack.shrink(1);
+                        world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                    } else {
+                        world.spawnEntity(new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(item)));
+                        world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                        stack.shrink(1);
+                    }
                 }
             }
         }
@@ -136,25 +136,31 @@ public class ItemLoot extends Item {
     }
 
     public enum Quality implements IStringSerializable {
-        DIRTY(1, "dirty"),
-        SILVER(2, "silver"),
-        GOLD(3, "gold"),
-        SAPPHIRE(4, "sapphire"),
-        RUBY(5, "ruby"),
-        EMERALD(6, "emerald"),
-        DIAMOND(7, "diamond");
+        DIRTY(1, "dirty", 7),
+        SILVER(2, "silver", 6),
+        GOLD(3, "gold", 5),
+        SAPPHIRE(4, "sapphire", 4),
+        RUBY(5, "ruby", 3),
+        EMERALD(6, "emerald", 2),
+        DIAMOND(7, "diamond", 1);
 
         private static final Map<Integer, Quality> INDEX_LOOKUP = Maps.newHashMap();
         private final int index;
         private final String unlocalizedName;
+        private final int weight;
 
-        Quality(int index, String name) {
+        Quality(int index, String name, int lootWeight) {
             this.index = index;
             this.unlocalizedName = name;
+            this.weight = lootWeight;
         }
 
         public int getIndexNumber() {
             return this.index;
+        }
+
+        public int getWeight() {
+            return weight;
         }
 
         public static Quality byIndex(int index) {
@@ -172,6 +178,15 @@ public class ItemLoot extends Item {
             for (Quality quality : values()) {
                 INDEX_LOOKUP.put(quality.getIndexNumber(), quality);
             }
+        }
+    }
+
+    public static class LootEntry extends WeightedRandom.Item {
+        public final Quality quality;
+
+        public LootEntry(Quality quality, int weight) {
+            super(weight);
+            this.quality = quality;
         }
     }
 }

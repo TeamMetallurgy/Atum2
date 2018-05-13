@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.handler.AtumCreativeTab;
 import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.items.AtumLoot;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
@@ -41,7 +40,6 @@ public class Atum {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
-        AtumLoot.register();
     }
 
     @Mod.EventHandler

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityChestSpawner;
-import com.teammetallurgy.atum.items.AtumLoot;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
@@ -47,6 +46,6 @@ public class BlockChestSpawner extends BlockChest {
             ((TileEntityChestSpawner) world.getTileEntity(pos)).setCustomName(stack.getDisplayName());
         }
 
-        AtumLoot.fillChest((TileEntityChestSpawner) world.getTileEntity(pos), 5, 0.5F);
+        //AtumLoot.fillChest((TileEntityChestSpawner) world.getTileEntity(pos), 5, 0.5F); //TODO Readd when loot tables is added
     }
 }
