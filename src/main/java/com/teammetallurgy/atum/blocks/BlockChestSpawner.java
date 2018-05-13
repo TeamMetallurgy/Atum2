@@ -41,11 +41,12 @@ public class BlockChestSpawner extends BlockChest {
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
+        TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (stack.hasDisplayName()) {
-            ((TileEntityChestSpawner) world.getTileEntity(pos)).setCustomName(stack.getDisplayName());
+        if (tileEntity instanceof TileEntityChestSpawner) {
+            if (stack.hasDisplayName()) {
+                ((TileEntityChestSpawner) tileEntity).setCustomName(stack.getDisplayName());
+            }
         }
-
-        //AtumLoot.fillChest((TileEntityChestSpawner) world.getTileEntity(pos), 5, 0.5F); //TODO Readd when loot tables is added
     }
 }

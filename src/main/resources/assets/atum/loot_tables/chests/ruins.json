@@ -1,0 +1,519 @@
+{
+  "pools": [
+    {
+      "rolls": {
+        "min": 1,
+        "max": 5
+      },
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:sand",
+          "entryName": "sand",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 8
+              }
+            }
+          ],
+          "weight": 100
+        },
+        {
+          "type": "item",
+          "name": "minecraft:string",
+          "entryName": "string",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 75
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gunpowder",
+          "entryName": "gunpowder",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 50
+        },
+        {
+          "type": "item",
+          "name": "atum:fertile_soil_pile",
+          "entryName": "fertile_soil_pile",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "minecraft:rotten_flesh",
+          "entryName": "rotten_flesh",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 100
+        },
+        {
+          "type": "item",
+          "name": "atum:dusty_bone",
+          "entryName": "dusty_bone",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 100
+        },
+        {
+          "type": "item",
+          "name": "minecraft:redstone",
+          "entryName": "redstone",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 50
+        },
+        {
+          "type": "item",
+          "name": "minecraft:coal",
+          "entryName": "coal",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 45
+        },
+        {
+          "type": "item",
+          "name": "atum:date",
+          "entryName": "date",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ],
+          "weight": 45
+        },
+        {
+          "type": "item",
+          "name": "atum:golden_date",
+          "entryName": "golden_date",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:golden_date_enchanted",
+          "entryName": "golden_date_enchanted",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_pickaxe",
+          "entryName": "limestone_pickaxe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_axe",
+          "entryName": "limestone_axe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_hoe",
+          "entryName": "limestone_hoe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_shovel",
+          "entryName": "limestone_shovel",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            }
+          ],
+          "weight": 30
+        },
+
+        {
+          "type": "item",
+          "name": "atum:limestone_sword",
+          "entryName": "limestone_sword",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_ingot",
+          "entryName": "iron_ingot",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ],
+          "weight": 20
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_ingot",
+          "entryName": "gold_ingot",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ],
+          "weight": 20
+        },
+        {
+          "type": "item",
+          "name": "minecraft:gold_ingot",
+          "entryName": "gold_ingot",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+          ],
+          "weight": 20
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_ring",
+          "entryName": "loot_dirty_ring",
+          "weight": 20
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_necklace",
+          "entryName": "loot_dirty_necklace",
+          "weight": 15
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_broach",
+          "entryName": "loot_dirty_broach",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_scepter",
+          "entryName": "loot_dirty_scepter",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_idol",
+          "entryName": "loot_dirty_idol",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "minecraft:name_tag",
+          "entryName": "name_tag",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:book",
+          "entryName": "enchanted_book",
+          "functions": [
+            {
+              "function": "enchant_randomly"
+            }
+          ],
+          "weight": 1
+        }
+      ]
+    },
+    {
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:akers_toil",
+          "entryName": "akers_toil",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:amunets_homecoming",
+          "entryName": "amunets_homecoming",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:anhurs_might",
+          "entryName": "anhurs_might",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:anubis_mercy",
+          "entryName": "anubis_mercy",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:anukets_bounty",
+          "entryName": "anukets_bounty",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:atens_fury",
+          "entryName": "atens_fury",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:gebs_blessing",
+          "entryName": "gebs_blessing",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:gebs_solidarity",
+          "entryName": "gebs_solidarity",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:hedetets_sting",
+          "entryName": "hedetets_sting",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:hedetets_venom",
+          "entryName": "hedetets_venom",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:horus_flight",
+          "entryName": "horus_flight",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:horus_soaring",
+          "entryName": "horus_soaring",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:isis_embrace",
+          "entryName": "isis_embrace",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:isis_healing",
+          "entryName": "isis_healing",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:maats_balance",
+          "entryName": "maats_balance",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:mafdets_quickness",
+          "entryName": "mafdets_quickness",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:mnevis_horns",
+          "entryName": "mnevis_horns",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:monthus_blast",
+          "entryName": "monthus_blast",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:monthus_strike",
+          "entryName": "monthus_strike",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:neiths_audacity",
+          "entryName": "neiths_audacity",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:nus_flux",
+          "entryName": "nus_flux",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:nuts_agility",
+          "entryName": "nuts_agility",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:nuts_call",
+          "entryName": "nuts_call",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:osiris_will",
+          "entryName": "osiris_will",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:ptahs_decadence",
+          "entryName": "ptahs_decadence",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:ptahs_destruction",
+          "entryName": "ptahs_destruction",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:ras_glory",
+          "entryName": "ras_glory",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:sekhmets_wrath",
+          "entryName": "sekhmets_wrath",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:shus_breath",
+          "entryName": "shus_breath",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:sobeks_rage",
+          "entryName": "sobeks_rage",
+          "weight": 1
+        },
+        {
+          "type": "empty",
+          "weight": 3
+        }
+      ]
+    }
+  ]
+}
