@@ -7,6 +7,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
+import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenShrub extends WorldGenerator {
@@ -19,7 +20,7 @@ public class WorldGenShrub extends WorldGenerator {
     }
 
     @Override
-    public boolean generate(World world, Random random, BlockPos pos) {
+    public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int size = random.nextInt(this.groupSize / 2) + this.groupSize / 2;
         do {
             IBlockState state = world.getBlockState(pos);

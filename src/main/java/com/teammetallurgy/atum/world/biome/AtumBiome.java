@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenPyramid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -70,20 +69,18 @@ public class AtumBiome extends Biome {
 
     @Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
-
         int x = random.nextInt(4) + 4;
         int z = random.nextInt(4) + 4;
 
-        BlockPos p = world.getHeight(pos.add(x, 0, z));
+        BlockPos height = world.getHeight(pos.add(x, 0, z));
         if (palmRarity > 0 && random.nextInt(palmRarity) == 0) {
-            new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, p);
+            new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
         } else if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
-//            new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
+            //new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
         } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
-//            new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, p);
+            new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, height);
         }
         super.decorate(world, random, pos);
-
     }
 
     @Override
