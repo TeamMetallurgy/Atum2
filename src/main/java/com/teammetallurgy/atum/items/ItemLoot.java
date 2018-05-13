@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
@@ -24,7 +25,6 @@ public class ItemLoot extends Item {
 
     public ItemLoot() {
         this.setMaxDamage(0);
-        this.setMaxStackSize(1);
     }
 
     @Nonnull
@@ -37,7 +37,13 @@ public class ItemLoot extends Item {
     public static void createLootItems() {
         for (Type type : Type.values()) {
             for (Quality quality : Quality.values()) {
-                AtumRegistry.registerItem(new ItemLoot(), "loot." + quality.getName() + "." + type.getName());
+                Item item = new ItemLoot();
+                if (quality == Quality.DIRTY) {
+                    item.setMaxStackSize(64);
+                } else {
+                    item.setMaxStackSize(1);
+                }
+                AtumRegistry.registerItem(item, "loot." + quality.getName() + "." + type.getName());
             }
         }
     }
@@ -67,10 +73,16 @@ public class ItemLoot extends Item {
         if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
             ItemStack stack = entityItem.getItem();
 
-            if (String.valueOf(stack.getItem().getRegistryName()).contains("dirty")) {
-                int quality = new Random().ints(2, Quality.values().length).findAny().getAsInt();
+            if (stack.getItem() instanceof ItemLoot && String.valueOf(stack.getItem().getRegistryName()).contains("dirty")) {
+                int quality = itemRand.ints(2, Quality.values().length).findAny().getAsInt();
                 Item item = getLootItem(getType(stack.getItem()), Quality.byIndex(quality));
-                entityItem.setItem(new ItemStack(item));
+                if (itemRand.nextFloat() <= 0.10F) {
+                    entityItem.setDead();
+                    entityItem.world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                } else {
+                    entityItem.setItem(new ItemStack(item));
+                    entityItem.world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                }
             }
         }
         return super.onEntityItemUpdate(entityItem);
