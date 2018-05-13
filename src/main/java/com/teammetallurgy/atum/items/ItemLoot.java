@@ -136,13 +136,13 @@ public class ItemLoot extends Item {
     }
 
     public enum Quality implements IStringSerializable {
-        DIRTY(1, "dirty", 7),
-        SILVER(2, "silver", 6),
-        GOLD(3, "gold", 5),
-        SAPPHIRE(4, "sapphire", 4),
-        RUBY(5, "ruby", 3),
-        EMERALD(6, "emerald", 2),
-        DIAMOND(7, "diamond", 1);
+        DIRTY(1, "dirty", 0),
+        SILVER(2, "silver", 48),
+        GOLD(3, "gold", 25),
+        SAPPHIRE(4, "sapphire", 20),
+        RUBY(5, "ruby", 15),
+        EMERALD(6, "emerald", 10),
+        DIAMOND(7, "diamond", 5);
 
         private static final Map<Integer, Quality> INDEX_LOOKUP = Maps.newHashMap();
         private final int index;
