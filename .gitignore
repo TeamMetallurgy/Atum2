@@ -16,6 +16,7 @@ local.properties
 .settings/
 .loadpath
 
+
 # External tool builders
 .externalToolBuilders/
 
@@ -35,7 +36,7 @@ local.properties
 *.iml
 *.ipr
 *.iws
-
+/.idea/
 #################
 ## Visual Studio
 #################

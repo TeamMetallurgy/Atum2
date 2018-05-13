@@ -70,23 +70,20 @@ public class AtumBiome extends Biome {
 
     @Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
+
+        int x = random.nextInt(4) + 4;
+        int z = random.nextInt(4) + 4;
+
+        BlockPos p = world.getHeight(pos.add(x, 0, z));
+        if (palmRarity > 0 && random.nextInt(palmRarity) == 0) {
+            new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, p);
+        } else if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
+//            new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
+        } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
+//            new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, p);
+        }
         super.decorate(world, random, pos);
 
-        int x = random.nextInt(16) + 8;
-        int z = random.nextInt(16) + 8;
-        int height;
-
-        this.decorator.decorate(world, random, this, pos);
-
-        if (palmRarity > 0 && random.nextInt(palmRarity) == 0) {
-            height = random.nextInt(4) + 5;
-            new WorldGenPalm(true, height).generate(world, random, pos.add(x, height, z));
-        } else if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
-            new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
-        } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
-            height = random.nextInt(1) + 6;
-            new WorldGenDeadwood(true, height).generate(world, random, pos.add(x, height, z));
-        }
     }
 
     @Override
