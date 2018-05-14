@@ -13,6 +13,9 @@ repositories {
   maven {
     url "http://dvs1.progwml6.com/files/maven"
   }
+  maven {
+    url "http://tehnut.info/maven"
+  }
 }
 
 sourceCompatibility = 1.8
@@ -34,6 +37,7 @@ minecraft {
 dependencies {
     deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
 	runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
+    deobfCompile "mcp.mobius.waila:Hwyla:${hwyla_version}_1.12"
 }
 
 processResources {

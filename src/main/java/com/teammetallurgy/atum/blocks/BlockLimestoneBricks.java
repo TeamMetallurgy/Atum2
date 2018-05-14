@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.item.ItemDoor;
 import net.minecraft.util.IStringSerializable;
 
 import javax.annotation.Nonnull;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 public class BlockLimestoneBricks extends Block {
     private static final Map<BrickType, BlockLimestoneBricks> BRICKS = Maps.newEnumMap(BrickType.class);
+    private static final Map<BrickType, BlockAtumDoor> DOORS = Maps.newEnumMap(BrickType.class);
 
     public BlockLimestoneBricks() {
         super(Material.ROCK);
@@ -42,6 +44,18 @@ public class BlockLimestoneBricks extends Block {
 
     public static BlockLimestoneBricks getBrick(BrickType type) {
         return BRICKS.get(type);
+    }
+
+    public static void registerDoors() {
+        for (BrickType type : BrickType.values()) {
+            BlockAtumDoor door = new BlockAtumDoor(Material.ROCK);
+            DOORS.put(type, door);
+            AtumRegistry.registerBlock(door, new ItemDoor(door), "limestone_brick_" + type.getName() + "_door");
+        }
+    }
+
+    public static BlockAtumDoor getDoor(BrickType type) {
+        return DOORS.get(type);
     }
 
     public enum BrickType implements IStringSerializable {

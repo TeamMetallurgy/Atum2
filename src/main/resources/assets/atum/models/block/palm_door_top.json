@@ -1,7 +1,0 @@
-{
-    "parent": "block/door_top",
-    "textures": {
-        "bottom": "atum:blocks/palm_door_lower",
-        "top": "atum:blocks/palm_door_upper"
-    }
-}

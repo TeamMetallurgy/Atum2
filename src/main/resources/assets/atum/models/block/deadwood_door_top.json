@@ -1,7 +1,0 @@
-{
-    "parent": "block/door_top",
-    "textures": {
-        "bottom": "atum:blocks/deadwood_door_lower",
-        "top": "atum:blocks/deadwood_door_upper"
-    }
-}

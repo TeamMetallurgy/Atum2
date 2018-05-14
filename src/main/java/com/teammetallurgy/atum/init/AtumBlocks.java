@@ -31,6 +31,8 @@ public class AtumBlocks {
     public static final Block CRACKED_STAIRS = new BlockAtumStairs(LIMESTONE_CRACKED.getDefaultState());
     public static final Block SMOOTH_LIMESTONE_SLAB = new BlockAtumSlab(Material.ROCK);
     public static final Block CRACKED_LIMESTONE_SLAB = new BlockAtumSlab(Material.ROCK);
+    public static final Block LIMESTONE_DOOR = new BlockAtumDoor(Material.ROCK);
+    public static final Block LIMESTONE_CRACKED_DOOR = new BlockAtumDoor(Material.ROCK);
     public static final Block SAND_LAYERED = new BlockSandLayers().setHardness(0.1F).setLightOpacity(0);
     public static final Block CRYSTAL_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block FRAMED_GLASS = new BlockAtumGlass(Material.GLASS);
@@ -41,7 +43,7 @@ public class AtumBlocks {
     public static final Block FLAX = new BlockFlax();
     public static final Block FERTILE_SOIL = new BlockFertileSoil();
     public static final Block FERTILE_SOIL_TILLED = new BlockFertileSoilTilled();
-    public static final BlockAtumDoor PALM_DOOR = (BlockAtumDoor) new BlockAtumDoor();
+    public static final BlockAtumDoor PALM_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
     public static final Block PALM_FENCE = new BlockAtumFence(BlockAtumPlank.WoodType.PALM.getMapColor());
     public static final Block PALM_FENCE_GATE = new BlockAtumFenceGate();
     public static final Block PALM_HATCH = new BlockAtumTrapDoor();
@@ -59,7 +61,7 @@ public class AtumBlocks {
     public static final Block LIT_REDSTONE_ORE = new BlockAtumRedstoneOre(true);
     public static final Block LIMESTONE_FURNACE = new BlockLimeStoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimeStoneFurnace(true);
-    public static final BlockAtumDoor DEADWOOD_DOOR = (BlockAtumDoor) new BlockAtumDoor();
+    public static final BlockAtumDoor DEADWOOD_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
     public static final Block DEADWOOD_FENCE = new BlockAtumFence(BlockAtumPlank.WoodType.DEADWOOD.getMapColor());
     public static final Block DEADWOOD_FENCE_GATE = new BlockAtumFenceGate();
     public static final Block DEADWOOD_HATCH = new BlockAtumTrapDoor();
@@ -103,6 +105,9 @@ public class AtumBlocks {
         registerBlock(LIMESTONE_WALL, "limestone_wall");
         registerBlock(LIMESTONE_CRACKED_WALL, "limestone_cracked_wall");
         BlockLimestoneWall.registerWalls();
+        registerBlock(LIMESTONE_DOOR, new ItemDoor(LIMESTONE_DOOR), "limestone_door");
+        registerBlock(LIMESTONE_CRACKED_DOOR, new ItemDoor(LIMESTONE_CRACKED_DOOR), "limestone_cracked_door");
+        BlockLimestoneBricks.registerDoors();
 
         //Glass
         registerBlock(CRYSTAL_GLASS, "crystal_glass");
