@@ -7,11 +7,11 @@ public class BiomeGenSandDunes extends AtumBiome {
     public BiomeGenSandDunes(AtumBiomeProperties properties) {
         super(properties);
 
-        super.fillerBlock = AtumBlocks.SAND.getDefaultState();
+        this.fillerBlock = AtumBlocks.SAND.getDefaultState();
 
-        super.palmRarity *= 2;
-        super.deadwoodRarity = -1;
+        this.palmRarity = -1;
+        this.deadwoodRarity = 5;
 
-        super.addDefaultSpawns();
+        this.addDefaultSpawns();
     }
 }

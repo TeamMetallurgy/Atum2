@@ -5,10 +5,10 @@ public class BiomeGenSandHills extends AtumBiome {
     public BiomeGenSandHills(AtumBiomeProperties properties) {
         super(properties);
 
-        super.palmRarity *= 4;
-        super.pyramidRarity = -1;
-        super.deadwoodRarity = -1;
+        this.palmRarity = -1;
+        this.pyramidRarity = -1;
+        this.deadwoodRarity = 4;
 
-        super.addDefaultSpawns();
+        this.addDefaultSpawns();
     }
 }

@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumBiome;
 import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumRiver;
 import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumRiverMix;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.gen.layer.*;
@@ -14,7 +15,6 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class AtumBiomeProvider extends BiomeProvider {
-    public static final int BIOME_SCALE = 4;
 
     public AtumBiomeProvider(WorldInfo info) {
         super();
@@ -24,7 +24,14 @@ public class AtumBiomeProvider extends BiomeProvider {
 
     public GenLayer[] initializeAllBiomeGenerators(WorldInfo info) {
         GenLayer layerBiome = new GenLayerAtumBiome(info.getSeed());
-        for (int k = 0; k < BIOME_SCALE; ++k) {
+        int biomeSize = 4;
+        int riverDriedSize = 3;
+
+        if (info.getTerrainType() == WorldType.LARGE_BIOMES) {
+            biomeSize = 6;
+        }
+
+        for (int k = 0; k < biomeSize; ++k) {
             layerBiome = new GenLayerZoom((long) (1000 + k), layerBiome);
         }
         GenLayer layerSmooth = new GenLayerSmooth(1000L, layerBiome);

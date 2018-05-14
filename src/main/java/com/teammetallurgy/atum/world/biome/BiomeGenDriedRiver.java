@@ -4,14 +4,14 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 
 public class BiomeGenDriedRiver extends AtumBiome {
 
-	public BiomeGenDriedRiver(AtumBiomeProperties properties) {
-		super(properties);
+    public BiomeGenDriedRiver(AtumBiomeProperties properties) {
+        super(properties);
 
-		super.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
-		super.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
+        this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
+        this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
 
-		super.palmRarity = -1;
-		super.pyramidRarity = -1;
-		super.deadwoodRarity = -1;
-	}
+        this.palmRarity = -1;
+        this.pyramidRarity = -1;
+        this.deadwoodRarity = -1;
+    }
 }

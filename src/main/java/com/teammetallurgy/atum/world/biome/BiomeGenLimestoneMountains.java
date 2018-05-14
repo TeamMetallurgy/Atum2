@@ -12,13 +12,13 @@ public class BiomeGenLimestoneMountains extends AtumBiome {
     public BiomeGenLimestoneMountains(AtumBiomeProperties properties) {
         super(properties);
 
-        super.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
+        this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
 
-        super.palmRarity = -1;
-        super.pyramidRarity = -1;
-        super.deadwoodRarity *= 2;
+        this.palmRarity = -1;
+        this.pyramidRarity = -1;
+        this.deadwoodRarity = 2;
 
-        super.addDefaultSpawns();
+        this.addDefaultSpawns();
     }
 
     @Override

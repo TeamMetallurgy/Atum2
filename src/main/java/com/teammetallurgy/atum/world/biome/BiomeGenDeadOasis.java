@@ -7,12 +7,12 @@ public class BiomeGenDeadOasis extends AtumBiome {
     public BiomeGenDeadOasis(AtumBiomeProperties properties) {
         super(properties);
 
-        super.topBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
+        this.topBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
 
         //no hostile spawns here
 
-        super.palmRarity = 9;
-        super.pyramidRarity = -1;
-        super.deadwoodRarity = -1;
+        this.palmRarity = -1;
+        this.pyramidRarity = -1;
+        this.deadwoodRarity = 6;
     }
 }

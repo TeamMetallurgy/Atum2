@@ -18,7 +18,7 @@ import java.util.Random;
 
 public class AtumBiome extends Biome {
     private int weight = 20;
-    protected int deadwoodRarity = 5;
+    int deadwoodRarity = 5;
     int palmRarity = 5;
     int pyramidRarity = 240;
 

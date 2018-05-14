@@ -19,17 +19,17 @@ public class BiomeGenOasis extends AtumBiome {
     public BiomeGenOasis(AtumBiomeProperties properties) {
         super(properties);
 
-        super.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
+        this.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
 
         // no hostile spawns here
 
-        super.decorator.reedsPerChunk = 10;
-        super.decorator.clayPerChunk = 1;
-        super.decorator.waterlilyPerChunk = 2;
+        this.decorator.reedsPerChunk = 10;
+        this.decorator.clayPerChunk = 1;
+        this.decorator.waterlilyPerChunk = 2;
 
-        super.palmRarity = 3;
-        super.pyramidRarity = -1;
-        super.deadwoodRarity = -1;
+        this.palmRarity = 3;
+        this.pyramidRarity = -1;
+        this.deadwoodRarity = -1;
     }
 
     @Override
