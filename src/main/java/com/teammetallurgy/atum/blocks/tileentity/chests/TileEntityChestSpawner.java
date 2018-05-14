@@ -9,23 +9,17 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedSpawnerEntity;
-import net.minecraft.util.datafix.DataFixer;
-import net.minecraft.util.datafix.FixTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.CompoundDataFixer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -33,7 +27,6 @@ import java.util.List;
 import java.util.Random;
 
 public class TileEntityChestSpawner extends TileEntityChest {
-
     private final MobSpawnerBaseLogic spawnerLogic = new MobSpawnerBaseLogic() {
         @Override
         public void broadcastEvent(int id) {
@@ -41,7 +34,6 @@ public class TileEntityChestSpawner extends TileEntityChest {
         }
 
         @Override
-        @Nonnull
         public World getSpawnerWorld() {
             return TileEntityChestSpawner.this.world;
         }
@@ -61,54 +53,54 @@ public class TileEntityChestSpawner extends TileEntityChest {
                 this.getSpawnerWorld().notifyBlockUpdate(TileEntityChestSpawner.this.pos, iblockstate, iblockstate, 4);
             }
         }
-    };
 
+        @Override
+        public void updateSpawner() {
+            if (!world.isDaytime()) {
+                setEntityId(getNightTime(spawnPool));
+            } else {
+                setEntityId(getDayTime(spawnPool));
+            }
+            super.updateSpawner();
+        }
+    };
     private NonNullList<ItemStack> chestContents = NonNullList.withSize(27, ItemStack.EMPTY);
+    private int spawnPool;
 
     public TileEntityChestSpawner() {
-        this.spawnerLogic.setEntityId(entityName());
-        DataFixer fixer = new DataFixer(1343);
-        fixer = new CompoundDataFixer(fixer);
-        registerFixesMobSpawner(fixer);
+        spawnPool = MathHelper.getInt(new Random(), 0, 2);
     }
 
-    private ResourceLocation entityName() {
-        int i = MathHelper.getInt(new Random(), 0, 6);
-        switch (i) {
+    private static ResourceLocation getDayTime(int spawnPool) {
+        switch (spawnPool) {
             case 0:
-                return AtumEntities.MUMMY.getRegistryName();
+                return AtumEntities.BARBARIAN.getRegistryName();
             case 1:
-                return AtumEntities.BANDIT_WARLORD.getRegistryName();
+                return AtumEntities.BRIGAND.getRegistryName();
             case 2:
                 return AtumEntities.NOMAD.getRegistryName();
-            case 3:
-                return AtumEntities.BONESTORM.getRegistryName();
-            case 4:
-                return AtumEntities.WRAITH.getRegistryName();
-            case 5:
-                return AtumEntities.STONEGUARD.getRegistryName();
-            case 6:
-                return AtumEntities.DESERT_WOLF.getRegistryName();
             default:
-                return AtumEntities.FORSAKEN.getRegistryName();
+                return AtumEntities.BARBARIAN.getRegistryName();
         }
     }
 
-    private static void registerFixesMobSpawner(DataFixer dataFixer) {
-        dataFixer.registerWalker(FixTypes.BLOCK_ENTITY, (fixer, compound, versionIn) -> {
-            if (TileEntity.getKey(TileEntityMobSpawner.class).equals(new ResourceLocation(compound.getString("id")))) {
-                if (compound.hasKey("SpawnPotentials", 9)) {
-                    NBTTagList tagList = compound.getTagList("SpawnPotentials", 10);
+    private static ResourceLocation getNightTime(int spawnPool) {
+        switch (spawnPool) {
+            case 0:
+                return AtumEntities.MUMMY.getRegistryName();
+            case 1:
+                return AtumEntities.FORSAKEN.getRegistryName();
+            case 2:
+                return AtumEntities.BONESTORM.getRegistryName();
+            default:
+                return AtumEntities.MUMMY.getRegistryName();
+        }
+    }
 
-                    for (int i = 0; i < tagList.tagCount(); ++i) {
-                        NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-                        tagCompound.setTag("Entity", fixer.process(FixTypes.ENTITY, tagCompound.getCompoundTag("Entity"), versionIn));
-                    }
-                }
-                compound.setTag("SpawnData", fixer.process(FixTypes.ENTITY, compound.getCompoundTag("SpawnData"), versionIn));
-            }
-            return compound;
-        });
+    @Override
+    public void update() {
+        super.update();
+        this.spawnerLogic.updateSpawner();
     }
 
     @Override
@@ -126,6 +118,7 @@ public class TileEntityChestSpawner extends TileEntityChest {
         super.readFromNBT(compound);
         this.chestContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         this.spawnerLogic.readFromNBT(compound);
+        spawnPool = compound.getInteger("spawnPool");
     }
 
     @Override
@@ -133,6 +126,7 @@ public class TileEntityChestSpawner extends TileEntityChest {
     public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
         super.writeToNBT(compound);
         this.spawnerLogic.writeToNBT(compound);
+        compound.setInteger("spawnPool", spawnPool);
 
         return compound;
     }
@@ -169,12 +163,6 @@ public class TileEntityChestSpawner extends TileEntityChest {
     @Nonnull
     protected NonNullList<ItemStack> getItems() {
         return this.chestContents;
-    }
-
-    @Override
-    public void update() {
-        super.update();
-        this.spawnerLogic.updateSpawner();
     }
 
     @Override

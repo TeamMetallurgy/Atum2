@@ -4,7 +4,7 @@ biome.desert.name=Пустыня
 
 # Blocks
 tile.atum.portal.name=Портал в «Атум»
-tile.atum.chestSpawner.name=Сундук «Атума»
+tile.atum.chestSpawner.name=Сундук
 tile.atum.sand.name=Странный песок
 tile.atum.stone.name=Известняк
 tile.atum.limestoneCracked.name=Потрескавшийся известняк
@@ -165,7 +165,7 @@ item.atum.fishJeweled.name=Украшенная рыба
 item.atum.fishSkeletal.name=Скелетная рыба
 
 item.atum.ptahsDecadence.name=Декаданс бога Птаха
-item.atum.soteksRage.name=Ярость Сотека
+item.atum.sobeksRage.name=Ярость Сотека
 item.atum.osirisWill.name=Воля Осириса
 item.atum.akersToil.name=Труд Акера
 item.atum.gebsBlessing.name=Благословение Геба

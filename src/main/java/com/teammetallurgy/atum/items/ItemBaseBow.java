@@ -3,11 +3,10 @@ package com.teammetallurgy.atum.items;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,12 +28,12 @@ public class ItemBaseBow extends ItemBow {
                     return 0.0F;
                 } else {
                     ItemStack activeStack = entity.getActiveItemStack();
-                    return !activeStack.isEmpty() && activeStack.getItem() instanceof ItemBaseBow ? (float) (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F : 0.0F;
+                    return !(activeStack.getItem() instanceof ItemBaseBow) ? 0.0F : (float)(stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F;
                 }
             }
         });
         String bowName = AtumUtils.toRegistryName(AtumUtils.toUnlocalizedName(this.getUnlocalizedName()));
-        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, bowName + "pulling"), new IItemPropertyGetter() {
+        this.addPropertyOverride(new ResourceLocation(Constants.MOD_ID, bowName + "_pulling"), new IItemPropertyGetter() {
             @Override
             @SideOnly(Side.CLIENT)
             public float apply(@Nonnull ItemStack stack, World worldIn, EntityLivingBase entity) {
@@ -43,21 +42,14 @@ public class ItemBaseBow extends ItemBow {
         });
     }
 
+    @Override
     @Nonnull
-    protected ItemStack findAmmo(EntityPlayer player) {
-        if (this.isArrow(player.getHeldItem(EnumHand.OFF_HAND))) {
-            return player.getHeldItem(EnumHand.OFF_HAND);
-        } else if (this.isArrow(player.getHeldItem(EnumHand.MAIN_HAND))) {
-            return player.getHeldItem(EnumHand.MAIN_HAND);
-        } else {
-            for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-                ItemStack stack = player.inventory.getStackInSlot(i);
+    public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.BOW;
+    }
 
-                if (this.isArrow(stack)) {
-                    return stack;
-                }
-            }
-            return ItemStack.EMPTY;
-        }
+    @Override
+    public int getMaxItemUseDuration(ItemStack stack) {
+        return 72000;
     }
 }

@@ -1,6 +1,7 @@
 {
   "pools": [
     {
+      "name": "atum:ruins",
       "rolls": {
         "min": 1,
         "max": 5
@@ -261,21 +262,6 @@
         },
         {
           "type": "item",
-          "name": "minecraft:gold_ingot",
-          "entryName": "gold_ingot",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ],
-          "weight": 20
-        },
-        {
-          "type": "item",
           "name": "atum:loot_dirty_ring",
           "entryName": "loot_dirty_ring",
           "weight": 20
@@ -324,6 +310,7 @@
       ]
     },
     {
+      "name": "atum:ruins_artifact",
       "rolls": {
         "min": 0,
         "max": 1

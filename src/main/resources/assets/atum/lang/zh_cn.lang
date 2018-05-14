@@ -4,7 +4,7 @@ biome.desert.name=沙漠
 
 # Blocks
 tile.atum.portal.name=亚图姆传送门
-tile.atum.chestSpawner.name=亚图姆箱子
+tile.atum.chestSpawner.name=箱子
 tile.atum.sand.name=怪沙
 tile.atum.stone.name=石灰岩
 tile.atum.limestoneGravel.name=石灰岩砂砾
@@ -191,7 +191,7 @@ item.atum.fishJeweled.name=宝石鱼
 item.atum.fishSkeletal.name=骸骨鱼
 
 item.atum.ptahsDecadence.name=Ptahs之堕落
-item.atum.soteksRage.name=Soteks之愤怒
+item.atum.sobeksRage.name=Sobeks之愤怒
 item.atum.osirisWill.name=Osiris之意志
 item.atum.akersToil.name=Akers之劳累
 item.atum.gebsBlessing.name=Gebs之祝福

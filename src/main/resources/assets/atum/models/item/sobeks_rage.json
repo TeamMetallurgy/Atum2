@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/soteks_rage"
+    "layer0": "atum:items/sobeks_rage"
   }
 }

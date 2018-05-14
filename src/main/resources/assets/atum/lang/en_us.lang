@@ -4,7 +4,7 @@ biome.desert.name=Desert
 
 # Blocks
 tile.atum.portal.name=Atum Portal
-tile.atum.chestSpawner.name=Atum Chest
+tile.atum.chestSpawner.name=Chest
 tile.atum.sand.name=Strange Sand
 tile.atum.limestoneGravel.name=Limestone Gravel
 tile.atum.limestone.name=Limestone
@@ -196,7 +196,7 @@ item.atum.fishJeweled.name=Jeweled Fish
 item.atum.fishSkeletal.name=Skeletal Fish
 
 item.atum.ptahsDecadence.name=Ptah's Decadence
-item.atum.soteksRage.name=Sotek's Rage
+item.atum.sobeksRage.name=Sobek's Rage
 item.atum.osirisWill.name=Osiris's Will
 item.atum.akersToil.name=Aker's Toil
 item.atum.gebsBlessing.name=Geb's Blessing

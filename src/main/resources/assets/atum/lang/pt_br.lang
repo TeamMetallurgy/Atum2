@@ -4,7 +4,7 @@ biome.desert.name=Deserto
 
 # Blocks
 tile.atum.portal.name=Portal do Atum
-tile.atum.chestSpawner.name=Báu do Atum
+tile.atum.chestSpawner.name=Báu
 tile.atum.sand.name=Areia Estranha 
 tile.atum.stone.name=Calcário
 tile.atum.limestoneCracked.name=Calcário Rachado
@@ -96,7 +96,7 @@ item.atum.fishJeweled.name=Peixe de Jóias
 item.atum.fishSkeletal.name=Espinha de Peixe
 
 item.atum.ptahsDecadence.name=Decadência de Ptahs
-item.atum.soteksRage.name=Raiva de Soteks
+item.atum.sobeksRage.name=Raiva de Soteks
 item.atum.osirisWill.name=Vontade de Osiris
 item.atum.akersToil.name=Labuta de Akers
 item.atum.gebsBlessing.name=Bênção de Gebs

@@ -111,7 +111,7 @@ public class AtumItems {
         registerItem(STONEGUARD_SWORD, "stoneguard_sword");
         registerItem(SCEPTER, "scepter");
         registerItem(PTAHS_DECADENCE, "ptahs_decadence");
-        registerItem(SOBEKS_RAGE, "soteks_rage");
+        registerItem(SOBEKS_RAGE, "sobeks_rage");
         registerItem(OSIRIS_WILL, "osiris_will");
         registerItem(AKERS_TOIL, "akers_toil");
         registerItem(GEBS_BLESSING, "gebs_blessing");

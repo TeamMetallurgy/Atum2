@@ -20,7 +20,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumBlocks {
     public static final BlockPortal PORTAL = new BlockPortal();
-    public static final Block CURSED_CHEST = new BlockChestSpawner();
+    public static final BlockChestSpawner CHEST_SPAWNER = new BlockChestSpawner();
     public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
     public static final Block LIMESTONE_GRAVEL = new BlockAtumGravel();
     public static final Block LIMESTONE = new BlockLimestone();
@@ -67,7 +67,7 @@ public class AtumBlocks {
 
     public static void registerBlocks() {
         registerBlock(PORTAL, "portal", null);
-        registerBlock(CURSED_CHEST, "chest_spawner");
+        registerBlock(CHEST_SPAWNER, "chest_spawner");
         registerBlock(SAND, "sand");
         registerBlock(SAND_LAYERED, new ItemSand(SAND_LAYERED), "sand_layer");
         registerBlock(DATE_BLOCK, "date_block", null);
