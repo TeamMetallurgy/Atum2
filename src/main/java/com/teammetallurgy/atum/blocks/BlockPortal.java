@@ -31,8 +31,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockPortal extends BlockBreakable { //TODO Redo for 1.9. Switch over to having a sub-class with the size
-    protected static final AxisAlignedBB PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
+public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable up to 11x11
+    private static final AxisAlignedBB PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public BlockPortal() {
         super(Material.PORTAL, false);

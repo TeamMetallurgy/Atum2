@@ -46,7 +46,7 @@ public class EntityNutsCall extends CustomArrow {
             raytraceresult = new RayTraceResult(entity);
         }
 
-        if (raytraceresult != null && raytraceresult.entityHit != null && raytraceresult.entityHit instanceof EntityPlayer) {
+        if (raytraceresult != null && raytraceresult.entityHit instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) raytraceresult.entityHit;
 
             if (this.shootingEntity instanceof EntityPlayer && !((EntityPlayer) this.shootingEntity).canAttackPlayer(entityplayer)) {

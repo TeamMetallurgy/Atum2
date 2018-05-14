@@ -22,7 +22,7 @@ public class AtumBiomeProvider extends BiomeProvider {
         this.biomeIndexLayer = initializeAllBiomeGenerators(info)[1];
     }
 
-    public GenLayer[] initializeAllBiomeGenerators(WorldInfo info) {
+    private GenLayer[] initializeAllBiomeGenerators(WorldInfo info) {
         GenLayer layerBiome = new GenLayerAtumBiome(info.getSeed());
         int biomeSize = 4;
         int riverDriedSize = 3;

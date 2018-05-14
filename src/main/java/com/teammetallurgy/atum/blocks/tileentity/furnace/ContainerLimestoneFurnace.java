@@ -18,7 +18,7 @@ public class ContainerLimestoneFurnace extends Container {
     private int furnaceBurnTime;
     private int currentItemBurnTime;
 
-    public ContainerLimestoneFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
+    ContainerLimestoneFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
         this.tileLimestoneFurnace = furnaceInventory;
         this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
         this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));

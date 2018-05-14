@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockDate extends Block {
-	public static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.3125D, 0.125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
+	private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.3125D, 0.125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
 
     public BlockDate() {
         super(Material.PLANTS);

@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 
 public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntry {
 
-    protected BlockAtumStainedGlassPane() {
+    private BlockAtumStainedGlassPane() {
         super(Material.GLASS, false);
         this.setHardness(0.3F);
         this.setSoundType(SoundType.GLASS);

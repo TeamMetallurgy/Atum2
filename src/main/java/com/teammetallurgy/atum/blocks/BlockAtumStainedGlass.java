@@ -26,7 +26,7 @@ import java.util.Random;
 
 public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEntry {
 
-    public BlockAtumStainedGlass() {
+    private BlockAtumStainedGlass() {
         super(Material.GLASS, false);
         this.setHardness(0.3F);
         this.setSoundType(SoundType.GLASS);

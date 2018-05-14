@@ -23,15 +23,15 @@ import java.util.Random;
 
 public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockSlab in 1.13
     public static final PropertyEnum<BlockAtumSlab.Type> TYPE = PropertyEnum.create("type", BlockAtumSlab.Type.class);
-    protected static final AxisAlignedBB AABB_SLAB_BOTTOM = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
-    protected static final AxisAlignedBB AABB_SLAB_TOP = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
+    private static final AxisAlignedBB AABB_SLAB_BOTTOM = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+    private static final AxisAlignedBB AABB_SLAB_TOP = new AxisAlignedBB(0.0D, 0.5D, 0.0D, 1.0D, 1.0D, 1.0D);
 
     public BlockAtumSlab(Material material) {
         this(material, material.getMaterialMapColor());
         this.setHardness(2.0F);
     }
 
-    public BlockAtumSlab(Material material, MapColor color) {
+    BlockAtumSlab(Material material, MapColor color) {
         super(material, color);
         this.setDefaultState(this.getDefaultState().withProperty(TYPE, Type.BOTTOM));
         this.setLightLevel(255);

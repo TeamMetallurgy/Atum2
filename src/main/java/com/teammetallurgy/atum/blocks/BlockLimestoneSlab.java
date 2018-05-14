@@ -13,7 +13,7 @@ import java.util.Map;
 public class BlockLimestoneSlab extends BlockAtumSlab {
     private static final Map<BlockLimestoneBricks.BrickType, Block> BRICK_SLAB = Maps.newEnumMap(BlockLimestoneBricks.BrickType.class);
 
-    public BlockLimestoneSlab() {
+    private BlockLimestoneSlab() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.STONE);

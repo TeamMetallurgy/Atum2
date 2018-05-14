@@ -9,7 +9,6 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeGenRuinedCity extends AtumBiome {
-
     protected final WorldGenerator genRuins;
 
     public BiomeGenRuinedCity(AtumBiomeProperties properties) {

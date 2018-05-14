@@ -32,7 +32,7 @@ public class BlockCrate extends BlockContainer {
     private static final Map<BlockAtumPlank.WoodType, Block> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
     private BlockAtumPlank.WoodType woodType;
 
-    public BlockCrate(BlockAtumPlank.WoodType type) {
+    private BlockCrate(BlockAtumPlank.WoodType type) {
         super(Material.WOOD);
         this.setHardness(3.0F);
         this.setSoundType(SoundType.WOOD);

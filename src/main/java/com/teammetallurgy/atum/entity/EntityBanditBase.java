@@ -84,11 +84,7 @@ public class EntityBanditBase extends EntityMob {
 
         if (bl >= 7) {
             return false;
-        } else if (light > 8) {
-            return true;
-        } else {
-            return false;
-        }
+        } else return light > 8;
     }
 
     public void attackEntityWithRangedAttack(EntityLivingBase target, float damage) {

@@ -23,7 +23,7 @@ import java.util.Objects;
 public class BlockAtumLog extends BlockLog implements IOreDictEntry {
     private static final Map<BlockAtumPlank.WoodType, Block> LOGS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
-    public BlockAtumLog() {
+    private BlockAtumLog() {
         super();
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
     }

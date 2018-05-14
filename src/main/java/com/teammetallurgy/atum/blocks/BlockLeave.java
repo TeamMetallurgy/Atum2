@@ -31,9 +31,8 @@ import java.util.Map;
 public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEntry {
     private static final Map<BlockAtumPlank.WoodType, Block> LEAVES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
-    public BlockLeave() {
+    private BlockLeave() {
         super();
-
         this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
     }
 

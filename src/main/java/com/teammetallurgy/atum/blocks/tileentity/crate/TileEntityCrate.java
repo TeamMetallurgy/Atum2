@@ -27,7 +27,6 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
     private int ticksSinceSync;
     public int numPlayersUsing;
     private float lidAngle;
-    private float prevLidAngle;
     private BlockAtumPlank.WoodType woodType;
 
     public TileEntityCrate(BlockAtumPlank.WoodType type) {
@@ -98,7 +97,7 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
                 }
             }
         }
-        this.prevLidAngle = this.lidAngle;
+        float prevLidAngle = this.lidAngle;
 
         if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
             double d1 = (double) i + 0.5D;

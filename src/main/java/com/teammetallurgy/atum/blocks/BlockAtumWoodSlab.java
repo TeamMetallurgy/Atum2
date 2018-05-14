@@ -18,7 +18,7 @@ public class BlockAtumWoodSlab extends BlockAtumSlab {
     private static final Map<BlockAtumPlank.WoodType, Block> SLABS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
     private final BlockAtumPlank.WoodType type;
 
-    public BlockAtumWoodSlab(BlockAtumPlank.WoodType type) {
+    private BlockAtumWoodSlab(BlockAtumPlank.WoodType type) {
         super(Material.WOOD);
         this.type = type;
         this.setHardness(2.0F);
