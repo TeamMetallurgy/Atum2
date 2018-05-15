@@ -47,11 +47,9 @@ public class BlockPharaohChest extends BlockChest {
         if (stack.hasDisplayName()) {
             TileEntity tileentity = world.getTileEntity(pos);
             if (tileentity instanceof TileEntityPharaohChest) {
-                ((TileEntityPharaohChest) world.getTileEntity(pos)).setCustomName(stack.getDisplayName());
+                ((TileEntityPharaohChest) tileentity).setCustomName(stack.getDisplayName());
             }
         }
-
-        //AtumLoot.fillChest((TileEntityPharaohChest) world.getTileEntity(pos), 15, 0.9F); //TODO Readd when lootables is added
     }
 
     @Override

@@ -25,6 +25,7 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemAtensFury extends ItemBaseBow {
 
@@ -106,7 +107,7 @@ public class ItemAtensFury extends ItemBaseBow {
                             player.inventory.deleteStack(ammoStack);
                         }
                     }
-                    player.addStat(StatList.getObjectUseStats(this));
+                    player.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
                 }
             }
         }

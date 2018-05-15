@@ -97,11 +97,6 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, float chance, int fortune) {
-        super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
-    }
-
-    @Override
     public int getExpDrop(IBlockState state, IBlockAccess world, BlockPos pos, int fortune) {
         if (this.getItemDropped(world.getBlockState(pos), RANDOM, fortune) != Item.getItemFromBlock(this)) {
             return 1 + RANDOM.nextInt(5);

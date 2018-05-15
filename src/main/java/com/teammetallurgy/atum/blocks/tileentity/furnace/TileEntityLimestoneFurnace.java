@@ -109,6 +109,7 @@ public class TileEntityLimestoneFurnace extends TileEntityFurnace {
     }
 
     @Override
+    @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
 

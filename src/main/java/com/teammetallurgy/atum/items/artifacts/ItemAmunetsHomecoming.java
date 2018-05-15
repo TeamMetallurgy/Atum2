@@ -38,16 +38,8 @@ public class ItemAmunetsHomecoming extends Item {
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {// TODO FIX
         ItemStack stack = player.getHeldItem(hand);
         BlockPos spawn = player.getBedLocation(player.dimension);
-        if (spawn == null) {
-            spawn = world.getSpawnPoint();
-        }
 
-        if (spawn == null) {
-            spawn = world.getSpawnPoint();
-        }
-
-        spawn = EntityPlayer.getBedSpawnLocation(world, spawn, false);
-        if (spawn == null) {
+        if (spawn == BlockPos.ORIGIN) {
             spawn = world.getSpawnPoint();
         }
 

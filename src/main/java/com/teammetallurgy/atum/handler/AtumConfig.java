@@ -19,7 +19,7 @@ import static net.minecraftforge.common.config.Configuration.CATEGORY_SPLITTER;
 public class AtumConfig {
     public static Configuration config;
 
-    public static String CATEGORY_WORLDGEN = "worldgen";
+    public static final String CATEGORY_WORLDGEN = "worldgen";
     public static boolean ALLOW_CREATION;
     public static boolean FOG_ENABLED;
     public static boolean COAL_ENABLED;
@@ -53,7 +53,7 @@ public class AtumConfig {
     }
 
     private void syncConfigData() {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = new ArrayList<>();
         Property prop;
 
         prop = config.get(CATEGORY_GENERAL, "Atum Portal", true);

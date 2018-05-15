@@ -10,6 +10,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
+import javax.annotation.Nonnull;
+
 public class BlockAtumFence extends BlockFence {
 
     public BlockAtumFence(MapColor mapColor) {
@@ -20,7 +22,7 @@ public class BlockAtumFence extends BlockFence {
     }
 
     @Override
-    public boolean canConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+    public boolean canConnectTo(IBlockAccess world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing) {
         Block block = world.getBlockState(pos).getBlock();
         return canBlockConnect(block) || super.canConnectTo(world, pos, facing);
     }

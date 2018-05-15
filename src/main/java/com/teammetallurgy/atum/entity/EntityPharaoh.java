@@ -98,6 +98,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    protected boolean shouldBurnInDay() {
+        return false;
+    }
+
+    @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCEPTER));

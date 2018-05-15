@@ -26,7 +26,7 @@ import java.util.Map;
 public class ItemLoot extends Item {
     private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
-    public ItemLoot() {
+    private ItemLoot() {
         this.setMaxDamage(0);
     }
 

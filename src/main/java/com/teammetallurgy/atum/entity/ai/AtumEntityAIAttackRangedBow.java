@@ -6,7 +6,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.ItemBow;
 
 public class AtumEntityAIAttackRangedBow<T extends EntityMob & IRangedAttackMob> extends EntityAIAttackRangedBow {
-    private T entity;
+    private final T entity;
 
     public AtumEntityAIAttackRangedBow(T mob, double moveSpeedAmp, int attackCooldown, float maxAttackDistance) {
         super(mob, moveSpeedAmp, attackCooldown, maxAttackDistance);

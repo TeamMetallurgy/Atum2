@@ -178,13 +178,12 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @SideOnly(Side.CLIENT)
-    public boolean isSwingingArms()
-    {
-        return ((Boolean)this.dataManager.get(SWINGING_ARMS)).booleanValue();
+    public boolean isSwingingArms() {
+        return this.dataManager.get(SWINGING_ARMS);
     }
 
-    public void setSwingingArms(boolean swingingArms)
-    {
-        this.dataManager.set(SWINGING_ARMS, Boolean.valueOf(swingingArms));
+    @Override
+    public void setSwingingArms(boolean swingingArms) {
+        this.dataManager.set(SWINGING_ARMS, swingingArms);
     }
 }

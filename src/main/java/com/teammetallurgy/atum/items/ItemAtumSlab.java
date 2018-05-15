@@ -76,7 +76,7 @@ public class ItemAtumSlab extends ItemBlock { //TODO Remove 1.13
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean canPlaceBlockOnSide(World world, BlockPos pos, EnumFacing side, EntityPlayer player, ItemStack stack) {
+    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, EntityPlayer player, ItemStack stack) {
         IBlockState state = world.getBlockState(pos);
 
         if (state.getBlock() == this.slab) {

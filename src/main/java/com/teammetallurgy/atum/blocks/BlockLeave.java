@@ -27,6 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEntry {
     private static final Map<BlockAtumPlank.WoodType, Block> LEAVES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
@@ -79,7 +80,7 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
     @Override
     public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity te, @Nonnull ItemStack stack) {
         if (!world.isRemote && stack.getItem() == Items.SHEARS) {
-            player.addStat(StatList.getBlockStats(this));
+            player.addStat(Objects.requireNonNull(StatList.getBlockStats(this)));
         } else {
             super.harvestBlock(world, player, pos, state, te, stack);
         }

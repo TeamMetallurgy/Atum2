@@ -173,7 +173,7 @@ public class WorldGenPyramid extends WorldGenerator { //TODO What is this based 
     }
 
     public void generateMaze(boolean[][] array, Random random, int x, int y) {
-        ArrayList<Pair> choices = new ArrayList<Pair>();
+        ArrayList<Pair> choices = new ArrayList<>();
         do {
             choices.clear();
             if (x + 2 < 16 && !array[x + 2][y])

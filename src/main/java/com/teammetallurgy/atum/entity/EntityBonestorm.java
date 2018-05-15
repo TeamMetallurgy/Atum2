@@ -12,6 +12,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import java.util.Objects;
+
 public class EntityBonestorm extends EntityUndeadBase {
     private float heightOffset = 0.2F;
     private int heightOffsetUpdateTime;
@@ -122,7 +124,7 @@ public class EntityBonestorm extends EntityUndeadBase {
         public void updateTask() {
             --this.attackTime;
             EntityLivingBase livingBase = this.bonestorm.getAttackTarget();
-            double distance = this.bonestorm.getDistanceSq(livingBase);
+            double distance = this.bonestorm.getDistanceSq(Objects.requireNonNull(livingBase));
 
             if (distance < 4.0D) {
                 if (this.attackTime <= 0) {

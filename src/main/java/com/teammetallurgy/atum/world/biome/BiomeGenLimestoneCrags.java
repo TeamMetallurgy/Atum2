@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeGenLimestoneCrags extends AtumBiome {
-
     private WorldGenerator genSpikes;
 
     public BiomeGenLimestoneCrags(AtumBiomeProperties properties) {

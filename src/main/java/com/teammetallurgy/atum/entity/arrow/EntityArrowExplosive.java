@@ -52,7 +52,7 @@ public class EntityArrowExplosive extends CustomArrow {
         if (state.getMaterial() != Material.AIR) {
             AxisAlignedBB axisalignedbb = state.getCollisionBoundingBox(this.world, blockpos);
 
-            if (axisalignedbb != Block.NULL_AABB && axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
+            if (axisalignedbb != Block.NULL_AABB && axisalignedbb != null && axisalignedbb.offset(blockpos).contains(new Vec3d(this.posX, this.posY, this.posZ))) {
                 this.world.newExplosion(this, this.posX, this.posY, this.posZ, 2.0F, this.isBurning(), true);
                 this.inGround = true;
             }
@@ -108,15 +108,15 @@ public class EntityArrowExplosive extends CustomArrow {
                 }
             }
 
-            if (raytraceresult != null) {
+            if (raytraceresult != null && entity != null) {
                 this.onHit(raytraceresult);
                 this.world.createExplosion(this, raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z, 2.0F, true);
-                this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, 2.0F, true); //TODO
+                this.world.createExplosion(this, entity.posX, entity.posY, entity.posZ, 2.0F, true);
             }
 
             if (this.getIsCritical()) {
                 for (int k = 0; k < 4; ++k) {
-                    this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ, new int[0]);
+                    this.world.spawnParticle(EnumParticleTypes.CRIT, this.posX + this.motionX * (double) k / 4.0D, this.posY + this.motionY * (double) k / 4.0D, this.posZ + this.motionZ * (double) k / 4.0D, -this.motionX, -this.motionY + 0.2D, -this.motionZ);
                 }
             }
 
@@ -149,7 +149,7 @@ public class EntityArrowExplosive extends CustomArrow {
             if (this.isInWater()) {
                 for (int i = 0; i < 4; ++i) {
                     float f3 = 0.25F;
-                    this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f3, this.posY - this.motionY * (double) f3, this.posZ - this.motionZ * (double) f3, this.motionX, this.motionY, this.motionZ, new int[0]);
+                    this.world.spawnParticle(EnumParticleTypes.WATER_BUBBLE, this.posX - this.motionX * (double) f3, this.posY - this.motionY * (double) f3, this.posZ - this.motionZ * (double) f3, this.motionX, this.motionY, this.motionZ);
                 }
 
                 f1 = 0.6F;
