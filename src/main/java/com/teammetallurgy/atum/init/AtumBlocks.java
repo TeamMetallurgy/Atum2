@@ -57,6 +57,7 @@ public class AtumBlocks {
     public static final Block COAL_ORE = new BlockAtumOres();
     public static final Block LAPIS_ORE = new BlockAtumOres();
     public static final Block DIAMOND_ORE = new BlockAtumOres();
+    public static final Block EMERALD_ORE = new BlockAtumOres();
     public static final Block REDSTONE_ORE = new BlockAtumRedstoneOre(false);
     public static final Block LIT_REDSTONE_ORE = new BlockAtumRedstoneOre(true);
     public static final Block LIMESTONE_FURNACE = new BlockLimeStoneFurnace(false);
@@ -86,6 +87,7 @@ public class AtumBlocks {
         registerBlock(COAL_ORE, "coal_ore");
         registerBlock(LAPIS_ORE, "lapis_ore");
         registerBlock(DIAMOND_ORE, "diamond_ore");
+        registerBlock(EMERALD_ORE, "emerald_ore");
         registerBlock(REDSTONE_ORE, "redstone_ore");
         registerBlock(LIT_REDSTONE_ORE, "lit_redstone_ore", null);
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");

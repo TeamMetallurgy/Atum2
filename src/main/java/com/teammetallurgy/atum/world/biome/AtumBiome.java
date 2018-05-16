@@ -27,10 +27,10 @@ public class AtumBiome extends Biome {
         properties.weight = weight;
         this.decorator = createBiomeDecorator();
 
-        super.spawnableMonsterList.clear();
-        super.spawnableCreatureList.clear();
-        super.spawnableWaterCreatureList.clear();
-        super.spawnableCaveCreatureList.clear();
+        this.spawnableMonsterList.clear();
+        this.spawnableCreatureList.clear();
+        this.spawnableWaterCreatureList.clear();
+        this.spawnableCaveCreatureList.clear();
 
         this.topBlock = AtumBlocks.SAND.getDefaultState();
         this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
@@ -44,16 +44,17 @@ public class AtumBiome extends Biome {
         this.weight = weight;
     }
 
-    void addDefaultSpawns() {
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 4, 4));
+    void addDefaultSpawns() { //TODO Fix waits
+        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityStoneguard.class, 7, 1, 2));
+        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 1, 3));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 6, 2, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 6, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 4, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 6, 4, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 4, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 6, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 1, 4));
     }
 
     @Override

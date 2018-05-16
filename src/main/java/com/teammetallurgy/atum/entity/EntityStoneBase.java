@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.entity;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,10 +15,12 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.EnumHelper;
 
 import javax.annotation.Nonnull;
 
 public class EntityStoneBase extends EntityMob {
+    public static final EnumCreatureType STONE_MOB = EnumHelper.addCreatureType("stone", EntityStoneBase.class, 20, Material.ROCK, false, false);
 
     EntityStoneBase(World world) {
         super(world);
@@ -41,12 +45,6 @@ public class EntityStoneBase extends EntityMob {
     @Override
     public boolean isPotionApplicable(@Nonnull PotionEffect potionEffect) {
         return potionEffect.getPotion() != MobEffects.POISON && super.isPotionApplicable(potionEffect);
-    }
-
-    @Override
-    @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.UNDEFINED;
     }
 
     @Override
@@ -79,5 +77,10 @@ public class EntityStoneBase extends EntityMob {
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor(this.getEntityBoundingBox().minY);
         return i <= 62 && super.getCanSpawnHere() && !this.world.canSeeSky(getPosition());
+    }
+
+    @Override
+    protected boolean isValidLightLevel() {
+        return true;
     }
 }

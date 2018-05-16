@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
@@ -29,7 +30,7 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
     @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return this == AtumBlocks.COAL_ORE ? Items.COAL : (this == AtumBlocks.DIAMOND_ORE ? Items.DIAMOND : (this == AtumBlocks.LAPIS_ORE ? Items.DYE : Item.getItemFromBlock(this)));
+        return this == AtumBlocks.COAL_ORE ? Items.COAL : (this == AtumBlocks.DIAMOND_ORE ? Items.DIAMOND : (this == AtumBlocks.LAPIS_ORE ? Items.DYE : (this == AtumBlocks.EMERALD_ORE ? Items.EMERALD : Item.getItemFromBlock(this))));
     }
 
     @Override
@@ -46,6 +47,8 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
             if (this == AtumBlocks.COAL_ORE) {
                 xp = MathHelper.getInt(rand, 0, 2);
             } else if (this == AtumBlocks.DIAMOND_ORE) {
+                xp = MathHelper.getInt(rand, 3, 7);
+            } else if (this == Blocks.EMERALD_ORE) {
                 xp = MathHelper.getInt(rand, 3, 7);
             } else if (this == AtumBlocks.LAPIS_ORE) {
                 xp = MathHelper.getInt(rand, 2, 5);

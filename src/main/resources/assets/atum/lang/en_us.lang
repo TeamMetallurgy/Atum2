@@ -62,6 +62,7 @@ tile.atum.ironOre.name=Iron Ore
 tile.atum.goldOre.name=Gold Ore
 tile.atum.lapisOre.name=Lapis Ore
 tile.atum.diamondOre.name=Diamond Ore
+tile.atum.emeraldOre.name=Emerald Ore
 tile.atum.limestoneFurnace.name=Limestone Furnace
 tile.atum.limestoneFurnaceLit.name=Limestone Furnace
 tile.atum.deadwoodLog.name=Deadwood Wood

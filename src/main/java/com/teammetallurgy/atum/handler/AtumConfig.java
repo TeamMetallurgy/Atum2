@@ -27,6 +27,7 @@ public class AtumConfig {
     public static boolean GOLD_ENABLED;
     public static boolean REDSTONE_ENABLED;
     public static boolean DIAMOND_ENABLED;
+    public static boolean EMERALD_ENABLED;
     public static boolean LAPIS_ENABLED;
 
     public static int DIMENSION_ID;
@@ -35,6 +36,7 @@ public class AtumConfig {
     public static int GOLD_VEIN;
     public static int REDSTONE_VEIN;
     public static int DIAMOND_VEIN;
+    public static int EMERALD_VEIN;
     public static int LAPIS_VEIN;
 
 
@@ -98,6 +100,9 @@ public class AtumConfig {
 
         DIAMOND_ENABLED = config.getBoolean("Generate Diamond", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Diamond ore", true, "Should diamond ore generate in Atum?");
         DIAMOND_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Diamond ore", 7, 0, 64, "Diamond vein size");
+
+        EMERALD_ENABLED = config.getBoolean("Generate Emerald", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Emerald ore", true, "Should emerald ore generate in Atum?");
+        EMERALD_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Emerald ore", 5, 0, 64, "Emerald vein size");
 
         LAPIS_ENABLED = config.getBoolean("Generate Lapis", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Lapis ore", true, "Should lapis ore generate in Atum?");
         LAPIS_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Lapis ore", 6, 0, 64, "Lapis vein size");

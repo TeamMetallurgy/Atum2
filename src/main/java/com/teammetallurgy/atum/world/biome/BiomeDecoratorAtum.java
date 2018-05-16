@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.gen.feature.WorldGenMinable;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType;
 import net.minecraftforge.event.terraingen.OreGenEvent;
@@ -22,6 +23,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeDecoratorAtum extends BiomeDecorator {
+    public WorldGenerator emeraldGen;
     private float shrubChance;
 
     BiomeDecoratorAtum() {
@@ -43,6 +45,9 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         }
         if (AtumConfig.DIAMOND_ENABLED) {
             this.diamondGen = generateMinable(AtumBlocks.DIAMOND_ORE.getDefaultState(), AtumConfig.DIAMOND_VEIN);
+        }
+        if (AtumConfig.EMERALD_ENABLED) {
+            this.emeraldGen = generateMinable(AtumBlocks.EMERALD_ORE.getDefaultState(), AtumConfig.EMERALD_VEIN);
         }
         if (AtumConfig.LAPIS_ENABLED) {
             this.lapisGen = generateMinable(AtumBlocks.LAPIS_ORE.getDefaultState(), AtumConfig.LAPIS_VEIN);
