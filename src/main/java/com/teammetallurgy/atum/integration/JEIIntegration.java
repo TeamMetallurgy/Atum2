@@ -13,6 +13,7 @@ public class JEIIntegration implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
         IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
+        blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.CHEST_SPAWNER));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.DATE_BLOCK));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.FLAX));
         blacklist.addIngredientToBlacklist(new ItemStack(AtumBlocks.PAPYRUS));

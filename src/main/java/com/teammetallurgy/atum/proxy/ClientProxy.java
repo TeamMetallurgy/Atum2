@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.client.model.entity.ModelNomad;
 import com.teammetallurgy.atum.client.render.entity.RenderBonestorm;
 import com.teammetallurgy.atum.client.render.entity.RenderDesertWolf;
 import com.teammetallurgy.atum.client.render.entity.RenderGhost;
+import com.teammetallurgy.atum.client.render.entity.RenderTarantula;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderNutsCall;
 import com.teammetallurgy.atum.entity.*;
@@ -32,7 +33,8 @@ import javax.annotation.Nonnull;
 public class ClientProxy extends CommonProxy {
 
     @Override
-    public void initRenders() { //TODO
+    public void initRenders() {
+        RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderLiving<EntityMummy>(manager, new ModelZombie(), 0.5F) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull EntityMummy entity) {

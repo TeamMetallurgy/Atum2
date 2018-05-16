@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
+import com.teammetallurgy.atum.world.gen.structure.StructureAtumMineshaftPieces;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -19,7 +20,6 @@ import org.apache.logging.log4j.Logger;
 
 @Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = Constants.FACTORY)
 public class Atum {
-
     @Mod.Instance(Constants.MOD_ID)
     public static Atum instance;
 
@@ -40,6 +40,7 @@ public class Atum {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
+        StructureAtumMineshaftPieces.registerMineshaft();
     }
 
     @Mod.EventHandler

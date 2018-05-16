@@ -78,6 +78,6 @@ public class EntityStoneBase extends EntityMob {
     @Override
     public boolean getCanSpawnHere() {
         int i = MathHelper.floor(this.getEntityBoundingBox().minY);
-        return i <= 62 && super.getCanSpawnHere();
+        return i <= 62 && super.getCanSpawnHere() && !this.world.canSeeSky(getPosition());
     }
 }

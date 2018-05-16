@@ -69,7 +69,7 @@ public class AtumBlocks {
 
     public static void registerBlocks() {
         registerBlock(PORTAL, "portal", null);
-        registerBlock(CHEST_SPAWNER, "chest_spawner");
+        registerBlock(CHEST_SPAWNER, "chest_spawner", null);
         registerBlock(SAND, "sand");
         registerBlock(SAND_LAYERED, new ItemSand(SAND_LAYERED), "sand_layer");
         registerBlock(DATE_BLOCK, "date_block", null);

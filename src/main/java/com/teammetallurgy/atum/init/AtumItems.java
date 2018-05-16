@@ -83,6 +83,7 @@ public class AtumItems {
     public static final Item DESERT_BOOTS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.FEET).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
     public static final Item PAPYRUS_PLANT = new ItemBlockSpecial(AtumBlocks.PAPYRUS);
     public static final Item ECTOPLASM = new Item();
+    public static final Item MANDIBLES = new Item();
     public static final Item DUSTY_BONE = new Item();
     public static final Item STONE_CHUNK = new Item();
     public static final Item SCROLL = new Item();
@@ -158,6 +159,7 @@ public class AtumItems {
         registerItem(DESERT_BOOTS, "desert_boots");
         registerItem(PAPYRUS_PLANT, "papyrus_plant");
         registerItem(ECTOPLASM, "ectoplasm");
+        registerItem(MANDIBLES, "mandibles");
         registerItem(DUSTY_BONE, "dusty_bone");
         registerItem(STONE_CHUNK, "stone_chunk");
         registerItem(SCROLL, "scroll");

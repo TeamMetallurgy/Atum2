@@ -184,6 +184,7 @@ item.atum.desertLegs.name=Desert Leggings
 item.atum.desertBoots.name=Desert Boots
 item.atum.papyrusPlant.name=Papyrus
 item.atum.ectoplasm.name=Ectoplasm
+item.atum.mandibles.name=Tarantula Mandibles
 item.atum.dustyBone.name=Dusty Bone
 item.atum.stoneChunk.name=Stone Chunk
 item.atum.clothScrap.name=Cloth Scrap
@@ -402,17 +403,18 @@ item.atum.loot.diamond.broach.name=Diamond Broach
 item.atum.loot.diamond.scepter.name=Diamond Scepter
 
 # Entity
-entity.atum.mummy.name=Mummy
-entity.atum.brigand.name=Brigand
-entity.atum.nomad.name=Nomad
-entity.atum.pharaoh.name=Pharaoh
-entity.atum.forsaken.name=Forsaken
-entity.atum.wraith.name=Wraith
-entity.atum.stoneguard.name=Stoneguard
-entity.atum.desertWolf.name=Desert Wolf
 entity.atum.banditWarlord.name=Warlord
 entity.atum.barbarian.name=Barbarian
 entity.atum.bonestorm.name=Bonestorm
+entity.atum.brigand.name=Brigand
+entity.atum.desertWolf.name=Desert Wolf
+entity.atum.forsaken.name=Forsaken
+entity.atum.mummy.name=Mummy
+entity.atum.nomad.name=Nomad
+entity.atum.pharaoh.name=Pharaoh
+entity.atum.stoneguard.name=Stoneguard
+entity.atum.tarantula.name=Tarantula
+entity.atum.wraith.name=Wraith
 
 # Pharaoh Names
 entity.atum.pharaoh.Ama=Ama'

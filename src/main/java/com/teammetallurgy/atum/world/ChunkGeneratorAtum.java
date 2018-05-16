@@ -1,12 +1,15 @@
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
+import com.teammetallurgy.atum.world.gen.structure.MapGenAtumMineshaft;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -15,7 +18,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.*;
-import net.minecraft.world.gen.structure.MapGenMineshaft;
 import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
@@ -41,7 +43,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     private ChunkGeneratorSettings settings;
     private double[] depthBuffer = new double[256];
     private MapGenBase caveGenerator = new MapGenCaves();
-    private MapGenMineshaft mineshaftGenerator = new MapGenMineshaft();
+    private MapGenAtumMineshaft mineshaftGenerator = new MapGenAtumMineshaft();
     private MapGenBase ravineGenerator = new MapGenRavine();
     private Biome[] biomesForGeneration;
     private double[] mainNoiseRegion;
@@ -334,7 +336,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     public boolean isInsideStructure(@Nonnull World world, @Nonnull String structureName, @Nonnull BlockPos pos) {
         if (!this.mapFeaturesEnabled) {
             return false;
-        } else if ("Mineshaft".equals(structureName) && this.mineshaftGenerator != null) {
+        } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft")).equals(structureName) && this.mineshaftGenerator != null) {
             return this.mineshaftGenerator.isInsideStructure(pos);
         }
         return false;

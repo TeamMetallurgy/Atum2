@@ -16,7 +16,7 @@ public class WorldGenRuins extends WorldGenerator {
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         //Debug code
-        System.out.println("Set chest: " + pos);
+        //System.out.println("Set chest: " + pos);
         world.setBlockState(pos, AtumBlocks.CHEST_SPAWNER.correctFacing(world, pos, AtumBlocks.CHEST_SPAWNER.getDefaultState()), 2);
         TileEntity tileEntity = world.getTileEntity(pos);
 

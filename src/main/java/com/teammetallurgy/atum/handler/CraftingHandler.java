@@ -5,11 +5,14 @@ import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Items;
+import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.potion.PotionType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,10 +21,14 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import org.apache.commons.lang3.StringUtils;
 
+import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
+import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
+
 @Mod.EventBusSubscriber
 public class CraftingHandler {
     private static void register() {
         addSmeltingRecipes();
+        addBrewingRecipes();
     }
 
     private static void addSmeltingRecipes() {
@@ -36,6 +43,19 @@ public class CraftingHandler {
         }
         GameRegistry.addSmelting(AtumBlocks.LIMESTONE_CRACKED, new ItemStack(AtumBlocks.LIMESTONE), 0.1F);
         GameRegistry.addSmelting(AtumBlocks.SAND, new ItemStack(AtumBlocks.CRYSTAL_GLASS), 0.1F);
+    }
+
+    private static void addBrewingRecipes() {
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
+    }
+
+    private static void addBrewingRecipeWithSubPotions(ItemStack ingredient, PotionType potionType) {
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), ingredient, addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.MUNDANE));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), ingredient, addPotionToItemStack(new ItemStack(Items.POTIONITEM), potionType));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.AWKWARD), ingredient, addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), potionType));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.WATER), ingredient, addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.MUNDANE));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.WATER), ingredient, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.MUNDANE));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.AWKWARD), ingredient, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), potionType));
     }
 
     @SubscribeEvent

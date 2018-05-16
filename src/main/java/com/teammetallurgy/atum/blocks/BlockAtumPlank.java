@@ -46,6 +46,7 @@ public class BlockAtumPlank extends Block implements IOreDictEntry {
             Item stick = new Item();
             STICKS.put(type, stick);
             AtumRegistry.registerItem(stick, type.getName() + "Stick");
+            OreDictHelper.add(stick, "stickWood");
         }
     }
 
