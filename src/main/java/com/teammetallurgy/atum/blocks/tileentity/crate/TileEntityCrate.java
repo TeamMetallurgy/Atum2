@@ -29,6 +29,9 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
     private float lidAngle;
     private BlockAtumPlank.WoodType woodType;
 
+    public TileEntityCrate() {
+    }
+
     public TileEntityCrate(BlockAtumPlank.WoodType type) {
         this.woodType = type;
     }

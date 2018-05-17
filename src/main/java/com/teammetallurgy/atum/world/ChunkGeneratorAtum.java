@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import com.teammetallurgy.atum.world.gen.structure.MapGenAtumMineshaft;
 import net.minecraft.block.BlockFalling;
@@ -311,6 +312,15 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 (new WorldGenLava(Blocks.LAVA)).generate(this.world, this.rand, blockpos.add(i2, l2, k3));
             }
         }
+        if (this.settings.useDungeons) {
+            for (int j2 = 0; j2 < this.settings.dungeonChance; ++j2) {
+                int i3 = this.rand.nextInt(16) + 8;
+                int l3 = this.rand.nextInt(256);
+                int l1 = this.rand.nextInt(16) + 8;
+                (new WorldGenAtumDungeons()).generate(this.world, this.rand, blockpos.add(i3, l3, l1));
+            }
+        }
+
         biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
         BlockFalling.fallInstantly = false;
     }

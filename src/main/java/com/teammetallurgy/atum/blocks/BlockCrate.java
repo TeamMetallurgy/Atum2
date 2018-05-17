@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class BlockCrate extends BlockContainer {
-    private static final Map<BlockAtumPlank.WoodType, Block> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
+    private static final Map<BlockAtumPlank.WoodType, BlockCrate> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
     private BlockAtumPlank.WoodType woodType;
 
     private BlockCrate(BlockAtumPlank.WoodType type) {
@@ -41,13 +41,13 @@ public class BlockCrate extends BlockContainer {
 
     public static void registerCrates() {
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            Block crate = new BlockCrate(type);
+            BlockCrate crate = new BlockCrate(type);
             CRATES.put(type, crate);
             AtumRegistry.registerBlock(crate, type.getName() + "_crate");
         }
     }
 
-    public static Block getCrate(BlockAtumPlank.WoodType type) {
+    public static BlockCrate getCrate(BlockAtumPlank.WoodType type) {
         return CRATES.get(type);
     }
 
