@@ -121,6 +121,7 @@ public class BlockAtumLog extends BlockLog implements IOreDictEntry {
             int amount = MathHelper.getInt(RANDOM, 1, 2) + fortune;
             drops.add(new ItemStack(AtumItems.DEADWOOD_BEETLE, amount));
         }
+        super.getDrops(drops, world, pos, state, fortune);
     }
 
     @Override

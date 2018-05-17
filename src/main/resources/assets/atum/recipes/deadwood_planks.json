@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "atum:palm_log"
+      "item": "atum:deadwood_log"
     }
   ],
   "result": {

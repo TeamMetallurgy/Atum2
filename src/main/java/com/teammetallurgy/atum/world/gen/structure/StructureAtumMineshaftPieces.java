@@ -507,7 +507,8 @@ public class StructureAtumMineshaftPieces {
         }
 
         IBlockState getSupportBlock() {
-            switch (mineshaftType) {
+            if (this.mineshaftType == null) mineshaftType = MapGenAtumMineshaft.Type.DEADWOOD;
+            switch (this.mineshaftType) {
                 case DEADWOOD:
                 default:
                     return BlockAtumPlank.getPlank(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState();
@@ -517,7 +518,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         IBlockState getPillarBlock() {
-            switch (mineshaftType) {
+            switch (this.mineshaftType) {
                 case DEADWOOD:
                 default:
                     return AtumBlocks.DEADWOOD_FENCE.getDefaultState();
