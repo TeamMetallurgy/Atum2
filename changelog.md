@@ -4,3 +4,8 @@ New in Atum 2
 * Limestone Brick variants now all have slabs, stairs and walls based on them
 * Limestone doors
 * Desert Wolves will be pacified for a moment, when given a bone
+* Two different Mineshaft types
+* Added Tarantulas
+* New torch types
+* Atum portal is now expandable like the vanilla portal. The outside can be up to 11x11.
+- And more!

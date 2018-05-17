@@ -1,8 +1,6 @@
 package com.teammetallurgy.atum.entity;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,12 +12,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.EnumHelper;
 
 import javax.annotation.Nonnull;
 
 public class EntityStoneBase extends EntityMob {
-    public static final EnumCreatureType STONE_MOB = EnumHelper.addCreatureType("stone", EntityStoneBase.class, 20, Material.ROCK, false, false);
 
     EntityStoneBase(World world) {
         super(world);

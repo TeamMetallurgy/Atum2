@@ -46,7 +46,7 @@ public class AtumBiome extends Biome {
 
     void addDefaultSpawns() { //TODO Fix waits and lists
         this.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 7, 1, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
+        //this.spawnableMonsterList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 1, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 1, 3));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 6, 2, 2));

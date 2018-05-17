@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable up to 11x11
+public class BlockPortal extends BlockBreakable {
     private static final AxisAlignedBB PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public BlockPortal() {
@@ -64,13 +64,13 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
 
         if (world.provider.isSurfaceWorld() && world.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < world.getDifficulty().getDifficultyId()) {
             int i = pos.getY();
-            BlockPos blockpos;
+            BlockPos pos1;
 
-            for (blockpos = pos; !world.getBlockState(blockpos).isTopSolid() && blockpos.getY() > 0; blockpos = blockpos.down()) {
+            for (pos1 = pos; !world.getBlockState(pos1).isTopSolid() && pos1.getY() > 0; pos1 = pos1.down()) {
             }
 
-            if (i > 0 && !world.getBlockState(blockpos.up()).isNormalCube()) {
-                Entity entity = ItemMonsterPlacer.spawnCreature(world, EntityList.getKey(EntityPigZombie.class), (double) blockpos.getX() + 0.5D, (double) blockpos.getY() + 1.1D, (double) blockpos.getZ() + 0.5D);
+            if (i > 0 && !world.getBlockState(pos1.up()).isNormalCube()) {
+                Entity entity = ItemMonsterPlacer.spawnCreature(world, EntityList.getKey(EntityPigZombie.class), (double) pos1.getX() + 0.5D, (double) pos1.getY() + 1.1D, (double) pos1.getZ() + 0.5D);
 
                 if (entity != null) {
                     entity.timeUntilPortal = entity.getPortalCooldown();
@@ -79,14 +79,14 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
         }
     }
 
-    public boolean trySpawnPortal(World worldIn, BlockPos pos) {
-        BlockPortal.Size size = new BlockPortal.Size(worldIn, pos);
+    public boolean trySpawnPortal(World world, BlockPos pos) {
+        BlockPortal.Size size = new BlockPortal.Size(world, pos);
 
         if (size.isValid()) {
             size.placePortalBlocks();
             return true;
         } else {
-            BlockPortal.Size size1 = new BlockPortal.Size(worldIn, pos);
+            BlockPortal.Size size1 = new BlockPortal.Size(world, pos);
 
             if (size1.isValid()) {
                 size1.placePortalBlocks();
@@ -98,22 +98,12 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) { //TODO
-        for (int x = -1; x < 2; x++) {
-            for (int z = -1; z < 2; z++) {
-                for (int y = -1; y < 1; y++) {
-                    IBlockState blockState = world.getBlockState(pos.add(x, y, z));
-                    if (blockState != Blocks.SANDSTONE.getDefaultState() && blockState != this.getDefaultState() && blockState != BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setBlockUnbreakable().getDefaultState()) {
-                        world.setBlockToAir(pos);
-                    }
-                }
-            }
-        }
-    }
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
+        Size size = new Size(world, pos);
 
-    private static boolean isSandstone(IBlockState state) {
-        Block block = state.getBlock();
-        return block instanceof BlockSandStone || block == BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE);
+        if (!size.isValid()) {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+        }
     }
 
     @Override
@@ -154,11 +144,11 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
 
         private final World world;
         private boolean valid = false;
-        private BlockPos bottomLeft;
+        private BlockPos nw;
+        private BlockPos se;
 
         public Size(World world, BlockPos pos) {
             this.world = world;
-            this.bottomLeft = pos;
 
             int east = getDistanceUntilEdge(pos, EnumFacing.EAST);
             int west = getDistanceUntilEdge(pos, EnumFacing.WEST);
@@ -171,7 +161,6 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
             if (width > Size.MAX_SIZE || length > Size.MAX_SIZE) {
                 return;
             }
-
             if (width < Size.MIN_SIZE || length < Size.MIN_SIZE) {
                 return;
             }
@@ -181,6 +170,8 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
             BlockPos seCorner = pos.east(east).south(south);
             BlockPos swCorner = pos.west(west).south(south);
 
+            this.nw = nwCorner.add(1, 0, 1);
+            this.se = seCorner.add(-1, 0, -1);
             int wallWidth = width + 2;
             int wallLength = length + 2;
 
@@ -188,7 +179,7 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
                 for (int x = 0; x < wallWidth; x++) {
                     for (int z = 0; z < wallLength; z++) {
                         if (y == 0 || x == 0 || z == 0 || x == wallWidth - 1 || z == wallLength - 1) {
-                            if (world.getBlockState(nwCorner.down().add(x, y, z)).getBlock() != Blocks.SANDSTONE) {
+                            if (!isSandBlock(world.getBlockState(nwCorner.down().add(x, y, z)))) {
                                 return;
                             }
                         }
@@ -197,23 +188,19 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
             }
 
             for (int y = 0; y < 2; y++) {
-                if (world.getBlockState(neCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                if (!isSandBlock(world.getBlockState(neCorner.add(0, y + 1, 0)))) {
                     return;
                 }
-
-                if (world.getBlockState(nwCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                if (!isSandBlock(world.getBlockState(nwCorner.add(0, y + 1, 0)))) {
                     return;
                 }
-
-                if (world.getBlockState(seCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                if (!isSandBlock(world.getBlockState(seCorner.add(0, y + 1, 0)))) {
                     return;
                 }
-
-                if (world.getBlockState(swCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                if (!isSandBlock(world.getBlockState(swCorner.add(0, y + 1, 0)))) {
                     return;
                 }
             }
-
             this.valid = true;
         }
 
@@ -223,17 +210,21 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
             for (i = 0; i < 9; ++i) {
                 BlockPos blockpos = pos.offset(facing, i);
 
-                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() != Blocks.SANDSTONE) {
+                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || !isSandBlock(this.world.getBlockState(blockpos.down()))) {
                     break;
                 }
             }
 
-            Block block = this.world.getBlockState(pos.offset(facing, i)).getBlock();
-            return block == Blocks.SANDSTONE ? i : 0;
+            IBlockState state = this.world.getBlockState(pos.offset(facing, i));
+            return isSandBlock(state) ? i : 0;
         }
 
         boolean isEmptyBlock(IBlockState state) {
             return state.getMaterial() == Material.WATER;
+        }
+
+        boolean isSandBlock(IBlockState state) {
+            return state.getBlock() instanceof BlockSandStone || state.getBlock() instanceof BlockLimestoneBricks;
         }
 
         boolean isValid() {
@@ -241,8 +232,7 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
         }
 
         void placePortalBlocks() {
-            BlockPos pos = this.bottomLeft;
-            for (BlockPos.MutableBlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-1, 0, -1), pos.add(1, 0, 1))) {
+            for (BlockPos.MutableBlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(nw, se)) {
                 this.world.setBlockState(portalPos, AtumBlocks.PORTAL.getDefaultState(), 2);
             }
         }

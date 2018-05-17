@@ -2,5 +2,27 @@
   "parent": "item/bow",
   "textures": {
     "layer0": "atum:items/shus_breath"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "atum:item/shus_breath_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.65
+      },
+      "model": "atum:item/shus_breath_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.9
+      },
+      "model": "atum:item/shus_breath_pulling_2"
+    }
+  ]
 }
