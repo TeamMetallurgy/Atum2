@@ -486,7 +486,7 @@ public class StructureAtumMineshaftPieces {
     }
 
     abstract static class MineshaftPiece extends StructureComponent {
-        protected MapGenAtumMineshaft.Type mineshaftType;
+        MapGenAtumMineshaft.Type mineshaftType;
 
         MineshaftPiece() {
         }
@@ -507,7 +507,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         IBlockState getSupportBlock() {
-            switch (this.mineshaftType) {
+            switch (mineshaftType) {
                 case DEADWOOD:
                 default:
                     return BlockAtumPlank.getPlank(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState();
@@ -517,7 +517,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         IBlockState getPillarBlock() {
-            switch (this.mineshaftType) {
+            switch (mineshaftType) {
                 case DEADWOOD:
                 default:
                     return AtumBlocks.DEADWOOD_FENCE.getDefaultState();

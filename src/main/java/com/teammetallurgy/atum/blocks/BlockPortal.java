@@ -10,12 +10,9 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemMonsterPlacer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -58,27 +55,6 @@ public class BlockPortal extends BlockBreakable {
         return false;
     }
 
-    @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
-        super.updateTick(world, pos, state, rand);
-
-        if (world.provider.isSurfaceWorld() && world.getGameRules().getBoolean("doMobSpawning") && rand.nextInt(2000) < world.getDifficulty().getDifficultyId()) {
-            int i = pos.getY();
-            BlockPos pos1;
-
-            for (pos1 = pos; !world.getBlockState(pos1).isTopSolid() && pos1.getY() > 0; pos1 = pos1.down()) {
-            }
-
-            if (i > 0 && !world.getBlockState(pos1.up()).isNormalCube()) {
-                Entity entity = ItemMonsterPlacer.spawnCreature(world, EntityList.getKey(EntityPigZombie.class), (double) pos1.getX() + 0.5D, (double) pos1.getY() + 1.1D, (double) pos1.getZ() + 0.5D);
-
-                if (entity != null) {
-                    entity.timeUntilPortal = entity.getPortalCooldown();
-                }
-            }
-        }
-    }
-
     public boolean trySpawnPortal(World world, BlockPos pos) {
         BlockPortal.Size size = new BlockPortal.Size(world, pos);
 
@@ -108,15 +84,17 @@ public class BlockPortal extends BlockBreakable {
 
     @Override
     public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (!entity.isSneaking()) {
-            return;
-        }
-        if (!world.isRemote && !entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP) {
-            EntityPlayerMP player = (EntityPlayerMP) entity;
-            final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
+        if (!world.isRemote && !entity.isRiding() && !entity.isBeingRidden() && entity.timeUntilPortal <= 0) {
+            final int dimension = entity.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
+            if (entity instanceof EntityPlayerMP) {
+                EntityPlayerMP player = (EntityPlayerMP) entity;
+                player.timeUntilPortal = 300;
 
-            player.setSneaking(false);
-            player.mcServer.getPlayerList().transferPlayerToDimension(player, dimension, new AtumTeleporter(player.mcServer.getWorld(dimension)));
+                entity.changeDimension(dimension, new AtumTeleporter(player.mcServer.getWorld(dimension)));
+                if (player.dimension != AtumConfig.DIMENSION_ID) {
+                    player.setSpawnChunk(new BlockPos(player), true, AtumConfig.DIMENSION_ID);
+                }
+            }
         }
     }
 
