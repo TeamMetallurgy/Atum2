@@ -41,7 +41,7 @@ public class AtumEventListener {
         World world = player.world;
         if (!world.isRemote && AtumConfig.ALLOW_CREATION && event.phase == TickEvent.Phase.END && player.ticksExisted % 40 == 0) {
             if (world.provider.getDimension() == 0 || world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-                for (EntityItem entityItem : world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().grow(3.0F, 1.0F, 3.0F))) {
+                for (EntityItem entityItem : world.getEntitiesWithinAABB(EntityItem.class, player.getEntityBoundingBox().grow(10.0F, 1.0F, 10.0F))) {
                     IBlockState state = world.getBlockState(entityItem.getPosition());
                     if (entityItem.getItem().getItem() == AtumItems.SCARAB && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.getDefaultState())) {
                         if (AtumBlocks.PORTAL.trySpawnPortal(world, entityItem.getPosition())) {
