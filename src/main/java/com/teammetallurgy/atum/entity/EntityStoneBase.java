@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.entity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;

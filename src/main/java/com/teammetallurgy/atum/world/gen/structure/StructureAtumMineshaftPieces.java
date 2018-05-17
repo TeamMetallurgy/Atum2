@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.gen.structure;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.BlockAtumTorch;
 import com.teammetallurgy.atum.blocks.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.BlockLimestoneWall;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -10,7 +11,6 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockRail;
 import net.minecraft.block.BlockRailBase;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecartChest;
@@ -333,8 +333,13 @@ public class StructureAtumMineshaftPieces {
                     this.fillWithBlocks(world, box, xMin, yMax, z, xMin, yMax, z, plankState, airState, false);
                 } else {
                     this.fillWithBlocks(world, box, x, yMax, z, xMin, yMax, z, plankState, airState, false);
-                    this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.NORTH));
-                    this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, Blocks.TORCH.getDefaultState().withProperty(BlockTorch.FACING, EnumFacing.SOUTH));
+                    if (mineshaftType == MapGenAtumMineshaft.Type.DEADWOOD) {
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, AtumBlocks.DEADWOOD_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.NORTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, AtumBlocks.DEADWOOD_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.SOUTH));
+                    } else {
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, AtumBlocks.LIMESTONE_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.NORTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, AtumBlocks.LIMESTONE_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.SOUTH));
+                    }
                 }
             }
         }

@@ -50,6 +50,10 @@ public class AtumBlocks {
     public static final Block PALM_LADDER = new BlockAtumLadder();
     public static final Block THIN_CRYSTAL_GLASS = new BlockAtumPane();
     public static final Block THIN_FRAMED_GLASS = new BlockAtumPane();
+    public static final Block PALM_TORCH = new BlockAtumTorch();
+    public static final Block DEADWOOD_TORCH = new BlockAtumTorch();
+    public static final Block LIMESTONE_TORCH = new BlockAtumTorch();
+    public static final Block PHARAOH_TORCH = new BlockAtumTorch();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block PHARAOH_CHEST = new BlockPharaohChest();
     public static final Block GOLD_ORE = new BlockAtumOres();
@@ -92,6 +96,10 @@ public class AtumBlocks {
         registerBlock(LIT_REDSTONE_ORE, "lit_redstone_ore", null);
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
+        registerBlock(PALM_TORCH, "palm_torch");
+        registerBlock(DEADWOOD_TORCH, "deadwood_torch");
+        registerBlock(LIMESTONE_TORCH, "limestone_torch");
+        registerBlock(PHARAOH_TORCH, "pharaoh_torch");
 
         //Limestone
         BlockLimestoneBricks.registerBricks();
