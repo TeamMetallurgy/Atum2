@@ -96,7 +96,7 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
             }
         }
     }
-    
+
     @Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) { //TODO
         for (int x = -1; x < 2; x++) {
@@ -149,18 +149,78 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
     }
 
     public static class Size {
+        private static final int MAX_SIZE = 9;
+        private static final int MIN_SIZE = 3;
+
         private final World world;
+        private boolean valid = false;
         private BlockPos bottomLeft;
 
         public Size(World world, BlockPos pos) {
             this.world = world;
             this.bottomLeft = pos;
+
+            int east = getDistanceUntilEdge(pos, EnumFacing.EAST);
+            int west = getDistanceUntilEdge(pos, EnumFacing.WEST);
+            int north = getDistanceUntilEdge(pos, EnumFacing.NORTH);
+            int south = getDistanceUntilEdge(pos, EnumFacing.SOUTH);
+
+            int width = east + west - 1;
+            int length = north + south - 1;
+
+            if (width > Size.MAX_SIZE || length > Size.MAX_SIZE) {
+                return;
+            }
+
+            if (width < Size.MIN_SIZE || length < Size.MIN_SIZE) {
+                return;
+            }
+
+            BlockPos neCorner = pos.east(east).north(north);
+            BlockPos nwCorner = pos.west(west).north(north);
+            BlockPos seCorner = pos.east(east).south(south);
+            BlockPos swCorner = pos.west(west).south(south);
+
+            int wallWidth = width + 2;
+            int wallLength = length + 2;
+
+            for (int y = 0; y <= 1; y++) {
+                for (int x = 0; x < wallWidth; x++) {
+                    for (int z = 0; z < wallLength; z++) {
+                        if (y == 0 || x == 0 || z == 0 || x == wallWidth - 1 || z == wallLength - 1) {
+                            if (world.getBlockState(nwCorner.down().add(x, y, z)).getBlock() != Blocks.SANDSTONE) {
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int y = 0; y < 2; y++) {
+                if (world.getBlockState(neCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                    return;
+                }
+
+                if (world.getBlockState(nwCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                    return;
+                }
+
+                if (world.getBlockState(seCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                    return;
+                }
+
+                if (world.getBlockState(swCorner.add(0, y + 1, 0)).getBlock() == Blocks.SANDSTONE) {
+                    return;
+                }
+            }
+
+            this.valid = true;
         }
 
         int getDistanceUntilEdge(BlockPos pos, EnumFacing facing) {
             int i;
 
-            for (i = 0; i < 3; ++i) {
+            for (i = 0; i < 9; ++i) {
                 BlockPos blockpos = pos.offset(facing, i);
 
                 if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || this.world.getBlockState(blockpos.down()).getBlock() != Blocks.SANDSTONE) {
@@ -173,11 +233,11 @@ public class BlockPortal extends BlockBreakable { //TODO Redo. Make expandable u
         }
 
         boolean isEmptyBlock(IBlockState state) {
-            return state.getMaterial() == Material.AIR || state.getMaterial() == Material.WATER || state.getBlock() == AtumBlocks.PORTAL;
+            return state.getMaterial() == Material.WATER;
         }
 
         boolean isValid() {
-            return this.bottomLeft != null;
+            return this.valid;
         }
 
         void placePortalBlocks() {
