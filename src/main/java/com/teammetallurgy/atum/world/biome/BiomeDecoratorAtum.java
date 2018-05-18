@@ -7,6 +7,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
@@ -23,7 +24,9 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BiomeDecoratorAtum extends BiomeDecorator {
-    public WorldGenerator emeraldGen;
+    private WorldGenerator emeraldGen;
+    private WorldGenerator boneGen;
+    private WorldGenerator relicGen;
     private float shrubChance;
 
     BiomeDecoratorAtum() {
@@ -52,6 +55,8 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         if (AtumConfig.LAPIS_ENABLED) {
             this.lapisGen = generateMinable(AtumBlocks.LAPIS_ORE.getDefaultState(), AtumConfig.LAPIS_VEIN);
         }
+        this.boneGen = generateMinable(AtumBlocks.BONE_ORE.getDefaultState(), 8);
+        this.relicGen = generateMinable(AtumBlocks.RELIC_ORE.getDefaultState(), 8);
 
         this.treesPerChunk = 0;
         this.shrubChance = 0.3F;
@@ -150,12 +155,20 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
             this.genStandardOre1(world, random, 8, this.redstoneGen, 0, 16);
         }
 
+        if (TerrainGen.generateOre(world, random, this.emeraldGen, chunkPos, OreGenEvent.GenerateMinable.EventType.EMERALD)) {
+            this.genStandardOre1(world, random, MathHelper.getInt(random, 3, 8), this.emeraldGen, 4, 32);
+        }
+
         if (TerrainGen.generateOre(world, random, this.diamondGen, chunkPos, OreGenEvent.GenerateMinable.EventType.DIAMOND)) {
             this.genStandardOre1(world, random, 1, this.diamondGen, 0, 16);
         }
 
         if (TerrainGen.generateOre(world, random, this.lapisGen, chunkPos, OreGenEvent.GenerateMinable.EventType.LAPIS)) {
             this.genStandardOre2(world, random, 1, this.lapisGen, 16, 16);
+        }
+
+        if (TerrainGen.generateOre(world, random, this.boneGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+            this.genStandardOre1(world, random, 1, this.boneGen, 16, 16);
         }
 
         if (TerrainGen.generateOre(world, random, this.dirtGen, chunkPos, OreGenEvent.GenerateMinable.EventType.DIRT)) {

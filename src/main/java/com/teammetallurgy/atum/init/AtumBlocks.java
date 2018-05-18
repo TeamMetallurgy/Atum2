@@ -60,10 +60,12 @@ public class AtumBlocks {
     public static final Block IRON_ORE = new BlockAtumOres();
     public static final Block COAL_ORE = new BlockAtumOres();
     public static final Block LAPIS_ORE = new BlockAtumOres();
-    public static final Block DIAMOND_ORE = new BlockAtumOres();
     public static final Block EMERALD_ORE = new BlockAtumOres();
+    public static final Block DIAMOND_ORE = new BlockAtumOres();
     public static final Block REDSTONE_ORE = new BlockAtumRedstoneOre(false);
     public static final Block LIT_REDSTONE_ORE = new BlockAtumRedstoneOre(true);
+    public static final Block BONE_ORE = new BlockAtumOres();
+    public static final Block RELIC_ORE = new BlockAtumOres();
     public static final Block LIMESTONE_FURNACE = new BlockLimeStoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimeStoneFurnace(true);
     public static final BlockAtumDoor DEADWOOD_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
@@ -94,6 +96,8 @@ public class AtumBlocks {
         registerBlock(EMERALD_ORE, "emerald_ore");
         registerBlock(REDSTONE_ORE, "redstone_ore");
         registerBlock(LIT_REDSTONE_ORE, "lit_redstone_ore", null);
+        registerBlock(BONE_ORE, "bone_ore");
+        registerBlock(RELIC_ORE, "relic_ore");
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
         registerBlock(PALM_TORCH, "palm_torch");
