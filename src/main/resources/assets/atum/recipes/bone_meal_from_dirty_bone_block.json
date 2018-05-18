@@ -1,12 +1,14 @@
 {
   "type": "minecraft:crafting_shapeless",
+  "group": "bonemeal",
   "ingredients": [
     {
-      "item": "atum:dusty_bone"
+      "item": "atum:dirty_bone_block"
     }
   ],
   "result": {
     "item": "minecraft:dye",
-    "data": 15
+    "data": 15,
+    "count": 9
   }
 }

@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.items.ItemAtumSlab;
 import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBone;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
@@ -66,6 +67,7 @@ public class AtumBlocks {
     public static final Block LIT_REDSTONE_ORE = new BlockAtumRedstoneOre(true);
     public static final Block BONE_ORE = new BlockAtumOres();
     public static final Block RELIC_ORE = new BlockAtumOres();
+    public static final Block BONE_DIRTY = new BlockBone();
     public static final Block LIMESTONE_FURNACE = new BlockLimeStoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimeStoneFurnace(true);
     public static final BlockAtumDoor DEADWOOD_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
@@ -98,6 +100,7 @@ public class AtumBlocks {
         registerBlock(LIT_REDSTONE_ORE, "lit_redstone_ore", null);
         registerBlock(BONE_ORE, "bone_ore");
         registerBlock(RELIC_ORE, "relic_ore");
+        registerBlock(BONE_DIRTY, "dirty_bone_block");
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
         registerBlock(PALM_TORCH, "palm_torch");

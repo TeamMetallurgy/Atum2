@@ -165,7 +165,7 @@ public class AtumItems {
         registerItem(PAPYRUS_PLANT, "papyrus_plant");
         registerItem(ECTOPLASM, "ectoplasm");
         registerItem(MANDIBLES, "mandibles");
-        registerItem(DUSTY_BONE, "dusty_bone");
+        registerItem(DUSTY_BONE, "dusty_bone", "bone");
         registerItem(STONE_CHUNK, "stone_chunk");
         registerItem(SCROLL, "scroll");
         registerItem(WOLF_PELT, "wolf_pelt");

@@ -45,10 +45,17 @@ public class AtumRegistry {
     private static boolean sendsVelocityUpdates;
 
     /**
-     * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs)}, but have CreativeTab set by default
+     * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs, String)}, but have CreativeTab set by default and easy way to set OreDictionary name
+     */
+    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nonnull String oreDictName) {
+        return registerItem(item, name, Atum.CREATIVE_TAB, oreDictName);
+    }
+
+    /**
+     * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs, String)}, but have CreativeTab set by default
      */
     public static Item registerItem(@Nonnull Item item, @Nonnull String name) {
-        return registerItem(item, name, Atum.CREATIVE_TAB);
+        return registerItem(item, name, Atum.CREATIVE_TAB, null);
     }
 
     /**
@@ -59,13 +66,17 @@ public class AtumRegistry {
      * @param tab  The creative tab for the item. Set to null for no CreativeTab
      * @return The Item that was registered
      */
-    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nullable CreativeTabs tab) {
+    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nullable CreativeTabs tab, @Nullable String oreDictName) {
         item.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
         item.setUnlocalizedName(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
         ForgeRegistries.ITEMS.register(item);
 
         if (tab != null) {
             item.setCreativeTab(tab);
+        }
+
+        if (oreDictName != null) {
+            OreDictHelper.add(item, oreDictName);
         }
 
         if (item instanceof IOreDictEntry) {
