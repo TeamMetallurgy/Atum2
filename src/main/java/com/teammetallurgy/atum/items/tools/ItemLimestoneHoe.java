@@ -1,15 +1,15 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemSpade;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class ItemLimestoneShovel extends ItemSpade {
+public class ItemLimestoneHoe extends ItemHoe {
 
-    public ItemLimestoneShovel(ToolMaterial material) {
+    public ItemLimestoneHoe(ToolMaterial material) {
         super(material);
     }
 

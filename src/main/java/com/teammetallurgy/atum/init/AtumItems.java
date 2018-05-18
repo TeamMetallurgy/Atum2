@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.*;
+import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -23,6 +24,8 @@ public class AtumItems {
     private static final ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{2, 3, 3, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
     private static final ArmorMaterial DESERT_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("DESERT", "desert", 20, new int[]{3, 6, 5, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 
+    public static final Item DIRTY_COIN = new ItemCoin();
+    public static final Item GOLD_COIN = new ItemCoin();
     public static final Item SCRAP = new Item();
     public static final Item LINEN = new Item();
     public static final Item SCARAB = new ItemScarab();
@@ -99,6 +102,8 @@ public class AtumItems {
 
     public static void registerItems() {
         BlockAtumPlank.registerSticks();
+        registerItem(DIRTY_COIN, "coin_dirty");
+        registerItem(GOLD_COIN, "coin_gold");
         ItemLoot.createLootItems();
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN, "linen");

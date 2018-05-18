@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.entity.EntityPharaoh;
 import com.teammetallurgy.atum.entity.EntityStoneguard;

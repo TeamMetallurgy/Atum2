@@ -164,6 +164,8 @@ container.crate.deadwood=Deadwood Crate
 
 # Item
 item.atum.scarab.name=Scarab
+item.atum.coinDirty.name=Dirty Coin
+item.atum.coinGold.name=Gold Coin
 item.atum.loot.name=Loot
 item.atum.scimitar.name=Scimitar
 item.atum.greatsword.name=Greatsword

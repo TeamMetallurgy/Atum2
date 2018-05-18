@@ -1,15 +1,15 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class ItemLimestoneAxe extends ItemAxe {
+public class ItemLimestonePickaxe extends ItemPickaxe {
 
-    public ItemLimestoneAxe(ToolMaterial material) {
+    public ItemLimestonePickaxe(ToolMaterial material) {
         super(material);
     }
 

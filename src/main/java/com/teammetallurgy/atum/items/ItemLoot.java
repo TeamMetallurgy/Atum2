@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.AtumUtils;
@@ -21,7 +20,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
 
 public class ItemLoot extends Item {
     private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
@@ -89,28 +87,16 @@ public class ItemLoot extends Item {
     }
 
     public enum Type implements IStringSerializable {
-        IDOL(1, "idol"),
-        NECKLACE(2, "necklace"),
-        RING(3, "ring"),
-        BROACH(4, "broach"),
-        SCEPTER(5, "scepter");
+        IDOL("idol"),
+        NECKLACE("necklace"),
+        RING("ring"),
+        BROACH("broach"),
+        SCEPTER("scepter");
 
-        private static final Map<Integer, Type> INDEX_LOOKUP = Maps.newHashMap();
-        private final int index;
         private final String unlocalizedName;
 
-        Type(int index, String name) {
-            this.index = index;
+        Type(String name) {
             this.unlocalizedName = name;
-        }
-
-        public int getIndexNumber() {
-            return this.index;
-        }
-
-        public static Type byIndex(int index) {
-            Type type = INDEX_LOOKUP.get(index);
-            return type == null ? IDOL : type;
         }
 
         public static Type byString(String name) {
@@ -127,45 +113,27 @@ public class ItemLoot extends Item {
         public String getName() {
             return unlocalizedName;
         }
-
-        static {
-            for (Type type : values()) {
-                INDEX_LOOKUP.put(type.getIndexNumber(), type);
-            }
-        }
     }
 
     public enum Quality implements IStringSerializable {
-        DIRTY(1, "dirty", 0),
-        SILVER(2, "silver", 48),
-        GOLD(3, "gold", 25),
-        SAPPHIRE(4, "sapphire", 20),
-        RUBY(5, "ruby", 15),
-        EMERALD(6, "emerald", 10),
-        DIAMOND(7, "diamond", 5);
+        DIRTY("dirty", 0),
+        SILVER("silver", 48),
+        GOLD("gold", 25),
+        SAPPHIRE("sapphire", 20),
+        RUBY("ruby", 15),
+        EMERALD("emerald", 10),
+        DIAMOND("diamond", 5);
 
-        private static final Map<Integer, Quality> INDEX_LOOKUP = Maps.newHashMap();
-        private final int index;
         private final String unlocalizedName;
         private final int weight;
 
-        Quality(int index, String name, int lootWeight) {
-            this.index = index;
+        Quality(String name, int lootWeight) {
             this.unlocalizedName = name;
             this.weight = lootWeight;
         }
 
-        public int getIndexNumber() {
-            return this.index;
-        }
-
         public int getWeight() {
             return weight;
-        }
-
-        public static Quality byIndex(int index) {
-            Quality quality = INDEX_LOOKUP.get(index);
-            return quality == null ? DIRTY : quality;
         }
 
         @Override
@@ -173,18 +141,12 @@ public class ItemLoot extends Item {
         public String getName() {
             return unlocalizedName;
         }
-
-        static {
-            for (Quality quality : values()) {
-                INDEX_LOOKUP.put(quality.getIndexNumber(), quality);
-            }
-        }
     }
 
     public static class LootEntry extends WeightedRandom.Item {
-        public final Quality quality;
+        final Quality quality;
 
-        public LootEntry(Quality quality, int weight) {
+        LootEntry(Quality quality, int weight) {
             super(weight);
             this.quality = quality;
         }

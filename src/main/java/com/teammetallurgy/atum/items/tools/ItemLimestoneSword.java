@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
