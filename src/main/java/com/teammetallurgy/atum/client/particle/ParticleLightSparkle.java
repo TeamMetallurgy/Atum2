@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum.client.particle;
 
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
@@ -18,9 +16,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
-public class ParticleLightSparkle extends Particle {
+@Mod.EventBusSubscriber(value = Side.CLIENT)
+public class ParticleLightSparkle extends ParticleBase {
     private static final ResourceLocation LIGHT_SPARKLE = new ResourceLocation(Constants.MOD_ID, "particle/light_sparkle");
     private float particleScaleOverTime;
 
@@ -33,18 +31,12 @@ public class ParticleLightSparkle extends Particle {
         this.particleScale *= 0.4F;
         this.particleScaleOverTime = this.particleScale;
         this.particleMaxAge = 16;
-        TextureAtlasSprite sprite = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(LIGHT_SPARKLE.toString());
-        this.setParticleTexture(sprite);
-    }
-
-    @SubscribeEvent
-    public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(LIGHT_SPARKLE);
+        this.setParticleTexture(getSprite(LIGHT_SPARKLE));
     }
 
     @Override
     public void renderParticle(BufferBuilder buffer, Entity entity, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
-        float f = ((float)this.particleAge + partialTicks) / (float)this.particleMaxAge * 32.0F;
+        float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge * 32.0F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
         this.particleScale = this.particleScaleOverTime * f;
         super.renderParticle(buffer, entity, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
@@ -77,9 +69,9 @@ public class ParticleLightSparkle extends Particle {
         }
     }
 
-    @Override
-    public int getFXLayer() {
-        return 1;
+    @SubscribeEvent
+    public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        event.getMap().registerSprite(LIGHT_SPARKLE);
     }
 
     @SideOnly(Side.CLIENT)

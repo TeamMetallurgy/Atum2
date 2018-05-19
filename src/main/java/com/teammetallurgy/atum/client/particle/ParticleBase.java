@@ -1,6 +1,9 @@
 package com.teammetallurgy.atum.client.particle;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
@@ -9,13 +12,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
-public abstract class ParticleBase extends Particle {
+public class ParticleBase extends Particle {
 
-    protected ParticleBase(World world, double posX, double posY, double posZ) {
+    ParticleBase(World world, double posX, double posY, double posZ) {
         super(world, posX, posY, posZ);
     }
 
-    public ParticleBase(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
+    ParticleBase(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
         this(world, xCoord, yCoord, zCoord);
         this.motionX = xSpeed + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
         this.motionY = ySpeed + (Math.random() * 2.0D - 1.0D) * 0.4000000059604645D;
@@ -25,6 +28,10 @@ public abstract class ParticleBase extends Particle {
         this.motionX = this.motionX / (double) f1 * (double) f * 0.4000000059604645D;
         this.motionY = this.motionY / (double) f1 * (double) f * 0.4000000059604645D + 0.10000000149011612D;
         this.motionZ = this.motionZ / (double) f1 * (double) f * 0.4000000059604645D;
+    }
+
+    static TextureAtlasSprite getSprite(ResourceLocation location) {
+        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
     }
 
     @Override
