@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/mnevis_horns"
+    "layer0": "atum:items/legs_of_ra"
   }
 }

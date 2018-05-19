@@ -113,11 +113,11 @@ item.atum.shusBreath.name=Respiração de Shus
 item.atum.ptahsDestruction.name=Destruição de Ptahs
 item.atum.monthusBlast.name=Explosão de Monthus
 item.atum.nusFlux.name=Fluxo de Nus
-item.atum.mnevisHorns.name=Chifres de Mnevis
-item.atum.isisEmbrace.name=Abraço de Isis
-item.atum.maatsBalance.name=Equilíbrio de Maats
+item.atum.haloOfRa.name=Chifres de Mnevis
+item.atum.bodyOfRa.name=Abraço de Isis
+item.atum.legsOfRa.name=Equilíbrio de Maats
 item.atum.hedetetsVenom.name=Veneno de Hedetets
-item.atum.gebsSolidarity.name=Solidariedade de Gebs
+item.atum.feetOfRa.name=Solidariedade de Gebs
 item.atum.nutsCall.name=Chamado de Nuts
 item.atum.atumsBounty.name=Recompensa de Anukets
 item.atum.mafdetsQuickness.name=Rapidez de Mafdets
@@ -205,25 +205,25 @@ item.atum.nusFlux.line1=Varrer I: Chance para lançar
 item.atum.nusFlux.line2=os inimigos para o ar
 item.atum.nusFlux.line3=Varrer I 
 
-item.atum.mnevisHorns.line1=Reflexão I: Dá
-item.atum.mnevisHorns.line2=dano aos atacantes
-item.atum.mnevisHorns.line3=Reflexão I 
+item.atum.haloOfRa.line1=Reflexão I: Dá
+item.atum.haloOfRa.line2=dano aos atacantes
+item.atum.haloOfRa.line3=Reflexão I
 
-item.atum.isisEmbrace.line1=Regeneração I: Regenera
-item.atum.isisEmbrace.line2=lentamente a saúde
-item.atum.isisEmbrace.line3=Regeneração I 
+item.atum.bodyOfRa.line1=Regeneração I: Regenera
+item.atum.bodyOfRa.line2=lentamente a saúde
+item.atum.bodyOfRa.line3=Regeneração I
 
-item.atum.maatsBalance.line1=Equilíbrio I: Diminui o dano
-item.atum.maatsBalance.line2=distribuido, diminui o dano recebido
-item.atum.maatsBalance.line3=Equilíbrio I 
+item.atum.legsOfRa.line1=Equilíbrio I: Diminui o dano
+item.atum.legsOfRa.line2=distribuido, diminui o dano recebido
+item.atum.legsOfRa.line3=Equilíbrio I
 
 item.atum.hedetetsVenom.line1=Flecha Venenosa I: Dispara uma
 item.atum.hedetetsVenom.line2=flecha que envenena os inimigos
 item.atum.hedetetsVenom.line3=Flecha Venenosa I 
 
-item.atum.gebsSolidarity.line1=Valente I: Diminui a velocidade
-item.atum.gebsSolidarity.line2=de movimento, diminui o tranco (WIP)
-item.atum.gebsSolidarity.line3=Valente I 
+item.atum.feetOfRa.line1=Valente I: Diminui a velocidade
+item.atum.feetOfRa.line2=de movimento, diminui o tranco (WIP)
+item.atum.feetOfRa.line3=Valente I
 
 item.atum.nutsCall.line1=Ira I: Chance de acertar
 item.atum.nutsCall.line2=o inimigo com um raio

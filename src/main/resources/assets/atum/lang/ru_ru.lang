@@ -182,11 +182,11 @@ item.atum.shusBreath.name=Дыхание Шу
 item.atum.ptahsDestruction.name=Разрушение бога Птаха
 item.atum.monthusBlast.name=Взрыв Монту
 item.atum.nusFlux.name=Поток Нун
-item.atum.mnevisHorns.name=Рожки Мневиса
-item.atum.isisEmbrace.name=Объятие Исиды
-item.atum.maatsBalance.name=Равновесие Маата
+item.atum.haloOfRa.name=Рожки Мневиса
+item.atum.bodyOfRa.name=Объятие Исиды
+item.atum.legsOfRa.name=Равновесие Маата
 item.atum.hedetetsVenom.name=Яд Хедетета
-item.atum.gebsSolidarity.name=Единство Геба
+item.atum.feetOfRa.name=Единство Геба
 item.atum.nutsCall.name=Вызов богини Нут
 item.atum.atumsBounty.name=Щедрость Анукета
 item.atum.mafdetsQuickness.name=Быстрота Мафдета
@@ -273,25 +273,25 @@ item.atum.nusFlux.line1=Размах I: Шанс отправить
 item.atum.nusFlux.line2=врагов в воздух
 item.atum.nusFlux.line3=Размах I
 
-item.atum.mnevisHorns.line1=Отражение рукопашного урона I: Наносит
-item.atum.mnevisHorns.line2=урон врагам
-item.atum.mnevisHorns.line3=Отражение рукопашного урона I
+item.atum.haloOfRa.line1=Отражение рукопашного урона I: Наносит
+item.atum.haloOfRa.line2=урон врагам
+item.atum.haloOfRa.line3=Отражение рукопашного урона I
 
-item.atum.isisEmbrace.line1=Регенерация I: Восстанавливает
-item.atum.isisEmbrace.line2=здоровье
-item.atum.isisEmbrace.line3=Регенерация I
+item.atum.bodyOfRa.line1=Регенерация I: Восстанавливает
+item.atum.bodyOfRa.line2=здоровье
+item.atum.bodyOfRa.line3=Регенерация I
 
-item.atum.maatsBalance.line1=Баланс I: Уменьшает наносимый
-item.atum.maatsBalance.line2=и получаемый урон
-item.atum.maatsBalance.line3=Баланс I
+item.atum.legsOfRa.line1=Баланс I: Уменьшает наносимый
+item.atum.legsOfRa.line2=и получаемый урон
+item.atum.legsOfRa.line3=Баланс I
 
 item.atum.hedetetsVenom.line1=Ядовитая стрела I: Выпускает
 item.atum.hedetetsVenom.line2=стрелу, которая отравляет врагов
 item.atum.hedetetsVenom.line3=Ядовитая стрела I
 
-item.atum.gebsSolidarity.line1=Стойкость I: Уменьшает скорость
-item.atum.gebsSolidarity.line2=передвижения, уменьшает отброс (WIP)
-item.atum.gebsSolidarity.line3=Стойкость I
+item.atum.feetOfRa.line1=Стойкость I: Уменьшает скорость
+item.atum.feetOfRa.line2=передвижения, уменьшает отброс (WIP)
+item.atum.feetOfRa.line3=Стойкость I
 
 item.atum.nutsCall.line1=Гнев I: Шанс ударить
 item.atum.nutsCall.line2=врага молнией

@@ -208,11 +208,11 @@ item.atum.shusBreath.name=Shus之气息
 item.atum.ptahsDestruction.name=Ptahs之毁灭
 item.atum.monthusBlast.name=Monthus之爆炸
 item.atum.nusFlux.name=Nus之灵动
-item.atum.mnevisHorns.name=Mnevis之号角
-item.atum.isisEmbrace.name=Isis之拥抱
-item.atum.maatsBalance.name=Maats之平衡
+item.atum.haloOfRa.name=Mnevis之号角
+item.atum.bodyOfRa.name=Isis之拥抱
+item.atum.legsOfRa.name=Maats之平衡
 item.atum.hedetetsVenom.name=Hedetets之恶毒
-item.atum.gebsSolidarity.name=Gebs之团结
+item.atum.feetOfRa.name=Gebs之团结
 item.atum.nutsCall.name=Nuts之召唤
 item.atum.atumsBounty.name=Anukets之慷慨
 item.atum.mafdetsQuickness.name=Mafdets之迅捷
@@ -307,25 +307,25 @@ item.atum.nusFlux.line1=横扫I: 有几率
 item.atum.nusFlux.line2=将敌人抛至空中
 item.atum.nusFlux.line3=横扫I
 
-item.atum.mnevisHorns.line1=盾刺I:能将伤害
-item.atum.mnevisHorns.line2=反弹给近战攻击者
-item.atum.mnevisHorns.line3=盾刺I
+item.atum.haloOfRa.line1=盾刺I:能将伤害
+item.atum.haloOfRa.line2=反弹给近战攻击者
+item.atum.haloOfRa.line3=盾刺I
 
-item.atum.isisEmbrace.line1=重生I:缓慢地
-item.atum.isisEmbrace.line2=回复生命
-item.atum.isisEmbrace.line3=重生I
+item.atum.bodyOfRa.line1=重生I:缓慢地
+item.atum.bodyOfRa.line2=回复生命
+item.atum.bodyOfRa.line3=重生I
 
-item.atum.maatsBalance.line1=平衡I:减少输出的伤
-item.atum.maatsBalance.line2=害,减少受到的伤害
-item.atum.maatsBalance.line3=平衡I
+item.atum.legsOfRa.line1=平衡I:减少输出的伤
+item.atum.legsOfRa.line2=害,减少受到的伤害
+item.atum.legsOfRa.line3=平衡I
 
 item.atum.hedetetsVenom.line1=毒箭I:发射的箭
 item.atum.hedetetsVenom.line2=能使敌人中毒
 item.atum.hedetetsVenom.line3=毒箭I
 
-item.atum.gebsSolidarity.line1=伟岸I:减少移动速度,
-item.atum.gebsSolidarity.line2=减少被击退的距离(WIP)
-item.atum.gebsSolidarity.line3=伟岸I
+item.atum.feetOfRa.line1=伟岸I:减少移动速度,
+item.atum.feetOfRa.line2=减少被击退的距离(WIP)
+item.atum.feetOfRa.line3=伟岸I
 
 item.atum.nutsCall.line1=暴怒I:有几率召唤
 item.atum.nutsCall.line2=雷电攻击敌人

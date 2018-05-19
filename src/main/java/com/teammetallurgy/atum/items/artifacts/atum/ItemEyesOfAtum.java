@@ -25,6 +25,7 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
     public ItemEyesOfAtum() {
         super(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.HEAD);
         this.setTextureFile("atum_armor_1");
+        this.setRepairItem(Items.DIAMOND);
     }
 
     @Override
@@ -57,10 +58,5 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
         } else {
             tooltip.add(I18n.format(this.getUnlocalizedName() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

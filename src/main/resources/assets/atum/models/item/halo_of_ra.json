@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/maats_balance"
+    "layer0": "atum:items/halo_of_ra"
   }
 }

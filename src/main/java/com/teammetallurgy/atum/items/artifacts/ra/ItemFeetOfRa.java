@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.ra;
 
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
@@ -20,10 +20,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemGebsSolidarity extends ItemTexturedArmor {
+public class ItemFeetOfRa extends ItemTexturedArmor {
 
-    public ItemGebsSolidarity(ArmorMaterial material, int renderIndex, EntityEquipmentSlot slot) {
-        super(material, renderIndex, slot);
+    public ItemFeetOfRa() {
+        super(ArmorMaterial.DIAMOND, 3, EntityEquipmentSlot.FEET);
+        this.setTextureFile("ra_armor_1");
+        this.setRepairItem(Items.DIAMOND);
     }
 
     @Override
@@ -36,11 +38,9 @@ public class ItemGebsSolidarity extends ItemTexturedArmor {
     public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
         super.onArmorTick(world, player, stack);
 
-        if (world.isRemote || stack.isEmpty() || stack.getItem() != this) {
-            return;
+        if (world.getTotalWorldTime() % 30L == 0L) {
+            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 50, 0, false, false));
         }
-
-        player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20, 1, false, false));
     }
 
     @Override
@@ -58,10 +58,5 @@ public class ItemGebsSolidarity extends ItemTexturedArmor {
         } else {
             tooltip.add(I18n.format(this.getUnlocalizedName() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

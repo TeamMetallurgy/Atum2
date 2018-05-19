@@ -1,15 +1,15 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.ra;
 
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -18,10 +18,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemIsisEmbrace extends ItemTexturedArmor {
+@Mod.EventBusSubscriber
+public class ItemLegsOfRa extends ItemTexturedArmor { //TODO Figure out what it's supposed to do
 
-    public ItemIsisEmbrace(ArmorMaterial material, int renderIndex, EntityEquipmentSlot slot) {
-        super(material, renderIndex, slot);
+    public ItemLegsOfRa() {
+        super(ArmorMaterial.DIAMOND, 2, EntityEquipmentSlot.LEGS);
+        this.setTextureFile("ra_armor_2");
         this.setRepairItem(Items.DIAMOND);
     }
 
@@ -29,19 +31,6 @@ public class ItemIsisEmbrace extends ItemTexturedArmor {
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
-    }
-
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
-        super.onArmorTick(world, player, stack);
-
-        if (world.isRemote || stack == null || stack.getItem() != this) {
-            return;
-        }
-
-        if (world.getTotalWorldTime() % 60L == 0L) {
-            player.heal(1);
-        }
     }
 
     @Override

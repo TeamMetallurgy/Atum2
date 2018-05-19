@@ -1,5 +1,6 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -7,11 +8,9 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -22,27 +21,26 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
-public class ItemMnevisHorns extends ItemTexturedArmor {
+@Mod.EventBusSubscriber
+public class ItemBodyOfRa extends ItemTexturedArmor {
 
-    public ItemMnevisHorns(ArmorMaterial material, int renderIndex, EntityEquipmentSlot slot) {
-        super(material, renderIndex, slot);
+    public ItemBodyOfRa() {
+        super(ArmorMaterial.DIAMOND, 1, EntityEquipmentSlot.CHEST);
+        this.setTextureFile("ra_armor_1");
+        this.setRepairItem(Items.DIAMOND);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
 
     @SubscribeEvent
-    public void onLivingAttack(LivingAttackEvent event) {
-        if (!event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).isEmpty() && event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == this && event.getSource() instanceof EntityDamageSource) {
-            EntityDamageSource source = (EntityDamageSource) event.getSource();
-            if (source.getTrueSource() != null) {
-                source.getTrueSource().attackEntityFrom(DamageSource.GENERIC, (int) ((double) event.getAmount() / 2.0D));
-            }
+    public static void onDamage(LivingDamageEvent event) {
+        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_RA && event.getSource().isFireDamage()) {
+            event.setAmount(0.0F);
         }
-
     }
 
     @Override
@@ -53,17 +51,12 @@ public class ItemMnevisHorns extends ItemTexturedArmor {
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
         if (Keyboard.isKeyDown(42)) {
             tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getUnlocalizedName() + ".line1"));
             tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getUnlocalizedName() + ".line2"));
         } else {
             tooltip.add(I18n.format(this.getUnlocalizedName() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

@@ -230,11 +230,11 @@ item.atum.shusBreath.name=Shu's Breath
 item.atum.ptahsDestruction.name=Ptah's Destruction
 item.atum.monthusBlast.name=Monthu's Blast
 item.atum.nusFlux.name=Nu's Flux
-item.atum.mnevisHorns.name=Mnevis's Horns
-item.atum.isisEmbrace.name=Isis's Embrace
-item.atum.maatsBalance.name=Maat's Balance
+item.atum.haloOfRa.name=Halo of Ra
+item.atum.bodyOfRa.name=Body of Ra
+item.atum.legsOfRa.name=Legs of Ra
+item.atum.feetOfRa.name=Feet of Ra
 item.atum.hedetetsVenom.name=Hedetet's Venom
-item.atum.gebsSolidarity.name=Geb's Solidarity
 item.atum.nutsCall.name=Nut's Call
 item.atum.atumsBounty.name=Atum's Bounty
 item.atum.mafdetsQuickness.name=Mafdet's Quickness
@@ -328,25 +328,25 @@ item.atum.nusFlux.line1=Sweep: Chance to launch
 item.atum.nusFlux.line2=foes into the air
 item.atum.nusFlux.line3=Sweep
 
-item.atum.mnevisHorns.line1=Melee Reflection: Deals
-item.atum.mnevisHorns.line2=damage to attackers
-item.atum.mnevisHorns.line3=Melee Reflection
+item.atum.haloOfRa.line1=Radiant Fury: Ignite foes
+item.atum.haloOfRa.line2=that hit you
+item.atum.haloOfRa.line3=Radiant Fury
 
-item.atum.isisEmbrace.line1=Regeneration: Regens
-item.atum.isisEmbrace.line2=health slowly
-item.atum.isisEmbrace.line3=Regeneration
+item.atum.bodyOfRa.line1=Radiant Protection: You take no
+item.atum.bodyOfRa.line2=damage from fire
+item.atum.bodyOfRa.line3=Radiant Protection
 
-item.atum.maatsBalance.line1=Balance: Decreases damage
-item.atum.maatsBalance.line2=dealt, Decreases damage taken
-item.atum.maatsBalance.line3=Balance
+item.atum.legsOfRa.line1=Radiant Guidance: Requires Fallout 4
+item.atum.legsOfRa.line2=to work
+item.atum.legsOfRa.line3=Radiant Guidance
 
 item.atum.hedetetsVenom.line1=Poison Arrow: Fires an
 item.atum.hedetetsVenom.line2=arrow that poisons foes
 item.atum.hedetetsVenom.line3=Poison Arrow
 
-item.atum.gebsSolidarity.line1=Stalwart: Decreased movement
-item.atum.gebsSolidarity.line2=speed, decreased knockback (WIP)
-item.atum.gebsSolidarity.line3=Stalwart
+item.atum.feetOfRa.line1=Stalwart: Decreased movement
+item.atum.feetOfRa.line2=speed, decreased knockback (WIP)
+item.atum.feetOfRa.line3=Stalwart
 
 item.atum.nutsCall.line1=Wrath: Chance to strike
 item.atum.nutsCall.line2=foe with lightning

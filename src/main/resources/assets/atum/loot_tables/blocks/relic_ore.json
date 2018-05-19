@@ -105,8 +105,8 @@
         },
         {
           "type": "item",
-          "name": "atum:gebs_solidarity",
-          "entryName": "gebs_solidarity",
+          "name": "atum:feet_of_ra",
+          "entryName": "feet_of_ra",
           "weight": 1
         },
         {
@@ -135,8 +135,8 @@
         },
         {
           "type": "item",
-          "name": "atum:isis_embrace",
-          "entryName": "isis_embrace",
+          "name": "atum:body_of_ra",
+          "entryName": "body_of_ra",
           "weight": 1
         },
         {
@@ -147,8 +147,8 @@
         },
         {
           "type": "item",
-          "name": "atum:maats_balance",
-          "entryName": "maats_balance",
+          "name": "atum:legs_of_ra",
+          "entryName": "legs_of_ra",
           "weight": 1
         },
         {
@@ -159,8 +159,8 @@
         },
         {
           "type": "item",
-          "name": "atum:mnevis_horns",
-          "entryName": "mnevis_horns",
+          "name": "atum:halo_of_ra",
+          "entryName": "halo_of_ra",
           "weight": 1
         },
         {
