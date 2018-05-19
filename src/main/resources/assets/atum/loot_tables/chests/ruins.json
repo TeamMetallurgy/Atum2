@@ -393,8 +393,8 @@
         },
         {
           "type": "item",
-          "name": "atum:horus_flight",
-          "entryName": "horus_flight",
+          "name": "atum:feet_of_atum",
+          "entryName": "feet_of_atum",
           "weight": 1
         },
         {
@@ -459,8 +459,8 @@
         },
         {
           "type": "item",
-          "name": "atum:nuts_agility",
-          "entryName": "nuts_agility",
+          "name": "atum:legs_of_atum",
+          "entryName": "legs_of_atum",
           "weight": 1
         },
         {

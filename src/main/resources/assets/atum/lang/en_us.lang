@@ -220,8 +220,8 @@ item.atum.gebsBlessing.name=Geb's Blessing
 item.atum.atensFury.name=Aten's Fury
 item.atum.eyesOfAtum.name=Eyes of Atum
 item.atum.bodyOfAtum.name=Body of Atum
-item.atum.nutsAgility.name=Nut's Agility
-item.atum.horusFlight.name=Horus's Flight
+item.atum.legsOfAtum.name=Legs of Atum
+item.atum.feetOfAtum.name=Feet of Atum
 item.atum.monthusStrike.name=Monthu's Strike
 item.atum.anhursMight.name=Anhur's Might
 item.atum.hedetetsSting.name=Hedetet's Sting
@@ -292,13 +292,13 @@ item.atum.bodyOfAtum.line1=Divine Protection: Halves damage
 item.atum.bodyOfAtum.line2=taken from Undead
 item.atum.bodyOfAtum.line3=Divine Protection
 
-item.atum.nutsAgility.line1=Agility: Increased run
-item.atum.nutsAgility.line2=and swinging speed
-item.atum.nutsAgility.line3=Agility
+item.atum.legsOfAtum.line1=Divine Agility: Increased
+item.atum.legsOfAtum.line2=movement speed
+item.atum.legsOfAtum.line3=Divine Agility
 
-item.atum.horusFlight.line1=Nimbleness: Increased jump height,
-item.atum.horusFlight.line2=protection from fall damage
-item.atum.horusFlight.line3=Nimbleness
+item.atum.feetOfAtum.line1=Divine Will: You cannot
+item.atum.feetOfAtum.line2=be knocked back
+item.atum.feetOfAtum.line3=Divine Will
 
 item.atum.monthusStrike.line1=Slam: Increased damage,
 item.atum.monthusStrike.line2=charge for AOE knockback

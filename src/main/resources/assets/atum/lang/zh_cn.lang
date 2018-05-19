@@ -198,8 +198,8 @@ item.atum.gebsBlessing.name=Gebs之祝福
 item.atum.atensFury.name=Atens之狂怒
 item.atum.eyesOfAtum.name=Ras之荣耀
 item.atum.bodyOfAtum.name=Sekhmets之暴怒
-item.atum.nutsAgility.name=Nuts之敏捷
-item.atum.horusFlight.name=Horus之跃动
+item.atum.legsOfAtum.name=Nuts之敏捷
+item.atum.feetOfAtum.name=Horus之跃动
 item.atum.monthusStrike.name=Monthus之猛击
 item.atum.anhursMight.name=Anhurs之力量
 item.atum.hedetetsSting.name=Hedetets之穿刺
@@ -271,13 +271,13 @@ item.atum.bodyOfAtum.line1=献祭I:抵御火焰伤害,
 item.atum.bodyOfAtum.line2=有几率点燃攻击者
 item.atum.bodyOfAtum.line3=献祭I
 
-item.atum.nutsAgility.line1=敏捷I:增加奔跑
-item.atum.nutsAgility.line2=与挥舞速度
-item.atum.nutsAgility.line3=敏捷I
+item.atum.legsOfAtum.line1=敏捷I:增加奔跑
+item.atum.legsOfAtum.line2=与挥舞速度
+item.atum.legsOfAtum.line3=敏捷I
 
-item.atum.horusFlight.line1=灵动I:增加跳跃高度,
-item.atum.horusFlight.line2=掉落伤害免疫
-item.atum.horusFlight.line3=灵动I
+item.atum.feetOfAtum.line1=灵动I:增加跳跃高度,
+item.atum.feetOfAtum.line2=掉落伤害免疫
+item.atum.feetOfAtum.line3=灵动I
 
 item.atum.monthusStrike.line1=猛击I:增加伤害,
 item.atum.monthusStrike.line2=有几率触发AOE击退

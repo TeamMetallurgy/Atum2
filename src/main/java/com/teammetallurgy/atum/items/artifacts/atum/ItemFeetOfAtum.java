@@ -1,17 +1,19 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.atum;
 
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -20,11 +22,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemNutsAgility extends ItemTexturedArmor {
+@Mod.EventBusSubscriber
+public class ItemFeetOfAtum extends ItemTexturedArmor {
 
-    public ItemNutsAgility() {
-        super(ArmorMaterial.DIAMOND, 2, EntityEquipmentSlot.LEGS);
-        this.setTextureFile("atum_armor_2");
+    public ItemFeetOfAtum() {
+        super(ArmorMaterial.DIAMOND, 3, EntityEquipmentSlot.FEET);
+        this.setTextureFile("atum_armor_1");
     }
 
     @Override
@@ -33,16 +36,12 @@ public class ItemNutsAgility extends ItemTexturedArmor {
         return true;
     }
 
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
-        super.onArmorTick(world, player, stack);
-
-        if (world.isRemote || stack.isEmpty() || stack.getItem() != this) {
-            return;
+    @SubscribeEvent
+    public static void onKnockback(LivingKnockBackEvent event) {
+        EntityLivingBase entity = event.getEntityLiving();
+        if (entity.getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == AtumItems.FEET_OF_ATUM && entity.onGround) {
+            event.setStrength(0);
         }
-        player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 240, 1, true, true));
-        player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 240, 1, true, true));
-
     }
 
     @Override

@@ -44,7 +44,7 @@ public class ItemMafdetsQuickness extends Item {
     }
 
     private void doEffect(EntityPlayer player, @Nonnull ItemStack stack) {
-        player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 40, 0, false, true)); //TODO Check showParticles parameter
+        player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 40, 0, false, true));
         if (!player.capabilities.isCreativeMode) {
             if (stack.getItemDamage() == 1) {
                 stack.damageItem(1, player);

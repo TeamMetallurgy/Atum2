@@ -1,6 +1,5 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.atum;
 
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,10 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -25,12 +20,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
-public class ItemHorusFlight extends ItemTexturedArmor {
+public class ItemLegsOfAtum extends ItemTexturedArmor {
 
-    public ItemHorusFlight() {
-        super(ArmorMaterial.DIAMOND, 3, EntityEquipmentSlot.FEET);
-        this.setTextureFile("atum_armor_1");
+    public ItemLegsOfAtum() {
+        super(ArmorMaterial.DIAMOND, 2, EntityEquipmentSlot.LEGS);
+        this.setTextureFile("atum_armor_2");
     }
 
     @Override
@@ -46,24 +40,9 @@ public class ItemHorusFlight extends ItemTexturedArmor {
         if (world.isRemote || stack.isEmpty() || stack.getItem() != this) {
             return;
         }
-        player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 40, 1, true, true));
-    }
-
-    @SubscribeEvent
-    public void onJump(LivingJumpEvent event) {
-        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == this) {
-            event.getEntityLiving().motionY += 0.2D;
-            event.getEntityLiving().motionX *= 1.2D;
-            event.getEntityLiving().motionZ *= 1.2D;
+        if (world.getTotalWorldTime() % 35L == 0L) {
+            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 240, 1, false, false));
         }
-    }
-
-    @SubscribeEvent
-    public void onFallDamage(LivingFallEvent event) {
-        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == AtumItems.HORUS_FLIGHT) {
-            event.setDistance(0.0F);
-        }
-
     }
 
     @Override

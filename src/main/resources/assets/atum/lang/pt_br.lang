@@ -103,8 +103,8 @@ item.atum.gebsBlessing.name=Bênção de Gebs
 item.atum.atensFury.name=Fúria de Atens
 item.atum.eyesOfAtum.name=Glória de Ras
 item.atum.bodyOfAtum.name=Ira de Sekhmets
-item.atum.nutsAgility.name=Agilidade de Nuts
-item.atum.horusFlight.name=Voo de Horus
+item.atum.legsOfAtum.name=Agilidade de Nuts
+item.atum.feetOfAtum.name=Voo de Horus
 item.atum.monthusStrike.name=Golpe de Monthus
 item.atum.anhursMight.name=Poder de Anhurs
 item.atum.hedetetsSting.name=Ferrão de Hedetets
@@ -168,13 +168,13 @@ item.atum.bodyOfAtum.line1=Imolação I: Proteção contra fogo,
 item.atum.bodyOfAtum.line2=chance de inflamar atacantes
 item.atum.bodyOfAtum.line3=Imolação I
 
-item.atum.nutsAgility.line1=Agilidade I: Aumenta a corrida
-item.atum.nutsAgility.line2=balaceando a velocidade
-item.atum.nutsAgility.line3=Agilidade I 
+item.atum.legsOfAtum.line1=Agilidade I: Aumenta a corrida
+item.atum.legsOfAtum.line2=balaceando a velocidade
+item.atum.legsOfAtum.line3=Agilidade I
 
-item.atum.horusFlight.line1=Destreza I: Aumento da altura do salto,
-item.atum.horusFlight.line2=proteção contra danos de queda
-item.atum.horusFlight.line3=Destreza I 
+item.atum.feetOfAtum.line1=Destreza I: Aumento da altura do salto,
+item.atum.feetOfAtum.line2=proteção contra danos de queda
+item.atum.feetOfAtum.line3=Destreza I
 
 item.atum.monthusStrike.line1=Bater I: Aumento dos danos,
 item.atum.monthusStrike.line2=e chance para dar tranco AOE

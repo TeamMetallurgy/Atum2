@@ -40,7 +40,7 @@ public class ItemGebsSolidarity extends ItemTexturedArmor {
             return;
         }
 
-        player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20, 1, true, true));
+        player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 20, 1, false, false));
     }
 
     @Override

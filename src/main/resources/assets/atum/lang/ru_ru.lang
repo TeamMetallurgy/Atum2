@@ -172,8 +172,8 @@ item.atum.gebsBlessing.name=Благословение Геба
 item.atum.atensFury.name=Неистовство Атона
 item.atum.eyesOfAtum.name=Слава бога Ра
 item.atum.bodyOfAtum.name=Гнев Сехмета
-item.atum.nutsAgility.name=Ловкость богини Нут
-item.atum.horusFlight.name=Полёт Хора
+item.atum.legsOfAtum.name=Ловкость богини Нут
+item.atum.feetOfAtum.name=Полёт Хора
 item.atum.monthusStrike.name=Удар Монту
 item.atum.anhursMight.name=Мощь Онуриса
 item.atum.hedetetsSting.name=Жало Хедетета
@@ -237,13 +237,13 @@ item.atum.bodyOfAtum.line1=Поджигание I: Защита от огня,
 item.atum.bodyOfAtum.line2=шанс поджечь врагов
 item.atum.bodyOfAtum.line3=Поджигание I
 
-item.atum.nutsAgility.line1=Быстрота I: Увеличенная
-item.atum.nutsAgility.line2=скорость бега и плавания
-item.atum.nutsAgility.line3=Быстрота I
+item.atum.legsOfAtum.line1=Быстрота I: Увеличенная
+item.atum.legsOfAtum.line2=скорость бега и плавания
+item.atum.legsOfAtum.line3=Быстрота I
 
-item.atum.horusFlight.line1=Ловкость I: Увеличенный прыжок,
-item.atum.horusFlight.line2=защита от падения
-item.atum.horusFlight.line3=Ловкость I
+item.atum.feetOfAtum.line1=Ловкость I: Увеличенный прыжок,
+item.atum.feetOfAtum.line2=защита от падения
+item.atum.feetOfAtum.line3=Ловкость I
 
 item.atum.monthusStrike.line1=Хлопок I: Увеличенный урон,
 item.atum.monthusStrike.line2=заряд для отброса

@@ -47,7 +47,7 @@ public class ItemAnhursMight extends ItemSword {
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (!player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == this) {
-                player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 2, 0, true, true));
+                player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 2, 0, false, false));
             }
         }
     }
