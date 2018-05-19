@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/ras_glory"
+    "layer0": "atum:items/eyes_of_atum"
   }
 }

@@ -170,8 +170,8 @@ item.atum.osirisWill.name=Воля Осириса
 item.atum.akersToil.name=Труд Акера
 item.atum.gebsBlessing.name=Благословение Геба
 item.atum.atensFury.name=Неистовство Атона
-item.atum.rasGlory.name=Слава бога Ра
-item.atum.sekhmetsWrath.name=Гнев Сехмета
+item.atum.eyesOfAtum.name=Слава бога Ра
+item.atum.bodyOfAtum.name=Гнев Сехмета
 item.atum.nutsAgility.name=Ловкость богини Нут
 item.atum.horusFlight.name=Полёт Хора
 item.atum.monthusStrike.name=Удар Монту
@@ -188,7 +188,7 @@ item.atum.maatsBalance.name=Равновесие Маата
 item.atum.hedetetsVenom.name=Яд Хедетета
 item.atum.gebsSolidarity.name=Единство Геба
 item.atum.nutsCall.name=Вызов богини Нут
-item.atum.anuketsBounty.name=Щедрость Анукета
+item.atum.atumsBounty.name=Щедрость Анукета
 item.atum.mafdetsQuickness.name=Быстрота Мафдета
 item.atum.isisHealing.name=Исцеление Исиды
 item.atum.amunetsHomecoming.name=Возвращение Амаунета
@@ -229,13 +229,13 @@ item.atum.atensFury.line1=Огненный выстрел I: Огненная с
 item.atum.atensFury.line2=поджигает блоки и врагов
 item.atum.atensFury.line3=Огненный выстрел I
 
-item.atum.rasGlory.line1=Божественное зрение I: Ночное зрение, увеличенное
-item.atum.rasGlory.line2=зрение в «Атуме»
-item.atum.rasGlory.line3=Божественное зрение I
+item.atum.eyesOfAtum.line1=Божественное зрение I: Ночное зрение, увеличенное
+item.atum.eyesOfAtum.line2=зрение в «Атуме»
+item.atum.eyesOfAtum.line3=Божественное зрение I
 
-item.atum.sekhmetsWrath.line1=Поджигание I: Защита от огня,
-item.atum.sekhmetsWrath.line2=шанс поджечь врагов
-item.atum.sekhmetsWrath.line3=Поджигание I
+item.atum.bodyOfAtum.line1=Поджигание I: Защита от огня,
+item.atum.bodyOfAtum.line2=шанс поджечь врагов
+item.atum.bodyOfAtum.line3=Поджигание I
 
 item.atum.nutsAgility.line1=Быстрота I: Увеличенная
 item.atum.nutsAgility.line2=скорость бега и плавания
@@ -297,9 +297,9 @@ item.atum.nutsCall.line1=Гнев I: Шанс ударить
 item.atum.nutsCall.line2=врага молнией
 item.atum.nutsCall.line3=Гнев I
 
-item.atum.anuketsBounty.line1=Соблазнение I: Шанс поймать
-item.atum.anuketsBounty.line2=уникальную рыбу в «Атуме»
-item.atum.anuketsBounty.line3=Соблазнение I
+item.atum.atumsBounty.line1=Соблазнение I: Шанс поймать
+item.atum.atumsBounty.line2=уникальную рыбу в «Атуме»
+item.atum.atumsBounty.line3=Соблазнение I
 
 item.atum.mafdetsQuickness.line1=Стремительность I: Вы бежите
 item.atum.mafdetsQuickness.line2=быстрее, когда держите

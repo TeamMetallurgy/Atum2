@@ -218,8 +218,8 @@ item.atum.osirisWill.name=Osiris's Will
 item.atum.akersToil.name=Aker's Toil
 item.atum.gebsBlessing.name=Geb's Blessing
 item.atum.atensFury.name=Aten's Fury
-item.atum.rasGlory.name=Ra's Glory
-item.atum.sekhmetsWrath.name=Sekhmet's Wrath
+item.atum.eyesOfAtum.name=Eyes of Atum
+item.atum.bodyOfAtum.name=Body of Atum
 item.atum.nutsAgility.name=Nut's Agility
 item.atum.horusFlight.name=Horus's Flight
 item.atum.monthusStrike.name=Monthu's Strike
@@ -236,7 +236,7 @@ item.atum.maatsBalance.name=Maat's Balance
 item.atum.hedetetsVenom.name=Hedetet's Venom
 item.atum.gebsSolidarity.name=Geb's Solidarity
 item.atum.nutsCall.name=Nut's Call
-item.atum.anuketsBounty.name=Anuket's Bounty
+item.atum.atumsBounty.name=Atum's Bounty
 item.atum.mafdetsQuickness.name=Mafdet's Quickness
 item.atum.isisHealing.name=Isis's Healing
 item.atum.amunetsHomecoming.name=Amunet's Homecoming
@@ -252,125 +252,125 @@ item.atum.deadwoodStick.name=Deadwood Stick
 item.atum.deadwoodBeetle.name=Deadwood Beetle
 
 # Item Information
-item.atum.akersToil.line1=Performance I: Faster, does
+item.atum.akersToil.line1=Performance: Faster, does
 item.atum.akersToil.line2=not consume fatigue
-item.atum.akersToil.line3=Performance I
+item.atum.akersToil.line3=Performance
 
-item.atum.amunetsHomecoming.line1=Return I: Teleports you back
+item.atum.amunetsHomecoming.line1=Return: Teleports you back
 item.atum.amunetsHomecoming.line2=to your spawn point
-item.atum.amunetsHomecoming.line3=Return I
+item.atum.amunetsHomecoming.line3=Return
 
-item.atum.anhursMight.line1=Mighty I: Slows player,
+item.atum.anhursMight.line1=Mighty: Slows player,
 item.atum.anhursMight.line2=Chance to stun foes
-item.atum.anhursMight.line3=Mighty I
+item.atum.anhursMight.line3=Mighty
 
-item.atum.ptahsDecadence.line1=Wealth I: Gain an extra
+item.atum.ptahsDecadence.line1=Wealth: Gain an extra
 item.atum.ptahsDecadence.line2=diamond from each ore
-item.atum.ptahsDecadence.line3=Wealth I
+item.atum.ptahsDecadence.line3=Wealth
 
-item.atum.soteksRage.line1=Exile I: Knocks foes
-item.atum.soteksRage.line2=back a large amount
-item.atum.soteksRage.line3=Exile I
+item.atum.sobeksRage.line1=Exile: Knocks foes
+item.atum.sobeksRage.line2=back a large amount
+item.atum.sobeksRage.line3=Exile
 
-item.atum.osirisWill.line1=Banish I: Bonus damage to undead,
+item.atum.osirisWill.line1=Banish: Bonus damage to undead,
 item.atum.osirisWill.line2=chance to drop ectoplasm
-item.atum.osirisWill.line3=Banish I
+item.atum.osirisWill.line3=Banish
 
-item.atum.gebsBlessing.line1=Sowing I: Tilled ground is blessed,
+item.atum.gebsBlessing.line1=Sowing: Tilled ground is blessed,
 item.atum.gebsBlessing.line2=granting increased growth rate
-item.atum.gebsBlessing.line3=Sowing I
+item.atum.gebsBlessing.line3=Sowing
 
-item.atum.atensFury.line1=Fire Shot I: Flaming arrow
+item.atum.atensFury.line1=Fire Shot: Flaming arrow
 item.atum.atensFury.line2=ignites blocks and foes
-item.atum.atensFury.line3=Fire Shot I
+item.atum.atensFury.line3=Fire Shot
 
-item.atum.rasGlory.line1=Divine Vision I: Night vision, increased
-item.atum.rasGlory.line2=range of vision in Atum
-item.atum.rasGlory.line3=Divine Vision I
+item.atum.eyesOfAtum.line1=Divine Vision: Increased vision in darkness
+item.atum.eyesOfAtum.line2=Increased range of vision in Atum
+item.atum.eyesOfAtum.line3=Divine Vision
 
-item.atum.sekhmetsWrath.line1=Immolation I: Protection from fire,
-item.atum.sekhmetsWrath.line2=chance to ignite attackers
-item.atum.sekhmetsWrath.line3=Immolation I
+item.atum.bodyOfAtum.line1=Divine Protection: Halves damage
+item.atum.bodyOfAtum.line2=taken from Undead
+item.atum.bodyOfAtum.line3=Divine Protection
 
-item.atum.nutsAgility.line1=Agility I: Increased run
+item.atum.nutsAgility.line1=Agility: Increased run
 item.atum.nutsAgility.line2=and swinging speed
-item.atum.nutsAgility.line3=Agility I
+item.atum.nutsAgility.line3=Agility
 
-item.atum.horusFlight.line1=Nimbleness I: Increased jump height,
+item.atum.horusFlight.line1=Nimbleness: Increased jump height,
 item.atum.horusFlight.line2=protection from fall damage
-item.atum.horusFlight.line3=Nimbleness I
+item.atum.horusFlight.line3=Nimbleness
 
-item.atum.monthusStrike.line1=Slam I: Increased damage,
+item.atum.monthusStrike.line1=Slam: Increased damage,
 item.atum.monthusStrike.line2=charge for AOE knockback
-item.atum.monthusStrike.line3=Slam I
+item.atum.monthusStrike.line3=Slam
 
-item.atum.hedetetsSting.line1=Poison II: Chance
+item.atum.hedetetsSting.line1=Poison: Chance
 item.atum.hedetetsSting.line2=to poison foes
-item.atum.hedetetsSting.line3=Poison II
+item.atum.hedetetsSting.line3=Poison
 
-item.atum.horusSoaring.line1=Velocity I: Arrow Velocity,
+item.atum.horusSoaring.line1=Velocity: Arrow Velocity,
 item.atum.horusSoaring.line2=increases arrow velocity by 50%
-item.atum.horusSoaring.line3=Velocity I
+item.atum.horusSoaring.line3=Velocity
 
-item.atum.shusBreath.line1=Quickdraw I: Reduced
+item.atum.shusBreath.line1=Quickdraw: Reduced
 item.atum.shusBreath.line2=drawback speed
-item.atum.shusBreath.line3=Quickdraw I
+item.atum.shusBreath.line3=Quickdraw
 
-item.atum.ptahsDestruction.line1=Stonecutter I: Increases damage
+item.atum.ptahsDestruction.line1=Stonecutter: Increases damage
 item.atum.ptahsDestruction.line2=to stone enemies
-item.atum.ptahsDestruction.line3=Stonecutter I
+item.atum.ptahsDestruction.line3=Stonecutter
 
-item.atum.monthusBlast.line1=Explosive Shot I: Arrows explode
+item.atum.monthusBlast.line1=Explosive Shot: Arrows explode
 item.atum.monthusBlast.line2=on impact
-item.atum.monthusBlast.line3=Explosive Shot I
+item.atum.monthusBlast.line3=Explosive Shot
 
-item.atum.nusFlux.line1=Sweep I: Chance to launch
+item.atum.nusFlux.line1=Sweep: Chance to launch
 item.atum.nusFlux.line2=foes into the air
-item.atum.nusFlux.line3=Sweep I
+item.atum.nusFlux.line3=Sweep
 
-item.atum.mnevisHorns.line1=Melee Reflection I: Deals
+item.atum.mnevisHorns.line1=Melee Reflection: Deals
 item.atum.mnevisHorns.line2=damage to attackers
-item.atum.mnevisHorns.line3=Melee Reflection I
+item.atum.mnevisHorns.line3=Melee Reflection
 
-item.atum.isisEmbrace.line1=Regeneration I: Regens
+item.atum.isisEmbrace.line1=Regeneration: Regens
 item.atum.isisEmbrace.line2=health slowly
-item.atum.isisEmbrace.line3=Regeneration I
+item.atum.isisEmbrace.line3=Regeneration
 
-item.atum.maatsBalance.line1=Balance I: Decreases damage
+item.atum.maatsBalance.line1=Balance: Decreases damage
 item.atum.maatsBalance.line2=dealt, Decreases damage taken
-item.atum.maatsBalance.line3=Balance I
+item.atum.maatsBalance.line3=Balance
 
-item.atum.hedetetsVenom.line1=Poison Arrow I: Fires an
+item.atum.hedetetsVenom.line1=Poison Arrow: Fires an
 item.atum.hedetetsVenom.line2=arrow that poisons foes
-item.atum.hedetetsVenom.line3=Poison Arrow I
+item.atum.hedetetsVenom.line3=Poison Arrow
 
-item.atum.gebsSolidarity.line1=Stalwart I: Decreased movement
+item.atum.gebsSolidarity.line1=Stalwart: Decreased movement
 item.atum.gebsSolidarity.line2=speed, decreased knockback (WIP)
-item.atum.gebsSolidarity.line3=Stalwart I
+item.atum.gebsSolidarity.line3=Stalwart
 
-item.atum.nutsCall.line1=Wrath I: Chance to strike
+item.atum.nutsCall.line1=Wrath: Chance to strike
 item.atum.nutsCall.line2=foe with lightning
-item.atum.nutsCall.line3=Wrath I
+item.atum.nutsCall.line3=Wrath
 
-item.atum.anuketsBounty.line1=Alluring I: Chance to catch
-item.atum.anuketsBounty.line2=special fish in Atum
-item.atum.anuketsBounty.line3=Alluring I
+item.atum.atumsBounty.line1=Alluring: You can catch rare
+item.atum.atumsBounty.line2=and unique fish in Atum
+item.atum.atumsBounty.line3=Alluring
 
-item.atum.mafdetsQuickness.line1=Swiftness I: You run
+item.atum.mafdetsQuickness.line1=Swiftness: You run
 item.atum.mafdetsQuickness.line2=faster when held
-item.atum.mafdetsQuickness.line3=Swiftness I
+item.atum.mafdetsQuickness.line3=Swiftness
 
-item.atum.isisHealing.line1=Regeneration I: Regenerates
+item.atum.isisHealing.line1=Regeneration: Regenerates
 item.atum.isisHealing.line2=health slowly while held
-item.atum.isisHealing.line3=Regeneration I
+item.atum.isisHealing.line3=Regeneration
 
-item.atum.anubisMercy.line1=Return I: On Death teleports you back,
+item.atum.anubisMercy.line1=Return: On Death teleports you back,
 item.atum.anubisMercy.line2=to your spawn point
-item.atum.anubisMercy.line3=Return I
+item.atum.anubisMercy.line3=Return
 
-item.atum.neithsAudacity.line1=Double Shot I: Fires
+item.atum.neithsAudacity.line1=Double Shot: Fires
 item.atum.neithsAudacity.line2=two arrows
-item.atum.neithsAudacity.line3=Double Shot I
+item.atum.neithsAudacity.line3=Double Shot
 
 tooltip.atum.minutesRemaining=%d Minutes Remaining
 tooltip.atum.usesRemaining=%d Uses Remaining

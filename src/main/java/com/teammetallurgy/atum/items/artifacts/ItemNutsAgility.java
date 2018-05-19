@@ -22,8 +22,9 @@ import java.util.List;
 
 public class ItemNutsAgility extends ItemTexturedArmor {
 
-    public ItemNutsAgility(ArmorMaterial material, int renderIndex, EntityEquipmentSlot slot) {
-        super(material, renderIndex, slot);
+    public ItemNutsAgility() {
+        super(ArmorMaterial.DIAMOND, 2, EntityEquipmentSlot.LEGS);
+        this.setTextureFile("atum_armor_2");
     }
 
     @Override

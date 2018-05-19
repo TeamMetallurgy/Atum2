@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.items.artifacts.ItemAnuketsBounty;
+import com.teammetallurgy.atum.items.artifacts.atum.ItemAtumsBounty;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -106,7 +106,7 @@ public class AtumEventListener {
         builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withPlayer(angler).withLootedEntity(fishHook);
         if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
             event.setCanceled(true); //We don't want any vanilla loot
-            if (heldStack.getItem() instanceof ItemAnuketsBounty) {
+            if (heldStack.getItem() instanceof ItemAtumsBounty) {
                 List<ItemStack> lootTable = world.getLootTableManager().getLootTableFromLocation(AtumLootTables.FISH).generateLootForPools(world.rand, builder.build());
                 for (ItemStack loot : lootTable) {
                     EntityItem fish = new EntityItem(fishHook.world, fishHook.posX, fishHook.posY, fishHook.posZ, loot);

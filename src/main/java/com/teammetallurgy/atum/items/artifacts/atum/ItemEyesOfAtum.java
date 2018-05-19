@@ -1,11 +1,15 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.atum;
 
+import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -16,16 +20,26 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemAnuketsBounty extends ItemFishingRod {
+public class ItemEyesOfAtum extends ItemTexturedArmor {
 
-    public ItemAnuketsBounty() {
-        super();
+    public ItemEyesOfAtum() {
+        super(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.HEAD);
+        this.setTextureFile("atum_armor_1");
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
+    }
+
+    @Override
+    public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
+        super.onArmorTick(world, player, stack);
+
+        if (world.getTotalWorldTime() % 15L == 0L) {
+            player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 255, 0, true, false));
+        }
     }
 
     @Override
@@ -43,10 +57,6 @@ public class ItemAnuketsBounty extends ItemFishingRod {
         } else {
             tooltip.add(I18n.format(this.getUnlocalizedName() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-
-        int remaining = stack.getMaxDamage() - stack.getItemDamage();
-        String localizedRemaining = I18n.format("tooltip.atum.usesRemaining", remaining);
-        tooltip.add(localizedRemaining);
     }
 
     @Override

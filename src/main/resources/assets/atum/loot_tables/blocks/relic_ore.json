@@ -87,8 +87,8 @@
         },
         {
           "type": "item",
-          "name": "atum:anukets_bounty",
-          "entryName": "anukets_bounty",
+          "name": "atum:atums_bounty",
+          "entryName": "atums_bounty",
           "weight": 1
         },
         {
@@ -219,14 +219,14 @@
         },
         {
           "type": "item",
-          "name": "atum:ras_glory",
-          "entryName": "ras_glory",
+          "name": "atum:eyes_of_atum",
+          "entryName": "eyes_of_atum",
           "weight": 1
         },
         {
           "type": "item",
-          "name": "atum:sekhmets_wrath",
-          "entryName": "sekhmets_wrath",
+          "name": "atum:body_of_atum",
+          "entryName": "body_of_atum",
           "weight": 1
         },
         {

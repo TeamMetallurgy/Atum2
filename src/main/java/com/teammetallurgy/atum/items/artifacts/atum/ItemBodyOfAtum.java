@@ -1,20 +1,24 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.atum;
 
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.particle.ParticleLightSparkle;
+import com.teammetallurgy.atum.entity.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingJumpEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,11 +29,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
-public class ItemHorusFlight extends ItemTexturedArmor {
+@Mod.EventBusSubscriber
+public class ItemBodyOfAtum extends ItemTexturedArmor {
 
-    public ItemHorusFlight() {
-        super(ArmorMaterial.DIAMOND, 3, EntityEquipmentSlot.FEET);
+    public ItemBodyOfAtum() {
+        super(ArmorMaterial.DIAMOND, 1, EntityEquipmentSlot.CHEST);
         this.setTextureFile("atum_armor_1");
     }
 
@@ -39,31 +43,24 @@ public class ItemHorusFlight extends ItemTexturedArmor {
         return true;
     }
 
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
-        super.onArmorTick(world, player, stack);
-
-        if (world.isRemote || stack.isEmpty() || stack.getItem() != this) {
-            return;
-        }
-        player.addPotionEffect(new PotionEffect(MobEffects.JUMP_BOOST, 40, 1, true, true));
-    }
-
     @SubscribeEvent
-    public void onJump(LivingJumpEvent event) {
-        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == this) {
-            event.getEntityLiving().motionY += 0.2D;
-            event.getEntityLiving().motionX *= 1.2D;
-            event.getEntityLiving().motionZ *= 1.2D;
+    public static void onLivingHurt(LivingHurtEvent event) {
+        EntityLivingBase entity = event.getEntityLiving();
+        World world = entity.world;
+
+        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATUM) {
+            for (int l = 0; l < 16; ++l) {
+                Atum.proxy.generateParticle(new ParticleLightSparkle(entity.world, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D));
+            }
+
+            if (isUndeadMob(event.getSource().getTrueSource())) {
+                event.setAmount(event.getAmount() / 2);
+            }
         }
     }
 
-    @SubscribeEvent
-    public void onFallDamage(LivingFallEvent event) {
-        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.FEET).getItem() == AtumItems.HORUS_FLIGHT) {
-            event.setDistance(0.0F);
-        }
-
+    private static boolean isUndeadMob(Entity entity) {
+        return entity instanceof EntityUndeadBase || entity instanceof EntityZombie || entity instanceof AbstractSkeleton || entity instanceof EntityWither;
     }
 
     @Override

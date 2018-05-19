@@ -101,8 +101,8 @@ item.atum.osirisWill.name=Vontade de Osiris
 item.atum.akersToil.name=Labuta de Akers
 item.atum.gebsBlessing.name=Bênção de Gebs
 item.atum.atensFury.name=Fúria de Atens
-item.atum.rasGlory.name=Glória de Ras
-item.atum.sekhmetsWrath.name=Ira de Sekhmets
+item.atum.eyesOfAtum.name=Glória de Ras
+item.atum.bodyOfAtum.name=Ira de Sekhmets
 item.atum.nutsAgility.name=Agilidade de Nuts
 item.atum.horusFlight.name=Voo de Horus
 item.atum.monthusStrike.name=Golpe de Monthus
@@ -119,7 +119,7 @@ item.atum.maatsBalance.name=Equilíbrio de Maats
 item.atum.hedetetsVenom.name=Veneno de Hedetets
 item.atum.gebsSolidarity.name=Solidariedade de Gebs
 item.atum.nutsCall.name=Chamado de Nuts
-item.atum.anuketsBounty.name=Recompensa de Anukets
+item.atum.atumsBounty.name=Recompensa de Anukets
 item.atum.mafdetsQuickness.name=Rapidez de Mafdets
 item.atum.isisHealing.name=Cura de Isis
 item.atum.amunetsHomecoming.name=Reencontro de Amunets
@@ -160,13 +160,13 @@ item.atum.atensFury.line1=Tiro de Fogo I: Uma flecha flamejante
 item.atum.atensFury.line2=Que inflama blocos e inimigos
 item.atum.atensFury.line3=Tiro de Fogo I 
 
-item.atum.rasGlory.line1=Visão Divina I: Visão noturna, aumenta o 
-item.atum.rasGlory.line2=campo de visão em Atum
-item.atum.rasGlory.line3=Visão Divina I 
+item.atum.eyesOfAtum.line1=Visão Divina I: Visão noturna, aumenta o
+item.atum.eyesOfAtum.line2=campo de visão em Atum
+item.atum.eyesOfAtum.line3=Visão Divina I
 
-item.atum.sekhmetsWrath.line1=Imolação I: Proteção contra fogo,
-item.atum.sekhmetsWrath.line2=chance de inflamar atacantes
-item.atum.sekhmetsWrath.line3=Imolação I 
+item.atum.bodyOfAtum.line1=Imolação I: Proteção contra fogo,
+item.atum.bodyOfAtum.line2=chance de inflamar atacantes
+item.atum.bodyOfAtum.line3=Imolação I
 
 item.atum.nutsAgility.line1=Agilidade I: Aumenta a corrida
 item.atum.nutsAgility.line2=balaceando a velocidade
@@ -229,9 +229,9 @@ item.atum.nutsCall.line1=Ira I: Chance de acertar
 item.atum.nutsCall.line2=o inimigo com um raio
 item.atum.nutsCall.line3=Ira I 
 
-item.atum.anuketsBounty.line1=Atração I: Chance de pegar
-item.atum.anuketsBounty.line2=um peixe especial em Atum
-item.atum.anuketsBounty.line3=Atração I 
+item.atum.atumsBounty.line1=Atração I: Chance de pegar
+item.atum.atumsBounty.line2=um peixe especial em Atum
+item.atum.atumsBounty.line3=Atração I
 
 item.atum.mafdetsQuickness.line1=Rapidez I: Você corre
 item.atum.mafdetsQuickness.line2=mais rápido enquanto segurar 

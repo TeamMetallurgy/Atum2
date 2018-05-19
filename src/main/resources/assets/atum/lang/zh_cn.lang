@@ -196,8 +196,8 @@ item.atum.osirisWill.name=Osiris之意志
 item.atum.akersToil.name=Akers之劳累
 item.atum.gebsBlessing.name=Gebs之祝福
 item.atum.atensFury.name=Atens之狂怒
-item.atum.rasGlory.name=Ras之荣耀
-item.atum.sekhmetsWrath.name=Sekhmets之暴怒
+item.atum.eyesOfAtum.name=Ras之荣耀
+item.atum.bodyOfAtum.name=Sekhmets之暴怒
 item.atum.nutsAgility.name=Nuts之敏捷
 item.atum.horusFlight.name=Horus之跃动
 item.atum.monthusStrike.name=Monthus之猛击
@@ -214,7 +214,7 @@ item.atum.maatsBalance.name=Maats之平衡
 item.atum.hedetetsVenom.name=Hedetets之恶毒
 item.atum.gebsSolidarity.name=Gebs之团结
 item.atum.nutsCall.name=Nuts之召唤
-item.atum.anuketsBounty.name=Anukets之慷慨
+item.atum.atumsBounty.name=Anukets之慷慨
 item.atum.mafdetsQuickness.name=Mafdets之迅捷
 item.atum.isisHealing.name=Isis之治疗
 item.atum.amunetsHomecoming.name=Amunets之回归
@@ -263,13 +263,13 @@ item.atum.atensFury.line1=焚箭I: 燃烧的箭头
 item.atum.atensFury.line2=能点燃方块与物品
 item.atum.atensFury.line3=焚箭I
 
-item.atum.rasGlory.line1=天眼I:夜视,能增加玩家
-item.atum.rasGlory.line2=在亚图姆的可视范围
-item.atum.rasGlory.line3=天眼I
+item.atum.eyesOfAtum.line1=天眼I:夜视,能增加玩家
+item.atum.eyesOfAtum.line2=在亚图姆的可视范围
+item.atum.eyesOfAtum.line3=天眼I
 
-item.atum.sekhmetsWrath.line1=献祭I:抵御火焰伤害,
-item.atum.sekhmetsWrath.line2=有几率点燃攻击者
-item.atum.sekhmetsWrath.line3=献祭I
+item.atum.bodyOfAtum.line1=献祭I:抵御火焰伤害,
+item.atum.bodyOfAtum.line2=有几率点燃攻击者
+item.atum.bodyOfAtum.line3=献祭I
 
 item.atum.nutsAgility.line1=敏捷I:增加奔跑
 item.atum.nutsAgility.line2=与挥舞速度
@@ -331,9 +331,9 @@ item.atum.nutsCall.line1=暴怒I:有几率召唤
 item.atum.nutsCall.line2=雷电攻击敌人
 item.atum.nutsCall.line3=暴怒I
 
-item.atum.anuketsBounty.line1=诱惑I:有几率吸引到
-item.atum.anuketsBounty.line2=亚图姆中特殊的鱼
-item.atum.anuketsBounty.line3=诱惑I
+item.atum.atumsBounty.line1=诱惑I:有几率吸引到
+item.atum.atumsBounty.line2=亚图姆中特殊的鱼
+item.atum.atumsBounty.line3=诱惑I
 
 item.atum.mafdetsQuickness.line1=迅捷I:手持该物品时
 item.atum.mafdetsQuickness.line2=跑得会更快

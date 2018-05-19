@@ -17,8 +17,10 @@ import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
@@ -32,6 +34,11 @@ import javax.annotation.Nonnull;
 
 public class ClientProxy extends CommonProxy {
 
+    @Override
+    public void generateParticle(Particle particle) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+    
     @Override
     public void initRenders() {
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
