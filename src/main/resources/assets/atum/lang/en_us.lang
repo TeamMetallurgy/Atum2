@@ -320,9 +320,9 @@ item.atum.ptahsDestruction.line1=Stonecutter: Increases damage
 item.atum.ptahsDestruction.line2=to stone enemies
 item.atum.ptahsDestruction.line3=Stonecutter
 
-item.atum.monthusBlast.line1=Explosive Shot: Arrows explode
-item.atum.monthusBlast.line2=on impact
-item.atum.monthusBlast.line3=Explosive Shot
+item.atum.monthusBlast.line1=Explosive Arrow: Fires an explosive
+item.atum.monthusBlast.line2=arrow that explodes on impact
+item.atum.monthusBlast.line3=Explosive Arrow
 
 item.atum.nusFlux.line1=Sweep: Chance to launch
 item.atum.nusFlux.line2=foes into the air

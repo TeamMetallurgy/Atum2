@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.*;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
+import com.teammetallurgy.atum.items.artifacts.monthu.ItemMonthusBlast;
 import com.teammetallurgy.atum.items.artifacts.ra.*;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;

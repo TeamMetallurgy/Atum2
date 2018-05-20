@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.monthu;
 
 import com.teammetallurgy.atum.entity.arrow.EntityArrowExplosive;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
@@ -25,12 +25,14 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemMonthusBlast extends ItemBaseBow {
 
     public ItemMonthusBlast() {
         super();
         this.setMaxDamage(650);
+        this.setRepairItem(Items.DIAMOND);
     }
 
     @Override
@@ -39,82 +41,71 @@ public class ItemMonthusBlast extends ItemBaseBow {
     }
 
     @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
+    @Nonnull
+    public EnumRarity getRarity(@Nonnull ItemStack stack) {
+        return EnumRarity.RARE;
     }
 
     @Override
     public void onPlayerStoppedUsing(@Nonnull ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft) {
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entityLiving;
-            boolean flag = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
+            boolean infinity = player.capabilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
             ItemStack ammoStack = this.findAmmo(player);
 
             int i = this.getMaxItemUseDuration(stack) - timeLeft;
-            i = ForgeEventFactory.onArrowLoose(stack, world, (EntityPlayer) entityLiving, i, !ammoStack.isEmpty() || flag);
+            i = ForgeEventFactory.onArrowLoose(stack, world, player, i, !ammoStack.isEmpty() || infinity);
             if (i < 0) return;
 
-            if (!ammoStack.isEmpty() || flag) {
+            if (!ammoStack.isEmpty() || infinity) {
                 if (ammoStack.isEmpty()) {
                     ammoStack = new ItemStack(Items.ARROW);
                 }
-
                 float f = getArrowVelocity(i);
 
                 if ((double) f >= 0.1D) {
-                    boolean flagAmmo = flag && ammoStack.getItem() instanceof ItemArrow;
+                    boolean hasArrow = player.capabilities.isCreativeMode || (ammoStack.getItem() instanceof ItemArrow && ((ItemArrow) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
                     if (!world.isRemote) {
-                        EntityArrowExplosive entityarrow = new EntityArrowExplosive(world, player);
-                        entityarrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, f * 1.5F, 1.0F);
-                        entityarrow.setDamage(entityarrow.getDamage() * 1.5D);
+                        EntityArrowExplosive explosiveArrow = new EntityArrowExplosive(world, player);
+                        explosiveArrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, f * 3.0F, 1.0F);
 
                         if (f == 1.0F) {
-                            entityarrow.setIsCritical(true);
+                            explosiveArrow.setIsCritical(true);
                         }
-
                         int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+
                         if (j > 0) {
-                            entityarrow.setDamage(entityarrow.getDamage() + (double) j * 0.5D + 0.5D);
+                            explosiveArrow.setDamage(explosiveArrow.getDamage() + (double) j * 0.5D + 0.5D);
                         }
-
                         int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+
                         if (k > 0) {
-                            entityarrow.setKnockbackStrength(k);
+                            explosiveArrow.setKnockbackStrength(k);
                         }
-
                         if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
-                            entityarrow.setFire(100);
+                            explosiveArrow.setFire(100);
                         }
-
                         stack.damageItem(1, player);
 
-                        if (flagAmmo) {
-                            entityarrow.pickupStatus = EntityArrowExplosive.PickupStatus.CREATIVE_ONLY;
+                        if (hasArrow || player.capabilities.isCreativeMode && (ammoStack.getItem() == Items.SPECTRAL_ARROW || ammoStack.getItem() == Items.TIPPED_ARROW)) {
+                            explosiveArrow.pickupStatus = EntityArrowExplosive.PickupStatus.CREATIVE_ONLY;
                         }
-
-                        world.spawnEntity(entityarrow);
+                        world.spawnEntity(explosiveArrow);
                     }
+                    world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
 
-                    world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.NEUTRAL, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-
-                    if (!flagAmmo) {
+                    if (!hasArrow && !player.capabilities.isCreativeMode) {
                         ammoStack.shrink(1);
 
                         if (ammoStack.isEmpty()) {
                             player.inventory.deleteStack(ammoStack);
                         }
                     }
-                    player.addStat(StatList.getObjectUseStats(this));
+                    player.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
                 }
             }
         }
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 
     @Override

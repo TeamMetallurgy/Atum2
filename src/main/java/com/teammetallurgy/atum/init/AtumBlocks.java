@@ -165,21 +165,33 @@ public class AtumBlocks {
     }
 
     public static void setBlockInfo() {
-        //ForgeHooks.canToolHarvestBlock(SAND, 0, new ItemStack(Items.iron_shovel)); //TODO
         SAND.setHarvestLevel("shovel", 0);
+        SAND_LAYERED.setHarvestLevel("shovel", 0);
         LIMESTONE_GRAVEL.setHarvestLevel("shovel", 0);
+        FERTILE_SOIL.setHarvestLevel("shovel", 0);
+        FERTILE_SOIL_TILLED.setHarvestLevel("shovel", 0);
         COAL_ORE.setHarvestLevel("pickaxe", 0);
+        BONE_ORE.setHarvestLevel("pickaxe", 0);
         IRON_ORE.setHarvestLevel("pickaxe", 1);
+        RELIC_ORE.setHarvestLevel("pickaxe", 1);
         GOLD_ORE.setHarvestLevel("pickaxe", 2);
         LAPIS_ORE.setHarvestLevel("pickaxe", 1);
+        EMERALD_ORE.setHarvestLevel("pickaxe", 1);
         DIAMOND_ORE.setHarvestLevel("pickaxe", 2);
         REDSTONE_ORE.setHarvestLevel("pickaxe", 2);
 
-        //Blocks.FIRE.setFireInfo(PLANKS, 5, 20); //TODO
-        //Blocks.FIRE.setFireInfo(LEAVES, 30, 60); //TODO
-        //Blocks.FIRE.setFireInfo(LOG, 5, 5); //TODO
         Blocks.FIRE.setFireInfo(PALM_FENCE, 5, 20);
+        Blocks.FIRE.setFireInfo(PALM_FENCE_GATE, 5, 20);
         Blocks.FIRE.setFireInfo(DEADWOOD_FENCE, 5, 20);
-        //Blocks.FIRE.setFireInfo(WOOD_SLAB, 5, 20); //TODO
+        Blocks.FIRE.setFireInfo(DEADWOOD_FENCE_GATE, 5, 20);
+        Blocks.FIRE.setFireInfo(SHRUB, 60, 100);
+        Blocks.FIRE.setFireInfo(WEED, 60, 100);
+        for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
+            Blocks.FIRE.setFireInfo(BlockAtumWoodSlab.getSlab(type), 5, 20);
+            Blocks.FIRE.setFireInfo(BlockAtumPlank.getPlank(type), 5, 20);
+            Blocks.FIRE.setFireInfo(BlockLeave.getLeave(type), 30, 60);
+            Blocks.FIRE.setFireInfo(BlockAtumLog.getLog(type), 5, 5);
+            Blocks.FIRE.setFireInfo(BlockAtumStairs.getWoodStairs(type), 5, 20);
+        }
     }
 }
