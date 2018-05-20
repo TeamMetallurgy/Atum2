@@ -34,7 +34,7 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     BlockAtumSlab(Material material, MapColor color) {
         super(material, color);
         this.setDefaultState(this.getDefaultState().withProperty(TYPE, Type.BOTTOM));
-        this.setLightLevel(255);
+        this.useNeighborBrightness = true;
     }
 
     @Override

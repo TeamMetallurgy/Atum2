@@ -29,6 +29,7 @@ public class RenderAtumsProtection extends TileEntityItemStackRenderer {
 
         GlStateManager.pushMatrix();
         mc.getTextureManager().bindTexture(BannerTextures.SHIELD_BASE_TEXTURE);
+        GlStateManager.scale(1.0F, -1.0F, -1.0F);
         this.modelShield.render();
         GlStateManager.popMatrix();
     }

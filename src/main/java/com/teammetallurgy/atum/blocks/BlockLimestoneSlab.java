@@ -17,6 +17,7 @@ public class BlockLimestoneSlab extends BlockAtumSlab {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.STONE);
+        this.useNeighborBrightness = true;
     }
 
     public static void registerSlabs() {
