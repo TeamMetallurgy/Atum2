@@ -33,7 +33,6 @@ public class Atum {
     public void preInit(FMLPreInitializationEvent event) {
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
-        proxy.initRenders();
         new AtumEntities();
     }
 

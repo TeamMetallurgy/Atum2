@@ -1,28 +1,28 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/monthus_blast"
+    "layer0": "atum:items/montus_blast"
   },
   "overrides": [
     {
       "predicate": {
         "pulling": 1
       },
-      "model": "atum:item/monthus_blast_pulling_0"
+      "model": "atum:item/montus_blast_pulling_0"
     },
     {
       "predicate": {
         "pulling": 1,
         "pull": 0.65
       },
-      "model": "atum:item/monthus_blast_pulling_1"
+      "model": "atum:item/montus_blast_pulling_1"
     },
     {
       "predicate": {
         "pulling": 1,
         "pull": 0.9
       },
-      "model": "atum:item/monthus_blast_pulling_2"
+      "model": "atum:item/montus_blast_pulling_2"
     }
   ]
 }

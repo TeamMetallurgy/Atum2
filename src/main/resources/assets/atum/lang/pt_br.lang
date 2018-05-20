@@ -111,7 +111,7 @@ item.atum.hedetetsSting.name=Ferrão de Hedetets
 item.atum.horusSoaring.name=Ascendência de Horus
 item.atum.shusBreath.name=Respiração de Shus
 item.atum.ptahsDestruction.name=Destruição de Ptahs
-item.atum.monthusBlast.name=Explosão de Monthus
+item.atum.montusBlast.name=Explosão de Monthus
 item.atum.nusFlux.name=Fluxo de Nus
 item.atum.haloOfRa.name=Chifres de Mnevis
 item.atum.bodyOfRa.name=Abraço de Isis
@@ -197,9 +197,9 @@ item.atum.ptahsDestruction.line1=Pedreiro I: Aumenta o dano
 item.atum.ptahsDestruction.line2=nos inimigos de pedra
 item.atum.ptahsDestruction.line3=Pedreiro I 
 
-item.atum.monthusBlast.line1=Tiro Explosivo I: Flechas explodem
-item.atum.monthusBlast.line2=no impacto
-item.atum.monthusBlast.line3=Tiro Explosivo I 
+item.atum.montusBlast.line1=Tiro Explosivo I: Flechas explodem
+item.atum.montusBlast.line2=no impacto
+item.atum.montusBlast.line3=Tiro Explosivo I
 
 item.atum.nusFlux.line1=Varrer I: Chance para lançar
 item.atum.nusFlux.line2=os inimigos para o ar

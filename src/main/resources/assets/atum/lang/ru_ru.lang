@@ -180,7 +180,7 @@ item.atum.hedetetsSting.name=Жало Хедетета
 item.atum.horusSoaring.name=Парение Хора
 item.atum.shusBreath.name=Дыхание Шу
 item.atum.ptahsDestruction.name=Разрушение бога Птаха
-item.atum.monthusBlast.name=Взрыв Монту
+item.atum.montusBlast.name=Взрыв Монту
 item.atum.nusFlux.name=Поток Нун
 item.atum.haloOfRa.name=Рожки Мневиса
 item.atum.bodyOfRa.name=Объятие Исиды
@@ -265,9 +265,9 @@ item.atum.ptahsDestruction.line1=Каменотёс I: Увеличивает у
 item.atum.ptahsDestruction.line2=каменным врагам
 item.atum.ptahsDestruction.line3=Каменотёс I
 
-item.atum.monthusBlast.line1=Разрывной выстрел I: Стрелы взрываются
-item.atum.monthusBlast.line2=при ударе
-item.atum.monthusBlast.line3=Разрывной выстрел I
+item.atum.montusBlast.line1=Разрывной выстрел I: Стрелы взрываются
+item.atum.montusBlast.line2=при ударе
+item.atum.montusBlast.line3=Разрывной выстрел I
 
 item.atum.nusFlux.line1=Размах I: Шанс отправить
 item.atum.nusFlux.line2=врагов в воздух

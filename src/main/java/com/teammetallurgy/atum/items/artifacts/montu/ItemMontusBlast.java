@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.monthu;
+package com.teammetallurgy.atum.items.artifacts.montu;
 
 import com.teammetallurgy.atum.entity.arrow.EntityArrowExplosive;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
@@ -27,9 +27,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class ItemMonthusBlast extends ItemBaseBow {
+public class ItemMontusBlast extends ItemBaseBow {
 
-    public ItemMonthusBlast() {
+    public ItemMontusBlast() {
         super();
         this.setMaxDamage(650);
         this.setRepairItem(Items.DIAMOND);

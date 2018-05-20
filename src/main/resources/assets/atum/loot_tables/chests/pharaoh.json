@@ -456,8 +456,8 @@
         },
         {
           "type": "item",
-          "name": "atum:monthus_blast",
-          "entryName": "monthus_blast",
+          "name": "atum:montus_blast",
+          "entryName": "montus_blast",
           "weight": 1
         },
         {
@@ -494,6 +494,12 @@
           "type": "item",
           "name": "atum:atums_will",
           "entryName": "atums_will",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:atums_protection",
+          "entryName": "atums_protection",
           "weight": 1
         },
         {

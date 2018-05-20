@@ -206,7 +206,7 @@ item.atum.hedetetsSting.name=Hedetets之穿刺
 item.atum.horusSoaring.name=Horus之翱翔
 item.atum.shusBreath.name=Shus之气息
 item.atum.ptahsDestruction.name=Ptahs之毁灭
-item.atum.monthusBlast.name=Monthus之爆炸
+item.atum.montusBlast.name=Monthus之爆炸
 item.atum.nusFlux.name=Nus之灵动
 item.atum.haloOfRa.name=Mnevis之号角
 item.atum.bodyOfRa.name=Isis之拥抱
@@ -299,9 +299,9 @@ item.atum.ptahsDestruction.line1=切石I:增加对
 item.atum.ptahsDestruction.line2=石头敌人的伤害
 item.atum.ptahsDestruction.line3=切石I
 
-item.atum.monthusBlast.line1=爆炸I:箭头落地
-item.atum.monthusBlast.line2=引起爆炸
-item.atum.monthusBlast.line3=爆炸I
+item.atum.montusBlast.line1=爆炸I:箭头落地
+item.atum.montusBlast.line2=引起爆炸
+item.atum.montusBlast.line3=爆炸I
 
 item.atum.nusFlux.line1=横扫I: 有几率
 item.atum.nusFlux.line2=将敌人抛至空中

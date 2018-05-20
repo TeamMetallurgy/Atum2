@@ -14,6 +14,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -57,6 +58,12 @@ public class ItemRasFury extends ItemBaseBow {
                     ammoStack = new ItemStack(Items.ARROW);
                 }
                 float f = getArrowVelocity(i);
+
+                if (f == 1.0F) {
+                    for (int l = 0; l < 64; ++l) {
+                        world.spawnParticle(EnumParticleTypes.FLAME, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
+                    }
+                }
 
                 if ((double) f >= 0.1D) {
                     boolean hasArrow = player.capabilities.isCreativeMode || (ammoStack.getItem() instanceof ItemArrow && ((ItemArrow) ammoStack.getItem()).isInfinite(ammoStack, stack, player));

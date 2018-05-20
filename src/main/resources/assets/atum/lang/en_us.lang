@@ -215,6 +215,7 @@ item.atum.fishSkeletal.name=Skeletal Fish
 item.atum.ptahsDecadence.name=Ptah's Decadence
 item.atum.sobeksRage.name=Sobek's Rage
 item.atum.atumsWill.name=Atum's Will
+item.atum.atumsProtection.name=Atum's Protection
 item.atum.akersToil.name=Aker's Toil
 item.atum.gebsBlessing.name=Geb's Blessing
 item.atum.rasFury.name=Ra's Fury
@@ -228,7 +229,7 @@ item.atum.hedetetsSting.name=Hedetet's Sting
 item.atum.horusSoaring.name=Horus's Soaring
 item.atum.shusBreath.name=Shu's Breath
 item.atum.ptahsDestruction.name=Ptah's Destruction
-item.atum.monthusBlast.name=Monthu's Blast
+item.atum.montusBlast.name=Montu's Blast
 item.atum.nusFlux.name=Nu's Flux
 item.atum.haloOfRa.name=Halo of Ra
 item.atum.bodyOfRa.name=Body of Ra
@@ -276,6 +277,10 @@ item.atum.atumsWill.line1=Banish: When fully charged deals
 item.atum.atumsWill.line2=double damage to Undead foes
 item.atum.atumsWill.line3=Banish
 
+item.atum.atumsProtection.line1=Consecrate: Ignites and damages
+item.atum.atumsProtection.line2=Undead when you block their attacks
+item.atum.atumsProtection.line3=Consecrate
+
 item.atum.gebsBlessing.line1=Sowing: Tilled ground is blessed,
 item.atum.gebsBlessing.line2=granting increased growth rate
 item.atum.gebsBlessing.line3=Sowing
@@ -320,9 +325,9 @@ item.atum.ptahsDestruction.line1=Stonecutter: Increases damage
 item.atum.ptahsDestruction.line2=to stone enemies
 item.atum.ptahsDestruction.line3=Stonecutter
 
-item.atum.monthusBlast.line1=Explosive Arrow: Fires an explosive
-item.atum.monthusBlast.line2=arrow that explodes on impact
-item.atum.monthusBlast.line3=Explosive Arrow
+item.atum.montusBlast.line1=Explosive Arrow: Fires an explosive
+item.atum.montusBlast.line2=arrow that explodes on impact
+item.atum.montusBlast.line3=Explosive Arrow
 
 item.atum.nusFlux.line1=Sweep: Chance to launch
 item.atum.nusFlux.line2=foes into the air

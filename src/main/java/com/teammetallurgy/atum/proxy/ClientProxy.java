@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.IRenderMapper;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
+import com.teammetallurgy.atum.client.render.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.entity.RenderBonestorm;
 import com.teammetallurgy.atum.client.render.entity.RenderDesertWolf;
 import com.teammetallurgy.atum.client.render.entity.RenderGhost;
@@ -14,6 +15,7 @@ import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.arrow.EntityNutsCall;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -21,26 +23,34 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nonnull;
 
+@Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientProxy extends CommonProxy {
 
     @Override
     public void generateParticle(Particle particle) {
         Minecraft.getMinecraft().effectRenderer.addEffect(particle);
     }
-    
-    @Override
-    public void initRenders() {
+
+    @SubscribeEvent
+    public static void registerModels(ModelRegistryEvent event) {
+        AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
+        ModelLoader.setCustomMeshDefinition(AtumItems.ATUMS_PROTECTION, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "atums_protection"), "inventory"));
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderLiving<EntityMummy>(manager, new ModelZombie(), 0.5F) {
             @Override
@@ -101,13 +111,8 @@ public class ClientProxy extends CommonProxy {
         });
         RenderingRegistry.registerEntityRenderingHandler(EntitySmallBone.class, manager -> new RenderBone(manager, 0.35F));
         RenderingRegistry.registerEntityRenderingHandler(EntityNutsCall.class, RenderNutsCall::new);
-        /*RenderingRegistry.registerEntityRenderingHandler(EntityAtumFishHook.class, new IRenderFactory<EntityAtumFishHook>() {
-            @Override
-            public Render<? super EntityAtumFishHook> createRenderFor(RenderManager manager) {
-                return new RenderFish(manager);
-            }
-        });*/ //TODO
     }
+
 
     public static void ignoreRenderProperty(Block block) {
         if (block instanceof IRenderMapper) {

@@ -23,7 +23,7 @@ public class BlockLimestoneBricks extends Block {
         this.setSoundType(SoundType.STONE);
     }
 
-    public Block setUnbreakable() {
+    public BlockLimestoneBricks setUnbreakable() {
         super.setBlockUnbreakable();
         this.setResistance(20000.0F);
         return this;
@@ -36,7 +36,7 @@ public class BlockLimestoneBricks extends Block {
 
     public static void registerBricks() {
         for (BrickType type : BrickType.values()) {
-            BlockLimestoneBricks brick = new BlockLimestoneBricks();
+            BlockLimestoneBricks brick = new BlockLimestoneBricks().setUnbreakable();
             BRICKS.put(type, brick);
             AtumRegistry.registerBlock(brick, "limestone_brick_" + type.getName());
         }
