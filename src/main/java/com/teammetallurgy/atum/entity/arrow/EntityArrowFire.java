@@ -26,7 +26,7 @@ public class EntityArrowFire extends CustomArrow {
         super.onHit(rayTraceResult);
         if (rayTraceResult != null && !world.isRemote) {
             Entity hitEnity = rayTraceResult.entityHit;
-            if (rayTraceResult.typeOfHit == RayTraceResult.Type.ENTITY && hitEnity instanceof EntityLivingBase && hitEnity.canRenderOnFire()) {
+            if (rayTraceResult.typeOfHit == RayTraceResult.Type.ENTITY && hitEnity instanceof EntityLivingBase) {
                 hitEnity.setFire(5);
             } else if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK && shootingEntity instanceof EntityPlayer) {
                 BlockPos pos = rayTraceResult.getBlockPos().offset(rayTraceResult.sideHit);
