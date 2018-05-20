@@ -1,0 +1,6 @@
+{
+  "parent": "atum:item/ras_fury",
+  "textures": {
+    "layer0": "atum:items/ras_fury_pulling_2"
+  }
+}

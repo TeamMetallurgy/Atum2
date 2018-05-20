@@ -31,11 +31,6 @@ public class EntityArrowExplosive extends CustomArrow {
     }
 
     @Override
-    protected void entityInit() {
-        this.dataManager.register(CRITICAL, (byte) 0);
-    }
-
-    @Override
     public void onUpdate() {
         super.onUpdate();
 

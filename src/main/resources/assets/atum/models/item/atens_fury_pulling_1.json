@@ -1,6 +1,0 @@
-{
-  "parent": "atum:item/atens_fury",
-  "textures": {
-    "layer0": "atum:items/atens_fury_pulling_1"
-  }
-}

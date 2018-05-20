@@ -4,10 +4,7 @@ import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.*;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
-import com.teammetallurgy.atum.items.artifacts.ra.ItemBodyOfRa;
-import com.teammetallurgy.atum.items.artifacts.ra.ItemFeetOfRa;
-import com.teammetallurgy.atum.items.artifacts.ra.ItemHaloOfRa;
-import com.teammetallurgy.atum.items.artifacts.ra.ItemLegsOfRa;
+import com.teammetallurgy.atum.items.artifacts.ra.*;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
@@ -48,7 +45,6 @@ public class AtumItems {
     public static final Item OSIRIS_WILL = new ItemOsirisWill(ToolMaterial.DIAMOND);
     public static final Item AKERS_TOIL = new ItemAkersToil(ToolMaterial.DIAMOND);
     public static final Item GEBS_BLESSING = new ItemGebsBlessing(ToolMaterial.DIAMOND);
-    public static final Item ATENS_FURY = new ItemAtensFury();
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
     public static final Item LEGS_OF_ATUM = new ItemLegsOfAtum();
@@ -65,6 +61,7 @@ public class AtumItems {
     public static final Item BODY_OF_RA = new ItemBodyOfRa();
     public static final Item LEGS_OF_RA = new ItemLegsOfRa();
     public static final Item FEET_OF_RA = new ItemFeetOfRa();
+    public static final Item RAS_FURY = new ItemRasFury();
     public static final Item HEDETETS_VENOM = new ItemHedetetsVenom();
     public static final Item NUTS_CALL = new ItemNutsCall();
     public static final Item ATUMS_BOUNTY = new ItemAtumsBounty();
@@ -126,7 +123,7 @@ public class AtumItems {
         registerItem(OSIRIS_WILL, "osiris_will");
         registerItem(AKERS_TOIL, "akers_toil");
         registerItem(GEBS_BLESSING, "gebs_blessing");
-        registerItem(ATENS_FURY, "atens_fury");
+        registerItem(RAS_FURY, "ras_fury");
         registerItem(EYES_OF_ATUM, "eyes_of_atum");
         registerItem(BODY_OF_ATUM, "body_of_atum");
         registerItem(LEGS_OF_ATUM, "legs_of_atum");

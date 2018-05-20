@@ -217,7 +217,7 @@ item.atum.sobeksRage.name=Sobek's Rage
 item.atum.osirisWill.name=Osiris's Will
 item.atum.akersToil.name=Aker's Toil
 item.atum.gebsBlessing.name=Geb's Blessing
-item.atum.atensFury.name=Aten's Fury
+item.atum.rasFury.name=Ra's Fury
 item.atum.eyesOfAtum.name=Eyes of Atum
 item.atum.bodyOfAtum.name=Body of Atum
 item.atum.legsOfAtum.name=Legs of Atum
@@ -280,9 +280,9 @@ item.atum.gebsBlessing.line1=Sowing: Tilled ground is blessed,
 item.atum.gebsBlessing.line2=granting increased growth rate
 item.atum.gebsBlessing.line3=Sowing
 
-item.atum.atensFury.line1=Fire Shot: Flaming arrow
-item.atum.atensFury.line2=ignites blocks and foes
-item.atum.atensFury.line3=Fire Shot
+item.atum.rasFury.line1=Fire Shot: Flaming arrow
+item.atum.rasFury.line2=ignites blocks and foes
+item.atum.rasFury.line3=Fire Shot
 
 item.atum.eyesOfAtum.line1=Divine Vision: Increased vision in darkness
 item.atum.eyesOfAtum.line2=Increased range of vision in Atum
@@ -336,17 +336,17 @@ item.atum.bodyOfRa.line1=Radiant Protection: You take no
 item.atum.bodyOfRa.line2=damage from fire
 item.atum.bodyOfRa.line3=Radiant Protection
 
-item.atum.legsOfRa.line1=Radiant Guidance: Requires Fallout 4
-item.atum.legsOfRa.line2=to work
+item.atum.legsOfRa.line1=Radiant Guidance: Increased
+item.atum.legsOfRa.line2=run speed
 item.atum.legsOfRa.line3=Radiant Guidance
+
+item.atum.feetOfRa.line1=Radiant Step: You can walk
+item.atum.feetOfRa.line2=on top of lava
+item.atum.feetOfRa.line3=Radiant Step
 
 item.atum.hedetetsVenom.line1=Poison Arrow: Fires an
 item.atum.hedetetsVenom.line2=arrow that poisons foes
 item.atum.hedetetsVenom.line3=Poison Arrow
-
-item.atum.feetOfRa.line1=Stalwart: Decreased movement
-item.atum.feetOfRa.line2=speed, decreased knockback (WIP)
-item.atum.feetOfRa.line3=Stalwart
 
 item.atum.nutsCall.line1=Wrath: Chance to strike
 item.atum.nutsCall.line2=foe with lightning

@@ -10,6 +10,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.EntityDamageSourceIndirect;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -42,13 +43,12 @@ public class ItemHaloOfRa extends ItemTexturedArmor {
     public static void onLivingAttack(LivingAttackEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
         World world = entity.world;
-        if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.HALO_OF_RA && event.getSource() instanceof EntityDamageSource) {
-            EntityDamageSource source = (EntityDamageSource) event.getSource();
-            if (source.getTrueSource() != null) {
-                source.getTrueSource().setFire(8);
-                for (int l = 0; l < 16; ++l) {
-                    world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
-                }
+        if (entity.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.HALO_OF_RA && !(event.getSource() instanceof EntityDamageSourceIndirect)) {
+            if (event.getSource().getImmediateSource() != null && event.getSource() instanceof EntityDamageSource) {
+                event.getSource().getImmediateSource().setFire(8);
+            }
+            for (int l = 0; l < 16; ++l) {
+                world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
             }
         }
     }

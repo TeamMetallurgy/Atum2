@@ -1,15 +1,23 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.google.common.base.Objects;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -21,6 +29,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemFeetOfRa extends ItemTexturedArmor {
+    private BlockPos prevBlockpos;
 
     public ItemFeetOfRa() {
         super(ArmorMaterial.DIAMOND, 3, EntityEquipmentSlot.FEET);
@@ -37,9 +46,36 @@ public class ItemFeetOfRa extends ItemTexturedArmor {
     @Override
     public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
         super.onArmorTick(world, player, stack);
+        if (player.isEntityAlive() && !world.isRemote) {
+            BlockPos pos = new BlockPos(player);
 
-        if (world.getTotalWorldTime() % 30L == 0L) {
-            player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 50, 0, false, false));
+            if (!Objects.equal(this.prevBlockpos, pos)) {
+                this.prevBlockpos = pos;
+                this.lavaWalk(player, player.world, pos);
+            }
+        }
+    }
+
+    private void lavaWalk(EntityLivingBase living, World world, BlockPos pos) {
+        if (living.onGround) {
+            float f = (float) Math.min(16, 3);
+            BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(0, 0, 0);
+
+            for (BlockPos.MutableBlockPos mutablePosBox : BlockPos.getAllInBoxMutable(pos.add((double) (-f), -1.0D, (double) (-f)), pos.add((double) f, -1.0D, (double) f))) {
+                if (mutablePosBox.distanceSqToCenter(living.posX, living.posY, living.posZ) <= (double) (f * f)) {
+                    mutablePos.setPos(mutablePosBox.getX(), mutablePosBox.getY() + 1, mutablePosBox.getZ());
+                    IBlockState state = world.getBlockState(mutablePos);
+
+                    if (state.getMaterial() == Material.AIR) {
+                        IBlockState airState = world.getBlockState(mutablePosBox);
+
+                        if (airState.getMaterial() == Material.LAVA && (airState.getBlock() == Blocks.LAVA || airState.getBlock() == Blocks.FLOWING_LAVA) && airState.getValue(BlockLiquid.LEVEL) == 0 && world.mayPlace(AtumBlocks.LIMESTONE_CRACKED, mutablePosBox, false, EnumFacing.DOWN, null)) {
+                            world.setBlockState(mutablePosBox, AtumBlocks.LIMESTONE_CRACKED.getDefaultState());
+                            world.scheduleUpdate(mutablePosBox.toImmutable(), AtumBlocks.LIMESTONE_CRACKED, MathHelper.getInt(living.getRNG(), 60, 120));
+                        }
+                    }
+                }
+            }
         }
     }
 

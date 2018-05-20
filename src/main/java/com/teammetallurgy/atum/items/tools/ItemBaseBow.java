@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items.tools;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 public class ItemBaseBow extends ItemBow {
+    private ItemStack repairItem = ItemStack.EMPTY;
 
     public ItemBaseBow() {
         this.maxStackSize = 1;
@@ -36,5 +38,15 @@ public class ItemBaseBow extends ItemBow {
                 return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
         });
+    }
+
+    protected ItemBaseBow setRepairItem(Item item) {
+        this.repairItem = new ItemStack(item);
+        return this;
+    }
+
+    @Override
+    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
+        return repair == this.repairItem;
     }
 }
