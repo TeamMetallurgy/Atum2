@@ -8,8 +8,13 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -29,6 +34,49 @@ public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
         } else {
             this.setSoundType(SoundType.STONE);
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (this.blockMaterial == Material.ROCK) {
+            return false;
+        } else {
+            BlockPos pos1 = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+            IBlockState state1 = pos.equals(pos1) ? state : world.getBlockState(pos1);
+
+            if (state1.getBlock() != this) {
+                return false;
+            } else {
+                state = state1.cycleProperty(OPEN);
+                world.setBlockState(pos1, state, 10);
+                world.markBlockRangeForRenderUpdate(pos1, pos);
+                world.playSound(null, pos, state.getValue(OPEN) ? this.getOpenSound() : this.getCloseSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+                return true;
+            }
+        }
+    }
+
+    @Override
+    public void toggleDoor(World world, @Nonnull BlockPos pos, boolean open) {
+        IBlockState state = world.getBlockState(pos);
+        if (state.getBlock() == this) {
+            BlockPos blockpos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+            IBlockState state1 = pos == blockpos ? state : world.getBlockState(blockpos);
+
+            if (state1.getBlock() == this && state1.getValue(OPEN) != open) {
+                world.setBlockState(blockpos, state1.withProperty(OPEN, open), 10);
+                world.markBlockRangeForRenderUpdate(blockpos, pos);
+                world.playSound(null, pos, open ? this.getOpenSound() : this.getCloseSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            }
+        }
+    }
+
+    private SoundEvent getCloseSound() {
+        return this.blockMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_DOOR_CLOSE;
+    }
+
+    private SoundEvent getOpenSound() {
+        return this.blockMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK  : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
     }
 
     @Override

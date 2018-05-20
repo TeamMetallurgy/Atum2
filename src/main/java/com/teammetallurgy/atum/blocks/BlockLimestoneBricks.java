@@ -36,7 +36,7 @@ public class BlockLimestoneBricks extends Block {
 
     public static void registerBricks() {
         for (BrickType type : BrickType.values()) {
-            BlockLimestoneBricks brick = new BlockLimestoneBricks().setUnbreakable();
+            BlockLimestoneBricks brick = new BlockLimestoneBricks();
             BRICKS.put(type, brick);
             AtumRegistry.registerBlock(brick, "limestone_brick_" + type.getName());
         }
