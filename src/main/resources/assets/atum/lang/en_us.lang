@@ -214,7 +214,7 @@ item.atum.fishSkeletal.name=Skeletal Fish
 
 item.atum.ptahsDecadence.name=Ptah's Decadence
 item.atum.sobeksRage.name=Sobek's Rage
-item.atum.osirisWill.name=Osiris's Will
+item.atum.atumsWill.name=Atum's Will
 item.atum.akersToil.name=Aker's Toil
 item.atum.gebsBlessing.name=Geb's Blessing
 item.atum.rasFury.name=Ra's Fury
@@ -272,9 +272,9 @@ item.atum.sobeksRage.line1=Exile: Knocks foes
 item.atum.sobeksRage.line2=back a large amount
 item.atum.sobeksRage.line3=Exile
 
-item.atum.osirisWill.line1=Banish: Bonus damage to undead,
-item.atum.osirisWill.line2=chance to drop ectoplasm
-item.atum.osirisWill.line3=Banish
+item.atum.atumsWill.line1=Banish: When fully charged deals
+item.atum.atumsWill.line2=double damage to Undead foes
+item.atum.atumsWill.line3=Banish
 
 item.atum.gebsBlessing.line1=Sowing: Tilled ground is blessed,
 item.atum.gebsBlessing.line2=granting increased growth rate

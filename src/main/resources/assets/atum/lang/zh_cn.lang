@@ -192,7 +192,7 @@ item.atum.fishSkeletal.name=骸骨鱼
 
 item.atum.ptahsDecadence.name=Ptahs之堕落
 item.atum.sobeksRage.name=Sobeks之愤怒
-item.atum.osirisWill.name=Osiris之意志
+item.atum.atumsWill.name=Osiris之意志
 item.atum.akersToil.name=Akers之劳累
 item.atum.gebsBlessing.name=Gebs之祝福
 item.atum.atensFury.name=Atens之狂怒
@@ -251,9 +251,9 @@ item.atum.soteksRage.line1=驱逐I:能将敌人
 item.atum.soteksRage.line2=击退很远的距离
 item.atum.soteksRage.line3=驱逐I
 
-item.atum.osirisWill.line1=放逐I:对亡灵造成额外伤害,
-item.atum.osirisWill.line2=有几率掉落外质
-item.atum.osirisWill.line3=放逐I
+item.atum.atumsWill.line1=放逐I:对亡灵造成额外伤害,
+item.atum.atumsWill.line2=有几率掉落外质
+item.atum.atumsWill.line3=放逐I
 
 item.atum.gebsBlessing.line1=播种I:肥沃耕土受到祝福,
 item.atum.gebsBlessing.line2=能加快生长速率

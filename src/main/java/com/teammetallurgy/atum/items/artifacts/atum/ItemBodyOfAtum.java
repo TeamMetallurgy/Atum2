@@ -57,7 +57,7 @@ public class ItemBodyOfAtum extends ItemTexturedArmor {
         }
     }
 
-    private static boolean isUndeadMob(Entity entity) {
+    public static boolean isUndeadMob(Entity entity) {
         return entity instanceof EntityUndeadBase || entity instanceof EntityZombie || entity instanceof AbstractSkeleton || entity instanceof EntityWither;
     }
 

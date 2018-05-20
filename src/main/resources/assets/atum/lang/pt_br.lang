@@ -97,7 +97,7 @@ item.atum.fishSkeletal.name=Espinha de Peixe
 
 item.atum.ptahsDecadence.name=Decadência de Ptahs
 item.atum.sobeksRage.name=Raiva de Soteks
-item.atum.osirisWill.name=Vontade de Osiris
+item.atum.atumsWill.name=Vontade de Osiris
 item.atum.akersToil.name=Labuta de Akers
 item.atum.gebsBlessing.name=Bênção de Gebs
 item.atum.atensFury.name=Fúria de Atens
@@ -148,9 +148,9 @@ item.atum.soteksRage.line1=Exílio I: Golpeia para longe
 item.atum.soteksRage.line2=um grande número de inimigos
 item.atum.soteksRage.line3=Exílio I 
 
-item.atum.osirisWill.line1=Banimento I: Bônus de dano em mortos-vivos,
-item.atum.osirisWill.line2=chance de cair ectoplasma
-item.atum.osirisWill.line3=Banimento I 
+item.atum.atumsWill.line1=Banimento I: Bônus de dano em mortos-vivos,
+item.atum.atumsWill.line2=chance de cair ectoplasma
+item.atum.atumsWill.line3=Banimento I
 
 item.atum.gebsBlessing.line1=Semear I: Terra lavrada e abençoada,
 item.atum.gebsBlessing.line2=lhe concede aumento da taxa de crescimento

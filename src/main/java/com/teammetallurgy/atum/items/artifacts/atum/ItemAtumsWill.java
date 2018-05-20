@@ -1,16 +1,21 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -19,10 +24,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemOsirisWill extends ItemSword {
+@Mod.EventBusSubscriber
+public class ItemAtumsWill extends ItemSword {
 
-    public ItemOsirisWill(ToolMaterial material) {
-        super(material);
+    public ItemAtumsWill() {
+        super(ToolMaterial.DIAMOND);
     }
 
     @Override
@@ -31,12 +37,21 @@ public class ItemOsirisWill extends ItemSword {
         return true;
     }
 
-    @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
-        if (!target.isEntityAlive() && Math.random() < 0.5D && target.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
-            target.dropItem(AtumItems.ECTOPLASM, 1);
+    @SubscribeEvent
+    public static void onAttack(LivingHurtEvent event) {
+        Entity trueSource = event.getSource().getTrueSource();
+        if (trueSource instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) trueSource;
+            ItemStack held = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+            if (held.getItem() == AtumItems.ATUMS_WILL) {
+                EntityLivingBase target = event.getEntityLiving();
+                if (ItemBodyOfAtum.isUndeadMob(target)) {
+                    if (!player.getCooldownTracker().hasCooldown(held.getItem())) {
+                        event.setAmount(event.getAmount() * 2);
+                    }
+                }
+            }
         }
-        return super.hitEntity(stack, target, attacker);
     }
 
     @Override

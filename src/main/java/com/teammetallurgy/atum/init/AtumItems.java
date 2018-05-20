@@ -43,7 +43,7 @@ public class AtumItems {
     public static final Item SCEPTER = new ItemSword(ToolMaterial.GOLD);
     public static final Item PTAHS_DECADENCE = new ItemPtahsDecadence(ToolMaterial.DIAMOND);
     public static final Item SOBEKS_RAGE = new ItemSobeksRage(ToolMaterial.DIAMOND);
-    public static final Item OSIRIS_WILL = new ItemOsirisWill(ToolMaterial.DIAMOND);
+    public static final Item ATUMS_WILL = new ItemAtumsWill();
     public static final Item AKERS_TOIL = new ItemAkersToil(ToolMaterial.DIAMOND);
     public static final Item GEBS_BLESSING = new ItemGebsBlessing(ToolMaterial.DIAMOND);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
@@ -121,7 +121,7 @@ public class AtumItems {
         registerItem(SCEPTER, "scepter");
         registerItem(PTAHS_DECADENCE, "ptahs_decadence");
         registerItem(SOBEKS_RAGE, "sobeks_rage");
-        registerItem(OSIRIS_WILL, "osiris_will");
+        registerItem(ATUMS_WILL, "atums_will");
         registerItem(AKERS_TOIL, "akers_toil");
         registerItem(GEBS_BLESSING, "gebs_blessing");
         registerItem(RAS_FURY, "ras_fury");

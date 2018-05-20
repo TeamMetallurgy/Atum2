@@ -492,8 +492,8 @@
         },
         {
           "type": "item",
-          "name": "atum:osiris_will",
-          "entryName": "osiris_will",
+          "name": "atum:atums_will",
+          "entryName": "atums_will",
           "weight": 1
         },
         {

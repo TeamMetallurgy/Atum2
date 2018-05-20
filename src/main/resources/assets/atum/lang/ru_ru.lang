@@ -166,7 +166,7 @@ item.atum.fishSkeletal.name=Скелетная рыба
 
 item.atum.ptahsDecadence.name=Декаданс бога Птаха
 item.atum.sobeksRage.name=Ярость Сотека
-item.atum.osirisWill.name=Воля Осириса
+item.atum.atumsWill.name=Воля Осириса
 item.atum.akersToil.name=Труд Акера
 item.atum.gebsBlessing.name=Благословение Геба
 item.atum.atensFury.name=Неистовство Атона
@@ -217,9 +217,9 @@ item.atum.soteksRage.line1=Отброс I: Откидывает врагов
 item.atum.soteksRage.line2=на большое расстояние
 item.atum.soteksRage.line3=Отброс I
 
-item.atum.osirisWill.line1=Изгнание I: Дополнительный урон нежити,
-item.atum.osirisWill.line2=шанс получить эктоплазму
-item.atum.osirisWill.line3=Изгнание I
+item.atum.atumsWill.line1=Изгнание I: Дополнительный урон нежити,
+item.atum.atumsWill.line2=шанс получить эктоплазму
+item.atum.atumsWill.line3=Изгнание I
 
 item.atum.gebsBlessing.line1=Засевание I: Вспашенная земля - благословенна,
 item.atum.gebsBlessing.line2=даёт повышенную скорость роста
