@@ -10,7 +10,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 import javax.annotation.Nonnull;
 
 public class MapGenAtumMineshaft extends MapGenStructure {
-    private double chance = 0.004D;
+    private double chance = 0.008D;
 
     public MapGenAtumMineshaft() {
     }

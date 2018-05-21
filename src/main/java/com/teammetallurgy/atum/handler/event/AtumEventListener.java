@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.handler.event;
 
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -18,6 +17,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
@@ -28,6 +28,10 @@ import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -71,8 +75,19 @@ public class AtumEventListener {
     public static void onInteract(PlayerInteractEvent.RightClickItem event) {
         EntityPlayer player = event.getEntityPlayer();
         if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-            if (player.getHeldItem(event.getHand()).getItem() == Items.WATER_BUCKET && event.getWorld().getBiome(event.getPos()) != AtumBiomes.OASIS && event.getWorld().getHeight(event.getPos()).getY() > 48) {
-                event.setCanceled(true);
+            BlockPos pos = event.getPos();
+            ItemStack heldStack = player.getHeldItem(event.getHand());
+            FluidStack fluidStack = FluidUtil.getFluidContained(heldStack);
+            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
+                if (heldStack.getItem() == Items.WATER_BUCKET) {
+                    player.setHeldItem(event.getHand(), new ItemStack(Items.BUCKET));
+                }
+                IFluidHandlerItem fluidHandlerItem = FluidUtil.getFluidHandler(heldStack);
+                if (fluidHandlerItem != null) { //Handle modded containers
+                    fluidHandlerItem.drain(fluidStack.amount, true);
+                    event.getWorld().playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 0.9F, 1.0F);
+                    event.setCanceled(true);
+                }
             }
         }
     }

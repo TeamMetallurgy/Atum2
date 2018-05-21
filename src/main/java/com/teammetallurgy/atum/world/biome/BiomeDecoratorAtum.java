@@ -56,7 +56,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
             this.lapisGen = generateMinable(AtumBlocks.LAPIS_ORE.getDefaultState(), AtumConfig.LAPIS_VEIN);
         }
         this.boneGen = generateMinable(AtumBlocks.BONE_ORE.getDefaultState(), 8);
-        this.relicGen = generateMinable(AtumBlocks.RELIC_ORE.getDefaultState(), 8);
+        this.relicGen = generateMinable(AtumBlocks.RELIC_ORE.getDefaultState(), 4);
 
         this.treesPerChunk = 0;
         this.shrubChance = 0.3F;
@@ -172,11 +172,11 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         }
 
         if (TerrainGen.generateOre(world, random, this.relicGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 10, this.relicGen, 0, 62);
+            this.genStandardOre1(world, random, 5, this.relicGen, 0, 62);
         }
 
         if (TerrainGen.generateOre(world, random, this.dirtGen, chunkPos, OreGenEvent.GenerateMinable.EventType.DIRT)) {
-            this.genStandardOre1(world, random, 20, this.dirtGen, 0, 256);
+            this.genStandardOre1(world, random, 32, this.dirtGen, 0, 256);
         }
 
         if (TerrainGen.generateOre(world, random, this.gravelGen, chunkPos, OreGenEvent.GenerateMinable.EventType.GRAVEL)) {

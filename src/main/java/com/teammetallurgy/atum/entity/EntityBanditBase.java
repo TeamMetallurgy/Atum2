@@ -57,7 +57,7 @@ public class EntityBanditBase extends EntityMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_PLAYER_BREATH;
+        return SoundEvents.ENTITY_ILLUSION_ILLAGER_AMBIENT;
     }
 
     @Override
