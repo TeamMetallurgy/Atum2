@@ -17,6 +17,6 @@ public class EntityArrowPoison extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_poison.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_poison.png");
     }
 }

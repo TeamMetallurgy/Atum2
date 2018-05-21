@@ -17,6 +17,6 @@ public class EntityArrowQuickdraw extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_quickdraw.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_quickdraw.png");
     }
 }

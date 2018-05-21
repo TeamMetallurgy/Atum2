@@ -217,7 +217,8 @@ item.atum.ptahsDecadence.name=Ptah's Decadence
 item.atum.sobeksRage.name=Sobek's Rage
 item.atum.atumsWill.name=Atum's Will
 item.atum.atumsProtection.name=Atum's Protection
-item.atum.akersToil.name=Aker's Toil
+item.atum.gebsToil.name=Gebs's Toil
+item.atum.gebsGrounding.name=Gebs's Grounding
 item.atum.gebsBlessing.name=Geb's Blessing
 item.atum.rasFury.name=Ra's Fury
 item.atum.eyesOfAtum.name=Eyes of Atum
@@ -254,9 +255,13 @@ item.atum.deadwoodStick.name=Deadwood Stick
 item.atum.deadwoodBeetle.name=Deadwood Beetle
 
 # Item Information
-item.atum.akersToil.line1=Performance: Faster, does
-item.atum.akersToil.line2=not consume fatigue
-item.atum.akersToil.line3=Performance
+item.atum.gebsToil.line1=Pinning Arrow: Slows enemies
+item.atum.gebsToil.line2=on hit
+item.atum.gebsToil.line3=Pinning Arrow
+
+item.atum.gebsGrounding.line1=Tireless: Consumes no fatigue to use
+item.atum.gebsGrounding.line2=and gives experience for your effort
+item.atum.gebsGrounding.line3=Performance
 
 item.atum.atumsHomecoming.line1=Return: Teleports you back
 item.atum.atumsHomecoming.line2=to your spawn point

@@ -4,6 +4,8 @@ import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.*;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
+import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsGrounding;
+import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsToil;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusBlast;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
@@ -45,7 +47,6 @@ public class AtumItems {
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item SCEPTER = new ItemSword(ToolMaterial.GOLD);
     public static final Item SOBEKS_RAGE = new ItemSobeksRage(ToolMaterial.DIAMOND);
-    public static final Item AKERS_TOIL = new ItemAkersToil(ToolMaterial.DIAMOND);
     public static final Item GEBS_BLESSING = new ItemGebsBlessing(ToolMaterial.DIAMOND);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
@@ -69,6 +70,8 @@ public class AtumItems {
     public static final Item RAS_FURY = new ItemRasFury();
     public static final Item PTAHS_DECADENCE = new ItemPtahsDecadence();
     public static final Item PTAHS_UNDOING = new ItemPtahsUndoing();
+    public static final Item GEBS_TOIL = new ItemGebsToil();
+    public static final Item GEBS_GROUNDING = new ItemGebsGrounding();
     public static final Item HEDETETS_VENOM = new ItemHedetetsVenom();
     public static final Item NUTS_CALL = new ItemNutsCall();
     public static final Item MAFDETS_QUICKNESS = new ItemMafdetsQuickness();
@@ -125,7 +128,6 @@ public class AtumItems {
         registerItem(BRIGAND_SHIELD, "brigand_shield");
         registerItem(SCEPTER, "scepter");
         registerItem(SOBEKS_RAGE, "sobeks_rage");
-        registerItem(AKERS_TOIL, "akers_toil");
         registerItem(GEBS_BLESSING, "gebs_blessing");
         registerItem(EYES_OF_ATUM, "eyes_of_atum");
         registerItem(BODY_OF_ATUM, "body_of_atum");
@@ -149,6 +151,8 @@ public class AtumItems {
         registerItem(RAS_FURY, "ras_fury");
         registerItem(PTAHS_DECADENCE, "ptahs_decadence");
         registerItem(PTAHS_UNDOING, "ptahs_undoing");
+        registerItem(GEBS_TOIL, "gebs_toil");
+        registerItem(GEBS_GROUNDING, "gebs_grounding");
         registerItem(HEDETETS_VENOM, "hedetets_venom");
         registerItem(NUTS_CALL, "nuts_call");
         registerItem(MAFDETS_QUICKNESS, "mafdets_quickness");

@@ -159,7 +159,7 @@ public class AtumRegistry {
     }
 
     /**
-     * Registers arrows.
+     * Registers arrow.
      *
      * @param entityClass The arrow entity class
      * @return The EntityEntry that was registered

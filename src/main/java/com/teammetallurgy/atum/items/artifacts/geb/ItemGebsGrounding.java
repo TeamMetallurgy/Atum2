@@ -1,6 +1,6 @@
-package com.teammetallurgy.atum.items.artifacts.montu;
+package com.teammetallurgy.atum.items.artifacts.geb;
 
-import com.teammetallurgy.atum.entity.arrow.EntityArrowExplosive;
+import com.teammetallurgy.atum.entity.arrow.EntityArrowSlowness;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -19,15 +19,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemMontusBlast extends ItemBaseBow {
+public class ItemGebsGrounding extends ItemBaseBow {
 
-    public ItemMontusBlast() {
+    public ItemGebsGrounding() {
         super();
         this.setMaxDamage(650);
         this.setRepairItem(Items.DIAMOND);
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -40,7 +41,7 @@ public class ItemMontusBlast extends ItemBaseBow {
 
     @Override
     protected EntityArrow setArrow(ItemStack stack, World world, EntityPlayer player, float velocity) {
-        return new EntityArrowExplosive(world, player);
+        return new EntityArrowSlowness(world, player, velocity);
     }
 
     @Override

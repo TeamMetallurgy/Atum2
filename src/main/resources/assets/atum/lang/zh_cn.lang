@@ -193,7 +193,7 @@ item.atum.fishSkeletal.name=骸骨鱼
 item.atum.ptahsDecadence.name=Ptahs之堕落
 item.atum.sobeksRage.name=Sobeks之愤怒
 item.atum.atumsWill.name=Osiris之意志
-item.atum.akersToil.name=Akers之劳累
+item.atum.gebsToil.name=Akers之劳累
 item.atum.gebsBlessing.name=Gebs之祝福
 item.atum.atensFury.name=Atens之狂怒
 item.atum.eyesOfAtum.name=Ras之荣耀
@@ -231,9 +231,9 @@ item.atum.deadwoodBeetle.name=枯木槌
 
 
 # Item Information
-item.atum.akersToil.line1=绩效I:更快,
-item.atum.akersToil.line2=且不消耗耐久
-item.atum.akersToil.line3=绩效I
+item.atum.gebsToil.line1=绩效I:更快,
+item.atum.gebsToil.line2=且不消耗耐久
+item.atum.gebsToil.line3=绩效I
 
 item.atum.atumsHomecoming.line1=回返I:将你传送
 item.atum.atumsHomecoming.line2=回出生点

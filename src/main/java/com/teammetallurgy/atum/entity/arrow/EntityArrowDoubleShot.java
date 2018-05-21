@@ -17,6 +17,6 @@ public class EntityArrowDoubleShot extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_double.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_double.png");
     }
 }

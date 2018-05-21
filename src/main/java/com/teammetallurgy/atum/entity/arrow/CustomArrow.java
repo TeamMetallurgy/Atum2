@@ -24,7 +24,6 @@ public class CustomArrow extends EntityArrow implements IThrowableEntity {
         super(world, shooter);
     }
 
-
     @Override
     @Nonnull
     protected ItemStack getArrowStack() {

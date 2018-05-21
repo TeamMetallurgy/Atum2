@@ -17,6 +17,6 @@ public class EntityArrowVelocity extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_velocity.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_velocity.png");
     }
 }

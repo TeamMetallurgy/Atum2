@@ -28,6 +28,6 @@ public class EntityArrowExplosive extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/projectiles/arrows_exploding.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_exploding.png");
     }
 }

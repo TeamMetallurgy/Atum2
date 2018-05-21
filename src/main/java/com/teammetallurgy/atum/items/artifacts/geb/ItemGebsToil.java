@@ -1,9 +1,10 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.geb;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
@@ -20,10 +21,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemAkersToil extends ItemSpade {
+public class ItemGebsToil extends ItemSpade {
 
-    public ItemAkersToil(ToolMaterial material) {
-        super(material);
+    public ItemGebsToil() {
+        super(ToolMaterial.DIAMOND);
     }
 
     @Override
@@ -33,25 +34,20 @@ public class ItemAkersToil extends ItemSpade {
     }
 
     @Override
-    public float getDestroySpeed(@Nonnull ItemStack stack, IBlockState state) {
-        if (state.getBlock().isToolEffective(stack.getItem().getToolClasses(stack).toString(), state)) { //TODO Check if it works
-            return super.efficiency * 3.0F;
-        }
-        return 1.0F;
-    }
-
-    @Override
-    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World worldIn, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
-        if (entityLiving instanceof EntityPlayer) {
-            ((EntityPlayer) entityLiving).getFoodStats().addExhaustion(-0.025F);
-        }
-        return false;
-    }
-
-    @Override
     @Nonnull
     public EnumRarity getRarity(ItemStack stack) {
         return EnumRarity.RARE;
+    }
+
+    @Override
+    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World world, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
+        if (entityLiving instanceof EntityPlayer && !world.isRemote) {
+            ((EntityPlayer) entityLiving).getFoodStats().addExhaustion(-0.005F);
+            if (itemRand.nextFloat() <= 0.10F) {
+                world.spawnEntity(new EntityXPOrb(world, pos.getX(), pos.getY(), pos.getZ(), 1));
+            }
+        }
+        return false;
     }
 
     @Override

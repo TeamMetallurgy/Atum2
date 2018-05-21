@@ -167,7 +167,7 @@ item.atum.fishSkeletal.name=Скелетная рыба
 item.atum.ptahsDecadence.name=Декаданс бога Птаха
 item.atum.sobeksRage.name=Ярость Сотека
 item.atum.atumsWill.name=Воля Осириса
-item.atum.akersToil.name=Труд Акера
+item.atum.gebsToil.name=Труд Акера
 item.atum.gebsBlessing.name=Благословение Геба
 item.atum.atensFury.name=Неистовство Атона
 item.atum.eyesOfAtum.name=Слава бога Ра
@@ -197,9 +197,9 @@ item.atum.neithsAudacity.name=Смелость Нейт
 
 
 # Item Information
-item.atum.akersToil.line1=Эффективность I: Быстрота, не
-item.atum.akersToil.line2=убирает усталость
-item.atum.akersToil.line3=Эффективность I
+item.atum.gebsToil.line1=Эффективность I: Быстрота, не
+item.atum.gebsToil.line2=убирает усталость
+item.atum.gebsToil.line3=Эффективность I
 
 item.atum.atumsHomecoming.line1=Возвращение I: Телепортирует Вас
 item.atum.atumsHomecoming.line2=обратно на точку появления

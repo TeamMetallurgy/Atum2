@@ -98,7 +98,7 @@ item.atum.fishSkeletal.name=Espinha de Peixe
 item.atum.ptahsDecadence.name=Decadência de Ptahs
 item.atum.sobeksRage.name=Raiva de Soteks
 item.atum.atumsWill.name=Vontade de Osiris
-item.atum.akersToil.name=Labuta de Akers
+item.atum.gebsToil.name=Labuta de Akers
 item.atum.gebsBlessing.name=Bênção de Gebs
 item.atum.atensFury.name=Fúria de Atens
 item.atum.eyesOfAtum.name=Glória de Ras
@@ -128,9 +128,9 @@ item.atum.neithsAudacity.name=Audácia de Neiths
 
 
 # Item Information
-item.atum.akersToil.line1=Desempenho I: Mais rápidez,
-item.atum.akersToil.line2=não dá fadiga 
-item.atum.akersToil.line3=Desempenho I 
+item.atum.gebsToil.line1=Desempenho I: Mais rápidez,
+item.atum.gebsToil.line2=não dá fadiga
+item.atum.gebsToil.line3=Desempenho I
 
 item.atum.atumsHomecoming.line1=Retorno I: Teleporta você de volta ao
 item.atum.atumsHomecoming.line2=seu ponto de desova
