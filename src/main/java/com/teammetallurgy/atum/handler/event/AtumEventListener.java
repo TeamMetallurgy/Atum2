@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.handler.event;
 
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -13,6 +14,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -23,6 +25,7 @@ import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -55,10 +58,22 @@ public class AtumEventListener {
     }
 
     @SubscribeEvent
-    public static void onDirtPlacing(BlockEvent.PlaceEvent event) {
+    public static void onPlace(BlockEvent.PlaceEvent event) {
         Block block = event.getPlacedBlock().getBlock();
-        if (event.getPlayer().world.provider.getDimension() == AtumConfig.DIMENSION_ID && (block instanceof BlockDirt || block instanceof BlockGrass || block instanceof BlockMycelium || (block instanceof BlockFarmland && block != AtumBlocks.FERTILE_SOIL_TILLED))) {
-            event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState());
+        if (event.getPlayer().world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+            if ((block instanceof BlockDirt || block instanceof BlockGrass || block instanceof BlockMycelium || (block instanceof BlockFarmland && block != AtumBlocks.FERTILE_SOIL_TILLED))) {
+                event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onInteract(PlayerInteractEvent.RightClickItem event) {
+        EntityPlayer player = event.getEntityPlayer();
+        if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+            if (player.getHeldItem(event.getHand()).getItem() == Items.WATER_BUCKET && event.getWorld().getBiome(event.getPos()) != AtumBiomes.OASIS && event.getWorld().getHeight(event.getPos()).getY() > 48) {
+                event.setCanceled(true);
+            }
         }
     }
 
