@@ -37,7 +37,7 @@ public class EntityBrigand extends EntityBanditBase {
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR));
-        this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
+        this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.BRIGAND_SHIELD));
     }
 
     @Override
@@ -61,7 +61,10 @@ public class EntityBrigand extends EntityBanditBase {
             ItemStack scimitarStack = new ItemStack(AtumItems.SCIMITAR);
             this.entityDropItem(new ItemStack(scimitarStack.getItem(), 1, MathHelper.getInt(rand, 20, scimitarStack.getMaxDamage())), 0.0F);
         }
-
+        if (rand.nextInt(25) == 0) {
+            ItemStack scimitarStack = new ItemStack(AtumItems.BRIGAND_SHIELD);
+            this.entityDropItem(new ItemStack(scimitarStack.getItem(), 1, MathHelper.getInt(rand, 20, scimitarStack.getMaxDamage())), 0.0F);
+        }
         if (rand.nextInt(10) == 0) {
             int amount = MathHelper.getInt(rand, 1, 2) + looting;
             this.dropItem(Items.GOLD_NUGGET, amount);

@@ -40,6 +40,7 @@ public class AtumItems {
     public static final Item GREATSWORD = new ItemGreatsword(ToolMaterial.IRON);
     public static final Item SHORT_BOW = new ItemBaseBow();
     public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.IRON);
+    public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item SCEPTER = new ItemSword(ToolMaterial.GOLD);
     public static final Item PTAHS_DECADENCE = new ItemPtahsDecadence(ToolMaterial.DIAMOND);
     public static final Item SOBEKS_RAGE = new ItemSobeksRage(ToolMaterial.DIAMOND);
@@ -52,6 +53,7 @@ public class AtumItems {
     public static final Item ATUMS_WILL = new ItemAtumsWill();
     public static final Item ATUMS_PROTECTION = new ItemAtumsProtection();
     public static final Item ATUMS_BOUNTY = new ItemAtumsBounty();
+    public static final Item ATUMS_HOMECOMING = new ItemAtumsHomecoming();
     public static final Item MONTHUS_STRIKE = new ItemMonthusStrike(ToolMaterial.DIAMOND);
     public static final Item ANHURS_MIGHT = new ItemAnhursMight(ToolMaterial.DIAMOND);
     public static final Item HEDETETS_STING = new ItemHedetetsSting(ToolMaterial.DIAMOND);
@@ -69,7 +71,6 @@ public class AtumItems {
     public static final Item NUTS_CALL = new ItemNutsCall();
     public static final Item MAFDETS_QUICKNESS = new ItemMafdetsQuickness();
     public static final Item ISIS_HEALING = new ItemIsisHealing();
-    public static final Item AMUNETS_HOMECOMING = new ItemAmunetsHomecoming();
     public static final Item ANUBIS_MERCY = new ItemAnubisMercy();
     public static final Item LIMESTONE_SHOVEL = new ItemLimestoneShovel(ToolMaterial.STONE);
     public static final Item LIMESTONE_PICKAXE = new ItemLimestonePickaxe(ToolMaterial.STONE);
@@ -119,6 +120,7 @@ public class AtumItems {
         registerItem(GREATSWORD, "greatsword");
         registerItem(SHORT_BOW, "short_bow");
         registerItem(STONEGUARD_SWORD, "stoneguard_sword");
+        registerItem(BRIGAND_SHIELD, "brigand_shield");
         registerItem(SCEPTER, "scepter");
         registerItem(PTAHS_DECADENCE, "ptahs_decadence");
         registerItem(SOBEKS_RAGE, "sobeks_rage");
@@ -131,6 +133,7 @@ public class AtumItems {
         registerItem(ATUMS_WILL, "atums_will");
         registerItem(ATUMS_PROTECTION, "atums_protection");
         registerItem(ATUMS_BOUNTY, "atums_bounty");
+        registerItem(ATUMS_HOMECOMING, "atums_homecoming");
         registerItem(MONTHUS_STRIKE, "monthus_strike");
         registerItem(ANHURS_MIGHT, "anhurs_might");
         registerItem(HEDETETS_STING, "hedetets_sting");
@@ -148,7 +151,6 @@ public class AtumItems {
         registerItem(NUTS_CALL, "nuts_call");
         registerItem(MAFDETS_QUICKNESS, "mafdets_quickness");
         registerItem(ISIS_HEALING, "isis_healing");
-        registerItem(AMUNETS_HOMECOMING, "amunets_homecoming");
         registerItem(ANUBIS_MERCY, "anubis_mercy");
         registerItem(LIMESTONE_SHOVEL, "limestone_shovel");
         registerItem(LIMESTONE_PICKAXE, "limestone_pickaxe");

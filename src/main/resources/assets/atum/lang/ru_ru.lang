@@ -191,7 +191,7 @@ item.atum.nutsCall.name=Вызов богини Нут
 item.atum.atumsBounty.name=Щедрость Анукета
 item.atum.mafdetsQuickness.name=Быстрота Мафдета
 item.atum.isisHealing.name=Исцеление Исиды
-item.atum.amunetsHomecoming.name=Возвращение Амаунета
+item.atum.atumsHomecoming.name=Возвращение Амаунета
 item.atum.anubisMercy.name=Милость Анубиса
 item.atum.neithsAudacity.name=Смелость Нейт
 
@@ -201,9 +201,9 @@ item.atum.akersToil.line1=Эффективность I: Быстрота, не
 item.atum.akersToil.line2=убирает усталость
 item.atum.akersToil.line3=Эффективность I
 
-item.atum.amunetsHomecoming.line1=Возвращение I: Телепортирует Вас
-item.atum.amunetsHomecoming.line2=обратно на точку появления
-item.atum.amunetsHomecoming.line3=Возвращение I
+item.atum.atumsHomecoming.line1=Возвращение I: Телепортирует Вас
+item.atum.atumsHomecoming.line2=обратно на точку появления
+item.atum.atumsHomecoming.line3=Возвращение I
 
 item.atum.anhursMight.line1=Могущество I: Замедляет игрока,
 item.atum.anhursMight.line2=Шанс оглушить врагов

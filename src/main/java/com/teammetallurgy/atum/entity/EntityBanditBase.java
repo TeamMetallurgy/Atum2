@@ -13,7 +13,6 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -73,18 +72,7 @@ public class EntityBanditBase extends EntityMob {
     @Override
     public boolean getCanSpawnHere() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        return pos.getY() > 62 && this.world.canBlockSeeSky(pos) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
-    }
-
-    @Override
-    protected boolean isValidLightLevel() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        int bl = this.world.getLightFor(EnumSkyBlock.BLOCK, pos);
-        int light = this.world.getLight(pos);
-
-        if (bl >= 7) {
-            return false;
-        } else return light > 8;
+        return pos.getY() > 62 && this.world.canBlockSeeSky(pos) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL && world.isDaytime() && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
     }
 
     public void attackEntityWithRangedAttack(EntityLivingBase target, float damage) {

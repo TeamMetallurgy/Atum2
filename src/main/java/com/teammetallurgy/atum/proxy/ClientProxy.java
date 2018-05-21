@@ -4,13 +4,14 @@ import com.teammetallurgy.atum.blocks.IRenderMapper;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
-import com.teammetallurgy.atum.client.render.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.entity.RenderBonestorm;
 import com.teammetallurgy.atum.client.render.entity.RenderDesertWolf;
 import com.teammetallurgy.atum.client.render.entity.RenderGhost;
 import com.teammetallurgy.atum.client.render.entity.RenderTarantula;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderNutsCall;
+import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
+import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.arrow.EntityNutsCall;
@@ -50,7 +51,8 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
-        ModelLoader.setCustomMeshDefinition(AtumItems.ATUMS_PROTECTION, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "atums_protection"), "inventory"));
+        AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield());
+        ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "brigand_shield"), "inventory"));
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderLiving<EntityMummy>(manager, new ModelZombie(), 0.5F) {
             @Override

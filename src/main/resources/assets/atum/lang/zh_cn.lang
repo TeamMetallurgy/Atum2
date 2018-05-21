@@ -217,7 +217,7 @@ item.atum.nutsCall.name=Nuts之召唤
 item.atum.atumsBounty.name=Anukets之慷慨
 item.atum.mafdetsQuickness.name=Mafdets之迅捷
 item.atum.isisHealing.name=Isis之治疗
-item.atum.amunetsHomecoming.name=Amunets之回归
+item.atum.atumsHomecoming.name=Amunets之回归
 item.atum.anubisMercy.name=Anubis之仁慈
 item.atum.neithsAudacity.name=Neiths之胆量
 
@@ -235,9 +235,9 @@ item.atum.akersToil.line1=绩效I:更快,
 item.atum.akersToil.line2=且不消耗耐久
 item.atum.akersToil.line3=绩效I
 
-item.atum.amunetsHomecoming.line1=回返I:将你传送
-item.atum.amunetsHomecoming.line2=回出生点
-item.atum.amunetsHomecoming.line3=回返I
+item.atum.atumsHomecoming.line1=回返I:将你传送
+item.atum.atumsHomecoming.line2=回出生点
+item.atum.atumsHomecoming.line3=回返I
 
 item.atum.anhursMight.line1=威猛I:使玩家减速,
 item.atum.anhursMight.line2=但有几率击晕敌人

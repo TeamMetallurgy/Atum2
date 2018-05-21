@@ -122,7 +122,7 @@ item.atum.nutsCall.name=Chamado de Nuts
 item.atum.atumsBounty.name=Recompensa de Anukets
 item.atum.mafdetsQuickness.name=Rapidez de Mafdets
 item.atum.isisHealing.name=Cura de Isis
-item.atum.amunetsHomecoming.name=Reencontro de Amunets
+item.atum.atumsHomecoming.name=Reencontro de Amunets
 item.atum.anubisMercy.name=Misericórdia de Anubis
 item.atum.neithsAudacity.name=Audácia de Neiths
 
@@ -132,9 +132,9 @@ item.atum.akersToil.line1=Desempenho I: Mais rápidez,
 item.atum.akersToil.line2=não dá fadiga 
 item.atum.akersToil.line3=Desempenho I 
 
-item.atum.amunetsHomecoming.line1=Retorno I: Teleporta você de volta ao
-item.atum.amunetsHomecoming.line2=seu ponto de desova
-item.atum.amunetsHomecoming.line3=Retorno I 
+item.atum.atumsHomecoming.line1=Retorno I: Teleporta você de volta ao
+item.atum.atumsHomecoming.line2=seu ponto de desova
+item.atum.atumsHomecoming.line3=Retorno I
 
 item.atum.anhursMight.line1=Poderoso I: Retarda o jogador,
 item.atum.anhursMight.line2=Chance de atordoar os inimigos
