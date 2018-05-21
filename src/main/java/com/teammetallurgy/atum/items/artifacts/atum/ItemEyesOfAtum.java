@@ -39,7 +39,7 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
         super.onArmorTick(world, player, stack);
 
         if (world.getTotalWorldTime() % 15L == 0L) {
-            player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 255, 0, false, false));
+            //player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 255, 0, false, false));
         }
     }
 

@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/ptahs_destruction"
+    "layer0": "atum:items/ptahs_undoing"
   }
 }

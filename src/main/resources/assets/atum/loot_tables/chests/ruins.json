@@ -351,8 +351,8 @@
         },
         {
           "type": "item",
-          "name": "atum:anubis_mercy",
-          "entryName": "anubis_mercy",
+          "name": "atum:anubiss_mercy",
+          "entryName": "anubiss_mercy",
           "weight": 1
         },
         {
@@ -489,8 +489,8 @@
         },
         {
           "type": "item",
-          "name": "atum:ptahs_destruction",
-          "entryName": "ptahs_destruction",
+          "name": "atum:ptahs_undoing",
+          "entryName": "ptahs_undoing",
           "weight": 1
         },
         {

@@ -229,7 +229,7 @@ item.atum.anhursMight.name=Anhur's Might
 item.atum.hedetetsSting.name=Hedetet's Sting
 item.atum.horusSoaring.name=Horus's Soaring
 item.atum.shusBreath.name=Shu's Breath
-item.atum.ptahsDestruction.name=Ptah's Destruction
+item.atum.ptahsUndoing.name=Ptah's Undoing
 item.atum.montusBlast.name=Montu's Blast
 item.atum.nusFlux.name=Nu's Flux
 item.atum.haloOfRa.name=Halo of Ra
@@ -242,7 +242,7 @@ item.atum.atumsBounty.name=Atum's Bounty
 item.atum.mafdetsQuickness.name=Mafdet's Quickness
 item.atum.isisHealing.name=Isis's Healing
 item.atum.atumsHomecoming.name=Atums's Homecoming
-item.atum.anubisMercy.name=Anubis's Mercy
+item.atum.anubissMercy.name=Anubis's Mercy
 item.atum.neithsAudacity.name=Neith's Audacity
 
 item.atum.deadwoodDoor.name=Deadwood Door
@@ -266,8 +266,8 @@ item.atum.anhursMight.line1=Mighty: Slows player,
 item.atum.anhursMight.line2=Chance to stun foes
 item.atum.anhursMight.line3=Mighty
 
-item.atum.ptahsDecadence.line1=Wealth: Gain an extra
-item.atum.ptahsDecadence.line2=diamond from each ore
+item.atum.ptahsDecadence.line1=Alchemize: Chance to turn Iron
+item.atum.ptahsDecadence.line2=into Gold when mining
 item.atum.ptahsDecadence.line3=Wealth
 
 item.atum.sobeksRage.line1=Exile: Knocks foes
@@ -322,9 +322,9 @@ item.atum.shusBreath.line1=Quickdraw: Reduced
 item.atum.shusBreath.line2=drawback speed
 item.atum.shusBreath.line3=Quickdraw
 
-item.atum.ptahsDestruction.line1=Stonecutter: Increases damage
-item.atum.ptahsDestruction.line2=to stone enemies
-item.atum.ptahsDestruction.line3=Stonecutter
+item.atum.ptahsUndoing.line1=Stonecutter: When fully charged
+item.atum.ptahsUndoing.line2=deals double damage to Stone Foes
+item.atum.ptahsUndoing.line3=Stonecutter
 
 item.atum.montusBlast.line1=Explosive Arrow: Fires an explosive
 item.atum.montusBlast.line2=arrow that explodes on impact
@@ -370,9 +370,9 @@ item.atum.isisHealing.line1=Regeneration: Regenerates
 item.atum.isisHealing.line2=health slowly while held
 item.atum.isisHealing.line3=Regeneration
 
-item.atum.anubisMercy.line1=Return: On Death teleports you back,
-item.atum.anubisMercy.line2=to your spawn point
-item.atum.anubisMercy.line3=Return
+item.atum.anubissMercy.line1=Return: On Death teleports you back,
+item.atum.anubissMercy.line2=to your spawn point
+item.atum.anubissMercy.line3=Return
 
 item.atum.neithsAudacity.line1=Double Shot: Fires
 item.atum.neithsAudacity.line2=two arrows

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.handler.event;
 
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -78,7 +79,7 @@ public class AtumEventListener {
             BlockPos pos = event.getPos();
             ItemStack heldStack = player.getHeldItem(event.getHand());
             FluidStack fluidStack = FluidUtil.getFluidContained(heldStack);
-            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER) {
+            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER && event.getWorld().getBiome(pos) != AtumBiomes.OASIS && event.getWorld().getHeight(pos).getY() >= 48) {
                 if (heldStack.getItem() == Items.WATER_BUCKET) {
                     player.setHeldItem(event.getHand(), new ItemStack(Items.BUCKET));
                 }

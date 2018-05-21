@@ -21,8 +21,11 @@ public class AtumFogEventListener {
 
             if (event.getEntity() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) event.getEntity();
+                if (player.getPosition().getY() <= 58) {
+                    fogDensity = 0.4F;
+                }
                 if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemEyesOfAtum) {
-                    fogDensity = 0.04F;
+                    fogDensity = fogDensity / 3;
                 }
                 GlStateManager.setFogDensity(fogDensity);
             }

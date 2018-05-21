@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.*;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusBlast;
+import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
+import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
 import com.teammetallurgy.atum.items.artifacts.ra.*;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
@@ -42,7 +44,6 @@ public class AtumItems {
     public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.IRON);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item SCEPTER = new ItemSword(ToolMaterial.GOLD);
-    public static final Item PTAHS_DECADENCE = new ItemPtahsDecadence(ToolMaterial.DIAMOND);
     public static final Item SOBEKS_RAGE = new ItemSobeksRage(ToolMaterial.DIAMOND);
     public static final Item AKERS_TOIL = new ItemAkersToil(ToolMaterial.DIAMOND);
     public static final Item GEBS_BLESSING = new ItemGebsBlessing(ToolMaterial.DIAMOND);
@@ -59,7 +60,6 @@ public class AtumItems {
     public static final Item HEDETETS_STING = new ItemHedetetsSting(ToolMaterial.DIAMOND);
     public static final Item HORUS_SOARING = new ItemHorusSoaring();
     public static final Item SHUS_BREATH = new ItemShusBreath();
-    public static final Item PTAHS_DESTRUCTION = new ItemPtahsDestruction(ToolMaterial.DIAMOND);
     public static final Item MONTUS_BLAST = new ItemMontusBlast();
     public static final Item NUS_FLUX = new ItemNusFlux(ToolMaterial.DIAMOND);
     public static final Item HALO_OF_RA = new ItemHaloOfRa();
@@ -67,6 +67,8 @@ public class AtumItems {
     public static final Item LEGS_OF_RA = new ItemLegsOfRa();
     public static final Item FEET_OF_RA = new ItemFeetOfRa();
     public static final Item RAS_FURY = new ItemRasFury();
+    public static final Item PTAHS_DECADENCE = new ItemPtahsDecadence();
+    public static final Item PTAHS_UNDOING = new ItemPtahsUndoing();
     public static final Item HEDETETS_VENOM = new ItemHedetetsVenom();
     public static final Item NUTS_CALL = new ItemNutsCall();
     public static final Item MAFDETS_QUICKNESS = new ItemMafdetsQuickness();
@@ -122,7 +124,6 @@ public class AtumItems {
         registerItem(STONEGUARD_SWORD, "stoneguard_sword");
         registerItem(BRIGAND_SHIELD, "brigand_shield");
         registerItem(SCEPTER, "scepter");
-        registerItem(PTAHS_DECADENCE, "ptahs_decadence");
         registerItem(SOBEKS_RAGE, "sobeks_rage");
         registerItem(AKERS_TOIL, "akers_toil");
         registerItem(GEBS_BLESSING, "gebs_blessing");
@@ -139,7 +140,6 @@ public class AtumItems {
         registerItem(HEDETETS_STING, "hedetets_sting");
         registerItem(HORUS_SOARING, "horus_soaring");
         registerItem(SHUS_BREATH, "shus_breath");
-        registerItem(PTAHS_DESTRUCTION, "ptahs_destruction");
         registerItem(MONTUS_BLAST, "montus_blast");
         registerItem(NUS_FLUX, "nus_flux");
         registerItem(HALO_OF_RA, "halo_of_ra");
@@ -147,11 +147,13 @@ public class AtumItems {
         registerItem(LEGS_OF_RA, "legs_of_ra");
         registerItem(FEET_OF_RA, "feet_of_ra");
         registerItem(RAS_FURY, "ras_fury");
+        registerItem(PTAHS_DECADENCE, "ptahs_decadence");
+        registerItem(PTAHS_UNDOING, "ptahs_undoing");
         registerItem(HEDETETS_VENOM, "hedetets_venom");
         registerItem(NUTS_CALL, "nuts_call");
         registerItem(MAFDETS_QUICKNESS, "mafdets_quickness");
         registerItem(ISIS_HEALING, "isis_healing");
-        registerItem(ANUBIS_MERCY, "anubis_mercy");
+        registerItem(ANUBIS_MERCY, "anubiss_mercy");
         registerItem(LIMESTONE_SHOVEL, "limestone_shovel");
         registerItem(LIMESTONE_PICKAXE, "limestone_pickaxe");
         registerItem(LIMESTONE_AXE, "limestone_axe");
