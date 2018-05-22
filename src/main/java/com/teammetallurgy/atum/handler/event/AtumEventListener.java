@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.handler.event;
 
 import com.teammetallurgy.atum.blocks.BlockFertileSoil;
+import com.teammetallurgy.atum.blocks.BlockFertileSoilTilled;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -18,7 +19,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -142,10 +142,13 @@ public class AtumEventListener {
         World world = event.getWorld();
         BlockPos pos = event.getPos();
         IBlockState state = world.getBlockState(pos);
-        EntityPlayer player = event.getEntityPlayer();
         boolean result = false;
         if (state.getBlock() instanceof BlockFertileSoil) {
-            world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState());
+            if (event.getCurrent().getItem() == AtumItems.TEFNUTS_BLESSING) {
+                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().withProperty(BlockFertileSoilTilled.MOISTURE, 7).withProperty(BlockFertileSoilTilled.BLESSED, true));
+            } else {
+                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState());
+            }
             result = true;
         }
 
@@ -153,11 +156,6 @@ public class AtumEventListener {
             event.setResult(Event.Result.ALLOW);
 
             world.playSound(null, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            if (player.getActiveHand() == EnumHand.MAIN_HAND) {
-                player.swingArm(EnumHand.MAIN_HAND);
-            } else if (player.getActiveHand() == EnumHand.OFF_HAND) {
-                player.swingArm(EnumHand.OFF_HAND);
-            }
         }
     }
 }

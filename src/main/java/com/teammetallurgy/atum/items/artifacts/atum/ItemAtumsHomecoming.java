@@ -68,7 +68,7 @@ public class ItemAtumsHomecoming extends Item {
         }
         teleport(world, player, pos.getX(), pos.getY(), pos.getZ(), player.rotationYaw, player.rotationPitch);
         heldStack.damageItem(1, player);
-        onTeleport(world, player, player.getPosition());
+        onTeleport(world, player);
         return new ActionResult<>(EnumActionResult.PASS, heldStack);
     }
 
@@ -79,7 +79,7 @@ public class ItemAtumsHomecoming extends Item {
             float f1 = MathHelper.wrapDegrees(pitch);
 
             entity.dismountRidingEntity();
-            onTeleport(world, entity, new BlockPos(x, y, z));
+            onTeleport(world, entity);
             ((EntityPlayerMP) entity).connection.setPlayerLocation(x, y, z, f, f1, set);
             entity.setRotationYawHead(f);
         } else {
@@ -96,7 +96,7 @@ public class ItemAtumsHomecoming extends Item {
         }
     }
 
-    private void onTeleport(World world, Entity entity, BlockPos pos) {
+    private void onTeleport(World world, Entity entity) {
         for (int amount = 0; amount < 250; ++amount) {
             float timesRandom = world.rand.nextFloat() * 4.0F;
             float cosRandom = world.rand.nextFloat() * ((float) Math.PI * 2F);
