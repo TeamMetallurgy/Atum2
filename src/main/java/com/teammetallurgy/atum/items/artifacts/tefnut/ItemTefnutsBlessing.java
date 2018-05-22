@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.tefnut;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -16,10 +16,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemGebsBlessing extends ItemHoe {
+public class ItemTefnutsBlessing extends ItemHoe {
 
-    public ItemGebsBlessing(ToolMaterial material) {
-        super(material);
+    public ItemTefnutsBlessing() {
+        super(ToolMaterial.DIAMOND);
     }
 
     @Override

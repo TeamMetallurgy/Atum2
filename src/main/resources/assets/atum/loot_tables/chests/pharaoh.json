@@ -390,8 +390,8 @@
         },
         {
           "type": "item",
-          "name": "atum:gebs_blessing",
-          "entryName": "gebs_blessing",
+          "name": "atum:tefnuts_blessing",
+          "entryName": "tefnuts_blessing",
           "weight": 1
         },
         {
@@ -536,6 +536,12 @@
           "type": "item",
           "name": "atum:sobeks_rage",
           "entryName": "sobeks_rage",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:gebs_grounding",
+          "entryName": "gebs_grounding",
           "weight": 1
         },
         {

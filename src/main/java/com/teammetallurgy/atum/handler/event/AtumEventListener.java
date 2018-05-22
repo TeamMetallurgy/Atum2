@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.handler.event;
 
+import com.teammetallurgy.atum.blocks.BlockFertileSoil;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -17,6 +18,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -108,25 +110,6 @@ public class AtumEventListener {
         }
     }
 
-    // TODO: check if needed
-    /*
-    @SubscribeEvent
-    public static boolean onBonemeal(BonemealEvent event) {
-        if (!event.getWorld().isRemote) {
-
-            Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
-            if (block instanceof BlockAtumSapling) {
-                if (event.getWorld().rand.nextInt(7) == 0) {
-                    ((BlockAtumSapling) AtumBlocks.SAPLING).generateTree(event.getWorld(), event.getPos(), event.getWorld().getBlockState(event.getPos()), new Random());
-                }
-                event.setResult(Event.Result.ALLOW);
-            }
-            return false;
-        }
-        return true;
-    }
-    */
-
     @SubscribeEvent
     public static void onFishLoot(ItemFishedEvent event) {
         World world = event.getEntityPlayer().world;
@@ -155,24 +138,26 @@ public class AtumEventListener {
     }
 
     @SubscribeEvent
-    public static boolean onHoeEvent(UseHoeEvent event) {
-        Block block = event.getWorld().getBlockState(event.getPos()).getBlock();
-        if (block == AtumBlocks.FERTILE_SOIL) {
-            byte block2 = 0;
-            if (event.getCurrent().getItem() == AtumItems.GEBS_BLESSING) {
-                block2 = 4;
-            }
-
-            event.getWorld().setBlockState(event.getPos(), AtumBlocks.FERTILE_SOIL_TILLED.getStateFromMeta(block2), 2);
-            event.setResult(Event.Result.ALLOW);
-            event.getWorld().playSound(event.getEntityPlayer(), event.getPos(), SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            return true;
-        } else if ((block == Blocks.DIRT || block == Blocks.GRASS) && event.getCurrent().getItem() == AtumItems.GEBS_BLESSING) {
-            event.getWorld().setBlockState(event.getPos(), AtumBlocks.FERTILE_SOIL_TILLED.getStateFromMeta(12), 2);
-            event.setResult(Event.Result.ALLOW);
-            event.getWorld().playSound(event.getEntityPlayer(), event.getPos(), SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
-            return true;
+    public static void onHoeEvent(UseHoeEvent event) {
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        IBlockState state = world.getBlockState(pos);
+        EntityPlayer player = event.getEntityPlayer();
+        boolean result = false;
+        if (state.getBlock() instanceof BlockFertileSoil) {
+            world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState());
+            result = true;
         }
-        return false;
+
+        if (result) {
+            event.setResult(Event.Result.ALLOW);
+
+            world.playSound(null, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (player.getActiveHand() == EnumHand.MAIN_HAND) {
+                player.swingArm(EnumHand.MAIN_HAND);
+            } else if (player.getActiveHand() == EnumHand.OFF_HAND) {
+                player.swingArm(EnumHand.OFF_HAND);
+            }
+        }
     }
 }

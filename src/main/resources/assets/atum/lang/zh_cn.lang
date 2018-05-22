@@ -194,7 +194,7 @@ item.atum.ptahsDecadence.name=Ptahs之堕落
 item.atum.sobeksRage.name=Sobeks之愤怒
 item.atum.atumsWill.name=Osiris之意志
 item.atum.gebsToil.name=Akers之劳累
-item.atum.gebsBlessing.name=Gebs之祝福
+item.atum.tefnutsBlessing.name=Gebs之祝福
 item.atum.atensFury.name=Atens之狂怒
 item.atum.eyesOfAtum.name=Ras之荣耀
 item.atum.bodyOfAtum.name=Sekhmets之暴怒
@@ -255,9 +255,9 @@ item.atum.atumsWill.line1=放逐I:对亡灵造成额外伤害,
 item.atum.atumsWill.line2=有几率掉落外质
 item.atum.atumsWill.line3=放逐I
 
-item.atum.gebsBlessing.line1=播种I:肥沃耕土受到祝福,
-item.atum.gebsBlessing.line2=能加快生长速率
-item.atum.gebsBlessing.line3=播种I
+item.atum.tefnutsBlessing.line1=播种I:肥沃耕土受到祝福,
+item.atum.tefnutsBlessing.line2=能加快生长速率
+item.atum.tefnutsBlessing.line3=播种I
 
 item.atum.atensFury.line1=焚箭I: 燃烧的箭头
 item.atum.atensFury.line2=能点燃方块与物品

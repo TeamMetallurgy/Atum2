@@ -219,7 +219,7 @@ item.atum.atumsWill.name=Atum's Will
 item.atum.atumsProtection.name=Atum's Protection
 item.atum.gebsToil.name=Gebs's Toil
 item.atum.gebsGrounding.name=Gebs's Grounding
-item.atum.gebsBlessing.name=Geb's Blessing
+item.atum.tefnutsBlessing.name=Tefnut's Blessing
 item.atum.rasFury.name=Ra's Fury
 item.atum.eyesOfAtum.name=Eyes of Atum
 item.atum.bodyOfAtum.name=Body of Atum
@@ -287,9 +287,9 @@ item.atum.atumsProtection.line1=Consecrate: Ignites and damages
 item.atum.atumsProtection.line2=Undead when you block their attacks
 item.atum.atumsProtection.line3=Consecrate
 
-item.atum.gebsBlessing.line1=Sowing: Tilled ground is blessed,
-item.atum.gebsBlessing.line2=granting increased growth rate
-item.atum.gebsBlessing.line3=Sowing
+item.atum.tefnutsBlessing.line1=Sowing: Tilled ground is blessed,
+item.atum.tefnutsBlessing.line2=with increased growth rate
+item.atum.tefnutsBlessing.line3=Sowing
 
 item.atum.rasFury.line1=Fire Shot: Flaming arrow
 item.atum.rasFury.line2=ignites blocks and foes

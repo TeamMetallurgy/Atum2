@@ -99,7 +99,7 @@ item.atum.ptahsDecadence.name=Decadência de Ptahs
 item.atum.sobeksRage.name=Raiva de Soteks
 item.atum.atumsWill.name=Vontade de Osiris
 item.atum.gebsToil.name=Labuta de Akers
-item.atum.gebsBlessing.name=Bênção de Gebs
+item.atum.tefnutsBlessing.name=Bênção de Gebs
 item.atum.atensFury.name=Fúria de Atens
 item.atum.eyesOfAtum.name=Glória de Ras
 item.atum.bodyOfAtum.name=Ira de Sekhmets
@@ -152,9 +152,9 @@ item.atum.atumsWill.line1=Banimento I: Bônus de dano em mortos-vivos,
 item.atum.atumsWill.line2=chance de cair ectoplasma
 item.atum.atumsWill.line3=Banimento I
 
-item.atum.gebsBlessing.line1=Semear I: Terra lavrada e abençoada,
-item.atum.gebsBlessing.line2=lhe concede aumento da taxa de crescimento
-item.atum.gebsBlessing.line3=Semear I 
+item.atum.tefnutsBlessing.line1=Semear I: Terra lavrada e abençoada,
+item.atum.tefnutsBlessing.line2=lhe concede aumento da taxa de crescimento
+item.atum.tefnutsBlessing.line3=Semear I
 
 item.atum.atensFury.line1=Tiro de Fogo I: Uma flecha flamejante
 item.atum.atensFury.line2=Que inflama blocos e inimigos

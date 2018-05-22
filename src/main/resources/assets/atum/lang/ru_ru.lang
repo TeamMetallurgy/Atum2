@@ -168,7 +168,7 @@ item.atum.ptahsDecadence.name=Декаданс бога Птаха
 item.atum.sobeksRage.name=Ярость Сотека
 item.atum.atumsWill.name=Воля Осириса
 item.atum.gebsToil.name=Труд Акера
-item.atum.gebsBlessing.name=Благословение Геба
+item.atum.tefnutsBlessing.name=Благословение Геба
 item.atum.atensFury.name=Неистовство Атона
 item.atum.eyesOfAtum.name=Слава бога Ра
 item.atum.bodyOfAtum.name=Гнев Сехмета
@@ -221,9 +221,9 @@ item.atum.atumsWill.line1=Изгнание I: Дополнительный ур�
 item.atum.atumsWill.line2=шанс получить эктоплазму
 item.atum.atumsWill.line3=Изгнание I
 
-item.atum.gebsBlessing.line1=Засевание I: Вспашенная земля - благословенна,
-item.atum.gebsBlessing.line2=даёт повышенную скорость роста
-item.atum.gebsBlessing.line3=Засевание I
+item.atum.tefnutsBlessing.line1=Засевание I: Вспашенная земля - благословенна,
+item.atum.tefnutsBlessing.line2=даёт повышенную скорость роста
+item.atum.tefnutsBlessing.line3=Засевание I
 
 item.atum.atensFury.line1=Огненный выстрел I: Огненная стрела
 item.atum.atensFury.line2=поджигает блоки и врагов
