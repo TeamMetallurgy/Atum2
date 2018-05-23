@@ -42,7 +42,7 @@ import java.util.List;
 
 public class EntityPharaoh extends EntityUndeadBase {
     private static String[] prefixArray = {"Ama", "Ata", "Ato", "Bak", "Cal", "Djet", "Eje", "For", "Gol", "Gut", "Hop", "Hor", "Huni", "Iam", "Jor", "Kal", "Khas", "Khor", "Lat", "Mal", "Not", "Oap", "Pra", "Qo", "Ras", "Shas", "Thoth", "Tui", "Uld", "Ver", "Wot", "Xo", "Yat", "Zyt", "Khep"};
-    private static String[] suffixArray = {"Ahat", "Amesh", "Amon", "Anut", "Baroom", "Chanta", "Erant", "Funam", "Daresh", "Djer", "Hotesh", "Khaden", "Kron", "Gorkum", "Ialenter", "Ma'at", "Narmer", "Radeem", "Jaloom", "Lepsha", "Quor", "Oleshet", "Peput", "Talat", "Ulam", "Veresh", "Ranesh", "Snef", "Wollolo", "Hathor", "Intef", "Neferk", "Khatne", "Tepy", "Moret"};
+    private static String[] suffixArray = {"ahat", "amesh", "amon", "anut", "baroom", "chanta", "erant", "funam", "daresh", "djer", "hotesh", "khaden", "kron", "gorkum", "ialenter", "ma'at", "narmer", "radeem", "jaloom", "lepsha", "quor", "oleshet", "peput", "talat", "ulam", "veresh", "ranesh", "snef", "wollolo", "hathor", "intef", "neferk", "khatne", "tepy", "moret"};
     private static String[] numeralArray = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"};
     private static final DataParameter<Integer> PREFIX = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> SUFFIX = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.VARINT);
