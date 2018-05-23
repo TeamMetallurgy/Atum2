@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.seth;
 
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -19,16 +19,22 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemHedetetsSting extends ItemSword {
+public class ItemSethsSting extends ItemSword {
 
-    public ItemHedetetsSting(ToolMaterial material) {
-        super(material);
+    public ItemSethsSting() {
+        super(ToolMaterial.DIAMOND);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
+    }
+
+    @Override
+    @Nonnull
+    public EnumRarity getRarity(@Nonnull ItemStack stack) {
+        return EnumRarity.RARE;
     }
 
     @Override
@@ -39,12 +45,6 @@ public class ItemHedetetsSting extends ItemSword {
         } else {
             return false;
         }
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 
     @Override

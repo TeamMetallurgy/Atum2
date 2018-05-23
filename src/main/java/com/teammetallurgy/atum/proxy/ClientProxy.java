@@ -21,7 +21,6 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -30,7 +29,6 @@ import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -45,13 +43,9 @@ import javax.annotation.Nonnull;
 public class ClientProxy extends CommonProxy {
     public static AtumParticles atumParticles = new AtumParticles();
 
-    @Override
-    public void spawnParticle(AtumParticles.Types particleType, EntityPlayer player, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        Minecraft.getMinecraft().effectRenderer.addEffect(atumParticles.spawnEffectParticle(particleType.getParticleName(), player.world, x, y, z, xSpeed, ySpeed, zSpeed));
-    }
-
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
+        atumParticles.register();
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield());
         ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "brigand_shield"), "inventory"));

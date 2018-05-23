@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.network.packet;
 
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.proxy.ClientProxy;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class PacketParticle extends Packet<PacketParticle> {
     private AtumParticles.Types particle;
@@ -30,12 +30,11 @@ public class PacketParticle extends Packet<PacketParticle> {
 
     @Override
     protected void handleClientSide(EntityPlayer player) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particle.getParticleName(), player.world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed));
     }
 
     @Override
     protected void handleServerSide(EntityPlayer player) {
-        PacketParticle packetParticle = new PacketParticle(this.particle, this.xCoord, this.yCoord, this.zCoord, this.xSpeed, this.ySpeed, this.zSpeed);
-        NetworkHandler.WRAPPER.sendToAllAround(packetParticle, new NetworkRegistry.TargetPoint(player.dimension, player.posX, player.posY, player.posZ, 1024));
     }
 
     @Override
