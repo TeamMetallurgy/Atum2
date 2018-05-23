@@ -1,5 +1,7 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.isis;
 
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -8,6 +10,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -19,10 +22,11 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class ItemIsisHealing extends Item {
+    private int duration = 40;
 
     public ItemIsisHealing() {
         super();
-        this.setMaxDamage(400);
+        this.setMaxDamage(96);
     }
 
     @Override
@@ -32,34 +36,42 @@ public class ItemIsisHealing extends Item {
     }
 
     @Override
-    public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            if (isSelected && player.onGround && !player.getHeldItemMainhand().isEmpty() && player.getHeldItemMainhand().getItem() == this) {
-                this.doEffect(player, stack);
-            }
-        }
+    @Nonnull
+    public EnumRarity getRarity(@Nonnull ItemStack stack) {
+        return EnumRarity.RARE;
     }
 
-    private void doEffect(EntityPlayer player, @Nonnull ItemStack stack) {
-        if (Math.random() <= 0.05D) {
-            if (player.getHealth() < player.getMaxHealth()) {
-                player.heal(1);
-                if (!player.capabilities.isCreativeMode) {
-                    if (stack.getItemDamage() == 1) {
-                        stack.damageItem(1, player);
-                    } else {
-                        stack.setItemDamage(stack.getItemDamage() + 1);
-                    }
+    @Override
+    public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+        if (duration >= 1) {
+            duration--;
+        }
+        System.out.println(duration);
+        if (entity instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) entity;
+            if (player.onGround) {
+                if (player.getHeldItem(EnumHand.OFF_HAND).getItem() == this) {
+                    this.doEffect(world, player, stack);
+                } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == this) {
+                    this.doEffect(world, player, stack);
                 }
             }
         }
     }
 
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
+    private void doEffect(World world, EntityPlayer player, @Nonnull ItemStack stack) {
+        if (player.getHealth() < player.getMaxHealth() && duration == 0) {
+            for (int l = 0; l < 24; ++l) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.ISIS, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
+            }
+            if (!world.isRemote) {
+                player.heal(1.0F);
+                duration = 40;
+                if (!player.capabilities.isCreativeMode) {
+                    stack.damageItem(1, player);
+                }
+            }
+        }
     }
 
     @Override

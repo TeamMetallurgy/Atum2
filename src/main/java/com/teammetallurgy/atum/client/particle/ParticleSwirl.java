@@ -16,15 +16,16 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(value = Side.CLIENT)
-public class ParticleNuit extends ParticleBase {
+public class ParticleSwirl extends ParticleBase {
     private static final ResourceLocation NUIT = new ResourceLocation(Constants.MOD_ID, "particle/nuit");
+    private static final ResourceLocation ISIS = new ResourceLocation(Constants.MOD_ID, "particle/isis");
     private final float scale;
 
-    protected ParticleNuit(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn, double ySpeedIn, double zSpeedIn) {
-        super(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn);
-        this.motionX = this.motionX * 0.009999999776482582D + xSpeedIn;
-        this.motionY = this.motionY * 0.009999999776482582D + ySpeedIn;
-        this.motionZ = this.motionZ * 0.009999999776482582D + zSpeedIn;
+    protected ParticleSwirl(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
+        super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
+        this.motionX = this.motionX * 0.009999999776482582D + xSpeed;
+        this.motionY = this.motionY * 0.009999999776482582D + ySpeed;
+        this.motionZ = this.motionZ * 0.009999999776482582D + zSpeed;
         this.posX += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
         this.posY += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
         this.posZ += (double) ((this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F);
@@ -33,7 +34,6 @@ public class ParticleNuit extends ParticleBase {
         this.particleGreen = 1.0F;
         this.particleBlue = 1.0F;
         this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
-        this.setParticleTexture(getSprite(NUIT));
     }
 
     @Override
@@ -43,10 +43,10 @@ public class ParticleNuit extends ParticleBase {
     }
 
     @Override
-    public void renderParticle(BufferBuilder buffer, Entity entityIn, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
+    public void renderParticle(BufferBuilder buffer, Entity entity, float partialTicks, float rotationX, float rotationZ, float rotationYZ, float rotationXY, float rotationXZ) {
         float f = ((float) this.particleAge + partialTicks) / (float) this.particleMaxAge;
         this.particleScale = this.scale * (1.0F - f * f * 0.5F);
-        super.renderParticle(buffer, entityIn, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
+        super.renderParticle(buffer, entity, partialTicks, rotationX, rotationZ, rotationYZ, rotationXY, rotationXZ);
     }
 
     @Override
@@ -73,12 +73,24 @@ public class ParticleNuit extends ParticleBase {
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
         event.getMap().registerSprite(NUIT);
+        event.getMap().registerSprite(ISIS);
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Factory implements IAtumParticleFactory {
+    public static class Nuit implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new ParticleNuit(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            particle.setParticleTexture(getSprite(NUIT));
+            return particle;
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class Isis implements IAtumParticleFactory {
+        public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            particle.setParticleTexture(getSprite(ISIS));
+            return particle;
         }
     }
 }

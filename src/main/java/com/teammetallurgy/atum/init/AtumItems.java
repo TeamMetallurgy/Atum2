@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.items.artifacts.*;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsGrounding;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsToil;
+import com.teammetallurgy.atum.items.artifacts.isis.ItemIsisHealing;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusBlast;
 import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsDuality;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
