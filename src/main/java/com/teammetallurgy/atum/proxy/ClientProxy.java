@@ -24,7 +24,6 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -47,13 +46,8 @@ public class ClientProxy extends CommonProxy {
     public static AtumParticles atumParticles = new AtumParticles();
 
     @Override
-    public void generateParticle(Particle particle) {
-        Minecraft.getMinecraft().effectRenderer.addEffect(particle);
-    }
-
-    @Override
     public void spawnParticle(AtumParticles.Types particleType, EntityPlayer player, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        generateParticle(atumParticles.spawnEffectParticle(particleType.getParticleName(), player.world, x, y, z, xSpeed, ySpeed, zSpeed));
+        Minecraft.getMinecraft().effectRenderer.addEffect(atumParticles.spawnEffectParticle(particleType.getParticleName(), player.world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 
     @SubscribeEvent

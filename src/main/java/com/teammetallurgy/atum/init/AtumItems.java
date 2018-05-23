@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.items.artifacts.atum.*;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsGrounding;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsToil;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusBlast;
+import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsDuality;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
 import com.teammetallurgy.atum.items.artifacts.ra.*;
@@ -108,7 +109,7 @@ public class AtumItems {
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
     public static final Item JEWELED_FISH = new ItemFish(ItemFish.FishType.JEWELED);
     public static final Item SKELETAL = new ItemFish(ItemFish.FishType.SKELETAL);
-    public static final Item NEITHS_AUDACITY = new ItemNeithsAudacity();
+    public static final Item NUITS_DUALITY = new ItemNuitsDuality();
     public static final Item DEADWOOD_BEETLE = new ItemDeadwoodBeetle();
 
     public static void registerItems() {
@@ -190,7 +191,7 @@ public class AtumItems {
         registerItem(MUMMIFIED_FISH, "fish_mummified");
         registerItem(JEWELED_FISH, "fish_jeweled");
         registerItem(SKELETAL, "fish_skeletal");
-        registerItem(NEITHS_AUDACITY, "neiths_audacity");
+        registerItem(NUITS_DUALITY, "nuits_duality");
         registerItem(DEADWOOD_BEETLE, "deadwood_beetle");
     }
 }

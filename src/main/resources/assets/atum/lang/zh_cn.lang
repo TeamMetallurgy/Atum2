@@ -219,7 +219,7 @@ item.atum.mafdetsQuickness.name=Mafdets之迅捷
 item.atum.isisHealing.name=Isis之治疗
 item.atum.atumsHomecoming.name=Amunets之回归
 item.atum.anubisMercy.name=Anubis之仁慈
-item.atum.neithsAudacity.name=Neiths之胆量
+item.atum.nuitsDuality.name=Neiths之胆量
 
 item.atum.deadwoodDoor.name=枯木门
 item.atum.palmDoor.name=棕榈木门
@@ -347,9 +347,9 @@ item.atum.anubisMercy.line1=回返I:死亡时将你,
 item.atum.anubisMercy.line2=传送回出生地
 item.atum.anubisMercy.line3=回返I
 
-item.atum.neithsAudacity.line1=连击I:一次
-item.atum.neithsAudacity.line2=发射两支箭
-item.atum.neithsAudacity.line3=连击I
+item.atum.nuitsDuality.line1=连击I:一次
+item.atum.nuitsDuality.line2=发射两支箭
+item.atum.nuitsDuality.line3=连击I
 
 tooltip.atum.minutesRemaining=剩余%d分钟
 tooltip.atum.usesRemaining=剩余%d次使用

@@ -6,7 +6,6 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -87,7 +86,7 @@ public class EntityBanditWarlord extends EntityBanditBase {
 
         if (rand.nextInt(4) == 0) {
             int amount = MathHelper.getInt(rand, 3, 5) + looting;
-            this.dropItem(Items.GOLD_NUGGET, amount);
+            this.dropItem(AtumItems.GOLD_COIN, amount);
         }
 
         if (rand.nextInt(4) == 0) {

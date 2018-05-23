@@ -124,7 +124,7 @@ item.atum.mafdetsQuickness.name=Rapidez de Mafdets
 item.atum.isisHealing.name=Cura de Isis
 item.atum.atumsHomecoming.name=Reencontro de Amunets
 item.atum.anubisMercy.name=Misericórdia de Anubis
-item.atum.neithsAudacity.name=Audácia de Neiths
+item.atum.nuitsDuality.name=Audácia de Neiths
 
 
 # Item Information
@@ -245,9 +245,9 @@ item.atum.anubisMercy.line1=Retorno I: Teleporta você de volta ao
 item.atum.anubisMercy.line2=seu ponto de desova
 item.atum.anubisMercy.line3=Retorno I 
 
-item.atum.neithsAudacity.line1=Tiro Duplo I: Atira
-item.atum.neithsAudacity.line2=duas flechas
-item.atum.neithsAudacity.line3=Tiro Duplo I 
+item.atum.nuitsDuality.line1=Tiro Duplo I: Atira
+item.atum.nuitsDuality.line2=duas flechas
+item.atum.nuitsDuality.line3=Tiro Duplo I
 
 # Loot
 item.atum.loot.dirty.idol.name=Sujo Ídolo

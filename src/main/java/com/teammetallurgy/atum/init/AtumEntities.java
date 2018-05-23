@@ -26,7 +26,8 @@ public class AtumEntities {
     public static final EntityEntry WRAITH = registerMob(EntityWraith.class, 0x544d34, 0x3e3927);
 
     //Entities
-    public static final EntityEntry DOUBLE_SHOT_ARROW = registerArrow(EntityArrowDoubleShot.class);
+    public static final EntityEntry DOUBLE_SHOT_BLACK = registerArrow(EntityArrowDoubleShotBlack.class);
+    public static final EntityEntry DOUBLE_SHOT_WHITE = registerArrow(EntityArrowDoubleShotWhite.class);
     public static final EntityEntry EXPLOSIVE_ARROW = registerArrow(EntityArrowExplosive.class);
     public static final EntityEntry FIRE_ARROW = registerArrow(EntityArrowFire.class);
     public static final EntityEntry NUTS_CALL = registerArrow(EntityNutsCall.class);

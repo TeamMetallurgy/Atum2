@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
 import com.teammetallurgy.atum.client.particle.IAtumParticleFactory;
 import com.teammetallurgy.atum.client.particle.ParticleLightSparkle;
+import com.teammetallurgy.atum.client.particle.ParticleNuit;
 import com.teammetallurgy.atum.client.particle.ParticleTefnut;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
@@ -26,6 +27,7 @@ public class AtumParticles {
     public void register() {
         this.registerParticle(Types.LIGHT_SPARKLE.getParticleName(), new ParticleLightSparkle.Factory());
         this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
+        this.registerParticle(Types.NUIT.getParticleName(), new ParticleNuit.Factory());
     }
     
     public void registerParticle(String name, IAtumParticleFactory factory) {
@@ -52,7 +54,8 @@ public class AtumParticles {
 
     public enum Types {
         LIGHT_SPARKLE("light_sprakle"),
-        TEFNUT("tefnut");
+        TEFNUT("tefnut"),
+        NUIT("nuit");
 
         private static final Map<String, Types> PARTICLES = Maps.newHashMap();
         private final String particleName;

@@ -244,7 +244,7 @@ item.atum.mafdetsQuickness.name=Mafdet's Quickness
 item.atum.isisHealing.name=Isis's Healing
 item.atum.atumsHomecoming.name=Atums's Homecoming
 item.atum.anubissMercy.name=Anubis's Mercy
-item.atum.neithsAudacity.name=Neith's Audacity
+item.atum.nuitsDuality.name=Nuit's Duality
 
 item.atum.deadwoodDoor.name=Deadwood Door
 item.atum.palmDoor.name=Palm Door
@@ -379,9 +379,9 @@ item.atum.anubissMercy.line1=Return: On Death teleports you back,
 item.atum.anubissMercy.line2=to your spawn point
 item.atum.anubissMercy.line3=Return
 
-item.atum.neithsAudacity.line1=Double Shot: Fires
-item.atum.neithsAudacity.line2=two arrows
-item.atum.neithsAudacity.line3=Double Shot
+item.atum.nuitsDuality.line1=Double Arrow: Fires
+item.atum.nuitsDuality.line2=two arrows
+item.atum.nuitsDuality.line3=Double Arrow
 
 tooltip.atum.minutesRemaining=%d Minutes Remaining
 tooltip.atum.usesRemaining=%d Uses Remaining

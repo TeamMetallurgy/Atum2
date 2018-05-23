@@ -168,7 +168,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
 
         if (rand.nextInt(10) == 0) {
             int amount = MathHelper.getInt(rand, 1, 2) + looting;
-            this.dropItem(Items.GOLD_NUGGET, amount);
+            this.dropItem(AtumItems.GOLD_COIN, amount);
         }
 
         if (rand.nextInt(4) == 0) {

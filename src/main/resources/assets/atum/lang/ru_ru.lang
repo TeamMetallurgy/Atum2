@@ -193,7 +193,7 @@ item.atum.mafdetsQuickness.name=Быстрота Мафдета
 item.atum.isisHealing.name=Исцеление Исиды
 item.atum.atumsHomecoming.name=Возвращение Амаунета
 item.atum.anubisMercy.name=Милость Анубиса
-item.atum.neithsAudacity.name=Смелость Нейт
+item.atum.nuitsDuality.name=Смелость Нейт
 
 
 # Item Information
@@ -313,9 +313,9 @@ item.atum.anubisMercy.line1=Возвращение I: Телепортирует
 item.atum.anubisMercy.line2=на точку появления, когда Вы умираете
 item.atum.anubisMercy.line3=Возвращение I
 
-item.atum.neithsAudacity.line1=Двойной выстрел I: Выпускает
-item.atum.neithsAudacity.line2=две стрелы за раз
-item.atum.neithsAudacity.line3=Двойной выстрел I
+item.atum.nuitsDuality.line1=Двойной выстрел I: Выпускает
+item.atum.nuitsDuality.line2=две стрелы за раз
+item.atum.nuitsDuality.line3=Двойной выстрел I
 
 tooltip.atum.minutesRemaining=Минут осталось: %d
 tooltip.atum.usesRemaining=Использований осталось: %d
