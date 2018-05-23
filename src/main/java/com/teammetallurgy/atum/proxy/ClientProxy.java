@@ -17,6 +17,7 @@ import com.teammetallurgy.atum.entity.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.arrow.EntityNutsCall;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -30,6 +31,7 @@ import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
@@ -42,10 +44,16 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientProxy extends CommonProxy {
+    public static AtumParticles atumParticles = new AtumParticles();
 
     @Override
     public void generateParticle(Particle particle) {
         Minecraft.getMinecraft().effectRenderer.addEffect(particle);
+    }
+
+    @Override
+    public void spawnParticle(AtumParticles.Types particleType, EntityPlayer player, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        generateParticle(atumParticles.spawnEffectParticle(particleType.getParticleName(), player.world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 
     @SubscribeEvent

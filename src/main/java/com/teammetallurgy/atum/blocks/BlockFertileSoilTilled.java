@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.client.particle.ParticleTefnut;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.IGrowable;
@@ -12,8 +12,8 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.EnumFacing;
@@ -73,8 +73,10 @@ public class BlockFertileSoilTilled extends BlockFarmland implements IRenderMapp
                 double d0 = rand.nextGaussian() * 0.02D;
                 double d1 = rand.nextGaussian() * 0.02D;
                 double d2 = rand.nextGaussian() * 0.02D;
-                Particle particle = new ParticleTefnut(world, (double) ((float) pos.getX() + rand.nextFloat()), (double) pos.getY() + 0.8D + (double) rand.nextFloat() * state.getBoundingBox(world, pos).maxY, (double) ((float) pos.getZ() + rand.nextFloat()), d0, d1, d2);
-                Atum.proxy.generateParticle(particle);
+                for (int i = 0; i < world.playerEntities.size(); ++i) {
+                    EntityPlayerMP entityPlayerMP = (EntityPlayerMP)world.playerEntities.get(i);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT, entityPlayerMP, (double) ((float) pos.getX() + rand.nextFloat()), (double) pos.getY() + 0.8D + (double) rand.nextFloat() * state.getBoundingBox(world, pos).maxY, (double) ((float) pos.getZ() + rand.nextFloat()), d0, d1, d2);
+                }
             }
         }
     }

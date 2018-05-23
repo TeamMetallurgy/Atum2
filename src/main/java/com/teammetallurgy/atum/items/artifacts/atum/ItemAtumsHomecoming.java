@@ -1,8 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.client.particle.ParticleLightSparkle;
-import net.minecraft.client.particle.Particle;
+import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -103,12 +102,10 @@ public class ItemAtumsHomecoming extends Item {
             double x = (double) (MathHelper.cos(cosRandom) * timesRandom);
             double y = 0.01D + world.rand.nextDouble() * 0.5D;
             double z = (double) (MathHelper.sin(cosRandom) * timesRandom);
-            Particle particle = new ParticleLightSparkle(world, entity.posX + x * 0.1D, entity.posY + 0.3D, entity.posZ + z * 0.1D, x, y, z);
-
-            if (particle != null) {
-                particle.multiplyVelocity(timesRandom);
+            if (entity instanceof EntityPlayerMP) {
+                EntityPlayerMP playerMP = (EntityPlayerMP) entity;
+                Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, playerMP, entity.posX + x * 0.1D, entity.posY + 0.3D, entity.posZ + z * 0.1D, x, y, z);
             }
-            Atum.proxy.generateParticle(particle);
         }
         world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_SHULKER_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
     }

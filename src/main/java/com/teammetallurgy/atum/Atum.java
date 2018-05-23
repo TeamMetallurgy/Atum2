@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.handler.AtumCreativeTab;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
@@ -12,7 +13,6 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -34,15 +34,12 @@ public class Atum {
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
         new AtumEntities();
+        NetworkHandler.register();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
         StructureAtumMineshaftPieces.registerMineshaft();
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
     }
 }

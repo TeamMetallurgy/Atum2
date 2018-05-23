@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -60,8 +59,8 @@ public class ParticleTefnut extends ParticleBase {
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Factory implements IParticleFactory {
-        public Particle createParticle(int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, @Nonnull int... ints) {
+    public static class Factory implements IAtumParticleFactory {
+        public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new ParticleTefnut(world, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }

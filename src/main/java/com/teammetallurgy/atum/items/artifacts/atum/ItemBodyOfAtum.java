@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.client.particle.ParticleLightSparkle;
 import com.teammetallurgy.atum.entity.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
@@ -50,8 +51,10 @@ public class ItemBodyOfAtum extends ItemTexturedArmor {
         World world = entity.world;
 
         if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATUM && isUndeadMob(event.getSource().getTrueSource())) {
-            for (int l = 0; l < 16; ++l) {
-                Atum.proxy.generateParticle(new ParticleLightSparkle(entity.world, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D));
+            if (entity instanceof EntityPlayerMP) {
+                for (int l = 0; l < 16; ++l) {
+                    Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, (EntityPlayerMP) entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
+                }
             }
             event.setAmount(event.getAmount() / 2);
         }

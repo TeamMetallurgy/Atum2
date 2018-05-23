@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
@@ -22,8 +21,8 @@ public class ParticleLightSparkle extends ParticleBase {
     private static final ResourceLocation LIGHT_SPARKLE = new ResourceLocation(Constants.MOD_ID, "particle/light_sparkle");
     private float particleScaleOverTime;
 
-    public ParticleLightSparkle(World world, double x, double y, double z, double xSpeed, double ySpeed, double speed) {
-        super(world, x, y, z, xSpeed, ySpeed, speed);
+    public ParticleLightSparkle(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.motionX *= 0.009999999776482582D;
         this.motionY *= 0.009999999776482582D;
         this.motionZ *= 0.009999999776482582D;
@@ -75,8 +74,8 @@ public class ParticleLightSparkle extends ParticleBase {
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Factory implements IParticleFactory {
-        public Particle createParticle(int particleID, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, @Nonnull int... ints) {
+    public static class Factory implements IAtumParticleFactory {
+        public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new ParticleLightSparkle(world, x, y, z, xSpeed, ySpeed, zSpeed);
         }
     }
