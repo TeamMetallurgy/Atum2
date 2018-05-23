@@ -237,7 +237,7 @@ item.atum.haloOfRa.name=Halo of Ra
 item.atum.bodyOfRa.name=Body of Ra
 item.atum.legsOfRa.name=Legs of Ra
 item.atum.feetOfRa.name=Feet of Ra
-item.atum.hedetetsVenom.name=Hedetet's Venom
+item.atum.sethsVenom.name=Seth's Venom
 item.atum.nutsCall.name=Nut's Call
 item.atum.atumsBounty.name=Atum's Bounty
 item.atum.mafdetsQuickness.name=Mafdet's Quickness
@@ -355,9 +355,9 @@ item.atum.feetOfRa.line1=Radiant Step: You can walk
 item.atum.feetOfRa.line2=on top of lava
 item.atum.feetOfRa.line3=Radiant Step
 
-item.atum.hedetetsVenom.line1=Poison Arrow: Fires an
-item.atum.hedetetsVenom.line2=arrow that poisons foes
-item.atum.hedetetsVenom.line3=Poison Arrow
+item.atum.sethsVenom.line1=Poison Arrow: Fires an
+item.atum.sethsVenom.line2=arrow that poisons foes
+item.atum.sethsVenom.line3=Poison Arrow
 
 item.atum.nutsCall.line1=Wrath: Chance to strike
 item.atum.nutsCall.line2=foe with lightning

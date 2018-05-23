@@ -12,6 +12,7 @@ import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsDuality;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
 import com.teammetallurgy.atum.items.artifacts.ra.*;
+import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsVenom;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsBlessing;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
@@ -75,11 +76,12 @@ public class AtumItems {
     public static final Item GEBS_TOIL = new ItemGebsToil();
     public static final Item GEBS_GROUNDING = new ItemGebsGrounding();
     public static final Item TEFNUTS_BLESSING = new ItemTefnutsBlessing();
-    public static final Item HEDETETS_VENOM = new ItemHedetetsVenom();
+    public static final Item SETHS_VENOM = new ItemSethsVenom();
     public static final Item NUTS_CALL = new ItemNutsCall();
     public static final Item MAFDETS_QUICKNESS = new ItemMafdetsQuickness();
     public static final Item ISIS_HEALING = new ItemIsisHealing();
     public static final Item ANUBIS_MERCY = new ItemAnubisMercy();
+    public static final Item NUITS_DUALITY = new ItemNuitsDuality();
     public static final Item LIMESTONE_SHOVEL = new ItemLimestoneShovel(ToolMaterial.STONE);
     public static final Item LIMESTONE_PICKAXE = new ItemLimestonePickaxe(ToolMaterial.STONE);
     public static final Item LIMESTONE_AXE = new ItemLimestoneAxe(ToolMaterial.STONE);
@@ -110,7 +112,6 @@ public class AtumItems {
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
     public static final Item JEWELED_FISH = new ItemFish(ItemFish.FishType.JEWELED);
     public static final Item SKELETAL = new ItemFish(ItemFish.FishType.SKELETAL);
-    public static final Item NUITS_DUALITY = new ItemNuitsDuality();
     public static final Item DEADWOOD_BEETLE = new ItemDeadwoodBeetle();
 
     public static void registerItems() {
@@ -156,11 +157,12 @@ public class AtumItems {
         registerItem(GEBS_TOIL, "gebs_toil");
         registerItem(GEBS_GROUNDING, "gebs_grounding");
         registerItem(TEFNUTS_BLESSING, "tefnuts_blessing");
-        registerItem(HEDETETS_VENOM, "hedetets_venom");
+        registerItem(SETHS_VENOM, "seths_venom");
         registerItem(NUTS_CALL, "nuts_call");
         registerItem(MAFDETS_QUICKNESS, "mafdets_quickness");
         registerItem(ISIS_HEALING, "isis_healing");
         registerItem(ANUBIS_MERCY, "anubiss_mercy");
+        registerItem(NUITS_DUALITY, "nuits_duality");
         registerItem(LIMESTONE_SHOVEL, "limestone_shovel");
         registerItem(LIMESTONE_PICKAXE, "limestone_pickaxe");
         registerItem(LIMESTONE_AXE, "limestone_axe");
@@ -192,7 +194,6 @@ public class AtumItems {
         registerItem(MUMMIFIED_FISH, "fish_mummified");
         registerItem(JEWELED_FISH, "fish_jeweled");
         registerItem(SKELETAL, "fish_skeletal");
-        registerItem(NUITS_DUALITY, "nuits_duality");
         registerItem(DEADWOOD_BEETLE, "deadwood_beetle");
     }
 }

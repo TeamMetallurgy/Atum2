@@ -1,6 +1,6 @@
 {
   "parent": "item/bow_pulling_2",
   "textures": {
-    "layer0": "atum:items/hedetets_venom_pulling_2"
+    "layer0": "atum:items/seths_venom_pulling_2"
   }
 }

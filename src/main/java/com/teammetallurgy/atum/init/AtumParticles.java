@@ -2,10 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
-import com.teammetallurgy.atum.client.particle.IAtumParticleFactory;
-import com.teammetallurgy.atum.client.particle.ParticleLightSparkle;
-import com.teammetallurgy.atum.client.particle.ParticleSwirl;
-import com.teammetallurgy.atum.client.particle.ParticleTefnut;
+import com.teammetallurgy.atum.client.particle.*;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -29,6 +26,7 @@ public class AtumParticles {
         this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
         this.registerParticle(Types.NUIT.getParticleName(), new ParticleSwirl.Nuit());
         this.registerParticle(Types.ISIS.getParticleName(), new ParticleSwirl.Isis());
+        this.registerParticle(Types.SETH.getParticleName(), new ParticleSeth.Factory());
     }
     
     public void registerParticle(String name, IAtumParticleFactory factory) {
@@ -57,7 +55,8 @@ public class AtumParticles {
         LIGHT_SPARKLE("light_sprakle"),
         TEFNUT("tefnut"),
         NUIT("nuit"),
-        ISIS("isis");
+        ISIS("isis"),
+        SETH("seth");
 
         private static final Map<String, Types> PARTICLES = Maps.newHashMap();
         private final String particleName;
