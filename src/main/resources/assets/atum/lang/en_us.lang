@@ -227,7 +227,7 @@ item.atum.legsOfAtum.name=Legs of Atum
 item.atum.feetOfAtum.name=Feet of Atum
 item.atum.monthusStrike.name=Monthu's Strike
 item.atum.anhursMight.name=Anhur's Might
-item.atum.hedetetsSting.name=Hedetet's Sting
+item.atum.sethsSting.name=Seth's Sting
 item.atum.horusSoaring.name=Horus's Soaring
 item.atum.shusBreath.name=Shu's Breath
 item.atum.ptahsUndoing.name=Ptah's Undoing
@@ -315,9 +315,9 @@ item.atum.monthusStrike.line1=Slam: Increased damage,
 item.atum.monthusStrike.line2=charge for AOE knockback
 item.atum.monthusStrike.line3=Slam
 
-item.atum.hedetetsSting.line1=Poison: Chance
-item.atum.hedetetsSting.line2=to poison foes
-item.atum.hedetetsSting.line3=Poison
+item.atum.sethsSting.line1=Venomous: Poisons on
+item.atum.sethsSting.line2=full charge
+item.atum.sethsSting.line3=Venomous
 
 item.atum.horusSoaring.line1=Velocity: Arrow Velocity,
 item.atum.horusSoaring.line2=increases arrow velocity by 50%

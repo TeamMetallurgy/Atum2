@@ -76,7 +76,7 @@ public class AtumItems {
     public static final Item GEBS_TOIL = new ItemGebsToil();
     public static final Item GEBS_GROUNDING = new ItemGebsGrounding();
     public static final Item TEFNUTS_BLESSING = new ItemTefnutsBlessing();
-    public static final Item HEDETETS_STING = new ItemSethsSting();
+    public static final Item SETHS_STING = new ItemSethsSting();
     public static final Item SETHS_VENOM = new ItemSethsVenom();
     public static final Item NUTS_CALL = new ItemNutsCall();
     public static final Item MAFDETS_QUICKNESS = new ItemMafdetsQuickness();
@@ -157,7 +157,7 @@ public class AtumItems {
         registerItem(GEBS_TOIL, "gebs_toil");
         registerItem(GEBS_GROUNDING, "gebs_grounding");
         registerItem(TEFNUTS_BLESSING, "tefnuts_blessing");
-        registerItem(HEDETETS_STING, "hedetets_sting");
+        registerItem(SETHS_STING, "seths_sting");
         registerItem(SETHS_VENOM, "seths_venom");
         registerItem(NUTS_CALL, "nuts_call");
         registerItem(MAFDETS_QUICKNESS, "mafdets_quickness");

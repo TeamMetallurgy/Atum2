@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
@@ -9,9 +8,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.boss.EntityWither;
-import net.minecraft.entity.monster.AbstractSkeleton;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -48,9 +45,10 @@ public class ItemBodyOfAtum extends ItemTexturedArmor {
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         EntityLivingBase entity = event.getEntityLiving();
+        Entity target = event.getSource().getTrueSource();
         World world = entity.world;
 
-        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATUM && isUndeadMob(event.getSource().getTrueSource())) {
+        if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATUM && target instanceof EntityLivingBase && ((EntityLivingBase) target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
             if (entity instanceof EntityPlayerMP) {
                 for (int l = 0; l < 16; ++l) {
                     Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, (EntityPlayerMP) entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
@@ -58,10 +56,6 @@ public class ItemBodyOfAtum extends ItemTexturedArmor {
             }
             event.setAmount(event.getAmount() / 2);
         }
-    }
-
-    public static boolean isUndeadMob(Entity entity) {
-        return entity instanceof EntityUndeadBase || entity instanceof EntityZombie || entity instanceof AbstractSkeleton || entity instanceof EntityWither;
     }
 
     @Override
