@@ -187,7 +187,7 @@ item.atum.bodyOfRa.name=Объятие Исиды
 item.atum.legsOfRa.name=Равновесие Маата
 item.atum.hedetetsVenom.name=Яд Хедетета
 item.atum.feetOfRa.name=Единство Геба
-item.atum.nutsCall.name=Вызов богини Нут
+item.atum.tefnutsCall.name=Вызов богини Нут
 item.atum.atumsBounty.name=Щедрость Анукета
 item.atum.mafdetsQuickness.name=Быстрота Мафдета
 item.atum.isisHealing.name=Исцеление Исиды
@@ -293,9 +293,9 @@ item.atum.feetOfRa.line1=Стойкость I: Уменьшает скорост
 item.atum.feetOfRa.line2=передвижения, уменьшает отброс (WIP)
 item.atum.feetOfRa.line3=Стойкость I
 
-item.atum.nutsCall.line1=Гнев I: Шанс ударить
-item.atum.nutsCall.line2=врага молнией
-item.atum.nutsCall.line3=Гнев I
+item.atum.tefnutsCall.line1=Гнев I: Шанс ударить
+item.atum.tefnutsCall.line2=врага молнией
+item.atum.tefnutsCall.line3=Гнев I
 
 item.atum.atumsBounty.line1=Соблазнение I: Шанс поймать
 item.atum.atumsBounty.line2=уникальную рыбу в «Атуме»

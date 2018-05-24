@@ -213,7 +213,7 @@ item.atum.bodyOfRa.name=Isis之拥抱
 item.atum.legsOfRa.name=Maats之平衡
 item.atum.hedetetsVenom.name=Hedetets之恶毒
 item.atum.feetOfRa.name=Gebs之团结
-item.atum.nutsCall.name=Nuts之召唤
+item.atum.tefnutsCall.name=Nuts之召唤
 item.atum.atumsBounty.name=Anukets之慷慨
 item.atum.mafdetsQuickness.name=Mafdets之迅捷
 item.atum.isisHealing.name=Isis之治疗
@@ -327,9 +327,9 @@ item.atum.feetOfRa.line1=伟岸I:减少移动速度,
 item.atum.feetOfRa.line2=减少被击退的距离(WIP)
 item.atum.feetOfRa.line3=伟岸I
 
-item.atum.nutsCall.line1=暴怒I:有几率召唤
-item.atum.nutsCall.line2=雷电攻击敌人
-item.atum.nutsCall.line3=暴怒I
+item.atum.tefnutsCall.line1=暴怒I:有几率召唤
+item.atum.tefnutsCall.line2=雷电攻击敌人
+item.atum.tefnutsCall.line3=暴怒I
 
 item.atum.atumsBounty.line1=诱惑I:有几率吸引到
 item.atum.atumsBounty.line2=亚图姆中特殊的鱼

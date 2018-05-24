@@ -1,10 +1,15 @@
-package com.teammetallurgy.atum.items.artifacts;
+package com.teammetallurgy.atum.items.artifacts.tefnut;
 
-import com.teammetallurgy.atum.entity.arrow.EntityNutsCall;
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
+import com.teammetallurgy.atum.entity.arrow.EntityTefnutsCall;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
@@ -14,6 +19,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -21,9 +27,10 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemNutsCall extends Item {
+@Mod.EventBusSubscriber
+public class ItemTefnutsCall extends Item {
 
-    public ItemNutsCall() {
+    public ItemTefnutsCall() {
         super();
         this.setMaxDamage(650);
         this.setMaxStackSize(1);
@@ -33,6 +40,12 @@ public class ItemNutsCall extends Item {
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
+    }
+
+    @Override
+    @Nonnull
+    public EnumRarity getRarity(@Nonnull ItemStack stack) {
+        return EnumRarity.RARE;
     }
 
     @Override
@@ -53,6 +66,17 @@ public class ItemNutsCall extends Item {
     }
 
     @Override
+    @Nonnull
+    public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EntityEquipmentSlot slot, @Nonnull ItemStack stack) {
+        Multimap<String, AttributeModifier> map = HashMultimap.create();
+        if (slot == EntityEquipmentSlot.MAINHAND) {
+            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 3.0D, 0));
+            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.6D, 0));
+        }
+        return map;
+    }
+
+    @Override
     public void onPlayerStoppedUsing(@Nonnull ItemStack stack, World world, EntityLivingBase entityLiving, int timeLeft) {
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entityLiving;
@@ -62,7 +86,7 @@ public class ItemNutsCall extends Item {
             }
 
             if (!world.isRemote) {
-                EntityNutsCall spear = new EntityNutsCall(world, player);
+                EntityTefnutsCall spear = new EntityTefnutsCall(world, player);
                 spear.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, (float) j / 25.0F + 0.25F, 1.0F);
                 spear.setDamage(spear.getDamage() * 2.0D);
                 spear.setStack(stack);
@@ -81,12 +105,6 @@ public class ItemNutsCall extends Item {
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
         player.setActiveHand(hand);
         return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 
     @Override

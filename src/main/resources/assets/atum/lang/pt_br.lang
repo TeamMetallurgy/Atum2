@@ -118,7 +118,7 @@ item.atum.bodyOfRa.name=Abraço de Isis
 item.atum.legsOfRa.name=Equilíbrio de Maats
 item.atum.hedetetsVenom.name=Veneno de Hedetets
 item.atum.feetOfRa.name=Solidariedade de Gebs
-item.atum.nutsCall.name=Chamado de Nuts
+item.atum.tefnutsCall.name=Chamado de Nuts
 item.atum.atumsBounty.name=Recompensa de Anukets
 item.atum.mafdetsQuickness.name=Rapidez de Mafdets
 item.atum.isisHealing.name=Cura de Isis
@@ -225,9 +225,9 @@ item.atum.feetOfRa.line1=Valente I: Diminui a velocidade
 item.atum.feetOfRa.line2=de movimento, diminui o tranco (WIP)
 item.atum.feetOfRa.line3=Valente I
 
-item.atum.nutsCall.line1=Ira I: Chance de acertar
-item.atum.nutsCall.line2=o inimigo com um raio
-item.atum.nutsCall.line3=Ira I 
+item.atum.tefnutsCall.line1=Ira I: Chance de acertar
+item.atum.tefnutsCall.line2=o inimigo com um raio
+item.atum.tefnutsCall.line3=Ira I
 
 item.atum.atumsBounty.line1=Atração I: Chance de pegar
 item.atum.atumsBounty.line2=um peixe especial em Atum

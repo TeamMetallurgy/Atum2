@@ -9,12 +9,12 @@ import com.teammetallurgy.atum.client.render.entity.RenderDesertWolf;
 import com.teammetallurgy.atum.client.render.entity.RenderGhost;
 import com.teammetallurgy.atum.client.render.entity.RenderTarantula;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
-import com.teammetallurgy.atum.client.render.entity.arrow.RenderNutsCall;
+import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.arrow.EntityNutsCall;
+import com.teammetallurgy.atum.entity.arrow.EntityTefnutsCall;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
@@ -108,7 +108,7 @@ public class ClientProxy extends CommonProxy {
             }
         });
         RenderingRegistry.registerEntityRenderingHandler(EntitySmallBone.class, manager -> new RenderBone(manager, 0.35F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityNutsCall.class, RenderNutsCall::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityTefnutsCall.class, RenderTefnutsCall::new);
     }
 
 

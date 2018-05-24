@@ -238,7 +238,7 @@ item.atum.bodyOfRa.name=Body of Ra
 item.atum.legsOfRa.name=Legs of Ra
 item.atum.feetOfRa.name=Feet of Ra
 item.atum.sethsVenom.name=Seth's Venom
-item.atum.nutsCall.name=Nut's Call
+item.atum.tefnutsCall.name=Tefnuts's Call
 item.atum.atumsBounty.name=Atum's Bounty
 item.atum.mafdetsQuickness.name=Mafdet's Quickness
 item.atum.isisHealing.name=Isis's Healing
@@ -359,9 +359,9 @@ item.atum.sethsVenom.line1=Poison Arrow: Fires an
 item.atum.sethsVenom.line2=arrow that poisons foes
 item.atum.sethsVenom.line3=Poison Arrow
 
-item.atum.nutsCall.line1=Wrath: Chance to strike
-item.atum.nutsCall.line2=foe with lightning
-item.atum.nutsCall.line3=Wrath
+item.atum.tefnutsCall.line1=Wrath: Strikes foes with
+item.atum.tefnutsCall.line2=lighting when thrown
+item.atum.tefnutsCall.line3=Wrath
 
 item.atum.atumsBounty.line1=Alluring: You can catch rare
 item.atum.atumsBounty.line2=and unique fish in Atum

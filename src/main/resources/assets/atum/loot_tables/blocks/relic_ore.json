@@ -195,8 +195,8 @@
         },
         {
           "type": "item",
-          "name": "atum:nuts_call",
-          "entryName": "nuts_call",
+          "name": "atum:tefnuts_call",
+          "entryName": "tefnuts_call",
           "weight": 1
         },
         {
