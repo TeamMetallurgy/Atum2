@@ -214,7 +214,7 @@ item.atum.fishJeweled.name=Jeweled Fish
 item.atum.fishSkeletal.name=Skeletal Fish
 
 item.atum.ptahsDecadence.name=Ptah's Decadence
-item.atum.sobeksRage.name=Sobek's Rage
+item.atum.shusExile.name=Shu's Exile
 item.atum.atumsWill.name=Atum's Will
 item.atum.atumsProtection.name=Atum's Protection
 item.atum.gebsToil.name=Gebs's Toil
@@ -275,9 +275,9 @@ item.atum.ptahsDecadence.line1=Alchemize: Chance to turn Iron
 item.atum.ptahsDecadence.line2=into Gold when mining
 item.atum.ptahsDecadence.line3=Wealth
 
-item.atum.sobeksRage.line1=Exile: Knocks foes
-item.atum.sobeksRage.line2=back a large amount
-item.atum.sobeksRage.line3=Exile
+item.atum.shusExile.line1=Exile: Fully charged attacks
+item.atum.shusExile.line2=have extra knockback
+item.atum.shusExile.line3=Exile
 
 item.atum.atumsWill.line1=Banish: When fully charged deals
 item.atum.atumsWill.line2=double damage to Undead foes

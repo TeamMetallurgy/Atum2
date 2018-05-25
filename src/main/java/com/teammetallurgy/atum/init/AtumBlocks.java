@@ -14,6 +14,7 @@ import net.minecraft.block.BlockBone;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemDoor;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
@@ -157,11 +158,11 @@ public class AtumBlocks {
     }
 
     public static void registerTileEntities() {
-        GameRegistry.registerTileEntity(TileEntityChestSpawner.class, "cursed_chest");
-        GameRegistry.registerTileEntity(TileEntityPharaohChest.class, "pharaoh_chest");
-        GameRegistry.registerTileEntity(TileEntityBurningTrap.class, "burning_trap");
-        GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, "limestone_furnace");
-        GameRegistry.registerTileEntity(TileEntityCrate.class, "crate");
+        GameRegistry.registerTileEntity(TileEntityChestSpawner.class, new ResourceLocation(Constants.MOD_ID, "cursed_chest"));
+        GameRegistry.registerTileEntity(TileEntityPharaohChest.class, new ResourceLocation(Constants.MOD_ID, "pharaoh_chest"));
+        GameRegistry.registerTileEntity(TileEntityBurningTrap.class, new ResourceLocation(Constants.MOD_ID, "burning_trap"));
+        GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
+        GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
     }
 
     public static void setBlockInfo() {

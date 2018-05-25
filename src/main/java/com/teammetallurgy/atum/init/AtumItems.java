@@ -15,6 +15,7 @@ import com.teammetallurgy.atum.items.artifacts.ra.*;
 import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsSting;
 import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsVenom;
 import com.teammetallurgy.atum.items.artifacts.shu.ItemShusBreath;
+import com.teammetallurgy.atum.items.artifacts.shu.ItemShusExile;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsBlessing;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsCall;
 import com.teammetallurgy.atum.items.tools.*;
@@ -53,7 +54,6 @@ public class AtumItems {
     public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.IRON);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item SCEPTER = new ItemSword(ToolMaterial.GOLD);
-    public static final Item SOBEKS_RAGE = new ItemSobeksRage(ToolMaterial.DIAMOND);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
     public static final Item LEGS_OF_ATUM = new ItemLegsOfAtum();
@@ -66,6 +66,7 @@ public class AtumItems {
     public static final Item ANHURS_MIGHT = new ItemAnhursMight(ToolMaterial.DIAMOND);
     public static final Item HORUS_SOARING = new ItemHorusSoaring();
     public static final Item SHUS_BREATH = new ItemShusBreath();
+    public static final Item SHUS_EXILE = new ItemShusExile();
     public static final Item MONTUS_BLAST = new ItemMontusBlast();
     public static final Item NUS_FLUX = new ItemNusFlux(ToolMaterial.DIAMOND);
     public static final Item HALO_OF_RA = new ItemHaloOfRa();
@@ -134,7 +135,6 @@ public class AtumItems {
         registerItem(STONEGUARD_SWORD, "stoneguard_sword");
         registerItem(BRIGAND_SHIELD, "brigand_shield");
         registerItem(SCEPTER, "scepter");
-        registerItem(SOBEKS_RAGE, "sobeks_rage");
         registerItem(EYES_OF_ATUM, "eyes_of_atum");
         registerItem(BODY_OF_ATUM, "body_of_atum");
         registerItem(LEGS_OF_ATUM, "legs_of_atum");
@@ -147,6 +147,7 @@ public class AtumItems {
         registerItem(ANHURS_MIGHT, "anhurs_might");
         registerItem(HORUS_SOARING, "horus_soaring");
         registerItem(SHUS_BREATH, "shus_breath");
+        registerItem(SHUS_EXILE, "shus_exile");
         registerItem(MONTUS_BLAST, "montus_blast");
         registerItem(NUS_FLUX, "nus_flux");
         registerItem(HALO_OF_RA, "halo_of_ra");
