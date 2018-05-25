@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/nus_flux"
+    "layer0": "atum:items/horuss_ascension"
   }
 }

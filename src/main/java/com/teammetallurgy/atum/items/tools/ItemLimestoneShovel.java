@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 public class ItemLimestoneShovel extends ItemSpade {
 
-    public ItemLimestoneShovel(ToolMaterial material) {
-        super(material);
+    public ItemLimestoneShovel() {
+        super(ToolMaterial.STONE);
     }
 
     @Override

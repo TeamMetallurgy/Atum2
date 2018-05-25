@@ -23,8 +23,8 @@ import java.util.List;
 
 public class ItemAnhursMight extends ItemSword {
 
-    public ItemAnhursMight(ToolMaterial material) {
-        super(material);
+    public ItemAnhursMight() {
+        super(ToolMaterial.DIAMOND);
     }
 
     @Override

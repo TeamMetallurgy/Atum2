@@ -207,7 +207,7 @@ item.atum.horussSoaring.name=Horus之翱翔
 item.atum.shusBreath.name=Shus之气息
 item.atum.ptahsDestruction.name=Ptahs之毁灭
 item.atum.montusBlast.name=Monthus之爆炸
-item.atum.nusFlux.name=Nus之灵动
+item.atum.horussAscension.name=Nus之灵动
 item.atum.haloOfRa.name=Mnevis之号角
 item.atum.bodyOfRa.name=Isis之拥抱
 item.atum.legsOfRa.name=Maats之平衡
@@ -303,9 +303,9 @@ item.atum.montusBlast.line1=爆炸I:箭头落地
 item.atum.montusBlast.line2=引起爆炸
 item.atum.montusBlast.line3=爆炸I
 
-item.atum.nusFlux.line1=横扫I: 有几率
-item.atum.nusFlux.line2=将敌人抛至空中
-item.atum.nusFlux.line3=横扫I
+item.atum.horussAscension.line1=横扫I: 有几率
+item.atum.horussAscension.line2=将敌人抛至空中
+item.atum.horussAscension.line3=横扫I
 
 item.atum.haloOfRa.line1=盾刺I:能将伤害
 item.atum.haloOfRa.line2=反弹给近战攻击者

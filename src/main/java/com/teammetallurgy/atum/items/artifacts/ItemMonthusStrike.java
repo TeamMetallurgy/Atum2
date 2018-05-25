@@ -31,8 +31,8 @@ import java.util.List;
 
 public class ItemMonthusStrike extends ItemAxe {
 
-    public ItemMonthusStrike(ToolMaterial material) {
-        super(material);
+    public ItemMonthusStrike() {
+        super(ToolMaterial.DIAMOND);
     }
 
     @Override

@@ -11,8 +11,8 @@ import javax.annotation.Nonnull;
 
 public class ItemGreatsword extends ItemSword {
 
-    public ItemGreatsword(ToolMaterial material) {
-        super(material);
+    public ItemGreatsword() {
+        super(ToolMaterial.IRON);
     }
 
     @Override

@@ -232,7 +232,7 @@ item.atum.horussSoaring.name=Horus's Soaring
 item.atum.shusBreath.name=Shu's Breath
 item.atum.ptahsUndoing.name=Ptah's Undoing
 item.atum.montusBlast.name=Montu's Blast
-item.atum.nusFlux.name=Nu's Flux
+item.atum.horussAscension.name=Horus's Ascension
 item.atum.haloOfRa.name=Halo of Ra
 item.atum.bodyOfRa.name=Body of Ra
 item.atum.legsOfRa.name=Legs of Ra
@@ -335,9 +335,9 @@ item.atum.montusBlast.line1=Explosive Arrow: Fires an explosive
 item.atum.montusBlast.line2=arrow that explodes on impact
 item.atum.montusBlast.line3=Explosive Arrow
 
-item.atum.nusFlux.line1=Sweep: Chance to launch
-item.atum.nusFlux.line2=foes into the air
-item.atum.nusFlux.line3=Sweep
+item.atum.horussAscension.line1=Sweep: Fully charged attacks
+item.atum.horussAscension.line2=launches foes in the air
+item.atum.horussAscension.line3=Sweep
 
 item.atum.haloOfRa.line1=Radiant Fury: Ignite foes
 item.atum.haloOfRa.line2=that hit you

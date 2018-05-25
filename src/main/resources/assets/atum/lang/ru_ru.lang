@@ -181,7 +181,7 @@ item.atum.horussSoaring.name=Парение Хора
 item.atum.shusBreath.name=Дыхание Шу
 item.atum.ptahsDestruction.name=Разрушение бога Птаха
 item.atum.montusBlast.name=Взрыв Монту
-item.atum.nusFlux.name=Поток Нун
+item.atum.horussAscension.name=Поток Нун
 item.atum.haloOfRa.name=Рожки Мневиса
 item.atum.bodyOfRa.name=Объятие Исиды
 item.atum.legsOfRa.name=Равновесие Маата
@@ -269,9 +269,9 @@ item.atum.montusBlast.line1=Разрывной выстрел I: Стрелы в
 item.atum.montusBlast.line2=при ударе
 item.atum.montusBlast.line3=Разрывной выстрел I
 
-item.atum.nusFlux.line1=Размах I: Шанс отправить
-item.atum.nusFlux.line2=врагов в воздух
-item.atum.nusFlux.line3=Размах I
+item.atum.horussAscension.line1=Размах I: Шанс отправить
+item.atum.horussAscension.line2=врагов в воздух
+item.atum.horussAscension.line3=Размах I
 
 item.atum.haloOfRa.line1=Отражение рукопашного урона I: Наносит
 item.atum.haloOfRa.line2=урон врагам

@@ -9,8 +9,8 @@ import javax.annotation.Nonnull;
 
 public class ItemLimestonePickaxe extends ItemPickaxe {
 
-    public ItemLimestonePickaxe(ToolMaterial material) {
-        super(material);
+    public ItemLimestonePickaxe() {
+        super(ToolMaterial.STONE);
     }
 
     @Override
