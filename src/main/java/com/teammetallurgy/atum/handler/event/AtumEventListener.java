@@ -2,7 +2,10 @@ package com.teammetallurgy.atum.handler.event;
 
 import com.teammetallurgy.atum.blocks.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.BlockFertileSoilTilled;
-import com.teammetallurgy.atum.entity.*;
+import com.teammetallurgy.atum.entity.EntityPharaoh;
+import com.teammetallurgy.atum.entity.EntityStoneBase;
+import com.teammetallurgy.atum.entity.EntityUndeadBase;
+import com.teammetallurgy.atum.entity.EntityWraith;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -105,7 +108,7 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getDamageType().equals("drown") && (event.getEntity() instanceof EntityPharaoh || event.getEntity() instanceof EntityWraith || event.getEntity() instanceof EntityMummy || event.getEntity() instanceof EntityForsaken || event.getEntity() instanceof EntityStoneguard)) {
+        if (event.getSource().getDamageType().equals("drown") && (event.getEntity() instanceof EntityUndeadBase || event.getEntity() instanceof EntityStoneBase)) {
             event.setCanceled(true);
         }
     }
