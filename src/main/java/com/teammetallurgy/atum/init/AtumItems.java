@@ -14,6 +14,7 @@ import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
 import com.teammetallurgy.atum.items.artifacts.ra.*;
 import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsSting;
 import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsVenom;
+import com.teammetallurgy.atum.items.artifacts.shu.ItemShusBreath;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsBlessing;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsCall;
 import com.teammetallurgy.atum.items.tools.*;

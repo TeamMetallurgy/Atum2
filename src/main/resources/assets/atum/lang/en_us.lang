@@ -323,8 +323,8 @@ item.atum.horusSoaring.line1=Velocity: Arrow Velocity,
 item.atum.horusSoaring.line2=increases arrow velocity by 50%
 item.atum.horusSoaring.line3=Velocity
 
-item.atum.shusBreath.line1=Quickdraw: Reduced
-item.atum.shusBreath.line2=drawback speed
+item.atum.shusBreath.line1=Quickdraw: Charge
+item.atum.shusBreath.line2=arrows faster
 item.atum.shusBreath.line3=Quickdraw
 
 item.atum.ptahsUndoing.line1=Stonecutter: When fully charged

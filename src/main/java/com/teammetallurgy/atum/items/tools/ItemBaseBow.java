@@ -26,7 +26,6 @@ public class ItemBaseBow extends ItemBow {
     public ItemBaseBow() {
         this.maxStackSize = 1;
         this.setMaxDamage(384);
-
         this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
             @Override
             @SideOnly(Side.CLIENT)
@@ -35,7 +34,7 @@ public class ItemBaseBow extends ItemBow {
                     return 0.0F;
                 } else {
                     ItemStack activeStack = entity.getActiveItemStack();
-                    return !(activeStack.getItem() instanceof ItemBaseBow) ? 0.0F : (float) (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F;
+                    return !(activeStack.getItem() instanceof ItemBaseBow) ? 0.0F : getDrawbackSpeed(stack, entity);
                 }
             }
         });
@@ -72,7 +71,7 @@ public class ItemBaseBow extends ItemBow {
 
                     if (!world.isRemote) {
                         EntityArrow arrow = setArrow(stack, world, player, velocity);
-                        arrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
+                        onShoot(arrow, player, velocity);
 
                         if (velocity == 1.0F) {
                             arrow.setIsCritical(true);
@@ -118,6 +117,14 @@ public class ItemBaseBow extends ItemBow {
     }
 
     protected void onVelocity(World world, EntityPlayer player, float velocity) {
+    }
+
+    protected void onShoot(EntityArrow arrow, EntityPlayer player, float velocity) {
+        arrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
+    }
+
+    protected float getDrawbackSpeed(@Nonnull ItemStack stack, EntityLivingBase entity) {
+        return (float) (stack.getMaxItemUseDuration() - entity.getItemInUseCount()) / 20.0F;
     }
 
     protected ItemBaseBow setRepairItem(Item item) {

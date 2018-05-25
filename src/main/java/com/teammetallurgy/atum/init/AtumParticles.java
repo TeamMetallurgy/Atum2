@@ -22,11 +22,12 @@ public class AtumParticles {
     }
 
     public void register() {
-        this.registerParticle(Types.LIGHT_SPARKLE.getParticleName(), new ParticleLightSparkle.Factory());
-        this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
-        this.registerParticle(Types.NUIT.getParticleName(), new ParticleSwirl.Nuit());
         this.registerParticle(Types.ISIS.getParticleName(), new ParticleSwirl.Isis());
+        this.registerParticle(Types.LIGHT_SPARKLE.getParticleName(), new ParticleLightSparkle.Factory());
+        this.registerParticle(Types.NUIT.getParticleName(), new ParticleSwirl.Nuit());
         this.registerParticle(Types.SETH.getParticleName(), new ParticleSeth.Factory());
+        this.registerParticle(Types.SHU.getParticleName(), new ParticleSwirl.Shu());
+        this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
     }
     
     public void registerParticle(String name, IAtumParticleFactory factory) {
@@ -52,11 +53,12 @@ public class AtumParticles {
     }
 
     public enum Types {
-        LIGHT_SPARKLE("light_sprakle"),
-        TEFNUT("tefnut"),
-        NUIT("nuit"),
         ISIS("isis"),
-        SETH("seth");
+        LIGHT_SPARKLE("light_sprakle"),
+        NUIT("nuit"),
+        SETH("seth"),
+        SHU("shu"),
+        TEFNUT("tefnut");
 
         private static final Map<String, Types> PARTICLES = Maps.newHashMap();
         private final String particleName;
