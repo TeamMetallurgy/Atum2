@@ -4,9 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 public class EntityArrowStraight extends CustomArrow {
@@ -19,25 +17,20 @@ public class EntityArrowStraight extends CustomArrow {
     public EntityArrowStraight(World world, EntityLivingBase shooter, float velocity) {
         super(world, shooter);
         this.velocity = velocity;
-        if (velocity == 1.0F) {
-            this.setNoGravity(true);
-        }
     }
 
     @Override
     public void onUpdate() {
-        if (!this.inGround && motionY <= 0.05F && velocity == 1.0F) {
-            this.setDead();
+        super.onUpdate();
+        if (this.velocity == 1.0F) {
+            this.motionY += 0.05;
+            if (!this.inGround && ticksExisted > 300) {
+                this.setDead();
+            }
         }
-        if (shootingEntity instanceof EntityPlayer && !inGround && velocity == 1.0F && this.isEntityAlive()) {
+        if (shootingEntity instanceof EntityLivingBase && !inGround && velocity == 1.0F && this.isEntityAlive()) {
             Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
-        super.onUpdate();
-    }
-
-    @Override
-    protected void onHit(RayTraceResult raytraceResult) {
-        super.onHit(raytraceResult);
     }
 
     @Override
