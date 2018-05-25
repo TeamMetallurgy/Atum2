@@ -34,6 +34,6 @@ public class AtumEntities {
     public static final EntityEntry QUICKDRAW_ARROW = registerArrow(EntityArrowQuickdraw.class);
     public static final EntityEntry SLOWNESS_ARROW = registerArrow(EntityArrowSlowness.class);
     public static final EntityEntry SMALL_BONE = registerEntity(EntitySmallBone.class, 64, 10, true);
+    public static final EntityEntry STRAIGHT_ARROW = registerArrow(EntityArrowStraight.class);
     public static final EntityEntry TEFNUTS_CALL = registerArrow(EntityTefnutsCall.class);
-    public static final EntityEntry VELOCITY_ARROW = registerArrow(EntityArrowVelocity.class);
 }

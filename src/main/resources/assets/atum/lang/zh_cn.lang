@@ -203,7 +203,7 @@ item.atum.feetOfAtum.name=Horus之跃动
 item.atum.monthusStrike.name=Monthus之猛击
 item.atum.anhursMight.name=Anhurs之力量
 item.atum.hedetetsSting.name=Hedetets之穿刺
-item.atum.horusSoaring.name=Horus之翱翔
+item.atum.horussSoaring.name=Horus之翱翔
 item.atum.shusBreath.name=Shus之气息
 item.atum.ptahsDestruction.name=Ptahs之毁灭
 item.atum.montusBlast.name=Monthus之爆炸
@@ -287,9 +287,9 @@ item.atum.hedetetsSting.line1=猛毒II:有几率
 item.atum.hedetetsSting.line2=使敌人中毒
 item.atum.hedetetsSting.line3=猛毒II
 
-item.atum.horusSoaring.line1=利箭I:箭矢速度,
-item.atum.horusSoaring.line2=提升箭矢速度50%
-item.atum.horusSoaring.line3=利箭I
+item.atum.horussSoaring.line1=利箭I:箭矢速度,
+item.atum.horussSoaring.line2=提升箭矢速度50%
+item.atum.horussSoaring.line3=利箭I
 
 item.atum.shusBreath.line1=快速瞄准I:减少
 item.atum.shusBreath.line2=瞄准所用时间

@@ -26,8 +26,7 @@ public class EntityArrowPoison extends CustomArrow {
     public void onUpdate() {
         super.onUpdate();
         if (shootingEntity instanceof EntityPlayer && world.getTotalWorldTime() % 60L == 0L) {
-            EntityPlayer player = (EntityPlayer) shootingEntity;
-            Atum.proxy.spawnParticle(AtumParticles.Types.SETH, player, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+            Atum.proxy.spawnParticle(AtumParticles.Types.SETH, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
     }
 

@@ -46,7 +46,6 @@ public class ItemIsisHealing extends Item {
         if (duration >= 1) {
             duration--;
         }
-        System.out.println(duration);
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             if (player.onGround) {

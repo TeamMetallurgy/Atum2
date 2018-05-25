@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
 @SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ParticleSwirl extends ParticleBase {
+    private static final ResourceLocation HORUS = new ResourceLocation(Constants.MOD_ID, "particle/shu");
     private static final ResourceLocation ISIS = new ResourceLocation(Constants.MOD_ID, "particle/isis");
     private static final ResourceLocation NUIT = new ResourceLocation(Constants.MOD_ID, "particle/nuit");
     private static final ResourceLocation SHU = new ResourceLocation(Constants.MOD_ID, "particle/shu");
@@ -73,6 +74,7 @@ public class ParticleSwirl extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        event.getMap().registerSprite(HORUS);
         event.getMap().registerSprite(ISIS);
         event.getMap().registerSprite(NUIT);
         event.getMap().registerSprite(SHU);
@@ -95,11 +97,21 @@ public class ParticleSwirl extends ParticleBase {
             return particle;
         }
     }
+
     @SideOnly(Side.CLIENT)
     public static class Shu implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
             particle.setParticleTexture(getSprite(SHU));
+            return particle;
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class Horus implements IAtumParticleFactory {
+        public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            particle.setParticleTexture(getSprite(HORUS));
             return particle;
         }
     }

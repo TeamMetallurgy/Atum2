@@ -13,6 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -49,30 +50,33 @@ public class ItemShusSwiftness extends Item {
     public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
+            ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
             if (player.onGround) {
-                this.doEffect(world, player, player.getHeldItemMainhand());
+                if (player.getHeldItem(EnumHand.OFF_HAND).getItem() == this) {
+                    this.doEffect(world, player, stack);
+                } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == this) {
+                    this.doEffect(world, player, stack);
+                } else if (attribute.hasModifier(SPEED_BOOST)) {
+                    attribute.removeModifier(SPEED_BOOST);
+                }
             }
         }
     }
 
     private void doEffect(World world, EntityPlayer player, @Nonnull ItemStack heldStack) {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-        if (heldStack.getItem() == this) {
-            if (player.moveForward != 0.0F) {
-                for (int l = 0; l < 2; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ISIS, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
-                }
+        if (player.moveForward != 0.0F) {
+            for (int l = 0; l < 2; ++l) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.ISIS, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
             }
-            if (!world.isRemote) {
-                if (!attribute.hasModifier(SPEED_BOOST)) {
-                    attribute.applyModifier(SPEED_BOOST);
-                }
-                if (!player.capabilities.isCreativeMode) {
-                    heldStack.damageItem(1, player);
-                }
+        }
+        if (!world.isRemote) {
+            if (!attribute.hasModifier(SPEED_BOOST)) {
+                attribute.applyModifier(SPEED_BOOST);
             }
-        } else {
-            attribute.removeModifier(SPEED_BOOST);
+            if (!player.capabilities.isCreativeMode) {
+                heldStack.damageItem(1, player);
+            }
         }
     }
 

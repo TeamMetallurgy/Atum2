@@ -177,7 +177,7 @@ item.atum.feetOfAtum.name=Полёт Хора
 item.atum.monthusStrike.name=Удар Монту
 item.atum.anhursMight.name=Мощь Онуриса
 item.atum.hedetetsSting.name=Жало Хедетета
-item.atum.horusSoaring.name=Парение Хора
+item.atum.horussSoaring.name=Парение Хора
 item.atum.shusBreath.name=Дыхание Шу
 item.atum.ptahsDestruction.name=Разрушение бога Птаха
 item.atum.montusBlast.name=Взрыв Монту
@@ -253,9 +253,9 @@ item.atum.hedetetsSting.line1=Отравление II: Шанс
 item.atum.hedetetsSting.line2=отравления игроков
 item.atum.hedetetsSting.line3=Отравление II
 
-item.atum.horusSoaring.line1=Скорость I: Скорость стрелы,
-item.atum.horusSoaring.line2=увеличивает скорость стрелы на 50%
-item.atum.horusSoaring.line3=Скорость I
+item.atum.horussSoaring.line1=Скорость I: Скорость стрелы,
+item.atum.horussSoaring.line2=увеличивает скорость стрелы на 50%
+item.atum.horussSoaring.line3=Скорость I
 
 item.atum.shusBreath.line1=Быстрое натяжение I: Увеличенная
 item.atum.shusBreath.line2=скорость натяжения стрелы

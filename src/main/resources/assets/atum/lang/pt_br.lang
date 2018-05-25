@@ -108,7 +108,7 @@ item.atum.feetOfAtum.name=Voo de Horus
 item.atum.monthusStrike.name=Golpe de Monthus
 item.atum.anhursMight.name=Poder de Anhurs
 item.atum.hedetetsSting.name=Ferrão de Hedetets
-item.atum.horusSoaring.name=Ascendência de Horus
+item.atum.horussSoaring.name=Ascendência de Horus
 item.atum.shusBreath.name=Respiração de Shus
 item.atum.ptahsDestruction.name=Destruição de Ptahs
 item.atum.montusBlast.name=Explosão de Monthus
@@ -185,9 +185,9 @@ item.atum.hedetetsSting.line2=para envenenar inimigos
 item.atum.hedetetsSting.line3=Veneno II 
 
 # I need to talk to shadow
-item.atum.horusSoaring.line1=Poderoso I: Retarda o jogador,
-item.atum.horusSoaring.line2=Chance de atordoar os inimigos
-item.atum.horusSoaring.line3=Poderoso I 
+item.atum.horussSoaring.line1=Poderoso I: Retarda o jogador,
+item.atum.horussSoaring.line2=Chance de atordoar os inimigos
+item.atum.horussSoaring.line3=Poderoso I
 
 item.atum.shusBreath.line1=Tração I: Redução da
 item.atum.shusBreath.line2=velocidade do obstáculo
