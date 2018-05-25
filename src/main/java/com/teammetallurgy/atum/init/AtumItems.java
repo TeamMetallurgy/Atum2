@@ -16,6 +16,7 @@ import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsSting;
 import com.teammetallurgy.atum.items.artifacts.seth.ItemSethsVenom;
 import com.teammetallurgy.atum.items.artifacts.shu.ItemShusBreath;
 import com.teammetallurgy.atum.items.artifacts.shu.ItemShusExile;
+import com.teammetallurgy.atum.items.artifacts.shu.ItemShusSwiftness;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsBlessing;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsCall;
 import com.teammetallurgy.atum.items.tools.*;
@@ -67,6 +68,7 @@ public class AtumItems {
     public static final Item HORUS_SOARING = new ItemHorusSoaring();
     public static final Item SHUS_BREATH = new ItemShusBreath();
     public static final Item SHUS_EXILE = new ItemShusExile();
+    public static final Item SHUS_SWIFTNESS = new ItemShusSwiftness();
     public static final Item MONTUS_BLAST = new ItemMontusBlast();
     public static final Item NUS_FLUX = new ItemNusFlux(ToolMaterial.DIAMOND);
     public static final Item HALO_OF_RA = new ItemHaloOfRa();
@@ -82,7 +84,6 @@ public class AtumItems {
     public static final Item TEFNUTS_CALL = new ItemTefnutsCall();
     public static final Item SETHS_STING = new ItemSethsSting();
     public static final Item SETHS_VENOM = new ItemSethsVenom();
-    public static final Item MAFDETS_QUICKNESS = new ItemMafdetsQuickness();
     public static final Item ISIS_HEALING = new ItemIsisHealing();
     public static final Item ANUBIS_MERCY = new ItemAnubisMercy();
     public static final Item NUITS_DUALITY = new ItemNuitsDuality();
@@ -148,6 +149,7 @@ public class AtumItems {
         registerItem(HORUS_SOARING, "horus_soaring");
         registerItem(SHUS_BREATH, "shus_breath");
         registerItem(SHUS_EXILE, "shus_exile");
+        registerItem(SHUS_SWIFTNESS, "shus_swiftness");
         registerItem(MONTUS_BLAST, "montus_blast");
         registerItem(NUS_FLUX, "nus_flux");
         registerItem(HALO_OF_RA, "halo_of_ra");
@@ -163,7 +165,6 @@ public class AtumItems {
         registerItem(TEFNUTS_CALL, "tefnuts_call");
         registerItem(SETHS_STING, "seths_sting");
         registerItem(SETHS_VENOM, "seths_venom");
-        registerItem(MAFDETS_QUICKNESS, "mafdets_quickness");
         registerItem(ISIS_HEALING, "isis_healing");
         registerItem(ANUBIS_MERCY, "anubiss_mercy");
         registerItem(NUITS_DUALITY, "nuits_duality");

@@ -444,8 +444,8 @@
         },
         {
           "type": "item",
-          "name": "atum:mafdets_quickness",
-          "entryName": "mafdets_quickness",
+          "name": "atum:shus_swiftness",
+          "entryName": "shus_swiftness",
           "weight": 1
         },
         {

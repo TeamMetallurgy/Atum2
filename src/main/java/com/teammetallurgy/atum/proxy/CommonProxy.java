@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.PacketParticle;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class CommonProxy {

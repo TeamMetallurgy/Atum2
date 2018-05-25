@@ -120,7 +120,7 @@ item.atum.hedetetsVenom.name=Veneno de Hedetets
 item.atum.feetOfRa.name=Solidariedade de Gebs
 item.atum.tefnutsCall.name=Chamado de Nuts
 item.atum.atumsBounty.name=Recompensa de Anukets
-item.atum.mafdetsQuickness.name=Rapidez de Mafdets
+item.atum.shusSwiftness.name=Rapidez de Mafdets
 item.atum.isisHealing.name=Cura de Isis
 item.atum.atumsHomecoming.name=Reencontro de Amunets
 item.atum.anubisMercy.name=Misericórdia de Anubis
@@ -233,9 +233,9 @@ item.atum.atumsBounty.line1=Atração I: Chance de pegar
 item.atum.atumsBounty.line2=um peixe especial em Atum
 item.atum.atumsBounty.line3=Atração I
 
-item.atum.mafdetsQuickness.line1=Rapidez I: Você corre
-item.atum.mafdetsQuickness.line2=mais rápido enquanto segurar 
-item.atum.mafdetsQuickness.line3=Rapidez I 
+item.atum.shusSwiftness.line1=Rapidez I: Você corre
+item.atum.shusSwiftness.line2=mais rápido enquanto segurar
+item.atum.shusSwiftness.line3=Rapidez I
 
 item.atum.isisHealing.line1=Regeneração I: Regenera
 item.atum.isisHealing.line2=lentamente a saúde enquanto segurar 

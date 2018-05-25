@@ -240,7 +240,7 @@ item.atum.feetOfRa.name=Feet of Ra
 item.atum.sethsVenom.name=Seth's Venom
 item.atum.tefnutsCall.name=Tefnuts's Call
 item.atum.atumsBounty.name=Atum's Bounty
-item.atum.mafdetsQuickness.name=Mafdet's Quickness
+item.atum.shusSwiftness.name=Shu's Swiftness
 item.atum.isisHealing.name=Isis's Healing
 item.atum.atumsHomecoming.name=Atums's Homecoming
 item.atum.anubissMercy.name=Anubis's Mercy
@@ -367,9 +367,9 @@ item.atum.atumsBounty.line1=Alluring: You can catch rare
 item.atum.atumsBounty.line2=and unique fish in Atum
 item.atum.atumsBounty.line3=Alluring
 
-item.atum.mafdetsQuickness.line1=Swiftness: You run
-item.atum.mafdetsQuickness.line2=faster when held
-item.atum.mafdetsQuickness.line3=Swiftness
+item.atum.shusSwiftness.line1=Nimbleness: You run
+item.atum.shusSwiftness.line2=faster while held
+item.atum.shusSwiftness.line3=Nimbleness
 
 item.atum.isisHealing.line1=Regeneration: Regenerates
 item.atum.isisHealing.line2=health slowly while held

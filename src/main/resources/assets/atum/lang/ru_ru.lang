@@ -189,7 +189,7 @@ item.atum.hedetetsVenom.name=Яд Хедетета
 item.atum.feetOfRa.name=Единство Геба
 item.atum.tefnutsCall.name=Вызов богини Нут
 item.atum.atumsBounty.name=Щедрость Анукета
-item.atum.mafdetsQuickness.name=Быстрота Мафдета
+item.atum.shusSwiftness.name=Быстрота Мафдета
 item.atum.isisHealing.name=Исцеление Исиды
 item.atum.atumsHomecoming.name=Возвращение Амаунета
 item.atum.anubisMercy.name=Милость Анубиса
@@ -301,9 +301,9 @@ item.atum.atumsBounty.line1=Соблазнение I: Шанс поймать
 item.atum.atumsBounty.line2=уникальную рыбу в «Атуме»
 item.atum.atumsBounty.line3=Соблазнение I
 
-item.atum.mafdetsQuickness.line1=Стремительность I: Вы бежите
-item.atum.mafdetsQuickness.line2=быстрее, когда держите
-item.atum.mafdetsQuickness.line3=Стремительность I
+item.atum.shusSwiftness.line1=Стремительность I: Вы бежите
+item.atum.shusSwiftness.line2=быстрее, когда держите
+item.atum.shusSwiftness.line3=Стремительность I
 
 item.atum.isisHealing.line1=Регенерация I: Восстанавливает
 item.atum.isisHealing.line2=здоровье, когда держите

@@ -215,7 +215,7 @@ item.atum.hedetetsVenom.name=Hedetets之恶毒
 item.atum.feetOfRa.name=Gebs之团结
 item.atum.tefnutsCall.name=Nuts之召唤
 item.atum.atumsBounty.name=Anukets之慷慨
-item.atum.mafdetsQuickness.name=Mafdets之迅捷
+item.atum.shusSwiftness.name=Mafdets之迅捷
 item.atum.isisHealing.name=Isis之治疗
 item.atum.atumsHomecoming.name=Amunets之回归
 item.atum.anubisMercy.name=Anubis之仁慈
@@ -335,9 +335,9 @@ item.atum.atumsBounty.line1=诱惑I:有几率吸引到
 item.atum.atumsBounty.line2=亚图姆中特殊的鱼
 item.atum.atumsBounty.line3=诱惑I
 
-item.atum.mafdetsQuickness.line1=迅捷I:手持该物品时
-item.atum.mafdetsQuickness.line2=跑得会更快
-item.atum.mafdetsQuickness.line3=迅捷I
+item.atum.shusSwiftness.line1=迅捷I:手持该物品时
+item.atum.shusSwiftness.line2=跑得会更快
+item.atum.shusSwiftness.line3=迅捷I
 
 item.atum.isisHealing.line1=重生I:手持该物品时
 item.atum.isisHealing.line2=能缓慢地回复生命
