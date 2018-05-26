@@ -70,7 +70,7 @@ public class ItemSethsSting extends ItemSword {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityPlayer && cooldown.get(trueSource) == 1.0F) {
+        if (trueSource instanceof EntityLivingBase && cooldown.get(trueSource) == 1.0F) {
             EntityLivingBase target = event.getEntityLiving();
             target.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 2));
             for (int l = 0; l < 14; ++l) {

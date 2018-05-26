@@ -51,7 +51,7 @@ public class ItemBodyOfAtum extends ItemTexturedArmor {
         if (event.getEntityLiving().getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATUM && target instanceof EntityLivingBase && ((EntityLivingBase) target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
             if (entity instanceof EntityPlayerMP) {
                 for (int l = 0; l < 16; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, (EntityPlayerMP) entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
                 }
             }
             event.setAmount(event.getAmount() / 2);
