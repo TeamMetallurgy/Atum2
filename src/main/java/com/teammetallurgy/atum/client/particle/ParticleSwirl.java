@@ -17,6 +17,7 @@ import javax.annotation.Nonnull;
 @SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ParticleSwirl extends ParticleBase {
+    private static final ResourceLocation GEB = new ResourceLocation(Constants.MOD_ID, "particle/geb");
     private static final ResourceLocation HORUS = new ResourceLocation(Constants.MOD_ID, "particle/shu");
     private static final ResourceLocation ISIS = new ResourceLocation(Constants.MOD_ID, "particle/isis");
     private static final ResourceLocation NUIT = new ResourceLocation(Constants.MOD_ID, "particle/nuit");
@@ -74,6 +75,7 @@ public class ParticleSwirl extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        event.getMap().registerSprite(GEB);
         event.getMap().registerSprite(HORUS);
         event.getMap().registerSprite(ISIS);
         event.getMap().registerSprite(NUIT);
@@ -81,10 +83,19 @@ public class ParticleSwirl extends ParticleBase {
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Nuit implements IAtumParticleFactory {
+    public static class Geb implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(NUIT));
+            particle.setParticleTexture(getSprite(GEB));
+            return particle;
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class Horus implements IAtumParticleFactory {
+        public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
+            particle.setParticleTexture(getSprite(HORUS));
             return particle;
         }
     }
@@ -99,19 +110,19 @@ public class ParticleSwirl extends ParticleBase {
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Shu implements IAtumParticleFactory {
+    public static class Nuit implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(SHU));
+            particle.setParticleTexture(getSprite(NUIT));
             return particle;
         }
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Horus implements IAtumParticleFactory {
+    public static class Shu implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(HORUS));
+            particle.setParticleTexture(getSprite(SHU));
             return particle;
         }
     }

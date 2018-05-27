@@ -226,7 +226,7 @@ item.atum.bodyOfAtum.name=Body of Atum
 item.atum.legsOfAtum.name=Legs of Atum
 item.atum.feetOfAtum.name=Feet of Atum
 item.atum.monthusStrike.name=Monthu's Strike
-item.atum.anhursMight.name=Anhur's Might
+item.atum.gebsMight.name=Geb's Might
 item.atum.sethsSting.name=Seth's Sting
 item.atum.horussSoaring.name=Horus's Soaring
 item.atum.shusBreath.name=Shu's Breath
@@ -267,9 +267,9 @@ item.atum.atumsHomecoming.line1=Return: Teleports you back
 item.atum.atumsHomecoming.line2=to your spawn point
 item.atum.atumsHomecoming.line3=Return
 
-item.atum.anhursMight.line1=Mighty: Slows player,
-item.atum.anhursMight.line2=Chance to stun foes
-item.atum.anhursMight.line3=Mighty
+item.atum.gebsMight.line1=Mighty Slam. Stuns foes
+item.atum.gebsMight.line2=on full charge
+item.atum.gebsMight.line3=Mighty Slam
 
 item.atum.ptahsDecadence.line1=Alchemize: Chance to turn Iron
 item.atum.ptahsDecadence.line2=into Gold when mining

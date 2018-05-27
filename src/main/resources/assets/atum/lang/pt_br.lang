@@ -106,7 +106,7 @@ item.atum.bodyOfAtum.name=Ira de Sekhmets
 item.atum.legsOfAtum.name=Agilidade de Nuts
 item.atum.feetOfAtum.name=Voo de Horus
 item.atum.monthusStrike.name=Golpe de Monthus
-item.atum.anhursMight.name=Poder de Anhurs
+item.atum.gebsMight.name=Poder de Anhurs
 item.atum.hedetetsSting.name=Ferrão de Hedetets
 item.atum.horussSoaring.name=Ascendência de Horus
 item.atum.shusBreath.name=Respiração de Shus
@@ -136,9 +136,9 @@ item.atum.atumsHomecoming.line1=Retorno I: Teleporta você de volta ao
 item.atum.atumsHomecoming.line2=seu ponto de desova
 item.atum.atumsHomecoming.line3=Retorno I
 
-item.atum.anhursMight.line1=Poderoso I: Retarda o jogador,
-item.atum.anhursMight.line2=Chance de atordoar os inimigos
-item.atum.anhursMight.line3=Poderoso I 
+item.atum.gebsMight.line1=Poderoso I: Retarda o jogador,
+item.atum.gebsMight.line2=Chance de atordoar os inimigos
+item.atum.gebsMight.line3=Poderoso I
 
 item.atum.ptahsDecadence.line1=Riqueza I: Ganhe um diamante
 item.atum.ptahsDecadence.line2=extra de cada minério

@@ -201,7 +201,7 @@ item.atum.bodyOfAtum.name=Sekhmets之暴怒
 item.atum.legsOfAtum.name=Nuts之敏捷
 item.atum.feetOfAtum.name=Horus之跃动
 item.atum.monthusStrike.name=Monthus之猛击
-item.atum.anhursMight.name=Anhurs之力量
+item.atum.gebsMight.name=Anhurs之力量
 item.atum.hedetetsSting.name=Hedetets之穿刺
 item.atum.horussSoaring.name=Horus之翱翔
 item.atum.shusBreath.name=Shus之气息
@@ -239,9 +239,9 @@ item.atum.atumsHomecoming.line1=回返I:将你传送
 item.atum.atumsHomecoming.line2=回出生点
 item.atum.atumsHomecoming.line3=回返I
 
-item.atum.anhursMight.line1=威猛I:使玩家减速,
-item.atum.anhursMight.line2=但有几率击晕敌人
-item.atum.anhursMight.line3=威猛I
+item.atum.gebsMight.line1=威猛I:使玩家减速,
+item.atum.gebsMight.line2=但有几率击晕敌人
+item.atum.gebsMight.line3=威猛I
 
 item.atum.ptahsDecadence.line1=财富I:能从每个矿石中
 item.atum.ptahsDecadence.line2=额外得到一个钻石

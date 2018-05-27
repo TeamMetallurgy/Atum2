@@ -175,7 +175,7 @@ item.atum.bodyOfAtum.name=Гнев Сехмета
 item.atum.legsOfAtum.name=Ловкость богини Нут
 item.atum.feetOfAtum.name=Полёт Хора
 item.atum.monthusStrike.name=Удар Монту
-item.atum.anhursMight.name=Мощь Онуриса
+item.atum.gebsMight.name=Мощь Онуриса
 item.atum.hedetetsSting.name=Жало Хедетета
 item.atum.horussSoaring.name=Парение Хора
 item.atum.shusBreath.name=Дыхание Шу
@@ -205,9 +205,9 @@ item.atum.atumsHomecoming.line1=Возвращение I: Телепортиру
 item.atum.atumsHomecoming.line2=обратно на точку появления
 item.atum.atumsHomecoming.line3=Возвращение I
 
-item.atum.anhursMight.line1=Могущество I: Замедляет игрока,
-item.atum.anhursMight.line2=Шанс оглушить врагов
-item.atum.anhursMight.line3=Могущество I
+item.atum.gebsMight.line1=Могущество I: Замедляет игрока,
+item.atum.gebsMight.line2=Шанс оглушить врагов
+item.atum.gebsMight.line3=Могущество I
 
 item.atum.ptahsDecadence.line1=Богатство I: Даёт дополнительный
 item.atum.ptahsDecadence.line2=алмаз с каждой алмазной руды

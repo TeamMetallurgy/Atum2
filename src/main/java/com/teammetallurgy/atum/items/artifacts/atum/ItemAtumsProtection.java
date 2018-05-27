@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.atum;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.items.ItemAtumShield;
+import com.teammetallurgy.atum.items.tools.ItemAtumShield;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;

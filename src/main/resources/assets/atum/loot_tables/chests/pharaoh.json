@@ -366,8 +366,8 @@
         },
         {
           "type": "item",
-          "name": "atum:anhurs_might",
-          "entryName": "anhurs_might",
+          "name": "atum:gebs_might",
+          "entryName": "gebs_might",
           "weight": 1
         },
         {
@@ -420,8 +420,8 @@
         },
         {
           "type": "item",
-          "name": "atum:horus_soaring",
-          "entryName": "horus_soaring",
+          "name": "atum:horuss_soaring",
+          "entryName": "horuss_soaring",
           "weight": 1
         },
         {
