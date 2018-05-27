@@ -10,6 +10,7 @@ import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -51,15 +52,27 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
     }
 
     @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
+        world.setBlockState(pos, this.getDefaultState().withProperty(CHECK_DECAY, false).withProperty(DECAYABLE, false));
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(DECAYABLE, (meta & 1) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
+    }
+
+    @Override
     public int getMetaFromState(IBlockState state) {
         int i = 0;
 
         if (!state.getValue(DECAYABLE)) {
-            i |= 4;
+            i |= 1;
         }
 
         if (state.getValue(CHECK_DECAY)) {
-            i |= 8;
+            i |= 4;
         }
         return i;
     }

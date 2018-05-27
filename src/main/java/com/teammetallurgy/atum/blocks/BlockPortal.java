@@ -95,7 +95,9 @@ public class BlockPortal extends BlockBreakable {
 
             player.changeDimension(dimension, new AtumTeleporter(player.mcServer.getWorld(dimension)));
             if (player.dimension != AtumConfig.DIMENSION_ID) {
-                player.setSpawnChunk(new BlockPos(player), true, AtumConfig.DIMENSION_ID);
+                if (state.getBlock().getBedSpawnPosition(state, world, player.bedLocation, player) == null) {
+                    player.setSpawnChunk(new BlockPos(player), true, AtumConfig.DIMENSION_ID);
+                }
             }
         }
     }
