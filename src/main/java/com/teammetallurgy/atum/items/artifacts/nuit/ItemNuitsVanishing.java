@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -14,6 +15,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
@@ -24,7 +26,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber
 public class ItemNuitsVanishing extends Item {
     private static boolean isInvisible = false;
 
@@ -47,11 +49,27 @@ public class ItemNuitsVanishing extends Item {
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (isInvisible && !world.isRemote && entity instanceof EntityLivingBase) {
-            stack.damageItem(1, (EntityLivingBase) entity);
+        if (entity instanceof EntityLivingBase) {
+            EntityLivingBase livingBase = (EntityLivingBase) entity;
+            if (isInvisible) {
+                if (!world.isRemote) {
+                    livingBase.setInvisible(true);
+                    stack.damageItem(1, livingBase);
+                }
+            } else {
+                livingBase.setInvisible(false);
+            }
         }
-        isInvisible = false;
         super.onUpdate(stack, world, entity, itemSlot, isSelected);
+    }
+
+    @SubscribeEvent
+    public static void onTarget(LivingSetAttackTargetEvent event) {
+        if (isInvisible && event.getTarget() != null && event.getEntityLiving() != null) {
+            if (event.getTarget() instanceof EntityPlayer) {
+                ((EntityLiving) event.getEntityLiving()).setAttackTarget(null);
+            }
+        }
     }
 
     @SubscribeEvent
@@ -59,9 +77,16 @@ public class ItemNuitsVanishing extends Item {
         EntityPlayer player = event.getEntityPlayer();
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
-        if (player.motionX == 0.0F && heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-            isInvisible = true;
-            event.setCanceled(true);
+        if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
+            if (player.motionX == 0.0F) {
+                isInvisible = true;
+                event.setCanceled(true);
+            } else {
+                player.setInvisible(false);
+                isInvisible = false;
+            }
+        } else {
+            player.setInvisible(false);
         }
     }
 

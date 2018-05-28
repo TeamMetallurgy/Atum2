@@ -524,6 +524,12 @@
           "weight": 1
         },
         {
+          "type": "item",
+          "name": "atum:nuits_vanishing",
+          "entryName": "nuits_vanishing",
+          "weight": 1
+        },
+        {
           "type": "empty",
           "weight": 200
         }
