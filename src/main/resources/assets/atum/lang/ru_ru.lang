@@ -174,7 +174,7 @@ item.atum.eyesOfAtum.name=Слава бога Ра
 item.atum.bodyOfAtum.name=Гнев Сехмета
 item.atum.legsOfAtum.name=Ловкость богини Нут
 item.atum.feetOfAtum.name=Полёт Хора
-item.atum.monthusStrike.name=Удар Монту
+item.atum.montusStrike.name=Удар Монту
 item.atum.gebsMight.name=Мощь Онуриса
 item.atum.hedetetsSting.name=Жало Хедетета
 item.atum.horussSoaring.name=Парение Хора
@@ -245,9 +245,9 @@ item.atum.feetOfAtum.line1=Ловкость I: Увеличенный прыжо
 item.atum.feetOfAtum.line2=защита от падения
 item.atum.feetOfAtum.line3=Ловкость I
 
-item.atum.monthusStrike.line1=Хлопок I: Увеличенный урон,
-item.atum.monthusStrike.line2=заряд для отброса
-item.atum.monthusStrike.line3=Хлопок I
+item.atum.montusStrike.line1=Хлопок I: Увеличенный урон,
+item.atum.montusStrike.line2=заряд для отброса
+item.atum.montusStrike.line3=Хлопок I
 
 item.atum.hedetetsSting.line1=Отравление II: Шанс
 item.atum.hedetetsSting.line2=отравления игроков

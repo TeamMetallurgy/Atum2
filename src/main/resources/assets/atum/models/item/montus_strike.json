@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/monthus_strike"
+    "layer0": "atum:items/montus_strike"
   }
 }

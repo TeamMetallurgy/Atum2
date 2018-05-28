@@ -225,7 +225,7 @@ item.atum.eyesOfAtum.name=Eyes of Atum
 item.atum.bodyOfAtum.name=Body of Atum
 item.atum.legsOfAtum.name=Legs of Atum
 item.atum.feetOfAtum.name=Feet of Atum
-item.atum.monthusStrike.name=Monthu's Strike
+item.atum.montusStrike.name=Montu's Strike
 item.atum.gebsMight.name=Geb's Might
 item.atum.sethsSting.name=Seth's Sting
 item.atum.horussSoaring.name=Horus's Soaring
@@ -311,9 +311,9 @@ item.atum.feetOfAtum.line1=Divine Will: You cannot
 item.atum.feetOfAtum.line2=be knocked back
 item.atum.feetOfAtum.line3=Divine Will
 
-item.atum.monthusStrike.line1=Slam: Increased damage,
-item.atum.monthusStrike.line2=charge for AOE knockback
-item.atum.monthusStrike.line3=Slam
+item.atum.montusStrike.line1=Slam: Fully charged attacks
+item.atum.montusStrike.line2=knockback and stirke all nearby foes
+item.atum.montusStrike.line3=Slam
 
 item.atum.sethsSting.line1=Venomous: Poisons on
 item.atum.sethsSting.line2=full charge

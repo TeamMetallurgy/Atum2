@@ -1,16 +1,20 @@
 package com.teammetallurgy.atum.items.artifacts.anubis;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -31,7 +35,7 @@ public class ItemAnubisMercy extends Item {
     public ItemAnubisMercy() {
         super();
         this.setMaxStackSize(1);
-        this.setMaxDamage(16);
+        this.setMaxDamage(3);
     }
 
     @Override
@@ -39,7 +43,6 @@ public class ItemAnubisMercy extends Item {
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
-
 
     @Override
     @Nonnull
@@ -52,16 +55,25 @@ public class ItemAnubisMercy extends Item {
         EntityLivingBase entity = event.getEntityLiving();
         EnumHand hand = entity.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.ANUBIS_MERCY ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = entity.getHeldItem(hand);
-        if (!entity.world.isRemote && event.getEntityLiving() instanceof EntityPlayer && heldStack.getItem() == AtumItems.ANUBIS_MERCY) {
+        if (event.getEntityLiving() instanceof EntityPlayer && heldStack.getItem() == AtumItems.ANUBIS_MERCY) {
             EntityPlayer player = (EntityPlayer) entity;
 
-            heldStack.damageItem(1, player);
-            NBTTagList tagList = new NBTTagList();
-            player.inventory.writeToNBT(tagList);
-            getPlayerData(player).setTag("Inventory", tagList);
-            player.inventory.mainInventory.clear();
-            player.inventory.armorInventory.clear();
-            player.inventory.offHandInventory.clear();
+            if (!entity.world.isRemote ) {
+                heldStack.damageItem(1, player);
+                NBTTagList tagList = new NBTTagList();
+                player.inventory.writeToNBT(tagList);
+                getPlayerData(player).setTag("Inventory", tagList);
+                player.inventory.mainInventory.clear();
+                player.inventory.armorInventory.clear();
+                player.inventory.offHandInventory.clear();
+            }
+            for (int l = 0; l < 12; ++l) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.05D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.05D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, -0.05D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, -0.05D);
+            }
+            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
     }
 

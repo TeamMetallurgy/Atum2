@@ -22,10 +22,12 @@ public class AtumParticles {
     }
 
     public void register() {
+        this.registerParticle(Types.ANUBIS.getParticleName(), new ParticleSwirl.Anubis());
         this.registerParticle(Types.GEB.getParticleName(), new ParticleSwirl.Geb());
         this.registerParticle(Types.HORUS.getParticleName(), new ParticleSwirl.Horus());
         this.registerParticle(Types.ISIS.getParticleName(), new ParticleSwirl.Isis());
         this.registerParticle(Types.LIGHT_SPARKLE.getParticleName(), new ParticleLightSparkle.Factory());
+        this.registerParticle(Types.MONTU.getParticleName(), new ParticleMontu.Factory());
         this.registerParticle(Types.NUIT.getParticleName(), new ParticleSwirl.Nuit());
         this.registerParticle(Types.SETH.getParticleName(), new ParticleSeth.Factory());
         this.registerParticle(Types.SHU.getParticleName(), new ParticleSwirl.Shu());
@@ -55,10 +57,12 @@ public class AtumParticles {
     }
 
     public enum Types {
+        ANUBIS("anubis"),
         GEB("geb"),
         HORUS("horus"),
         ISIS("isis"),
         LIGHT_SPARKLE("light_sprakle"),
+        MONTU("montu"),
         NUIT("nuit"),
         SETH("seth"),
         SHU("shu"),

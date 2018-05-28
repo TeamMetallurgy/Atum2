@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
-import com.teammetallurgy.atum.items.artifacts.ItemMonthusStrike;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsGrounding;
@@ -12,6 +11,7 @@ import com.teammetallurgy.atum.items.artifacts.horus.ItemHorusAscension;
 import com.teammetallurgy.atum.items.artifacts.horus.ItemHorusSoaring;
 import com.teammetallurgy.atum.items.artifacts.isis.ItemIsisHealing;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusBlast;
+import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusStrike;
 import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsDuality;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
@@ -93,7 +93,7 @@ public class AtumItems {
     public static final Item SETHS_VENOM = new ItemSethsVenom();
     public static final Item ISIS_HEALING = new ItemIsisHealing();
     public static final Item MONTUS_BLAST = new ItemMontusBlast();
-    public static final Item MONTHUS_STRIKE = new ItemMonthusStrike();
+    public static final Item MONTUS_STRIKE = new ItemMontusStrike();
     public static final Item ANUBIS_MERCY = new ItemAnubisMercy();
     public static final Item NUITS_DUALITY = new ItemNuitsDuality();
     public static final Item MUMMY_HELMET = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
@@ -174,7 +174,7 @@ public class AtumItems {
         registerItem(SETHS_VENOM, "seths_venom");
         registerItem(ISIS_HEALING, "isis_healing");
         registerItem(MONTUS_BLAST, "montus_blast");
-        registerItem(MONTHUS_STRIKE, "monthus_strike");
+        registerItem(MONTUS_STRIKE, "montus_strike");
         registerItem(ANUBIS_MERCY, "anubiss_mercy");
         registerItem(NUITS_DUALITY, "nuits_duality");
         registerItem(MUMMY_HELMET, "mummy_helmet");

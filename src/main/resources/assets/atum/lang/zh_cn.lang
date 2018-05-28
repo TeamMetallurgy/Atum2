@@ -200,7 +200,7 @@ item.atum.eyesOfAtum.name=Ras之荣耀
 item.atum.bodyOfAtum.name=Sekhmets之暴怒
 item.atum.legsOfAtum.name=Nuts之敏捷
 item.atum.feetOfAtum.name=Horus之跃动
-item.atum.monthusStrike.name=Monthus之猛击
+item.atum.montusStrike.name=Monthus之猛击
 item.atum.gebsMight.name=Anhurs之力量
 item.atum.hedetetsSting.name=Hedetets之穿刺
 item.atum.horussSoaring.name=Horus之翱翔
@@ -279,9 +279,9 @@ item.atum.feetOfAtum.line1=灵动I:增加跳跃高度,
 item.atum.feetOfAtum.line2=掉落伤害免疫
 item.atum.feetOfAtum.line3=灵动I
 
-item.atum.monthusStrike.line1=猛击I:增加伤害,
-item.atum.monthusStrike.line2=有几率触发AOE击退
-item.atum.monthusStrike.line3=猛击I
+item.atum.montusStrike.line1=猛击I:增加伤害,
+item.atum.montusStrike.line2=有几率触发AOE击退
+item.atum.montusStrike.line3=猛击I
 
 item.atum.hedetetsSting.line1=猛毒II:有几率
 item.atum.hedetetsSting.line2=使敌人中毒
