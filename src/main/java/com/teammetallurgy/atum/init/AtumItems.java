@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
-import com.teammetallurgy.atum.items.artifacts.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.ItemMonthusStrike;
+import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsGrounding;
 import com.teammetallurgy.atum.items.artifacts.geb.ItemGebsMight;

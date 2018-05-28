@@ -53,7 +53,7 @@ public class BlockCrate extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityCrate(woodType);
+        return new TileEntityCrate();
     }
 
     @Override

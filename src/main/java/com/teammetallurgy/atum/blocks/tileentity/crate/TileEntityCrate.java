@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.tileentity.crate;
 
-import com.teammetallurgy.atum.blocks.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.BlockCrate;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,13 +26,8 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
     private int ticksSinceSync;
     public int numPlayersUsing;
     private float lidAngle;
-    private BlockAtumPlank.WoodType woodType;
 
     public TileEntityCrate() {
-    }
-
-    public TileEntityCrate(BlockAtumPlank.WoodType type) {
-        this.woodType = type;
     }
 
     @Override
@@ -53,18 +47,7 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
     }
 
     private String getDefaultName() {
-        String name = "container.crate.";
-        switch (woodType) {
-            case PALM:
-                name += "palm";
-                break;
-            case DEADWOOD:
-                name += "deadwood";
-                break;
-            default:
-                name += "invaild";
-        }
-        return name;
+        return this.getBlockType().getUnlocalizedName() + ".name";
     }
 
     @Override

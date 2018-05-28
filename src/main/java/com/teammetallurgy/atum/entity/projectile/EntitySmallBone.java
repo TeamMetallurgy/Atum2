@@ -29,7 +29,6 @@ public class EntitySmallBone extends EntityBone {
         if (!this.world.isRemote) {
             if (result.entityHit != null) {
                 boolean flag = result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), 2.0F);
-
                 if (flag) {
                     this.applyEnchantments(this.shootingEntity, result.entityHit);
                 }

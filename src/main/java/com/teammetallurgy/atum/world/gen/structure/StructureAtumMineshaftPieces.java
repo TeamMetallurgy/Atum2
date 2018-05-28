@@ -43,7 +43,6 @@ public class StructureAtumMineshaftPieces {
     }
 
     private static MineshaftPiece createRandomShaftPiece(List<StructureComponent> components, Random random, int x, int y, int z, EnumFacing facing, int type, MapGenAtumMineshaft.Type mineshaftType) {
-        System.out.println("Mineshaft: " + new BlockPos(x, y, z));
         int i = random.nextInt(100);
 
         if (i >= 80) {
@@ -72,6 +71,7 @@ public class StructureAtumMineshaftPieces {
             MapGenAtumMineshaft.Type mineshaftType = ((MineshaftPiece)component).mineshaftType;
             MineshaftPiece piece = createRandomShaftPiece(components, random, x, y, z, facing, type + 1, mineshaftType);
             if (piece != null) {
+                System.out.println("Mineshaft type: " + ((MineshaftPiece) component).mineshaftType.name() + " generated at: " +  new BlockPos(x, y, z));
                 components.add(piece);
                 piece.buildComponent(component, components, random);
             }

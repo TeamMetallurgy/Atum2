@@ -38,7 +38,7 @@ import java.util.UUID;
 public class ItemGebsMight extends ItemSword {
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
     private static int stunTimer = 0;
-    private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("47afe540-82e7-4637-b807-c69382902385"), "Geb's Might stun", -100.0D, 0);
+    private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("47afe540-82e7-4637-b807-c69382902385"), "Geb's Might stun", -1000.0D, 0);
 
     public ItemGebsMight() {
         super(ToolMaterial.DIAMOND);
@@ -93,7 +93,6 @@ public class ItemGebsMight extends ItemSword {
 
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (stunTimer == 1 && attribute.hasModifier(STUN)) {
-            System.out.println("Remove Stun");
             attribute.removeModifier(STUN);
         }
     }

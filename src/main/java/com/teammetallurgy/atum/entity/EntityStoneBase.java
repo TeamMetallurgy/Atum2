@@ -44,7 +44,7 @@ public class EntityStoneBase extends EntityMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.BLOCK_STONE_PLACE;
+        return SoundEvents.BLOCK_STONE_STEP;
     }
 
     @Override

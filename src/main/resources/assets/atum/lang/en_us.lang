@@ -375,9 +375,9 @@ item.atum.isisHealing.line1=Regeneration: Regenerates
 item.atum.isisHealing.line2=health slowly while held
 item.atum.isisHealing.line3=Regeneration
 
-item.atum.anubissMercy.line1=Return: On Death teleports you back,
-item.atum.anubissMercy.line2=to your spawn point
-item.atum.anubissMercy.line3=Return
+item.atum.anubissMercy.line1=Soul Pact: When you die, you will
+item.atum.anubissMercy.line2=keep your equipment and your active items
+item.atum.anubissMercy.line3=Soul Pact
 
 item.atum.nuitsDuality.line1=Double Arrow: Fires
 item.atum.nuitsDuality.line2=two arrows
