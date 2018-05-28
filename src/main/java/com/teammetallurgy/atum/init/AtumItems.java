@@ -13,6 +13,7 @@ import com.teammetallurgy.atum.items.artifacts.isis.ItemIsisHealing;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusBlast;
 import com.teammetallurgy.atum.items.artifacts.montu.ItemMontusStrike;
 import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsDuality;
+import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsVanishing;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsDecadence;
 import com.teammetallurgy.atum.items.artifacts.ptah.ItemPtahsUndoing;
 import com.teammetallurgy.atum.items.artifacts.ra.*;
@@ -95,6 +96,7 @@ public class AtumItems {
     public static final Item MONTUS_BLAST = new ItemMontusBlast();
     public static final Item MONTUS_STRIKE = new ItemMontusStrike();
     public static final Item ANUBIS_MERCY = new ItemAnubisMercy();
+    public static final Item NUITS_VANISHING = new ItemNuitsVanishing();
     public static final Item NUITS_DUALITY = new ItemNuitsDuality();
     public static final Item MUMMY_HELMET = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
     public static final Item MUMMY_CHEST = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
@@ -176,6 +178,7 @@ public class AtumItems {
         registerItem(MONTUS_BLAST, "montus_blast");
         registerItem(MONTUS_STRIKE, "montus_strike");
         registerItem(ANUBIS_MERCY, "anubiss_mercy");
+        registerItem(NUITS_VANISHING, "nuits_vanishing");
         registerItem(NUITS_DUALITY, "nuits_duality");
         registerItem(MUMMY_HELMET, "mummy_helmet");
         registerItem(MUMMY_CHEST, "mummy_chest");

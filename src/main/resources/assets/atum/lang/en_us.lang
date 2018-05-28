@@ -244,6 +244,7 @@ item.atum.shusSwiftness.name=Shu's Swiftness
 item.atum.isisHealing.name=Isis's Healing
 item.atum.atumsHomecoming.name=Atums's Homecoming
 item.atum.anubissMercy.name=Anubis's Mercy
+item.atum.nuitsVanishing.name=Nuit's Vanishing
 item.atum.nuitsDuality.name=Nuit's Duality
 
 item.atum.deadwoodDoor.name=Deadwood Door
@@ -378,6 +379,10 @@ item.atum.isisHealing.line3=Regeneration
 item.atum.anubissMercy.line1=Soul Pact: When you die, you will
 item.atum.anubissMercy.line2=keep your equipment and your active items
 item.atum.anubissMercy.line3=Soul Pact
+
+item.atum.nuitsVanishing.line1=Meld: While held and not
+item.atum.nuitsVanishing.line2=moving, you are invisible
+item.atum.nuitsVanishing.line3=Meld
 
 item.atum.nuitsDuality.line1=Double Arrow: Fires
 item.atum.nuitsDuality.line2=two arrows
