@@ -1,11 +1,21 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.blocks.*;
+import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
+import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
+import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
+import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
+import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
+import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
+import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
+import com.teammetallurgy.atum.blocks.limestone.*;
 import com.teammetallurgy.atum.blocks.tileentity.TileEntityBurningTrap;
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityChestSpawner;
 import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.blocks.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.blocks.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.vegetation.*;
+import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
 import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
@@ -24,7 +34,7 @@ public class AtumBlocks {
     public static final BlockPortal PORTAL = new BlockPortal();
     public static final BlockChestSpawner CHEST_SPAWNER = new BlockChestSpawner();
     public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
-    public static final Block LIMESTONE_GRAVEL = new BlockAtumGravel();
+    public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block LIMESTONE = new BlockLimestone();
     public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
@@ -69,8 +79,8 @@ public class AtumBlocks {
     public static final Block BONE_ORE = new BlockAtumOres();
     public static final Block RELIC_ORE = new BlockAtumOres();
     public static final Block BONE_DIRTY = new BlockBone();
-    public static final Block LIMESTONE_FURNACE = new BlockLimeStoneFurnace(false);
-    public static final Block LIMESTONE_FURNACE_LIT = new BlockLimeStoneFurnace(true);
+    public static final Block LIMESTONE_FURNACE = new BlockLimestoneFurnace(false);
+    public static final Block LIMESTONE_FURNACE_LIT = new BlockLimestoneFurnace(true);
     public static final BlockAtumDoor DEADWOOD_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
     public static final Block DEADWOOD_FENCE = new BlockAtumFence(BlockAtumPlank.WoodType.DEADWOOD.getMapColor());
     public static final Block DEADWOOD_FENCE_GATE = new BlockAtumFenceGate();

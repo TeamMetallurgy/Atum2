@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.init;
 
-import com.teammetallurgy.atum.blocks.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.atum.*;

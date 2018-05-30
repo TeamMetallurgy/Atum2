@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.entity.EntityPharaoh;
-import com.teammetallurgy.atum.entity.EntityStoneBase;
+import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;

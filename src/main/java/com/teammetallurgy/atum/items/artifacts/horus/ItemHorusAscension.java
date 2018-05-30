@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.horus;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.EntityStoneBase;
+import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import gnu.trove.map.TObjectFloatMap;

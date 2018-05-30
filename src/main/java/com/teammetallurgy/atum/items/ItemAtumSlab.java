@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items;
 
-import com.teammetallurgy.atum.blocks.BlockAtumSlab;
+import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;

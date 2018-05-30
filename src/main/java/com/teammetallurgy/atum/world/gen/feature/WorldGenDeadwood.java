@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.BlockAtumLog;
-import com.teammetallurgy.atum.blocks.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.BlockFertileSoil;
+import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;

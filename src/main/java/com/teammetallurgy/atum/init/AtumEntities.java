@@ -1,8 +1,15 @@
 package com.teammetallurgy.atum.init;
 
-import com.teammetallurgy.atum.entity.*;
-import com.teammetallurgy.atum.entity.arrow.*;
+import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.bandit.EntityBanditWarlord;
+import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
+import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
+import com.teammetallurgy.atum.entity.bandit.EntityNomad;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
+import com.teammetallurgy.atum.entity.projectile.arrow.*;
+import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.GameRegistry;

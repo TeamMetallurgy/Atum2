@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.BlockShrub;
+import com.teammetallurgy.atum.blocks.vegetation.BlockShrub;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;

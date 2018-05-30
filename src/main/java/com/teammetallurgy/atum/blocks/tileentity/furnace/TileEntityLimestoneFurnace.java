@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.tileentity.furnace;
 
-import com.teammetallurgy.atum.blocks.BlockLimeStoneFurnace;
+import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneFurnace;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Blocks;
@@ -179,7 +179,7 @@ public class TileEntityLimestoneFurnace extends TileEntityFurnace {
 
             if (flag != this.isBurning()) {
                 flag1 = true;
-                BlockLimeStoneFurnace.setState(this.isBurning(), this.world, this.pos);
+                BlockLimestoneFurnace.setState(this.isBurning(), this.world, this.pos);
             }
         }
 

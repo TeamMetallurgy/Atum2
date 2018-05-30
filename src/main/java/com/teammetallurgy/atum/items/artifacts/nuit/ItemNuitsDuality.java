@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.arrow.EntityArrowDoubleShotBlack;
-import com.teammetallurgy.atum.entity.arrow.EntityArrowDoubleShotWhite;
+import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowDoubleShotBlack;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowDoubleShotWhite;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;

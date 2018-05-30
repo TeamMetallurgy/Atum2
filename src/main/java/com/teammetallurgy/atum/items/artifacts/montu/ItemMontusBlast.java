@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
-import com.teammetallurgy.atum.entity.arrow.EntityArrowExplosive;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowExplosive;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;

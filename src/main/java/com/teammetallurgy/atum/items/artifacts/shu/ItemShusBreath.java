@@ -1,12 +1,14 @@
 package com.teammetallurgy.atum.items.artifacts.shu;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowQuickdraw;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
@@ -36,6 +38,11 @@ public class ItemShusBreath extends ItemBaseBow {
     @Nonnull
     public EnumRarity getRarity(@Nonnull ItemStack stack) {
         return EnumRarity.RARE;
+    }
+
+    @Override
+    protected EntityArrow setArrow(ItemStack stack, World world, EntityPlayer player, float velocity) {
+        return new EntityArrowQuickdraw(world, player);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.tefnut;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.teammetallurgy.atum.entity.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.integration.waila;
 
-import com.teammetallurgy.atum.blocks.BlockAtumDoor;
+import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

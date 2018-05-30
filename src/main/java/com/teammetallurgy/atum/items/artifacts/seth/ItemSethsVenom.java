@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.seth;
 
-import com.teammetallurgy.atum.entity.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.arrow.EntityArrowPoison;
+import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowPoison;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;

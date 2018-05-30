@@ -22,6 +22,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -54,12 +55,12 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
     }
 
     @Override
-    public int quantityDropped(Random random) {
-        return this == AtumBlocks.LAPIS_ORE ? 4 + random.nextInt(5) : this == AtumBlocks.BONE_ORE ? MathHelper.getInt(random, 1, 3) : 1;
+    public int quantityDropped(@Nullable Random random) {
+        return random != null ? this == AtumBlocks.LAPIS_ORE ? 4 + random.nextInt(5) : this == AtumBlocks.BONE_ORE ? MathHelper.getInt(random, 1, 3) : 1 : 0;
     }
 
     @Override
-    public int getExpDrop(IBlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune) {
+    public int getExpDrop(@Nullable IBlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune) {
         Random rand = world instanceof World ? ((World) world).rand : new Random();
         if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this)) {
             int xp = 0;

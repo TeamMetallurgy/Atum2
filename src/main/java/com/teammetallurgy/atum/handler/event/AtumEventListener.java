@@ -1,11 +1,11 @@
 package com.teammetallurgy.atum.handler.event;
 
-import com.teammetallurgy.atum.blocks.BlockFertileSoil;
-import com.teammetallurgy.atum.blocks.BlockFertileSoilTilled;
-import com.teammetallurgy.atum.entity.EntityPharaoh;
-import com.teammetallurgy.atum.entity.EntityStoneBase;
-import com.teammetallurgy.atum.entity.EntityUndeadBase;
-import com.teammetallurgy.atum.entity.EntityWraith;
+import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
+import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
+import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
+import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
+import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;

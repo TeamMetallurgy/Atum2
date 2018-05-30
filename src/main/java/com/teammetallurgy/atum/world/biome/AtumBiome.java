@@ -1,6 +1,15 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.*;
+import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
+import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
+import com.teammetallurgy.atum.entity.bandit.EntityNomad;
+import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.undead.EntityBonestorm;
+import com.teammetallurgy.atum.entity.undead.EntityForsaken;
+import com.teammetallurgy.atum.entity.undead.EntityMummy;
+import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;

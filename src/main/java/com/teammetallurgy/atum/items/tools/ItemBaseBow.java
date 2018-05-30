@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.tools;
 
-import com.teammetallurgy.atum.entity.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world;
 
-import com.teammetallurgy.atum.blocks.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;

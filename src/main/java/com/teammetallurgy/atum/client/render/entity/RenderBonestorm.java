@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity;
 
 import com.teammetallurgy.atum.client.model.entity.ModelBonestorm;
-import com.teammetallurgy.atum.entity.EntityBonestorm;
+import com.teammetallurgy.atum.entity.undead.EntityBonestorm;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;

@@ -68,7 +68,7 @@ public class MapGenAtumMineshaft extends MapGenStructure {
         return new StructureAtumMineshaftStart(this.world, this.rand, chunkX, chunkZ, type);
     }
 
-    public static enum Type {
+    public enum Type {
         DEADWOOD,
         LIMESTONE;
 

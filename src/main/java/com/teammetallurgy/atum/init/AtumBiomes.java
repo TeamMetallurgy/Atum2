@@ -14,7 +14,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 public class AtumBiomes {
     public static final AtumBiome SAND_PLAINS = registerBiome(new BiomeGenSandPlains(new AtumBiomeProperties("Sand Plains", 20)), "sand_plains");
     public static final AtumBiome SAND_DUNES = registerBiome(new BiomeGenSandDunes(new AtumBiomeProperties("Sand Dunes", 10).setBaseHeight(0.175F).setHeightVariation(0.2F)), "sand_dunes");
-    public static final AtumBiome SAND_HILS = registerBiome(new BiomeGenSandHills(new AtumBiomeProperties("Sand Hills", 7).setBaseHeight(0.3F).setHeightVariation(0.3F)), "sand_hills");
+    public static final AtumBiome SAND_HILLS = registerBiome(new BiomeGenSandHills(new AtumBiomeProperties("Sand Hills", 7).setBaseHeight(0.3F).setHeightVariation(0.3F)), "sand_hills");
     public static final AtumBiome LIMESTONE_MOUNTAINS = registerBiome(new BiomeGenLimestoneMountains(new AtumBiomeProperties("Limestone Mountains", 7).setBaseHeight(0.9F).setHeightVariation(0.5F)), "limestone_mountains");
     public static final AtumBiome LIMESTONE_CRAGS = registerBiome(new BiomeGenLimestoneCrags(new AtumBiomeProperties("Limestone Crags", 5).setBaseHeight(0.225F).setHeightVariation(0.45000002F)), "limestone_crags");
     public static final AtumBiome OASIS = registerBiome(new BiomeGenOasis(new AtumBiomeProperties("Oasis", 3).setHeightVariation(0.0F)), "oasis");

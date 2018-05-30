@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.arrow;
 
-import com.teammetallurgy.atum.entity.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;

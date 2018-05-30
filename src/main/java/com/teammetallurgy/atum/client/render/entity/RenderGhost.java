@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity;
 
-import com.teammetallurgy.atum.entity.EntityWraith;
+import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;

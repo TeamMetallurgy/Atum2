@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
-import com.teammetallurgy.atum.entity.EntityStoneBase;
+import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;

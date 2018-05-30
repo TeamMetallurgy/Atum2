@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.BlockAtumLog;
-import com.teammetallurgy.atum.blocks.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.BlockLeave;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;

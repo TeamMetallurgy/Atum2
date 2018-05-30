@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.handler;
 
-import com.teammetallurgy.atum.blocks.BlockAtumLog;
-import com.teammetallurgy.atum.blocks.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.BlockAtumStainedGlass;
-import com.teammetallurgy.atum.blocks.BlockAtumStainedGlassPane;
+import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
+import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;

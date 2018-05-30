@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.utils;
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.IRenderMapper;
+import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity;
 
 import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
+import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;

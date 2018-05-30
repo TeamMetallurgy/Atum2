@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.proxy;
 
-import com.teammetallurgy.atum.blocks.IRenderMapper;
+import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
@@ -12,10 +12,17 @@ import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
-import com.teammetallurgy.atum.entity.*;
-import com.teammetallurgy.atum.entity.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.bandit.EntityBanditWarlord;
+import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
+import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
+import com.teammetallurgy.atum.entity.bandit.EntityNomad;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
+import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;

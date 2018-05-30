@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.tileentity.chests;
 
 import com.teammetallurgy.atum.blocks.BlockPharaohChest;
-import com.teammetallurgy.atum.entity.EntityPharaoh;
+import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;

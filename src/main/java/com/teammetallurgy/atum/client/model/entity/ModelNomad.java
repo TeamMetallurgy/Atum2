@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import com.teammetallurgy.atum.entity.EntityNomad;
+import com.teammetallurgy.atum.entity.bandit.EntityNomad;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBow;

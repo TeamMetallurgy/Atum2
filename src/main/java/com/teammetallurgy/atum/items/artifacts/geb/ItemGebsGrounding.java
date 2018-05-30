@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
-import com.teammetallurgy.atum.entity.arrow.EntityArrowSlowness;
+import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowSlowness;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
