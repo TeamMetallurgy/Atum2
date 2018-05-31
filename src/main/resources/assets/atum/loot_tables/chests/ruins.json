@@ -530,6 +530,12 @@
           "weight": 1
         },
         {
+          "type": "item",
+          "name": "atum:tefnuts_rain",
+          "entryName": "tefnuts_rain",
+          "weight": 1
+        },
+        {
           "type": "empty",
           "weight": 200
         }

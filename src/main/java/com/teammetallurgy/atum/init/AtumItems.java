@@ -24,6 +24,7 @@ import com.teammetallurgy.atum.items.artifacts.shu.ItemShusExile;
 import com.teammetallurgy.atum.items.artifacts.shu.ItemShusSwiftness;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsBlessing;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsCall;
+import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsRain;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
@@ -83,6 +84,7 @@ public class AtumItems {
     public static final Item GEBS_TOIL = new ItemGebsToil();
     public static final Item GEBS_GROUNDING = new ItemGebsGrounding();
     public static final Item GEBS_MIGHT = new ItemGebsMight();
+    public static final Item TEFNUTS_RAIN = new ItemTefnutsRain();
     public static final Item TEFNUTS_CALL = new ItemTefnutsCall();
     public static final Item TEFNUTS_BLESSING = new ItemTefnutsBlessing();
     public static final Item SHUS_BREATH = new ItemShusBreath();
@@ -165,6 +167,7 @@ public class AtumItems {
         registerItem(GEBS_TOIL, "gebs_toil");
         registerItem(GEBS_GROUNDING, "gebs_grounding");
         registerItem(GEBS_MIGHT, "gebs_might");
+        registerItem(TEFNUTS_RAIN, "tefnuts_rain");
         registerItem(TEFNUTS_CALL, "tefnuts_call");
         registerItem(TEFNUTS_BLESSING, "tefnuts_blessing");
         registerItem(SHUS_BREATH, "shus_breath");

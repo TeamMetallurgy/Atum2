@@ -238,6 +238,7 @@ item.atum.bodyOfRa.name=Body of Ra
 item.atum.legsOfRa.name=Legs of Ra
 item.atum.feetOfRa.name=Feet of Ra
 item.atum.sethsVenom.name=Seth's Venom
+item.atum.tefnutsRain.name=Tefnuts's Rain
 item.atum.tefnutsCall.name=Tefnuts's Call
 item.atum.atumsBounty.name=Atum's Bounty
 item.atum.shusSwiftness.name=Shu's Swiftness
@@ -359,6 +360,10 @@ item.atum.feetOfRa.line3=Radiant Step
 item.atum.sethsVenom.line1=Poison Arrow: Fires an
 item.atum.sethsVenom.line2=arrow that poisons foes
 item.atum.sethsVenom.line3=Poison Arrow
+
+item.atum.tefnutsRain.line1=Arrow Rain: When fully charged,
+item.atum.tefnutsRain.line2=arrow splits into smaller arrows
+item.atum.tefnutsRain.line3=Arrow Rain
 
 item.atum.tefnutsCall.line1=Wrath: Strikes foes with
 item.atum.tefnutsCall.line2=lighting when thrown
