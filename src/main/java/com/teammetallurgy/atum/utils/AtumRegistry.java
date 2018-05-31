@@ -16,6 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -39,6 +40,7 @@ public class AtumRegistry {
     private static final NonNullList<EntityEntry> MOBS = NonNullList.create();
     private static final NonNullList<EntityEntry> ENTITIES = NonNullList.create();
     private static final NonNullList<SoundEvent> SOUNDS = NonNullList.create();
+    public static final NonNullList<ItemStack> HIDE_LIST = NonNullList.create();
     //Entity tracking values
     private static int trackingRange;
     private static int updateFrequency;
@@ -73,6 +75,8 @@ public class AtumRegistry {
 
         if (tab != null) {
             item.setCreativeTab(tab);
+        } else if (Constants.IS_JEI_LOADED) {
+            HIDE_LIST.add(new ItemStack(item));
         }
 
         if (oreDictName != null) {
@@ -128,6 +132,8 @@ public class AtumRegistry {
 
         if (tab != null) {
             block.setCreativeTab(tab);
+        } else if (Constants.IS_JEI_LOADED) {
+            HIDE_LIST.add(new ItemStack(block));
         }
 
         if (block instanceof IOreDictEntry) {

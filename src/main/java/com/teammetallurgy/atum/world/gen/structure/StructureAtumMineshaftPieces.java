@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneWall;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorch;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -71,7 +72,6 @@ public class StructureAtumMineshaftPieces {
             MapGenAtumMineshaft.Type mineshaftType = ((MineshaftPiece)component).mineshaftType;
             MineshaftPiece piece = createRandomShaftPiece(components, random, x, y, z, facing, type + 1, mineshaftType);
             if (piece != null) {
-                System.out.println("Mineshaft type: " + ((MineshaftPiece) component).mineshaftType.name() + " generated at: " +  new BlockPos(x, y, z));
                 components.add(piece);
                 piece.buildComponent(component, components, random);
             }
@@ -237,6 +237,7 @@ public class StructureAtumMineshaftPieces {
                 EntityMinecartChest cartChest = new EntityMinecartChest(world, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F));
                 cartChest.setLootTable(loot, random.nextLong());
                 world.spawnEntity(cartChest);
+                System.out.println("Mineshaft type: " + mineshaftType.name() + " generated at: " + cartChest.getPosition());
                 return true;
             } else {
                 return false;
@@ -334,11 +335,11 @@ public class StructureAtumMineshaftPieces {
                 } else {
                     this.fillWithBlocks(world, box, x, yMax, z, xMin, yMax, z, plankState, airState, false);
                     if (mineshaftType == MapGenAtumMineshaft.Type.DEADWOOD) {
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, AtumBlocks.DEADWOOD_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.NORTH));
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, AtumBlocks.DEADWOOD_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.SOUTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.DEADWOOD_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.NORTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.DEADWOOD_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.SOUTH));
                     } else {
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, AtumBlocks.LIMESTONE_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.NORTH));
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, AtumBlocks.LIMESTONE_TORCH.getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.SOUTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.LIMESTONE_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.NORTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.LIMESTONE_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, EnumFacing.SOUTH));
                     }
                 }
             }

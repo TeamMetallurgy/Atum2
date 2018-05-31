@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.utils;
 
+import net.minecraftforge.fml.common.Loader;
+
 public class Constants {
 
     public static final String MOD_ID = "atum";
@@ -9,4 +11,6 @@ public class Constants {
     public static final String SERVER = "com.teammetallurgy.atum.proxy.CommonProxy";
     public static final String FACTORY = "com.teammetallurgy.atum.client.gui.AtumGuiFactory";
     public static final String DEPENDENCIES = "required-after:forge@[14.23.4,);";
+
+    public static final boolean IS_JEI_LOADED = Loader.isModLoaded("jei");
 }

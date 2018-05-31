@@ -4,8 +4,7 @@
     "model": "block/torch",
     "textures": {
       "torch": "atum:blocks/pharaoh_torch"
-    },
-    "uvlock": true
+    }
   },
   "variants": {
     "inventory": [{"model": "normal_torch"}],
