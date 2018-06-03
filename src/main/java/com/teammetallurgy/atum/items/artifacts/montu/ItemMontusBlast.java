@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowExplosive;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
@@ -40,7 +41,12 @@ public class ItemMontusBlast extends ItemBaseBow {
 
     @Override
     protected EntityArrow setArrow(ItemStack stack, World world, EntityPlayer player, float velocity) {
-        return new EntityArrowExplosive(world, player);
+        return new EntityArrowExplosive(world, player, velocity);
+    }
+
+    @Override
+    protected float getDrawbackSpeed(@Nonnull ItemStack stack, EntityLivingBase entity) {
+        return super.getDrawbackSpeed(stack, entity) / 2.0F;
     }
 
     @Override

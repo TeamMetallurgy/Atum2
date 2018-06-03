@@ -337,8 +337,8 @@ item.atum.ptahsUndoing.line1=Stonecutter: When fully charged
 item.atum.ptahsUndoing.line2=deals double damage to Stone Foes
 item.atum.ptahsUndoing.line3=Stonecutter
 
-item.atum.montusBlast.line1=Explosive Arrow: Fires an explosive
-item.atum.montusBlast.line2=arrow that explodes on impact
+item.atum.montusBlast.line1=Explosive Arrow: Fully charged arrows
+item.atum.montusBlast.line2=explode on impact
 item.atum.montusBlast.line3=Explosive Arrow
 
 item.atum.horussAscension.line1=Sweep: Fully charged attacks
