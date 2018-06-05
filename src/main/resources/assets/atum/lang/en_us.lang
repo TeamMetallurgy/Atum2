@@ -249,6 +249,7 @@ item.atum.shusSwiftness.name=Shu's Swiftness
 item.atum.isisHealing.name=Isis's Healing
 item.atum.atumsHomecoming.name=Atums's Homecoming
 item.atum.anubissMercy.name=Anubis's Mercy
+item.atum.anubissWrath.name=Anubis's Wrath
 item.atum.nuitsVanishing.name=Nuit's Vanishing
 item.atum.nuitsDuality.name=Nuit's Duality
 
@@ -388,6 +389,14 @@ item.atum.isisHealing.line3=Regeneration
 item.atum.anubissMercy.line1=Soul Pact: When you die, you will
 item.atum.anubissMercy.line2=keep your equipment and your active items
 item.atum.anubissMercy.line3=Soul Pact
+
+item.atum.anubissWrath.line1.soulDrinker=Soul Drinker: Absorbs the souls of
+item.atum.anubissWrath.line2.soulDrinker=slain foes, growing stronger
+item.atum.anubissWrath.line1.soulUnraveler=Soul Unraveler: When fully charged
+item.atum.anubissWrath.line2.soulUnraveler=deals extra damage to living foes
+item.atum.anubissWrath.soulDrinker=Soul Drinker
+item.atum.anubissWrath.soulUnraveler=Soul Unraveler
+item.atum.anubissWrath.kills=Kills: %s
 
 item.atum.nuitsVanishing.line1=Meld: While held and not
 item.atum.nuitsVanishing.line2=moving, you are invisible

@@ -59,7 +59,7 @@ public class CraftingHandler {
     }
 
     @SubscribeEvent
-    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) { //TODO Do this in a cleaner way
+    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         final ResourceLocation crystal = new ResourceLocation(Constants.MOD_ID, "crystal_glass");
         final ResourceLocation framed = new ResourceLocation(Constants.MOD_ID, "framed_glass");
         for (EnumDyeColor color : EnumDyeColor.values()) {

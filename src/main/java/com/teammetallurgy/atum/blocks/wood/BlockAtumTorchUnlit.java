@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.wood;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -74,7 +74,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
             event.getItemStack().shrink(1);
-            AtumUtils.giveItem(event.getEntityPlayer(), event.getHand(), new ItemStack(getLitTorch(Block.getBlockFromItem(event.getItemStack().getItem()))));
+            StackHelper.giveItem(event.getEntityPlayer(), event.getHand(), new ItemStack(getLitTorch(Block.getBlockFromItem(event.getItemStack().getItem()))));
             event.getWorld().playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 10.0F, 1.0F, false);
         }
     }

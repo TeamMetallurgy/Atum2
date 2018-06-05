@@ -557,6 +557,12 @@
           "weight": 1
         },
         {
+          "type": "item",
+          "name": "atum:anubiss_wrath",
+          "entryName": "anubiss_wrath",
+          "weight": 1
+        },
+        {
           "type": "empty",
           "weight": 3
         }

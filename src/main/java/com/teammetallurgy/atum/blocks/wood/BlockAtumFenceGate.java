@@ -9,7 +9,7 @@ import net.minecraft.block.properties.IProperty;
 public class BlockAtumFenceGate extends BlockFenceGate implements IRenderMapper {
 
     public BlockAtumFenceGate() {
-        super(BlockPlanks.EnumType.OAK); //TODO
+        super(BlockPlanks.EnumType.OAK); //TODO 1.13
         this.setHardness(2.0F).setResistance(5.0F);
         this.setSoundType(SoundType.WOOD);
     }

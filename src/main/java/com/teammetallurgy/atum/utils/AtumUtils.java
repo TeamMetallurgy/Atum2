@@ -1,16 +1,13 @@
 package com.teammetallurgy.atum.utils;
 
 import com.google.common.base.CaseFormat;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.translation.I18n;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
-import javax.annotation.Nonnull;
-
+/**
+ * Various string related helper methods
+ */
 public class AtumUtils {
 
     /**
@@ -62,15 +59,5 @@ public class AtumUtils {
      */
     public static boolean hasKey(String key) {
         return I18n.canTranslate(key);
-    }
-
-    public static void giveItem(EntityPlayer player, EnumHand hand, @Nonnull ItemStack stack) {
-        if (player.getHeldItem(hand).isEmpty()) {
-            player.setHeldItem(hand, stack);
-        } else if (!player.inventory.addItemStackToInventory(stack)) {
-            player.dropItem(stack, false);
-        } else if (player instanceof EntityPlayerMP) {
-            ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
-        }
     }
 }
