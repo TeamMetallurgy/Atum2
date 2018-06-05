@@ -563,6 +563,18 @@
           "weight": 1
         },
         {
+          "type": "item",
+          "name": "atum:nuits_ire",
+          "entryName": "nuits_ire",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:nuits_quarter",
+          "entryName": "nuits_quarter",
+          "weight": 1
+        },
+        {
           "type": "empty",
           "weight": 3
         }

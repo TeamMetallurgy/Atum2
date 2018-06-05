@@ -252,6 +252,8 @@ item.atum.anubissMercy.name=Anubis's Mercy
 item.atum.anubissWrath.name=Anubis's Wrath
 item.atum.nuitsVanishing.name=Nuit's Vanishing
 item.atum.nuitsDuality.name=Nuit's Duality
+item.atum.nuitsIre.name=Nuit's Ire
+item.atum.nuitsQuarter.name=Nuit's Quarter
 
 item.atum.deadwoodDoor.name=Deadwood Door
 item.atum.palmDoor.name=Palm Door
@@ -405,6 +407,14 @@ item.atum.nuitsVanishing.line3=Meld
 item.atum.nuitsDuality.line1=Double Arrow: Fires
 item.atum.nuitsDuality.line2=two arrows
 item.atum.nuitsDuality.line3=Double Arrow
+
+item.atum.nuitsIre.line1=Dusk: Chance to apply Wither
+item.atum.nuitsIre.line2=on hit or block
+item.atum.nuitsIre.line3=Dusk
+
+item.atum.nuitsQuarter.line1=Dawn: Chance to apply Weakness
+item.atum.nuitsQuarter.line2=on hit or block
+item.atum.nuitsQuarter.line3=Dawn
 
 tooltip.atum.minutesRemaining=%d Minutes Remaining
 tooltip.atum.usesRemaining=%d Uses Remaining
