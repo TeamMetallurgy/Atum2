@@ -31,14 +31,14 @@ import java.util.Random;
 
 public class AtumBiome extends Biome {
     private List<SpawnListEntry> undergroundMonsterList = Lists.newArrayList();
-    private int weight = 20;
+    private int weight;
     int deadwoodRarity = 5;
     int palmRarity = 5;
     int pyramidRarity = 240;
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
-        properties.weight = weight;
+        this.weight = properties.weight;
         this.decorator = createBiomeDecorator();
 
         this.spawnableMonsterList.clear();

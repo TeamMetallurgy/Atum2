@@ -32,7 +32,7 @@ public class GenLayerAtumRiverMix extends GenLayer {
 
         for (int i = 0; i < areaWidth * areaHeight; ++i) {
             if (rivers[i] == AtumBiome.getIdForBiome(AtumBiomes.DRIED_RIVER)) {
-                cache[i] = rivers[i];
+                cache[i] = rivers[i] & 255;
             } else {
                 cache[i] = biomes[i];
             }
