@@ -28,6 +28,7 @@ import com.teammetallurgy.atum.items.artifacts.shu.ItemShusSwiftness;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsBlessing;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsCall;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsRain;
+import com.teammetallurgy.atum.items.artifacts.thoth.ItemThothsBearings;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
@@ -100,6 +101,7 @@ public class AtumItems {
     public static final Item ISIS_HEALING = new ItemIsisHealing();
     public static final Item MONTUS_BLAST = new ItemMontusBlast();
     public static final Item MONTUS_STRIKE = new ItemMontusStrike();
+    public static final ItemThothsBearings THOTHS_BEARINGS = new ItemThothsBearings();
     public static final Item ANUBIS_MERCY = new ItemAnubisMercy();
     public static final Item ANUBIS_WRATH = new ItemAnubisWrath();
     public static final Item NUITS_VANISHING = new ItemNuitsVanishing();
@@ -186,6 +188,7 @@ public class AtumItems {
         registerItem(ISIS_HEALING, "isis_healing");
         registerItem(MONTUS_BLAST, "montus_blast");
         registerItem(MONTUS_STRIKE, "montus_strike");
+        registerItem(THOTHS_BEARINGS, "thoths_bearings");
         registerItem(ANUBIS_MERCY, "anubiss_mercy");
         registerItem(ANUBIS_WRATH, "anubiss_wrath");
         registerItem(NUITS_VANISHING, "nuits_vanishing");

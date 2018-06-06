@@ -48,6 +48,8 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientProxy extends CommonProxy {
+    private static final ModelResourceLocation BRIGAND_SHIELD = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "brigand_shield"), "inventory");
+    private static final ModelResourceLocation THOTHS_BEARINGS = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "thoths_bearings"), "inventory");
     public static AtumParticles atumParticles = new AtumParticles();
 
     @SubscribeEvent
@@ -55,7 +57,8 @@ public class ClientProxy extends CommonProxy {
         atumParticles.register();
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield());
-        ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "brigand_shield"), "inventory"));
+        ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> BRIGAND_SHIELD);
+        ModelLoader.setCustomMeshDefinition(AtumItems.THOTHS_BEARINGS, stack -> THOTHS_BEARINGS);
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderLiving<EntityMummy>(manager, new ModelZombie(), 0.5F) {
             @Override
