@@ -42,8 +42,8 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
-        Block blocks = world.getBlockState(pos.down()).getBlock();
-        if ((blocks == AtumBlocks.SAND || blocks == AtumBlocks.FERTILE_SOIL) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256) {
+        Block blockDown = world.getBlockState(pos.down()).getBlock();
+        if (blockDown == AtumBlocks.FERTILE_SOIL && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256) {
             for (int j = pos.getY(); j <= pos.getY() + 1 + treeHeight; ++j) {
 
                 int k = 1;
@@ -84,34 +84,28 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     int j1 = pos.getZ();
                     int k1 = pos.getY() + treeHeight;
 
-                    BlockPos pos1 = new BlockPos(i3, k1, j1);
+                    BlockPos leafPos = new BlockPos(i3, k1, j1);
 
+                    this.spawnLeaf(world, leafPos.add(0, 1, 0));
 
-                    this.spawnLeaf(world, pos1.add(0, 0, 0));
-                    this.spawnLeaf(world, pos1.add(0, 1, 0));
-
-                    for (int block = -1; block <= 1; ++block) {
-                        for (int z = -1; z <= 1; ++z) {
-                            if (block != 0 || z != 0) {
-                                this.spawnLeaf(world, pos1.add(block, 0, z));
-                            }
-                        }
+                    for (BlockPos.MutableBlockPos baseLeafPos : BlockPos.MutableBlockPos.getAllInBoxMutable(leafPos.add(-1, 0, -1), leafPos.add(1, 0, 1))) {
+                        this.spawnLeaf(world, baseLeafPos);
                     }
 
-                    this.spawnLeaf(world, pos1.add(2, 0, 0));
-                    this.spawnLeaf(world, pos1.add(-2, 0, 0));
-                    this.spawnLeaf(world, pos1.add(0, 0, 2));
-                    this.spawnLeaf(world, pos1.add(0, 0, -2));
-                    this.spawnLeaf(world, pos1.add(0, -1, -2));
-                    this.spawnLeaf(world, pos1.add(0, -1, 2));
-                    this.spawnLeaf(world, pos1.add(2, -1, 0));
-                    this.spawnLeaf(world, pos1.add(-2, -1, 0));
-                    this.spawnLeaf(world, pos1.add(0, -1, -3));
-                    this.spawnLeaf(world, pos1.add(0, -1, 3));
-                    this.spawnLeaf(world, pos1.add(3, -1, 0));
-                    this.spawnLeaf(world, pos1.add(-3, -1, 0));
+                    this.spawnLeaf(world, leafPos.add(2, 0, 0));
+                    this.spawnLeaf(world, leafPos.add(-2, 0, 0));
+                    this.spawnLeaf(world, leafPos.add(0, 0, 2));
+                    this.spawnLeaf(world, leafPos.add(0, 0, -2));
+                    this.spawnLeaf(world, leafPos.add(0, -1, -2));
+                    this.spawnLeaf(world, leafPos.add(0, -1, 2));
+                    this.spawnLeaf(world, leafPos.add(2, -1, 0));
+                    this.spawnLeaf(world, leafPos.add(-2, -1, 0));
+                    this.spawnLeaf(world, leafPos.add(0, -1, -3));
+                    this.spawnLeaf(world, leafPos.add(0, -1, 3));
+                    this.spawnLeaf(world, leafPos.add(3, -1, 0));
+                    this.spawnLeaf(world, leafPos.add(-3, -1, 0));
 
-                    BlockPos datePos = pos1.down().offset(EnumFacing.HORIZONTALS[random.nextInt(EnumFacing.HORIZONTALS.length)]);
+                    BlockPos datePos = leafPos.down().offset(EnumFacing.HORIZONTALS[random.nextInt(EnumFacing.HORIZONTALS.length)]);
                     if (random.nextFloat() <= 0.10F) {
                         world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().withProperty(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
                     }

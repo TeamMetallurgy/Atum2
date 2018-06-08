@@ -74,32 +74,9 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
         }
     }
 
-    @Override
-    public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state) {
-        /*if (checkLeaves(world, pos) && !world.isRemote) {
-            for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(3, -1, 3), pos.add(-3, -1, -3))) {
-                if (world.getBlockState(mutableBlockPos).getBlock() instanceof BlockLeave) {
-                    System.out.println("Boop");
-                    dropBlockAsItem(world, mutableBlockPos, state, 0);
-                    world.setBlockToAir(mutableBlockPos);
-                }
-            }
-        }*/
-        super.onBlockDestroyedByPlayer(world, pos, state);
-    }
-
     private boolean nearLog(World world, BlockPos pos) {
         for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(3, 0, 3), pos.add(-3, 0, -3))) {
             if (world.getBlockState(mutableBlockPos).getBlock() instanceof BlockLog) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkLeaves(World world, BlockPos pos) {
-        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
-            if (world.getBlockState(pos.offset(facing)).getBlock() instanceof BlockLeave) {
                 return true;
             }
         }

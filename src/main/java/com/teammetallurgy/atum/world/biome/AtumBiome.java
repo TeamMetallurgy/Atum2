@@ -77,7 +77,7 @@ public class AtumBiome extends Biome {
         this.undergroundMonsterList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
     }
 
-    @Override
+    /*@Override
     @Nonnull
     public List<Biome.SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) {
         if (creatureType == EnumCreatureType.MONSTER) {
@@ -94,7 +94,7 @@ public class AtumBiome extends Biome {
         } else {
             return super.getSpawnableList(creatureType);
         }
-    }
+    }*/
 
     @Override
     @Nonnull
