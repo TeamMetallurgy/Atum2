@@ -5,8 +5,7 @@
     "textures": {
       "end": "atum:blocks/dirty_bone_block",
       "side": "atum:blocks/dirty_bone_block_side"
-    },
-    "uvlock": true
+    }
   },
   "variants": {
     "inventory": [{"model": "bone_block"}],

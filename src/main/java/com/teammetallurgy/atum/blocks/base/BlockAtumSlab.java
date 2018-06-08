@@ -28,11 +28,11 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
 
     public BlockAtumSlab(Material material) {
         this(material, material.getMaterialMapColor());
-        this.setHardness(2.0F);
     }
 
     public BlockAtumSlab(Material material, MapColor color) {
         super(material, color);
+        this.setHardness(2.0F);
         this.setDefaultState(this.getDefaultState().withProperty(TYPE, Type.BOTTOM));
         this.useNeighborBrightness = true;
     }

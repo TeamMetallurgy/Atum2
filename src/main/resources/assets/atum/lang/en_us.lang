@@ -66,6 +66,7 @@ tile.atum.emeraldOre.name=Emerald Ore
 tile.atum.boneOre.name=Bone Ore
 tile.atum.relicOre.name=Relic Ore
 tile.atum.dirtyBoneBlock.name=Dirty Bone Block
+tile.atum.dirtyBoneSlab.name=Dirty Bone Slab
 tile.atum.limestoneFurnace.name=Limestone Furnace
 tile.atum.limestoneFurnaceLit.name=Limestone Furnace
 tile.atum.deadwoodLog.name=Deadwood Wood
