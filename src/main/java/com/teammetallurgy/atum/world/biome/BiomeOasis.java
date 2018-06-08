@@ -33,11 +33,14 @@ public class BiomeOasis extends AtumBiome {
         int x = random.nextInt(16) + 8;
         int z = random.nextInt(16) + 8;
 
-        if (random.nextFloat() <= 0.90F) {
+        int i1 = random.nextInt(16) + 8;
+        int j1 = random.nextInt(256);
+        int k1 = random.nextInt(16) + 8;
+        (new WorldGenLakes(Blocks.WATER)).generate(world, random, pos.add(i1, j1, k1));
+
+        if (random.nextFloat() <= 0.70F) {
             new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, world.getHeight(pos.add(x, 0, z)));
         }
-
-        new WorldGenLakes(Blocks.WATER).generate(world, random, pos.add(random.nextInt(16) + 8, random.nextInt(256), random.nextInt(16) + 8));
 
         super.decorate(world, random, pos);
     }
