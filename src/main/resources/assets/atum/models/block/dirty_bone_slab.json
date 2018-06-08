@@ -1,8 +1,0 @@
-{
-  "parent": "block/half_slab",
-  "textures": {
-    "bottom": "atum:blocks/dirty_bone_block",
-    "top": "atum:blocks/dirty_bone_block",
-    "side": "atum:blocks/dirty_bone_block"
-  }
-}

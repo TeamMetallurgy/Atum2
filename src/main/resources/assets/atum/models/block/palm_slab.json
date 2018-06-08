@@ -1,8 +1,0 @@
-{
-  "parent": "block/half_slab",
-  "textures": {
-    "bottom": "atum:blocks/palm_planks",
-    "top": "atum:blocks/palm_planks",
-    "side": "atum:blocks/palm_planks"
-  }
-}

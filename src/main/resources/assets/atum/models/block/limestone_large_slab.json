@@ -1,8 +1,0 @@
-{
-  "parent": "block/half_slab",
-  "textures": {
-    "bottom": "atum:blocks/limestone_brick_large",
-    "top": "atum:blocks/limestone_brick_large",
-    "side": "atum:blocks/limestone_brick_large"
-  }
-}
