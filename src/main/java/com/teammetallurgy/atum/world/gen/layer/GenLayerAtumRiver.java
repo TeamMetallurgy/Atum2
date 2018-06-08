@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 
@@ -16,9 +16,9 @@ public class GenLayerAtumRiver extends GenLayer {
 
     @Override
     @Nonnull
-    public int[] getInts(int areaX, int areaY, int areaWidth, int areaHeight) {
-        int xx = areaX - 1;
-        int zz = areaY - 1;
+    public int[] getInts(int x, int z, int areaWidth, int areaHeight) {
+        int xx = x - 1;
+        int zz = z - 1;
         int ww = areaWidth + 2;
         int ll = areaHeight + 2;
         int[] pInts = this.parent.getInts(xx, zz, ww, ll);

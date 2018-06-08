@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.world.gen.feature;
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -42,8 +42,8 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
-        Block blockDown = world.getBlockState(pos.down()).getBlock();
-        if (blockDown == AtumBlocks.FERTILE_SOIL && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256) {
+        IBlockState soil = world.getBlockState(pos.down());
+        if (soil.getBlock().canSustainPlant(soil, world, pos.down(), EnumFacing.UP, (BlockAtumSapling) BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256) {
             for (int j = pos.getY(); j <= pos.getY() + 1 + treeHeight; ++j) {
 
                 int k = 1;

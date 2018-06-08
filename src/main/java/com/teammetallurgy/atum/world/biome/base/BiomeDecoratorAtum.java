@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.biome;
+package com.teammetallurgy.atum.world.biome.base;
 
 import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -27,7 +27,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
     private WorldGenerator emeraldGen;
     private WorldGenerator boneGen;
     private WorldGenerator relicGen;
-    private float shrubChance;
+    public float shrubChance;
 
     BiomeDecoratorAtum() {
         super();

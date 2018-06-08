@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 

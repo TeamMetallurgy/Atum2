@@ -63,7 +63,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
 
     @Override
     protected boolean canSustainBush(IBlockState state) {
-        return state.getBlock() == AtumBlocks.SAND || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT;
+        return state.getBlock() == AtumBlocks.FERTILE_SOIL || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT;
     }
 
     @Override
@@ -71,6 +71,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
 
+            if (!world.isAreaLoaded(pos, 1)) return;
             if (world.getLightFromNeighbors(pos.up()) >= 9 && rand.nextInt(20) == 0) {
                 this.grow(world, pos, state, rand);
             }
@@ -88,7 +89,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
     @Override
     public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
         Block blockDown = world.getBlockState(pos.down()).getBlock();
-        return blockDown == AtumBlocks.SAND || blockDown == Blocks.GRASS || blockDown == Blocks.DIRT;
+        return blockDown == AtumBlocks.FERTILE_SOIL || blockDown == Blocks.GRASS || blockDown == Blocks.DIRT;
     }
 
     public void generateTree(World world, BlockPos pos, IBlockState state, Random rand) {

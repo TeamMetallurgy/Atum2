@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -63,7 +62,7 @@ public class WorldGenDeadwood extends WorldGenAbstractTree { //TODO Change how t
             } else {
                 BlockPos down = pos.down();
                 IBlockState state = world.getBlockState(down);
-                boolean isSoil = state.getBlock() instanceof BlockFertileSoil || state.getBlock() == AtumBlocks.SAND;
+                boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
                 if (isSoil && pos.getY() < world.getHeight() - height - 1) {
                     state.getBlock().onPlantGrow(state, world, down, pos);

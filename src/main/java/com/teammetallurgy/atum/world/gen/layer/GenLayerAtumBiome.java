@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.layer;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.ChunkGeneratorSettings;

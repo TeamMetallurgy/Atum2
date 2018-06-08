@@ -1,20 +1,20 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BiomeGenLimestoneMountains extends AtumBiome {
+public class BiomeLimestoneMountains extends AtumBiome {
 
-    public BiomeGenLimestoneMountains(AtumBiomeProperties properties) {
+    public BiomeLimestoneMountains(AtumBiomeProperties properties) {
         super(properties);
 
         this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
 
-        this.palmRarity = -1;
         this.pyramidRarity = -1;
         this.deadwoodRarity = 2;
 

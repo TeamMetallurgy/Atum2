@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import com.teammetallurgy.atum.world.gen.structure.MapGenAtumMineshaft;

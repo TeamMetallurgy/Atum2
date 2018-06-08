@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
@@ -11,13 +12,12 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BiomeGenLimestoneCrags extends AtumBiome {
+public class BiomeLimestoneCrags extends AtumBiome {
     private WorldGenerator genSpikes;
 
-    public BiomeGenLimestoneCrags(AtumBiomeProperties properties) {
+    public BiomeLimestoneCrags(AtumBiomeProperties properties) {
         super(properties);
 
-        this.palmRarity = -1;
         this.pyramidRarity = -1;
         this.deadwoodRarity = 6;
 

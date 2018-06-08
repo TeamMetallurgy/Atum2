@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.handler;
 
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;

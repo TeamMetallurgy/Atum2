@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.biome;
+package com.teammetallurgy.atum.world.biome.base;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
 import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
-import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
 import com.teammetallurgy.atum.entity.undead.EntityBonestorm;
 import com.teammetallurgy.atum.entity.undead.EntityForsaken;
@@ -14,10 +13,8 @@ import com.teammetallurgy.atum.entity.undead.EntityMummy;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,17 +28,15 @@ import java.util.Random;
 
 public class AtumBiome extends Biome {
     private List<SpawnListEntry> undergroundMonsterList = Lists.newArrayList();
+    protected BiomeDecoratorAtum atumDecorator;
     private int weight;
-    private int size;
-    int deadwoodRarity = 5;
-    int palmRarity = 5;
-    int pyramidRarity = 240;
+    protected int deadwoodRarity = 5;
+    protected int pyramidRarity = 240;
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
         this.weight = properties.weight;
-        this.size = properties.size;
-        this.decorator = createBiomeDecorator();
+        this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
 
         this.spawnableMonsterList.clear();
         this.spawnableCreatureList.clear();
@@ -56,15 +51,11 @@ public class AtumBiome extends Biome {
         return weight;
     }
 
-    public int getSize() {
-        return size;
-    }
-
     public void setWeight(int weight) {
         this.weight = weight;
     }
 
-    void addDefaultSpawns() { //TODO Fix weights
+    protected void addDefaultSpawns() { //TODO Fix weights
         this.spawnableCreatureList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 1, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 1, 3));
@@ -98,11 +89,12 @@ public class AtumBiome extends Biome {
 
     @Override
     @Nonnull
-    public BiomeDecorator createBiomeDecorator() {
+    public BiomeDecorator getModdedBiomeDecorator(@Nonnull BiomeDecorator original) {
         final BiomeDecorator dec = new BiomeDecoratorAtum();
         dec.deadBushPerChunk = 5;
         dec.reedsPerChunk = 0;
         dec.cactiPerChunk = 0;
+        dec.grassPerChunk = 0;
 
         return dec;
     }
@@ -113,9 +105,7 @@ public class AtumBiome extends Biome {
         int z = random.nextInt(4) + 4;
 
         BlockPos height = world.getHeight(pos.add(x, 0, z));
-        if (palmRarity > 0 && random.nextInt(palmRarity) == 0) {
-            new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
-        } else if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
+        if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
             //new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
         } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
             new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, height);
@@ -173,7 +163,6 @@ public class AtumBiome extends Biome {
 
     public static class AtumBiomeProperties extends BiomeProperties {
         private int weight;
-        private int size;
 
         public AtumBiomeProperties(String biomeName, int weight) {
             super(biomeName);
@@ -184,12 +173,6 @@ public class AtumBiome extends Biome {
             this.setTemperature(2.0F);
             this.setWaterColor(16421912);
             this.weight = weight;
-            this.size = 4;
-        }
-
-        public AtumBiomeProperties setSize(int size) {
-            this.size = size;
-            return this;
         }
 
         @Override

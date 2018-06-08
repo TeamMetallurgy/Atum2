@@ -1,11 +1,11 @@
-package com.teammetallurgy.atum.world.biome;
+package com.teammetallurgy.atum.world.biome.base;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumBiome;
 import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumRiver;
 import com.teammetallurgy.atum.world.gen.layer.GenLayerAtumRiverMix;
+import com.teammetallurgy.atum.world.gen.layer.GenLayerOasis;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
@@ -36,12 +36,6 @@ public class AtumBiomeProvider extends BiomeProvider {
         layerZoom2 = new GenLayerZoom(2003L, layerZoom2);
         GenLayer magnify = GenLayerZoom.magnify(1000L, layerZoom2, 0);
         int biomeSize = 4;
-        for (AtumBiome biome : AtumRegistry.BIOMES) {
-            if (biome.getSize() != 0) {
-                System.out.println(biome.getBiomeName() + " size: " + biome.getSize());
-                biomeSize = biome.getSize();
-            }
-        }
         int riverSize = biomeSize;
 
         if (settings != null) {
@@ -62,9 +56,8 @@ public class AtumBiomeProvider extends BiomeProvider {
         riverMagnify2 = GenLayerZoom.magnify(1000L, riverMagnify2, riverSize);
         GenLayer layerRiver = new GenLayerAtumRiver(1L, riverMagnify2);
         GenLayer layerSmooth = new GenLayerSmooth(1000L, layerRiver);
-        layerHills = new GenLayerRareBiome(1001L, layerHills);
+        layerHills = new GenLayerOasis(1001L, layerHills);
 
-        System.out.println("Beep " + biomeSize);
         for (int k = 0; k < biomeSize; ++k) {
             layerHills = new GenLayerZoom((long) (1000 + k), layerHills);
         }

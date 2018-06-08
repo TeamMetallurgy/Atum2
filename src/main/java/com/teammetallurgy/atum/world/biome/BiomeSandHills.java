@@ -1,11 +1,12 @@
 package com.teammetallurgy.atum.world.biome;
 
-public class BiomeGenSandHills extends AtumBiome {
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 
-    public BiomeGenSandHills(AtumBiomeProperties properties) {
+public class BiomeSandHills extends AtumBiome {
+
+    public BiomeSandHills(AtumBiomeProperties properties) {
         super(properties);
 
-        this.palmRarity = -1;
         this.pyramidRarity = -1;
         this.deadwoodRarity = 4;
 

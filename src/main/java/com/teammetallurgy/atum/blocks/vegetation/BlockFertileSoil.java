@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
@@ -42,7 +43,7 @@ public class BlockFertileSoil extends Block {
     @Override
     public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
         if (!world.isRemote) {
-            if (!hasWater(world, pos)) {
+            if (!hasWater(world, pos) && world.getBiome(pos) != AtumBiomes.OASIS) {
                 world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
             }
         }
@@ -68,7 +69,7 @@ public class BlockFertileSoil extends Block {
 
         switch (plantType) {
             case Plains:
-                return hasWater;
+                return true;
             case Beach:
                 return hasWater;
             default:

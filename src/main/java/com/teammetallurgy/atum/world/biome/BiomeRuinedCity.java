@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenRuins;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -8,15 +9,16 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BiomeGenRuinedCity extends AtumBiome {
+public class BiomeRuinedCity extends AtumBiome {
     protected final WorldGenerator genRuins;
 
-    public BiomeGenRuinedCity(AtumBiomeProperties properties) {
+    public BiomeRuinedCity(AtumBiomeProperties properties) {
         super(properties);
 
         this.genRuins = new WorldGenRuins();
 
-        this.palmRarity = -1;
+        this.pyramidRarity = -1;
+        this.deadwoodRarity = 2;
 
         this.addDefaultSpawns();
     }

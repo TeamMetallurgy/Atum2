@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.world;
 
-import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
@@ -29,6 +31,17 @@ public class WorldProviderAtum extends WorldProvider {
     @Nonnull
     public IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorAtum(world, world.getSeed(), true, world.getWorldInfo().getGeneratorOptions());
+    }
+
+    @Override
+    public boolean canCoordinateBeSpawn(int x, int z) {
+        BlockPos blockpos = new BlockPos(x, 0, z);
+
+        if (this.world.getBiome(blockpos).ignorePlayerSpawnSuitability()) {
+            return true;
+        } else {
+            return this.world.getGroundAboveSeaLevel(blockpos).getBlock() == AtumBlocks.SAND;
+        }
     }
 
     /*@Override
@@ -61,6 +74,11 @@ public class WorldProviderAtum extends WorldProvider {
         float f1 = 1.0F - (float) ((Math.cos((double) f * Math.PI) + 1.0D) / 2.0D);
         f = f + (f1 - f) / 3.0F;
         return f;
+    }
+
+    @Override
+    public int getMoonPhase(long worldTime) {
+        return (int) (worldTime / 48000L % 8L + 8L) % 8;
     }
 
     @Override
