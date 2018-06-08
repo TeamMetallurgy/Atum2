@@ -1,5 +1,18 @@
 {
+  "forge_marker": 1,
+  "defaults": {
+    "model": "atum:date"
+  },
   "variants": {
-    "normal": { "model": "atum:date" }
+    "age": {
+      "0": { "textures": { "date": "atum:blocks/date_stage_0" }},
+      "1": { "textures": { "date": "atum:blocks/date_stage_1" }},
+      "2": { "textures": { "date": "atum:blocks/date_stage_1" }},
+      "3": { "textures": { "date": "atum:blocks/date_stage_2" }},
+      "4": { "textures": { "date": "atum:blocks/date_stage_3" }},
+      "5": { "textures": { "date": "atum:blocks/date_stage_3" }},
+      "6": { "textures": { "date": "atum:blocks/date_stage_4" }},
+      "7": { "textures": { "date": "atum:blocks/date_stage_5" }}
+    }
   }
 }

@@ -1,12 +1,10 @@
 {
-    "__comment": "Model generated using MrCrayfish's Model Creator (http://mrcrayfish.com/modelcreator/)",
     "textures": {
-        "particle": "atum:blocks/date",
-        "date": "atum:blocks/date"
+        "particle": "#date"
     },
     "elements": [
         {
-            "name": "Fruit",
+            "name": "fruit",
             "from": [ 5.0, 2.0, 5.0 ], 
             "to": [ 11.0, 10.0, 11.0 ], 
             "faces": {
@@ -19,7 +17,7 @@
             }
         },
         {
-            "name": "Stem",
+            "name": "stem",
             "from": [ 7.0, 10.0, 7.0 ], 
             "to": [ 9.0, 16.0, 9.0 ], 
             "faces": {

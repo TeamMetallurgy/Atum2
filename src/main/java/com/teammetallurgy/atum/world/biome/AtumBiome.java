@@ -32,6 +32,7 @@ import java.util.Random;
 public class AtumBiome extends Biome {
     private List<SpawnListEntry> undergroundMonsterList = Lists.newArrayList();
     private int weight;
+    private int size;
     int deadwoodRarity = 5;
     int palmRarity = 5;
     int pyramidRarity = 240;
@@ -39,6 +40,7 @@ public class AtumBiome extends Biome {
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
         this.weight = properties.weight;
+        this.size = properties.size;
         this.decorator = createBiomeDecorator();
 
         this.spawnableMonsterList.clear();
@@ -52,6 +54,10 @@ public class AtumBiome extends Biome {
 
     public int getWeight() {
         return weight;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public void setWeight(int weight) {
@@ -80,11 +86,13 @@ public class AtumBiome extends Biome {
             return this.spawnableCreatureList;
         } else if (creatureType == EntityStoneBase.STONE) {
             return this.undergroundMonsterList;
-        } else {
+        } else if (this.modSpawnableLists != null) {
             if (!this.modSpawnableLists.containsKey(creatureType)) {
                 this.modSpawnableLists.put(creatureType, Lists.newArrayList());
             }
             return this.modSpawnableLists.get(creatureType);
+        } else {
+            return super.getSpawnableList(creatureType);
         }
     }
 
@@ -165,6 +173,7 @@ public class AtumBiome extends Biome {
 
     public static class AtumBiomeProperties extends BiomeProperties {
         private int weight;
+        private int size;
 
         public AtumBiomeProperties(String biomeName, int weight) {
             super(biomeName);
@@ -175,6 +184,12 @@ public class AtumBiome extends Biome {
             this.setTemperature(2.0F);
             this.setWaterColor(16421912);
             this.weight = weight;
+            this.size = 4;
+        }
+
+        public AtumBiomeProperties setSize(int size) {
+            this.size = size;
+            return this;
         }
 
         @Override

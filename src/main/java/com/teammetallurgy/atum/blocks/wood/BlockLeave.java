@@ -2,11 +2,13 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLeaves;
+import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
@@ -20,6 +22,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -53,9 +57,69 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
-        world.setBlockState(pos, this.getDefaultState().withProperty(CHECK_DECAY, false).withProperty(DECAYABLE, false));
-        super.onBlockPlacedBy(world, pos, state, placer, stack);
+    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
+        if (!world.isRemote) {
+            if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
+                if (!nearLog(world, pos)) {
+                    super.updateTick(world, pos, state, rand);
+                } else {
+                    world.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
+                }
+            }
+            if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.02F) {
+                if (state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down())) {
+                    world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onBlockDestroyedByPlayer(World world, BlockPos pos, IBlockState state) {
+        /*if (checkLeaves(world, pos) && !world.isRemote) {
+            for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(3, -1, 3), pos.add(-3, -1, -3))) {
+                if (world.getBlockState(mutableBlockPos).getBlock() instanceof BlockLeave) {
+                    System.out.println("Boop");
+                    dropBlockAsItem(world, mutableBlockPos, state, 0);
+                    world.setBlockToAir(mutableBlockPos);
+                }
+            }
+        }*/
+        super.onBlockDestroyedByPlayer(world, pos, state);
+    }
+
+    private boolean nearLog(World world, BlockPos pos) {
+        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(3, 0, 3), pos.add(-3, 0, -3))) {
+            if (world.getBlockState(mutableBlockPos).getBlock() instanceof BlockLog) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean checkLeaves(World world, BlockPos pos) {
+        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+            if (world.getBlockState(pos.offset(facing)).getBlock() instanceof BlockLeave) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isValidLocation(@Nonnull World worldIn, @Nonnull BlockPos pos) {
+        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+            BlockPos check = pos.offset(facing);
+            if (worldIn.getBlockState(check).getBlock() == BlockAtumLog.getLog(BlockAtumPlank.WoodType.PALM)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull EntityLivingBase placer, EnumHand hand) {
+        return this.getDefaultState().withProperty(CHECK_DECAY, false).withProperty(DECAYABLE, false);
     }
 
     @Override
@@ -71,7 +135,6 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
         if (!state.getValue(DECAYABLE)) {
             i |= 1;
         }
-
         if (state.getValue(CHECK_DECAY)) {
             i |= 4;
         }

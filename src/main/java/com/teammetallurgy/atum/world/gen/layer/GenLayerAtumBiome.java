@@ -22,7 +22,6 @@ public class GenLayerAtumBiome extends GenLayer {
 
         if (worldType == WorldType.DEFAULT) {
             for (AtumBiome biome : AtumRegistry.BIOMES) {
-                System.out.println(biome.getBiomeName() + " weight: " + biome.getWeight());
                 final BiomeEntry entry = new BiomeEntry(biome, biome.getWeight());
                 if (biome.getWeight() != 0) {
                     biomes.add(entry);

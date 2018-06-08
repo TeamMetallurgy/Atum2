@@ -1,12 +1,15 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
+import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 
@@ -82,14 +85,15 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     int k1 = pos.getY() + treeHeight;
 
                     BlockPos pos1 = new BlockPos(i3, k1, j1);
-                    
 
+
+                    this.spawnLeaf(world, pos1.add(0, 0, 0));
                     this.spawnLeaf(world, pos1.add(0, 1, 0));
 
                     for (int block = -1; block <= 1; ++block) {
                         for (int z = -1; z <= 1; ++z) {
                             if (block != 0 || z != 0) {
-                                this.spawnLeaf(world, pos1.add(block,0,z));
+                                this.spawnLeaf(world, pos1.add(block, 0, z));
                             }
                         }
                     }
@@ -106,20 +110,10 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     this.spawnLeaf(world, pos1.add(0, -1, 3));
                     this.spawnLeaf(world, pos1.add(3, -1, 0));
                     this.spawnLeaf(world, pos1.add(-3, -1, 0));
-                    if (random.nextInt(100) < 15) {
-                        world.setBlockState(pos1.add(1, -1, 0), AtumBlocks.DATE_BLOCK.getDefaultState(), 2);
-                    }
 
-                    if (random.nextInt(100) < 15) {
-                        world.setBlockState(pos1.add(-1, -1, 0), AtumBlocks.DATE_BLOCK.getDefaultState(), 2);
-                    }
-
-                    if (random.nextInt(100) < 15) {
-                        world.setBlockState(pos1.add(0, -1, 1), AtumBlocks.DATE_BLOCK.getDefaultState(), 2);
-                    }
-
-                    if (random.nextInt(100) < 15) {
-                        world.setBlockState(pos1.add(0, -1, -1), AtumBlocks.DATE_BLOCK.getDefaultState(), 2);
+                    BlockPos datePos = pos1.down().offset(EnumFacing.HORIZONTALS[random.nextInt(EnumFacing.HORIZONTALS.length)]);
+                    if (random.nextFloat() <= 0.10F) {
+                        world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().withProperty(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
                     }
                 }
 
