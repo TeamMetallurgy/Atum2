@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "item": "atum:dirty_bone_slab"
+    }
+  },
+  "result": {
+    "item": "atum:dirty_bone_block",
+    "count": 3
+  }
+}

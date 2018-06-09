@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP ",
+    "PP ",
+    "PP "
+  ],
+  "key": {
+    "P": {
+      "item": "atum:limestone_cracked"
+    }
+  },
+  "result": {
+    "item": "atum:limestone_cracked_door"
+  }
+}
