@@ -13,14 +13,19 @@ import com.teammetallurgy.atum.entity.undead.EntityMummy;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.gen.feature.WorldGenFossils;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -109,6 +114,11 @@ public class AtumBiome extends Biome {
             //new WorldGenPyramid().generate(world, random, pos.add(x, 0, z));
         } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
             new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, height);
+        }
+        if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.FOSSIL)) {
+            if (random.nextInt(64) == 0) {
+                (new WorldGenFossil()).generate(world, random, pos);
+            }
         }
         super.decorate(world, random, pos);
     }
