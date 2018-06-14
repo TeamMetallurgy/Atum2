@@ -40,6 +40,7 @@ public class AtumBlocks {
     public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
+    public static final Block RA_STONE = new BlockRaStone();
     public static final Block SMOOTH_STAIRS = new BlockAtumStairs(LIMESTONE.getDefaultState());
     public static final Block CRACKED_STAIRS = new BlockAtumStairs(LIMESTONE_CRACKED.getDefaultState());
     public static final Block SMOOTH_LIMESTONE_SLAB = new BlockAtumSlab(Material.ROCK);
@@ -136,6 +137,7 @@ public class AtumBlocks {
         BlockAtumStairs.registerLimestoneStairs();
         registerBlock(LIMESTONE_WALL, "limestone_wall");
         registerBlock(LIMESTONE_CRACKED_WALL, "limestone_cracked_wall");
+        registerBlock(RA_STONE, "ra_stone");
         BlockLimestoneWall.registerWalls();
         registerBlock(LIMESTONE_DOOR, new ItemDoor(LIMESTONE_DOOR), "limestone_door");
         registerBlock(LIMESTONE_CRACKED_DOOR, new ItemDoor(LIMESTONE_CRACKED_DOOR), "limestone_cracked_door");

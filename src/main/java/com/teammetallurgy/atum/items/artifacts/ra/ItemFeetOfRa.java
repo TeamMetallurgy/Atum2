@@ -69,9 +69,9 @@ public class ItemFeetOfRa extends ItemTexturedArmor {
                     if (state.getMaterial() == Material.AIR) {
                         IBlockState airState = world.getBlockState(mutablePosBox);
 
-                        if (airState.getMaterial() == Material.LAVA && (airState.getBlock() == Blocks.LAVA || airState.getBlock() == Blocks.FLOWING_LAVA) && airState.getValue(BlockLiquid.LEVEL) == 0 && world.mayPlace(AtumBlocks.LIMESTONE_CRACKED, mutablePosBox, false, EnumFacing.DOWN, null)) {
-                            world.setBlockState(mutablePosBox, AtumBlocks.LIMESTONE_CRACKED.getDefaultState());
-                            world.scheduleUpdate(mutablePosBox.toImmutable(), AtumBlocks.LIMESTONE_CRACKED, MathHelper.getInt(living.getRNG(), 60, 120));
+                        if (airState.getMaterial() == Material.LAVA && (airState.getBlock() == Blocks.LAVA || airState.getBlock() == Blocks.FLOWING_LAVA) && airState.getValue(BlockLiquid.LEVEL) == 0 && world.mayPlace(AtumBlocks.RA_STONE, mutablePosBox, false, EnumFacing.DOWN, null)) {
+                            world.setBlockState(mutablePosBox, AtumBlocks.RA_STONE.getDefaultState());
+                            world.scheduleUpdate(mutablePosBox.toImmutable(), AtumBlocks.RA_STONE, MathHelper.getInt(living.getRNG(), 60, 120));
                         }
                     }
                 }

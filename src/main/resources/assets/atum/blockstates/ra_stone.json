@@ -1,0 +1,15 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cube_all"
+  },
+  "variants": {
+    "inventory": [{"textures": { "all": "atum:blocks/ra_stone_1" }}],
+    "age": {
+      "0": { "textures": { "all": "atum:blocks/ra_stone_1" }},
+      "1": { "textures": { "all": "atum:blocks/ra_stone_2" }},
+      "2": { "textures": { "all": "atum:blocks/ra_stone_3" }},
+      "3": { "textures": { "all": "atum:blocks/ra_stone_4" }}
+    }
+  }
+}
