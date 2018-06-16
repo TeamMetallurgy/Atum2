@@ -38,21 +38,17 @@ public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
 
     @Override
     public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        if (this.blockMaterial == Material.ROCK) {
+        BlockPos pos1 = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
+        IBlockState state1 = pos.equals(pos1) ? state : world.getBlockState(pos1);
+
+        if (state1.getBlock() != this) {
             return false;
         } else {
-            BlockPos pos1 = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-            IBlockState state1 = pos.equals(pos1) ? state : world.getBlockState(pos1);
-
-            if (state1.getBlock() != this) {
-                return false;
-            } else {
-                state = state1.cycleProperty(OPEN);
-                world.setBlockState(pos1, state, 10);
-                world.markBlockRangeForRenderUpdate(pos1, pos);
-                world.playSound(null, pos, state.getValue(OPEN) ? this.getOpenSound() : this.getCloseSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-                return true;
-            }
+            state = state1.cycleProperty(OPEN);
+            world.setBlockState(pos1, state, 10);
+            world.markBlockRangeForRenderUpdate(pos1, pos);
+            world.playSound(null, pos, state.getValue(OPEN) ? this.getOpenSound() : this.getCloseSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
+            return true;
         }
     }
 
@@ -76,7 +72,7 @@ public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
     }
 
     private SoundEvent getOpenSound() {
-        return this.blockMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK  : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
+        return this.blockMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
     }
 
     @Override
