@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.tileentity.furnace;
+package com.teammetallurgy.atum.blocks.limestone.tileentity.furnace;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;

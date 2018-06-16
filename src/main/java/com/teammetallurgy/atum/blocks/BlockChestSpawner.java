@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityChestSpawner;
+import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityChestSpawner;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;

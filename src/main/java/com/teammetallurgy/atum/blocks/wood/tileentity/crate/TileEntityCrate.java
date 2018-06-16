@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.tileentity.crate;
+package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.utils.Constants;

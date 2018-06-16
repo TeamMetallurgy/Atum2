@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.tileentity.chests;
+package com.teammetallurgy.atum.blocks.wood.tileentity.chests;
 
 import com.teammetallurgy.atum.blocks.BlockChestSpawner;
 import com.teammetallurgy.atum.init.AtumEntities;

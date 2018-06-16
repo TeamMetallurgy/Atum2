@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.client.gui;
 
-import com.teammetallurgy.atum.blocks.tileentity.crate.ContainerCrate;
-import com.teammetallurgy.atum.blocks.tileentity.crate.GuiCrate;
-import com.teammetallurgy.atum.blocks.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.blocks.tileentity.furnace.GuiLimestoneFurnace;
-import com.teammetallurgy.atum.blocks.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.GuiLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.ContainerCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.GuiCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.tileentity.TileEntity;

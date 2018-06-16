@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.material.Material;

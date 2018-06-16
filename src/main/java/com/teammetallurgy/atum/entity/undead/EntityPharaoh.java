@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.undead;
 import com.google.common.base.Optional;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.tileentity.chests.TileEntityPharaohChest;
+import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.AtumUtils;

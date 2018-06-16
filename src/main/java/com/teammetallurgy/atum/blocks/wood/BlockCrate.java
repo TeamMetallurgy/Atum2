@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

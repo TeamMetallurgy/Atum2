@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.tileentity.crate;
+package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
