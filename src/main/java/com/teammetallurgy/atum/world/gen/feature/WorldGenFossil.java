@@ -8,6 +8,7 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.feature.WorldGenFossils;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
@@ -32,7 +33,6 @@ public class WorldGenFossil extends WorldGenerator {
         for (int i = 0; i <= size; ++i) {
             template = manager.getTemplate(server, new ResourceLocation(FOSSIL.toString() + String.valueOf(i)));
         }
-        //Template template1 = templatemanager.getTemplate(minecraftserver, FOSSILS_COAL[i]);
         ChunkPos chunkPos = new ChunkPos(pos);
         StructureBoundingBox structureboundingbox = new StructureBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), 256, chunkPos.getZEnd());
         PlacementSettings settings = (new PlacementSettings()).setRotation(rotation).setBoundingBox(structureboundingbox).setRandom(random);
@@ -50,11 +50,8 @@ public class WorldGenFossil extends WorldGenerator {
         int k1 = Math.max(l - 15 - random.nextInt(10), 10);
         BlockPos zero = template.getZeroPositionWithTransform(pos.add(j, k1, k), Mirror.NONE, rotation);
         System.out.println("Fossil: " + pos.add(j, k1, k));
-        //settings.setIntegrity(0.9F);
+        settings.setIntegrity(0.8F);
         template.addBlocksToWorld(world, zero, settings, 20);
-        settings.setIgnoreStructureBlock(true);
-        //settings.setIntegrity(0.1F);
-        //template1.addBlocksToWorld(world, blockpos1, placementsettings, 20);
         return true;
     }
 }
