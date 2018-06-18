@@ -53,21 +53,7 @@ public class BlockBurningTrap extends BlockTrap {
         if (state.getValue(DISABLED)) {
             i |= 8;
         }
-
         return i;
-    }
-
-    @Override
-    @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rotation) {
-        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
-    }
-
-
-    @Override
-    @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
     @Override

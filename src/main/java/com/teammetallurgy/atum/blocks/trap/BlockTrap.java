@@ -15,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -81,8 +83,7 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    public boolean hasComparatorInputOverride(IBlockState state)
-    {
+    public boolean hasComparatorInputOverride(IBlockState state) {
         return true;
     }
 
@@ -97,5 +98,17 @@ public abstract class BlockTrap extends BlockContainer {
         double y = coords.getY() + 0.7D * (double) facing.getFrontOffsetY();
         double z = coords.getZ() + 0.7D * (double) facing.getFrontOffsetZ();
         return new PositionImpl(x, y, z);
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rotation) {
+        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 }

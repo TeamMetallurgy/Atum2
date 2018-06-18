@@ -45,13 +45,13 @@ public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
             AxisAlignedBB bb = new AxisAlignedBB((double) xMin, (double) yMin, (double) zMin, (double) xMax, (double) yMax, (double) zMax);
             List<EntityMob> mobs = super.world.getEntitiesWithinAABB(EntityMob.class, bb);
             if (player != null && bb.contains(new Vec3d(player.posX, player.posY + 0.5D, player.posZ))) {
-                player.setFire(2);
+                player.setFire(8);
                 this.spawnFlames(facing);
             }
 
             for (EntityMob mob : mobs) {
                 if (mob != null) {
-                    mob.setFire(2);
+                    mob.setFire(8);
                 }
             }
         }
