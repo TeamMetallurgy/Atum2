@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
@@ -13,11 +11,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.Vec3d;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
-    private boolean isDisabled = false;
 
     @Override
     public void update() {
@@ -34,8 +30,7 @@ public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
             int yMax = y + range;
             int zMin = z;
             int zMax = z + range;
-            IBlockState state = world.getBlockState(pos);
-            EnumFacing facing = state.getValue(BlockTrap.FACING);
+            EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             xMin += facing.getFrontOffsetX() * range;
             xMax += facing.getFrontOffsetX() * range;
             yMin += facing.getFrontOffsetY() * range;
@@ -43,14 +38,15 @@ public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
             zMin += facing.getFrontOffsetZ() * range;
             zMax += facing.getFrontOffsetZ() * range;
             AxisAlignedBB bb = new AxisAlignedBB((double) xMin, (double) yMin, (double) zMin, (double) xMax, (double) yMax, (double) zMax);
-            List<EntityMob> mobs = super.world.getEntitiesWithinAABB(EntityMob.class, bb);
+            List<EntityLivingBase> mobs = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
             if (player != null && bb.contains(new Vec3d(player.posX, player.posY + 0.5D, player.posZ))) {
                 player.setFire(8);
                 this.spawnFlames(facing);
             }
 
-            for (EntityMob mob : mobs) {
+            for (EntityLivingBase mob : mobs) {
                 if (mob != null) {
+                    this.spawnFlames(facing);
                     mob.setFire(8);
                 }
             }
@@ -58,48 +54,39 @@ public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
     }
 
     private void spawnFlames(EnumFacing facing) {
-        double d0 = (double) pos.getX() + 0.5D;
-        double d1 = (double) pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
-        double d2 = (double) pos.getZ() + 0.5D;
-        double d4 = world.rand.nextDouble() * 0.6D - 0.3D;
+        double x = (double) pos.getX() + 0.5D;
+        double y = (double) pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
+        double z = (double) pos.getZ() + 0.5D;
+        double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         if (world.rand.nextDouble() < 0.1D) {
             world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }
         switch (facing) {
+            case DOWN:
+                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.FLAME, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                break;
+            case UP:
+                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.FLAME, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                break;
             case WEST:
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.FLAME, d0 - 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.FLAME, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case EAST:
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.FLAME, d0 + 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.FLAME, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case NORTH:
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - 0.52D, 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.FLAME, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
             case SOUTH:
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + 0.52D, 0.0D, 0.0D, 0.0D);
-                world.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.spawnParticle(EnumParticleTypes.FLAME, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                break;
         }
-    }
-
-    public void setDisabled() {
-        this.isDisabled = true;
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-        this.isDisabled = compound.getBoolean("Disabled");
-    }
-
-    @Override
-    @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-        compound.setBoolean("Disabled", this.isDisabled);
-        return compound;
     }
 }

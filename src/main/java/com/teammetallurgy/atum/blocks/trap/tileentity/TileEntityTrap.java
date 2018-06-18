@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import javax.annotation.Nonnull;
 
 public class TileEntityTrap extends TileEntity {
+    boolean isDisabled = false;
 
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {
@@ -24,5 +25,23 @@ public class TileEntityTrap extends TileEntity {
     @Nonnull
     public NBTTagCompound getUpdateTag() {
         return this.writeToNBT(new NBTTagCompound());
+    }
+
+    public void setDisabled() {
+        this.isDisabled = true;
+    }
+
+    @Override
+    public void readFromNBT(NBTTagCompound compound) {
+        super.readFromNBT(compound);
+        this.isDisabled = compound.getBoolean("Disabled");
+    }
+
+    @Override
+    @Nonnull
+    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+        super.writeToNBT(compound);
+        compound.setBoolean("Disabled", this.isDisabled);
+        return compound;
     }
 }

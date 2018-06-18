@@ -1,34 +1,51 @@
 package com.teammetallurgy.atum.blocks.trap;
 
+import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.dispenser.IPosition;
 import net.minecraft.dispenser.PositionImpl;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public abstract class BlockTrap extends BlockContainer {
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
+    private static final PropertyBool DISABLED = PropertyBool.create("disabled");
 
-    BlockTrap() {
+    public BlockTrap() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setHarvestLevel("pickaxe", 0);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DISABLED, Boolean.FALSE));
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.MAIN_HAND)) && tileEntity instanceof TileEntityTrap && !world.isRemote) {
+            ((TileEntityTrap) tileEntity).setDisabled();
+            world.setBlockState(pos, state.withProperty(DISABLED, true));
+            return true;
+        }
+        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
     @Override
@@ -83,6 +100,12 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
+    @Nonnull
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Item.getItemFromBlock(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CHISELED));
+    }
+
+    @Override
     public boolean hasComparatorInputOverride(IBlockState state) {
         return true;
     }
@@ -110,5 +133,28 @@ public abstract class BlockTrap extends BlockContainer {
     @Nonnull
     public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7)).withProperty(DISABLED, (meta & 8) > 0);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        int i = 0;
+        i = i | state.getValue(FACING).getIndex();
+
+        if (state.getValue(DISABLED)) {
+            i |= 8;
+        }
+        return i;
+    }
+
+    @Override
+    @Nonnull
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, FACING, DISABLED);
     }
 }
