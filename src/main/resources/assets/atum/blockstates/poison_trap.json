@@ -2,9 +2,9 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "top": "atum:blocks/trap_side",
+            "top": "atum:blocks/limestone_brick_carved",
             "front_on": "atum:blocks/trap_poison",
-            "side": "atum:blocks/trap_side",
+            "side": "atum:blocks/limestone_brick_carved",
             "front_off": "atum:blocks/trap_poison_off"
         }
     },

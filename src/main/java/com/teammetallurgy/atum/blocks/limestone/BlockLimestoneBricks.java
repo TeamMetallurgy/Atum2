@@ -63,7 +63,8 @@ public class BlockLimestoneBricks extends Block {
         SMALL("small"),
         LARGE("large"),
         CRACKED("cracked_brick"),
-        CHISELED("chiseled");
+        CHISELED("chiseled"),
+        CARVED("carved");
 
         private final String name;
 
