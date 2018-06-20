@@ -1,15 +1,12 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.Vec3d;
 
 import java.util.List;
 
@@ -17,37 +14,14 @@ public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
 
     @Override
     public void update() {
-        if (!this.isDisabled) {
-            int x = getPos().getX();
-            int y = getPos().getY();
-            int z = getPos().getZ();
-
-            EntityPlayer player = world.getClosestPlayer((double) x, (double) y, (double) z, 4.0D, false);
-            byte range = 1;
-            int xMin = x;
-            int xMax = x + range;
-            int yMin = y;
-            int yMax = y + range;
-            int zMin = z;
-            int zMax = z + range;
+        EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), 4.0D, false);
+        if (!this.isDisabled && player != null && !player.capabilities.isCreativeMode) {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
-            xMin += facing.getFrontOffsetX() * range;
-            xMax += facing.getFrontOffsetX() * range;
-            yMin += facing.getFrontOffsetY() * range;
-            yMax += facing.getFrontOffsetY() * range;
-            zMin += facing.getFrontOffsetZ() * range;
-            zMax += facing.getFrontOffsetZ() * range;
-            AxisAlignedBB bb = new AxisAlignedBB((double) xMin, (double) yMin, (double) zMin, (double) xMax, (double) yMax, (double) zMax);
-            List<EntityLivingBase> mobs = world.getEntitiesWithinAABB(EntityLivingBase.class, bb);
-            if (player != null && bb.contains(new Vec3d(player.posX, player.posY + 0.5D, player.posZ))) {
-                player.setFire(8);
-                this.spawnFlames(facing);
-            }
-
-            for (EntityLivingBase mob : mobs) {
-                if (mob != null) {
+            List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getFacingBoxWithRange(facing, 1));
+            for (EntityPlayer p : players) {
+                if (p != null) {
                     this.spawnFlames(facing);
-                    mob.setFire(8);
+                    p.setFire(8);
                 }
             }
         }

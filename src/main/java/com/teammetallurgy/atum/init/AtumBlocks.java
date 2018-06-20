@@ -10,8 +10,8 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.limestone.*;
 import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
-import com.teammetallurgy.atum.blocks.trap.BlockBurningTrap;
-import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityBurningTrap;
+import com.teammetallurgy.atum.blocks.trap.*;
+import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityChestSpawner;
@@ -70,6 +70,10 @@ public class AtumBlocks {
     public static final BlockAtumTorch LIMESTONE_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch PHARAOH_TORCH = new BlockAtumTorch();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
+    public static final Block POISON_TRAP = new BlockPoisonTrap();
+    public static final Block TAR_TRAP = new BlockTarTrap();
+    public static final Block SMOKE_TRAP = new BlockSmokeTrap();
+    public static final Block ARROW_TRAP = new BlockArrowTrap();
     public static final Block PHARAOH_CHEST = new BlockPharaohChest();
     public static final Block GOLD_ORE = new BlockAtumOres();
     public static final Block IRON_ORE = new BlockAtumOres();
@@ -104,6 +108,10 @@ public class AtumBlocks {
         registerBlock(FERTILE_SOIL, "fertile_soil");
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");
         registerBlock(BURNING_TRAP, "burning_trap");
+        registerBlock(POISON_TRAP, "poison_trap");
+        registerBlock(TAR_TRAP, "tar_trap");
+        registerBlock(SMOKE_TRAP, "smoke_trap");
+        registerBlock(ARROW_TRAP, "arrow_trap");
         registerBlock(PHARAOH_CHEST, "pharaoh_chest");
         registerBlock(GOLD_ORE, "gold_ore");
         registerBlock(IRON_ORE, "iron_ore");
@@ -178,6 +186,10 @@ public class AtumBlocks {
         GameRegistry.registerTileEntity(TileEntityChestSpawner.class, new ResourceLocation(Constants.MOD_ID, "cursed_chest"));
         GameRegistry.registerTileEntity(TileEntityPharaohChest.class, new ResourceLocation(Constants.MOD_ID, "pharaoh_chest"));
         GameRegistry.registerTileEntity(TileEntityBurningTrap.class, new ResourceLocation(Constants.MOD_ID, "burning_trap"));
+        GameRegistry.registerTileEntity(TileEntityPoisonTrap.class, new ResourceLocation(Constants.MOD_ID, "poison_trap"));
+        GameRegistry.registerTileEntity(TileEntityTarTrap.class, new ResourceLocation(Constants.MOD_ID, "tar_trap"));
+        GameRegistry.registerTileEntity(TileEntitySmokeTrap.class, new ResourceLocation(Constants.MOD_ID, "smoke_trap"));
+        GameRegistry.registerTileEntity(TileEntityArrowTrap.class, new ResourceLocation(Constants.MOD_ID, "arrow_trap"));
         GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
         GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
     }

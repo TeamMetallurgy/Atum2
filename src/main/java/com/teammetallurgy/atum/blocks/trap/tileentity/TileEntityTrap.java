@@ -4,11 +4,22 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
 public class TileEntityTrap extends TileEntity {
     boolean isDisabled = false;
+
+    AxisAlignedBB getFacingBoxWithRange(EnumFacing facing, int range) {
+        BlockPos pos = getPos();
+        BlockPos posMax = pos.add(range, range, range);
+        pos = pos.add(facing.getFrontOffsetX() * range, facing.getFrontOffsetY() * range, facing.getFrontOffsetZ() * range);
+        posMax = posMax.add(facing.getFrontOffsetX() * range, facing.getFrontOffsetY() * range, facing.getFrontOffsetZ() * range);
+        return new AxisAlignedBB(pos, posMax);
+    }
 
     @Override
     public SPacketUpdateTileEntity getUpdatePacket() {

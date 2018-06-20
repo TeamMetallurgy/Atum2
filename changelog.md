@@ -7,5 +7,7 @@ New in Atum 2
 * Two different Mineshaft types
 * Added Tarantulas
 * New torch types
+* New traps
 * Atum portal is now expandable like the vanilla portal. The outside can be up to 11x11.
+* Removed old localization files
 - And more!

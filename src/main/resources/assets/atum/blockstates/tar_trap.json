@@ -1,0 +1,26 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "top": "atum:blocks/trap_side",
+            "front_on": "atum:blocks/trap_tar",
+            "side": "atum:blocks/trap_side",
+            "front_off": "atum:blocks/trap_tar_off"
+        }
+    },
+    "variants": {
+        "inventory": [{"model": "atum:trap_on"}],
+        "disabled=false,facing=down":  { "model": "atum:trap_vertical_on", "x": 180 },
+        "disabled=false,facing=up":    { "model": "atum:trap_vertical_on" },
+        "disabled=false,facing=north": { "model": "atum:trap_on" },
+        "disabled=false,facing=south": { "model": "atum:trap_on", "y": 180 },
+        "disabled=false,facing=west":  { "model": "atum:trap_on", "y": 270 },
+        "disabled=false,facing=east":  { "model": "atum:trap_on", "y": 90 },
+        "disabled=true,facing=down":  { "model": "atum:trap_vertical_off", "x": 180 },
+        "disabled=true,facing=up":    { "model": "atum:trap_vertical_off" },
+        "disabled=true,facing=north": { "model": "atum:trap_off" },
+        "disabled=true,facing=south": { "model": "atum:trap_off", "y": 180 },
+        "disabled=true,facing=west":  { "model": "atum:trap_off", "y": 270 },
+        "disabled=true,facing=east":  { "model": "atum:trap_off", "y": 90 }
+    }
+}
