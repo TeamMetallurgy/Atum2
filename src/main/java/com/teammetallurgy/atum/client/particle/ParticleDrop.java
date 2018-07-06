@@ -14,23 +14,22 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 @Mod.EventBusSubscriber(value = Side.CLIENT)
-public class ParticleSeth extends ParticleBase {
-    private static final ResourceLocation SETH = new ResourceLocation(Constants.MOD_ID, "particle/seth");
+public class ParticleDrop extends ParticleBase {
+    public float dropGravity;
     private int bobTimer;
+    private static final ResourceLocation SETH = new ResourceLocation(Constants.MOD_ID, "particle/seth");
+    private static final ResourceLocation TAR = new ResourceLocation(Constants.MOD_ID, "particle/tar");
 
-    protected ParticleSeth(World world, double xCoord, double yCoord, double zCoord) {
+    protected ParticleDrop(World world, double xCoord, double yCoord, double zCoord) {
         super(world, xCoord, yCoord, zCoord, 0.0D, 0.0D, 0.0D);
         this.motionX = 0.0D;
         this.motionY = 0.0D;
         this.motionZ = 0.0D;
         this.setSize(0.01F, 0.01F);
-        this.particleGravity = 8.0F;
         this.bobTimer = 40;
-        this.particleMaxAge = (int) (64.0D / (Math.random() * 0.8D + 0.2D));
         this.motionX = 0.0D;
         this.motionY = 0.0D;
         this.motionZ = 0.0D;
-        this.setParticleTexture(getSprite(SETH));
     }
 
     @Override
@@ -39,7 +38,7 @@ public class ParticleSeth extends ParticleBase {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
 
-        this.motionY -= (double) this.particleGravity;
+        this.motionY -= (double) this.dropGravity;
 
         if (this.bobTimer-- > 0) {
             this.motionX *= 0.02D;
@@ -65,12 +64,28 @@ public class ParticleSeth extends ParticleBase {
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
         event.getMap().registerSprite(SETH);
+        event.getMap().registerSprite(TAR);
     }
 
     @SideOnly(Side.CLIENT)
-    public static class Factory implements IAtumParticleFactory {
+    public static class Seth implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            return new ParticleSeth(world, x, y, z);
+            Particle particle = new ParticleDrop(world, x, y, z);
+            particle.setParticleTexture(getSprite(SETH));
+            ((ParticleDrop) particle).dropGravity = 8.0F;
+            particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
+            return particle;
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public static class Tar implements IAtumParticleFactory {
+        public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+            Particle particle = new ParticleDrop(world, x, y, z);
+            particle.setParticleTexture(getSprite(TAR));
+            ((ParticleDrop) particle).dropGravity = 4.0F;
+            particle.setMaxAge((int) (16.0D / (Math.random() * 0.8D + 0.2D)));
+            return particle;
         }
     }
 }

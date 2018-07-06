@@ -23,18 +23,20 @@ public class AtumParticles {
 
     public void register() {
         this.registerParticle(Types.ANUBIS.getParticleName(), new ParticleSwirl.Anubis());
+        this.registerParticle(Types.GAS.getParticleName(), new ParticleSwirl.Gas());
         this.registerParticle(Types.GEB.getParticleName(), new ParticleSwirl.Geb());
         this.registerParticle(Types.HORUS.getParticleName(), new ParticleSwirl.Horus());
         this.registerParticle(Types.ISIS.getParticleName(), new ParticleSwirl.Isis());
         this.registerParticle(Types.LIGHT_SPARKLE.getParticleName(), new ParticleLightSparkle.Factory());
         this.registerParticle(Types.MONTU.getParticleName(), new ParticleMontu.Factory());
         this.registerParticle(Types.NUIT.getParticleName(), new ParticleSwirl.Nuit());
-        this.registerParticle(Types.SETH.getParticleName(), new ParticleSeth.Factory());
+        this.registerParticle(Types.SETH.getParticleName(), new ParticleDrop.Seth());
         this.registerParticle(Types.SHU.getParticleName(), new ParticleSwirl.Shu());
         this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
+        this.registerParticle(Types.TAR.getParticleName(), new ParticleDrop.Tar());
     }
 
-    public void registerParticle(String name, IAtumParticleFactory factory) {
+    private void registerParticle(String name, IAtumParticleFactory factory) {
         particleTypes.put(name, factory);
     }
 
@@ -51,13 +53,14 @@ public class AtumParticles {
         return null;
     }
 
-    public void addEffect(Particle effect) {
+    private void addEffect(Particle effect) {
         if (effect == null) return;
         queue.add(effect);
     }
 
     public enum Types {
         ANUBIS("anubis"),
+        GAS("gas"),
         GEB("geb"),
         HORUS("horus"),
         ISIS("isis"),
@@ -66,7 +69,8 @@ public class AtumParticles {
         NUIT("nuit"),
         SETH("seth"),
         SHU("shu"),
-        TEFNUT("tefnut");
+        TEFNUT("tefnut"),
+        TAR("tar");
 
         private static final Map<String, Types> PARTICLES = Maps.newHashMap();
         private final String particleName;
