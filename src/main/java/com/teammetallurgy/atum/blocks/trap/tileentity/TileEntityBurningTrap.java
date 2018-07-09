@@ -14,7 +14,7 @@ public class TileEntityBurningTrap extends TileEntityTrap implements ITickable {
 
     @Override
     public void update() {
-        EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), 4.0D, false);
+        EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), 2.0D, false);
         if (!this.isDisabled && player != null && !player.capabilities.isCreativeMode) {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             List<EntityPlayer> players = world.getEntitiesWithinAABB(EntityPlayer.class, getFacingBoxWithRange(facing, 1));

@@ -15,10 +15,9 @@ public class TileEntityTrap extends TileEntity {
 
     AxisAlignedBB getFacingBoxWithRange(EnumFacing facing, int range) {
         BlockPos pos = getPos();
-        BlockPos posMax = pos.add(range, range, range);
-        pos = pos.add(facing.getFrontOffsetX() * range, facing.getFrontOffsetY() * range, facing.getFrontOffsetZ() * range);
-        posMax = posMax.add(facing.getFrontOffsetX() * range, facing.getFrontOffsetY() * range, facing.getFrontOffsetZ() * range);
-        return new AxisAlignedBB(pos, posMax);
+        EnumFacing.Axis axis = facing.getAxis();
+        EnumFacing.AxisDirection dir = facing.getAxisDirection();
+        return new AxisAlignedBB(pos).expand(axis == EnumFacing.Axis.X ? dir == EnumFacing.AxisDirection.POSITIVE ? +range : -range : 0, axis == EnumFacing.Axis.Y ? dir == EnumFacing.AxisDirection.POSITIVE ? +range : -range : 0, axis == EnumFacing.Axis.Z ? dir == EnumFacing.AxisDirection.POSITIVE ? +range : -range : 0);
     }
 
     @Override
