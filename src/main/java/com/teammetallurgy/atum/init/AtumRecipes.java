@@ -1,11 +1,9 @@
-package com.teammetallurgy.atum.handler;
+package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
@@ -25,7 +23,7 @@ import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 @Mod.EventBusSubscriber
-public class CraftingHandler {
+public class AtumRecipes {
     private static void register() {
         addSmeltingRecipes();
         addBrewingRecipes();
@@ -47,6 +45,7 @@ public class CraftingHandler {
 
     private static void addBrewingRecipes() {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(AtumItems.ECTOPLASM), new ItemStack(Items.EXPERIENCE_BOTTLE));
     }
 
     private static void addBrewingRecipeWithSubPotions(ItemStack ingredient, PotionType potionType) {
@@ -70,6 +69,6 @@ public class CraftingHandler {
             event.getRegistry().register(new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "thin_crystal_" + colorName)));
             event.getRegistry().register(new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.FRAMED_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "thin_framed_" + colorName)));
         }
-        CraftingHandler.register();
+        AtumRecipes.register();
     }
 }
