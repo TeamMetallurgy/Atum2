@@ -21,7 +21,7 @@ public class TileEntityArrowTrap extends TileEntityTrap implements ITickable {
 
     @Override
     public void update() {
-        int range = 6;
+        int range = 12;
         EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), range, false);
         if (!this.isDisabled && player != null && !player.capabilities.isCreativeMode) {
             if (timer > 0) timer --;
