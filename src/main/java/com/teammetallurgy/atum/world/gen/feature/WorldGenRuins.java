@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityChestSpawner;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityChestSpawner;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -17,7 +16,7 @@ public class WorldGenRuins extends WorldGenerator {
     public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         //Debug code
         //System.out.println("Set chest: " + pos);
-        world.setBlockState(pos, AtumBlocks.CHEST_SPAWNER.correctFacing(world, pos, AtumBlocks.CHEST_SPAWNER.getDefaultState()), 2);
+        //world.setBlockState(pos, AtumBlocks.CHEST_SPAWNER.correctFacing(world, pos, AtumBlocks.CHEST_SPAWNER.getDefaultState()), 2);
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof TileEntityChestSpawner) {

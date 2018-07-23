@@ -103,7 +103,7 @@ public class WorldGenPyramid extends WorldGenerator { //TODO What is this based 
 
         world.setBlock(i + 10, j + 4, k + 8, AtumBlocks.PHARAOHCHEST, 0, 2);
         try {
-            TileEntityPharaohChest te = (TileEntityPharaohChest) world.getTileEntity(i + 10, j + 4, k + 8);
+            TileEntitySarcophagus te = (TileEntitySarcophagus) world.getTileEntity(i + 10, j + 4, k + 8);
             AtumLoot.fillChest(te, 15, 0.9f);
         } catch (ClassCastException e) {
         }

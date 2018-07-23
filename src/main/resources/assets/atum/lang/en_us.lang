@@ -4,7 +4,7 @@ biome.desert.name=Desert
 
 # Blocks
 tile.atum.portal.name=Atum Portal
-tile.atum.chestSpawner.name=Chest
+tile.atum.chestSpawner.name=Limestone Chest
 tile.atum.sand.name=Strange Sand
 tile.atum.limestoneGravel.name=Limestone Gravel
 tile.atum.limestone.name=Limestone
@@ -64,7 +64,8 @@ tile.atum.poisonTrap.name=Poison Trap
 tile.atum.tarTrap.name=Tar Trap
 tile.atum.smokeTrap.name=Smoke Trap
 tile.atum.arrowTrap.name=Arrow Trap
-tile.atum.pharaohChest.name=Pharaoh's Chest
+tile.atum.sarcophagus.name=Sarcophagus
+tile.atum.limestoneChest.name=Limestone Chest
 tile.atum.redstoneOre.name=Redstone Ore
 tile.atum.litRedstoneOre.name=Redstone Ore
 tile.atum.coalOre.name=Coal Ore

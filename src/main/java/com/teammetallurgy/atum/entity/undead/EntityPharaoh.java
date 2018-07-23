@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.undead;
 import com.google.common.base.Optional;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityPharaohChest;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.AtumUtils;
@@ -161,8 +161,8 @@ public class EntityPharaoh extends EntityUndeadBase {
             if (sarcophagusPos != null) {
                 TileEntity te = world.getTileEntity(sarcophagusPos);
                 if (te != null) {
-                    if (te instanceof TileEntityPharaohChest) {
-                        TileEntityPharaohChest tepc = (TileEntityPharaohChest) te;
+                    if (te instanceof TileEntitySarcophagus) {
+                        TileEntitySarcophagus tepc = (TileEntitySarcophagus) te;
                         tepc.setOpenable();
                     }
                 } else {
@@ -260,8 +260,8 @@ public class EntityPharaoh extends EntityUndeadBase {
         if (!this.world.isRemote && this.world.getDifficulty().getDifficultyId() == 0) {
             if (this.hasSarcophagus) {
                 TileEntity te = world.getTileEntity(this.getSarcophagusPos());
-                if (te instanceof TileEntityPharaohChest) {
-                    ((TileEntityPharaohChest) te).setPharaohDespawned();
+                if (te instanceof TileEntitySarcophagus) {
+                    ((TileEntitySarcophagus) te).setPharaohDespawned();
                 }
             }
             this.setDead();
@@ -305,7 +305,7 @@ public class EntityPharaoh extends EntityUndeadBase {
                     Block block = state.getBlock();
 
                     if (block != null && !world.isRemote) {
-                        if (block != BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setBlockUnbreakable() && block != AtumBlocks.PHARAOH_CHEST && block != Blocks.BEDROCK && state.getMaterial().isSolid()) {
+                        if (block != BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setBlockUnbreakable() && block != AtumBlocks.SARCOPHAGUS && block != Blocks.BEDROCK && state.getMaterial().isSolid()) {
                             block.dropBlockAsItem(world, pos, state, 0);
                             flag1 = this.world.setBlockToAir(pos) || flag1;
                         }

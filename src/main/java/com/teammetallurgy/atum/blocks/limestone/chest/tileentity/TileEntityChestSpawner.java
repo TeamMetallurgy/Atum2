@@ -1,18 +1,14 @@
-package com.teammetallurgy.atum.blocks.wood.tileentity.chests;
+package com.teammetallurgy.atum.blocks.limestone.chest.tileentity;
 
-import com.teammetallurgy.atum.blocks.BlockChestSpawner;
+import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -26,7 +22,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class TileEntityChestSpawner extends TileEntityChest {
+public class TileEntityChestSpawner extends TileEntityChestBase {
     private final MobSpawnerBaseLogic spawnerLogic = new MobSpawnerBaseLogic() {
         @Override
         public void broadcastEvent(int id) {
@@ -64,10 +60,10 @@ public class TileEntityChestSpawner extends TileEntityChest {
             super.updateSpawner();
         }
     };
-    private NonNullList<ItemStack> chestContents = NonNullList.withSize(27, ItemStack.EMPTY);
     private int spawnPool;
 
     public TileEntityChestSpawner() {
+        super(true, false);
         spawnPool = MathHelper.getInt(new Random(), 0, 2);
     }
 
@@ -99,24 +95,13 @@ public class TileEntityChestSpawner extends TileEntityChest {
 
     @Override
     public void update() {
-        super.update();
         this.spawnerLogic.updateSpawner();
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : this.chestContents) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+        super.update();
     }
 
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        this.chestContents = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         this.spawnerLogic.readFromNBT(compound);
         spawnPool = compound.getInteger("spawnPool");
     }
@@ -127,7 +112,6 @@ public class TileEntityChestSpawner extends TileEntityChest {
         super.writeToNBT(compound);
         this.spawnerLogic.writeToNBT(compound);
         compound.setInteger("spawnPool", spawnPool);
-
         return compound;
     }
 
@@ -147,25 +131,6 @@ public class TileEntityChestSpawner extends TileEntityChest {
     }
 
     @Override
-    public void closeInventory(EntityPlayer player) {
-        if (!player.isSpectator() && this.getBlockType() instanceof BlockChestSpawner) {
-            --this.numPlayersUsing;
-            this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
-
-            if (this.getChestType() == BlockChest.Type.TRAP) {
-                this.world.notifyNeighborsOfStateChange(this.pos.down(), this.getBlockType(), false);
-            }
-        }
-    }
-
-    @Override
-    @Nonnull
-    protected NonNullList<ItemStack> getItems() {
-        return this.chestContents;
-    }
-
-    @Override
     @Nullable
     public SPacketUpdateTileEntity getUpdatePacket() {
         return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
@@ -181,15 +146,14 @@ public class TileEntityChestSpawner extends TileEntityChest {
 
     @Override
     public boolean receiveClientEvent(int id, int type) {
-        return this.spawnerLogic.setDelayToMin(id) || super.receiveClientEvent(id, type);
+        if (id == 1) {
+            return super.receiveClientEvent(id, type);
+        }
+        return this.spawnerLogic.setDelayToMin(id);
     }
 
     @Override
     public boolean onlyOpsCanSetNbt() {
         return true;
-    }
-
-    public MobSpawnerBaseLogic getSpawnerBaseLogic() {
-        return this.spawnerLogic;
     }
 }

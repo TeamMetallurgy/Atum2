@@ -4,18 +4,22 @@ import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
 import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
+import com.teammetallurgy.atum.blocks.base.BlockChestBase;
+import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.limestone.*;
+import com.teammetallurgy.atum.blocks.limestone.chest.BlockChestSpawner;
+import com.teammetallurgy.atum.blocks.limestone.chest.BlockSarcophagus;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityChestSpawner;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
-import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityChestSpawner;
-import com.teammetallurgy.atum.blocks.wood.tileentity.chests.TileEntityPharaohChest;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
 import com.teammetallurgy.atum.items.ItemSand;
@@ -74,7 +78,8 @@ public class AtumBlocks {
     public static final Block TAR_TRAP = new BlockTarTrap();
     public static final Block SMOKE_TRAP = new BlockSmokeTrap();
     public static final Block ARROW_TRAP = new BlockArrowTrap();
-    public static final Block PHARAOH_CHEST = new BlockPharaohChest();
+    public static final Block SARCOPHAGUS = new BlockSarcophagus();
+    public static final Block LIMESTONE_CHEST = new BlockChestBase();
     public static final Block GOLD_ORE = new BlockAtumOres();
     public static final Block IRON_ORE = new BlockAtumOres();
     public static final Block COAL_ORE = new BlockAtumOres();
@@ -112,7 +117,8 @@ public class AtumBlocks {
         registerBlock(TAR_TRAP, "tar_trap");
         registerBlock(SMOKE_TRAP, "smoke_trap");
         registerBlock(ARROW_TRAP, "arrow_trap");
-        registerBlock(PHARAOH_CHEST, "pharaoh_chest");
+        registerBlock(SARCOPHAGUS, "sarcophagus");
+        registerBlock(LIMESTONE_CHEST, "limestone_chest");
         registerBlock(GOLD_ORE, "gold_ore");
         registerBlock(IRON_ORE, "iron_ore");
         registerBlock(COAL_ORE, "coal_ore");
@@ -183,8 +189,9 @@ public class AtumBlocks {
     }
 
     public static void registerTileEntities() {
+        GameRegistry.registerTileEntity(TileEntityChestBase.class, new ResourceLocation(Constants.MOD_ID, "chest"));
         GameRegistry.registerTileEntity(TileEntityChestSpawner.class, new ResourceLocation(Constants.MOD_ID, "cursed_chest"));
-        GameRegistry.registerTileEntity(TileEntityPharaohChest.class, new ResourceLocation(Constants.MOD_ID, "pharaoh_chest"));
+        GameRegistry.registerTileEntity(TileEntitySarcophagus.class, new ResourceLocation(Constants.MOD_ID, "sarcophagus"));
         GameRegistry.registerTileEntity(TileEntityBurningTrap.class, new ResourceLocation(Constants.MOD_ID, "burning_trap"));
         GameRegistry.registerTileEntity(TileEntityPoisonTrap.class, new ResourceLocation(Constants.MOD_ID, "poison_trap"));
         GameRegistry.registerTileEntity(TileEntityTarTrap.class, new ResourceLocation(Constants.MOD_ID, "tar_trap"));
