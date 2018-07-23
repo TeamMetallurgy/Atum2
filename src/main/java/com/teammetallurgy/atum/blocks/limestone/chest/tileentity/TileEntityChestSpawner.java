@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.limestone.chest.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityMob;
@@ -63,7 +64,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
     private int spawnPool;
 
     public TileEntityChestSpawner() {
-        super(true, false);
+        super(true, false, AtumBlocks.CHEST_SPAWNER);
         spawnPool = MathHelper.getInt(new Random(), 0, 2);
     }
 

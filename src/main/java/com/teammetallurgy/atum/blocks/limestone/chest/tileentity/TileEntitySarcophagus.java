@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.limestone.chest.tileentity;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.limestone.chest.BlockSarcophagus;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
@@ -25,7 +26,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     private boolean isOpenable = false;
 
     public TileEntitySarcophagus() {
-        super(false, true);
+        super(false, true, AtumBlocks.SARCOPHAGUS);
     }
 
     @Override

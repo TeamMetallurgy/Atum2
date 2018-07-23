@@ -19,10 +19,12 @@ import javax.annotation.Nullable;
 public class TileEntityChestBase extends TileEntityChest {
     public boolean canBeSingle;
     public boolean canBeDouble;
+    public Block chestBlock;
 
-    public TileEntityChestBase(boolean canBeSingle, boolean canBeDouble) {
+    public TileEntityChestBase(boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
         this.canBeSingle = canBeSingle;
         this.canBeDouble = canBeDouble;
+        this.chestBlock = chestBlock;
     }
 
     @Override
@@ -80,7 +82,7 @@ public class TileEntityChestBase extends TileEntityChest {
         } else {
             Block block = world.getBlockState(pos).getBlock();
             TileEntity tileEntity = world.getTileEntity(pos);
-            return block instanceof BlockChest && ((BlockChest) block).chestType == getChestType() && tileEntity instanceof TileEntityChestBase && block == blockType;
+            return block instanceof BlockChest && ((BlockChest) block).chestType == getChestType() && tileEntity instanceof TileEntityChestBase && block == this.chestBlock;
         }
     }
 

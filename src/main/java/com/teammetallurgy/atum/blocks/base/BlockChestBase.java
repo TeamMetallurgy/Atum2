@@ -41,7 +41,7 @@ public class BlockChestBase extends BlockChest {
 
     @Override
     public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileEntityChestBase(true, true);
+        return new TileEntityChestBase(true, true, AtumBlocks.LIMESTONE_CHEST);
     }
     
     @Override
@@ -82,7 +82,7 @@ public class BlockChestBase extends BlockChest {
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
         //super.onBlockAdded(world, pos, state); //TODO
     }
-
+    
     @Override
     @Nullable
     public ILockableContainer getContainer(World world, @Nonnull BlockPos pos, boolean allowBlocking) {

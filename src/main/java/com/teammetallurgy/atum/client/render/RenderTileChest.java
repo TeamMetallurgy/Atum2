@@ -17,7 +17,7 @@ import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBase> {
-    private final ModelChest simpleChest = new ModelChest();
+    private final ModelChest normalChest = new ModelChest();
     private final ModelChest largeChest = new ModelLargeChest();
 
     @Override
@@ -43,7 +43,7 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
             ModelChest modelchest;
 
             if (te.adjacentChestXPos == null && te.adjacentChestZPos == null) {
-                modelchest = this.simpleChest;
+                modelchest = this.normalChest;
 
                 if (destroyStage >= 0) {
                     this.bindTexture(DESTROY_STAGES[destroyStage]);
@@ -53,7 +53,6 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
                 } else {
-                    System.out.println("Single");
                     this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getResourcePath()) + ".png"));
                 }
             } else {
@@ -67,7 +66,6 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
                 } else {
-                    System.out.println("double");
                     this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getResourcePath()) + "_double.png"));
                 }
             }
