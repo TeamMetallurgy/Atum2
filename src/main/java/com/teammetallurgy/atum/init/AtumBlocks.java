@@ -4,16 +4,16 @@ import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
 import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
-import com.teammetallurgy.atum.blocks.base.BlockChestBase;
-import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.limestone.*;
 import com.teammetallurgy.atum.blocks.limestone.chest.BlockChestSpawner;
+import com.teammetallurgy.atum.blocks.limestone.chest.BlockLimestoneChest;
 import com.teammetallurgy.atum.blocks.limestone.chest.BlockSarcophagus;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityChestSpawner;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.trap.*;
@@ -62,7 +62,7 @@ public class AtumBlocks {
     public static final Block FLAX = new BlockFlax();
     public static final Block FERTILE_SOIL = new BlockFertileSoil();
     public static final Block FERTILE_SOIL_TILLED = new BlockFertileSoilTilled();
-    public static final BlockAtumDoor PALM_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
+    public static final BlockAtumDoor PALM_DOOR = new BlockAtumDoor(Material.WOOD);
     public static final Block PALM_FENCE = new BlockAtumFence(BlockAtumPlank.WoodType.PALM.getMapColor());
     public static final Block PALM_FENCE_GATE = new BlockAtumFenceGate();
     public static final Block PALM_HATCH = new BlockAtumTrapDoor();
@@ -79,7 +79,7 @@ public class AtumBlocks {
     public static final Block SMOKE_TRAP = new BlockSmokeTrap();
     public static final Block ARROW_TRAP = new BlockArrowTrap();
     public static final Block SARCOPHAGUS = new BlockSarcophagus();
-    public static final Block LIMESTONE_CHEST = new BlockChestBase();
+    public static final Block LIMESTONE_CHEST = new BlockLimestoneChest();
     public static final Block GOLD_ORE = new BlockAtumOres();
     public static final Block IRON_ORE = new BlockAtumOres();
     public static final Block COAL_ORE = new BlockAtumOres();
@@ -94,7 +94,7 @@ public class AtumBlocks {
     public static final Block BONE_DIRTY_SLAB = new BlockAtumSlab(Material.ROCK, MapColor.SAND);
     public static final Block LIMESTONE_FURNACE = new BlockLimestoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimestoneFurnace(true);
-    public static final BlockAtumDoor DEADWOOD_DOOR = (BlockAtumDoor) new BlockAtumDoor(Material.WOOD);
+    public static final BlockAtumDoor DEADWOOD_DOOR = new BlockAtumDoor(Material.WOOD);
     public static final Block DEADWOOD_FENCE = new BlockAtumFence(BlockAtumPlank.WoodType.DEADWOOD.getMapColor());
     public static final Block DEADWOOD_FENCE_GATE = new BlockAtumFenceGate();
     public static final Block DEADWOOD_HATCH = new BlockAtumTrapDoor();
@@ -189,7 +189,7 @@ public class AtumBlocks {
     }
 
     public static void registerTileEntities() {
-        GameRegistry.registerTileEntity(TileEntityChestBase.class, new ResourceLocation(Constants.MOD_ID, "chest"));
+        GameRegistry.registerTileEntity(TileEntityLimestoneChest.class, new ResourceLocation(Constants.MOD_ID, "limestone_chest"));
         GameRegistry.registerTileEntity(TileEntityChestSpawner.class, new ResourceLocation(Constants.MOD_ID, "cursed_chest"));
         GameRegistry.registerTileEntity(TileEntitySarcophagus.class, new ResourceLocation(Constants.MOD_ID, "sarcophagus"));
         GameRegistry.registerTileEntity(TileEntityBurningTrap.class, new ResourceLocation(Constants.MOD_ID, "burning_trap"));

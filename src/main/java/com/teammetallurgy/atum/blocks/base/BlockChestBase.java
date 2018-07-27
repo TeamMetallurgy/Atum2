@@ -8,6 +8,7 @@ import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryLargeChest;
@@ -19,6 +20,7 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
@@ -39,11 +41,6 @@ public class BlockChestBase extends BlockChest {
         this.setResistance(10.0F);
     }
 
-    @Override
-    public TileEntity createNewTileEntity(World world, int meta) {
-        return new TileEntityChestBase(true, true, AtumBlocks.LIMESTONE_CHEST);
-    }
-    
     @Override
     public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
         drops.add(new ItemStack(AtumBlocks.LIMESTONE_CHEST));
@@ -70,7 +67,6 @@ public class BlockChestBase extends BlockChest {
     @Override
     public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity tileEntity, @Nonnull ItemStack stack) {
         super.harvestBlock(world, player, pos, state, tileEntity, stack);
-
         world.setBlockToAir(pos);
 
         if (tileEntity instanceof TileEntityChestBase) {
@@ -82,7 +78,75 @@ public class BlockChestBase extends BlockChest {
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
         //super.onBlockAdded(world, pos, state); //TODO
     }
-    
+
+    @Override
+    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
+        EnumFacing facing = EnumFacing.getHorizontal(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
+        state = state.withProperty(FACING, facing);
+        BlockPos posNorth = pos.north();
+        BlockPos posSouth = pos.south();
+        BlockPos posWest = pos.west();
+        BlockPos posEast = pos.east();
+
+        boolean isNorth = this == world.getBlockState(posNorth).getBlock();
+        boolean isSouth = this == world.getBlockState(posSouth).getBlock();
+        boolean isWest = this == world.getBlockState(posWest).getBlock();
+        boolean isEast = this == world.getBlockState(posEast).getBlock();
+
+        if (!isNorth && !isSouth && !isWest && !isEast) {
+            world.setBlockState(pos, state, 3);
+        } else if (facing.getAxis() != EnumFacing.Axis.X || !isNorth && !isSouth) {
+            if (facing.getAxis() == EnumFacing.Axis.Z && (isWest || isEast)) {
+                if (isWest) {
+                    setChestState(world, posWest, state);
+                } else {
+                    setChestState(world, posEast, state);
+                }
+                world.setBlockState(pos, state, 3);
+            } else {
+                EnumFacing corrected = facing.rotateY();
+                setChestState(world, pos, state.withProperty(FACING, corrected));
+                if (isNorth) {
+                    setChestState(world, posNorth, state.withProperty(FACING, corrected));
+                } else if (isSouth) {
+                    setChestState(world, posSouth, state.withProperty(FACING, corrected));
+                } else if (isWest) {
+                    setChestState(world, posWest, state.withProperty(FACING, corrected));
+                } else if (isEast) {
+                    setChestState(world, posEast, state.withProperty(FACING, corrected));
+                }
+            }
+        } else {
+            if (isNorth) {
+                setChestState(world, posSouth, state);
+            } else {
+                setChestState(world, posSouth, state);
+            }
+            world.setBlockState(pos, state, 3);
+        }
+
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof TileEntityChestBase) {
+            TileEntityChestBase chest = (TileEntityChestBase) te;
+            if (stack.hasDisplayName()) {
+                chest.setCustomName(stack.getDisplayName());
+            }
+        }
+        onBlockAdded(world, pos, state);
+    }
+
+    private void setChestState(World world, BlockPos pos, IBlockState state) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        world.setBlockState(pos, state, 3);
+        if (tileEntity != null) {
+            tileEntity.validate();
+            world.setTileEntity(pos, tileEntity);
+
+            if (tileEntity instanceof TileEntityChestBase)
+                ((TileEntityChestBase) tileEntity).adjacentChestChecked = false;
+        }
+    }
+
     @Override
     @Nullable
     public ILockableContainer getContainer(World world, @Nonnull BlockPos pos, boolean allowBlocking) {
@@ -129,7 +193,6 @@ public class BlockChestBase extends BlockChest {
     private boolean isOcelotSittingOnChest(World world, BlockPos pos) {
         for (Entity entity : world.getEntitiesWithinAABB(EntityOcelot.class, new AxisAlignedBB((double) pos.getX(), (double) (pos.getY() + 1), (double) pos.getZ(), (double) (pos.getX() + 1), (double) (pos.getY() + 2), (double) (pos.getZ() + 1)))) {
             EntityOcelot ocelot = (EntityOcelot) entity;
-
             if (ocelot.isSitting()) {
                 return true;
             }

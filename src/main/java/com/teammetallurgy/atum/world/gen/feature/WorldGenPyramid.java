@@ -1,7 +1,5 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -9,8 +7,6 @@ import net.minecraft.world.gen.feature.WorldGenerator;
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Random;
-
-import static net.minecraft.util.EnumFacing.*;
 
 public class WorldGenPyramid extends WorldGenerator { //TODO What is this based of?
     @Override
@@ -128,51 +124,7 @@ public class WorldGenPyramid extends WorldGenerator { //TODO What is this based 
         return false;
     }
 
-    public void placeTrap(World world, BlockPos pos) {
-        int meta = 0;
-        if (world.isSideSolid(pos.south(), NORTH)) {
-            meta = 3;
-        }
-
-        if (world.isSideSolid(pos.north(), SOUTH)) {
-            meta = 4;
-        }
-
-        if (world.isSideSolid(pos.east(), WEST)) {
-            meta = 5;
-        }
-
-        if (world.isSideSolid(pos.west(), EAST)) {
-            meta = 2;
-        }
-
-        world.setBlockState(pos, AtumBlocks.BURNING_TRAP.getStateFromMeta(meta), 0);
-    }
-
-    public void placeLadders(World world, BlockPos pos, int height) {
-        int meta = 0;
-        if (world.isSideSolid(pos.south(), NORTH)) {
-            meta = 2;
-        }
-
-        if (world.isSideSolid(pos.north(), SOUTH)) {
-            meta = 3;
-        }
-
-        if (world.isSideSolid(pos.east(), WEST)) {
-            meta = 4;
-        }
-
-        if (world.isSideSolid(pos.west(), EAST)) {
-            meta = 5;
-        }
-
-        for (int i = 0; i < height; i++) {
-            world.setBlockState(pos.up(i), Blocks.LADDER.getStateFromMeta(meta), 0);
-        }
-    }
-
-    public void generateMaze(boolean[][] array, Random random, int x, int y) {
+    private void generateMaze(boolean[][] array, Random random, int x, int y) {
         ArrayList<Pair> choices = new ArrayList<>();
         do {
             choices.clear();
