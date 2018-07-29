@@ -14,7 +14,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
@@ -56,7 +55,7 @@ public class BlockChestBase extends BlockChest {
     @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TileEntityChestBase && ((TileEntityChestBase) tileEntity).canBeDouble ? NOT_CONNECTED_AABB : super.getBoundingBox(state, world, pos);
+        return tileEntity instanceof TileEntityChestBase && !((TileEntityChestBase) tileEntity).canBeDouble ? NOT_CONNECTED_AABB : super.getBoundingBox(state, world, pos);
     }
 
     @Override
@@ -76,7 +75,7 @@ public class BlockChestBase extends BlockChest {
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-        //super.onBlockAdded(world, pos, state); //TODO
+        super.onBlockAdded(world, pos, state); //TODO
     }
 
     @Override
@@ -88,10 +87,12 @@ public class BlockChestBase extends BlockChest {
         BlockPos posWest = pos.west();
         BlockPos posEast = pos.east();
 
-        boolean isNorth = this == world.getBlockState(posNorth).getBlock();
-        boolean isSouth = this == world.getBlockState(posSouth).getBlock();
-        boolean isWest = this == world.getBlockState(posWest).getBlock();
-        boolean isEast = this == world.getBlockState(posEast).getBlock();
+        TileEntity tileEntity = world.getTileEntity(pos);
+        boolean canBeDouble = tileEntity instanceof TileEntityChestBase && ((TileEntityChestBase) tileEntity).canBeDouble;
+        boolean isNorth = this == world.getBlockState(posNorth).getBlock() && canBeDouble;
+        boolean isSouth = this == world.getBlockState(posSouth).getBlock() && canBeDouble;
+        boolean isWest = this == world.getBlockState(posWest).getBlock() && canBeDouble;
+        boolean isEast = this == world.getBlockState(posEast).getBlock() && canBeDouble;
 
         if (!isNorth && !isSouth && !isWest && !isEast) {
             world.setBlockState(pos, state, 3);
@@ -103,23 +104,9 @@ public class BlockChestBase extends BlockChest {
                     setChestState(world, posEast, state);
                 }
                 world.setBlockState(pos, state, 3);
-            } else {
-                EnumFacing corrected = facing.rotateY();
-                setChestState(world, pos, state.withProperty(FACING, corrected));
-                if (isNorth) {
-                    setChestState(world, posNorth, state.withProperty(FACING, corrected));
-                } else if (isSouth) {
-                    setChestState(world, posSouth, state.withProperty(FACING, corrected));
-                } else if (isWest) {
-                    setChestState(world, posWest, state.withProperty(FACING, corrected));
-                } else if (isEast) {
-                    setChestState(world, posEast, state.withProperty(FACING, corrected));
-                }
             }
         } else {
-            if (isNorth) {
-                setChestState(world, posSouth, state);
-            } else {
+            if(isSouth) {
                 setChestState(world, posSouth, state);
             }
             world.setBlockState(pos, state, 3);
@@ -142,8 +129,19 @@ public class BlockChestBase extends BlockChest {
             tileEntity.validate();
             world.setTileEntity(pos, tileEntity);
 
-            if (tileEntity instanceof TileEntityChestBase)
+            if (tileEntity instanceof TileEntityChestBase) {
                 ((TileEntityChestBase) tileEntity).adjacentChestChecked = false;
+            }
+        }
+    }
+
+    @Override
+    public boolean canPlaceBlockAt(World world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof  TileEntityChestBase && !((TileEntityChestBase) tileEntity).canBeDouble) {
+            return true;
+        } else {
+            return super.canPlaceBlockAt(world, pos);
         }
     }
 
@@ -152,7 +150,7 @@ public class BlockChestBase extends BlockChest {
     public ILockableContainer getContainer(World world, @Nonnull BlockPos pos, boolean allowBlocking) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (!(tileEntity instanceof TileEntityChest)) {
+        if (!(tileEntity instanceof TileEntityChestBase)) {
             return null;
         } else {
             ILockableContainer lockableContainer = (TileEntityChestBase) tileEntity;
@@ -165,15 +163,18 @@ public class BlockChestBase extends BlockChest {
                     TileEntity tileOffset = world.getTileEntity(posFacing);
                     Block block = world.getBlockState(posFacing).getBlock();
 
-                    if (block == this && tileOffset instanceof TileEntityChestBase && ((TileEntityChestBase) tileOffset).getChestType() == ATUM_CHEST_TYPE) {
-                        if (!allowBlocking && this.isBlocked(world, posFacing)) {
-                            return null;
-                        }
+                    if (block == this && tileOffset instanceof TileEntityChestBase) {
+                        TileEntityChestBase chestBase = ((TileEntityChestBase) tileOffset);
+                        if (chestBase.getChestType() == ATUM_CHEST_TYPE && chestBase.canBeDouble) {
+                            if (!allowBlocking && this.isBlocked(world, posFacing)) {
+                                return null;
+                            }
 
-                        if (facing != EnumFacing.WEST && facing != EnumFacing.NORTH) {
-                            lockableContainer = new InventoryLargeChest("container.chestDouble", lockableContainer, (TileEntityChestBase) tileOffset);
-                        } else {
-                            lockableContainer = new InventoryLargeChest("container.chestDouble", (TileEntityChestBase) tileOffset, lockableContainer);
+                            if (facing != EnumFacing.WEST && facing != EnumFacing.NORTH) {
+                                lockableContainer = new InventoryLargeChest("container.chestDouble", lockableContainer, (TileEntityChestBase) tileOffset);
+                            } else {
+                                lockableContainer = new InventoryLargeChest("container.chestDouble", (TileEntityChestBase) tileOffset, lockableContainer);
+                            }
                         }
                     }
                 }

@@ -10,8 +10,6 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.items.CapabilityItemHandler;
-import net.minecraftforge.items.VanillaDoubleChestItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -65,7 +63,7 @@ public class TileEntityChestBase extends TileEntityChest {
     protected TileEntityChest getAdjacentChest(@Nonnull EnumFacing side) {
         BlockPos pos = this.pos.offset(side);
 
-        if (isChestAt(pos)) {
+        if (isChestAt(pos) && this.canBeDouble) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TileEntityChestBase) {
                 TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
@@ -95,13 +93,8 @@ public class TileEntityChestBase extends TileEntityChest {
     @Override
     @SuppressWarnings("unchecked")
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (doubleChestHandler == null || doubleChestHandler.needsRefresh()) {
-                doubleChestHandler = VanillaDoubleChestItemHandler.get(this);
-            }
-            if (doubleChestHandler != null && doubleChestHandler != VanillaDoubleChestItemHandler.NO_ADJACENT_CHESTS_INSTANCE) {
-                return (T) doubleChestHandler;
-            }
+        if (!this.canBeDouble) {
+            return (T) getSingleChestHandler();
         }
         return super.getCapability(capability, facing);
     }
