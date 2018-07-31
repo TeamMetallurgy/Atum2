@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
 import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
+import com.teammetallurgy.atum.blocks.base.ItemDoubleChest;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
@@ -117,7 +118,7 @@ public class AtumBlocks {
         registerBlock(TAR_TRAP, "tar_trap");
         registerBlock(SMOKE_TRAP, "smoke_trap");
         registerBlock(ARROW_TRAP, "arrow_trap");
-        registerBlock(SARCOPHAGUS, "sarcophagus");
+        registerBlock(SARCOPHAGUS, new ItemDoubleChest(SARCOPHAGUS), "sarcophagus");
         registerBlock(LIMESTONE_CHEST, "limestone_chest");
         registerBlock(GOLD_ORE, "gold_ore");
         registerBlock(IRON_ORE, "iron_ore");

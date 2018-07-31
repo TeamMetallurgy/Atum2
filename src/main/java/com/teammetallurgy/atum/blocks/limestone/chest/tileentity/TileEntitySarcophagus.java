@@ -24,8 +24,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntitySarcophagus extends TileEntityChestBase {
-    private boolean hasSpawned = false;
-    private boolean isOpenable = false;
+    public boolean hasSpawned = false;
+    public boolean isOpenable = false;
 
     public TileEntitySarcophagus() {
         super(false, true, AtumBlocks.SARCOPHAGUS);
@@ -91,10 +91,18 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     }
 
     @Override
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (!isOpenable) {
-            return (T) null;
-        }
-        return super.getCapability(capability, facing);
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        return this.isOpenable && super.isItemValidForSlot(index, stack);
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack decrStackSize(int index, int count) {
+        return this.isOpenable ? super.decrStackSize(index, count) : ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return this.isOpenable && super.hasCapability(capability, facing);
     }
 }

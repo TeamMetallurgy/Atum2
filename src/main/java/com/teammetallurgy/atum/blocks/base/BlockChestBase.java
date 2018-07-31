@@ -25,15 +25,11 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-@Mod.EventBusSubscriber
 public class BlockChestBase extends BlockChest {
     public static final Type ATUM_CHEST_TYPE = EnumHelper.addEnum(Type.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "chest")), new Class[0]);
 
@@ -68,34 +64,25 @@ public class BlockChestBase extends BlockChest {
     }
 
     @Override
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        super.breakBlock(world, pos, state);
+    }
+
+    @Override
     public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity tileEntity, @Nonnull ItemStack stack) {
         super.harvestBlock(world, player, pos, state, tileEntity, stack);
         world.setBlockToAir(pos);
 
         if (tileEntity instanceof TileEntityChestBase) {
-            tileEntity.invalidate();
-        }
-    }
-
-    @SubscribeEvent
-    public static void placeEvent(BlockEvent.MultiPlaceEvent event) {
-        World world = event.getWorld();
-        BlockPos pos = event.getPos();
-        IBlockState placedState = event.getPlacedBlock();
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (placedState.getBlock() instanceof BlockChestBase && tileEntity instanceof TileEntityChestBase) {
-            EnumFacing facing = EnumFacing.getHorizontal(MathHelper.floor(event.getPlayer().rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
             TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
             if (chestBase.canBeDouble && !chestBase.canBeSingle) {
-                BlockPos posRight = pos.offset(facing.rotateY());
-                System.out.println("Pos: " + posRight);
-
-                Block blockRight = world.getBlockState(posRight).getBlock();
-                System.out.println("Block: " + blockRight  + "May: " + blockRight.isReplaceable(world, posRight));
-                if (!blockRight.isReplaceable(world, posRight) || !world.isAirBlock(posRight)) {
-                    event.setCanceled(true);
+                for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                    if (world.getBlockState(pos.offset(horizontal)).getBlock() == this) {
+                        this.harvestBlock(world, player, pos.offset(horizontal), state, tileEntity, stack);
+                    }
                 }
             }
+            chestBase.invalidate();
         }
     }
 

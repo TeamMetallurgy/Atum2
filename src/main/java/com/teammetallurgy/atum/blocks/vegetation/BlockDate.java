@@ -61,7 +61,7 @@ public class BlockDate extends BlockBush implements IGrowable {
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
             if (!world.isAreaLoaded(pos, 1)) return;;
-            if (world.rand.nextDouble() <= 0.08F) {
+            if (world.rand.nextDouble() <= 0.12F) {
                 grow(world, rand, pos, state);
             }
         }

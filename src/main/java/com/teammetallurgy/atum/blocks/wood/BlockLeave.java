@@ -66,7 +66,7 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
                     world.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
                 }
             }
-            if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.02F) {
+            if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.04F) {
                 if (state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down())) {
                     world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
                 }

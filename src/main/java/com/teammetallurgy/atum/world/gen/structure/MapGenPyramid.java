@@ -91,6 +91,7 @@ public class MapGenPyramid extends MapGenStructure {
                 PyramidTemplate pyramidTemplate = new PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
                 this.components.add(pyramidTemplate);
                 this.updateBoundingBox();
+                System.out.println("Generated Pyramid at pos: " + pos);
                 this.isValid = true;
             }
         }

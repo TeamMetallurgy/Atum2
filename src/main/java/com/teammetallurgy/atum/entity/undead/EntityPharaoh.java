@@ -162,8 +162,8 @@ public class EntityPharaoh extends EntityUndeadBase {
                 TileEntity te = world.getTileEntity(sarcophagusPos);
                 if (te != null) {
                     if (te instanceof TileEntitySarcophagus) {
-                        TileEntitySarcophagus tepc = (TileEntitySarcophagus) te;
-                        tepc.setOpenable();
+                        TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) te;
+                        sarcophagus.setOpenable();
                     }
                 } else {
                     Atum.LOG.error("Unable to find sarcophagus coordinates for " + this.getName() + " on " + sarcophagusPos);
