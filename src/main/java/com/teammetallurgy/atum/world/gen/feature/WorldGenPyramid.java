@@ -1,16 +1,41 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
+import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.gen.structure.template.PlacementSettings;
+import net.minecraft.world.gen.structure.template.Template;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class WorldGenPyramid extends WorldGenerator { //TODO What is this based of?
+public class WorldGenPyramid extends WorldGenerator {
+    private static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
+
     @Override
-    public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) { //TODO
+    public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
+        ChunkPos chunkPos = new ChunkPos(pos);
+        BlockPos basePos = new BlockPos(chunkPos.x * 16, 32, chunkPos.z * 16);
+        final PlacementSettings settings = new PlacementSettings().setRotation(Rotation.NONE);
+        final Template template = world.getSaveHandler().getStructureTemplateManager().getTemplate(world.getMinecraftServer(), PYRAMID);
+
+        while (basePos.getY() > 1 && world.isAirBlock(basePos)) {
+            basePos = basePos.down();
+        }
+
+        basePos = basePos.down(MathHelper.getInt(random, 15, 60));
+
+        if (world.isAreaLoaded(basePos, 32)) return false;
+
+        System.out.println("Pyramid spawned at: " + basePos);
+        template.addBlocksToWorld(world, basePos, settings);
+
         /*if (random.nextFloat() > 0.3) {
             j -= 8;
         }

@@ -25,11 +25,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.ILockableContainer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
+@Mod.EventBusSubscriber
 public class BlockChestBase extends BlockChest {
     public static final Type ATUM_CHEST_TYPE = EnumHelper.addEnum(Type.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "chest")), new Class[0]);
 
@@ -73,56 +77,84 @@ public class BlockChestBase extends BlockChest {
         }
     }
 
+    @SubscribeEvent
+    public static void placeEvent(BlockEvent.MultiPlaceEvent event) {
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        IBlockState placedState = event.getPlacedBlock();
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (placedState.getBlock() instanceof BlockChestBase && tileEntity instanceof TileEntityChestBase) {
+            EnumFacing facing = EnumFacing.getHorizontal(MathHelper.floor(event.getPlayer().rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+            TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
+            if (chestBase.canBeDouble && !chestBase.canBeSingle) {
+                BlockPos posRight = pos.offset(facing.rotateY());
+                System.out.println("Pos: " + posRight);
+
+                Block blockRight = world.getBlockState(posRight).getBlock();
+                System.out.println("Block: " + blockRight  + "May: " + blockRight.isReplaceable(world, posRight));
+                if (!blockRight.isReplaceable(world, posRight) || !world.isAirBlock(posRight)) {
+                    event.setCanceled(true);
+                }
+            }
+        }
+    }
+
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
-        super.onBlockAdded(world, pos, state); //TODO
+    public void onBlockAdded(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
         EnumFacing facing = EnumFacing.getHorizontal(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
-        state = state.withProperty(FACING, facing);
-        BlockPos posNorth = pos.north();
-        BlockPos posSouth = pos.south();
-        BlockPos posWest = pos.west();
-        BlockPos posEast = pos.east();
-
         TileEntity tileEntity = world.getTileEntity(pos);
-        boolean canBeDouble = tileEntity instanceof TileEntityChestBase && ((TileEntityChestBase) tileEntity).canBeDouble;
-        boolean isNorth = this == world.getBlockState(posNorth).getBlock() && canBeDouble;
-        boolean isSouth = this == world.getBlockState(posSouth).getBlock() && canBeDouble;
-        boolean isWest = this == world.getBlockState(posWest).getBlock() && canBeDouble;
-        boolean isEast = this == world.getBlockState(posEast).getBlock() && canBeDouble;
+        if (tileEntity instanceof TileEntityChestBase) {
+            TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
+            state = state.withProperty(FACING, facing);
+            BlockPos posNorth = pos.north();
+            BlockPos posSouth = pos.south();
+            BlockPos posWest = pos.west();
+            BlockPos posEast = pos.east();
 
-        if (!isNorth && !isSouth && !isWest && !isEast) {
-            world.setBlockState(pos, state, 3);
-        } else if (facing.getAxis() != EnumFacing.Axis.X || !isNorth && !isSouth) {
-            if (facing.getAxis() == EnumFacing.Axis.Z && (isWest || isEast)) {
-                if (isWest) {
-                    setChestState(world, posWest, state);
+            boolean canBeDouble = chestBase.canBeDouble;
+            boolean isNorth = this == world.getBlockState(posNorth).getBlock() && canBeDouble;
+            boolean isSouth = this == world.getBlockState(posSouth).getBlock() && canBeDouble;
+            boolean isWest = this == world.getBlockState(posWest).getBlock() && canBeDouble;
+            boolean isEast = this == world.getBlockState(posEast).getBlock() && canBeDouble;
+
+            if (canBeDouble && !chestBase.canBeSingle) {
+                BlockPos posRight = pos.offset(facing.rotateY().getOpposite());
+                if (world.mayPlace(this, posRight, false, facing, null)) {
+                    setChestState(world, posRight, state);
+                }
+            }
+            if (!isNorth && !isSouth && !isWest && !isEast) {
+                world.setBlockState(pos, state, 3);
+            } else if (facing.getAxis() != EnumFacing.Axis.X || !isNorth && !isSouth) {
+                if (facing.getAxis() == EnumFacing.Axis.Z && (isWest || isEast)) {
+                    if (isWest) {
+                        setChestState(world, posWest, state);
+                    } else {
+                        setChestState(world, posEast, state);
+                    }
+                    world.setBlockState(pos, state, 3);
+                }
+            } else {
+                if (isNorth) {
+                    setChestState(world, posNorth, state);
                 } else {
-                    setChestState(world, posEast, state);
+                    setChestState(world, posSouth, state);
                 }
                 world.setBlockState(pos, state, 3);
             }
-        } else {
-            if(isSouth) {
-                setChestState(world, posSouth, state);
-            }
-            world.setBlockState(pos, state, 3);
-        }
 
-        TileEntity te = world.getTileEntity(pos);
-        if (te instanceof TileEntityChestBase) {
-            TileEntityChestBase chest = (TileEntityChestBase) te;
             if (stack.hasDisplayName()) {
-                chest.setCustomName(stack.getDisplayName());
+                chestBase.setCustomName(stack.getDisplayName());
             }
         }
         onBlockAdded(world, pos, state);
     }
 
-    private void setChestState(World world, BlockPos pos, IBlockState state) {
+    private static void setChestState(World world, BlockPos pos, IBlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
         world.setBlockState(pos, state, 3);
         if (tileEntity != null) {
@@ -137,12 +169,16 @@ public class BlockChestBase extends BlockChest {
 
     @Override
     public boolean canPlaceBlockAt(World world, BlockPos pos) {
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof  TileEntityChestBase && !((TileEntityChestBase) tileEntity).canBeDouble) {
-            return true;
-        } else {
-            return super.canPlaceBlockAt(world, pos);
+        for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+            TileEntity tileOffset = world.getTileEntity(pos.offset(horizontal));
+            if (tileOffset instanceof TileEntityChestBase) {
+                TileEntityChestBase chestOffset = (TileEntityChestBase) tileOffset;
+                if (!chestOffset.canBeDouble) {
+                    return true;
+                }
+            }
         }
+        return super.canPlaceBlockAt(world, pos);
     }
 
     @Override

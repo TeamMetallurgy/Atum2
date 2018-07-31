@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
+import com.teammetallurgy.atum.world.gen.structure.PyramidTemplate;
 import com.teammetallurgy.atum.world.gen.structure.StructureAtumMineshaftPieces;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
@@ -41,5 +42,6 @@ public class Atum {
     public void init(FMLInitializationEvent event) {
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
         StructureAtumMineshaftPieces.registerMineshaft();
+        PyramidTemplate.registerPyramid();
     }
 }

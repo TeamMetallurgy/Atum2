@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import com.teammetallurgy.atum.world.gen.structure.MapGenAtumMineshaft;
+import com.teammetallurgy.atum.world.gen.structure.MapGenPyramid;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -46,6 +47,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     private MapGenBase caveGenerator = new MapGenCaves();
     private MapGenAtumMineshaft mineshaftGenerator = new MapGenAtumMineshaft();
     private MapGenBase ravineGenerator = new MapGenRavine();
+    private MapGenPyramid pyramidGenrator = new MapGenPyramid(this);
     private Biome[] biomesForGeneration;
     private double[] mainNoiseRegion;
     private double[] minLimitRegion;
@@ -89,7 +91,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         this.forestNoise = ctx.getForest();
     }
 
-    private void setBlocksInChunk(int x, int z, ChunkPrimer primer) {
+    public void setBlocksInChunk(int x, int z, ChunkPrimer primer) {
         this.biomesForGeneration = this.world.getBiomeProvider().getBiomesForGeneration(this.biomesForGeneration, x * 4 - 2, z * 4 - 2, 10, 10);
         this.generateHeightmap(x * 4, 0, z * 4);
 
@@ -176,6 +178,8 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
             }
         }
+
+        this.pyramidGenrator.generate(this.world, x, z, chunkprimer);
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
         byte[] abyte = chunk.getBiomeArray();
@@ -303,6 +307,10 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             }
         }
 
+        System.out.println("Populate Pyramid, pos: " + chunkpos);
+
+        this.pyramidGenrator.generateStructure(this.world, this.rand, chunkpos);
+
         if (this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
             int i2 = this.rand.nextInt(16) + 8;
             int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
@@ -348,16 +356,19 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             return false;
         } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft")).equals(structureName) && this.mineshaftGenerator != null) {
             return this.mineshaftGenerator.isInsideStructure(pos);
+        } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")).equals(structureName) && this.pyramidGenrator != null) {
+            return this.pyramidGenrator.isInsideStructure(pos);
         }
         return false;
     }
 
     @Override
-    public void recreateStructures(@Nonnull Chunk chunk, int x, int z) { //TODO Recreate Atum structures here
+    public void recreateStructures(@Nonnull Chunk chunk, int x, int z) {
         if (this.mapFeaturesEnabled) {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, null);
             }
         }
+        this.pyramidGenrator.generate(this.world, x, z, null);
     }
 }
