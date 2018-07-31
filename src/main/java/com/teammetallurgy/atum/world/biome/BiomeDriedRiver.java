@@ -11,7 +11,6 @@ public class BiomeDriedRiver extends AtumBiome {
         this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
         this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
 
-        this.pyramidRarity = -1;
         this.deadwoodRarity = -1;
     }
 }

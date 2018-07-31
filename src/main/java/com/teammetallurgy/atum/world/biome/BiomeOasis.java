@@ -24,7 +24,6 @@ public class BiomeOasis extends AtumBiome {
         this.atumDecorator.shrubChance = 0;
         this.decorator.grassPerChunk = 3;
 
-        this.pyramidRarity = -1;
         this.deadwoodRarity = -1;
     }
 

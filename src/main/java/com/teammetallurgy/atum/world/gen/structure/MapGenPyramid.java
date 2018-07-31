@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.gen.structure;
 
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;

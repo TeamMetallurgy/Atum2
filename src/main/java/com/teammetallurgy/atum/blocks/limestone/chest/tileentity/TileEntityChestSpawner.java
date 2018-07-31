@@ -31,6 +31,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
         }
 
         @Override
+        @SuppressWarnings("all")
         public World getSpawnerWorld() {
             return TileEntityChestSpawner.this.world;
         }
@@ -53,19 +54,24 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
 
         @Override
         public void updateSpawner() {
-            if (!world.isDaytime()) {
-                setEntityId(getNightTime(spawnPool));
-            } else {
-                setEntityId(getDayTime(spawnPool));
+            if (isRuinChest) {
+                if (!world.isDaytime()) {
+                    setEntityId(getNightTime(spawnPool));
+                } else {
+                    setEntityId(getDayTime(spawnPool));
+                }
             }
             super.updateSpawner();
         }
     };
     private int spawnPool;
+    private boolean isRuinChest;
 
     public TileEntityChestSpawner() {
         super(true, false, AtumBlocks.CHEST_SPAWNER);
-        spawnPool = MathHelper.getInt(new Random(), 0, 2);
+        if (this.isRuinChest) {
+            spawnPool = MathHelper.getInt(new Random(), 0, 2);
+        }
     }
 
     private static ResourceLocation getDayTime(int spawnPool) {
@@ -92,6 +98,10 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
             default:
                 return AtumEntities.MUMMY.getRegistryName();
         }
+    }
+
+    public void setRuinChest() {
+        this.isRuinChest = true;
     }
 
     @Override

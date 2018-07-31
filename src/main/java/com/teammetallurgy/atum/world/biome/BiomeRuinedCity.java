@@ -17,7 +17,6 @@ public class BiomeRuinedCity extends AtumBiome {
 
         this.genRuins = new WorldGenRuins();
 
-        this.pyramidRarity = -1;
         this.deadwoodRarity = 2;
 
         this.addDefaultSpawns();

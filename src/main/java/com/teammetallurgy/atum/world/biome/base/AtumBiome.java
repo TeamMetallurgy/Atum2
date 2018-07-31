@@ -35,7 +35,6 @@ public class AtumBiome extends Biome {
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected int deadwoodRarity = 5;
-    protected int pyramidRarity = 200; //was 240
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
@@ -109,9 +108,7 @@ public class AtumBiome extends Biome {
         int z = random.nextInt(4) + 4;
 
         BlockPos height = world.getHeight(pos.add(x, 0, z));
-        if (pyramidRarity > 0 && random.nextInt(pyramidRarity) == 0) {
-            //new WorldGenPyramid().generate(world, random, height);
-        } else if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
+        if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
             new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, height);
         }
         if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.FOSSIL)) {

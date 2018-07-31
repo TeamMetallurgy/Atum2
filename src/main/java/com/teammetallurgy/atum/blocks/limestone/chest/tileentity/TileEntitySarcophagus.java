@@ -17,9 +17,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileEntitySarcophagus extends TileEntityChestBase {
     private boolean hasSpawned = false;
@@ -86,5 +88,13 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
 
     public void setPharaohDespawned() {
         this.hasSpawned = false;
+    }
+
+    @Override
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (!isOpenable) {
+            return (T) null;
+        }
+        return super.getCapability(capability, facing);
     }
 }

@@ -21,7 +21,6 @@ public class BiomeDeadOasis extends AtumBiome { //TODO Dried up pools
         //no hostile spawns here
 
         this.deadwoodRarity = 1;
-        this.pyramidRarity = -1;
     }
 
     @Override

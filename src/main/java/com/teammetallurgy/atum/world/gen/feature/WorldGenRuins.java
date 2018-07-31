@@ -21,6 +21,7 @@ public class WorldGenRuins extends WorldGenerator {
 
         if (tileEntity instanceof TileEntityChestSpawner) {
             ((TileEntityChestSpawner) tileEntity).setLootTable(AtumLootTables.RUINS, random.nextLong());
+            ((TileEntityChestSpawner) tileEntity).setRuinChest();
         }
         return false;
     }
