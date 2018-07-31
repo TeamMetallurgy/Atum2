@@ -73,6 +73,7 @@ public class ItemNuitsVanishing extends Item {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void onRender(RenderPlayerEvent.Pre event) {
         EntityPlayer player = event.getEntityPlayer();
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
