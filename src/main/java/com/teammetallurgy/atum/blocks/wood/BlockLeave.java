@@ -86,7 +86,7 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
     private boolean isValidLocation(@Nonnull World worldIn, @Nonnull BlockPos pos) {
         for (EnumFacing facing : EnumFacing.HORIZONTALS) {
             BlockPos check = pos.offset(facing);
-            if (worldIn.getBlockState(check).getBlock() == BlockAtumLog.getLog(BlockAtumPlank.WoodType.PALM)) {
+            if (worldIn.getBlockState(check).getBlock() == AtumBlocks.PALM_LOG) {
                 return true;
             }
         }

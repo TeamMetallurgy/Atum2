@@ -63,7 +63,7 @@ public class BlockPortal extends BlockBreakable {
 
         if (size.isValid()) {
             size.placePortalBlocks();
-            world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.BLOCKS, 0.7F, 1.0F);
             return true;
         } else {
             BlockPortal.Size size1 = new BlockPortal.Size(world, pos);

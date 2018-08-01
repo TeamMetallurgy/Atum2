@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenPalm extends WorldGenAbstractTree {
-    private static final IBlockState BLOCK_LOG = BlockAtumLog.getLog(BlockAtumPlank.WoodType.PALM).getDefaultState();
+    private static final IBlockState BLOCK_LOG = AtumBlocks.PALM_LOG.getDefaultState();
     private static final IBlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false);
     private final int minTreeHeight;
     private final IBlockState stateWood;

@@ -70,6 +70,8 @@ public class AtumBlocks {
     public static final Block PALM_LADDER = new BlockAtumLadder();
     public static final Block THIN_CRYSTAL_GLASS = new BlockAtumPane();
     public static final Block THIN_FRAMED_GLASS = new BlockAtumPane();
+    public static final Block PALM_LOG = new BlockAtumLog();
+    public static final Block DEADWOOD_LOG = new BlockDeadwood();
     public static final BlockAtumTorch PALM_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch DEADWOOD_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch LIMESTONE_TORCH = new BlockAtumTorch();
@@ -171,7 +173,8 @@ public class AtumBlocks {
 
         // Wood
         BlockAtumPlank.registerPlanks();
-        BlockAtumLog.registerLogs();
+        registerBlock(PALM_LOG, "palm_log");
+        registerBlock(DEADWOOD_LOG, "deadwood_log");
         BlockAtumStairs.registerWoodStairs();
         BlockAtumWoodSlab.registerSlabs();
         BlockAtumSapling.registerSaplings();
@@ -224,11 +227,12 @@ public class AtumBlocks {
         Blocks.FIRE.setFireInfo(DEADWOOD_FENCE_GATE, 5, 20);
         Blocks.FIRE.setFireInfo(SHRUB, 60, 100);
         Blocks.FIRE.setFireInfo(WEED, 60, 100);
+        Blocks.FIRE.setFireInfo(PALM_LOG, 5, 5);
+        Blocks.FIRE.setFireInfo(DEADWOOD_LOG, 5, 5);
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
             Blocks.FIRE.setFireInfo(BlockAtumWoodSlab.getSlab(type), 5, 20);
             Blocks.FIRE.setFireInfo(BlockAtumPlank.getPlank(type), 5, 20);
             Blocks.FIRE.setFireInfo(BlockLeave.getLeave(type), 30, 60);
-            Blocks.FIRE.setFireInfo(BlockAtumLog.getLog(type), 5, 5);
             Blocks.FIRE.setFireInfo(BlockAtumStairs.getWoodStairs(type), 5, 20);
         }
     }

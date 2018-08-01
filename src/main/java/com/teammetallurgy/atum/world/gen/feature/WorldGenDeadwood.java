@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
@@ -13,7 +12,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree { //TODO Change how the branches generate
-    private static final IBlockState LOG = BlockAtumLog.getLog(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState();
+    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAVE_BEETLE, true);
     private int minTreeHeight = 6;
 
     public WorldGenDeadwood(boolean doBlockNotify) {
