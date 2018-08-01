@@ -14,6 +14,7 @@ import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -23,6 +24,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
+import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
@@ -100,6 +102,12 @@ public class AtumBiome extends Biome {
         dec.grassPerChunk = 0;
 
         return dec;
+    }
+
+    @Override
+    @Nonnull
+    public WorldGenerator getRandomWorldGenForGrass(Random rand) {
+        return new WorldGenOasisGrass(AtumBlocks.OASIS_GRASS.getDefaultState());
     }
 
     @Override

@@ -168,11 +168,11 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         }
 
         if (TerrainGen.generateOre(world, random, this.boneGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 10, this.boneGen, 0, 62);
+            this.genStandardOre1(world, random, 6, this.boneGen, 0, 62);
         }
 
         if (TerrainGen.generateOre(world, random, this.relicGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 5, this.relicGen, 0, 62);
+            this.genStandardOre1(world, random, 3, this.relicGen, 0, 62);
         }
 
         if (TerrainGen.generateOre(world, random, this.dirtGen, chunkPos, OreGenEvent.GenerateMinable.EventType.DIRT)) {
@@ -184,7 +184,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         }
 
         if (TerrainGen.generateOre(world, random, this.clayGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 8, this.clayGen, 0, 62);
+            this.genStandardOre1(world, random, 8, this.clayGen, 0, 48);
         }
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(world, random, chunkPos));
     }
