@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.entity.ai.AtumEntityAIAttackRangedBow;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
@@ -11,7 +10,6 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -32,7 +30,7 @@ import javax.annotation.Nonnull;
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(AbstractSkeleton.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Boolean> canShoot = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.BOOLEAN);
-    private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 1.0D, 20, 15.0F);
+    private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 0.8D, 30, 15.0F);
     private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.0D, false) {
         @Override
         public void resetTask() {
@@ -102,30 +100,21 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float damage) {
-        EntityArrow entityarrow = new EntityTippedArrow(this.world, this);
+    public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float distanceFactor) {
+        EntityArrow arrow = getArrow(distanceFactor);
         double d0 = target.posX - this.posX;
-        double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - entityarrow.posY;
+        double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - arrow.posY;
         double d2 = target.posZ - this.posZ;
         double d3 = (double) MathHelper.sqrt(d0 * d0 + d2 * d2);
-        entityarrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
-        int i = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.POWER, this);
-        int j = EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.PUNCH, this);
-        entityarrow.setDamage((double) (damage * 2.0F) + this.rand.nextGaussian() * 0.25D + (double) ((float) this.world.getDifficulty().getDifficultyId() * 0.11F));
+        arrow.shoot(d0, d1 + d3 * 0.20000000298023224D, d2, 1.6F, (float) (14 - this.world.getDifficulty().getDifficultyId() * 4));
+        this.playSound(SoundEvents.ENTITY_SKELETON_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.world.spawnEntity(arrow);
+    }
 
-        if (i > 0) {
-            entityarrow.setDamage(entityarrow.getDamage() + (double) i * 0.5D + 0.5D);
-        }
-
-        if (j > 0) {
-            entityarrow.setKnockbackStrength(j);
-        }
-
-        if (EnchantmentHelper.getMaxEnchantmentLevel(Enchantments.FLAME, this) > 0) {
-            entityarrow.setFire(100);
-        }
-        this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.spawnEntity(entityarrow);
+    private EntityArrow getArrow(float distanceFactor) {
+        EntityTippedArrow arrow = new EntityTippedArrow(this.world, this);
+        arrow.setEnchantmentEffectsFromEntity(this, distanceFactor);
+        return arrow;
     }
 
     @Override

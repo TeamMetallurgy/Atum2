@@ -45,7 +45,7 @@ public class WorldProviderAtum extends WorldProvider {
     }
 
     /*@Override
-    protected void generateLightBrightnessTable() {
+    protected void generateLightBrightnessTable() { //TODO?
         float f = 0.0F;
 
         for (int i = 0; i <= 15; ++i) {
