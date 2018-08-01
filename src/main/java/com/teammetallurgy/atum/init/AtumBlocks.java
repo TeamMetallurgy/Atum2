@@ -57,6 +57,7 @@ public class AtumBlocks {
     public static final Block CRYSTAL_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block FRAMED_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block DATE_BLOCK = new BlockDate();
+    public static final BlockOasisGrass OASIS_GRASS = new BlockOasisGrass();
     public static final BlockShrub SHRUB = new BlockShrub();
     public static final BlockShrub WEED = new BlockShrub();
     public static final Block PAPYRUS = new BlockPapyrus();
@@ -109,6 +110,7 @@ public class AtumBlocks {
         registerBlock(SAND, "sand");
         registerBlock(SAND_LAYERED, new ItemSand(SAND_LAYERED), "sand_layer");
         registerBlock(DATE_BLOCK, "date_block", null);
+        registerBlock(OASIS_GRASS, "oasis_grass");
         registerBlock(SHRUB, "shrub");
         registerBlock(WEED, "weed");
         registerBlock(PAPYRUS, "papyrus");
