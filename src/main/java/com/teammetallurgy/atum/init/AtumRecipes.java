@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;

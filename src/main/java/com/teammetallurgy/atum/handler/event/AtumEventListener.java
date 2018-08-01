@@ -78,20 +78,22 @@ public class AtumEventListener {
     }
 
     @SubscribeEvent
-    public static void onInteract(PlayerInteractEvent.RightClickItem event) {
+    public static void onUseBucket(PlayerInteractEvent.RightClickItem event) {
         EntityPlayer player = event.getEntityPlayer();
         if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
             BlockPos pos = event.getPos();
             ItemStack heldStack = player.getHeldItem(event.getHand());
             FluidStack fluidStack = FluidUtil.getFluidContained(heldStack);
             if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER && event.getWorld().getBiome(pos) != AtumBiomes.OASIS && event.getWorld().getHeight(pos).getY() >= 48) {
-                if (heldStack.getItem() == Items.WATER_BUCKET) {
+                if (heldStack.getItem() == Items.WATER_BUCKET && !player.isCreative()) {
                     player.setHeldItem(event.getHand(), new ItemStack(Items.BUCKET));
                 }
                 IFluidHandlerItem fluidHandlerItem = FluidUtil.getFluidHandler(heldStack);
                 if (fluidHandlerItem != null) { //Handle modded containers
-                    fluidHandlerItem.drain(fluidStack.amount, true);
-                    event.getWorld().playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 0.9F, 1.0F);
+                    if (!player.isCreative()) {
+                        fluidHandlerItem.drain(fluidStack.amount, true);
+                        event.getWorld().playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 0.9F, 1.0F);
+                    }
                     event.setCanceled(true);
                 }
             }

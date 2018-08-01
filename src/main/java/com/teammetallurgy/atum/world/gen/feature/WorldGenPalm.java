@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumLog;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
