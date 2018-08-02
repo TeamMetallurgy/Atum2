@@ -18,7 +18,6 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MapGenPyramid extends MapGenStructure {
-    private static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
     private final ChunkGeneratorAtum provider;
     private double chance = 0.10D;
 
@@ -29,7 +28,7 @@ public class MapGenPyramid extends MapGenStructure {
     @Override
     @Nonnull
     public String getStructureName() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid"));
+        return String.valueOf(PyramidTemplate.PYRAMID);
     }
 
     @Nullable

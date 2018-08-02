@@ -22,12 +22,12 @@ import java.util.Random;
 
 public class PyramidTemplate extends StructureComponentTemplate {
     private static final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-    private static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
+    public static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
     private Rotation rotation;
     private Mirror mirror;
 
     public static void registerPyramid() {
-        MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")));
+        MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
         MapGenStructureIO.registerStructureComponent(PyramidTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_template")));
     }
 

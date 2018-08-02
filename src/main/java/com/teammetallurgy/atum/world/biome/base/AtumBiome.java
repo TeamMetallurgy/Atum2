@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private List<SpawnListEntry> undergroundMonsterList = Lists.newArrayList();
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected int deadwoodRarity = 5;
@@ -69,28 +68,9 @@ public class AtumBiome extends Biome {
         this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 1, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 1, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 1, 4));
-        this.undergroundMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 7, 1, 2));
-        this.undergroundMonsterList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
+        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityStoneguard.class, 7, 1, 2));
+        this.spawnableCaveCreatureList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
     }
-
-    /*@Override
-    @Nonnull
-    public List<Biome.SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) {
-        if (creatureType == EnumCreatureType.MONSTER) {
-            return this.spawnableMonsterList;
-        } else if (creatureType == EnumCreatureType.CREATURE) {
-            return this.spawnableCreatureList;
-        } else if (creatureType == EntityStoneBase.STONE) {
-            return this.undergroundMonsterList;
-        } else if (this.modSpawnableLists != null) {
-            if (!this.modSpawnableLists.containsKey(creatureType)) {
-                this.modSpawnableLists.put(creatureType, Lists.newArrayList());
-            }
-            return this.modSpawnableLists.get(creatureType);
-        } else {
-            return super.getSpawnableList(creatureType);
-        }
-    }*/
 
     @Override
     @Nonnull

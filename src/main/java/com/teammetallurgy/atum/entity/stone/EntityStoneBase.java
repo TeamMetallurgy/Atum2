@@ -21,7 +21,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import javax.annotation.Nonnull;
 
 public class EntityStoneBase extends EntityMob {
-    public static final EnumCreatureType STONE = EnumHelper.addCreatureType("underground", EntityStoneBase.class, 45, Material.ROCK, false, false);
+    //public static final EnumCreatureType STONE = EnumHelper.addCreatureType("underground", EntityStoneBase.class, 45, Material.ROCK, false, false);
 
     EntityStoneBase(World world) {
         super(world);
