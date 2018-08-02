@@ -48,7 +48,6 @@ public class WorldGenFossil extends WorldGenerator {
 
         int k1 = Math.max(l - 15 - random.nextInt(10), 10);
         BlockPos zero = template.getZeroPositionWithTransform(pos.add(j, k1, k), Mirror.NONE, rotation);
-        System.out.println("Fossil: " + pos.add(j, k1, k));
         settings.setIntegrity(0.8F);
         template.addBlocksToWorld(world, zero, settings, 20);
         return true;

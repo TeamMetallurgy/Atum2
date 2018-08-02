@@ -1,32 +1,14 @@
 {
   "pools": [
     {
-      "name": "main",
+      "name": "atum:fish",
       "rolls": 1,
       "entries": [
         {
           "type": "item",
-          "name": "atum:fish_forsaken",
-          "entryName": "fish_forsaken",
-          "weight": 30
-        },
-        {
-          "type": "item",
-          "name": "atum:fish_mummified",
-          "entryName": "fish_mummified",
-          "weight": 5
-        },
-        {
-          "type": "item",
-          "name": "atum:fish_jeweled",
-          "entryName": "fish_jeweled",
-          "weight": 50
-        },
-        {
-          "type": "item",
           "name": "atum:fish_skeletal",
           "entryName": "fish_skeletal",
-          "weight": 50
+          "weight": 1
         }
       ]
     }

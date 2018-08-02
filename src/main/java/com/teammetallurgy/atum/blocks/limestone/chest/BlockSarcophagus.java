@@ -46,7 +46,6 @@ public class BlockSarcophagus extends BlockChestBase {
                 sarcophagus.spawn(player);
             }
         }
-
         if (world.isRemote) {
             return true;
         } else {
@@ -63,7 +62,6 @@ public class BlockSarcophagus extends BlockChestBase {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntitySarcophagus) {
-            System.out.println("John");
             TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileEntity;
             sarcophagus.isOpenable = true;
             sarcophagus.hasSpawned = true;

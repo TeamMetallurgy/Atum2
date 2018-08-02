@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world.biome.base;
 
-import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
@@ -29,7 +28,6 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Random;
 
 public class AtumBiome extends Biome {

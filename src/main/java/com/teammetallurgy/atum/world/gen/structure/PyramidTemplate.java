@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class PyramidTemplate extends StructureComponentTemplate {
     private static final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-    public static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
+    static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
     private Rotation rotation;
     private Mirror mirror;
 
@@ -38,11 +38,11 @@ public class PyramidTemplate extends StructureComponentTemplate {
         MapGenStructureIO.registerStructureComponent(PyramidTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_template")));
     }
 
-    public PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
+    PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
         this(manager, pos, rotation, Mirror.NONE);
     }
 
-    public PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
+    private PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
         super(0);
         this.templatePosition = pos;
         this.rotation = rotation;
@@ -82,19 +82,24 @@ public class PyramidTemplate extends StructureComponentTemplate {
                 world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
             }
         } else if (function.startsWith("Floor")) {
-            if (function.equals("FloorTrap")) {
-                if (rand.nextDouble() <= 0.5D) {
-                    Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                    world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
-                } else {
-                    world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
-                }
-            } else if (function.equals("FloorCopy")) {
-                this.setTrapsCopy(world, pos, rand, box, 2);
-            } else if (function.equals("FloorBox")) {
-                this.setTrapsCopy(world, pos, rand, box, 3);
-            } else if (function.equals("FloorSpace")) {
-                this.setTrapsCopy(world, pos, rand, box, 3);
+            switch (function) {
+                case "FloorTrap":
+                    if (rand.nextDouble() <= 0.5D) {
+                        Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
+                        world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
+                    } else {
+                        world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
+                    }
+                    break;
+                case "FloorCopy":
+                    this.setTrapsCopy(world, pos, rand, box, 2);
+                    break;
+                case "FloorBox":
+                    this.setTrapsCopy(world, pos, rand, box, 3);
+                    break;
+                case "FloorSpace":
+                    this.setTrapsCopy(world, pos, rand, box, 3);
+                    break;
             }
         } else if (function.equals("CrateChance")) {
             if (rand.nextDouble() <= 0.2D) {
@@ -165,6 +170,9 @@ public class PyramidTemplate extends StructureComponentTemplate {
         this.loadTemplate(manager);
     }
 
+    static class Maze {
+
+
    /* private void generateMaze(boolean[][] array, Random random, int x, int y) { //Old maze stuff. Kept as reference
         ArrayList<Pair> choices = new ArrayList<>();
         do {
@@ -204,4 +212,5 @@ public class PyramidTemplate extends StructureComponentTemplate {
             return p instanceof Pair && ((Pair) p).x == x && ((Pair) p).y == y;
         }
     }*/
+    }
 }

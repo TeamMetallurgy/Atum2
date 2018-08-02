@@ -5,7 +5,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootTableList;
 
 public class AtumLootTables {
-    public static final ResourceLocation FISH = register("gameplay/fishing/fish");
+    public static final ResourceLocation ATUMS_BOUNTY = register("gameplay/fishing/atums_bounty_fish");
+    public static final ResourceLocation FISHING = register("gameplay/fishing");
     public static final ResourceLocation PHARAOH = register("chests/pharaoh");
     public static final ResourceLocation RELIC = register("blocks/relic_ore");
     public static final ResourceLocation RUINS = register("chests/ruins");

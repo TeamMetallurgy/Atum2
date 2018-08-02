@@ -11,6 +11,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -38,6 +40,7 @@ public class BlockChestBase extends BlockChest {
         this.setSoundType(SoundType.STONE);
         this.setHardness(3.0F);
         this.setResistance(10.0F);
+        this.setHarvestLevel("pickaxe", 0);
     }
 
     @Override
@@ -64,11 +67,6 @@ public class BlockChestBase extends BlockChest {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        super.breakBlock(world, pos, state);
-    }
-
-    @Override
     public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity tileEntity, @Nonnull ItemStack stack) {
         super.harvestBlock(world, player, pos, state, tileEntity, stack);
         world.setBlockToAir(pos);
@@ -78,12 +76,22 @@ public class BlockChestBase extends BlockChest {
             if (chestBase.canBeDouble && !chestBase.canBeSingle) {
                 for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
                     if (world.getBlockState(pos.offset(horizontal)).getBlock() == this) {
-                        this.harvestBlock(world, player, pos.offset(horizontal), state, tileEntity, stack);
+                        this.breakDoubleChest(world, pos.offset(horizontal));
                     }
                 }
             }
             chestBase.invalidate();
         }
+    }
+
+    private void breakDoubleChest(World world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+
+        if (tileEntity instanceof IInventory) {
+            InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+            world.updateComparatorOutputLevel(pos, this);
+        }
+        world.setBlockToAir(pos);
     }
 
     @Override
