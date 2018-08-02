@@ -1,12 +1,19 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
+import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -82,7 +89,64 @@ public class PyramidTemplate extends StructureComponentTemplate {
                 } else {
                     world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
                 }
+            } else if (function.equals("FloorCopy")) {
+                this.setTrapsCopy(world, pos, rand, box, 2);
+            } else if (function.equals("FloorBox")) {
+                this.setTrapsCopy(world, pos, rand, box, 3);
+            } else if (function.equals("FloorSpace")) {
+                this.setTrapsCopy(world, pos, rand, box, 3);
             }
+        } else if (function.equals("CrateChance")) {
+            if (rand.nextDouble() <= 0.2D) {
+                if (box.isVecInside(pos) && !(world.getBlockState(pos).getBlock() instanceof BlockCrate)) {
+                    world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+                    TileEntity tileEntity = world.getTileEntity(pos);
+                    if (tileEntity instanceof TileEntityCrate) {
+                        ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+                    }
+                }
+            }
+        } else if (function.equals("Chest")) {
+            BlockPos posDown = pos.down();
+            if (box.isVecInside(posDown)) {
+                TileEntity tileentity = world.getTileEntity(posDown);
+                if (tileentity instanceof TileEntityLimestoneChest) {
+                    ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+                }
+            }
+        } else if (function.equals("Sarcophagus")) {
+            BlockPos posDown = pos.down();
+            if (box.isVecInside(posDown)) {
+                TileEntity tileentity = world.getTileEntity(posDown);
+                if (tileentity instanceof TileEntitySarcophagus) {
+                    ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                }
+            }
+        }
+    }
+
+    private void setTrapsCopy(World world, BlockPos pos, Random rand, StructureBoundingBox box, int range) {
+        if (rand.nextDouble() <= 0.5D) {
+            IBlockState copy = null;
+            for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                for (int i = 0; i <= range; i++) {
+                    BlockPos posOffset = pos.offset(horizontal, i);
+                    if (box.isVecInside(posOffset)) {
+                        IBlockState adjacent = world.getBlockState(pos.offset(horizontal, i));
+                        if (adjacent.getBlock() instanceof BlockTrap) {
+                            copy = adjacent;
+                        }
+                    }
+                }
+            }
+            if (copy != null) {
+                world.setBlockState(pos, copy, 2);
+            } else {
+                Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
+                world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
+            }
+        } else {
+            world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
         }
     }
 
