@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import com.teammetallurgy.atum.world.gen.structure.MapGenAtumMineshaft;
-import com.teammetallurgy.atum.world.gen.structure.MapGenPyramid;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
@@ -47,7 +46,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     private MapGenBase caveGenerator = new MapGenCaves();
     private MapGenAtumMineshaft mineshaftGenerator = new MapGenAtumMineshaft();
     private MapGenBase ravineGenerator = new MapGenRavine();
-    private MapGenPyramid pyramidGenerator = new MapGenPyramid(this);
+    //private MapGenPyramid pyramidGenerator = new MapGenPyramid(this);
     private Biome[] biomesForGeneration;
     private double[] mainNoiseRegion;
     private double[] minLimitRegion;
@@ -177,9 +176,8 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
             }
+            //this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
         }
-
-        this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
         byte[] abyte = chunk.getBiomeArray();
@@ -346,9 +344,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             return false;
         } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft")).equals(structureName) && this.mineshaftGenerator != null) {
             return this.mineshaftGenerator.isInsideStructure(pos);
-        } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")).equals(structureName) && this.pyramidGenerator != null) {
+        } /*else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")).equals(structureName) && this.pyramidGenerator != null) {
             return this.pyramidGenerator.isInsideStructure(pos);
-        }
+        }*/
         return false;
     }
 
@@ -357,9 +355,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     public BlockPos getNearestStructurePos(@Nonnull World world, @Nonnull String structureName, @Nonnull BlockPos pos, boolean findUnexplored) {
         if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft")).equals(structureName) && this.mineshaftGenerator != null) {
             return this.mineshaftGenerator.getNearestStructurePos(world, pos, findUnexplored);
-        } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")).equals(structureName) && this.pyramidGenerator != null) {
+        } /*else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")).equals(structureName) && this.pyramidGenerator != null) {
             return this.pyramidGenerator.getNearestStructurePos(world, pos, findUnexplored);
-        }
+        }*/
         return null;
     }
 
@@ -369,7 +367,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, (ChunkPrimer) null);
             }
-            this.pyramidGenerator.generate(this.world, x, z, (ChunkPrimer) null);
+            //this.pyramidGenerator.generate(this.world, x, z, (ChunkPrimer) null);
         }
     }
 }
