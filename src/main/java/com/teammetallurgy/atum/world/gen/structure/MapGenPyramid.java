@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -120,6 +121,7 @@ public class MapGenPyramid extends MapGenStructure {
                                 if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                     break;
                                 }
+                                world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
                             }
                         }
                     }

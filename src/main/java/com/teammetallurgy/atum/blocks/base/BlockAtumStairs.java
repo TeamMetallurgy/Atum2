@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.state.IBlockState;
@@ -38,6 +39,7 @@ public class BlockAtumStairs extends BlockStairs {
             Block woodStair = new BlockAtumStairs(BlockAtumPlank.getPlank(type).getDefaultState());
             WOOD_STAIRS.put(type, woodStair);
             AtumRegistry.registerBlock(woodStair, type.getName() + "_stairs");
+            OreDictHelper.add(woodStair, "stairWood");
         }
     }
 

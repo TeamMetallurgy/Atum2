@@ -25,6 +25,7 @@ import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
 import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBone;
 import net.minecraft.block.material.MapColor;
@@ -208,6 +209,7 @@ public class AtumBlocks {
     }
 
     public static void setBlockInfo() {
+        //Harvest Levels
         SAND.setHarvestLevel("shovel", 0);
         SAND_LAYERED.setHarvestLevel("shovel", 0);
         LIMESTONE_GRAVEL.setHarvestLevel("shovel", 0);
@@ -223,6 +225,7 @@ public class AtumBlocks {
         DIAMOND_ORE.setHarvestLevel("pickaxe", 2);
         REDSTONE_ORE.setHarvestLevel("pickaxe", 2);
 
+        //Fire Info
         Blocks.FIRE.setFireInfo(PALM_FENCE, 5, 20);
         Blocks.FIRE.setFireInfo(PALM_FENCE_GATE, 5, 20);
         Blocks.FIRE.setFireInfo(DEADWOOD_FENCE, 5, 20);
@@ -237,5 +240,9 @@ public class AtumBlocks {
             Blocks.FIRE.setFireInfo(BlockLeave.getLeave(type), 30, 60);
             Blocks.FIRE.setFireInfo(BlockAtumStairs.getWoodStairs(type), 5, 20);
         }
+
+        //Ore Dictionary
+        OreDictHelper.add(LIMESTONE_CRACKED, "cobblestone");
+        OreDictHelper.add(LIMESTONE_GRAVEL, "gravel");
     }
 }
