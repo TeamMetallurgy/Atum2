@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.structure;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.chunk.ChunkPrimer;

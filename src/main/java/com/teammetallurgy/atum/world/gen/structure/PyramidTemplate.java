@@ -110,6 +110,8 @@ public class PyramidTemplate extends StructureComponentTemplate {
                         ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
                     }
                 }
+            } else {
+                world.setBlockToAir(pos);
             }
         } else if (function.equals("Chest")) {
             BlockPos posDown = pos.down();
@@ -119,6 +121,7 @@ public class PyramidTemplate extends StructureComponentTemplate {
                     ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
                 }
             }
+            world.setBlockToAir(pos);
         } else if (function.equals("Sarcophagus")) {
             BlockPos posDown = pos.down();
             if (box.isVecInside(posDown)) {
@@ -127,6 +130,7 @@ public class PyramidTemplate extends StructureComponentTemplate {
                     ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                 }
             }
+            world.setBlockToAir(pos);
         }
     }
 
