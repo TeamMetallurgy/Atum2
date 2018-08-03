@@ -23,7 +23,7 @@ public class TileEntityArrowTrap extends TileEntityTrap implements ITickable {
 
     @Override
     public void update() {
-        int range = 12;
+        /*int range = 12;
         Vec3d vec3d1 = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
         Vec3d vec3d = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
         RayTraceResult raytrace = this.world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
@@ -39,7 +39,7 @@ public class TileEntityArrowTrap extends TileEntityTrap implements ITickable {
                     }
                 }
             }
-        }
+        }*/
     }
 
     private void fire(EnumFacing facing) {
