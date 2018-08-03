@@ -302,7 +302,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
             }
-            this.pyramidGenerator.generateStructure(this.world, this.rand, chunkpos);
+            //this.pyramidGenerator.generateStructure(this.world, this.rand, chunkpos);
         }
 
         if (this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
