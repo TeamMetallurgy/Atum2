@@ -11,6 +11,8 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -22,9 +24,11 @@ public class TileEntityArrowTrap extends TileEntityTrap implements ITickable {
     @Override
     public void update() {
         int range = 12;
-        EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), range, false);
-        if (!this.isDisabled && player != null && !player.capabilities.isCreativeMode) {
-            if (timer > 0) timer --;
+        Vec3d vec3d1 = new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        Vec3d vec3d = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
+        RayTraceResult raytrace = this.world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
+        if (!this.isDisabled && raytrace != null && raytrace.typeOfHit.equals(RayTraceResult.Type.ENTITY) && raytrace.entityHit instanceof EntityPlayer && !((EntityPlayer) raytrace.entityHit).capabilities.isCreativeMode) {
+            if (timer > 0) timer--;
             if (timer == 0) {
                 EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
                 List<EntityLivingBase> players = world.getEntitiesWithinAABB(EntityLivingBase.class, getFacingBoxWithRange(facing, range));

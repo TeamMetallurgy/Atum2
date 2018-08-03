@@ -73,7 +73,7 @@ public class BlockAtumPlank extends Block implements IOreDictEntry {
 
     public enum WoodType implements IStringSerializable {
         PALM("palm", MapColor.WOOD),
-        DEADWOOD("deadwood", MapColor.OBSIDIAN);
+        DEADWOOD("deadwood", MapColor.WOOD);
 
         private static final BlockAtumPlank.WoodType[] ORDINAL_LOOKUP = new BlockAtumPlank.WoodType[values().length];
         private final String unlocalizedName;
