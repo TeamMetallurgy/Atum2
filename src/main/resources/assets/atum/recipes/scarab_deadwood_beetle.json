@@ -1,13 +1,12 @@
 {
   "type": "forge:ore_shaped",
   "pattern": [
-    "GDG",
+    "GBG",
     " G "
   ],
   "key": {
-    "D": {
-      "ore": "gemDiamond",
-      "type": "forge:ore_dict"
+    "B": {
+      "item": "atum:deadwood_beetle"
     },
     "G": {
       "ore": "ingotGold",

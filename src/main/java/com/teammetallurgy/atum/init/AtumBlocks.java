@@ -31,6 +31,7 @@ import net.minecraft.block.BlockBone;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -244,7 +245,7 @@ public class AtumBlocks {
         //Ore Dictionary
         OreDictHelper.add(LIMESTONE_CRACKED, "cobblestone");
         OreDictHelper.add(LIMESTONE_GRAVEL, "gravel");
-        OreDictHelper.add(PALM_DOOR, "doorWood");
-        OreDictHelper.add(DEADWOOD_DOOR, "doorWood");
+        OreDictHelper.add(Item.REGISTRY.getObject(PALM_DOOR.getRegistryName()), "doorWood");
+        OreDictHelper.add(Item.REGISTRY.getObject(DEADWOOD_DOOR.getRegistryName()), "doorWood");
     }
 }

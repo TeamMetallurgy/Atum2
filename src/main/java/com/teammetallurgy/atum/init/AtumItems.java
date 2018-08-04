@@ -50,6 +50,7 @@ public class AtumItems {
     private static final ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{2, 3, 3, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
     private static final ArmorMaterial DESERT_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("DESERT", "desert", 20, new int[]{3, 6, 5, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
 
+    public static final Item DUST_BONE_STICK = new Item();
     public static final Item DIRTY_COIN = new ItemCoin();
     public static final Item GOLD_COIN = new ItemCoin();
     public static final Item LIMESTONE_SHOVEL = new ItemLimestoneShovel();
@@ -137,6 +138,7 @@ public class AtumItems {
 
     public static void registerItems() {
         BlockAtumPlank.registerSticks();
+        registerItem(DUST_BONE_STICK, "dusty_bone_stick");
         registerItem(DIRTY_COIN, "coin_dirty");
         registerItem(GOLD_COIN, "coin_gold");
         ItemLoot.createLootItems();

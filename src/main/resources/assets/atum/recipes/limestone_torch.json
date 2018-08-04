@@ -16,7 +16,8 @@
       }
     ],
     "#": {
-      "item": "atum:limestone"
+      "ore": "stoneLimestone",
+      "type": "forge:ore_dict"
     }
   },
   "result": {

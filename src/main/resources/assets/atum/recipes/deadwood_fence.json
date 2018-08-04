@@ -1,5 +1,5 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
     "PSP",
     "PSP"
@@ -9,7 +9,8 @@
       "item": "atum:deadwood_stick"
     },
     "P": {
-      "item": "atum:deadwood_planks"
+      "ore": "plankDeadwood",
+      "type": "forge:ore_dict"
     }
   },
   "result": {

@@ -1,11 +1,12 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
     "PPP"
   ],
   "key": {
     "P": {
-      "item": "atum:deadwood_planks"
+      "ore": "plankDeadwood",
+      "type": "forge:ore_dict"
     }
   },
   "result": {
