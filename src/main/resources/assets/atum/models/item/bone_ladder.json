@@ -1,3 +1,6 @@
 {
-    "parent": "atum:block/bone_ladder"
+    "parent": "item/generated",
+    "textures": {
+        "layer0": "atum:blocks/bone_ladder"
+    }
 }

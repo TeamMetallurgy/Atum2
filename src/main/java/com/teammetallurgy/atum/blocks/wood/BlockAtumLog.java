@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockLog;
@@ -17,9 +16,7 @@ public class BlockAtumLog extends BlockLog implements IOreDictEntry {
 
     public BlockAtumLog() {
         super();
-        if (this == AtumBlocks.PALM_LOG) {
-            this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
-        }
+        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
     }
 
     @Override
