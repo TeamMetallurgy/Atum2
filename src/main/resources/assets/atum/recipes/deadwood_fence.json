@@ -1,15 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "SSS",
-    "SSS"
+    "PSP",
+    "PSP"
   ],
   "key": {
     "S": {
       "item": "atum:deadwood_stick"
+    },
+    "P": {
+      "item": "atum:deadwood_planks"
     }
   },
   "result": {
-    "item": "atum:deadwood_fence"
+    "item": "atum:deadwood_fence",
+    "count": 3
   }
 }

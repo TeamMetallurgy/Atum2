@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.SoundType;
@@ -12,7 +14,7 @@ import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
 
-public class BlockAtumFence extends BlockFence {
+public class BlockAtumFence extends BlockFence implements IOreDictEntry {
 
     public BlockAtumFence(MapColor mapColor) {
         super(Material.WOOD, mapColor);
@@ -30,5 +32,10 @@ public class BlockAtumFence extends BlockFence {
     private boolean canBlockConnect(Block block) {
         return block == AtumBlocks.PALM_FENCE || block == AtumBlocks.PALM_FENCE_GATE ||
                 block == AtumBlocks.DEADWOOD_FENCE || block == AtumBlocks.DEADWOOD_FENCE_GATE;
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "fenceWood");
     }
 }

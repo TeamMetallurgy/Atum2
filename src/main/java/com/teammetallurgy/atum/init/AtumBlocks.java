@@ -44,7 +44,7 @@ public class AtumBlocks {
     public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block LIMESTONE = new BlockLimestone();
-    public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK).setHardness(2.0F).setResistance(10.0F);
+    public static final Block LIMESTONE_CRACKED = new Block(Material.SAND, MapColor.SAND).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
     public static final Block RA_STONE = new BlockRaStone();
@@ -114,7 +114,7 @@ public class AtumBlocks {
         registerBlock(OASIS_GRASS, "oasis_grass");
         registerBlock(SHRUB, "shrub");
         registerBlock(WEED, "weed");
-        registerBlock(PAPYRUS, "papyrus");
+        registerBlock(PAPYRUS, "papyrus", null);
         registerBlock(FLAX, "flax_block", null);
         registerBlock(FERTILE_SOIL, "fertile_soil");
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");
@@ -244,5 +244,7 @@ public class AtumBlocks {
         //Ore Dictionary
         OreDictHelper.add(LIMESTONE_CRACKED, "cobblestone");
         OreDictHelper.add(LIMESTONE_GRAVEL, "gravel");
+        OreDictHelper.add(PALM_DOOR, "doorWood");
+        OreDictHelper.add(DEADWOOD_DOOR, "doorWood");
     }
 }

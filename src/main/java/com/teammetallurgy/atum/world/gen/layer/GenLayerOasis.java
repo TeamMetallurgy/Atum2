@@ -27,7 +27,7 @@ public class GenLayerOasis extends GenLayer {
 
                 if (this.nextInt(57) == 0) {
                     if (k == AtumBiome.getIdForBiome(AtumBiomes.SAND_PLAINS) || k == AtumBiome.getIdForBiome(AtumBiomes.SAND_DUNES)) {
-                        if (nextInt(100) <= 60) {
+                        if (this.nextInt(100) <= 50) {
                             cache[j + i * areaWidth] = AtumBiome.getIdForBiome(AtumBiomes.DEAD_OASIS);
                         } else {
                             cache[j + i * areaWidth] = AtumBiome.getIdForBiome(AtumBiomes.OASIS);

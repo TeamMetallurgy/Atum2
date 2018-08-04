@@ -83,7 +83,9 @@ public class AtumRecipes {
         IForgeRegistryModifiable<IRecipe> recipes = (IForgeRegistryModifiable<IRecipe>) registry;
         final ResourceLocation stick = new ResourceLocation("stick");
         final ResourceLocation torch = new ResourceLocation("torch");
+        final ResourceLocation ladder = new ResourceLocation("ladder");
         final ResourceLocation chest = new ResourceLocation("chest");
+        final ResourceLocation trapdoor = new ResourceLocation("trapdoor");
 
         Ingredient plankWood = new BlacklistOreIngredient("plankWood", stack -> stack.getItem() == Item.getItemFromBlock(Blocks.PLANKS));
 
@@ -96,9 +98,17 @@ public class AtumRecipes {
         recipes.remove(torch);
         registry.register(new ShapedOreRecipe(torch, new ItemStack(Blocks.TORCH, 4), "C", "S", 'C', new ItemStack(Items.COAL, 1, OreDictionary.WILDCARD_VALUE), 'S', Items.STICK).setRegistryName(torch));
 
+        //Ladder
+        recipes.remove(ladder);
+        registry.register(new ShapedOreRecipe(ladder, new ItemStack(Blocks.LADDER, 3), "S S", "SSS", "S S", 'S', "stickWood").setRegistryName(ladder));
+
         //Chest
         recipes.remove(chest);
         registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', plankWood).setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest"))); //Modded chests
         registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(chest));
+
+        //Trapdoor
+        recipes.remove(trapdoor);
+        registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
     }
 }
