@@ -78,6 +78,7 @@ public class AtumBlocks {
     public static final BlockAtumTorch PALM_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch DEADWOOD_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch LIMESTONE_TORCH = new BlockAtumTorch();
+    public static final BlockAtumTorch BONE_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch PHARAOH_TORCH = new BlockAtumTorch();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block POISON_TRAP = new BlockPoisonTrap();
@@ -97,6 +98,7 @@ public class AtumBlocks {
     public static final Block BONE_ORE = new BlockAtumOres();
     public static final Block RELIC_ORE = new BlockAtumOres();
     public static final Block BONE_DIRTY = new BlockBone();
+    public static final Block BONE_LADDER = new BlockAtumLadder();
     public static final Block BONE_DIRTY_SLAB = new BlockAtumSlab(Material.ROCK, MapColor.SAND);
     public static final Block LIMESTONE_FURNACE = new BlockLimestoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimestoneFurnace(true);
@@ -137,12 +139,14 @@ public class AtumBlocks {
         registerBlock(BONE_ORE, "bone_ore");
         registerBlock(RELIC_ORE, "relic_ore");
         registerBlock(BONE_DIRTY, "dirty_bone_block");
+        registerBlock(BONE_LADDER, "bone_ladder");
         registerBlock(BONE_DIRTY_SLAB, new ItemAtumSlab(BONE_DIRTY_SLAB, (BlockAtumSlab) BONE_DIRTY_SLAB), "dirty_bone_slab");
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
         registerBlock(PALM_TORCH, "palm_torch");
         registerBlock(DEADWOOD_TORCH, "deadwood_torch");
         registerBlock(LIMESTONE_TORCH, "limestone_torch");
+        registerBlock(BONE_TORCH, "bone_torch");
         registerBlock(PHARAOH_TORCH, "pharaoh_torch");
         BlockAtumTorchUnlit.registerUnlitTorches();
 
