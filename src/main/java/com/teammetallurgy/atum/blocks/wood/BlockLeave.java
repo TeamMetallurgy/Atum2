@@ -6,10 +6,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockLeaves;
-import net.minecraft.block.BlockLog;
-import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -34,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEntry {
+public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper, IOreDictEntry {
     private static final Map<BlockAtumPlank.WoodType, Block> LEAVES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     private BlockLeave() {
@@ -66,8 +63,8 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
                     world.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
                 }
             }
-            if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.04F) {
-                if (state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down())) {
+            if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.05F) {
+                if (canGrow(world, pos, state, false)) {
                     world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
                 }
             }
@@ -171,5 +168,22 @@ public class BlockLeave extends BlockLeaves implements IRenderMapper, IOreDictEn
     @Override
     public void getOreDictEntries() {
         OreDictHelper.add(this, "treeLeaves");
+    }
+
+    @Override
+    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+        return state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down());
+    }
+
+    @Override
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        if (canGrow(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
+            world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
+        }
     }
 }

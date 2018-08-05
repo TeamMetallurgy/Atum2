@@ -270,7 +270,7 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     public void onLivingUpdate() {
-        if (regenTime++ > 20) {
+        if (regenTime++ > 60) {
             regenTime = 0;
             this.heal(1);
         }

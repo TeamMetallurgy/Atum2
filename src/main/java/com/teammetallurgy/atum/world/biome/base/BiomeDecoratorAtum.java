@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenShrub;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -33,7 +32,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         super();
         this.dirtGen = generateMinable(AtumBlocks.SAND.getDefaultState(), 32);
         this.gravelGen = generateMinable(AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32);
-        this.clayGen = generateMinable(Blocks.CLAY.getDefaultState(), 16);
+        this.clayGen = generateMinable(AtumBlocks.SANDY_CLAY.getDefaultState(), 12);
         if (AtumConfig.COAL_ENABLED) {
             this.coalGen = generateMinable(AtumBlocks.COAL_ORE.getDefaultState(), AtumConfig.COAL_VEIN);
         }

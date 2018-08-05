@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "all": "atum:blocks/sandy_clay"
+        },
+      "model": "clay"
+    },
+    "variants": {
+        "inventory": [{}],
+        "normal": [{}]
+    }
+}

@@ -64,7 +64,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     public void spawn(EntityPlayer player) {
         EntityPharaoh pharaoh = new EntityPharaoh(world, true);
         pharaoh.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCEPTER));
-        pharaoh.setPosition(pos.getX(), pos.getY(), pos.getZ());
+        pharaoh.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
         pharaoh.setSarcophagusPos(pos);
         if (!world.isRemote) {
             world.spawnEntity(pharaoh);

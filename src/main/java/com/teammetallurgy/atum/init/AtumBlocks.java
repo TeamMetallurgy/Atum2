@@ -44,6 +44,7 @@ public class AtumBlocks {
     public static final BlockChestSpawner CHEST_SPAWNER = new BlockChestSpawner();
     public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
+    public static final Block SANDY_CLAY = new BlockSandyClay();
     public static final Block LIMESTONE = new BlockLimestone();
     public static final Block LIMESTONE_CRACKED = new Block(Material.SAND, MapColor.SAND).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
@@ -156,6 +157,7 @@ public class AtumBlocks {
         registerBlock(CRACKED_LIMESTONE_SLAB, new ItemAtumSlab(CRACKED_LIMESTONE_SLAB, (BlockAtumSlab) CRACKED_LIMESTONE_SLAB), "limestone_cracked_slab");
         BlockLimestoneSlab.registerSlabs();
         registerBlock(LIMESTONE_GRAVEL, "limestone_gravel");
+        registerBlock(SANDY_CLAY, "sandy_clay");
         registerBlock(LIMESTONE, "limestone");
         registerBlock(LIMESTONE_CRACKED, "limestone_cracked");
         registerBlock(SMOOTH_STAIRS, "smooth_stairs");
@@ -218,6 +220,7 @@ public class AtumBlocks {
         SAND.setHarvestLevel("shovel", 0);
         SAND_LAYERED.setHarvestLevel("shovel", 0);
         LIMESTONE_GRAVEL.setHarvestLevel("shovel", 0);
+        SANDY_CLAY.setHarvestLevel("shovel", 0);
         FERTILE_SOIL.setHarvestLevel("shovel", 0);
         FERTILE_SOIL_TILLED.setHarvestLevel("shovel", 0);
         COAL_ORE.setHarvestLevel("pickaxe", 0);

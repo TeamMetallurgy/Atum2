@@ -40,6 +40,7 @@ public class Atum {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        proxy.init();
         NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
         StructureAtumMineshaftPieces.registerMineshaft();
         PyramidTemplate.registerPyramid();

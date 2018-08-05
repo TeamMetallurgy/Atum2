@@ -1,11 +1,13 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
+import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.BiomeProvider;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -17,11 +19,11 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MapGenPyramid extends MapGenStructure {
-    private final ChunkGeneratorAtum provider;
-    private double chance = 0.10D;
+    private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
+    private final ChunkGeneratorAtum chunkGenerator;
 
     public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {
-        this.provider = chunkGenerator;
+        this.chunkGenerator = chunkGenerator;
     }
 
     @Override
@@ -34,19 +36,39 @@ public class MapGenPyramid extends MapGenStructure {
     @Override
     public BlockPos getNearestStructurePos(@Nonnull World world, @Nonnull BlockPos pos, boolean findUnexplored) {
         this.world = world;
-        BiomeProvider biomeprovider = world.getBiomeProvider();
-        return biomeprovider.isFixedBiome()  ? null : findNearestStructurePosBySpacing(world, this, pos, 80, 20, 10387319, true, 100, findUnexplored);
+        return findNearestStructurePosBySpacing(world, this, pos, 80, 32, 10387319, true, 100, findUnexplored);
     }
 
     @Override
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
-        return this.rand.nextDouble() < this.chance && this.rand.nextInt(80) < Math.max(Math.abs(chunkX), Math.abs(chunkZ));
+        /*int x = chunkX;
+        int z = chunkZ;
+
+        if (chunkX < 0) {
+            x = chunkX - 79;
+        }
+        if (chunkZ < 0) {
+            z = chunkZ - 79;
+        }
+
+        int xSpacing = x / 80;
+        int zSpacing = z / 80;
+        Random random = this.world.setRandomSeed(xSpacing, zSpacing, 10387319);
+        xSpacing = xSpacing * 80;
+        zSpacing = zSpacing * 80;
+        //xSpacing = xSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
+        //zSpacing = zSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
+
+        if (chunkX == xSpacing && chunkZ == zSpacing) {
+            return this.world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, ALLOWED_BIOMES);
+        }*/
+        return this.world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, ALLOWED_BIOMES);
     }
 
     @Override
     @Nonnull
     protected StructureStart getStructureStart(int chunkX, int chunkZ) {
-        return new Start(this.world, this.provider, this.rand, chunkX, chunkZ);
+        return new Start(this.world, this.chunkGenerator, this.rand, chunkX, chunkZ);
     }
 
     public static class Start extends StructureStart {

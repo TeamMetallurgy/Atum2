@@ -16,9 +16,11 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -60,9 +62,12 @@ public class BlockDate extends BlockBush implements IGrowable {
     public void updateTick(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
-            if (!world.isAreaLoaded(pos, 1)) return;;
-            if (world.rand.nextDouble() <= 0.12F) {
-                grow(world, rand, pos, state);
+            if (!world.isAreaLoaded(pos, 1)) return;
+            if (state.getValue(AGE) != 7) {
+                if (ForgeHooks.onCropsGrowPre(world, pos, state, world.rand.nextDouble() <= 0.12F)) {
+                    world.setBlockState(pos, state.cycleProperty(AGE), 2);
+                    ForgeHooks.onCropsGrowPost(world, pos, state, world.getBlockState(pos));
+                }
             }
         }
     }
@@ -133,13 +138,20 @@ public class BlockDate extends BlockBush implements IGrowable {
 
     @Override
     public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        return false;
+        return true;
     }
 
     @Override
     public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        int growth = state.getValue(AGE) + MathHelper.getInt(rand, 1, 2);
+        int maxAge = 7;
+
+        if (growth > maxAge) {
+            growth = maxAge;
+        }
+
         if (state.getValue(AGE) != 7) {
-            world.setBlockState(pos, state.cycleProperty(AGE), 2);
+            world.setBlockState(pos, this.getDefaultState().withProperty(AGE, growth), 2);
         }
     }
 }

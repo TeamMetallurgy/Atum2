@@ -44,6 +44,11 @@ public class BiomeOasis extends AtumBiome {
         super.decorate(world, random, pos);
     }
 
+    @Override
+    public int getModdedBiomeFoliageColor(int original) {
+        return 11987573;
+    }
+
     /*@Override
     public void genTerrainBlocks(World world, Random random, @Nonnull ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) { //TODO Figure out what this is based of
         double noise = GRASS_COLOR_NOISE.getValue((double) x * 0.25D, (double) z * 0.25D);
