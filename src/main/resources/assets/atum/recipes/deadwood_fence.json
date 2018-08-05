@@ -1,15 +1,20 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
-    "SSS",
-    "SSS"
+    "PSP",
+    "PSP"
   ],
   "key": {
     "S": {
       "item": "atum:deadwood_stick"
+    },
+    "P": {
+      "ore": "plankDeadwood",
+      "type": "forge:ore_dict"
     }
   },
   "result": {
-    "item": "atum:deadwood_fence"
+    "item": "atum:deadwood_fence",
+    "count": 3
   }
 }

@@ -22,6 +22,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -124,21 +125,27 @@ public class AtumEventListener {
         LootContext.Builder builder = new LootContext.Builder((WorldServer) world);
         builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withPlayer(angler).withLootedEntity(fishHook);
         if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-            event.setCanceled(true); //We don't want any vanilla loot
+            event.setCanceled(true); //We don't want vanillas loot table
             if (heldStack.getItem() instanceof ItemAtumsBounty) {
-                List<ItemStack> lootTable = world.getLootTableManager().getLootTableFromLocation(AtumLootTables.FISH).generateLootForPools(world.rand, builder.build());
-                for (ItemStack loot : lootTable) {
-                    EntityItem fish = new EntityItem(fishHook.world, fishHook.posX, fishHook.posY, fishHook.posZ, loot);
-                    double x = angler.posX - fishHook.posX;
-                    double y = angler.posY - fishHook.posY;
-                    double z = angler.posZ - fishHook.posZ;
-                    double swush = (double) MathHelper.sqrt(x * x + y * y + z * z);
-                    fish.motionX = x * 0.1D;
-                    fish.motionY = y * 0.1D + (double) MathHelper.sqrt(swush) * 0.08D;
-                    fish.motionZ = z * 0.1D;
-                    world.spawnEntity(fish);
-                }
+                catchFish(world, angler, fishHook, builder, AtumLootTables.ATUMS_BOUNTY);
+            } else {
+                catchFish(world, angler, fishHook, builder, AtumLootTables.FISHING);
             }
+        }
+    }
+
+    private static void catchFish(World world, EntityPlayer angler, EntityFishHook fishHook, LootContext.Builder builder, ResourceLocation lootTable) {
+        List<ItemStack> loots = world.getLootTableManager().getLootTableFromLocation(lootTable).generateLootForPools(world.rand, builder.build());
+        for (ItemStack loot : loots) {
+            EntityItem fish = new EntityItem(fishHook.world, fishHook.posX, fishHook.posY, fishHook.posZ, loot);
+            double x = angler.posX - fishHook.posX;
+            double y = angler.posY - fishHook.posY;
+            double z = angler.posZ - fishHook.posZ;
+            double swush = (double) MathHelper.sqrt(x * x + y * y + z * z);
+            fish.motionX = x * 0.1D;
+            fish.motionY = y * 0.1D + (double) MathHelper.sqrt(swush) * 0.08D;
+            fish.motionZ = z * 0.1D;
+            world.spawnEntity(fish);
         }
     }
 

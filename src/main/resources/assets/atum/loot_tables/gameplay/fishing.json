@@ -1,0 +1,22 @@
+{
+  "pools": [
+    {
+      "name": "atum:fishing",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "atum:gameplay/fishing/junk",
+          "weight": 15,
+          "quality": -3
+        },
+        {
+          "type": "loot_table",
+          "name": "atum:gameplay/fishing/fish",
+          "weight": 25,
+          "quality": -2
+        }
+      ]
+    }
+  ]
+}

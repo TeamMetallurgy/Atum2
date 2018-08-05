@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.blocks;
 
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockCactus;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
@@ -13,7 +15,7 @@ import net.minecraftforge.common.IPlantable;
 
 import javax.annotation.Nonnull;
 
-public class BlockStrangeSand extends BlockFalling {
+public class BlockStrangeSand extends BlockFalling implements IOreDictEntry {
     public BlockStrangeSand() {
         super(Material.SAND);
         this.setTickRandomly(true);
@@ -42,5 +44,10 @@ public class BlockStrangeSand extends BlockFalling {
             default:
                 return super.canSustainPlant(state, world, pos, direction, plantable);
         }
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "sand");
     }
 }

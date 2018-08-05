@@ -1,16 +1,17 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
-    " G ",
     "GDG",
     " G "
   ],
   "key": {
     "D": {
-      "item": "minecraft:diamond"
+      "ore": "gemDiamond",
+      "type": "forge:ore_dict"
     },
     "G": {
-      "item": "minecraft:gold_ingot"
+      "ore": "ingotGold",
+      "type": "forge:ore_dict"
     }
   },
   "result": {

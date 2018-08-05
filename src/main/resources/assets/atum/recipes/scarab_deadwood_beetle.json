@@ -1,0 +1,19 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "GBG",
+    " G "
+  ],
+  "key": {
+    "B": {
+      "item": "atum:deadwood_beetle"
+    },
+    "G": {
+      "ore": "ingotGold",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "atum:scarab"
+  }
+}

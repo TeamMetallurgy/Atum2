@@ -29,7 +29,7 @@ public class BlockLimestone extends Block implements IOreDictEntry {
 
     @Override
     public void getOreDictEntries() {
-        OreDictHelper.add   (new ItemStack(this), "stoneLimestone", "stone");
+        OreDictHelper.add(new ItemStack(this), "stoneLimestone", "stone");
 
     }
 }

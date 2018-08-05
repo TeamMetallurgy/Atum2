@@ -25,11 +25,13 @@ import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
 import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBone;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.GameRegistry;
@@ -43,7 +45,7 @@ public class AtumBlocks {
     public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block LIMESTONE = new BlockLimestone();
-    public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK).setHardness(2.0F).setResistance(10.0F);
+    public static final Block LIMESTONE_CRACKED = new Block(Material.SAND, MapColor.SAND).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
     public static final Block RA_STONE = new BlockRaStone();
@@ -76,6 +78,7 @@ public class AtumBlocks {
     public static final BlockAtumTorch PALM_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch DEADWOOD_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch LIMESTONE_TORCH = new BlockAtumTorch();
+    public static final BlockAtumTorch BONE_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch PHARAOH_TORCH = new BlockAtumTorch();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block POISON_TRAP = new BlockPoisonTrap();
@@ -95,6 +98,7 @@ public class AtumBlocks {
     public static final Block BONE_ORE = new BlockAtumOres();
     public static final Block RELIC_ORE = new BlockAtumOres();
     public static final Block BONE_DIRTY = new BlockBone();
+    public static final Block BONE_LADDER = new BlockAtumLadder();
     public static final Block BONE_DIRTY_SLAB = new BlockAtumSlab(Material.ROCK, MapColor.SAND);
     public static final Block LIMESTONE_FURNACE = new BlockLimestoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimestoneFurnace(true);
@@ -113,7 +117,7 @@ public class AtumBlocks {
         registerBlock(OASIS_GRASS, "oasis_grass");
         registerBlock(SHRUB, "shrub");
         registerBlock(WEED, "weed");
-        registerBlock(PAPYRUS, "papyrus");
+        registerBlock(PAPYRUS, "papyrus", null);
         registerBlock(FLAX, "flax_block", null);
         registerBlock(FERTILE_SOIL, "fertile_soil");
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");
@@ -135,12 +139,14 @@ public class AtumBlocks {
         registerBlock(BONE_ORE, "bone_ore");
         registerBlock(RELIC_ORE, "relic_ore");
         registerBlock(BONE_DIRTY, "dirty_bone_block");
+        registerBlock(BONE_LADDER, "bone_ladder");
         registerBlock(BONE_DIRTY_SLAB, new ItemAtumSlab(BONE_DIRTY_SLAB, (BlockAtumSlab) BONE_DIRTY_SLAB), "dirty_bone_slab");
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
         registerBlock(PALM_TORCH, "palm_torch");
         registerBlock(DEADWOOD_TORCH, "deadwood_torch");
         registerBlock(LIMESTONE_TORCH, "limestone_torch");
+        registerBlock(BONE_TORCH, "bone_torch");
         registerBlock(PHARAOH_TORCH, "pharaoh_torch");
         BlockAtumTorchUnlit.registerUnlitTorches();
 
@@ -208,6 +214,7 @@ public class AtumBlocks {
     }
 
     public static void setBlockInfo() {
+        //Harvest Levels
         SAND.setHarvestLevel("shovel", 0);
         SAND_LAYERED.setHarvestLevel("shovel", 0);
         LIMESTONE_GRAVEL.setHarvestLevel("shovel", 0);
@@ -223,6 +230,7 @@ public class AtumBlocks {
         DIAMOND_ORE.setHarvestLevel("pickaxe", 2);
         REDSTONE_ORE.setHarvestLevel("pickaxe", 2);
 
+        //Fire Info
         Blocks.FIRE.setFireInfo(PALM_FENCE, 5, 20);
         Blocks.FIRE.setFireInfo(PALM_FENCE_GATE, 5, 20);
         Blocks.FIRE.setFireInfo(DEADWOOD_FENCE, 5, 20);
@@ -237,5 +245,11 @@ public class AtumBlocks {
             Blocks.FIRE.setFireInfo(BlockLeave.getLeave(type), 30, 60);
             Blocks.FIRE.setFireInfo(BlockAtumStairs.getWoodStairs(type), 5, 20);
         }
+
+        //Ore Dictionary
+        OreDictHelper.add(LIMESTONE_CRACKED, "cobblestone");
+        OreDictHelper.add(LIMESTONE_GRAVEL, "gravel");
+        OreDictHelper.add(Item.REGISTRY.getObject(PALM_DOOR.getRegistryName()), "doorWood");
+        OreDictHelper.add(Item.REGISTRY.getObject(DEADWOOD_DOOR.getRegistryName()), "doorWood");
     }
 }

@@ -1,8 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -18,7 +17,6 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class MapGenPyramid extends MapGenStructure {
-    private static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
     private final ChunkGeneratorAtum provider;
     private double chance = 0.10D;
 
@@ -29,7 +27,7 @@ public class MapGenPyramid extends MapGenStructure {
     @Override
     @Nonnull
     public String getStructureName() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid"));
+        return String.valueOf(PyramidTemplate.PYRAMID);
     }
 
     @Nullable
@@ -64,8 +62,8 @@ public class MapGenPyramid extends MapGenStructure {
 
         private void create(World world, ChunkGeneratorAtum chunkGenerator, Random random, int x, int z) {
             Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
-            ChunkPrimer chunkprimer = new ChunkPrimer();
-            chunkGenerator.setBlocksInChunk(x, z, chunkprimer);
+            ChunkPrimer chunkPrimer = new ChunkPrimer();
+            chunkGenerator.setBlocksInChunk(x, z, chunkPrimer);
             int i = 5;
             int j = 5;
 
@@ -78,16 +76,17 @@ public class MapGenPyramid extends MapGenStructure {
                 j = -5;
             }
 
-            int k = chunkprimer.findGroundBlockIdx(7, 7);
-            int l = chunkprimer.findGroundBlockIdx(7, 7 + j);
-            int i1 = chunkprimer.findGroundBlockIdx(7 + i, 7);
-            int j1 = chunkprimer.findGroundBlockIdx(7 + i, 7 + j);
+            int k = chunkPrimer.findGroundBlockIdx(7, 7);
+            int l = chunkPrimer.findGroundBlockIdx(7, 7 + j);
+            int i1 = chunkPrimer.findGroundBlockIdx(7 + i, 7);
+            int j1 = chunkPrimer.findGroundBlockIdx(7 + i, 7 + j);
             int k1 = Math.min(Math.min(k, l), Math.min(i1, j1));
 
             if (k1 < 60) {
                 this.isValid = false;
             } else {
-                BlockPos pos = new BlockPos(x * 16 + 8, k1 + 1, z * 16 + 8);
+                //int yChance = MathHelper.getInt(random, 10, 40);
+                BlockPos pos = new BlockPos(x * 16 + 8, k1 - 10, z * 16 + 8);
                 PyramidTemplate pyramidTemplate = new PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
                 this.components.add(pyramidTemplate);
                 this.updateBoundingBox();
@@ -97,31 +96,32 @@ public class MapGenPyramid extends MapGenStructure {
         }
 
         @Override
-        public void generateStructure(@Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox structurebb) {
-            super.generateStructure(world, rand, structurebb);
-            int i = this.boundingBox.minY;
+        public void generateStructure(@Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
+            super.generateStructure(world, rand, box);
+            int y = this.boundingBox.minY;
 
-            for (int j = structurebb.minX; j <= structurebb.maxX; ++j) {
-                for (int k = structurebb.minZ; k <= structurebb.maxZ; ++k) {
-                    BlockPos blockpos = new BlockPos(j, i, k);
+            for (int x = box.minX; x <= box.maxX; ++x) {
+                for (int z = box.minZ; z <= box.maxZ; ++z) {
+                    BlockPos pos = new BlockPos(x, y, z);
 
-                    if (!world.isAirBlock(blockpos) && this.boundingBox.isVecInside(blockpos)) {
-                        boolean flag = false;
+                    if (!world.isAirBlock(pos) && this.boundingBox.isVecInside(pos)) {
+                        boolean isVecInside = false;
 
-                        for (StructureComponent structurecomponent : this.components) {
-                            if (structurecomponent.getBoundingBox().isVecInside(blockpos)) {
-                                flag = true;
+                        for (StructureComponent component : this.components) {
+                            if (component.getBoundingBox().isVecInside(pos)) {
+                                isVecInside = true;
                                 break;
                             }
                         }
 
-                        if (flag) {
-                            for (int l = i - 1; l > 1; --l) {
-                                BlockPos blockpos1 = new BlockPos(j, l, k);
+                        if (isVecInside) {
+                            for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
+                                BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
 
-                                if (!world.isAirBlock(blockpos1) && !world.getBlockState(blockpos1).getMaterial().isLiquid()) {
+                                if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                     break;
                                 }
+                                world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
                             }
                         }
                     }

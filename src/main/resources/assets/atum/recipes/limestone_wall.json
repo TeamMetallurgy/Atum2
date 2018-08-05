@@ -1,12 +1,13 @@
 {
-  "type": "minecraft:crafting_shaped",
+  "type": "forge:ore_shaped",
   "pattern": [
     "XXX",
     "XXX"
   ],
   "key": {
     "X": {
-      "item": "atum:limestone"
+      "ore": "stoneLimestone",
+      "type": "forge:ore_dict"
     }
   },
   "result": {

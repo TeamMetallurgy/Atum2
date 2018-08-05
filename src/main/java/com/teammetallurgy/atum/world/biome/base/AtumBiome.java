@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world.biome.base;
 
-import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
@@ -29,11 +28,9 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private List<SpawnListEntry> undergroundMonsterList = Lists.newArrayList();
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected int deadwoodRarity = 5;
@@ -61,36 +58,17 @@ public class AtumBiome extends Biome {
     }
 
     protected void addDefaultSpawns() { //TODO Fix weights
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityDesertWolf.class, 4, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 2, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 6, 1, 3));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 6, 2, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 6, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 6, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 6, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 6, 1, 4));
-        this.undergroundMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 7, 1, 2));
-        this.undergroundMonsterList.add(new SpawnListEntry(EntityTarantula.class, 10, 1, 3));
+        this.spawnableCreatureList.add(new SpawnListEntry(EntityDesertWolf.class, 3, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 1, 1, 2));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 2, 1, 3));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 3, 2, 2));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 4, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 3, 1, 3));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 3, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 2, 1, 3));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 3, 1, 2));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityTarantula.class, 2, 1, 3));
     }
-
-    /*@Override
-    @Nonnull
-    public List<Biome.SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) {
-        if (creatureType == EnumCreatureType.MONSTER) {
-            return this.spawnableMonsterList;
-        } else if (creatureType == EnumCreatureType.CREATURE) {
-            return this.spawnableCreatureList;
-        } else if (creatureType == EntityStoneBase.STONE) {
-            return this.undergroundMonsterList;
-        } else if (this.modSpawnableLists != null) {
-            if (!this.modSpawnableLists.containsKey(creatureType)) {
-                this.modSpawnableLists.put(creatureType, Lists.newArrayList());
-            }
-            return this.modSpawnableLists.get(creatureType);
-        } else {
-            return super.getSpawnableList(creatureType);
-        }
-    }*/
 
     @Override
     @Nonnull

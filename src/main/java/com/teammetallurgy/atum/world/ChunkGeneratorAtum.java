@@ -176,9 +176,8 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
             }
+            //this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
         }
-
-        //this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
         byte[] abyte = chunk.getBiomeArray();
@@ -335,7 +334,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
 
     @Override
     @Nonnull
-    public List<Biome.SpawnListEntry> getPossibleCreatures(@Nonnull EnumCreatureType creatureType, @Nonnull BlockPos pos) {
+    public List<AtumBiome.SpawnListEntry> getPossibleCreatures(@Nonnull EnumCreatureType creatureType, @Nonnull BlockPos pos) {
         return this.world.getBiome(pos).getSpawnableList(creatureType);
     }
 
@@ -365,12 +364,10 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     @Override
     public void recreateStructures(@Nonnull Chunk chunk, int x, int z) {
         if (this.mapFeaturesEnabled) {
-            ChunkPrimer chunkprimer = new ChunkPrimer();
-
             if (this.settings.useMineShafts) {
-                this.mineshaftGenerator.generate(this.world, x, z, null);
+                this.mineshaftGenerator.generate(this.world, x, z, (ChunkPrimer) null);
             }
-            //this.pyramidGenerator.generate(this.world, x, z, null);
+            //this.pyramidGenerator.generate(this.world, x, z, (ChunkPrimer) null);
         }
     }
 }

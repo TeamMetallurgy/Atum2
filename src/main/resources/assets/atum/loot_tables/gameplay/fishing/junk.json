@@ -1,0 +1,46 @@
+{
+  "pools": [
+    {
+      "name": "atum:junk",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:dusty_bone",
+          "entryName": "dusty_bone",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:rotten_flesh",
+          "entryName": "rotten_flesh",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "atum:cloth_scrap",
+          "entryName": "cloth_scrap",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "atum:deadwood_stick",
+          "entryName": "deadwood_stick",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "atum:deadwood_crate",
+          "entryName": "deadwood_crate",
+          "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:deadwood_ladder",
+          "entryName": "deadwood_ladder",
+          "weight": 1
+        }
+      ]
+    }
+  ]
+}

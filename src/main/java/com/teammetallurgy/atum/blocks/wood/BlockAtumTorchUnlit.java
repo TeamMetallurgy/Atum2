@@ -26,7 +26,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import java.util.*;
 
 public class BlockAtumTorchUnlit extends BlockAtumTorch {
-    private static final List<BlockAtumTorch> TORCHES = Arrays.asList(AtumBlocks.PALM_TORCH, AtumBlocks.DEADWOOD_TORCH, AtumBlocks.LIMESTONE_TORCH, AtumBlocks.PHARAOH_TORCH);
+    private static final List<BlockAtumTorch> TORCHES = Arrays.asList(AtumBlocks.PALM_TORCH, AtumBlocks.DEADWOOD_TORCH, AtumBlocks.LIMESTONE_TORCH, AtumBlocks.BONE_TORCH, AtumBlocks.PHARAOH_TORCH);
     private static final Map<Block, Block> UNLIT = Maps.newHashMap();
     private static final Map<Block, Block> LIT = Maps.newHashMap();
 

@@ -2,12 +2,9 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.google.common.base.Optional;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.AtumUtils;
-import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -18,7 +15,6 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -28,8 +24,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
@@ -281,46 +275,6 @@ public class EntityPharaoh extends EntityUndeadBase {
             this.heal(1);
         }
         super.onLivingUpdate();
-
-        if (!world.isRemote) {
-            this.destroyBlocksInAABB(this.getEntityBoundingBox().expand(0.1D, 0D, 0.1D));
-        }
-    }
-
-    private boolean destroyBlocksInAABB(AxisAlignedBB axisAlignedBB) {
-        int minX = MathHelper.floor(axisAlignedBB.minX);
-        int minY = MathHelper.floor(axisAlignedBB.minY);
-        int minZ = MathHelper.floor(axisAlignedBB.minZ);
-        int maxX = MathHelper.floor(axisAlignedBB.maxX);
-        int maxY = MathHelper.floor(axisAlignedBB.maxY);
-        int maxZ = MathHelper.floor(axisAlignedBB.maxZ);
-        boolean flag = false;
-        boolean flag1 = false;
-
-        for (int x = minX; x <= maxX; ++x) {
-            for (int y = minY; y <= maxY; ++y) {
-                for (int z = minZ; z <= maxZ; ++z) {
-                    BlockPos pos = new BlockPos(x, y, z);
-                    IBlockState state = world.getBlockState(pos);
-                    Block block = state.getBlock();
-
-                    if (block != null && !world.isRemote) {
-                        if (block != BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setBlockUnbreakable() && block != AtumBlocks.SARCOPHAGUS && block != Blocks.BEDROCK && state.getMaterial().isSolid()) {
-                            block.dropBlockAsItem(world, pos, state, 0);
-                            flag1 = this.world.setBlockToAir(pos) || flag1;
-                        }
-                        flag = true;
-                    }
-                }
-            }
-        }
-        if (flag1) {
-            double d0 = axisAlignedBB.minX + (axisAlignedBB.maxX - axisAlignedBB.minX) * (double) this.rand.nextFloat();
-            double d1 = axisAlignedBB.minY + (axisAlignedBB.maxY - axisAlignedBB.minY) * (double) this.rand.nextFloat();
-            double d2 = axisAlignedBB.minZ + (axisAlignedBB.maxZ - axisAlignedBB.minZ) * (double) this.rand.nextFloat();
-            world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, d0 + Math.random(), d1 + 1.2D, d2 + Math.random(), 0.0D, 0.0D, 0.0D);
-        }
-        return flag;
     }
 
     @Override
