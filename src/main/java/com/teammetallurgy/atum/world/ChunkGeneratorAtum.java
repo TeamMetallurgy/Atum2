@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world;
 
+import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
@@ -177,7 +178,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
             }
-            this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
+            if (AtumConfig.PYRAMID_ENABLED) {
+                this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
+            }
         }
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
@@ -303,7 +306,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
             }
-            this.pyramidGenerator.generateStructure(this.world, this.rand, chunkpos);
+            if (AtumConfig.PYRAMID_ENABLED) {
+                this.pyramidGenerator.generateStructure(this.world, this.rand, chunkpos);
+            }
         }
 
         if (this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
@@ -368,7 +373,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, null);
             }
-            this.pyramidGenerator.generate(this.world, x, z, null);
+            if (AtumConfig.PYRAMID_ENABLED) {
+                this.pyramidGenerator.generate(this.world, x, z, null);
+            }
         }
     }
 }

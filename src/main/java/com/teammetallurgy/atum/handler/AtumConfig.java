@@ -19,9 +19,10 @@ import static net.minecraftforge.common.config.Configuration.CATEGORY_SPLITTER;
 public class AtumConfig {
     public static Configuration config;
 
-    public static final String CATEGORY_WORLDGEN = "worldgen";
+    public static final String WORLDGEN = "worldgen";
     public static boolean ALLOW_CREATION;
     public static boolean FOG_ENABLED;
+    public static boolean PYRAMID_ENABLED;
     public static boolean COAL_ENABLED;
     public static boolean IRON_ENABLED;
     public static boolean GOLD_ENABLED;
@@ -85,27 +86,29 @@ public class AtumConfig {
             propOrder.add(prop.getName());
         }
 
+        PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, false, "Set to true to enable Pyramids");
+
         ////////// features
-        COAL_ENABLED = config.getBoolean("Generate Coal", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Coal ore", true, "Should coal ore generate in Atum?");
-        COAL_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Coal ore", 16, 0, 64, "Coal vein size");
+        COAL_ENABLED = config.getBoolean("Generate Coal", WORLDGEN + CATEGORY_SPLITTER + "Coal ore", true, "Should coal ore generate in Atum?");
+        COAL_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Coal ore", 16, 0, 64, "Coal vein size");
 
-        IRON_ENABLED = config.getBoolean("Generate Iron", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Iron ore", true, "Should iron ore generate in Atum?");
-        IRON_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Iron ore", 8, 0, 64, "Iron vein size");
+        IRON_ENABLED = config.getBoolean("Generate Iron", WORLDGEN + CATEGORY_SPLITTER + "Iron ore", true, "Should iron ore generate in Atum?");
+        IRON_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Iron ore", 8, 0, 64, "Iron vein size");
 
-        GOLD_ENABLED = config.getBoolean("Generate Gold", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Gold ore", true, "Should gold ore generate in Atum?");
-        GOLD_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Gold ore", 8, 0, 64, "Gold vein size");
+        GOLD_ENABLED = config.getBoolean("Generate Gold", WORLDGEN + CATEGORY_SPLITTER + "Gold ore", true, "Should gold ore generate in Atum?");
+        GOLD_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Gold ore", 8, 0, 64, "Gold vein size");
 
-        REDSTONE_ENABLED = config.getBoolean("Generate Redstone", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Redstone ore", true, "Should redstone ore generate in Atum?");
-        REDSTONE_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Redstone ore", 7, 0, 64, "Redstone vein size");
+        REDSTONE_ENABLED = config.getBoolean("Generate Redstone", WORLDGEN + CATEGORY_SPLITTER + "Redstone ore", true, "Should redstone ore generate in Atum?");
+        REDSTONE_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Redstone ore", 7, 0, 64, "Redstone vein size");
 
-        DIAMOND_ENABLED = config.getBoolean("Generate Diamond", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Diamond ore", true, "Should diamond ore generate in Atum?");
-        DIAMOND_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Diamond ore", 7, 0, 64, "Diamond vein size");
+        DIAMOND_ENABLED = config.getBoolean("Generate Diamond", WORLDGEN + CATEGORY_SPLITTER + "Diamond ore", true, "Should diamond ore generate in Atum?");
+        DIAMOND_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Diamond ore", 7, 0, 64, "Diamond vein size");
 
-        EMERALD_ENABLED = config.getBoolean("Generate Emerald", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Emerald ore", true, "Should emerald ore generate in Atum?");
-        EMERALD_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Emerald ore", 5, 0, 64, "Emerald vein size");
+        EMERALD_ENABLED = config.getBoolean("Generate Emerald", WORLDGEN + CATEGORY_SPLITTER + "Emerald ore", true, "Should emerald ore generate in Atum?");
+        EMERALD_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Emerald ore", 5, 0, 64, "Emerald vein size");
 
-        LAPIS_ENABLED = config.getBoolean("Generate Lapis", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Lapis ore", true, "Should lapis ore generate in Atum?");
-        LAPIS_VEIN = config.getInt("Size", CATEGORY_WORLDGEN + CATEGORY_SPLITTER + "Lapis ore", 6, 0, 64, "Lapis vein size");
+        LAPIS_ENABLED = config.getBoolean("Generate Lapis", WORLDGEN + CATEGORY_SPLITTER + "Lapis ore", true, "Should lapis ore generate in Atum?");
+        LAPIS_VEIN = config.getInt("Size", WORLDGEN + CATEGORY_SPLITTER + "Lapis ore", 6, 0, 64, "Lapis vein size");
 
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrder);
 

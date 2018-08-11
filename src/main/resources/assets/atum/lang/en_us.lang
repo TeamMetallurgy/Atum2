@@ -573,7 +573,6 @@ atum.configGui.portalCreation=Atum Portal
 atum.configGui.fog=Atum Fog
 atum.configGui.oasis=Atum Oasis
 atum.configGui.dimensionID=Atum Dimension ID
-atum.configGui.biomeID=Atum Desert Biome ID
 
 #Subtitles
 atum:subtitles.pharaohspawn=Pharaoh growls

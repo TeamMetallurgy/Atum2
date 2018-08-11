@@ -28,7 +28,7 @@ public class AtumGuiFactory extends DefaultGuiFactory {
         ArrayList<IConfigElement> elements = new ArrayList<>();
 
         elements.add(new ConfigElement(AtumConfig.config.getCategory(CATEGORY_GENERAL)));
-        elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.CATEGORY_WORLDGEN)));
+        elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.WORLDGEN)));
         return elements;
     }
 }
