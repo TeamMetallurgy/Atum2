@@ -77,7 +77,7 @@ public class TileEntityArrowTrap extends TileEntityTrap implements ITickable {
     private void fireArrow(World world, EnumFacing facing, double x, double y, double z) {
         if (!world.isRemote) {
             EntityArrow arrow = new EntityTippedArrow(world, x, y, z);
-            arrow.shoot((double) facing.getFrontOffsetX(), (double) ((float) facing.getFrontOffsetY() + 0.1F), (double) facing.getFrontOffsetZ(), 1.1F, 6.0F);
+            arrow.shoot((double) facing.getXOffset(), (double) ((float) facing.getYOffset() + 0.1F), (double) facing.getZOffset(), 1.1F, 6.0F);
             world.spawnEntity(arrow);
         }
     }

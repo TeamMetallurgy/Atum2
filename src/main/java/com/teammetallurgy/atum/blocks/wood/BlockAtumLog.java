@@ -73,7 +73,7 @@ public class BlockAtumLog extends BlockLog implements IOreDictEntry {
 
     @Override
     public void getOreDictEntries() {
-        OreDictHelper.add(this, "log", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_log", ""));
+        OreDictHelper.add(this, "log", Objects.requireNonNull(this.getRegistryName()).getPath().replace("_log", ""));
         OreDictHelper.add(this, "logWood");
     }
 }

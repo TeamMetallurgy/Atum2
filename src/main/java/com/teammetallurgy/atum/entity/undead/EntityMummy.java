@@ -74,8 +74,8 @@ public class EntityMummy extends EntityUndeadBase {
         boolean flag = super.attackEntityAsMob(entity);
 
         if (flag) {
-            if (this.isBurning() && this.rand.nextFloat() < (float) this.world.getDifficulty().getDifficultyId() * 0.4F) {
-                entity.setFire(2 * this.world.getDifficulty().getDifficultyId());
+            if (this.isBurning() && this.rand.nextFloat() < (float) this.world.getDifficulty().getId() * 0.4F) {
+                entity.setFire(2 * this.world.getDifficulty().getId());
             }
             if (entity instanceof EntityLivingBase) {
                 EntityLivingBase base = (EntityLivingBase) entity;

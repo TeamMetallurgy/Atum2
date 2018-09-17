@@ -12,7 +12,7 @@ public class AtumUtils {
 
     /**
      * Turns a registry name into a unlocalized name.
-     * Can also turn getUnlocalizedName() into a unlocalized name without mod prefix.
+     * Can also turn getTranslationKey() into a unlocalized name without mod prefix.
      * <p>
      * Example: Turns example_name into exampleName
      *

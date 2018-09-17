@@ -157,11 +157,11 @@ public class ItemAnubisWrath extends ItemSword {
     @SideOnly(Side.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
         if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getUnlocalizedName() + ".line1" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getUnlocalizedName() + ".line2" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")));
+            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")));
+            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")));
         } else {
-            tooltip.add(I18n.format(this.getUnlocalizedName() + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")) + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
+            tooltip.add(I18n.format(this.getTranslationKey() + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")) + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-        tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getUnlocalizedName() + ".kills", getSouls(stack)));
+        tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".kills", getSouls(stack)));
     }
 }

@@ -117,9 +117,9 @@ public abstract class BlockTrap extends BlockContainer {
 
     public static IPosition getDispensePosition(IBlockSource coords) {
         EnumFacing facing = coords.getBlockState().getValue(FACING);
-        double x = coords.getX() + 0.7D * (double) facing.getFrontOffsetX();
-        double y = coords.getY() + 0.7D * (double) facing.getFrontOffsetY();
-        double z = coords.getZ() + 0.7D * (double) facing.getFrontOffsetZ();
+        double x = coords.getX() + 0.7D * (double) facing.getXOffset();
+        double y = coords.getY() + 0.7D * (double) facing.getYOffset();
+        double z = coords.getZ() + 0.7D * (double) facing.getZOffset();
         return new PositionImpl(x, y, z);
     }
 
@@ -138,7 +138,7 @@ public abstract class BlockTrap extends BlockContainer {
     @Override
     @Nonnull
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getFront(meta & 7)).withProperty(DISABLED, (meta & 8) > 0);
+        return this.getDefaultState().withProperty(FACING, EnumFacing.byIndex(meta & 7)).withProperty(DISABLED, (meta & 8) > 0);
     }
 
     @Override

@@ -40,7 +40,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
             BlockAtumTorchUnlit unlitTorch = new BlockAtumTorchUnlit();
             UNLIT.put(torch, unlitTorch);
             LIT.put(unlitTorch, torch);
-            AtumRegistry.registerBlock(unlitTorch, Objects.requireNonNull(torch.getRegistryName()).getResourcePath() + "_unlit", null);
+            AtumRegistry.registerBlock(unlitTorch, Objects.requireNonNull(torch.getRegistryName()).getPath() + "_unlit", null);
         }
     }
 

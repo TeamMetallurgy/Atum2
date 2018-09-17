@@ -25,7 +25,7 @@ public class ItemDoubleChest extends ItemBlock {
 
     @Override
     public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull EntityPlayer player, World world, @Nonnull BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, @Nonnull IBlockState newState) {
-        EnumFacing horizontal = EnumFacing.getHorizontal(MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+        EnumFacing horizontal = EnumFacing.byHorizontalIndex(MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
         BlockPos posRight = pos.offset(horizontal.rotateY());
 
         if (!world.getBlockState(posRight).getBlock().isReplaceable(world, posRight) || !world.isAirBlock(posRight)) {

@@ -37,8 +37,8 @@ public class ItemAtumSlab extends ItemBlock { //TODO Remove 1.13
 
     @Override
     @Nonnull
-    public String getUnlocalizedName(ItemStack stack) {
-        return this.slab.getUnlocalizedName();
+    public String getTranslationKey(ItemStack stack) {
+        return this.slab.getTranslationKey();
     }
 
     @Override

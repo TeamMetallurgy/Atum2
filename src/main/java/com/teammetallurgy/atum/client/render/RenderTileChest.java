@@ -53,7 +53,7 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
                 } else {
-                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getResourcePath()) + ".png"));
+                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + ".png"));
                 }
             } else {
                 modelchest = this.largeChest;
@@ -66,7 +66,7 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
                 } else {
-                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getResourcePath()) + "_double.png"));
+                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + "_double.png"));
                 }
             }
 

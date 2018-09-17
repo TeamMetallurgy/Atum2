@@ -33,7 +33,7 @@ public class BlockAtumGlass extends BlockBreakable implements IOreDictEntry {
     @Override
     @SideOnly(Side.CLIENT)
     @Nonnull
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.CUTOUT;
     }
 

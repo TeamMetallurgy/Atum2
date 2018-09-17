@@ -67,7 +67,7 @@ public class BlockAtumPlank extends Block implements IOreDictEntry {
 
     @Override
     public void getOreDictEntries() {
-        OreDictHelper.add(this, "plank", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_planks", ""));
+        OreDictHelper.add(this, "plank", Objects.requireNonNull(this.getRegistryName()).getPath().replace("_planks", ""));
         OreDictHelper.add(this, "plankWood");
     }
 

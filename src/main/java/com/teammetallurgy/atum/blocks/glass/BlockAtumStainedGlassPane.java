@@ -34,19 +34,19 @@ public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntr
     public static void registerStainedGlassPane(Block glassBlock) {
         for (EnumDyeColor color : EnumDyeColor.values()) {
             Preconditions.checkNotNull(glassBlock.getRegistryName(), "registryName");
-            AtumRegistry.registerBlock(new BlockAtumStainedGlassPane(), glassBlock.getRegistryName().getResourcePath().replace("_glass", "") + "_" + color.getName() + "_stained_glass");
+            AtumRegistry.registerBlock(new BlockAtumStainedGlassPane(), glassBlock.getRegistryName().getPath().replace("_glass", "") + "_" + color.getName() + "_stained_glass");
         }
     }
 
     public static Block getGlass(Block baseGlassBlack, EnumDyeColor color) {
         Preconditions.checkNotNull(baseGlassBlack.getRegistryName(), "registryName");
-        return REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, "thin_" + baseGlassBlack.getRegistryName().getResourcePath().replace("_glass", "") + "_" + color.getName() + "_stained_glass"));
+        return REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, "thin_" + baseGlassBlack.getRegistryName().getPath().replace("_glass", "") + "_" + color.getName() + "_stained_glass"));
     }
 
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
@@ -58,7 +58,7 @@ public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntr
 
     private String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
-        return this.getRegistryName().getResourcePath().replace("thin_", "").replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", "");
+        return this.getRegistryName().getPath().replace("thin_", "").replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", "");
     }
 
     @Override

@@ -68,11 +68,11 @@ public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
     }
 
     private SoundEvent getCloseSound() {
-        return this.blockMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_DOOR_CLOSE;
+        return this.material == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_DOOR_CLOSE;
     }
 
     private SoundEvent getOpenSound() {
-        return this.blockMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
+        return this.material == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
     }
 
     @Override

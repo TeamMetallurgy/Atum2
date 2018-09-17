@@ -251,7 +251,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     public void onUpdate() {
         super.onUpdate();
 
-        if (!this.world.isRemote && this.world.getDifficulty().getDifficultyId() == 0) {
+        if (!this.world.isRemote && this.world.getDifficulty().getId() == 0) {
             if (this.hasSarcophagus) {
                 TileEntity te = world.getTileEntity(this.getSarcophagusPos());
                 if (te instanceof TileEntitySarcophagus) {

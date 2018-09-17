@@ -99,7 +99,7 @@ public class AtumTeleporter extends Teleporter {
                 direction = EnumFacing.WEST;
             }
 
-            final EnumFacing enumfacing1 = EnumFacing.getHorizontal(MathHelper.floor(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+            final EnumFacing enumfacing1 = EnumFacing.byHorizontalIndex(MathHelper.floor(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
 
             if (direction != null) {
                 EnumFacing enumfacing2 = direction.rotateYCCW();
@@ -130,8 +130,8 @@ public class AtumTeleporter extends Teleporter {
                 tpX = location.getX() + 0.5D;
                 tpY = location.getY() + 0.5D;
                 tpZ = location.getZ() + 0.5D;
-                tpX += enumfacing2.getFrontOffsetX() * f6 + direction.getFrontOffsetX() * f1;
-                tpZ += enumfacing2.getFrontOffsetZ() * f6 + direction.getFrontOffsetZ() * f1;
+                tpX += enumfacing2.getXOffset() * f6 + direction.getXOffset() * f1;
+                tpZ += enumfacing2.getYOffset() * f6 + direction.getYOffset() * f1;
                 float f2 = 0.0F;
                 float f3 = 0.0F;
                 float f4 = 0.0F;

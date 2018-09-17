@@ -70,7 +70,7 @@ public class AtumRegistry {
      */
     public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nullable CreativeTabs tab, @Nullable String oreDictName) {
         item.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
-        item.setUnlocalizedName(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
+        item.setTranslationKey(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
         ForgeRegistries.ITEMS.register(item);
 
         if (tab != null) {
@@ -126,7 +126,7 @@ public class AtumRegistry {
      */
     public static Block registerBlock(@Nonnull Block block, @Nonnull Item itemBlock, @Nonnull String name, @Nullable CreativeTabs tab) {
         block.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
-        block.setUnlocalizedName(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
+        block.setTranslationKey(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
         ForgeRegistries.BLOCKS.register(block);
         registerItem(itemBlock, AtumUtils.toRegistryName(name));
 

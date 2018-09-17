@@ -88,13 +88,13 @@ public class BlockPortal extends BlockBreakable {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (!world.isRemote && !entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP && entity.timeUntilPortal <= 0) {
             EntityPlayerMP player = (EntityPlayerMP) entity;
             final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
             player.timeUntilPortal = 300;
 
-            player.changeDimension(dimension, new AtumTeleporter(player.mcServer.getWorld(dimension)));
+            player.changeDimension(dimension, new AtumTeleporter(player.server.getWorld(dimension)));
             if (player.dimension != AtumConfig.DIMENSION_ID) {
                 player.setSpawnChunk(new BlockPos(player), true, AtumConfig.DIMENSION_ID);
             }
@@ -115,7 +115,7 @@ public class BlockPortal extends BlockBreakable {
     @Override
     @SideOnly(Side.CLIENT)
     @Nonnull
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 

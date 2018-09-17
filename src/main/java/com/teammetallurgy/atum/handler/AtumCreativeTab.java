@@ -15,7 +15,7 @@ public class AtumCreativeTab extends CreativeTabs {
 
     @Override
     @Nonnull
-    public ItemStack getTabIconItem() {
+    public ItemStack createIcon() {
         return new ItemStack(AtumItems.SCARAB);
     }
 }

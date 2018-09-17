@@ -47,7 +47,7 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
     }
 
     private String getDefaultName() {
-        return this.getBlockType().getUnlocalizedName() + ".name";
+        return this.getBlockType().getTranslationKey() + ".name";
     }
 
     @Override

@@ -100,6 +100,6 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
 
     @Override
     public void getOreDictEntries() {
-        OreDictHelper.add(this, "ore", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_ore", ""));
+        OreDictHelper.add(this, "ore", Objects.requireNonNull(this.getRegistryName()).getPath().replace("_ore", ""));
     }
 }

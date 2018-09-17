@@ -35,19 +35,19 @@ public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEnt
     public static void registerStainedGlass(Block glassBlock) {
         for (EnumDyeColor color : EnumDyeColor.values()) {
             Preconditions.checkNotNull(glassBlock.getRegistryName(), "registryName");
-            AtumRegistry.registerBlock(new BlockAtumStainedGlass(), glassBlock.getRegistryName().getResourcePath().replace("_glass", "") + "_" + color.getName() + "_stained_glass");
+            AtumRegistry.registerBlock(new BlockAtumStainedGlass(), glassBlock.getRegistryName().getPath().replace("_glass", "") + "_" + color.getName() + "_stained_glass");
         }
     }
 
     public static Block getGlass(Block baseGlassBlack, EnumDyeColor color) {
         Preconditions.checkNotNull(baseGlassBlack.getRegistryName(), "registryName");
-        return REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, baseGlassBlack.getRegistryName().getResourcePath().replace("_glass", "") + "_" + color.getName() + "_stained_glass"));
+        return REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, baseGlassBlack.getRegistryName().getPath().replace("_glass", "") + "_" + color.getName() + "_stained_glass"));
     }
 
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer() {
+    public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
@@ -74,7 +74,7 @@ public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEnt
 
     private String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
-        return this.getRegistryName().getResourcePath().replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", "");
+        return this.getRegistryName().getPath().replace("framed_", "").replace("crystal_", "").replace("_stained", "").replace("_glass", "");
     }
 
     @Override

@@ -100,7 +100,7 @@ public class BlockChestBase extends BlockChest {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
-        EnumFacing facing = EnumFacing.getHorizontal(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
+        EnumFacing facing = EnumFacing.byHorizontalIndex(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityChestBase) {
             TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;

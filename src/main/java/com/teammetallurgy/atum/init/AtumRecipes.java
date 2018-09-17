@@ -72,7 +72,7 @@ public class AtumRecipes {
         final ResourceLocation framed = new ResourceLocation(Constants.MOD_ID, "framed_glass");
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
-            String colorName = StringUtils.capitalize(color.getUnlocalizedName().replace("silver", "lightGray"));
+            String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
             registry.register(new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.CRYSTAL_GLASS, 'D', "dye" + colorName).setRegistryName(new ResourceLocation(Constants.MOD_ID, "crystal_" + colorName)));
             registry.register(new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.FRAMED_GLASS, 'D', "dye" + colorName).setRegistryName(new ResourceLocation(Constants.MOD_ID, "framed_" + colorName)));
             registry.register(new ShapedOreRecipe(framed, BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), " S ", "SGS", " S ", 'S', "stickWood", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "crystal_to_framed_" + colorName)));

@@ -54,9 +54,9 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     }
 
     @Override
-    public void onEntityCollidedWithBlock(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         this.activate(world, pos);
-        super.onEntityCollidedWithBlock(world, pos, state, entity);
+        super.onEntityCollision(world, pos, state, entity);
     }
 
     @Override
@@ -166,7 +166,7 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     @Override
     public void getOreDictEntries() {
         if (!this.isLit) {
-            OreDictHelper.add(this, "ore", Objects.requireNonNull(this.getRegistryName()).getResourcePath().replace("_ore", ""));
+            OreDictHelper.add(this, "ore", Objects.requireNonNull(this.getRegistryName()).getPath().replace("_ore", ""));
         }
     }
 }

@@ -362,7 +362,7 @@ public class StructureAtumMineshaftPieces {
         @Override
         protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
             this.isMultipleFloors = compound.getBoolean("tf");
-            this.corridorDirection = EnumFacing.getHorizontal(compound.getInteger("D"));
+            this.corridorDirection = EnumFacing.byHorizontalIndex(compound.getInteger("D"));
         }
 
         public Cross(int type, Random random, StructureBoundingBox box, @Nullable EnumFacing facing, MapGenAtumMineshaft.Type mineshaftType) {

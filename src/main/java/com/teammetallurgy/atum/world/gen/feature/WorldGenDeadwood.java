@@ -75,8 +75,8 @@ public class WorldGenDeadwood extends WorldGenAbstractTree { //TODO Change how t
                         int i2 = pos.getY() + l1;
 
                         if (l1 >= k2 && l2 > 0) {
-                            i3 += facing.getFrontOffsetX();
-                            j1 += facing.getFrontOffsetZ();
+                            i3 += facing.getXOffset();
+                            j1 += facing.getZOffset();
                             --l2;
                         }
 
@@ -98,8 +98,8 @@ public class WorldGenDeadwood extends WorldGenAbstractTree { //TODO Change how t
                         for (int l4 = l3; l4 < height && k4 > 0; --k4) {
                             if (l4 >= 1) {
                                 int j2 = pos.getY() + l4;
-                                i3 += facing1.getFrontOffsetX();
-                                j1 += facing1.getFrontOffsetZ();
+                                i3 += facing1.getXOffset();
+                                j1 += facing1.getZOffset();
                                 BlockPos blockpos1 = new BlockPos(i3, j2, j1);
                                 state = world.getBlockState(blockpos1);
 
