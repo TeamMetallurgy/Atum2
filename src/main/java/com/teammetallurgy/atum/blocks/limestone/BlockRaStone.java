@@ -121,6 +121,12 @@ public class BlockRaStone extends BlockBreakable {
 
     @Override
     @Nonnull
+    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AGE);
     }

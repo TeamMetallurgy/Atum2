@@ -5,13 +5,23 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ITickable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityTrap extends TileEntity {
+public class TileEntityTrap extends TileEntity implements ITickable {
     boolean isDisabled = false;
+
+    @Override
+    public void update() {
+        //System.out.println(this.isDisabled);
+    }
+
+    public void setDisabledStatus(boolean isDisabled) {
+        this.isDisabled = isDisabled;
+    }
 
     AxisAlignedBB getFacingBoxWithRange(EnumFacing facing, int range) {
         BlockPos pos = getPos();
@@ -35,10 +45,6 @@ public class TileEntityTrap extends TileEntity {
     @Nonnull
     public NBTTagCompound getUpdateTag() {
         return this.writeToNBT(new NBTTagCompound());
-    }
-
-    public void setDisabled() {
-        this.isDisabled = true;
     }
 
     @Override

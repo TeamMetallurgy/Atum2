@@ -35,12 +35,12 @@ public class WorldProviderAtum extends WorldProvider {
 
     @Override
     public boolean canCoordinateBeSpawn(int x, int z) {
-        BlockPos blockpos = new BlockPos(x, 0, z);
+        BlockPos pos = new BlockPos(x, 0, z);
 
-        if (this.world.getBiome(blockpos).ignorePlayerSpawnSuitability()) {
+        if (this.world.getBiome(pos).ignorePlayerSpawnSuitability()) {
             return true;
         } else {
-            return this.world.getGroundAboveSeaLevel(blockpos).getBlock() == AtumBlocks.SAND;
+            return this.world.getGroundAboveSeaLevel(pos).getBlock() == AtumBlocks.SAND;
         }
     }
 

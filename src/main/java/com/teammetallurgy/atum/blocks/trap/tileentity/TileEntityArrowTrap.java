@@ -9,18 +9,18 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class TileEntityArrowTrap extends TileEntityTrap implements ITickable {
+public class TileEntityArrowTrap extends TileEntityTrap {
     private int timer = 80;
 
     @Override
     public void update() {
+        super.update();
         int range = 12;
         EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), range, false);
         if (!this.isDisabled && player != null && !player.capabilities.isCreativeMode) {

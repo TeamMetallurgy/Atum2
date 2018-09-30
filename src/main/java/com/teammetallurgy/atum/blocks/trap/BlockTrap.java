@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.trap;
 
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -21,6 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
@@ -40,12 +42,47 @@ public abstract class BlockTrap extends BlockContainer {
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.MAIN_HAND)) && tileEntity instanceof TileEntityTrap && !world.isRemote) {
-            ((TileEntityTrap) tileEntity).setDisabled();
+        boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.OFF_HAND));
+        if (!world.isRemote && this.isInsidePyramid((WorldServer) world, pos) && isToolEffective && tileEntity instanceof TileEntityTrap) {
+            ((TileEntityTrap) tileEntity).setDisabledStatus(true);
             world.setBlockState(pos, state.withProperty(DISABLED, true));
             return true;
         }
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+    }
+
+    private boolean isInsidePyramid(WorldServer world, BlockPos pos) {
+        return world.getChunkProvider().chunkGenerator.isInsideStructure(world, "Village", pos);
+    }
+
+    @Override
+    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityTrap && !isInsidePyramid((WorldServer) world, pos)) {
+                TileEntityTrap trap = (TileEntityTrap) tileEntity;
+                if (world.isBlockPowered(pos)) {
+                    trap.setDisabledStatus(true);
+                    world.setBlockState(pos, state.withProperty(DISABLED, true));
+                } else if (!world.isBlockPowered(pos)) {
+                    world.scheduleUpdate(pos, this, 4);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof TileEntityTrap && !isInsidePyramid((WorldServer) world, pos)) {
+                if (!world.isBlockPowered(pos)) {
+                    TileEntityTrap trap = (TileEntityTrap) tileEntity;
+                    trap.setDisabledStatus(false);
+                    world.setBlockState(pos, state.withProperty(DISABLED, false));
+                }
+            }
+        }
     }
 
     @Override
