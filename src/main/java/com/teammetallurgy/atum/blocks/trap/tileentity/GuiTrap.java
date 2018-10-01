@@ -45,15 +45,15 @@ public class GuiTrap extends GuiContainer {
 
         if (TileEntityTrap.isBurning(this.trapInventory)) {
             int burnLeft = this.getBurnLeftScaled(13);
-            this.drawTexturedModalRect(width + 56, height + 36 + 12 - burnLeft, 176, 12 - burnLeft, 14, burnLeft + 1);
+            this.drawTexturedModalRect(width + 80, height + 15 - burnLeft, 176, 12 - burnLeft, 14, burnLeft + 1);
         }
     }
 
     private int getBurnLeftScaled(int pixels) {
-        int i = this.trapInventory.getField(1);
-        if (i == 0) {
-            i = 200;
+        int currentItemBurnTime = this.trapInventory.getField(1);
+        if (currentItemBurnTime == 0) {
+            currentItemBurnTime = 200;
         }
-        return this.trapInventory.getField(0) * pixels / i;
+        return this.trapInventory.getField(0) * pixels / currentItemBurnTime;
     }
 }

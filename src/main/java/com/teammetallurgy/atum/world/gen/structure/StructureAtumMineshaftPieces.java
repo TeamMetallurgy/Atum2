@@ -237,7 +237,6 @@ public class StructureAtumMineshaftPieces {
                 EntityMinecartChest cartChest = new EntityMinecartChest(world, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F));
                 cartChest.setLootTable(loot, random.nextLong());
                 world.spawnEntity(cartChest);
-                System.out.println("Mineshaft type: " + mineshaftType.name() + " generated at: " + cartChest.getPosition());
                 return true;
             } else {
                 return false;

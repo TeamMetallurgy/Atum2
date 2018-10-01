@@ -7,8 +7,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 
 import javax.annotation.Nonnull;
 
@@ -138,11 +136,5 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot imp
             compound.setString("CustomName", this.customName);
         }
         return compound;
-    }
-
-    @Override
-    @Nonnull
-    public ITextComponent getDisplayName() {
-        return new TextComponentString(getName());
     }
 }

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.trap;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
+import com.teammetallurgy.atum.world.gen.structure.PyramidTemplate;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
@@ -13,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -58,7 +60,7 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     public static boolean isInsidePyramid(WorldServer world, BlockPos pos) {
-        return world.getChunkProvider().chunkGenerator.isInsideStructure(world, "Village", pos);
+        return world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidTemplate.PYRAMID), pos);
     }
 
     @Override
@@ -145,6 +147,7 @@ public abstract class BlockTrap extends BlockContainer {
         TileEntity tileentity = world.getTileEntity(pos);
 
         if (tileentity instanceof TileEntityTrap) {
+            InventoryHelper.dropInventoryItems(world, pos, (TileEntityTrap) tileentity);
             world.updateComparatorOutputLevel(pos, this);
         }
         super.breakBlock(world, pos, state);

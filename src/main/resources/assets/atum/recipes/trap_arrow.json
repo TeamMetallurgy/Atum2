@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LAL",
+    "ARA",
+    "LAL"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:arrow"
+    },
+    "L": {
+      "item": "atum:limestone_brick_carved"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "item": "atum:arrow_trap"
+  }
+}

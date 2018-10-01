@@ -1,0 +1,23 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "LSL",
+    "SRS",
+    "LSL"
+  ],
+  "key": {
+    "S": {
+      "ore": "slimeball",
+      "type": "forge:ore_dict"
+    },
+    "L": {
+      "item": "atum:limestone_brick_carved"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "item": "atum:tar_trap"
+  }
+}

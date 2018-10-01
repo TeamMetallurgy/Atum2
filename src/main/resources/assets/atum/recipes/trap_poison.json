@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LPL",
+    "PRP",
+    "LPL"
+  ],
+  "key": {
+    "P": {
+      "type": "minecraft:item_nbt",
+      "item": "minecraft:potion",
+      "nbt": {
+        "Potion": "minecraft:poison"
+      }
+    },
+    "L": {
+      "item": "atum:limestone_brick_carved"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "item": "atum:poison_trap"
+  }
+}

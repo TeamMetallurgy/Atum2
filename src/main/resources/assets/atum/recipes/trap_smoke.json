@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LFL",
+    "FRF",
+    "LFL"
+  ],
+  "key": {
+    "F": {
+      "item": "atum:fertile_soil_pile"
+    },
+    "L": {
+      "item": "atum:limestone_brick_carved"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "item": "atum:smoke_trap"
+  }
+}

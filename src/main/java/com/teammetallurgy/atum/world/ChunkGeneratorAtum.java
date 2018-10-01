@@ -351,7 +351,6 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft")).equals(structureName) && this.mineshaftGenerator != null) {
             return this.mineshaftGenerator.isInsideStructure(pos);
         } else if (String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid")).equals(structureName) && this.pyramidGenerator != null) {
-            System.out.println("Hi");
             return this.pyramidGenerator.isInsideStructure(pos);
         }
         return false;

@@ -6,11 +6,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -20,25 +23,68 @@ public class TileEntityArrowTrap extends TileEntityTrap {
 
     @Override
     public void update() {
-        super.update();
-        int range = 12;
-        EntityPlayer player = world.getClosestPlayer((double) getPos().getX(), (double) getPos().getY(), (double) getPos().getZ(), range, false);
-        if (!this.isDisabled && player != null && !player.capabilities.isCreativeMode) {
-            if (timer > 0) timer --;
-            if (timer == 0) {
-                EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
-                List<EntityLivingBase> players = world.getEntitiesWithinAABB(EntityLivingBase.class, getFacingBoxWithRange(facing, range));
-                for (EntityLivingBase p : players) {
-                    if (p != null) {
+        boolean isBurningCheck = this.isBurning();
+        boolean isBurning = false;
+        boolean canDamageEntity = false;
+
+        if (timer > 0) timer--;
+        if (!this.isDisabled && this.isBurning()) {
+            EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
+            Class<? extends EntityLivingBase> entity;
+            if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+                entity = EntityPlayer.class;
+            } else {
+                entity = EntityLivingBase.class;
+            }
+            List<EntityLivingBase> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 12));
+            for (EntityLivingBase livingBase : entities) {
+                if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode : livingBase != null) {
+                    canDamageEntity = true;
+                    if (timer == 0) {
                         timer = 80;
-                        this.fire(facing);
+                        this.spawnParticles(facing, livingBase);
+                        this.fire(livingBase);
                     }
+                } else {
+                    canDamageEntity = false;
                 }
             }
         }
+
+        //Copied from TileEntityTrap
+        if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+            this.burnTime = 1;
+        }
+
+        if (this.isBurning() && !this.isDisabled && canDamageEntity && (!world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos))) {
+            --this.burnTime;
+        }
+
+        if (!this.world.isRemote && !this.isDisabled) {
+            ItemStack fuel = this.inventory.get(0);
+            if (this.isBurning() || !fuel.isEmpty()) {
+                if (!this.isBurning()) {
+                    this.burnTime = TileEntityFurnace.getItemBurnTime(fuel) / 10;
+                    this.currentItemBurnTime = this.burnTime;
+                    if (this.isBurning()) {
+                        isBurning = true;
+                        if (!fuel.isEmpty()) {
+                            fuel.shrink(1);
+                        }
+                    }
+                }
+            }
+            if (isBurningCheck != this.isBurning()) {
+                isBurning = true;
+            }
+        }
+        if (isBurning) {
+            this.markDirty();
+        }
     }
 
-    private void fire(EnumFacing facing) {
+    @Override
+    protected void spawnParticles(EnumFacing facing, EntityLivingBase livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;

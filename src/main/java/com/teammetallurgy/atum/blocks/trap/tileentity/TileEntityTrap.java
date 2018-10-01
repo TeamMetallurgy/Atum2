@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -19,13 +21,17 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class TileEntityTrap extends TileEntityInventoryBase implements ITickable {
-    private int burnTime;
-    private int currentItemBurnTime;
+    protected int burnTime;
+    protected int currentItemBurnTime;
     boolean isDisabled = false;
 
     public TileEntityTrap() {
@@ -45,9 +51,72 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     public void update() {
-        //System.out.println(this.isDisabled);
+        boolean isBurningCheck = this.isBurning();
+        boolean isBurning = false;
+        boolean canDamageEntity = false;
+
+        if (!this.isDisabled && this.isBurning()) {
+            EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
+            Class<? extends EntityLivingBase> entity;
+            if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+                entity = EntityPlayer.class;
+            } else {
+                entity = EntityLivingBase.class;
+            }
+            List<EntityLivingBase> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1));
+            for (EntityLivingBase livingBase : entities) {
+                if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode : livingBase != null) {
+                    canDamageEntity = true;
+                    this.spawnParticles(facing, livingBase);
+                    this.fire(livingBase);
+                } else {
+                    canDamageEntity = false;
+                }
+            }
+        }
+
+        if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+            this.burnTime = 1;
+        }
+
+        if (this.isBurning() && !this.isDisabled && canDamageEntity && (!world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos))) {
+            --this.burnTime;
+        }
+
+        if (!this.world.isRemote && !this.isDisabled) {
+            ItemStack fuel = this.inventory.get(0);
+            if (this.isBurning() || !fuel.isEmpty()) {
+                if (!this.isBurning()) {
+                    this.burnTime = TileEntityFurnace.getItemBurnTime(fuel) / 10;
+                    this.currentItemBurnTime = this.burnTime;
+                    if (this.isBurning()) {
+                        isBurning = true;
+                        if (!fuel.isEmpty()) {
+                            fuel.shrink(1);
+                        }
+                    }
+                }
+            }
+            if (isBurningCheck != this.isBurning()) {
+                isBurning = true;
+            }
+        }
+        if (isBurning) {
+            this.markDirty();
+        }
     }
 
+    protected void spawnParticles(EnumFacing facing, EntityLivingBase livingBase) {
+    }
+
+    protected void fire(EntityLivingBase livingBase) {
+    }
+
+    boolean isBurning() {
+        return this.burnTime > 0;
+    }
+    
+    @SideOnly(Side.CLIENT)
     static boolean isBurning(IInventory inventory) {
         return inventory.getField(0) > 0;
     }
@@ -63,14 +132,8 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        if (index == 2) {
-            return false;
-        } else if (index != 1) {
-            return true;
-        } else {
-            ItemStack fuel = this.inventory.get(1);
-            return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET;
-        }
+        ItemStack fuel = this.inventory.get(1);
+        return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET;
     }
 
     @Override
@@ -112,6 +175,11 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Nonnull
     public String getGuiID() {
         return String.valueOf(new ResourceLocation(Constants.MOD_ID, "trap"));
+    }
+
+    @Override
+    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newSate) {
+        return oldState.getBlock() != newSate.getBlock();
     }
 
     @Override

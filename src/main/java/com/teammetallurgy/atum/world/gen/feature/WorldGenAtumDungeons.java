@@ -112,7 +112,6 @@ public class WorldGenAtumDungeons extends WorldGenerator {
 
             if (tileEntity instanceof TileEntityMobSpawner) {
                 ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(this.pickMobSpawner(rand));
-                System.out.println("Dungeon pos: " + pos);
             } else {
                 Atum.LOG.error("Failed to fetch mob spawner entity at ({}, {}, {})", pos.getX(), pos.getY(), pos.getZ());
             }
