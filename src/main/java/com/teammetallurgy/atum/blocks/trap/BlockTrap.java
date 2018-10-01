@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap;
 
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
@@ -10,13 +10,9 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.dispenser.IPosition;
-import net.minecraft.dispenser.PositionImpl;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -41,17 +37,27 @@ public abstract class BlockTrap extends BlockContainer {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        TileEntity tileEntity = world.getTileEntity(pos);
-        boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.OFF_HAND));
-        if (!world.isRemote && this.isInsidePyramid((WorldServer) world, pos) && isToolEffective && tileEntity instanceof TileEntityTrap) {
-            ((TileEntityTrap) tileEntity).setDisabledStatus(true);
-            world.setBlockState(pos, state.withProperty(DISABLED, true));
+        if (world.isRemote) {
             return true;
+        } else {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.OFF_HAND));
+            if (tileEntity instanceof TileEntityTrap) {
+                if (!BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+                    player.openGui(Atum.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
+                    return true;
+                }
+                if (BlockTrap.isInsidePyramid((WorldServer) world, pos) && isToolEffective) {
+                    ((TileEntityTrap) tileEntity).setDisabledStatus(true);
+                    world.setBlockState(pos, state.withProperty(DISABLED, true));
+                    return true;
+                }
+            }
         }
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
-    private boolean isInsidePyramid(WorldServer world, BlockPos pos) {
+    public static boolean isInsidePyramid(WorldServer world, BlockPos pos) {
         return world.getChunkProvider().chunkGenerator.isInsideStructure(world, "Village", pos);
     }
 
@@ -124,6 +130,14 @@ public abstract class BlockTrap extends BlockContainer {
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
         world.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
+
+        if (stack.hasDisplayName()) {
+            TileEntity tileentity = world.getTileEntity(pos);
+
+            if (tileentity instanceof TileEntityTrap) {
+                ((TileEntityTrap) tileentity).setCustomName(stack.getDisplayName());
+            }
+        }
     }
 
     @Override
@@ -137,12 +151,6 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Item.getItemFromBlock(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CHISELED));
-    }
-
-    @Override
     public boolean hasComparatorInputOverride(IBlockState state) {
         return true;
     }
@@ -150,14 +158,6 @@ public abstract class BlockTrap extends BlockContainer {
     @Override
     public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
         return Container.calcRedstone(world.getTileEntity(pos));
-    }
-
-    public static IPosition getDispensePosition(IBlockSource coords) {
-        EnumFacing facing = coords.getBlockState().getValue(FACING);
-        double x = coords.getX() + 0.7D * (double) facing.getXOffset();
-        double y = coords.getY() + 0.7D * (double) facing.getYOffset();
-        double z = coords.getZ() + 0.7D * (double) facing.getZOffset();
-        return new PositionImpl(x, y, z);
     }
 
     @Override

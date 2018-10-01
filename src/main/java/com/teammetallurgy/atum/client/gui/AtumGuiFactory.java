@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.gui;
 
-import com.teammetallurgy.atum.handler.AtumConfig;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.ConfigElement;

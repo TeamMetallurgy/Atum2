@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.handler.event;
+package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;

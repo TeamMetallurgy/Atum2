@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.handler.BlacklistOreIngredient;
+import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;

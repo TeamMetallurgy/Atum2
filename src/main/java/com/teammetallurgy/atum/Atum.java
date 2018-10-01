@@ -1,11 +1,11 @@
 package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
-import com.teammetallurgy.atum.handler.AtumConfig;
-import com.teammetallurgy.atum.handler.AtumCreativeTab;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
+import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.utils.AtumCreativeTab;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
 import com.teammetallurgy.atum.world.gen.structure.PyramidTemplate;

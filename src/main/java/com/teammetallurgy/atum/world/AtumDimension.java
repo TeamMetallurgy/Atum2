@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world;
 
-import com.teammetallurgy.atum.handler.AtumConfig;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.world.DimensionType;
 import net.minecraftforge.common.DimensionManager;

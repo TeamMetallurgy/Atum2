@@ -2,6 +2,9 @@ package com.teammetallurgy.atum.client.gui;
 
 import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.GuiLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.trap.tileentity.ContainerTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.GuiTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.ContainerCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.GuiCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
@@ -16,14 +19,16 @@ public class AtumGuiHandler implements IGuiHandler {
 
     @Override
     public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
+        TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 
-        if (te != null) {
+        if (tileEntity != null) {
             switch (id) {
                 case 0:
-                    return new ContainerFurnace(player.inventory, (TileEntityLimestoneFurnace) te);
+                    return new ContainerFurnace(player.inventory, (TileEntityLimestoneFurnace) tileEntity);
                 case 1:
-                    return new ContainerCrate(player.inventory, (TileEntityCrate) te, player);
+                    return new ContainerCrate(player.inventory, (TileEntityCrate) tileEntity, player);
+                case 2:
+                    return new ContainerTrap(player.inventory, (TileEntityTrap) tileEntity);
             }
         }
         return null;
@@ -31,14 +36,16 @@ public class AtumGuiHandler implements IGuiHandler {
 
     @Override
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
-        TileEntity te = world.getTileEntity(new BlockPos(x, y, z));
+        TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
 
-        if (te != null) {
+        if (tileEntity != null) {
             switch (id) {
                 case 0:
-                    return new GuiLimestoneFurnace(player.inventory, (TileEntityLimestoneFurnace) te);
+                    return new GuiLimestoneFurnace(player.inventory, (TileEntityLimestoneFurnace) tileEntity);
                 case 1:
-                    return new GuiCrate(player.inventory, (TileEntityCrate) te);
+                    return new GuiCrate(player.inventory, (TileEntityCrate) tileEntity);
+                case 2:
+                    return new GuiTrap(player.inventory, (TileEntityTrap) tileEntity);
             }
         }
         return null;

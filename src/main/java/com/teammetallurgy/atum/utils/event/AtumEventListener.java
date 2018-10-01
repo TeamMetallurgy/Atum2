@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.handler.event;
+package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
@@ -6,12 +6,12 @@ import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
-import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemAtumsBounty;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;

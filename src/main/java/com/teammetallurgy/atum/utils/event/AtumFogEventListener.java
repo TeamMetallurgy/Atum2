@@ -1,7 +1,7 @@
-package com.teammetallurgy.atum.handler.event;
+package com.teammetallurgy.atum.utils.event;
 
-import com.teammetallurgy.atum.handler.AtumConfig;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;

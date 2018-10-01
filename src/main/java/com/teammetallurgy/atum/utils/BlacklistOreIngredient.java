@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.handler;
+package com.teammetallurgy.atum.utils;
 
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreIngredient;

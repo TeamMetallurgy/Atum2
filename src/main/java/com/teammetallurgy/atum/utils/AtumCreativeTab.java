@@ -1,7 +1,6 @@
-package com.teammetallurgy.atum.handler;
+package com.teammetallurgy.atum.utils;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.ItemStack;
 

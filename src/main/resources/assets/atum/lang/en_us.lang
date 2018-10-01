@@ -182,6 +182,12 @@ tile.atum.thinFramedOrangeStainedGlass.name=Orange Stained Thin Framed Glass
 tile.atum.thinFramedWhiteStainedGlass.name=White Stained Thin Framed Glass
 
 # Containers
+container.trap.arrow=Arrow Trap
+container.trap.burning=Burning Trap
+container.trap.poison=Poison Trap
+container.trap.smoke=Smoke Trap
+container.trap.tar=Tar Trap
+container.trap=Trap
 container.limestoneFurnace=Limestone Furnace
 container.crate.palm=Palm Crate
 container.crate.deadwood=Deadwood Crate
