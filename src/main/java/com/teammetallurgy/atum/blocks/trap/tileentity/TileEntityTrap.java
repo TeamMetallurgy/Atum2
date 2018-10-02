@@ -23,15 +23,17 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class TileEntityTrap extends TileEntityInventoryBase implements ITickable {
-    protected int burnTime;
-    protected int currentItemBurnTime;
+    int burnTime;
+    int currentItemBurnTime;
     boolean isDisabled = false;
 
     public TileEntityTrap() {
@@ -129,7 +131,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         ItemStack fuel = this.inventory.get(0);
-        return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET;
+        return !world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos) && (TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET);
     }
 
     @Override
@@ -209,5 +211,17 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         compound.setInteger("BurnTime", (short) this.burnTime);
         compound.setBoolean("Disabled", this.isDisabled);
         return compound;
+    }
+
+
+    @Override
+    @Nonnull
+    public ItemStack decrStackSize(int index, int count) {
+        return !world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos) ? super.decrStackSize(index, count) : ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return !world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos) && super.hasCapability(capability, facing);
     }
 }

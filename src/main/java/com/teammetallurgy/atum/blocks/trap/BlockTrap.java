@@ -154,6 +154,11 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
+    public boolean canProvidePower(IBlockState state) {
+        return true;
+    }
+
+    @Override
     public boolean hasComparatorInputOverride(IBlockState state) {
         return true;
     }
