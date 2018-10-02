@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
@@ -33,74 +32,8 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot imp
     }
 
     @Override
-    @Nonnull
-    public ItemStack getStackInSlot(int index) {
-        return this.inventory.get(index);
-    }
-
-    @Override
-    @Nonnull
-    public ItemStack decrStackSize(int index, int count) {
-        return ItemStackHelper.getAndSplit(this.inventory, index, count);
-    }
-
-    @Override
-    @Nonnull
-    public ItemStack removeStackFromSlot(int index) {
-        return ItemStackHelper.getAndRemove(this.inventory, index);
-    }
-
-    @Override
-    public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
-        this.inventory.set(index, stack);
-
-        if (!stack.isEmpty() && stack.getCount() > this.getInventoryStackLimit()) {
-            stack.setCount(this.getInventoryStackLimit());
-        }
-
-        this.markDirty();
-    }
-
-    @Override
     public int getInventoryStackLimit() {
         return 64;
-    }
-
-    @Override
-    public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
-        return false;
-    }
-
-    @Override
-    public void openInventory(@Nonnull EntityPlayer player) {
-    }
-
-    @Override
-    public void closeInventory(@Nonnull EntityPlayer player) {
-    }
-
-    @Override
-    public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public int getField(int id) {
-        return 0;
-    }
-
-    @Override
-    public void setField(int id, int value) {
-    }
-
-    @Override
-    public int getFieldCount() {
-        return 0;
-    }
-
-    @Override
-    public void clear() {
-        this.inventory.clear();
     }
 
     @Override
@@ -119,7 +52,9 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot imp
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
-        ItemStackHelper.loadAllItems(compound, this.inventory);
+        if (!this.checkLootAndRead(compound)) {
+            ItemStackHelper.loadAllItems(compound, this.getItems());
+        }
 
         if (compound.hasKey("CustomName", 8)) {
             this.customName = compound.getString("CustomName");
@@ -130,7 +65,9 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot imp
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        ItemStackHelper.saveAllItems(compound, this.inventory);
+        if (!this.checkLootAndWrite(compound)) {
+            ItemStackHelper.saveAllItems(compound, this.getItems());
+        }
 
         if (this.hasCustomName()) {
             compound.setString("CustomName", this.customName);

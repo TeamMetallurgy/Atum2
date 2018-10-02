@@ -115,7 +115,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     boolean isBurning() {
         return this.burnTime > 0;
     }
-    
+
     @SideOnly(Side.CLIENT)
     static boolean isBurning(IInventory inventory) {
         return inventory.getField(0) > 0;
@@ -123,16 +123,12 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
-        if (this.world.getTileEntity(this.pos) != this) {
-            return false;
-        } else {
-            return player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D && !player.world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) player.world, player.getPosition());
-        }
+        return super.isUsableByPlayer(player) && !player.world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) player.world, player.getPosition());
     }
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        ItemStack fuel = this.inventory.get(1);
+        ItemStack fuel = this.inventory.get(0);
         return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET;
     }
 
