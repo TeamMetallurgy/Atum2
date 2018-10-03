@@ -12,9 +12,7 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
@@ -40,11 +38,12 @@ public class TileEntityArrowTrap extends TileEntityTrap {
                 entity = EntityLivingBase.class;
             }
             AxisAlignedBB box = getFacingBoxWithRange(facing, 13).shrink(1);
-            RayTraceResult findBlock = this.rayTraceBlock(world, box);
+            RayTraceResult findBlock = this.rayTraceMinMax(world, box);
             List<EntityLivingBase> entities = world.getEntitiesWithinAABB(entity, box);
-            boolean canSeeEntity = findBlock != null && findBlock.typeOfHit == RayTraceResult.Type.MISS;
             for (EntityLivingBase livingBase : entities) {
-                if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode && canSeeEntity : livingBase != null && canSeeEntity) {
+                boolean cantSeeEntity = findBlock != null && this.getDistance(findBlock.getBlockPos()) < this.getDistance(livingBase.getPosition());
+                System.out.println(cantSeeEntity);
+                if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
                     canDamageEntity = true;
                     if (timer == 0) {
                         timer = 80;
@@ -89,10 +88,17 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         }
     }
 
-    private RayTraceResult rayTraceBlock(World world, AxisAlignedBB box) {
-        final Vec3d vec1 = new Vec3d(box.minX, box.minY + 0.2D, box.minZ);
-        final Vec3d vec2 = new Vec3d(box.maxX, box.maxY, box.maxZ);
-        return world.rayTraceBlocks(vec1, vec2, false, false, true);
+    private RayTraceResult rayTraceMinMax(World world, AxisAlignedBB box) {
+        final Vec3d min = new Vec3d(box.minX, box.minY, box.minZ);
+        final Vec3d max = new Vec3d(box.maxX, box.maxY + 0.05D, box.maxZ);
+        return world.rayTraceBlocks(max, min, true, true, false);
+    }
+
+    private double getDistance(BlockPos position) {
+        double d0 = position.getX() - this.pos.getX();
+        double d1 = position.getY() - this.pos.getY();
+        double d2 = position.getZ() - this.pos.getZ();
+        return (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
     }
     
     @Override
