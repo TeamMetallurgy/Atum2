@@ -8,10 +8,7 @@ import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
 import com.teammetallurgy.atum.client.render.RenderTileChest;
-import com.teammetallurgy.atum.client.render.entity.RenderBonestorm;
-import com.teammetallurgy.atum.client.render.entity.RenderDesertWolf;
-import com.teammetallurgy.atum.client.render.entity.RenderGhost;
-import com.teammetallurgy.atum.client.render.entity.RenderTarantula;
+import com.teammetallurgy.atum.client.render.entity.*;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
@@ -35,6 +32,7 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
@@ -87,30 +85,10 @@ public class ClientProxy extends CommonProxy {
                 return new ResourceLocation(Constants.MOD_ID, "textures/entities/mummy.png");
             }
         });
-        RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, manager -> new RenderBiped<EntityBrigand>(manager, new ModelBiped(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityBrigand entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/brigand.png");
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBiped<EntityBarbarian>(manager, new ModelBiped(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityBarbarian entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/barbarian.png");
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBiped<EntityNomad>(manager, new ModelNomad(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityNomad entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/nomad.png");
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityBanditWarlord.class, manager -> new RenderBiped<EntityBanditWarlord>(manager, new ModelBiped(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityBanditWarlord entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/bandit_warlord.png");
-            }
-        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBandit(manager, new ModelBiped()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBandit(manager, new ModelNomad()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBanditWarlord.class, manager -> new RenderBandit(manager, new ModelBiped()));
         RenderingRegistry.registerEntityRenderingHandler(EntityPharaoh.class, manager -> new RenderBiped<EntityPharaoh>(manager, new ModelBiped(), 0.5F) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull EntityPharaoh entity) {

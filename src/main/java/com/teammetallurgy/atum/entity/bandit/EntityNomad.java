@@ -29,7 +29,6 @@ import javax.annotation.Nonnull;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(AbstractSkeleton.class, DataSerializers.BOOLEAN);
-    private static final DataParameter<Boolean> canShoot = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.BOOLEAN);
     private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 0.8D, 30, 15.0F);
     private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.0D, false) {
         @Override
@@ -64,8 +63,12 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(canShoot, false);
-        this.dataManager.register(SWINGING_ARMS, Boolean.FALSE);
+        this.dataManager.register(SWINGING_ARMS, false);
+    }
+
+    @Override
+    protected boolean hasSkinVariants() {
+        return true;
     }
 
     @Override
@@ -141,11 +144,6 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     @Override
     public double getYOffset() {
         return -0.35D;
-    }
-
-    @Override
-    public void startShooting(boolean shouldShoot) {
-        this.dataManager.set(canShoot, shouldShoot);
     }
 
     @Override

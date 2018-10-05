@@ -42,7 +42,6 @@ public class TileEntityArrowTrap extends TileEntityTrap {
             List<EntityLivingBase> entities = world.getEntitiesWithinAABB(entity, box);
             for (EntityLivingBase livingBase : entities) {
                 boolean cantSeeEntity = findBlock != null && this.getDistance(findBlock.getBlockPos()) < this.getDistance(livingBase.getPosition());
-                System.out.println(cantSeeEntity);
                 if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
                     canDamageEntity = true;
                     if (timer == 0) {

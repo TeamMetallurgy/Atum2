@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -11,7 +12,11 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-public class ModelNomad extends ModelBiped {
+public class ModelNomad extends ModelPlayer {
+
+    public ModelNomad() {
+        super(0.0F, false);
+    }
 
     @Override
     public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
