@@ -374,10 +374,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 this.mineshaftGenerator.generate(this.world, x, z, null);
             }
             if (AtumConfig.PYRAMID_ENABLED) {
-                try {
-                    this.pyramidGenerator.generate(this.world, x, z, null);
-                } catch (Exception ignored) {
-                }
+                this.pyramidGenerator.generate(this.world, x, z, null);
             }
         }
     }

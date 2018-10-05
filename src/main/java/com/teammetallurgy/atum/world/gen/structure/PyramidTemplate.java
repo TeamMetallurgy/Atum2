@@ -33,6 +33,9 @@ public class PyramidTemplate extends StructureComponentTemplate {
     private Rotation rotation;
     private Mirror mirror;
 
+    public PyramidTemplate() { //Needs empty constructor
+    }
+
     public static void registerPyramid() {
         MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
         MapGenStructureIO.registerStructureComponent(PyramidTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_template")));
