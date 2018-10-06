@@ -255,6 +255,7 @@ item.atum.legsOfAtum.name=Legs of Atum
 item.atum.feetOfAtum.name=Feet of Atum
 item.atum.montusStrike.name=Montu's Strike
 item.atum.thothsBearings.name=Thoth's Bearings
+item.atum.thothsDirection.name=Thoth's Direction
 item.atum.gebsMight.name=Geb's Might
 item.atum.sethsSting.name=Seth's Sting
 item.atum.horussSoaring.name=Horus's Soaring
@@ -348,6 +349,13 @@ item.atum.feetOfAtum.line3=Divine Will
 item.atum.montusStrike.line1=Slam: Fully charged attacks
 item.atum.montusStrike.line2=knockback and stirke all nearby foes
 item.atum.montusStrike.line3=Slam
+
+item.atum.thothsDirection.line1=Guidance: Guides you to
+item.atum.thothsDirection.line2=the nearest treasure
+item.atum.thothsDirection.line3=Guidance
+item.atum.thothsDirection.searching=Searching for treasure..
+item.atum.thothsDirection.searchingFail=Could not find any treasure
+item.atum.thothsDirection.found=Found treasure at %s
 
 item.atum.sethsSting.line1=Venomous: Poisons on
 item.atum.sethsSting.line2=full charge

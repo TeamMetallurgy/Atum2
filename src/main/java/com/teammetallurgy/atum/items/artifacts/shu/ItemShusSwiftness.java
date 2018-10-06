@@ -90,7 +90,7 @@ public class ItemShusSwiftness extends Item {
             tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
 
-        double remaining = ((stack.getMaxDamage() - stack.getItemDamage()) / 12) / 100.0D;
+        double remaining = ((double)(stack.getMaxDamage() - stack.getItemDamage()) / 12) / 100.0D;
         String localizedRemaining = I18n.format("tooltip.atum.minutesRemaining", remaining);
         tooltip.add(localizedRemaining);
     }
