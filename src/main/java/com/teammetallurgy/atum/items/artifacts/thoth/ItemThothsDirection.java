@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.world.gen.structure.PyramidTemplate;
+import com.teammetallurgy.atum.world.gen.structure.PyramidPieces;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -134,7 +134,7 @@ public class ItemThothsDirection extends ItemCompass {
                 if (entity instanceof EntityPlayer) {
                     EntityPlayer player = (EntityPlayer) entity;
                     WorldServer worldServer = (WorldServer) world;
-                    BlockPos pos = worldServer.getChunkProvider().chunkGenerator.getNearestStructurePos(worldServer, String.valueOf(PyramidTemplate.PYRAMID), player.getPosition(), true);
+                    BlockPos pos = worldServer.getChunkProvider().chunkGenerator.getNearestStructurePos(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), true);
                     if (pos != null) {
                         player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + ".found", "X=" + pos.getX() + " Y=" + pos.getY() + " Z=" + pos.getZ()).setStyle(new Style().setColor(TextFormatting.AQUA)), true);
                         this.pyramidPos = pos;

@@ -16,6 +16,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
 public class MapGenPyramid extends MapGenStructure {
@@ -29,7 +30,7 @@ public class MapGenPyramid extends MapGenStructure {
     @Override
     @Nonnull
     public String getStructureName() {
-        return String.valueOf(PyramidTemplate.PYRAMID);
+        return String.valueOf(PyramidPieces.PYRAMID);
     }
 
     @Nullable
@@ -41,7 +42,7 @@ public class MapGenPyramid extends MapGenStructure {
 
     @Override
     protected boolean canSpawnStructureAtCoords(int chunkX, int chunkZ) {
-        /*int x = chunkX;
+        int x = chunkX;
         int z = chunkZ;
 
         if (chunkX < 0) {
@@ -50,19 +51,18 @@ public class MapGenPyramid extends MapGenStructure {
         if (chunkZ < 0) {
             z = chunkZ - 79;
         }
-
         int xSpacing = x / 80;
         int zSpacing = z / 80;
         Random random = this.world.setRandomSeed(xSpacing, zSpacing, 10387319);
         xSpacing = xSpacing * 80;
         zSpacing = zSpacing * 80;
-        //xSpacing = xSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
-        //zSpacing = zSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
+        xSpacing = xSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
+        zSpacing = zSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
 
         if (chunkX == xSpacing && chunkZ == zSpacing) {
             return this.world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, ALLOWED_BIOMES);
-        }*/
-        return this.world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, ALLOWED_BIOMES);
+        }
+        return false;
     }
 
     @Override
@@ -108,9 +108,9 @@ public class MapGenPyramid extends MapGenStructure {
                 this.isValid = false;
             } else {
                 //int yChance = MathHelper.getInt(random, 10, 40);
-                BlockPos pos = new BlockPos(x * 16 + 8, k1 - 10, z * 16 + 8);
-                PyramidTemplate pyramidTemplate = new PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
-                this.components.add(pyramidTemplate);
+                BlockPos pos = new BlockPos(x * 16 + 8, k1 + 15, z * 16 + 8);
+                List<StructureComponent> list = PyramidPieces.generatePyramid(world.getSaveHandler().getStructureTemplateManager(), pos, rotation, random);
+                this.components.addAll(list);
                 this.updateBoundingBox();
                 this.isValid = true;
             }
@@ -130,6 +130,7 @@ public class MapGenPyramid extends MapGenStructure {
 
                         for (StructureComponent component : this.components) {
                             if (component.getBoundingBox().isVecInside(pos)) {
+                                component.addComponentParts(world, rand, box);
                                 isVecInside = true;
                                 break;
                             }

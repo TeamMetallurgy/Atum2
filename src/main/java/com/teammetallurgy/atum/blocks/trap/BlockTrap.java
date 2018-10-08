@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.trap;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
-import com.teammetallurgy.atum.world.gen.structure.PyramidTemplate;
+import com.teammetallurgy.atum.world.gen.structure.PyramidPieces;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
@@ -60,7 +60,7 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     public static boolean isInsidePyramid(WorldServer world, BlockPos pos) {
-        return world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidTemplate.PYRAMID), pos);
+        return world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidPieces.PYRAMID), pos);
     }
 
     @Override
