@@ -142,7 +142,7 @@ public class BlockSandLayers extends BlockFalling {
 
     @Override
     public boolean isReplaceable(IBlockAccess world, @Nonnull BlockPos pos) {
-        return world.getBlockState(pos).getValue(LAYERS) == 1;
+        return world.getBlockState(pos).getValue(LAYERS) == 1 || world.getBlockState(pos).getValue(LAYERS) == 2;
     }
 
     @Override

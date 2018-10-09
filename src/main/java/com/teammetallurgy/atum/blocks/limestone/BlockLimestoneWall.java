@@ -66,6 +66,11 @@ public class BlockLimestoneWall extends Block {
     }
 
     @Override
+    public boolean canPlaceTorchOnTop(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+        return true;
+    }
+
+    @Override
     public void addCollisionBoxToList(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
         if (!isActualState) {
             state = this.getActualState(state, world, pos);

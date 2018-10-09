@@ -16,7 +16,6 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.Random;
 
 public class MapGenPyramid extends MapGenStructure {
@@ -108,9 +107,9 @@ public class MapGenPyramid extends MapGenStructure {
                 this.isValid = false;
             } else {
                 //int yChance = MathHelper.getInt(random, 10, 40);
-                BlockPos pos = new BlockPos(x * 16 + 8, k1 + 15, z * 16 + 8);
-                List<StructureComponent> list = PyramidPieces.generatePyramid(world.getSaveHandler().getStructureTemplateManager(), pos, rotation, random);
-                this.components.addAll(list);
+                BlockPos pos = new BlockPos(x * 16 + 8, k1 - 10, z * 16 + 8);
+                PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
+                this.components.add(pyramid);
                 this.updateBoundingBox();
                 this.isValid = true;
             }

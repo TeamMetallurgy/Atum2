@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -34,24 +35,22 @@ public class PyramidPieces {
     public static void registerPyramid() {
         MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
         MapGenStructureIO.registerStructureComponent(PyramidTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_template")));
-        MapGenStructureIO.registerStructureComponent(Maze.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_maze")));
     }
 
-    static List<StructureComponent> generatePyramid(TemplateManager manager, BlockPos pos, Rotation rotation, Random rand) {
+    static List<StructureComponent> generatePyramid(TemplateManager manager, BlockPos pos, Rotation rotation) {
         List<StructureComponent> list = Lists.newArrayList();
-        PyramidTemplate pyramidTemplate = new PyramidTemplate(manager, pos, rotation);
-        Maze maze = new Maze(pyramidTemplate.getCoordBaseMode(), pyramidTemplate.getBoundingBox());
+        PyramidTemplate pyramidTemplate = new PyramidTemplate(manager, pos, Rotation.COUNTERCLOCKWISE_90);
         list.add(pyramidTemplate);
-        list.add(maze);
         return list;
     }
 
     public static class PyramidTemplate extends StructureComponentTemplate {
-        static final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
+        private final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
+        private static final IBlockState BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).setUnbreakable().getDefaultState();
         private Rotation rotation;
         private Mirror mirror;
 
-        PyramidTemplate() { //Needs empty constructor
+        public PyramidTemplate() { //Needs empty constructor
         }
 
         PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
@@ -62,7 +61,9 @@ public class PyramidPieces {
             super(0);
             this.templatePosition = pos;
             this.rotation = rotation;
+            System.out.println("Rotation: " + rotation);
             this.mirror = mirror;
+            this.boundingBox = StructureBoundingBox.createProper(0, 0, 0, templatePosition.getX(), templatePosition.getY(), templatePosition.getZ());
             this.loadTemplate(manager);
         }
 
@@ -147,6 +148,10 @@ public class PyramidPieces {
                     }
                 }
                 world.setBlockToAir(pos);
+            } else if (function.equals("Maze")) {
+                if (box.isVecInside(pos)) {
+                    this.addMaze(world, pos, this.placeSettings.getRotation(), rand);
+                }
             }
         }
 
@@ -175,50 +180,10 @@ public class PyramidPieces {
             }
         }
 
-        @Override
-        protected void writeStructureToNBT(NBTTagCompound compound) {
-            super.writeStructureToNBT(compound);
-            compound.setString("Rot", this.placeSettings.getRotation().name());
-            compound.setString("Mi", this.placeSettings.getMirror().name());
-        }
-
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
-            super.readStructureFromNBT(compound, manager);
-            this.rotation = Rotation.valueOf(compound.getString("Rot"));
-            this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.loadTemplate(manager);
-        }
-    }
-
-    static class Maze extends StructureComponent {
-        private static final IBlockState BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).setUnbreakable().getDefaultState();
-
-        Maze() { //Needs empty constructor
-        }
-
-        Maze(EnumFacing facing, StructureBoundingBox box) {
-            super(1);
-            this.setCoordBaseMode(facing);
-            this.boundingBox = box;
-        }
-
-        @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
-        }
-
-        @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
-        }
-
-        @Override
-        public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
-            BlockPos pos = new BlockPos(box.minX, boundingBox.minY + 6, box.minZ);
-            System.out.println(pos);
-
-            boolean[][] size = new boolean[17][17];
-            int width = 17;
-            int depth = 17;
+        private void addMaze(World world, BlockPos pos, Rotation rotation, Random random) {
+            int width = 28;
+            int depth = 28;
+            boolean[][] size = new boolean[width][depth];
             int zIn = 9;
             size[0][zIn] = true;
 
@@ -227,21 +192,23 @@ public class PyramidPieces {
             for (int x = -3; x < width + 3; x++) {
                 for (int z = -3; z < depth + 3; z++) {
                     if (x >= 0 && x < width && z >= 0 && z < depth) {
+                        BlockPos localPos = new BlockPos(x, 0, z);
+                        localPos = localPos.rotate(rotation);
+                        world.setBlockToAir(pos.add(localPos.getX(), 0, localPos.getZ()));
+                        world.setBlockToAir(pos.add(localPos.getX(), 1, localPos.getZ()));
                         if (!size[x][z]) {
-                            world.setBlockState(pos.add(x, 0, z), BRICK, 2);
-                            world.setBlockState(pos.add(x, 1, z), BRICK, 2);
-
+                            world.setBlockState(pos.add(localPos.getX(), 0, localPos.getZ()), BRICK, 2);
+                            world.setBlockState(pos.add(localPos.getX(), 1, localPos.getZ()), BRICK, 2);
                             if (random.nextDouble() <= 0.10D) {
-                                this.placeTrap(world, pos.add(x, 0, z), random);
+                                this.placeTrap(world, pos.add(localPos.getX(), 0, localPos.getZ()), random);
                             }
                         } else {
-                            //int meta = random.nextInt(5);
-                            //world.setBlockState(pos.add(x, 0, z), AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), 2); //Readd when done
+                            int meta = MathHelper.getInt(random, 0, 1);
+                            world.setBlockState(pos.add(localPos.getX(), 0, localPos.getZ()), AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), 2);
                         }
                     }
                 }
             }
-            return false;
         }
 
         private void generateMaze(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
@@ -273,7 +240,7 @@ public class PyramidPieces {
         }
 
         private void placeTrap(World world, BlockPos pos, Random random) {
-            IBlockState trapState = PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidTemplate.FLOOR_TRAPS.size())).setBlockUnbreakable().getDefaultState();
+            IBlockState trapState = FLOOR_TRAPS.get(random.nextInt(FLOOR_TRAPS.size())).setBlockUnbreakable().getDefaultState();
 
             if (world.isSideSolid(pos.south(), EnumFacing.NORTH)) {
                 trapState.withProperty(BlockTrap.FACING, EnumFacing.SOUTH);
@@ -285,6 +252,21 @@ public class PyramidPieces {
                 trapState.withProperty(BlockTrap.FACING, EnumFacing.NORTH);
             }
             world.setBlockState(pos, trapState, 2);
+        }
+
+        @Override
+        protected void writeStructureToNBT(NBTTagCompound compound) {
+            super.writeStructureToNBT(compound);
+            compound.setString("Rot", this.placeSettings.getRotation().name());
+            compound.setString("Mi", this.placeSettings.getMirror().name());
+        }
+
+        @Override
+        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
+            super.readStructureFromNBT(compound, manager);
+            this.rotation = Rotation.valueOf(compound.getString("Rot"));
+            this.mirror = Mirror.valueOf(compound.getString("Mi"));
+            this.loadTemplate(manager);
         }
 
         class Pair {
