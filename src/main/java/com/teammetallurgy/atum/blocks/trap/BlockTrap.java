@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.trap;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
-import com.teammetallurgy.atum.world.gen.structure.PyramidPieces;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
@@ -20,7 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
@@ -45,11 +43,12 @@ public abstract class BlockTrap extends BlockContainer {
             TileEntity tileEntity = world.getTileEntity(pos);
             boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(EnumHand.OFF_HAND));
             if (tileEntity instanceof TileEntityTrap) {
-                if (!BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+                TileEntityTrap trap = (TileEntityTrap) tileEntity;
+                if (!trap.isInsidePyramid) {
                     player.openGui(Atum.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
                     return true;
                 }
-                if (BlockTrap.isInsidePyramid((WorldServer) world, pos) && isToolEffective) {
+                if (trap.isInsidePyramid && isToolEffective) {
                     ((TileEntityTrap) tileEntity).setDisabledStatus(true);
                     world.setBlockState(pos, state.withProperty(DISABLED, true));
                     return true;
@@ -59,15 +58,11 @@ public abstract class BlockTrap extends BlockContainer {
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
-    public static boolean isInsidePyramid(WorldServer world, BlockPos pos) {
-        return world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidPieces.PYRAMID), pos);
-    }
-
     @Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityTrap && !isInsidePyramid((WorldServer) world, pos)) {
+            if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
                 TileEntityTrap trap = (TileEntityTrap) tileEntity;
                 if (world.isBlockPowered(pos)) {
                     trap.setDisabledStatus(true);
@@ -83,7 +78,7 @@ public abstract class BlockTrap extends BlockContainer {
     public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityTrap && !isInsidePyramid((WorldServer) world, pos)) {
+            if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
                 if (!world.isBlockPowered(pos)) {
                     TileEntityTrap trap = (TileEntityTrap) tileEntity;
                     trap.setDisabledStatus(false);
@@ -133,10 +128,11 @@ public abstract class BlockTrap extends BlockContainer {
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
         world.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
 
-        if (stack.hasDisplayName()) {
-            TileEntity tileentity = world.getTileEntity(pos);
+        TileEntity tileentity = world.getTileEntity(pos);
 
-            if (tileentity instanceof TileEntityTrap) {
+        if (tileentity instanceof TileEntityTrap) {
+            ((TileEntityTrap) tileentity).isInsidePyramid = false;
+            if (stack.hasDisplayName()) {
                 ((TileEntityTrap) tileentity).setCustomName(stack.getDisplayName());
             }
         }

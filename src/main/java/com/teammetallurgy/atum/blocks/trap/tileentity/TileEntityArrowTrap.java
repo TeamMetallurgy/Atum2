@@ -14,7 +14,6 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -32,7 +31,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         if (!this.isDisabled && this.isBurning()) {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             Class<? extends EntityLivingBase> entity;
-            if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+            if (this.isInsidePyramid) {
                 entity = EntityPlayer.class;
             } else {
                 entity = EntityLivingBase.class;
@@ -56,11 +55,11 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         }
 
         //Copied from TileEntityTrap
-        if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+        if (this.isInsidePyramid) {
             this.burnTime = 1;
         }
 
-        if (this.isBurning() && !this.isDisabled && canDamageEntity && (!world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos))) {
+        if (this.isBurning() && !this.isDisabled && canDamageEntity && !this.isInsidePyramid) {
             --this.burnTime;
         }
 

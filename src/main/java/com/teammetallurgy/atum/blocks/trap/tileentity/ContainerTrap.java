@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -60,8 +58,8 @@ public class ContainerTrap extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) {
-        return !player.world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) player.world, player.getPosition());
+    public boolean canInteractWith(@Nonnull EntityPlayer player) { //TODO
+        return true;
     }
 
     @Override

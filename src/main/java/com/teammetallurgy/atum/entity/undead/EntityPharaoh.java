@@ -224,7 +224,6 @@ public class EntityPharaoh extends EntityUndeadBase {
                         this.addVelocity((double) (MathHelper.sin(entity.rotationYaw * (float) Math.PI / 180.0F) * (float) j * 0.5F), -0.1D, (double) (-MathHelper.cos(entity.rotationYaw * (float) Math.PI / 180.0F) * (float) j * 0.5F));
                     }
                 }
-
             }
             if (this.getHealth() < this.getMaxHealth() * 0.75 && stage == 0) {
                 stage++;

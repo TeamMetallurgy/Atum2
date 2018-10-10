@@ -22,7 +22,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -35,6 +34,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     int burnTime;
     int currentItemBurnTime;
     boolean isDisabled = false;
+    public boolean isInsidePyramid = true;
 
     public TileEntityTrap() {
         super(1);
@@ -60,7 +60,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         if (!this.isDisabled && this.isBurning()) {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             Class<? extends EntityLivingBase> entity;
-            if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+            if (this.isInsidePyramid) {
                 entity = EntityPlayer.class;
             } else {
                 entity = EntityLivingBase.class;
@@ -77,11 +77,11 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
             }
         }
 
-        if (!world.isRemote && BlockTrap.isInsidePyramid((WorldServer) world, pos)) {
+        if (this.isInsidePyramid) {
             this.burnTime = 1;
         }
 
-        if (this.isBurning() && !this.isDisabled && canDamageEntity && (!world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos))) {
+        if (this.isBurning() && !this.isDisabled && canDamageEntity && !this.isInsidePyramid) {
             --this.burnTime;
         }
 
@@ -125,13 +125,13 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
-        return super.isUsableByPlayer(player) && !player.world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) player.world, player.getPosition());
+        return super.isUsableByPlayer(player) && !isInsidePyramid;
     }
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         ItemStack fuel = this.inventory.get(0);
-        return !world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos) && (TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET);
+        return !isInsidePyramid && (TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET);
     }
 
     @Override
@@ -202,6 +202,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         super.readFromNBT(compound);
         this.burnTime = compound.getInteger("BurnTime");
         this.isDisabled = compound.getBoolean("Disabled");
+        this.isInsidePyramid = compound.getBoolean("InPyramid");
     }
 
     @Override
@@ -210,6 +211,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         super.writeToNBT(compound);
         compound.setInteger("BurnTime", (short) this.burnTime);
         compound.setBoolean("Disabled", this.isDisabled);
+        compound.setBoolean("InPyramid", this.isInsidePyramid);
         return compound;
     }
 
@@ -217,11 +219,11 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Override
     @Nonnull
     public ItemStack decrStackSize(int index, int count) {
-        return !world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos) ? super.decrStackSize(index, count) : ItemStack.EMPTY;
+        return !isInsidePyramid ? super.decrStackSize(index, count) : ItemStack.EMPTY;
     }
 
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return !world.isRemote && !BlockTrap.isInsidePyramid((WorldServer) world, pos) && super.hasCapability(capability, facing);
+        return !this.isInsidePyramid && super.hasCapability(capability, facing);
     }
 }
