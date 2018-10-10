@@ -11,7 +11,6 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -48,7 +47,8 @@ public class PyramidPieces {
 
     public static class PyramidTemplate extends StructureComponentTemplate {
         private final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        private static final IBlockState BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).setUnbreakable().getDefaultState();
+        private static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).setUnbreakable().getDefaultState();
+        private static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setUnbreakable().getDefaultState();
         private Rotation rotation;
         private Mirror mirror;
 
@@ -199,8 +199,13 @@ public class PyramidPieces {
                         BlockPos basePos = pos.add(localPos.getX(), 0, localPos.getZ());
 
                         //Set pathway
-                        world.setBlockToAir(basePos);
-                        world.setBlockToAir(basePos.up());
+                        if (canPlace(world, basePos.up())) {
+                            world.setBlockToAir(basePos);
+                        }
+                        if (this.canPlace(world, basePos.up())) {
+                            world.setBlockToAir(basePos.up());
+                        }
+
                         if (!size[x][z]) {
                             if (world.getBlockState(basePos.down()).getBlock() instanceof BlockLadder) {
                                 world.setBlockToAir(basePos);
@@ -209,29 +214,34 @@ public class PyramidPieces {
                                 IBlockState ladder = world.getBlockState(basePos.up(2));
                                 EnumFacing facing = ladder.getValue(BlockLadder.FACING);
                                 BlockPos wallOffset = basePos.offset(facing.getOpposite());
-                                world.setBlockState(wallOffset, Blocks.GOLD_BLOCK.getDefaultState(), 2);
-                                world.setBlockState(wallOffset.up(), Blocks.GOLD_BLOCK.getDefaultState(), 2);
+                                world.setBlockState(wallOffset, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
+                                world.setBlockState(wallOffset.up(), BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
                                 //System.out.println("Wall: " + wallOffset);
                                 if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(world.getBlockState(basePos).getBlock() instanceof BlockLadder || world.getBlockState(basePos.up()).getBlock() instanceof BlockLadder)) {
-                                    System.out.println("Hi");
                                     world.setBlockState(basePos, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
                                     world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
-                                    break;
                                 }
                             } else {
-                                world.setBlockState(basePos, BRICK, 2);
-                                world.setBlockState(basePos.up(), BRICK, 2);
+                                world.setBlockState(basePos, CARVED_BRICK, 2);
+                                world.setBlockState(basePos.up(), CARVED_BRICK, 2);
                                 if (random.nextDouble() <= 0.10D) {
                                     this.placeTrap(world, basePos, random);
                                 }
                             }
                         } else {
                             int meta = MathHelper.getInt(random, 0, 1);
-                            world.setBlockState(basePos, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), 2);
+                            if (this.canPlace(world, basePos)) {
+                                world.setBlockState(basePos, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), 2);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        private boolean canPlace(World world, BlockPos pos) {
+            IBlockState state = world.getBlockState(pos);
+            return state != LARGE_BRICK && !(state.getBlock() instanceof BlockLadder);
         }
 
         private void generateMaze(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
