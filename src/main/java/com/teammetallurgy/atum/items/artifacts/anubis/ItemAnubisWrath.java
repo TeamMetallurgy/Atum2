@@ -27,6 +27,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -101,6 +103,12 @@ public class ItemAnubisWrath extends ItemSword {
             ItemStack heldStack = ((EntityLivingBase) source).getHeldItemMainhand();
             NBTTagCompound tag = StackHelper.getTag(heldStack);
             tag.setInteger("souls", getSouls(heldStack) + 1);
+            if (getSouls(heldStack) == 50 || getSouls(heldStack) == 150 || getSouls(heldStack) == 500) {
+                source.world.playSound(null, source.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0F, 0.0F);
+                if (source instanceof EntityPlayer) {
+                    ((EntityPlayer) source).sendStatusMessage(new TextComponentTranslation(heldStack.getTranslationKey() + ".levelup").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)), true);
+                }
+            }
         }
         if (event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();

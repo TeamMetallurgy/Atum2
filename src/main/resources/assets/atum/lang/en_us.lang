@@ -432,6 +432,7 @@ item.atum.anubissWrath.line2.soulUnraveler=deals extra damage to living foes
 item.atum.anubissWrath.soulDrinker=Soul Drinker
 item.atum.anubissWrath.soulUnraveler=Soul Unraveler
 item.atum.anubissWrath.kills=Kills: %s
+item.atum.anubissWrath.levelup=Your sword twists into a more wicked form
 
 item.atum.nuitsVanishing.line1=Meld: While held and not
 item.atum.nuitsVanishing.line2=moving, you are invisible
