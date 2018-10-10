@@ -199,7 +199,6 @@ item.atum.coinGold.name=Gold Coin
 item.atum.loot.name=Loot
 item.atum.scimitar.name=Scimitar
 item.atum.greatsword.name=Greatsword
-item.atum.scepter.name=Scepter
 item.atum.stoneguardSword.name=Stoneguard Sword
 item.atum.brigandShield.name=Brigand Shield
 item.atum.shortBow.name=Shortbow
@@ -280,13 +279,23 @@ item.atum.nuitsVanishing.name=Nuit's Vanishing
 item.atum.nuitsDuality.name=Nuit's Duality
 item.atum.nuitsIre.name=Nuit's Ire
 item.atum.nuitsQuarter.name=Nuit's Quarter
-
+item.atum.scepterAnput.name=Anput's Scepter
+item.atum.scepterAnubis.name=Anubis's Scepter
+item.atum.scepterAtum.name=Atum's Scepter
+item.atum.scepterGeb.name=Geb's Scepter
+item.atum.scepterHorus.name=Horus's Scepter
+item.atum.scepterIsis.name=Isis's Scepter
+item.atum.scepterMontu.name=Montu's Scepter
+item.atum.scepterNuit.name=Nuit's Scepter
+item.atum.scepterPtah.name=Ptah's Scepter
+item.atum.scepterRa.name=Ra's Scepter
+item.atum.scepterSeth.name=Seth's Scepter
+item.atum.scepterShu.name=Shu's Scepter
+item.atum.scepterTefnut.name=Tefnut's Scepter
 item.atum.deadwoodDoor.name=Deadwood Door
 item.atum.palmDoor.name=Palm Door
-
 item.atum.palmStick.name=Palm Stick
 item.atum.deadwoodStick.name=Deadwood Stick
-
 item.atum.deadwoodBeetle.name=Deadwood Beetle
 
 # Item Information

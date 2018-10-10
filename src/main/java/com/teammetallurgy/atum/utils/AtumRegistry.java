@@ -51,7 +51,7 @@ public class AtumRegistry {
     /**
      * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs, String)}, but have CreativeTab set by default and easy way to set OreDictionary name
      */
-    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nonnull String oreDictName) {
+    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nullable String oreDictName) {
         return registerItem(item, name, Atum.CREATIVE_TAB, oreDictName);
     }
 

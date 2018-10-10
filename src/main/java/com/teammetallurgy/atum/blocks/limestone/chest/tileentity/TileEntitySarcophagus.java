@@ -4,19 +4,18 @@ import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.limestone.chest.BlockSarcophagus;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
@@ -61,10 +60,10 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
         return this.hasSpawned;
     }
 
-    public void spawn(EntityPlayer player) {
+    public void spawn(EntityPlayer player, DifficultyInstance difficulty) {
         EntityPharaoh pharaoh = new EntityPharaoh(world, true);
-        pharaoh.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCEPTER));
-        pharaoh.setPosition(pos.getX(), pos.getY() + 1, pos.getZ());
+        pharaoh.onInitialSpawn(difficulty, null);
+        pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0.0F, 0.0F);
         pharaoh.setSarcophagusPos(pos);
         if (!world.isRemote) {
             world.spawnEntity(pharaoh);
@@ -83,7 +82,6 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
             }
             this.world.playSound(null, player.getPosition(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
-
     }
 
     public void setPharaohDespawned() {

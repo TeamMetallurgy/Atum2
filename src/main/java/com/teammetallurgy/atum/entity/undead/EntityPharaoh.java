@@ -4,7 +4,7 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.ItemScepter;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.state.IBlockState;
@@ -75,17 +75,18 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     protected int getVariantAmount() {
-        return God.MAP.size() - 1;
+        return God.values().length - 1;
     }
 
+    @Override
     protected void setVariant(int variant) {
         super.setVariant(variant);
         God.MAP.put(variant, God.values()[variant]);
-        System.out.println(God.getGod(variant));
     }
 
     @Override
     protected void applyEntityAI() {
+        super.applyEntityAI();
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
     }
@@ -120,7 +121,10 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCEPTER));
+        ItemScepter scepter = ItemScepter.getScepter(God.getGod(getVariant()));
+        if (scepter != null) {
+            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(scepter));
+        }
     }
 
     @Override
@@ -350,6 +354,7 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     public boolean trySpawnMummy(BlockPos pos) {
         EntityMummy entityMummy = new EntityMummy(world);
+        entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
         entityMummy.setPosition(pos.getX(), pos.getY(), pos.getZ());
 
         IBlockState state = world.getBlockState(pos);
@@ -363,12 +368,12 @@ public class EntityPharaoh extends EntityUndeadBase {
         return false;
     }
 
-    enum God {
+    public enum God {
         ANPUT("anput"),
         ANUBIS("anubis"),
         ATUM("atum"),
         GEB("geb"),
-        HORUS("hours"),
+        HORUS("horus"),
         ISIS("isis"),
         MONTU("montu"),
         NUIT("nuit"),

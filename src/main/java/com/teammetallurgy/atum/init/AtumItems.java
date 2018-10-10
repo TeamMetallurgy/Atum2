@@ -71,7 +71,6 @@ public class AtumItems {
     public static final Item SHORT_BOW = new ItemBaseBow();
     public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.IRON);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
-    public static final Item SCEPTER = new ItemSword(ToolMaterial.GOLD);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
     public static final Item LEGS_OF_ATUM = new ItemLegsOfAtum();
@@ -160,7 +159,7 @@ public class AtumItems {
         registerItem(SHORT_BOW, "short_bow");
         registerItem(STONEGUARD_SWORD, "stoneguard_sword");
         registerItem(BRIGAND_SHIELD, "brigand_shield");
-        registerItem(SCEPTER, "scepter");
+        ItemScepter.registerScepters();
         registerItem(EYES_OF_ATUM, "eyes_of_atum");
         registerItem(BODY_OF_ATUM, "body_of_atum");
         registerItem(LEGS_OF_ATUM, "legs_of_atum");

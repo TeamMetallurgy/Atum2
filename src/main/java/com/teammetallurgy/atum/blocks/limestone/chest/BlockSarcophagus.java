@@ -43,7 +43,7 @@ public class BlockSarcophagus extends BlockChestBase {
                         ((TileEntitySarcophagus)tileEntityOffset).isOpenable = true;
                     }
                 }
-                sarcophagus.spawn(player);
+                sarcophagus.spawn(player, world.getDifficultyForLocation(pos));
             }
         }
         if (world.isRemote) {
