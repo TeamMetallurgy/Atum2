@@ -39,7 +39,6 @@ import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.client.renderer.entity.RenderBiped;
-import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
@@ -64,7 +63,7 @@ public class ClientProxy extends CommonProxy {
     public void init() {
         //Palm Leave color
         Minecraft.getMinecraft().getItemColors().registerItemColorHandler((stack, tintIndex) -> {
-            IBlockState state = ((ItemBlock)stack.getItem()).getBlock().getDefaultState();
+            IBlockState state = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
             return Minecraft.getMinecraft().getBlockColors().colorMultiplier(state, null, null, tintIndex);
         }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM));
         Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM));
@@ -79,29 +78,15 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> BRIGAND_SHIELD);
         ModelLoader.setCustomMeshDefinition(AtumItems.THOTHS_BEARINGS, stack -> THOTHS_BEARINGS);
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderLiving<EntityMummy>(manager, new ModelZombie(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityMummy entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/mummy.png");
-            }
-        });
         RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBandit(manager, new ModelNomad()));
         RenderingRegistry.registerEntityRenderingHandler(EntityWarlord.class, manager -> new RenderBandit(manager, new ModelBiped()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityPharaoh.class, manager -> new RenderBiped<EntityPharaoh>(manager, new ModelBiped(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityPharaoh entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh_blue.png");
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityForsaken.class, manager -> new RenderBiped<EntityForsaken>(manager, new ModelDustySkeleton(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityForsaken entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/forsaken.png");
-            }
-        });
-        RenderingRegistry.registerEntityRenderingHandler(EntityWraith.class, manager -> new RenderGhost(manager, new ModelZombie(), 0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityPharaoh.class, manager -> new RenderUndead(manager, new ModelPlayer(0.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderUndead(manager, new ModelZombie()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityForsaken.class, manager -> new RenderUndead(manager, new ModelDustySkeleton()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWraith.class, manager -> new RenderUndead(manager, new ModelZombie()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBonestorm.class, RenderBonestorm::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, manager -> new RenderBiped<EntityStoneguard>(manager, new ModelBiped(), 0.5F) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard entity) {
@@ -109,7 +94,6 @@ public class ClientProxy extends CommonProxy {
             }
         });
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBonestorm.class, RenderBonestorm::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {

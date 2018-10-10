@@ -33,6 +33,7 @@ import java.util.List;
 public class ItemThothsDirection extends ItemCompass {
     private BlockPos pyramidPos;
     private int searchTime;
+    private boolean isSearching = false;
 
     public ItemThothsDirection() {
         this.setMaxStackSize(1);
@@ -93,12 +94,14 @@ public class ItemThothsDirection extends ItemCompass {
 
             @SideOnly(Side.CLIENT)
             private double getPyramidToAngle(World world, Entity entity) {
-                if (pyramidPos != null) {
+                if (isSearching) {
+                    System.out.println("searching");
+                    return 1.0D;
+                } else if (pyramidPos != null) {
                     BlockPos structurePos = pyramidPos;
                     return Math.atan2((double) structurePos.getZ() - entity.posZ, (double) structurePos.getX() - entity.posX);
                 }
                 return MathHelper.positiveModulo(this.wobble(world, Math.random()), 1.0D);
-
             }
         });
     }
@@ -126,10 +129,12 @@ public class ItemThothsDirection extends ItemCompass {
     @Override
     public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (this.searchTime > 1) {
+            this.isSearching = true;
             this.searchTime--;
         }
         if (this.searchTime == 1) {
             this.searchTime = 0;
+            this.isSearching = false;
             if (!world.isRemote) {
                 if (entity instanceof EntityPlayer) {
                     EntityPlayer player = (EntityPlayer) entity;

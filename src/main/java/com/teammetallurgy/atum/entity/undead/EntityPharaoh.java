@@ -1,10 +1,12 @@
 package com.teammetallurgy.atum.entity.undead;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -24,6 +26,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
@@ -34,6 +37,7 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class EntityPharaoh extends EntityUndeadBase {
     private static String[] prefixArray = {"Ama", "Ata", "Ato", "Bak", "Cal", "Djet", "Eje", "For", "Gol", "Gut", "Hop", "Hor", "Huni", "Iam", "Jor", "Kal", "Khas", "Khor", "Lat", "Mal", "Not", "Oap", "Pra", "Qo", "Ras", "Shas", "Thoth", "Tui", "Uld", "Ver", "Wot", "Xo", "Yat", "Zyt", "Khep"};
@@ -61,7 +65,23 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.isImmuneToFire = true;
         this.experienceValue = 250;
         this.hasSarcophagus = setSarcophagusPos;
-        stage = 0;
+        this.stage = 0;
+    }
+
+    @Override
+    protected boolean hasSkinVariants() {
+        return true;
+    }
+
+    @Override
+    protected int getVariantAmount() {
+        return God.MAP.size() - 1;
+    }
+
+    protected void setVariant(int variant) {
+        super.setVariant(variant);
+        God.MAP.put(variant, God.values()[variant]);
+        System.out.println(God.getGod(variant));
     }
 
     @Override
@@ -101,6 +121,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCEPTER));
+    }
+
+    @Override
+    public String getTexture() {
+        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
     }
 
     @Override
@@ -336,5 +361,37 @@ public class EntityPharaoh extends EntityUndeadBase {
             return true;
         }
         return false;
+    }
+
+    enum God {
+        ANPUT("anput"),
+        ANUBIS("anubis"),
+        ATUM("atum"),
+        GEB("geb"),
+        HORUS("hours"),
+        ISIS("isis"),
+        MONTU("montu"),
+        NUIT("nuit"),
+        PTAH("ptah"),
+        RA("ra"),
+        SETH("seth"),
+        SHU("shu"),
+        TEFNUT("tefnut");
+
+        public static final Map<Integer, God> MAP = Maps.newHashMap();
+        private final String name;
+
+        God(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public static God getGod(int godType) {
+            God god = MAP.get(godType);
+            return god == null ? ANPUT : god;
+        }
     }
 }

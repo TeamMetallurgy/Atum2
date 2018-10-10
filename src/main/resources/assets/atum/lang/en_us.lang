@@ -290,13 +290,13 @@ item.atum.deadwoodStick.name=Deadwood Stick
 item.atum.deadwoodBeetle.name=Deadwood Beetle
 
 # Item Information
-item.atum.gebsToil.line1=Pinning Arrow: Slows enemies
-item.atum.gebsToil.line2=on hit
-item.atum.gebsToil.line3=Pinning Arrow
+item.atum.gebsGrounding.line1=Pinning Arrow: Slows enemies
+item.atum.gebsGrounding.line2=on hit
+item.atum.gebsGrounding.line3=Pinning Arrow
 
-item.atum.gebsGrounding.line1=Tireless: Consumes no fatigue to use
-item.atum.gebsGrounding.line2=and gives experience for your effort
-item.atum.gebsGrounding.line3=Performance
+item.atum.gebsToil.line1=Tireless: Consumes no fatigue to use
+item.atum.gebsToil.line2=and gives experience for your effort
+item.atum.gebsToil.line3=Performance
 
 item.atum.atumsHomecoming.line1=Return: Teleports you back
 item.atum.atumsHomecoming.line2=to your spawn point
@@ -347,7 +347,7 @@ item.atum.feetOfAtum.line2=be knocked back
 item.atum.feetOfAtum.line3=Divine Will
 
 item.atum.montusStrike.line1=Slam: Fully charged attacks
-item.atum.montusStrike.line2=knockback and stirke all nearby foes
+item.atum.montusStrike.line2=knockback and strike all nearby foes
 item.atum.montusStrike.line3=Slam
 
 item.atum.thothsDirection.line1=Guidance: Guides you to
@@ -491,7 +491,7 @@ item.atum.loot.diamond.broach.name=Diamond Broach
 item.atum.loot.diamond.scepter.name=Diamond Scepter
 
 # Entity
-entity.atum.banditWarlord.name=Warlord
+entity.atum.warlord.name=Warlord
 entity.atum.barbarian.name=Barbarian
 entity.atum.bonestorm.name=Bonestorm
 entity.atum.brigand.name=Brigand
