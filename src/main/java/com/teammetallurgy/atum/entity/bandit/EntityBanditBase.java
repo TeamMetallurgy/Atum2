@@ -93,7 +93,7 @@ public class EntityBanditBase extends EntityMob {
     }
 
     protected boolean hasSkinVariants() {
-        return false;
+        return true;
     }
 
     private void setVariant(int variant) {

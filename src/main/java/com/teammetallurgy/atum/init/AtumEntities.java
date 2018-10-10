@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityTarantula;
-import com.teammetallurgy.atum.entity.bandit.EntityBanditWarlord;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
 import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
+import com.teammetallurgy.atum.entity.bandit.EntityWarlord;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.*;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
@@ -19,7 +19,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.*;
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumEntities {
     //Mobs
-    public static final EntityEntry BANDIT_WARLORD = registerMob(EntityBanditWarlord.class, 0xa62d1b, 0xe59a22);
+    public static final EntityEntry BANDIT_WARLORD = registerMob(EntityWarlord.class, 0xa62d1b, 0xe59a22);
     public static final EntityEntry BARBARIAN = registerMob(EntityBarbarian.class, 0x9c7359, 0x8c8c8c);
     public static final EntityEntry BONESTORM = registerMob(EntityBonestorm.class, 0x74634e, 0xab9476);
     public static final EntityEntry BRIGAND = registerMob(EntityBrigand.class, 0xC2C2C2, 0x040F85);

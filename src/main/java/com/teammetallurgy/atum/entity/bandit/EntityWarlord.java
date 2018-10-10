@@ -14,12 +14,17 @@ import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
-public class EntityBanditWarlord extends EntityBanditBase {
+public class EntityWarlord extends EntityBanditBase {
     private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
 
-    public EntityBanditWarlord(World world) {
+    public EntityWarlord(World world) {
         super(world);
         this.experienceValue = 16;
+    }
+
+    @Override
+    protected boolean hasSkinVariants() {
+        return false;
     }
 
     @Override

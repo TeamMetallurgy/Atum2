@@ -15,10 +15,10 @@ import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityTarantula;
-import com.teammetallurgy.atum.entity.bandit.EntityBanditWarlord;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
 import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
+import com.teammetallurgy.atum.entity.bandit.EntityWarlord;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
@@ -86,9 +86,9 @@ public class ClientProxy extends CommonProxy {
             }
         });
         RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBandit(manager, new ModelBiped()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBandit(manager, new ModelNomad()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBanditWarlord.class, manager -> new RenderBandit(manager, new ModelBiped()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWarlord.class, manager -> new RenderBandit(manager, new ModelBiped()));
         RenderingRegistry.registerEntityRenderingHandler(EntityPharaoh.class, manager -> new RenderBiped<EntityPharaoh>(manager, new ModelBiped(), 0.5F) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull EntityPharaoh entity) {

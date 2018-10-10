@@ -67,11 +67,6 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    protected boolean hasSkinVariants() {
-        return true;
-    }
-
-    @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));

@@ -24,11 +24,6 @@ public class EntityBrigand extends EntityBanditBase {
     }
 
     @Override
-    protected boolean hasSkinVariants() {
-        return true;
-    }
-
-    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(30.0D);
