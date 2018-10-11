@@ -89,7 +89,8 @@ public class ItemThothsDirection extends ItemCompass {
 
             @SideOnly(Side.CLIENT)
             private double getFrameRotation(EntityItemFrame frame) {
-                return (double) MathHelper.wrapDegrees(180 + frame.facingDirection.getHorizontalIndex() * 90);
+                int facingDirection = frame.facingDirection != null ? frame.facingDirection.getHorizontalIndex() : 0;
+                return (double) MathHelper.wrapDegrees(180 + facingDirection * 90);
             }
 
             @SideOnly(Side.CLIENT)

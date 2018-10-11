@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
+import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,60 +8,20 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.ITickable;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraftforge.common.util.Constants.NBT;
 
 import javax.annotation.Nonnull;
 
-public class TileEntityCrate extends TileEntityLockableLoot implements ITickable {
-    private static int inventorySize = 27;
-    private NonNullList<ItemStack> inventory = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
+public class TileEntityCrate extends TileEntityInventoryBase implements ITickable {
     private int ticksSinceSync;
     public int numPlayersUsing;
     private float lidAngle;
 
     public TileEntityCrate() {
-    }
-
-    @Override
-    public int getSizeInventory() {
-        return inventorySize;
-    }
-
-    @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
-    @Nonnull
-    public String getName() {
-        return this.hasCustomName() ? this.customName : getDefaultName();
-    }
-
-    private String getDefaultName() {
-        return this.getBlockType().getTranslationKey() + ".name";
-    }
-
-    @Override
-    @Nonnull
-    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
-        this.fillWithLoot(player);
-        return new ContainerCrate(playerInventory, this, player);
-    }
-
-    @Override
-    @Nonnull
-    protected NonNullList<ItemStack> getItems() {
-        return this.inventory;
+        super(27);
     }
 
     @Override
@@ -141,45 +102,14 @@ public class TileEntityCrate extends TileEntityLockableLoot implements ITickable
 
     @Override
     @Nonnull
-    public String getGuiID() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "crate"));
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound compound) {
-        super.readFromNBT(compound);
-
-        this.inventory = NonNullList.withSize(inventorySize, ItemStack.EMPTY);
-
-        if (!this.checkLootAndRead(compound)) {
-            ItemStackHelper.loadAllItems(compound, inventory);
-        }
-        if (compound.hasKey("CustomName", NBT.TAG_STRING)) {
-            customName = compound.getString("CustomName");
-        }
+    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
+        this.fillWithLoot(player);
+        return new ContainerCrate(playerInventory, this, player);
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
-        super.writeToNBT(compound);
-
-        if (!this.checkLootAndWrite(compound)) {
-            ItemStackHelper.saveAllItems(compound, inventory);
-        }
-        if (hasCustomName()) {
-            compound.setString("CustomName", customName);
-        }
-        return compound;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : this.inventory) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+    public String getGuiID() {
+        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "crate"));
     }
 }

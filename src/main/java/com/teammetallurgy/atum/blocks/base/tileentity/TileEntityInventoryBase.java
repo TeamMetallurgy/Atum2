@@ -45,7 +45,7 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot imp
     @Override
     @Nonnull
     public String getName() {
-        return this.hasCustomName() ? this.customName : this.blockType.getLocalizedName();
+        return this.hasCustomName() ? this.customName : this.getBlockType().getTranslationKey() + ".name";
     }
 
     @Override
