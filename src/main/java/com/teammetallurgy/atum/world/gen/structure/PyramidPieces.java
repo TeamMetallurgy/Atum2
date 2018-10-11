@@ -132,7 +132,6 @@ public class PyramidPieces {
                             world.setBlockToAir(pos);
                         }
                     }
-                    world.setBlockToAir(pos);
                 } else if (function.equals("CrateLoot")) {
                     /*BlockPos posDown = pos.down();
                     if (box.isVecInside(posDown)) {
