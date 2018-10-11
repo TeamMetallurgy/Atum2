@@ -67,10 +67,14 @@ public class EntityBanditBase extends EntityMob {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         if (hasSkinVariants()) {
-            final int variant = MathHelper.getInt(world.rand, 0, 6);
+            final int variant = MathHelper.getInt(world.rand, 0, getVariantAmount());
             this.setVariant(variant);
         }
         return livingdata;
+    }
+
+    protected int getVariantAmount() {
+        return 6;
     }
 
     @Override

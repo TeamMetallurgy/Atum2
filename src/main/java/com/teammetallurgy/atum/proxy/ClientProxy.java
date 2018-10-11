@@ -81,7 +81,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBandit(manager, new ModelNomad()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityWarlord.class, manager -> new RenderBandit(manager, new ModelBiped()));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWarlord.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityPharaoh.class, manager -> new RenderUndead(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderUndead(manager, new ModelZombie()));
         RenderingRegistry.registerEntityRenderingHandler(EntityForsaken.class, manager -> new RenderUndead(manager, new ModelDustySkeleton()));

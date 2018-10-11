@@ -15,7 +15,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 public class EntityWarlord extends EntityBanditBase {
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
+    private final BossInfoServer bossInfo = (new BossInfoServer(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
 
     public EntityWarlord(World world) {
         super(world);
@@ -23,8 +23,8 @@ public class EntityWarlord extends EntityBanditBase {
     }
 
     @Override
-    protected boolean hasSkinVariants() {
-        return false;
+    protected int getVariantAmount() {
+        return 7;
     }
 
     @Override
@@ -51,7 +51,6 @@ public class EntityWarlord extends EntityBanditBase {
     @Override
     protected void setEnchantmentBasedOnDifficulty(DifficultyInstance difficulty) {
         float additionalDifficulty = difficulty.getClampedAdditionalDifficulty();
-
         EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItemMainhand(), (int) (5.0F + additionalDifficulty * (float) this.rand.nextInt(6)), false);
     }
 
