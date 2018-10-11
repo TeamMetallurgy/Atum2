@@ -1,7 +1,7 @@
-package com.teammetallurgy.atum.blocks.limestone.chest;
+package com.teammetallurgy.atum.blocks.stone.limestone.chest;
 
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;

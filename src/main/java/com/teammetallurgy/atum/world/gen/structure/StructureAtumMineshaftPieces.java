@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneWall;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneWall;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorch;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;

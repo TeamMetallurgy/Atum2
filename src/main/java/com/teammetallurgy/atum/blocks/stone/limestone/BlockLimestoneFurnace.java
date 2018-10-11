@@ -1,7 +1,7 @@
-package com.teammetallurgy.atum.blocks.limestone;
+package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;

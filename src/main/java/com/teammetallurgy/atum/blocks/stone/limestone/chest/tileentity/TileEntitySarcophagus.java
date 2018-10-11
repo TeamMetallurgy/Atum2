@@ -1,7 +1,7 @@
-package com.teammetallurgy.atum.blocks.limestone.chest.tileentity;
+package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
-import com.teammetallurgy.atum.blocks.limestone.chest.BlockSarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockSarcophagus;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumSounds;

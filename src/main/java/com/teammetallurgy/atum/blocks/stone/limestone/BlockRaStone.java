@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.limestone;
+package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;

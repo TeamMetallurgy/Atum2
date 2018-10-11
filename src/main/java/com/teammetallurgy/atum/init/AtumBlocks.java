@@ -9,14 +9,16 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
-import com.teammetallurgy.atum.blocks.limestone.*;
-import com.teammetallurgy.atum.blocks.limestone.chest.BlockChestSpawner;
-import com.teammetallurgy.atum.blocks.limestone.chest.BlockLimestoneChest;
-import com.teammetallurgy.atum.blocks.limestone.chest.BlockSarcophagus;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityChestSpawner;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
-import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
+import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.*;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockChestSpawner;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockLimestoneChest;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockSarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityChestSpawner;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
@@ -49,6 +51,7 @@ public class AtumBlocks {
     public static final Block LIMESTONE_CRACKED = new Block(Material.SAND, MapColor.SAND).setHardness(2.0F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
+    public static final Block ALABASTER = new BlockAlabaster();
     public static final Block RA_STONE = new BlockRaStone();
     public static final Block SMOOTH_STAIRS = new BlockAtumStairs(LIMESTONE.getDefaultState());
     public static final Block CRACKED_STAIRS = new BlockAtumStairs(LIMESTONE_CRACKED.getDefaultState());
@@ -170,6 +173,9 @@ public class AtumBlocks {
         registerBlock(LIMESTONE_DOOR, new ItemDoor(LIMESTONE_DOOR), "limestone_door");
         registerBlock(LIMESTONE_CRACKED_DOOR, new ItemDoor(LIMESTONE_CRACKED_DOOR), "limestone_cracked_door");
         BlockLimestoneBricks.registerDoors();
+
+        registerBlock(ALABASTER, "alabaster");
+        BlockAlabasterBricks.registerBricks();
 
         //Glass
         registerBlock(CRYSTAL_GLASS, "crystal_glass");

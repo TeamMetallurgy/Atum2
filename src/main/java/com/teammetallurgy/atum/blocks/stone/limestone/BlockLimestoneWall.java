@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.limestone;
+package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;

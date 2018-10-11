@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.base;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.OreDictHelper;

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityChestSpawner;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityChestSpawner;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;

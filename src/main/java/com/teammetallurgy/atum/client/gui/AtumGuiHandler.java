@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.gui;
 
-import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.GuiLimestoneFurnace;
-import com.teammetallurgy.atum.blocks.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.GuiLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.trap.tileentity.ContainerTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.GuiTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;

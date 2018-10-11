@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.AtumTeleporter;

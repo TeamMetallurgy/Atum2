@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.undead;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.items.ItemScepter;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;

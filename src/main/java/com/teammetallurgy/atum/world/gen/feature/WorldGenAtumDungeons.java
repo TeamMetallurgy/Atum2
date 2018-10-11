@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;

@@ -1,14 +1,13 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -126,15 +125,16 @@ public class PyramidPieces {
                 }
             } else if (function.startsWith("Crate")) {
                 if (function.equals("CrateChance")) {
-                    /*if (box.isVecInside(pos)) {
+                    if (box.isVecInside(pos)) {
                         if (rand.nextDouble() <= 0.2D) {
                             world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
                         } else {
                             world.setBlockToAir(pos);
                         }
-                    }*/
+                    }
+                    world.setBlockToAir(pos);
                 } else if (function.equals("CrateLoot")) {
-                    BlockPos posDown = pos.down();
+                    /*BlockPos posDown = pos.down();
                     if (box.isVecInside(posDown)) {
                         IBlockState crateState = world.getBlockState(posDown);
                         if (crateState.getBlock() instanceof BlockCrate) {
@@ -143,7 +143,7 @@ public class PyramidPieces {
                                 ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
                             }
                         }
-                    }
+                    }*/
                     world.setBlockToAir(pos);
                 }
             } else if (function.equals("Chest")) {

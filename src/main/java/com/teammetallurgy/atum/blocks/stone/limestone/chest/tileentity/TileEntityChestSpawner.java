@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.limestone.chest.tileentity;
+package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.init.AtumBlocks;

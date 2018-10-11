@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenShrub;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMatcher;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -26,6 +27,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
     private WorldGenerator emeraldGen;
     private WorldGenerator boneGen;
     private WorldGenerator relicGen;
+    private WorldGenerator alabasterGen;
     public float shrubChance;
 
     BiomeDecoratorAtum() {
@@ -33,6 +35,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         this.dirtGen = generateMinable(AtumBlocks.SAND.getDefaultState(), 32);
         this.gravelGen = generateMinable(AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32);
         this.clayGen = generateMinable(AtumBlocks.SANDY_CLAY.getDefaultState(), 12);
+        this.alabasterGen = generateMinable(AtumBlocks.ALABASTER.getDefaultState(), 12);
         if (AtumConfig.COAL_ENABLED) {
             this.coalGen = generateMinable(AtumBlocks.COAL_ORE.getDefaultState(), AtumConfig.COAL_VEIN);
         }
@@ -184,6 +187,10 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
         if (TerrainGen.generateOre(world, random, this.clayGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
             this.genStandardOre1(world, random, 8, this.clayGen, 0, 48);
+        }
+
+        if (TerrainGen.generateOre(world, random, this.alabasterGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+            this.genStandardOre1(world, random, 8, this.alabasterGen, 0, 60);
         }
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(world, random, chunkPos));
     }

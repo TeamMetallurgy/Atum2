@@ -1,7 +1,7 @@
-package com.teammetallurgy.atum.blocks.limestone.chest;
+package com.teammetallurgy.atum.blocks.stone.limestone.chest;
 
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
-import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

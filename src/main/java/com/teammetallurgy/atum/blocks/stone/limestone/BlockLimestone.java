@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.limestone;
+package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
@@ -30,6 +30,5 @@ public class BlockLimestone extends Block implements IOreDictEntry {
     @Override
     public void getOreDictEntries() {
         OreDictHelper.add(new ItemStack(this), "stoneLimestone", "stone");
-
     }
 }

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.limestone.tileentity.furnace;
+package com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
