@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -150,6 +151,14 @@ public class PyramidPieces {
                     }
                 }
                 world.setBlockToAir(pos);
+            } else if (function.equals("PharaohTorch")) {
+                if (box.isVecInside(pos)) {
+                    if (rand.nextDouble() <= 0.25D) {
+                        world.setBlockState(pos, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.PHARAOH_TORCH).getDefaultState(), 2);
+                    } else {
+                        world.setBlockToAir(pos);
+                    }
+                }
             } else if (function.equals("Maze")) {
                 if (box.isVecInside(pos)) {
                     this.addMaze(world, pos, this.placeSettings.getRotation(), rand);
@@ -216,7 +225,6 @@ public class PyramidPieces {
                                 BlockPos wallOffset = basePos.offset(facing.getOpposite());
                                 world.setBlockState(wallOffset, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
                                 world.setBlockState(wallOffset.up(), BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
-                                //System.out.println("Wall: " + wallOffset);
                                 if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(world.getBlockState(basePos).getBlock() instanceof BlockLadder || world.getBlockState(basePos.up()).getBlock() instanceof BlockLadder)) {
                                     world.setBlockState(basePos, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
                                     world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);

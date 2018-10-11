@@ -60,7 +60,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
             if (heldStack.getItem().isDamageable()) {
                 heldStack.damageItem(1, player);
             }
-            world.setBlockState(pos, getLitTorch(this).getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, 0, player, hand));
+            world.setBlockState(pos, getLitTorch(this).getStateForPlacement(world, pos, state.getValue(BlockAtumTorch.FACING), hitX, hitY, hitZ, 0, player, hand));
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 2.5F, 1.0F);
             return true;
         }
