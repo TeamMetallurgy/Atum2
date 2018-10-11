@@ -5,7 +5,10 @@ import com.teammetallurgy.atum.blocks.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
+import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -121,18 +124,28 @@ public class PyramidPieces {
                         this.setTrapsCopy(world, pos, rand, box, 3);
                         break;
                 }
-            } else if (function.equals("CrateChance")) {
-                /*if (rand.nextDouble() <= 0.2D) {
-                    if (box.isVecInside(pos) && !(world.getBlockState(pos).getBlock() instanceof BlockCrate)) {
-                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
-                        TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+            } else if (function.startsWith("Crate")) {
+                if (function.equals("CrateChance")) {
+                    /*if (box.isVecInside(pos)) {
+                        if (rand.nextDouble() <= 0.2D) {
+                            world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+                        } else {
+                            world.setBlockToAir(pos);
+                        }
+                    }*/
+                } else if (function.equals("CrateLoot")) {
+                    BlockPos posDown = pos.down();
+                    if (box.isVecInside(posDown)) {
+                        IBlockState crateState = world.getBlockState(posDown);
+                        if (crateState.getBlock() instanceof BlockCrate) {
+                            TileEntity tileEntity = world.getTileEntity(posDown);
+                            if (tileEntity instanceof TileEntityCrate) {
+                                ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+                            }
                         }
                     }
-                } else {
                     world.setBlockToAir(pos);
-                }*/
+                }
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
