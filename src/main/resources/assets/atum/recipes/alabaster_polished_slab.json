@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "ore": "stoneAlabasterPolished",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "atum:alabaster_polished_slab",
+    "count": 6
+  }
+}

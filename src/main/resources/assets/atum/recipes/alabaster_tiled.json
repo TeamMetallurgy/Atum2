@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "atum:alabaster_brick_carved"
+    }
+  },
+  "result": {
+    "item": "atum:alabaster_brick_tiled",
+    "count": 4
+  }
+}

@@ -23,9 +23,9 @@ public class BlockLimestoneSlab extends BlockAtumSlab {
 
     public static void registerSlabs() {
         for (BlockLimestoneBricks.BrickType type : BlockLimestoneBricks.BrickType.values()) {
-            Block limestoneSlab = new BlockLimestoneSlab();
+            BlockAtumSlab limestoneSlab = new BlockLimestoneSlab();
             BRICK_SLAB.put(type, limestoneSlab);
-            AtumRegistry.registerBlock(limestoneSlab, new ItemAtumSlab(limestoneSlab, (BlockAtumSlab) limestoneSlab), "limestone_" + type.getName() + "_slab");
+            AtumRegistry.registerBlock(limestoneSlab, new ItemAtumSlab(limestoneSlab, limestoneSlab), "limestone_" + type.getName() + "_slab");
         }
     }
 

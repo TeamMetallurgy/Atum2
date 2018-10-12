@@ -10,11 +10,11 @@ import net.minecraft.item.ItemStack;
 public class BlockAlabaster extends Block implements IOreDictEntry {
 
     public BlockAlabaster() {
-        super(Material.ROCK, MapColor.SAND);
+        super(Material.ROCK, MapColor.QUARTZ);
     }
 
     @Override
     public void getOreDictEntries() {
-        OreDictHelper.add(new ItemStack(this), "stoneAlabaster", "stone");
+        OreDictHelper.add(new ItemStack(this), "stoneAlabaster");
     }
 }

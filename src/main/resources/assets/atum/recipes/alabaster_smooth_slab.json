@@ -1,0 +1,15 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "atum:alabaster_brick_smooth"
+    }
+  },
+  "result": {
+    "item": "atum:alabaster_smooth_slab",
+    "count": 6
+  }
+}

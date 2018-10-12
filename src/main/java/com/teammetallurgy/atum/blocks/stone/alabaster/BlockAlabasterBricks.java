@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.blocks.stone.alabaster;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -14,7 +16,7 @@ import net.minecraft.world.IBlockAccess;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class BlockAlabasterBricks extends Block {
+public class BlockAlabasterBricks extends Block implements IOreDictEntry {
     private static final Map<Type, BlockAlabasterBricks> BRICKS = Maps.newEnumMap(Type.class);
 
     public BlockAlabasterBricks() {
@@ -27,7 +29,7 @@ public class BlockAlabasterBricks extends Block {
     @Override
     @Nonnull
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return MapColor.SAND;
+        return MapColor.QUARTZ;
     }
 
     @Override
@@ -47,10 +49,17 @@ public class BlockAlabasterBricks extends Block {
         return BRICKS.get(type);
     }
 
+    @Override
+    public void getOreDictEntries() {
+        if (this == getBrick(Type.POLISHED)) {
+            OreDictHelper.add(this, "stoneAlabasterPolished");
+        }
+    }
+
     public enum Type implements IStringSerializable {
         SMOOTH("smooth"),
         POLISHED("polished"),
-        CHISELED("chiseled"),
+        CARVED("carved"),
         TILED("tiled");
 
         private final String name;

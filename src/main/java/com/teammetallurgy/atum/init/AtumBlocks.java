@@ -11,6 +11,8 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
+import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterSlab;
+import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterWall;
 import com.teammetallurgy.atum.blocks.stone.limestone.*;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockChestSpawner;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockLimestoneChest;
@@ -161,6 +163,7 @@ public class AtumBlocks {
         BlockLimestoneSlab.registerSlabs();
         registerBlock(LIMESTONE_GRAVEL, "limestone_gravel");
         registerBlock(SANDY_CLAY, "sandy_clay");
+        registerBlock(RA_STONE, "ra_stone", null);
         registerBlock(LIMESTONE, "limestone");
         registerBlock(LIMESTONE_CRACKED, "limestone_cracked");
         registerBlock(SMOOTH_STAIRS, "smooth_stairs");
@@ -168,7 +171,6 @@ public class AtumBlocks {
         BlockAtumStairs.registerLimestoneStairs();
         registerBlock(LIMESTONE_WALL, "limestone_wall");
         registerBlock(LIMESTONE_CRACKED_WALL, "limestone_cracked_wall");
-        registerBlock(RA_STONE, "ra_stone");
         BlockLimestoneWall.registerWalls();
         registerBlock(LIMESTONE_DOOR, new ItemDoor(LIMESTONE_DOOR), "limestone_door");
         registerBlock(LIMESTONE_CRACKED_DOOR, new ItemDoor(LIMESTONE_CRACKED_DOOR), "limestone_cracked_door");
@@ -176,6 +178,9 @@ public class AtumBlocks {
 
         registerBlock(ALABASTER, "alabaster");
         BlockAlabasterBricks.registerBricks();
+        BlockAlabasterSlab.registerSlabs();
+        BlockAtumStairs.registerAlabasterStairs();
+        BlockAlabasterWall.registerWalls();
 
         //Glass
         registerBlock(CRYSTAL_GLASS, "crystal_glass");
