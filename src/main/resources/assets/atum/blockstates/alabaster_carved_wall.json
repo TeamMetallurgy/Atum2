@@ -4,10 +4,10 @@
         "textures": {
             "wall": "atum:blocks/alabaster_brick_carved"
         },
+        "model":"wall_post",
         "uvlock": true
     },
     "variants": {
-        "normal": [{}],
         "inventory": [ {"model": "wall_inventory"} ],
         "up":{
         	"true":{"submodel":{"up_model":{"model":"wall_post"}}},

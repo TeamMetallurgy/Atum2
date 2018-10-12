@@ -4,6 +4,7 @@
         "textures": {
             "wall": "atum:blocks/limestone"
         },
+        "model":"wall_post",
         "uvlock": true
     },
     "variants": {

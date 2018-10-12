@@ -4,6 +4,7 @@
         "textures": {
             "wall": "atum:blocks/alabaster_brick_polished"
         },
+        "model":"wall_post",
         "uvlock": true
     },
     "variants": {
