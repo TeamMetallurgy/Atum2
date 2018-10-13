@@ -21,6 +21,8 @@ import java.util.Random;
 public class MapGenPyramid extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
+    private int spacing = 32;
+    private int separation = 6;
 
     public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
@@ -36,7 +38,7 @@ public class MapGenPyramid extends MapGenStructure {
     @Override
     public BlockPos getNearestStructurePos(@Nonnull World world, @Nonnull BlockPos pos, boolean findUnexplored) {
         this.world = world;
-        return findNearestStructurePosBySpacing(world, this, pos, 80, 32, 10387319, true, 100, findUnexplored);
+        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, 10387404, true, 100, findUnexplored);
     }
 
     @Override
@@ -45,21 +47,21 @@ public class MapGenPyramid extends MapGenStructure {
         int z = chunkZ;
 
         if (chunkX < 0) {
-            x = chunkX - 79;
+            chunkX -= this.spacing -1;
         }
         if (chunkZ < 0) {
-            z = chunkZ - 79;
+            chunkZ -= this.spacing -1;
         }
-        int xSpacing = x / 80;
-        int zSpacing = z / 80;
-        Random random = this.world.setRandomSeed(xSpacing, zSpacing, 10387319);
-        xSpacing = xSpacing * 80;
-        zSpacing = zSpacing * 80;
-        xSpacing = xSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
-        zSpacing = zSpacing + (random.nextInt(60) + random.nextInt(60)) / 2; //Rarity
+        int xSpacing = chunkX / this.spacing;
+        int zSpacing = chunkZ / this.spacing;
+        Random random = this.world.setRandomSeed(xSpacing, zSpacing, 10387404);
+        xSpacing = xSpacing * this.spacing;
+        zSpacing = zSpacing * this.spacing;
+        xSpacing = xSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
+        zSpacing = zSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
 
-        if (chunkX == xSpacing && chunkZ == zSpacing) {
-            return this.world.getBiomeProvider().areBiomesViable(chunkX * 16 + 8, chunkZ * 16 + 8, 32, ALLOWED_BIOMES);
+        if (x == xSpacing && z == zSpacing) {
+            return this.world.getBiomeProvider().areBiomesViable(x * 16 + 8, z * 16 + 8, 16, ALLOWED_BIOMES);
         }
         return false;
     }

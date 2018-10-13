@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
-import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
@@ -22,7 +21,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureComponentTemplate;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
@@ -30,7 +28,6 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class PyramidPieces {
@@ -39,13 +36,6 @@ public class PyramidPieces {
     public static void registerPyramid() {
         MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
         MapGenStructureIO.registerStructureComponent(PyramidTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_template")));
-    }
-
-    static List<StructureComponent> generatePyramid(TemplateManager manager, BlockPos pos, Rotation rotation) {
-        List<StructureComponent> list = Lists.newArrayList();
-        PyramidTemplate pyramidTemplate = new PyramidTemplate(manager, pos, Rotation.COUNTERCLOCKWISE_90);
-        list.add(pyramidTemplate);
-        return list;
     }
 
     public static class PyramidTemplate extends StructureComponentTemplate {
@@ -66,7 +56,6 @@ public class PyramidPieces {
             super(0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            System.out.println("Rotation: " + rotation);
             this.mirror = mirror;
             this.boundingBox = StructureBoundingBox.createProper(0, 0, 0, templatePosition.getX(), templatePosition.getY(), templatePosition.getZ());
             this.loadTemplate(manager);
@@ -123,27 +112,13 @@ public class PyramidPieces {
                         this.setTrapsCopy(world, pos, rand, box, 3);
                         break;
                 }
-            } else if (function.startsWith("Crate")) {
-                if (function.equals("CrateChance")) {
-                    if (box.isVecInside(pos)) {
-                        if (rand.nextDouble() <= 0.2D) {
-                            world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
-                        } else {
-                            world.setBlockToAir(pos);
-                        }
+            } else if (function.equals("CrateChance")) {
+                if (box.isVecInside(pos)) {
+                    if (rand.nextDouble() <= 0.2D) {
+                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+                    } else {
+                        world.setBlockToAir(pos);
                     }
-                } else if (function.equals("CrateLoot")) {
-                    /*BlockPos posDown = pos.down();
-                    if (box.isVecInside(posDown)) {
-                        IBlockState crateState = world.getBlockState(posDown);
-                        if (crateState.getBlock() instanceof BlockCrate) {
-                            TileEntity tileEntity = world.getTileEntity(posDown);
-                            if (tileEntity instanceof TileEntityCrate) {
-                                ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
-                            }
-                        }
-                    }*/
-                    world.setBlockToAir(pos);
                 }
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.down();
@@ -173,7 +148,7 @@ public class PyramidPieces {
                 }
             } else if (function.equals("Maze")) {
                 if (box.isVecInside(pos)) {
-                    this.addMaze(world, pos, this.placeSettings.getRotation(), rand);
+                    this.addMaze(world, pos, this.placeSettings.getRotation(), rand); //Might be causing cascading worldgen, look into.
                 }
             }
         }
