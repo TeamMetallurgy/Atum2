@@ -34,7 +34,7 @@ public class BiomeDeadOasis extends AtumBiome { //TODO Dried up pools
         (new WorldGenLakes(Blocks.AIR)).generate(world, random, pos.add(i1, j1, k1));
 
         if (random.nextFloat() <= 0.90F) {
-            new WorldGenDeadwood(true, random.nextInt(1) + 6).generate(world, random, world.getHeight(pos.add(x, 0, z)));
+            new WorldGenDeadwood().generate(world, random, world.getHeight(pos.add(x, 0, z)));
         }
 
         super.decorate(world, random, pos);

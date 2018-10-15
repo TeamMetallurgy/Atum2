@@ -191,11 +191,11 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         }
 
         if (TerrainGen.generateOre(world, random, this.alabasterGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 10, this.alabasterGen, 0, 80);
+            this.genStandardOre1(world, random, 10, this.alabasterGen, 0, 60);
         }
 
         if (TerrainGen.generateOre(world, random, this.porphyryGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 10, this.porphyryGen, 0, 80);
+            this.genStandardOre1(world, random, 10, this.porphyryGen, 0, 60);
         }
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(world, random, chunkPos));
     }
