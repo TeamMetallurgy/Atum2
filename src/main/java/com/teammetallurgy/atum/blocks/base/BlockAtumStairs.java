@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.base;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyryBricks;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
@@ -16,6 +17,7 @@ import java.util.Map;
 public class BlockAtumStairs extends BlockStairs {
     private static final Map<BlockLimestoneBricks.BrickType, Block> BRICK_STAIRS = Maps.newEnumMap(BlockLimestoneBricks.BrickType.class);
     private static final Map<BlockAlabasterBricks.Type, Block> ALABASTER_STAIRS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
+    private static final Map<BlockAlabasterBricks.Type, Block> PORPHYRY_STAIRS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
     private static final Map<BlockAtumPlank.WoodType, Block> WOOD_STAIRS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     public BlockAtumStairs(IBlockState modelState) {
@@ -59,5 +61,17 @@ public class BlockAtumStairs extends BlockStairs {
 
     public static Block getAlabasterStairs(BlockAlabasterBricks.Type type) {
         return ALABASTER_STAIRS.get(type);
+    }
+
+    public static void registerPorphyryStairs() {
+        for (BlockAlabasterBricks.Type type : BlockAlabasterBricks.Type.values()) {
+            Block alabasterStair = new BlockAtumStairs(BlockPorphyryBricks.getBrick(type).getDefaultState());
+            PORPHYRY_STAIRS.put(type, alabasterStair);
+            AtumRegistry.registerBlock(alabasterStair, "porphyry_" + type.getName() + "_stairs");
+        }
+    }
+
+    public static Block getPorphyryStairs(BlockAlabasterBricks.Type type) {
+        return PORPHYRY_STAIRS.get(type);
     }
 }

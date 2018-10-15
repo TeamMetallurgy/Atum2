@@ -27,6 +27,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
     private WorldGenerator boneGen;
     private WorldGenerator relicGen;
     private WorldGenerator alabasterGen;
+    private WorldGenerator porphyryGen;
     public float shrubChance;
 
     BiomeDecoratorAtum() {
@@ -35,6 +36,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         this.gravelGen = generateMinable(AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32);
         this.clayGen = generateMinable(AtumBlocks.SANDY_CLAY.getDefaultState(), 12);
         this.alabasterGen = generateMinable(AtumBlocks.ALABASTER.getDefaultState(), 33);
+        this.porphyryGen = generateMinable(AtumBlocks.PORPHYRY.getDefaultState(), 33);
         if (AtumConfig.COAL_ENABLED) {
             this.coalGen = generateMinable(AtumBlocks.COAL_ORE.getDefaultState(), AtumConfig.COAL_VEIN);
         }
@@ -190,6 +192,10 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
         if (TerrainGen.generateOre(world, random, this.alabasterGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
             this.genStandardOre1(world, random, 10, this.alabasterGen, 0, 80);
+        }
+
+        if (TerrainGen.generateOre(world, random, this.porphyryGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+            this.genStandardOre1(world, random, 10, this.porphyryGen, 0, 80);
         }
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(world, random, chunkPos));
     }

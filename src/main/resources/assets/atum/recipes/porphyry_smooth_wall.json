@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:porphyry_brick_smooth"
+    }
+  },
+  "result": {
+    "item": "atum:porphyry_smooth_wall",
+    "count": 6
+  }
+}

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.stone.alabaster;
+package com.teammetallurgy.atum.blocks.stone.porphyry;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumWall;
@@ -12,24 +12,26 @@ import net.minecraft.world.IBlockAccess;
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class BlockAlabasterWall extends BlockAtumWall {
-    private static final Map<BlockAlabasterBricks.Type, Block> WALLS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
+import static com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks.Type;
+
+public class BlockPorphyryWall extends BlockAtumWall {
+    private static final Map<Type, Block> WALLS = Maps.newEnumMap(Type.class);
 
     @Override
     @Nonnull
     public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
-        return MapColor.QUARTZ;
+        return MapColor.BLACK;
     }
 
     public static void registerWalls() {
-        for (BlockAlabasterBricks.Type type : BlockAlabasterBricks.Type.values()) {
-            Block wall = new BlockAlabasterWall();
+        for (Type type : Type.values()) {
+            Block wall = new BlockPorphyryWall();
             WALLS.put(type, wall);
-            AtumRegistry.registerBlock(wall, "alabaster_" + type.getName() + "_wall");
+            AtumRegistry.registerBlock(wall, "porphyry_" + type.getName() + "_wall");
         }
     }
 
-    public static Block getWall(BlockAlabasterBricks.Type type) {
+    public static Block getWall(Type type) {
         return WALLS.get(type);
     }
 }

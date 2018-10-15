@@ -21,6 +21,10 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntit
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
+import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyry;
+import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyryBricks;
+import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyrySlab;
+import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyryWall;
 import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
@@ -54,6 +58,7 @@ public class AtumBlocks {
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
     public static final Block ALABASTER = new BlockAlabaster();
+    public static final Block PORPHYRY = new BlockPorphyry();
     public static final Block RA_STONE = new BlockRaStone();
     public static final Block SMOOTH_STAIRS = new BlockAtumStairs(LIMESTONE.getDefaultState());
     public static final Block CRACKED_STAIRS = new BlockAtumStairs(LIMESTONE_CRACKED.getDefaultState());
@@ -176,11 +181,19 @@ public class AtumBlocks {
         registerBlock(LIMESTONE_CRACKED_DOOR, new ItemDoor(LIMESTONE_CRACKED_DOOR), "limestone_cracked_door");
         BlockLimestoneBricks.registerDoors();
 
+        //Alabaster
         registerBlock(ALABASTER, "alabaster");
         BlockAlabasterBricks.registerBricks();
         BlockAlabasterSlab.registerSlabs();
         BlockAtumStairs.registerAlabasterStairs();
         BlockAlabasterWall.registerWalls();
+
+        //Porphyry
+        registerBlock(PORPHYRY, "porphyry");
+        BlockPorphyryBricks.registerBricks();
+        BlockPorphyrySlab.registerSlabs();
+        BlockAtumStairs.registerPorphyryStairs();
+        BlockPorphyryWall.registerWalls();
 
         //Glass
         registerBlock(CRYSTAL_GLASS, "crystal_glass");

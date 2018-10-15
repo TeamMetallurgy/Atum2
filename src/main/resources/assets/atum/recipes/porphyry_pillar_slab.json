@@ -1,0 +1,15 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "atum:porphyry_brick_pillar"
+    }
+  },
+  "result": {
+    "item": "atum:porphyry_pillar_slab",
+    "count": 6
+  }
+}

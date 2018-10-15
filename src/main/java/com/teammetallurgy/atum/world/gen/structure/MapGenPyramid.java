@@ -83,33 +83,33 @@ public class MapGenPyramid extends MapGenStructure {
             this.create(world, chunkGenerator, random, x, z);
         }
 
-        private void create(World world, ChunkGeneratorAtum chunkGenerator, Random random, int x, int z) {
+        private void create(World world, ChunkGeneratorAtum chunkGenerator, Random random, int chunkX, int chunkZ) {
             Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
             ChunkPrimer chunkPrimer = new ChunkPrimer();
-            chunkGenerator.setBlocksInChunk(x, z, chunkPrimer);
-            int i = 5;
-            int j = 5;
+            chunkGenerator.setBlocksInChunk(chunkX, chunkZ, chunkPrimer);
+            int x = 5;
+            int z = 5;
 
             if (rotation == Rotation.CLOCKWISE_90) {
-                i = -5;
+                x = -5;
             } else if (rotation == Rotation.CLOCKWISE_180) {
-                i = -5;
-                j = -5;
+                x = -5;
+                z = -5;
             } else if (rotation == Rotation.COUNTERCLOCKWISE_90) {
-                j = -5;
+                z = -5;
             }
 
-            int k = chunkPrimer.findGroundBlockIdx(7, 7);
-            int l = chunkPrimer.findGroundBlockIdx(7, 7 + j);
-            int i1 = chunkPrimer.findGroundBlockIdx(7 + i, 7);
-            int j1 = chunkPrimer.findGroundBlockIdx(7 + i, 7 + j);
-            int k1 = Math.min(Math.min(k, l), Math.min(i1, j1));
+            int ground = chunkPrimer.findGroundBlockIdx(7, 7);
+            int groundZ = chunkPrimer.findGroundBlockIdx(7, 7 + z);
+            int groundX = chunkPrimer.findGroundBlockIdx(7 + x, 7);
+            int groundXZ = chunkPrimer.findGroundBlockIdx(7 + x, 7 + z);
+            int y = Math.min(Math.min(ground, groundZ), Math.min(groundX, groundXZ));
 
-            if (k1 < 60) {
+            if (y < 60) {
                 this.isValid = false;
             } else {
                 //int yChance = MathHelper.getInt(random, 10, 40);
-                BlockPos pos = new BlockPos(x * 16 + 8, k1 - 10, z * 16 + 8);
+                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 10, chunkZ * 16 + 8);
                 PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
                 this.components.add(pyramid);
                 this.updateBoundingBox();

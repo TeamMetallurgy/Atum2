@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.stone.alabaster;
+package com.teammetallurgy.atum.blocks.stone.porphyry;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
@@ -9,17 +9,18 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class BlockAlabasterBricks extends Block implements IOreDictEntry {
-    private static final Map<Type, BlockAlabasterBricks> BRICKS = Maps.newEnumMap(Type.class);
+import static com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks.Type;
 
-    public BlockAlabasterBricks() {
+public class BlockPorphyryBricks extends Block implements IOreDictEntry {
+    private static final Map<Type, BlockPorphyryBricks> BRICKS = Maps.newEnumMap(Type.class);
+
+    public BlockPorphyryBricks() {
         super(Material.ROCK);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
@@ -39,45 +40,20 @@ public class BlockAlabasterBricks extends Block implements IOreDictEntry {
 
     public static void registerBricks() {
         for (Type type : Type.values()) {
-            BlockAlabasterBricks brick = new BlockAlabasterBricks();
+            BlockPorphyryBricks brick = new BlockPorphyryBricks();
             BRICKS.put(type, brick);
-            AtumRegistry.registerBlock(brick, "alabaster_brick_" + type.getName());
+            AtumRegistry.registerBlock(brick, "porphyry_brick_" + type.getName());
         }
     }
 
-    public static BlockAlabasterBricks getBrick(Type type) {
+    public static BlockPorphyryBricks getBrick(Type type) {
         return BRICKS.get(type);
     }
 
     @Override
     public void getOreDictEntries() {
         if (this == getBrick(Type.POLISHED)) {
-            OreDictHelper.add(this, "stoneAlabasterPolished");
-        }
-    }
-
-    public enum Type implements IStringSerializable {
-        SMOOTH("smooth"),
-        POLISHED("polished"),
-        CARVED("carved"),
-        TILED("tiled"),
-        PILLAR("pillar");
-
-        private final String name;
-
-        Type(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        @Override
-        @Nonnull
-        public String getName() {
-            return this.name;
+            OreDictHelper.add(this, "stonePorphyryPolished");
         }
     }
 }
