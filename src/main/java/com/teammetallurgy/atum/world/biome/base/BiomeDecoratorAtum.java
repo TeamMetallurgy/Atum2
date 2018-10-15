@@ -185,7 +185,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         }
 
         if (TerrainGen.generateOre(world, random, this.clayGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
-            this.genStandardOre1(world, random, 8, this.clayGen, 0, 48);
+            this.genStandardOre1(world, random, 8, this.clayGen, 0, 50);
         }
 
         if (TerrainGen.generateOre(world, random, this.alabasterGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {

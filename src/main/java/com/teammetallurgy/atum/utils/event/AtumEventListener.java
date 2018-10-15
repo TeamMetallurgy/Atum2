@@ -85,7 +85,7 @@ public class AtumEventListener {
             BlockPos pos = event.getPos();
             ItemStack heldStack = player.getHeldItem(event.getHand());
             FluidStack fluidStack = FluidUtil.getFluidContained(heldStack);
-            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER && event.getWorld().getBiome(pos) != AtumBiomes.OASIS && event.getWorld().getHeight(pos).getY() >= 48) {
+            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER && event.getWorld().getBiome(pos) != AtumBiomes.OASIS && player.getPosition().getY() > 50) {
                 if (heldStack.getItem() == Items.WATER_BUCKET && !player.isCreative()) {
                     player.setHeldItem(event.getHand(), new ItemStack(Items.BUCKET));
                 }
