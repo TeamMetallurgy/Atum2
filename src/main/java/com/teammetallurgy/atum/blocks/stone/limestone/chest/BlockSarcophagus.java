@@ -47,8 +47,13 @@ public class BlockSarcophagus extends BlockChestBase {
         if (tileEntity instanceof TileEntitySarcophagus) {
             TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileEntity;
             if (!sarcophagus.hasSpawned()) {
-
                 sarcophagus.hasSpawned = true;
+                for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                    TileEntity  tileEntityOffset = world.getTileEntity(pos.offset(horizontal));
+                    if (tileEntityOffset instanceof TileEntitySarcophagus) {
+                        ((TileEntitySarcophagus)tileEntityOffset).hasSpawned = true;
+                    }
+                }
                 sarcophagus.spawn(player, world.getDifficultyForLocation(pos));
             }
         }

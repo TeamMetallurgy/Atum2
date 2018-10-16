@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntit
 import com.teammetallurgy.atum.items.ItemScepter;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -26,6 +26,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -33,6 +34,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.*;
+import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -259,15 +261,15 @@ public class EntityPharaoh extends EntityUndeadBase {
                     }
                 }
             }
-            if (this.getHealth() < this.getMaxHealth() * 0.75 && stage == 0) {
+            if (this.getHealth() < this.getMaxHealth() * 0.75F && stage == 0) {
                 stage++;
-                spawnGuards();
-            } else if (stage == 1 && this.getHealth() < this.getMaxHealth() * 0.5) {
+                spawnGuards(this.getPosition());
+            } else if (stage == 1 && this.getHealth() < this.getMaxHealth() * 0.5F) {
                 stage++;
-                spawnGuards();
-            } else if (stage == 2 && this.getHealth() < this.getMaxHealth() * 0.25) {
+                spawnGuards(this.getPosition());
+            } else if (stage == 2 && this.getHealth() < this.getMaxHealth() * 0.25F) {
                 stage++;
-                spawnGuards();
+                spawnGuards(this.getPosition());
             }
             return true;
         }
@@ -347,30 +349,29 @@ public class EntityPharaoh extends EntityUndeadBase {
         }
     }
 
-    private void spawnGuards() {
-        int numSpawned = 0;
-        for (BlockPos.MutableBlockPos mutablePos : BlockPos.MutableBlockPos.getAllInBoxMutable(this.getPosition().add(1, 0, 1), this.getPosition().add(-1, 0, -1))) {
-            if (numSpawned >= 2) return;
-            if (trySpawnMummy(mutablePos)) {
-                numSpawned++;
-            }
-        }
+    public void spawnGuards(BlockPos pos) {
+        EnumFacing facing = EnumFacing.byHorizontalIndex(MathHelper.floor(this.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
+        this.trySpawnMummy(pos, facing.rotateYCCW());
+        this.trySpawnMummy(pos, facing.rotateY());
     }
 
-    public boolean trySpawnMummy(BlockPos pos) {
-        EntityMummy entityMummy = new EntityMummy(world);
-        entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
-        entityMummy.setPosition(pos.getX(), pos.getY(), pos.getZ());
+    private void trySpawnMummy(BlockPos pos, EnumFacing facing) {
+        pos = pos.offset(facing);
+        if (!world.isAirBlock(pos.offset(facing))) {
+            pos = pos.offset(facing, 2);
+        }
+        System.out.println("Attempted/spawned Mummy at: " + pos);
+        if ((WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, world, pos) || world.getBlockState(pos.down()) instanceof BlockStairs) && world.isAirBlock(pos)) {
+            EntityMummy entityMummy = new EntityMummy(world);
+            entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
+            entityMummy.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
-        IBlockState state = world.getBlockState(pos);
-        if (WorldEntitySpawner.isValidEmptySpawnBlock(state) && state.getBlock().isAir(state, world, pos.up())) {
             if (!world.isRemote) {
-                world.spawnEntity(entityMummy);
+                System.out.println("Spawned");
+                AnvilChunkLoader.spawnEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();
-            return true;
         }
-        return false;
     }
 
     @SubscribeEvent

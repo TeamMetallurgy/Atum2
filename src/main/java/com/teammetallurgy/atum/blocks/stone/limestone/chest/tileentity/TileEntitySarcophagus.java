@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -62,18 +61,15 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     public void spawn(EntityPlayer player, DifficultyInstance difficulty) {
         EntityPharaoh pharaoh = new EntityPharaoh(world, true);
         pharaoh.onInitialSpawn(difficulty, null);
-        pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), 0.0F, 0.0F);
+        EnumFacing blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
+        pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle(), 0.0F);
         pharaoh.setSarcophagusPos(pos);
         if (!world.isRemote) {
             world.spawnEntity(pharaoh);
         }
+        pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 3).down());
         pharaoh.spawnExplosionParticle();
         this.hasSpawned = true;
-
-        IBlockState state = world.getBlockState(pos);
-        EnumFacing facing = state.getValue(BlockSarcophagus.FACING);
-        pharaoh.trySpawnMummy(pos.offset(facing.rotateY()));
-        pharaoh.trySpawnMummy(pos.offset(facing.rotateYCCW()));
 
         if (!world.isRemote) {
             for (EntityPlayerMP playerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
