@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -116,6 +117,11 @@ public class PyramidPieces {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.2D) {
                         world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+
+                        TileEntity tileEntity = world.getTileEntity(pos);
+                        if (tileEntity instanceof TileEntityCrate) {
+                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+                        }
                     } else {
                         world.setBlockToAir(pos);
                     }

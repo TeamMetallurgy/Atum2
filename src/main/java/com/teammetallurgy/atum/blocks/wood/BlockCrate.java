@@ -26,6 +26,7 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 public class BlockCrate extends BlockContainer {
@@ -107,11 +108,19 @@ public class BlockCrate extends BlockContainer {
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
         TileEntity tileentity = world.getTileEntity(pos);
 
-        if (tileentity instanceof IInventory) {
-            InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileentity);
+        if (tileentity instanceof TileEntityCrate) {
             world.updateComparatorOutputLevel(pos, this);
         }
         super.breakBlock(world, pos, state);
+    }
+
+    @Override
+    public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, @Nonnull ItemStack stack) {
+        if (te instanceof TileEntityCrate) {
+            InventoryHelper.dropInventoryItems(world, pos, (TileEntityCrate) te);
+            world.updateComparatorOutputLevel(pos, this);
+        }
+        super.harvestBlock(world, player, pos, state, te, stack);
     }
 
     @Override

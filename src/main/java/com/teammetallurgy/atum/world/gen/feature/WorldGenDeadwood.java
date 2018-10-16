@@ -55,7 +55,6 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
 
 
         if (world.canSeeSky(placeCheck) && (this.isReplaceable(world, placeCheck) || world.getBlockState(placeCheck.down()).getBlock() instanceof BlockStrangeSand)) {
-            System.out.println("CanPlace");
             BlockPos zero = template.getZeroPositionWithTransform(placeCheck, Mirror.NONE, rotation);
             template.addBlocksToWorld(world, zero, settings, 20);
             return true;
