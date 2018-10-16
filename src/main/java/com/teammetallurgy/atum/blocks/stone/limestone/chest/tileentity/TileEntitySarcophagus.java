@@ -10,6 +10,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
@@ -26,6 +28,23 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
 
     public TileEntitySarcophagus() {
         super(false, true, AtumBlocks.SARCOPHAGUS);
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(this.pos, 0, this.getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
+        super.onDataPacket(manager, packet);
+        this.readFromNBT(packet.getNbtCompound());
+    }
+
+    @Override
+    @Nonnull
+    public NBTTagCompound getUpdateTag() {
+        return this.writeToNBT(new NBTTagCompound());
     }
 
     @Override
@@ -52,10 +71,6 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     public void setOpenable() {
         this.isOpenable = true;
         this.markDirty();
-    }
-
-    public boolean hasSpawned() {
-        return this.hasSpawned;
     }
 
     public void spawn(EntityPlayer player, DifficultyInstance difficulty) {

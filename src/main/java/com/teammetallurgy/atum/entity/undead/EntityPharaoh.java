@@ -72,6 +72,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.experienceValue = 250;
         this.hasSarcophagus = setSarcophagusPos;
         this.stage = 0;
+        this.setCanPickUpLoot(false);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -127,7 +128,6 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        super.setEquipmentBasedOnDifficulty(difficulty);
         ItemScepter scepter = ItemScepter.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
             this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(scepter));
@@ -194,6 +194,7 @@ public class EntityPharaoh extends EntityUndeadBase {
                     if (te instanceof TileEntitySarcophagus) {
                         TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) te;
                         sarcophagus.setOpenable();
+                        sarcophagus.hasSpawned = true;
                     }
                 } else {
                     Atum.LOG.error("Unable to find sarcophagus coordinates for " + this.getName() + " on " + sarcophagusPos);
@@ -283,6 +284,10 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) { //Don't drop Pharaoh Scepters
+    }
+
+    @Override
     public void onUpdate() {
         super.onUpdate();
 
@@ -360,14 +365,12 @@ public class EntityPharaoh extends EntityUndeadBase {
         if (!world.isAirBlock(pos.offset(facing))) {
             pos = pos.offset(facing, 2);
         }
-        System.out.println("Attempted/spawned Mummy at: " + pos);
         if ((WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, world, pos) || world.getBlockState(pos.down()) instanceof BlockStairs) && world.isAirBlock(pos)) {
             EntityMummy entityMummy = new EntityMummy(world);
             entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
             entityMummy.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
             if (!world.isRemote) {
-                System.out.println("Spawned");
                 AnvilChunkLoader.spawnEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();

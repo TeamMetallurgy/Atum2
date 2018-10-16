@@ -633,6 +633,7 @@ chat.atum.disabled=Scarab portal creation is disabled
 chat.atum.enemies=There are too many enemies nearby to search this chest
 chat.atum.summonPharaoh=was summoned by
 chat.atum.killPharaoh=was slain by
+chat.atum.cannotSpawnPharaoh=The pharaoh turns over in his sarcophagus
 
 # GUI
 atum.configGui.portalCreation=Atum Portal
