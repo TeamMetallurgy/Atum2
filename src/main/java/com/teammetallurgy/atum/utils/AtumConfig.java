@@ -84,7 +84,7 @@ public class AtumConfig {
             propOrder.add(prop.getName());
         }
 
-        PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, false, "Set to true to enable Pyramids");
+        PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, true, "Set to true to enable Pyramids");
 
         ////////// features
         COAL_ENABLED = config.getBoolean("Generate Coal", WORLDGEN + CATEGORY_SPLITTER + "Coal ore", true, "Should coal ore generate in Atum?");

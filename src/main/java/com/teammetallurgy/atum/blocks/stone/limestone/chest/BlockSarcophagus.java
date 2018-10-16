@@ -33,16 +33,22 @@ public class BlockSarcophagus extends BlockChestBase {
     @Override
     public boolean onBlockActivated(World world, @Nonnull BlockPos pos, IBlockState state, @Nonnull EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
+        EnumFacing facing = state.getValue(FACING);
+
+        //Right-Click left block, when right-clicking right block
+        BlockPos posLeft = pos.offset(facing.rotateY());
+        TileEntity tileLeft = world.getTileEntity(posLeft);
+        if (world.getBlockState(posLeft).getBlock() == this && tileLeft instanceof TileEntitySarcophagus) {
+            if (!((TileEntitySarcophagus) tileLeft).hasSpawned) {
+                this.onBlockActivated(world, pos.offset(facing.rotateY()), state, player, hand, side, hitX, hitY, hitZ);
+            }
+        }
+
         if (tileEntity instanceof TileEntitySarcophagus) {
             TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileEntity;
             if (!sarcophagus.hasSpawned()) {
-                for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
-                    TileEntity  tileEntityOffset = world.getTileEntity(pos.offset(horizontal));
-                    if (tileEntityOffset instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus)tileEntityOffset).hasSpawned = true;
-                        ((TileEntitySarcophagus)tileEntityOffset).isOpenable = true;
-                    }
-                }
+
+                sarcophagus.hasSpawned = true;
                 sarcophagus.spawn(player, world.getDifficultyForLocation(pos));
             }
         }
