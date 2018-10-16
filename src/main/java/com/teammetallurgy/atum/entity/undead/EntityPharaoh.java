@@ -29,10 +29,14 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.*;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -47,7 +51,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     private static final DataParameter<Integer> SUFFIX = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> NUMERAL = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<BlockPos>> SARCOPHAGUS_POS = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.OPTIONAL_BLOCK_POS);
-    private final BossInfoServer bossInfo = (BossInfoServer) (new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS)).setCreateFog(true);
+    private final BossInfoServer bossInfo = (BossInfoServer) new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.PROGRESS).setCreateFog(true);
     private boolean hasSarcophagus;
     private int stage;
     private int suffixID = 0;
@@ -66,6 +70,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.experienceValue = 250;
         this.hasSarcophagus = setSarcophagusPos;
         this.stage = 0;
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -173,7 +178,7 @@ public class EntityPharaoh extends EntityUndeadBase {
             if (!world.isRemote && slayer != null) {
                 List<EntityPlayerMP> players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
                 for (EntityPlayer player : players) {
-                    player.sendMessage(new TextComponentString(TextFormatting.DARK_RED + this.getName() + " " + AtumUtils.format("chat.atum.killPharaoh") + " " + slayer.getGameProfile().getName()));
+                    player.sendMessage(new TextComponentString(God.getGod(this.getVariant()).getColor() + this.getName() + " " + AtumUtils.format("chat.atum.killPharaoh") + " " + slayer.getGameProfile().getName()));
                 }
             }
         }
@@ -368,30 +373,43 @@ public class EntityPharaoh extends EntityUndeadBase {
         return false;
     }
 
+    @SubscribeEvent
+    public void renderBossNameColor(RenderGameOverlayEvent.BossInfo event) {
+        if (event.getBossInfo().getUniqueId() == bossInfo.getUniqueId()) {
+            event.getBossInfo().setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
+        }
+    }
+
     public enum God {
-        ANPUT("anput"),
-        ANUBIS("anubis"),
-        ATUM("atum"),
-        GEB("geb"),
-        HORUS("horus"),
-        ISIS("isis"),
-        MONTU("montu"),
-        NUIT("nuit"),
-        PTAH("ptah"),
-        RA("ra"),
-        SETH("seth"),
-        SHU("shu"),
-        TEFNUT("tefnut");
+        ANPUT("anput", TextFormatting.BLACK),
+        ANUBIS("anubis", TextFormatting.DARK_PURPLE),
+        ATUM("atum", TextFormatting.DARK_AQUA),
+        GEB("geb", TextFormatting.GOLD),
+        HORUS("horus", TextFormatting.AQUA),
+        ISIS("isis", TextFormatting.LIGHT_PURPLE),
+        MONTU("montu", TextFormatting.DARK_RED),
+        NUIT("nuit", TextFormatting.GRAY),
+        PTAH("ptah", TextFormatting.YELLOW),
+        RA("ra", TextFormatting.DARK_RED),
+        SETH("seth", TextFormatting.GREEN),
+        SHU("shu", TextFormatting.BLUE),
+        TEFNUT("tefnut", TextFormatting.DARK_BLUE);
 
         public static final Map<Integer, God> MAP = Maps.newHashMap();
         private final String name;
+        private final TextFormatting color;
 
-        God(String name) {
+        God(String name, TextFormatting color) {
             this.name = name;
+            this.color = color;
         }
 
         public String getName() {
             return name;
+        }
+
+        public TextFormatting getColor() {
+            return color;
         }
 
         public static God getGod(int godType) {

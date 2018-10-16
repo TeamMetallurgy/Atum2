@@ -145,7 +145,7 @@ public class EntityUndeadBase extends EntityMob {
         this.texturePath = null;
     }
 
-    protected int getVariant() {
+    public int getVariant() {
         return this.dataManager.get(VARIANT);
     }
 
