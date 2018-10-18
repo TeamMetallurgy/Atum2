@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.render;
 
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
+import com.teammetallurgy.atum.client.model.ModelSarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
@@ -18,6 +19,7 @@ import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBase> {
+    private final ModelSarcophagus sarcophagus = new ModelSarcophagus();
     private final ModelChest normalChest = new ModelChest();
     private final ModelChest largeChest = new ModelLargeChest();
 
@@ -66,6 +68,8 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.scale(8.0F, 4.0F, 1.0F);
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
+                } else if (te.getBlockType() == AtumBlocks.SARCOPHAGUS) {
+                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + "_double.png"));
                 } else {
                     this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + "_double.png"));
                 }
@@ -128,11 +132,18 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
             lid = 1.0F - lid;
             lid = 1.0F - lid * lid * lid;
             if (te.getBlockType() == AtumBlocks.SARCOPHAGUS) {
-                modelchest.chestLid.rotateAngleY = -lid / 2;
+                GlStateManager.translate(1.0F, -0.5F, 0.5F);
+                sarcophagus.lid.rotateAngleY = -lid / 2;
+                sarcophagus.liddeco1.rotateAngleY = -lid / 2;
+                sarcophagus.liddeco2.rotateAngleY = -lid / 2;
+                sarcophagus.liddeco3.rotateAngleY = -lid / 2;
+                sarcophagus.gemhead.rotateAngleY = -lid / 2;
+                sarcophagus.gemchest.rotateAngleY = -lid / 2;
+                sarcophagus.renderAll();
             } else {
                 modelchest.chestLid.rotateAngleX = -(lid * ((float) Math.PI / 2F));
+                modelchest.renderAll();
             }
-            modelchest.renderAll();
             GlStateManager.disableRescaleNormal();
             GlStateManager.popMatrix();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

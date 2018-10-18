@@ -408,7 +408,7 @@ item.atum.thothsDirection.line2=the nearest treasure
 item.atum.thothsDirection.line3=Guidance
 item.atum.thothsDirection.searching=Searching for treasure..
 item.atum.thothsDirection.searchingFail=Could not find any treasure
-item.atum.thothsDirection.found=Found treasure at %s
+item.atum.thothsDirection.found=Found treasure! %s
 
 item.atum.sethsSting.line1=Venomous: Poisons on
 item.atum.sethsSting.line2=full charge
