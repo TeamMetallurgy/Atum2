@@ -35,6 +35,7 @@ public class BlockDate extends BlockBush implements IGrowable {
         this.setHardness(0.35F);
         this.setTickRandomly(true);
         this.setSoundType(SoundType.PLANT);
+        this.setCreativeTab(null);
         this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
     }
 

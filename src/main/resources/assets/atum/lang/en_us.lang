@@ -239,6 +239,8 @@ item.atum.scarab.name=Scarab
 item.atum.coinDirty.name=Dirty Coin
 item.atum.coinGold.name=Gold Coin
 item.atum.loot.name=Loot
+item.atum.dagger.name=Dagger
+item.atum.daggerPoison.name=Poison Dagger
 item.atum.scimitar.name=Scimitar
 item.atum.greatsword.name=Greatsword
 item.atum.stoneguardSword.name=Stoneguard Sword
@@ -542,7 +544,7 @@ item.atum.loot.diamond.broach.name=Diamond Broach
 item.atum.loot.diamond.scepter.name=Diamond Scepter
 
 # Entity
-entity.atum.warlord.name=Warlord
+entity.atum.assassin.name=Assassin
 entity.atum.barbarian.name=Barbarian
 entity.atum.bonestorm.name=Bonestorm
 entity.atum.brigand.name=Brigand
@@ -553,6 +555,7 @@ entity.atum.nomad.name=Nomad
 entity.atum.pharaoh.name=Pharaoh
 entity.atum.stoneguard.name=Stoneguard
 entity.atum.tarantula.name=Tarantula
+entity.atum.warlord.name=Warlord
 entity.atum.wraith.name=Wraith
 
 # Pharaoh Names

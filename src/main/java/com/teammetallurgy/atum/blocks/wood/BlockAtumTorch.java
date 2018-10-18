@@ -12,6 +12,7 @@ public class BlockAtumTorch extends BlockTorch {
         super();
         this.setHardness(0.0F);
         this.setSoundType(SoundType.WOOD);
+        this.setCreativeTab(null);
     }
 
     @Override

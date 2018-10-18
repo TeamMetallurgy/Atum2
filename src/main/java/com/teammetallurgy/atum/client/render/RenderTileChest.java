@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.render;
 
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelChest;
@@ -126,7 +127,11 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
 
             lid = 1.0F - lid;
             lid = 1.0F - lid * lid * lid;
-            modelchest.chestLid.rotateAngleX = -(lid * ((float) Math.PI / 2F));
+            if (te.getBlockType() == AtumBlocks.SARCOPHAGUS) {
+                modelchest.chestLid.rotateAngleY = -lid / 2;
+            } else {
+                modelchest.chestLid.rotateAngleX = -(lid * ((float) Math.PI / 2F));
+            }
             modelchest.renderAll();
             GlStateManager.disableRescaleNormal();
             GlStateManager.popMatrix();

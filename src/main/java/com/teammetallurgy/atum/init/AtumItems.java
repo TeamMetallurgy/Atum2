@@ -66,6 +66,8 @@ public class AtumItems {
     public static final Item DATE = new ItemFood(4, 0.3F, false);
     public static final Item GOLDEN_DATE = new ItemDateGold(5, 1.5F, false).setAlwaysEdible();
     public static final Item ENCHANTED_GOLDEN_DATE = new ItemDateGoldEnchanted(5, 1.5F, false).setAlwaysEdible();
+    public static final Item DAGGER = new ItemDagger();
+    public static final Item POISON_DAGGER = new ItemDaggerPoison();
     public static final Item SCIMITAR = new ItemSword(ToolMaterial.IRON);
     public static final Item GREATSWORD = new ItemGreatsword();
     public static final Item SHORT_BOW = new ItemBaseBow();
@@ -154,6 +156,8 @@ public class AtumItems {
         registerItem(DATE, "date");
         registerItem(GOLDEN_DATE, "golden_date");
         registerItem(ENCHANTED_GOLDEN_DATE, "golden_date_enchanted");
+        registerItem(DAGGER, "dagger");
+        registerItem(POISON_DAGGER, "dagger_poison");
         registerItem(SCIMITAR, "scimitar");
         registerItem(GREATSWORD, "greatsword");
         registerItem(SHORT_BOW, "short_bow");

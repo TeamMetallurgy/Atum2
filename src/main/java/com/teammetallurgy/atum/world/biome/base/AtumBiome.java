@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.biome.base;
 
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.bandit.EntityAssassin;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
 import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
@@ -59,6 +60,7 @@ public class AtumBiome extends Biome {
 
     protected void addDefaultSpawns() { //TODO Fix weights
         this.spawnableCreatureList.add(new SpawnListEntry(EntityDesertWolf.class, 3, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityAssassin.class, 1, 1, 1));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 1, 1, 2));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 2, 1, 3));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 3, 2, 2));

@@ -36,11 +36,13 @@ public class EntityBanditBase extends EntityMob {
 
     EntityBanditBase(World world) {
         super(world);
+        this.setSize(0.6F, 1.8F);
     }
 
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(7, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 6.0F, 1.0D, 1.2D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
@@ -134,12 +136,12 @@ public class EntityBanditBase extends EntityMob {
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.ENTITY_PLAYER_HURT;
+        return SoundEvents.ENTITY_ILLUSION_ILLAGER_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_PLAYER_DEATH;
+        return SoundEvents.ENTITY_ILLAGER_DEATH;
     }
 
     @Override

@@ -70,7 +70,11 @@ public class PyramidPieces {
 
         @Override
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
-            if (function.startsWith("Arrow")) {
+            if (function.equals("Maze")) {
+                if (box.isVecInside(pos)) {
+                    this.addMaze(world, pos, this.placeSettings.getRotation(), rand); //Might be causing cascading worldgen, look into.
+                }
+            } else if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
                 IBlockState arrowTrap = AtumBlocks.ARROW_TRAP.getDefaultState();
 
@@ -151,10 +155,6 @@ public class PyramidPieces {
                     } else {
                         world.setBlockToAir(pos);
                     }
-                }
-            } else if (function.equals("Maze")) {
-                if (box.isVecInside(pos)) {
-                    this.addMaze(world, pos, this.placeSettings.getRotation(), rand); //Might be causing cascading worldgen, look into.
                 }
             }
         }

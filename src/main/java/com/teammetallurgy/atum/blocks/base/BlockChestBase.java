@@ -41,6 +41,7 @@ public class BlockChestBase extends BlockChest {
         this.setHardness(3.0F);
         this.setResistance(10.0F);
         this.setHarvestLevel("pickaxe", 0);
+        this.setCreativeTab(null);
     }
 
     @Override
