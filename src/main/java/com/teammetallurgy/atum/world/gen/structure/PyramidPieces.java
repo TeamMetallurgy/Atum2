@@ -58,7 +58,6 @@ public class PyramidPieces {
             this.templatePosition = pos;
             this.rotation = rotation;
             this.mirror = mirror;
-            this.boundingBox = StructureBoundingBox.createProper(0, 0, 0, templatePosition.getX(), templatePosition.getY(), templatePosition.getZ());
             this.loadTemplate(manager);
         }
 

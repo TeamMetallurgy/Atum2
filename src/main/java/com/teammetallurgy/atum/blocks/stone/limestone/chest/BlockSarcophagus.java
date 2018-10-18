@@ -44,7 +44,8 @@ public class BlockSarcophagus extends BlockChestBase {
         BlockPos posLeft = pos.offset(facing.rotateY());
         TileEntity tileLeft = world.getTileEntity(posLeft);
         if (world.getBlockState(posLeft).getBlock() == this && tileLeft instanceof TileEntitySarcophagus) {
-            if (!((TileEntitySarcophagus) tileLeft).hasSpawned) {
+            TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileLeft;
+            if (!sarcophagus.hasSpawned) {
                 this.onBlockActivated(world, pos.offset(facing.rotateY()), state, player, hand, side, hitX, hitY, hitZ);
                 return false;
             }
@@ -65,7 +66,7 @@ public class BlockSarcophagus extends BlockChestBase {
                     return false;
                 } else if (!sarcophagus.isOpenable) {
                     player.sendStatusMessage(new TextComponentTranslation("chat.atum.cannotSpawnPharaoh").setStyle(new Style().setColor(TextFormatting.RED)), true);
-                    world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_INFECT, SoundCategory.HOSTILE, 0.8F, 0.4F, false);
+                    world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_INFECT, SoundCategory.HOSTILE, 0.7F, 0.4F, false);
                     return false;
                 }
             }

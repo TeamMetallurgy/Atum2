@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.item.ItemSword;
 
 import java.util.Map;
-import java.util.Objects;
 
 public class ItemScepter extends ItemSword {
     private static final Map<EntityPharaoh.God, ItemScepter> SCEPTERS = Maps.newEnumMap(EntityPharaoh.God.class);

@@ -17,7 +17,6 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -275,12 +274,6 @@ public class EntityPharaoh extends EntityUndeadBase {
             return true;
         }
         return false;
-    }
-
-    @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        int amount = MathHelper.getInt(rand, 1, 2) + looting;
-        this.dropItem(Items.GOLD_INGOT, amount);
     }
 
     @Override

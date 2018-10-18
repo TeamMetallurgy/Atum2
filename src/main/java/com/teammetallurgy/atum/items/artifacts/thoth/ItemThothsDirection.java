@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.world.gen.structure.PyramidPieces;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -18,7 +17,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;

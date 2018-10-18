@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -37,6 +38,7 @@ public class EntityBanditBase extends EntityMob {
     EntityBanditBase(World world) {
         super(world);
         this.setSize(0.6F, 1.8F);
+        (new PathNavigateGround(this, world)).setEnterDoors(true);
     }
 
     @Override
