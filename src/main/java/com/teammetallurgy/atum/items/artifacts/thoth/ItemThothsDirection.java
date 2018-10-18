@@ -60,10 +60,14 @@ public class ItemThothsDirection extends ItemCompass {
                     double angle;
 
                     if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-                        double d1 = livingNotNull ? (double) entity.rotationYaw : this.getFrameRotation((EntityItemFrame) entity);
-                        d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
-                        double pyramidAngle = this.getPyramidToAngle(world, entity) / (Math.PI * 2D);
-                        angle = 0.5D - (d1 - 0.25D - pyramidAngle);
+                        if (isSearching) {
+                            angle = this.spin(world);
+                        } else {
+                            double d1 = livingNotNull ? (double) entity.rotationYaw : this.getFrameRotation((EntityItemFrame) entity);
+                            d1 = MathHelper.positiveModulo(d1 / 360.0D, 1.0D);
+                            double pyramidAngle = this.getPyramidToAngle(world, entity) / (Math.PI * 2D);
+                            angle = 0.5D - (d1 - 0.25D - pyramidAngle);
+                        }
                     } else {
                         angle = Math.random();
                     }
@@ -72,6 +76,17 @@ public class ItemThothsDirection extends ItemCompass {
                     }
                     return MathHelper.positiveModulo((float) angle, 1.0F);
                 }
+            }
+
+            @SideOnly(Side.CLIENT)
+            private double spin(World world) {
+                if (world.getTotalWorldTime() != this.lastUpdateTick) {
+                    long delta = world.getTotalWorldTime() - this.lastUpdateTick;
+                    this.lastUpdateTick = world.getTotalWorldTime();
+                    this.rotation += (1 / 20D) * delta;
+                    this.rotation = MathHelper.positiveModulo(this.rotation, 1.0D);
+                }
+                return this.rotation;
             }
 
             @SideOnly(Side.CLIENT)
@@ -96,7 +111,6 @@ public class ItemThothsDirection extends ItemCompass {
             @SideOnly(Side.CLIENT)
             private double getPyramidToAngle(World world, Entity entity) {
                 if (isSearching) {
-                    System.out.println("searching");
                     return 1.0D;
                 } else if (pyramidPos != null) {
                     BlockPos structurePos = pyramidPos;
