@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.utils.event;
 
+import com.teammetallurgy.atum.blocks.BlockPortal;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
@@ -17,11 +18,13 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
@@ -42,12 +45,28 @@ import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.List;
 
 @Mod.EventBusSubscriber
 public class AtumEventListener {
+
+    private static final String TAG_ATUM_START = "atum_start";
+    @SubscribeEvent
+    public static void onPlayerJoin (PlayerEvent.PlayerLoggedInEvent event) {
+        NBTTagCompound tag = event.player.getEntityData();
+        NBTTagCompound persistedTag = tag.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+        boolean shouldStartInAtum = AtumConfig.START_IN_ATUM && !persistedTag.getBoolean(TAG_ATUM_START);
+
+        persistedTag.setBoolean(TAG_ATUM_START, true);
+        tag.setTag(EntityPlayer.PERSISTED_NBT_TAG, persistedTag);
+
+        if (shouldStartInAtum && event.player instanceof EntityPlayerMP) {
+            BlockPortal.changeDimension(event.player.world, (EntityPlayerMP) event.player);
+        }
+    }
 
     @SubscribeEvent
     public static void playerTick(TickEvent.PlayerTickEvent event) {

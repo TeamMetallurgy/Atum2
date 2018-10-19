@@ -19,6 +19,7 @@ public class AtumConfig {
 
     public static final String WORLDGEN = "worldgen";
     public static boolean ALLOW_CREATION;
+    public static boolean START_IN_ATUM;
     public static boolean FOG_ENABLED;
     public static boolean PYRAMID_ENABLED;
     public static boolean COAL_ENABLED;
@@ -61,6 +62,12 @@ public class AtumConfig {
         prop.setComment("Can a non-creative user create a portal using the scarab?");
         prop.setLanguageKey("atum.configGui.portalCreation");
         ALLOW_CREATION = prop.getBoolean(true);
+        propOrder.add(prop.getName());
+
+        prop = config.get(CATEGORY_GENERAL, "Start in Atum", false);
+        prop.setComment("New players should start in Atum?");
+        prop.setLanguageKey("atum.configGui.atumStart");
+        START_IN_ATUM = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = config.get(CATEGORY_GENERAL, "Atum Fog", true);

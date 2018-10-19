@@ -32,6 +32,7 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Random;
 
 @Mod.EventBusSubscriber
 public class ItemHorusAscension extends ItemSword {
@@ -67,12 +68,12 @@ public class ItemHorusAscension extends ItemSword {
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
         if (cooldown.get(attacker) == 1.0F ) {
-            knockUp(target, attacker);
+            knockUp(target, attacker, itemRand);
         }
         return super.hitEntity(stack, target, attacker);
     }
 
-    public static void knockUp(EntityLivingBase target, EntityLivingBase attacker) {
+    public static void knockUp(EntityLivingBase target, EntityLivingBase attacker, Random random) {
         if (attacker != null && !(target instanceof EntityStoneBase)) {
             if (!attacker.world.isRemote) {
                 double dx = target.posX - attacker.posX;
@@ -87,7 +88,7 @@ public class ItemHorusAscension extends ItemSword {
                 }
             }
             for (int amount = 0; amount < 50; ++amount) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, target, target.posX, target.posY + 0.3D, target.posZ, 0.0D, 0.01D + itemRand.nextDouble() * 0.4D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, target, target.posX, target.posY + 0.3D, target.posZ, 0.0D, 0.01D + random.nextDouble() * 0.4D, 0.0D);
             }
         }
     }

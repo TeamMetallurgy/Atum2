@@ -89,8 +89,13 @@ public class BlockPortal extends BlockBreakable {
 
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (!world.isRemote && !entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP && entity.timeUntilPortal <= 0) {
-            EntityPlayerMP player = (EntityPlayerMP) entity;
+        if (!entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP && entity.timeUntilPortal <= 0) {
+            changeDimension(world, (EntityPlayerMP) entity);
+        }
+    }
+
+    public static void changeDimension(World world, EntityPlayerMP player) {
+        if (!world.isRemote) {
             final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
             player.timeUntilPortal = 300;
 

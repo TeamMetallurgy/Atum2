@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -11,6 +13,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,7 +24,26 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientEvents {
 
     @SubscribeEvent
-    public static void onRender(RenderGameOverlayEvent event) {
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+        if (event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
+            GlStateManager.setFog(GlStateManager.FogMode.EXP);
+            float fogDensity = 0.08F;
+
+            if (event.getEntity() instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) event.getEntity();
+                if (player.getPosition().getY() <= 60) {
+                    fogDensity += (float) (62 - player.getPosition().getY()) * 0.00666F;
+                }
+                if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemEyesOfAtum) {
+                    fogDensity = fogDensity / 3;
+                }
+                GlStateManager.setFogDensity(fogDensity);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void renderMummyHelmet(RenderGameOverlayEvent event) {
         EntityPlayer player = Minecraft.getMinecraft().player;
         Minecraft mc = Minecraft.getMinecraft();
 

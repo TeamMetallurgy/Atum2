@@ -279,7 +279,7 @@ public class EntityPharaoh extends EntityUndeadBase {
                     entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
                     break;
                 case SHU:
-                    ItemHorusAscension.knockUp(entityLiving, this); //TODO Doesn't seem to be working? Test on multiplayer with artifact
+                    ItemHorusAscension.knockUp(entityLiving, this, rand); //TODO Doesn't seem to be working? Test on multiplayer with artifact
                     break;
                 case TEFNUT:
                     entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));
