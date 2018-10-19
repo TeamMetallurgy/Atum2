@@ -5,24 +5,23 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.items.ItemScepter;
+import com.teammetallurgy.atum.items.artifacts.horus.ItemHorusAscension;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -145,12 +144,11 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
 
-        for (int i = 0; i < this.inventoryArmorDropChances.length; ++i) {
-            this.inventoryArmorDropChances[i] = 0F;
-        }
-        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
-
         return livingData;
+    }
+
+    @Override
+    protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) { //Don't drop Pharaoh Scepters
     }
 
     public BlockPos getSarcophagusPos() {
@@ -186,7 +184,6 @@ public class EntityPharaoh extends EntityUndeadBase {
 
         if (this.hasSarcophagus) {
             BlockPos sarcophagusPos = getSarcophagusPos();
-
             if (sarcophagusPos != null) {
                 TileEntity te = world.getTileEntity(sarcophagusPos);
                 if (te != null) {
@@ -228,39 +225,15 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    public void knockBack(@Nonnull Entity entity, float par2, double par3, double par5) {
-        this.isAirBorne = true;
-        float f = MathHelper.sqrt(par3 * par3 + par5 * par5);
-        float f1 = 0.3F;
-        this.motionX /= 2.0D;
-        this.motionY /= 2.0D;
-        this.motionZ /= 2.0D;
-        this.motionX -= par3 / (double) f * (double) f1;
-        this.motionZ -= par5 / (double) f * (double) f1;
-
-        if (this.motionY > 0.4000000059604645D) {
-            this.motionY = 0.4000000059604645D;
+    public void knockBack(@Nonnull Entity entity, float strength, double xRatio, double zRatio) {
+        if (God.getGod(this.getVariant()) != God.PTAH) {
+            super.knockBack(entity, strength, xRatio, zRatio);
         }
     }
 
     @Override
     public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if (source.isFireDamage()) {
-            amount = 0;
-        }
         if (super.attackEntityFrom(source, amount)) {
-            if (source.getTrueSource() != null) {
-                Entity entity = source.getTrueSource();
-                int j = 0;
-                if (entity instanceof EntityLiving) {
-                    j += EnchantmentHelper.getKnockbackModifier(this);
-                    if (j > 0) {
-                        this.motionX /= 0.6D;
-                        this.motionZ /= 0.6D;
-                        this.addVelocity((double) (MathHelper.sin(entity.rotationYaw * (float) Math.PI / 180.0F) * (float) j * 0.5F), -0.1D, (double) (-MathHelper.cos(entity.rotationYaw * (float) Math.PI / 180.0F) * (float) j * 0.5F));
-                    }
-                }
-            }
             if (this.getHealth() < this.getMaxHealth() * 0.75F && stage == 0) {
                 stage++;
                 spawnGuards(this.getPosition());
@@ -277,7 +250,45 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) { //Don't drop Pharaoh Scepters
+    public boolean attackEntityAsMob(Entity entity) {
+        if (entity instanceof EntityLivingBase && !world.isRemote) {
+            EntityLivingBase entityLiving = (EntityLivingBase) entity;
+            switch (God.getGod(this.getVariant())) {
+                case ANPUT:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 80, 1));
+                    break;
+                case ANUBIS:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, 1));
+                    break;
+                case GEB:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 1));
+                    break;
+                case HORUS:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, 1));
+                    break;
+                case MONTU:
+                    //TODO
+                    break;
+                case NUIT:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 60));
+                    break;
+                case RA:
+                    entityLiving.setFire(4);
+                    break;
+                case SETH:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+                    break;
+                case SHU:
+                    ItemHorusAscension.knockUp(entityLiving, this); //TODO Doesn't seem to be working? Test on multiplayer with artifact
+                    break;
+                case TEFNUT:
+                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));
+                    break;
+                default:
+                    break;
+            }
+        }
+        return super.attackEntityAsMob(entity);
     }
 
     @Override
@@ -305,7 +316,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     public void onLivingUpdate() {
         if (regenTime++ > 60) {
             regenTime = 0;
-            this.heal(1);
+            this.heal(God.getGod(this.getVariant()) == God.ISIS ? 2 : 1);
         }
         super.onLivingUpdate();
     }

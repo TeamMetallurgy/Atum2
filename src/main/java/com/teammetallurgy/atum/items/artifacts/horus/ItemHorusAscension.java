@@ -66,7 +66,14 @@ public class ItemHorusAscension extends ItemSword {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
-        if (attacker != null && cooldown.get(attacker) == 1.0F && !(target instanceof EntityStoneBase)) {
+        if (cooldown.get(attacker) == 1.0F ) {
+            knockUp(target, attacker);
+        }
+        return super.hitEntity(stack, target, attacker);
+    }
+
+    public static void knockUp(EntityLivingBase target, EntityLivingBase attacker) {
+        if (attacker != null && !(target instanceof EntityStoneBase)) {
             if (!attacker.world.isRemote) {
                 double dx = target.posX - attacker.posX;
                 double dz = target.posZ - attacker.posZ;
@@ -83,7 +90,6 @@ public class ItemHorusAscension extends ItemSword {
                 Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, target, target.posX, target.posY + 0.3D, target.posZ, 0.0D, 0.01D + itemRand.nextDouble() * 0.4D, 0.0D);
             }
         }
-        return super.hitEntity(stack, target, attacker);
     }
 
     @Override
