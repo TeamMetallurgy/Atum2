@@ -81,7 +81,6 @@ public class ItemHorusAscension extends ItemSword {
                 double magnitude = Math.sqrt(dx * dx + dz * dz);
                 dx /= magnitude;
                 dz /= magnitude;
-                target.isAirBorne = true;
                 target.addVelocity(dx / 2.0D, 1.5D, dz / 2.0D);
                 if (target.motionY > 0.9D) {
                     target.motionY = 0.9D;

@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.client.render.shield;
 
+import com.teammetallurgy.atum.client.model.shield.ModelAtumsProtection;
 import com.teammetallurgy.atum.client.render.ItemBakedBase;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelShield;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
@@ -18,22 +18,25 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class RenderAtumsProtection extends TileEntityItemStackRenderer {
-    private static ResourceLocation ATUMS_PROTECTION = new ResourceLocation(Constants.MOD_ID, "textures/shield/atums_protection.png");
-    protected static ItemBakedBase bakedBase;
-    private final ModelShield modelShield = new ModelShield();
+    private final ModelAtumsProtection modelShield = new ModelAtumsProtection();
+    private static ItemBakedBase bakedBase;
+    private static String textureName;
+
+    public RenderAtumsProtection(String textureName) {
+        RenderAtumsProtection.textureName = textureName;
+    }
 
     @Override
     public void renderByItem(@Nonnull ItemStack stack, float partialTicks) {
         GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(ATUMS_PROTECTION);
-        GlStateManager.scale(1.0F, -1.0F, -1.0F);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/shield/" + textureName + ".png"));
         this.modelShield.render();
         GlStateManager.popMatrix();
     }
 
     @SubscribeEvent
     public static void onModelBake(ModelBakeEvent event) {
-        ModelResourceLocation modelLocation = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "atums_protection"), "inventory");
+        ModelResourceLocation modelLocation = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, textureName), "inventory");
         bakedBase = new ItemBakedBase(event.getModelRegistry().getObject(modelLocation));
         event.getModelRegistry().putObject(modelLocation, bakedBase);
     }
