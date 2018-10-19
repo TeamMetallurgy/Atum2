@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.world.WorldType;
 import net.minecraft.world.gen.ChunkGeneratorSettings;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
@@ -17,19 +16,15 @@ public class GenLayerAtumBiome extends GenLayer {
     private List<BiomeEntry> biomes = Lists.newArrayList();
     private final ChunkGeneratorSettings settings;
 
-    public GenLayerAtumBiome(long seed, WorldType worldType, ChunkGeneratorSettings settings) {
+    public GenLayerAtumBiome(long seed, ChunkGeneratorSettings settings) {
         super(seed);
+        this.settings = settings;
 
-        if (worldType == WorldType.DEFAULT) {
-            for (AtumBiome biome : AtumRegistry.BIOMES) {
-                final BiomeEntry entry = new BiomeEntry(biome, biome.getWeight());
-                if (biome.getWeight() != 0) {
-                    biomes.add(entry);
-                }
+        for (AtumBiome biome : AtumRegistry.BIOMES) {
+            final BiomeEntry entry = new BiomeEntry(biome, biome.getWeight());
+            if (biome.getWeight() != 0) {
+                biomes.add(entry);
             }
-            this.settings = null;
-        } else {
-            this.settings = settings;
         }
     }
 

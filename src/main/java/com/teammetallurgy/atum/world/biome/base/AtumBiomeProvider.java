@@ -71,7 +71,7 @@ public class AtumBiomeProvider extends BiomeProvider {
     }
 
     public GenLayer getBiomeLayer(WorldType worldType, long worldSeed, ChunkGeneratorSettings chunkSettings) {
-        GenLayer ret = new GenLayerAtumBiome(worldSeed /*200L*/, worldType, chunkSettings);
+        GenLayer ret = new GenLayerAtumBiome(worldSeed /*200L*/, chunkSettings);
         ret = GenLayerZoom.magnify(1000L, ret, 2);
         ret = new GenLayerBiomeEdge(1000L, ret);
         return ret;
