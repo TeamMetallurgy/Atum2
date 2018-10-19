@@ -64,7 +64,7 @@ public class AtumEventListener {
         tag.setTag(EntityPlayer.PERSISTED_NBT_TAG, persistedTag);
 
         if (shouldStartInAtum && event.player instanceof EntityPlayerMP) {
-            BlockPortal.changeDimension(event.player.world, (EntityPlayerMP) event.player);
+            BlockPortal.changeDimension(event.player.world, (EntityPlayerMP) event.player, false);
         }
     }
 

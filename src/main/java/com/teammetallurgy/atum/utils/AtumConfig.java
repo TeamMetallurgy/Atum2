@@ -84,9 +84,9 @@ public class AtumConfig {
 
         ////////// biomes
         for (AtumBiome biome : AtumRegistry.BIOMES) {
-            prop = config.get(CATEGORY_GENERAL, "Atum " + biome.getBiomeName() + " Biome Weight", biome.getWeight());
-            prop.setComment("The weight of the Atum biome " + biome.toString());
-            prop.setLanguageKey("atum.configGui.biomeWeight." + biome.getBiomeName()).setRequiresMcRestart(true);
+            prop = config.get(CATEGORY_GENERAL, "Atum " + biome.getAtumBiomeName() + " Biome Weight", biome.getWeight());
+            prop.setComment("The weight of the Atum biome " + biome.getAtumBiomeName());
+            prop.setLanguageKey("atum.configGui.biomeWeight." + biome.getAtumBiomeName()).setRequiresMcRestart(true);
             biome.setWeight(prop.getInt());
             propOrder.add(prop.getName());
         }

@@ -90,17 +90,17 @@ public class BlockPortal extends BlockBreakable {
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (!entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP && entity.timeUntilPortal <= 0) {
-            changeDimension(world, (EntityPlayerMP) entity);
+            changeDimension(world, (EntityPlayerMP) entity, true);
         }
     }
 
-    public static void changeDimension(World world, EntityPlayerMP player) {
+    public static void changeDimension(World world, EntityPlayerMP player, boolean makePortal) {
         if (!world.isRemote) {
             final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
             player.timeUntilPortal = 300;
 
-            player.changeDimension(dimension, new AtumTeleporter(player.server.getWorld(dimension)));
-            if (player.dimension != AtumConfig.DIMENSION_ID) {
+            player.changeDimension(dimension, new AtumTeleporter(player.server.getWorld(dimension), makePortal));
+            if (player.dimension == AtumConfig.DIMENSION_ID) {
                 player.setSpawnChunk(new BlockPos(player), true, AtumConfig.DIMENSION_ID);
             }
         }

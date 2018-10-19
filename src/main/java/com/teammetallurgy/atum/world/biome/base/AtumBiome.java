@@ -34,11 +34,13 @@ import java.util.Random;
 public class AtumBiome extends Biome {
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
+    private String atumBiomeName;
     protected int deadwoodRarity = 5;
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
         this.weight = properties.weight;
+        this.atumBiomeName = properties.name;
         this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
 
         this.spawnableMonsterList.clear();
@@ -52,6 +54,10 @@ public class AtumBiome extends Biome {
 
     public int getWeight() {
         return weight;
+    }
+
+    public String getAtumBiomeName() {
+        return atumBiomeName;
     }
 
     public void setWeight(int weight) {
@@ -156,6 +162,7 @@ public class AtumBiome extends Biome {
     }
 
     public static class AtumBiomeProperties extends BiomeProperties {
+        private String name;
         private int weight;
 
         public AtumBiomeProperties(String biomeName, int weight) {
@@ -167,6 +174,7 @@ public class AtumBiome extends Biome {
             this.setTemperature(2.0F);
             this.setWaterColor(16421912);
             this.weight = weight;
+            this.name = biomeName;
         }
 
         @Override

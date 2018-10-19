@@ -17,9 +17,11 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import javax.annotation.Nonnull;
 
 public class AtumTeleporter extends Teleporter {
+    private boolean makePortal;
 
-    public AtumTeleporter(WorldServer worldServer) {
+    public AtumTeleporter(WorldServer worldServer, boolean makePortal) {
         super(worldServer);
+        this.makePortal = makePortal;
     }
 
     @Override
@@ -29,8 +31,10 @@ public class AtumTeleporter extends Teleporter {
         }
 
         if (!this.placeInExistingPortal(entity, rotationYaw)) {
-            this.makePortal(entity);
-            this.placeInExistingPortal(entity, rotationYaw);
+            if (this.makePortal) {
+                this.makePortal(entity);
+                this.placeInExistingPortal(entity, rotationYaw);
+            }
         }
     }
 
