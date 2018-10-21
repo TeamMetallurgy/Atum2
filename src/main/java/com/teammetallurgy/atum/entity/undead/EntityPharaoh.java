@@ -35,6 +35,7 @@ import net.minecraft.world.*;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -58,6 +59,8 @@ public class EntityPharaoh extends EntityUndeadBase {
     private int prefixID = 0;
     private int numID = 0;
     private int regenTime = 0;
+    private int berserkTimer;
+    private float berserkDamage;
 
     public EntityPharaoh(World world) {
         this(world, false);
@@ -266,9 +269,6 @@ public class EntityPharaoh extends EntityUndeadBase {
                 case HORUS:
                     entityLiving.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, 1));
                     break;
-                case MONTU:
-                    //TODO
-                    break;
                 case NUIT:
                     entityLiving.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 60));
                     break;
@@ -279,7 +279,7 @@ public class EntityPharaoh extends EntityUndeadBase {
                     entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
                     break;
                 case SHU:
-                    ItemHorusAscension.knockUp(entityLiving, this, rand); //TODO Doesn't seem to be working? Test on multiplayer with artifact
+                    ItemHorusAscension.knockUp(entityLiving, this, rand);
                     break;
                 case TEFNUT:
                     entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));
@@ -289,6 +289,21 @@ public class EntityPharaoh extends EntityUndeadBase {
             }
         }
         return super.attackEntityAsMob(entity);
+    }
+
+    @SubscribeEvent
+    public void onBerserk (LivingHurtEvent event) {
+        if (event.getSource().getTrueSource() == this && God.getGod(this.getVariant()) == God.MONTU) {
+            if (this.berserkTimer == 0) {
+                event.setAmount(event.getAmount());
+                this.berserkDamage = (event.getAmount() / 10) + event.getAmount();
+                this.berserkTimer = 80;
+            } else {
+                this.berserkDamage = this.berserkDamage + (event.getAmount() / 10);
+                event.setAmount(this.berserkDamage);
+                this.berserkTimer = 80;
+            }
+        }
     }
 
     @Override
@@ -317,6 +332,13 @@ public class EntityPharaoh extends EntityUndeadBase {
         if (regenTime++ > 60) {
             regenTime = 0;
             this.heal(God.getGod(this.getVariant()) == God.ISIS ? 2 : 1);
+        }
+        if (God.getGod(this.getVariant()) == God.MONTU && this.berserkTimer > 1) {
+            this.berserkTimer--;
+        }
+        if (this.berserkTimer == 1) {
+            this.berserkDamage = 0;
+            this.berserkTimer = 0;
         }
         super.onLivingUpdate();
     }
