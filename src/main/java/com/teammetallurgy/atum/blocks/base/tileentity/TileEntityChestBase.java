@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 public class TileEntityChestBase extends TileEntityChest {
     public boolean canBeSingle;
     public boolean canBeDouble;
-    public Block chestBlock;
+    private Block chestBlock;
 
     public TileEntityChestBase(boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
         this.canBeSingle = canBeSingle;

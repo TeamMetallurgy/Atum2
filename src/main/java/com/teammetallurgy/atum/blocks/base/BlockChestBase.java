@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.base;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
@@ -68,8 +69,20 @@ public class BlockChestBase extends BlockChest {
     }
 
     @Override
+    public void onBlockHarvested(World worldIn, BlockPos pos, IBlockState state, EntityPlayer player) {
+        super.onBlockHarvested(worldIn, pos, state, player);
+
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (player.isCreative() && tileEntity instanceof TileEntityChestBase) {
+            this.harvestBlock(worldIn, player, pos, state, tileEntity, player.getHeldItemMainhand());
+        }
+    }
+
+    @Override
     public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity tileEntity, @Nonnull ItemStack stack) {
-        super.harvestBlock(world, player, pos, state, tileEntity, stack);
+        if (!player.isCreative()) {
+            super.harvestBlock(world, player, pos, state, tileEntity, stack);
+        }
         world.setBlockToAir(pos);
 
         if (tileEntity instanceof TileEntityChestBase) {
@@ -201,11 +214,14 @@ public class BlockChestBase extends BlockChest {
                             if (!allowBlocking && this.isBlocked(world, posFacing)) {
                                 return null;
                             }
-
+                            String containerName = "container.chestDouble";
+                            if (lockableContainer instanceof TileEntitySarcophagus) {
+                                containerName = TileEntitySarcophagus.SARCOPHAGUS_CONTAINER;
+                            }
                             if (facing != EnumFacing.WEST && facing != EnumFacing.NORTH) {
-                                lockableContainer = new InventoryLargeChest("container.chestDouble", lockableContainer, (TileEntityChestBase) tileOffset);
+                                lockableContainer = new InventoryLargeChest(containerName, lockableContainer, (TileEntityChestBase) tileOffset);
                             } else {
-                                lockableContainer = new InventoryLargeChest("container.chestDouble", (TileEntityChestBase) tileOffset, lockableContainer);
+                                lockableContainer = new InventoryLargeChest(containerName, (TileEntityChestBase) tileOffset, lockableContainer);
                             }
                         }
                     }

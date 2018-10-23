@@ -23,11 +23,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntitySarcophagus extends TileEntityChestBase {
+    public static final String SARCOPHAGUS_CONTAINER = "atum.container.sarcophagus";
     public boolean hasSpawned = false;
     public boolean isOpenable = false;
 
     public TileEntitySarcophagus() {
         super(false, true, AtumBlocks.SARCOPHAGUS);
+    }
+
+    @Override
+    @Nonnull
+    public String getName() {
+        return this.hasCustomName() ? this.customName : SARCOPHAGUS_CONTAINER;
     }
 
     @Override

@@ -233,6 +233,7 @@ container.trap=Trap
 container.limestoneFurnace=Limestone Furnace
 container.crate.palm=Palm Crate
 container.crate.deadwood=Deadwood Crate
+atum.container.sarcophagus=Sarcophagus
 
 # Item
 item.atum.scarab.name=Scarab

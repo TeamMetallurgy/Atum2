@@ -21,9 +21,13 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 
+@Mod.EventBusSubscriber
 public class BlockSarcophagus extends BlockChestBase {
 
     public BlockSarcophagus() {
@@ -94,6 +98,7 @@ public class BlockSarcophagus extends BlockChestBase {
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         TileEntity tileEntity = world.getTileEntity(pos);
+
         if (tileEntity instanceof TileEntitySarcophagus) {
             TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileEntity;
             sarcophagus.setOpenable();
@@ -107,6 +112,23 @@ public class BlockSarcophagus extends BlockChestBase {
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onPlaced(BlockEvent.PlaceEvent event) { //Prevent placement, if right side of Sarcophagus would be next to another Sarcophagi block
+        IBlockState placedState = event.getPlacedBlock();
+        if (placedState.getBlock() instanceof BlockSarcophagus) {
+            if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.getValue(FACING))) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    private static boolean canPlaceRightSac(World world, BlockPos pos, EnumFacing facing) {
+        boolean right2 = world.getBlockState(pos.offset(facing.rotateYCCW(), 2)).getBlock() instanceof BlockSarcophagus;
+        boolean up = world.getBlockState(pos.offset(facing.rotateYCCW()).offset(facing)).getBlock() instanceof BlockSarcophagus;
+        boolean down = world.getBlockState(pos.offset(facing.rotateYCCW()).offset(facing.getOpposite())).getBlock() instanceof BlockSarcophagus;
+        return !right2 && !up && !down;
     }
 
     @Nonnull
