@@ -1,7 +1,7 @@
 {
   "pools": [
     {
-      "name": "atum:ruins",
+      "name": "atum:limestonechest",
       "rolls": {
         "min": 1,
         "max": 7
@@ -355,7 +355,7 @@
       ]
     },
     {
-      "name": "atum:ruins_artifact",
+      "name": "atum:limestonechest_artifact",
       "rolls": {
         "min": 0,
         "max": 1
