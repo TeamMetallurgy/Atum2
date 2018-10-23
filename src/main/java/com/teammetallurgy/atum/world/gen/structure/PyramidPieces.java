@@ -134,7 +134,7 @@ public class PyramidPieces {
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
                     if (tileentity instanceof TileEntityLimestoneChest) {
-                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.LIMESTONECHEST, rand.nextLong()); //TODO Temporary
                     }
                 }
                 world.setBlockToAir(pos);
