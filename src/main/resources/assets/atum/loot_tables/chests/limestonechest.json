@@ -165,7 +165,7 @@
                 "min": 0,
                 "max": 0.90
               }
-            }
+            },
 		    {
               "function": "enchant_randomly"
             }
@@ -183,7 +183,7 @@
                 "min": 0,
                 "max": 0.90
               }
-            }
+            },
 		    {
               "function": "enchant_randomly"
             }
@@ -201,7 +201,7 @@
                 "min": 0,
                 "max": 0.90
               }
-            }
+            },
 		    {
               "function": "enchant_randomly"
             }
@@ -219,7 +219,7 @@
                 "min": 0,
                 "max": 0.90
               }
-            }
+            },
 		    {
               "function": "enchant_randomly"
             }
@@ -238,7 +238,7 @@
                 "min": 0,
                 "max": 0.90
               }
-            }
+            },
 		    {
               "function": "enchant_randomly"
             }
