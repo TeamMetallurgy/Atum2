@@ -1,7 +1,7 @@
 {
   "pools": [
     {
-      "name": "atum:ruins",
+      "name": "atum:pyramid_chest",
       "rolls": {
         "min": 1,
         "max": 5
@@ -156,8 +156,8 @@
         },
         {
           "type": "item",
-          "name": "atum:limestone_pickaxe",
-          "entryName": "limestone_pickaxe",
+          "name": "iron_pickaxe",
+          "entryName": "iron_pickaxe",
           "functions": [
             {
               "function": "set_damage",
@@ -165,14 +165,53 @@
                 "min": 0,
                 "max": 0.90
               }
+            },
+		    {
+              "function": "enchant_randomly"
+            }
+			],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "iron_axe",
+          "entryName": "iron_axe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            },
+		    {
+              "function": "enchant_randomly"
+            }
+			],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "iron_hoe",
+          "entryName": "iron_hoe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0,
+                "max": 0.90
+              }
+            },
+		    {
+              "function": "enchant_randomly"
             }
           ],
           "weight": 30
         },
         {
           "type": "item",
-          "name": "atum:limestone_axe",
-          "entryName": "limestone_axe",
+          "name": "iron_shovel",
+          "entryName": "iron_shovel",
           "functions": [
             {
               "function": "set_damage",
@@ -180,45 +219,18 @@
                 "min": 0,
                 "max": 0.90
               }
+            },
+		    {
+              "function": "enchant_randomly"
             }
-          ],
-          "weight": 30
-        },
-        {
-          "type": "item",
-          "name": "atum:limestone_hoe",
-          "entryName": "limestone_hoe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
-          "weight": 30
-        },
-        {
-          "type": "item",
-          "name": "atum:limestone_shovel",
-          "entryName": "limestone_shovel",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
+		],
           "weight": 30
         },
 
         {
           "type": "item",
-          "name": "atum:limestone_sword",
-          "entryName": "limestone_sword",
+          "name": "iron_sword",
+          "entryName": "iron_sword",
           "functions": [
             {
               "function": "set_damage",
@@ -226,8 +238,11 @@
                 "min": 0,
                 "max": 0.90
               }
+            },
+		    {
+              "function": "enchant_randomly"
             }
-          ],
+			],
           "weight": 30
         },
         {
@@ -325,10 +340,10 @@
       ]
     },
     {
-      "name": "atum:ruins_sand",
+      "name": "atum:pyramid_sand",
       "rolls": {
         "min": 1,
-        "max": 4
+        "max": 3
       },
       "entries": [
         {
@@ -349,7 +364,7 @@
       ]
     },
     {
-      "name": "atum:ruins_artifact",
+      "name": "atum:pyramid_chest_artifact",
       "rolls": {
         "min": 0,
         "max": 1
@@ -363,7 +378,7 @@
         },
         {
           "type": "empty",
-          "weight": 175
+          "weight": 100
         }
       ]
     }

@@ -92,7 +92,6 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
             LootContext.Builder builder = new LootContext.Builder((WorldServer) Objects.requireNonNull(world));
             List<ItemStack> loot = Objects.requireNonNull(world).getLootTableManager().getLootTableFromLocation(AtumLootTables.RELIC).generateLootForPools(world.rand, builder.build());
             drops.addAll(loot);
-            drops.add(new ItemStack(this.getItemDropped(state, RANDOM, fortune), 1, this.damageDropped(state)));
         }
         super.getDrops(drops, blockAccess, pos, state, fortune);
     }

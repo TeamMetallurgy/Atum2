@@ -43,6 +43,7 @@ public class PyramidPieces {
         private final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
         private static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).setUnbreakable().getDefaultState();
         private static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setUnbreakable().getDefaultState();
+        public boolean isDefeated = false;
         private Rotation rotation;
         private Mirror mirror;
 
@@ -134,7 +135,7 @@ public class PyramidPieces {
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
                     if (tileentity instanceof TileEntityLimestoneChest) {
-                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.LIMESTONECHEST, rand.nextLong()); //TODO Temporary
+                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.PYRAMID_CHEST, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);
@@ -292,6 +293,7 @@ public class PyramidPieces {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
+            compound.setBoolean("IsDefeated", this.isDefeated);
         }
 
         @Override
@@ -299,6 +301,7 @@ public class PyramidPieces {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));
+            this.isDefeated = compound.getBoolean("IsDefeated");
             this.loadTemplate(manager);
         }
 
