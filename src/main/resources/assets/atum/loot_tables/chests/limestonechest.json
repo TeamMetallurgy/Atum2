@@ -166,10 +166,10 @@
                 "max": 0.90
               }
             }
-          ],
 		    {
               "function": "enchant_randomly"
             }
+			],
           "weight": 30
         },
         {
@@ -184,10 +184,10 @@
                 "max": 0.90
               }
             }
-          ],
 		    {
               "function": "enchant_randomly"
             }
+			],
           "weight": 30
         },
         {
@@ -202,10 +202,10 @@
                 "max": 0.90
               }
             }
-          ],
 		    {
               "function": "enchant_randomly"
             }
+          ],
           "weight": 30
         },
         {
@@ -220,10 +220,10 @@
                 "max": 0.90
               }
             }
-          ],
 		    {
               "function": "enchant_randomly"
             }
+		],
           "weight": 30
         },
 
@@ -239,10 +239,10 @@
                 "max": 0.90
               }
             }
-          ],
 		    {
               "function": "enchant_randomly"
             }
+			],
           "weight": 30
         },
         {
