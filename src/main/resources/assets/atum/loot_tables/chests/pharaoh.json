@@ -4,7 +4,7 @@
       "name": "atum:pharaoh",
       "rolls": {
         "min": 1,
-        "max": 5
+        "max": 9
       },
       "entries": [
         {

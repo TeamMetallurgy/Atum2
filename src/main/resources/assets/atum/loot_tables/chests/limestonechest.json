@@ -4,7 +4,7 @@
       "name": "atum:ruins",
       "rolls": {
         "min": 1,
-        "max": 5
+        "max": 7
       },
       "entries": [
         {
@@ -26,6 +26,21 @@
           "type": "item",
           "name": "minecraft:string",
           "entryName": "string",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 75
+        },
+		{
+          "type": "item",
+          "name": "atum:cloth_scrap",
+          "entryName": "cloth_scrap",
           "functions": [
             {
               "function": "set_count",
