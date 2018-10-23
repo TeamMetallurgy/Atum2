@@ -120,8 +120,8 @@
         },
         {
           "type": "item",
-          "name": "atum:limestone_pickaxe",
-          "entryName": "limestone_pickaxe",
+          "name": "golden_pickaxe",
+          "entryName": "golden_pickaxe",
           "functions": [
             {
               "function": "set_damage",
@@ -138,8 +138,8 @@
         },
         {
           "type": "item",
-          "name": "atum:limestone_axe",
-          "entryName": "limestone_axe",
+          "name": "golden_axe",
+          "entryName": "golden_axe",
           "functions": [
             {
               "function": "set_damage",
@@ -156,8 +156,8 @@
         },
         {
           "type": "item",
-          "name": "atum:limestone_hoe",
-          "entryName": "limestone_hoe",
+          "name": "golden_hoe",
+          "entryName": "golden_hoe",
           "functions": [
             {
               "function": "set_damage",
@@ -174,8 +174,8 @@
         },
         {
           "type": "item",
-          "name": "atum:limestone_shovel",
-          "entryName": "limestone_shovel",
+          "name": "golden_shovel",
+          "entryName": "golden_shovel",
           "functions": [
             {
               "function": "set_damage",
@@ -193,8 +193,8 @@
 
         {
           "type": "item",
-          "name": "atum:limestone_sword",
-          "entryName": "limestone_sword",
+          "name": "golden_sword",
+          "entryName": "golden_sword",
           "functions": [
             {
               "function": "set_damage",
