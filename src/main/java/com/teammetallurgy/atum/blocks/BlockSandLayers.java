@@ -111,7 +111,6 @@ public class BlockSandLayers extends BlockFalling {
         world.setBlockToAir(pos);
     }
 
-
     @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {

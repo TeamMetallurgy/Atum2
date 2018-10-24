@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.world;
 
+import com.teammetallurgy.atum.blocks.BlockSandLayers;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
@@ -12,16 +14,19 @@ import net.minecraft.block.BlockFalling;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldEntitySpawner;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.*;
 import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
+import net.minecraftforge.event.terraingen.PopulateChunkEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
@@ -330,7 +335,36 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         }
 
         biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
+        WorldEntitySpawner.performWorldGenSpawning(this.world, biome, i + 8, j + 8, 16, 16, this.rand);
+        blockpos = blockpos.add(8, 0, 8);
+
+        if (TerrainGen.populate(this, this.world, this.rand, x, z, false, PopulateChunkEvent.Populate.EventType.CUSTOM)) {
+            for (int k2 = 0; k2 < 16; ++k2) {
+                for (int j3 = 0; j3 < 16; ++j3) {
+                    BlockPos blockpos1 = this.world.getPrecipitationHeight(blockpos.add(k2, 0, j3));
+
+                    if (this.canPlaceSandLayer(blockpos1, biome)) {
+                        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+                            BlockPos posOffset = blockpos1.offset(facing);
+                            if (world.getBlockState(posOffset).isSideSolid(world, posOffset, EnumFacing.UP)) {
+                                int layers = MathHelper.getInt(rand, 1, 3);
+                                this.world.setBlockState(blockpos1, AtumBlocks.SAND_LAYERED.getDefaultState().withProperty(BlockSandLayers.LAYERS, layers), 2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
         BlockFalling.fallInstantly = false;
+    }
+
+    private boolean canPlaceSandLayer(BlockPos pos, Biome biome) {
+       return world.isAirBlock(pos)
+              && world.getBlockState(pos.down()).getBlock() != AtumBlocks.LIMESTONE_CRACKED
+              && world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP)
+              && biome != AtumBiomes.OASIS
+              && !(world.getBlockState(pos.down()).getBlock() instanceof BlockSandLayers)
+              && !(world.getBlockState(pos).getBlock() instanceof BlockSandLayers);
     }
 
     @Override

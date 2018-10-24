@@ -25,12 +25,11 @@ public class AtumBiomeProvider extends BiomeProvider {
         this.biomeIndexLayer = genLayers[1];
     }
 
-    public GenLayer[] initializeAllBiomeGenerators(long seed, WorldType worldType, ChunkGeneratorSettings settings) {
+    private GenLayer[] initializeAllBiomeGenerators(long seed, WorldType worldType, ChunkGeneratorSettings settings) {
         GenLayer layer = new GenLayerIsland(seed);
         layer = new GenLayerFuzzyZoom(2000L, layer);
         GenLayer layerZoom = new GenLayerZoom(2001L, layer);
-        GenLayer layerSand = new GenLayerAddSnow(2L, layerZoom); //TODO Replace with GenLayerAddSandLayer
-        GenLayer layerEdge = new GenLayerEdge(2L, layerSand, GenLayerEdge.Mode.COOL_WARM);
+        GenLayer layerEdge = new GenLayerEdge(2L, layerZoom, GenLayerEdge.Mode.COOL_WARM);
         layerEdge = new GenLayerEdge(3L, layerEdge, GenLayerEdge.Mode.SPECIAL);
         GenLayer layerZoom2 = new GenLayerZoom(2002L, layerEdge);
         layerZoom2 = new GenLayerZoom(2003L, layerZoom2);

@@ -29,17 +29,17 @@ public class ItemSand extends ItemBlock {
 
     @Override
     @Nonnull
-    public EnumActionResult onItemUse(EntityPlayer player, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack itemstack = player.getHeldItem(hand);
 
         if (!itemstack.isEmpty() && player.canPlayerEdit(pos, facing, itemstack)) {
-            IBlockState iblockstate = worldIn.getBlockState(pos);
+            IBlockState iblockstate = world.getBlockState(pos);
             Block block = iblockstate.getBlock();
             BlockPos blockpos = pos;
 
-            if ((facing != EnumFacing.UP || block != this.block) && !block.isReplaceable(worldIn, pos)) {
+            if ((facing != EnumFacing.UP || block != this.block) && !block.isReplaceable(world, pos)) {
                 blockpos = pos.offset(facing);
-                iblockstate = worldIn.getBlockState(blockpos);
+                iblockstate = world.getBlockState(blockpos);
                 block = iblockstate.getBlock();
             }
 
@@ -48,11 +48,14 @@ public class ItemSand extends ItemBlock {
 
                 if (i < 8) {
                     IBlockState iblockstate1 = iblockstate.withProperty(BlockSandLayers.LAYERS, i + 1);
-                    AxisAlignedBB axisalignedbb = iblockstate1.getCollisionBoundingBox(worldIn, blockpos);
+                    if (i == 7) {
+                        iblockstate1 = AtumBlocks.SAND.getDefaultState();
+                    }
+                    AxisAlignedBB axisalignedbb = iblockstate1.getCollisionBoundingBox(world, blockpos);
 
-                    if (axisalignedbb != Block.NULL_AABB && worldIn.checkNoEntityCollision(axisalignedbb.offset(blockpos)) && worldIn.setBlockState(blockpos, iblockstate1, 10)) {
-                        SoundType soundtype = this.block.getSoundType(iblockstate1, worldIn, pos, player);
-                        worldIn.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
+                    if (axisalignedbb != Block.NULL_AABB && world.checkNoEntityCollision(axisalignedbb.offset(blockpos)) && world.setBlockState(blockpos, iblockstate1, 10)) {
+                        SoundType soundtype = this.block.getSoundType(iblockstate1, world, pos, player);
+                        world.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 
                         if (player instanceof EntityPlayerMP) {
                             CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, itemstack);
@@ -64,7 +67,7 @@ public class ItemSand extends ItemBlock {
                 }
             }
 
-            return super.onItemUse(player, worldIn, pos, hand, facing, hitX, hitY, hitZ);
+            return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
         } else {
             return EnumActionResult.FAIL;
         }
