@@ -7,7 +7,6 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -75,15 +74,7 @@ public class BlockSarcophagus extends BlockChestBase {
                 }
             }
         }
-        if (world.isRemote) {
-            return true;
-        } else {
-            IInventory inventory = this.getLockableContainer(world, pos);
-            if (inventory != null) {
-                player.displayGUIChest(inventory);
-            }
-            return true;
-        }
+        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
     private boolean canSpawnPharaoh(World world, BlockPos pos, EnumFacing facing) {

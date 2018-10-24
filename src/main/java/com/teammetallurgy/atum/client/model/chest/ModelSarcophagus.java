@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.client.model;
+package com.teammetallurgy.atum.client.model.chest;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

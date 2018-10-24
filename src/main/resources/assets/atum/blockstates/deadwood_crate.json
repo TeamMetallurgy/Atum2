@@ -1,5 +1,12 @@
 {
-  "variants": {
-    "normal": { "model": "atum:deadwood_crate" }
-  }
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {"all": "atum:blocks/deadwood_crate"},
+        "model": "cube_all",
+        "uvlock": true
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
 }

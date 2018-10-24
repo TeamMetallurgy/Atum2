@@ -6,8 +6,8 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.ContainerTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.GuiTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.ContainerCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.GuiCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.tileentity.TileEntity;
@@ -43,7 +43,7 @@ public class AtumGuiHandler implements IGuiHandler {
                 case 0:
                     return new GuiLimestoneFurnace(player.inventory, (TileEntityLimestoneFurnace) tileEntity);
                 case 1:
-                    return new GuiCrate(player.inventory, (TileEntityCrate) tileEntity);
+                    return new GuiChest(player.inventory, (TileEntityCrate) tileEntity);
                 case 2:
                     return new GuiTrap(player.inventory, (TileEntityTrap) tileEntity);
             }

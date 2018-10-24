@@ -34,7 +34,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class BlockChestBase extends BlockChest {
-    public static final Type ATUM_CHEST_TYPE = EnumHelper.addEnum(Type.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "chest")), new Class[0]);
+    private static final Type ATUM_CHEST_TYPE = EnumHelper.addEnum(Type.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "chest")), new Class[0]);
 
     public BlockChestBase() {
         super(Objects.requireNonNull(ATUM_CHEST_TYPE));

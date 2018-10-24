@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render;
 
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
-import com.teammetallurgy.atum.client.model.ModelSarcophagus;
+import com.teammetallurgy.atum.client.model.chest.ModelSarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;

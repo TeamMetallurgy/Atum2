@@ -4,9 +4,11 @@ import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
+import com.teammetallurgy.atum.client.render.RenderCrate;
 import com.teammetallurgy.atum.client.render.RenderTileChest;
 import com.teammetallurgy.atum.client.render.entity.*;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
@@ -70,6 +72,7 @@ public class ClientProxy extends CommonProxy {
     public static void registerModels(ModelRegistryEvent event) {
         atumParticles.register();
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestBase.class, new RenderTileChest());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrate.class, new RenderCrate());
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection("atums_protection"));
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield("brigand_shield"));
         ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> BRIGAND_SHIELD);

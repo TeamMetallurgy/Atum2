@@ -17,8 +17,9 @@ import javax.annotation.Nonnull;
 
 public class TileEntityCrate extends TileEntityInventoryBase implements ITickable {
     private int ticksSinceSync;
-    public int numPlayersUsing;
-    private float lidAngle;
+    private int numPlayersUsing;
+    public float lidAngle;
+    public float prevLidAngle;
 
     public TileEntityCrate() {
         super(27);
@@ -26,15 +27,15 @@ public class TileEntityCrate extends TileEntityInventoryBase implements ITickabl
 
     @Override
     public void update() {
-        int i = this.pos.getX();
-        int j = this.pos.getY();
-        int k = this.pos.getZ();
+        int x = this.pos.getX();
+        int y = this.pos.getY();
+        int z = this.pos.getZ();
         ++this.ticksSinceSync;
 
-        if (!this.world.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + i + j + k) % 200 == 0) {
+        if (!this.world.isRemote && this.numPlayersUsing != 0 && (this.ticksSinceSync + x + y + z) % 200 == 0) {
             this.numPlayersUsing = 0;
 
-            for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) i - 5.0F), (double) ((float) j - 5.0F), (double) ((float) k - 5.0F), (double) ((float) (i + 1) + 5.0F), (double) ((float) (j + 1) + 5.0F), (double) ((float) (k + 1) + 5.0F)))) {
+            for (EntityPlayer entityplayer : this.world.getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB((double) ((float) x - 5.0F), (double) ((float) y - 5.0F), (double) ((float) z - 5.0F), (double) ((float) (x + 1) + 5.0F), (double) ((float) (y + 1) + 5.0F), (double) ((float) (z + 1) + 5.0F)))) {
                 if (entityplayer.openContainer instanceof ContainerCrate) {
                     IInventory iinventory = ((ContainerCrate) entityplayer.openContainer).getCrateInventory();
 
@@ -44,17 +45,14 @@ public class TileEntityCrate extends TileEntityInventoryBase implements ITickabl
                 }
             }
         }
-        float prevLidAngle = this.lidAngle;
+        this.prevLidAngle = this.lidAngle;
 
         if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-            double d1 = (double) i + 0.5D;
-            double d2 = (double) k + 0.5D;
-
-            this.world.playSound(null, d1, (double) j + 0.5D, d2, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+            this.world.playSound(null, (double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
         }
 
         if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-            float f2 = this.lidAngle;
+            float lidAngleCached = this.lidAngle;
 
             if (this.numPlayersUsing > 0) {
                 this.lidAngle += 0.1F;
@@ -65,11 +63,8 @@ public class TileEntityCrate extends TileEntityInventoryBase implements ITickabl
                 this.lidAngle = 1.0F;
             }
 
-            if (this.lidAngle < 0.5F && f2 >= 0.5F) {
-                double d3 = (double) i + 0.5D;
-                double d0 = (double) k + 0.5D;
-
-                this.world.playSound(null, d3, (double) j + 0.5D, d0, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+            if (this.lidAngle < 0.5F && lidAngleCached >= 0.5F) {
+                this.world.playSound(null, (double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
 
             if (this.lidAngle < 0.0F) {

@@ -20,9 +20,10 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -61,9 +62,25 @@ public class BlockCrate extends BlockContainer {
     }
 
     @Override
+    public boolean isOpaqueCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean hasCustomBreakingProgress(IBlockState state) {
+        return true;
+    }
+
+    @Override
     @Nonnull
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.MODEL;
+        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
@@ -74,9 +91,7 @@ public class BlockCrate extends BlockContainer {
 
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityCrate) {
-            TileEntityCrate crate = ((TileEntityCrate) tileEntity);
             player.openGui(Atum.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
-            player.displayGUIChest(crate); //To handle custom names
             return true;
         }
         return false;
@@ -114,38 +129,12 @@ public class BlockCrate extends BlockContainer {
     }
 
     @Override
-    public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity te, @Nonnull ItemStack stack) {
-        if (te instanceof TileEntityCrate) {
-            InventoryHelper.dropInventoryItems(world, pos, (TileEntityCrate) te);
+    public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
+        if (tileEntity instanceof TileEntityCrate) {
+            InventoryHelper.dropInventoryItems(world, pos, (TileEntityCrate) tileEntity);
             world.updateComparatorOutputLevel(pos, this);
         }
-        super.harvestBlock(world, player, pos, state, te, stack);
-    }
-
-    @Override
-    public boolean canProvidePower(IBlockState state) {
-        return true;
-    }
-
-    @Override
-    public int getWeakPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        if (!blockState.canProvidePower()) {
-            return 0;
-        } else {
-            int i = 0;
-            TileEntity tileentity = blockAccess.getTileEntity(pos);
-
-            if (tileentity instanceof TileEntityCrate) {
-                i = ((TileEntityCrate) tileentity).numPlayersUsing;
-            }
-
-            return MathHelper.clamp(i, 0, 15);
-        }
-    }
-
-    @Override
-    public int getStrongPower(IBlockState blockState, IBlockAccess blockAccess, BlockPos pos, EnumFacing side) {
-        return blockState.getWeakPower(blockAccess, pos, side);
+        super.harvestBlock(world, player, pos, state, tileEntity, stack);
     }
 
     @Override
