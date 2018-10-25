@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.structure;
+package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;

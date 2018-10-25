@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.world.gen.structure.PyramidPieces;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;

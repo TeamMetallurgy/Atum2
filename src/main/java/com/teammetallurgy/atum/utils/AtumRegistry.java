@@ -9,8 +9,9 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
-import com.teammetallurgy.atum.world.gen.structure.PyramidPieces;
-import com.teammetallurgy.atum.world.gen.structure.StructureAtumMineshaftPieces;
+import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
+import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -264,5 +265,6 @@ public class AtumRegistry {
     public static void register(RegistryEvent.Register event) {
         StructureAtumMineshaftPieces.registerMineshaft();
         PyramidPieces.registerPyramid();
+        RuinPieces.registerRuins();
     }
 }

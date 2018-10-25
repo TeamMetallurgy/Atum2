@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.structure;
+package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.teammetallurgy.atum.blocks.BlockSandLayers;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -30,7 +30,6 @@ import java.util.Random;
 public class MapGenPyramid extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
-    public PyramidPieces.PyramidTemplate pyramid;
     private int spacing = 28;
     private int separation = 5;
 
@@ -79,7 +78,7 @@ public class MapGenPyramid extends MapGenStructure {
     @Override
     @Nonnull
     protected StructureStart getStructureStart(int chunkX, int chunkZ) {
-        return new Start(this.world, this.chunkGenerator, this.rand, chunkX, chunkZ, pyramid);
+        return new Start(this.world, this.chunkGenerator, this.rand, chunkX, chunkZ);
     }
 
     @SubscribeEvent
@@ -108,16 +107,14 @@ public class MapGenPyramid extends MapGenStructure {
     }
 
     public static class Start extends StructureStart {
-        PyramidPieces.PyramidTemplate pyramid;
         private boolean isValid;
 
         public Start() {
         }
 
-        Start(World world, ChunkGeneratorAtum chunkGenerator, Random random, int x, int z, PyramidPieces.PyramidTemplate pyramid) {
+        Start(World world, ChunkGeneratorAtum chunkGenerator, Random random, int x, int z) {
             super(x, z);
             this.create(world, chunkGenerator, random, x, z);
-            this.pyramid = pyramid;
         }
 
         private void create(World world, ChunkGeneratorAtum chunkGenerator, Random random, int chunkX, int chunkZ) {
@@ -147,7 +144,7 @@ public class MapGenPyramid extends MapGenStructure {
             } else {
                 //int yChance = MathHelper.getInt(random, 10, 40);
                 BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 10, chunkZ * 16 + 8);
-                pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
+                PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
                 this.components.add(pyramid);
                 this.updateBoundingBox();
                 this.isValid = true;

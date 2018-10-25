@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.structure;
+package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.StructureStart;

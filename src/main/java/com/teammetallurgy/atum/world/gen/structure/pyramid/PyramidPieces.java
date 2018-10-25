@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.structure;
+package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.structure;
+package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.util.ResourceLocation;
