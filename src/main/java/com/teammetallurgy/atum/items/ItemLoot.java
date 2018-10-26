@@ -24,10 +24,6 @@ import javax.annotation.Nonnull;
 public class ItemLoot extends Item {
     private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
-    private ItemLoot() {
-        this.setMaxDamage(0);
-    }
-
     public static void createLootItems() {
         for (Type type : Type.values()) {
             for (Quality quality : Quality.values()) {
@@ -35,7 +31,7 @@ public class ItemLoot extends Item {
                 if (quality == Quality.DIRTY) {
                     item.setMaxStackSize(64);
                 } else {
-                    item.setMaxStackSize(1);
+                    item.setMaxStackSize(16);
                 }
                 LOOT_ENTRIES.add(new LootEntry(quality, quality.getWeight()));
                 AtumRegistry.registerItem(item, "loot." + quality.getName() + "." + type.getName());

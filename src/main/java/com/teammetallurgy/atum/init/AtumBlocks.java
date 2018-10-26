@@ -73,7 +73,7 @@ public class AtumBlocks {
     public static final BlockOasisGrass OASIS_GRASS = new BlockOasisGrass();
     public static final BlockShrub SHRUB = new BlockShrub();
     public static final BlockShrub WEED = new BlockShrub();
-    public static final Block PAPYRUS = new BlockPapyrus();
+    public static final BlockPapyrus PAPYRUS = new BlockPapyrus();
     public static final Block FLAX = new BlockFlax();
     public static final Block FERTILE_SOIL = new BlockFertileSoil();
     public static final Block FERTILE_SOIL_TILLED = new BlockFertileSoilTilled();

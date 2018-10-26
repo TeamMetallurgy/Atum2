@@ -101,7 +101,7 @@ public class PyramidPieces {
                 switch (function) {
                     case "FloorTrap":
                         if (rand.nextDouble() <= 0.5D) {
-                            Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
+                            Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size())).setBlockUnbreakable();
                             world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
                         } else {
                             world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
@@ -176,7 +176,7 @@ public class PyramidPieces {
                 if (copy != null) {
                     world.setBlockState(pos, copy, 2);
                 } else {
-                    Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
+                    Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size())).setBlockUnbreakable();
                     world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
                 }
             } else {
