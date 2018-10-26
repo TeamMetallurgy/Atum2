@@ -35,7 +35,7 @@ public class BlockSandLayers extends BlockFalling {
         this.setTickRandomly(true);
         this.setSoundType(SoundType.SAND);
         this.setLightOpacity(0);
-        this.setHardness(0.5F);
+        this.setHardness(0.1F);
     }
 
     @Override

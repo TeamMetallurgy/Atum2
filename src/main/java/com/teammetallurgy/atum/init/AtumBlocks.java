@@ -50,7 +50,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
 public class AtumBlocks {
     public static final BlockPortal PORTAL = new BlockPortal();
     public static final BlockChestSpawner CHEST_SPAWNER = new BlockChestSpawner();
-    public static final Block SAND = new BlockStrangeSand().setHardness(0.5F);
+    public static final Block SAND = new BlockStrangeSand();
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block SANDY_CLAY = new BlockSandyClay();
     public static final Block LIMESTONE = new BlockLimestone();
@@ -66,7 +66,7 @@ public class AtumBlocks {
     public static final Block CRACKED_LIMESTONE_SLAB = new BlockAtumSlab(Material.ROCK);
     public static final Block LIMESTONE_DOOR = new BlockAtumDoor(Material.ROCK);
     public static final Block LIMESTONE_CRACKED_DOOR = new BlockAtumDoor(Material.ROCK);
-    public static final Block SAND_LAYERED = new BlockSandLayers().setHardness(0.1F).setLightOpacity(0);
+    public static final Block SAND_LAYERED = new BlockSandLayers();
     public static final Block CRYSTAL_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block FRAMED_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block DATE_BLOCK = new BlockDate();

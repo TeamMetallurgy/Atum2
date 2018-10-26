@@ -11,6 +11,7 @@ public class BlockPorphyry extends Block implements IOreDictEntry {
 
     public BlockPorphyry() {
         super(Material.ROCK, MapColor.BLACK);
+        this.setHardness(2.0F);
     }
 
     @Override

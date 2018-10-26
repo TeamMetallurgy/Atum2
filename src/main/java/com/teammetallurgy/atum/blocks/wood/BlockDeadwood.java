@@ -22,6 +22,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     public BlockDeadwood() {
         super();
         this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAVE_BEETLE, false));
+        this.setHardness(1.0F);
     }
 
     @Override

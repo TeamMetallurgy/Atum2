@@ -11,6 +11,7 @@ public class BlockAlabaster extends Block implements IOreDictEntry {
 
     public BlockAlabaster() {
         super(Material.ROCK, MapColor.QUARTZ);
+        this.setHardness(2.0F);
     }
 
     @Override
