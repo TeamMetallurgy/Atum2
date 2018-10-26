@@ -30,8 +30,8 @@ import java.util.Random;
 public class MapGenPyramid extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
-    private int spacing = 28;
-    private int separation = 5;
+    private int spacing = 20;
+    private int separation = 4;
 
     public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
