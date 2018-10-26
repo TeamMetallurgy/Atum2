@@ -114,5 +114,40 @@ public class AtumRecipes {
         //Trapdoor
         recipes.remove(trapdoor);
         registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
+
+
+        ////Cracked Limestone
+        final ResourceLocation sword = new ResourceLocation("stone_sword");
+        final ResourceLocation shovel = new ResourceLocation("stone_shovel");
+        final ResourceLocation pickaxe = new ResourceLocation("stone_pickaxe");
+        final ResourceLocation hoe = new ResourceLocation("stone_hoe");
+        final ResourceLocation axe = new ResourceLocation("stone_axe");
+        final ResourceLocation furnace = new ResourceLocation("furnace");
+
+        Ingredient cobblestone = new BlacklistOreIngredient("cobblestone", stack -> stack.getItem() == Item.getItemFromBlock(AtumBlocks.LIMESTONE_CRACKED));
+
+        //Sword
+        recipes.remove(sword);
+        registry.register(new ShapedOreRecipe(sword, Items.STONE_SWORD, " C ", " C ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(sword));
+
+        //Shovel
+        recipes.remove(shovel);
+        registry.register(new ShapedOreRecipe(shovel, Items.STONE_SHOVEL, " C ", " S ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(shovel));
+
+        //Pickaxe
+        recipes.remove(pickaxe);
+        registry.register(new ShapedOreRecipe(pickaxe, Items.STONE_PICKAXE, "CCC", " S ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(pickaxe));
+
+        //Hoe
+        recipes.remove(hoe);
+        registry.register(new ShapedOreRecipe(hoe, Items.STONE_HOE, "CC ", " S ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(hoe));
+
+        //Axe
+        recipes.remove(axe);
+        registry.register(new ShapedOreRecipe(axe, Items.STONE_AXE, "CC ", "CS ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(axe));
+
+        //Furnace
+        recipes.remove(furnace);
+        registry.register(new ShapedOreRecipe(furnace, Blocks.FURNACE, "CCC", "C C", "CCC" , 'C', cobblestone).setRegistryName(furnace));
     }
 }

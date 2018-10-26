@@ -247,6 +247,7 @@ public class AtumBlocks {
         SANDY_CLAY.setHarvestLevel("shovel", 0);
         FERTILE_SOIL.setHarvestLevel("shovel", 0);
         FERTILE_SOIL_TILLED.setHarvestLevel("shovel", 0);
+        LIMESTONE_CRACKED.setHarvestLevel("pickaxe", 0);
         COAL_ORE.setHarvestLevel("pickaxe", 0);
         BONE_ORE.setHarvestLevel("pickaxe", 0);
         IRON_ORE.setHarvestLevel("pickaxe", 1);

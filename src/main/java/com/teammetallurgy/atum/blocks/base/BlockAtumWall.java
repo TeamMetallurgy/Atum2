@@ -34,6 +34,7 @@ public class BlockAtumWall extends Block {
     public BlockAtumWall() {
         super(Material.ROCK);
         this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false));
+        this.setHardness(2.0F);
     }
 
     @Override
