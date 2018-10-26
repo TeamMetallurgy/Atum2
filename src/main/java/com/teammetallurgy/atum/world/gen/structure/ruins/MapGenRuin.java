@@ -20,7 +20,7 @@ import java.util.Random;
 public class MapGenRuin extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.DEADWOOD_FOREST, AtumBiomes.LIMESTONE_MOUNTAINS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_PLAINS);
     private final ChunkGeneratorAtum chunkGenerator;
-    private int spacing = 8;
+    private int spacing = 4;
     private int separation = 2;
 
     public MapGenRuin(ChunkGeneratorAtum chunkGenerator) {
