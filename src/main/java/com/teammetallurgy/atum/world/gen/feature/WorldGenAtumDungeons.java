@@ -94,7 +94,7 @@ public class WorldGenAtumDungeons extends WorldGenerator {
                         }
 
                         if (j3 == 1) {
-                            world.setBlockState(chestPos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+                            world.setBlockState(chestPos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
                             TileEntity tileEntity = world.getTileEntity(chestPos);
 
                             if (tileEntity instanceof TileEntityCrate) {

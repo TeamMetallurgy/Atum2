@@ -1,8 +1,10 @@
 package com.teammetallurgy.atum.client.render;
 
+import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.client.model.chest.ModelCrate;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +23,17 @@ public class RenderCrate extends TileEntitySpecialRenderer<TileEntityCrate> {
         GlStateManager.enableDepth();
         GlStateManager.depthFunc(515);
         GlStateManager.depthMask(true);
+        int meta;
+
+        if (te.hasWorld()) {
+            Block block = te.getBlockType();
+            meta = te.getBlockMetadata();
+            if (block instanceof BlockCrate && meta == 0) {
+                meta = te.getBlockMetadata();
+            }
+        } else {
+            meta = 0;
+        }
 
         if (destroyStage >= 0) {
             this.bindTexture(DESTROY_STAGES[destroyStage]);
@@ -42,14 +55,31 @@ public class RenderCrate extends TileEntitySpecialRenderer<TileEntityCrate> {
 
         GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GlStateManager.scale(1.0F, -1.0F, -1.0F);
+        int angle = 0;
 
+        if (meta == 2) {
+            angle = 180;
+        }
+
+        if (meta == 3) {
+            angle = 0;
+        }
+
+        if (meta == 4) {
+            angle = 90;
+        }
+
+        if (meta == 5) {
+            angle = -90;
+        }
+
+        GlStateManager.rotate((float) angle, 0.0F, 1.0F, 0.0F);
         float lid = te.prevLidAngle + (te.lidAngle - te.prevLidAngle) * partialTicks;
         lid = 1.0F - lid;
         lid = 1.0F - lid * lid * lid;
 
-        modelCrate.crateLid.rotateAngleY = -(lid * ((float) Math.PI / 3.5F));
+        modelCrate.crateLid.rotateAngleY = (lid * ((float) Math.PI / 3.5F));
         modelCrate.renderAll();
-
         GlStateManager.disableRescaleNormal();
         GlStateManager.popMatrix();
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

@@ -120,7 +120,7 @@ public class PyramidPieces {
             } else if (function.equals("CrateChance")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.2D) {
-                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof TileEntityCrate) {

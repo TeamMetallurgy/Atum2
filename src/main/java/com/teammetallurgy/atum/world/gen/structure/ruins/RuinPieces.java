@@ -84,7 +84,7 @@ public class RuinPieces {
             } else if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
+                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof TileEntityCrate) {

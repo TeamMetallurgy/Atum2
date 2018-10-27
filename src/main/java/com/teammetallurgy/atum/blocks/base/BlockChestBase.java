@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -43,6 +44,12 @@ public class BlockChestBase extends BlockChest {
         this.setResistance(10.0F);
         this.setHarvestLevel("pickaxe", 0);
         this.setCreativeTab(null);
+    }
+
+    @Override
+    @Nonnull
+    public Material getMaterial(IBlockState state) {
+        return Material.ROCK;
     }
 
     @Override
