@@ -22,6 +22,36 @@
           ],
           "weight": 75
         },
+	{
+          "type": "item",
+          "name": "minecraft:feather",
+          "entryName": "feather",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 75
+        },
+	{
+          "type": "item",
+          "name": "minecraft:leather",
+          "entryName": "leather",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 75
+        },
 		{
           "type": "item",
           "name": "atum:cloth_scrap",
@@ -275,6 +305,21 @@
           ],
           "weight": 20
         },
+	{
+          "type": "item",
+          "name": "atum:pharaoh_torch",
+          "entryName": "pharaoh_torch",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 1
+              }
+            }
+          ],
+          "weight": 40
+        },
         {
           "type": "item",
           "name": "atum:coin_dirty",
@@ -324,6 +369,12 @@
           "type": "item",
           "name": "minecraft:name_tag",
           "entryName": "name_tag",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "minecraft:totem_of_undying",
+          "entryName": "totem_of_undying",
           "weight": 10
         },
         {
