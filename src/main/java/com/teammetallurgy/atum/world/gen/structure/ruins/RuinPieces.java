@@ -54,7 +54,7 @@ public class RuinPieces {
             this.templatePosition = pos;
             this.rotation = rotation;
             this.mirror = mirror;
-            this.ruinType = MathHelper.getInt(random, 1, 15);
+            this.ruinType = MathHelper.getInt(random, 1, 19);
             this.loadTemplate(manager);
         }
 
