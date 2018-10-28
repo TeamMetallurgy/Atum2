@@ -54,7 +54,7 @@ public class AtumBlocks {
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block SANDY_CLAY = new BlockSandyClay();
     public static final Block LIMESTONE = new BlockLimestone();
-    public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK, MapColor.SAND).setHardness(2.0F).setResistance(10.0F);
+    public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK, MapColor.SAND).setHardness(1.5F).setResistance(10.0F);
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
     public static final Block ALABASTER = new BlockAlabaster();
