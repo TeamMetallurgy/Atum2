@@ -67,9 +67,13 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
 
             if (this == AtumBlocks.COAL_ORE) {
                 xp = MathHelper.getInt(rand, 0, 2);
+            } else if (this == AtumBlocks.RELIC_ORE) {
+                xp = MathHelper.getInt(rand, 0, 2);
+            } else if (this == AtumBlocks.BONE_ORE) {
+                xp = MathHelper.getInt(rand, 0, 2);
             } else if (this == AtumBlocks.DIAMOND_ORE) {
                 xp = MathHelper.getInt(rand, 3, 7);
-            } else if (this == Blocks.EMERALD_ORE) {
+            } else if (this == AtumBlocks.EMERALD_ORE) {
                 xp = MathHelper.getInt(rand, 3, 7);
             } else if (this == AtumBlocks.LAPIS_ORE) {
                 xp = MathHelper.getInt(rand, 2, 5);
