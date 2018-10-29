@@ -6,13 +6,14 @@ import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.BlockDoor;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.*;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -94,30 +95,6 @@ public class RuinPieces {
                         world.setBlockToAir(pos);
                     }
                 }
-            } /*else if (function.equals("Door")) {
-                if (box.isVecInside(pos)) {
-                    BlockDoor deadwoodDoor = AtumBlocks.DEADWOOD_DOOR;
-                    if (world.mayPlace(deadwoodDoor, pos, false, EnumFacing.WEST, null) && world.getBlockState(pos).getBlock() != deadwoodDoor && world.getBlockState(pos.up()).getBlock() != deadwoodDoor) {
-                        this.setDoorDate(world, deadwoodDoor.getDefaultState().withProperty(BlockDoor.FACING, EnumFacing.WEST), pos, box);
-                    }
-                }
-            }*/
-        }
-
-        private void placeDoor(@Nonnull World world, StructureBoundingBox box, BlockPos pos, @Nonnull EnumFacing facing, BlockDoor door) {
-            this.setDoorDate(world, door.getDefaultState().withProperty(BlockDoor.FACING, facing), pos, box);
-            this.setDoorDate(world, door.getDefaultState().withProperty(BlockDoor.FACING, facing).withProperty(BlockDoor.HALF, BlockDoor.EnumDoorHalf.UPPER), pos.up(), box);
-        }
-
-        private void setDoorDate(World world, IBlockState state, BlockPos pos, StructureBoundingBox box) {
-            if (box.isVecInside(pos)) {
-                if (this.mirror != Mirror.NONE) {
-                    state = state.withMirror(this.mirror);
-                }
-                if (this.rotation != Rotation.NONE) {
-                    state = state.withRotation(this.rotation);
-                }
-                world.setBlockState(pos, state, 2);
             }
         }
 

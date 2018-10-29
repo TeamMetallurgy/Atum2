@@ -8,7 +8,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -45,7 +44,6 @@ public class EntityAssassin extends EntityBanditBase {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.2D, true));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
     }
 
     @Override

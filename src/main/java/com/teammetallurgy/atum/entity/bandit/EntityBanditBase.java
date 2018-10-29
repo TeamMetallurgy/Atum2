@@ -16,6 +16,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -38,12 +39,13 @@ public class EntityBanditBase extends EntityMob {
     EntityBanditBase(World world) {
         super(world);
         this.setSize(0.6F, 1.8F);
-        (new PathNavigateGround(this, world)).setEnterDoors(true);
+        new PathNavigateGround(this, world).setEnterDoors(true);
     }
 
     @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
+        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(7, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 6.0F, 1.0D, 1.2D));
@@ -64,6 +66,12 @@ public class EntityBanditBase extends EntityMob {
         if (this.hasSkinVariants()) {
             this.dataManager.register(VARIANT, 0);
         }
+    }
+
+    @Override
+    @Nonnull
+    protected PathNavigate createNavigator(@Nonnull World world) {
+        return new PathNavigateGround(this, world);
     }
 
     @Override
