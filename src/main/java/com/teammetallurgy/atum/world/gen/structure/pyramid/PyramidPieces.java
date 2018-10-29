@@ -11,11 +11,14 @@ import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -116,6 +119,18 @@ public class PyramidPieces {
                     case "FloorSpace":
                         this.setTrapsCopy(world, pos, rand, box, 3);
                         break;
+                }
+            } else if (function.contains("Spawner")) {
+                if (function.equals("SpawnerUndead")) {
+                    if (box.isVecInside(pos)) {
+                        world.setBlockState(pos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
+
+                        TileEntity tileEntity = world.getTileEntity(pos);
+                        if (tileEntity instanceof TileEntityMobSpawner) {
+                            ResourceLocation location = RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())).getRegistryName();
+                            ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(location);
+                        }
+                    }
                 }
             } else if (function.equals("CrateChance")) {
                 if (box.isVecInside(pos)) {

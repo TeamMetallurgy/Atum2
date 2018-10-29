@@ -38,7 +38,7 @@ public class RuinPieces {
 
     public static class RuinTemplate extends StructureComponentTemplate {
         private static final NonNullList<EntityEntry> BANDITS = NonNullList.from(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
-        private static final NonNullList<EntityEntry> UNDEAD = NonNullList.from(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
+        public static final NonNullList<EntityEntry> UNDEAD = NonNullList.from(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
         private int ruinType;
         private Rotation rotation;
         private Mirror mirror;
