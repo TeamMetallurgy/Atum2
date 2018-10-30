@@ -33,7 +33,6 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.*;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
@@ -143,6 +142,8 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingData) {
         livingData = super.onInitialSpawn(difficulty, livingData);
+
+        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
@@ -400,13 +401,6 @@ public class EntityPharaoh extends EntityUndeadBase {
                 AnvilChunkLoader.spawnEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();
-        }
-    }
-
-    @SubscribeEvent
-    public void renderBossNameColor(RenderGameOverlayEvent.BossInfo event) {
-        if (event.getBossInfo().getUniqueId() == bossInfo.getUniqueId()) {
-            event.getBossInfo().setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
         }
     }
 

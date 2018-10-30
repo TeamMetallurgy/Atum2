@@ -22,8 +22,6 @@ public class AtumStartTeleporter implements ITeleporter {
         while (!world.isAirBlock(pos.up()) && (world.getBlockState(pos.down()).getBlock() != AtumBlocks.SAND || world.getBlockState(pos.down()).getBlock() != AtumBlocks.SAND_LAYERED)) {
             pos = pos.up();
         }
-
-        System.out.println("Pos: " + pos + " dimension: " + entity.dimension);
         entity.moveToBlockPosAndAngles(pos, yaw, entity.rotationPitch);
     }
 }

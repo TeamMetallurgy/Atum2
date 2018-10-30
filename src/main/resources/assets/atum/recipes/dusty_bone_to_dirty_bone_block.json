@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "BBB",
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "atum:dusty_bone"
+    }
+  },
+  "result": {
+    "item": "atum:dirty_bone_block"
+  }
+}
