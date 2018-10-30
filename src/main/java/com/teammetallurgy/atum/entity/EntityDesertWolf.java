@@ -76,7 +76,7 @@ public class EntityDesertWolf extends EntityTameable {
         this.tasks.addTask(9, new AIBeg(this, 8.0F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, false));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 10, false, false, input -> !this.isTamed()));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, false));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
@@ -316,14 +316,12 @@ public class EntityDesertWolf extends EntityTameable {
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
 
-        EntityAIBase attackPlayer = new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, false);
         if (tamed) {
             this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-            this.targetTasks.removeTask(attackPlayer);
         } else {
-            this.targetTasks.addTask(1, attackPlayer);
             this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(12.0D);
         }
+
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
     }
 
