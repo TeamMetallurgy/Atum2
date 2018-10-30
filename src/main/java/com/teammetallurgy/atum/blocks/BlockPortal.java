@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.world.AtumTeleporter;
+import com.teammetallurgy.atum.world.teleporter.AtumTeleporter;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockSandStone;
@@ -90,18 +90,21 @@ public class BlockPortal extends BlockBreakable {
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (!entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP && entity.timeUntilPortal <= 0) {
-            changeDimension(world, (EntityPlayerMP) entity, true);
+            changeDimension(world, (EntityPlayerMP) entity);
         }
     }
 
-    public static void changeDimension(World world, EntityPlayerMP player, boolean makePortal) {
+    public static void changeDimension(World world, EntityPlayerMP player) {
         if (!world.isRemote) {
             final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
             player.timeUntilPortal = 300;
 
-            player.changeDimension(dimension, new AtumTeleporter(player.server.getWorld(dimension), makePortal));
+            player.changeDimension(dimension, new AtumTeleporter(player.server.getWorld(dimension)));
             if (player.dimension == AtumConfig.DIMENSION_ID) {
-                player.setSpawnChunk(new BlockPos(player), true, AtumConfig.DIMENSION_ID);
+                BlockPos playerPos = new BlockPos(player);
+                if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, EnumFacing.UP)) {
+                    player.setSpawnChunk(playerPos, true, AtumConfig.DIMENSION_ID);
+                }
             }
         }
     }

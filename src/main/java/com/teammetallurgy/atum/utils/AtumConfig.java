@@ -20,6 +20,7 @@ public class AtumConfig {
     public static final String WORLDGEN = "worldgen";
     public static boolean ALLOW_CREATION;
     public static boolean START_IN_ATUM;
+    public static boolean START_IN_ATUM_PORTAL;
     public static boolean FOG_ENABLED;
     public static boolean PYRAMID_ENABLED;
     public static boolean COAL_ENABLED;
@@ -68,6 +69,12 @@ public class AtumConfig {
         prop.setComment("New players should start in Atum?");
         prop.setLanguageKey("atum.configGui.atumStart");
         START_IN_ATUM = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = config.get(CATEGORY_GENERAL, "Create Atum Portal", false);
+        prop.setComment("Should a portal back to the Overworld generate, when starting in Atum?");
+        prop.setLanguageKey("atum.configGui.atumStartPortal");
+        START_IN_ATUM_PORTAL = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = config.get(CATEGORY_GENERAL, "Atum Fog", true);

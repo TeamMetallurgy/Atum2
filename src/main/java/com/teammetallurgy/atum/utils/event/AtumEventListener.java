@@ -13,6 +13,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemAtumsBounty;
 import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -64,7 +65,12 @@ public class AtumEventListener {
         tag.setTag(EntityPlayer.PERSISTED_NBT_TAG, persistedTag);
 
         if (shouldStartInAtum && event.player instanceof EntityPlayerMP) {
-            BlockPortal.changeDimension(event.player.world, (EntityPlayerMP) event.player, false);
+            EntityPlayerMP player = (EntityPlayerMP) event.player;
+            if (AtumConfig.START_IN_ATUM_PORTAL) {
+                BlockPortal.changeDimension(event.player.world, player);
+            } else {
+                player.changeDimension(AtumConfig.DIMENSION_ID, new AtumStartTeleporter(player.getPosition()));
+            }
         }
     }
 

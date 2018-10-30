@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world;
+package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -17,11 +17,9 @@ import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import javax.annotation.Nonnull;
 
 public class AtumTeleporter extends Teleporter {
-    private boolean makePortal;
 
-    public AtumTeleporter(WorldServer worldServer, boolean makePortal) {
+    public AtumTeleporter(WorldServer worldServer) {
         super(worldServer);
-        this.makePortal = makePortal;
     }
 
     @Override
@@ -31,10 +29,8 @@ public class AtumTeleporter extends Teleporter {
         }
 
         if (!this.placeInExistingPortal(entity, rotationYaw)) {
-            if (this.makePortal) {
-                this.makePortal(entity);
-                this.placeInExistingPortal(entity, rotationYaw);
-            }
+            this.makePortal(entity);
+            this.placeInExistingPortal(entity, rotationYaw);
         }
     }
 
@@ -163,7 +159,6 @@ public class AtumTeleporter extends Teleporter {
             } else {
                 entity.motionX = entity.motionY = entity.motionZ = 0.0D;
             }
-
             entity.setLocationAndAngles(tpX, tpY, tpZ, entity.rotationYaw, entity.rotationPitch);
             return true;
         } else {
