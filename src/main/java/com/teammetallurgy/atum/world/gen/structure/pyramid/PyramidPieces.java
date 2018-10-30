@@ -44,8 +44,8 @@ public class PyramidPieces {
 
     public static class PyramidTemplate extends StructureComponentTemplate {
         private final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        private static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).setUnbreakable().getDefaultState();
-        private static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).setUnbreakable().getDefaultState();
+        private static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
+        private static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         public boolean isDefeated = false;
         private Rotation rotation;
         private Mirror mirror;
@@ -98,16 +98,16 @@ public class PyramidPieces {
                     }
                     world.setBlockState(pos, arrowTrap, 2);
                 } else {
-                    world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
+                    world.setBlockState(pos, CARVED_BRICK, 2);
                 }
             } else if (function.startsWith("Floor")) {
                 switch (function) {
                     case "FloorTrap":
                         if (rand.nextDouble() <= 0.5D) {
-                            Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size())).setBlockUnbreakable();
+                            Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
                             world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
                         } else {
-                            world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
+                            world.setBlockState(pos, CARVED_BRICK, 2);
                         }
                         break;
                     case "FloorCopy":
@@ -191,11 +191,11 @@ public class PyramidPieces {
                 if (copy != null) {
                     world.setBlockState(pos, copy, 2);
                 } else {
-                    Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size())).setBlockUnbreakable();
+                    Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
                     world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
                 }
             } else {
-                world.setBlockState(pos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState(), 2);
+                world.setBlockState(pos, CARVED_BRICK, 2);
             }
         }
 
@@ -231,8 +231,8 @@ public class PyramidPieces {
                                 IBlockState ladder = world.getBlockState(basePos.up(2));
                                 EnumFacing facing = ladder.getValue(BlockLadder.FACING);
                                 BlockPos wallOffset = basePos.offset(facing.getOpposite());
-                                world.setBlockState(wallOffset, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
-                                world.setBlockState(wallOffset.up(), BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
+                                world.setBlockState(wallOffset, LARGE_BRICK, 2);
+                                world.setBlockState(wallOffset.up(), LARGE_BRICK, 2);
                                 if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(world.getBlockState(basePos).getBlock() instanceof BlockLadder || world.getBlockState(basePos.up()).getBlock() instanceof BlockLadder)) {
                                     world.setBlockState(basePos, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
                                     world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
@@ -289,7 +289,7 @@ public class PyramidPieces {
         }
 
         private void placeTrap(World world, BlockPos pos, Random random) {
-            IBlockState trapState = FLOOR_TRAPS.get(random.nextInt(FLOOR_TRAPS.size())).setBlockUnbreakable().getDefaultState();
+            IBlockState trapState = FLOOR_TRAPS.get(random.nextInt(FLOOR_TRAPS.size())).getDefaultState();
 
             if (world.isSideSolid(pos.south(), EnumFacing.NORTH)) {
                 trapState.withProperty(BlockTrap.FACING, EnumFacing.SOUTH);

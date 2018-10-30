@@ -2,21 +2,27 @@ package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
+import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public class BlockLimestoneBricks extends Block {
+public class BlockLimestoneBricks extends Block implements IRenderMapper {
+    public static final PropertyBool UNBREAKABLE = PropertyBool.create("unbreakable");
     private static final Map<BrickType, BlockLimestoneBricks> BRICKS = Maps.newEnumMap(BrickType.class);
     private static final Map<BrickType, BlockAtumDoor> DOORS = Maps.newEnumMap(BrickType.class);
 
@@ -25,23 +31,18 @@ public class BlockLimestoneBricks extends Block {
         this.setHardness(1.5F);
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
+        this.setDefaultState(this.blockState.getBaseState().withProperty(UNBREAKABLE, false));
     }
 
-    public BlockLimestoneBricks setUnbreakable() {
-        super.setBlockUnbreakable();
-        this.setResistance(20000.0F);
-        return this;
+    @Override
+    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+        return state.getValue(UNBREAKABLE) ? -1.0F : super.getBlockHardness(state, world, pos);
     }
 
     @Override
     @Nonnull
     public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
         return MapColor.SAND;
-    }
-
-    @Override
-    public int getMetaFromState(IBlockState state) {
-        return 0;
     }
 
     public static void registerBricks() {
@@ -66,6 +67,28 @@ public class BlockLimestoneBricks extends Block {
 
     public static BlockAtumDoor getDoor(BrickType type) {
         return DOORS.get(type);
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(UNBREAKABLE, meta > 0);
+    }
+
+    @Override
+    public int getMetaFromState(IBlockState state) {
+        return state.getValue(UNBREAKABLE) ? 1 : 0;
+    }
+
+    @Override
+    @Nonnull
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, UNBREAKABLE);
+    }
+
+    @Override
+    public IProperty[] getNonRenderingProperties() {
+        return new IProperty[]{UNBREAKABLE};
     }
 
     public enum BrickType implements IStringSerializable {
