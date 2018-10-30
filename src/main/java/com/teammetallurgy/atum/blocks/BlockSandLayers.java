@@ -3,7 +3,9 @@ package com.teammetallurgy.atum.blocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialLogic;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -26,13 +28,13 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockSandLayers extends BlockFalling {
+    private static final Material SAND_LAYER = new MaterialLogic(MapColor.SAND).setReplaceable();
     public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
     private static final AxisAlignedBB[] SAND_AABB = new AxisAlignedBB[]{new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.375D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.625D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
     public BlockSandLayers() {
-        super(Material.SAND);
+        super(SAND_LAYER);
         this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS, 1));
-        this.setTickRandomly(true);
         this.setSoundType(SoundType.SAND);
         this.setLightOpacity(0);
         this.setHardness(0.1F);
@@ -91,7 +93,7 @@ public class BlockSandLayers extends BlockFalling {
 
         if (block != Blocks.BARRIER) {
             BlockFaceShape shape = stateDown.getBlockFaceShape(world, pos.down(), EnumFacing.UP);
-            return shape == BlockFaceShape.SOLID || stateDown.getBlock().isLeaves(stateDown, world, pos.down()) || block == this && stateDown.getValue(LAYERS) == 8;
+            return shape == BlockFaceShape.SOLID || block == this && stateDown.getValue(LAYERS) == 8;
         } else {
             return false;
         }
@@ -101,8 +103,9 @@ public class BlockSandLayers extends BlockFalling {
     public void neighborChanged(IBlockState state, World world, @Nonnull BlockPos pos, Block block, BlockPos fromPos) {
         if (!this.canPlaceBlockAt(world, pos)) {
             world.setBlockToAir(pos);
+        } else {
+            super.neighborChanged(state, world, pos, block, fromPos);
         }
-        super.neighborChanged(state, world, pos, block, fromPos);
     }
 
     @Override
@@ -141,7 +144,7 @@ public class BlockSandLayers extends BlockFalling {
 
     @Override
     public boolean isReplaceable(IBlockAccess world, @Nonnull BlockPos pos) {
-        return world.getBlockState(pos).getValue(LAYERS) == 1 || world.getBlockState(pos).getValue(LAYERS) == 2;
+        return true;
     }
 
     @Override
