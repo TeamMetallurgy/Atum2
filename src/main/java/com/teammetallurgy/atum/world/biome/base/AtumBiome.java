@@ -71,14 +71,14 @@ public class AtumBiome extends Biome {
         //Bandits
         this.spawnableMonsterList.add(new SpawnListEntry(EntityAssassin.class, 1, 1, 1));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 8, 1, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 30, 2, 2));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 30, 2, 3));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 22, 1, 4));
 
         //Undead
         this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 5, 1, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 14, 1, 4));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 22, 1, 4));
         this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 30, 1, 3));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 15, 1, 2));
+        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 10, 1, 2));
 
         //Underground //TODO Put into separate spawn table, without crashing
         this.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 27, 1, 2));

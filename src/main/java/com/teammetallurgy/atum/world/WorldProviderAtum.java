@@ -44,43 +44,6 @@ public class WorldProviderAtum extends WorldProvider {
         }
     }
 
-    /*@Override
-    protected void generateLightBrightnessTable() { //TODO?
-        float f = 0.0F;
-
-        for (int i = 0; i <= 15; ++i) {
-            float scaledBrightness = (float) i / 15.0F;
-            float f1 = 1.0F - scaledBrightness;
-            if (i < 5) {
-                super.lightBrightnessTable[i] = 0.5F * scaledBrightness / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
-            } else {
-                super.lightBrightnessTable[i] = scaledBrightness / (f1 * 3.0F + 1.0F) * (1.0F - f) + f;
-            }
-        }
-    }*/
-
-    @Override
-    public float calculateCelestialAngle(long worldTime, float partialTicks) {
-        int i = (int) (worldTime % 48000L);
-        float f = ((float) i + partialTicks) / 48000.0F - 0.25F;
-
-        if (f < 0.0F) {
-            ++f;
-        }
-        if (f > 1.0F) {
-            --f;
-        }
-
-        float f1 = 1.0F - (float) ((Math.cos((double) f * Math.PI) + 1.0D) / 2.0D);
-        f = f + (f1 - f) / 3.0F;
-        return f;
-    }
-
-    @Override
-    public int getMoonPhase(long worldTime) {
-        return (int) (worldTime / 48000L % 8L + 8L) % 8;
-    }
-
     @Override
     @Nonnull
     @SideOnly(Side.CLIENT)
