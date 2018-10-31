@@ -104,6 +104,16 @@ public class AtumEventListener {
     }
 
     @SubscribeEvent
+    public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) {
+        EntityPlayer player = event.getEntityPlayer();
+        if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+            if (player.getHeldItem(event.getHand()).getItem() == Items.WHEAT_SEEDS) {
+                event.setCanceled(true);
+            }
+        }
+    }
+
+    @SubscribeEvent
     public static void onUseBucket(PlayerInteractEvent.RightClickItem event) {
         EntityPlayer player = event.getEntityPlayer();
         if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {

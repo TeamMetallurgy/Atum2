@@ -53,7 +53,6 @@ public class ItemAnputsHunger extends ItemSword {
             if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER) {
                 if (hungerTimer > 0 && player.getFoodStats().getFoodLevel() > 0) {
                     hungerTimer--;
-                    System.out.println(hungerTimer);
                 }
                 if (hungerTimer == 0) {
                     player.getFoodStats().addStats(-1, 0.0F);

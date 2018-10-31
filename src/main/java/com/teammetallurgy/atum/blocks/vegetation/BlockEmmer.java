@@ -11,11 +11,7 @@ import net.minecraftforge.common.EnumPlantType;
 
 import javax.annotation.Nonnull;
 
-public class BlockFlax extends BlockCrops {
-
-    public BlockFlax() {
-        super();
-    }
+public class BlockEmmer extends BlockCrops {
 
     @Override
     @Nonnull
@@ -31,12 +27,12 @@ public class BlockFlax extends BlockCrops {
     @Override
     @Nonnull
     protected Item getSeed() {
-        return AtumItems.FLAX_SEEDS;
+        return AtumItems.EMMER_SEEDS;
     }
 
     @Override
     @Nonnull
     protected Item getCrop() {
-        return AtumItems.FLAX;
+        return AtumItems.EMMER;
     }
 }

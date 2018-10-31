@@ -7,7 +7,6 @@ import net.minecraft.block.BlockBush;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -69,10 +68,10 @@ public class BlockOasisGrass extends BlockBush implements IShearable {
     public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
         if (RANDOM.nextInt(8) != 0) return;
         ItemStack seed;
-        if (RANDOM.nextDouble() <= 0.50D) {
-            seed = new ItemStack(AtumItems.FLAX_SEED);
+        if (RANDOM.nextDouble() < 0.50D) {
+            seed = new ItemStack(AtumItems.FLAX_SEEDS);
         } else {
-            seed = new ItemStack(Items.WHEAT_SEEDS);//Temporary
+            seed = new ItemStack(AtumItems.EMMER_SEEDS);
         }
         if (!seed.isEmpty()) {
             drops.add(seed);
