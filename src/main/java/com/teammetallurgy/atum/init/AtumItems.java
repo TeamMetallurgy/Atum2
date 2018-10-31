@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
+import com.teammetallurgy.atum.items.artifacts.anput.ItemAnputsHunger;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisWrath;
 import com.teammetallurgy.atum.items.artifacts.atum.*;
@@ -112,6 +113,7 @@ public class AtumItems {
     public static final Item NUITS_DUALITY = new ItemNuitsDuality();
     public static final Item NUITS_IRE = new ItemNuitsIre();
     public static final Item NUITS_QUARTER = new ItemNuitsQuarter();
+    public static final Item ANPUTS_HUNGER = new ItemAnputsHunger();
     public static final Item MUMMY_HELMET = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
     public static final Item MUMMY_CHEST = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
     public static final Item MUMMY_LEGS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.LEGS).setRepairItem(SCRAP).setTextureFile("mummy_armor_2");
@@ -203,6 +205,7 @@ public class AtumItems {
         registerItem(NUITS_DUALITY, "nuits_duality");
         registerItem(NUITS_IRE, "nuits_ire");
         registerItem(NUITS_QUARTER, "nuits_quarter");
+        registerItem(ANPUTS_HUNGER, "anputs_hunger");
         registerItem(MUMMY_HELMET, "mummy_helmet");
         registerItem(MUMMY_CHEST, "mummy_chest");
         registerItem(MUMMY_LEGS, "mummy_legs");

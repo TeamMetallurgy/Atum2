@@ -324,6 +324,7 @@ item.atum.nuitsVanishing.name=Nuit's Vanishing
 item.atum.nuitsDuality.name=Nuit's Duality
 item.atum.nuitsIre.name=Nuit's Ire
 item.atum.nuitsQuarter.name=Nuit's Quarter
+item.atum.anputsHunger.name=Anput's Hunger
 item.atum.scepterAnput.name=Anput's Scepter
 item.atum.scepterAnubis.name=Anubis's Scepter
 item.atum.scepterAtum.name=Atum's Scepter
@@ -503,6 +504,10 @@ item.atum.nuitsIre.line3=Dusk
 item.atum.nuitsQuarter.line1=Dawn: Chance to apply Weakness
 item.atum.nuitsQuarter.line2=on hit or block
 item.atum.nuitsQuarter.line3=Dawn
+
+item.atum.anputsHunger.line1=Feast & Famine: You are more hungry,
+item.atum.anputsHunger.line2=but feel fuller when you strike enemies
+item.atum.anputsHunger.line3=Feast & Famine
 
 tooltip.atum.minutesRemaining=%d Minutes Remaining
 tooltip.atum.usesRemaining=%d Uses Remaining

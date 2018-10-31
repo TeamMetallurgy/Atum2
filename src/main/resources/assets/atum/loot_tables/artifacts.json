@@ -219,6 +219,12 @@
           "name": "atum:nuits_quarter",
           "entryName": "nuits_quarter",
           "weight": 1
+        },
+        {
+          "type": "item",
+          "name": "atum:anputs_hunger",
+          "entryName": "anputs_hunger",
+          "weight": 1
         }
       ]
     }
