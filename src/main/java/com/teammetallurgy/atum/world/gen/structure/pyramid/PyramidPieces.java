@@ -47,21 +47,23 @@ public class PyramidPieces {
         private static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         private static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         public boolean isDefeated = false;
+        private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
         private Mirror mirror;
 
         public PyramidTemplate() { //Needs empty constructor
         }
 
-        PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
-            this(manager, pos, rotation, Mirror.NONE);
+        PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Random random) {
+            this(manager, pos, rotation, Mirror.NONE, random);
         }
 
-        private PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
+        private PyramidTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror, Random random) {
             super(0);
             this.templatePosition = pos;
             this.rotation = rotation;
             this.mirror = mirror;
+            this.undeadSpawnerPair = RuinPieces.RuinTemplate.UNDEAD.get(random.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())).getRegistryName();
             this.loadTemplate(manager);
         }
 
@@ -129,6 +131,15 @@ public class PyramidPieces {
                         if (tileEntity instanceof TileEntityMobSpawner) {
                             ResourceLocation location = RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())).getRegistryName();
                             ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(location);
+                        }
+                    }
+                } else if (function.equals("SpawnerUndeadPair")) {
+                    if (box.isVecInside(pos)) {
+                        world.setBlockState(pos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
+
+                        TileEntity tileEntity = world.getTileEntity(pos);
+                        if (tileEntity instanceof TileEntityMobSpawner) {
+                            ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(this.undeadSpawnerPair);
                         }
                     }
                 }

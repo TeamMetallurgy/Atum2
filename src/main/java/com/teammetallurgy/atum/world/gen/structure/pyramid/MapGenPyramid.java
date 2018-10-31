@@ -135,7 +135,7 @@ public class MapGenPyramid extends MapGenStructure {
             } else {
                 //int yChance = MathHelper.getInt(random, 10, 40);
                 BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 10, chunkZ * 16 + 8);
-                PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
+                PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation, random);
                 this.components.add(pyramid);
                 this.updateBoundingBox();
                 this.isValid = true;

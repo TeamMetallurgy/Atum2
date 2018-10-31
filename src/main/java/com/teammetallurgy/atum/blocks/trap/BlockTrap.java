@@ -36,6 +36,12 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
+    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity instanceof TileEntityTrap && ((TileEntityTrap) tileEntity).isInsidePyramid ? -1.0F :  super.getBlockHardness(state, world, pos);
+    }
+
+    @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return true;
