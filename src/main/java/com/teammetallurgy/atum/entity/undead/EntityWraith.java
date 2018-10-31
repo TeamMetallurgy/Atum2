@@ -1,16 +1,19 @@
 package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateClimber;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
@@ -107,6 +110,16 @@ public class EntityWraith extends EntityUndeadBase {
         }
 
         this.dataManager.set(CLIMBING, b0);
+    }
+
+    @Override
+    public boolean attackEntityAsMob(Entity entity) {
+        if (rand.nextDouble() <= 0.25D) {
+            if (entity instanceof EntityLivingBase) {
+                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 2));
+            }
+        }
+        return super.attackEntityAsMob(entity);
     }
 
     private static class AIWraithAttack extends EntityAIAttackMelee {
