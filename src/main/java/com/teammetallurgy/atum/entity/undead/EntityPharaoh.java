@@ -195,6 +195,14 @@ public class EntityPharaoh extends EntityUndeadBase {
                         TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) te;
                         sarcophagus.setOpenable();
                         sarcophagus.hasSpawned = true;
+
+                        for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                            TileEntity tileEntityOffset = world.getTileEntity(sarcophagusPos.offset(horizontal));
+                            if (tileEntityOffset instanceof TileEntitySarcophagus) {
+                                ((TileEntitySarcophagus) tileEntityOffset).setOpenable();
+                                ((TileEntitySarcophagus) tileEntityOffset).hasSpawned = true;
+                            }
+                        }
                     }
                 } else {
                     Atum.LOG.error("Unable to find sarcophagus coordinates for " + this.getName() + " on " + sarcophagusPos);

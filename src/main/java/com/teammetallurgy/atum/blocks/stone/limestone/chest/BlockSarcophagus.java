@@ -39,6 +39,12 @@ public class BlockSarcophagus extends BlockChestBase {
     }
 
     @Override
+    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity instanceof TileEntitySarcophagus && !((TileEntitySarcophagus) tileEntity).isOpenable ? -1.0F : super.getBlockHardness(state, world, pos);
+    }
+
+    @Override
     public boolean onBlockActivated(World world, @Nonnull BlockPos pos, IBlockState state, @Nonnull EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
         EnumFacing facing = state.getValue(FACING);

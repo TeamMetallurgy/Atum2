@@ -79,6 +79,6 @@ public class AtumBiomeProvider extends BiomeProvider {
     @Override
     @Nonnull
     public List<Biome> getBiomesToSpawnIn() {
-        return Lists.newArrayList(AtumBiomes.SAND_PLAINS); //TODO Add biomes
+        return Lists.newArrayList(AtumBiomes.SAND_PLAINS);
     }
 }
