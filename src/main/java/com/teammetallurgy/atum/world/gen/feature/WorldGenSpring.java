@@ -63,7 +63,6 @@ public class WorldGenSpring extends WorldGenerator {
                     IBlockState blockState = this.block.getDefaultState();
                     world.setBlockState(pos, blockState, 2);
                     world.immediateBlockTick(pos, blockState, rand);
-                    System.out.println(pos);
                 }
                 return true;
             }

@@ -90,7 +90,7 @@ public class ItemNuitsIre extends ItemSword {
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         if (itemRand.nextFloat() <= 0.25F) {
-            applyWither(target, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_QUARTER);
+            applyWither(attacker, target, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_QUARTER);
         }
         return super.hitEntity(stack, target, attacker);
     }
@@ -107,14 +107,15 @@ public class ItemNuitsIre extends ItemSword {
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getImmediateSource();
         if (trueSource instanceof EntityLivingBase && isBlocking && itemRand.nextFloat() <= 0.25F) {
-            EntityLivingBase entity = event.getEntityLiving();
-            applyWither((EntityLivingBase) trueSource, entity.getHeldItemMainhand().getItem() == AtumItems.NUITS_QUARTER);
+            applyWither((EntityLivingBase) trueSource, event.getEntityLiving(), ((EntityLivingBase) trueSource).getHeldItemMainhand().getItem() == AtumItems.NUITS_QUARTER);
             isBlocking = false;
         }
     }
 
-    private static void applyWither(EntityLivingBase target, boolean isNuitsQuarterHeld) {
-        target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
+    private static void applyWither(EntityLivingBase attacker, EntityLivingBase target, boolean isNuitsQuarterHeld) {
+        if (attacker != target) {
+            target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
+        }
     }
 
     @Override

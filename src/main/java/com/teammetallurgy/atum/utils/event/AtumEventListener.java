@@ -26,10 +26,14 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
@@ -129,6 +133,10 @@ public class AtumEventListener {
                     if (!player.isCreative()) {
                         fluidHandlerItem.drain(fluidStack.amount, true);
                         event.getWorld().playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 0.9F, 1.0F);
+                        player.sendStatusMessage(new TextComponentTranslation("chat.atum.water.evaporated").setStyle(new Style().setColor(TextFormatting.DARK_BLUE)), true);
+                        for (int k = 0; k < 8; ++k) {
+                            player.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, (double) pos.getX() + Math.random(), (double) pos.getY() + Math.random(), (double) pos.getZ() + Math.random(), 0.0D, 0.0D, 0.0D);
+                        }
                     }
                     event.setCanceled(true);
                 }

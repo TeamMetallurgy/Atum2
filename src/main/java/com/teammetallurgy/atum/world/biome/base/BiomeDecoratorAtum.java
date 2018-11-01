@@ -141,18 +141,17 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
         if(TerrainGen.decorate(world, random, chunkPosition, DecorateBiomeEvent.Decorate.EventType.LAKE_WATER)) {
             for (int k5 = 0; k5 < 50; ++k5) {
-                int i10 = random.nextInt(16) + 8;
-                int l13 = random.nextInt(16) + 8;
-                int i17 = random.nextInt(248) + 8;
+                int x = random.nextInt(16) + 8;
+                int z = random.nextInt(16) + 8;
+                int y = random.nextInt(248) + 8;
 
-                if (i17 > 0) {
-                    int k19 = random.nextInt(i17);
-                    BlockPos blockpos6 = this.chunkPos.add(i10, k19, l13);
-                    (new WorldGenSpring(Blocks.FLOWING_WATER)).generate(world, random, blockpos6);
+                if (y > 0) {
+                    int randomY = random.nextInt(y);
+                    BlockPos pos = this.chunkPos.add(x, randomY, z);
+                    (new WorldGenSpring(Blocks.FLOWING_WATER)).generate(world, random, pos);
                 }
             }
         }
-
         MinecraftForge.EVENT_BUS.post(new Post(world, random, chunkPos));
     }
 

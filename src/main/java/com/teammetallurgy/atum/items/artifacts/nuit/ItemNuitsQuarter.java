@@ -90,7 +90,7 @@ public class ItemNuitsQuarter extends ItemSword {
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         if (itemRand.nextFloat() <= 0.25F) {
-            applyWeakness(target, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_IRE);
+            applyWeakness(attacker, target, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_IRE);
         }
         return super.hitEntity(stack, target, attacker);
     }
@@ -107,14 +107,15 @@ public class ItemNuitsQuarter extends ItemSword {
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getImmediateSource();
         if (trueSource instanceof EntityLivingBase && isBlocking && itemRand.nextFloat() <= 0.25F) {
-            EntityLivingBase entity = event.getEntityLiving();
-            applyWeakness((EntityLivingBase) trueSource, entity.getHeldItemMainhand().getItem() == AtumItems.NUITS_IRE);
+            applyWeakness((EntityLivingBase) trueSource, event.getEntityLiving(), ((EntityLivingBase) trueSource).getHeldItemMainhand().getItem() == AtumItems.NUITS_IRE);
             isBlocking = false;
         }
     }
 
-    private static void applyWeakness(EntityLivingBase target, boolean isNuitsIreHeld) {
-        target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
+    private static void applyWeakness(EntityLivingBase attacker, EntityLivingBase target, boolean isNuitsIreHeld) {
+        if (attacker != target) {
+            target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
+        }
     }
 
     @Override
