@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -152,6 +153,11 @@ public class EntityBanditBase extends EntityMob {
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_ILLAGER_DEATH;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, Block blockIn) {
+        super.playStepSound(pos, blockIn);
     }
 
     @Override

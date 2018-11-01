@@ -11,6 +11,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -18,6 +19,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -28,8 +30,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EntityUndeadBase extends EntityMob {
-    protected static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityUndeadBase.class, DataSerializers.VARINT);
-    protected String texturePath;
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityUndeadBase.class, DataSerializers.VARINT);
+    private String texturePath;
 
     public EntityUndeadBase(World world) {
         super(world);
@@ -83,6 +85,21 @@ public class EntityUndeadBase extends EntityMob {
     @Override
     public boolean isPotionApplicable(@Nonnull PotionEffect potionEffect) {
         return potionEffect.getPotion() != MobEffects.POISON && super.isPotionApplicable(potionEffect);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_ZOMBIE_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+        return SoundEvents.ENTITY_ZOMBIE_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_ZOMBIE_DEATH;
     }
 
     @Override
