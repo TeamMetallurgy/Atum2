@@ -13,7 +13,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumBiomes {
-    public static final AtumBiome DEAD_OASIS = registerBiome(new BiomeDeadOasis(new AtumBiomeProperties("Dead Oasis", 0)), "dead_oasis");
+    public static final AtumBiome DEAD_OASIS = registerBiome(new BiomeDeadOasis(new AtumBiomeProperties("Dead Oasis", 0).setHeightVariation(0.0F)), "dead_oasis");
     public static final AtumBiome DEADWOOD_FOREST = registerBiome(new BiomeDeadwoodForest(new AtumBiomeProperties("Deadwood Forest", 10)), "deadwood_forest");
     public static final AtumBiome DRIED_RIVER = registerBiome(new BiomeDriedRiver(new AtumBiomeProperties("Dried River", 0).setBaseHeight(-0.5F).setHeightVariation(0.0F)), "dried_river");
     public static final AtumBiome LIMESTONE_CRAGS = registerBiome(new BiomeLimestoneCrags(new AtumBiomeProperties("Limestone Crags", 3).setBaseHeight(0.225F).setHeightVariation(0.45000002F)), "limestone_crags");

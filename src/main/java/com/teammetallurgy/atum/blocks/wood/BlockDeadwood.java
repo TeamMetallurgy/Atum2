@@ -17,11 +17,11 @@ import net.minecraft.world.IBlockAccess;
 import javax.annotation.Nonnull;
 
 public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
-    public static final PropertyBool HAVE_BEETLE = PropertyBool.create("beetle");
+    public static final PropertyBool HAVE_SCARAB = PropertyBool.create("scarab");
 
     public BlockDeadwood() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAVE_BEETLE, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAVE_SCARAB, false));
         this.setHardness(1.0F);
     }
 
@@ -32,7 +32,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     @Override
     public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
-        if (state.getValue(HAVE_BEETLE) && RANDOM.nextDouble() <= 0.40D) {
+        if (state.getValue(HAVE_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
             int amount = MathHelper.getInt(RANDOM, 1, 2) + fortune;
             drops.add(new ItemStack(AtumItems.DEADWOOD_BEETLE, amount));
         }
@@ -63,7 +63,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
             case 3:
                 state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
         }
-        return state.withProperty(HAVE_BEETLE, meta > 3);
+        return state.withProperty(HAVE_SCARAB, meta > 3);
     }
 
     @Override
@@ -82,17 +82,17 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
             case NONE:
                 i = 3;
         }
-        return i + (state.getValue(HAVE_BEETLE) ? 4 : 0);
+        return i + (state.getValue(HAVE_SCARAB) ? 4 : 0);
     }
 
     @Override
     @Nonnull
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, LOG_AXIS, HAVE_BEETLE);
+        return new BlockStateContainer(this, LOG_AXIS, HAVE_SCARAB);
     }
 
     @Override
     public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{HAVE_BEETLE};
+        return new IProperty[]{HAVE_SCARAB};
     }
 }

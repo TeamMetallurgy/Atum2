@@ -34,7 +34,7 @@ public class BiomeOasis extends AtumBiome {
 
         new WorldGenOasisPond().generate(world, random, pos.add(x, height.getY(), z));
 
-        if (random.nextFloat() <= 0.99F) {
+        if (random.nextFloat() <= 0.98F) {
             new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
         }
         super.decorate(world, random, pos);
@@ -42,6 +42,11 @@ public class BiomeOasis extends AtumBiome {
 
     @Override
     public int getModdedBiomeFoliageColor(int original) {
+        return 11987573;
+    }
+
+    @Override
+    public int getModdedBiomeGrassColor(int original) {
         return 11987573;
     }
 }

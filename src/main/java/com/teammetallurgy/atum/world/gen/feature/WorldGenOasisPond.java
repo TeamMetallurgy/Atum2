@@ -15,17 +15,14 @@ public class WorldGenOasisPond  extends WorldGenerator {
 
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
-        for (pos = pos.add(-8, 0, -8); pos.getY() > 5 && world.isAirBlock(pos); pos = pos.down()) {
-            ;
-        }
-
         if (pos.getY() <= 60) {
             return false;
         } else {
-            pos = pos.down(4);
+            pos = pos.down(3);
             boolean[] aboolean = new boolean[2048];
             int i = rand.nextInt(4) + 4;
 
+            //Shape
             for (int j = 0; j < i; ++j) {
                 double d0 = rand.nextDouble() * 6.0D + 3.0D;
                 double d1 = rand.nextDouble() * 4.0D + 2.0D;

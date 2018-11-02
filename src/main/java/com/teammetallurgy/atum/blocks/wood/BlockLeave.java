@@ -41,9 +41,11 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     public static void registerLeaves() {
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            if (type != BlockAtumPlank.WoodType.DEADWOOD) {
-                Block leave = new BlockLeave();
-                LEAVES.put(type, leave);
+            Block leave = new BlockLeave();
+            LEAVES.put(type, leave);
+            if (type == BlockAtumPlank.WoodType.DEADWOOD) {
+                AtumRegistry.registerBlock(leave, type.getName() + "_leaves", null);
+            } else {
                 AtumRegistry.registerBlock(leave, type.getName() + "_leaves");
             }
         }
@@ -55,17 +57,19 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     @Override
     public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
-        if (!world.isRemote) {
-            if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
-                if (!nearLog(world, pos)) {
-                    super.updateTick(world, pos, state, rand);
-                } else {
-                    world.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
+        if (BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM) {
+            if (!world.isRemote) {
+                if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
+                    if (!nearLog(world, pos)) {
+                        super.updateTick(world, pos, state, rand);
+                    } else {
+                        world.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
+                    }
                 }
-            }
-            if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.05F) {
-                if (canGrow(world, pos, state, false)) {
-                    world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
+                if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.05F) {
+                    if (canGrow(world, pos, state, false)) {
+                        world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
+                    }
                 }
             }
         }
@@ -139,7 +143,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return Item.getItemFromBlock(Block.REGISTRY.getObject(new ResourceLocation(String.valueOf(state.getBlock().getRegistryName()).replace("leaves", "sapling"))));
+        return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM ? Item.getItemFromBlock(Block.REGISTRY.getObject(new ResourceLocation(String.valueOf(state.getBlock().getRegistryName()).replace("leaves", "sapling")))) : Items.AIR;
     }
 
     @Override
@@ -172,12 +176,12 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     @Override
     public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
-        return state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down());
+        return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM && state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down());
     }
 
     @Override
     public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        return true;
+        return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM;
     }
 
     @Override
