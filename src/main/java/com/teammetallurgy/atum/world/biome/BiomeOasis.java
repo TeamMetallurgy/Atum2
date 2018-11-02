@@ -34,7 +34,7 @@ public class BiomeOasis extends AtumBiome {
 
         new WorldGenOasisPond().generate(world, random, pos.add(x, height.getY(), z));
 
-        if (random.nextFloat() <= 0.70F) {
+        if (random.nextFloat() <= 0.99F) {
             new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
         }
         super.decorate(world, random, pos);

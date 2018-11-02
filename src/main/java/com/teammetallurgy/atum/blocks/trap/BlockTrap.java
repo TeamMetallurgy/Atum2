@@ -12,6 +12,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -57,6 +58,8 @@ public abstract class BlockTrap extends BlockContainer {
                 if (trap.isInsidePyramid && isToolEffective) {
                     ((TileEntityTrap) tileEntity).setDisabledStatus(true);
                     world.setBlockState(pos, state.withProperty(DISABLED, true));
+                    world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);
+                    System.out.println("Hallo?");
                     return true;
                 }
             }
