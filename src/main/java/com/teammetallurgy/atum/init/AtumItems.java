@@ -137,7 +137,7 @@ public class AtumItems {
     public static final Item FLAX = new Item();
     public static final Item EMMER_SEEDS = new ItemSeeds(AtumBlocks.EMMER_WHEAT, Blocks.FARMLAND);
     public static final Item EMMER = new Item();
-    //public static final Item EMMER_BREAD = new ItemFood(5, 0.6F, false);
+    public static final Item EMMER_BREAD = new ItemFood(4, 0.8F, false);
     public static final Item FORSAKEN_FISH = new ItemFish(ItemFish.FishType.FORSAKEN);
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
     public static final Item JEWELED_FISH = new ItemFish(ItemFish.FishType.JEWELED);
@@ -233,7 +233,7 @@ public class AtumItems {
         registerItem(FLAX_SEEDS, "flax_seeds");
         registerItem(EMMER_SEEDS, "emmer_seeds");
         registerItem(EMMER, "emmer");
-        //registerItem(EMMER_BREAD, "emmer_bread");
+        registerItem(EMMER_BREAD, "emmer_bread");
         registerItem(FORSAKEN_FISH, "fish_forsaken");
         registerItem(MUMMIFIED_FISH, "fish_mummified");
         registerItem(JEWELED_FISH, "fish_jeweled");
