@@ -59,7 +59,6 @@ public abstract class BlockTrap extends BlockContainer {
                     ((TileEntityTrap) tileEntity).setDisabledStatus(true);
                     world.setBlockState(pos, state.withProperty(DISABLED, true));
                     world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);
-                    System.out.println("Hallo?");
                     return true;
                 }
             }
