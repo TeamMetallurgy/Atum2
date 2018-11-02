@@ -143,23 +143,25 @@ public class ItemThothsDirection extends ItemCompass {
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (this.searchTime > 1) {
-            this.isSearching = true;
-            this.searchTime--;
-        }
-        if (this.searchTime == 1) {
-            this.searchTime = 0;
-            this.isSearching = false;
-            if (!world.isRemote) {
-                if (entity instanceof EntityPlayer) {
-                    EntityPlayer player = (EntityPlayer) entity;
-                    WorldServer worldServer = (WorldServer) world;
-                    BlockPos pos = worldServer.getChunkProvider().chunkGenerator.getNearestStructurePos(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), true);
-                    if (pos != null) {
-                        player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + ".found", player.isCreative() ? "X=" + pos.getX() + " Y=" + pos.getY() + " Z=" + pos.getZ() : "").setStyle(new Style().setColor(TextFormatting.AQUA)), true);
-                        this.pyramidPos = pos;
-                    } else {
-                        player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + ".searchingFail").setStyle(new Style().setColor(TextFormatting.RED)), true);
+        if (AtumConfig.PYRAMID_ENABLED) {
+            if (this.searchTime > 1) {
+                this.isSearching = true;
+                this.searchTime--;
+            }
+            if (this.searchTime == 1) {
+                this.searchTime = 0;
+                this.isSearching = false;
+                if (!world.isRemote) {
+                    if (entity instanceof EntityPlayer) {
+                        EntityPlayer player = (EntityPlayer) entity;
+                        WorldServer worldServer = (WorldServer) world;
+                        BlockPos pos = worldServer.getChunkProvider().chunkGenerator.getNearestStructurePos(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), true);
+                        if (pos != null) {
+                            player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + ".found", player.isCreative() ? "X=" + pos.getX() + " Y=" + pos.getY() + " Z=" + pos.getZ() : "").setStyle(new Style().setColor(TextFormatting.AQUA)), true);
+                            this.pyramidPos = pos;
+                        } else {
+                            player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + ".searchingFail").setStyle(new Style().setColor(TextFormatting.RED)), true);
+                        }
                     }
                 }
             }

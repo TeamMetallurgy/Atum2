@@ -2,11 +2,10 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisPond;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenLakes;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -33,7 +32,7 @@ public class BiomeOasis extends AtumBiome {
         int z = random.nextInt(16) + 8;
         BlockPos height = world.getHeight(pos.add(x, 0, z));
 
-        new WorldGenLakes(Blocks.WATER).generate(world, random, pos.add(x, random.nextInt(256), z));
+        new WorldGenOasisPond().generate(world, random, pos.add(x, height.getY(), z));
 
         if (random.nextFloat() <= 0.70F) {
             new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
