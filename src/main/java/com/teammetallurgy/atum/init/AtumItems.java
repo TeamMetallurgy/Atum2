@@ -142,7 +142,7 @@ public class AtumItems {
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
     public static final Item JEWELED_FISH = new ItemFish(ItemFish.FishType.JEWELED);
     public static final Item SKELETAL = new ItemFish(ItemFish.FishType.SKELETAL);
-    public static final Item CRUNCHY_SCARAB = new ItemCrunchyScarab(1, 0.1F);
+    public static final Item CRUNCHY_SCARAB = new ItemCrunchyScarab(3, 0.1F);
     public static final Item CRUNCHY_GOLD_SCARAB = new ItemCrunchyScarab(6, 1.2F);
 
     public static void registerItems() {

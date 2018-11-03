@@ -36,6 +36,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.HashMap;
 
 @Mod.EventBusSubscriber
 public class AtumRegistry {
@@ -45,9 +46,9 @@ public class AtumRegistry {
     private static final NonNullList<SoundEvent> SOUNDS = NonNullList.create();
     public static final NonNullList<ItemStack> HIDE_LIST = NonNullList.create();
     //Entity tracking values
-    private static int trackingRange;
-    private static int updateFrequency;
-    private static boolean sendsVelocityUpdates;
+    private static HashMap<ResourceLocation, Integer> trackingRange = new HashMap<>();
+    private static HashMap<ResourceLocation, Integer> updateFrequency = new HashMap<>();
+    private static HashMap<ResourceLocation, Boolean> sendsVelocityUpdates = new HashMap<>();
 
     /**
      * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs, String)}, but have CreativeTab set by default and easy way to set OreDictionary name
@@ -94,7 +95,6 @@ public class AtumRegistry {
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)), "inventory"));
         }
-
         return item;
     }
 
@@ -147,7 +147,6 @@ public class AtumRegistry {
         if (block instanceof IRenderMapper && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ClientProxy.ignoreRenderProperty(block);
         }
-
         return block;
     }
 
@@ -163,7 +162,6 @@ public class AtumRegistry {
         entry.setRegistryName(location);
         entry.setEgg(new EntityList.EntityEggInfo(location, eggPrimary, eggSecondary));
         MOBS.add(entry);
-
         return entry;
     }
 
@@ -187,9 +185,9 @@ public class AtumRegistry {
         ResourceLocation location = new ResourceLocation(Constants.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
         EntityEntry entry = new EntityEntry(entityClass, location.toString());
         entry.setRegistryName(location);
-        trackingRange = range;
-        updateFrequency = updateFreq;
-        sendsVelocityUpdates = sendVelocityUpdates;
+        trackingRange.put(location, range);
+        updateFrequency.put(location, updateFreq);
+        sendsVelocityUpdates.put(location, sendVelocityUpdates);
         ENTITIES.add(entry);
 
         return entry;
@@ -248,7 +246,7 @@ public class AtumRegistry {
             event.getRegistry().register(EntityEntryBuilder.create()
                     .entity(entry.getEntityClass())
                     .id(entry.getRegistryName(), networkIdEntity)
-                    .tracker(trackingRange, updateFrequency, sendsVelocityUpdates)
+                    .tracker(trackingRange.get(entry.getRegistryName()), updateFrequency.get(entry.getRegistryName()), sendsVelocityUpdates.get(entry.getRegistryName()))
                     .name(AtumUtils.toUnlocalizedName(entry.getName()))
                     .build());
         }
