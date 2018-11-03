@@ -34,7 +34,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
         if (state.getValue(HAVE_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
             int amount = MathHelper.getInt(RANDOM, 1, 2) + fortune;
-            drops.add(new ItemStack(AtumItems.DEADWOOD_BEETLE, amount));
+            drops.add(new ItemStack(AtumItems.CRUNCHY_SCARAB, amount));
         }
         super.getDrops(drops, world, pos, state, fortune);
     }

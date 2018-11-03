@@ -1,0 +1,14 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "B"
+  ],
+  "key": {
+    "B": {
+      "item": "atum:crunchy_golden_scarab"
+    }
+  },
+  "result": {
+    "item": "atum:scarab"
+  }
+}

@@ -12,6 +12,8 @@ public class AtumLootTables {
     public static final ResourceLocation PYRAMID_CHEST = register("chests/pyramid_chest");
     public static final ResourceLocation RELIC = register("blocks/relic_ore");
     public static final ResourceLocation RUINS = register("chests/ruins");
+    public static final ResourceLocation SCARAB = register("entities/scarab");
+    public static final ResourceLocation SCARAB_GOLDEN = register("entities/scarab_golden");
     public static final ResourceLocation TARANTULA = register("entities/tarantula");
 
     private static ResourceLocation register(String path) {

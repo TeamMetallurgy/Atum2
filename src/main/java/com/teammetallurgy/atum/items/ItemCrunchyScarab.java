@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 
-public class ItemDeadwoodBeetle extends ItemFood {
+public class ItemCrunchyScarab extends ItemFood {
 
-    public ItemDeadwoodBeetle() {
-        super(1, 0.1F, false);
+    public ItemCrunchyScarab(int amount, float saturation) {
+        super(amount, saturation, true);
     }
 
     @Override

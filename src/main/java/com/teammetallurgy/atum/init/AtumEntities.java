@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityScarab;
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
@@ -26,6 +27,7 @@ public class AtumEntities {
     public static final EntityEntry MUMMY = registerMob(EntityMummy.class, 0x515838, 0x868F6B);
     public static final EntityEntry NOMAD = registerMob(EntityNomad.class, 0xC2C2C2, 0x7E0C0C);
     public static final EntityEntry PHARAOH = registerMob(EntityPharaoh.class, 0xD4BC37, 0x3A4BE0);
+    public static final EntityEntry SCARAB = registerMob(EntityScarab.class, 0x61412C, 0x2F1D10);
     public static final EntityEntry STONEGUARD = registerMob(EntityStoneguard.class, 0x918354, 0x695D37);
     public static final EntityEntry TARANTULA = registerMob(EntityTarantula.class, 0x745c47, 0xd2b193);
     public static final EntityEntry WRAITH = registerMob(EntityWraith.class, 0x544d34, 0x3e3927);

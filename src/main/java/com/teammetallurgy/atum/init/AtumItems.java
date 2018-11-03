@@ -142,7 +142,8 @@ public class AtumItems {
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
     public static final Item JEWELED_FISH = new ItemFish(ItemFish.FishType.JEWELED);
     public static final Item SKELETAL = new ItemFish(ItemFish.FishType.SKELETAL);
-    public static final Item DEADWOOD_BEETLE = new ItemDeadwoodBeetle();
+    public static final Item CRUNCHY_SCARAB = new ItemCrunchyScarab(1, 0.1F);
+    public static final Item CRUNCHY_GOLD_SCARAB = new ItemCrunchyScarab(6, 1.2F);
 
     public static void registerItems() {
         BlockAtumPlank.registerSticks();
@@ -238,6 +239,7 @@ public class AtumItems {
         registerItem(MUMMIFIED_FISH, "fish_mummified");
         registerItem(JEWELED_FISH, "fish_jeweled");
         registerItem(SKELETAL, "fish_skeletal");
-        registerItem(DEADWOOD_BEETLE, "deadwood_beetle");
+        registerItem(CRUNCHY_SCARAB, "crunchy_scarab");
+        registerItem(CRUNCHY_GOLD_SCARAB, "crunchy_golden_scarab");
     }
 }

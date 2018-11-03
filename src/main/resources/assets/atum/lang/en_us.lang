@@ -347,7 +347,8 @@ item.atum.deadwoodDoor.name=Deadwood Door
 item.atum.palmDoor.name=Palm Door
 item.atum.palmStick.name=Palm Stick
 item.atum.deadwoodStick.name=Deadwood Stick
-item.atum.deadwoodBeetle.name=Deadwood Beetle
+item.atum.crunchyScarab.name=Crunchy Scarab
+item.atum.crunchyGoldenScarab.name=Crunchy Golden Scarab
 
 # Item Information
 item.atum.gebsGrounding.line1=Pinning Arrow: Slows enemies
@@ -564,6 +565,7 @@ entity.atum.forsaken.name=Forsaken
 entity.atum.mummy.name=Mummy
 entity.atum.nomad.name=Nomad
 entity.atum.pharaoh.name=Pharaoh
+entity.atum.scarab.name=Scarab
 entity.atum.stoneguard.name=Stoneguard
 entity.atum.tarantula.name=Tarantula
 entity.atum.warlord.name=Warlord

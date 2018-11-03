@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/deadwood_beetle"
+    "layer0": "atum:items/crunchy_scarab"
   }
 }

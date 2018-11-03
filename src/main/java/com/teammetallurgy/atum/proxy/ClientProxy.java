@@ -16,6 +16,7 @@ import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityScarab;
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
@@ -95,6 +96,7 @@ public class ClientProxy extends CommonProxy {
             }
         });
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityScarab.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {
