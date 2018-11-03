@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.biome.base;
 
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenShrub;
@@ -32,6 +33,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
     private WorldGenerator relicGen;
     private WorldGenerator alabasterGen;
     private WorldGenerator porphyryGen;
+    private WorldGenerator limestoneScarab;
     public float shrubChance;
 
     BiomeDecoratorAtum() {
@@ -41,6 +43,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         this.clayGen = generateMinable(AtumBlocks.SANDY_CLAY.getDefaultState(), 12);
         this.alabasterGen = generateMinable(AtumBlocks.ALABASTER.getDefaultState(), 33);
         this.porphyryGen = generateMinable(AtumBlocks.PORPHYRY.getDefaultState(), 33);
+        this.limestoneScarab = generateMinable(AtumBlocks.LIMESTONE.getDefaultState().withProperty(BlockLimestone.HAS_SCARAB, true), 10);
         if (AtumConfig.COAL_ENABLED) {
             this.coalGen = generateMinable(AtumBlocks.COAL_ORE.getDefaultState(), AtumConfig.COAL_VEIN);
         }
@@ -139,7 +142,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
             }
         }
 
-        if(TerrainGen.decorate(world, random, chunkPosition, DecorateBiomeEvent.Decorate.EventType.LAKE_WATER)) {
+        if (TerrainGen.decorate(world, random, chunkPosition, DecorateBiomeEvent.Decorate.EventType.LAKE_WATER)) {
             for (int k5 = 0; k5 < 50; ++k5) {
                 int x = random.nextInt(16) + 8;
                 int z = random.nextInt(16) + 8;
@@ -212,6 +215,10 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
         if (TerrainGen.generateOre(world, random, this.porphyryGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
             this.genStandardOre1(world, random, 10, this.porphyryGen, 0, 60);
+        }
+
+        if (TerrainGen.generateOre(world, random, this.limestoneScarab, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+            this.genStandardOre1(world, random, 8, this.limestoneScarab, 0, 60);
         }
         MinecraftForge.ORE_GEN_BUS.post(new OreGenEvent.Post(world, random, chunkPos));
     }

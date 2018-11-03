@@ -1,9 +1,12 @@
 package com.teammetallurgy.atum.entity;
 
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
+import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,16 +19,19 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class EntityScarab extends EntityMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityScarab.class, DataSerializers.VARINT);
@@ -50,6 +56,7 @@ public class EntityScarab extends EntityMob {
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
         this.tasks.addTask(3, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(5, new AIHideInBlock(this));
         this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
@@ -203,5 +210,66 @@ public class EntityScarab extends EntityMob {
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.setVariant(compound.getInteger("Variant"));
+    }
+
+    static class AIHideInBlock extends EntityAIWander {
+        private EnumFacing facing;
+        private boolean doMerge;
+
+        AIHideInBlock(EntityScarab scarab) {
+            super(scarab, 1.0D, 10);
+            this.setMutexBits(1);
+        }
+
+        @Override
+        public boolean shouldExecute() {
+            if (this.entity.getAttackTarget() != null) {
+                return false;
+            } else if (!this.entity.getNavigator().noPath()) {
+                return false;
+            } else {
+                Random random = this.entity.getRNG();
+
+                if (ForgeEventFactory.getMobGriefingEvent(this.entity.world, this.entity) && random.nextInt(10) == 0) {
+                    this.facing = EnumFacing.random(random);
+                    BlockPos pos = (new BlockPos(this.entity.posX, this.entity.posY + 0.5D, this.entity.posZ)).offset(this.facing);
+                    IBlockState state = this.entity.world.getBlockState(pos);
+
+                    if (state.getBlock() == AtumBlocks.LIMESTONE || state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
+                        this.doMerge = true;
+                        return true;
+                    }
+                }
+                this.doMerge = false;
+                return super.shouldExecute();
+            }
+        }
+
+        @Override
+        public boolean shouldContinueExecuting() {
+            return !this.doMerge && super.shouldContinueExecuting();
+        }
+
+        @Override
+        public void startExecuting() {
+            if (!this.doMerge) {
+                super.startExecuting();
+            } else {
+                World world = this.entity.world;
+                BlockPos pos = (new BlockPos(this.entity.posX, this.entity.posY + 0.5D, this.entity.posZ)).offset(this.facing);
+                IBlockState state = world.getBlockState(pos);
+
+                if (state.getBlock() == AtumBlocks.LIMESTONE) {
+                    world.setBlockState(pos, AtumBlocks.LIMESTONE.getDefaultState().withProperty(BlockLimestone.HAS_SCARAB, true), 3);
+                    this.entity.spawnExplosionParticle();
+                    this.entity.setDead();
+                }
+                if (state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
+                    world.setBlockState(pos, AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true), 3);
+                    this.entity.spawnExplosionParticle();
+                    this.entity.setDead();
+                }
+            }
+        }
     }
 }

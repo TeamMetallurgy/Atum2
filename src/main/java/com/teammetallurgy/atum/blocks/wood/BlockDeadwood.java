@@ -1,27 +1,25 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.entity.EntityScarab;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
 public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
-    public static final PropertyBool HAVE_SCARAB = PropertyBool.create("scarab");
+    public static final PropertyBool HAS_SCARAB = PropertyBool.create("has_scarab");
 
     public BlockDeadwood() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAVE_SCARAB, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAS_SCARAB, false));
         this.setHardness(1.0F);
     }
 
@@ -31,12 +29,14 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     }
 
     @Override
-    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
-        if (state.getValue(HAVE_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
-            int amount = MathHelper.getInt(RANDOM, 1, 2) + fortune;
-            drops.add(new ItemStack(AtumItems.CRUNCHY_SCARAB, amount));
+    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, float chance, int fortune) {
+        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
+            EntityScarab scarab = new EntityScarab(world);
+            scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
+            world.spawnEntity(scarab);
+            scarab.spawnExplosionParticle();
         }
-        super.getDrops(drops, world, pos, state, fortune);
+        super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
     }
 
     @Nonnull
@@ -63,7 +63,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
             case 3:
                 state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
         }
-        return state.withProperty(HAVE_SCARAB, meta > 3);
+        return state.withProperty(HAS_SCARAB, meta > 3);
     }
 
     @Override
@@ -82,17 +82,17 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
             case NONE:
                 i = 3;
         }
-        return i + (state.getValue(HAVE_SCARAB) ? 4 : 0);
+        return i + (state.getValue(HAS_SCARAB) ? 4 : 0);
     }
 
     @Override
     @Nonnull
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, LOG_AXIS, HAVE_SCARAB);
+        return new BlockStateContainer(this, LOG_AXIS, HAS_SCARAB);
     }
 
     @Override
     public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{HAVE_SCARAB};
+        return new IProperty[]{HAS_SCARAB};
     }
 }
