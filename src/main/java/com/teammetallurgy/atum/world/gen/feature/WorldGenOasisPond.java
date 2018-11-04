@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
 
@@ -15,14 +14,17 @@ public class WorldGenOasisPond  extends WorldGenerator {
 
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
-        if (pos.getY() <= 60) {
+        for (pos = pos.add(-2, 0, -2); pos.getY() > 60 && world.isAirBlock(pos); pos = pos.down()) {
+            ; //Do the checks
+        }
+
+        if (pos.getY() < 60) {
             return false;
         } else {
             pos = pos.down(3);
             boolean[] aboolean = new boolean[2048];
             int i = rand.nextInt(4) + 4;
 
-            //Shape
             for (int j = 0; j < i; ++j) {
                 double d0 = rand.nextDouble() * 6.0D + 3.0D;
                 double d1 = rand.nextDouble() * 4.0D + 2.0D;
@@ -77,15 +79,13 @@ public class WorldGenOasisPond  extends WorldGenerator {
                 }
             }
 
-            for (int i2 = 0; i2 < 16; ++i2) {
-                for (int j3 = 0; j3 < 16; ++j3) {
-                    for (int j4 = 4; j4 < 8; ++j4) {
-                        if (aboolean[(i2 * 16 + j3) * 8 + j4]) {
-                            BlockPos blockpos = pos.add(i2, j4 - 1, j3);
-
-                            if ((world.getBlockState(blockpos).getBlock() == AtumBlocks.LIMESTONE || world.getBlockState(blockpos).getBlock() == AtumBlocks.SAND) && world.getLightFor(EnumSkyBlock.SKY, pos.add(i2, j4, j3)) > 0) {
-                                world.setBlockState(blockpos, AtumBlocks.FERTILE_SOIL.getDefaultState(), 2);
-                            }
+            for (int j2 = 0; j2 < 16; ++j2) {
+                for (int k3 = 0; k3 < 16; ++k3) {
+                    for (int k4 = 0; k4 < 8; ++k4) {
+                        boolean flag1 = !aboolean[(j2 * 16 + k3) * 8 + k4] && (j2 < 15 && aboolean[((j2 + 1) * 16 + k3) * 8 + k4] || j2 > 0 && aboolean[((j2 - 1) * 16 + k3) * 8 + k4] || k3 < 15 && aboolean[(j2 * 16 + k3 + 1) * 8 + k4] || k3 > 0 && aboolean[(j2 * 16 + (k3 - 1)) * 8 + k4] || k4 < 7 && aboolean[(j2 * 16 + k3) * 8 + k4 + 1] || k4 > 0 && aboolean[(j2 * 16 + k3) * 8 + (k4 - 1)]);
+                        BlockPos fertilePos = pos.add(j2, k4, k3);
+                        if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && world.getBlockState(fertilePos).getMaterial().isSolid() && !world.getBlockState(fertilePos.up()).getMaterial().isSolid()) {
+                            world.setBlockState(fertilePos, AtumBlocks.FERTILE_SOIL.getDefaultState(), 2);
                         }
                     }
                 }

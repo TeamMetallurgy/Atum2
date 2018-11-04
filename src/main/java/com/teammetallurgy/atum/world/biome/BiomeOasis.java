@@ -32,7 +32,7 @@ public class BiomeOasis extends AtumBiome {
         int z = random.nextInt(16) + 8;
         BlockPos height = world.getHeight(pos.add(x, 0, z));
 
-        new WorldGenOasisPond().generate(world, random, pos.add(x, height.getY(), z));
+        new WorldGenOasisPond().generate(world, random, height);
 
         if (random.nextFloat() <= 0.98F) {
             new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
