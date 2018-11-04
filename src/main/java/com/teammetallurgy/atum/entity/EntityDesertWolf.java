@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.entity.ai.AIBeg;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -27,10 +28,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
@@ -167,11 +165,9 @@ public class EntityDesertWolf extends EntityTameable {
     }
 
     @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (rand.nextInt(5) == 0) {
-            int amount = MathHelper.getInt(rand, 1, 3) + looting;
-            this.dropItem(AtumItems.WOLF_PELT, amount);
-        }
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.WRAITH;
     }
 
     @Override
@@ -271,7 +267,7 @@ public class EntityDesertWolf extends EntityTameable {
 
     @SideOnly(Side.CLIENT)
     public float getInterestedAngle(float angle) {
-        return (this.headRotationCourseWild + (this.headRotationCourse - this.headRotationCourseWild) * angle) * 0.15F * (float)Math.PI;
+        return (this.headRotationCourseWild + (this.headRotationCourse - this.headRotationCourseWild) * angle) * 0.15F * (float) Math.PI;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.entity.ai.AtumEntityAIAttackRangedBow;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
@@ -10,7 +11,6 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemBow;
@@ -19,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
@@ -26,6 +27,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(AbstractSkeleton.class, DataSerializers.BOOLEAN);
@@ -68,18 +70,13 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
     }
 
     @Override
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-
         this.tasks.addTask(4, this.aiArrowAttack);
-        this.setEquipmentBasedOnDifficulty(difficulty);
-        this.setEnchantmentBasedOnDifficulty(difficulty);
-        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
         return livingdata;
     }
@@ -118,7 +115,6 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
-
         this.setCombatTask();
     }
 
@@ -142,21 +138,9 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (rand.nextInt(20) == 0) {
-            ItemStack shortbowStack = new ItemStack(AtumItems.SHORT_BOW);
-            this.entityDropItem(new ItemStack(shortbowStack.getItem(), 1, MathHelper.getInt(rand, 20, shortbowStack.getMaxDamage())), 0.0F);
-        }
-
-        if (rand.nextInt(10) == 0) {
-            int amount = MathHelper.getInt(rand, 1, 2) + looting;
-            this.dropItem(AtumItems.GOLD_COIN, amount);
-        }
-
-        if (rand.nextInt(4) == 0) {
-            int amount = MathHelper.getInt(rand, 1, 3) + looting;
-            this.dropItem(Items.ARROW, amount);
-        }
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.NOMAD;
     }
 
     @SideOnly(Side.CLIENT)

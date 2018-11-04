@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.init.MobEffects;
@@ -24,7 +23,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class EntityAssassin extends EntityBanditBase {
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityAssassin.class, DataSerializers.BYTE);
@@ -116,15 +114,7 @@ public class EntityAssassin extends EntityBanditBase {
     }
 
     @Override
-    @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        this.setEquipmentBasedOnDifficulty(difficulty);
-        return super.onInitialSpawn(difficulty, livingdata);
-    }
-
-    @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER));
     }
 

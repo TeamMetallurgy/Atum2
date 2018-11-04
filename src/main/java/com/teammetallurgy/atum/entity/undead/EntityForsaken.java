@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.entity.undead;
 
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
-import java.util.Random;
+import javax.annotation.Nullable;
 
 public class EntityForsaken extends EntityUndeadBase {
 
@@ -61,10 +61,8 @@ public class EntityForsaken extends EntityUndeadBase {
     }
 
     @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (this.rand.nextInt(4) == 0) {
-            int amount = MathHelper.getInt(new Random(), 1, 2) + looting;
-            this.dropItem(AtumItems.DUSTY_BONE, amount);
-        }
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.FORSAKEN;
     }
 }

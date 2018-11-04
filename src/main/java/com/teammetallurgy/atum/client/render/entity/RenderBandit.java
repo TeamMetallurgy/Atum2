@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -16,6 +17,14 @@ public class RenderBandit extends RenderBiped<EntityBanditBase> {
 
     public RenderBandit(RenderManager renderManager, ModelBiped modelBiped) {
         super(renderManager, modelBiped, 0.5F);
+        LayerBipedArmor armor = new LayerBipedArmor(this) {
+            @Override
+            protected void initArmor() {
+                this.modelLeggings = new ModelBiped(0.5F);
+                this.modelArmor = new ModelBiped(1.0F);
+            }
+        };
+        this.addLayer(armor);
     }
 
     @Override

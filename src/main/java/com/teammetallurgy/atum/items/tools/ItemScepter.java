@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.tools;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;

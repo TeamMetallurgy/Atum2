@@ -35,7 +35,7 @@ public class EntityStoneguard extends EntityStoneBase {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
@@ -51,10 +51,6 @@ public class EntityStoneguard extends EntityStoneBase {
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
-
-        for (int i = 0; i < this.inventoryArmorDropChances.length; ++i) {
-            this.inventoryArmorDropChances[i] = 0F;
-        }
 
         return livingdata;
     }
@@ -93,13 +89,6 @@ public class EntityStoneguard extends EntityStoneBase {
 
         if (this.motionY > 0.4000000059604645D) {
             this.motionY = 0.4000000059604645D;
-        }
-    }
-
-    @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (this.rand.nextInt(4) == 0) {
-            this.dropItem(AtumItems.STONE_CHUNK, MathHelper.getInt(rand, 1, 2) + looting);
         }
     }
 }

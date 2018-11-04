@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity.undead;
 
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,11 +16,12 @@ import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateClimber;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EntityWraith extends EntityUndeadBase {
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityWraith.class, DataSerializers.BYTE);
@@ -30,6 +31,7 @@ public class EntityWraith extends EntityUndeadBase {
     public EntityWraith(World world) {
         super(world);
         this.experienceValue = 6;
+        this.setCanPickUpLoot(false);
 
         cycleTime = (int) ((Math.random() * 40) + 80);
         cycleHeight = (int) (Math.random() * cycleTime);
@@ -102,11 +104,9 @@ public class EntityWraith extends EntityUndeadBase {
     }
 
     @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (this.rand.nextInt(4) == 0) {
-            int amount = MathHelper.getInt(rand, 1, 3) + looting;
-            this.dropItem(AtumItems.ECTOPLASM, amount);
-        }
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.WRAITH;
     }
 
     @Override

@@ -72,7 +72,7 @@ public class AtumItems {
     public static final Item SCIMITAR = new ItemSword(ToolMaterial.IRON);
     public static final Item GREATSWORD = new ItemGreatsword();
     public static final Item SHORT_BOW = new ItemBaseBow();
-    public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.IRON);
+    public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.STONE);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
@@ -130,7 +130,6 @@ public class AtumItems {
     public static final Item ECTOPLASM = new Item();
     public static final Item MANDIBLES = new Item();
     public static final Item DUSTY_BONE = new Item();
-    public static final Item STONE_CHUNK = new Item();
     public static final Item SCROLL = new Item();
     public static final Item WOLF_PELT = new Item();
     public static final Item FLAX_SEEDS = new ItemSeeds(AtumBlocks.FLAX, Blocks.FARMLAND);
@@ -226,7 +225,6 @@ public class AtumItems {
         registerItem(ECTOPLASM, "ectoplasm");
         registerItem(MANDIBLES, "mandibles");
         registerItem(DUSTY_BONE, "dusty_bone", "bone");
-        registerItem(STONE_CHUNK, "stone_chunk");
         registerItem(SCROLL, "scroll");
         registerItem(WOLF_PELT, "wolf_pelt");
         registerItem(FERTILE_SOIL_PILE, "fertile_soil_pile");

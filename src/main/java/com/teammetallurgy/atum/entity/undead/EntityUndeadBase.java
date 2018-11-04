@@ -71,6 +71,9 @@ public class EntityUndeadBase extends EntityMob {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
+
+        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
+
         if (this.hasSkinVariants()) {
             final int variant = MathHelper.getInt(world.rand, 0, this.getVariantAmount());
             this.setVariant(variant);

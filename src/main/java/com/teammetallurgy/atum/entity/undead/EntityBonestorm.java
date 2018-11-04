@@ -1,17 +1,19 @@
 package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class EntityBonestorm extends EntityUndeadBase {
@@ -21,6 +23,7 @@ public class EntityBonestorm extends EntityUndeadBase {
     public EntityBonestorm(World world) {
         super(world);
         this.experienceValue = 8;
+        this.setCanPickUpLoot(false);
     }
 
     @Override
@@ -90,13 +93,9 @@ public class EntityBonestorm extends EntityUndeadBase {
     }
 
     @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (recentlyHit) {
-            int amount = MathHelper.getInt(rand, 1, 2) + looting;
-            if (rand.nextInt(4) == 0) {
-                this.dropItem(AtumItems.DUSTY_BONE, amount);
-            }
-        }
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.BONESTORM;
     }
 
     private static class AIBoneAttack extends EntityAIBase {

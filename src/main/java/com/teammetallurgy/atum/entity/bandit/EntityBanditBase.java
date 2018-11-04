@@ -5,14 +5,12 @@ import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -79,11 +77,21 @@ public class EntityBanditBase extends EntityMob {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
+
+        this.setEnchantmentBasedOnDifficulty(difficulty);
+        this.setEquipmentBasedOnDifficulty(difficulty);
+        this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
+
         if (hasSkinVariants()) {
             final int variant = MathHelper.getInt(world.rand, 0, getVariantAmount());
             this.setVariant(variant);
         }
         return livingdata;
+    }
+
+    @Override
+    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+        //Don't use for now, might do something with it later
     }
 
     protected int getVariantAmount() {
@@ -97,15 +105,6 @@ public class EntityBanditBase extends EntityMob {
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
-        }
-    }
-
-    @Override
-    protected void setEnchantmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        float dif = difficulty.getClampedAdditionalDifficulty();
-
-        if (!this.getHeldItemMainhand().isEmpty() && this.rand.nextFloat() < 0.25F * dif) {
-            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, EnchantmentHelper.addRandomEnchantment(this.rand, this.getHeldItemMainhand(), (int) (5.0F + dif * (float) this.rand.nextInt(18)), false));
         }
     }
 

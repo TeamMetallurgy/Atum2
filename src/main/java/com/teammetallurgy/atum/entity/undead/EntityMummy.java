@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity.undead;
 
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,16 +8,16 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityMummy extends EntityUndeadBase {
@@ -95,13 +95,8 @@ public class EntityMummy extends EntityUndeadBase {
     }
 
     @Override
-    protected void dropFewItems(boolean recentlyHit, int looting) {
-        if (rand.nextInt(4) == 0) {
-            this.dropItem(Items.ROTTEN_FLESH, 1 + looting);
-        }
-        if (rand.nextInt(4) == 0) {
-            int amount = MathHelper.getInt(rand, 1, 2) + looting;
-            this.dropItem(AtumItems.SCRAP, amount);
-        }
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.MUMMY;
     }
 }
