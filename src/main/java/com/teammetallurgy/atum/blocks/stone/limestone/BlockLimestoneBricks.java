@@ -12,13 +12,16 @@ import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Map;
 
 public class BlockLimestoneBricks extends Block implements IRenderMapper {
@@ -37,6 +40,11 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     @Override
     public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
         return state.getValue(UNBREAKABLE) ? -1.0F : super.getBlockHardness(state, world, pos);
+    }
+
+    @Override
+    public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+        return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F: super.getExplosionResistance(world, pos, exploder, explosion);
     }
 
     @Override

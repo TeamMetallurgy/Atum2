@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -21,7 +22,7 @@ import java.util.Random;
 public class MapGenPyramid extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
-    private int spacing = 20;
+    private int spacing = 18;
     private int separation = 4;
 
     public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {
@@ -84,19 +85,6 @@ public class MapGenPyramid extends MapGenStructure {
         }
     }*/
 
-    /*@SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        if (!event.getWorld().isRemote) {
-            WorldServer world = (WorldServer) event.getWorld();
-            if (!event.getPlayer().isCreative() && world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidPieces.PYRAMID), event.getPos())) {
-                Block block = world.getBlockState(event.getPos()).getBlock();
-                if (!(block instanceof BlockTorch || block instanceof BlockSandLayers)) {
-                    event.setCanceled(true);
-                }
-            }
-        }
-    }*/
-
     public static class Start extends StructureStart {
         private boolean isValid;
 
@@ -133,8 +121,8 @@ public class MapGenPyramid extends MapGenStructure {
             if (y < 60) {
                 this.isValid = false;
             } else {
-                //int yChance = MathHelper.getInt(random, 10, 40);
-                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 10, chunkZ * 16 + 8);
+                int yChance = MathHelper.getInt(random, 10, 18);
+                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - yChance, chunkZ * 16 + 8);
                 PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation, random);
                 this.components.add(pyramid);
                 this.updateBoundingBox();

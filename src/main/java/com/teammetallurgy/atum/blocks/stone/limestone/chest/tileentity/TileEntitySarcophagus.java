@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -78,31 +79,27 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     public void setOpenable() {
         this.isOpenable = true;
         this.markDirty();
+        IBlockState state = world.getBlockState(pos);
+        world.notifyBlockUpdate(pos, state, state, 3);
     }
 
     public void spawn(EntityPlayer player, DifficultyInstance difficulty) {
-        EntityPharaoh pharaoh = new EntityPharaoh(world, true);
-        pharaoh.onInitialSpawn(difficulty, null);
-        EnumFacing blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
-        pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle(), 0.0F);
-        pharaoh.setSarcophagusPos(pos);
         if (!world.isRemote) {
+            EntityPharaoh pharaoh = new EntityPharaoh(world, true);
+            pharaoh.onInitialSpawn(difficulty, null);
+            EnumFacing blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
+            pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle(), 0.0F);
+            pharaoh.setSarcophagusPos(pos);
             world.spawnEntity(pharaoh);
-        }
-        pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 3).down());
-        pharaoh.spawnExplosionParticle();
-        this.hasSpawned = true;
+            pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 3).down());
+            pharaoh.spawnExplosionParticle();
+            this.hasSpawned = true;
 
-        if (!world.isRemote) {
             for (EntityPlayerMP playerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
                 playerMP.sendMessage(new TextComponentString(EntityPharaoh.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
+                this.world.playSound(null, player.getPosition(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 1.0F, 1.0F);
             }
-            this.world.playSound(null, player.getPosition(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 1.0F, 1.0F);
         }
-    }
-
-    public void setPharaohDespawned() {
-        this.hasSpawned = false;
     }
 
     @Override

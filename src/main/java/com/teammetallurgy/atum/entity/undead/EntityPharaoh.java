@@ -174,7 +174,23 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     public void onDeath(@Nonnull DamageSource source) {
-        super.onDeath(source);
+        if (this.hasSarcophagus) {
+            BlockPos sarcophagusPos = getSarcophagusPos();
+            if (sarcophagusPos != null) {
+                TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
+                if (tileEntity instanceof TileEntitySarcophagus) {
+                    ((TileEntitySarcophagus) tileEntity).setOpenable();
+                    for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                        TileEntity tileEntityOffset = world.getTileEntity(sarcophagusPos.offset(horizontal));
+                        if (tileEntityOffset instanceof TileEntitySarcophagus) {
+                            ((TileEntitySarcophagus) tileEntityOffset).setOpenable();
+                        }
+                    }
+                } else {
+                    Atum.LOG.error("Unable to find sarcophagus coordinates for " + this.getName() + " on " + sarcophagusPos);
+                }
+            }
+        }
 
         if (source.damageType.equals("player")) {
             EntityPlayer slayer = (EntityPlayer) source.getTrueSource();
@@ -186,29 +202,7 @@ public class EntityPharaoh extends EntityUndeadBase {
             }
         }
 
-        if (this.hasSarcophagus) {
-            BlockPos sarcophagusPos = getSarcophagusPos();
-            if (sarcophagusPos != null) {
-                TileEntity te = world.getTileEntity(sarcophagusPos);
-                if (te != null) {
-                    if (te instanceof TileEntitySarcophagus) {
-                        TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) te;
-                        sarcophagus.setOpenable();
-                        sarcophagus.hasSpawned = true;
-
-                        for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
-                            TileEntity tileEntityOffset = world.getTileEntity(sarcophagusPos.offset(horizontal));
-                            if (tileEntityOffset instanceof TileEntitySarcophagus) {
-                                ((TileEntitySarcophagus) tileEntityOffset).setOpenable();
-                                ((TileEntitySarcophagus) tileEntityOffset).hasSpawned = true;
-                            }
-                        }
-                    }
-                } else {
-                    Atum.LOG.error("Unable to find sarcophagus coordinates for " + this.getName() + " on " + sarcophagusPos);
-                }
-            }
-        }
+        super.onDeath(source);
     }
 
     @Override
@@ -319,11 +313,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     public void onUpdate() {
         super.onUpdate();
 
-        if (!this.world.isRemote && this.world.getDifficulty().getId() == 0) {
+        if (this.world.getDifficulty().getId() == 0) {
             if (this.hasSarcophagus) {
                 TileEntity te = world.getTileEntity(this.getSarcophagusPos());
                 if (te instanceof TileEntitySarcophagus) {
-                    ((TileEntitySarcophagus) te).setPharaohDespawned();
+                    ((TileEntitySarcophagus) te).hasSpawned = false;
                 }
             }
             this.setDead();

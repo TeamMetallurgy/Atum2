@@ -22,6 +22,7 @@ import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
@@ -91,7 +92,8 @@ public class ItemShusSwiftness extends Item {
         }
 
         double remaining = ((double)(stack.getMaxDamage() - stack.getItemDamage()) / 12) / 100.0D;
-        String localizedRemaining = I18n.format("tooltip.atum.minutesRemaining", remaining);
+        DecimalFormat format = new DecimalFormat("#.##");
+        String localizedRemaining = I18n.format("tooltip.atum.minutesRemaining",  format.format(remaining));
         tooltip.add(localizedRemaining);
     }
 

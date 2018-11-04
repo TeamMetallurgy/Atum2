@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -18,6 +19,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
@@ -25,6 +27,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
 public class BlockSarcophagus extends BlockChestBase {
@@ -41,7 +44,21 @@ public class BlockSarcophagus extends BlockChestBase {
     @Override
     public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TileEntitySarcophagus && !((TileEntitySarcophagus) tileEntity).isOpenable ? -1.0F : super.getBlockHardness(state, world, pos);
+        if (tileEntity instanceof TileEntitySarcophagus && !((TileEntitySarcophagus) tileEntity).isOpenable) {
+            return -1.0F;
+        } else {
+            return super.getBlockHardness(state, world, pos);
+        }
+    }
+
+    @Override
+    public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntitySarcophagus && !((TileEntitySarcophagus) tileEntity).isOpenable) {
+            return 6000000.0F;
+        } else {
+            return super.getExplosionResistance(world, pos, exploder, explosion);
+        }
     }
 
     @Override
@@ -98,14 +115,16 @@ public class BlockSarcophagus extends BlockChestBase {
 
         if (tileEntity instanceof TileEntitySarcophagus) {
             TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileEntity;
-            sarcophagus.setOpenable();
             sarcophagus.hasSpawned = true;
+            sarcophagus.setOpenable();
+            sarcophagus.updateContainingBlockInfo();
 
             for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
                 TileEntity tileEntityOffset = world.getTileEntity(pos.offset(horizontal));
                 if (tileEntityOffset instanceof TileEntitySarcophagus) {
                     ((TileEntitySarcophagus) tileEntityOffset).hasSpawned = true;
                     ((TileEntitySarcophagus) tileEntityOffset).setOpenable();
+                    tileEntityOffset.updateContainingBlockInfo();
                 }
             }
         }

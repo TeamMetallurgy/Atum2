@@ -10,6 +10,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -19,10 +20,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public abstract class BlockTrap extends BlockContainer {
@@ -43,6 +46,12 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
+    public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity instanceof TileEntityTrap && ((TileEntityTrap) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
+    }
+
+    @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return true;
@@ -55,7 +64,7 @@ public abstract class BlockTrap extends BlockContainer {
                     player.openGui(Atum.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
                     return true;
                 }
-                if (trap.isInsidePyramid && isToolEffective) {
+                if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {
                     ((TileEntityTrap) tileEntity).setDisabledStatus(true);
                     world.setBlockState(pos, state.withProperty(DISABLED, true));
                     world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);

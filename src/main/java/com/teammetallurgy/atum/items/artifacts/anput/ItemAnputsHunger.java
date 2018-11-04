@@ -28,7 +28,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber
 public class ItemAnputsHunger extends ItemSword {
-    private static int hungerTimer = 200;
+    private static int hungerTimer = 80;
 
     public ItemAnputsHunger() {
         super(ToolMaterial.DIAMOND);
@@ -56,7 +56,7 @@ public class ItemAnputsHunger extends ItemSword {
                 }
                 if (hungerTimer == 0) {
                     player.getFoodStats().addStats(-1, 0.0F);
-                    hungerTimer = 200;
+                    hungerTimer = 80;
                 }
             }
         }
