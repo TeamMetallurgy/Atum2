@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.stone;
 
+import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -9,6 +10,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -17,6 +22,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class EntityStoneguard extends EntityStoneBase {
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.VARINT);
 
     public EntityStoneguard(World world) {
         super(world);
@@ -31,6 +37,12 @@ public class EntityStoneguard extends EntityStoneBase {
     }
 
     @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataManager.register(VARIANT, 0);
+    }
+
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
@@ -41,7 +53,6 @@ public class EntityStoneguard extends EntityStoneBase {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        super.setEquipmentBasedOnDifficulty(difficulty);
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
     }
 
@@ -52,7 +63,18 @@ public class EntityStoneguard extends EntityStoneBase {
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
 
+        final int variant = MathHelper.getInt(world.rand, 0, 7);
+        this.setVariant(variant);
+
         return livingdata;
+    }
+
+    private void setVariant(int variant) {
+        this.dataManager.set(VARIANT, variant);
+    }
+
+    public int getVariant() {
+        return this.dataManager.get(VARIANT);
     }
 
     @Override
@@ -90,5 +112,17 @@ public class EntityStoneguard extends EntityStoneBase {
         if (this.motionY > 0.4000000059604645D) {
             this.motionY = 0.4000000059604645D;
         }
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setInteger("Variant", this.getVariant());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.setVariant(compound.getInteger("Variant"));
     }
 }

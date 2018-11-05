@@ -1,7 +1,8 @@
 package com.teammetallurgy.atum.client.render.entity;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
+import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -13,15 +14,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class RenderBandit extends RenderBiped<EntityBanditBase> {
+public class RenderStoneguard extends RenderBiped<EntityStoneguard> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public RenderBandit(RenderManager manager) {
-        this(manager, new ModelPlayer(0.0F, false));
-    }
-
-    public RenderBandit(RenderManager renderManager, ModelBiped modelBiped) {
-        super(renderManager, modelBiped, 0.5F);
+    public RenderStoneguard(RenderManager renderManager) {
+        super(renderManager, new ModelPlayer(0.0F, false), 0.5F);
         LayerBipedArmor armor = new LayerBipedArmor(this) {
             @Override
             protected void initArmor() {
@@ -34,8 +31,8 @@ public class RenderBandit extends RenderBiped<EntityBanditBase> {
 
     @Override
     @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull EntityBanditBase entity) {
-        String texture = entity.getTexture();
+    protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard entity) {
+        String texture = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entity.getName() + "_" + entity.getVariant()) + ".png");
         ResourceLocation location = CACHE.get(texture);
 
         if (location == null) {

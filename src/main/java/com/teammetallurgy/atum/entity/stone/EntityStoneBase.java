@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity.stone;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
+import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import net.minecraft.block.Block;
@@ -11,6 +11,7 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
@@ -19,7 +20,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class EntityStoneBase extends EntityMob {
+public class EntityStoneBase extends EntityMob implements IUnderground {
 
     EntityStoneBase(World world) {
         super(world);
@@ -74,11 +75,13 @@ public class EntityStoneBase extends EntityMob {
 
     @Override
     public boolean getCanSpawnHere() {
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && this.world.getBlockState((new BlockPos(this)).down()) instanceof BlockLimestone;
+        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP) ;
     }
 
     @Override
     protected boolean isValidLightLevel() {
-        return world.getLightFor(EnumSkyBlock.BLOCK, this.getPosition()) == 0;
+        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        return world.getLightFor(EnumSkyBlock.SKY, pos) == 0;
     }
 }

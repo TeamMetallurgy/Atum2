@@ -31,14 +31,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
-import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
@@ -79,22 +77,17 @@ public class ClientProxy extends CommonProxy {
         ModelLoader.setCustomMeshDefinition(AtumItems.BRIGAND_SHIELD, stack -> BRIGAND_SHIELD);
         ModelLoader.setCustomMeshDefinition(AtumItems.THOTHS_BEARINGS, stack -> THOTHS_BEARINGS);
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityAssassin.class, manager -> new RenderBandit(manager, new ModelBiped()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(EntityAssassin.class, RenderBandit::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBrigand.class, RenderBandit::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityBarbarian.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityNomad.class, manager -> new RenderBandit(manager, new ModelNomad()));
-        RenderingRegistry.registerEntityRenderingHandler(EntityWarlord.class, manager -> new RenderBandit(manager, new ModelPlayer(0.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(EntityWarlord.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityPharaoh.class, manager -> new RenderUndead(manager, new ModelPlayer(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderUndead(manager, new ModelZombie()));
         RenderingRegistry.registerEntityRenderingHandler(EntityForsaken.class, manager -> new RenderUndead(manager, new ModelDustySkeleton()));
         RenderingRegistry.registerEntityRenderingHandler(EntityWraith.class, manager -> new RenderUndead(manager, new ModelZombie()));
         RenderingRegistry.registerEntityRenderingHandler(EntityBonestorm.class, RenderBonestorm::new);
-        RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, manager -> new RenderBiped<EntityStoneguard>(manager, new ModelBiped(), 0.5F) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard entity) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/stoneguard.png");
-            }
-        });
+        RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, RenderStoneguard::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityScarab.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {

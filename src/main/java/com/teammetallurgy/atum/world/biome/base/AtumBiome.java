@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.biome.base;
 
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.bandit.EntityAssassin;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
 import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
@@ -40,7 +41,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private static final EnumCreatureType UNDERGROUND =  Objects.requireNonNull(EnumHelper.addCreatureType("underground", IMob.class, 20, Material.AIR, false, false));
+    private static final EnumCreatureType UNDERGROUND =  Objects.requireNonNull(EnumHelper.addCreatureType("underground", IUnderground.class, 20, Material.AIR, false, false));
     private static final EnumCreatureType SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("surface", IMob.class, 45, Material.AIR, false, false));
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;

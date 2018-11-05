@@ -22,14 +22,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EntityTarantula extends EntityMob {
+public class EntityTarantula extends EntityMob implements IUnderground {
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityTarantula.class, DataSerializers.BYTE);
 
     public EntityTarantula(World world) {
@@ -53,8 +52,8 @@ public class EntityTarantula extends EntityMob {
 
     @Override
     public boolean getCanSpawnHere() {
-        int i = MathHelper.floor(this.getEntityBoundingBox().minY);
-        return i >= 40 && i <= 62 && super.getCanSpawnHere() && !this.world.canSeeSky(getPosition());
+        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        return pos.getY() >= 40 && pos.getY() <= 62 && super.getCanSpawnHere() && !this.world.canBlockSeeSky(pos.down());
     }
 
     @Override
