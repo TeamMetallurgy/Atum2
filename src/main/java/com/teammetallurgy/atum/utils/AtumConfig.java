@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.utils;
 
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
@@ -12,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static net.minecraftforge.common.config.Configuration.CATEGORY_GENERAL;
-import static net.minecraftforge.common.config.Configuration.CATEGORY_SPLITTER;
 
 public class AtumConfig {
     public static Configuration config;
-    public static final String WORLDGEN = "worldgen";
+    public static final String WORLDGEN = "world gen";
     public static final String OREGEN = AtumConfig.WORLDGEN + Configuration.CATEGORY_SPLITTER + "ore gen";
+    public static final String BIOME = "biome";
     public static boolean ALLOW_CREATION;
     public static boolean START_IN_ATUM;
     public static boolean START_IN_ATUM_PORTAL;
@@ -72,15 +71,6 @@ public class AtumConfig {
         prop.setLanguageKey("atum.configGui.dimensionID").setRequiresMcRestart(true);
         DIMENSION_ID = prop.getInt();
         propOrder.add(prop.getName());
-
-        ////////// biomes
-        for (AtumBiome biome : AtumRegistry.BIOMES) {
-            prop = config.get(CATEGORY_GENERAL, "Atum " + biome.getAtumBiomeName() + " Biome Weight", biome.getWeight());
-            prop.setComment("The weight of the Atum biome " + biome.getAtumBiomeName());
-            prop.setLanguageKey("atum.configGui.biomeWeight." + biome.getAtumBiomeName()).setRequiresMcRestart(true);
-            biome.setWeight(prop.getInt());
-            propOrder.add(prop.getName());
-        }
 
         PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, true, "Set to true to enable Pyramids");
 

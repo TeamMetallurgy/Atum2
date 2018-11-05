@@ -12,6 +12,7 @@ import com.teammetallurgy.atum.entity.undead.EntityForsaken;
 import com.teammetallurgy.atum.entity.undead.EntityMummy;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisGrass;
@@ -25,6 +26,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
@@ -34,13 +36,11 @@ import java.util.Random;
 public class AtumBiome extends Biome {
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
-    private String atumBiomeName;
     protected int deadwoodRarity = 5;
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
         this.weight = properties.weight;
-        this.atumBiomeName = properties.name;
         this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
 
         this.spawnableMonsterList.clear();
@@ -54,10 +54,6 @@ public class AtumBiome extends Biome {
 
     public int getWeight() {
         return weight;
-    }
-
-    public String getAtumBiomeName() {
-        return atumBiomeName;
     }
 
     public void setWeight(int weight) {
@@ -180,8 +176,10 @@ public class AtumBiome extends Biome {
             this.setRainDisabled();
             this.setTemperature(2.0F);
             this.setWaterColor(16421912);
-            this.weight = weight;
+            this.weight = weight != 0 ? AtumConfig.config.get(AtumConfig.BIOME + Configuration.CATEGORY_SPLITTER + biomeName, "weight", weight).getInt() : 0;
             this.name = biomeName;
+
+            AtumConfig.config.save();
         }
 
         @Override
