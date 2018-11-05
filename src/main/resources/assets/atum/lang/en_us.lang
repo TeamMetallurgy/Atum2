@@ -571,6 +571,8 @@ entity.atum.tarantula.name=Tarantula
 entity.atum.warlord.name=Warlord
 entity.atum.wraith.name=Wraith
 
+death.attack.assassinated=%1$s was assassinated
+
 # Pharaoh Names
 entity.atum.pharaoh.Ama=Ama'
 entity.atum.pharaoh.Ata=Ata'

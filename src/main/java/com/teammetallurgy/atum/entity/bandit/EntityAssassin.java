@@ -16,6 +16,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateClimber;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -25,6 +27,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class EntityAssassin extends EntityBanditBase {
+    private final DamageSource ASSASSINATED = new EntityDamageSource("assassinated", this);
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(EntityAssassin.class, DataSerializers.BYTE);
 
     public EntityAssassin(World world) {
@@ -121,6 +124,7 @@ public class EntityAssassin extends EntityBanditBase {
     @Override
     public boolean attackEntityAsMob(Entity entity) {
         if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof EntityLivingBase) {
+            entity.attackEntityFrom(ASSASSINATED, (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
             (((EntityLivingBase) entity)).addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
         }
         return super.attackEntityAsMob(entity);
