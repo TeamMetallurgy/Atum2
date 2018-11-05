@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.stone;
 
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import net.minecraft.block.Block;
@@ -13,12 +14,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.EnumDifficulty;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
 public class EntityStoneBase extends EntityMob {
-    //public static final EnumCreatureType STONE = EnumHelper.addCreatureType("underground", EntityStoneBase.class, 45, Material.ROCK, false, false);
 
     EntityStoneBase(World world) {
         super(world);
@@ -73,12 +75,11 @@ public class EntityStoneBase extends EntityMob {
 
     @Override
     public boolean getCanSpawnHere() {
-        int i = MathHelper.floor(this.getEntityBoundingBox().minY);
-        return i <= 62 && super.getCanSpawnHere() && !this.world.canSeeSky(getPosition());
+        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && this.world.getBlockState((new BlockPos(this)).down()) instanceof BlockLimestone;
     }
 
     @Override
     protected boolean isValidLightLevel() {
-        return true;
+        return world.getLightFor(EnumSkyBlock.BLOCK, this.getPosition()) == 0;
     }
 }

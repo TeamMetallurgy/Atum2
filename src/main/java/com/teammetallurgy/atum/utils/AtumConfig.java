@@ -17,6 +17,7 @@ public class AtumConfig {
     public static final String WORLDGEN = "world gen";
     public static final String OREGEN = AtumConfig.WORLDGEN + Configuration.CATEGORY_SPLITTER + "ore gen";
     public static final String BIOME = "biome";
+    public static final String MOBS = "mobs";
     public static boolean ALLOW_CREATION;
     public static boolean START_IN_ATUM;
     public static boolean START_IN_ATUM_PORTAL;

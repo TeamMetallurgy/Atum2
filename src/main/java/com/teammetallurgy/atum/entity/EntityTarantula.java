@@ -58,6 +58,11 @@ public class EntityTarantula extends EntityMob {
     }
 
     @Override
+    protected boolean isValidLightLevel() {
+        return true;
+    }
+
+    @Override
     public double getMountedYOffset() {
         return (double) (this.height * 0.5F);
     }

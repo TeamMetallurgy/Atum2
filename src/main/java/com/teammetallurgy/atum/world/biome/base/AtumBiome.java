@@ -13,11 +13,15 @@ import com.teammetallurgy.atum.entity.undead.EntityMummy;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisGrass;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.monster.IMob;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -27,13 +31,17 @@ import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
+    private static final EnumCreatureType UNDERGROUND =  Objects.requireNonNull(EnumHelper.addCreatureType("underground", IMob.class, 20, Material.AIR, false, false));
+    private static final EnumCreatureType SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("surface", IMob.class, 45, Material.AIR, false, false));
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected int deadwoodRarity = 5;
@@ -56,29 +64,33 @@ public class AtumBiome extends Biome {
         return weight;
     }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    protected void addDefaultSpawns() { //TODO Fix weights
+    protected void addDefaultSpawns() {
         //Animals
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityDesertWolf.class, 18, 1, 4));
+        addSpawn(EntityDesertWolf.class, 18, 1, 4, EnumCreatureType.CREATURE);
 
         //Bandits
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityAssassin.class, 1, 1, 1));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBarbarian.class, 8, 1, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBrigand.class, 30, 2, 3));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityNomad.class, 22, 1, 4));
+        addSpawn(EntityAssassin.class, 1, 1, 1, SURFACE);
+        addSpawn(EntityBarbarian.class, 8, 1, 2, SURFACE);
+        addSpawn(EntityBrigand.class, 30, 2, 3, SURFACE);
+        addSpawn(EntityNomad.class, 22, 1, 4, SURFACE);
 
         //Undead
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityBonestorm.class, 5, 1, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityForsaken.class, 22, 1, 4));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityMummy.class, 30, 1, 3));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityWraith.class, 10, 1, 2));
+        addSpawn(EntityBonestorm.class, 5, 1, 2, SURFACE);
+        addSpawn(EntityForsaken.class, 22, 1, 4, SURFACE);
+        addSpawn(EntityMummy.class, 30, 1, 3, SURFACE);
+        addSpawn(EntityWraith.class, 10, 1, 2, SURFACE);
 
-        //Underground //TODO Put into separate spawn table, without crashing
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityStoneguard.class, 27, 1, 2));
-        this.spawnableMonsterList.add(new SpawnListEntry(EntityTarantula.class, 20, 1, 3));
+        //Underground
+        addSpawn(EntityStoneguard.class, 34, 1, 2, UNDERGROUND);
+        addSpawn(EntityTarantula.class, 20, 1, 3, UNDERGROUND);
+    }
+
+    private void addSpawn(Class <? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type ) {
+        String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
+        weight = AtumConfig.config.get(category, "weight", weight).getInt();
+        min = AtumConfig.config.get(category, "min", min).getInt();
+        max = AtumConfig.config.get(category, "max", max).getInt();
+        this.getSpawnableList(type).add(new SpawnListEntry(entityClass, weight, min, max));
     }
 
     @Override
