@@ -9,6 +9,10 @@ import javax.annotation.Nonnull;
 
 public class ItemDaggerPoison extends ItemDagger {
 
+    public ItemDaggerPoison() {
+        super(ToolMaterial.IRON);
+    }
+
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nonnull EntityLivingBase attacker) {
         target.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));

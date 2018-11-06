@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.anput;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.tools.ItemDagger;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -27,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Mod.EventBusSubscriber
-public class ItemAnputsHunger extends ItemSword {
+public class ItemAnputsHunger extends ItemDagger {
     private static int hungerTimer = 80;
 
     public ItemAnputsHunger() {

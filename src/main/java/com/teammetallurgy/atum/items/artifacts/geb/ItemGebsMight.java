@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.geb;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.items.tools.ItemHammer;
 import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.client.resources.I18n;
@@ -13,10 +14,8 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -35,7 +34,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber
-public class ItemGebsMight extends ItemSword {
+public class ItemGebsMight extends ItemHammer {
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
     private static int stunTimer = 0;
     private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("47afe540-82e7-4637-b807-c69382902385"), "Geb's Might stun", -1000.0D, 0);
@@ -79,14 +78,14 @@ public class ItemGebsMight extends ItemSword {
                     double d2 = itemRand.nextGaussian() * 0.02D;
                     Atum.proxy.spawnParticle(AtumParticles.Types.GEB, entity, entity.posX, entity.posY + entity.getEyeHeight() - 0.1D, entity.posZ, d0, d1, d2);
                 }
-                stunTimer = 20000;
+                stunTimer = 120;
             }
             cooldown.remove(trueSource);
         }
     }
 
     @SubscribeEvent
-    public static void onLivingUpdate (LivingEvent.LivingUpdateEvent event) {
+    public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         if (stunTimer > 1) {
             stunTimer--;
         }
@@ -106,10 +105,5 @@ public class ItemGebsMight extends ItemSword {
         } else {
             tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

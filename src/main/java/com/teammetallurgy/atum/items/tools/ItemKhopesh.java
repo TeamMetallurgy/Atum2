@@ -9,13 +9,12 @@ import net.minecraft.item.ItemSword;
 
 import javax.annotation.Nonnull;
 
-public class ItemDagger extends ItemSword {
+public class ItemKhopesh extends ItemSword {
     private final float damage;
 
-    public ItemDagger(ToolMaterial material) {
+    public ItemKhopesh(ToolMaterial material) {
         super(material);
-        this.setCreativeTab(null);
-        this.damage = material.getAttackDamage() + 2.0F;
+        this.damage = material.getAttackDamage() + 3.0F;
     }
 
     @Override
@@ -24,7 +23,7 @@ public class ItemDagger extends ItemSword {
         Multimap<String, AttributeModifier> map = HashMultimap.create();
         if (slot == EntityEquipmentSlot.MAINHAND) {
             map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.damage, 0));
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.0D, 0));
+            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.6D, 0));
         }
         return map;
     }

@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.material.Material;
@@ -8,6 +10,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -59,6 +63,17 @@ public class ItemPtahsUndoing extends ItemPickaxe {
             return efficiency;
         }
         return super.getDestroySpeed(stack, state);
+    }
+
+    @Override
+    @Nonnull
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
+        Multimap<String, AttributeModifier> map = HashMultimap.create();
+        if (slot == EntityEquipmentSlot.MAINHAND) {
+            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", (double) this.attackDamage + 2.0D, 0));
+            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", (double) this.attackSpeed, 0));
+        }
+        return map;
     }
 
     @Override

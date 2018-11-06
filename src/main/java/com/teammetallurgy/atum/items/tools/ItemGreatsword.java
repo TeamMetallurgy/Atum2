@@ -25,10 +25,12 @@ import javax.annotation.Nonnull;
 @Mod.EventBusSubscriber
 public class ItemGreatsword extends ItemSword {
     private static final TObjectFloatMap<EntityLivingBase> cooldown = new TObjectFloatHashMap<>();
+    private final float damage;
 
-    public ItemGreatsword() {
-        super(ToolMaterial.IRON);
+    public ItemGreatsword(ToolMaterial material) {
+        super(material);
         this.setCreativeTab(null);
+        this.damage = material.getAttackDamage() + 8.0F;
     }
 
     @SubscribeEvent
@@ -67,8 +69,8 @@ public class ItemGreatsword extends ItemSword {
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
         Multimap<String, AttributeModifier> map = HashMultimap.create();
         if (slot == EntityEquipmentSlot.MAINHAND) {
-            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 9.0D, 0));
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.4D, 0));
+            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.damage, 0));
+            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -3.2D, 0));
         }
         return map;
     }

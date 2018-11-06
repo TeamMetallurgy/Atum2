@@ -1,24 +1,18 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.items.tools.ItemGauntlet;
 import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -35,7 +29,7 @@ import java.util.List;
 import java.util.Random;
 
 @Mod.EventBusSubscriber
-public class ItemHorusAscension extends ItemSword {
+public class ItemHorusAscension extends ItemGauntlet {
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
 
     public ItemHorusAscension() {
@@ -67,7 +61,7 @@ public class ItemHorusAscension extends ItemSword {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
-        if (cooldown.get(attacker) == 1.0F ) {
+        if (cooldown.get(attacker) == 1.0F) {
             knockUp(target, attacker, itemRand);
         }
         return super.hitEntity(stack, target, attacker);
@@ -93,17 +87,6 @@ public class ItemHorusAscension extends ItemSword {
     }
 
     @Override
-    @Nonnull
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
-        Multimap<String, AttributeModifier> map = HashMultimap.create();
-        if (slot == EntityEquipmentSlot.MAINHAND) {
-            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 5.0D, 0));
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.7D, 0));
-        }
-        return map;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
         if (Keyboard.isKeyDown(42)) {
@@ -112,10 +95,5 @@ public class ItemHorusAscension extends ItemSword {
         } else {
             tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

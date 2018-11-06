@@ -1,18 +1,17 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.tools.ItemKhopesh;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
@@ -33,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Mod.EventBusSubscriber
-public class ItemNuitsIre extends ItemSword {
+public class ItemNuitsIre extends ItemKhopesh {
     private boolean isOffhand = false;
     private static boolean isBlocking = false;
 
@@ -116,17 +115,6 @@ public class ItemNuitsIre extends ItemSword {
         if (attacker != target) {
             target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
         }
-    }
-
-    @Override
-    @Nonnull
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
-        Multimap<String, AttributeModifier> map = HashMultimap.create();
-        if (slot == EntityEquipmentSlot.MAINHAND) {
-            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 4.0D, 0));
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.6D, 0));
-        }
-        return map;
     }
 
     @Override

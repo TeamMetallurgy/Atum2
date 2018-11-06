@@ -67,12 +67,15 @@ public class AtumItems {
     public static final Item DATE = new ItemFood(4, 0.3F, false);
     public static final Item GOLDEN_DATE = new ItemDateGold(5, 1.5F, false).setAlwaysEdible();
     public static final Item ENCHANTED_GOLDEN_DATE = new ItemDateGoldEnchanted(5, 1.5F, false).setAlwaysEdible();
-    public static final Item DAGGER = new ItemDagger();
+    public static final Item DAGGER = new ItemDagger(ToolMaterial.IRON);
     public static final Item POISON_DAGGER = new ItemDaggerPoison();
     public static final Item SCIMITAR = new ItemSword(ToolMaterial.IRON);
-    public static final Item GREATSWORD = new ItemGreatsword();
+    public static final Item GREATSWORD = new ItemGreatsword(ToolMaterial.IRON);
     public static final Item SHORT_BOW = new ItemBaseBow();
     public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.STONE);
+    public static final Item STONEGUARD_GREATSWORD = new ItemGreatsword(ToolMaterial.STONE);
+    public static final Item STONEGUARD_CLUB = new ItemClub(ToolMaterial.STONE);
+    public static final Item STONEGUARD_KHOPESH = new ItemKhopesh(ToolMaterial.STONE);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
@@ -167,6 +170,9 @@ public class AtumItems {
         registerItem(GREATSWORD, "greatsword");
         registerItem(SHORT_BOW, "short_bow");
         registerItem(STONEGUARD_SWORD, "stoneguard_sword");
+        registerItem(STONEGUARD_GREATSWORD, "stoneguard_greatsword");
+        registerItem(STONEGUARD_CLUB, "stoneguard_club");
+        registerItem(STONEGUARD_KHOPESH, "stoneguard_khopesh");
         registerItem(BRIGAND_SHIELD, "brigand_shield");
         ItemScepter.registerScepters();
         registerItem(EYES_OF_ATUM, "eyes_of_atum");
