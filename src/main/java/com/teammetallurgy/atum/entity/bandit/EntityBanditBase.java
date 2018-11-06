@@ -25,11 +25,13 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class EntityBanditBase extends EntityMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.VARINT);
@@ -123,12 +125,13 @@ public class EntityBanditBase extends EntityMob {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
+        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
         if (this.hasSkinVariants()) {
             if (this.texturePath == null) {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + this.getName() + "_" + this.getVariant()) + ".png");
+                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + this.getVariant()) + ".png");
             }
         } else {
-            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + this.getName() + ".png"));
+            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + ".png"));
         }
         return this.texturePath;
     }
