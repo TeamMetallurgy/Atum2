@@ -41,6 +41,7 @@ public class EntityMummy extends EntityUndeadBase {
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
     }
 
     @Override

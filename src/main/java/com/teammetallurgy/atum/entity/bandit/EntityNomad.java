@@ -8,7 +8,6 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
@@ -30,7 +29,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
-    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(AbstractSkeleton.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(EntityNomad.class, DataSerializers.BOOLEAN);
     private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 0.8D, 30, 15.0F);
     private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.0D, false) {
         @Override
@@ -60,6 +59,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
     }
 
     @Override

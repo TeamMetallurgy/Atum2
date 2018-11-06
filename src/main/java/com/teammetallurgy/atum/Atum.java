@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
-import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -32,7 +31,6 @@ public class Atum {
     public void preInit(FMLPreInitializationEvent event) {
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
-        new AtumEntities();
         NetworkHandler.register();
     }
 

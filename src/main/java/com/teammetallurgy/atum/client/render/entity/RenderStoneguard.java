@@ -9,11 +9,14 @@ import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class RenderStoneguard extends RenderBiped<EntityStoneguard> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 

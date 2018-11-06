@@ -60,6 +60,7 @@ public class EntityAssassin extends EntityBanditBase {
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(55.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(6.0F);
     }
 
     @Override

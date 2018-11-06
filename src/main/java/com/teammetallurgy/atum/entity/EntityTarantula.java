@@ -45,7 +45,7 @@ public class EntityTarantula extends EntityMob implements IUnderground {
         this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, EntityTarantula.class));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
     }

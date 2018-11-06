@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
@@ -227,6 +228,8 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+        new AtumEntities();
+
         int networkIdMob = 0;
         for (EntityEntry entry : MOBS) {
             Preconditions.checkNotNull(entry.getRegistryName(), "registryName");

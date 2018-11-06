@@ -4,11 +4,18 @@ import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
@@ -21,6 +28,8 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class EntityStoneBase extends EntityMob implements IUnderground {
+    private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(EntityStoneBase.class, DataSerializers.BYTE);
+    private int homeCheckTimer;
 
     EntityStoneBase(World world) {
         super(world);
@@ -29,22 +38,68 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
 
     @Override
     protected void initEntityAI() {
-        this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
+        this.tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         applyEntityAI();
     }
 
-    protected void applyEntityAI() {
+    private void applyEntityAI() {
+        this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
     }
 
     @Override
+    protected void applyEntityAttributes() {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
+    }
+
+    @Override
+    protected void entityInit() {
+        super.entityInit();
+        this.dataManager.register(PLAYER_CREATED, (byte) 1);
+    }
+
+    @Override
+    protected void updateAITasks() {
+        if (--this.homeCheckTimer <= 0) {
+            this.homeCheckTimer = 70 + this.rand.nextInt(50);
+
+            if (!this.hasHome()) {
+                this.setHomePosAndDistance(new BlockPos(this), 16);
+            }
+        }
+        super.updateAITasks();
+    }
+
+    @Override
+    public boolean canAttackClass(Class <? extends EntityLivingBase> livingClass) {
+        if (this.isPlayerCreated() && EntityPlayer.class.isAssignableFrom(livingClass)) {
+            return false;
+        } else {
+            return super.canAttackClass(livingClass);
+        }
+    }
+
+    @Override
     public boolean isPotionApplicable(@Nonnull PotionEffect potionEffect) {
         return potionEffect.getPotion() != MobEffects.POISON && super.isPotionApplicable(potionEffect);
+    }
+
+    @Override
+    public void knockBack(@Nonnull Entity entity, float strength, double xRatio, double zRatio) {
+        //Immune to knockback
+    }
+
+    @Override
+    protected int decreaseAirSupply(int air) {
+        return air;
     }
 
     @Override
@@ -69,6 +124,15 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     }
 
     @Override
+    public int getTalkInterval() {
+        return 120;
+    }
+
+    @Override
+    public void fall(float distance, float damageMultiplier) {
+    }
+
+    @Override
     protected void playStepSound(BlockPos pos, Block block) {
         this.playSound(SoundEvents.BLOCK_STONE_STEP, 0.15F, 1.0F);
     }
@@ -76,12 +140,38 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     @Override
     public boolean getCanSpawnHere() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP) ;
+        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP);
     }
 
     @Override
     protected boolean isValidLightLevel() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
         return world.getLightFor(EnumSkyBlock.SKY, pos) == 0;
+    }
+
+    public boolean isPlayerCreated() {
+        return (this.dataManager.get(PLAYER_CREATED) & 1) != 0;
+    }
+
+    public void setPlayerCreated(boolean playerCreated) {
+        byte b = this.dataManager.get(PLAYER_CREATED);
+
+        if (playerCreated) {
+            this.dataManager.set(PLAYER_CREATED, (byte) (b | 1));
+        } else {
+            this.dataManager.set(PLAYER_CREATED, (byte) (b & -2));
+        }
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setBoolean("PlayerCreated", this.isPlayerCreated());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.setPlayerCreated(compound.getBoolean("PlayerCreated"));
     }
 }

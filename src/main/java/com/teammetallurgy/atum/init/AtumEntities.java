@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.*;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraftforge.fml.common.registry.EntityEntry;
@@ -29,6 +30,7 @@ public class AtumEntities {
     public static final EntityEntry PHARAOH = registerMob(EntityPharaoh.class, 0xD4BC37, 0x3A4BE0);
     public static final EntityEntry SCARAB = registerMob(EntityScarab.class, 0x61412C, 0x2F1D10);
     public static final EntityEntry STONEGUARD = registerMob(EntityStoneguard.class, 0x918354, 0x695D37);
+    public static final EntityEntry STONEWARDEN = registerMob(EntityStonewarden.class, 0x918354, 0x695D37);
     public static final EntityEntry TARANTULA = registerMob(EntityTarantula.class, 0x745c47, 0xd2b193);
     public static final EntityEntry WRAITH = registerMob(EntityWraith.class, 0x544d34, 0x3e3927);
 

@@ -52,6 +52,7 @@ public class EntityUndeadBase extends EntityMob {
     }
 
     protected void applyEntityAI() {
+        this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, EntityUndeadBase.class));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));

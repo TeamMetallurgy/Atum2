@@ -23,6 +23,7 @@ import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
@@ -88,6 +89,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityWraith.class, manager -> new RenderUndead(manager, new ModelZombie()));
         RenderingRegistry.registerEntityRenderingHandler(EntityBonestorm.class, RenderBonestorm::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, RenderStoneguard::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityStonewarden.class, RenderStonewarden::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityScarab.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {
@@ -99,7 +101,6 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntitySmallBone.class, manager -> new RenderBone(manager, 0.35F));
         RenderingRegistry.registerEntityRenderingHandler(EntityTefnutsCall.class, RenderTefnutsCall::new);
     }
-
 
     public static void ignoreRenderProperty(Block block) {
         if (block instanceof IRenderMapper) {
