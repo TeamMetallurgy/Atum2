@@ -76,6 +76,7 @@ public class AtumItems {
     public static final Item STONEGUARD_GREATSWORD = new ItemGreatsword(ToolMaterial.STONE);
     public static final Item STONEGUARD_CLUB = new ItemClub(ToolMaterial.STONE);
     public static final Item STONEGUARD_KHOPESH = new ItemKhopesh(ToolMaterial.STONE);
+    public static final Item STONEGUARD_SHIELD = new ItemAtumShield().setRepairItem(Item.getItemFromBlock(AtumBlocks.LIMESTONE)).setMaxDamage(90);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();
@@ -173,6 +174,7 @@ public class AtumItems {
         registerItem(STONEGUARD_GREATSWORD, "stoneguard_greatsword");
         registerItem(STONEGUARD_CLUB, "stoneguard_club");
         registerItem(STONEGUARD_KHOPESH, "stoneguard_khopesh");
+        registerItem(STONEGUARD_SHIELD, "stoneguard_shield");
         registerItem(BRIGAND_SHIELD, "brigand_shield");
         ItemScepter.registerScepters();
         registerItem(EYES_OF_ATUM, "eyes_of_atum");

@@ -37,7 +37,28 @@ public class EntityStoneguard extends EntityStoneBase {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
+        int randomSet = MathHelper.getInt(rand, 0, 3);
+        this.setStoneguardEquipment(randomSet);
+    }
+
+    private void setStoneguardEquipment(int set) {
+        switch (set) {
+            case 0:
+                this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
+                this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
+                break;
+            case 1:
+                this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_CLUB));
+                this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
+                break;
+            case 2:
+                this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_GREATSWORD));
+                break;
+            case 3:
+                this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_KHOPESH));
+                this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
+                break;
+        }
     }
 
     @Override

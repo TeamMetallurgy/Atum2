@@ -8,18 +8,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelBrigandShield extends ModelBase {
-    public ModelRenderer shieldCore;
-    public ModelRenderer handleCore;
-    public ModelRenderer shieldTop1;
-    public ModelRenderer shieldTop2;
-    public ModelRenderer shieldTop3;
-    public ModelRenderer shieldTop4;
-    public ModelRenderer shieldBottom1;
-    public ModelRenderer shieldBottom2;
-    public ModelRenderer shieldBottom3;
-    public ModelRenderer shieldBottom4;
-    public ModelRenderer handleSide1;
-    public ModelRenderer handleSide2;
+    private ModelRenderer shieldCore;
+    private ModelRenderer handleCore;
+    private ModelRenderer shieldTop1;
+    private ModelRenderer shieldTop2;
+    private ModelRenderer shieldTop3;
+    private ModelRenderer shieldTop4;
+    private ModelRenderer shieldBottom1;
+    private ModelRenderer shieldBottom2;
+    private ModelRenderer shieldBottom3;
+    private ModelRenderer shieldBottom4;
+    private ModelRenderer handleSide1;
+    private ModelRenderer handleSide2;
 
     public ModelBrigandShield() {
         this.textureWidth = 32;
@@ -74,7 +74,8 @@ public class ModelBrigandShield extends ModelBase {
 
     public void render() {
         GlStateManager.pushMatrix();
-        GlStateManager.scale(1.0D / 0.8D, -1.0D / 0.8D, -1.0D / 0.8D);
+        GlStateManager.scale(1.0D / 0.78D, -1.0D / 0.78D, -1.0D / 0.78D);
+        GlStateManager.translate(0.0F, 0.0F, -0.025F);
         this.handleCore.render(0.0625F);
         this.shieldCore.render(0.0625F);
         GlStateManager.popMatrix();
