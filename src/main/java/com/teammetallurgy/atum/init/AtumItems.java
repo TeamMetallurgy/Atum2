@@ -33,6 +33,7 @@ import com.teammetallurgy.atum.items.artifacts.thoth.ItemThothsBearings;
 import com.teammetallurgy.atum.items.artifacts.thoth.ItemThothsDirection;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
@@ -47,12 +48,11 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
 
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumItems {
-    //TODO Move ArmorMaterials to somewhere else
-    private static final ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{2, 3, 2, 1}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
-    private static final ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{2, 3, 3, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
-    private static final ArmorMaterial DESERT_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("DESERT", "desert", 20, new int[]{3, 6, 5, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_GENERIC, 0.0F);
+    private static final ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{1, 2, 2, 1}, 12, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
+    private static final ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{1, 2, 3, 1}, 14, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
 
     public static final Item DUST_BONE_STICK = new Item();
+    public static final Item KHNUMITE = new Item();
     public static final Item DIRTY_COIN = new ItemCoin();
     public static final Item GOLD_COIN = new ItemCoin();
     public static final Item LIMESTONE_SHOVEL = new ItemLimestoneShovel();
@@ -122,14 +122,14 @@ public class AtumItems {
     public static final Item MUMMY_CHEST = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
     public static final Item MUMMY_LEGS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.LEGS).setRepairItem(SCRAP).setTextureFile("mummy_armor_2");
     public static final Item MUMMY_BOOTS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.FEET).setRepairItem(SCRAP).setTextureFile("mummy_armor_1");
-    public static final Item WANDERER_HELMET = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(LINEN).setTextureFile("wanderer_armor_1");
-    public static final Item WANDERER_CHEST = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(LINEN).setTextureFile("wanderer_armor_1");
-    public static final Item WANDERER_LEGS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.LEGS).setRepairItem(LINEN).setTextureFile("wanderer_armor_2");
-    public static final Item WANDERER_BOOTS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.FEET).setRepairItem(LINEN).setTextureFile("wanderer_armor_1");
-    public static final Item DESERT_HELMET = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
-    public static final Item DESERT_CHEST = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
-    public static final Item DESERT_LEGS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.LEGS).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_2");
-    public static final Item DESERT_BOOTS = new ItemTexturedArmor(MUMMY_ARMOR_MATERIAL, 0, EntityEquipmentSlot.FEET).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
+    public static final Item WANDERER_HELMET = new ItemTexturedArmor(WANDERER_ARMOR_MATERIAL, 0, EntityEquipmentSlot.HEAD).setRepairItem(LINEN).setTextureFile("wanderer_armor_1");
+    public static final Item WANDERER_CHEST = new ItemTexturedArmor(WANDERER_ARMOR_MATERIAL, 0, EntityEquipmentSlot.CHEST).setRepairItem(LINEN).setTextureFile("wanderer_armor_1");
+    public static final Item WANDERER_LEGS = new ItemTexturedArmor(WANDERER_ARMOR_MATERIAL, 0, EntityEquipmentSlot.LEGS).setRepairItem(LINEN).setTextureFile("wanderer_armor_2");
+    public static final Item WANDERER_BOOTS = new ItemTexturedArmor(WANDERER_ARMOR_MATERIAL, 0, EntityEquipmentSlot.FEET).setRepairItem(LINEN).setTextureFile("wanderer_armor_1");
+    public static final Item DESERT_HELMET = new ItemTexturedArmor(ArmorMaterial.IRON, 0, EntityEquipmentSlot.HEAD).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
+    public static final Item DESERT_CHEST = new ItemTexturedArmor(ArmorMaterial.IRON, 0, EntityEquipmentSlot.CHEST).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
+    public static final Item DESERT_LEGS = new ItemTexturedArmor(ArmorMaterial.IRON, 0, EntityEquipmentSlot.LEGS).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_2");
+    public static final Item DESERT_BOOTS = new ItemTexturedArmor(ArmorMaterial.IRON, 0, EntityEquipmentSlot.FEET).setRepairItem(Items.IRON_INGOT).setTextureFile("desert_armor_1");
     public static final Item PAPYRUS_PLANT = new ItemBlockSpecial(AtumBlocks.PAPYRUS);
     public static final Item ECTOPLASM = new Item();
     public static final Item MANDIBLES = new Item();
@@ -151,6 +151,7 @@ public class AtumItems {
     public static void registerItems() {
         BlockAtumPlank.registerSticks();
         registerItem(DUST_BONE_STICK, "dusty_bone_stick");
+        registerItem(KHNUMITE, "khnumite");
         registerItem(DIRTY_COIN, "coin_dirty");
         registerItem(GOLD_COIN, "coin_gold");
         ItemLoot.createLootItems();
@@ -247,5 +248,9 @@ public class AtumItems {
         registerItem(SKELETAL, "fish_skeletal");
         registerItem(CRUNCHY_SCARAB, "crunchy_scarab");
         registerItem(CRUNCHY_GOLD_SCARAB, "crunchy_golden_scarab");
+    }
+
+    public static void setItemInfo() {
+        OreDictHelper.add(KHNUMITE, "ingotKhnumite");
     }
 }

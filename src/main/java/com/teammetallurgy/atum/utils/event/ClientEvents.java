@@ -37,6 +37,9 @@ public class ClientEvents {
                 if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemEyesOfAtum) {
                     fogDensity = fogDensity / 3;
                 }
+                if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.WANDERER_HELMET) {
+                    fogDensity = fogDensity / 1.5F;
+                }
                 GlStateManager.setFogDensity(fogDensity);
             }
         }

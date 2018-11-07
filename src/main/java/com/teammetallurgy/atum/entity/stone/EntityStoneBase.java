@@ -50,7 +50,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
 
     private void applyEntityAI() {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 10, true, false, input -> !isPlayerCreated()));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && !input.isPlayerCreated() && isPlayerCreated()));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && (!input.isPlayerCreated() && isPlayerCreated() || input.isPlayerCreated() && !isPlayerCreated())));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
@@ -171,7 +171,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         return world.getLightFor(EnumSkyBlock.SKY, pos) == 0;
     }
 
-    private boolean isPlayerCreated() {
+    protected boolean isPlayerCreated() {
         return (this.dataManager.get(PLAYER_CREATED) & 1) != 0;
     }
 

@@ -34,6 +34,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
     private WorldGenerator relicGen;
     private WorldGenerator alabasterGen;
     private WorldGenerator porphyryGen;
+    private WorldGenerator khnumite;
     private WorldGenerator limestoneScarab;
     public float shrubChance;
 
@@ -42,6 +43,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         //Atum ores
         this.alabasterGen = generateMineable(AtumBlocks.ALABASTER.getDefaultState(), 33);
         this.porphyryGen = generateMineable(AtumBlocks.PORPHYRY.getDefaultState(), 33);
+        this.khnumite = generateMineable(AtumBlocks.KHNUMITE_RAW.getDefaultState(), 5);
         this.limestoneScarab = generateMineable(AtumBlocks.LIMESTONE.getDefaultState().withProperty(BlockLimestone.HAS_SCARAB, true), 10);
         this.boneGen = generateMineable(AtumBlocks.BONE_ORE.getDefaultState(), 8);
         this.relicGen = generateMineable(AtumBlocks.RELIC_ORE.getDefaultState(), 4);
@@ -144,6 +146,10 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
         if (TerrainGen.generateOre(world, random, this.porphyryGen, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
             this.genStandardOre1(world, random, 10, this.porphyryGen, 0, 60);
+        }
+
+        if (TerrainGen.generateOre(world, random, this.khnumite, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {
+            this.genStandardOre1(world, random, 4, this.khnumite, 0, 20);
         }
 
         if (TerrainGen.generateOre(world, random, this.limestoneScarab, chunkPos, OreGenEvent.GenerateMinable.EventType.CUSTOM)) {

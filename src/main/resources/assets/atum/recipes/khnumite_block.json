@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "KKK",
+    "KKK",
+    "KKK"
+  ],
+  "key": {
+    "K": {
+      "ore": "ingotKhnumite",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "atum:khnumite_block",
+    "count": 1
+  }
+}

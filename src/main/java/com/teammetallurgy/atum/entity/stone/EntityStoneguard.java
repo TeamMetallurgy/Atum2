@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.stone;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -10,10 +11,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityStoneguard extends EntityStoneBase {
@@ -77,12 +80,15 @@ public class EntityStoneguard extends EntityStoneBase {
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        this.setEquipmentBasedOnDifficulty(difficulty);
-        this.setEnchantmentBasedOnDifficulty(difficulty);
+        if (!this.isPlayerCreated()) {
+            this.setEquipmentBasedOnDifficulty(difficulty);
+            this.setEnchantmentBasedOnDifficulty(difficulty);
 
-        final int variant = MathHelper.getInt(world.rand, 0, 7);
-        this.setVariant(variant);
-
+            final int variant = MathHelper.getInt(world.rand, 0, 7);
+            this.setVariant(variant);
+        } else {
+            this.setVariant(0); //TODO Set as variant 8, when texture is made for it
+        }
         return livingdata;
     }
 
@@ -101,6 +107,12 @@ public class EntityStoneguard extends EntityStoneBase {
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
         }
+    }
+
+    @Override
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.STONEGUARD;
     }
 
     @Override

@@ -211,6 +211,7 @@ public class AtumRegistry {
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         AtumItems.registerItems();
+        AtumItems.setItemInfo();
         OreDictHelper.register();
     }
 

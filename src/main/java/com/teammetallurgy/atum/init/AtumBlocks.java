@@ -113,9 +113,10 @@ public class AtumBlocks {
     public static final Block LIT_REDSTONE_ORE = new BlockAtumRedstoneOre(true);
     public static final Block BONE_ORE = new BlockAtumOres();
     public static final Block RELIC_ORE = new BlockAtumOres();
+    public static final Block KHNUMITE_RAW = new Block(Material.ROCK, MapColor.CLAY);
     public static final Block BONE_DIRTY = new BlockBone();
-    public static final Block BONE_LADDER = new BlockAtumLadder();
     public static final Block BONE_DIRTY_SLAB = new BlockAtumSlab(Material.ROCK, MapColor.SAND);
+    public static final Block BONE_LADDER = new BlockAtumLadder();
     public static final Block LIMESTONE_FURNACE = new BlockLimestoneFurnace(false);
     public static final Block LIMESTONE_FURNACE_LIT = new BlockLimestoneFurnace(true);
     public static final BlockAtumDoor DEADWOOD_DOOR = new BlockAtumDoor(Material.WOOD);
@@ -155,9 +156,10 @@ public class AtumBlocks {
         registerBlock(LIT_REDSTONE_ORE, "lit_redstone_ore", null);
         registerBlock(BONE_ORE, "bone_ore");
         registerBlock(RELIC_ORE, "relic_ore");
+        registerBlock(KHNUMITE_RAW, "khnumite_raw");
         registerBlock(BONE_DIRTY, "dirty_bone_block");
-        registerBlock(BONE_LADDER, "bone_ladder");
         registerBlock(BONE_DIRTY_SLAB, new ItemAtumSlab(BONE_DIRTY_SLAB, (BlockAtumSlab) BONE_DIRTY_SLAB), "dirty_bone_slab");
+        registerBlock(BONE_LADDER, "bone_ladder");
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
         registerBlock(PALM_TORCH, "palm_torch");
@@ -291,5 +293,6 @@ public class AtumBlocks {
         OreDictHelper.add(LIMESTONE_GRAVEL, "gravel");
         OreDictHelper.add(Item.REGISTRY.getObject(PALM_DOOR.getRegistryName()), "doorWood");
         OreDictHelper.add(Item.REGISTRY.getObject(DEADWOOD_DOOR.getRegistryName()), "doorWood");
+        OreDictHelper.add(KHNUMITE_RAW, "stoneKhnumite");
     }
 }

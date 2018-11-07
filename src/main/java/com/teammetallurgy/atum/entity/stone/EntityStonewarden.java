@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.stone;
 
+import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -10,12 +11,14 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityStonewarden extends EntityStoneBase {
@@ -98,5 +101,11 @@ public class EntityStonewarden extends EntityStoneBase {
     @SideOnly(Side.CLIENT)
     public int getAttackTimer() {
         return this.attackTimer;
+    }
+
+    @Override
+    @Nullable
+    protected ResourceLocation getLootTable() {
+        return AtumLootTables.STONEWARDEN;
     }
 }
