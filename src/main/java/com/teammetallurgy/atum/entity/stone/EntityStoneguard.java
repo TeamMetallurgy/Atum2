@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.entity.stone;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,6 +13,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+
+import java.util.UUID;
 
 public class EntityStoneguard extends EntityStoneBase {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityStoneguard.class, DataSerializers.VARINT);
@@ -32,7 +35,16 @@ public class EntityStoneguard extends EntityStoneBase {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+    }
+
+    @Override
+    protected void setFriendlyAttributes() {
+        super.setFriendlyAttributes();
+        final AttributeModifier FRIENDLY_HEALTH = new AttributeModifier(UUID.fromString("41d44fff-f8a8-47c5-a753-d7eb9f715d40"), "Friendly Stoneguard health", 20.0D, 0);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(FRIENDLY_HEALTH);
+        this.heal(20);
     }
 
     @Override

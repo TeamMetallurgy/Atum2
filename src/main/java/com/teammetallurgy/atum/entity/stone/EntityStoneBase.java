@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
@@ -21,11 +21,13 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class EntityStoneBase extends EntityMob implements IUnderground {
     private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(EntityStoneBase.class, DataSerializers.BYTE);
@@ -47,23 +49,47 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     }
 
     private void applyEntityAI() {
-        this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 10, true, false, input -> !isPlayerCreated()));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && !input.isPlayerCreated() && isPlayerCreated()));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
     }
 
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
+
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
+    }
+
+    protected void setFriendlyAttributes() {
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
-        this.dataManager.register(PLAYER_CREATED, (byte) 1);
+        this.dataManager.register(PLAYER_CREATED, (byte) 0);
+    }
+
+    @Override
+    @Nullable
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+        if (this.isPlayerCreated()) {
+            this.setFriendlyAttributes();
+        }
+        return super.onInitialSpawn(difficulty, livingdata);
+    }
+
+    @Override
+    public void setDead() {
+        if (!world.isRemote && this.isPlayerCreated() && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+            //Don't set player created stone mobs as dead on peaceful
+        } else {
+            super.setDead();
+        }
     }
 
     @Override
@@ -79,15 +105,6 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     }
 
     @Override
-    public boolean canAttackClass(Class <? extends EntityLivingBase> livingClass) {
-        if (this.isPlayerCreated() && EntityPlayer.class.isAssignableFrom(livingClass)) {
-            return false;
-        } else {
-            return super.canAttackClass(livingClass);
-        }
-    }
-
-    @Override
     public boolean isPotionApplicable(@Nonnull PotionEffect potionEffect) {
         return potionEffect.getPotion() != MobEffects.POISON && super.isPotionApplicable(potionEffect);
     }
@@ -95,6 +112,11 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     @Override
     public void knockBack(@Nonnull Entity entity, float strength, double xRatio, double zRatio) {
         //Immune to knockback
+    }
+
+    @Override
+    protected boolean canDespawn() {
+        return !this.isPlayerCreated();
     }
 
     @Override
@@ -149,7 +171,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         return world.getLightFor(EnumSkyBlock.SKY, pos) == 0;
     }
 
-    public boolean isPlayerCreated() {
+    private boolean isPlayerCreated() {
         return (this.dataManager.get(PLAYER_CREATED) & 1) != 0;
     }
 

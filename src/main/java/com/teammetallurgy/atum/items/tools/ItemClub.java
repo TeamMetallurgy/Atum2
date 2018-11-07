@@ -44,7 +44,6 @@ public class ItemClub extends ItemSword {
     @SubscribeEvent
     public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
         if (stunTimer > 1) {
-            System.out.println(stunTimer);
             stunTimer--;
         }
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);

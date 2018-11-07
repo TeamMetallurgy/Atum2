@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
 import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.entity.undead.EntityBonestorm;
 import com.teammetallurgy.atum.entity.undead.EntityForsaken;
 import com.teammetallurgy.atum.entity.undead.EntityMummy;
@@ -83,6 +84,7 @@ public class AtumBiome extends Biome {
 
         //Underground
         addSpawn(EntityStoneguard.class, 34, 1, 2, UNDERGROUND);
+        addSpawn(EntityStonewarden.class, 1, 1, 1, UNDERGROUND);
         addSpawn(EntityTarantula.class, 20, 1, 3, UNDERGROUND);
     }
 

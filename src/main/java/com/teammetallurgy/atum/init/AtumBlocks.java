@@ -13,6 +13,8 @@ import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterSlab;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterWall;
+import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumite;
+import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumiteFace;
 import com.teammetallurgy.atum.blocks.stone.limestone.*;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockChestSpawner;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockLimestoneChest;
@@ -60,6 +62,8 @@ public class AtumBlocks {
     public static final Block ALABASTER = new BlockAlabaster();
     public static final Block PORPHYRY = new BlockPorphyry();
     public static final Block RA_STONE = new BlockRaStone();
+    public static final Block KHNUMITE_BLOCK = new BlockKhnumite();
+    public static final Block KHNUMITE_FACE = new BlockKhnumiteFace();
     public static final Block SMOOTH_STAIRS = new BlockAtumStairs(LIMESTONE.getDefaultState());
     public static final Block CRACKED_STAIRS = new BlockAtumStairs(LIMESTONE_CRACKED.getDefaultState());
     public static final Block SMOOTH_LIMESTONE_SLAB = new BlockAtumSlab(Material.ROCK);
@@ -171,6 +175,8 @@ public class AtumBlocks {
         registerBlock(LIMESTONE_GRAVEL, "limestone_gravel");
         registerBlock(SANDY_CLAY, "sandy_clay");
         registerBlock(RA_STONE, "ra_stone", null);
+        registerBlock(KHNUMITE_BLOCK, "khnumite_block");
+        registerBlock(KHNUMITE_FACE, "khnumite_face");
         registerBlock(LIMESTONE, "limestone");
         registerBlock(LIMESTONE_CRACKED, "limestone_cracked");
         registerBlock(SMOOTH_STAIRS, "smooth_stairs");
@@ -250,6 +256,8 @@ public class AtumBlocks {
         FERTILE_SOIL.setHarvestLevel("shovel", 0);
         FERTILE_SOIL_TILLED.setHarvestLevel("shovel", 0);
         LIMESTONE_CRACKED.setHarvestLevel("pickaxe", 0);
+        KHNUMITE_BLOCK.setHarvestLevel("pickaxe", 1);
+        KHNUMITE_FACE.setHarvestLevel("pickaxe", 1);
         COAL_ORE.setHarvestLevel("pickaxe", 0);
         BONE_ORE.setHarvestLevel("pickaxe", 0);
         IRON_ORE.setHarvestLevel("pickaxe", 1);
@@ -275,6 +283,8 @@ public class AtumBlocks {
             Blocks.FIRE.setFireInfo(BlockLeave.getLeave(type), 30, 60);
             Blocks.FIRE.setFireInfo(BlockAtumStairs.getWoodStairs(type), 5, 20);
         }
+
+        BlockKhnumiteFace.addDispenerSupport();
 
         //Ore Dictionary
         OreDictHelper.add(LIMESTONE_CRACKED, "cobblestone");

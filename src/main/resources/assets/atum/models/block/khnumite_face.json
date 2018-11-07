@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "atum:blocks/khnumite_block_top",
+    "front": "atum:blocks/khnumite_face_front",
+    "side": "atum:blocks/khnumite_face_side"
+  }
+}
