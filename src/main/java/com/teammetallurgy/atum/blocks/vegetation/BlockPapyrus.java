@@ -37,7 +37,7 @@ public class BlockPapyrus extends BlockReed implements IRenderMapper {
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World world, BlockPos pos, @Nonnull IBlockState state, Random rand) {
         if (world.getBlockState(pos.down()).getBlock() == AtumBlocks.PAPYRUS || this.checkForDrop(world, pos, state)) {
             if (world.isAirBlock(pos.up())) {
                 int i;
@@ -93,7 +93,6 @@ public class BlockPapyrus extends BlockReed implements IRenderMapper {
         }
         return super.canSustainPlant(state, world, pos, direction, plantable);
     }
-
 
     @Override
     @Nonnull

@@ -87,7 +87,7 @@ public class EntityStoneguard extends EntityStoneBase {
             final int variant = MathHelper.getInt(world.rand, 0, 7);
             this.setVariant(variant);
         } else {
-            this.setVariant(0); //TODO Set as variant 8, when texture is made for it
+            this.setVariant(8);
         }
         return livingdata;
     }

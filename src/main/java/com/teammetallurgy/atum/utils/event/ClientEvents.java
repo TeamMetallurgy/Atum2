@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -31,13 +32,14 @@ public class ClientEvents {
 
             if (event.getEntity() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) event.getEntity();
+                ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
                 if (player.getPosition().getY() <= 60) {
                     fogDensity += (float) (62 - player.getPosition().getY()) * 0.00666F;
                 }
-                if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() instanceof ItemEyesOfAtum) {
+                if (helmet.getItem() instanceof ItemEyesOfAtum) {
                     fogDensity = fogDensity / 3;
                 }
-                if (player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.WANDERER_HELMET) {
+                if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET) {
                     fogDensity = fogDensity / 1.5F;
                 }
                 GlStateManager.setFogDensity(fogDensity);

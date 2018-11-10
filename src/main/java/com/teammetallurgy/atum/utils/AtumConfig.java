@@ -63,7 +63,7 @@ public class AtumConfig {
 
         prop = config.get(CATEGORY_GENERAL, "Atum Fog", true);
         prop.setComment("Should clientside fog be rendered?");
-        prop.setLanguageKey("atum.configGui.fog");
+        prop.setLanguageKey("atum.configGui.fog").setRequiresMcRestart(true);
         FOG_ENABLED = prop.getBoolean(true);
         propOrder.add(prop.getName());
 

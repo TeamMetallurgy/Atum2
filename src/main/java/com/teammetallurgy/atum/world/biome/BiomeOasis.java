@@ -4,8 +4,12 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisPond;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
+import com.teammetallurgy.atum.world.gen.feature.WorldGenPapyrus;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -36,6 +40,18 @@ public class BiomeOasis extends AtumBiome {
 
         if (random.nextFloat() <= 0.98F) {
             new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
+        }
+
+        if(TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.REED)) {
+            int reedsPerChunk = 50;
+            for (int reeds = 0; reeds < reedsPerChunk; ++reeds) {
+                int y = height.getY() * 2;
+
+                if (y > 0) {
+                    int randomY = random.nextInt(y);
+                    new WorldGenPapyrus().generate(world, random, pos.add(x, randomY, z));
+                }
+            }
         }
         super.decorate(world, random, pos);
     }
