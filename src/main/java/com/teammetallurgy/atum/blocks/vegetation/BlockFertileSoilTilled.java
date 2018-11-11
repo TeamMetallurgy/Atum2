@@ -69,18 +69,20 @@ public class BlockFertileSoilTilled extends BlockFarmland implements IRenderMapp
     @Override
     @SideOnly(Side.CLIENT)
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        if (state.getValue(BLESSED) && !world.getBlockState(pos.up()).getBlock().isNormalCube(state, world, pos.up()) && world.getTotalWorldTime() % 15L == 0L) {
-            for (int amount = 0; amount < 6; ++amount) {
-                double d0 = rand.nextGaussian() * 0.02D;
-                double d1 = rand.nextGaussian() * 0.02D;
-                double d2 = rand.nextGaussian() * 0.02D;
-                Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT, Minecraft.getMinecraft().player, (double) ((float) pos.getX() + rand.nextFloat()), (double) pos.getY() + 0.8D + (double) rand.nextFloat() * state.getBoundingBox(world, pos).maxY, (double) ((float) pos.getZ() + rand.nextFloat()), d0, d1, d2);
+        if (state.getValue(BLESSED) && !world.getBlockState(pos.up()).isNormalCube()) {
+            if (rand.nextDouble() <= 0.10D) {
+                for (int amount = 0; amount < 6; ++amount) {
+                    double d0 = rand.nextGaussian() * 0.02D;
+                    double d1 = rand.nextGaussian() * 0.02D;
+                    double d2 = rand.nextGaussian() * 0.02D;
+                    Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT, Minecraft.getMinecraft().player, (double) ((float) pos.getX() + rand.nextFloat()), (double) pos.getY() + 0.8D + (double) rand.nextFloat() * state.getBoundingBox(world, pos).maxY, (double) ((float) pos.getZ() + rand.nextFloat()), d0, d1, d2);
+                }
             }
         }
     }
 
     @Override
-    public void onFallenUpon(World world, @Nonnull BlockPos pos, Entity entity, float fallDistance) {
+    public void onFallenUpon(@Nonnull World world, @Nonnull BlockPos pos, Entity entity, float fallDistance) {
         if (!world.isRemote && entity.canTrample(world, this, pos, fallDistance)) {
             turnToSoil(world, pos);
         }
@@ -88,7 +90,8 @@ public class BlockFertileSoilTilled extends BlockFarmland implements IRenderMapp
     }
 
     private static void turnToSoil(World world, BlockPos pos) {
-        world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState());
+        IBlockState state = AtumBlocks.FERTILE_SOIL.getDefaultState();
+        world.setBlockState(pos, state);
         AxisAlignedBB axisAlignedBB = field_194405_c.offset(pos);
 
         for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(null, axisAlignedBB)) {

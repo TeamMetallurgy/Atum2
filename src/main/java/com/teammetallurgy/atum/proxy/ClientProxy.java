@@ -39,6 +39,7 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderArrow;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
@@ -113,5 +114,10 @@ public class ClientProxy extends CommonProxy {
                 ModelLoader.setCustomStateMapper(block, stateMapper);
             }
         }
+    }
+
+    @Override
+    public void spawnParticle(AtumParticles.Types particleType, Entity entity, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        Minecraft.getMinecraft().effectRenderer.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), entity.world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 }

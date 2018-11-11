@@ -4,6 +4,8 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.IOreDictEntry;
+import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
@@ -32,7 +34,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class BlockCrate extends BlockContainer {
+public class BlockCrate extends BlockContainer implements IOreDictEntry {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final Map<BlockAtumPlank.WoodType, BlockCrate> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
@@ -260,5 +262,12 @@ public class BlockCrate extends BlockContainer {
     @Nonnull
     public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing facing) {
         return BlockFaceShape.UNDEFINED;
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "crate");
+        OreDictHelper.add(this, "chest");
+        OreDictHelper.add(this, "chestWood");
     }
 }

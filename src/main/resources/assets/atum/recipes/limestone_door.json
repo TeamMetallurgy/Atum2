@@ -12,6 +12,7 @@
     }
   },
   "result": {
-    "item": "atum:limestone_door"
+    "item": "atum:limestone_door",
+    "count": 3
   }
 }

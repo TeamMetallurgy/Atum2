@@ -124,10 +124,14 @@ public class EntityAssassin extends EntityBanditBase {
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
-        if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof EntityLivingBase) {
-            entity.attackEntityFrom(ASSASSINATED, (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
-            (((EntityLivingBase) entity)).addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+        if (!super.attackEntityAsMob(entity)) {
+            return false;
+        } else {
+            if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof EntityLivingBase) {
+                entity.attackEntityFrom(ASSASSINATED, (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
+                (((EntityLivingBase) entity)).addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+            }
+            return true;
         }
-        return super.attackEntityAsMob(entity);
     }
 }

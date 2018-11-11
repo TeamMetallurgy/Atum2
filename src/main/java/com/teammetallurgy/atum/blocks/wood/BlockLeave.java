@@ -141,6 +141,11 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     @Override
+    protected int getSaplingDropChance(IBlockState state) {
+        return 30;
+    }
+
+    @Override
     @Nonnull
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
         return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM ? Item.getItemFromBlock(Block.REGISTRY.getObject(new ResourceLocation(String.valueOf(state.getBlock().getRegistryName()).replace("leaves", "sapling")))) : Items.AIR;
@@ -166,7 +171,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     @Override
     public boolean isOpaqueCube(IBlockState state) {
-        return Blocks.LEAVES.isOpaqueCube(Blocks.LEAVES.getDefaultState());
+        return Blocks.LEAVES.getDefaultState().isOpaqueCube();
     }
 
     @Override

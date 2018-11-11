@@ -10,7 +10,8 @@
       "type": "forge:ore_dict"
     },
     "S": {
-      "item": "atum:deadwood_stick"
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
     }
   },
   "result": {

@@ -9,7 +9,8 @@
       "item": "atum:palm_planks"
     },
     "S": {
-      "item": "atum:palm_stick"
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
     }
   },
   "result": {

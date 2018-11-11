@@ -132,12 +132,16 @@ public class EntityWraith extends EntityUndeadBase {
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
-        if (rand.nextDouble() <= 0.25D) {
-            if (entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 2));
+        if (!super.attackEntityAsMob(entity)) {
+            return false;
+        } else {
+            if (rand.nextDouble() <= 0.25D) {
+                if (entity instanceof EntityLivingBase) {
+                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 2));
+                }
             }
+            return true;
         }
-        return super.attackEntityAsMob(entity);
     }
 
     private static class AIWraithAttack extends EntityAIAttackMelee {

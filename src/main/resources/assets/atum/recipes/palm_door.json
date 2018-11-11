@@ -11,6 +11,7 @@
     }
   },
   "result": {
-    "item": "atum:palm_door"
+    "item": "atum:palm_door",
+    "count": 3
   }
 }

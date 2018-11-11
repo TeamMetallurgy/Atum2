@@ -6,7 +6,8 @@
   ],
   "key": {
     "S": {
-      "item": "atum:deadwood_stick"
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
     },
     "P": {
       "ore": "plankDeadwood",

@@ -31,7 +31,7 @@ import java.util.Random;
 
 public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMapper, IOreDictEntry {
     private static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
-    private static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.09999999403953552D, 0.0D, 0.09999999403953552D, 0.8999999761581421D, 0.800000011920929D, 0.8999999761581421D);
+    private static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.4125D, 0.0D, 0.4125D, 0.6D, 0.5D, 0.6D);
     private static final Map<BlockAtumPlank.WoodType, Block> SAPLINGS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     private BlockAtumSapling() {

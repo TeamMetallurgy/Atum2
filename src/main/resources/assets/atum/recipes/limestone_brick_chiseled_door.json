@@ -11,6 +11,7 @@
     }
   },
   "result": {
-    "item": "atum:limestone_brick_chiseled_door"
+    "item": "atum:limestone_brick_chiseled_door",
+    "count": 3
   }
 }

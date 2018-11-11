@@ -217,7 +217,6 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         return compound;
     }
 
-
     @Override
     @Nonnull
     public ItemStack decrStackSize(int index, int count) {

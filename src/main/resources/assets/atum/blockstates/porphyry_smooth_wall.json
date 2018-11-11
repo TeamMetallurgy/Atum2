@@ -4,7 +4,7 @@
         "textures": {
             "wall": "atum:blocks/porphyry_brick_smooth"
         },
-        "model":"wall_post",
+        "model":"atum:empty",
         "uvlock": true
     },
     "variants": {

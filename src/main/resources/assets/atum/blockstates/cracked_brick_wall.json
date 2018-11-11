@@ -4,7 +4,7 @@
         "textures": {
             "wall": "atum:blocks/limestone_brick_cracked"
         },
-        "model":"wall_post",
+        "model":"atum:empty",
         "uvlock": true
     },
     "variants": {

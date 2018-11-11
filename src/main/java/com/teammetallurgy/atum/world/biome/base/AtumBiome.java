@@ -24,6 +24,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -69,6 +70,7 @@ public class AtumBiome extends Biome {
     protected void addDefaultSpawns() {
         //Animals
         addSpawn(EntityDesertWolf.class, 18, 1, 4, EnumCreatureType.CREATURE);
+        addSpawn(EntityBat.class, 10, 8, 8, EnumCreatureType.AMBIENT);
 
         //Bandits
         addSpawn(EntityAssassin.class, 1, 1, 1, SURFACE);

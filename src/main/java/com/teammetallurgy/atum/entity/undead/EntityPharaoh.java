@@ -258,41 +258,45 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     public boolean attackEntityAsMob(Entity entity) {
-        if (entity instanceof EntityLivingBase && !world.isRemote) {
-            EntityLivingBase entityLiving = (EntityLivingBase) entity;
-            switch (God.getGod(this.getVariant())) {
-                case ANPUT:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 80, 1));
-                    break;
-                case ANUBIS:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, 1));
-                    break;
-                case GEB:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 1));
-                    break;
-                case HORUS:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, 1));
-                    break;
-                case NUIT:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 60));
-                    break;
-                case RA:
-                    entityLiving.setFire(4);
-                    break;
-                case SETH:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
-                    break;
-                case SHU:
-                    ItemHorusAscension.knockUp(entityLiving, this, rand);
-                    break;
-                case TEFNUT:
-                    entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));
-                    break;
-                default:
-                    break;
+        if (!super.attackEntityAsMob(entity)) {
+            return false;
+        } else {
+            if (entity instanceof EntityLivingBase && !world.isRemote) {
+                EntityLivingBase entityLiving = (EntityLivingBase) entity;
+                switch (God.getGod(this.getVariant())) {
+                    case ANPUT:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 80, 1));
+                        break;
+                    case ANUBIS:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, 1));
+                        break;
+                    case GEB:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 1));
+                        break;
+                    case HORUS:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, 1));
+                        break;
+                    case NUIT:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 60));
+                        break;
+                    case RA:
+                        entityLiving.setFire(4);
+                        break;
+                    case SETH:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+                        break;
+                    case SHU:
+                        ItemHorusAscension.knockUp(entityLiving, this, rand);
+                        break;
+                    case TEFNUT:
+                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));
+                        break;
+                    default:
+                        break;
+                }
             }
+            return true;
         }
-        return super.attackEntityAsMob(entity);
     }
 
     @SubscribeEvent

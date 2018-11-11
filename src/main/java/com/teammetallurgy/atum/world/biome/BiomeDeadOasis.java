@@ -25,6 +25,8 @@ public class BiomeDeadOasis extends AtumBiome {
         //no hostile spawns here
 
         this.deadwoodRarity = -1;
+
+        this.addDefaultSpawns();
     }
 
     @Override

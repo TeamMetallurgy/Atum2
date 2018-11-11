@@ -125,7 +125,7 @@ public class EntityDesertWolf extends EntityTameable {
     @Override
     public boolean getCanSpawnHere() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        if (pos.getY() <= 62) {
+        if (pos.getY() <= 62 || !this.world.getGameRules().getBoolean("doMobSpawning")) {
             return false;
         } else {
             return this.world.getBlockState(pos.down()) == AtumBlocks.SAND.getDefaultState() && this.world.getLight(pos) > 8 && this.getBlockPathWeight(pos) >= 0.0F && this.world.canBlockSeeSky(pos) &&

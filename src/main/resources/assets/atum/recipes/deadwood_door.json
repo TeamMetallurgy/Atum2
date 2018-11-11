@@ -12,6 +12,7 @@
     }
   },
   "result": {
-    "item": "atum:deadwood_door"
+    "item": "atum:deadwood_door",
+    "count": 3
   }
 }

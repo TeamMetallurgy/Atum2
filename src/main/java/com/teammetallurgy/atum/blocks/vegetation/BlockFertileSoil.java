@@ -25,7 +25,7 @@ import java.util.Random;
 public class BlockFertileSoil extends Block {
 
     public BlockFertileSoil() {
-        super(Material.GROUND);
+        super(Material.GRASS);
         this.setHardness(0.5F);
         this.setSoundType(SoundType.GROUND);
         this.setTickRandomly(true);
