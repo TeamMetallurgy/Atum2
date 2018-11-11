@@ -15,6 +15,7 @@ import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterSlab;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterWall;
 import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumite;
 import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumiteFace;
+import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumiteRaw;
 import com.teammetallurgy.atum.blocks.stone.limestone.*;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockChestSpawner;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockLimestoneChest;
@@ -113,7 +114,7 @@ public class AtumBlocks {
     public static final Block LIT_REDSTONE_ORE = new BlockAtumRedstoneOre(true);
     public static final Block BONE_ORE = new BlockAtumOres();
     public static final Block RELIC_ORE = new BlockAtumOres();
-    public static final Block KHNUMITE_RAW = new Block(Material.ROCK, MapColor.CLAY);
+    public static final Block KHNUMITE_RAW = new BlockKhnumiteRaw();
     public static final Block BONE_DIRTY = new BlockBone();
     public static final Block BONE_DIRTY_SLAB = new BlockAtumSlab(Material.ROCK, MapColor.SAND);
     public static final Block BONE_LADDER = new BlockAtumLadder();
@@ -255,6 +256,7 @@ public class AtumBlocks {
         SAND_LAYERED.setHarvestLevel("shovel", 0);
         LIMESTONE_GRAVEL.setHarvestLevel("shovel", 0);
         SANDY_CLAY.setHarvestLevel("shovel", 0);
+        KHNUMITE_RAW.setHarvestLevel("shovel", 0);
         FERTILE_SOIL.setHarvestLevel("shovel", 0);
         FERTILE_SOIL_TILLED.setHarvestLevel("shovel", 0);
         LIMESTONE_CRACKED.setHarvestLevel("pickaxe", 0);

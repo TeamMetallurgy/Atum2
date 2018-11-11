@@ -65,8 +65,7 @@ public abstract class BlockTrap extends BlockContainer {
                     return true;
                 }
                 if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {
-                    ((TileEntityTrap) tileEntity).setDisabledStatus(true);
-                    world.setBlockState(pos, state.withProperty(DISABLED, true));
+                    this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, true);
                     world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);
                     return true;
                 }
@@ -80,10 +79,8 @@ public abstract class BlockTrap extends BlockContainer {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
-                TileEntityTrap trap = (TileEntityTrap) tileEntity;
                 if (world.isBlockPowered(pos)) {
-                    trap.setDisabledStatus(true);
-                    world.setBlockState(pos, state.withProperty(DISABLED, true));
+                    this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, true);
                 } else if (!world.isBlockPowered(pos)) {
                     world.scheduleUpdate(pos, this, 4);
                 }
@@ -97,12 +94,16 @@ public abstract class BlockTrap extends BlockContainer {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
                 if (!world.isBlockPowered(pos)) {
-                    TileEntityTrap trap = (TileEntityTrap) tileEntity;
-                    trap.setDisabledStatus(false);
-                    world.setBlockState(pos, state.withProperty(DISABLED, false));
+                    this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, false);
                 }
             }
         }
+    }
+
+    private void setDisabled(World world, BlockPos pos, IBlockState state, TileEntityTrap trap, boolean disabledStatus) {
+        trap.setDisabledStatus(disabledStatus);
+        world.setBlockState(pos, state.withProperty(DISABLED, disabledStatus));
+        world.notifyBlockUpdate(pos, state, state, 3);
     }
 
     @Override

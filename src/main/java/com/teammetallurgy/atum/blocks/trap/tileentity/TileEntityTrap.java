@@ -42,6 +42,8 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     public void setDisabledStatus(boolean isDisabled) {
         this.isDisabled = isDisabled;
+        IBlockState state = world.getBlockState(pos);
+        world.notifyBlockUpdate(pos, state, state, 3);
     }
 
     AxisAlignedBB getFacingBoxWithRange(EnumFacing facing, int range) {

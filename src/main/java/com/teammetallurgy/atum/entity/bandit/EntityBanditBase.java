@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.ai.*;
@@ -59,6 +60,12 @@ public class EntityBanditBase extends EntityMob {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+    }
+
+    @Override
+    public boolean canAttackClass(Class<? extends EntityLivingBase> cls) {
+        return !EntityBanditBase.class.isAssignableFrom(cls) && super.canAttackClass(cls);
     }
 
     @Override

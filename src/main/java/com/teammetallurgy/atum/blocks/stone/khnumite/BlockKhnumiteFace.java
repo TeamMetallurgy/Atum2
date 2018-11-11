@@ -108,11 +108,6 @@ public class BlockKhnumiteFace extends BlockHorizontal {
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
-        return world.getBlockState(pos).getBlock().isReplaceable(world, pos) && world.isSideSolid(pos.down(), EnumFacing.UP);
-    }
-
-    @Override
     @Nonnull
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
