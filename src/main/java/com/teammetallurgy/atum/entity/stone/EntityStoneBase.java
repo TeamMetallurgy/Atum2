@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.entity.stone;
 import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
@@ -12,6 +13,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -19,6 +21,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
@@ -30,6 +33,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class EntityStoneBase extends EntityMob implements IUnderground {
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityStoneBase.class, DataSerializers.VARINT);
     private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(EntityStoneBase.class, DataSerializers.BYTE);
     private int homeCheckTimer;
 
@@ -71,6 +75,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     @Override
     protected void entityInit() {
         super.entityInit();
+        this.dataManager.register(VARIANT, 0);
         this.dataManager.register(PLAYER_CREATED, (byte) 0);
     }
 
@@ -81,6 +86,27 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
             this.setFriendlyAttributes();
         }
         return super.onInitialSpawn(difficulty, livingdata);
+    }
+
+    protected void setVariant(int variant) {
+        this.dataManager.set(VARIANT, variant);
+    }
+
+    public int getVariant() {
+        return this.dataManager.get(VARIANT);
+    }
+
+    protected int getVariantAmount() {
+        return 1;
+    }
+
+    @Override
+    public void onUpdate() {
+        super.onUpdate();
+
+        if (this.world.isRemote && this.dataManager.isDirty()) {
+            this.dataManager.setClean();
+        }
     }
 
     @Override
@@ -102,6 +128,24 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
             }
         }
         super.updateAITasks();
+    }
+
+    @Override
+    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+        ItemStack heldStack = player.getHeldItem(hand);
+
+        if (heldStack.getItem() == AtumItems.KHNUMITE) {
+            if (!player.capabilities.isCreativeMode) {
+                heldStack.shrink(1);
+            }
+
+            if (!this.world.isRemote) {
+                this.heal(5.0F);
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -188,12 +232,14 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
+        compound.setInteger("Variant", this.getVariant());
         compound.setBoolean("PlayerCreated", this.isPlayerCreated());
     }
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
+        this.setVariant(compound.getInteger("Variant"));
         this.setPlayerCreated(compound.getBoolean("PlayerCreated"));
     }
 }

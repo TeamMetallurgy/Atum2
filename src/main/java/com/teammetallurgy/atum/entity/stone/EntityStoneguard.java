@@ -7,10 +7,6 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -20,18 +16,11 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityStoneguard extends EntityStoneBase {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityStoneguard.class, DataSerializers.VARINT);
 
     public EntityStoneguard(World world) {
         super(world);
         this.setSize(0.6F, 1.8F);
         this.experienceValue = 8;
-    }
-
-    @Override
-    protected void entityInit() {
-        super.entityInit();
-        this.dataManager.register(VARIANT, 0);
     }
 
     @Override
@@ -92,38 +81,9 @@ public class EntityStoneguard extends EntityStoneBase {
         return livingdata;
     }
 
-    private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
-    }
-
-    public int getVariant() {
-        return this.dataManager.get(VARIANT);
-    }
-
-    @Override
-    public void onUpdate() {
-        super.onUpdate();
-
-        if (this.world.isRemote && this.dataManager.isDirty()) {
-            this.dataManager.setClean();
-        }
-    }
-
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
         return AtumLootTables.STONEGUARD;
-    }
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", this.getVariant());
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.setVariant(compound.getInteger("Variant"));
     }
 }

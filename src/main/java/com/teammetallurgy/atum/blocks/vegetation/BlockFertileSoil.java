@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStem;
+import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -18,11 +19,15 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.event.entity.player.BonemealEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockFertileSoil extends Block {
+@Mod.EventBusSubscriber
+public class BlockFertileSoil extends Block implements IGrowable {
 
     public BlockFertileSoil() {
         super(Material.GRASS);
@@ -34,7 +39,7 @@ public class BlockFertileSoil extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
         return MapColor.GRASS;
     }
 
@@ -74,6 +79,10 @@ public class BlockFertileSoil extends Block {
         return false;
     }
 
+    @SubscribeEvent
+    public static void onBonemeal(BonemealEvent event) {
+    }
+
     @Override
     public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull EnumFacing direction, IPlantable plantable) {
         IBlockState plant = plantable.getPlant(world, pos.offset(direction));
@@ -99,7 +108,7 @@ public class BlockFertileSoil extends Block {
     @Override
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
         super.neighborChanged(state, world, pos, neighborBlock, neighborPos);
-        if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
+        if (world.getBlockState(pos.up()).isSideSolid(world, pos, EnumFacing.DOWN)) {
             world.setBlockState(pos, AtumBlocks.SAND.getDefaultState());
         }
     }
@@ -124,5 +133,45 @@ public class BlockFertileSoil extends Block {
     @Override
     public int quantityDropped(Random random) {
         return MathHelper.getInt(random, 3, 5);
+    }
+
+    @Override
+    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+        return true;
+    }
+
+    @Override
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        return true;
+    }
+
+    @Override
+    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        BlockPos posUp = pos.up();
+
+        for (int amount = 0; amount < 36; ++amount) {
+            BlockPos up = posUp;
+            int amountCheck = 0;
+
+            while (true) {
+                if (amountCheck >= amount / 16) {
+                    if (world.isAirBlock(up)) {
+                        if (rand.nextDouble() <= 75) {
+                            IBlockState grassState = AtumBlocks.OASIS_GRASS.getDefaultState();
+                            if (AtumBlocks.OASIS_GRASS.canBlockStay(world, up, grassState)) {
+                                world.setBlockState(up, grassState, 3);
+                            }
+                        }
+                    }
+                    break;
+                }
+                up = up.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
+
+                if (world.getBlockState(up.down()).getBlock() != AtumBlocks.FERTILE_SOIL || world.getBlockState(up).isNormalCube()) {
+                    break;
+                }
+                ++amountCheck;
+            }
+        }
     }
 }
