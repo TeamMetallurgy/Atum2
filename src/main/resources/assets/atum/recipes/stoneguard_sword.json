@@ -1,0 +1,22 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "K",
+    "K",
+    "S"
+  ],
+  "key": {
+    "K": {
+      "ore": "ingotKhnumite",
+      "type": "forge:ore_dict"
+    },
+    "S": {
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "atum:stoneguard_sword",
+    "count": 1
+  }
+}

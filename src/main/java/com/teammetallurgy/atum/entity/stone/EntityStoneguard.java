@@ -21,6 +21,7 @@ public class EntityStoneguard extends EntityStoneBase {
         super(world);
         this.setSize(0.6F, 1.8F);
         this.experienceValue = 8;
+        this.setCanPickUpLoot(true);
     }
 
     @Override

@@ -1,0 +1,18 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " K ",
+    "KKK",
+    " K "
+  ],
+  "key": {
+    "K": {
+      "ore": "ingotKhnumite",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "atum:stoneguard_shield",
+    "count": 1
+  }
+}
