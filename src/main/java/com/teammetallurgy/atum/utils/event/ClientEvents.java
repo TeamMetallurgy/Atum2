@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
+import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsVanishing;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -13,9 +14,11 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -43,6 +46,18 @@ public class ClientEvents {
                     fogDensity = fogDensity / 1.5F;
                 }
                 GlStateManager.setFogDensity(fogDensity);
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRender(RenderPlayerEvent.Pre event) {
+        EntityPlayer player = event.getEntityPlayer();
+        EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+        ItemStack heldStack = player.getHeldItem(hand);
+        if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
+            if (player.motionX == 0.0F && player.motionZ == 0.0F) {
+                event.setCanceled(true);
             }
         }
     }
