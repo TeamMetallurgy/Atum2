@@ -28,38 +28,23 @@ public class EntityArrowRain extends CustomArrow {
     }
 
     @Override
-    public void onUpdate() { //TODO fix spread
+    public void onUpdate() {
         if (world.getTotalWorldTime() % (this.inGround ? 55L : 3L) == 0L) {
             Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
         if (velocity == 1.0F && shootingEntity instanceof EntityLivingBase) {
-            if (this.ticksInAir == 20) {
+            if (this.ticksInAir == 12) {
                 this.setDead();
                 if (!isSmallArrow) {
-                    EntityArrowRain arrow1 = new EntityArrowRain(world, this.posX, this.posY, this.posZ);
-                    arrow1.shoot(this, this.rotationPitch, this.rotationYaw, 0.0F, velocity, 1.0F);
-                    arrow1.motionX -= 0.8D;
-                    arrow1.motionZ -= 0.8D;
+                    EntityArrowRain arrow1 = new EntityArrowRain(world, this.posX + 0.5D, this.posY, this.posZ);
 
-                    EntityArrowRain arrow2 = new EntityArrowRain(world, this.posX, this.posY, this.posZ);
-                    arrow2.shoot(this, this.rotationPitch, this.rotationYaw, 0.0F, velocity, 1.0F);
-                    arrow2.motionX += 0.4D;
-                    arrow2.motionZ += 0.4D;
+                    EntityArrowRain arrow2 = new EntityArrowRain(world, this.posX, this.posY, this.posZ + 0.5D);
 
-                    EntityArrowRain arrow3 = new EntityArrowRain(world, this.posX, this.posY, this.posZ);
-                    arrow3.shoot(this, this.rotationPitch, this.rotationYaw, 0.0F, velocity, 1.0F);
-                    arrow3.motionX += 0.1D;
-                    arrow3.motionZ += 0.1D;
+                    EntityArrowRain arrow3 = new EntityArrowRain(world, this.posX - 0.5D, this.posY, this.posZ);
 
-                    EntityArrowRain arrow4 = new EntityArrowRain(world, this.posX, this.posY, this.posZ);
-                    arrow4.shoot(this, this.rotationPitch, this.rotationYaw, 0.0F, velocity, 1.0F);
-                    arrow4.motionX += 0.4D;
-                    arrow4.motionZ += 0.4D;
+                    EntityArrowRain arrow4 = new EntityArrowRain(world, this.posX, this.posY, this.posZ - 0.5D);
 
                     EntityArrowRain arrow5 = new EntityArrowRain(world, this.posX, this.posY, this.posZ);
-                    arrow5.shoot(this, this.rotationPitch, this.rotationYaw, 0.0F, velocity, 1.0F);
-                    arrow5.motionX += 0.8D;
-                    arrow5.motionZ += 0.8D;
 
                     world.spawnEntity(arrow1);
                     world.spawnEntity(arrow2);

@@ -2,7 +2,8 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "wall": "atum:blocks/limestone_brick_chiseled"
+            "wall": "atum:blocks/limestone_brick_chiseled",
+            "particle": "#wall"
         },
         "model":"atum:empty",
         "uvlock": true

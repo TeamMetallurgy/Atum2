@@ -246,6 +246,7 @@ item.atum.khnumite.name=Khnumite
 item.atum.coinDirty.name=Dirty Coin
 item.atum.coinGold.name=Gold Coin
 item.atum.loot.name=Loot
+item.atum.idolOfLabor=Idol of Labor
 item.atum.dagger.name=Dagger
 item.atum.daggerPoison.name=Poison Dagger
 item.atum.scimitar.name=Scimitar
@@ -672,9 +673,21 @@ atum.configGui.dimensionID=Atum Dimension ID
 #Subtitles
 atum:subtitles.pharaohspawn=Pharaoh growls
 
+#Idol of Labor
+item.atum.idolOfLabor.1=Work harder!
+item.atum.idolOfLabor.2=
+item.atum.idolOfLabor.3=
+item.atum.idolOfLabor.4=
+item.atum.idolOfLabor.5=
+item.atum.idolOfLabor.6=
+item.atum.idolOfLabor.7=
+item.atum.idolOfLabor.8=
+item.atum.idolOfLabor.9=
+item.atum.idolOfLabor.10=
+
 #Just Tips support
 mods.tips.atum.1=You will die.
 mods.tips.atum.2=You can create Stoneguards & Stonewardens yourself, to help defend your base!
 mods.tips.atum.3=Pharaohs have different unique abilities
 mods.tips.atum.4=Scarabs can sometimes be found in Deadwood Logs
-mods.tips.atum.5=Wanderer Helmets improves your visibility
+mods.tips.atum.5=A Wanderer Helmet will improve your visibility

@@ -2,7 +2,8 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "wall": "atum:blocks/alabaster_brick_polished"
+            "wall": "atum:blocks/alabaster_brick_polished",
+            "particle": "#wall"
         },
         "model":"atum:empty",
         "uvlock": true

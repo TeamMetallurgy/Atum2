@@ -22,6 +22,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -105,15 +106,15 @@ public class ItemNuitsIre extends ItemKhopesh {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getImmediateSource();
-        if (trueSource instanceof EntityLivingBase && isBlocking && itemRand.nextFloat() <= 0.25F) {
-            applyWither((EntityLivingBase) trueSource, event.getEntityLiving(), ((EntityLivingBase) trueSource).getHeldItemMainhand().getItem() == AtumItems.NUITS_QUARTER);
+        if (trueSource instanceof EntityLivingBase && event.getEntityLiving() instanceof EntityPlayer && isBlocking && itemRand.nextFloat() <= 0.25F) {
+            applyWither((EntityLivingBase) trueSource, event.getEntityLiving(), event.getEntityLiving().getHeldItemMainhand().getItem() == AtumItems.NUITS_QUARTER);
             isBlocking = false;
         }
     }
 
     private static void applyWither(EntityLivingBase attacker, EntityLivingBase target, boolean isNuitsQuarterHeld) {
         if (attacker != target) {
-            target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
+            attacker.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
         }
     }
 

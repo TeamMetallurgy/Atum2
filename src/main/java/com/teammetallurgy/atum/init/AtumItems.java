@@ -55,6 +55,7 @@ public class AtumItems {
     public static final Item KHNUMITE = new Item();
     public static final Item DIRTY_COIN = new ItemCoin();
     public static final Item GOLD_COIN = new ItemCoin();
+    public static final Item IDOL_OF_LABOR = new ItemIdolOfLabor();
     public static final Item LIMESTONE_SHOVEL = new ItemLimestoneShovel();
     public static final Item LIMESTONE_PICKAXE = new ItemLimestonePickaxe();
     public static final Item LIMESTONE_AXE = new ItemLimestoneAxe();
@@ -155,6 +156,7 @@ public class AtumItems {
         registerItem(DIRTY_COIN, "coin_dirty");
         registerItem(GOLD_COIN, "coin_gold");
         ItemLoot.createLootItems();
+        registerItem(IDOL_OF_LABOR, "idol_of_labor");
         registerItem(LIMESTONE_SHOVEL, "limestone_shovel");
         registerItem(LIMESTONE_PICKAXE, "limestone_pickaxe");
         registerItem(LIMESTONE_AXE, "limestone_axe");
