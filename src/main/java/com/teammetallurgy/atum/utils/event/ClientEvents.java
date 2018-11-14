@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
-import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsVanishing;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;

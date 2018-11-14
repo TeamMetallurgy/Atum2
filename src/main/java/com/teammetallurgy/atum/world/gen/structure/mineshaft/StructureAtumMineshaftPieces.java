@@ -36,7 +36,7 @@ import java.util.Random;
 
 public class StructureAtumMineshaftPieces {
     public static void registerMineshaft() {
-        MapGenStructureIO.registerStructure(StructureAtumMineshaftStart.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft")));
+        MapGenStructureIO.registerStructure(StructureAtumMineshaftStart.class, String.valueOf(MapGenAtumMineshaft.MINESHAFT));
         MapGenStructureIO.registerStructureComponent(Corridor.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "MSCorridor")));
         MapGenStructureIO.registerStructureComponent(Cross.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "MSCrossing")));
         MapGenStructureIO.registerStructureComponent(Room.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "MSRoom")));

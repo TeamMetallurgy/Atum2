@@ -1,13 +1,10 @@
-package com.teammetallurgy.atum.world.gen.structure.ruins;
+package com.teammetallurgy.atum.world.gen.structure.tomb;
 
-import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -17,26 +14,25 @@ import net.minecraft.world.gen.structure.StructureStart;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class MapGenRuin extends MapGenStructure {
-    private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.DEADWOOD_FOREST, AtumBiomes.LIMESTONE_MOUNTAINS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_PLAINS);
+public class MapGenTomb extends MapGenStructure {
     private final ChunkGeneratorAtum chunkGenerator;
-    private int spacing = 5;
-    private int separation = 3;
+    private int spacing = 12;
+    private int separation = 10;
 
-    public MapGenRuin(ChunkGeneratorAtum chunkGenerator) {
+    public MapGenTomb(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
     }
 
     @Override
     @Nonnull
     public String getStructureName() {
-        return String.valueOf(RuinPieces.RUIN);
+        return String.valueOf(TombPieces.TOMB);
     }
 
     @Override
     public BlockPos getNearestStructurePos(@Nonnull World world, @Nonnull BlockPos pos, boolean findUnexplored) {
         this.world = world;
-        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, 10387777, true, 100, findUnexplored);
+        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, 10387666, true, 100, findUnexplored);
     }
 
     @Override
@@ -58,10 +54,7 @@ public class MapGenRuin extends MapGenStructure {
         xSpacing = xSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
         zSpacing = zSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
 
-        if (x == xSpacing && z == zSpacing) {
-            return this.world.getBiomeProvider().areBiomesViable(x * 16 + 8, z * 16 + 8, 16, ALLOWED_BIOMES);
-        }
-        return false;
+        return x == xSpacing && z == zSpacing;
     }
 
     @Override
@@ -85,30 +78,16 @@ public class MapGenRuin extends MapGenStructure {
             Rotation rotation = Rotation.values()[random.nextInt(Rotation.values().length)];
             ChunkPrimer chunkPrimer = new ChunkPrimer();
             chunkGenerator.setBlocksInChunk(chunkX, chunkZ, chunkPrimer);
-            int x = 5;
-            int z = 5;
 
-            if (rotation == Rotation.CLOCKWISE_90) {
-                x = -5;
-            } else if (rotation == Rotation.CLOCKWISE_180) {
-                x = -5;
-                z = -5;
-            } else if (rotation == Rotation.COUNTERCLOCKWISE_90) {
-                z = -5;
-            }
+            int y = MathHelper.getInt(random, 6, 55);
+            BlockPos pos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
 
-            int ground = chunkPrimer.findGroundBlockIdx(7, 7);
-            int groundZ = chunkPrimer.findGroundBlockIdx(7, 7 + z);
-            int groundX = chunkPrimer.findGroundBlockIdx(7 + x, 7);
-            int groundXZ = chunkPrimer.findGroundBlockIdx(7 + x, 7 + z);
-            int y = Math.min(Math.min(ground, groundZ), Math.min(groundX, groundXZ));
-
-            if (y < 60) {
+            if (y > 60/* || !(world.getBlockState(pos).getBlock() instanceof BlockLimestone)*/) {
                 this.isValid = false;
             } else {
-                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 1, chunkZ * 16 + 8);
-                RuinPieces.RuinTemplate ruin = new RuinPieces.RuinTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, random, rotation);
-                this.components.add(ruin);
+                System.out.println("Tomb Pos: " + pos);
+                TombPieces.TombTemplate tomb = new TombPieces.TombTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, random, rotation);
+                this.components.add(tomb);
                 this.updateBoundingBox();
                 this.isValid = true;
             }
@@ -124,24 +103,10 @@ public class MapGenRuin extends MapGenStructure {
                     BlockPos pos = new BlockPos(x, y, z);
 
                     if (!world.isAirBlock(pos) && this.boundingBox.isVecInside(pos)) {
-                        boolean isVecInside = false;
-
                         for (StructureComponent component : this.components) {
                             if (component.getBoundingBox().isVecInside(pos)) {
                                 component.addComponentParts(world, rand, box);
-                                isVecInside = true;
                                 break;
-                            }
-                        }
-
-                        if (isVecInside) {
-                            for (int ruinY = y - 1; ruinY > 1; --ruinY) {
-                                BlockPos ruinPos = new BlockPos(x, ruinY, z);
-
-                                if (!world.isAirBlock(ruinPos) && !world.getBlockState(ruinPos).getMaterial().isLiquid()) {
-                                    break;
-                                }
-                                world.setBlockState(ruinPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
                             }
                         }
                     }

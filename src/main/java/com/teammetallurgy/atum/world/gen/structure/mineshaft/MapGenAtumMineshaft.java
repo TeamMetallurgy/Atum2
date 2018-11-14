@@ -10,6 +10,7 @@ import net.minecraft.world.gen.structure.StructureStart;
 import javax.annotation.Nonnull;
 
 public class MapGenAtumMineshaft extends MapGenStructure {
+    public static final ResourceLocation MINESHAFT = new ResourceLocation(Constants.MOD_ID, "Mineshaft");
     private double chance = 0.008D;
 
     public MapGenAtumMineshaft() {
@@ -18,7 +19,7 @@ public class MapGenAtumMineshaft extends MapGenStructure {
     @Override
     @Nonnull
     public String getStructureName() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "Mineshaft"));
+        return String.valueOf(MINESHAFT);
     }
 
     @Override
