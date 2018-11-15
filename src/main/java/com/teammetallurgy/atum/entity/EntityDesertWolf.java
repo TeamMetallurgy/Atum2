@@ -7,10 +7,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -33,7 +30,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -59,6 +59,7 @@ public class EntityDesertWolf extends EntityTameable {
         this.setAngry(true);
         this.setTamed(false);
         this.experienceValue = 6;
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -74,7 +75,7 @@ public class EntityDesertWolf extends EntityTameable {
         this.tasks.addTask(9, new AIBeg(this, 8.0F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, false, false, input -> !this.isTamed()));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, false, false, target -> !this.isTamed()));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, false));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
@@ -167,7 +168,7 @@ public class EntityDesertWolf extends EntityTameable {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
-        return AtumLootTables.WRAITH;
+        return AtumLootTables.DESERT_WOLF;
     }
 
     @Override
@@ -322,7 +323,7 @@ public class EntityDesertWolf extends EntityTameable {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
 
         if (this.isTamed()) {
@@ -412,7 +413,7 @@ public class EntityDesertWolf extends EntityTameable {
 
     @Override
     public int getMaxSpawnedInChunk() {
-        return 8;
+        return 6;
     }
 
     public boolean isAngry() {
@@ -420,12 +421,11 @@ public class EntityDesertWolf extends EntityTameable {
     }
 
     public void setAngry(boolean angry) {
-        byte b0 = this.dataManager.get(TAMED);
-
+        byte tamed = this.dataManager.get(TAMED);
         if (angry) {
-            this.dataManager.set(TAMED, (byte) (b0 | 2));
+            this.dataManager.set(TAMED, (byte) (tamed | 2));
         } else {
-            this.dataManager.set(TAMED, (byte) (b0 & -3));
+            this.dataManager.set(TAMED, (byte) (tamed & -3));
         }
     }
 
@@ -445,6 +445,7 @@ public class EntityDesertWolf extends EntityTameable {
         if (uuid != null) {
             desertWolf.setOwnerId(uuid);
             desertWolf.setTamed(true);
+            desertWolf.heal(8.0F);
         }
         return desertWolf;
     }
@@ -495,6 +496,15 @@ public class EntityDesertWolf extends EntityTameable {
             }
         } else {
             return false;
+        }
+    }
+
+    @SubscribeEvent
+    public void onTarget(LivingSetAttackTargetEvent event) {
+        if (event.getTarget() instanceof EntityDesertWolf && event.getEntityLiving() instanceof EntityDesertWolf) {
+            if (((EntityDesertWolf) event.getTarget()).isTamed() && ((EntityDesertWolf) event.getEntityLiving()).isTamed()) {
+                ((EntityLiving) event.getEntityLiving()).setAttackTarget(null);
+            }
         }
     }
 

@@ -10,11 +10,17 @@ public class AtumCreativeTab extends CreativeTabs {
 
     public AtumCreativeTab() {
         super(Constants.MOD_ID);
+        this.setBackgroundImageName("item_search.png");
     }
 
     @Override
     @Nonnull
     public ItemStack createIcon() {
         return new ItemStack(AtumItems.SCARAB);
+    }
+
+    @Override
+    public boolean hasSearchBar() {
+        return true;
     }
 }

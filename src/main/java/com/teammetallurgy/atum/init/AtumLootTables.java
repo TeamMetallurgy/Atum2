@@ -30,7 +30,7 @@ public class AtumLootTables {
     public static final ResourceLocation PHARAOH = register("chests/pharaoh");
     public static final ResourceLocation PYRAMID_CHEST = register("chests/pyramid_chest");
     public static final ResourceLocation RUINS = register("chests/ruins");
-    public static final ResourceLocation TOMB_CHEST = register("chests/tomb_chest");
+    public static final ResourceLocation TOMB_CHEST = register("chests/tomb");
 
     //Blocks
     public static final ResourceLocation RELIC = register("blocks/relic_ore");
