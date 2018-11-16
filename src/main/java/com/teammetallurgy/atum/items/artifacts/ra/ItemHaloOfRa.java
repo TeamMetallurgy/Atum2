@@ -29,8 +29,7 @@ import java.util.List;
 public class ItemHaloOfRa extends ItemTexturedArmor {
 
     public ItemHaloOfRa() {
-        super(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.HEAD);
-        this.setTextureFile("ra_armor_1");
+        super(ArmorMaterial.DIAMOND, "ra_armor_1", EntityEquipmentSlot.HEAD);
         this.setRepairItem(Items.DIAMOND);
     }
 

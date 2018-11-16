@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
-import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsVanishing;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -42,7 +41,7 @@ public class ClientEvents {
                 if (helmet.getItem() instanceof ItemEyesOfAtum) {
                     fogDensity = fogDensity / 3;
                 }
-                if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET) {
+                if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
                 GlStateManager.setFogDensity(fogDensity);
@@ -56,7 +55,7 @@ public class ClientEvents {
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
         if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-            if (player.onGround && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
+            if (player.onGround && !player.isSneaking() && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
                 event.setCanceled(true);
             }
         }

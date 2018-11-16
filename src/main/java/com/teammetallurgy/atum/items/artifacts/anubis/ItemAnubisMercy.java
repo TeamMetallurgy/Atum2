@@ -35,7 +35,7 @@ public class ItemAnubisMercy extends Item {
     public ItemAnubisMercy() {
         super();
         this.setMaxStackSize(1);
-        this.setMaxDamage(3);
+        this.setMaxDamage(1000);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class ItemAnubisMercy extends Item {
             EntityPlayer player = (EntityPlayer) entity;
 
             if (!entity.world.isRemote ) {
-                heldStack.damageItem(1, player);
+                heldStack.damageItem(334, player);
                 NBTTagList tagList = new NBTTagList();
                 player.inventory.writeToNBT(tagList);
                 getPlayerData(player).setTag("Inventory", tagList);

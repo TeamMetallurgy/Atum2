@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "atum:items/desert_chest_iron",
+    "layer1": "atum:items/desert_chest_iron_overlay"
+  }
+}

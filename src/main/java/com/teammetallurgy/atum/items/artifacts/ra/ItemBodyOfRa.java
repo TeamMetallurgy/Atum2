@@ -25,8 +25,7 @@ import java.util.List;
 public class ItemBodyOfRa extends ItemTexturedArmor {
 
     public ItemBodyOfRa() {
-        super(ArmorMaterial.DIAMOND, 1, EntityEquipmentSlot.CHEST);
-        this.setTextureFile("ra_armor_1");
+        super(ArmorMaterial.DIAMOND, "ra_armor_1", EntityEquipmentSlot.CHEST);
         this.setRepairItem(Items.DIAMOND);
     }
 

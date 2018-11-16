@@ -26,8 +26,7 @@ import java.util.List;
 public class ItemFeetOfAtum extends ItemTexturedArmor {
 
     public ItemFeetOfAtum() {
-        super(ArmorMaterial.DIAMOND, 3, EntityEquipmentSlot.FEET);
-        this.setTextureFile("atum_armor_1");
+        super(ArmorMaterial.DIAMOND, "atum_armor_2", EntityEquipmentSlot.FEET);
         this.setRepairItem(Items.DIAMOND);
     }
 

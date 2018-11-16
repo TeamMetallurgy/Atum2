@@ -32,8 +32,7 @@ public class ItemLegsOfRa extends ItemTexturedArmor {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2140f663-2112-497b-a5d7-36c40abb7a76"), "Legs of Ra speed boost", 0.02D, 0);
 
     public ItemLegsOfRa() {
-        super(ArmorMaterial.DIAMOND, 2, EntityEquipmentSlot.LEGS);
-        this.setTextureFile("ra_armor_2");
+        super(ArmorMaterial.DIAMOND, "ra_armor_2", EntityEquipmentSlot.LEGS);
         this.setRepairItem(Items.DIAMOND);
     }
 

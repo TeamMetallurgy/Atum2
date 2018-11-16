@@ -23,8 +23,7 @@ import java.util.List;
 public class ItemEyesOfAtum extends ItemTexturedArmor {
 
     public ItemEyesOfAtum() {
-        super(ArmorMaterial.DIAMOND, 0, EntityEquipmentSlot.HEAD);
-        this.setTextureFile("atum_armor_1");
+        super(ArmorMaterial.DIAMOND, "atum_armor_1", EntityEquipmentSlot.HEAD);
         this.setRepairItem(Items.DIAMOND);
     }
 

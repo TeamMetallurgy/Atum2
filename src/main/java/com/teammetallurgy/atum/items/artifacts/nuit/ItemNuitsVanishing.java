@@ -3,8 +3,10 @@ package com.teammetallurgy.atum.items.artifacts.nuit;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Enchantments;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumRarity;
@@ -50,10 +52,14 @@ public class ItemNuitsVanishing extends Item {
     public static void onTarget(LivingSetAttackTargetEvent event) {
         if (isInvisible && event.getTarget() != null && event.getEntityLiving() != null) {
             if (event.getTarget() instanceof EntityPlayer) {
-                System.out.println("Bppå");
                 ((EntityLiving) event.getEntityLiving()).setAttackTarget(null);
             }
         }
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment == Enchantments.UNBREAKING;
     }
 
     @SubscribeEvent
@@ -62,11 +68,8 @@ public class ItemNuitsVanishing extends Item {
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
         if (!player.world.isRemote && event.phase == TickEvent.Phase.START) {
-            if (player.distanceWalkedModified != player.prevDistanceWalkedModified) {
-                System.out.println("Booaspd");
-            }
             if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-                if (player.onGround && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
+                if (player.onGround && !player.isSneaking() && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
                     isInvisible = true;
                     heldStack.damageItem(1, player);
                     player.setInvisible(true);
