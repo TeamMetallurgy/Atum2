@@ -6,6 +6,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -49,24 +50,35 @@ public class ItemNuitsVanishing extends Item {
     public static void onTarget(LivingSetAttackTargetEvent event) {
         if (isInvisible && event.getTarget() != null && event.getEntityLiving() != null) {
             if (event.getTarget() instanceof EntityPlayer) {
+                System.out.println("Bppå");
                 ((EntityLiving) event.getEntityLiving()).setAttackTarget(null);
             }
         }
     }
 
     @SubscribeEvent
-    public static void onRender(TickEvent.PlayerTickEvent event) {
+    public static void onTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
-        if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-            if (player.motionX == 0.0F && player.motionZ == 0.0F) {
-                isInvisible = true;
-                heldStack.damageItem(1, player);
-                player.setInvisible(true);
+        if (!player.world.isRemote && event.phase == TickEvent.Phase.START) {
+            if (player.distanceWalkedModified != player.prevDistanceWalkedModified) {
+                System.out.println("Booaspd");
+            }
+            if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
+                if (player.onGround && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
+                    isInvisible = true;
+                    heldStack.damageItem(1, player);
+                    player.setInvisible(true);
+                } else {
+                    isInvisible = false;
+                    if (player.isInvisible()) {
+                        player.setInvisible(false);
+                    }
+                }
             } else {
                 isInvisible = false;
-                if (player.isInvisible()) {
+                if (!player.isPotionActive(MobEffects.INVISIBILITY) && player.isInvisible()) {
                     player.setInvisible(false);
                 }
             }
