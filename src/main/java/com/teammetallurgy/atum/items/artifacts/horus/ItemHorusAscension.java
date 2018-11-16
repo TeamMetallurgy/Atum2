@@ -2,23 +2,15 @@ package com.teammetallurgy.atum.items.artifacts.horus;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.ItemGauntlet;
-import gnu.trove.map.TObjectFloatMap;
-import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -28,9 +20,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-@Mod.EventBusSubscriber
 public class ItemHorusAscension extends ItemGauntlet {
-    private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
 
     public ItemHorusAscension() {
         super(ToolMaterial.DIAMOND);
@@ -46,17 +36,6 @@ public class ItemHorusAscension extends ItemGauntlet {
     @Nonnull
     public EnumRarity getRarity(@Nonnull ItemStack stack) {
         return EnumRarity.RARE;
-    }
-
-    @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void onAttack(AttackEntityEvent event) {
-        EntityPlayer player = event.getEntityPlayer();
-        if (player.world.isRemote) return;
-        if (event.getTarget() instanceof EntityLivingBase) {
-            if (player.getHeldItemMainhand().getItem() == AtumItems.HORUSS_ASCENSION) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
-            }
-        }
     }
 
     @Override

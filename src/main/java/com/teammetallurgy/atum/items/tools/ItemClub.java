@@ -2,25 +2,28 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import gnu.trove.map.TObjectFloatMap;
+import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemSword;
-import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 @Mod.EventBusSubscriber
 public class ItemClub extends ItemSword {
-    private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("b4ebf092-fe62-4250-b945-7dc45b2f1036"), "Club stun", -1000.0D, 0);
-    private static int stunTimer = 0;
+    private static final TObjectFloatMap<EntityLivingBase> cooldown = new TObjectFloatHashMap<>();
     private final float damage;
 
     public ItemClub(ToolMaterial material) {
@@ -31,24 +34,28 @@ public class ItemClub extends ItemSword {
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
-        Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityLivingBase && ((EntityLivingBase) trueSource).getHeldItemMainhand().getItem() instanceof ItemClub) {
-            EntityLivingBase entity = event.getEntityLiving();
-            ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) entity.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-            if (!attribute.hasModifier(STUN)) {
-                stunTimer = 1;
+        EntityLivingBase target = event.getEntityLiving();
+        Entity source = event.getSource().getTrueSource();
+        if (!(target instanceof EntityStoneBase) && source instanceof EntityLivingBase) {
+            EntityLivingBase attacker = (EntityLivingBase) source;
+            if (attacker.getHeldItemMainhand().getItem() instanceof ItemClub) {
+                float knockback = 0.0F;
+                if (cooldown.get(attacker) == 1.0F) {
+                    knockback = 1.8F;
+                }
+                target.addVelocity((double) (-MathHelper.sin(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F), 0.1D, (double) (MathHelper.cos(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F));
             }
         }
     }
 
-    @SubscribeEvent
-    public static void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (stunTimer > 1) {
-            stunTimer--;
-        }
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-        if (stunTimer == 1 && attribute.hasModifier(STUN)) {
-            attribute.removeModifier(STUN);
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onAttack(AttackEntityEvent event) {
+        EntityPlayer player = event.getEntityPlayer();
+        if (player.world.isRemote) return;
+        if (event.getTarget() instanceof EntityLivingBase && !(event.getTarget() instanceof EntityStoneBase)) {
+            if (player.getHeldItemMainhand().getItem() instanceof ItemClub) {
+                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+            }
         }
     }
 

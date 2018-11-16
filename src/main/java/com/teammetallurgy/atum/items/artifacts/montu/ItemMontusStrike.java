@@ -70,17 +70,14 @@ public class ItemMontusStrike extends ItemAxe {
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
         if (attacker != null && cooldown.get(attacker) == 1.0F) {
-            float knockbackAmount = 1.0F;
-            target.knockBack(attacker, knockbackAmount, (double) MathHelper.sin(attacker.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(attacker.rotationYaw * 0.017453292F)));
-
             if (attacker instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) attacker;
                 World world = player.world;
                 float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 
-                for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(1.5D, 0.25D, 1.5D))) {
-                    if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 9.0D) {
-                        entity.knockBack(player, knockbackAmount, (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+                for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(2.0D, 0.25D, 2.0D))) {
+                    if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 12.0D) {
+                        entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
                         entity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
                         for (int amount = 0; amount < 10; amount++) {
                             double d0 = (double) (-MathHelper.sin(player.rotationYaw * 0.017453292F));

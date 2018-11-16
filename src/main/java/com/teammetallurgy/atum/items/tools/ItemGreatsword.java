@@ -2,29 +2,31 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
-import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import net.minecraft.entity.Entity;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber
 public class ItemGreatsword extends ItemSword {
-    private static final TObjectFloatMap<EntityLivingBase> cooldown = new TObjectFloatHashMap<>();
+    private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
     private final float damage;
 
     public ItemGreatsword(ToolMaterial material) {
@@ -33,35 +35,35 @@ public class ItemGreatsword extends ItemSword {
         this.damage = material.getAttackDamage() + 8.0F;
     }
 
-    @SubscribeEvent
-    public static void onHurt(LivingHurtEvent event) {
-        EntityLivingBase target = event.getEntityLiving();
-        Entity source = event.getSource().getTrueSource();
-        if (!(target instanceof EntityStoneBase) && source instanceof EntityLivingBase) {
-            EntityLivingBase attacker = (EntityLivingBase) source;
-            if (attacker.getHeldItemMainhand().getItem() instanceof ItemGreatsword) {
-                float knockback = 1.2F;
-                if (target.getName().equalsIgnoreCase("revanace")) {
-                    knockback = 50.0F;
-                } else if (attacker instanceof EntityBarbarian) {
-                    knockback = 2.0F;
-                } else if (cooldown.get(attacker) == 1.0F) {
-                    knockback = 3.0F;
-                }
-                target.addVelocity((double) (-MathHelper.sin(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F), 0.1D, (double) (MathHelper.cos(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F));
-            }
-        }
-    }
-
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         EntityPlayer player = event.getEntityPlayer();
         if (player.world.isRemote) return;
-        if (event.getTarget() instanceof EntityLivingBase && !(event.getTarget() instanceof EntityStoneBase)) {
+        if (event.getTarget() instanceof EntityLivingBase) {
             if (player.getHeldItemMainhand().getItem() instanceof ItemGreatsword) {
                 cooldown.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
+    }
+
+    @Override
+    public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
+        if (attacker != null && cooldown.get(attacker) == 1.0F) {
+            if (attacker instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) attacker;
+                World world = player.world;
+                float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+
+                for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(1.75D, 0.25D, 1.75D))) {
+                    if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 11.0D) {
+                        entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+                        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), sweeping);
+                        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+                    }
+                }
+            }
+        }
+        return super.hitEntity(stack, target, attacker);
     }
 
     @Override

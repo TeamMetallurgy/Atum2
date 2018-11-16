@@ -85,7 +85,6 @@ public class MapGenTomb extends MapGenStructure {
             if (y > 60/* || !(world.getBlockState(pos).getBlock() instanceof BlockLimestone)*/) {
                 this.isValid = false;
             } else {
-                System.out.println("Tomb Pos: " + pos);
                 TombPieces.TombTemplate tomb = new TombPieces.TombTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, random, rotation);
                 this.components.add(tomb);
                 this.updateBoundingBox();
