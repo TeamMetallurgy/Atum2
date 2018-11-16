@@ -30,7 +30,7 @@ public class EntityArrowRain extends CustomArrow {
     @Override
     public void onUpdate() {
         if (world.getTotalWorldTime() % (this.inGround ? 55L : 3L) == 0L) {
-            Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+            Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT_DROP, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
         if (velocity == 1.0F && shootingEntity instanceof EntityLivingBase) {
             if (this.ticksInAir == 12) {

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.stone;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -38,6 +39,20 @@ public class EntityStoneguard extends EntityStoneBase {
         final AttributeModifier FRIENDLY_HEALTH = new AttributeModifier(UUID.fromString("41d44fff-f8a8-47c5-a753-d7eb9f715d40"), "Friendly Stoneguard health", 20.0D, 0);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(FRIENDLY_HEALTH);
         this.heal(20);
+    }
+
+    @Override
+    protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) {
+        if (this.isPlayerCreated()) {
+            for (EntityEquipmentSlot slot : EntityEquipmentSlot.values()) {
+                ItemStack stack = this.getItemStackFromSlot(slot);
+                if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) && wasRecentlyHit) {
+                    this.entityDropItem(stack, 0.0F);
+                }
+            }
+        } else {
+            super.dropEquipment(wasRecentlyHit, lootingModifier);
+        }
     }
 
     @Override

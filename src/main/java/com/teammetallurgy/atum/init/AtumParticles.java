@@ -33,6 +33,7 @@ public class AtumParticles {
         this.registerParticle(Types.SETH.getParticleName(), new ParticleDrop.Seth());
         this.registerParticle(Types.SHU.getParticleName(), new ParticleSwirl.Shu());
         this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
+        this.registerParticle(Types.TEFNUT_DROP.getParticleName(), new ParticleDrop.Tefnut());
         this.registerParticle(Types.TAR.getParticleName(), new ParticleDrop.Tar());
     }
 
@@ -70,6 +71,7 @@ public class AtumParticles {
         SETH("seth"),
         SHU("shu"),
         TEFNUT("tefnut"),
+        TEFNUT_DROP("tefnut_drop"),
         TAR("tar");
 
         private static final Map<String, Types> PARTICLES = Maps.newHashMap();
