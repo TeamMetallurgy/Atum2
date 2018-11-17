@@ -78,13 +78,13 @@ public class ParticleSwirl extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(ANUBIS);
-        event.getMap().registerSprite(GAS);
-        event.getMap().registerSprite(GEB);
-        event.getMap().registerSprite(HORUS);
-        event.getMap().registerSprite(ISIS);
-        event.getMap().registerSprite(NUIT);
-        event.getMap().registerSprite(SHU);
+        TextureManagerParticles.INSTANCE.registerSprite(ANUBIS);
+        TextureManagerParticles.INSTANCE.registerSprite(GAS);
+        TextureManagerParticles.INSTANCE.registerSprite(GEB);
+        TextureManagerParticles.INSTANCE.registerSprite(HORUS);
+        TextureManagerParticles.INSTANCE.registerSprite(ISIS);
+        TextureManagerParticles.INSTANCE.registerSprite(NUIT);
+        TextureManagerParticles.INSTANCE.registerSprite(SHU);
     }
 
     @SideOnly(Side.CLIENT)

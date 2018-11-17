@@ -1,15 +1,16 @@
 package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
+import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -18,6 +19,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -93,26 +96,34 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void onUpdate(TickEvent.PlayerTickEvent event) {
-        /*EntityPlayer player = event.player;
-
-        if (player.dimension == AtumConfig.DIMENSION_ID) { //TODO Fix
-            if (player.world.isRaining()) {
-                //raining = true;
-
-                Random random = new Random();
-                int particlesPerTick = (3 - Minecraft.getMinecraft().gameSettings.particleSetting) * 6;
-                for (int i = 0; i < particlesPerTick; i++) {
-                    float x = random.nextInt(4) - 2;
-                    float z = random.nextInt(4) - 2;
-                    float y = (random.nextFloat() - 0.7F) * 2F;
-
-                    float vx = 0.1F + random.nextFloat() * 0.1F;
-                    float vz = 0.1F + random.nextFloat() * 0.1F;
-
-                    player.world.spawnParticle(EnumParticleTypes.BLOCK_DUST, player.posX + x, player.posY + y, player.posZ + z, vx + player.motionX, 0.0D, vz + player.motionZ);
-                }
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.START) {
+            if (Minecraft.getMinecraft().world != null && !Minecraft.getMinecraft().isGamePaused()) {
+                ClientProxy.atumParticles.updateEffects();
             }
-        }*/
+        }
+    }
+
+    @SubscribeEvent
+    public static void onRenderLastWorld(RenderWorldLastEvent event) {
+        EntityRenderer entityRenderer = Minecraft.getMinecraft().entityRenderer;
+        AtumParticles particles = ClientProxy.atumParticles;
+        Minecraft mc = Minecraft.getMinecraft();
+        Entity entity = mc.getRenderViewEntity();
+
+        entityRenderer.enableLightmap();
+        mc.profiler.endStartSection("litParticles");
+        particles.renderLitParticles(entity, event.getPartialTicks());
+        RenderHelper.disableStandardItemLighting();
+        mc.profiler.endStartSection("particles");
+        particles.renderParticles(entity, event.getPartialTicks());
+        entityRenderer.disableLightmap();
+    }
+
+    @SubscribeEvent
+    public static void onWorldLoad(WorldEvent.Load event) {
+        if (event.getWorld().isRemote) {
+            ClientProxy.atumParticles.clearEffects(event.getWorld());
+        }
     }
 }

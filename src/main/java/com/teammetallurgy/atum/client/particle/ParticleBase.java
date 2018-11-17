@@ -1,11 +1,14 @@
 package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.Particle;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
@@ -28,7 +31,12 @@ public class ParticleBase extends Particle {
     }
 
     @Override
+    public void setParticleTexture(@Nonnull TextureAtlasSprite texture) {
+        this.particleTexture = texture;
+    }
+
+    @Override
     public int getFXLayer() {
-        return 1;
+        return 0;
     }
 }

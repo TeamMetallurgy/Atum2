@@ -61,11 +61,12 @@ import javax.annotation.Nonnull;
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientProxy extends CommonProxy {
     private static final ModelResourceLocation THOTHS_BEARINGS = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "thoths_bearings"), "inventory");
-    public static AtumParticles atumParticles = new AtumParticles();
+    public static AtumParticles atumParticles;
 
     @Override
     public void init() {
         //TextureMap Particles
+        atumParticles = new AtumParticles();
         TextureManagerParticles managerParticles = TextureManagerParticles.INSTANCE;
         TextureMapParticles textureMap = managerParticles.getTextureMap();
         Minecraft.getMinecraft().renderEngine.loadTickableTexture(TextureManagerParticles.LOCATION_PARTICLES, textureMap);
@@ -84,7 +85,6 @@ public class ClientProxy extends CommonProxy {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        atumParticles.register();
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestBase.class, new RenderTileChest());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrate.class, new RenderCrate());
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection("atums_protection"));
@@ -131,6 +131,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void spawnParticle(AtumParticles.Types particleType, Entity entity, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        Minecraft.getMinecraft().effectRenderer.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), entity.world, x, y, z, xSpeed, ySpeed, zSpeed));
+       ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), entity.world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 }

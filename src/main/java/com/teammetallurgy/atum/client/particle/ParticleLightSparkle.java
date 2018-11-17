@@ -71,7 +71,7 @@ public class ParticleLightSparkle extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(LIGHT_SPARKLE);
+        TextureManagerParticles.INSTANCE.registerSprite(LIGHT_SPARKLE);
     }
 
     @SideOnly(Side.CLIENT)

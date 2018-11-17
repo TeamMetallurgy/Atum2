@@ -65,9 +65,9 @@ public class ParticleDrop extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(SETH);
-        event.getMap().registerSprite(TAR);
-        event.getMap().registerSprite(TEFNUT);
+        TextureManagerParticles.INSTANCE.registerSprite(SETH);
+        TextureManagerParticles.INSTANCE.registerSprite(TAR);
+        TextureManagerParticles.INSTANCE.registerSprite(TEFNUT);
     }
 
     @SideOnly(Side.CLIENT)

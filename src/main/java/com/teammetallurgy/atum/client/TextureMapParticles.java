@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client;
 
 import com.google.common.collect.Maps;
+import com.teammetallurgy.atum.Atum;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.*;
 import net.minecraft.client.resources.IResource;
@@ -14,7 +15,6 @@ import net.minecraftforge.fml.common.ProgressManager;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.commons.io.IOUtils;
-import org.jline.utils.Log;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -77,18 +77,18 @@ public class TextureMapParticles extends TextureMap { //Originally made by Mezz 
 
         this.missingImage.generateMipmaps(0);
         stitcher.addSprite(this.missingImage);
-        bar = ProgressManager.push("Texture creation", 2);
+        bar = ProgressManager.push("Particle texture creation", 2);
 
         bar.step("Stitching");
         stitcher.doStitch();
 
-        Log.info("Created: {}x{} {}-atlas", stitcher.getCurrentWidth(), stitcher.getCurrentHeight(), this.basePath);
+        Atum.LOG.info("Created: {}x{} particle-atlas", stitcher.getCurrentWidth(), stitcher.getCurrentHeight(), this.basePath);
         bar.step("Allocating GL texture");
         TextureUtil.allocateTextureImpl(this.getGlTextureId(), 0, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
         Map<String, TextureAtlasSprite> map = Maps.newHashMap(this.mapRegisteredSprites);
 
         ProgressManager.pop(bar);
-        bar = ProgressManager.push("Texture mipmap and upload", stitcher.getStichSlots().size());
+        bar = ProgressManager.push("Particle texture mipmap and upload", stitcher.getStichSlots().size());
 
         for (TextureAtlasSprite sprite : stitcher.getStichSlots()) {
             bar.step(sprite.getIconName());
@@ -100,10 +100,10 @@ public class TextureMapParticles extends TextureMap { //Originally made by Mezz 
                 try {
                     TextureUtil.uploadTextureMipmap(sprite.getFrameTextureData(0), sprite.getIconWidth(), sprite.getIconHeight(), sprite.getOriginX(), sprite.getOriginY(), false, false);
                 } catch (Throwable throwable) {
-                    CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Stitching texture atlas");
-                    CrashReportCategory crashreportcategory = crashReport.makeCategory("Texture being stitched together");
-                    crashreportcategory.addCrashSection("Atlas path", this.basePath);
-                    crashreportcategory.addCrashSection("Sprite", sprite);
+                    CrashReport crashReport = CrashReport.makeCrashReport(throwable, "Stitching particle texture atlas");
+                    CrashReportCategory crashreportcategory = crashReport.makeCategory("Particle texture being stitched together");
+                    crashreportcategory.addCrashSection("Particle atlas path", this.basePath);
+                    crashreportcategory.addCrashSection("Particle sprite", sprite);
                     throw new ReportedException(crashReport);
                 }
                 if (sprite.hasAnimationMetadata()) {
@@ -131,10 +131,10 @@ public class TextureMapParticles extends TextureMap { //Originally made by Mezz 
                 sprite.loadSpriteFrames(iResource, 1);
                 break label9;
             } catch (RuntimeException runtimeexception) {
-                Log.error("Unable to parse metadata from {}", location, runtimeexception);
+                Atum.LOG.error("Unable to parse metadata from {}", location, runtimeexception);
                 shouldGenerate = false;
             } catch (IOException ioexception) {
-                Log.error("Using missing texture, unable to load {}", location, ioexception);
+                Atum.LOG.error("Using missing texture, unable to load {}", location, ioexception);
                 shouldGenerate = false;
                 return shouldGenerate;
             } finally {

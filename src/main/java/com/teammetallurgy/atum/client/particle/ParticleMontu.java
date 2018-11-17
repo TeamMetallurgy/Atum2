@@ -82,7 +82,7 @@ public class ParticleMontu extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(MONTUS);
+        TextureManagerParticles.INSTANCE.registerSprite(MONTUS);
     }
 
     @SideOnly(Side.CLIENT)
