@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
+import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.ResourceLocation;
@@ -73,7 +74,7 @@ public class ParticleDrop extends ParticleBase {
     public static class Seth implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleDrop particle = new ParticleDrop(world, x, y, z);
-            particle.setParticleTexture(getSprite(SETH));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(SETH));
             particle.dropGravity = 8.0F;
             particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;
@@ -84,7 +85,7 @@ public class ParticleDrop extends ParticleBase {
     public static class Tefnut implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleDrop particle = new ParticleDrop(world, x, y, z);
-            particle.setParticleTexture(getSprite(TEFNUT));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(TEFNUT));
             particle.dropGravity = 8.0F;
             particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;
@@ -95,7 +96,7 @@ public class ParticleDrop extends ParticleBase {
     public static class Tar implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleDrop particle = new ParticleDrop(world, x, y, z);
-            particle.setParticleTexture(getSprite(TAR));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(TAR));
             particle.particleScale = 0.001F;
             particle.dropGravity = 4.0F;
             particle.setMaxAge((int) (16.0D / (Math.random() * 0.8D + 0.2D)));

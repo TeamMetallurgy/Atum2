@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
+import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -90,7 +91,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Anubis implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(ANUBIS));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(ANUBIS));
             return particle;
         }
     }
@@ -99,7 +100,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Gas implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(GAS));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(GAS));
             return particle;
         }
     }
@@ -108,7 +109,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Geb implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(GEB));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(GEB));
             return particle;
         }
     }
@@ -117,7 +118,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Horus implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(HORUS));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(HORUS));
             return particle;
         }
     }
@@ -126,7 +127,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Isis implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(ISIS));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(ISIS));
             return particle;
         }
     }
@@ -135,7 +136,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Nuit implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(NUIT));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(NUIT));
             return particle;
         }
     }
@@ -144,7 +145,7 @@ public class ParticleSwirl extends ParticleBase {
     public static class Shu implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             Particle particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            particle.setParticleTexture(getSprite(SHU));
+            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(SHU));
             return particle;
         }
     }

@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
+import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -42,7 +43,7 @@ public class ParticleMontu extends ParticleBase {
         this.scale = this.particleScale;
         this.particleMaxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D));
         this.particleMaxAge = (int) ((float) this.particleMaxAge * scale);
-        this.setParticleTexture(getSprite(MONTUS));
+        this.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(MONTUS));
     }
 
     @Override

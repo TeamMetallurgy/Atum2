@@ -1,9 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
@@ -28,10 +25,6 @@ public class ParticleBase extends Particle {
         this.motionX = this.motionX / (double) f1 * (double) f * 0.4000000059604645D;
         this.motionY = this.motionY / (double) f1 * (double) f * 0.4000000059604645D + 0.10000000149011612D;
         this.motionZ = this.motionZ / (double) f1 * (double) f * 0.4000000059604645D;
-    }
-
-    static TextureAtlasSprite getSprite(ResourceLocation location) {
-        return Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite(location.toString());
     }
 
     @Override

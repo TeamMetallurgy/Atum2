@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.client.TextureManagerParticles;
+import com.teammetallurgy.atum.client.TextureMapParticles;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
@@ -63,14 +65,19 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init() {
-        Minecraft mc = Minecraft.getMinecraft();
+        //TextureMap Particles
+        TextureManagerParticles managerParticles = TextureManagerParticles.INSTANCE;
+        TextureMapParticles textureMap = managerParticles.getTextureMap();
+        Minecraft.getMinecraft().renderEngine.loadTickableTexture(TextureManagerParticles.LOCATION_PARTICLES, textureMap);
+
+        //Colors
         ItemColors itemColor = Minecraft.getMinecraft().getItemColors();
         //Palm Leave color
         itemColor.registerItemColorHandler((stack, tintIndex) -> {
             IBlockState state = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
             return Minecraft.getMinecraft().getBlockColors().colorMultiplier(state, null, null, tintIndex);
         }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
-        mc.getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
+        Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         //Dyeable armor
         itemColor.registerItemColorHandler((stack, tintIndex) -> tintIndex > 0 ? -1 : ((ItemTexturedArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND);
     }

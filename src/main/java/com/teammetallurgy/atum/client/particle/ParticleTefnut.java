@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.particle;
 
+import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +30,7 @@ public class ParticleTefnut extends ParticleBase {
         this.motionY *= 0.019999999552965164D;
         this.motionZ *= 0.019999999552965164D;
         this.particleMaxAge = (int) (20.0D / (Math.random() * 0.8D + 0.2D));
-        this.setParticleTexture(getSprite(TEFNUT));
+        this.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(TEFNUT));
     }
 
     @Override
@@ -55,7 +56,7 @@ public class ParticleTefnut extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        event.getMap().registerSprite(TEFNUT);
+        TextureManagerParticles.INSTANCE.registerSprite(TEFNUT);
     }
 
     @SideOnly(Side.CLIENT)
