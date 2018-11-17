@@ -21,15 +21,19 @@ public class EntityArrowStraight extends CustomArrow {
 
     @Override
     public void onUpdate() {
-        super.onUpdate();
+        if (!world.isRemote) {
+            super.onUpdate();
+        }
+
         if (this.velocity == 1.0F) {
             this.motionY += 0.05;
             if (!this.inGround && ticksExisted > 300) {
                 this.setDead();
             }
-        }
-        if (shootingEntity instanceof EntityLivingBase && !inGround && velocity == 1.0F && this.isEntityAlive()) {
-            Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+
+            if (shootingEntity instanceof EntityLivingBase && !inGround && velocity == 1.0F && this.isEntityAlive()) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+            }
         }
     }
 

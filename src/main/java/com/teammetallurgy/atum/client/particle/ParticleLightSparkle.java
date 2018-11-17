@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.client.particle;
 
-import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -31,7 +30,7 @@ public class ParticleLightSparkle extends ParticleBase {
         this.particleScale *= 0.4F;
         this.particleScaleOverTime = this.particleScale;
         this.particleMaxAge = 16;
-        this.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(LIGHT_SPARKLE));
+        this.setParticleTexture(getSprite(LIGHT_SPARKLE));
     }
 
     @Override
@@ -71,7 +70,7 @@ public class ParticleLightSparkle extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        TextureManagerParticles.INSTANCE.registerSprite(LIGHT_SPARKLE);
+        registerSprite(LIGHT_SPARKLE);
     }
 
     @SideOnly(Side.CLIENT)

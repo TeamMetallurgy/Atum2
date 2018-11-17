@@ -67,11 +67,11 @@ public class ItemAnubisMercy extends Item {
                 player.inventory.armorInventory.clear();
                 player.inventory.offHandInventory.clear();
             }
-            for (int l = 0; l < 12; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.05D, 0.0D, 0.0D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.05D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, -0.05D, 0.0D, 0.0D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, -0.05D);
+            for (int l = 0; l < 22; ++l) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.04D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.04D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, -0.04D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, -0.04D);
             }
             player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }

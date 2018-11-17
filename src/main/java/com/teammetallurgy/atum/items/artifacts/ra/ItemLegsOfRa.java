@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -12,7 +14,6 @@ import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
@@ -55,9 +56,7 @@ public class ItemLegsOfRa extends ItemTexturedArmor {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (player.getItemStackFromSlot(EntityEquipmentSlot.LEGS).getItem() == AtumItems.LEGS_OF_RA) {
             if (player.isSprinting()) {
-                for (int l = 0; l < 2; ++l) {
-                    world.spawnParticle(EnumParticleTypes.FLAME, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
-                }
+                Atum.proxy.spawnParticle(AtumParticles.Types.RA_FIRE, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 0.15D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
                 if (!attribute.hasModifier(SPEED_BOOST)) {
                     attribute.applyModifier(SPEED_BOOST);
                 } else {
@@ -65,7 +64,7 @@ public class ItemLegsOfRa extends ItemTexturedArmor {
                 }
             }
         } else if (attribute.hasModifier(SPEED_BOOST)) {
-            attribute.removeModifier(SPEED_BOOST); //Fail safe, in case speed bost does somehow not get removed properly
+            attribute.removeModifier(SPEED_BOOST); //Fail safe, in case speed boost does somehow not get removed properly
         }
     }
 

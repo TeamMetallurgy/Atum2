@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.client.particle;
 
-import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +19,7 @@ public class ParticleDrop extends ParticleBase {
     private int bobTimer;
     private static final ResourceLocation SETH = new ResourceLocation(Constants.MOD_ID, "particle/seth");
     private static final ResourceLocation TAR = new ResourceLocation(Constants.MOD_ID, "particle/tar");
-    private static final ResourceLocation TEFNUT = new ResourceLocation(Constants.MOD_ID, "particle/tefnut_drop");
+    private static final ResourceLocation TEFNUT_DROP = new ResourceLocation(Constants.MOD_ID, "particle/tefnut_drop");
 
     protected ParticleDrop(World world, double xCoord, double yCoord, double zCoord) {
         super(world, xCoord, yCoord, zCoord, 0.0D, 0.0D, 0.0D);
@@ -65,16 +64,17 @@ public class ParticleDrop extends ParticleBase {
 
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
-        TextureManagerParticles.INSTANCE.registerSprite(SETH);
-        TextureManagerParticles.INSTANCE.registerSprite(TAR);
-        TextureManagerParticles.INSTANCE.registerSprite(TEFNUT);
+        registerSprite(SETH);
+        registerSprite(TAR);
+        registerSprite(TEFNUT_DROP);
     }
 
     @SideOnly(Side.CLIENT)
     public static class Seth implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleDrop particle = new ParticleDrop(world, x, y, z);
-            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(SETH));
+            particle.setParticleTexture(getSprite(SETH));
+            particle.particleScale = 1.1F;
             particle.dropGravity = 8.0F;
             particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;
@@ -85,7 +85,8 @@ public class ParticleDrop extends ParticleBase {
     public static class Tefnut implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleDrop particle = new ParticleDrop(world, x, y, z);
-            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(TEFNUT));
+            particle.setParticleTexture(getSprite(TEFNUT_DROP));
+            particle.particleScale = 0.5F;
             particle.dropGravity = 8.0F;
             particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;
@@ -96,8 +97,8 @@ public class ParticleDrop extends ParticleBase {
     public static class Tar implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleDrop particle = new ParticleDrop(world, x, y, z);
-            particle.setParticleTexture(TextureManagerParticles.INSTANCE.getSprite(TAR));
-            particle.particleScale = 0.001F;
+            particle.setParticleTexture(getSprite(TAR));
+            particle.particleScale = 1.6F;
             particle.dropGravity = 4.0F;
             particle.setMaxAge((int) (16.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;

@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.ItemKhopesh;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -113,6 +115,9 @@ public class ItemNuitsIre extends ItemKhopesh {
 
     private static void applyWither(EntityLivingBase attacker, EntityLivingBase target, boolean isNuitsQuarterHeld) {
         if (attacker != target) {
+            for (int l = 0; l < 8; ++l) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.NUIT_WHITE, target, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + itemRand.nextDouble() * (double) target.height, target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, 0.0D, 0.0D, 0.0D);
+            }
             attacker.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
         }
     }

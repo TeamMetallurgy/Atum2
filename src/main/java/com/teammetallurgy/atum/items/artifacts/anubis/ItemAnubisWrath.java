@@ -129,10 +129,9 @@ public class ItemAnubisWrath extends ItemSword {
             return player.getHeldItem(EnumHand.MAIN_HAND);
         } else {
             for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
-                ItemStack itemstack = player.inventory.getStackInSlot(i);
-
-                if (itemstack.getItem() == AtumItems.ANUBIS_WRATH) {
-                    return itemstack;
+                ItemStack stack = player.inventory.getStackInSlot(i);
+                if (stack.getItem() == AtumItems.ANUBIS_WRATH) {
+                    return stack;
                 }
             }
             return ItemStack.EMPTY;

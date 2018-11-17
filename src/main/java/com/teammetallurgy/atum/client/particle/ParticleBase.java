@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.client.particle;
 
+import com.teammetallurgy.atum.client.TextureManagerParticles;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
@@ -33,6 +35,14 @@ public class ParticleBase extends Particle {
     @Override
     public void setParticleTexture(@Nonnull TextureAtlasSprite texture) {
         this.particleTexture = texture;
+    }
+
+    static TextureAtlasSprite registerSprite(ResourceLocation location) {
+        return TextureManagerParticles.INSTANCE.registerSprite(location);
+    }
+
+    static TextureAtlasSprite getSprite(ResourceLocation location) {
+        return TextureManagerParticles.INSTANCE.getSprite(location);
     }
 
     @Override

@@ -66,12 +66,14 @@ public class ItemAtumsHomecoming extends Item {
             pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
         }
         teleport(world, player, hand, pos.getX(), pos.getY(), pos.getZ());
-        heldStack.damageItem(1, player);
+        if (!player.isCreative()) {
+            heldStack.damageItem(1, player);
+        }
         onTeleport(world, player);
         return new ActionResult<>(EnumActionResult.PASS, heldStack);
     }
 
-    public static void teleport(World world, Entity entity, EnumHand hand, int x, int y, int z) {
+    private static void teleport(World world, Entity entity, EnumHand hand, int x, int y, int z) {
         float yaw = entity.rotationYaw;
         float pitch = entity.rotationPitch;
         if (entity instanceof EntityPlayerMP) {

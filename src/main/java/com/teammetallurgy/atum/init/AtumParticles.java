@@ -48,15 +48,18 @@ public class AtumParticles {
 
     public void register() {
         this.registerParticle(Types.ANUBIS.getParticleName(), new ParticleSwirl.Anubis());
+        this.registerParticle(Types.ANUBIS_SKULL.getParticleName(), new ParticleSwirl.AnubisSkull());
         this.registerParticle(Types.GAS.getParticleName(), new ParticleSwirl.Gas());
         this.registerParticle(Types.GEB.getParticleName(), new ParticleSwirl.Geb());
         this.registerParticle(Types.HORUS.getParticleName(), new ParticleSwirl.Horus());
         this.registerParticle(Types.ISIS.getParticleName(), new ParticleSwirl.Isis());
         this.registerParticle(Types.LIGHT_SPARKLE.getParticleName(), new ParticleLightSparkle.Factory());
         this.registerParticle(Types.MONTU.getParticleName(), new ParticleMontu.Factory());
-        this.registerParticle(Types.NUIT.getParticleName(), new ParticleSwirl.Nuit());
+        this.registerParticle(Types.NUIT_BLACK.getParticleName(), new ParticleSwirl.NuitBlack());
+        this.registerParticle(Types.NUIT_WHITE.getParticleName(), new ParticleSwirl.NuitWhite());
         this.registerParticle(Types.SETH.getParticleName(), new ParticleDrop.Seth());
         this.registerParticle(Types.SHU.getParticleName(), new ParticleSwirl.Shu());
+        this.registerParticle(Types.RA_FIRE.getParticleName(), new ParticleRaFire.Factory());
         this.registerParticle(Types.TEFNUT.getParticleName(), new ParticleTefnut.Factory());
         this.registerParticle(Types.TEFNUT_DROP.getParticleName(), new ParticleDrop.Tefnut());
         this.registerParticle(Types.TAR.getParticleName(), new ParticleDrop.Tar());
@@ -267,13 +270,17 @@ public class AtumParticles {
 
     public enum Types {
         ANUBIS("anubis"),
+        ANUBIS_DROP("anubis_drop"),
+        ANUBIS_SKULL("anubis_skull"),
         GAS("gas"),
         GEB("geb"),
         HORUS("horus"),
         ISIS("isis"),
         LIGHT_SPARKLE("light_sprakle"),
         MONTU("montu"),
-        NUIT("nuit"),
+        NUIT_BLACK("nuit_black"),
+        NUIT_WHITE("nuit_white"),
+        RA_FIRE("ra_fire"),
         SETH("seth"),
         SHU("shu"),
         TEFNUT("tefnut"),

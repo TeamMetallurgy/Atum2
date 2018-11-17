@@ -1,10 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowDoubleShotBlack;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowDoubleShotWhite;
-import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -131,15 +129,6 @@ public class ItemNuitsDuality extends ItemBaseBow {
     @Override
     protected EntityArrow setArrow(ItemStack stack, World world, EntityPlayer player, float velocity) {
         return new EntityArrowDoubleShotWhite(world, player);
-    }
-
-    @Override
-    protected void onVelocity(World world, EntityPlayer player, float velocity) {
-        if (velocity == 1.0F) {
-            for (int l = 0; l < 24; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.NUIT, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
-            }
-        }
     }
 
     @Override

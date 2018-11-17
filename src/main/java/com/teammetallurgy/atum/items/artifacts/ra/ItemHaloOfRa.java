@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -11,7 +13,6 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.EntityDamageSourceIndirect;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
@@ -47,7 +48,7 @@ public class ItemHaloOfRa extends ItemTexturedArmor {
                 event.getSource().getImmediateSource().setFire(8);
             }
             for (int l = 0; l < 16; ++l) {
-                world.spawnParticle(EnumParticleTypes.FLAME, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.RA_FIRE, entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.0D, 0.0D);
             }
         }
     }

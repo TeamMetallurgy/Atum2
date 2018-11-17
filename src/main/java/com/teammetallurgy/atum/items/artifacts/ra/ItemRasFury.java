@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowFire;
+import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.ItemBaseBow;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -9,7 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -48,8 +50,13 @@ public class ItemRasFury extends ItemBaseBow {
     @Override
     protected void onVelocity(World world, EntityPlayer player, float velocity) {
         if (velocity == 1.0F) {
-            for (int l = 0; l < 64; ++l) {
-                world.spawnParticle(EnumParticleTypes.FLAME, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
+            for (int amount = 0; amount < 20; ++amount) {
+                float timesRandom = world.rand.nextFloat() * 4.0F;
+                float cosRandom = world.rand.nextFloat() * ((float) Math.PI * 2F);
+                double x = (double) (MathHelper.cos(cosRandom) * timesRandom) * 0.1D;
+                double y = 0.01D + world.rand.nextDouble() * 0.1D;
+                double z = (double) (MathHelper.sin(cosRandom) * timesRandom) * 0.1D;
+                Atum.proxy.spawnParticle(AtumParticles.Types.RA_FIRE, player, player.posX, player.posY + 0.7D, player.posZ + z * 0.1D, x / 10, y, z / 10);
             }
         }
     }

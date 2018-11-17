@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumParticles;
 import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.client.resources.I18n;
@@ -61,9 +63,13 @@ public class ItemAtumsWill extends ItemSword {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityPlayer && cooldown.get(trueSource) == 1.0F) {
+        if (trueSource instanceof EntityLivingBase && cooldown.get(trueSource) == 1.0F) {
+            EntityLivingBase target = event.getEntityLiving();
             event.setAmount(event.getAmount() * 2);
             cooldown.remove(trueSource);
+            for (int l = 0; l < 16; ++l) {
+                Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, target, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + itemRand.nextDouble() * (double) target.height, target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, 0.0D, 0.0D, 0.0D);
+            }
         }
     }
 

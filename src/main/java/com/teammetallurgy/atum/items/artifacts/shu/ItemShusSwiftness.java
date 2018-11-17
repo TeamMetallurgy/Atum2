@@ -68,7 +68,7 @@ public class ItemShusSwiftness extends Item {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (player.moveForward != 0.0F) {
             for (int l = 0; l < 2; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.ISIS, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 0.2D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
             }
         }
         if (!world.isRemote) {
