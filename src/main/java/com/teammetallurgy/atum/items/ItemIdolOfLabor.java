@@ -18,7 +18,7 @@ public class ItemIdolOfLabor extends Item {
     @Override
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
-        player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + "." + MathHelper.getInt(itemRand, 1, 10)).setStyle(new Style().setColor(TextFormatting.YELLOW)), true);
+        player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + "." + MathHelper.getInt(itemRand, 1, 65)).setStyle(new Style().setColor(TextFormatting.YELLOW)), true);
         return super.onItemRightClick(world, player, hand);
     }
 }
