@@ -14,19 +14,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class ItemIdolOfLabor extends Item {
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
-    }
-
 
     @Override
     @Nonnull
