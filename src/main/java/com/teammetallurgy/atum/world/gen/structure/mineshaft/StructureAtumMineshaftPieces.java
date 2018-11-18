@@ -258,11 +258,11 @@ public class StructureAtumMineshaftPieces {
                     this.placeSupport(world, box, 0, 0, k1, 2, 2, random);
 
                     if (random.nextInt(100) == 0) {
-                        this.generateChest(world, box, random, 2, 0, k1 - 1, AtumLootTables.RUINS); //TODO Make new Atum mineshaft loot tables
+                        this.generateChest(world, box, random, 2, 0, k1 - 1, AtumLootTables.CRATE);
                     }
 
                     if (random.nextInt(100) == 0) {
-                        this.generateChest(world, box, random, 0, 0, k1 + 1, AtumLootTables.RUINS); //TODO Make new Atum mineshaft loot tables
+                        this.generateChest(world, box, random, 0, 0, k1 + 1, AtumLootTables.CRATE);
                     }
 
                     if (this.hasTarantula && !this.spawnerPlaced) {

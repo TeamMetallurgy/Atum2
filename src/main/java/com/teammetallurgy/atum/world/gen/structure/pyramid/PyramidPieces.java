@@ -150,7 +150,7 @@ public class PyramidPieces {
 
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO Temporary
+                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);

@@ -98,7 +98,7 @@ public class WorldGenAtumDungeons extends WorldGenerator {
                             TileEntity tileEntity = world.getTileEntity(chestPos);
 
                             if (tileEntity instanceof TileEntityCrate) {
-                                ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.RUINS, rand.nextLong()); //TODO
+                                ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                             }
 
                             break;

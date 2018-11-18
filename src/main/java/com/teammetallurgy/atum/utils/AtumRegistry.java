@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
+import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
@@ -269,6 +270,7 @@ public class AtumRegistry {
         StructureAtumMineshaftPieces.registerMineshaft();
         PyramidPieces.registerPyramid();
         RuinPieces.registerRuins();
-        TombPieces.registerRuins();
+        TombPieces.registerTomb();
+        GirafiTombPieces.registerGirafiTomb();
     }
 }

@@ -1,0 +1,29 @@
+{
+  "pools": [
+    {
+      "name": "atum:girafi_tomb_loot",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "atum:chests/pyramid_chest",
+          "weight": 1,
+          "quality": 0
+        }
+      ]
+    },
+    {
+      "name": "atum:girafi_tomb_idol",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:idol_of_labor",
+          "entryName": "idol_of_labor",
+          "weight": 1,
+          "quality": 1
+        }
+      ]
+    }
+  ]
+}

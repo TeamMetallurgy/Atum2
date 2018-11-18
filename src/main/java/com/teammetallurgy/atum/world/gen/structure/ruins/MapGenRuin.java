@@ -20,6 +20,7 @@ import java.util.Random;
 public class MapGenRuin extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.DEADWOOD_FOREST, AtumBiomes.LIMESTONE_MOUNTAINS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_PLAINS);
     private final ChunkGeneratorAtum chunkGenerator;
+    private int seed = 10387777;
     private int spacing = 5;
     private int separation = 3;
 
@@ -36,7 +37,7 @@ public class MapGenRuin extends MapGenStructure {
     @Override
     public BlockPos getNearestStructurePos(@Nonnull World world, @Nonnull BlockPos pos, boolean findUnexplored) {
         this.world = world;
-        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, 10387777, true, 100, findUnexplored);
+        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, this.seed, true, 100, findUnexplored);
     }
 
     @Override
@@ -52,7 +53,7 @@ public class MapGenRuin extends MapGenStructure {
         }
         int xSpacing = chunkX / this.spacing;
         int zSpacing = chunkZ / this.spacing;
-        Random random = this.world.setRandomSeed(xSpacing, zSpacing, 10387405);
+        Random random = this.world.setRandomSeed(xSpacing, zSpacing, this.seed);
         xSpacing = xSpacing * this.spacing;
         zSpacing = zSpacing * this.spacing;
         xSpacing = xSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;

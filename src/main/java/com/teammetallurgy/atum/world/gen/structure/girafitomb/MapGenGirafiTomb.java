@@ -1,12 +1,11 @@
-package com.teammetallurgy.atum.world.gen.structure.pyramid;
+package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -19,21 +18,21 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class MapGenPyramid extends MapGenStructure {
-    private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
+public class MapGenGirafiTomb extends MapGenStructure {
+    private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.DRIED_RIVER);
     private final ChunkGeneratorAtum chunkGenerator;
-    private int seed = 10387404;
-    private int spacing = 18;
-    private int separation = 4;
+    private int seed = 10387999;
+    private int spacing = 5;
+    private int separation = 2;
 
-    public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {
+    public MapGenGirafiTomb(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
     }
 
     @Override
     @Nonnull
     public String getStructureName() {
-        return String.valueOf(PyramidPieces.PYRAMID);
+        return String.valueOf(GirafiTombPieces.GIRAFI_TOMB);
     }
 
     @Nullable
@@ -49,10 +48,10 @@ public class MapGenPyramid extends MapGenStructure {
         int z = chunkZ;
 
         if (chunkX < 0) {
-            chunkX -= this.spacing -1;
+            chunkX -= this.spacing - 1;
         }
         if (chunkZ < 0) {
-            chunkZ -= this.spacing -1;
+            chunkZ -= this.spacing - 1;
         }
         int xSpacing = chunkX / this.spacing;
         int zSpacing = chunkZ / this.spacing;
@@ -73,18 +72,6 @@ public class MapGenPyramid extends MapGenStructure {
     protected StructureStart getStructureStart(int chunkX, int chunkZ) {
         return new Start(this.world, this.chunkGenerator, this.rand, chunkX, chunkZ);
     }
-
-    /*@SubscribeEvent
-    public static void onBlockPlaced(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getWorld().isRemote) {
-            WorldServer world = (WorldServer) event.getWorld();
-            if (world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidPieces.PYRAMID), new BlockPos(event.getHitVec()))) {
-                if (!event.getEntityPlayer().isCreative() && !(Block.getBlockFromItem(event.getItemStack().getItem()) instanceof BlockTorch)) {
-                    event.setCanceled(true);
-                }
-            }
-        }
-    }*/
 
     public static class Start extends StructureStart {
         private boolean isValid;
@@ -122,10 +109,9 @@ public class MapGenPyramid extends MapGenStructure {
             if (y < 60) {
                 this.isValid = false;
             } else {
-                int yChance = MathHelper.getInt(random, 10, 18);
-                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - yChance, chunkZ * 16 + 8);
-                PyramidPieces.PyramidTemplate pyramid = new PyramidPieces.PyramidTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation, random);
-                this.components.add(pyramid);
+                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 1, chunkZ * 16 + 8);
+                GirafiTombPieces.GirafiTombTemplate girafiTomb = new GirafiTombPieces.GirafiTombTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, rotation);
+                this.components.add(girafiTomb);
                 this.updateBoundingBox();
                 this.isValid = true;
             }
@@ -158,7 +144,7 @@ public class MapGenPyramid extends MapGenStructure {
                                 if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                                world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                                world.setBlockState(pyramidPos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
                             }
                         }
                     }

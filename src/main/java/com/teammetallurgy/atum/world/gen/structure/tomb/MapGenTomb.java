@@ -16,6 +16,7 @@ import java.util.Random;
 
 public class MapGenTomb extends MapGenStructure {
     private final ChunkGeneratorAtum chunkGenerator;
+    private int seed = 10387666;
     private int spacing = 12;
     private int separation = 10;
 
@@ -32,7 +33,7 @@ public class MapGenTomb extends MapGenStructure {
     @Override
     public BlockPos getNearestStructurePos(@Nonnull World world, @Nonnull BlockPos pos, boolean findUnexplored) {
         this.world = world;
-        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, 10387666, true, 100, findUnexplored);
+        return findNearestStructurePosBySpacing(world, this, pos, this.spacing, this.separation, this.seed, true, 100, findUnexplored);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class MapGenTomb extends MapGenStructure {
         }
         int xSpacing = chunkX / this.spacing;
         int zSpacing = chunkZ / this.spacing;
-        Random random = this.world.setRandomSeed(xSpacing, zSpacing, 10387405);
+        Random random = this.world.setRandomSeed(xSpacing, zSpacing, this.seed);
         xSpacing = xSpacing * this.spacing;
         zSpacing = zSpacing * this.spacing;
         xSpacing = xSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;

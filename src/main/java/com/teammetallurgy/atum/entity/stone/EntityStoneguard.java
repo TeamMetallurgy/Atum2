@@ -36,9 +36,9 @@ public class EntityStoneguard extends EntityStoneBase {
     @Override
     protected void setFriendlyAttributes() {
         super.setFriendlyAttributes();
-        final AttributeModifier FRIENDLY_HEALTH = new AttributeModifier(UUID.fromString("41d44fff-f8a8-47c5-a753-d7eb9f715d40"), "Friendly Stoneguard health", 20.0D, 0);
+        final AttributeModifier FRIENDLY_HEALTH = new AttributeModifier(UUID.fromString("41d44fff-f8a8-47c5-a753-d7eb9f715d40"), "Friendly Stoneguard health", 30.0D, 0);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(FRIENDLY_HEALTH);
-        this.heal(20);
+        this.heal(30);
     }
 
     @Override

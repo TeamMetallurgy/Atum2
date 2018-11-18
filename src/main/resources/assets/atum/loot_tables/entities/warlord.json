@@ -46,26 +46,26 @@
       "entries": [
         {
           "type": "item",
-          "name": "atum:desert_helmet",
-          "entryName": "desert_helmet",
+          "name": "atum:desert_helmet_iron",
+          "entryName": "desert_helmet_iron",
           "weight": 1
         },
         {
           "type": "item",
-          "name": "atum:desert_chest",
-          "entryName": "desert_chest",
+          "name": "atum:desert_chest_iron",
+          "entryName": "desert_chest_iron",
           "weight": 1
         },
         {
           "type": "item",
-          "name": "atum:desert_legs",
-          "entryName": "desert_legs",
+          "name": "atum:desert_legs_iron",
+          "entryName": "desert_legs_iron",
           "weight": 1
         },
         {
           "type": "item",
-          "name": "atum:desert_boots",
-          "entryName": "desert_boots",
+          "name": "atum:desert_boots_iron",
+          "entryName": "desert_boots_iron",
           "weight": 1
         },
         {

@@ -1,16 +1,13 @@
-package com.teammetallurgy.atum.world.gen.structure.tomb;
+package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -26,26 +23,26 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TombPieces {
-    public static final ResourceLocation TOMB = new ResourceLocation(Constants.MOD_ID, "tomb");
+public class GirafiTombPieces {
+    public static final ResourceLocation GIRAFI_TOMB = new ResourceLocation(Constants.MOD_ID, "girafi_tomb");
 
-    public static void registerTomb() {
-        MapGenStructureIO.registerStructure(MapGenTomb.Start.class, String.valueOf(TOMB));
-        MapGenStructureIO.registerStructureComponent(TombPieces.TombTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "tomb_template")));
+    public static void registerGirafiTomb() {
+        MapGenStructureIO.registerStructure(MapGenGirafiTomb.Start.class, String.valueOf(GIRAFI_TOMB));
+        MapGenStructureIO.registerStructureComponent(GirafiTombPieces.GirafiTombTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "girafi_tomb_template")));
     }
 
-    public static class TombTemplate extends StructureComponentTemplate {
+    public static class GirafiTombTemplate extends StructureComponentTemplate {
         private Rotation rotation;
         private Mirror mirror;
 
-        public TombTemplate() { //Needs empty constructor
+        public GirafiTombTemplate() { //Needs empty constructor
         }
 
-        TombTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation) {
-            this(manager, pos, random, rotation, Mirror.NONE);
+        GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
+            this(manager, pos, rotation, Mirror.NONE);
         }
 
-        private TombTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation, Mirror mirror) {
+        private GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
             super(0);
             this.templatePosition = pos;
             this.rotation = rotation;
@@ -54,23 +51,14 @@ public class TombPieces {
         }
 
         private void loadTemplate(TemplateManager manager) {
-            Template template = manager.getTemplate(null, new ResourceLocation(Constants.MOD_ID, "tomb"));
+            Template template = manager.getTemplate(null, GIRAFI_TOMB);
             PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
         @Override
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
-            if (function.equals("SpawnerUndead")) {
-                if (box.isVecInside(pos)) {
-                    world.setBlockState(pos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
-
-                    TileEntity tileEntity = world.getTileEntity(pos);
-                    if (tileEntity instanceof TileEntityMobSpawner) {
-                        ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())).getRegistryName());
-                    }
-                }
-            } else if (function.equals("Crate")) {
+            if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
                         world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
@@ -83,12 +71,21 @@ public class TombPieces {
                         world.setBlockToAir(pos);
                     }
                 }
-            } else if (function.equals("Chest")) {
+            } else if (function.equals("GirafiSarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntityLimestoneChest) {
-                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.TOMB_CHEST, rand.nextLong());
+                    if (tileentity instanceof TileEntitySarcophagus) {
+                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
+                    }
+                }
+                world.setBlockToAir(pos);
+            } else if (function.equals("Sarcophagus")) {
+                BlockPos posDown = pos.down();
+                if (box.isVecInside(posDown)) {
+                    TileEntity tileentity = world.getTileEntity(posDown);
+                    if (tileentity instanceof TileEntitySarcophagus) {
+                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);

@@ -1,7 +1,7 @@
 {
   "pools": [
     {
-      "name": "atum:ruins",
+      "name": "atum:crate",
       "rolls": {
         "min": 1,
         "max": 5
