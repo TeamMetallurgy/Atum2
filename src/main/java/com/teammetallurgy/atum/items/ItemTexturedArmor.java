@@ -41,6 +41,11 @@ public class ItemTexturedArmor extends ItemArmor {
         return type == null ? armorModel + armorPieceName + ".png" : armorModel + armorPieceName + "_overlay" + ".png";
     }
 
+    @Override
+    public boolean hasOverlay(@ Nonnull ItemStack stack) {
+        return this.isDyeable();
+    }
+
     public boolean isDyeable() {
         return this.isDyeable;
     }

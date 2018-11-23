@@ -23,7 +23,7 @@ public class MapGenPyramid extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387404;
-    private int spacing = 18;
+    private int spacing = 16;
     private int separation = 4;
 
     public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {

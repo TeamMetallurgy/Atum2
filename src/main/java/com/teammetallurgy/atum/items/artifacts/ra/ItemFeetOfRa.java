@@ -32,7 +32,7 @@ public class ItemFeetOfRa extends ItemTexturedArmor {
     private BlockPos prevBlockpos;
 
     public ItemFeetOfRa() {
-        super(ArmorMaterial.DIAMOND, "ra_armor_2", EntityEquipmentSlot.FEET);
+        super(ArmorMaterial.DIAMOND, "ra_armor_1", EntityEquipmentSlot.FEET);
         this.setRepairItem(Items.DIAMOND);
     }
 

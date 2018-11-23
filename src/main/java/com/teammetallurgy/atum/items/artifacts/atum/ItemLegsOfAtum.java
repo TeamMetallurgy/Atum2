@@ -31,7 +31,7 @@ public class ItemLegsOfAtum extends ItemTexturedArmor {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2aa9e06c-cc77-4c0a-b832-58d8aaef1500"), "Legs of Atum speed boost", 0.02D, 0);
 
     public ItemLegsOfAtum() {
-        super(ArmorMaterial.DIAMOND, "atum_armor_1", EntityEquipmentSlot.LEGS);
+        super(ArmorMaterial.DIAMOND, "atum_armor_2", EntityEquipmentSlot.LEGS);
         this.setRepairItem(Items.DIAMOND);
     }
 

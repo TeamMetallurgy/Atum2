@@ -9,7 +9,10 @@ import com.teammetallurgy.atum.items.tools.ItemScepter;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.player.EntityPlayer;
@@ -37,6 +40,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -136,20 +141,18 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    @SideOnly(Side.CLIENT)
     public String getTexture() {
         return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingData) {
-        livingData = super.onInitialSpawn(difficulty, livingData);
-
+    protected void setVariantAbilities(DifficultyInstance difficulty) {
+        super.setVariantAbilities(difficulty);
         bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
-
-        return livingData;
     }
 
     @Override
@@ -202,7 +205,6 @@ public class EntityPharaoh extends EntityUndeadBase {
                 }
             }
         }
-
         super.onDeath(source);
     }
 
@@ -319,13 +321,14 @@ public class EntityPharaoh extends EntityUndeadBase {
         super.onUpdate();
 
         if (this.world.getDifficulty().getId() == 0) {
-            if (this.hasSarcophagus) {
-                TileEntity te = world.getTileEntity(this.getSarcophagusPos());
-                if (te instanceof TileEntitySarcophagus) {
-                    ((TileEntitySarcophagus) te).hasSpawned = false;
-                }
-            }
             this.setDead();
+        }
+
+        if (this.hasSarcophagus) {
+            TileEntity te = world.getTileEntity(this.getSarcophagusPos());
+            if (te instanceof TileEntitySarcophagus) {
+                ((TileEntitySarcophagus) te).hasSpawned = false;
+            }
         }
     }
 

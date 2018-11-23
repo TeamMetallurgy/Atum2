@@ -142,7 +142,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     @Override
     protected int getSaplingDropChance(IBlockState state) {
-        return 30;
+        return 35;
     }
 
     @Override
