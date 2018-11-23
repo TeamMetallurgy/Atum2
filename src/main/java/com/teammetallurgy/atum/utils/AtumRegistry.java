@@ -4,6 +4,7 @@ import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
+import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
@@ -32,6 +33,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -267,6 +269,7 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void register(RegistryEvent.Register event) {
+        NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
         StructureAtumMineshaftPieces.registerMineshaft();
         PyramidPieces.registerPyramid();
         RuinPieces.registerRuins();

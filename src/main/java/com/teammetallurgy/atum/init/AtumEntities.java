@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityHeartOfRa;
 import com.teammetallurgy.atum.entity.EntityScarab;
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.*;
@@ -39,6 +40,7 @@ public class AtumEntities {
     public static final EntityEntry DOUBLE_SHOT_WHITE = registerArrow(EntityArrowDoubleShotWhite.class);
     public static final EntityEntry EXPLOSIVE_ARROW = registerArrow(EntityArrowExplosive.class);
     public static final EntityEntry FIRE_ARROW = registerArrow(EntityArrowFire.class);
+    public static final EntityEntry HEART_OF_RA  = registerEntity(EntityHeartOfRa.class, 256, Integer.MAX_VALUE, false);
     public static final EntityEntry POISON_ARROW = registerArrow(EntityArrowPoison.class);
     public static final EntityEntry QUICKDRAW_ARROW = registerArrow(EntityArrowQuickdraw.class);
     public static final EntityEntry RAIN_ARROW = registerArrow(EntityArrowRain.class);

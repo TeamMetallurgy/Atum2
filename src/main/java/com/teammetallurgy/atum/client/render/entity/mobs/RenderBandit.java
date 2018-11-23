@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.client.render.entity;
+package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;

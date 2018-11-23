@@ -174,6 +174,16 @@ public class PyramidPieces {
                     }
                 }
                 world.setBlockToAir(pos);
+            } else if (function.equals("SarcophagusArtifact")) {
+                BlockPos posDown = pos.down();
+                if (box.isVecInside(posDown)) {
+                    TileEntity tileentity = world.getTileEntity(posDown);
+                    if (tileentity instanceof TileEntitySarcophagus) {
+                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.SARCOPHAGUS_ARTIFACT, rand.nextLong());
+                    }
+                }
+                world.setBlockToAir(pos);
             } else if (function.equals("PharaohTorch")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.25D) {

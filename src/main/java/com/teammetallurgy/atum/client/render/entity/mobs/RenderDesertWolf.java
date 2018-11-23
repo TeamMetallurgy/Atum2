@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.client.render.entity;
+package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.teammetallurgy.atum.client.render.entity.layer.LayerDesertWolfCollar;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;

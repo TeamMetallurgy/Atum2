@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.client.render.entity;
+package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.utils.Constants;

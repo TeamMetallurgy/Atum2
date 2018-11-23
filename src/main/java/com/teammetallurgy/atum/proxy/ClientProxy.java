@@ -12,13 +12,15 @@ import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
 import com.teammetallurgy.atum.client.render.RenderCrate;
 import com.teammetallurgy.atum.client.render.RenderTileChest;
-import com.teammetallurgy.atum.client.render.entity.*;
+import com.teammetallurgy.atum.client.render.entity.RenderHeartOfRa;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
+import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.client.render.shield.RenderStoneguardShield;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.EntityHeartOfRa;
 import com.teammetallurgy.atum.entity.EntityScarab;
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.*;
@@ -114,6 +116,7 @@ public class ClientProxy extends CommonProxy {
         });
         RenderingRegistry.registerEntityRenderingHandler(EntitySmallBone.class, manager -> new RenderBone(manager, 0.35F));
         RenderingRegistry.registerEntityRenderingHandler(EntityTefnutsCall.class, RenderTefnutsCall::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityHeartOfRa.class, RenderHeartOfRa::new);
     }
 
     public static void ignoreRenderProperty(Block block) {

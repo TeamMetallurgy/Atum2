@@ -321,14 +321,13 @@ public class EntityPharaoh extends EntityUndeadBase {
         super.onUpdate();
 
         if (this.world.getDifficulty().getId() == 0) {
-            this.setDead();
-        }
-
-        if (this.hasSarcophagus) {
-            TileEntity te = world.getTileEntity(this.getSarcophagusPos());
-            if (te instanceof TileEntitySarcophagus) {
-                ((TileEntitySarcophagus) te).hasSpawned = false;
+            if (this.hasSarcophagus) {
+                TileEntity te = world.getTileEntity(this.getSarcophagusPos());
+                if (te instanceof TileEntitySarcophagus) {
+                    ((TileEntitySarcophagus) te).hasSpawned = false;
+                }
             }
+            this.setDead();
         }
     }
 

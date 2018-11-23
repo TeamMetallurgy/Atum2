@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum;
 
-import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -12,7 +11,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +35,5 @@ public class Atum {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init();
-        NetworkRegistry.INSTANCE.registerGuiHandler(this, new AtumGuiHandler());
     }
 }
