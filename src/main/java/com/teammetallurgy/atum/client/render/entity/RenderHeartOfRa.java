@@ -17,7 +17,6 @@ import javax.annotation.Nonnull;
 @SideOnly(Side.CLIENT)
 public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
     private static final ResourceLocation HEART_OF_RA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entities/heart_of_ra.png");
-    private final ModelBase modelCrystal = new ModelEnderCrystal(0.0F, true);
     private final ModelBase modelCrystalNoBase = new ModelEnderCrystal(0.0F, false);
 
     public RenderHeartOfRa(RenderManager renderManagerIn) {
@@ -29,7 +28,7 @@ public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
     public void doRender(@Nonnull EntityHeartOfRa entity, double x, double y, double z, float entityYaw, float partialTicks) {
         float rotationTicks = (float) entity.innerRotation + partialTicks;
         GlStateManager.pushMatrix();
-        GlStateManager.translate((float) x, (float) y, (float) z);
+        GlStateManager.translate((float) x, (float) y + 1.0F, (float) z);
         this.bindTexture(HEART_OF_RA_TEXTURE);
         float rotation = MathHelper.sin(rotationTicks * 0.2F) / 2.0F + 0.5F;
         rotation = rotation * rotation + rotation;
@@ -39,17 +38,14 @@ public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
             GlStateManager.enableOutlineMode(this.getTeamColor(entity));
         }
 
-        if (entity.shouldShowBottom()) {
-            this.modelCrystal.render(entity, 0.0F, rotationTicks * 3.0F, rotation * 0.2F, 0.0F, 0.0F, 0.0625F);
-        } else {
-            this.modelCrystalNoBase.render(entity, 0.0F, rotationTicks * 3.0F, rotation * 0.2F, 0.0F, 0.0F, 0.0625F);
-        }
+        this.modelCrystalNoBase.render(entity, 0.0F, rotationTicks * 3.0F, rotation * 0.2F, 0.0F, 0.0F, 0.0625F);
 
         if (this.renderOutlines) {
             GlStateManager.disableOutlineMode();
             GlStateManager.disableColorMaterial();
         }
         GlStateManager.popMatrix();
+
         super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 

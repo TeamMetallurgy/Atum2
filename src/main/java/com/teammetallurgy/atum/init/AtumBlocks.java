@@ -34,6 +34,7 @@ import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.items.ItemHeartOfRa;
 import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.OreDictHelper;
@@ -125,6 +126,7 @@ public class AtumBlocks {
     public static final Block DEADWOOD_FENCE_GATE = new BlockAtumFenceGate();
     public static final Block DEADWOOD_HATCH = new BlockAtumTrapDoor();
     public static final Block DEADWOOD_LADDER = new BlockAtumLadder();
+    public static final Block HEART_OF_RA = new BlockHeartOfRa();
 
     public static void registerBlocks() {
         registerBlock(PORTAL, "portal", null);
@@ -235,6 +237,8 @@ public class AtumBlocks {
         registerBlock(DEADWOOD_HATCH, "deadwood_hatch");
         registerBlock(PALM_DOOR, new ItemDoor(PALM_DOOR), "palm_door");
         registerBlock(DEADWOOD_DOOR, new ItemDoor(DEADWOOD_DOOR), "deadwood_door");
+
+        registerBlock(HEART_OF_RA, new ItemHeartOfRa(), "heart_of_ra");
     }
 
     public static void registerTileEntities() {
@@ -248,6 +252,7 @@ public class AtumBlocks {
         GameRegistry.registerTileEntity(TileEntityArrowTrap.class, new ResourceLocation(Constants.MOD_ID, "arrow_trap"));
         GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
         GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
+        GameRegistry.registerTileEntity(TileEntityHeartOfRa.class, new ResourceLocation(Constants.MOD_ID, "heart_of_ra"));
     }
 
     public static void setBlockInfo() {

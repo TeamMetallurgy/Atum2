@@ -1,27 +1,23 @@
 package com.teammetallurgy.atum.entity;
 
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.blocks.BlockHeartOfRa;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.Item;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
 public class EntityHeartOfRa extends Entity {
-    private static final DataParameter<Boolean> SHOW_BOTTOM = EntityDataManager.createKey(EntityHeartOfRa.class, DataSerializers.BOOLEAN);
     public int innerRotation;
 
-    public EntityHeartOfRa(World worldIn) {
-        super(worldIn);
+    public EntityHeartOfRa(World world) {
+        super(world);
         this.preventEntitySpawning = true;
         this.setSize(2.0F, 2.0F);
-        this.innerRotation = this.rand.nextInt(100000);
+        this.innerRotation = this.rand.nextInt(500000);
     }
 
     public EntityHeartOfRa(World worldIn, double x, double y, double z) {
@@ -36,7 +32,6 @@ public class EntityHeartOfRa extends Entity {
 
     @Override
     protected void entityInit() {
-        this.getDataManager().register(SHOW_BOTTOM, Boolean.TRUE);
     }
 
     @Override
@@ -45,17 +40,9 @@ public class EntityHeartOfRa extends Entity {
         this.prevPosY = this.posY;
         this.prevPosZ = this.posZ;
         ++this.innerRotation;
-    }
 
-    @Override
-    protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
-        compound.setBoolean("ShowBottom", this.shouldShowBottom());
-    }
-
-    @Override
-    protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-        if (compound.hasKey("ShowBottom", 1)) {
-            this.setShowBottom(compound.getBoolean("ShowBottom"));
+        if (!(world.getBlockState(getPosition()).getBlock() instanceof BlockHeartOfRa)) {
+            this.attackEntityFrom(DamageSource.GENERIC, 1);
         }
     }
 
@@ -74,7 +61,7 @@ public class EntityHeartOfRa extends Entity {
                 if (!this.world.isRemote) {
                     if (!source.isExplosion()) {
                         this.world.createExplosion(null, this.posX, this.posY, this.posZ, 3.0F, true);
-                        this.dropItem(AtumItems.HEART_OF_RA, 1);
+                        this.dropItem(Item.getItemFromBlock(AtumBlocks.HEART_OF_RA), 1);
                     }
                 }
             }
@@ -83,16 +70,10 @@ public class EntityHeartOfRa extends Entity {
     }
 
     @Override
-    @Nonnull
-    public ItemStack getPickedResult(RayTraceResult target) {
-        return new ItemStack(AtumItems.HEART_OF_RA);
+    protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
     }
 
-    public void setShowBottom(boolean showBottom) {
-        this.getDataManager().set(SHOW_BOTTOM, showBottom);
-    }
-
-    public boolean shouldShowBottom() {
-        return this.getDataManager().get(SHOW_BOTTOM);
+    @Override
+    protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
     }
 }

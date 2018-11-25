@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.client.render;
+package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;

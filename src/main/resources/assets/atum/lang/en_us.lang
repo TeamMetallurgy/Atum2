@@ -158,6 +158,7 @@ tile.atum.palmStairs.name=Palm Stairs
 tile.atum.deadwoodStairs.name=Deadwood Stairs
 tile.atum.palmCrate.name=Palm Crate
 tile.atum.deadwoodCrate.name=Deadwood Crate
+tile.atum.heartOfRa.name=Heart of Ra
 
 # Stained Glass
 tile.atum.crystalBlackStainedGlass.name=Black Stained Crystal Glass

@@ -1,10 +1,11 @@
 package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.entity.EntityHeartOfRa;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
@@ -16,11 +17,15 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class ItemHeartOfRa extends Item {
+public class ItemHeartOfRa extends ItemBlock {
+
+    public ItemHeartOfRa() {
+        super(AtumBlocks.HEART_OF_RA);
+    }
 
     @Override
     @Nonnull
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         IBlockState state = world.getBlockState(pos);
 
         if (!state.isSideSolid(world, pos, EnumFacing.UP) || !player.capabilities.isCreativeMode) {
@@ -49,11 +54,10 @@ public class ItemHeartOfRa extends Item {
                     } else {
                         if (!world.isRemote) {
                             EntityHeartOfRa heartOfRa = new EntityHeartOfRa(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY() + 1), (double) ((float) pos.getZ() + 0.5F));
-                            heartOfRa.setShowBottom(false);
                             world.spawnEntity(heartOfRa);
                         }
                         heldStack.shrink(1);
-                        return EnumActionResult.SUCCESS;
+                        return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
                     }
                 }
             }

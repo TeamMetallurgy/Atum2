@@ -56,7 +56,6 @@ public class AtumItems {
     public static final Item DIRTY_COIN = new ItemCoin();
     public static final Item GOLD_COIN = new ItemCoin();
     public static final Item SCARAB = new ItemScarab();
-    public static final Item HEART_OF_RA = new ItemHeartOfRa();
     public static final Item IDOL_OF_LABOR = new ItemIdolOfLabor();
     public static final Item SCRAP = new Item();
     public static final Item LINEN = new Item();
@@ -162,7 +161,6 @@ public class AtumItems {
         registerItem(GOLD_COIN, "coin_gold");
         ItemLoot.createLootItems();
         registerItem(SCARAB, "scarab");
-        registerItem(HEART_OF_RA, "heart_of_ra");
         registerItem(IDOL_OF_LABOR, "idol_of_labor");
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN, "linen");

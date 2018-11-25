@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.client.render;
+package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;

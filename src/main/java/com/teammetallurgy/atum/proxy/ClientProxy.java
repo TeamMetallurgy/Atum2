@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.proxy;
 
+import com.teammetallurgy.atum.blocks.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
@@ -10,8 +11,6 @@ import com.teammetallurgy.atum.client.TextureMapParticles;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
-import com.teammetallurgy.atum.client.render.RenderCrate;
-import com.teammetallurgy.atum.client.render.RenderTileChest;
 import com.teammetallurgy.atum.client.render.entity.RenderHeartOfRa;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
@@ -19,6 +18,9 @@ import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.client.render.shield.RenderStoneguardShield;
+import com.teammetallurgy.atum.client.render.tileentity.RenderCrate;
+import com.teammetallurgy.atum.client.render.tileentity.RenderHeartOfRaBase;
+import com.teammetallurgy.atum.client.render.tileentity.RenderTileChest;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityHeartOfRa;
 import com.teammetallurgy.atum.entity.EntityScarab;
@@ -89,6 +91,7 @@ public class ClientProxy extends CommonProxy {
     public static void registerModels(ModelRegistryEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestBase.class, new RenderTileChest());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrate.class, new RenderCrate());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeartOfRa.class, new RenderHeartOfRaBase());
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection("atums_protection"));
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield("brigand_shield"));
         AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield("stoneguard_shield"));
