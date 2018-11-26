@@ -1,18 +1,16 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
-import com.teammetallurgy.atum.blocks.TileEntityHeartOfRa;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.tileentity.TileEntityBeacon;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderHeartOfRaBase extends TileEntitySpecialRenderer<TileEntityHeartOfRa> {
-    private static final ResourceLocation BEACON_BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
 
     @Override
     public void render(TileEntityHeartOfRa heartOfRa, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
@@ -22,7 +20,7 @@ public class RenderHeartOfRaBase extends TileEntitySpecialRenderer<TileEntityHea
     private void renderBeam(TileEntityHeartOfRa heartOfRa, double x, double y, double z, float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.alphaFunc(516, 0.1F);
-        this.bindTexture(BEACON_BEAM);
+        this.bindTexture(TileEntityBeaconRenderer.TEXTURE_BEACON_BEAM);
         GlStateManager.disableFog();
         GlStateManager.translate(0, 2.07D, 0);
         int yOffset = 0;

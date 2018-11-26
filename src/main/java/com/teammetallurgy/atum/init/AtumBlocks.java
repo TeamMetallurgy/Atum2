@@ -5,6 +5,11 @@ import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
 import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
 import com.teammetallurgy.atum.blocks.base.ItemDoubleChest;
+import com.teammetallurgy.atum.blocks.beacon.BlockFramedRadiantBeacon;
+import com.teammetallurgy.atum.blocks.beacon.BlockHeartOfRa;
+import com.teammetallurgy.atum.blocks.beacon.BlockRadiantBeacon;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
@@ -34,7 +39,6 @@ import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.items.ItemAtumSlab;
-import com.teammetallurgy.atum.items.ItemHeartOfRa;
 import com.teammetallurgy.atum.items.ItemSand;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.OreDictHelper;
@@ -73,6 +77,8 @@ public class AtumBlocks {
     public static final Block LIMESTONE_DOOR = new BlockAtumDoor(Material.ROCK);
     public static final Block LIMESTONE_CRACKED_DOOR = new BlockAtumDoor(Material.ROCK);
     public static final Block SAND_LAYERED = new BlockSandLayers();
+    public static final Block RADIANT_BEACON = new BlockRadiantBeacon();
+    public static final Block RADIANT_BEACON_FRAMED = new BlockFramedRadiantBeacon();
     public static final Block CRYSTAL_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block FRAMED_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block DATE_BLOCK = new BlockDate();
@@ -208,6 +214,9 @@ public class AtumBlocks {
         BlockAtumStairs.registerPorphyryStairs();
         BlockPorphyryWall.registerWalls();
 
+        registerBlock(RADIANT_BEACON, "radiant_beacon");
+        registerBlock(RADIANT_BEACON_FRAMED, "radiant_beacon_framed", null);
+
         //Glass
         registerBlock(CRYSTAL_GLASS, "crystal_glass");
         BlockAtumStainedGlass.registerStainedGlass(CRYSTAL_GLASS);
@@ -237,8 +246,6 @@ public class AtumBlocks {
         registerBlock(DEADWOOD_HATCH, "deadwood_hatch");
         registerBlock(PALM_DOOR, new ItemDoor(PALM_DOOR), "palm_door");
         registerBlock(DEADWOOD_DOOR, new ItemDoor(DEADWOOD_DOOR), "deadwood_door");
-
-        registerBlock(HEART_OF_RA, new ItemHeartOfRa(), "heart_of_ra");
     }
 
     public static void registerTileEntities() {
@@ -253,6 +260,7 @@ public class AtumBlocks {
         GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
         GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
         GameRegistry.registerTileEntity(TileEntityHeartOfRa.class, new ResourceLocation(Constants.MOD_ID, "heart_of_ra"));
+        GameRegistry.registerTileEntity(TileEntityRadiantBeacon.class, new ResourceLocation(Constants.MOD_ID, "radiant_beacon"));
     }
 
     public static void setBlockInfo() {

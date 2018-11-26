@@ -1,16 +1,18 @@
-package com.teammetallurgy.atum.blocks;
+package com.teammetallurgy.atum.blocks.beacon;
 
+import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.item.ItemStack;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -20,12 +22,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class BlockHeartOfRa extends BlockContainer {
     private static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 
     public BlockHeartOfRa() {
-        super(Material.GLASS);
+        super(Material.GLASS, MapColor.GOLD);
     }
 
     @Override
@@ -81,6 +84,8 @@ public class BlockHeartOfRa extends BlockContainer {
     }
 
     @Override
-    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    @Nonnull
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Items.AIR;
     }
 }

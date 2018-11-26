@@ -44,6 +44,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
 
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
@@ -162,6 +163,7 @@ public class AtumItems {
         ItemLoot.createLootItems();
         registerItem(SCARAB, "scarab");
         registerItem(IDOL_OF_LABOR, "idol_of_labor");
+        registerBlock(AtumBlocks.HEART_OF_RA, new ItemHeartOfRa(), "heart_of_ra");
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN, "linen");
         registerItem(DATE, "date");

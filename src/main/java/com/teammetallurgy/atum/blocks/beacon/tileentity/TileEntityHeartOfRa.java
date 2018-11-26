@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks;
+package com.teammetallurgy.atum.blocks.beacon.tileentity;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;

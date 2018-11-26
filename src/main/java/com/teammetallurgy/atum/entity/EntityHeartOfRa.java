@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity;
 
-import com.teammetallurgy.atum.blocks.BlockHeartOfRa;
+import com.teammetallurgy.atum.blocks.beacon.BlockHeartOfRa;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;

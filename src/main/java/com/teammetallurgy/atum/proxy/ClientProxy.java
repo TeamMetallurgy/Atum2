@@ -1,8 +1,9 @@
 package com.teammetallurgy.atum.proxy;
 
-import com.teammetallurgy.atum.blocks.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
@@ -20,6 +21,7 @@ import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.client.render.shield.RenderStoneguardShield;
 import com.teammetallurgy.atum.client.render.tileentity.RenderCrate;
 import com.teammetallurgy.atum.client.render.tileentity.RenderHeartOfRaBase;
+import com.teammetallurgy.atum.client.render.tileentity.RenderRadiantBeacon;
 import com.teammetallurgy.atum.client.render.tileentity.RenderTileChest;
 import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.EntityHeartOfRa;
@@ -92,6 +94,7 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestBase.class, new RenderTileChest());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrate.class, new RenderCrate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeartOfRa.class, new RenderHeartOfRaBase());
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadiantBeacon.class, new RenderRadiantBeacon());
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection("atums_protection"));
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield("brigand_shield"));
         AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield("stoneguard_shield"));
