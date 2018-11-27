@@ -23,10 +23,7 @@ import com.teammetallurgy.atum.client.render.tileentity.RenderCrate;
 import com.teammetallurgy.atum.client.render.tileentity.RenderHeartOfRaBase;
 import com.teammetallurgy.atum.client.render.tileentity.RenderRadiantBeacon;
 import com.teammetallurgy.atum.client.render.tileentity.RenderTileChest;
-import com.teammetallurgy.atum.entity.EntityDesertWolf;
-import com.teammetallurgy.atum.entity.EntityHeartOfRa;
-import com.teammetallurgy.atum.entity.EntityScarab;
-import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
@@ -114,6 +111,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityStonewarden.class, RenderStonewarden::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityScarab.class, RenderScarab::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityDesertRabbit.class, RenderDesertRabbit::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {
@@ -140,6 +138,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void spawnParticle(AtumParticles.Types particleType, Entity entity, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-       ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), entity.world, x, y, z, xSpeed, ySpeed, zSpeed));
+        ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), entity.world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 }
