@@ -1,9 +1,12 @@
 package com.teammetallurgy.atum.entity;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.world.biome.*;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
+import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -20,6 +23,13 @@ public class EntityDesertRabbit extends EntityRabbit {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.32D);
+    }
+
+    @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, AtumItems.DATE, false));
+        this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 16.0F, 2.2D, 2.6D));
     }
 
     @Override

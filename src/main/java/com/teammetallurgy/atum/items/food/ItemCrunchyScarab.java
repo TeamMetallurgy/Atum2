@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.food;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.item.ItemFood;

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.food;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;

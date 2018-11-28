@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemAtumsBounty;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
@@ -26,6 +27,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -45,6 +47,7 @@ import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
@@ -59,8 +62,9 @@ import java.util.List;
 public class AtumEventListener {
 
     private static final String TAG_ATUM_START = "atum_start";
+
     @SubscribeEvent
-    public static void onPlayerJoin (PlayerEvent.PlayerLoggedInEvent event) {
+    public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         NBTTagCompound tag = event.player.getEntityData();
         NBTTagCompound persistedTag = tag.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
         boolean shouldStartInAtum = AtumConfig.START_IN_ATUM && !persistedTag.getBoolean(TAG_ATUM_START);
@@ -103,6 +107,39 @@ public class AtumEventListener {
         if (event.getPlayer().world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
             if ((block instanceof BlockDirt || block instanceof BlockGrass || block instanceof BlockMycelium || (block instanceof BlockFarmland && block != AtumBlocks.FERTILE_SOIL_TILLED))) {
                 event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState());
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onArmorClean(PlayerInteractEvent.RightClickBlock event) {
+        World world = event.getWorld();
+        BlockPos pos = event.getPos();
+        EntityPlayer player = event.getEntityPlayer();
+        ItemStack stack = player.getHeldItemMainhand();
+        FluidTank tank = (FluidTank) FluidUtil.getFluidHandler(world, pos, null);
+
+        if (stack.getItem() instanceof ItemTexturedArmor && ((ItemTexturedArmor) stack.getItem()).hasColor(stack)) {
+            IBlockState state = world.getBlockState(pos);
+            if (state.getBlock() instanceof BlockCauldron) {
+                int level = state.getValue(BlockCauldron.LEVEL);
+                if (level > 0) {
+                    if (!world.isRemote) {
+                        ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
+                        player.addStat(StatList.ARMOR_CLEANED);
+                        ((BlockCauldron) state.getBlock()).setWaterLevel(world, pos, state, level - 1);
+                    }
+                    player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
+                    event.setUseItem(Event.Result.DENY);
+                }
+            } else if (tank != null && tank.getFluid() != null && tank.getFluid().getFluid() == FluidRegistry.WATER && tank.getFluidAmount() >= 250) {
+                if (!world.isRemote) {
+                    ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
+                    player.addStat(StatList.ARMOR_CLEANED);
+                    tank.drain(250, true);
+                }
+                player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
+                event.setUseItem(Event.Result.ALLOW);
             }
         }
     }

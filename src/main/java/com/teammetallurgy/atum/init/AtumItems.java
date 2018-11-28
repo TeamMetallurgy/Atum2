@@ -31,6 +31,7 @@ import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsCall;
 import com.teammetallurgy.atum.items.artifacts.tefnut.ItemTefnutsRain;
 import com.teammetallurgy.atum.items.artifacts.thoth.ItemThothsBearings;
 import com.teammetallurgy.atum.items.artifacts.thoth.ItemThothsDirection;
+import com.teammetallurgy.atum.items.food.*;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.OreDictHelper;
@@ -146,6 +147,8 @@ public class AtumItems {
     public static final Item FLAX = new Item();
     public static final Item EMMER_SEEDS = new ItemSeeds(AtumBlocks.EMMER_WHEAT, Blocks.FARMLAND);
     public static final Item EMMER = new Item();
+    public static final Item EMMER_FLOUR = new ItemEmmerFlour();
+    public static final Item EMMER_DOUGH = new Item();
     public static final Item EMMER_BREAD = new ItemFood(4, 0.9F, false);
     public static final Item FORSAKEN_FISH = new ItemFish(ItemFish.FishType.FORSAKEN);
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
@@ -253,6 +256,8 @@ public class AtumItems {
         registerItem(FLAX_SEEDS, "flax_seeds");
         registerItem(EMMER_SEEDS, "emmer_seeds");
         registerItem(EMMER, "emmer");
+        registerItem(EMMER_FLOUR, "emmer_flour");
+        registerItem(EMMER_DOUGH, "emmer_dough");
         registerItem(EMMER_BREAD, "emmer_bread");
         registerItem(FORSAKEN_FISH, "fish_forsaken");
         registerItem(MUMMIFIED_FISH, "fish_mummified");
@@ -267,6 +272,7 @@ public class AtumItems {
         OreDictHelper.add(FLAX_SEEDS, "seed");
         OreDictHelper.add(FLAX_SEEDS, "seedFlax");
         OreDictHelper.add(EMMER, "cropEmmer");
+        OreDictHelper.add(EMMER_DOUGH, "foodDough");
         OreDictHelper.add(EMMER_SEEDS, "seed");
         OreDictHelper.add(EMMER_SEEDS, "seedEmmer");
         OreDictHelper.add(EMMER_BREAD, "foodBread");
