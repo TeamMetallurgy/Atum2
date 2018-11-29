@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
@@ -19,10 +20,7 @@ import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
 import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.client.render.shield.RenderStoneguardShield;
-import com.teammetallurgy.atum.client.render.tileentity.RenderCrate;
-import com.teammetallurgy.atum.client.render.tileentity.RenderHeartOfRaBase;
-import com.teammetallurgy.atum.client.render.tileentity.RenderRadiantBeacon;
-import com.teammetallurgy.atum.client.render.tileentity.RenderTileChest;
+import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
@@ -31,6 +29,7 @@ import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
 import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.entity.undead.*;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
@@ -41,13 +40,16 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
@@ -92,6 +94,13 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrate.class, new RenderCrate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeartOfRa.class, new RenderHeartOfRaBase());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadiantBeacon.class, new RenderRadiantBeacon());
+        ModelLoader.setCustomMeshDefinition(Item.getItemFromBlock(AtumBlocks.QUERN), new ItemMeshDefinition() {
+            @Override
+            public ModelResourceLocation getModelLocation(ItemStack stack) {
+                return null;
+            }
+        });
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityQuern.class, new RenderQuern());
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection("atums_protection"));
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield("brigand_shield"));
         AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield("stoneguard_shield"));
@@ -126,7 +135,6 @@ public class ClientProxy extends CommonProxy {
     public static void ignoreRenderProperty(Block block) {
         if (block instanceof IRenderMapper) {
             IRenderMapper mapper = (IRenderMapper) block;
-
             IProperty[] nonRenderingProperties = mapper.getNonRenderingProperties();
 
             if (nonRenderingProperties.length != 0) {

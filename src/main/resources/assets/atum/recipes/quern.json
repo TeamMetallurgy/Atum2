@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SLL",
+    "LLL",
+    "LLL"
+  ],
+  "key": {
+    "S": {
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
+    },
+    "L": {
+      "ore": "stoneLimestone",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "atum:quern"
+  }
+}

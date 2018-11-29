@@ -14,6 +14,8 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
+import com.teammetallurgy.atum.blocks.machines.BlockQuern;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterSlab;
@@ -104,6 +106,7 @@ public class AtumBlocks {
     public static final BlockAtumTorch LIMESTONE_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch BONE_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch PHARAOH_TORCH = new BlockAtumTorch();
+    public static final Block QUERN = new BlockQuern();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block POISON_TRAP = new BlockPoisonTrap();
     public static final Block TAR_TRAP = new BlockTarTrap();
@@ -148,6 +151,7 @@ public class AtumBlocks {
         registerBlock(FLAX, "flax_block", null);
         registerBlock(FERTILE_SOIL, "fertile_soil");
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");
+        registerBlock(QUERN, "quern");
         registerBlock(BURNING_TRAP, "burning_trap");
         registerBlock(POISON_TRAP, "poison_trap");
         registerBlock(TAR_TRAP, "tar_trap");
@@ -261,6 +265,7 @@ public class AtumBlocks {
         GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
         GameRegistry.registerTileEntity(TileEntityHeartOfRa.class, new ResourceLocation(Constants.MOD_ID, "heart_of_ra"));
         GameRegistry.registerTileEntity(TileEntityRadiantBeacon.class, new ResourceLocation(Constants.MOD_ID, "radiant_beacon"));
+        GameRegistry.registerTileEntity(TileEntityQuern.class, new ResourceLocation(Constants.MOD_ID, "quern"));
     }
 
     public static void setBlockInfo() {
@@ -273,6 +278,7 @@ public class AtumBlocks {
         FERTILE_SOIL.setHarvestLevel("shovel", 0);
         FERTILE_SOIL_TILLED.setHarvestLevel("shovel", 0);
         LIMESTONE_CRACKED.setHarvestLevel("pickaxe", 0);
+        KHNUMITE_BLOCK.setHarvestLevel("pickaxe", 0);
         KHNUMITE_BLOCK.setHarvestLevel("pickaxe", 1);
         KHNUMITE_FACE.setHarvestLevel("pickaxe", 1);
         COAL_ORE.setHarvestLevel("pickaxe", 0);
