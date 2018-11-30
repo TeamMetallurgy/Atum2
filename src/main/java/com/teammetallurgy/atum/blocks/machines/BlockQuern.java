@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.machines;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.StackHelper;
@@ -8,7 +7,6 @@ import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -26,7 +24,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BlockQuern extends BlockContainer implements IRenderMapper {
+public class BlockQuern extends BlockContainer {
     private static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final AxisAlignedBB AABB = new AxisAlignedBB(0.12D, 0.0D, 0.12D, 0.88D, 0.38D, 0.88D);
 
@@ -123,16 +121,6 @@ public class BlockQuern extends BlockContainer implements IRenderMapper {
     @Override
     @Nonnull
     public EnumBlockRenderType getRenderType(IBlockState state) {
-        return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
-    public boolean hasCustomBreakingProgress(IBlockState state) {
-        return true;
-    }
-
-    @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{FACING};
+        return EnumBlockRenderType.MODEL;
     }
 }

@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.client.model.ModelQuern;
 import com.teammetallurgy.atum.client.render.ItemBakedBase;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelBakeEvent;
@@ -70,8 +69,8 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
 
     @SubscribeEvent
     public static void onModelBake(ModelBakeEvent event) {
-        ModelResourceLocation modelLocation = new ModelResourceLocation(QUERN, "inventory");
+        /*ModelResourceLocation modelLocation = new ModelResourceLocation(QUERN, "inventory");
         bakedBase = new ItemBakedBase(event.getModelRegistry().getObject(modelLocation));
-        event.getModelRegistry().putObject(modelLocation, bakedBase);
+        event.getModelRegistry().putObject(modelLocation, bakedBase);*/
     }
 }

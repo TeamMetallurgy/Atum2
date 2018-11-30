@@ -47,7 +47,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     @Nonnull
     @Override
-    public IBlockState getStateFromMeta(int meta) {
+    public IBlockState getStateFromMeta(int meta) { //Bad way of doing this, but only way I could get it working
         IBlockState state = this.getDefaultState();
 
         switch (meta) {
@@ -55,15 +55,29 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
                 state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
                 break;
             case 1:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAS_SCARAB, true);
                 break;
             case 2:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
                 break;
             case 3:
+                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.X).withProperty(HAS_SCARAB, true);
+                break;
+            case 4:
+                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+                break;
+            case 5:
+                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z).withProperty(HAS_SCARAB, true);
+                break;
+            case 6:
                 state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+                break;
+            case 7:
+                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE).withProperty(HAS_SCARAB, true);
+                break;
         }
-        return state.withProperty(HAS_SCARAB, meta > 3);
+        System.out.println("Has scarab getStateFromMeta + " + (meta == 1 || meta == 3 || meta == 5 || meta == 7));
+        return state;
     }
 
     @Override
@@ -72,17 +86,18 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
         switch (state.getValue(LOG_AXIS)) {
             case X:
-                i = 1;
+                i = 2;
                 break;
             case Y:
                 break;
             case Z:
-                i = 2;
+                i = 4;
                 break;
             case NONE:
-                i = 3;
+                i = 6;
+                break;
         }
-        return i + (state.getValue(HAS_SCARAB) ? 4 : 0);
+        return i + (state.getValue(HAS_SCARAB) ? 1 : 0);
     }
 
     @Override

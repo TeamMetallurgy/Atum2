@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "model": "atum:quern"
+    },
+    "variants": {
+        "inventory": [{}],
+        "facing=north": { "model": "atum:quern", "y": 180 },
+        "facing=south": { "model": "atum:quern" },
+        "facing=west":  { "model": "atum:quern", "y": 90 },
+        "facing=east":  { "model": "atum:quern", "y": -90 }
+    }
+}

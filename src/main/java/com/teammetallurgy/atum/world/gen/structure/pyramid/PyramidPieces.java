@@ -69,7 +69,7 @@ public class PyramidPieces {
 
         private void loadTemplate(TemplateManager templateManager) {
             Template template = templateManager.getTemplate(null, PYRAMID);
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror).setBoundingBox(this.boundingBox);
             this.setup(template, this.templatePosition, placementsettings);
         }
 

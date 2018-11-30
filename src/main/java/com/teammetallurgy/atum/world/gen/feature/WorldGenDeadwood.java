@@ -1,26 +1,18 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.blocks.BlockStrangeSand;
+import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Rotation;
+import net.minecraft.block.BlockLog;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.template.PlacementSettings;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree {
-    private static final ResourceLocation TREES = new ResourceLocation(Constants.MOD_ID, "deadwoodtrees/deadwoodtree_");
+    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.LOG_AXIS, BlockLog.EnumAxis.NONE).withProperty(BlockDeadwood.HAS_SCARAB, true);
 
     public WorldGenDeadwood(boolean notify) {
         super(notify);
@@ -28,37 +20,59 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
 
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
-        Random random = world.getChunk(pos).getRandomWithSeed(987234911L);
-        MinecraftServer server = world.getMinecraftServer();
-        Rotation[] rotations = Rotation.values();
-        Rotation rotation = rotations[random.nextInt(rotations.length)];
-        int amount = 17;
+        int baseHeight = rand.nextInt(3) + 5;
 
-        TemplateManager manager = world.getSaveHandler().getStructureTemplateManager();
-        Template template = manager.getTemplate(server, new ResourceLocation(TREES.toString() + String.valueOf(rand.nextInt(amount))));
+        boolean doNotGenerate = true;
 
-        ChunkPos chunkPos = new ChunkPos(pos);
-        StructureBoundingBox structureboundingbox = new StructureBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), world.getHeight(), chunkPos.getZEnd());
-        PlacementSettings settings = (new PlacementSettings()).setRotation(rotation).setBoundingBox(structureboundingbox).setRandom(random);
-        BlockPos blockpos = template.transformedSize(rotation);
-        int x = random.nextInt(16 - blockpos.getX());
-        int z = random.nextInt(16 - blockpos.getZ());
-        BlockPos placeCheck = pos.add(x, 0, z);
+        if (pos.getY() >= 1 && pos.getY() + baseHeight + 1 <= 256) {
+            for (int y = pos.getY(); y <= pos.getY() + 1 + baseHeight; ++y) {
+                int k = 1;
 
-        while (placeCheck.getY() > 1 && world.isAirBlock(placeCheck.down())) {
-            placeCheck = placeCheck.down();
+                if (y == pos.getY()) {
+                    k = 0;
+                }
+
+                if (y >= pos.getY() + 1 + baseHeight - 2) {
+                    k = 2;
+                }
+                BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+
+                for (int x = pos.getX() - k; x <= pos.getX() + k && doNotGenerate; ++x) {
+                    for (int z = pos.getZ() - k; z <= pos.getZ() + k && doNotGenerate; ++z) {
+                        if (y >= 0 && y < world.getHeight()) {
+                            if (!this.isReplaceable(world, mutableBlockPos.setPos(x, y, z))) {
+                                doNotGenerate = false;
+                            }
+                        } else {
+                            doNotGenerate = false;
+                        }
+                    }
+                }
+            }
+
+            if (!doNotGenerate) {
+                return false;
+            } else {
+                BlockPos down = pos.down();
+                IBlockState state = world.getBlockState(down);
+                boolean isSoil = state.getBlock() == AtumBlocks.SAND;
+
+                if (isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
+                    for (int height = 0; height < baseHeight; ++height) {
+                        BlockPos upN = pos.up(height);
+                        IBlockState state2 = world.getBlockState(upN);
+
+                        if (state2.getBlock().isAir(state2, world, upN) || state2.getBlock().isLeaves(state2, world, upN)) {
+                            this.setBlockAndNotifyAdequately(world, pos.up(height), LOG);
+                        }
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
         }
-
-        while (!world.isAirBlock(placeCheck.up()) && (world.getBlockState(placeCheck).getBlock() != AtumBlocks.SAND)) {
-            placeCheck = placeCheck.up();
-        }
-
-
-        if (world.canSeeSky(placeCheck) && (this.isReplaceable(world, placeCheck) || world.getBlockState(placeCheck.down()).getBlock() instanceof BlockStrangeSand)) {
-            BlockPos zero = template.getZeroPositionWithTransform(placeCheck, Mirror.NONE, rotation);
-            template.addBlocksToWorld(world, zero, settings, 20);
-            return true;
-        }
-        return false;
     }
 }
