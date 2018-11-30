@@ -76,7 +76,6 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
                 state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE).withProperty(HAS_SCARAB, true);
                 break;
         }
-        System.out.println("Has scarab getStateFromMeta + " + (meta == 1 || meta == 3 || meta == 5 || meta == 7));
         return state;
     }
 

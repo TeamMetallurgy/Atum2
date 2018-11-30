@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BlockQuern extends BlockContainer {
-    private static final PropertyDirection FACING = BlockHorizontal.FACING;
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final AxisAlignedBB AABB = new AxisAlignedBB(0.12D, 0.0D, 0.12D, 0.88D, 0.38D, 0.88D);
 
     public BlockQuern() {

@@ -3,29 +3,22 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
 import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureStart;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-@Mod.EventBusSubscriber
 public class MapGenPyramid extends MapGenStructure {
     private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
@@ -81,7 +74,7 @@ public class MapGenPyramid extends MapGenStructure {
         return new Start(this.world, this.chunkGenerator, this.rand, chunkX, chunkZ);
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void onBlockPlaced(PlayerInteractEvent.RightClickBlock event) {
         if (!event.getWorld().isRemote) {
             WorldServer world = (WorldServer) event.getWorld();
@@ -91,7 +84,7 @@ public class MapGenPyramid extends MapGenStructure {
                 }
             }
         }
-    }
+    }*/
 
     public static class Start extends StructureStart {
         private boolean isValid;
