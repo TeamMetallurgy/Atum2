@@ -3,8 +3,10 @@ package com.teammetallurgy.atum.client.render.tileentity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.client.model.ModelQuernStone;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.RenderUtils;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -25,7 +27,6 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
 
         int meta = quern.getBlockMetadata();
         float rotation = 0.0F;
-
         if (meta == 2) {
             rotation = 180.0F;
         }
@@ -37,18 +38,13 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
         if (meta == 5) {
             rotation = -90.0F;
         }
-
-        if (quern.rotation > 0) {
-            GlStateManager.rotate(quern.rotation, 0.0F, 1.0F, 0.0F);
-        } else {
-            GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
-        }
+        GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
 
         if (destroyStage >= 0) {
             this.bindTexture(DESTROY_STAGES[destroyStage]);
             GlStateManager.matrixMode(5890);
             GlStateManager.pushMatrix();
-            GlStateManager.scale(4.0F, 2.0F, 1.0F);
+            GlStateManager.scale(4.0F, 1.0F, 1.0F);
             GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
             GlStateManager.matrixMode(5888);
         } else {
@@ -56,6 +52,8 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
         }
 
         QUERN_STONE_MODEL.renderAll();
+        float quernRotation = quern.rotation * ((float) Math.PI / 25F);
+        QUERN_STONE_MODEL.core.rotateAngleY = quernRotation;
         GlStateManager.depthMask(true);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.popMatrix();
@@ -64,6 +62,11 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
             GlStateManager.matrixMode(5890);
             GlStateManager.popMatrix();
             GlStateManager.matrixMode(5888);
+        }
+
+        ItemStack stack = quern.getStackInSlot(0);
+        if (!stack.isEmpty()) {
+            RenderUtils.renderItem(quern, stack, x, y - 0.7D, z, quernRotation, true);
         }
     }
 }

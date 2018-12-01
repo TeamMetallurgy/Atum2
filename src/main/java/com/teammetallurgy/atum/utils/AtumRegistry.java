@@ -38,6 +38,9 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -210,6 +213,30 @@ public class AtumRegistry {
         sound.setRegistryName(resourceLocation);
         SOUNDS.add(sound);
         return sound;
+    }
+
+    /**
+     * Makes it easier to register a new recipe. Should be called in the RegistryEvent.Register event
+     *
+     * @param registryName the unique name for the recipe
+     * @param entry the recipe
+     * @param event the RegistryEvent.Register event
+     */
+    public static <T extends IForgeRegistryEntry<T>> T registerRecipe(String registryName, T entry, RegistryEvent.Register<T> event) {
+        entry.setRegistryName(new ResourceLocation(Constants.MOD_ID, registryName));
+        event.getRegistry().register(entry);
+        return entry;
+    }
+
+    /**
+     *  Used to register a new registry
+     *
+     * @param registryName the unique string to register the registry as
+     * @param type the class that the registry is for
+     * @return a new registry
+     */
+    public static <T extends IForgeRegistryEntry<T>> IForgeRegistry<T> makeRegistry(String registryName, Class<T> type) {
+        return new RegistryBuilder<T>().setName(new ResourceLocation(Constants.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).create();
     }
 
     @SubscribeEvent
