@@ -37,10 +37,12 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
         if (meta == 5) {
             rotation = -90.0F;
         }
-        GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
 
-
-        GlStateManager.rotate(quern.rotation, 0.0F, 1.0F, 0.0F);
+        if (quern.rotation > 0) {
+            GlStateManager.rotate(quern.rotation, 0.0F, 1.0F, 0.0F);
+        } else {
+            GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
+        }
 
         if (destroyStage >= 0) {
             this.bindTexture(DESTROY_STAGES[destroyStage]);

@@ -2,8 +2,6 @@ package com.teammetallurgy.atum.client.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ModelQuernStone extends ModelBase {
     public ModelRenderer core;
