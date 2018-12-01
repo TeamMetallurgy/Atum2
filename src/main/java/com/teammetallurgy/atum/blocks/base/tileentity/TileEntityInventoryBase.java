@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -9,7 +8,7 @@ import net.minecraft.util.NonNullList;
 
 import javax.annotation.Nonnull;
 
-public abstract class TileEntityInventoryBase extends TileEntityLockableLoot implements IInventory {
+public abstract class TileEntityInventoryBase extends TileEntityLockableLoot {
     protected NonNullList<ItemStack> inventory;
 
     public TileEntityInventoryBase(int slots) {
