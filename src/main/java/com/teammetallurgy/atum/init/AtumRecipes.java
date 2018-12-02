@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
@@ -33,10 +34,12 @@ import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 @Mod.EventBusSubscriber
 public class AtumRecipes {
-    public static IForgeRegistry<IQuernRecipe> quernRecipes;
+
+    public static void registerRecipeHandlers() {
+        RecipeHandlers.quernRecipes = AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
+    }
 
     private static void register() {
-        quernRecipes = AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
         addSmeltingRecipes();
         addBrewingRecipes();
     }

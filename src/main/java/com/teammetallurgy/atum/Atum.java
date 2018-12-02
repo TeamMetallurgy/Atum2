@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum;
 
+import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -30,6 +31,7 @@ public class Atum {
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
         NetworkHandler.register();
+        AtumRecipes.registerRecipeHandlers();
     }
 
     @Mod.EventHandler

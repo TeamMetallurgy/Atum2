@@ -25,11 +25,6 @@ public interface IQuernRecipe extends IForgeRegistryEntry<IQuernRecipe> {
     ItemStack getOutput();
 
     /**
-     * @return The secondary output, after querning the input. Can be empty.
-     */
-    ItemStack getSecondaryOutput();
-
-    /**
      * @return The amount of rotations the quern have to rotate, to quern something.
      */
     int getRotations();

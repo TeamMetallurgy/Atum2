@@ -12,11 +12,10 @@ import javax.annotation.Nonnull;
 public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implements IQuernRecipe {
     private final NonNullList<ItemStack> inputs;
     private final ItemStack output;
-    private final ItemStack outputSecondary;
     private final int rotations;
 
     public QuernRecipe(String input, ItemStack output, int duration) {
-        this(OreDictionary.getOres(input), output, ItemStack.EMPTY, duration);
+        this(OreDictionary.getOres(input), output, duration);
     }
 
     public QuernRecipe(Block input, ItemStack output, int duration) {
@@ -28,17 +27,12 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
     }
 
     public QuernRecipe(ItemStack input, ItemStack output, int duration) {
-        this(input, output, ItemStack.EMPTY, duration);
+        this(NonNullList.withSize(1, input), output, duration);
     }
 
-    public QuernRecipe(ItemStack input, ItemStack output, ItemStack outputSecondary, int duration) {
-        this(NonNullList.withSize(1, input), output, outputSecondary, duration);
-    }
-
-    private QuernRecipe(NonNullList<ItemStack> input, ItemStack output, ItemStack outputSecondary, int rotations) {
+    private QuernRecipe(NonNullList<ItemStack> input, ItemStack output, int rotations) {
         this.inputs = input;
         this.output = output;
-        this.outputSecondary = outputSecondary;
         this.rotations = rotations;
     }
 
@@ -62,12 +56,6 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
     @Nonnull
     public ItemStack getOutput() {
         return this.output;
-    }
-
-    @Override
-    @Nonnull
-    public ItemStack getSecondaryOutput() {
-        return this.outputSecondary;
     }
 
     @Override

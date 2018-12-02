@@ -37,22 +37,19 @@ import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import static com.teammetallurgy.atum.api.AtumAPI.MUMMY_ARMOR_MATERIAL;
+import static com.teammetallurgy.atum.api.AtumAPI.WANDERER_ARMOR_MATERIAL;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
 
 @GameRegistry.ObjectHolder(value = Constants.MOD_ID)
 public class AtumItems {
-    private static final ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{1, 2, 2, 1}, 12, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
-    private static final ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{1, 2, 3, 1}, 14, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
-
     public static final Item DUST_BONE_STICK = new Item();
     public static final Item KHNUMITE = new Item();
     public static final Item DIRTY_COIN = new ItemCoin();

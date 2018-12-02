@@ -12,6 +12,7 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -61,8 +62,18 @@ public class BlockQuern extends BlockContainer {
     @Override
     public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (player.isSneaking() && tileEntity instanceof TileEntityQuern) {
-            StackHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+        if (tileEntity instanceof TileEntityQuern) {
+            TileEntityQuern quern = (TileEntityQuern) tileEntity;
+            if (!quern.isEmpty()) {
+                if (player.isSneaking()) {
+                    StackHelper.dropInventoryItems(world, pos, quern);
+                } else {
+                    ItemStack slotStack = quern.getStackInSlot(0);
+                    ItemStack copyStack = new ItemStack(slotStack.getItem());
+                    StackHelper.giveItem(player, EnumHand.MAIN_HAND, copyStack);
+                    quern.decrStackSize(0, 1);
+                }
+            }
         }
         super.onBlockClicked(world, pos, player);
     }
@@ -77,7 +88,7 @@ public class BlockQuern extends BlockContainer {
             TileEntityQuern quern = (TileEntityQuern) tileEntity;
             ItemStack slotStack = quern.getStackInSlot(0);
             int size = slotStack.getCount();
-            if (size < slotStack.getMaxStackSize() && quern.isItemValidForSlot (0, heldStack) && (quern.isEmpty() || heldStack.getItem() == slotStack.getItem())) {
+            if (size < slotStack.getMaxStackSize() && quern.isItemValidForSlot(0, heldStack) && (quern.isEmpty() || heldStack.getItem() == slotStack.getItem())) {
                 ItemStack copyStack = new ItemStack(heldStack.getItem(), size + 1);
                 if (!heldStack.isEmpty()) {
                     quern.setInventorySlotContents(0, copyStack);
@@ -85,16 +96,15 @@ public class BlockQuern extends BlockContainer {
                 if (!player.isCreative()) {
                     heldStack.shrink(1);
                 }
-            } else if (player.isSneaking() && !quern.isEmpty()) {
-                if (!world.isRemote) {
-                    quern.decrStackSize(0, 1);
+            } else {
+                quern.currentRotation += 24;
+                if (world.isRemote) {
+                    world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
                 }
-                ItemStack copyStack = new ItemStack(slotStack.getItem());
-                StackHelper.giveItem(player, hand, copyStack);
             }
             return true;
         }
-        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+        return true;
     }
 
     @Override

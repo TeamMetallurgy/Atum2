@@ -21,7 +21,7 @@ public class RenderUtils {
             GlStateManager.translate(x + 0.5F, y + 1.225F, z + 0.5F);
             GlStateManager.disableLighting();
 
-            GlStateManager.rotate(-(rotation * (180.0F / (float) Math.PI)), 0.0F, 1.0F, 0.0F);
+            GlStateManager.rotate(rotation, 0.0F, 1.0F, 0.0F);
             GlStateManager.scale(0.25F, 0.25F, 0.25F);
             Minecraft.getMinecraft().getRenderItem().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
 
