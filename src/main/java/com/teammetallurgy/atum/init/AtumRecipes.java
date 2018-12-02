@@ -1,8 +1,12 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
+import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
+import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
@@ -25,11 +29,17 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.commons.lang3.StringUtils;
 
+import static net.minecraft.block.BlockFlower.EnumFlowerType;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 @Mod.EventBusSubscriber
 public class AtumRecipes {
+
+    public static void registerRecipeHandlers() {
+        RecipeHandlers.quernRecipes = AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
+    }
+
     private static void register() {
         addSmeltingRecipes();
         addBrewingRecipes();
@@ -69,6 +79,18 @@ public class AtumRecipes {
         addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.AWKWARD), ingredient, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), potionType));
     }
 
+    private static void addQuernRecipes(RegistryEvent.Register<IQuernRecipe> event) {
+        AtumRegistry.registerRecipe("emmer_wheat", new QuernRecipe("cropEmmer", new ItemStack(AtumItems.EMMER_FLOUR), 4), event);
+
+        AtumRegistry.registerRecipe("dandelion", new QuernRecipe(new ItemStack(Blocks.YELLOW_FLOWER, 1, EnumFlowerType.DANDELION.getMeta()), new ItemStack(Items.DYE, 2, EnumDyeColor.YELLOW.getDyeDamage()), 2), event);
+        AtumRegistry.registerRecipe("popey", new QuernRecipe(new ItemStack(Blocks.RED_FLOWER, 1, EnumFlowerType.POPPY.getMeta()), new ItemStack(Items.DYE, 2, EnumDyeColor.RED.getDyeDamage()), 2), event);
+    }
+
+    @SubscribeEvent
+    public static void registerTreeTapRecipes(RegistryEvent.Register<IQuernRecipe> event) {
+        addQuernRecipes(event);
+    }
+
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipe> event) {
         IForgeRegistry<IRecipe> registry = event.getRegistry();
@@ -77,11 +99,11 @@ public class AtumRecipes {
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
             String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
-            registry.register(new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.CRYSTAL_GLASS, 'D', "dye" + colorName).setRegistryName(new ResourceLocation(Constants.MOD_ID, "crystal_" + colorName)));
-            registry.register(new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.FRAMED_GLASS, 'D', "dye" + colorName).setRegistryName(new ResourceLocation(Constants.MOD_ID, "framed_" + colorName)));
-            registry.register(new ShapedOreRecipe(framed, BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), " S ", "SGS", " S ", 'S', "stickWood", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "crystal_to_framed_" + colorName)));
-            registry.register(new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "thin_crystal_" + colorName)));
-            registry.register(new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.FRAMED_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "thin_framed_" + colorName)));
+            AtumRegistry.registerRecipe("crystal_" + colorName, new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.CRYSTAL_GLASS, 'D', "dye" + colorName), event);
+            AtumRegistry.registerRecipe("framed_" + colorName, new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.FRAMED_GLASS, 'D', "dye" + colorName), event);
+            AtumRegistry.registerRecipe("crystal_to_framed_" + colorName, new ShapedOreRecipe(framed, BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), " S ", "SGS", " S ", 'S', "stickWood", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)), event);
+            AtumRegistry.registerRecipe("thin_crystal_" + colorName, new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)), event);
+            AtumRegistry.registerRecipe("thin_framed_" + colorName, new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.FRAMED_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color)), event);
         }
         AtumRecipes.register();
         fixOreDictEntries(registry);
@@ -119,7 +141,6 @@ public class AtumRecipes {
         recipes.remove(trapdoor);
         registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
 
-
         ////Cracked Limestone
         final ResourceLocation sword = new ResourceLocation("stone_sword");
         final ResourceLocation shovel = new ResourceLocation("stone_shovel");
@@ -132,26 +153,26 @@ public class AtumRecipes {
 
         //Sword
         recipes.remove(sword);
-        registry.register(new ShapedOreRecipe(sword, Items.STONE_SWORD, " C ", " C ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(sword));
+        registry.register(new ShapedOreRecipe(sword, Items.STONE_SWORD, " C ", " C ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(sword));
 
         //Shovel
         recipes.remove(shovel);
-        registry.register(new ShapedOreRecipe(shovel, Items.STONE_SHOVEL, " C ", " S ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(shovel));
+        registry.register(new ShapedOreRecipe(shovel, Items.STONE_SHOVEL, " C ", " S ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(shovel));
 
         //Pickaxe
         recipes.remove(pickaxe);
-        registry.register(new ShapedOreRecipe(pickaxe, Items.STONE_PICKAXE, "CCC", " S ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(pickaxe));
+        registry.register(new ShapedOreRecipe(pickaxe, Items.STONE_PICKAXE, "CCC", " S ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(pickaxe));
 
         //Hoe
         recipes.remove(hoe);
-        registry.register(new ShapedOreRecipe(hoe, Items.STONE_HOE, "CC ", " S ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(hoe));
+        registry.register(new ShapedOreRecipe(hoe, Items.STONE_HOE, "CC ", " S ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(hoe));
 
         //Axe
         recipes.remove(axe);
-        registry.register(new ShapedOreRecipe(axe, Items.STONE_AXE, "CC ", "CS ", " S " , 'C', cobblestone, 'S', "stickWood").setRegistryName(axe));
+        registry.register(new ShapedOreRecipe(axe, Items.STONE_AXE, "CC ", "CS ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(axe));
 
         //Furnace
         recipes.remove(furnace);
-        registry.register(new ShapedOreRecipe(furnace, Blocks.FURNACE, "CCC", "C C", "CCC" , 'C', cobblestone).setRegistryName(furnace));
+        registry.register(new ShapedOreRecipe(furnace, Blocks.FURNACE, "CCC", "C C", "CCC", 'C', cobblestone).setRegistryName(furnace));
     }
 }

@@ -16,6 +16,9 @@ repositories {
   maven {
     url "http://tehnut.info/maven"
   }
+  maven { 
+    url "http://maven.blamejared.com" 
+  }
 }
 
 sourceCompatibility = 1.8
@@ -41,6 +44,7 @@ dependencies {
     deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
     runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
     deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}"
+    deobfProvided "CraftTweaker2:CraftTweaker2-API:${ct_version}"
 }
 
 processResources {

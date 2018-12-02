@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
@@ -13,6 +12,9 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
@@ -20,6 +22,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.FakePlayer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,19 +60,60 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
-        ItemStack heldStack = player.getHeldItem(hand);
+    public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityQuern) {
+            TileEntityQuern quern = (TileEntityQuern) tileEntity;
+            if (!quern.isEmpty()) {
+                if (player.isSneaking()) {
+                    StackHelper.dropInventoryItems(world, pos, quern);
+                } else {
+                    ItemStack slotStack = quern.getStackInSlot(0);
+                    ItemStack copyStack = new ItemStack(slotStack.getItem());
+                    StackHelper.giveItem(player, EnumHand.MAIN_HAND, copyStack);
+                    quern.decrStackSize(0, 1);
+                }
+            }
+        }
+        super.onBlockClicked(world, pos, player);
+    }
 
-        if (heldStack.getItem() == AtumItems.EMMER) { //Temporary
-            if (!world.isRemote) {
-                StackHelper.giveItem(player, hand, new ItemStack(AtumItems.EMMER_FLOUR));
+    @Override
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+        if (player == null || player instanceof FakePlayer) return true;
+        ItemStack heldStack = player.getHeldItem(hand);
+        TileEntity tileEntity = world.getTileEntity(pos);
+
+        if (tileEntity instanceof TileEntityQuern) {
+            TileEntityQuern quern = (TileEntityQuern) tileEntity;
+            ItemStack slotStack = quern.getStackInSlot(0);
+            int size = slotStack.getCount();
+            if (size < slotStack.getMaxStackSize() && quern.isItemValidForSlot(0, heldStack) && (quern.isEmpty() || heldStack.getItem() == slotStack.getItem())) {
+                ItemStack copyStack = new ItemStack(heldStack.getItem(), size + 1);
+                if (!heldStack.isEmpty()) {
+                    quern.setInventorySlotContents(0, copyStack);
+                }
                 if (!player.isCreative()) {
                     heldStack.shrink(1);
+                }
+            } else {
+                quern.currentRotation += 24;
+                if (world.isRemote) {
+                    world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
                 }
             }
             return true;
         }
-        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+        return true;
+    }
+
+    @Override
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityQuern) {
+            InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+        }
+        super.breakBlock(world, pos, state);
     }
 
     @Override
@@ -122,5 +166,10 @@ public class BlockQuern extends BlockContainer {
     @Nonnull
     public EnumBlockRenderType getRenderType(IBlockState state) {
         return EnumBlockRenderType.MODEL;
+    }
+
+    @Override
+    public boolean hasCustomBreakingProgress(IBlockState state) {
+        return true;
     }
 }

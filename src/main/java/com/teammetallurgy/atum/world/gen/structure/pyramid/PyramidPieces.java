@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
+import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
+import net.minecraft.world.gen.structure.StructureComponent;
 import net.minecraft.world.gen.structure.StructureComponentTemplate;
 import net.minecraft.world.gen.structure.template.PlacementSettings;
 import net.minecraft.world.gen.structure.template.Template;
@@ -32,6 +34,7 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class PyramidPieces {
@@ -40,12 +43,23 @@ public class PyramidPieces {
     public static void registerPyramid() {
         MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
         MapGenStructureIO.registerStructureComponent(PyramidTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "pyramid_template")));
+        MapGenStructureIO.registerStructureComponent(Maze.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "maze")));
+    }
+
+    static List<StructureComponent> getComponents(TemplateManager manager, BlockPos pos, Rotation rotation, Random random) {
+        List<StructureComponent> components = Lists.newArrayList();
+        PyramidTemplate template = new PyramidTemplate(manager, pos, rotation, random);
+        Maze maze = new Maze(template.rotation, template.getBoundingBox());
+
+        components.add(template);
+        components.add(maze);
+        return components;
     }
 
     public static class PyramidTemplate extends StructureComponentTemplate {
-        private final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        private static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
-        private static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
+        public static final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
+        public static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
+        public static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         public boolean isDefeated = false;
         private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
@@ -75,11 +89,12 @@ public class PyramidPieces {
 
         @Override
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
-            if (function.equals("Maze")) {
+           /* if (function.equals("Maze")) {
                 if (box.isVecInside(pos)) {
                     this.addMaze(world, pos, this.placeSettings.getRotation(), rand); //Might be causing cascading worldgen, look into.
                 }
-            } else if (function.startsWith("Arrow")) {
+            } else */
+            if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
                 IBlockState arrowTrap = AtumBlocks.ARROW_TRAP.getDefaultState();
 
@@ -220,9 +235,45 @@ public class PyramidPieces {
             }
         }
 
+        @Override
+        protected void writeStructureToNBT(NBTTagCompound compound) {
+            super.writeStructureToNBT(compound);
+            compound.setString("Rot", this.placeSettings.getRotation().name());
+            compound.setString("Mi", this.placeSettings.getMirror().name());
+            compound.setBoolean("IsDefeated", this.isDefeated);
+        }
+
+        @Override
+        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
+            super.readStructureFromNBT(compound, manager);
+            this.rotation = Rotation.valueOf(compound.getString("Rot"));
+            this.mirror = Mirror.valueOf(compound.getString("Mi"));
+            this.isDefeated = compound.getBoolean("IsDefeated");
+            this.loadTemplate(manager);
+        }
+    }
+
+    public static class Maze extends StructureComponent {
+        private Rotation rotation;
+
+        public Maze() {
+        }
+
+        public Maze(Rotation rotation, StructureBoundingBox boundingBox) {
+            this.rotation = rotation;
+            this.boundingBox = boundingBox;
+        }
+
+        @Override
+        public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
+            BlockPos pos = new BlockPos(box.minX, 100, box.minZ); //TODO
+            this.addMaze(world, pos, this.rotation, random);
+            return false;
+        }
+
         private void addMaze(World world, BlockPos pos, Rotation rotation, Random random) {
-            int width = 28;
-            int depth = 28;
+            int width = 16;
+            int depth = 16;
             boolean[][] size = new boolean[width][depth];
             int zIn = 9;
             size[0][zIn] = true;
@@ -252,15 +303,15 @@ public class PyramidPieces {
                                 IBlockState ladder = world.getBlockState(basePos.up(2));
                                 EnumFacing facing = ladder.getValue(BlockLadder.FACING);
                                 BlockPos wallOffset = basePos.offset(facing.getOpposite());
-                                world.setBlockState(wallOffset, LARGE_BRICK, 2);
-                                world.setBlockState(wallOffset.up(), LARGE_BRICK, 2);
+                                world.setBlockState(wallOffset, PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
+                                world.setBlockState(wallOffset.up(), PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
                                 if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(world.getBlockState(basePos).getBlock() instanceof BlockLadder || world.getBlockState(basePos.up()).getBlock() instanceof BlockLadder)) {
                                     world.setBlockState(basePos, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
                                     world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
                                 }
                             } else {
-                                world.setBlockState(basePos, CARVED_BRICK, 2);
-                                world.setBlockState(basePos.up(), CARVED_BRICK, 2);
+                                world.setBlockState(basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
+                                world.setBlockState(basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
                                 if (random.nextDouble() <= 0.10D) {
                                     this.placeTrap(world, basePos, random);
                                 }
@@ -278,7 +329,22 @@ public class PyramidPieces {
 
         private boolean canPlace(World world, BlockPos pos) {
             IBlockState state = world.getBlockState(pos);
-            return state != LARGE_BRICK && !(state.getBlock() instanceof BlockLadder);
+            return state != PyramidPieces.PyramidTemplate.LARGE_BRICK && !(state.getBlock() instanceof BlockLadder);
+        }
+
+        private void placeTrap(World world, BlockPos pos, Random random) {
+            IBlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
+
+            if (world.isSideSolid(pos.south(), EnumFacing.NORTH)) {
+                trapState.withProperty(BlockTrap.FACING, EnumFacing.SOUTH);
+            } else if (world.isSideSolid(pos.north(), EnumFacing.SOUTH)) {
+                trapState.withProperty(BlockTrap.FACING, EnumFacing.WEST);
+            } else if (world.isSideSolid(pos.east(), EnumFacing.WEST)) {
+                trapState.withProperty(BlockTrap.FACING, EnumFacing.EAST);
+            } else if (world.isSideSolid(pos.west(), EnumFacing.EAST)) {
+                trapState.withProperty(BlockTrap.FACING, EnumFacing.NORTH);
+            }
+            world.setBlockState(pos, trapState, 2);
         }
 
         private void generateMaze(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
@@ -309,36 +375,14 @@ public class PyramidPieces {
             } while (choices.size() > 0);
         }
 
-        private void placeTrap(World world, BlockPos pos, Random random) {
-            IBlockState trapState = FLOOR_TRAPS.get(random.nextInt(FLOOR_TRAPS.size())).getDefaultState();
-
-            if (world.isSideSolid(pos.south(), EnumFacing.NORTH)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.SOUTH);
-            } else if (world.isSideSolid(pos.north(), EnumFacing.SOUTH)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.WEST);
-            } else if (world.isSideSolid(pos.east(), EnumFacing.WEST)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.EAST);
-            } else if (world.isSideSolid(pos.west(), EnumFacing.EAST)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.NORTH);
-            }
-            world.setBlockState(pos, trapState, 2);
+        @Override
+        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+            compound.setString("Rot", this.rotation.name());
         }
 
         @Override
-        protected void writeStructureToNBT(NBTTagCompound compound) {
-            super.writeStructureToNBT(compound);
-            compound.setString("Rot", this.placeSettings.getRotation().name());
-            compound.setString("Mi", this.placeSettings.getMirror().name());
-            compound.setBoolean("IsDefeated", this.isDefeated);
-        }
-
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
-            super.readStructureFromNBT(compound, manager);
+        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
-            this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.isDefeated = compound.getBoolean("IsDefeated");
-            this.loadTemplate(manager);
         }
 
         class Pair {
