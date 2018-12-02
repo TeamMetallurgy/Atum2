@@ -41,20 +41,22 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
 
     @Override
     public void update() {
-        if (currentRotation == 360) {
-            currentRotation = 0;
-            quernRotations += 1;
+        if (this.currentRotation == 360) {
+            this.currentRotation = 0;
+            this.quernRotations += 1;
         }
 
         if (this.getStackInSlot(0).isEmpty()) {
-            quernRotations = 0;
+            this.quernRotations = 0;
         }
 
-        for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
-            if (quernRecipe.getInput().get(0).isItemEqual(this.getStackInSlot(0)) && quernRecipe.getRotations() == quernRotations) {
-                this.decrStackSize(0, 1);
-                this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
-                quernRotations = 0;
+        if (this.quernRotations > 0) {
+            for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
+                if (quernRecipe.getInput().get(0).isItemEqual(this.getStackInSlot(0)) && quernRecipe.getRotations() == quernRotations) {
+                    this.decrStackSize(0, 1);
+                    this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
+                    this.quernRotations = 0;
+                }
             }
         }
     }
@@ -73,15 +75,19 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
         if (!stack.isEmpty()) {
             StackHelper.spawnItemStack(world, (double) facing.getXOffset() + pos.getX() + 0.5D, (double) pos.getY() + 0.15D, (double) facing.getZOffset() + pos.getZ() + 0.5, stack);
             if (world.isRemote) {
-                world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1.0F, 0.4F, false);
+                world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1.0F, 0.4F, false);
             }
         }
     }
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
-            return quernRecipe.isValidInput(stack);
+        for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValuesCollection()) {
+            for (ItemStack input : quernRecipe.getInput()) {
+                if (stack.isItemEqual(input)) {
+                    return quernRecipe.isValidInput(stack);
+                }
+            }
         }
         return false;
     }

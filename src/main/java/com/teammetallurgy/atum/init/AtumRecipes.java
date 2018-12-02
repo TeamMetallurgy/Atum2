@@ -29,6 +29,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.commons.lang3.StringUtils;
 
+import static net.minecraft.block.BlockFlower.EnumFlowerType;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
@@ -80,6 +81,9 @@ public class AtumRecipes {
 
     private static void addQuernRecipes(RegistryEvent.Register<IQuernRecipe> event) {
         AtumRegistry.registerRecipe("emmer_wheat", new QuernRecipe("cropEmmer", new ItemStack(AtumItems.EMMER_FLOUR), 4), event);
+
+        AtumRegistry.registerRecipe("dandelion", new QuernRecipe(new ItemStack(Blocks.YELLOW_FLOWER, 1, EnumFlowerType.DANDELION.getMeta()), new ItemStack(Items.DYE, 2, EnumDyeColor.YELLOW.getDyeDamage()), 2), event);
+        AtumRegistry.registerRecipe("popey", new QuernRecipe(new ItemStack(Blocks.RED_FLOWER, 1, EnumFlowerType.POPPY.getMeta()), new ItemStack(Items.DYE, 2, EnumDyeColor.RED.getDyeDamage()), 2), event);
     }
 
     @SubscribeEvent
