@@ -9,6 +9,9 @@ import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.OreDictHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
@@ -81,9 +84,34 @@ public class AtumRecipes {
 
     private static void addQuernRecipes(RegistryEvent.Register<IQuernRecipe> event) {
         AtumRegistry.registerRecipe("emmer_wheat", new QuernRecipe("cropEmmer", new ItemStack(AtumItems.EMMER_FLOUR), 4), event);
+        AtumRegistry.registerRecipe("gravel", new QuernRecipe("gravel", new ItemStack(Items.FLINT), 6), event);
+        AtumRegistry.registerRecipe("sugarcane", new QuernRecipe("sugarcane", new ItemStack(Items.SUGAR, 2), 3), event);
 
-        AtumRegistry.registerRecipe("dandelion", new QuernRecipe(new ItemStack(Blocks.YELLOW_FLOWER, 1, EnumFlowerType.DANDELION.getMeta()), new ItemStack(Items.DYE, 2, EnumDyeColor.YELLOW.getDyeDamage()), 2), event);
-        AtumRegistry.registerRecipe("popey", new QuernRecipe(new ItemStack(Blocks.RED_FLOWER, 1, EnumFlowerType.POPPY.getMeta()), new ItemStack(Items.DYE, 2, EnumDyeColor.RED.getDyeDamage()), 2), event);
+        //Dyes
+        addFlowerRecipeOre(Blocks.YELLOW_FLOWER, EnumFlowerType.DANDELION, EnumDyeColor.YELLOW, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.POPPY, EnumDyeColor.RED, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.BLUE_ORCHID, EnumDyeColor.LIGHT_BLUE, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.ALLIUM, EnumDyeColor.MAGENTA, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.HOUSTONIA, EnumDyeColor.SILVER, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.RED_TULIP, EnumDyeColor.RED, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.ORANGE_TULIP, EnumDyeColor.ORANGE, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.WHITE_TULIP, EnumDyeColor.SILVER, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.PINK_TULIP, EnumDyeColor.PINK, event);
+        addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.OXEYE_DAISY, EnumDyeColor.SILVER, event);
+        AtumRegistry.registerRecipe("beetroot", new QuernRecipe(Items.BEETROOT, new ItemStack(Items.DYE, 2, EnumDyeColor.RED.getDyeDamage()), 2), event);
+        AtumRegistry.registerRecipe("sunflower", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.SUNFLOWER.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.YELLOW.getDyeDamage()), 3), event);
+        AtumRegistry.registerRecipe("lilac", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.SYRINGA.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.MAGENTA.getDyeDamage()), 3), event);
+        AtumRegistry.registerRecipe("rose_bush", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.ROSE.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.RED.getDyeDamage()), 3), event);
+        AtumRegistry.registerRecipe("peony", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.PAEONIA.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.PINK.getDyeDamage()), 3), event);
+    }
+
+    private static void addFlowerRecipeOre(Block flowerBlock, EnumFlowerType flowerType, EnumDyeColor color, RegistryEvent.Register<IQuernRecipe> event) {
+        ItemStack flower = new ItemStack(flowerBlock, 1, flowerType.getMeta());
+        String oreDict = "flower" + StringUtils.capitalize(color.getTranslationKey());
+        OreDictHelper.add(flower, oreDict);
+        if (!event.getRegistry().containsKey(new ResourceLocation(Constants.MOD_ID, oreDict))) {
+            AtumRegistry.registerRecipe(oreDict, new QuernRecipe(oreDict, new ItemStack(Items.DYE, 2, color.getDyeDamage()), 2), event);
+        }
     }
 
     @SubscribeEvent

@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.api.recipe.quern;
 
+import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -45,7 +46,7 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
     @Override
     public boolean isValidInput(@Nonnull ItemStack stack) {
         for (final ItemStack validInput : this.inputs) {
-            if (stack.isItemEqual(validInput)) {
+            if (StackHelper.areStacksEqualIgnoreSize(stack, validInput)) {
                 return true;
             }
         }

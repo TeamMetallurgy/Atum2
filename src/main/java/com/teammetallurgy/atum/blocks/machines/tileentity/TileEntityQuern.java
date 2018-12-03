@@ -52,10 +52,12 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
 
         if (this.quernRotations > 0) {
             for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
-                if (quernRecipe.getInput().get(0).isItemEqual(this.getStackInSlot(0)) && quernRecipe.getRotations() == quernRotations) {
-                    this.decrStackSize(0, 1);
-                    this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
-                    this.quernRotations = 0;
+                for (ItemStack input : quernRecipe.getInput()) {
+                    if (StackHelper.areStacksEqualIgnoreSize(input, this.getStackInSlot(0)) && quernRecipe.getRotations() == this.quernRotations) {
+                        this.decrStackSize(0, 1);
+                        this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
+                        this.quernRotations = 0;
+                    }
                 }
             }
         }
@@ -84,7 +86,7 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValuesCollection()) {
             for (ItemStack input : quernRecipe.getInput()) {
-                if (stack.isItemEqual(input)) {
+                if (ItemStack.areItemsEqual(input, stack)) {
                     return quernRecipe.isValidInput(stack);
                 }
             }

@@ -88,8 +88,8 @@ public class BlockQuern extends BlockContainer {
             TileEntityQuern quern = (TileEntityQuern) tileEntity;
             ItemStack slotStack = quern.getStackInSlot(0);
             int size = slotStack.getCount();
-            if (size < slotStack.getMaxStackSize() && quern.isItemValidForSlot(0, heldStack) && (quern.isEmpty() || heldStack.getItem() == slotStack.getItem())) {
-                ItemStack copyStack = new ItemStack(heldStack.getItem(), size + 1);
+            if (size < slotStack.getMaxStackSize() && quern.isItemValidForSlot(0, heldStack) && (quern.isEmpty() || StackHelper.areStacksEqualIgnoreSize(heldStack, slotStack))) {
+                ItemStack copyStack = new ItemStack(heldStack.getItem(), size + 1, heldStack.getMetadata());
                 if (!heldStack.isEmpty()) {
                     quern.setInventorySlotContents(0, copyStack);
                 }
