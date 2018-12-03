@@ -753,6 +753,9 @@ item.atum.idolOfLabor.63=Apparently that is vanilla behavior.
 item.atum.idolOfLabor.64=Oh for bug breaking.
 item.atum.idolOfLabor.65=RELEASE DATE TOMORROW, GO FIX ALL THE THINGS GIRAFI!
 
+#JEI
+atum.quern=Quern
+gui.atum.category.quern.rotations=x%s
 
 #Just Tips support
 mods.tips.atum.1=You will die.

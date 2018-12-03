@@ -52,6 +52,10 @@ public class AtumUtils {
         return I18n.translateToLocal(key);
     }
 
+    public static String format(String key, Object... objects) {
+        return I18n.translateToLocalFormatted(key, objects);
+    }
+
     /**
      * Mirror of {@link I18n#canTranslate(String)}, to prevent warnings
      *
