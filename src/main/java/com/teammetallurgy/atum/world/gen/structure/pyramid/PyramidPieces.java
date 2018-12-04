@@ -49,7 +49,7 @@ public class PyramidPieces {
     static List<StructureComponent> getComponents(TemplateManager manager, BlockPos pos, Rotation rotation, Random random) {
         List<StructureComponent> components = Lists.newArrayList();
         PyramidTemplate template = new PyramidTemplate(manager, pos, rotation, random);
-        Maze maze = new Maze(template.rotation, template.getBoundingBox());
+        Maze maze = new Maze(template.rotation, template.getBoundingBox(), template.getCoordBaseMode());
 
         components.add(template);
         components.add(maze);
@@ -259,9 +259,9 @@ public class PyramidPieces {
         public Maze() {
         }
 
-        public Maze(Rotation rotation, StructureBoundingBox boundingBox) {
+        public Maze(Rotation rotation, StructureBoundingBox boundingBox, EnumFacing componentType) {
             this.rotation = rotation;
-            this.setCoordBaseMode(EnumFacing.NORTH);
+            this.setCoordBaseMode(componentType);
             this.boundingBox = boundingBox;
         }
 
@@ -363,8 +363,10 @@ public class PyramidPieces {
                             } else {
                                 //world.setBlockState(basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
                                 //world.setBlockState(basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
-                                setBlockState(world, basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
-                                setBlockState(world, basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
+                                this.setBlockState(world, new BlockPos(x, 20, z), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
+                                this.setBlockState(world, new BlockPos(x, 21, z), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
+                            	//setBlockState(world, basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
+                                //setBlockState(world, basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
                                 if (random.nextDouble() <= 0.10D) {
                                     placeTrap(world, basePos, random);
                                 }
@@ -385,11 +387,11 @@ public class PyramidPieces {
         
 
         private void setBlockState(World world, BlockPos pos, IBlockState blockstate, StructureBoundingBox box) {
-			this.setBlockState(world, blockstate, pos.getX(), pos.getY(), pos.getZ(), box);
+			this.setBlockState(world, blockstate, pos.getX() - this.boundingBox.minX, pos.getY() - this.boundingBox.minY, pos.getZ() - this.boundingBox.minZ, box);
 		}
         
         private IBlockState getBlockState(World world, BlockPos pos, StructureBoundingBox box) {
-        	return this.getBlockStateFromPos(world, pos.getX(), pos.getY(), pos.getZ(), box);
+        	return this.getBlockStateFromPos(world, pos.getX() - this.boundingBox.minX, pos.getY() - this.boundingBox.minY, pos.getZ() - this.boundingBox.minZ, box);
         }
 
 		private boolean canPlace(World world, BlockPos pos, StructureBoundingBox box) {
