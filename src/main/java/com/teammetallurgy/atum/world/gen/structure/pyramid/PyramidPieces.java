@@ -363,8 +363,8 @@ public class PyramidPieces {
                             } else {
                                 //world.setBlockState(basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
                                 //world.setBlockState(basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
-                                this.setBlockState(world, new BlockPos(x, 20, z), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
-                                this.setBlockState(world, new BlockPos(x, 21, z), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
+                            	this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 30, z, genBounds);
+                            	this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 31, z, genBounds);
                             	//setBlockState(world, basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
                                 //setBlockState(world, basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
                                 if (random.nextDouble() <= 0.10D) {
