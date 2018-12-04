@@ -267,22 +267,10 @@ public class PyramidPieces {
 
         @Override
         public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
-            System.out.println(box);
         	BlockPos pos = new BlockPos(box.minX, boundingBox.minY + 60, box.minZ); //TODO
 
         	this.addMaze(world, pos, this.rotation, random, box);
             return true;
-        }
-        
-        private boolean[][] sliceMaze(boolean[][] maze, int minX, int minZ, int maxX, int maxZ) {
-        	boolean[][] slice = new boolean[1 + maxX - minX][1 + maxZ - minZ];
-        	for(int x = minX; x <= maxX; x++)
-        	{
-        		for(int z = minZ; z <= maxZ; z++) {
-        			slice[x][z] = maze[x - minX][z - minZ];
-        		}
-        	}
-        	return slice;
         }
 
         private void addMaze(World world, BlockPos pos, Rotation rotation, Random random, StructureBoundingBox genBounds) {
@@ -294,124 +282,71 @@ public class PyramidPieces {
 
             this.generateMaze(size, new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), 1, zIn);
             
-            //world.setBlockState(new BlockPos(genBounds.minX, 104, genBounds.minZ), Blocks.STONE.getDefaultState(), 2);
-            //world.setBlockState(new BlockPos(genBounds.maxX, 104, genBounds.maxZ), Blocks.DIRT.getDefaultState(), 2);
-            //this.setBlockState(world, Blocks.DIAMOND_BLOCK.getDefaultState(), genBounds.minX, 103, genBounds.minZ, genBounds);
-            //this.setBlockState(world, Blocks.IRON_BLOCK.getDefaultState(), genBounds.maxX, 103, genBounds.maxZ, genBounds);
-            
-            for (int x = 0; x < 16; x++) {
-                for (int z = 0; z < 16; z++) {
-                    if (x >= 0 && x < width && z >= 0 && z < depth) {
-                        BlockPos localPos = new BlockPos(x, 0, z);
-                        //localPos = localPos.rotate(rotation);
-                        BlockPos basePos = pos.add(localPos.getX(), 0, localPos.getZ());
-                        
-                		int mazeX = x + genBounds.minX - boundingBox.minX - (32 - width)/2;
-                		int mazeZ = z + genBounds.minZ - boundingBox.minZ - (32 - depth)/2;
-                		if(mazeX < 0 || mazeZ < 0 || mazeX >= width || mazeZ >= depth) {
-                			continue;
-                		}
+        	int y = 6;
+            for (int x = 0; x < this.boundingBox.getXSize(); x++) {
+                for (int z = 0; z < this.boundingBox.getZSize(); z++) {
+                    
+            		int mazeX = x - 2;
+            		int mazeZ = z - 2;
+            		if(mazeX < 0 || mazeZ < 0 || mazeX >= width || mazeZ >= depth) {
+            			continue;
+            		}
 
-                		/*
-                		if(mazeX >= 0 && mazeX < width && mazeZ >= 0 && mazeZ < depth) {
-                            setBlockState(world, basePos.down(1), Blocks.OBSIDIAN.getDefaultState(), genBounds);
-                		}
-                		if(mazeX == 0 && mazeZ == 0) {
-                            setBlockState(world, basePos.up(3), Blocks.GOLD_BLOCK.getDefaultState(), genBounds);
-                		}
-                		if(mazeX == 0 && mazeZ == depth - 1) {
-                            setBlockState(world, basePos.up(3), Blocks.DIAMOND_BLOCK.getDefaultState(), genBounds);
-                		}
-                		if(mazeX == width - 1 && mazeZ == depth - 1) {
-                            setBlockState(world, basePos.up(3), Blocks.EMERALD_BLOCK.getDefaultState(), genBounds);
-                		}
-                		if(mazeX == width - 1 && mazeZ == 0) {
-                            setBlockState(world, basePos.up(3), Blocks.IRON_BLOCK.getDefaultState(), genBounds);
-                		}
-                		*/
-                		
-                        //Set pathway
-                        if (canPlace(world, basePos.up(), genBounds)) {
-                            //world.setBlockToAir(basePos);
-                            setBlockState(world, basePos, Blocks.AIR.getDefaultState(), genBounds);
-                        }
-                        if (canPlace(world, basePos.up(), genBounds)) {
-                            //world.setBlockToAir(basePos.up());
-                            setBlockState(world, basePos, Blocks.AIR.getDefaultState(), genBounds);
-                        }
-
-                        if (!size[mazeX][mazeZ]) {
-                            if (getBlockState(world, basePos.down(), genBounds).getBlock() instanceof BlockLadder) {
-                                //world.setBlockToAir(basePos);
-                                //world.setBlockToAir(basePos.up());
-                                setBlockState(world, basePos, Blocks.AIR.getDefaultState(), genBounds);
-                                setBlockState(world, basePos.up(), Blocks.AIR.getDefaultState(), genBounds);
-                            } else if (getBlockState(world, basePos.up(2), genBounds).getBlock() instanceof BlockLadder) {
-                                IBlockState ladder = world.getBlockState(basePos.up(2));
-                                EnumFacing facing = ladder.getValue(BlockLadder.FACING);
-                                BlockPos wallOffset = basePos.offset(facing.getOpposite());
-                                
-                                //world.setBlockState(wallOffset, PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
-                                //world.setBlockState(wallOffset.up(), PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
-                                setBlockState(world, wallOffset, PyramidPieces.PyramidTemplate.LARGE_BRICK, genBounds);
-                                setBlockState(world, wallOffset.up(), PyramidPieces.PyramidTemplate.LARGE_BRICK, genBounds);
-                                
-                                if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(getBlockState(world, basePos, genBounds).getBlock() instanceof BlockLadder || getBlockState(world, basePos.up(), genBounds).getBlock() instanceof BlockLadder)) {
-                                    setBlockState(world, basePos, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), genBounds);
-                                    //world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
-                                }
-                            } else {
-                                //world.setBlockState(basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
-                                //world.setBlockState(basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
-                            	this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 30, z, genBounds);
-                            	this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 31, z, genBounds);
-                            	//setBlockState(world, basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
-                                //setBlockState(world, basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, genBounds);
-                                if (random.nextDouble() <= 0.10D) {
-                                    placeTrap(world, basePos, random);
-                                }
+                	//Set pathway
+            		this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y, z, genBounds);
+            		this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y + 1, z, genBounds);
+            		
+                    if (!size[mazeX][mazeZ]) {
+                    	if(this.getBlockStateFromPos(world, x, y - 1, z, genBounds).getBlock() instanceof BlockLadder) {
+                        	this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y, z, genBounds);
+                        	this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y + 1, z, genBounds);
+                    	}
+                    	else if(this.getBlockStateFromPos(world, x, y + 2, z, genBounds).getBlock() instanceof BlockLadder) {
+                    		/* TODO
+                            IBlockState ladder = world.getBlockState(basePos.up(2));
+                            EnumFacing facing = ladder.getValue(BlockLadder.FACING);
+                            BlockPos wallOffset = basePos.offset(facing.getOpposite());
+                            
+                            //world.setBlockState(wallOffset, PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
+                            //world.setBlockState(wallOffset.up(), PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
+                            
+                            if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(getBlockState(world, basePos, genBounds).getBlock() instanceof BlockLadder || getBlockState(world, basePos.up(), genBounds).getBlock() instanceof BlockLadder)) {
+                                world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
                             }
-                        } else {
-                            int meta = MathHelper.getInt(random, 0, 1);
-                            if (canPlace(world, basePos, genBounds)) {
-                                //world.setBlockState(basePos, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), 2);
-                                setBlockState(world, basePos, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), genBounds);
+                            */
+                    	}
+                    	else {
+                    		this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, y, z, genBounds);
+                    		this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, y + 1, z, genBounds);
+                            if (random.nextDouble() <= 0.10D) {
+                                placeTrap(world, x, y, z, random, genBounds);
                             }
-                        }
+                    	}
+                    }
+                    else {
+                        int meta = MathHelper.getInt(random, 0, 1);
+                		this.setBlockState(world, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), x, y - 1, z, genBounds);
                     }
                 }
-            }
-            
+            }    
         }
         
-        
-
-        private void setBlockState(World world, BlockPos pos, IBlockState blockstate, StructureBoundingBox box) {
-			this.setBlockState(world, blockstate, pos.getX() - this.boundingBox.minX, pos.getY() - this.boundingBox.minY, pos.getZ() - this.boundingBox.minZ, box);
-		}
-        
-        private IBlockState getBlockState(World world, BlockPos pos, StructureBoundingBox box) {
-        	return this.getBlockStateFromPos(world, pos.getX() - this.boundingBox.minX, pos.getY() - this.boundingBox.minY, pos.getZ() - this.boundingBox.minZ, box);
-        }
-
-		private boolean canPlace(World world, BlockPos pos, StructureBoundingBox box) {
-            IBlockState state = getBlockState(world, pos, box);
-            return state != PyramidPieces.PyramidTemplate.LARGE_BRICK && !(state.getBlock() instanceof BlockLadder);
-        }
-
-        private void placeTrap(World world, BlockPos pos, Random random) {
+        private void placeTrap(World world, int x, int y, int z, Random random, StructureBoundingBox validBounds) {
             IBlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
-            if (world.isSideSolid(pos.south(), EnumFacing.NORTH)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.SOUTH);
-            } else if (world.isSideSolid(pos.north(), EnumFacing.SOUTH)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.WEST);
-            } else if (world.isSideSolid(pos.east(), EnumFacing.WEST)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.EAST);
-            } else if (world.isSideSolid(pos.west(), EnumFacing.EAST)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.NORTH);
+            List<EnumFacing> validDirections = new ArrayList<EnumFacing>();
+            for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+            	BlockPos pos = new BlockPos(x + facing.getXOffset(), y, z + facing.getZOffset());
+            	if(this.getBlockStateFromPos(world, x + facing.getXOffset(), y, z + facing.getZOffset(), validBounds).getBlock() == Blocks.AIR) {
+            		validDirections.add(facing);
+            	}
             }
-            world.setBlockState(pos, trapState, 2);
+            
+            if(!validDirections.isEmpty())
+            {
+	            trapState = trapState.withProperty(BlockTrap.FACING, validDirections.get(random.nextInt(validDirections.size())));
+	            this.setBlockState(world, trapState, x, y, z, validBounds);
+            }
         }
 
         private void generateMaze(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
