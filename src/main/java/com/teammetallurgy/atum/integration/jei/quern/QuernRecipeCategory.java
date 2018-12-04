@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class QuernRecipeCategory implements IRecipeCategory<QuernRecipeWrapper> {
-    public static final ResourceLocation QUERN_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/quern.png");
+    private static final ResourceLocation QUERN_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/quern.png");
     private final IDrawableStatic background;
 
     public QuernRecipeCategory(IGuiHelper guiHelper) {

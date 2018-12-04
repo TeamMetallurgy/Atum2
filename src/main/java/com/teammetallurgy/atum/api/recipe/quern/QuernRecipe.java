@@ -19,16 +19,16 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
         this(OreDictionary.getOres(input), output, duration);
     }
 
-    public QuernRecipe(Block input, ItemStack output, int duration) {
-        this(new ItemStack(input), output, duration);
+    public QuernRecipe(Block input, ItemStack output, int rotations) {
+        this(new ItemStack(input), output, rotations);
     }
 
-    public QuernRecipe(Item input, ItemStack output, int duration) {
-        this(new ItemStack(input), output, duration);
+    public QuernRecipe(Item input, ItemStack output, int rotations) {
+        this(new ItemStack(input), output, rotations);
     }
 
-    public QuernRecipe(ItemStack input, ItemStack output, int duration) {
-        this(NonNullList.withSize(1, input), output, duration);
+    public QuernRecipe(ItemStack input, ItemStack output, int rotations) {
+        this(NonNullList.withSize(1, input), output, rotations);
     }
 
     private QuernRecipe(NonNullList<ItemStack> input, ItemStack output, int rotations) {

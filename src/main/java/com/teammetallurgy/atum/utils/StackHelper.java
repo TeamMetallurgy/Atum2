@@ -92,6 +92,6 @@ public class StackHelper {
     }
 
     public static boolean areStacksEqualIgnoreSize(ItemStack stackA, ItemStack stackB) {
-        return stackA.getItem() == stackB.getItem() && stackA.getMetadata() == stackB.getMetadata();
+        return !stackA.isEmpty() && !stackB.isEmpty() && stackA.getItem() == stackB.getItem() && stackA.getMetadata() == stackB.getMetadata();
     }
 }
