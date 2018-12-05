@@ -101,6 +101,7 @@ public class AtumBlocks {
     public static final Block THIN_FRAMED_GLASS = new BlockAtumPane();
     public static final Block PALM_LOG = new BlockAtumLog();
     public static final Block DEADWOOD_LOG = new BlockDeadwood();
+    public static final Block DEADWOOD_BRANCH = new BlockBranch();
     public static final BlockAtumTorch PALM_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch DEADWOOD_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch LIMESTONE_TORCH = new BlockAtumTorch();
@@ -235,6 +236,7 @@ public class AtumBlocks {
         BlockAtumPlank.registerPlanks();
         registerBlock(PALM_LOG, "palm_log");
         registerBlock(DEADWOOD_LOG, "deadwood_log");
+        registerBlock(DEADWOOD_BRANCH, "deadwood_branch");
         BlockAtumStairs.registerWoodStairs();
         BlockAtumWoodSlab.registerSlabs();
         BlockAtumSapling.registerSaplings();

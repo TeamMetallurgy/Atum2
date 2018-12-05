@@ -120,8 +120,8 @@ public class AtumBiome extends Biome {
 
     @Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
-        int x = random.nextInt(4) + 4;
-        int z = random.nextInt(4) + 4;
+        int x = random.nextInt(16) + 8;
+        int z = random.nextInt(16) + 8;
 
         BlockPos height = world.getHeight(pos.add(x, 0, z));
         if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {

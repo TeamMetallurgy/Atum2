@@ -1,0 +1,19 @@
+{
+    "textures": {
+        "particle": "#texture"
+    },
+    "elements": [
+        {   "from": [ 5, 0, 5 ],
+            "to": [ 11, 11, 11 ],
+            "faces": {
+                "down":  { "uv": [ 5, 5, 11, 11 ], "texture": "#texture", "cullface": "down" },
+                "up":    { "uv": [ 5, 5, 11, 11 ], "texture": "#texture", "cullface": "up"   },
+                "north": { "uv": [ 5, 0, 11, 11 ], "texture": "#texture" },
+                "south": { "uv": [ 5, 0, 11, 11 ], "texture": "#texture" },
+                "west":  { "uv": [ 5, 0, 11, 11 ], "texture": "#texture" },
+                "east":  { "uv": [ 5, 0, 11, 11 ], "texture": "#texture" }
+            },
+            "__comment": "Center post"
+        }
+    ]
+}
