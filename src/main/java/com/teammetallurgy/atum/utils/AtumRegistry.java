@@ -4,18 +4,12 @@ import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
-import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
-import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
-import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
-import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,7 +27,6 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
@@ -219,8 +212,8 @@ public class AtumRegistry {
      * Makes it easier to register a new recipe. Should be called in the RegistryEvent.Register event
      *
      * @param registryName the unique name for the recipe
-     * @param entry the recipe
-     * @param event the RegistryEvent.Register event
+     * @param entry        the recipe
+     * @param event        the RegistryEvent.Register event
      */
     public static <T extends IForgeRegistryEntry<T>> T registerRecipe(String registryName, T entry, RegistryEvent.Register<T> event) {
         entry.setRegistryName(new ResourceLocation(Constants.MOD_ID, registryName));
@@ -229,10 +222,10 @@ public class AtumRegistry {
     }
 
     /**
-     *  Used to register a new registry
+     * Used to register a new registry
      *
      * @param registryName the unique string to register the registry as
-     * @param type the class that the registry is for
+     * @param type         the class that the registry is for
      * @return a new registry
      */
     public static <T extends IForgeRegistryEntry<T>> IForgeRegistry<T> makeRegistry(String registryName, Class<T> type) {
@@ -292,15 +285,5 @@ public class AtumRegistry {
         for (SoundEvent sound : SOUNDS) {
             event.getRegistry().register(sound);
         }
-    }
-
-    @SubscribeEvent
-    public static void register(RegistryEvent.Register event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
-        StructureAtumMineshaftPieces.registerMineshaft();
-        PyramidPieces.registerPyramid();
-        RuinPieces.registerRuins();
-        TombPieces.registerTomb();
-        GirafiTombPieces.registerGirafiTomb();
     }
 }

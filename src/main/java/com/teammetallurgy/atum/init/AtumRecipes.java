@@ -129,6 +129,16 @@ public class AtumRecipes {
         System.out.println("End of registering Quern Recipes");
     }
 
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void removeQuernRecipe(RegistryEvent.Register<IQuernRecipe> event) {
+        System.out.println("Lowest priority quern removal");
+        System.out.println(CTLists.QUERN_REMOVALS);
+        for (IQuernRecipe quernRecipe : CTLists.QUERN_REMOVALS) {
+            System.out.println("Recipe: " + quernRecipe);
+            event.getRegistry().getValuesCollection().remove(quernRecipe);
+        }
+    }
+
     private static void addFlowerRecipeOre(Block flowerBlock, EnumFlowerType flowerType, EnumDyeColor color, RegistryEvent.Register<IQuernRecipe> event) {
         ItemStack flower = new ItemStack(flowerBlock, 1, flowerType.getMeta());
         String oreDict = "flower" + StringUtils.capitalize(color.getTranslationKey());

@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum;
 
+import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
@@ -7,11 +8,17 @@ import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumCreativeTab;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
+import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
+import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
+import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
+import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,10 +39,16 @@ public class Atum {
         AtumDimension.register();
         NetworkHandler.register();
         AtumRecipes.registerRecipeHandlers();
+        StructureAtumMineshaftPieces.registerMineshaft();
+        PyramidPieces.registerPyramid();
+        RuinPieces.registerRuins();
+        TombPieces.registerTomb();
+        GirafiTombPieces.registerGirafiTomb();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init();
+        NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
     }
 }
