@@ -56,6 +56,14 @@ public class PyramidPieces {
 
         int xOffset = 2;
         int zOffset = 5;
+        if(template.rotation == Rotation.CLOCKWISE_90 || template.rotation == Rotation.COUNTERCLOCKWISE_90) {
+        	xOffset = 4;
+        	zOffset = 2;
+        }
+        else if(template.rotation == Rotation.CLOCKWISE_180) {
+        	zOffset = 7;
+        }
+        
         StructureBoundingBox mazeBounds = StructureBoundingBox.createProper(
         		template.getBoundingBox().minX + xOffset, 
         		template.getBoundingBox().minY + 6, 
@@ -282,7 +290,8 @@ public class PyramidPieces {
         @Override
         public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
         	BlockPos pos = new BlockPos(box.minX, boundingBox.minY + 60, box.minZ); //TODO
-
+        	System.out.println(this.rotation);
+        	System.out.println(this.boundingBox);
         	this.addMaze(world, pos, this.rotation, random, box);
             return true;
         }
