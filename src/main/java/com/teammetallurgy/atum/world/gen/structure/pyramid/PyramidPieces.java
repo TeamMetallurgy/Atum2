@@ -62,11 +62,11 @@ public class PyramidPieces {
     
     static StructureBoundingBox getMazeBounds(StructureBoundingBox pyramidBounds, Rotation rotation) {
         // If the pyramid is rotated the bounding box needs to be rotated also. Since it is just a collection
-    	// of min and max values, we just need to change which direction the width and height go. The maze
-    	// also needs to be offset from the pyramid corner to align with the maze entrance and to fit in the
-    	// pyramid. The offset values were choosen by trial and error, and could probably be calculated in a
-    	// better way.
-    	int width = MAZE_SIZE_X;
+        // of min and max values, we just need to change which direction the width and height go. The maze
+        // also needs to be offset from the pyramid corner to align with the maze entrance and to fit in the
+        // pyramid. The offset values were choosen by trial and error, and could probably be calculated in a
+        // better way.
+        int width = MAZE_SIZE_X;
         int depth = MAZE_SIZE_Z;
         int xOffset = 2;
         int zOffset = 5;
@@ -83,17 +83,17 @@ public class PyramidPieces {
             depth = MAZE_SIZE_X;
         }
         else if(rotation == Rotation.CLOCKWISE_180) {
-        	xOffset = 4;
+            xOffset = 4;
             zOffset = 3;
         }
         
         StructureBoundingBox mazeBounds = StructureBoundingBox.createProper(
-        		pyramidBounds.minX + xOffset, 
-        		pyramidBounds.minY + 6, 
-        		pyramidBounds.minZ + zOffset, 
-        		pyramidBounds.minX + xOffset + width - 1, 
-        		pyramidBounds.minY + 7, 
-        		pyramidBounds.minZ + zOffset + depth - 1);
+                pyramidBounds.minX + xOffset, 
+                pyramidBounds.minY + 6, 
+                pyramidBounds.minZ + zOffset, 
+                pyramidBounds.minX + xOffset + width - 1, 
+                pyramidBounds.minY + 7, 
+                pyramidBounds.minZ + zOffset + depth - 1);
         return mazeBounds;
     }
 
@@ -315,7 +315,7 @@ public class PyramidPieces {
 
         private void addMaze(World world, Random random, StructureBoundingBox validBounds) {
             if(maze == null)
-            	maze = this.generateMaze(new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), this.boundingBox.getXSize(), this.boundingBox.getZSize());
+                maze = this.generateMaze(new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), this.boundingBox.getXSize(), this.boundingBox.getZSize());
             
             for (int x = 0; x < this.boundingBox.getXSize(); x++) {
                 for (int z = 0; z < this.boundingBox.getZSize(); z++) {
