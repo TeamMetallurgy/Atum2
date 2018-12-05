@@ -16,8 +16,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree {
-    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState()
-            .withProperty(BlockDeadwood.LOG_AXIS, BlockLog.EnumAxis.NONE);
+    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true).withProperty(BlockDeadwood.LOG_AXIS, BlockLog.EnumAxis.NONE);
     private static final IBlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
 
     public WorldGenDeadwood(boolean notify) {
