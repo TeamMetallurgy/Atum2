@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.google.common.collect.Lists;
+import com.teammetallurgy.atum.blocks.BlockSandLayers;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
@@ -329,8 +330,8 @@ public class PyramidPieces {
                     }
                     // Place sand of the floor of the maze
                     else {
-                        int meta = MathHelper.getInt(random, 0, 1);
-                        this.setBlockState(world, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), x, 0, z, validBounds);
+                        int layers = MathHelper.getInt(random, 1, 2);
+                        this.setBlockState(world, AtumBlocks.SAND_LAYERED.getDefaultState().withProperty(BlockSandLayers.LAYERS, layers), x, 0, z, validBounds);
                     }
                 }
             }

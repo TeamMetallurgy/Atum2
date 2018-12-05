@@ -1,17 +1,5 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Random;
-import java.util.Set;
-import javax.annotation.Nonnull;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import com.teammetallurgy.atum.blocks.wood.BlockBranch;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -21,6 +9,11 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.annotation.Nonnull;
+import java.util.*;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree {
     private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState()
@@ -96,16 +89,16 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
 
     public void buildBranches(World world, List<BlockPos> logs, Random random) {
         // Keep track of branches to be generated using a Queue
-        Queue<Pair<BlockPos, Integer>> queue = new LinkedList<Pair<BlockPos, Integer>>();
+        Queue<Pair<BlockPos, Integer>> queue = new LinkedList<>();
 
         for (BlockPos pos : logs) {
-            queue.add(new ImmutablePair<BlockPos, Integer>(pos, 0));
+            queue.add(new ImmutablePair<>(pos, 0));
         }
         BlockPos baseLog = queue.peek().getLeft();
         int count = 0;
 
-        Set<EnumFacing> choosenFacings = new HashSet<EnumFacing>();
-        Map<EnumFacing, Integer> balancingCount = new HashMap<EnumFacing, Integer>();
+        Set<EnumFacing> choosenFacings = new HashSet<>();
+        Map<EnumFacing, Integer> balancingCount = new HashMap<>();
         for (EnumFacing facing : EnumFacing.VALUES) {
             balancingCount.put(facing, 0);
         }
@@ -154,16 +147,16 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
                     BlockPos nextPos = pos.add(facing.getDirectionVec());
                     if (world.isAirBlock(nextPos)) {
                         world.setBlockState(nextPos, BRANCH.withProperty(BlockBranch.FACING, facing.getOpposite()));
-                        
+
                         // Add this branch onto the queue to spawn new branches from
                         queue.add(new ImmutablePair<BlockPos, Integer>(nextPos, branchLength + 1));
 
                         // Keep track of how many branches have been generated
                         count++;
-                        
+
                         // Store the chosen facing for this branch to prevent odd splitting
                         choosenFacings.add(facing);
-                        
+
                         // Store the count for the direction chosen to help with balancing the tree
                         if (facing != EnumFacing.UP && facing != EnumFacing.DOWN) {
                             if (balancingCount.get(facing) > 0) {
