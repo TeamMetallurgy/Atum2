@@ -22,6 +22,7 @@ import net.minecraft.potion.PotionType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -122,12 +123,10 @@ public class AtumRecipes {
         addQuernRecipe("icy_iris", new QuernRecipe("flowerIcyIris", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
         addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
 
-        for (IQuernRecipe quernRecipe : CTLists.QUERN_REMOVALS) {
-            RecipeHandlers.quernRecipes.getValuesCollection().remove(quernRecipe);
-        }
         for (IQuernRecipe quernRecipe : CTLists.QUERN_ADDITIONS) {
             addQuernRecipe(AtumUtils.toRegistryName(quernRecipe.toString()), quernRecipe, event);
         }
+        System.out.println("End of registering Quern Recipes");
     }
 
     private static void addFlowerRecipeOre(Block flowerBlock, EnumFlowerType flowerType, EnumDyeColor color, RegistryEvent.Register<IQuernRecipe> event) {

@@ -1,21 +1,24 @@
 package com.teammetallurgy.atum.integration.crafttweaker;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
-import com.teammetallurgy.atum.utils.StackHelper;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
 @ZenClass("mods.atum.Quern")
+@Mod.EventBusSubscriber
 public class CTQuern {
 
     @ZenMethod
@@ -58,20 +61,23 @@ public class CTQuern {
 
         @Override
         public void apply() {
-            for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValuesCollection()) {
-                for (ItemStack stack : quernRecipe.getInput()) {
-                    if (StackHelper.areStacksEqualIgnoreSize(stack, this.input)) {
-                        CTLists.QUERN_REMOVALS.add(quernRecipe);
-                    } else {
-                        Atum.LOG.error("No Quern recipe exists for " + this.input);
-                    }
-                }
-            }
+            System.out.println("Apply Remove Quern Recipe");
+            CTLists.QUERN_REMOVALS.addAll(RecipeHandlers.quernRecipes.getValuesCollection());
         }
 
         @Override
         public String describe() {
             return "Removed Quern recipes with " + this.input.getDisplayName() + " as the input";
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void removeQuernRecipe(RegistryEvent.Register<IQuernRecipe> event) {
+        System.out.println("Lowest priority quern removal");
+        System.out.println(CTLists.QUERN_REMOVALS);
+        for (IQuernRecipe quernRecipe : CTLists.QUERN_REMOVALS) {
+            System.out.println("Recipe: " + quernRecipe);
+            event.getRegistry().getValuesCollection().remove(quernRecipe);
         }
     }
 }
