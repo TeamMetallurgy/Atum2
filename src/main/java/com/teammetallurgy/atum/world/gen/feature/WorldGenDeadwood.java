@@ -105,6 +105,9 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
 
         while (!queue.isEmpty()) {
             Pair<BlockPos, Integer> pair = queue.poll();
+            if (pair.getLeft() == null || pair.getRight() == null) {
+                continue;
+            }
             BlockPos pos = pair.getLeft();
             int branchLength = pair.getRight();
 
