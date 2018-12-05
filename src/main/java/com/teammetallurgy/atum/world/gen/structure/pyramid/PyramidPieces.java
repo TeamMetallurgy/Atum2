@@ -39,6 +39,10 @@ import java.util.Random;
 
 public class PyramidPieces {
     public static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
+    
+    // For the maze to generate correctly, it must be an odd width and depth
+    public static final int MAZE_SIZE_X = 27;
+    public static final int MAZE_SIZE_Z = 25;
 
     public static void registerPyramid() {
         MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
@@ -49,11 +53,48 @@ public class PyramidPieces {
     static List<StructureComponent> getComponents(TemplateManager manager, BlockPos pos, Rotation rotation, Random random) {
         List<StructureComponent> components = Lists.newArrayList();
         PyramidTemplate template = new PyramidTemplate(manager, pos, rotation, random);
-        Maze maze = new Maze(template.rotation, template.getBoundingBox());
+        Maze maze = new Maze(template.rotation, getMazeBounds(template.getBoundingBox(), template.rotation), template.getCoordBaseMode());
 
         components.add(template);
         components.add(maze);
         return components;
+    }
+    
+    static StructureBoundingBox getMazeBounds(StructureBoundingBox pyramidBounds, Rotation rotation) {
+        // If the pyramid is rotated the bounding box needs to be rotated also. Since it is just a collection
+        // of min and max values, we just need to change which direction the width and height go. The maze
+        // also needs to be offset from the pyramid corner to align with the maze entrance and to fit in the
+        // pyramid. The offset values were choosen by trial and error, and could probably be calculated in a
+        // better way.
+        int width = MAZE_SIZE_X;
+        int depth = MAZE_SIZE_Z;
+        int xOffset = 2;
+        int zOffset = 5;
+        if(rotation == Rotation.CLOCKWISE_90) {
+            xOffset = 3;
+            zOffset = 2;
+            width = MAZE_SIZE_Z;
+            depth = MAZE_SIZE_X;
+        }
+        else if(rotation == Rotation.COUNTERCLOCKWISE_90) {
+            xOffset = 5;
+            zOffset = 3;
+            width = MAZE_SIZE_Z;
+            depth = MAZE_SIZE_X;
+        }
+        else if(rotation == Rotation.CLOCKWISE_180) {
+            xOffset = 4;
+            zOffset = 3;
+        }
+        
+        StructureBoundingBox mazeBounds = StructureBoundingBox.createProper(
+                pyramidBounds.minX + xOffset, 
+                pyramidBounds.minY + 6, 
+                pyramidBounds.minZ + zOffset, 
+                pyramidBounds.minX + xOffset + width - 1, 
+                pyramidBounds.minY + 7, 
+                pyramidBounds.minZ + zOffset + depth - 1);
+        return mazeBounds;
     }
 
     public static class PyramidTemplate extends StructureComponentTemplate {
@@ -255,110 +296,101 @@ public class PyramidPieces {
 
     public static class Maze extends StructureComponent {
         private Rotation rotation;
+        private boolean[][] maze = null;
 
         public Maze() {
         }
 
-        public Maze(Rotation rotation, StructureBoundingBox boundingBox) {
+        public Maze(Rotation rotation, StructureBoundingBox boundingBox, EnumFacing componentType) {
             this.rotation = rotation;
+            this.setCoordBaseMode(componentType);
             this.boundingBox = boundingBox;
         }
 
         @Override
-        public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
-            BlockPos pos = new BlockPos(box.minX, 100, box.minZ); //TODO
-            this.addMaze(world, pos, this.rotation, random);
-            return false;
+        public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox validBounds) {
+            this.addMaze(world, random, validBounds);
+            return true;
         }
 
-        private void addMaze(World world, BlockPos pos, Rotation rotation, Random random) {
-            int width = 16;
-            int depth = 16;
-            boolean[][] size = new boolean[width][depth];
-            int zIn = 9;
-            size[0][zIn] = true;
+        private void addMaze(World world, Random random, StructureBoundingBox validBounds) {
+            if(maze == null)
+                maze = this.generateMaze(new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), this.boundingBox.getXSize(), this.boundingBox.getZSize());
+            
+            for (int x = 0; x < this.boundingBox.getXSize(); x++) {
+                for (int z = 0; z < this.boundingBox.getZSize(); z++) {
+                    //Set pathway
+                    this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 0, z, validBounds);
+                    this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 1, z, validBounds);
 
-            this.generateMaze(size, random, 1, zIn);
-
-            for (int x = -3; x < width + 3; x++) {
-                for (int z = -3; z < depth + 3; z++) {
-                    if (x >= 0 && x < width && z >= 0 && z < depth) {
-                        BlockPos localPos = new BlockPos(x, 0, z);
-                        localPos = localPos.rotate(rotation);
-                        BlockPos basePos = pos.add(localPos.getX(), 0, localPos.getZ());
-
-                        //Set pathway
-                        if (canPlace(world, basePos.up())) {
-                            world.setBlockToAir(basePos);
-                        }
-                        if (this.canPlace(world, basePos.up())) {
-                            world.setBlockToAir(basePos.up());
-                        }
-
-                        if (!size[x][z]) {
-                            if (world.getBlockState(basePos.down()).getBlock() instanceof BlockLadder) {
-                                world.setBlockToAir(basePos);
-                                world.setBlockToAir(basePos.up());
-                            } else if (world.getBlockState(basePos.up(2)).getBlock() instanceof BlockLadder) {
-                                IBlockState ladder = world.getBlockState(basePos.up(2));
-                                EnumFacing facing = ladder.getValue(BlockLadder.FACING);
-                                BlockPos wallOffset = basePos.offset(facing.getOpposite());
-                                world.setBlockState(wallOffset, PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
-                                world.setBlockState(wallOffset.up(), PyramidPieces.PyramidTemplate.LARGE_BRICK, 2);
-                                if (world.mayPlace(ladder.getBlock(), basePos, false, facing, null) && !(world.getBlockState(basePos).getBlock() instanceof BlockLadder || world.getBlockState(basePos.up()).getBlock() instanceof BlockLadder)) {
-                                    world.setBlockState(basePos, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
-                                    world.setBlockState(basePos.up(), AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, facing), 2);
-                                }
-                            } else {
-                                world.setBlockState(basePos, PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
-                                world.setBlockState(basePos.up(), PyramidPieces.PyramidTemplate.CARVED_BRICK, 2);
-                                if (random.nextDouble() <= 0.10D) {
-                                    this.placeTrap(world, basePos, random);
-                                }
+                    // Generate ladders down into the maze
+                    if(this.getBlockStateFromPos(world, x, 2, z, validBounds).getBlock() instanceof BlockLadder) {
+                        this.setBlockState(world, AtumBlocks.DEADWOOD_LADDER.getDefaultState().withProperty(BlockLadder.FACING, rotation.rotate(EnumFacing.SOUTH)), x, 1, z, validBounds);
+                        int meta = MathHelper.getInt(random, 0, 1);
+                        this.setBlockState(world, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), x, 0, z, validBounds);
+                    }
+                    // Make sure the blocks above the entrace to the lower leves are clear
+                    else if(this.getBlockStateFromPos(world, x, -1, z, validBounds).getBlock() instanceof BlockLadder) {
+                        this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 0, z, validBounds);
+                        this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 1, z, validBounds);
+                    }
+                    // Set the blocks for the walls of the maze
+                    else if (!maze[x][z]) {
+                            this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, validBounds);
+                            this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, validBounds);
+                            if (random.nextDouble() <= 0.10D) {
+                                placeTrap(world, x, 0, z, random, validBounds);
                             }
-                        } else {
-                            int meta = MathHelper.getInt(random, 0, 1);
-                            if (this.canPlace(world, basePos)) {
-                                world.setBlockState(basePos, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), 2);
-                            }
-                        }
+                    }
+                    // Place sand of the floor of the maze
+                    else {
+                        int meta = MathHelper.getInt(random, 0, 1);
+                        this.setBlockState(world, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), x, 0, z, validBounds);
                     }
                 }
             }
         }
-
-        private boolean canPlace(World world, BlockPos pos) {
-            IBlockState state = world.getBlockState(pos);
-            return state != PyramidPieces.PyramidTemplate.LARGE_BRICK && !(state.getBlock() instanceof BlockLadder);
-        }
-
-        private void placeTrap(World world, BlockPos pos, Random random) {
+        
+        private void placeTrap(World world, int x, int y, int z, Random random, StructureBoundingBox validBounds) {
             IBlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
-            if (world.isSideSolid(pos.south(), EnumFacing.NORTH)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.SOUTH);
-            } else if (world.isSideSolid(pos.north(), EnumFacing.SOUTH)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.WEST);
-            } else if (world.isSideSolid(pos.east(), EnumFacing.WEST)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.EAST);
-            } else if (world.isSideSolid(pos.west(), EnumFacing.EAST)) {
-                trapState.withProperty(BlockTrap.FACING, EnumFacing.NORTH);
+            List<EnumFacing> validDirections = new ArrayList<EnumFacing>();
+            for(EnumFacing facing : EnumFacing.HORIZONTALS) {
+                BlockPos pos = new BlockPos(x + facing.getXOffset(), y, z + facing.getZOffset());
+                if(this.getBlockStateFromPos(world, x + facing.getXOffset(), y, z + facing.getZOffset(), validBounds).getBlock() == Blocks.AIR) {
+                    validDirections.add(facing);
+                }
             }
-            world.setBlockState(pos, trapState, 2);
+            
+            if(!validDirections.isEmpty())
+            {
+                trapState = trapState.withProperty(BlockTrap.FACING, validDirections.get(random.nextInt(validDirections.size())));
+                this.setBlockState(world, trapState, x, y, z, validBounds);
+            }
+        }
+        
+        // Generate an maze using prim's algorithm.
+        private boolean[][] generateMaze(Random random, int sizeX, int sizeZ) {
+            boolean[][] array = new boolean[sizeX][sizeZ];
+            return generateMazeRecursive(array, random, 1, 1);
         }
 
-        private void generateMaze(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
+        // Generate a random walk going two blocks each time. Whenever a
+        // wall is hit, retrace your steps until you can try another path
+        // and continue. Repeat this until the maze if filled.
+        private boolean[][] generateMazeRecursive(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
             ArrayList<Pair> choices = new ArrayList<>();
             do {
-                int innerSize = array.length - 1;
+                int innerSizeX = array.length - 1;
+                int innerSizeZ = array[0].length - 1;
                 choices.clear();
-                if (x + 2 < innerSize && !array[x + 2][z]) {
+                if (x + 2 < innerSizeX && !array[x + 2][z]) {
                     choices.add(new Pair(2, 0));
                 }
                 if (x - 2 >= 0 && !array[x - 2][z]) {
                     choices.add(new Pair(-2, 0));
                 }
-                if (z + 2 < innerSize && !array[x][z + 2]) {
+                if (z + 2 < innerSizeZ && !array[x][z + 2]) {
                     choices.add(new Pair(0, 2));
                 }
                 if (z - 2 >= 0 && !array[x][z - 2]) {
@@ -370,9 +402,10 @@ public class PyramidPieces {
                     choices.remove(xMin);
                     array[choice.x + x][choice.y + z] = true;
                     array[x + choice.x / 2][z + choice.y / 2] = true;
-                    this.generateMaze(array, random, x + choice.x, z + choice.y);
+                    this.generateMazeRecursive(array, random, x + choice.x, z + choice.y);
                 }
             } while (choices.size() > 0);
+            return array;
         }
 
         @Override
