@@ -324,7 +324,7 @@ public class PyramidPieces {
                         this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, validBounds);
                         this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, validBounds);
                         if (random.nextDouble() <= 0.10D) {
-                            placeTrap(world, x, z, random, validBounds);
+                            placeTrap(world, maze, x, 0, z, random, validBounds);
                         }
                     }
                     // Place sand of the floor of the maze
@@ -336,19 +336,22 @@ public class PyramidPieces {
             }
         }
 
-        private void placeTrap(World world, int x, int z, Random random, StructureBoundingBox validBounds) {
+        private void placeTrap(World world, boolean[][] maze, int x, int y, int z, Random random, StructureBoundingBox validBounds) {
             IBlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
             List<EnumFacing> validDirections = new ArrayList<>();
             for (EnumFacing facing : EnumFacing.HORIZONTALS) {
-                if (this.getBlockStateFromPos(world, x + facing.getXOffset(), 0, z + facing.getZOffset(), validBounds).getBlock() == Blocks.AIR) {
-                    validDirections.add(facing);
-                }
+            	if (x + facing.getXOffset() >= 0 && x + facing.getXOffset() < maze.length && z + facing.getZOffset() >= 0 && z + facing.getZOffset() < maze[0].length)
+            	{
+                    if (maze[x + facing.getXOffset()][z + facing.getZOffset()]) {
+                        validDirections.add(facing.getOpposite());
+                    }
+            	}
             }
 
             if (!validDirections.isEmpty()) {
                 trapState = trapState.withProperty(BlockTrap.FACING, validDirections.get(random.nextInt(validDirections.size())));
-                this.setBlockState(world, trapState, x, 0, z, validBounds);
+                this.setBlockState(world, trapState, x, y, z, validBounds);
             }
         }
 
