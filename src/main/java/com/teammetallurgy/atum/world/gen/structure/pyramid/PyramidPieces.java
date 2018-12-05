@@ -39,6 +39,10 @@ import java.util.Random;
 
 public class PyramidPieces {
     public static final ResourceLocation PYRAMID = new ResourceLocation(Constants.MOD_ID, "pyramid");
+    
+    // For the maze to generate correctly, it must be an odd width and depth
+    public static final int MAZE_SIZE_X = 27;
+    public static final int MAZE_SIZE_Z = 25;
 
     public static void registerPyramid() {
         MapGenStructureIO.registerStructure(MapGenPyramid.Start.class, String.valueOf(PYRAMID));
@@ -49,7 +53,17 @@ public class PyramidPieces {
     static List<StructureComponent> getComponents(TemplateManager manager, BlockPos pos, Rotation rotation, Random random) {
         List<StructureComponent> components = Lists.newArrayList();
         PyramidTemplate template = new PyramidTemplate(manager, pos, rotation, random);
-        Maze maze = new Maze(template.rotation, template.getBoundingBox(), template.getCoordBaseMode());
+
+        int xOffset = 2;
+        int zOffset = 5;
+        StructureBoundingBox mazeBounds = StructureBoundingBox.createProper(
+        		template.getBoundingBox().minX + xOffset, 
+        		template.getBoundingBox().minY + 6, 
+        		template.getBoundingBox().minZ + zOffset, 
+        		template.getBoundingBox().minX + xOffset + MAZE_SIZE_X - 1, 
+        		template.getBoundingBox().minY + 7, 
+        		template.getBoundingBox().minZ + zOffset + MAZE_SIZE_Z - 1);
+        Maze maze = new Maze(template.rotation, mazeBounds, template.getCoordBaseMode());
 
         components.add(template);
         components.add(maze);
@@ -274,36 +288,25 @@ public class PyramidPieces {
         }
 
         private void addMaze(World world, BlockPos pos, Rotation rotation, Random random, StructureBoundingBox genBounds) {
-            int width = 28;
-            int depth = 28;
-            boolean[][] size = new boolean[width][depth];
-            int zIn = 1 + depth/2;
-            size[0][zIn] = true;
-
-            this.generateMaze(size, new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), 1, zIn);
-            
-        	int y = 6;
+            int width = this.boundingBox.getXSize();
+            int depth = this.boundingBox.getZSize();
+            boolean[][] size = this.generateMaze(new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), width, depth);
+    		
             for (int x = 0; x < this.boundingBox.getXSize(); x++) {
                 for (int z = 0; z < this.boundingBox.getZSize(); z++) {
                     
-            		int mazeX = x - 2;
-            		int mazeZ = z - 2;
-            		if(mazeX < 0 || mazeZ < 0 || mazeX >= width || mazeZ >= depth) {
-            			continue;
-            		}
-
                 	//Set pathway
-            		this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y, z, genBounds);
-            		this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y + 1, z, genBounds);
+            		this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 0, z, genBounds);
+            		this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 1, z, genBounds);
             		
-                    if (!size[mazeX][mazeZ]) {
-                    	if(this.getBlockStateFromPos(world, x, y - 1, z, genBounds).getBlock() instanceof BlockLadder) {
-                        	this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y, z, genBounds);
-                        	this.setBlockState(world, Blocks.AIR.getDefaultState(), x, y + 1, z, genBounds);
+                    if (!size[x][z]) {
+                    	if(this.getBlockStateFromPos(world, x, -1, z, genBounds).getBlock() instanceof BlockLadder) {
+                        	this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 0, z, genBounds);
+                        	this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 1, z, genBounds);
                     	}
-                    	else if(this.getBlockStateFromPos(world, x, y + 2, z, genBounds).getBlock() instanceof BlockLadder) {
-                    		/* TODO
-                            IBlockState ladder = world.getBlockState(basePos.up(2));
+                    	else if(this.getBlockStateFromPos(world, x, 2, z, genBounds).getBlock() instanceof BlockLadder) {
+                    		/*
+                    		IBlockState ladder = this.getBlockStateFromPos(world, x, y, z, genBounds);
                             EnumFacing facing = ladder.getValue(BlockLadder.FACING);
                             BlockPos wallOffset = basePos.offset(facing.getOpposite());
                             
@@ -316,16 +319,16 @@ public class PyramidPieces {
                             */
                     	}
                     	else {
-                    		this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, y, z, genBounds);
-                    		this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, y + 1, z, genBounds);
+                    		this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, genBounds);
+                    		this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, genBounds);
                             if (random.nextDouble() <= 0.10D) {
-                                placeTrap(world, x, y, z, random, genBounds);
+                                placeTrap(world, x, 0, z, random, genBounds);
                             }
                     	}
                     }
                     else {
                         int meta = MathHelper.getInt(random, 0, 1);
-                		this.setBlockState(world, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), x, y - 1, z, genBounds);
+                		this.setBlockState(world, AtumBlocks.SAND_LAYERED.getStateFromMeta(meta), x, 0, z, genBounds);
                     }
                 }
             }    
@@ -348,19 +351,27 @@ public class PyramidPieces {
 	            this.setBlockState(world, trapState, x, y, z, validBounds);
             }
         }
+        
 
-        private void generateMaze(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
+        private boolean[][] generateMaze(Random random, int sizeX, int sizeZ) { //Originally made by RebelKeithy
+        	boolean[][] array = new boolean[sizeX][sizeZ];
+        	return generateMazeRecursive(array, random, 1, 1);
+        }
+
+        // Generate an maze using prim's algorithm.
+        private boolean[][] generateMazeRecursive(boolean[][] array, Random random, int x, int z) { //Originally made by RebelKeithy
             ArrayList<Pair> choices = new ArrayList<>();
             do {
-                int innerSize = array.length - 1;
+                int innerSizeX = array.length - 1;
+                int innerSizeZ = array[0].length - 1;
                 choices.clear();
-                if (x + 2 < innerSize && !array[x + 2][z]) {
+                if (x + 2 < innerSizeX && !array[x + 2][z]) {
                     choices.add(new Pair(2, 0));
                 }
                 if (x - 2 >= 0 && !array[x - 2][z]) {
                     choices.add(new Pair(-2, 0));
                 }
-                if (z + 2 < innerSize && !array[x][z + 2]) {
+                if (z + 2 < innerSizeZ && !array[x][z + 2]) {
                     choices.add(new Pair(0, 2));
                 }
                 if (z - 2 >= 0 && !array[x][z - 2]) {
@@ -372,9 +383,10 @@ public class PyramidPieces {
                     choices.remove(xMin);
                     array[choice.x + x][choice.y + z] = true;
                     array[x + choice.x / 2][z + choice.y / 2] = true;
-                    this.generateMaze(array, random, x + choice.x, z + choice.y);
+                    this.generateMazeRecursive(array, random, x + choice.x, z + choice.y);
                 }
             } while (choices.size() > 0);
+            return array;
         }
 
         @Override
