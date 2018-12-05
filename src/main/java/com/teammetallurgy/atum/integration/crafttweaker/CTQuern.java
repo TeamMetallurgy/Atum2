@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
+import com.teammetallurgy.atum.utils.AtumRegistry;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -21,8 +22,8 @@ public class CTQuern {
     }
 
     @ZenMethod
-    public static void removeRecipe(IItemStack input) {
-        CraftTweakerAPI.apply(new Remove(CraftTweakerMC.getItemStack(input)));
+    public static void removeRecipe() {
+        CraftTweakerAPI.apply(new Remove());
     }
 
     private static class Add implements IAction {
@@ -47,21 +48,19 @@ public class CTQuern {
     }
 
     private static class Remove implements IAction {
-        private ItemStack input;
 
-        Remove(ItemStack input) {
-            this.input = input;
+        Remove() {
         }
 
         @Override
         public void apply() {
             System.out.println("Apply Remove Quern Recipe");
-            CTLists.QUERN_REMOVALS.addAll(RecipeHandlers.quernRecipes.getValuesCollection());
+            RecipeHandlers.quernRecipes.getValuesCollection().removeAll(RecipeHandlers.quernRecipes.getValuesCollection());
         }
 
         @Override
         public String describe() {
-            return "Removed Quern recipes with " + this.input.getDisplayName() + " as the input";
+            return "";
         }
     }
 }

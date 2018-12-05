@@ -50,10 +50,10 @@ public class MapGenPyramid extends MapGenStructure {
         int z = chunkZ;
 
         if (chunkX < 0) {
-            chunkX -= this.spacing -1;
+            chunkX -= this.spacing - 1;
         }
         if (chunkZ < 0) {
-            chunkZ -= this.spacing -1;
+            chunkZ -= this.spacing - 1;
         }
         int xSpacing = chunkX / this.spacing;
         int zSpacing = chunkZ / this.spacing;

@@ -163,9 +163,9 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
 
     @Override
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        TileEntity tileentity = world.getTileEntity(pos);
+        TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (tileentity instanceof TileEntityCrate) {
+        if (tileEntity instanceof TileEntityCrate) {
             world.updateComparatorOutputLevel(pos, this);
         }
         super.breakBlock(world, pos, state);
@@ -248,8 +248,8 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
     
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirror) {
+        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
     }
 
     @Override

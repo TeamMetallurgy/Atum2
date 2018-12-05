@@ -14,8 +14,8 @@ public class WorldGenOasisPond  extends WorldGenerator {
 
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
-        for (pos = pos.add(-2, 0, -2); pos.getY() > 60 && world.isAirBlock(pos); pos = pos.down()) {
-            ; //Do the checks
+        for (pos = pos.add(-8, 0, -8); pos.getY() > 60 && world.isAirBlock(pos); pos = pos.down()) {
+            //Do the checks
         }
 
         if (pos.getY() < 60) {
