@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank.WoodType;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
@@ -65,9 +64,10 @@ public class BlockBranch extends Block {
 
     public BlockBranch() {
         super(Material.WOOD);
-        this.setHardness(2.0F);
+        this.setHardness(0.8F);
         this.setResistance(5.0F);
         this.setSoundType(SoundType.WOOD);
+        this.setHarvestLevel("axe", 0);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class BlockBranch extends Block {
 
     @Override
     public int quantityDropped(Random random) {
-        return random.nextDouble() <= 0.25F ? 1 : 0;
+        return random.nextDouble() <= 0.15F ? 1 : 0;
     }
 
     @Override
@@ -160,7 +160,7 @@ public class BlockBranch extends Block {
     @Override
     @Nonnull
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, new IProperty[]{FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN});
+        return new BlockStateContainer(this, FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
     }
 
     @Override
