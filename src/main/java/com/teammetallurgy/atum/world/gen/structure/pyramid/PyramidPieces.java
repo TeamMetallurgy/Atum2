@@ -54,27 +54,34 @@ public class PyramidPieces {
         List<StructureComponent> components = Lists.newArrayList();
         PyramidTemplate template = new PyramidTemplate(manager, pos, rotation, random);
 
+        int width = MAZE_SIZE_X;
+        int depth = MAZE_SIZE_Z;
         int xOffset = 2;
         int zOffset = 5;
         if(template.rotation == Rotation.CLOCKWISE_90) {
-            xOffset = 1;
+            xOffset = 3;
             zOffset = 2;
+            width = MAZE_SIZE_Z;
+            depth = MAZE_SIZE_X;
         }
         else if(template.rotation == Rotation.COUNTERCLOCKWISE_90) {
             xOffset = 5;
-            zOffset = 2;
+            zOffset = 3;
+            width = MAZE_SIZE_Z;
+            depth = MAZE_SIZE_X;
         }
         else if(template.rotation == Rotation.CLOCKWISE_180) {
-            zOffset = 7;
+        	xOffset = 4;
+            zOffset = 3;
         }
         
         StructureBoundingBox mazeBounds = StructureBoundingBox.createProper(
                 template.getBoundingBox().minX + xOffset, 
                 template.getBoundingBox().minY + 6, 
                 template.getBoundingBox().minZ + zOffset, 
-                template.getBoundingBox().minX + xOffset + MAZE_SIZE_X - 1, 
+                template.getBoundingBox().minX + xOffset + width - 1, 
                 template.getBoundingBox().minY + 7, 
-                template.getBoundingBox().minZ + zOffset + MAZE_SIZE_Z - 1);
+                template.getBoundingBox().minZ + zOffset + depth - 1);
         Maze maze = new Maze(template.rotation, mazeBounds, template.getCoordBaseMode());
         System.out.println("Mirror: " + template.mirror);
 
@@ -308,7 +315,6 @@ public class PyramidPieces {
             
             for (int x = 0; x < this.boundingBox.getXSize(); x++) {
                 for (int z = 0; z < this.boundingBox.getZSize(); z++) {
-                    
                     //Set pathway
                     this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 0, z, genBounds);
                     this.setBlockState(world, Blocks.AIR.getDefaultState(), x, 1, z, genBounds);
