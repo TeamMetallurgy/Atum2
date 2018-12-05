@@ -1,18 +1,21 @@
 {
   "type": "forge:ore_shaped",
   "pattern": [
-    "SLL",
+    "WLL",
     "LLL",
-    "LLL"
+    "SSS"
   ],
   "key": {
-    "S": {
+    "W": {
       "ore": "stickWood",
       "type": "forge:ore_dict"
     },
     "L": {
       "ore": "stoneLimestone",
       "type": "forge:ore_dict"
+    },
+    "S": {
+      "item": "atum:limestone_smooth_slab"
     }
   },
   "result": {

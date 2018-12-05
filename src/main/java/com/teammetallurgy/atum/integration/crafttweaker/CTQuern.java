@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
+import com.teammetallurgy.atum.utils.StackHelper;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -13,14 +14,9 @@ import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
-import java.util.LinkedList;
-import java.util.List;
-
 @ZenRegister
 @ZenClass("mods.atum.Quern")
 public class CTQuern {
-    public static final List<IQuernRecipe> REMOVALS = new LinkedList<>();
-    public static final List<IQuernRecipe> ADDITIONS = new LinkedList<>();
 
     @ZenMethod
     public static void addRecipe(IItemStack input, IItemStack output, int rotations) {
@@ -36,7 +32,7 @@ public class CTQuern {
         private ItemStack input, output;
         private int rotations;
 
-        private Add(ItemStack input, ItemStack output, int rotations) {
+        Add(ItemStack input, ItemStack output, int rotations) {
             this.input = input;
             this.output = output;
             this.rotations = rotations;
@@ -44,7 +40,7 @@ public class CTQuern {
 
         @Override
         public void apply() {
-            ADDITIONS.add(new QuernRecipe(this.input, this.output, this.rotations));
+            CTLists.QUERN_ADDITIONS.add(new QuernRecipe(this.input, this.output, this.rotations));
         }
 
         @Override
@@ -56,18 +52,19 @@ public class CTQuern {
     private static class Remove implements IAction {
         private ItemStack input;
 
-        public Remove(ItemStack input) {
+        Remove(ItemStack input) {
             this.input = input;
         }
 
         @Override
         public void apply() {
             for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValuesCollection()) {
-                if (!quernRecipe.isValidInput(this.input)) {
-                    Atum.LOG.error("No Quern recipe exists for " + this.input);
-                    return;
-                } else {
-                    REMOVALS.add(quernRecipe);
+                for (ItemStack stack : quernRecipe.getInput()) {
+                    if (StackHelper.areStacksEqualIgnoreSize(stack, this.input)) {
+                        CTLists.QUERN_REMOVALS.add(quernRecipe);
+                    } else {
+                        Atum.LOG.error("No Quern recipe exists for " + this.input);
+                    }
                 }
             }
         }

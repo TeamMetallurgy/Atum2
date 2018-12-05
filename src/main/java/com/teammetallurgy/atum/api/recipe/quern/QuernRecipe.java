@@ -16,7 +16,7 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
     private final int rotations;
 
     public QuernRecipe(String input, ItemStack output, int duration) {
-        this(OreDictionary.getOres(input), output, duration);
+        this(OreDictionary.getOres(input, false), output, duration);
     }
 
     public QuernRecipe(Block input, ItemStack output, int rotations) {

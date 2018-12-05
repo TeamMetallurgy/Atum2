@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.integration.crafttweaker.CTQuern;
+import com.teammetallurgy.atum.integration.crafttweaker.CTLists;
 import com.teammetallurgy.atum.utils.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoublePlant;
@@ -80,10 +80,11 @@ public class AtumRecipes {
         addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.AWKWARD), ingredient, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), potionType));
     }
 
-    private static void addQuernRecipes(RegistryEvent.Register<IQuernRecipe> event) {
-        AtumRegistry.registerRecipe("emmer_wheat", new QuernRecipe("cropEmmer", new ItemStack(AtumItems.EMMER_FLOUR), 4), event);
-        AtumRegistry.registerRecipe("gravel", new QuernRecipe("gravel", new ItemStack(Items.FLINT), 6), event);
-        AtumRegistry.registerRecipe("sugarcane", new QuernRecipe("sugarcane", new ItemStack(Items.SUGAR, 2), 3), event);
+    @SubscribeEvent
+    public static void registerQuernRecipes(RegistryEvent.Register<IQuernRecipe> event) {
+        addQuernRecipe("emmer_wheat", new QuernRecipe("cropEmmer", new ItemStack(AtumItems.EMMER_FLOUR), 3), event);
+        addQuernRecipe("gravel", new QuernRecipe("gravel", new ItemStack(Items.FLINT), 5), event);
+        addQuernRecipe("sugarcane", new QuernRecipe("sugarcane", new ItemStack(Items.SUGAR, 2), 3), event);
 
         ////Dyes
         addFlowerRecipeOre(Blocks.YELLOW_FLOWER, EnumFlowerType.DANDELION, EnumDyeColor.YELLOW, event);
@@ -96,36 +97,36 @@ public class AtumRecipes {
         addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.WHITE_TULIP, EnumDyeColor.SILVER, event);
         addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.PINK_TULIP, EnumDyeColor.PINK, event);
         addFlowerRecipeOre(Blocks.RED_FLOWER, EnumFlowerType.OXEYE_DAISY, EnumDyeColor.SILVER, event);
-        AtumRegistry.registerRecipe("beetroot", new QuernRecipe(Items.BEETROOT, new ItemStack(Items.DYE, 2, EnumDyeColor.RED.getDyeDamage()), 2), event);
-        AtumRegistry.registerRecipe("sunflower", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.SUNFLOWER.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.YELLOW.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("lilac", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.SYRINGA.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.MAGENTA.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("rose_bush", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.ROSE.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.RED.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("peony", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.PAEONIA.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.PINK.getDyeDamage()), 3), event);
+        addQuernRecipe("beetroot", new QuernRecipe(Items.BEETROOT, new ItemStack(Items.DYE, 2, EnumDyeColor.RED.getDyeDamage()), 2), event);
+        addQuernRecipe("sunflower", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.SUNFLOWER.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.YELLOW.getDyeDamage()), 3), event);
+        addQuernRecipe("lilac", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.SYRINGA.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.MAGENTA.getDyeDamage()), 3), event);
+        addQuernRecipe("rose_bush", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.ROSE.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.RED.getDyeDamage()), 3), event);
+        addQuernRecipe("peony", new QuernRecipe(new ItemStack(Blocks.DOUBLE_PLANT, 1, BlockDoublePlant.EnumPlantType.PAEONIA.getMeta()), new ItemStack(Items.DYE, 4, EnumDyeColor.PINK.getDyeDamage()), 3), event);
 
         //BoP
-        AtumRegistry.registerRecipe("rafflesia", new QuernRecipe("plantRafflesia", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("plant_flax", new QuernRecipe("plantFlax", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("clover", new QuernRecipe("flowerClover", new ItemStack(Items.DYE, 3, EnumDyeColor.SILVER.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("swampflower", new QuernRecipe("flowerSwampflower", new ItemStack(Items.DYE, 3, EnumDyeColor.CYAN.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("glowflower", new QuernRecipe("flowerGlowflower", new ItemStack(Items.DYE, 3, EnumDyeColor.CYAN.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("blue_hydrangea", new QuernRecipe("flowerBlueHydrangea", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("orange_cosmos", new QuernRecipe("flowerOrangeCosmos", new ItemStack(Items.DYE, 3, EnumDyeColor.ORANGE.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("pink_daffodil", new QuernRecipe("flowerPinkDaffodil", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("wildflower", new QuernRecipe("flowerWildflower", new ItemStack(Items.DYE, 3, EnumDyeColor.MAGENTA.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("violet_flower", new QuernRecipe("flowerViolet", new ItemStack(Items.DYE, 3, EnumDyeColor.PURPLE.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("bromeliad", new QuernRecipe("flowerBromeliad", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("wilted_lily", new QuernRecipe("flowerWiltedLily", new ItemStack(Items.DYE, 3, EnumDyeColor.GRAY.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("pink_hibiscus", new QuernRecipe("flowerPinkHibiscus", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("burning_blossom", new QuernRecipe("flowerBurningBlossom", new ItemStack(Items.DYE, 3, EnumDyeColor.ORANGE.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("miners_delight", new QuernRecipe("flowerMinersDelight", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("icy_iris", new QuernRecipe("flowerIcyIris", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
-        AtumRegistry.registerRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
+        addQuernRecipe("rafflesia", new QuernRecipe("plantRafflesia", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
+        addQuernRecipe("plant_flax", new QuernRecipe("plantFlax", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
+        addQuernRecipe("clover", new QuernRecipe("flowerClover", new ItemStack(Items.DYE, 3, EnumDyeColor.SILVER.getDyeDamage()), 3), event);
+        addQuernRecipe("swampflower", new QuernRecipe("flowerSwampflower", new ItemStack(Items.DYE, 3, EnumDyeColor.CYAN.getDyeDamage()), 3), event);
+        addQuernRecipe("glowflower", new QuernRecipe("flowerGlowflower", new ItemStack(Items.DYE, 3, EnumDyeColor.CYAN.getDyeDamage()), 3), event);
+        addQuernRecipe("blue_hydrangea", new QuernRecipe("flowerBlueHydrangea", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
+        addQuernRecipe("orange_cosmos", new QuernRecipe("flowerOrangeCosmos", new ItemStack(Items.DYE, 3, EnumDyeColor.ORANGE.getDyeDamage()), 3), event);
+        addQuernRecipe("pink_daffodil", new QuernRecipe("flowerPinkDaffodil", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
+        addQuernRecipe("wildflower", new QuernRecipe("flowerWildflower", new ItemStack(Items.DYE, 3, EnumDyeColor.MAGENTA.getDyeDamage()), 3), event);
+        addQuernRecipe("violet_flower", new QuernRecipe("flowerViolet", new ItemStack(Items.DYE, 3, EnumDyeColor.PURPLE.getDyeDamage()), 3), event);
+        addQuernRecipe("bromeliad", new QuernRecipe("flowerBromeliad", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
+        addQuernRecipe("wilted_lily", new QuernRecipe("flowerWiltedLily", new ItemStack(Items.DYE, 3, EnumDyeColor.GRAY.getDyeDamage()), 3), event);
+        addQuernRecipe("pink_hibiscus", new QuernRecipe("flowerPinkHibiscus", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
+        addQuernRecipe("burning_blossom", new QuernRecipe("flowerBurningBlossom", new ItemStack(Items.DYE, 3, EnumDyeColor.ORANGE.getDyeDamage()), 3), event);
+        addQuernRecipe("miners_delight", new QuernRecipe("flowerMinersDelight", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
+        addQuernRecipe("icy_iris", new QuernRecipe("flowerIcyIris", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
+        addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
 
-        for (IQuernRecipe quernRecipe : CTQuern.REMOVALS) {
-            event.getRegistry().getValuesCollection().remove(quernRecipe);
+        for (IQuernRecipe quernRecipe : CTLists.QUERN_REMOVALS) {
+            RecipeHandlers.quernRecipes.getValuesCollection().remove(quernRecipe);
         }
-        for (IQuernRecipe quernRecipe : CTQuern.ADDITIONS) {
-            AtumRegistry.registerRecipe(AtumUtils.toRegistryName(quernRecipe.toString()), quernRecipe, event);
+        for (IQuernRecipe quernRecipe : CTLists.QUERN_ADDITIONS) {
+            addQuernRecipe(AtumUtils.toRegistryName(quernRecipe.toString()), quernRecipe, event);
         }
     }
 
@@ -134,13 +135,14 @@ public class AtumRecipes {
         String oreDict = "flower" + StringUtils.capitalize(color.getTranslationKey());
         OreDictHelper.add(flower, oreDict);
         if (!event.getRegistry().containsKey(new ResourceLocation(Constants.MOD_ID, oreDict))) {
-            AtumRegistry.registerRecipe(oreDict, new QuernRecipe(oreDict, new ItemStack(Items.DYE, 2, color.getDyeDamage()), 2), event);
+            addQuernRecipe(oreDict, new QuernRecipe(oreDict, new ItemStack(Items.DYE, 2, color.getDyeDamage()), 2), event);
         }
     }
 
-    @SubscribeEvent
-    public static void registerTreeTapRecipes(RegistryEvent.Register<IQuernRecipe> event) {
-        addQuernRecipes(event);
+    private static void addQuernRecipe(String registryName, IQuernRecipe quernRecipe, RegistryEvent.Register<IQuernRecipe> event) {
+        if (!quernRecipe.getInput().isEmpty()) {
+            AtumRegistry.registerRecipe(registryName, quernRecipe, event);
+        }
     }
 
     @SubscribeEvent
