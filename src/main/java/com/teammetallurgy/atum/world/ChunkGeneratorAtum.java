@@ -57,7 +57,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     private MapGenBase caveGenerator = new MapGenCaves();
     private MapGenAtumMineshaft mineshaftGenerator = new MapGenAtumMineshaft();
     private MapGenBase ravineGenerator = new MapGenRavine();
-    private MapGenPyramid pyramidGenerator = new MapGenPyramid(this);
+    public MapGenPyramid pyramidGenerator = new MapGenPyramid(this);
     private MapGenRuin ruinGenerator = new MapGenRuin(this);
     private MapGenTomb tombGenerator = new MapGenTomb(this);
     private MapGenGirafiTomb girafiTomb = new MapGenGirafiTomb(this);

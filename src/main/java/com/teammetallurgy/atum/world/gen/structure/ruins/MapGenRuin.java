@@ -1,8 +1,11 @@
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
+import java.util.Random;
+import javax.annotation.Nonnull;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.MapGenPyramid;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -60,6 +63,14 @@ public class MapGenRuin extends MapGenStructure {
         zSpacing = zSpacing + (random.nextInt(this.spacing - this.separation) + random.nextInt(this.spacing - this.separation)) / 2;
 
         if (x == xSpacing && z == zSpacing) {
+            // Check if this will overlap a pyramid. Since this can spill over into the next
+            // chunk all surrounding chunks must be checked also.
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dz = -1; dz <= 1; dz++) {
+                    if (chunkGenerator.pyramidGenerator.isPyramidInChunk(chunkX + dx, chunkZ + dz))
+                        return false;
+                }
+            }
             return this.world.getBiomeProvider().areBiomesViable(x * 16 + 8, z * 16 + 8, 16, ALLOWED_BIOMES);
         }
         return false;
