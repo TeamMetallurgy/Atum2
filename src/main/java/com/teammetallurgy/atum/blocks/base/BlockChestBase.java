@@ -13,7 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntityOcelot;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.InventoryLargeChest;
 import net.minecraft.item.ItemStack;
@@ -108,8 +107,11 @@ public class BlockChestBase extends BlockChest {
     private void breakDoubleChest(World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (tileEntity instanceof IInventory) {
-            InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+        if (tileEntity instanceof TileEntityChestBase) {
+            TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
+            if (!chestBase.isEmpty()) {
+                InventoryHelper.dropInventoryItems(world, pos, chestBase);
+            }
             world.updateComparatorOutputLevel(pos, this);
         }
         world.setBlockToAir(pos);
