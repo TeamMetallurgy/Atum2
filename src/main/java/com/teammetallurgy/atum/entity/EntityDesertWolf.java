@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.entity;
 import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -100,12 +101,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100) {
+        BlockPos pos = new BlockPos(this.posX, this.posY, this.posZ);
+        if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100 && world.getBiome(pos) == AtumBiomes.LIMESTONE_MOUNTAINS) {
             this.setVariant(1);
             this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
             this.setHealth(this.getWolfMaxHealth());
             this.experienceValue = 12;
             lastAlphaTime = System.currentTimeMillis();
+            this.aiSit = null;
         } else {
             this.setVariant(0);
         }
@@ -573,6 +576,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 	public void readEntityFromNBT(NBTTagCompound compound) {
 		super.readEntityFromNBT(compound);
 		this.setVariant(compound.getInteger("Variant"));
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
 		this.setAngry(compound.getBoolean("Angry"));
 		angryTimer = compound.getInteger("AngryTimer");
 
@@ -662,18 +666,6 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 				this.jumpPower = 0.0F;
 				this.setHorseJumping(false);
 			}
-
-			this.prevLimbSwingAmount = this.limbSwingAmount;
-			double d1 = this.posX - this.prevPosX;
-			double d0 = this.posZ - this.prevPosZ;
-			float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
-
-			if (f2 > 1.0F) {
-				f2 = 1.0F;
-			}
-
-			this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
-			this.limbSwing += this.limbSwingAmount;
 		} else {
 			this.jumpMovementFactor = 0.02F;
 			super.travel(strafe, vertical, forward);
