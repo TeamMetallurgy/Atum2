@@ -104,6 +104,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
             this.setVariant(1);
             this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
             this.setHealth(this.getWolfMaxHealth());
+            this.experienceValue = 12;
             lastAlphaTime = System.currentTimeMillis();
         } else {
             this.setVariant(0);
@@ -138,7 +139,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
 
-        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+        this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
     }
 
     @Override
@@ -735,6 +736,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 			} else {
 				return 12;
 			}
+		}
+	}
+
+	public double getWolfAttack() {
+		if(this.isAlpha()) {
+			return 8.0;
+		} else {
+			return 4.0;
 		}
 	}
 }
