@@ -105,6 +105,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100 && world.getBiome(pos) == AtumBiomes.LIMESTONE_MOUNTAINS) {
             this.setVariant(1);
             this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
             this.setHealth(this.getWolfMaxHealth());
             this.experienceValue = 12;
             lastAlphaTime = System.currentTimeMillis();
@@ -360,8 +361,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
-
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
     }
 
     @Override
@@ -577,6 +577,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 		super.readEntityFromNBT(compound);
 		this.setVariant(compound.getInteger("Variant"));
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
 		this.setAngry(compound.getBoolean("Angry"));
 		angryTimer = compound.getInteger("AngryTimer");
 
