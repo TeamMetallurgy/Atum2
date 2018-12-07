@@ -101,8 +101,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        BlockPos pos = new BlockPos(this.posX, this.posY, this.posZ);
-        if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100 && world.getBiome(pos) == AtumBiomes.LIMESTONE_MOUNTAINS) {
+        if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100) {
             this.setVariant(1);
             this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
             this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());

@@ -92,7 +92,7 @@ public class AtumBiome extends Biome {
         addSpawn(EntityTarantula.class, 20, 1, 3, UNDERGROUND);
     }
 
-    private void addSpawn(Class <? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type ) {
+    protected void addSpawn(Class <? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type ) {
         String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
         weight = AtumConfig.config.get(category, "weight", weight).getInt();
         min = AtumConfig.config.get(category, "min", min).getInt();

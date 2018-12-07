@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.ChunkPrimer;
 
@@ -31,5 +33,11 @@ public class BiomeLimestoneMountains extends AtumBiome {
         }
         // something weird's going on here...
         super.genTerrainBlocks(world, random, chunkPrimer, x, z, stoneNoise);
+    }
+    
+    protected void addDefaultSpawns() {
+        super.addDefaultSpawns();
+        
+        addSpawn(EntityDesertWolf.class, 5, 2, 4, EnumCreatureType.CREATURE);
     }
 }

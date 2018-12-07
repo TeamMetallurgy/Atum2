@@ -1,9 +1,11 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -23,6 +25,12 @@ public class BiomeLimestoneCrags extends AtumBiome {
         this.deadwoodRarity = 0.25D;
 
         this.addDefaultSpawns();
+    }
+    
+    protected void addDefaultSpawns() {
+        super.addDefaultSpawns();
+        
+        addSpawn(EntityDesertWolf.class, 5, 2, 4, EnumCreatureType.CREATURE);
     }
 
     @Override
