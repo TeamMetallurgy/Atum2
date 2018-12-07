@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.proxy;
 
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.PacketParticle;
 import net.minecraft.entity.Entity;
