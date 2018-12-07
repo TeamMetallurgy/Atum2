@@ -76,7 +76,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 
     @Override
     protected void initEntityAI() {
-        this.aiSit = new AISitWithCheck<>(this, !this.isAlpha());
+        this.aiSit = new AISitWithCheck(this, !this.isAlpha());
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
