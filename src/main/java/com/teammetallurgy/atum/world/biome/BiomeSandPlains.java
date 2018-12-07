@@ -7,7 +7,7 @@ public class BiomeSandPlains extends AtumBiome {
     public BiomeSandPlains(AtumBiomeProperties properties) {
         super(properties);
 
-        this.deadwoodRarity = 15;
+        this.deadwoodRarity = 0.01D;
 
         this.addDefaultSpawns();
     }

@@ -18,9 +18,9 @@ public class BiomeLimestoneCrags extends AtumBiome {
     public BiomeLimestoneCrags(AtumBiomeProperties properties) {
         super(properties);
 
-        this.deadwoodRarity = 6;
-
         this.genSpikes = new WorldGenLimestoneSpike();
+
+        this.deadwoodRarity = 0.25D;
 
         this.addDefaultSpawns();
     }

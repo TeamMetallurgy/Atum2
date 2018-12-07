@@ -22,9 +22,7 @@ public class BiomeDeadOasis extends AtumBiome {
         this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
         this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
 
-        //no hostile spawns here
-
-        this.deadwoodRarity = -1;
+        this.deadwoodRarity = 0.0D;
 
         this.addDefaultSpawns();
     }

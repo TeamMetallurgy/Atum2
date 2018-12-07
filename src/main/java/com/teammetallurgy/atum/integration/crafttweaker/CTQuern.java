@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
-import com.teammetallurgy.atum.utils.AtumRegistry;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;

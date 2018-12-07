@@ -8,7 +8,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
@@ -40,8 +39,9 @@ public class MapGenPyramid extends MapGenStructure {
                     StructureStart pyramid = structureMap.get(ChunkPos.asLong(chunkX + dx, chunkZ + dz));
                     ChunkPos chunkPos = new ChunkPos(chunkX, chunkZ);
                     if (pyramid.getBoundingBox() != null && pyramid.getBoundingBox().intersectsWith(
-                            chunkPos.getXStart(), chunkPos.getZStart(), chunkPos.getXEnd(), chunkPos.getZEnd()))
+                            chunkPos.getXStart(), chunkPos.getZStart(), chunkPos.getXEnd(), chunkPos.getZEnd())) {
                         return true;
+                    }
                 }
             }
         }

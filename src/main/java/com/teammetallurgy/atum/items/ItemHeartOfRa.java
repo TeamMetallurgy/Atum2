@@ -56,7 +56,6 @@ public class ItemHeartOfRa extends ItemBlock {
                             EntityHeartOfRa heartOfRa = new EntityHeartOfRa(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY() + 1), (double) ((float) pos.getZ() + 0.5F));
                             world.spawnEntity(heartOfRa);
                         }
-                        heldStack.shrink(1);
                         return super.onItemUse(player, world, pos, hand, facing, hitX, hitY, hitZ);
                     }
                 }
