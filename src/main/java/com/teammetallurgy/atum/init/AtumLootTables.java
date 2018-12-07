@@ -11,6 +11,7 @@ public class AtumLootTables {
     public static final ResourceLocation BONESTORM = register("entities/bonestorm");
     public static final ResourceLocation BRIGAND = register("entities/brigand");
     public static final ResourceLocation DESERT_WOLF = register("entities/desert_wolf");
+    public static final ResourceLocation DESERT_WOLF_ALPHA = register("entities/desert_wolf_alpha");
     public static final ResourceLocation FORSAKEN = register("entities/forsaken");
     public static final ResourceLocation MUMMY = register("entities/mummy");
     public static final ResourceLocation NOMAD = register("entities/nomad");

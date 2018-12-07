@@ -216,6 +216,9 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     @Override
     @Nullable
     protected ResourceLocation getLootTable() {
+        System.out.println("Loot Tables: " + isAlpha());
+        if(isAlpha())
+            return AtumLootTables.DESERT_WOLF_ALPHA;
         return AtumLootTables.DESERT_WOLF;
     }
 
