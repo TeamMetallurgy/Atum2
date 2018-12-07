@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity;
 
 import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
+import com.teammetallurgy.atum.entity.ai.AISitWithCheck;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -75,7 +76,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 
     @Override
     protected void initEntityAI() {
-        this.aiSit = new EntityAISit(this);
+        this.aiSit = new AISitWithCheck<>(this, !this.isAlpha());
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
@@ -417,7 +418,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget(null);
-                        if (!isAlpha()) {
+                        if (!this.isAlpha()) {
                             this.aiSit.setSitting(true);
                         }
                         this.setHealth(40.0F);
