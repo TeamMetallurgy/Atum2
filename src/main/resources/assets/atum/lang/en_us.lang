@@ -583,6 +583,7 @@ entity.atum.bonestorm.name=Bonestorm
 entity.atum.brigand.name=Brigand
 entity.atum.desertRabbit.name=Desert Rabbit
 entity.atum.desertWolf.name=Desert Wolf
+entity.atum.desertWolf.alpha.name=Alpha Desert Wolf
 entity.atum.forsaken.name=Forsaken
 entity.atum.heartOfRa.name=Heart of Ra
 entity.atum.mummy.name=Mummy

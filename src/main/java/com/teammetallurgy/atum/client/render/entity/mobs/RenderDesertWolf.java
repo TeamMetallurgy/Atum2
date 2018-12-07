@@ -41,4 +41,14 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf entityDesertWolf) {
         return entityDesertWolf.isTamed() ? TAMED_DESERT_WOLF_TEXTURES : ANGRY_DESERT_WOLF_TEXTURES;
     }
+
+    @Override
+    protected void preRenderCallback(EntityDesertWolf entityDesertWolf, float partialTickTime)
+    {
+    	if(entityDesertWolf.isAlpha())
+    	{
+    		float scale = 1.5f;
+        	GlStateManager.scale(scale, scale, scale);
+    	}
+    }
 }

@@ -9,6 +9,8 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
@@ -16,6 +18,7 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
@@ -28,6 +31,8 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,7 +46,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class EntityDesertWolf extends EntityTameable {
+public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
@@ -52,6 +57,12 @@ public class EntityDesertWolf extends EntityTameable {
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
     private int angryTimer;
+
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
+    protected static final IAttribute JUMP_STRENGTH = (new RangedAttribute((IAttribute)null, "wolf.jumpStrength", 0.7D, 0.0D, 2.0D)).setDescription("Jump Strength").setShouldWatch(true);
+    private boolean isWolfJumping;
+    private float jumpPower;
+    private boolean allowStandSliding;
 
     public EntityDesertWolf(World world) {
         super(world);
@@ -83,11 +94,45 @@ public class EntityDesertWolf extends EntityTameable {
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<>(this, EntityAnimal.class, false, (Predicate<Entity>) entity -> entity instanceof EntitySheep || entity instanceof EntityRabbit));
         this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, false));
     }
+    
+    private static float lastAlphaTime = 0;
+    @Override
+    @Nullable
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+        livingdata = super.onInitialSpawn(difficulty, livingdata);
+        if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 1000) {
+            this.setVariant(1);
+            lastAlphaTime = System.currentTimeMillis();
+        } else {
+            this.setVariant(0);
+        }
+        return livingdata;
+    }
+
+	@Override
+	public String getName() {
+		if (this.hasCustomName()) {
+			return this.getCustomNameTag();
+		} else {
+			String s = EntityList.getEntityString(this);
+
+			if (s == null) {
+				s = "generic";
+			}
+
+			if (isAlpha()) {
+				s += ".alpha";
+			}
+
+			return I18n.translateToLocal("entity." + s + ".name");
+		}
+	}
 
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
 
+        this.getAttributeMap().registerAttribute(JUMP_STRENGTH);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
 
         if (this.isTamed()) {
@@ -121,6 +166,7 @@ public class EntityDesertWolf extends EntityTameable {
         this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
         this.dataManager.register(BEGGING, Boolean.FALSE);
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.GREEN.getDyeDamage());
+        this.dataManager.register(VARIANT, 0);
     }
 
     @Override
@@ -353,7 +399,11 @@ public class EntityDesertWolf extends EntityTameable {
             }
 
             if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(heldStack)) {
-                this.aiSit.setSitting(!this.isSitting());
+            	if (this.isAlpha()) {
+            		this.mountTo(player);
+            	} else {
+	                this.aiSit.setSitting(!this.isSitting());
+            	}
                 this.isJumping = false;
                 this.navigator.clearPath();
                 this.setAttackTarget(null);
@@ -370,7 +420,9 @@ public class EntityDesertWolf extends EntityTameable {
                         this.setTamedBy(player);
                         this.navigator.clearPath();
                         this.setAttackTarget(null);
-                        this.aiSit.setSitting(true);
+                        if (!isAlpha()) {
+                        	this.aiSit.setSitting(true);
+                        }
                         this.setHealth(40.0F);
                         this.playTameEffect(true);
                         this.world.setEntityState(this, (byte) 7);
@@ -516,21 +568,166 @@ public class EntityDesertWolf extends EntityTameable {
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
+        compound.setInteger("Variant", this.getVariant());
         compound.setBoolean("Angry", this.isAngry());
         compound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
         if (angryTimer > 0) {
             compound.setInteger("AngryTimer", angryTimer);
         }
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound compound) {
+		super.readEntityFromNBT(compound);
+		this.setVariant(compound.getInteger("Variant"));
+		this.setAngry(compound.getBoolean("Angry"));
+		angryTimer = compound.getInteger("AngryTimer");
+
+		if (compound.hasKey("CollarColor", 99)) {
+			this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getByte("CollarColor")));
+		}
+	}
+
+    private void setVariant(int variant) {
+        this.dataManager.set(VARIANT, variant);
     }
 
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.setAngry(compound.getBoolean("Angry"));
-        angryTimer = compound.getInteger("AngryTimer");
-
-        if (compound.hasKey("CollarColor", 99)) {
-            this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getByte("CollarColor")));
-        }
+    private int getVariant() {
+        return this.dataManager.get(VARIANT);
     }
+    
+	@Nullable
+	public Entity getControllingPassenger() {
+		return this.getPassengers().isEmpty() ? null : (Entity) this.getPassengers().get(0);
+	}
+
+	public boolean canBeSteered() {
+		return true;
+	}
+
+	protected void mountTo(EntityPlayer player) {
+		player.rotationYaw = this.rotationYaw;
+		player.rotationPitch = this.rotationPitch;
+		if (!this.world.isRemote) {
+			player.startRiding(this);
+		}
+	}
+
+	public void travel(float strafe, float vertical, float forward) {
+		float jumpPower = 1.0f;
+
+		if (this.isBeingRidden() && this.canBeSteered()) {
+			EntityLivingBase entitylivingbase = (EntityLivingBase) this.getControllingPassenger();
+			this.rotationYaw = entitylivingbase.rotationYaw;
+			this.prevRotationYaw = this.rotationYaw;
+			this.rotationPitch = entitylivingbase.rotationPitch * 0.5F;
+			this.setRotation(this.rotationYaw, this.rotationPitch);
+			this.renderYawOffset = this.rotationYaw;
+			this.rotationYawHead = this.renderYawOffset;
+			strafe = entitylivingbase.moveStrafing * 0.5F;
+			forward = entitylivingbase.moveForward;
+
+			if (forward <= 0.0F) {
+				forward *= 0.25F;
+			}
+
+			if (this.jumpPower > 0.0F && !this.isJumping() && this.onGround) {
+				this.motionY = this.getWolfJumpStrength() * (double) this.jumpPower;
+
+				if (this.isPotionActive(MobEffects.JUMP_BOOST)) {
+					this.motionY += (double) ((float) (this.getActivePotionEffect(MobEffects.JUMP_BOOST).getAmplifier()
+							+ 1) * 0.1F);
+				}
+
+				this.setHorseJumping(true);
+				this.isAirBorne = true;
+
+				if (forward > 0.0F) {
+					float f = MathHelper.sin(this.rotationYaw * 0.017453292F);
+					float f1 = MathHelper.cos(this.rotationYaw * 0.017453292F);
+					this.motionX += (double) (-0.4F * f * this.jumpPower);
+					this.motionZ += (double) (0.4F * f1 * this.jumpPower);
+					this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
+				}
+
+				this.jumpPower = 0.0F;
+			}
+
+			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
+
+			if (this.canPassengerSteer()) {
+				this.setAIMoveSpeed(
+						(float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+				super.travel(strafe, vertical, forward);
+			} else if (entitylivingbase instanceof EntityPlayer) {
+				this.motionX = 0.0D;
+				this.motionY = 0.0D;
+				this.motionZ = 0.0D;
+			}
+
+			if (this.onGround) {
+				this.jumpPower = 0.0F;
+				this.setHorseJumping(false);
+			}
+
+			this.prevLimbSwingAmount = this.limbSwingAmount;
+			double d1 = this.posX - this.prevPosX;
+			double d0 = this.posZ - this.prevPosZ;
+			float f2 = MathHelper.sqrt(d1 * d1 + d0 * d0) * 4.0F;
+
+			if (f2 > 1.0F) {
+				f2 = 1.0F;
+			}
+
+			this.limbSwingAmount += (f2 - this.limbSwingAmount) * 0.4F;
+			this.limbSwing += this.limbSwingAmount;
+		} else {
+			this.jumpMovementFactor = 0.02F;
+			super.travel(strafe, vertical, forward);
+		}
+	}
+
+	public boolean isJumping() {
+		return this.isWolfJumping;
+	}
+
+	public void setHorseJumping(boolean jumping) {
+		this.isWolfJumping = jumping;
+	}
+
+	public double getWolfJumpStrength() {
+		return this.getEntityAttribute(JUMP_STRENGTH).getAttributeValue();
+	}
+
+	@SideOnly(Side.CLIENT)
+	public void setJumpPower(int jumpPowerIn) {
+		if (this.isAlpha()) {
+			if (jumpPowerIn < 0) {
+				jumpPowerIn = 0;
+			} else {
+				this.allowStandSliding = true;
+			}
+
+			if (jumpPowerIn >= 90) {
+				this.jumpPower = 1.0F;
+			} else {
+				this.jumpPower = 0.4F + 0.4F * (float) jumpPowerIn / 90.0F;
+			}
+		}
+	}
+
+	public boolean canJump() {
+		return true;
+	}
+
+	public void handleStartJump(int p_184775_1_) {
+	}
+
+	public void handleStopJump() {
+	}
+
+	public boolean isAlpha() {
+		return this.getVariant() == 1;
+	}
+
 }
