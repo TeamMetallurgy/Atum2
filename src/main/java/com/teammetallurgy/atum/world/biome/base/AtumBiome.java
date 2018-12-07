@@ -48,7 +48,7 @@ public class AtumBiome extends Biome {
     private static final EnumCreatureType SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("surface", IMob.class, 45, Material.AIR, false, false));
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
-    protected int deadwoodRarity = 5;
+    protected double deadwoodRarity = 0.1D;
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
@@ -124,7 +124,7 @@ public class AtumBiome extends Biome {
         int z = random.nextInt(16) + 8;
 
         BlockPos height = world.getHeight(pos.add(x, 0, z));
-        if (deadwoodRarity > 0 && random.nextInt(deadwoodRarity) == 0) {
+        if (this.deadwoodRarity > 0 && random.nextDouble() <= this.deadwoodRarity) {
             new WorldGenDeadwood(false).generate(world, random, height);
         }
         if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.FOSSIL)) {

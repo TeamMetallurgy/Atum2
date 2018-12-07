@@ -54,8 +54,7 @@ public class PyramidPieces {
     static List<StructureComponent> getComponents(TemplateManager manager, BlockPos pos, Rotation rotation, Random random) {
         List<StructureComponent> components = Lists.newArrayList();
         PyramidTemplate template = new PyramidTemplate(manager, pos, rotation, random);
-        Maze maze = new Maze(template.rotation, getMazeBounds(template.getBoundingBox(), template.rotation), template.getCoordBaseMode());
-
+        Maze maze = new Maze(getMazeBounds(template.getBoundingBox(), template.rotation), template.getCoordBaseMode());
         components.add(template);
         components.add(maze);
         return components;
@@ -98,7 +97,6 @@ public class PyramidPieces {
     public static class PyramidTemplate extends StructureComponentTemplate {
         public static final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
         public static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
-        public static final IBlockState LARGE_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         public boolean isDefeated = false;
         private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
@@ -293,7 +291,7 @@ public class PyramidPieces {
         public Maze() {
         }
 
-        public Maze(Rotation rotation, StructureBoundingBox boundingBox, EnumFacing componentType) {
+        public Maze(StructureBoundingBox boundingBox, EnumFacing componentType) {
             this.setCoordBaseMode(componentType);
             this.boundingBox = boundingBox;
         }
@@ -325,7 +323,7 @@ public class PyramidPieces {
                         this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 0, z, validBounds);
                         this.setBlockState(world, PyramidPieces.PyramidTemplate.CARVED_BRICK, x, 1, z, validBounds);
                         if (random.nextDouble() <= 0.10D) {
-                            placeTrap(world, maze, x, 0, z, random, validBounds);
+                            placeTrap(world, maze, x, z, random, validBounds);
                         }
                     }
                     // Place sand of the floor of the maze
@@ -337,22 +335,21 @@ public class PyramidPieces {
             }
         }
 
-        private void placeTrap(World world, boolean[][] maze, int x, int y, int z, Random random, StructureBoundingBox validBounds) {
+        private void placeTrap(World world, boolean[][] maze, int x, int z, Random random, StructureBoundingBox validBounds) {
             IBlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
             List<EnumFacing> validDirections = new ArrayList<>();
             for (EnumFacing facing : EnumFacing.HORIZONTALS) {
-            	if (x + facing.getXOffset() >= 0 && x + facing.getXOffset() < maze.length && z + facing.getZOffset() >= 0 && z + facing.getZOffset() < maze[0].length)
-            	{
+                if (x + facing.getXOffset() >= 0 && x + facing.getXOffset() < maze.length && z + facing.getZOffset() >= 0 && z + facing.getZOffset() < maze[0].length) {
                     if (maze[x + facing.getXOffset()][z + facing.getZOffset()]) {
                         validDirections.add(facing.getOpposite());
                     }
-            	}
+                }
             }
 
             if (!validDirections.isEmpty()) {
                 trapState = trapState.withProperty(BlockTrap.FACING, validDirections.get(random.nextInt(validDirections.size())));
-                this.setBlockState(world, trapState, x, y, z, validBounds);
+                this.setBlockState(world, trapState, x, 0, z, validBounds);
             }
         }
 

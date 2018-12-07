@@ -7,7 +7,7 @@ public class BiomeRuinedCity extends AtumBiome {
     public BiomeRuinedCity(AtumBiomeProperties properties) {
         super(properties);
 
-        this.deadwoodRarity = 2;
+        this.deadwoodRarity = 0.90D;
 
         this.addDefaultSpawns();
     }

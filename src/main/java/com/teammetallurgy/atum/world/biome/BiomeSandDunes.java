@@ -10,6 +10,8 @@ public class BiomeSandDunes extends AtumBiome {
 
         this.fillerBlock = AtumBlocks.SAND.getDefaultState();
 
+        this.deadwoodRarity = 0.06D;
+
         this.addDefaultSpawns();
     }
 }

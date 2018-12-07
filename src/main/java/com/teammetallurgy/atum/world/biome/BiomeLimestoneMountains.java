@@ -15,7 +15,7 @@ public class BiomeLimestoneMountains extends AtumBiome {
 
         this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
 
-        this.deadwoodRarity = 2;
+        this.deadwoodRarity = 0.20D;
 
         this.addDefaultSpawns();
     }
