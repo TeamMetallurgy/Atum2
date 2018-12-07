@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.client.TextureManagerParticles;
 import com.teammetallurgy.atum.client.TextureMapParticles;
+import com.teammetallurgy.atum.client.model.entity.ModelCamel;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
@@ -109,6 +110,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, RenderStoneguard::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStonewarden.class, RenderStonewarden::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCamel.class, manager -> new RenderCamel(manager, new ModelCamel(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(EntityScarab.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertRabbit.class, RenderDesertRabbit::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {

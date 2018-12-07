@@ -22,6 +22,7 @@ public class AtumEntities {
     public static final EntityEntry BONESTORM = registerMob(EntityBonestorm.class, 0x74634e, 0xab9476);
     public static final EntityEntry BRIGAND = registerMob(EntityBrigand.class, 0xC2C2C2, 0x040F85);
     public static final EntityEntry DESERT_WOLF = registerMob(EntityDesertWolf.class, 0xE7DBC8, 0xAD9467);
+    public static final EntityEntry CAMEL = registerMob(EntityCamel.class, 0xE7EBD8, 0xADA477);
     public static final EntityEntry FORSAKEN = registerMob(EntityForsaken.class, 0xB59C7D, 0x6F5C43);
     public static final EntityEntry MUMMY = registerMob(EntityMummy.class, 0x515838, 0x868F6B);
     public static final EntityEntry NOMAD = registerMob(EntityNomad.class, 0xC2C2C2, 0x7E0C0C);
