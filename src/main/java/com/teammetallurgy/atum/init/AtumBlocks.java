@@ -236,7 +236,7 @@ public class AtumBlocks {
         BlockAtumPlank.registerPlanks();
         registerBlock(PALM_LOG, "palm_log");
         registerBlock(DEADWOOD_LOG, "deadwood_log");
-        registerBlock(DEADWOOD_BRANCH, "deadwood_branch");
+        registerBlock(DEADWOOD_BRANCH, "deadwood_branch", null);
         BlockAtumStairs.registerWoodStairs();
         BlockAtumWoodSlab.registerSlabs();
         BlockAtumSapling.registerSaplings();

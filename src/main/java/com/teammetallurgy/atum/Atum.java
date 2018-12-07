@@ -2,6 +2,7 @@ package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.init.AtumRecipes;
+import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -44,6 +45,7 @@ public class Atum {
         RuinPieces.registerRuins();
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
+        Thaumcraft.init();
     }
 
     @Mod.EventHandler

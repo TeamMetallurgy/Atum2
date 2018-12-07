@@ -3,13 +3,13 @@ package com.teammetallurgy.atum.entity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.world.biome.*;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 
 public class EntityDesertRabbit extends EntityRabbit {
 
@@ -34,7 +34,7 @@ public class EntityDesertRabbit extends EntityRabbit {
 
     @Override
     protected int getRandomRabbitType() {
-        AtumBiome biome = (AtumBiome) this.world.getBiome(new BlockPos(this));
+        Biome biome = this.world.getBiome(new BlockPos(this));
         int i = this.rand.nextInt(100);
 
         if (biome instanceof BiomeSandPlains) {

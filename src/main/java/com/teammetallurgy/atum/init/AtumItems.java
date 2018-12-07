@@ -150,7 +150,7 @@ public class AtumItems {
     public static final Item FORSAKEN_FISH = new ItemFish(ItemFish.FishType.FORSAKEN);
     public static final Item MUMMIFIED_FISH = new ItemFish(ItemFish.FishType.MUMMIFIED);
     public static final Item JEWELED_FISH = new ItemFish(ItemFish.FishType.JEWELED);
-    public static final Item SKELETAL = new ItemFish(ItemFish.FishType.SKELETAL);
+    public static final Item SKELETAL_FISH = new ItemFish(ItemFish.FishType.SKELETAL);
     public static final Item CRUNCHY_SCARAB = new ItemCrunchyScarab(3, 0.1F);
     public static final Item CRUNCHY_GOLD_SCARAB = new ItemCrunchyScarab(6, 1.2F);
 
@@ -259,7 +259,7 @@ public class AtumItems {
         registerItem(FORSAKEN_FISH, "fish_forsaken");
         registerItem(MUMMIFIED_FISH, "fish_mummified");
         registerItem(JEWELED_FISH, "fish_jeweled");
-        registerItem(SKELETAL, "fish_skeletal");
+        registerItem(SKELETAL_FISH, "fish_skeletal");
         registerItem(CRUNCHY_SCARAB, "crunchy_scarab");
         registerItem(CRUNCHY_GOLD_SCARAB, "crunchy_golden_scarab");
     }
