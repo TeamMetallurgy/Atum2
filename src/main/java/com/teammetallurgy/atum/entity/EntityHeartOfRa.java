@@ -16,7 +16,7 @@ public class EntityHeartOfRa extends Entity {
     public EntityHeartOfRa(World world) {
         super(world);
         this.preventEntitySpawning = true;
-        this.setSize(2.0F, 2.0F);
+        this.setSize(1.0F, 2.8F);
         this.innerRotation = this.rand.nextInt(500000);
     }
 
