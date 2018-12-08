@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.utils.AtumCreativeTab;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
+import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
@@ -45,6 +46,7 @@ public class Atum {
         RuinPieces.registerRuins();
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
+        LighthousePieces.registerLighthouse();
         Thaumcraft.init();
     }
 

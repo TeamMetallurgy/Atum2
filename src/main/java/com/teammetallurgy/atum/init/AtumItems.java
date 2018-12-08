@@ -163,7 +163,7 @@ public class AtumItems {
         ItemLoot.createLootItems();
         registerItem(SCARAB, "scarab");
         registerItem(IDOL_OF_LABOR, "idol_of_labor");
-        registerBlock(AtumBlocks.HEART_OF_RA, new ItemHeartOfRa(), "heart_of_ra");
+        registerBlock(AtumBlocks.HEART_OF_RA, "heart_of_ra");
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN, "linen");
         registerItem(DATE, "date");

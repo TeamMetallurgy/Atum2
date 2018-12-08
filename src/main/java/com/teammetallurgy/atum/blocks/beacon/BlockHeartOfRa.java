@@ -1,11 +1,13 @@
 package com.teammetallurgy.atum.blocks.beacon;
 
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
+import com.teammetallurgy.atum.entity.EntityHeartOfRa;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -35,6 +37,20 @@ public class BlockHeartOfRa extends BlockContainer {
     @Nullable
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
         return new TileEntityHeartOfRa();
+    }
+
+
+    @Override
+    public boolean canEntitySpawn(IBlockState state, Entity entity) {
+        return entity instanceof EntityHeartOfRa;
+    }
+
+    @Override
+    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+        super.onBlockAdded(world, pos, state);
+
+        EntityHeartOfRa heartOfRa = new EntityHeartOfRa(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY()), (double) ((float) pos.getZ() + 0.5F));
+        world.spawnEntity(heartOfRa);
     }
 
     @Override

@@ -44,8 +44,8 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(2, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(4, new EntityAIOpenDoor(this, true));
+        this.tasks.addTask(3, new EntityAIRestrictOpenDoor(this)); // TODO
+        this.tasks.addTask(4, new EntityAIOpenDoor(this, true)); //TODO
         this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 0.6D));
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));

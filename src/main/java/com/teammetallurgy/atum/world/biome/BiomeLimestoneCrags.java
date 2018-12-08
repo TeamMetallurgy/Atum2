@@ -22,11 +22,12 @@ public class BiomeLimestoneCrags extends AtumBiome {
 
         this.genSpikes = new WorldGenLimestoneSpike();
 
-        this.deadwoodRarity = 0.25D;
+        this.deadwoodRarity = 0.12D;
 
         this.addDefaultSpawns();
     }
-    
+
+    @Override
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
         

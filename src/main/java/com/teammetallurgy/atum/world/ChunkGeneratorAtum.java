@@ -9,6 +9,8 @@ import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.MapGenGirafiTomb;
+import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
+import com.teammetallurgy.atum.world.gen.structure.lighthouse.MapGenLighthouse;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.MapGenAtumMineshaft;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.MapGenPyramid;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
@@ -61,6 +63,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     private MapGenRuin ruinGenerator = new MapGenRuin(this);
     private MapGenTomb tombGenerator = new MapGenTomb(this);
     private MapGenGirafiTomb girafiTomb = new MapGenGirafiTomb(this);
+    private MapGenLighthouse lighthouse = new MapGenLighthouse(this);
     private Biome[] biomesForGeneration;
     private double[] mainNoiseRegion;
     private double[] minLimitRegion;
@@ -196,6 +199,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             this.ruinGenerator.generate(this.world, x, z, chunkprimer);
             this.tombGenerator.generate(this.world, x, z, chunkprimer);
             this.girafiTomb.generate(this.world, x, z, chunkprimer);
+            this.lighthouse.generate(this.world, x, z, chunkprimer);
         }
 
         Chunk chunk = new Chunk(this.world, chunkprimer, x, z);
@@ -327,6 +331,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             this.ruinGenerator.generateStructure(this.world, this.rand, chunkpos);
             this.tombGenerator.generateStructure(this.world, this.rand, chunkpos);
             this.girafiTomb.generateStructure(this.world, this.rand, chunkpos);
+            this.lighthouse.generateStructure(this.world, this.rand, chunkpos);
         }
 
         if (this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
@@ -404,6 +409,8 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             return this.tombGenerator.isInsideStructure(pos);
         } else if (String.valueOf(GirafiTombPieces.GIRAFI_TOMB).equals(structureName) && this.girafiTomb != null) {
             return this.girafiTomb.isInsideStructure(pos);
+        } else if (String.valueOf(LighthousePieces.LIGHTHOUSE).equals(structureName) && this.lighthouse != null) {
+            return this.lighthouse.isInsideStructure(pos);
         }
         return false;
     }
@@ -419,8 +426,8 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             return this.ruinGenerator.getNearestStructurePos(world, pos, findUnexplored);
         } else if (String.valueOf(TombPieces.TOMB).equals(structureName) && this.tombGenerator != null) {
             return this.tombGenerator.getNearestStructurePos(world, pos, findUnexplored);
-        } else if (String.valueOf(GirafiTombPieces.GIRAFI_TOMB).equals(structureName) && this.girafiTomb != null) {
-            return this.girafiTomb.getNearestStructurePos(world, pos, findUnexplored);
+        } else if (String.valueOf(LighthousePieces.LIGHTHOUSE).equals(structureName) && this.lighthouse != null) {
+            return this.lighthouse.getNearestStructurePos(world, pos, findUnexplored);
         }
         return null;
     }
@@ -437,6 +444,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             this.ruinGenerator.generate(this.world, x, z, null);
             this.tombGenerator.generate(this.world, x, z, null);
             this.girafiTomb.generate(this.world, x, z, null);
+            this.lighthouse.generate(this.world, x, z, null);
         }
     }
 }

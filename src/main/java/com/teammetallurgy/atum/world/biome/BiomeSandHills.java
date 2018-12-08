@@ -10,8 +10,11 @@ public class BiomeSandHills extends AtumBiome {
         super(properties);
 
         this.addDefaultSpawns();
+
+        this.deadwoodRarity = 0.08D;
     }
-    
+
+    @Override
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
         
