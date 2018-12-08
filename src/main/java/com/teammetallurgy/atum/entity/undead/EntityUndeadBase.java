@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.entity.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
+import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
@@ -59,6 +60,7 @@ public class EntityUndeadBase extends EntityMob {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityEfreetBase.class, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityAnimal.class, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityTarantula.class, true));
     }

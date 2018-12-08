@@ -19,6 +19,7 @@ public class AtumLootTables {
     public static final ResourceLocation SCARAB_GOLDEN = register("entities/scarab_golden");
     public static final ResourceLocation STONEGUARD = register("entities/stoneguard");
     public static final ResourceLocation STONEWARDEN = register("entities/stonewarden");
+    public static final ResourceLocation SUNSPEAKER = register("entities/sunspeaker");
     public static final ResourceLocation TARANTULA = register("entities/tarantula");
     public static final ResourceLocation WARLORD = register("entities/warlord");
     public static final ResourceLocation WRAITH = register("entities/wraith");

@@ -1,27 +1,15 @@
 package com.teammetallurgy.atum.entity;
 
-import java.util.Objects;
-import javax.annotation.Nullable;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITempt;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -30,7 +18,6 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -39,6 +26,10 @@ import net.minecraft.world.storage.loot.LootTableList;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class EntityCamel extends EntityAnimal {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
@@ -59,7 +50,7 @@ public class EntityCamel extends EntityAnimal {
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) { 
+    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
         if (hasSkinVariants()) {
@@ -69,11 +60,12 @@ public class EntityCamel extends EntityAnimal {
         return livingdata;
     }
 
+    @Override
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
         this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, Items.WHEAT, false));
+        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, AtumItems.DATE, false));
         this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
         this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
@@ -92,31 +84,34 @@ public class EntityCamel extends EntityAnimal {
         this.setVariant(compound.getInteger("Variant"));
     }
 
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
     }
 
+    @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_COW_AMBIENT;
+        return SoundEvents.ENTITY_LLAMA_AMBIENT;
     }
 
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-        return SoundEvents.ENTITY_COW_HURT;
+    @Override
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
+        return SoundEvents.ENTITY_LLAMA_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_COW_DEATH;
+        return SoundEvents.ENTITY_LLAMA_DEATH;
     }
 
-    protected void playStepSound(BlockPos pos, Block blockIn) {
-        this.playSound(SoundEvents.ENTITY_COW_STEP, 0.15F, 1.0F);
+    @Override
+    protected void playStepSound(BlockPos pos, Block block) {
+        this.playSound(SoundEvents.ENTITY_HORSE_STEP, 0.15F, 1.0F);
     }
 
-    /**
-     * Returns the volume for the sounds this mob makes.
-     */
+    @Override
     protected float getSoundVolume() {
         return 0.4F;
     }
@@ -126,14 +121,19 @@ public class EntityCamel extends EntityAnimal {
         return LootTableList.ENTITIES_COW;
     }
 
-    public boolean processInteract(EntityPlayer player, EnumHand hand) {
+    @Override
+    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         return super.processInteract(player, hand);
     }
 
-    public EntityCamel createChild(EntityAgeable ageable) {
+    @Override
+    public EntityCamel createChild(@Nonnull EntityAgeable ageable) {
+        EntityCamel camel = new EntityCamel(this.world);
+        camel.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(ageable)), null);
         return new EntityCamel(this.world);
     }
 
+    @Override
     public float getEyeHeight() {
         return this.isChild() ? this.height : 1.3F;
     }
@@ -148,11 +148,11 @@ public class EntityCamel extends EntityAnimal {
         }
     }
 
-    protected int getVariantAmount() {
+    private int getVariantAmount() {
         return 5;
     }
 
-    protected boolean hasSkinVariants() {
+    private boolean hasSkinVariants() {
         return true;
     }
 
@@ -167,12 +167,10 @@ public class EntityCamel extends EntityAnimal {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        String entityName = Objects
-                .requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName())
-                .getPath();
+        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
         if (this.hasSkinVariants()) {
             if (this.texturePath == null) {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + this.getVariant()) + ".png");
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + this.getVariant()) + ".png";
             }
         } else {
             this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + ".png"));

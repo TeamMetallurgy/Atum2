@@ -24,6 +24,7 @@ import com.teammetallurgy.atum.client.render.shield.RenderStoneguardShield;
 import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.bandit.*;
+import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
@@ -106,6 +107,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityMummy.class, manager -> new RenderUndead(manager, new ModelZombie()));
         RenderingRegistry.registerEntityRenderingHandler(EntityForsaken.class, manager -> new RenderUndead(manager, new ModelDustySkeleton()));
         RenderingRegistry.registerEntityRenderingHandler(EntityWraith.class, manager -> new RenderUndead(manager, new ModelZombie()));
+        RenderingRegistry.registerEntityRenderingHandler(EntitySunspeaker.class, RenderEfreet::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityBonestorm.class, RenderBonestorm::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, RenderStoneguard::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStonewarden.class, RenderStonewarden::new);

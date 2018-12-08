@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.bandit.*;
+import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.*;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
@@ -21,8 +22,8 @@ public class AtumEntities {
     public static final EntityEntry BARBARIAN = registerMob(EntityBarbarian.class, 0x9c7359, 0x8c8c8c);
     public static final EntityEntry BONESTORM = registerMob(EntityBonestorm.class, 0x74634e, 0xab9476);
     public static final EntityEntry BRIGAND = registerMob(EntityBrigand.class, 0xC2C2C2, 0x040F85);
-    public static final EntityEntry DESERT_WOLF = registerMob(EntityDesertWolf.class, 0xE7DBC8, 0xAD9467);
     public static final EntityEntry CAMEL = registerMob(EntityCamel.class, 0xE7EBD8, 0xADA477);
+    public static final EntityEntry DESERT_WOLF = registerMob(EntityDesertWolf.class, 0xE7DBC8, 0xAD9467);
     public static final EntityEntry FORSAKEN = registerMob(EntityForsaken.class, 0xB59C7D, 0x6F5C43);
     public static final EntityEntry MUMMY = registerMob(EntityMummy.class, 0x515838, 0x868F6B);
     public static final EntityEntry NOMAD = registerMob(EntityNomad.class, 0xC2C2C2, 0x7E0C0C);
@@ -31,6 +32,7 @@ public class AtumEntities {
     public static final EntityEntry SCARAB = registerMob(EntityScarab.class, 0x61412C, 0x2F1D10);
     public static final EntityEntry STONEGUARD = registerMob(EntityStoneguard.class, 0x918354, 0x695D37);
     public static final EntityEntry STONEWARDEN = registerMob(EntityStonewarden.class, 0x918354, 0x695D37);
+    public static final EntityEntry SUNSPEAKER = registerMob(EntitySunspeaker.class, 0x464646, 0xCC5654);
     public static final EntityEntry TARANTULA = registerMob(EntityTarantula.class, 0x745c47, 0xd2b193);
     public static final EntityEntry WRAITH = registerMob(EntityWraith.class, 0x544d34, 0x3e3927);
 

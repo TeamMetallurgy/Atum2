@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.EntityCamel;
-import com.teammetallurgy.atum.entity.EntityDesertWolf;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
