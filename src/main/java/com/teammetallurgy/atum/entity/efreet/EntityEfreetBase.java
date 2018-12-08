@@ -62,6 +62,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
     }
 
     @Override
@@ -147,10 +148,6 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     public void onUpdate() {
         super.onUpdate();
 
-        if (this.isAngry()) {
-            this.setFire(10);
-        }
-
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
@@ -160,7 +157,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean canRenderOnFire() {
-        return this.isAngry();
+        return this.isAngry() && fire > 0;
     }
 
     @Override
@@ -175,7 +172,6 @@ public abstract class EntityEfreetBase extends EntityAgeable {
             this.setRevengeTarget(player);
             this.attackingPlayer = player;
             this.recentlyHit = this.getRevengeTimer();
-            this.setFire(10);
         }
         super.updateAITasks();
     }
@@ -189,6 +185,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
             if (entity instanceof EntityPlayer) {
                 this.becomeAngryAt(entity);
             }
+            this.fire = 1000;
             return super.attackEntityFrom(source, amount);
         }
     }
@@ -205,11 +202,10 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         this.angerLevel = 200 + this.rand.nextInt(400);
         if (entity instanceof EntityLivingBase) {
             this.setRevengeTarget((EntityLivingBase) entity);
-            this.setFire(10);
         }
     }
 
-    public boolean isAngry() {
+    private boolean isAngry() {
         return this.angerLevel > 0;
     }
 
@@ -311,6 +307,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
             super(efreet, EntityPlayer.class, true);
         }
 
+        @Override
         public boolean shouldExecute() {
             return ((EntityEfreetBase) this.taskOwner).isAngry() && super.shouldExecute();
         }
