@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.feature;
 import com.teammetallurgy.atum.blocks.wood.BlockBranch;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockLog;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -16,7 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree {
-    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true).withProperty(BlockDeadwood.LOG_AXIS, BlockLog.EnumAxis.NONE);
+    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true);
     private static final IBlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
 
     public WorldGenDeadwood(boolean notify) {
