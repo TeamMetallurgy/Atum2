@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
-import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
@@ -40,7 +39,6 @@ public class Atum {
         new AtumConfig(event.getSuggestedConfigurationFile());
         AtumDimension.register();
         NetworkHandler.register();
-        AtumRecipes.registerRecipeHandlers();
         StructureAtumMineshaftPieces.registerMineshaft();
         PyramidPieces.registerPyramid();
         RuinPieces.registerRuins();

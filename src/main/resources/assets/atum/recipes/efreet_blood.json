@@ -1,0 +1,12 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:efreet_heart"
+    }
+  ],
+  "result": {
+    "item": "atum:efreet_blood",
+    "count": 2
+  }
+}

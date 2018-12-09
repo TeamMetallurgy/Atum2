@@ -229,7 +229,7 @@ public class AtumRegistry {
      * @return a new registry
      */
     public static <T extends IForgeRegistryEntry<T>> IForgeRegistry<T> makeRegistry(String registryName, Class<T> type) {
-        return new RegistryBuilder<T>().setName(new ResourceLocation(Constants.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).create();
+        return new RegistryBuilder<T>().setName(new ResourceLocation(Constants.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).allowModification().create();
     }
 
     @SubscribeEvent

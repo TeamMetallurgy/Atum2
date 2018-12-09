@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "ore": "enderpearl",
+      "type": "forge:ore_dict"
+    },
+    {
+      "ore": "dustBlaze",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "result": {
+    "item": "minecraft:ender_eye"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shapeless",
+  "ingredients": [
+    {
+      "ore": "dustBlaze",
+      "type": "forge:ore_dict"
+    },
+    {
+      "ore": "slimeball",
+      "type": "forge:ore_dict"
+    }
+  ],
+  "result": {
+    "item": "minecraft:magma_cream"
+  }
+}

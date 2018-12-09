@@ -54,6 +54,8 @@ public class AtumItems {
     public static final Item KHNUMITE = new Item();
     public static final Item DIRTY_COIN = new ItemCoin();
     public static final Item GOLD_COIN = new ItemCoin();
+    public static final Item EFREET_HEART = new Item();
+    public static final Item VIAL_OF_EFREET_BLOOD = new Item();
     public static final Item SCARAB = new ItemScarab();
     public static final Item IDOL_OF_LABOR = new ItemIdolOfLabor();
     public static final Item SCRAP = new Item();
@@ -161,6 +163,8 @@ public class AtumItems {
         registerItem(DIRTY_COIN, "coin_dirty");
         registerItem(GOLD_COIN, "coin_gold");
         ItemLoot.createLootItems();
+        registerItem(EFREET_HEART, "efreet_heart");
+        registerItem(VIAL_OF_EFREET_BLOOD, "efreet_blood");
         registerItem(SCARAB, "scarab");
         registerItem(IDOL_OF_LABOR, "idol_of_labor");
         registerBlock(AtumBlocks.HEART_OF_RA, "heart_of_ra");
@@ -265,6 +269,10 @@ public class AtumItems {
     }
 
     public static void setItemInfo() {
+        OreDictHelper.add(Items.BLAZE_ROD, "rodBlaze");
+        OreDictHelper.add(Items.BLAZE_POWDER, "dustBlaze");
+        OreDictHelper.add(EFREET_HEART, "rodBlaze");
+        OreDictHelper.add(new ItemStack(VIAL_OF_EFREET_BLOOD), "powderBlaze", "dustBlaze");
         OreDictHelper.add(FLAX, "cropFlax");
         OreDictHelper.add(FLAX_SEEDS, "seed");
         OreDictHelper.add(FLAX_SEEDS, "seedFlax");

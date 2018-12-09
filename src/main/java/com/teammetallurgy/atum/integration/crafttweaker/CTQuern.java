@@ -11,6 +11,8 @@ import net.minecraft.item.ItemStack;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import java.util.Objects;
+
 @ZenRegister
 @ZenClass("mods.atum.Quern")
 public class CTQuern {
@@ -21,8 +23,8 @@ public class CTQuern {
     }
 
     @ZenMethod
-    public static void removeRecipe() {
-        CraftTweakerAPI.apply(new Remove());
+    public static void removeRecipe(IItemStack output) { //Currently not working
+        CraftTweakerAPI.apply(new Remove(CraftTweakerMC.getItemStack(output)));
     }
 
     private static class Add implements IAction {
@@ -37,7 +39,7 @@ public class CTQuern {
 
         @Override
         public void apply() {
-            CTLists.QUERN_ADDITIONS.add(new QuernRecipe(this.input, this.output, this.rotations));
+            RecipeHandlers.quernRecipes.register(new QuernRecipe(this.input, this.output, this.rotations).setRegistryName(Objects.requireNonNull(this.input.getItem().getRegistryName())));
         }
 
         @Override
@@ -47,19 +49,27 @@ public class CTQuern {
     }
 
     private static class Remove implements IAction {
+        private ItemStack output;
 
-        Remove() {
+        Remove(ItemStack output) {
+            this.output = output;
         }
 
         @Override
         public void apply() {
-            System.out.println("Apply Remove Quern Recipe");
-            RecipeHandlers.quernRecipes.getValuesCollection().removeAll(RecipeHandlers.quernRecipes.getValuesCollection());
+            /*for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValuesCollection()) {
+                if (!StackHelper.areStacksEqualIgnoreSize(quernRecipe.getOutput(), this.output)) {
+                    Atum.LOG.error("No Quern recipe exists for " + this.output);
+                    return;
+                } else {
+                    RecipeHandlers.quernRecipes.getValuesCollection().remove(quernRecipe);
+                }
+            }*/
         }
 
         @Override
         public String describe() {
-            return "";
+            return "Removed Quern recipe '" + this.output + "' as output";
         }
     }
 }
