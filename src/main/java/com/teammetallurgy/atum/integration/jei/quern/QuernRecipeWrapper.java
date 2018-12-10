@@ -11,6 +11,7 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -20,17 +21,23 @@ import java.util.List;
 
 public class QuernRecipeWrapper implements IRecipeWrapper {
     private final IDrawable quern;
+    private final ResourceLocation id;
     private final List<List<ItemStack>> inputs;
     private final ItemStack output;
     private final String rotations;
 
-    public QuernRecipeWrapper(IGuiHelper guiHelper, NonNullList<ItemStack> input, ItemStack output, int quernRotations) {
+    public QuernRecipeWrapper(IGuiHelper guiHelper, ResourceLocation id, NonNullList<ItemStack> input, ItemStack output, int quernRotations) {
         Preconditions.checkArgument(quernRotations > 0, "quern rotations must be greater than 0");
         List<ItemStack> inputList = new ArrayList<>(input);
+        this.id = id;
         this.inputs = Collections.singletonList(inputList);
         this.output = output;
         this.rotations = AtumUtils.format("gui.atum.category.quern.rotations", quernRotations);
         this.quern = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.QUERN));
+    }
+
+    public ResourceLocation getId() {
+        return id;
     }
 
     @Override

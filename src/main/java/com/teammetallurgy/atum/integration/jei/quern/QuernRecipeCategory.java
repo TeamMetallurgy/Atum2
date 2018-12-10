@@ -10,7 +10,10 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nonnull;
 
@@ -53,5 +56,14 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipeWrapper> 
         guiItemStacks.init(0, true, 0, 10);
         guiItemStacks.init(1, false, 60, 10);
         guiItemStacks.set(ingredients);
+
+        guiItemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
+            if (slotIndex == 1) {
+                boolean showAdvanced = Minecraft.getMinecraft().gameSettings.advancedItemTooltips || GuiScreen.isShiftKeyDown();
+                if (showAdvanced) {
+                    tooltip.add(TextFormatting.DARK_GRAY + AtumUtils.format("jei.tooltip.recipe.id", recipeWrapper.getId()));
+                }
+            }
+        });
     }
 }

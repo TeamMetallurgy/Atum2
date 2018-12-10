@@ -27,7 +27,7 @@ public class JEIIntegration implements IModPlugin {
         }
         registry.addRecipeCatalyst(new ItemStack(AtumBlocks.LIMESTONE_FURNACE), VanillaRecipeCategoryUid.SMELTING, VanillaRecipeCategoryUid.FUEL);
         registry.addRecipeCatalyst(new ItemStack(AtumBlocks.QUERN), QUERN);
-        registry.handleRecipes(IQuernRecipe.class, recipe -> new QuernRecipeWrapper(registry.getJeiHelpers().getGuiHelper(), recipe.getInput(), recipe.getOutput(), recipe.getRotations()), QUERN);
+        registry.handleRecipes(IQuernRecipe.class, recipe -> new QuernRecipeWrapper(registry.getJeiHelpers().getGuiHelper(), recipe.getRegistryName(), recipe.getInput(), recipe.getOutput(), recipe.getRotations()), QUERN);
         registry.addRecipes(RecipeHandlers.quernRecipes.getValuesCollection(), QUERN);
     }
 

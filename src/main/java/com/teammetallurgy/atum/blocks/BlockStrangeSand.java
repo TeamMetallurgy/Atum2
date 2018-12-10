@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockCactus;

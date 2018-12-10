@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;

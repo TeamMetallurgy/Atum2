@@ -37,7 +37,7 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerRegistries(RegistryEvent.NewRegistry event) {
-        RecipeHandlers.quernRecipes = AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
+        RecipeHandlers.quernRecipes = (IForgeRegistryModifiable<IQuernRecipe>) AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
     }
 
     private static void register() {

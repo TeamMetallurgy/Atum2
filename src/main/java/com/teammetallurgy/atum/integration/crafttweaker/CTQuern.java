@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.integration.crafttweaker;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import crafttweaker.CraftTweakerAPI;
@@ -8,6 +9,7 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -23,8 +25,8 @@ public class CTQuern {
     }
 
     @ZenMethod
-    public static void removeRecipe(IItemStack output) { //Currently not working
-        CraftTweakerAPI.apply(new Remove(CraftTweakerMC.getItemStack(output)));
+    public static void removeRecipe(String id) {
+        CraftTweakerAPI.apply(new Remove(id));
     }
 
     private static class Add implements IAction {
@@ -49,27 +51,25 @@ public class CTQuern {
     }
 
     private static class Remove implements IAction {
-        private ItemStack output;
+        private String id;
 
-        Remove(ItemStack output) {
-            this.output = output;
+        Remove(String id) {
+            this.id = id;
         }
 
         @Override
         public void apply() {
-            /*for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValuesCollection()) {
-                if (!StackHelper.areStacksEqualIgnoreSize(quernRecipe.getOutput(), this.output)) {
-                    Atum.LOG.error("No Quern recipe exists for " + this.output);
-                    return;
-                } else {
-                    RecipeHandlers.quernRecipes.getValuesCollection().remove(quernRecipe);
-                }
-            }*/
+            final ResourceLocation location = new ResourceLocation(id);
+            if (!RecipeHandlers.quernRecipes.containsKey(location)) {
+                Atum.LOG.error("No Quern recipe exists called: " + this.id);
+            } else {
+                RecipeHandlers.quernRecipes.remove(location);
+            }
         }
 
         @Override
         public String describe() {
-            return "Removed Quern recipe '" + this.output + "' as output";
+            return "Removed Quern recipe: " + this.id;
         }
     }
 }
