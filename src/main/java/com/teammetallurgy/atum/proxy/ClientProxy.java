@@ -31,6 +31,7 @@ import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
 import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.entity.undead.*;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
@@ -44,6 +45,7 @@ import net.minecraft.client.model.ModelZombie;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
+import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.RenderArrow;
 import net.minecraft.entity.Entity;
@@ -75,15 +77,28 @@ public class ClientProxy extends CommonProxy {
         Minecraft.getMinecraft().renderEngine.loadTickableTexture(TextureManagerParticles.LOCATION_PARTICLES, textureMap);
 
         //Colors
+        BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
         ItemColors itemColor = Minecraft.getMinecraft().getItemColors();
         //Palm Leave color
         itemColor.registerItemColorHandler((stack, tintIndex) -> {
             IBlockState state = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
             return Minecraft.getMinecraft().getBlockColors().colorMultiplier(state, null, null, tintIndex);
         }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
-        Minecraft.getMinecraft().getBlockColors().registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
+        blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         //Dyeable armor
         itemColor.registerItemColorHandler((stack, tintIndex) -> tintIndex > 0 ? -1 : ((ItemTexturedArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
+        //Dead Grass
+        itemColor.registerItemColorHandler((stack, tintIndex) -> {
+            IBlockState iblockstate = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
+            return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
+        }, AtumBlocks.DEAD_GRASS);
+        blockColors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
+            if (worldIn != null && pos != null) {
+                return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
+            } else {
+                return 12889745;
+            }
+        }, AtumBlocks.DEAD_GRASS);
     }
 
     @SubscribeEvent

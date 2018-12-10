@@ -86,6 +86,7 @@ public class AtumBlocks {
     public static final Block DATE_BLOCK = new BlockDate();
     public static final Block EMMER_WHEAT = new BlockEmmer();
     public static final BlockOasisGrass OASIS_GRASS = new BlockOasisGrass();
+    public static final BlockDeadGrass DEAD_GRASS = new BlockDeadGrass();
     public static final BlockShrub SHRUB = new BlockShrub();
     public static final BlockShrub WEED = new BlockShrub();
     public static final BlockPapyrus PAPYRUS = new BlockPapyrus();
@@ -146,6 +147,7 @@ public class AtumBlocks {
         registerBlock(DATE_BLOCK, "date_block", null);
         registerBlock(EMMER_WHEAT, "emmer_wheat", null);
         registerBlock(OASIS_GRASS, "oasis_grass");
+        registerBlock(DEAD_GRASS, "dead_grass");
         registerBlock(SHRUB, "shrub");
         registerBlock(WEED, "weed");
         registerBlock(PAPYRUS, "papyrus", null);

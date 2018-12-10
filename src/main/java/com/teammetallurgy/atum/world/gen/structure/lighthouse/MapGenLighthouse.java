@@ -19,8 +19,8 @@ import java.util.Random;
 public class MapGenLighthouse extends MapGenStructure {
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387600;
-    private int spacing = 6;
-    private int separation = 3;
+    private int spacing = 7;
+    private int separation = 4;
 
     public MapGenLighthouse(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;

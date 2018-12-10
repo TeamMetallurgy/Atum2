@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.blocks.vegetation.BlockOasisGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -10,10 +10,10 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenOasisGrass extends WorldGenerator {
-    private final IBlockState grassState;
+    private final BlockOasisGrass oasisGrass;
 
-    public WorldGenOasisGrass(IBlockState state) {
-        this.grassState = state;
+    public WorldGenOasisGrass(BlockOasisGrass oasisGrass) {
+        this.oasisGrass = oasisGrass;
     }
 
     @Override
@@ -24,8 +24,8 @@ public class WorldGenOasisGrass extends WorldGenerator {
         for (int i = 0; i < 128; ++i) {
             BlockPos checkPos = pos.add(rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8));
 
-            if (world.isAirBlock(checkPos) && AtumBlocks.OASIS_GRASS.canBlockStay(world, checkPos, this.grassState)) {
-                world.setBlockState(checkPos, this.grassState, 2);
+            if (world.isAirBlock(checkPos) && oasisGrass.canBlockStay(world, checkPos, this.oasisGrass.getDefaultState())) {
+                world.setBlockState(checkPos, this.oasisGrass.getDefaultState(), 2);
             }
         }
         return true;

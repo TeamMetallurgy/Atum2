@@ -14,6 +14,7 @@ import com.teammetallurgy.atum.entity.undead.EntityBonestorm;
 import com.teammetallurgy.atum.entity.undead.EntityForsaken;
 import com.teammetallurgy.atum.entity.undead.EntityMummy;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumUtils;
@@ -115,7 +116,11 @@ public class AtumBiome extends Biome {
     @Override
     @Nonnull
     public WorldGenerator getRandomWorldGenForGrass(Random rand) {
-        return new WorldGenOasisGrass(AtumBlocks.OASIS_GRASS.getDefaultState());
+        if (this == AtumBiomes.OASIS) {
+            return new WorldGenOasisGrass(AtumBlocks.OASIS_GRASS);
+        } else {
+            return new WorldGenOasisGrass(AtumBlocks.DEAD_GRASS);
+        }
     }
 
     @Override
@@ -181,6 +186,16 @@ public class AtumBiome extends Biome {
                 }
             }
         }
+    }
+
+    @Override
+    public int getModdedBiomeGrassColor(int original) {
+        return 12889745;
+    }
+
+    @Override
+    public int getModdedBiomeFoliageColor(int original) {
+        return 12889745;
     }
 
     public static class AtumBiomeProperties extends BiomeProperties {

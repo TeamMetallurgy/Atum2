@@ -12,7 +12,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 
 import javax.annotation.Nonnull;
@@ -30,11 +29,6 @@ public class BlockOasisGrass extends BlockBush implements IShearable {
     @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
         return TALL_GRASS_AABB;
-    }
-
-    @Override
-    public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-        return super.canBlockStay(world, pos, state);
     }
 
     @Override
@@ -61,7 +55,7 @@ public class BlockOasisGrass extends BlockBush implements IShearable {
     @Override
     @Nonnull
     public NonNullList<ItemStack> onSheared(@Nonnull ItemStack stack, IBlockAccess world, BlockPos pos, int fortune) {
-        return NonNullList.withSize(1, new ItemStack(AtumBlocks.OASIS_GRASS));
+        return NonNullList.withSize(1, new ItemStack(this));
     }
 
     @Override

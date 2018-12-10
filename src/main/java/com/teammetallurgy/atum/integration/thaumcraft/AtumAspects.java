@@ -20,6 +20,7 @@ public class AtumAspects {
         event.register.registerObjectTag(new ItemStack(AtumBlocks.SAND_LAYERED), (new AspectList()).add(Aspect.EARTH, 1).add(Aspect.ENTROPY, 1));
         event.register.registerObjectTag(new ItemStack(AtumBlocks.DATE_BLOCK), (new AspectList()).add(Aspect.PLANT, 4).add(Aspect.LIFE, 6));
         event.register.registerObjectTag(new ItemStack(AtumBlocks.OASIS_GRASS), (new AspectList()).add(Aspect.PLANT, 5).add(Aspect.AIR, 1));
+        event.register.registerObjectTag(new ItemStack(AtumBlocks.DEAD_GRASS), (new AspectList()).add(Aspect.PLANT, 1).add(Aspect.ENTROPY, 1));
         event.register.registerObjectTag(new ItemStack(AtumBlocks.SHRUB), (new AspectList()).add(Aspect.PLANT, 3).add(Aspect.ENTROPY, 2));
         event.register.registerObjectTag(new ItemStack(AtumBlocks.WEED), (new AspectList()).add(Aspect.PLANT, 3).add(Aspect.ENTROPY, 1).add(Aspect.AIR, 1));
         event.register.registerObjectTag(new ItemStack(AtumBlocks.PAPYRUS), (new AspectList()).add(Aspect.PLANT, 4).add(Aspect.WATER, 2).add(Aspect.MIND, 1));

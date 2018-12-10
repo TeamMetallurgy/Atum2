@@ -23,6 +23,7 @@ public class BiomeDeadOasis extends AtumBiome {
         this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
 
         this.deadwoodRarity = 0.0D;
+        this.decorator.grassPerChunk = 2;
 
         this.addDefaultSpawns();
     }
