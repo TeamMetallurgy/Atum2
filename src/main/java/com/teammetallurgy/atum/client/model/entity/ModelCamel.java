@@ -88,7 +88,10 @@ public class ModelCamel extends ModelBase {
 
     @Override
     public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        //this.chest_left.render(scale);
+        EntityCamel camel = (EntityCamel)entity;
+        
+    	
+    	//this.chest_left.render(scale);
         this.leg_f_l.render(scale);
         this.tail.render(scale);
         this.body.render(scale);
@@ -97,6 +100,11 @@ public class ModelCamel extends ModelBase {
         //this.chest_right.render(scale);
         this.leg_f_r.render(scale);
         this.leg_b_r.render(scale);
+        
+        if(camel.hasChest()) {
+        	this.chest_left.render(scale);
+        	this.chest_right.render(scale);
+        }
     }
     @Override
     public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {

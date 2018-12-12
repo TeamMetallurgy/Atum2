@@ -3,10 +3,13 @@ package com.teammetallurgy.atum.entity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
@@ -14,6 +17,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +35,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class EntityCamel extends EntityAnimal {
+public class EntityCamel extends AbstractChestHorse {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private String texturePath;
 
@@ -49,6 +53,14 @@ public class EntityCamel extends EntityAnimal {
     }
 
     @Override
+    protected void applyEntityAttributes()
+    {
+        super.applyEntityAttributes();
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+    }
+
+    @Override
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
@@ -58,18 +70,6 @@ public class EntityCamel extends EntityAnimal {
             this.setVariant(variant);
         }
         return livingdata;
-    }
-
-    @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIPanic(this, 2.0D));
-        this.tasks.addTask(2, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(3, new EntityAITempt(this, 1.25D, AtumItems.DATE, false));
-        this.tasks.addTask(4, new EntityAIFollowParent(this, 1.25D));
-        this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
-        this.tasks.addTask(7, new EntityAILookIdle(this));
     }
 
     @Override
@@ -84,11 +84,9 @@ public class EntityCamel extends EntityAnimal {
         this.setVariant(compound.getInteger("Variant"));
     }
 
-    @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(10.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+    protected int getInventorySize()
+    {
+        return this.hasChest() ? 17*2 : super.getInventorySize();
     }
 
     @Override
@@ -137,6 +135,11 @@ public class EntityCamel extends EntityAnimal {
     public float getEyeHeight() {
         return this.isChild() ? this.height : 1.3F;
     }
+    
+    @Override
+    public boolean canJump() {
+    	return false;
+    }
 
     @Override
     public void onUpdate() {
@@ -145,6 +148,18 @@ public class EntityCamel extends EntityAnimal {
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
+        }
+        
+        Entity rider = this.getRidingEntity();
+        Entity r = this.getControllingPassenger();
+        if (r instanceof EntityPlayerSP) {
+        	EntityPlayerSP player = (EntityPlayerSP) r;
+        	//System.out.println("test " + world.isRemote);
+        	if (player.movementInput.jump) {
+        		System.out.println("test");
+        		this.setJumpPower(1000);
+        		player.connection.sendPacket(new CPacketEntityAction(this, CPacketEntityAction.Action.START_RIDING_JUMP, MathHelper.floor(player.getHorseJumpPower() * 100.0F)));
+        	}
         }
     }
 
