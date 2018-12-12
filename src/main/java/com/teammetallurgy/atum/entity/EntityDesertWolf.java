@@ -71,6 +71,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.setAngry(true);
         this.setTamed(false);
         this.experienceValue = 6;
+        this.stepHeight = 1.0F;
         MinecraftForge.EVENT_BUS.register(this);
     }
 
