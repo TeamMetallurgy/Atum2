@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.proxy;
 
+import javax.annotation.Nonnull;
+
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
@@ -16,6 +18,7 @@ import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
 import com.teammetallurgy.atum.client.render.entity.RenderHeartOfRa;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
+import com.teammetallurgy.atum.client.render.entity.arrow.RenderCamelSpit;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderTefnutsCall;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.shield.RenderAtumsProtection;
@@ -25,6 +28,7 @@ import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
+import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
