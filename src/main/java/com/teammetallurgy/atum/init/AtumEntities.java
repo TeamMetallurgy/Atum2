@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.entity.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
+import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.entity.projectile.arrow.*;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
@@ -49,4 +50,5 @@ public class AtumEntities {
     public static final EntityEntry SMALL_BONE = registerEntity(EntitySmallBone.class, 64, 1, true);
     public static final EntityEntry STRAIGHT_ARROW = registerArrow(EntityArrowStraight.class);
     public static final EntityEntry TEFNUTS_CALL = registerArrow(EntityTefnutsCall.class);
+    public static final EntityEntry CAMEL_SPIT = registerEntity(EntityCamelSpit.class, 64, 10, false);
 }

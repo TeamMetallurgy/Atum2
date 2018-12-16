@@ -61,8 +61,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-import javax.annotation.Nonnull;
-
 @Mod.EventBusSubscriber(value = Side.CLIENT)
 public class ClientProxy extends CommonProxy {
     private static final ModelResourceLocation THOTHS_BEARINGS = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "thoths_bearings"), "inventory");
@@ -139,6 +137,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntitySmallBone.class, manager -> new RenderBone(manager, 0.35F));
         RenderingRegistry.registerEntityRenderingHandler(EntityTefnutsCall.class, RenderTefnutsCall::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityHeartOfRa.class, RenderHeartOfRa::new);
+        RenderingRegistry.registerEntityRenderingHandler(EntityCamelSpit.class, RenderCamelSpit::new);
     }
 
     public static void ignoreRenderProperty(Block block) {
