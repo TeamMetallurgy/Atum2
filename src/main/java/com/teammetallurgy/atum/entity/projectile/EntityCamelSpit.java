@@ -11,6 +11,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IProjectile;
 import net.minecraft.entity.passive.EntityLlama;
+import net.minecraft.entity.projectile.EntityLlamaSpit;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -22,7 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityCamelSpit extends Entity implements IProjectile
+public class EntityCamelSpit extends EntityLlamaSpit
 {
     public EntityCamel owner;
     private NBTTagCompound ownerNbt;
@@ -63,90 +64,6 @@ public class EntityCamelSpit extends Entity implements IProjectile
     public void onUpdate()
     {
         super.onUpdate();
-
-        if (this.ownerNbt != null)
-        {
-            this.restoreOwnerFromSave();
-        }
-        
-        if(this.world.isRemote)	
-        	System.out.println(this.motionX + " "  + this.motionY + " " + this.motionZ);
-
-        Vec3d vec3d = new Vec3d(this.posX, this.posY, this.posZ);
-        Vec3d vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-        RayTraceResult raytraceresult = this.world.rayTraceBlocks(vec3d, vec3d1);
-        vec3d = new Vec3d(this.posX, this.posY, this.posZ);
-        vec3d1 = new Vec3d(this.posX + this.motionX, this.posY + this.motionY, this.posZ + this.motionZ);
-
-        if (raytraceresult != null)
-        {
-            vec3d1 = new Vec3d(raytraceresult.hitVec.x, raytraceresult.hitVec.y, raytraceresult.hitVec.z);
-        }
-
-        Entity entity = this.getHitEntity(vec3d, vec3d1);
-
-        if (entity != null)
-        {
-            raytraceresult = new RayTraceResult(entity);
-        }
-
-        if (raytraceresult != null && !net.minecraftforge.event.ForgeEventFactory.onProjectileImpact(this, raytraceresult))
-        {
-            this.onHit(raytraceresult);
-        }
-
-        this.posX += this.motionX;
-        this.posY += this.motionY;
-        this.posZ += this.motionZ;
-        float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
-        this.rotationYaw = (float)(MathHelper.atan2(this.motionX, this.motionZ) * (180D / Math.PI));
-
-        for (this.rotationPitch = (float)(MathHelper.atan2(this.motionY, (double)f) * (180D / Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F)
-        {
-            ;
-        }
-
-        while (this.rotationPitch - this.prevRotationPitch >= 180.0F)
-        {
-            this.prevRotationPitch += 360.0F;
-        }
-
-        while (this.rotationYaw - this.prevRotationYaw < -180.0F)
-        {
-            this.prevRotationYaw -= 360.0F;
-        }
-
-        while (this.rotationYaw - this.prevRotationYaw >= 180.0F)
-        {
-            this.prevRotationYaw += 360.0F;
-        }
-
-        this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
-        this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
-        float f1 = 0.99F;
-        float f2 = 0.06F;
-
-        if (!this.world.isMaterialInBB(this.getEntityBoundingBox(), Material.AIR))
-        {
-            this.setDead();
-        }
-        else if (this.isInWater())
-        {
-            this.setDead();
-        }
-        else
-        {
-            this.motionX *= 0.9900000095367432D;
-            this.motionY *= 0.9900000095367432D;
-            this.motionZ *= 0.9900000095367432D;
-
-            if (!this.hasNoGravity())
-            {
-                this.motionY -= 0.05999999865889549D;
-            }
-
-            this.setPosition(this.posX, this.posY, this.posZ);
-        }
     }
 
     /**
