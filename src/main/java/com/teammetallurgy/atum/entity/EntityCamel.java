@@ -6,11 +6,14 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
 import com.teammetallurgy.atum.utils.Constants;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -33,12 +36,16 @@ import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.ContainerHorseChest;
+import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.server.SPacketOpenWindow;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -53,7 +60,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob {
-     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private String texturePath;
 	private boolean didSpit;
 
@@ -89,6 +96,10 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         }
         return livingdata;
     }
+    
+    public ContainerHorseChest getHorseChest() {
+    	return horseChest;
+    }
 
     protected void initEntityAI()
     {
@@ -104,6 +115,14 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCamel.AIHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCamel.AIDefendTarget(this));
+    }
+
+    public void openGUI(EntityPlayer playerEntity)
+    {
+        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(playerEntity)) && this.isTame()) {
+            this.horseChest.setCustomName(this.getName());
+            playerEntity.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
+        }
     }
     
     @Override

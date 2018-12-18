@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.client.gui;
 
+import java.util.UUID;
+
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.GuiLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.trap.tileentity.ContainerTrap;
@@ -7,9 +9,15 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.GuiTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.ContainerCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.entity.EntityCamel;
+
 import net.minecraft.client.gui.inventory.GuiChest;
+import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerFurnace;
+import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -31,6 +39,15 @@ public class AtumGuiHandler implements IGuiHandler {
                     return new ContainerTrap(player.inventory, (TileEntityTrap) tileEntity);
             }
         }
+
+        if(id == 3) {
+	    	Entity entity = world.getEntityByID(x);
+	    	if(entity instanceof EntityCamel) {
+	    		EntityCamel camel = (EntityCamel)entity;
+	    		return new ContainerHorseInventory(player.inventory, camel.getHorseChest(), camel, player);
+	    	}
+        }
+        
         return null;
     }
 
@@ -48,6 +65,15 @@ public class AtumGuiHandler implements IGuiHandler {
                     return new GuiTrap(player.inventory, (TileEntityTrap) tileEntity);
             }
         }
+        
+        if(id == 3) {
+        	Entity entity = world.getEntityByID(x);
+        	if(entity instanceof EntityCamel) {
+        		EntityCamel camel = (EntityCamel)entity;
+        		return new GuiScreenHorseInventory(player.inventory, camel.getHorseChest(), camel);
+        	}
+        }
+        
         return null;
     }
 }
