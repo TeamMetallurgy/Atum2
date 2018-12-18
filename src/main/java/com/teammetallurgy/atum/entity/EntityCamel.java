@@ -1,51 +1,21 @@
 package com.teammetallurgy.atum.entity;
 
-import java.util.Objects;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
 import com.teammetallurgy.atum.utils.Constants;
-
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.IRangedAttackMob;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackRanged;
-import net.minecraft.entity.ai.EntityAIFollowParent;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILlamaFollowCaravan;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIPanic;
-import net.minecraft.entity.ai.EntityAIRunAroundLikeCrazy;
-import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAIWanderAvoidWater;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.AbstractChestHorse;
-import net.minecraft.entity.passive.EntityLlama;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ContainerHorseChest;
-import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.server.SPacketOpenWindow;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -59,10 +29,14 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Objects;
+
 public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private String texturePath;
-	private boolean didSpit;
+    private boolean didSpit;
 
     public EntityCamel(World worldIn) {
         super(worldIn);
@@ -78,8 +52,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     @Override
-    protected void applyEntityAttributes()
-    {
+    protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
@@ -87,7 +60,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public IEntityLivingData onInitialSpawn(@Nonnull DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
         if (hasSkinVariants()) {
@@ -96,13 +69,13 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         }
         return livingdata;
     }
-    
+
     public ContainerHorseChest getHorseChest() {
-    	return horseChest;
+        return horseChest;
     }
 
-    protected void initEntityAI()
-    {
+    @Override
+    protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
         //this.tasks.addTask(2, new EntityAILlamaFollowCaravan(this, 2.0999999046325684D));
@@ -117,14 +90,14 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         this.targetTasks.addTask(2, new EntityCamel.AIDefendTarget(this));
     }
 
-    public void openGUI(EntityPlayer playerEntity)
-    {
-        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(playerEntity)) && this.isTame()) {
+    @Override
+    public void openGUI(@Nonnull EntityPlayer player) {
+        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
             this.horseChest.setCustomName(this.getName());
-            playerEntity.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
+            player.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
         }
     }
-    
+
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
@@ -137,9 +110,8 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         this.setVariant(compound.getInteger("Variant"));
     }
 
-    protected int getInventorySize()
-    {
-        return this.hasChest() ? 17*2 : super.getInventorySize();
+    protected int getInventorySize() {
+        return this.hasChest() ? 17 * 2 : super.getInventorySize();
     }
 
     @Override
@@ -158,7 +130,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, Block block) {
+    protected void playStepSound(@Nonnull BlockPos pos, Block block) {
         this.playSound(SoundEvents.ENTITY_HORSE_STEP, 0.15F, 1.0F);
     }
 
@@ -188,10 +160,10 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     public float getEyeHeight() {
         return this.isChild() ? this.height : 1.3F;
     }
-    
+
     @Override
     public boolean canJump() {
-    	return false;
+        return false;
     }
 
     @Override
@@ -202,17 +174,16 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
             this.dataManager.setClean();
             this.texturePath = null;
         }
-        
-        Entity rider = this.getRidingEntity();
+
         Entity r = this.getControllingPassenger();
         if (r instanceof EntityPlayerSP) {
-        	EntityPlayerSP player = (EntityPlayerSP) r;
-        	//System.out.println("test " + world.isRemote);
-        	if (player.movementInput.jump) {
-        		System.out.println("test");
-        		this.setJumpPower(1000);
-        		player.connection.sendPacket(new CPacketEntityAction(this, CPacketEntityAction.Action.START_RIDING_JUMP, MathHelper.floor(player.getHorseJumpPower() * 100.0F)));
-        	}
+            EntityPlayerSP player = (EntityPlayerSP) r;
+            //System.out.println("test " + world.isRemote);
+            if (player.movementInput.jump) {
+                System.out.println("test");
+                this.setJumpPower(1000);
+                player.connection.sendPacket(new CPacketEntityAction(this, CPacketEntityAction.Action.START_RIDING_JUMP, MathHelper.floor(player.getHorseJumpPower() * 100.0F)));
+            }
         }
     }
 
@@ -245,89 +216,70 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         }
         return this.texturePath;
     }
-    
+
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor)
-    {
+    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
         this.spit(target);
     }
 
-	@Override
-	public void setSwingingArms(boolean swingingArms) {
-	}
+    @Override
+    public void setSwingingArms(boolean swingingArms) {
+    }
 
-    private void spit(EntityLivingBase target)
-    {
-        EntityCamelSpit entitycamelspit = new EntityCamelSpit(this.world, this);
+    private void spit(EntityLivingBase target) {
+        EntityCamelSpit camelSpit = new EntityCamelSpit(this.world, this);
         double d0 = target.posX - this.posX;
-        double d1 = target.getEntityBoundingBox().minY + (double)(target.height / 3.0F) - entitycamelspit.posY;
+        double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - camelSpit.posY;
         double d2 = target.posZ - this.posZ;
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
-        entitycamelspit.shoot(d0, d1 + (double)f, d2, 1.5F, 10.0F);
+        camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
         System.out.println(d0 + " " + d1 + " " + d2);
-        this.world.playSound((EntityPlayer)null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-        this.world.spawnEntity(entitycamelspit);
+        this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+        this.world.spawnEntity(camelSpit);
         this.didSpit = true;
     }
 
-    private void setDidSpit(boolean didSpitIn)
-    {
-        this.didSpit = didSpitIn;
+    private void setDidSpit(boolean didSpit) {
+        this.didSpit = didSpit;
     }
 
-    static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityDesertWolf>
-        {
-            public AIDefendTarget(EntityCamel camel)
-            {
-                super(camel, EntityDesertWolf.class, 16, false, true, (Predicate)null);
-            }
+    static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityDesertWolf> {
+        AIDefendTarget(EntityCamel camel) {
+            super(camel, EntityDesertWolf.class, 16, false, true, null);
+        }
 
-            /**
-             * Returns whether the EntityAIBase should begin execution.
-             */
-            public boolean shouldExecute()
-            {
-                if (super.shouldExecute() && this.targetEntity != null && !((EntityDesertWolf)this.targetEntity).isTamed())
-                {
-                    return true;
-                }
-                else
-                {
-                    this.taskOwner.setAttackTarget((EntityLivingBase)null);
+        @Override
+        public boolean shouldExecute() {
+            if (super.shouldExecute() && this.targetEntity != null && !this.targetEntity.isTamed()) {
+                return true;
+            } else {
+                this.taskOwner.setAttackTarget(null);
+                return false;
+            }
+        }
+
+        @Override
+        protected double getTargetDistance() {
+            return super.getTargetDistance() * 0.25D;
+        }
+    }
+
+    static class AIHurtByTarget extends EntityAIHurtByTarget {
+        AIHurtByTarget(EntityCamel camel) {
+            super(camel, false);
+        }
+
+        @Override
+        public boolean shouldContinueExecuting() {
+            if (this.taskOwner instanceof EntityCamel) {
+                EntityCamel camel = (EntityCamel) this.taskOwner;
+
+                if (camel.didSpit) {
+                    camel.setDidSpit(false);
                     return false;
                 }
             }
-
-            protected double getTargetDistance()
-            {
-                return super.getTargetDistance() * 0.25D;
-            }
+            return super.shouldContinueExecuting();
         }
-
-    static class AIHurtByTarget extends EntityAIHurtByTarget
-        {
-            public AIHurtByTarget(EntityCamel camel)
-            {
-                super(camel, false);
-            }
-
-            /**
-             * Returns whether an in-progress EntityAIBase should continue executing
-             */
-            public boolean shouldContinueExecuting()
-            {
-                if (this.taskOwner instanceof EntityCamel)
-                {
-                	EntityCamel entitycamel = (EntityCamel)this.taskOwner;
-
-                    if (entitycamel.didSpit)
-                    {
-                    	entitycamel.setDidSpit(false);
-                        return false;
-                    }
-                }
-
-                return super.shouldContinueExecuting();
-            }
-        }
+    }
 }
