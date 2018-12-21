@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.init;
 
-import com.teammetallurgy.atum.entity.*;
+import com.teammetallurgy.atum.entity.EntityHeartOfRa;
 import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;

@@ -16,7 +16,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -41,7 +40,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
 
     public EntityCamel(World worldIn) {
         super(worldIn);
-        this.setSize(0.9F, 1.4F);
+        this.setSize(0.9F, 1.87F);
     }
 
     @Override
@@ -142,24 +141,14 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
 
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_COW;
-    }
-
-    @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
-        return super.processInteract(player, hand);
+        return LootTableList.ENTITIES_COW; //TODO
     }
 
     @Override
     public EntityCamel createChild(@Nonnull EntityAgeable ageable) {
         EntityCamel camel = new EntityCamel(this.world);
         camel.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(ageable)), null);
-        return new EntityCamel(this.world);
-    }
-
-    @Override
-    public float getEyeHeight() {
-        return this.isChild() ? this.height : 1.3F;
+        return camel;
     }
 
     @Override
@@ -229,8 +218,13 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     @Override
+    public boolean canJump() {
+        return false;
+    }
+
+    @Override
     public double getMountedYOffset() {
-        return (double) this.height * 0.9D;
+        return (double) this.height * 0.67D;
     }
 
     public void leaveCaravan() {

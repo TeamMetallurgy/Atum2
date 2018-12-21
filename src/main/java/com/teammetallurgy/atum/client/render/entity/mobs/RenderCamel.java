@@ -19,7 +19,7 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderCamel(RenderManager renderManager) {
-        super(renderManager, new ModelCamel(), 0.7F);
+        super(renderManager, new ModelCamel(0.0F), 0.7F);
     }
 
     @Override
