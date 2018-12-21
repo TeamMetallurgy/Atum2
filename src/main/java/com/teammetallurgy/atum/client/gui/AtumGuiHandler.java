@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.GuiTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.ContainerCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.entity.EntityCamel;
+import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
 import net.minecraft.entity.Entity;

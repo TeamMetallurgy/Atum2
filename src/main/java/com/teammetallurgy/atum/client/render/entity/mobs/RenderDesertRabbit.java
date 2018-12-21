@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
-import com.teammetallurgy.atum.entity.EntityDesertRabbit;
+import com.teammetallurgy.atum.entity.animal.EntityDesertRabbit;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelRabbit;
 import net.minecraft.client.renderer.entity.RenderLiving;

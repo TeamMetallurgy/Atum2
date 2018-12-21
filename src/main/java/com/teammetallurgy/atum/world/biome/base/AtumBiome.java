@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.world.biome.base;
 
-import com.teammetallurgy.atum.entity.EntityDesertRabbit;
-import com.teammetallurgy.atum.entity.EntityDesertWolf;
-import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.animal.EntityDesertRabbit;
+import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.EntityTarantula;
 import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.bandit.EntityAssassin;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;

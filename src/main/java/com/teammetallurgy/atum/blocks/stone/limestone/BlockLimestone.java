@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.entity.EntityScarab;
+import com.teammetallurgy.atum.entity.animal.EntityScarab;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;

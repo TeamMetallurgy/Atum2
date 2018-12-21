@@ -24,6 +24,7 @@ import com.teammetallurgy.atum.client.render.shield.RenderBrigandShield;
 import com.teammetallurgy.atum.client.render.shield.RenderStoneguardShield;
 import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.*;
+import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
@@ -129,7 +130,7 @@ public class ClientProxy extends CommonProxy {
         RenderingRegistry.registerEntityRenderingHandler(EntityStoneguard.class, RenderStoneguard::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityStonewarden.class, RenderStonewarden::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertWolf.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
-        RenderingRegistry.registerEntityRenderingHandler(EntityCamel.class, manager -> new RenderCamel(manager, new ModelCamel(), 0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(EntityCamel.class, RenderCamel::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityScarab.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(EntityDesertRabbit.class, RenderDesertRabbit::new);
         RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {

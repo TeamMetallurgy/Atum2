@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.entity;
+package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;

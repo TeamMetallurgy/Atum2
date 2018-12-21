@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
-import com.teammetallurgy.atum.entity.EntityTarantula;
+import com.teammetallurgy.atum.entity.animal.EntityTarantula;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelSpider;
 import net.minecraft.client.renderer.GlStateManager;

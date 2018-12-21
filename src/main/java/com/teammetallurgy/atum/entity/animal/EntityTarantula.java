@@ -1,5 +1,6 @@
-package com.teammetallurgy.atum.entity;
+package com.teammetallurgy.atum.entity.animal;
 
+import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;

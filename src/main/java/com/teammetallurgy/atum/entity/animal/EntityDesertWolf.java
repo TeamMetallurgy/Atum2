@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.entity;
+package com.teammetallurgy.atum.entity.animal;
 
 import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
@@ -81,6 +81,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, avoid -> avoid != null && avoid.isAlpha() && (!this.isAlpha() && this.isTamed()), 8.0F, 0.6D, 1.0D));
+        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityLlama.class, 24.0F, 1.5D, 1.5D));
+        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, 24.0F, 1.5D, 1.5D));
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
         this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
@@ -603,8 +605,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         return this.getPassengers().isEmpty() ? null : this.getPassengers().get(0);
     }
 
+    @Override
     public boolean canBeSteered() {
         return true;
+    }
+
+    @Override
+    public double getMountedYOffset() {
+        return (double) this.height + 0.22D;
     }
 
     private void mountTo(EntityPlayer player) {

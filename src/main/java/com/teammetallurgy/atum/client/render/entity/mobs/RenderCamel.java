@@ -1,32 +1,25 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.entity.EntityCamel;
-import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.renderer.GlStateManager;
+import com.teammetallurgy.atum.client.model.entity.ModelCamel;
+import com.teammetallurgy.atum.entity.animal.EntityCamel;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+@SideOnly(Side.CLIENT)
 public class RenderCamel extends RenderLiving<EntityCamel> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public RenderCamel(RenderManager renderManager, ModelBase modelBase, float shadowSize) {
-        super(renderManager, modelBase, shadowSize);
-    }
-
-    @Override
-    protected float handleRotationFloat(EntityCamel camel, float rotation) {
-        return camel.getRotationYawHead();
-    }
-
-    @Override
-    public void doRender(@Nonnull EntityCamel camel, double x, double y, double z, float entityYaw, float partialTicks) {
-        super.doRender(camel, x, y, z, entityYaw, partialTicks);
+    public RenderCamel(RenderManager renderManager) {
+        super(renderManager, new ModelCamel(), 0.7F);
     }
 
     @Override
@@ -35,6 +28,12 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
         String texture = camel.getTexture();
         ResourceLocation location = CACHE.get(texture);
 
+        if (camel.hasCustomName()) {
+            String name = camel.getCustomNameTag();
+            if (name.equalsIgnoreCase("girafi")) {
+                location = this.getCamelTexture("girafi");
+            }
+        }
         if (location == null) {
             location = new ResourceLocation(texture);
             CACHE.put(texture, location);
@@ -42,9 +41,7 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
         return location;
     }
 
-    @Override
-    protected void preRenderCallback(EntityCamel camel, float partialTickTime) {
-        float scale = 1F;
-        GlStateManager.scale(scale, scale, scale);
+    private ResourceLocation getCamelTexture(String fileName) {
+        return new ResourceLocation(Constants.MOD_ID, "textures/entities/camel_" + fileName + ".png");
     }
 }

@@ -1,10 +1,10 @@
-package com.teammetallurgy.atum.entity;
+package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.entity.ai.AICamelCaravan;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.passive.AbstractChestHorse;
@@ -15,7 +15,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
@@ -37,6 +36,8 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private String texturePath;
     private boolean didSpit;
+    private EntityCamel caravanHead;
+    private EntityCamel caravanTail;
 
     public EntityCamel(World worldIn) {
         super(worldIn);
@@ -78,7 +79,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     protected void initEntityAI() {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
-        //this.tasks.addTask(2, new EntityAILlamaFollowCaravan(this, 2.0999999046325684D));
+        this.tasks.addTask(2, new AICamelCaravan(this, 2.0999999046325684D));
         this.tasks.addTask(3, new EntityAIAttackRanged(this, 1.25D, 40, 20.0F));
         this.tasks.addTask(3, new EntityAIPanic(this, 1.2D));
         this.tasks.addTask(4, new EntityAIMate(this, 1.0D));
@@ -162,28 +163,12 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     @Override
-    public boolean canJump() {
-        return false;
-    }
-
-    @Override
     public void onUpdate() {
         super.onUpdate();
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
-        }
-
-        Entity r = this.getControllingPassenger();
-        if (r instanceof EntityPlayerSP) {
-            EntityPlayerSP player = (EntityPlayerSP) r;
-            //System.out.println("test " + world.isRemote);
-            if (player.movementInput.jump) {
-                System.out.println("test");
-                this.setJumpPower(1000);
-                player.connection.sendPacket(new CPacketEntityAction(this, CPacketEntityAction.Action.START_RIDING_JUMP, MathHelper.floor(player.getHorseJumpPower() * 100.0F)));
-            }
         }
     }
 
@@ -218,7 +203,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     @Override
-    public void attackEntityWithRangedAttack(EntityLivingBase target, float distanceFactor) {
+    public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float distanceFactor) {
         this.spit(target);
     }
 
@@ -241,6 +226,53 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
 
     private void setDidSpit(boolean didSpit) {
         this.didSpit = didSpit;
+    }
+
+    @Override
+    public double getMountedYOffset() {
+        return (double) this.height * 0.9D;
+    }
+
+    public void leaveCaravan() {
+        if (this.caravanHead != null) {
+            this.caravanHead.caravanTail = null;
+        }
+        this.caravanHead = null;
+    }
+
+    public void joinCaravan(EntityCamel camel) {
+        this.caravanHead = camel;
+        this.caravanHead.caravanTail = this;
+    }
+
+    public boolean hasCaravanTrail() {
+        return this.caravanTail != null;
+    }
+
+    public boolean inCaravan() {
+        return this.caravanHead != null;
+    }
+
+    @Nullable
+    public EntityCamel getCaravanHead() {
+        return this.caravanHead;
+    }
+
+    @Override
+    protected double followLeashSpeed() {
+        return 2.0D;
+    }
+
+    @Override
+    protected void followMother() {
+        if (!this.inCaravan() && this.isChild()) {
+            super.followMother();
+        }
+    }
+
+    @Override
+    public boolean canEatGrass() {
+        return false;
     }
 
     static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityDesertWolf> {
@@ -273,7 +305,6 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         public boolean shouldContinueExecuting() {
             if (this.taskOwner instanceof EntityCamel) {
                 EntityCamel camel = (EntityCamel) this.taskOwner;
-
                 if (camel.didSpit) {
                     camel.setDidSpit(false);
                     return false;

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity.projectile;
 
-import com.teammetallurgy.atum.entity.EntityCamel;
+import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityLlamaSpit;

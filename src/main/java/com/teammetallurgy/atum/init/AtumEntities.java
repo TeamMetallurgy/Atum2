@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.entity.*;
+import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
@@ -23,7 +24,7 @@ public class AtumEntities {
     public static final EntityEntry BARBARIAN = registerMob(EntityBarbarian.class, 0x9c7359, 0x8c8c8c);
     public static final EntityEntry BONESTORM = registerMob(EntityBonestorm.class, 0x74634e, 0xab9476);
     public static final EntityEntry BRIGAND = registerMob(EntityBrigand.class, 0xC2C2C2, 0x040F85);
-    public static final EntityEntry CAMEL = registerMob(EntityCamel.class, 0xE7EBD8, 0xADA477);
+    public static final EntityEntry CAMEL = registerMob(EntityCamel.class, 0xAD835C, 0x684626);
     public static final EntityEntry DESERT_WOLF = registerMob(EntityDesertWolf.class, 0xE7DBC8, 0xAD9467);
     public static final EntityEntry FORSAKEN = registerMob(EntityForsaken.class, 0xB59C7D, 0x6F5C43);
     public static final EntityEntry MUMMY = registerMob(EntityMummy.class, 0x515838, 0x868F6B);
@@ -38,6 +39,7 @@ public class AtumEntities {
     public static final EntityEntry WRAITH = registerMob(EntityWraith.class, 0x544d34, 0x3e3927);
 
     //Entities
+    public static final EntityEntry CAMEL_SPIT = registerEntity(EntityCamelSpit.class, 64, 10, false);
     public static final EntityEntry DOUBLE_SHOT_BLACK = registerArrow(EntityArrowDoubleShotBlack.class);
     public static final EntityEntry DOUBLE_SHOT_WHITE = registerArrow(EntityArrowDoubleShotWhite.class);
     public static final EntityEntry EXPLOSIVE_ARROW = registerArrow(EntityArrowExplosive.class);
@@ -50,5 +52,4 @@ public class AtumEntities {
     public static final EntityEntry SMALL_BONE = registerEntity(EntitySmallBone.class, 64, 1, true);
     public static final EntityEntry STRAIGHT_ARROW = registerArrow(EntityArrowStraight.class);
     public static final EntityEntry TEFNUTS_CALL = registerArrow(EntityTefnutsCall.class);
-    public static final EntityEntry CAMEL_SPIT = registerEntity(EntityCamelSpit.class, 64, 10, false);
 }

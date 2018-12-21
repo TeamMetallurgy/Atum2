@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.entity;
+package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
