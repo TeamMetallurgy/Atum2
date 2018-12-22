@@ -20,7 +20,7 @@ public class AICamelCaravan extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-        if (this.camel.isTame() && !this.camel.getLeashed() && !this.camel.inCaravan()) {
+        if (this.camel.isTame() && !this.canLeadCaravan(this.camel) && !this.camel.inCaravan()) {
             List<EntityCamel> list = this.camel.world.getEntitiesWithinAABB(this.camel.getClass(), this.camel.getEntityBoundingBox().grow(9.0D, 4.0D, 9.0D));
             EntityCamel camel = null;
             double distance = Double.MAX_VALUE;
@@ -36,7 +36,7 @@ public class AICamelCaravan extends EntityAIBase {
             }
             if (camel == null) {
                 for (EntityCamel caravanLeader : list) {
-                    if (caravanLeader.isTame() && caravanLeader.getLeashed() && !caravanLeader.hasCaravanTrail()) {
+                    if (caravanLeader.isTame() && this.canLeadCaravan(caravanLeader) && !caravanLeader.hasCaravanTrail()) {
                         double distanceSq = this.camel.getDistanceSq(caravanLeader);
                         if (distanceSq <= distance) {
                             distance = distanceSq;
@@ -49,7 +49,7 @@ public class AICamelCaravan extends EntityAIBase {
                 return false;
             } else if (distance < 4.0D) {
                 return false;
-            } else if (!camel.getLeashed() && !this.firstIsLeashed(camel, 1)) {
+            } else if (!this.canLeadCaravan(camel) && !this.firstCanBeCaravanLeader(camel, 1)) {
                 return false;
             } else {
                 this.camel.joinCaravan(camel);
@@ -62,7 +62,7 @@ public class AICamelCaravan extends EntityAIBase {
 
     @Override
     public boolean shouldContinueExecuting() {
-        if (this.camel.inCaravan() && this.camel.getCaravanHead() != null && this.camel.getCaravanHead().isEntityAlive() && this.firstIsLeashed(this.camel, 0)) {
+        if (this.camel.inCaravan() && this.camel.getCaravanHead() != null && this.camel.getCaravanHead().isEntityAlive() && this.firstCanBeCaravanLeader(this.camel, 0)) {
             double distanceSq = this.camel.getDistanceSq(this.camel.getCaravanHead());
 
             if (distanceSq > 676.0D) {
@@ -100,19 +100,23 @@ public class AICamelCaravan extends EntityAIBase {
         }
     }
 
-    private boolean firstIsLeashed(EntityCamel camel, int amount) {
+    private boolean firstCanBeCaravanLeader(EntityCamel camel, int amount) {
         if (amount > 8) {
             return false;
         } else if (camel.inCaravan()) {
-            if (camel.getCaravanHead() != null && camel.getCaravanHead().getLeashed()) {
+            if (camel.getCaravanHead() != null && this.canLeadCaravan(camel.getCaravanHead())) {
                 return true;
             } else {
                 EntityCamel caravanLeader = camel.getCaravanHead();
                 ++amount;
-                return this.firstIsLeashed(caravanLeader, amount);
+                return this.firstCanBeCaravanLeader(caravanLeader, amount);
             }
         } else {
             return false;
         }
+    }
+
+    private boolean canLeadCaravan(EntityCamel camel) {
+        return camel.getLeashed() || camel.isHorseSaddled() && camel.isBeingRidden();
     }
 }

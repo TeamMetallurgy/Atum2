@@ -38,8 +38,8 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     private EntityCamel caravanHead;
     private EntityCamel caravanTail;
 
-    public EntityCamel(World worldIn) {
-        super(worldIn);
+    public EntityCamel(World world) {
+        super(world);
         this.setSize(0.9F, 1.87F);
     }
 
@@ -139,6 +139,11 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         return 0.4F;
     }
 
+    @Override
+    protected SoundEvent getAngrySound() {
+        return SoundEvents.ENTITY_LLAMA_AMBIENT;
+    }
+
     @Nullable
     protected ResourceLocation getLootTable() {
         return LootTableList.ENTITIES_COW; //TODO
@@ -207,7 +212,6 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         double d2 = target.posZ - this.posZ;
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-        System.out.println(d0 + " " + d1 + " " + d2);
         this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         this.world.spawnEntity(camelSpit);
         this.didSpit = true;
