@@ -23,6 +23,7 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -125,8 +126,10 @@ public class BlockRadiantBeacon extends BlockBeacon {
     }
 
     static {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
-            RGB_TO_DYE.put(color.getColorValue(), color);
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+            for (EnumDyeColor color : EnumDyeColor.values()) {
+                RGB_TO_DYE.put(color.getColorValue(), color);
+            }
         }
     }
 }
