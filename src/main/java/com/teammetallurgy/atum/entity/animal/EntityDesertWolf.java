@@ -52,6 +52,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private float headRotationCourse;
     private float headRotationCourseWild;
     private boolean isWet;
@@ -171,6 +172,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.dataManager.register(BEGGING, Boolean.FALSE);
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.GREEN.getDyeDamage());
         this.dataManager.register(VARIANT, 0);
+        this.dataManager.register(SADDLED, Boolean.FALSE);
     }
 
     @Override
@@ -397,10 +399,19 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
                         }
                         return true;
                     }
+                } else if(heldStack.getItem() == Items.SADDLE) { //Temporary
+                    if (!this.isSaddled() && !this.isChild()) {
+                        this.setSaddled(true);
+                        this.world.playSound(player, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
+                        if (!player.capabilities.isCreativeMode) {
+                            heldStack.shrink(1);
+                        }
+                    }
+                    return true;
                 }
             }
 
-            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(heldStack)) {
+            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(heldStack) && this.isSaddled() && !this.isBeingRidden()) {
                 if (this.isAlpha()) {
                     this.mountTo(player);
                 } else {
@@ -491,6 +502,18 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.dataManager.set(COLLAR_COLOR, color.getDyeDamage());
     }
 
+    public boolean isSaddled() {
+        return this.dataManager.get(SADDLED);
+    }
+
+    public void setSaddled(boolean saddled) {
+        if (saddled) {
+            this.dataManager.set(SADDLED, Boolean.TRUE);
+        } else {
+            this.dataManager.set(SADDLED, Boolean.FALSE);
+        }
+    }
+
     @Override
     public EntityDesertWolf createChild(@Nonnull EntityAgeable ageable) {
         EntityDesertWolf desertWolf = new EntityDesertWolf(this.world);
@@ -573,6 +596,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         compound.setInteger("Variant", this.getVariant());
         compound.setBoolean("Angry", this.isAngry());
         compound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
+        compound.setBoolean("Saddle", this.isSaddled());
         if (angryTimer > 0) {
             compound.setInteger("AngryTimer", angryTimer);
         }
@@ -585,6 +609,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
         this.setAngry(compound.getBoolean("Angry"));
+        this.setSaddled(compound.getBoolean("Saddle"));
         angryTimer = compound.getInteger("AngryTimer");
 
         if (compound.hasKey("CollarColor", 99)) {

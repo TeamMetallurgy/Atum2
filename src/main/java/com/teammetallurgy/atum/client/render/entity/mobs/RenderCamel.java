@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.client.model.entity.ModelCamel;
+import com.teammetallurgy.atum.client.render.entity.layer.LayerCamelCarpet;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -20,6 +21,7 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
 
     public RenderCamel(RenderManager renderManager) {
         super(renderManager, new ModelCamel(0.0F), 0.7F);
+        this.addLayer(new LayerCamelCarpet(this));
     }
 
     @Override

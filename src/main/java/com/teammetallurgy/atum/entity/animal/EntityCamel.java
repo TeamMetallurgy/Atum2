@@ -1,23 +1,30 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
+import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.ai.AICamelCaravan;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.passive.AbstractChestHorse;
+import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ContainerHorseChest;
+import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -31,8 +38,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob {
+public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> DATA_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.BOOLEAN);
     private String texturePath;
     private boolean didSpit;
     private EntityCamel caravanHead;
@@ -41,11 +50,14 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     public EntityCamel(World world) {
         super(world);
         this.setSize(0.9F, 1.87F);
+        this.canGallop = false;
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
+        this.dataManager.register(DATA_COLOR_ID, -1);
+        this.dataManager.register(DATA_CRATE, Boolean.FALSE);
         if (this.hasSkinVariants()) {
             this.dataManager.register(VARIANT, 0);
         }
@@ -56,6 +68,7 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+        this.getEntityAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
     }
 
     @Override
@@ -68,10 +81,6 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
             this.setVariant(variant);
         }
         return livingdata;
-    }
-
-    public ContainerHorseChest getHorseChest() {
-        return horseChest;
     }
 
     @Override
@@ -88,30 +97,6 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCamel.AIHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCamel.AIDefendTarget(this));
-    }
-
-    @Override
-    public void openGUI(@Nonnull EntityPlayer player) {
-        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
-            this.horseChest.setCustomName(this.getName());
-            player.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
-        }
-    }
-
-    @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", this.getVariant());
-    }
-
-    @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
-        this.setVariant(compound.getInteger("Variant"));
-    }
-
-    protected int getInventorySize() {
-        return this.hasChest() ? 17 * 2 : super.getInventorySize();
     }
 
     @Override
@@ -202,6 +187,18 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     }
 
     @Override
+    public void onDeath(@Nonnull DamageSource cause) {
+        super.onDeath(cause);
+
+        if (this.hasCrate()) {
+            if (!this.world.isRemote) {
+                this.dropItem(Item.getItemFromBlock(BlockCrate.getCrate(BlockAtumPlank.WoodType.PALM)), 1);
+            }
+            this.setCrated(false);
+        }
+    }
+
+    @Override
     public void setSwingingArms(boolean swingingArms) {
     }
 
@@ -271,6 +268,312 @@ public class EntityCamel extends AbstractChestHorse implements IRangedAttackMob 
     @Override
     public boolean canEatGrass() {
         return false;
+    }
+
+    @Nullable
+    public EnumDyeColor getColor() {
+        int color = this.dataManager.get(DATA_COLOR_ID);
+        return color == -1 ? null : EnumDyeColor.byMetadata(color);
+    }
+
+    private void setColor(@Nullable EnumDyeColor color) {
+        this.dataManager.set(DATA_COLOR_ID, color == null ? -1 : color.getMetadata());
+    }
+
+    public boolean hasColor() {
+        return this.getColor() != null;
+    }
+
+    @Override
+    protected void updateHorseSlots() {
+        if (!this.world.isRemote) {
+            super.updateHorseSlots();
+            this.setColorByItem(this.horseChest.getStackInSlot(2));
+        }
+    }
+
+    private void setColorByItem(@Nonnull ItemStack stack) {
+        if (this.isValidCarpet(stack)) {
+            this.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
+        } else {
+            this.setColor(null);
+        }
+    }
+
+    public boolean isValidCarpet(ItemStack stack) {
+        return stack.getItem() == Item.getItemFromBlock(Blocks.CARPET);
+    }
+
+    @Override
+    public boolean isArmor(ItemStack stack) {
+        return false; //TODO Armor items needs to be implemented first
+    }
+
+    @Override
+    public boolean wearsArmor() {
+        return true;
+    }
+
+    @Override
+    public void openGUI(@Nonnull EntityPlayer player) {
+        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
+            player.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
+        }
+    }
+
+    public ContainerHorseChest getHorseChest() {
+        return this.horseChest;
+    }
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound compound) {
+        super.writeEntityToNBT(compound);
+        compound.setInteger("Variant", this.getVariant());
+
+        if (!this.horseChest.getStackInSlot(1).isEmpty()) {
+            compound.setTag("ArmorItem", this.horseChest.getStackInSlot(1).writeToNBT(new NBTTagCompound()));
+        }
+        if (!this.horseChest.getStackInSlot(2).isEmpty()) {
+            compound.setTag("Carpet", this.horseChest.getStackInSlot(2).writeToNBT(new NBTTagCompound()));
+        }
+        compound.setBoolean("CratedCamel", this.hasCrate());
+
+        if (this.hasCrate()) {
+            NBTTagList tagList = new NBTTagList();
+            for (int slot = this.getNonCrateSize(); slot < this.horseChest.getSizeInventory(); ++slot) {
+                ItemStack slotStack = this.horseChest.getStackInSlot(slot);
+                if (!slotStack.isEmpty()) {
+                    NBTTagCompound tagCompound = new NBTTagCompound();
+                    tagCompound.setByte("Slot", (byte) slot);
+                    slotStack.writeToNBT(tagCompound);
+                    tagList.appendTag(tagCompound);
+                }
+            }
+            compound.setTag("Items", tagList);
+        }
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound compound) {
+        super.readEntityFromNBT(compound);
+        this.setVariant(compound.getInteger("Variant"));
+
+        if (compound.hasKey("Carpet", 10)) {
+            this.horseChest.setInventorySlotContents(2, new ItemStack(compound.getCompoundTag("Carpet")));
+        }
+        if (compound.hasKey("ArmorItem", 10)) {
+            ItemStack armorStack = new ItemStack(compound.getCompoundTag("ArmorItem"));
+            if (!armorStack.isEmpty() && isArmor(armorStack)) {
+                this.horseChest.setInventorySlotContents(1, armorStack);
+            }
+        }
+        this.setCrated(compound.getBoolean("CratedCamel"));
+
+        if (this.hasCrate()) {
+            NBTTagList tagList = compound.getTagList("Items", 10);
+            this.initHorseChest();
+            for (int i = 0; i < tagList.tagCount(); ++i) {
+                NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+                int slot = tagCompound.getByte("Slot") & 255;
+                if (slot >= this.getNonCrateSize() && slot < this.horseChest.getSizeInventory()) {
+                    this.horseChest.setInventorySlotContents(slot, new ItemStack(tagCompound));
+                }
+            }
+        }
+        this.updateHorseSlots();
+    }
+
+    @Override
+    protected void initHorseChest() {
+        ContainerHorseChest containerhorsechest = this.horseChest;
+        System.out.println("Potato " +  this.getInventorySize());
+        this.horseChest = new ContainerHorseChest("CamelChest", 18);
+        this.horseChest.setCustomName(this.getName());
+
+        if (containerhorsechest != null) {
+            containerhorsechest.removeInventoryChangeListener(this);
+            int i = Math.min(containerhorsechest.getSizeInventory(), this.horseChest.getSizeInventory());
+
+            for (int j = 0; j < i; ++j) {
+                ItemStack itemstack = containerhorsechest.getStackInSlot(j);
+
+                if (!itemstack.isEmpty()) {
+                    this.horseChest.setInventorySlotContents(j, itemstack.copy());
+                }
+            }
+        }
+
+        this.horseChest.addInventoryChangeListener(this);
+        this.updateHorseSlots();
+        //this.itemHandler = new net.minecraftforge.items.wrapper.InvWrapper(this.horseChest);
+    }
+
+    @Override
+    protected int getInventorySize() {
+        return this.hasCrate() ? this.getNonCrateSize() + (3 * this.getInventoryColumns()) : this.getNonCrateSize();
+    }
+
+    private int getNonCrateSize() {
+        return 3;
+    }
+
+    public int getInventoryColumns() {
+        return 5;
+    }
+
+    public boolean hasCrate() {
+        return this.dataManager.get(DATA_CRATE);
+    }
+
+    public void setCrated(boolean crated) {
+        this.dataManager.set(DATA_CRATE, crated);
+    }
+
+    @Override
+    public boolean replaceItemInInventory(int inventorySlot, @Nonnull ItemStack stack) {
+        if (inventorySlot == 499) {
+            if (this.hasCrate() && stack.isEmpty()) {
+                this.setCrated(false);
+                this.initHorseChest();
+                return true;
+            }
+            if (!this.hasCrate() && stack.getItem() == Item.getItemFromBlock(BlockCrate.getCrate(BlockAtumPlank.WoodType.PALM))) {
+                this.setCrated(true);
+                this.initHorseChest();
+                return true;
+            }
+        }
+        return super.replaceItemInInventory(inventorySlot, stack);
+    }
+
+    @Override
+    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+        ItemStack heldStack = player.getHeldItem(hand);
+
+        if (heldStack.getItem() == Items.SPAWN_EGG) {
+            return super.processInteract(player, hand);
+        } else {
+            if (!this.isChild()) {
+                if (this.isTame() && player.isSneaking()) {
+                    this.openGUI(player);
+                    return true;
+                }
+                if (this.isBeingRidden()) {
+                    return super.processInteract(player, hand);
+                }
+            }
+            if (!heldStack.isEmpty()) {
+                boolean eating = this.handleEating(player, heldStack);
+
+                if (!eating && !this.isTame()) {
+                    if (heldStack.interactWithEntity(player, this, hand)) {
+                        return true;
+                    }
+                    this.makeMad();
+                    return true;
+                }
+
+                if (!eating && !this.hasCrate() && heldStack.getItem() == Item.getItemFromBlock(BlockCrate.getCrate(BlockAtumPlank.WoodType.PALM))) {
+                    this.setCrated(true);
+                    this.playChestEquipSound();
+                    eating = true;
+                    this.initHorseChest();
+                }
+                if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() == Items.SADDLE) {
+                    this.openGUI(player);
+                    return true;
+                }
+
+                if (eating) {
+                    if (!player.capabilities.isCreativeMode) {
+                        heldStack.shrink(1);
+                    }
+                    return true;
+                }
+            }
+            if (this.isChild()) {
+                return super.processInteract(player, hand);
+            } else if (heldStack.interactWithEntity(player, this, hand)) {
+                return true;
+            } else {
+                this.mountTo(player);
+                return true;
+            }
+        }
+    }
+
+    @Override
+    protected boolean handleEating(@Nonnull EntityPlayer player, @Nonnull ItemStack stack) {
+        boolean isEating = false;
+        float healAmount = 0.0F;
+        int growthAmount = 0;
+        int temperAmount = 0;
+        Item item = stack.getItem();
+
+        if (item == Items.WHEAT) {
+            healAmount = 2.0F;
+            growthAmount = 20;
+            temperAmount = 3;
+        } else if (item == Item.getItemFromBlock(Blocks.HAY_BLOCK)) {
+            healAmount = 20.0F;
+            growthAmount = 180;
+        } else if (item == Items.APPLE) {
+            healAmount = 3.0F;
+            growthAmount = 60;
+            temperAmount = 3;
+        } else if (item == Items.GOLDEN_CARROT) {
+            healAmount = 4.0F;
+            growthAmount = 60;
+            temperAmount = 5;
+            if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove()) {
+                isEating = true;
+                this.setInLove(player);
+            }
+        } else if (item == Items.GOLDEN_APPLE || item == AtumItems.GOLDEN_DATE || item == AtumItems.ENCHANTED_GOLDEN_DATE) {
+            healAmount = 10.0F;
+            growthAmount = 240;
+            temperAmount = 10;
+
+            if (!this.isTame()) {
+                this.setTamedBy(player);
+            } else if (this.getGrowingAge() == 0 && !this.isInLove()) {
+                isEating = true;
+                this.setInLove(player);
+            }
+        }
+        if (this.getHealth() < this.getMaxHealth() && healAmount > 0.0F) {
+            this.heal(healAmount);
+            isEating = true;
+        }
+        if (this.isChild() && growthAmount > 0) {
+            this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D);
+
+            if (!this.world.isRemote) {
+                this.addGrowth(growthAmount);
+            }
+            isEating = true;
+        }
+
+        if (temperAmount > 0 && (isEating || !this.isTame()) && this.getTemper() < this.getMaxTemper()) {
+            isEating = true;
+            if (!this.world.isRemote) {
+                this.increaseTemper(temperAmount);
+            }
+        }
+        if (isEating) {
+            this.eatingCamel();
+        }
+        return isEating;
+    }
+
+    private void eatingCamel() {
+        if (!this.isSilent()) {
+            this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+        }
+    }
+
+    private void playChestEquipSound() {
+        this.playSound(SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
     }
 
     static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityDesertWolf> {

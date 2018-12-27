@@ -7,13 +7,13 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.GuiTrap;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.ContainerCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.client.gui.entity.GuiCamel;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
+import com.teammetallurgy.atum.inventory.entity.ContainerCamel;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiScreenHorseInventory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.inventory.ContainerHorseInventory;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -39,7 +39,7 @@ public class AtumGuiHandler implements IGuiHandler {
                 Entity entity = world.getEntityByID(x);
                 if (entity != null) {
                     EntityCamel camel = (EntityCamel) entity;
-                    return new ContainerHorseInventory(player.inventory, camel.getHorseChest(), camel, player);
+                    return new ContainerCamel(player.inventory, camel.getHorseChest(), camel, player);
                 }
         }
         return null;
@@ -60,7 +60,7 @@ public class AtumGuiHandler implements IGuiHandler {
                 Entity entity = world.getEntityByID(x);
                 if (entity != null) {
                     EntityCamel camel = (EntityCamel) entity;
-                    return new GuiScreenHorseInventory(player.inventory, camel.getHorseChest(), camel);
+                    return new GuiCamel(player.inventory, camel.getHorseChest(), camel);
                 }
 
         }

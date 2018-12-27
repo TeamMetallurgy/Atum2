@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.teammetallurgy.atum.client.render.entity.layer.LayerDesertWolfCollar;
+import com.teammetallurgy.atum.client.render.entity.layer.LayerWolfSaddle;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelBase;
@@ -21,34 +22,33 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     public RenderDesertWolf(RenderManager renderManager, ModelBase modelBase, float shadowSize) {
         super(renderManager, modelBase, shadowSize);
         this.addLayer(new LayerDesertWolfCollar(this));
+        this.addLayer(new LayerWolfSaddle(this));
     }
 
     @Override
-    protected float handleRotationFloat(EntityDesertWolf entityDesertWolf, float rotation) {
-        return entityDesertWolf.getTailRotation();
+    protected float handleRotationFloat(EntityDesertWolf desertWolf, float rotation) {
+        return desertWolf.getTailRotation();
     }
 
     @Override
-    public void doRender(@Nonnull EntityDesertWolf entityDesertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
-        if (entityDesertWolf.isWolfWet()) {
-            float f = entityDesertWolf.getBrightness() * entityDesertWolf.getShadingWhileWet(partialTicks);
+    public void doRender(@Nonnull EntityDesertWolf desertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
+        if (desertWolf.isWolfWet()) {
+            float f = desertWolf.getBrightness() * desertWolf.getShadingWhileWet(partialTicks);
             GlStateManager.color(f, f, f);
         }
-        super.doRender(entityDesertWolf, x, y, z, entityYaw, partialTicks);
+        super.doRender(desertWolf, x, y, z, entityYaw, partialTicks);
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf entityDesertWolf) {
-        return entityDesertWolf.isTamed() ? TAMED_DESERT_WOLF_TEXTURES : ANGRY_DESERT_WOLF_TEXTURES;
+    protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf desertWolf) {
+        return desertWolf.isTamed() ? TAMED_DESERT_WOLF_TEXTURES : ANGRY_DESERT_WOLF_TEXTURES;
     }
 
     @Override
-    protected void preRenderCallback(EntityDesertWolf entityDesertWolf, float partialTickTime)
-    {
-    	if(entityDesertWolf.isAlpha())
-    	{
-    		float scale = 1.5f;
-        	GlStateManager.scale(scale, scale, scale);
-    	}
+    protected void preRenderCallback(EntityDesertWolf desertWolf, float partialTickTime) {
+        if (desertWolf.isAlpha()) {
+            float scale = 1.5F;
+            GlStateManager.scale(scale, scale, scale);
+        }
     }
 }

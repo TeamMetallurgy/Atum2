@@ -5,6 +5,7 @@ import net.minecraft.client.model.ModelQuadruped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 import javax.annotation.Nonnull;
 
@@ -18,6 +19,8 @@ public class ModelCamel extends ModelQuadruped {
     private ModelRenderer tail;
     private ModelRenderer chest_right;
     private ModelRenderer chest_left;
+    public ModelRenderer saddle1;
+    public ModelRenderer saddle2;
 
     public ModelCamel(float textureOffset) {
         super(14, textureOffset);
@@ -74,21 +77,36 @@ public class ModelCamel extends ModelQuadruped {
         this.leg4 = new ModelRenderer(this, 29, 29);
         this.leg4.setRotationPoint(-3.5F, 10.0F, 6.0F);
         this.leg4.addBox(-2.0F, 0.0F, -2.0F, 4, 14, 4, 0.0F);
+        this.saddle1 = new ModelRenderer(this, 101, 32);
+        this.saddle1.setRotationPoint(0.0F, 4.9F, 2.0F);
+        this.saddle1.addBox(-4.0F, -6.0F, 6.0F, 8, 12, 2, 0.0F);
+        this.setRotateAngle(saddle1, 1.5707963267948966F, 0.0F, 0.0F);
+        this.saddle2 = new ModelRenderer(this, 100, 48);
+        this.saddle2.setRotationPoint(0.0F, 5.0F, 2.0F);
+        this.saddle2.addBox(-5.0F, 2.0F, 8.0F, 10, 4, 4, 0.0F);
+        this.setRotateAngle(saddle2, 1.5707963267948966F, 0.0F, 0.0F);
         this.head.addChild(this.snout);
-        this.body.addChild(this.hump2);
         this.head.addChild(this.ear_r);
         this.head.addChild(this.ear_l);
         this.head.addChild(this.neckheadlower);
         this.body.addChild(this.hump1);
+        this.body.addChild(this.hump2);
     }
 
     @Override
     public void render(@Nonnull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         EntityCamel camel = (EntityCamel) entity;
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, camel);
-        boolean canHaveChest = !camel.isChild() && camel.hasChest();
+        boolean isChild = camel.isChild();
+        boolean canHaveCrate = !camel.isChild() && camel.hasCrate();
+        boolean isSaddled = !isChild && camel.isHorseSaddled();
 
-        if (this.isChild) {
+        if (isSaddled) {
+            this.saddle1.render(scale);
+            this.saddle2.render(scale);
+        }
+
+        if (isChild) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, this.childYOffset * scale, this.childZOffset * scale);
             GlStateManager.popMatrix();
@@ -129,6 +147,28 @@ public class ModelCamel extends ModelQuadruped {
         	this.chest_left.render(scale);
         	this.chest_right.render(scale);
         }*/
+    }
+
+    @Override
+    public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
+        super.setLivingAnimations(livingBase, limbSwing, limbSwingAmount, partialTickTime);
+        EntityCamel camel = (EntityCamel) livingBase;
+        boolean isSaddled = camel.isHorseSaddled();
+        boolean isBeingRidden = camel.isBeingRidden();
+        float rearingAmount = camel.getRearingAmount(partialTickTime);
+        float rearing = 1.0F - rearingAmount;
+
+        if (isSaddled) {
+            /*this.horseSaddleBottom.rotationPointY = rearingAmount * 0.5F + rearing * 2.0F;
+            this.horseSaddleBottom.rotationPointZ = rearingAmount * 11.0F + rearing * 2.0F;
+            this.horseSaddleFront.rotationPointY = this.horseSaddleBottom.rotationPointY;
+            this.horseSaddleBack.rotationPointY = this.horseSaddleBottom.rotationPointY;
+            this.horseSaddleFront.rotationPointZ = this.horseSaddleBottom.rotationPointZ;
+            this.horseSaddleBack.rotationPointZ = this.horseSaddleBottom.rotationPointZ;
+            this.horseSaddleBottom.rotateAngleX = this.body.rotateAngleX;
+            this.horseSaddleFront.rotateAngleX = this.body.rotateAngleX;
+            this.horseSaddleBack.rotateAngleX = this.body.rotateAngleX;*/
+        }
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
