@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.google.common.base.Predicate;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
 import com.teammetallurgy.atum.entity.ai.AISitWithCheck;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
@@ -22,6 +23,9 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemDye;
 import net.minecraft.item.ItemFood;
@@ -48,11 +52,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
+public class EntityDesertWolf extends EntityTameable implements IJumpingMount, IInventoryChangedListener {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
+    private InventoryBasic desertWolfInventory = new InventoryBasic("DesertWolfInventory", true, 2);
     private float headRotationCourse;
     private float headRotationCourseWild;
     private boolean isWet;
@@ -82,8 +87,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, avoid -> avoid != null && avoid.isAlpha() && (!this.isAlpha() && this.isTamed()), 8.0F, 0.6D, 1.0D));
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityLlama.class, 24.0F, 1.5D, 1.5D));
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, 24.0F, 1.5D, 1.5D));
+        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityLlama.class, 24.0F, 0.6D, 1.2D));
+        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, 24.0F, 0.6D, 1.2D));
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
         this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
@@ -333,6 +338,15 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     }
 
     @Override
+    public void setScaleForAge(boolean child) {
+        if (this.isAlpha()) {
+            this.setScale(1.55F);
+        } else {
+            super.setScaleForAge(child);
+        }
+    }
+
+    @Override
     public int getVerticalFaceSpeed() {
         return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
     }
@@ -399,22 +413,31 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
                         }
                         return true;
                     }
-                } else if(heldStack.getItem() == Items.SADDLE) { //Temporary
-                    if (!this.isSaddled() && !this.isChild()) {
-                        this.setSaddled(true);
-                        this.world.playSound(player, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.NEUTRAL, 0.5F, 1.0F);
-                        if (!player.capabilities.isCreativeMode) {
-                            heldStack.shrink(1);
-                        }
-                    }
+                }
+
+                boolean holdsArmor = HorseArmorType.getByItemStack(heldStack) != HorseArmorType.NONE;
+                boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() == Items.SADDLE;
+
+                if (holdsArmor || holdsSaddle) {
+                    this.openGUI(player);
                     return true;
                 }
             }
 
-            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(heldStack) && this.isSaddled() && !this.isBeingRidden()) {
-                if (this.isAlpha()) {
+            if (!this.isChild() && this.isAlpha()) {
+                if (player.isSneaking()) {
+                    this.openGUI(player);
+                    return true;
+                }
+                if (this.isBeingRidden()) {
+                    return super.processInteract(player, hand);
+                }
+            }
+
+            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(heldStack) && !this.isBeingRidden()) {
+                if (this.isAlpha() && this.isSaddled()) {
                     this.mountTo(player);
-                } else {
+                } else if (!this.isAlpha()) {
                     this.aiSit.setSitting(!this.isSitting());
                 }
                 this.isJumping = false;
@@ -448,6 +471,17 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
             return true;
         }
         return super.processInteract(player, hand);
+    }
+
+    public void openGUI(EntityPlayer player) {
+        if (!this.world.isRemote && this.isAlpha() && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
+            desertWolfInventory.setCustomName(this.getName());
+            player.openGui(Atum.instance, 4, world, this.getEntityId(), 0, 0);
+        }
+    }
+
+    public InventoryBasic getInventory() {
+        return desertWolfInventory;
     }
 
     @Override
@@ -600,6 +634,12 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         if (angryTimer > 0) {
             compound.setInteger("AngryTimer", angryTimer);
         }
+        if (!this.desertWolfInventory.getStackInSlot(0).isEmpty()) {
+            compound.setTag("SaddleItem", this.desertWolfInventory.getStackInSlot(0).writeToNBT(new NBTTagCompound()));
+        }
+        if (!this.desertWolfInventory.getStackInSlot(1).isEmpty()) {
+            compound.setTag("ArmorItem", this.desertWolfInventory.getStackInSlot(1).writeToNBT(new NBTTagCompound()));
+        }
     }
 
     @Override
@@ -614,6 +654,55 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
 
         if (compound.hasKey("CollarColor", 99)) {
             this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getByte("CollarColor")));
+        }
+        if (compound.hasKey("SaddleItem", 10)) {
+            ItemStack saddleStack = new ItemStack(compound.getCompoundTag("SaddleItem"));
+            if (saddleStack.getItem() == Items.SADDLE) {
+                this.desertWolfInventory.setInventorySlotContents(0, saddleStack);
+            }
+        }
+        if (compound.hasKey("ArmorItem", 10)) {
+            ItemStack armorStack = new ItemStack(compound.getCompoundTag("ArmorItem"));
+            if (!armorStack.isEmpty() && isArmor(armorStack)) {
+                this.desertWolfInventory.setInventorySlotContents(1, armorStack);
+            }
+        }
+        this.updateSlots();
+    }
+
+    private void updateSlots() {
+        //this.setArmorStack(this.desertWolfInventory.getStackInSlot(1)); //TODO
+        if (!this.world.isRemote) {
+            this.setSaddled(!this.desertWolfInventory.getStackInSlot(0).isEmpty());
+        }
+    }
+
+    @Override
+    public void onInventoryChanged(@Nonnull IInventory invBasic) {
+        this.updateSlots();
+    }
+
+    @Override
+    public boolean replaceItemInInventory(int inventorySlot, @Nonnull ItemStack stack) {
+        int slot = inventorySlot - 400;
+        if (slot >= 0 && slot < 2 && slot < this.desertWolfInventory.getSizeInventory()) {
+            if (slot == 0 && stack.getItem() != Items.SADDLE) {
+                return false;
+            } else if (slot != 1 || this.isArmor(stack)) {
+                this.desertWolfInventory.setInventorySlotContents(slot, stack);
+                this.updateSlots();
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            int j = inventorySlot - 500 + 2;
+            if (j >= 2 && j < this.desertWolfInventory.getSizeInventory()) {
+                this.desertWolfInventory.setInventorySlotContents(j, stack);
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 
@@ -638,6 +727,15 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
     @Override
     public double getMountedYOffset() {
         return (double) this.height + 0.22D;
+    }
+
+    @Override
+    public void updatePassenger(@Nonnull Entity passenger) {
+        if (this.isPassenger(passenger)) {
+            float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
+            float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
+            passenger.setPosition(this.posX + (double) (0.4F * sin), this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ - (double) (0.4F * cos));
+        }
     }
 
     private void mountTo(EntityPlayer player) {
@@ -775,5 +873,9 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount {
         } else {
             return 4.0;
         }
+    }
+
+    public boolean isArmor(ItemStack stack) {
+        return false; //TODO Do when wolf armor is added
     }
 }

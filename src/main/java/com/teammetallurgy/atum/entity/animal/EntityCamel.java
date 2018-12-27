@@ -225,7 +225,16 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @Override
     public double getMountedYOffset() {
-        return (double) this.height * 0.67D;
+        return (double) this.height * 0.78D;
+    }
+
+    @Override
+    public void updatePassenger(@Nonnull Entity passenger) {
+        if (this.isPassenger(passenger)) {
+            float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
+            float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
+            passenger.setPosition(this.posX + (double) (0.1F * sin), this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ - (double) (0.1F * cos));
+        }
     }
 
     public void leaveCaravan() {
@@ -317,6 +326,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     public void openGUI(@Nonnull EntityPlayer player) {
         if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
+            this.horseChest.setCustomName(this.getName());
             player.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
         }
     }
@@ -386,7 +396,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     protected void initHorseChest() {
         ContainerHorseChest containerhorsechest = this.horseChest;
-        System.out.println("Potato " +  this.getInventorySize());
+        System.out.println("Camel Inventory Size testing " +  this.getInventorySize());
         this.horseChest = new ContainerHorseChest("CamelChest", 18);
         this.horseChest.setCustomName(this.getName());
 

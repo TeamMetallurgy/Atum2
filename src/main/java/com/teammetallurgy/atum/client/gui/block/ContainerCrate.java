@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
+package com.teammetallurgy.atum.client.gui.block;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
@@ -73,7 +73,7 @@ public class ContainerCrate extends Container {
         this.crateInventory.closeInventory(player);
     }
 
-    IInventory getCrateInventory() {
+    public IInventory getCrateInventory() {
         return crateInventory;
     }
 }

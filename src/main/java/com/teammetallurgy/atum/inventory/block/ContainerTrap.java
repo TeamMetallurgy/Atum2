@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.trap.tileentity;
+package com.teammetallurgy.atum.inventory.block;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.client.gui.block.ContainerCrate;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
