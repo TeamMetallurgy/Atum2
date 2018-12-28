@@ -32,8 +32,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntityQuern extends TileEntityInventoryBase implements ITickable, ISidedInventory {
-    public int currentRotation;
-    public int quernRotations;
+    private int currentRotation;
+    private int quernRotations;
 
     public TileEntityQuern() {
         super(1);
@@ -94,6 +94,14 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
             }
         }
         return false;
+    }
+
+    public int getQuernRotations() {
+        return quernRotations;
+    }
+
+    public void setQuernRotations(int quernRotations) {
+        this.quernRotations = quernRotations;
     }
 
     @Override

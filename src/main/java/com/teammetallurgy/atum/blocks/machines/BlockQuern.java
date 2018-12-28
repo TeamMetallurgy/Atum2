@@ -97,7 +97,7 @@ public class BlockQuern extends BlockContainer {
                     heldStack.shrink(1);
                 }
             } else {
-                quern.currentRotation += 24;
+                quern.setQuernRotations(quern.getQuernRotations() + 24);
                 if (world.isRemote) {
                     world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
                 }

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
+import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -11,9 +12,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import javax.annotation.Nonnull;
 
 public class ItemTexturedArmor extends ItemArmor {
-    private ItemStack repairItem = ItemStack.EMPTY;
+    private Item repairItem;
     private final String armorPieceName;
-    protected boolean isDyeable;
+    private boolean isDyeable;
 
     public ItemTexturedArmor(ArmorMaterial material, String name, EntityEquipmentSlot slot) {
         super(material, 0, slot);
@@ -21,7 +22,7 @@ public class ItemTexturedArmor extends ItemArmor {
     }
 
     public ItemTexturedArmor setRepairItem(Item item) {
-        this.repairItem = new ItemStack(item);
+        this.repairItem = item;
         return this;
     }
 
@@ -32,7 +33,7 @@ public class ItemTexturedArmor extends ItemArmor {
 
     @Override
     public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair == this.repairItem;
+        return this.repairItem != null && repair.getItem() == this.repairItem;
     }
 
     @Override

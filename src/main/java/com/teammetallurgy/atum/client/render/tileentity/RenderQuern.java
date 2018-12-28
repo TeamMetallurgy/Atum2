@@ -51,7 +51,7 @@ public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
             this.bindTexture(QUERN_STONE);
         }
 
-        float quernRotation = quern.currentRotation;
+        float quernRotation = quern.getQuernRotations();
         GlStateManager.rotate(-quernRotation, 0.0F, 1.0F, 0.0F);
         QUERN_STONE_MODEL.renderAll();
         GlStateManager.depthMask(true);
