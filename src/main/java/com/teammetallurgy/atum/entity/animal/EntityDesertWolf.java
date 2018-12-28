@@ -42,11 +42,15 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -57,7 +61,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
-    private InventoryBasic desertWolfInventory = new InventoryBasic("DesertWolfInventory", true, 2);
+    private InventoryBasic desertWolfInventory;
     private float headRotationCourse;
     private float headRotationCourseWild;
     private boolean isWet;
@@ -79,6 +83,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.experienceValue = 6;
         this.stepHeight = 1.0F;
         MinecraftForge.EVENT_BUS.register(this);
+        this.initInventory();
     }
 
     @Override
@@ -484,6 +489,25 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return desertWolfInventory;
     }
 
+    private void initInventory() {
+        InventoryBasic inventory = this.desertWolfInventory;
+        this.desertWolfInventory = new InventoryBasic("DesertWolfInventory", true, 2);
+        this.desertWolfInventory.setCustomName(this.getName());
+
+        if (inventory != null) {
+            inventory.removeInventoryChangeListener(this);
+            for (int j = 0; j < 2; ++j) {
+                ItemStack slotStack = inventory.getStackInSlot(j);
+                if (!slotStack.isEmpty()) {
+                    this.desertWolfInventory.setInventorySlotContents(j, slotStack.copy());
+                }
+            }
+        }
+        this.desertWolfInventory.addInventoryChangeListener(this);
+        this.updateSlots();
+        this.itemHandler = new InvWrapper(this.desertWolfInventory);
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void handleStatusUpdate(byte id) {
@@ -696,13 +720,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 return false;
             }
         } else {
-            int j = inventorySlot - 500 + 2;
-            if (j >= 2 && j < this.desertWolfInventory.getSizeInventory()) {
-                this.desertWolfInventory.setInventorySlotContents(j, stack);
-                return true;
-            } else {
-                return false;
-            }
+            return false;
         }
     }
 
@@ -877,5 +895,22 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     public boolean isArmor(ItemStack stack) {
         return false; //TODO Do when wolf armor is added
+    }
+
+    private IItemHandler itemHandler = null;
+
+    @Override
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) itemHandler;
+        }
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 }
