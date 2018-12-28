@@ -61,20 +61,24 @@ public class LighthousePieces {
         @Override
         public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
             super.addComponentParts(world, random, box);
-            this.spawnSunspeakers(world, box, 7, 1, 1, 3);
+            this.spawnSunspeakers(world, box, -8, 1, -8, 5);
             return true;
         }
         
         private void spawnSunspeakers(World world, StructureBoundingBox box, int x, int y, int z, int count) {
+            /*System.out.println("Min: " + box.minX + " " + box.minY + " " + box.minZ);
+            System.out.println("Max: " + box.maxX + " " + box.maxY + " " + box.maxZ);*/
             if (this.sunspeakerSpawned < count) {
                 for (int i = this.sunspeakerSpawned; i < count; ++i) {
                     int j = this.getXWithOffset(x + i, z);
                     int k = this.getYWithOffset(y);
                     int l = this.getZWithOffset(x + i, z);
 
-                    if (!box.isVecInside(new BlockPos(j, k, l))) {
+                    BlockPos pos = new BlockPos(j, k, l);
+                    if (!box.isVecInside(pos) || !world.isAirBlock(pos)) {
                         break;
                     }
+                    System.out.println(pos);
 
                     ++this.sunspeakerSpawned;
 

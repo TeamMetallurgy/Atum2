@@ -19,7 +19,7 @@ import java.util.Random;
 public class MapGenLighthouse extends MapGenStructure {
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387600;
-    private int spacing = 7;
+    private int spacing = 10;
     private int separation = 4;
 
     public MapGenLighthouse(ChunkGeneratorAtum chunkGenerator) {
@@ -104,7 +104,7 @@ public class MapGenLighthouse extends MapGenStructure {
             int groundXZ = chunkPrimer.findGroundBlockIdx(7 + x, 7 + z);
             int y = Math.min(Math.min(ground, groundZ), Math.min(groundX, groundXZ));
 
-            if (y < 95) {
+            if (y < 90) {
                 this.isValid = false;
             } else {
                 BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 1, chunkZ * 16 + 8);

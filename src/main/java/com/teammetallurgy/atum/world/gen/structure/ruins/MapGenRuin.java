@@ -113,7 +113,7 @@ public class MapGenRuin extends MapGenStructure {
             int groundXZ = chunkPrimer.findGroundBlockIdx(7 + x, 7 + z);
             int y = Math.min(Math.min(ground, groundZ), Math.min(groundX, groundXZ));
 
-            if (y < 60) {
+            if (y < 61 || y > 85) {
                 this.isValid = false;
             } else {
                 BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 1, chunkZ * 16 + 8);

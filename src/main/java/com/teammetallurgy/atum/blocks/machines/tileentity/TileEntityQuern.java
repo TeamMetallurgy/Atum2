@@ -41,22 +41,24 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
 
     @Override
     public void update() {
-        if (this.currentRotation == 360) {
-            this.currentRotation = 0;
-            this.quernRotations += 1;
-        }
+        if (!world.isRemote) {
+            if (this.currentRotation == 360) {
+                this.currentRotation = 0;
+                this.quernRotations += 1;
+            }
 
-        if (this.getStackInSlot(0).isEmpty()) {
-            this.quernRotations = 0;
-        }
+            if (this.getStackInSlot(0).isEmpty()) {
+                this.quernRotations = 0;
+            }
 
-        if (this.quernRotations > 0) {
-            for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
-                for (ItemStack input : quernRecipe.getInput()) {
-                    if (StackHelper.areStacksEqualIgnoreSize(input, this.getStackInSlot(0)) && quernRecipe.getRotations() == this.quernRotations) {
-                        this.decrStackSize(0, 1);
-                        this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
-                        this.quernRotations = 0;
+            if (this.quernRotations > 0) {
+                for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
+                    for (ItemStack input : quernRecipe.getInput()) {
+                        if (StackHelper.areStacksEqualIgnoreSize(input, this.getStackInSlot(0)) && quernRecipe.getRotations() == this.quernRotations) {
+                            this.decrStackSize(0, 1);
+                            this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
+                            this.quernRotations = 0;
+                        }
                     }
                 }
             }

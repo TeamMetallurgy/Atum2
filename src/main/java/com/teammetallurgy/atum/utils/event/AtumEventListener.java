@@ -147,8 +147,9 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) {
         EntityPlayer player = event.getEntityPlayer();
+        World world = event.getWorld();
         if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-            if (player.getHeldItem(event.getHand()).getItem() == Items.WHEAT_SEEDS) {
+            if (player.getHeldItem(event.getHand()).getItem() == Items.WHEAT_SEEDS && world.getBlockState(event.getPos()).getBlock() instanceof BlockFarmland) {
                 event.setCanceled(true);
             }
         }
