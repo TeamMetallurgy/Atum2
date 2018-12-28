@@ -191,11 +191,11 @@ public class AtumRecipes {
 
         //Sword
         recipes.remove(sword);
-        registry.register(new ShapedOreRecipe(sword, Items.STONE_SWORD, " C ", " C ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(sword));
+        registry.register(new ShapedOreRecipe(sword, Items.STONE_SWORD, "C", "C", "S", 'C', cobblestone, 'S', "stickWood").setRegistryName(sword));
 
         //Shovel
         recipes.remove(shovel);
-        registry.register(new ShapedOreRecipe(shovel, Items.STONE_SHOVEL, " C ", " S ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(shovel));
+        registry.register(new ShapedOreRecipe(shovel, Items.STONE_SHOVEL, "C", "S", "S", 'C', cobblestone, 'S', "stickWood").setRegistryName(shovel));
 
         //Pickaxe
         recipes.remove(pickaxe);
@@ -203,11 +203,11 @@ public class AtumRecipes {
 
         //Hoe
         recipes.remove(hoe);
-        registry.register(new ShapedOreRecipe(hoe, Items.STONE_HOE, "CC ", " S ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(hoe));
+        registry.register(new ShapedOreRecipe(hoe, Items.STONE_HOE, "CC", " S", " S", 'C', cobblestone, 'S', "stickWood").setRegistryName(hoe));
 
         //Axe
         recipes.remove(axe);
-        registry.register(new ShapedOreRecipe(axe, Items.STONE_AXE, "CC ", "CS ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(axe));
+        registry.register(new ShapedOreRecipe(axe, Items.STONE_AXE, "CC", "CS", " S", 'C', cobblestone, 'S', "stickWood").setRegistryName(axe));
 
         //Furnace
         recipes.remove(furnace);
