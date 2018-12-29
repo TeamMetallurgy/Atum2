@@ -484,6 +484,13 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return super.processInteract(player, hand);
     }
 
+    public boolean isSitting()
+    {
+        if(this.isAlpha())
+        	return false;
+        return super.isSitting();
+    }
+
     @Override
     protected boolean isMovementBlocked() {
         return super.isMovementBlocked() && this.isBeingRidden() && this.isSaddled();
