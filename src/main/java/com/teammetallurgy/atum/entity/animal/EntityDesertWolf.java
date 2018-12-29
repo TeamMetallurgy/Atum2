@@ -504,7 +504,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         }
     }
     
-    public void openGUI(EntityPlayer player) {
+    private void openGUI(EntityPlayer player) {
         if (!this.world.isRemote && this.isAlpha() && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
             desertWolfInventory.setCustomName(this.getName());
             player.openGui(Atum.instance, 4, world, this.getEntityId(), 0, 0);
