@@ -73,6 +73,7 @@ public class BlockQuern extends BlockContainer {
                     StackHelper.giveItem(player, EnumHand.MAIN_HAND, copyStack);
                     quern.decrStackSize(0, 1);
                 }
+                world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
             }
         }
         super.onBlockClicked(world, pos, player);
@@ -102,6 +103,7 @@ public class BlockQuern extends BlockContainer {
                     world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
                 }
             }
+            world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
             return true;
         }
         return true;

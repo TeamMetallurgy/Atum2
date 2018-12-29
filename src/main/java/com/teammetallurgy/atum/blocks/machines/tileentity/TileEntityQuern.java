@@ -97,11 +97,11 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
     }
 
     public int getQuernRotations() {
-        return quernRotations;
+        return currentRotation;
     }
 
     public void setQuernRotations(int quernRotations) {
-        this.quernRotations = quernRotations;
+        this.currentRotation = quernRotations;
     }
 
     @Override
