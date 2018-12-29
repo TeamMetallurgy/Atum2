@@ -490,6 +490,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void openInventoryOverride(GuiOpenEvent event) {
         if (this.isBeingRidden() && event.getGui() instanceof GuiInventory) {
             Entity entity = this.getControllingPassenger();
