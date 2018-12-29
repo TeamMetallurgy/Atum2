@@ -57,7 +57,6 @@ import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -102,7 +101,6 @@ public class ClientProxy extends CommonProxy {
                 return 12889745;
             }
         }, AtumBlocks.DEAD_GRASS);
-        MinecraftForge.EVENT_BUS.register(EntityDesertWolf.class);
     }
 
     @SubscribeEvent
