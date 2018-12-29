@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.network;
 
+import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
 import com.teammetallurgy.atum.network.packet.PacketParticle;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -17,6 +18,7 @@ public class NetworkHandler {
     public static void register() {
         lastDiscriminator++;
         registerPacket(PacketParticle.class, Side.CLIENT);
+        registerPacket(PacketOpenWolfGui.class, Side.SERVER);
     }
 
     @SuppressWarnings("all")

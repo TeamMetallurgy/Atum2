@@ -8,8 +8,11 @@ import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
@@ -20,6 +23,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -491,8 +495,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             Entity entity = this.getControllingPassenger();
             if (entity instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) entity;
-                this.openGUI(player);
-                event.setCanceled(true);
+                if(player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID())
+                {
+                	NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(this.getEntityId()));
+	                event.setCanceled(true);
+                }
             }
         }
     }
