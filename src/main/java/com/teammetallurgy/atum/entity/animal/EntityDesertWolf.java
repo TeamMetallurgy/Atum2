@@ -10,6 +10,8 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -41,6 +43,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -478,6 +481,20 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return super.processInteract(player, hand);
     }
 
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public static void openInventoryOverride(GuiOpenEvent event) {
+    	EntityPlayer player = Minecraft.getMinecraft().player;
+    	if(player == null)
+    		return;
+    	if(event.getGui() instanceof GuiInventory) {
+	    	if(player.isRiding() && player.getRidingEntity() instanceof EntityDesertWolf) {
+                player.openGui(Atum.instance, 4, player.world, player.getRidingEntity().getEntityId(), 0, 0);
+	    		event.setCanceled(true);
+	    	}
+    	}
+    }
+    
     public void openGUI(EntityPlayer player) {
         if (!this.world.isRemote && this.isAlpha() && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
             desertWolfInventory.setCustomName(this.getName());
