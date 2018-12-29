@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;

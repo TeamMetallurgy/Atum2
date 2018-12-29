@@ -10,7 +10,6 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
@@ -481,18 +480,21 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return super.processInteract(player, hand);
     }
 
+    @Override
+    protected boolean isMovementBlocked() {
+        return super.isMovementBlocked() && this.isBeingRidden() && this.isSaddled();
+    }
+
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public static void openInventoryOverride(GuiOpenEvent event) {
-    	EntityPlayer player = Minecraft.getMinecraft().player;
-    	if(player == null)
-    		return;
-    	if(event.getGui() instanceof GuiInventory) {
-	    	if(player.isRiding() && player.getRidingEntity() instanceof EntityDesertWolf) {
-                player.openGui(Atum.instance, 4, player.world, player.getRidingEntity().getEntityId(), 0, 0);
-	    		event.setCanceled(true);
-	    	}
-    	}
+    public void openInventoryOverride(GuiOpenEvent event) {
+        if (this.isBeingRidden() && event.getGui() instanceof GuiInventory) {
+            Entity entity = this.getControllingPassenger();
+            if (entity instanceof EntityPlayer) {
+                EntityPlayer player = (EntityPlayer) entity;
+                this.openGUI(player);
+                event.setCanceled(true);
+            }
+        }
     }
     
     public void openGUI(EntityPlayer player) {
@@ -782,7 +784,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     public void travel(float strafe, float vertical, float forward) {
-        if (this.isBeingRidden() && this.canBeSteered()) {
+        if (this.isBeingRidden() && this.canBeSteered() && this.isSaddled()) {
             EntityLivingBase livingBase = (EntityLivingBase) this.getControllingPassenger();
             if (livingBase != null) {
                 this.rotationYaw = livingBase.rotationYaw;
@@ -873,7 +875,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     public boolean canJump() {
-        return true;
+        return this.isSaddled();
     }
 
     public void handleStartJump(int jumpPower) {
