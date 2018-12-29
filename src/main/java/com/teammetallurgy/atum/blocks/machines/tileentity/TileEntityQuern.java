@@ -58,6 +58,7 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
                             this.decrStackSize(0, 1);
                             this.outputItems(quernRecipe.getOutput().copy(), this.getPos());
                             this.quernRotations = 0;
+                            this.markDirty();
                         }
                     }
                 }
@@ -96,12 +97,12 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
         return false;
     }
 
-    public int getQuernRotations() {
-        return currentRotation;
+    public int getRotations() {
+        return this.currentRotation;
     }
 
-    public void setQuernRotations(int quernRotations) {
-        this.currentRotation = quernRotations;
+    public void setRotations(int rotations) {
+        this.currentRotation = rotations;
     }
 
     @Override
@@ -140,6 +141,12 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
     @Nonnull
     public NBTTagCompound getUpdateTag() {
         return this.writeToNBT(new NBTTagCompound());
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
     }
 
     @Override

@@ -497,21 +497,21 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void openInventoryOverride(GuiOpenEvent event) {
         if (this.isBeingRidden() && event.getGui() instanceof GuiInventory) {
             Entity entity = this.getControllingPassenger();
             if (entity instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) entity;
-                if(player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID())
-                {
-                	NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(this.getEntityId()));
-	                event.setCanceled(true);
+                if (player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID()) {
+                    NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(this.getEntityId()));
+                    event.setCanceled(true);
                 }
             }
         }
     }
     
-    public void openGUI(EntityPlayer player) {
+    private void openGUI(EntityPlayer player) {
         if (!this.world.isRemote && this.isAlpha() && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
             desertWolfInventory.setCustomName(this.getName());
             player.openGui(Atum.instance, 4, world, this.getEntityId(), 0, 0);
@@ -777,7 +777,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public double getMountedYOffset() {
-        return (double) this.height + 0.22D;
+        return super.getMountedYOffset() + 0.07D;
     }
 
     @Override
