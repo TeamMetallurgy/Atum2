@@ -495,10 +495,9 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             Entity entity = this.getControllingPassenger();
             if (entity instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) entity;
-                if(player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID())
-                {
-                	NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(this.getEntityId()));
-	                event.setCanceled(true);
+                if (player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID()) {
+                    NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(this.getEntityId()));
+                    event.setCanceled(true);
                 }
             }
         }
@@ -770,7 +769,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public double getMountedYOffset() {
-        return (double) this.height + 0.22D;
+        return super.getMountedYOffset() + 0.07D;
     }
 
     @Override
