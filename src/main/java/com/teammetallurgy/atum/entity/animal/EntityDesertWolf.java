@@ -454,7 +454,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                     this.setAttackTarget(null);
                 }
             }
-        } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE)) {
+        } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE || heldStack.getItem() == Items.RABBIT) || heldStack.getItem() == Items.COOKED_RABBIT) {
             if (!player.capabilities.isCreativeMode) {
                 heldStack.shrink(1);
             }
