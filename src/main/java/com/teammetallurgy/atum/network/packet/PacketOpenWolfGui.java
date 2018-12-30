@@ -6,8 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 
-import java.io.IOException;
-
 public class PacketOpenWolfGui extends Packet<PacketOpenWolfGui> {
 	private int wolfID;
 

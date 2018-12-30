@@ -23,7 +23,6 @@ import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -445,17 +444,17 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 }
             }
 
-            if (this.isOwner(player) && !this.world.isRemote && !this.isBreedingItem(heldStack) && !this.isBeingRidden()) {
+            if (!this.world.isRemote && !this.isBreedingItem(heldStack) && !this.isBeingRidden()) {
                 if (this.isAlpha() && this.isSaddled()) {
                     this.mountTo(player);
-                } else if (!this.isAlpha()) {
+                } else if (!this.isAlpha() && this.isOwner(player)) {
                     this.aiSit.setSitting(!this.isSitting());
+                    this.isJumping = false;
+                    this.navigator.clearPath();
+                    this.setAttackTarget(null);
                 }
-                this.isJumping = false;
-                this.navigator.clearPath();
-                this.setAttackTarget(null);
             }
-        } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE)) {
+        } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE || heldStack.getItem() == Items.RABBIT) || heldStack.getItem() == Items.COOKED_RABBIT) {
             if (!player.capabilities.isCreativeMode) {
                 heldStack.shrink(1);
             }
@@ -484,10 +483,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return super.processInteract(player, hand);
     }
 
-    public boolean isSitting()
-    {
-        if(this.isAlpha())
-        	return false;
+    @Override
+    public boolean isSitting() {
+        if (this.isAlpha()) {
+            return false;
+        }
         return super.isSitting();
     }
 
@@ -510,7 +510,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             }
         }
     }
-    
+
     private void openGUI(EntityPlayer player) {
         if (!this.world.isRemote && this.isAlpha() && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
             desertWolfInventory.setCustomName(this.getName());
@@ -841,8 +841,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
                 if (this.canPassengerSteer()) {
-                    this.setAIMoveSpeed(
-                            (float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue());
+                    this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue() * 0.80F);
                     super.travel(strafe, vertical, forward);
                 } else if (livingBase instanceof EntityPlayer) {
                     this.motionX = 0.0D;
