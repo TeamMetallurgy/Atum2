@@ -70,17 +70,19 @@ public class LighthousePieces {
             return true;
         }
         
-        private void spawnSunspeakers(World world, StructureBoundingBox box, int x, int y, int z, int count) {
-        	if(this.sunspeakerSpawned >= count) 
+        private void spawnSunspeakers(World world, StructureBoundingBox box, int x, int y, int z, int min, int max) {
+        	if(this.sunspeakerSpawned > 0) 
         		return;
         	
         	world.setBlockToAir(new BlockPos(x, y, z));
         	Random rand = new Random(world.getSeed() ^ x ^ (z << 16));
-        	
+
+        	int numToSpawn = rand.nextInt(1 + max - min) + min;
+        			
         	// Since each level is has a different number of valid spawn space, this will ensure they spawn evenly on each level
             int[] levels = { 0, 5, 10, 22 };
         	List<Integer> ylevels = new ArrayList<>();
-        	for(int i = 0; i < count; i++) {
+        	for(int i = 0; i < numToSpawn; i++) {
         		ylevels.add(y + levels[rand.nextInt(levels.length)] + 1);
         	}
         	
@@ -88,7 +90,7 @@ public class LighthousePieces {
         	Set<BlockPos> usedPosition = new HashSet<>();
 
         	int tries = 0;
-            while (this.sunspeakerSpawned < count) {
+            while (this.sunspeakerSpawned < numToSpawn) {
             	int sw = 2;
             	int j = x + rand.nextInt(2 * sw + 1) - sw;
             	int k = ylevels.get(sunspeakerSpawned);
@@ -135,7 +137,7 @@ public class LighthousePieces {
                     world.setBlockState(pos, AtumBlocks.HEART_OF_RA.getDefaultState(), 2);
                 }
             } else if(function.equals("Sunspeaker")) {
-            	spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 5);
+            	spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 2, 6);
             }
         }
 
