@@ -22,7 +22,12 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class LighthousePieces {
     public static final ResourceLocation LIGHTHOUSE = new ResourceLocation(Constants.MOD_ID, "lighthouse");
@@ -66,32 +71,46 @@ public class LighthousePieces {
         }
         
         private void spawnSunspeakers(World world, StructureBoundingBox box, int x, int y, int z, int count) {
-            System.out.println("Min: " + box.minX + " " + box.minY + " " + box.minZ);
-            System.out.println("Max: " + box.maxX + " " + box.maxY + " " + box.maxZ);
-        	Random rand = new Random();
-            if (this.sunspeakerSpawned < count) {
-                for (int i = this.sunspeakerSpawned; i < count; ++i) {
-                	int sw = 2;
-                	int j = x + rand.nextInt(2 * sw + 1) - sw;
-                	int k = y + rand.nextInt(64);
-                	int l = z + rand.nextInt(2 * sw + 1) - sw;
-                    //int j = this.getXWithOffset(x + i, z);
-                    //int k = this.getYWithOffset(y);
-                    //int l = this.getZWithOffset(z + i, z);
+        	if(this.sunspeakerSpawned >= count) 
+        		return;
+        	
+        	world.setBlockToAir(new BlockPos(x, y, z));
+        	Random rand = new Random(world.getSeed() ^ x ^ (z << 16));
+        	
+        	// Since each level is has a different number of valid spawn space, this will ensure they spawn evenly on each level
+            int[] levels = { 0, 5, 10, 22 };
+        	List<Integer> ylevels = new ArrayList<>();
+        	for(int i = 0; i < count; i++) {
+        		ylevels.add(y + levels[rand.nextInt(levels.length)] + 1);
+        	}
+        	
+        	// Used to avoid sunspeakers spawning on top of each other
+        	Set<BlockPos> usedPosition = new HashSet<>();
 
-                    BlockPos pos = new BlockPos(j, k, l);
-                    if (!box.isVecInside(pos) || !world.isAirBlock(pos)) {
-                        break;
-                    }
-                    System.out.println(pos);
+        	int tries = 0;
+            while (this.sunspeakerSpawned < count) {
+            	int sw = 2;
+            	int j = x + rand.nextInt(2 * sw + 1) - sw;
+            	int k = ylevels.get(sunspeakerSpawned);
+            	int l = z + rand.nextInt(2 * sw + 1) - sw;
 
+                BlockPos pos = new BlockPos(j, k, l);
+                if(usedPosition.contains(pos))
+                	continue;
+                usedPosition.add(pos);
+                
+                if (box.isVecInside(pos) && world.isAirBlock(pos)) {
                     ++this.sunspeakerSpawned;
 
                     EntitySunspeaker sunspeaker = new EntitySunspeaker(world);
                     sunspeaker.setLocationAndAngles((double) j + 0.5D, (double) k, (double) l + 0.5D, 0.0F, 0.0F);
                     sunspeaker.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(sunspeaker)), null);
-                    System.out.println("Spawning sunspeaker " + world.spawnEntity(sunspeaker));
+                    world.spawnEntity(sunspeaker);
                 }
+                
+                // Failsafe
+                if(++tries > 100)
+                	break;
             }
         }
 
