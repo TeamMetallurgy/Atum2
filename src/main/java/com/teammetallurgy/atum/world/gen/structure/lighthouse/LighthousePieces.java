@@ -61,18 +61,23 @@ public class LighthousePieces {
         @Override
         public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
             super.addComponentParts(world, random, box);
-            this.spawnSunspeakers(world, box, -8, 1, -8, 5);
+            //this.spawnSunspeakers(world, box, 8, 1, 8, 5);
             return true;
         }
         
         private void spawnSunspeakers(World world, StructureBoundingBox box, int x, int y, int z, int count) {
-            /*System.out.println("Min: " + box.minX + " " + box.minY + " " + box.minZ);
-            System.out.println("Max: " + box.maxX + " " + box.maxY + " " + box.maxZ);*/
+            System.out.println("Min: " + box.minX + " " + box.minY + " " + box.minZ);
+            System.out.println("Max: " + box.maxX + " " + box.maxY + " " + box.maxZ);
+        	Random rand = new Random();
             if (this.sunspeakerSpawned < count) {
                 for (int i = this.sunspeakerSpawned; i < count; ++i) {
-                    int j = this.getXWithOffset(x + i, z);
-                    int k = this.getYWithOffset(y);
-                    int l = this.getZWithOffset(x + i, z);
+                	int sw = 2;
+                	int j = x + rand.nextInt(2 * sw + 1) - sw;
+                	int k = y + rand.nextInt(64);
+                	int l = z + rand.nextInt(2 * sw + 1) - sw;
+                    //int j = this.getXWithOffset(x + i, z);
+                    //int k = this.getYWithOffset(y);
+                    //int l = this.getZWithOffset(z + i, z);
 
                     BlockPos pos = new BlockPos(j, k, l);
                     if (!box.isVecInside(pos) || !world.isAirBlock(pos)) {
@@ -85,7 +90,7 @@ public class LighthousePieces {
                     EntitySunspeaker sunspeaker = new EntitySunspeaker(world);
                     sunspeaker.setLocationAndAngles((double) j + 0.5D, (double) k, (double) l + 0.5D, 0.0F, 0.0F);
                     sunspeaker.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(sunspeaker)), null);
-                    world.spawnEntity(sunspeaker);
+                    System.out.println("Spawning sunspeaker " + world.spawnEntity(sunspeaker));
                 }
             }
         }
@@ -110,6 +115,8 @@ public class LighthousePieces {
                 if (box.isVecInside(pos)) {
                     world.setBlockState(pos, AtumBlocks.HEART_OF_RA.getDefaultState(), 2);
                 }
+            } else if(function.equals("Sunspeaker")) {
+            	spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 5);
             }
         }
 
