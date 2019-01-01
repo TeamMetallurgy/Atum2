@@ -425,7 +425,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                     }
                 }
 
-                boolean holdsArmor = HorseArmorType.getByItemStack(heldStack) != HorseArmorType.NONE;
+                boolean holdsArmor = false; //TODO
                 boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() == Items.SADDLE;
 
                 if (holdsArmor || holdsSaddle) {
@@ -557,8 +557,10 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     public float getTailRotation() {
         if (this.isAngry()) {
             return 1.5393804F;
-        } else {
+        } else if (!this.isBeingRidden()) {
             return this.isTamed() ? (0.55F - (this.getMaxHealth() - this.dataManager.get(DATA_HEALTH_ID)) * 0.02F) * (float) Math.PI : ((float) Math.PI / 5F);
+        } else {
+            return 1.5F;
         }
     }
 
@@ -797,6 +799,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         }
     }
 
+    @Override
     public void travel(float strafe, float vertical, float forward) {
         if (this.isBeingRidden() && this.canBeSteered() && this.isSaddled()) {
             EntityLivingBase livingBase = (EntityLivingBase) this.getControllingPassenger();
@@ -824,7 +827,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                         }
                     }
 
-                    this.setHorseJumping(true);
+                    this.setWolfJumping(true);
                     this.isAirBorne = true;
 
                     if (forward > 0.0F) {
@@ -834,7 +837,6 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                         this.motionZ += (double) (0.4F * f1 * this.jumpPower);
                         this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
                     }
-
                     this.jumpPower = 0.0F;
                 }
 
@@ -851,7 +853,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
                 if (this.onGround) {
                     this.jumpPower = 0.0F;
-                    this.setHorseJumping(false);
+                    this.setWolfJumping(false);
                 }
             }
         } else {
@@ -864,7 +866,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return this.isWolfJumping;
     }
 
-    private void setHorseJumping(boolean jumping) {
+    private void setWolfJumping(boolean jumping) {
         this.isWolfJumping = jumping;
     }
 

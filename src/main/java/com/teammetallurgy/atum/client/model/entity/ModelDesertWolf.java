@@ -91,7 +91,8 @@ public class ModelDesertWolf extends ModelBase {
         if (desertWolf.isAngry()) {
             this.wolfTail.rotateAngleY = 0.0F;
         } else {
-            this.wolfTail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            float tailAmount = desertWolf.isBeingRidden() ? 0.5F : 1.4F;
+            this.wolfTail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * tailAmount * limbSwingAmount;
         }
 
         if (desertWolf.isSitting()) {
@@ -125,6 +126,10 @@ public class ModelDesertWolf extends ModelBase {
             this.wolfLeg4.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
         }
 
+        if (desertWolf.isBeingRidden()) {
+            this.wolfHeadMain.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.15F * limbSwingAmount;
+        }
+
         this.wolfHeadMain.rotateAngleZ = desertWolf.getInterestedAngle(partialTickTime) + desertWolf.getShakeAngle(partialTickTime, 0.0F);
         this.wolfMane.rotateAngleZ = desertWolf.getShakeAngle(partialTickTime, -0.08F);
         this.wolfBody.rotateAngleZ = desertWolf.getShakeAngle(partialTickTime, -0.16F);
@@ -134,7 +139,10 @@ public class ModelDesertWolf extends ModelBase {
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
-        this.wolfHeadMain.rotateAngleX = headPitch * 0.017453292F;
+        EntityDesertWolf desertWolf = (EntityDesertWolf) entity;
+        if (!desertWolf.isBeingRidden()) {
+            this.wolfHeadMain.rotateAngleX = headPitch * 0.017453292F;
+        }
         this.wolfHeadMain.rotateAngleY = netHeadYaw * 0.017453292F;
         this.wolfTail.rotateAngleX = ageInTicks;
     }
