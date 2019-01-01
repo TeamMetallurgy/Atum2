@@ -25,6 +25,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -90,16 +91,17 @@ public class BlockPortal extends BlockBreakable {
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (!entity.isRiding() && !entity.isBeingRidden() && entity instanceof EntityPlayerMP && entity.timeUntilPortal <= 0) {
-            changeDimension(world, (EntityPlayerMP) entity);
+            EntityPlayerMP player = (EntityPlayerMP) entity;
+            final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
+            changeDimension(world, (EntityPlayerMP) entity, dimension, new AtumTeleporter(player.server.getWorld(dimension)));
         }
     }
 
-    public static void changeDimension(World world, EntityPlayerMP player) {
+    public static void changeDimension(World world, EntityPlayerMP player, int dimension, ITeleporter teleporter) {
         if (!world.isRemote) {
-            final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
             player.timeUntilPortal = 300;
 
-            player.changeDimension(dimension, new AtumTeleporter(player.server.getWorld(dimension)));
+            player.changeDimension(dimension, teleporter);
             if (player.dimension == AtumConfig.DIMENSION_ID) {
                 BlockPos playerPos = new BlockPos(player);
                 if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, EnumFacing.UP)) {

@@ -22,12 +22,7 @@ import net.minecraft.world.gen.structure.template.Template;
 import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class LighthousePieces {
     public static final ResourceLocation LIGHTHOUSE = new ResourceLocation(Constants.MOD_ID, "lighthouse");
@@ -66,41 +61,41 @@ public class LighthousePieces {
         @Override
         public boolean addComponentParts(@Nonnull World world, @Nonnull Random random, @Nonnull StructureBoundingBox box) {
             super.addComponentParts(world, random, box);
-            //this.spawnSunspeakers(world, box, 8, 1, 8, 5);
             return true;
         }
-        
+
         private void spawnSunspeakers(World world, StructureBoundingBox box, int x, int y, int z, int min, int max) {
-        	if(this.sunspeakerSpawned > 0) 
-        		return;
-        	
-        	world.setBlockToAir(new BlockPos(x, y, z));
-        	Random rand = new Random(world.getSeed() ^ x ^ (z << 16));
+            if (this.sunspeakerSpawned > 0) {
+                return;
+            }
+            world.setBlockToAir(new BlockPos(x, y, z));
+            Random rand = new Random(world.getSeed() ^ x ^ (z << 16));
 
-        	int numToSpawn = rand.nextInt(1 + max - min) + min;
-        			
-        	// Since each level is has a different number of valid spawn space, this will ensure they spawn evenly on each level
-            int[] levels = { 0, 5, 10, 22 };
-        	List<Integer> ylevels = new ArrayList<>();
-        	for(int i = 0; i < numToSpawn; i++) {
-        		ylevels.add(y + levels[rand.nextInt(levels.length)] + 1);
-        	}
-        	
-        	// Used to avoid sunspeakers spawning on top of each other
-        	Set<BlockPos> usedPosition = new HashSet<>();
+            int numToSpawn = rand.nextInt(1 + max - min) + min;
 
-        	int tries = 0;
+            // Since each level is has a different number of valid spawn space, this will ensure they spawn evenly on each level
+            int[] levels = {0, 5, 10, 22};
+            List<Integer> ylevels = new ArrayList<>();
+            for (int i = 0; i < numToSpawn; i++) {
+                ylevels.add(y + levels[rand.nextInt(levels.length)] + 1);
+            }
+
+            // Used to avoid sunspeakers spawning on top of each other
+            Set<BlockPos> usedPosition = new HashSet<>();
+
+            int tries = 0;
             while (this.sunspeakerSpawned < numToSpawn) {
-            	int sw = 2;
-            	int j = x + rand.nextInt(2 * sw + 1) - sw;
-            	int k = ylevels.get(sunspeakerSpawned);
-            	int l = z + rand.nextInt(2 * sw + 1) - sw;
+                int sw = 2;
+                int j = x + rand.nextInt(2 * sw + 1) - sw;
+                int k = ylevels.get(sunspeakerSpawned);
+                int l = z + rand.nextInt(2 * sw + 1) - sw;
 
                 BlockPos pos = new BlockPos(j, k, l);
-                if(usedPosition.contains(pos))
-                	continue;
+                if (usedPosition.contains(pos)) {
+                    continue;
+                }
                 usedPosition.add(pos);
-                
+
                 if (box.isVecInside(pos) && world.isAirBlock(pos)) {
                     ++this.sunspeakerSpawned;
 
@@ -109,10 +104,11 @@ public class LighthousePieces {
                     sunspeaker.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(sunspeaker)), null);
                     world.spawnEntity(sunspeaker);
                 }
-                
+
                 // Failsafe
-                if(++tries > 100)
-                	break;
+                if (++tries > 100) {
+                    break;
+                }
             }
         }
 
@@ -136,8 +132,8 @@ public class LighthousePieces {
                 if (box.isVecInside(pos)) {
                     world.setBlockState(pos, AtumBlocks.HEART_OF_RA.getDefaultState(), 2);
                 }
-            } else if(function.equals("Sunspeaker")) {
-            	spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 2, 6);
+            } else if (function.equals("Sunspeaker")) {
+                spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 2, 6);
             }
         }
 

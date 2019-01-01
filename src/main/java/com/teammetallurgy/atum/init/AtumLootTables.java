@@ -30,10 +30,11 @@ public class AtumLootTables {
 
     //Container Loot
     public static final ResourceLocation CRATE = register("chests/crate");
+    public static final ResourceLocation CRATE_BONUS = register("chests/crate_bonus");
     public static final ResourceLocation GIRAFI_TOMB = register("chests/girafi_tomb");
     public static final ResourceLocation PHARAOH = register("chests/pharaoh");
-    public static final ResourceLocation SARCOPHAGUS_ARTIFACT = register("chests/sarcophagus_artifact");
     public static final ResourceLocation PYRAMID_CHEST = register("chests/pyramid_chest");
+    public static final ResourceLocation SARCOPHAGUS_ARTIFACT = register("chests/sarcophagus_artifact");
     public static final ResourceLocation TOMB_CHEST = register("chests/tomb");
 
     //Blocks

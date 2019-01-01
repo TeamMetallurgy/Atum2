@@ -74,11 +74,8 @@ public class AtumEventListener {
 
         if (shouldStartInAtum && event.player instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) event.player;
-            if (AtumConfig.START_IN_ATUM_PORTAL) {
-                BlockPortal.changeDimension(event.player.world, player);
-            } else {
-                player.changeDimension(AtumConfig.DIMENSION_ID, new AtumStartTeleporter(player.getPosition()));
-            }
+            World world = player.world;
+            BlockPortal.changeDimension(world, player, AtumConfig.DIMENSION_ID, new AtumStartTeleporter());
         }
     }
 

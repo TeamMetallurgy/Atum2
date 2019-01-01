@@ -28,6 +28,7 @@ public class AtumGuiFactory extends DefaultGuiFactory {
         ArrayList<IConfigElement> elements = new ArrayList<>();
 
         elements.add(new ConfigElement(AtumConfig.config.getCategory(CATEGORY_GENERAL)));
+        elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.ATUM_START)));
         elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.WORLDGEN)));
         elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.MOBS)));
         return elements;

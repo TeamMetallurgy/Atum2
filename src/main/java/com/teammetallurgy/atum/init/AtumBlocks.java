@@ -291,7 +291,7 @@ public class AtumBlocks {
         RELIC_ORE.setHarvestLevel("pickaxe", 1);
         GOLD_ORE.setHarvestLevel("pickaxe", 2);
         LAPIS_ORE.setHarvestLevel("pickaxe", 1);
-        EMERALD_ORE.setHarvestLevel("pickaxe", 1);
+        EMERALD_ORE.setHarvestLevel("pickaxe", 2);
         DIAMOND_ORE.setHarvestLevel("pickaxe", 2);
         REDSTONE_ORE.setHarvestLevel("pickaxe", 2);
 

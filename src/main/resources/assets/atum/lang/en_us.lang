@@ -684,10 +684,12 @@ chat.atum.cannotSpawnPharaoh=The pharaoh turns over in his sarcophagus
 chat.atum.water.evaporated=Water in your container evaporated
 
 # GUI
-atum.configGui.portalCreation=Atum Portal
-atum.configGui.fog=Atum Fog
-atum.configGui.oasis=Atum Oasis
+atum.configGui.atumStart=Start in Atum
+atum.configGui.atumStartPortal=Create Atum start portal
+atum.configGui.atumStartStructure=Atum start structure
 atum.configGui.dimensionID=Atum Dimension ID
+atum.configGui.fog=Atum Fog
+atum.configGui.portalCreation=Atum Portal
 
 #Subtitles
 atum:subtitles.pharaohspawn=Pharaoh growls

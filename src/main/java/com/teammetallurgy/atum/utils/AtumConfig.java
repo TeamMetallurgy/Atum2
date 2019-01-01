@@ -14,15 +14,19 @@ import static net.minecraftforge.common.config.Configuration.CATEGORY_GENERAL;
 
 public class AtumConfig {
     public static Configuration config;
+    //Categories
     public static final String WORLDGEN = "world gen";
     public static final String OREGEN = AtumConfig.WORLDGEN + Configuration.CATEGORY_SPLITTER + "ore gen";
     public static final String BIOME = "biome";
     public static final String MOBS = "mobs";
+    public static final String ATUM_START = "atum start";
+    //Config entries
     public static boolean ALLOW_CREATION;
-    public static boolean START_IN_ATUM;
-    public static boolean START_IN_ATUM_PORTAL;
     public static boolean FOG_ENABLED;
     public static boolean PYRAMID_ENABLED;
+    public static boolean START_IN_ATUM;
+    public static String ATUM_START_STRUCTURE;
+    public static boolean START_IN_ATUM_PORTAL;
     public static int DIMENSION_ID;
 
     public AtumConfig(File file) {
@@ -49,13 +53,19 @@ public class AtumConfig {
         ALLOW_CREATION = prop.getBoolean(true);
         propOrder.add(prop.getName());
 
-        prop = config.get(CATEGORY_GENERAL, "Start in Atum", false);
+        prop = config.get(ATUM_START, "Start in Atum", false);
         prop.setComment("New players should start in Atum?");
         prop.setLanguageKey("atum.configGui.atumStart");
         START_IN_ATUM = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = config.get(CATEGORY_GENERAL, "Create Atum Portal", false);
+        prop = config.get(ATUM_START, "Atum starting structure", "atum:tent_small");
+        prop.setComment("Structure that will generate next to the player when starting in Atum (Requires 'Start in Atum' to be enabled). Leave empty for no structure.");
+        prop.setLanguageKey("atum.configGui.atumStartStructure");
+        ATUM_START_STRUCTURE = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = config.get(ATUM_START, "Create Atum Portal", false);
         prop.setComment("Should a portal back to the Overworld generate, when starting in Atum?");
         prop.setLanguageKey("atum.configGui.atumStartPortal");
         START_IN_ATUM_PORTAL = prop.getBoolean();

@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Teleporter;
+import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
@@ -172,6 +173,10 @@ public class AtumTeleporter extends Teleporter {
 
     @Override
     public boolean makePortal(Entity entity) {
+        return createPortal(this.world, entity);
+    }
+
+    public static boolean createPortal(World world, Entity entity) {
         BlockPos pos = new BlockPos(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), MathHelper.floor(entity.posZ));
         IBlockState portalState = AtumBlocks.PORTAL.getDefaultState();
         IBlockState sandState;
@@ -193,25 +198,25 @@ public class AtumTeleporter extends Teleporter {
 
         //Bottom layers
         for (BlockPos.MutableBlockPos basePos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-2, 0, -2), pos.add(2, 1, 2))) {
-            this.world.setBlockState(basePos, sandState, 2);
+            world.setBlockState(basePos, sandState, 2);
         }
 
         //Pillars
         for (int y = 2; y < 4; y++) {
-            this.world.setBlockState(pos.add(-2, y, -2), sandState, 2);
-            this.world.setBlockState(pos.add(2, y, -2), sandState, 2);
-            this.world.setBlockState(pos.add(-2, y, 2), sandState, 2);
-            this.world.setBlockState(pos.add(2, y, 2), sandState, 2);
+            world.setBlockState(pos.add(-2, y, -2), sandState, 2);
+            world.setBlockState(pos.add(2, y, -2), sandState, 2);
+            world.setBlockState(pos.add(-2, y, 2), sandState, 2);
+            world.setBlockState(pos.add(2, y, 2), sandState, 2);
         }
 
         //Portal blocks
         for (BlockPos.MutableBlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-1, 1, -1), pos.add(1, 1, 1))) {
-            this.world.setBlockState(portalPos, portalState, 2);
+            world.setBlockState(portalPos, portalState, 2);
         }
 
         //Set air above portal blocks
         for (BlockPos.MutableBlockPos airPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-2, 2, -1), pos.add(2, 3, 1))) {
-            this.world.setBlockState(airPos, Blocks.AIR.getDefaultState(), 2);
+            world.setBlockState(airPos, Blocks.AIR.getDefaultState(), 2);
         }
         return true;
     }
