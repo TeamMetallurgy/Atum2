@@ -24,6 +24,11 @@ public class RenderDesertRabbit extends RenderLiving<EntityDesertRabbit> {
     @Override
     @Nullable
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertRabbit rabbit) {
+        if (rabbit.hasCustomName()) {
+            if (rabbit.getCustomNameTag().equalsIgnoreCase("iron") || rabbit.getCustomNameTag().equalsIgnoreCase("nutz")) {
+                return new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_iron.png");
+            }
+        }
         switch (rabbit.getRabbitType()) {
             case 0:
             default:

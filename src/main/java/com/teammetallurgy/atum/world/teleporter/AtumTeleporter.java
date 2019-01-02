@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -13,7 +12,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import javax.annotation.Nonnull;
 
@@ -25,10 +23,6 @@ public class AtumTeleporter extends Teleporter {
 
     @Override
     public void placeInPortal(@Nonnull Entity entity, float rotationYaw) {
-        if (entity instanceof EntityPlayerMP && !((EntityPlayerMP) entity).capabilities.isCreativeMode) {
-            ReflectionHelper.setPrivateValue(EntityPlayerMP.class, (EntityPlayerMP) entity, true, "invulnerableDimensionChange", "field_184851_cj");
-        }
-
         if (!this.placeInExistingPortal(entity, rotationYaw)) {
             this.makePortal(entity);
             this.placeInExistingPortal(entity, rotationYaw);
