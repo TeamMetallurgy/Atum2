@@ -41,7 +41,8 @@ public class CTQuern {
 
         @Override
         public void apply() {
-            RecipeHandlers.quernRecipes.register(new QuernRecipe(this.input, this.output, this.rotations).setRegistryName(Objects.requireNonNull(this.input.getItem().getRegistryName())));
+            ResourceLocation registryName = new ResourceLocation("crafttweaker", Objects.requireNonNull(this.input.getItem().getRegistryName()).getPath());
+            RecipeHandlers.quernRecipes.register(new QuernRecipe(this.input, this.output, this.rotations).setRegistryName(registryName));
         }
 
         @Override

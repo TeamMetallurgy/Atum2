@@ -45,7 +45,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private static final EnumCreatureType UNDERGROUND =  Objects.requireNonNull(EnumHelper.addCreatureType("underground", IUnderground.class, 20, Material.AIR, false, false));
+    private static final EnumCreatureType UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("underground", IUnderground.class, 20, Material.AIR, false, false));
     private static final EnumCreatureType SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("surface", IMob.class, 45, Material.AIR, false, false));
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
@@ -93,7 +93,7 @@ public class AtumBiome extends Biome {
         addSpawn(EntityTarantula.class, 20, 1, 3, UNDERGROUND);
     }
 
-    protected void addSpawn(Class <? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type ) {
+    protected void addSpawn(Class<? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type) {
         String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
         weight = AtumConfig.config.get(category, "weight", weight).getInt();
         min = AtumConfig.config.get(category, "min", min).getInt();

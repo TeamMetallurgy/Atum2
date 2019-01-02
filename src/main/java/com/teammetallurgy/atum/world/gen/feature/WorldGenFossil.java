@@ -30,14 +30,14 @@ public class WorldGenFossil extends WorldGenerator {
         TemplateManager manager = world.getSaveHandler().getStructureTemplateManager();
         Template template = manager.getTemplate(server, new ResourceLocation(FOSSIL.toString() + "1"));
         for (int i = 0; i <= size; ++i) {
-            template = manager.getTemplate(server, new ResourceLocation(FOSSIL.toString() + String.valueOf(i)));
+            template = manager.getTemplate(server, new ResourceLocation(FOSSIL.toString() + i));
         }
         ChunkPos chunkPos = new ChunkPos(pos);
         StructureBoundingBox structureboundingbox = new StructureBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), 256, chunkPos.getZEnd());
         PlacementSettings settings = (new PlacementSettings()).setRotation(rotation).setBoundingBox(structureboundingbox).setRandom(random);
         BlockPos blockpos = template.transformedSize(rotation);
-        int j = random.nextInt(16 - blockpos.getX());
-        int k = random.nextInt(16 - blockpos.getZ());
+        int j = blockpos.getX();
+        int k = blockpos.getZ();
         int l = 256;
 
         for (int i1 = 0; i1 < blockpos.getX(); ++i1) {

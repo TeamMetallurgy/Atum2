@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.integration.jei;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.integration.jei.quern.QuernRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.quern.QuernRecipeWrapper;
 import com.teammetallurgy.atum.utils.AtumRegistry;
@@ -11,6 +12,7 @@ import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.ingredients.IIngredientBlacklist;
+import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import mezz.jei.api.recipe.VanillaRecipeCategoryUid;
 import net.minecraft.item.ItemStack;
@@ -29,10 +31,16 @@ public class JEIIntegration implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(AtumBlocks.QUERN), QUERN);
         registry.handleRecipes(IQuernRecipe.class, recipe -> new QuernRecipeWrapper(registry.getJeiHelpers().getGuiHelper(), recipe.getRegistryName(), recipe.getInput(), recipe.getOutput(), recipe.getRotations()), QUERN);
         registry.addRecipes(RecipeHandlers.quernRecipes.getValuesCollection(), QUERN);
+
+        addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
     }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(new QuernRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+    }
+
+    private void addInfo(ItemStack stack, IModRegistry registry) {
+        registry.addIngredientInfo(stack, VanillaTypes.ITEM, "jei." + stack.getItem().getTranslationKey());
     }
 }
