@@ -11,11 +11,13 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
 import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.monster.AbstractSkeleton;
@@ -30,10 +32,7 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.ItemDye;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -66,7 +65,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
-    private InventoryBasic desertWolfInventory;
+    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
+    public InventoryBasic desertWolfInventory;
     private float headRotationCourse;
     private float headRotationCourseWild;
     private boolean isWet;
@@ -425,7 +425,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                     }
                 }
 
-                boolean holdsArmor = false; //TODO
+                boolean holdsArmor = ArmorType.isArmor(heldStack);
                 boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() == Items.SADDLE;
 
                 if (holdsArmor || holdsSaddle) {
@@ -434,7 +434,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 }
             }
 
-            if (!this.isChild() && this.isAlpha()) {
+            if (!this.isChild()) {
                 if (player.isSneaking()) {
                     this.openGUI(player);
                     return true;
@@ -512,7 +512,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     private void openGUI(EntityPlayer player) {
-        if (!this.world.isRemote && this.isAlpha() && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
+        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
             desertWolfInventory.setCustomName(this.getName());
             player.openGui(Atum.instance, 4, world, this.getEntityId(), 0, 0);
         }
@@ -730,9 +730,21 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     private void updateSlots() {
-        //this.setArmorStack(this.desertWolfInventory.getStackInSlot(1)); //TODO
+        this.setArmorStack(this.desertWolfInventory.getStackInSlot(1));
         if (!this.world.isRemote) {
             this.setSaddled(!this.desertWolfInventory.getStackInSlot(0).isEmpty());
+        }
+    }
+
+    private void setArmorStack(ItemStack itemStackIn) {
+        ArmorType armorType = ArmorType.getByItemStack(itemStackIn);
+
+        if (!this.world.isRemote) {
+            this.getEntityAttribute(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
+            int protection = armorType.getProtection();
+            if (protection != 0) {
+                this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Desert wolf armor bonus", (double) protection, 0)).setSaved(false));
+            }
         }
     }
 
@@ -928,7 +940,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     public boolean isArmor(ItemStack stack) {
-        return false; //TODO Do when wolf armor is added
+        return ArmorType.isArmor(stack);
     }
 
     private IItemHandler itemHandler = null;
@@ -946,5 +958,57 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @Override
     public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
+    }
+
+    public enum ArmorType {
+        NONE(0),
+        IRON(5, "iron"),
+        GOLD(7, "gold"),
+        DIAMOND(11, "diamond");
+
+        private final String textureName;
+        private final String typeName;
+        private final int protection;
+
+        ArmorType(int armorStrength) {
+            this.protection = armorStrength;
+            this.typeName = null;
+            this.textureName = null;
+        }
+
+        ArmorType(int armorStrength, String typeName) {
+            this.protection = armorStrength;
+            this.typeName = typeName;
+            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entities/armor/desert_wolf_armor_" + typeName + ".png").toString();
+        }
+
+        public int getProtection() {
+            return this.protection;
+        }
+
+        public String getName() {
+            return typeName;
+        }
+
+        public String getTextureName() {
+            return textureName;
+        }
+
+        public static ArmorType getByItemStack(ItemStack stack) {
+            Item item = stack.getItem();
+            if (item == AtumItems.DESERT_WOLF_IRON_ARMOR) {
+                return IRON;
+            } else if (item == AtumItems.DESERT_WOLF_GOLD_ARMOR) {
+                return GOLD;
+            } else if (item == AtumItems.DESERT_WOLF_DIAMOND_ARMOR) {
+                return DIAMOND;
+            } else {
+                return NONE;
+            }
+        }
+
+        public static boolean isArmor(ItemStack stack) {
+            return getByItemStack(stack) != NONE;
+        }
     }
 }

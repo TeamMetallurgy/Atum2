@@ -312,7 +312,6 @@ item.atum.fishForsaken.name=Forsaken Fish
 item.atum.fishMummified.name=Mummified Fish
 item.atum.fishJeweled.name=Jeweled Fish
 item.atum.fishSkeletal.name=Skeletal Fish
-
 item.atum.ptahsDecadence.name=Ptah's Decadence
 item.atum.shusExile.name=Shu's Exile
 item.atum.atumsWill.name=Atum's Will
@@ -366,6 +365,9 @@ item.atum.scepterRa.name=Ra's Scepter
 item.atum.scepterSeth.name=Seth's Scepter
 item.atum.scepterShu.name=Shu's Scepter
 item.atum.scepterTefnut.name=Tefnut's Scepter
+item.atum.desertWolfIronArmor.name=Iron Desert Wolf Armor
+item.atum.desertWolfGoldArmor.name=Gold Desert Wolf Armor
+item.atum.desertWolfDiamondArmor.name=Diamond Desert Wolf Armor
 item.atum.deadwoodDoor.name=Deadwood Door
 item.atum.palmDoor.name=Palm Door
 item.atum.palmStick.name=Palm Stick

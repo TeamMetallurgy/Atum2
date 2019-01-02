@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.gui.entity;
 
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.inventory.entity.ContainerAlphaDesertWolf;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiAlphaDesertWolf extends GuiContainer {
-    private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation("textures/gui/container/horse.png");
+    private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/gui/desert_wolf.png");
     private final IInventory playerInventory;
     private final IInventory wolfInventory;
     private final EntityDesertWolf desertWolf;
@@ -43,8 +44,10 @@ public class GuiAlphaDesertWolf extends GuiContainer {
         this.drawTexturedModalRect(width, height, 0, 0, this.xSize, this.ySize);
 
         if (this.desertWolf != null) {
-            this.drawTexturedModalRect(width + 7, height + 35 - 18, 18, this.ySize + 54, 18, 18); //Saddle
-            this.drawTexturedModalRect(width + 7, height + 35, 0, this.ySize + 54, 18, 18); //Armor
+            if (this.desertWolf.isAlpha()) {
+                this.drawTexturedModalRect(width + 7, height + 35 - 18, 18, this.ySize, 18, 18); //Saddle
+            }
+            this.drawTexturedModalRect(width + 7, height + 35, 0, this.ySize, 18, 18); //Armor
             GuiInventory.drawEntityOnScreen(width + 51, height + 60, 17, (float) (width + 51) - this.mousePosx, (float) (height + 75 - 50) - this.mousePosY, this.desertWolf);
         }
     }

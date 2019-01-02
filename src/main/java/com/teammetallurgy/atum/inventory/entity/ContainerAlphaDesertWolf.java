@@ -23,6 +23,11 @@ public class ContainerAlphaDesertWolf extends Container {
             public boolean isItemValid(ItemStack stack) {
                 return stack.getItem() == Items.SADDLE && !this.getHasStack();
             }
+
+            @Override
+            public boolean isEnabled() {
+                return desertWolf.isAlpha();
+            }
         });
         this.addSlotToContainer(new Slot(wolfInventory, 1, 8, 36) {
             @Override
