@@ -46,7 +46,7 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
 
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf desertWolf) {
-        ItemStack wolfArmor = desertWolf.desertWolfInventory.getStackInSlot(1);
+        ItemStack wolfArmor = desertWolf.getArmor();
         if (desertWolf.isTamed()) {
             if (desertWolf.isArmor(wolfArmor)) {
                 EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(wolfArmor);

@@ -29,6 +29,6 @@ public class LayerWolfSaddle implements LayerRenderer<EntityDesertWolf> {
 
     @Override
     public boolean shouldCombineTextures() {
-        return false;
+        return true;
     }
 }

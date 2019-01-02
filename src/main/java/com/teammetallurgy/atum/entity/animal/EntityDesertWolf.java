@@ -65,6 +65,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
     public InventoryBasic desertWolfInventory;
     private float headRotationCourse;
@@ -188,6 +189,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.dataManager.register(COLLAR_COLOR, EnumDyeColor.GREEN.getDyeDamage());
         this.dataManager.register(VARIANT, 0);
         this.dataManager.register(SADDLED, Boolean.FALSE);
+        this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
     }
 
     @Override
@@ -736,8 +738,9 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         }
     }
 
-    private void setArmorStack(ItemStack itemStackIn) {
-        ArmorType armorType = ArmorType.getByItemStack(itemStackIn);
+    private void setArmorStack(@Nonnull ItemStack stack) {
+        ArmorType armorType = ArmorType.getByItemStack(stack);
+        this.dataManager.set(ARMOR_STACK, stack);
 
         if (!this.world.isRemote) {
             this.getEntityAttribute(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
@@ -746,6 +749,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Desert wolf armor bonus", (double) protection, 0)).setSaved(false));
             }
         }
+    }
+
+    @Nonnull
+    public ItemStack getArmor() {
+        return this.dataManager.get(ARMOR_STACK);
     }
 
     @Override
