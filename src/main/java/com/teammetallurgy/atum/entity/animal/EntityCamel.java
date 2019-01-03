@@ -49,6 +49,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     public EntityCamel(World world) {
         super(world);
+        this.experienceValue = 3;
         this.setSize(0.9F, 1.87F);
         this.canGallop = false;
     }
@@ -67,7 +68,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
         this.getEntityAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
     }
 

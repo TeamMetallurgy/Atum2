@@ -20,43 +20,47 @@ public class ContainerCamel extends Container {
         this.camelInventory = camelInventory;
         this.camel = camel;
         camelInventory.openInventory(player);
-        this.addSlotToContainer(new Slot(camelInventory, 0, 8, 18) {
+        this.addSlotToContainer(new Slot(camelInventory, 0, 62, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return stack.getItem() == Items.SADDLE && !this.getHasStack() && camel.canBeSaddled();
             }
+
             @Override
             @SideOnly(Side.CLIENT)
             public boolean isEnabled() {
                 return camel.canBeSaddled();
             }
         });
-        this.addSlotToContainer(new Slot(camelInventory, 1, 8, 36) {
+        this.addSlotToContainer(new Slot(camelInventory, 1, 80, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return camel.isArmor(stack);
             }
+
             @Override
             public int getSlotStackLimit() {
                 return 1;
             }
+
             @Override
             @SideOnly(Side.CLIENT)
             public boolean isEnabled() {
                 return camel.wearsArmor();
             }
         });
-        this.addSlotToContainer(new Slot(camelInventory, 2, 8, 54) {
+        this.addSlotToContainer(new Slot(camelInventory, 2, 98, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return camel.isValidCarpet(stack);
             }
+
             @Override
             public int getSlotStackLimit() {
                 return 1;
             }
         });
-        if (camel != null && camel.hasCrate()) {
+        if (camel != null && camel.hasCrate()) { //TODO
             for (int row = 0; row < 3; ++row) {
                 for (int slot = 0; slot < camel.getInventoryColumns(); ++slot) {
                     this.addSlotToContainer(new Slot(camelInventory, 3 + slot + row * camel.getInventoryColumns(), 80 + slot * 18, 18 + row * 18));
@@ -65,11 +69,11 @@ public class ContainerCamel extends Container {
         }
         for (int row = 0; row < 3; ++row) {
             for (int slot = 0; slot < 9; ++slot) {
-                this.addSlotToContainer(new Slot(playerInventory, slot + row * 9 + 9, 8 + slot * 18, 102 + row * 18 + -18));
+                this.addSlotToContainer(new Slot(playerInventory, slot + row * 9 + 9, 8 + slot * 18, 102 + row * 18 + 52));
             }
         }
         for (int slot = 0; slot < 9; ++slot) {
-            this.addSlotToContainer(new Slot(playerInventory, slot, 8 + slot * 18, 142));
+            this.addSlotToContainer(new Slot(playerInventory, slot, 8 + slot * 18, 212));
         }
     }
 

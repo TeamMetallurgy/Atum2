@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.gui.entity;
 
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import com.teammetallurgy.atum.inventory.entity.ContainerCamel;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -13,7 +14,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiCamel extends GuiContainer {
-    private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation("textures/gui/container/horse.png");
+    private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/gui/camel.png");
     private final IInventory playerInventory;
     private final IInventory camelInventory;
     private final EntityCamel camel;
@@ -26,6 +27,7 @@ public class GuiCamel extends GuiContainer {
         this.camelInventory = camelInv;
         this.camel = camel;
         this.allowUserInput = false;
+        this.ySize = 236;
     }
 
     @Override
@@ -46,10 +48,7 @@ public class GuiCamel extends GuiContainer {
             if (this.camel.hasCrate()) {
                 this.drawTexturedModalRect(width + 79, height + 17, 0, this.ySize, this.camel.getInventoryColumns() * 18, 54);
             }
-            this.drawTexturedModalRect(width + 7, height + 35 - 18, 18, this.ySize + 54, 18, 18); //Saddle
-            this.drawTexturedModalRect(width + 7, height + 35, 0, this.ySize + 54, 18, 18); //Armor
-            this.drawTexturedModalRect(width + 7, height + 35 + 18, 36, this.ySize + 54, 18, 18); //Carpet
-            GuiInventory.drawEntityOnScreen(width + 51, height + 60, 17, (float) (width + 51) - this.mousePosx, (float) (height + 75 - 50) - this.mousePosY, this.camel);
+            GuiInventory.drawEntityOnScreen(width + 88, height + 50, 17, (float) (width + 51) - this.mousePosx, (float) (height + 75 - 50) - this.mousePosY, this.camel);
         }
     }
 
