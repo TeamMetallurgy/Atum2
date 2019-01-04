@@ -1,0 +1,28 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:scarab"
+        },
+        "title": {
+            "translate": "Atum"
+        },
+        "description": {
+            "translate": "Beginning your journey into Atum"
+        },
+        "background": "atum:textures/blocks/sand.png",
+        "show_toast": true,
+        "announce_to_chat": true
+    },
+    "criteria": {
+        "scarab": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:scarab"
+                    }
+                ]
+            }
+        }
+    }
+}

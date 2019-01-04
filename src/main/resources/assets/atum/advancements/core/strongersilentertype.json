@@ -1,0 +1,25 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:stoneguard_greatsword"
+        },
+        "title": {
+            "translate": "Stronger, Silenter Type"
+        },
+        "description": {
+            "translate": "Summon a Stonewarden"
+        },
+		"frame": "goal"
+    },
+    "parent": "atum:core/strongsilenttype",
+    "criteria": {
+        "summoned_stonewarden": {
+            "trigger": "minecraft:summoned_entity",
+            "conditions": {
+                "entity": {
+                    "type": "atum:stonewarden"
+                }
+            }
+        }
+    }
+}

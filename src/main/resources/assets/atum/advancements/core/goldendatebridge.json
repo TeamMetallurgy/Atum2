@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:golden_date"
+        },
+        "title": {
+            "translate": "Golden Date Bridge"
+        },
+        "description": {
+            "translate": "Eat a Golden Date"
+        }
+    },
+    "parent": "atum:core/itsadate",
+    "criteria": {
+        "date": {
+            "trigger": "consume_item",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:golden_date"
+                    }
+                ]
+            }
+        }
+	}
+}

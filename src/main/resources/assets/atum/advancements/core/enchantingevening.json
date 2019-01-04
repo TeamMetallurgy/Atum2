@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:golden_date_enchanted"
+        },
+        "title": {
+            "translate": "Enchanting Evening"
+        },
+        "description": {
+            "translate": "Eat an Enchanted Golden Date"
+        }
+    },
+    "parent": "atum:core/goldendatebridge",
+    "criteria": {
+        "date": {
+            "trigger": "consume_item",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:golden_date_enchanted"
+                    }
+                ]
+            }
+        }
+	}
+}

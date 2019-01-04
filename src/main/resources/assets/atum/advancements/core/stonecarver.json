@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:stoneguard_club"
+        },
+        "title": {
+            "translate": "Stonecarver"
+        },
+        "description": {
+            "translate": "Kill a Stoneguard"
+        }
+    },
+    "parent": "atum:core/killorbekilled",
+    "criteria": {
+        "stoneguard": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:stoneguard"
+					}
+				}
+        }
+	}
+}

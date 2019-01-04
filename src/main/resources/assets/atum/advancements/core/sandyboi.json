@@ -1,0 +1,22 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:dusty_bone"
+        },
+        "title": {
+            "translate": "Sandy Boi"
+        },
+        "description": {
+            "translate": "Tame a desert wolf"
+        }
+    },
+    "parent": "atum:core/killorbekilled",
+    "criteria": {
+        "tamed_animal": {
+            "trigger": "tame_animal",
+			"entity_object": {
+				"type": "atum:desert_wolf"
+			}
+        }
+    }
+}

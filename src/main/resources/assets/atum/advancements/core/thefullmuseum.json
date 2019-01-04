@@ -1,0 +1,387 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:atums_homecoming"
+        },
+        "title": {
+            "translate": "The Full Museum"
+        },
+        "description": {
+            "translate": "Obtain all Artifacts"
+        },
+		"frame": "challenge"
+    },
+    "parent": "atum:core/itbelongsinamuseum",
+    "criteria": {
+        "gebs_toil": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:gebs_toil"
+                    }
+                ]
+            }
+        },
+        "atums_homecoming": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:atums_homecoming"
+                    }
+                ]
+            }
+        },
+        "gebs_might": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:gebs_might"
+                    }
+                ]
+            }
+        },
+        "anubiss_mercy": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:anubiss_mercy"
+                    }
+                ]
+            }
+        },
+        "atums_bounty": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:atums_bounty"
+                    }
+                ]
+            }
+        },
+        "ras_fury": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:ras_fury"
+                    }
+                ]
+            }
+        },
+        "tefnuts_blessing": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:tefnuts_blessing"
+                    }
+                ]
+            }
+        },
+        "montus_strike": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:montus_strike"
+                    }
+                ]
+            }
+        },
+        "feet_of_ra": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:feet_of_ra"
+                    }
+                ]
+            }
+        },
+        "seths_sting": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:seths_sting"
+                    }
+                ]
+            }
+        },
+        "seths_venom": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:seths_venom"
+                    }
+                ]
+            }
+        },
+        "feet_of_atum": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:feet_of_atum"
+                    }
+                ]
+            }
+        },
+        "horuss_soaring": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:horuss_soaring"
+                    }
+                ]
+            }
+        },
+        "body_of_ra": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:body_of_ra"
+                    }
+                ]
+            }
+        },
+        "isis_healing": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:isis_healing"
+                    }
+                ]
+            }
+        },
+        "legs_of_ra": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:legs_of_ra"
+                    }
+                ]
+            }
+        },
+        "shus_swiftness": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:shus_swiftness"
+                    }
+                ]
+            }
+        },
+        "halo_of_ra": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:halo_of_ra"
+                    }
+                ]
+            }
+        },
+        "montus_blast": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:montus_blast"
+                    }
+                ]
+            }
+        },
+        "nuits_duality": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:nuits_duality"
+                    }
+                ]
+            }
+        },
+        "horuss_ascension": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:horuss_ascension"
+                    }
+                ]
+            }
+        },
+        "legs_of_atum": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:legs_of_atum"
+                    }
+                ]
+            }
+        },
+        "tefnuts_call": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:tefnuts_call"
+                    }
+                ]
+            }
+        },
+        "atums_will": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:atums_will"
+                    }
+                ]
+            }
+        },
+        "ptahs_decadence": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:ptahs_decadence"
+                    }
+                ]
+            }
+        },
+        "ptahs_undoing": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:ptahs_undoing"
+                    }
+                ]
+            }
+        },
+        "eyes_of_atum": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:eyes_of_atum"
+                    }
+                ]
+            }
+        },
+        "body_of_atum": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:body_of_atum"
+                    }
+                ]
+            }
+        },
+        "shus_breath": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:shus_breath"
+                    }
+                ]
+            }
+        },
+        "shus_exile": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:shus_exile"
+                    }
+                ]
+            }
+        },
+        "gebs_grounding": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:gebs_grounding"
+                    }
+                ]
+            }
+        },
+        "nuits_vanishing": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:nuits_vanishing"
+                    }
+                ]
+            }
+        },
+        "tefnuts_rain": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:tefnuts_rain"
+                    }
+                ]
+            }
+        },
+        "anubiss_wrath": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:anubiss_wrath"
+                    }
+                ]
+            }
+        },
+        "nuits_ire": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:nuits_ire"
+                    }
+                ]
+            }
+        },
+        "nuits_quarter": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:nuits_quarter"
+                    }
+                ]
+            }
+        },
+        "anputs_hunger": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:anputs_hunger"
+                    }
+                ]
+            }
+        }
+	}
+}

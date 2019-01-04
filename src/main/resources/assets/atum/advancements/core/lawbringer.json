@@ -1,0 +1,49 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:brigand_shield"
+        },
+        "title": {
+            "translate": "Lawbringer"
+        },
+        "description": {
+            "translate": "Kill one of each type of Atum bandit"
+        },
+		"frame": "challenge"
+    },
+    "parent": "atum:core/assassinassin",
+    "criteria": {
+        "brigand": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:brigand"
+					}
+				}
+        },
+		"nomad": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:nomad"
+					}
+				}
+        },
+		"barbarian": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:barbarian"
+					}
+				}
+        },
+		"assassin": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:assassin"
+					}
+				}
+        }
+    }
+}

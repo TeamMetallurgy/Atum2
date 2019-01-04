@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:date"
+        },
+        "title": {
+            "translate": "Its a Date!"
+        },
+        "description": {
+            "translate": "Eat a Date"
+        }
+    },
+    "parent": "atum:core/ahope",
+    "criteria": {
+        "date": {
+            "trigger": "consume_item",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "atum:date"
+                    }
+                ]
+            }
+        }
+	}
+}

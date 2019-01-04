@@ -1,0 +1,34 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:emmer"
+        },
+        "title": {
+            "translate": "Agriculture"
+        },
+        "description": {
+            "translate": "Plant these Atum crops"
+        }
+    },
+    "parent": "atum:core/ahope",
+    "criteria": {
+        "emmer": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "block": "atum:emmer_wheat"
+            }
+        },
+        "flax": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "block": "atum:flax_block"
+            }
+        },
+        "melon_stem": {
+            "trigger": "minecraft:placed_block",
+            "conditions": {
+                "block": "minecraft:melon_stem"
+            }
+        }
+    }
+}

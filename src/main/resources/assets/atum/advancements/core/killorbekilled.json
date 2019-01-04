@@ -1,0 +1,128 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:greatsword"
+        },
+        "title": {
+            "translate": "Kill Or Be Killed"
+        },
+        "description": {
+            "translate": "Kill a mob in Atum"
+        }
+    },
+    "parent": "atum:core/journeyintothesands",
+    "criteria": {
+        "brigand": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:brigand"
+					}
+				}
+        },
+		"nomad": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:nomad"
+					}
+				}
+        },
+		"barbarian": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:barbarian"
+					}
+				}
+        },
+		"assassin": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:assassin"
+					}
+				}
+        },
+		"mummy": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:mummy"
+					}
+				}
+        },
+		"forsaken": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:forsaken"
+					}
+				}
+        },
+		"wraith": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:wraith"
+					}
+				}
+        },
+		"bonestorm": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:bonestorm"
+					}
+				}
+        },
+		"pharaoh": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:pharaoh"
+					}
+				}
+        },
+		"tarantula": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:tarantula"
+					}
+				}
+        },
+		"stoneguard": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:stoneguard"
+					}
+				}
+        },
+		"desert_wolf": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:desert_wolf"
+					}
+				}
+        }
+    },
+    "requirements": [
+        [
+            "brigand",
+			"nomad",
+			"barbarian",
+			"mummy",
+			"forsaken",
+			"wraith",
+			"bonestorm",
+			"pharaoh",
+			"assassin",
+			"tarantula",
+			"stoneguard",
+			"desert_wolf"
+        ]
+    ]
+}

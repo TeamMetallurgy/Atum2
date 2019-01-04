@@ -1,0 +1,22 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:oasis_grass"
+        },
+        "title": {
+            "translate": "A Hump in the Road"
+        },
+        "description": {
+            "translate": "Tame a camel"
+        }
+    },
+    "parent": "atum:core/sandyboi",
+    "criteria": {
+        "tamed_animal": {
+            "trigger": "tame_animal",
+			"entity_object": {
+				"type": "atum:camel"
+			}
+        }
+    }
+}

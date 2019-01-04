@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:stoneguard_shield"
+        },
+        "title": {
+            "translate": "Strong, Silent Type"
+        },
+        "description": {
+            "translate": "Summon a Stoneguard"
+        }
+    },
+    "parent": "atum:core/stonecarver",
+    "criteria": {
+        "summoned_stoneguard": {
+            "trigger": "minecraft:summoned_entity",
+            "conditions": {
+                "entity": {
+                    "type": "atum:stoneguard"
+                }
+            }
+        }
+    }
+}

@@ -52,6 +52,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         this.experienceValue = 3;
         this.setSize(0.9F, 1.87F);
         this.canGallop = false;
+        this.stepHeight = 1.6F;
     }
 
     @Override

@@ -1,0 +1,57 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:scimitar"
+        },
+        "title": {
+            "translate": "Unundead"
+        },
+        "description": {
+            "translate": "Kill one of each type of Atum undead"
+        },
+		"frame": "challenge"
+    },
+    "parent": "atum:core/killorbekilled",
+    "criteria": {
+        "mummy": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:mummy"
+					}
+				}
+        },
+		"forsaken": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:forsaken"
+					}
+				}
+        },
+		"wraith": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:wraith"
+					}
+				}
+        },
+		"bonestorm": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:bonestorm"
+					}
+				}
+        },
+		"pharaoh": {
+            "trigger": "minecraft:player_killed_entity",
+				"conditions": {
+					"entity": {
+						"type": "atum:pharaoh"
+					}
+				}
+        }
+    }
+}

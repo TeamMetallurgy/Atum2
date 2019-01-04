@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "atum:sand"
+        },
+        "title": {
+            "translate": "Journey Into The Sands"
+        },
+        "description": {
+            "translate": "Enter Atum"
+        },
+        "show_toast": true,
+        "announce_to_chat": false
+    },
+	"parent": "atum:core/root",
+    "criteria": {
+        "entered_atum": {
+            "trigger": "minecraft:changed_dimension",
+            "conditions": {
+                "to": "atum"
+            }
+        }
+    }
+}
