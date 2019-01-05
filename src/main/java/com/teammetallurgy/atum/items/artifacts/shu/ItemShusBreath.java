@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -53,11 +54,13 @@ public class ItemShusBreath extends ItemBaseBow {
     @Override
     protected void onVelocity(World world, EntityPlayer player, float velocity) {
         if (velocity == 1.0F) {
+            double x = MathHelper.nextDouble(itemRand, 0.01D, 0.1D);
+            double z = MathHelper.nextDouble(itemRand, 0.01D, 0.1D);
             for (int l = 0; l < 12; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.05D, 0.0D, 0.0D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.05D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, -0.05D, 0.0D, 0.0D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, -0.05D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, x, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, z);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, -x, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, -z);
             }
         }
     }

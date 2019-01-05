@@ -19,10 +19,6 @@ public class ParticleTefnut extends ParticleBase {
 
     public ParticleTefnut(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, speed);
-        float f = this.rand.nextFloat() * 0.1F + 0.2F;
-        this.particleRed = f;
-        this.particleGreen = f;
-        this.particleBlue = f;
         this.setSize(0.02F, 0.02F);
         this.particleScale *= this.rand.nextFloat() * 0.6F;
         this.motionX *= 0.019999999552965164D;

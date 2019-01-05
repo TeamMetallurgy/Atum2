@@ -11,6 +11,7 @@ import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -60,8 +61,10 @@ public class ItemIsisHealing extends Item {
 
     private void doEffect(World world, EntityPlayer player, @Nonnull ItemStack stack) {
         if (player.getHealth() < player.getMaxHealth() && duration == 0) {
+            double x = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
+            double z = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
             for (int l = 0; l < 24; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.ISIS, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ISIS, player, player.posX + (world.rand.nextDouble() - 0.25D) * (double) player.width, player.posY + world.rand.nextDouble() * (double) player.height, player.posZ + (world.rand.nextDouble() - 0.25D) * (double) player.width, x, 0.0D, -z);
             }
             if (!world.isRemote) {
                 player.heal(1.0F);

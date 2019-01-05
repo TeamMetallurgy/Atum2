@@ -83,6 +83,7 @@ public class ItemMontusStrike extends ItemAxe {
                             double d0 = (double) (-MathHelper.sin(player.rotationYaw * 0.017453292F));
                             double d1 = (double) MathHelper.cos(player.rotationYaw * 0.017453292F);
                             Atum.proxy.spawnParticle(AtumParticles.Types.MONTU, target, target.posX + d0, target.posY + 1.1D, target.posZ + d1, 0.0D, 0.0D, 0.0D);
+                            Atum.proxy.spawnParticle(AtumParticles.Types.MONTU, entity, entity.posX + d0, entity.posY + 1.1D, entity.posZ + d1, 0.0D, 0.0D, 0.0D);
                         }
                         world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
                     }

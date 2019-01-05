@@ -71,7 +71,7 @@ public class BlockFertileSoilTilled extends BlockFarmland implements IRenderMapp
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
         if (state.getValue(BLESSED) && !world.getBlockState(pos.up()).isNormalCube()) {
             if (rand.nextDouble() <= 0.15D) {
-                for (int amount = 0; amount < 5; ++amount) {
+                for (int amount = 0; amount < 3; ++amount) {
                     double d0 = rand.nextGaussian() * 0.01D;
                     double d1 = rand.nextGaussian() * 0.005D;
                     double d2 = rand.nextGaussian() * 0.01D;

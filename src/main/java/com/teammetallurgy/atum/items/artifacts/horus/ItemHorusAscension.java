@@ -9,6 +9,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -59,8 +60,10 @@ public class ItemHorusAscension extends ItemGauntlet {
                     target.motionY = 0.9D;
                 }
             }
+            double x = MathHelper.nextDouble(itemRand, 0.0001D, 0.04D);
+            double z = MathHelper.nextDouble(itemRand, 0.0001D, 0.04D);
             for (int amount = 0; amount < 50; ++amount) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, target, target.posX, target.posY + 0.3D, target.posZ, 0.0D, 0.01D + random.nextDouble() * 0.4D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, target, target.posX, target.posY + 0.3D, target.posZ, x, 0.01D + random.nextDouble() * 0.4D, -z);
             }
         }
     }

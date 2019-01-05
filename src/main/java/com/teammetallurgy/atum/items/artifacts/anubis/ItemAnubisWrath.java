@@ -27,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
@@ -90,8 +91,9 @@ public class ItemAnubisWrath extends ItemSword {
             event.setAmount(event.getAmount() * 2);
             cooldown.remove(trueSource);
             EntityLivingBase entity = event.getEntityLiving();
+            double y = MathHelper.nextDouble(itemRand, 0.02D, 0.13D);
             for (int l = 0; l < 5; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (itemRand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + entity.getEyeHeight(), entity.posZ + (itemRand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, 0.05D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (itemRand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + entity.getEyeHeight(), entity.posZ + (itemRand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, y, 0.0D);
             }
         }
     }

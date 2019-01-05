@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
@@ -62,8 +63,10 @@ public class ItemShusExile extends ItemAxe {
             EntityLivingBase target = event.getEntityLiving();
             if (cooldown.get(event.getAttacker()) == 1.0F) {
                 event.setStrength(event.getStrength() * 3F);
-                for (int l = 0; l < 5; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.SHU, target, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + target.getEyeHeight(), target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, 0.0D, 0.05D, 0.0D);
+                double x = MathHelper.nextDouble(itemRand, 0.0001D, 0.02D);
+                double z = MathHelper.nextDouble(itemRand, 0.0001D, 0.02D);
+                for (int l = 0; l < 12; ++l) {
+                    Atum.proxy.spawnParticle(AtumParticles.Types.SHU, target, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + target.getEyeHeight(), target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, x, 0.04D, -z);
                 }
             }
         }
