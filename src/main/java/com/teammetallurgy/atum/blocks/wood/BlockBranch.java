@@ -68,6 +68,7 @@ public class BlockBranch extends Block {
         this.setResistance(5.0F);
         this.setSoundType(SoundType.WOOD);
         this.setHarvestLevel("axe", 0);
+        this.setLightOpacity(1);
     }
 
     @Override

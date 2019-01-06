@@ -14,6 +14,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -74,7 +75,6 @@ public class BlockAnputsFingers extends BlockCrops {
 
     @Override
     public boolean canPlaceBlockAt(World world, BlockPos pos) {
-        System.out.println("I'm a finger");
         return super.canPlaceBlockAt(world, pos) && this.canBlockStay(world, pos, this.getDefaultState());
     }
 
@@ -108,7 +108,7 @@ public class BlockAnputsFingers extends BlockCrops {
     @Override
     public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
         IBlockState stateDown = world.getBlockState(pos.down());
-        return stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), EnumFacing.UP, this);
+        return world.getLightFor(EnumSkyBlock.SKY, pos) < 15 && stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), EnumFacing.UP, this);
     }
 
     @Override

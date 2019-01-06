@@ -31,9 +31,8 @@ public class ItemAtumSeeds extends ItemSeeds {
         ItemStack heldStack = player.getHeldItem(hand);
         IBlockState state = world.getBlockState(pos);
         IBlockState cropState = this.crops.getDefaultState();
-        BlockPos posOffset = pos.offset(facing);
-        if (!world.isRemote && facing == EnumFacing.UP && player.canPlayerEdit(posOffset, facing, heldStack) && state.getBlock().canSustainPlant(state, world, pos, EnumFacing.UP, this)
-                && cropState.getBlock().canPlaceBlockAt(world, pos) && world.isAirBlock(pos.up())) {
+        if (!world.isRemote && facing == EnumFacing.UP && player.canPlayerEdit(pos.offset(facing), facing, heldStack) && state.getBlock().canSustainPlant(state, world, pos, EnumFacing.UP, this)
+                && cropState.getBlock().canPlaceBlockAt(world, pos.up()) && world.isAirBlock(pos.up())) {
             world.setBlockState(pos.up(), cropState);
             if (player instanceof EntityPlayerMP) {
                 CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos.up(), heldStack);
