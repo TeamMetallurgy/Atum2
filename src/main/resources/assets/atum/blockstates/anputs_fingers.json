@@ -4,7 +4,6 @@
     "model": "crop"
   },
   "variants": {
-    "inventory": [{ "transform": "forge:default-block" }],
     "age": {
       "0": { "textures": { "crop": "atum:blocks/anputs_fingers_stage_0" }},
       "1": { "textures": { "crop": "atum:blocks/anputs_fingers_stage_1" }},

@@ -85,7 +85,7 @@ public class AtumBlocks {
     public static final Block FRAMED_GLASS = new BlockAtumGlass(Material.GLASS);
     public static final Block DATE_BLOCK = new BlockDate();
     public static final Block EMMER_WHEAT = new BlockEmmer();
-    public static final Block ANPUTS_FINGERS = new BlockAnputsFingers();
+    public static final BlockAnputsFingers ANPUTS_FINGERS = new BlockAnputsFingers();
     public static final BlockOasisGrass OASIS_GRASS = new BlockOasisGrass();
     public static final BlockDeadGrass DEAD_GRASS = new BlockDeadGrass();
     public static final BlockShrub SHRUB = new BlockShrub();

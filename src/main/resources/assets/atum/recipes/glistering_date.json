@@ -1,0 +1,20 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "GGG",
+    "GDG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "ore": "nuggetGold",
+      "type": "forge:ore_dict"
+    },
+    "D": {
+      "item": "atum:date"
+    }
+  },
+  "result": {
+    "item": "atum:glistering_date"
+  }
+}

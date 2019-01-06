@@ -70,6 +70,7 @@ public class AtumRecipes {
     private static void addBrewingRecipes() {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
         addBrewingRecipeWithSubPotions("dustBlaze", PotionTypes.STRENGTH);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.GLISTERING_DATE), PotionTypes.REGENERATION);
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(AtumItems.ECTOPLASM), new ItemStack(Items.EXPERIENCE_BOTTLE));
         //Anput's Fingers
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD));

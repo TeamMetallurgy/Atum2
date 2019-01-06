@@ -62,6 +62,7 @@ public class AtumItems {
     public static final Item LINEN = new Item();
     public static final Item FERTILE_SOIL_PILE = new Item();
     public static final Item DATE = new ItemFood(4, 0.3F, false);
+    public static final Item GLISTERING_DATE = new Item();
     public static final Item GOLDEN_DATE = new ItemDateGold(5, 1.5F, false).setAlwaysEdible();
     public static final Item ENCHANTED_GOLDEN_DATE = new ItemDateGoldEnchanted(5, 1.5F, false).setAlwaysEdible();
     public static final Item LIMESTONE_SHOVEL = new ItemLimestoneShovel();
@@ -175,6 +176,7 @@ public class AtumItems {
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN, "linen");
         registerItem(DATE, "date");
+        registerItem(GLISTERING_DATE, "glistering_date");
         registerItem(GOLDEN_DATE, "golden_date");
         registerItem(ENCHANTED_GOLDEN_DATE, "golden_date_enchanted");
         registerItem(LIMESTONE_SHOVEL, "limestone_shovel");
