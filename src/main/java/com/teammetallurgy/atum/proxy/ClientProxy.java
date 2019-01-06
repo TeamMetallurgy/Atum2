@@ -36,6 +36,7 @@ import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
@@ -72,6 +73,7 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init() {
+        IntegrationHandler.INSTANCE.clientSide();
         //TextureMap Particles
         atumParticles = new AtumParticles();
         TextureManagerParticles managerParticles = TextureManagerParticles.INSTANCE;

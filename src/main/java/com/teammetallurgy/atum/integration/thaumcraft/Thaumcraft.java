@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.integration.thaumcraft;
 
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.integration.IModIntegration;
 import net.minecraftforge.common.MinecraftForge;
 
-public class Thaumcraft {
+public class Thaumcraft implements IModIntegration {
+    public static final String THAUMCRAFT_ID = "thaumcraft";
 
-    public static void init() {
-        if (Constants.IS_THAUMCRAFT_LOADED) {
-            MinecraftForge.EVENT_BUS.register(new AtumAspects());
-        }
+    @Override
+    public void init() {
+        MinecraftForge.EVENT_BUS.register(new AtumAspects());
     }
 }

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
-import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
+import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -37,6 +37,7 @@ public class Atum {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         new AtumConfig(event.getSuggestedConfigurationFile());
+        IntegrationHandler.INSTANCE.initModIntegration();
         AtumDimension.register();
         NetworkHandler.register();
         StructureAtumMineshaftPieces.registerMineshaft();
@@ -45,12 +46,13 @@ public class Atum {
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
         LighthousePieces.registerLighthouse();
-        Thaumcraft.init();
+        IntegrationHandler.INSTANCE.preInit();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init();
         NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
+        IntegrationHandler.INSTANCE.init();
     }
 }

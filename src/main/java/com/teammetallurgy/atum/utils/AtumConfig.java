@@ -20,6 +20,7 @@ public class AtumConfig {
     public static final String BIOME = "biome";
     public static final String MOBS = "mobs";
     public static final String ATUM_START = "atum start";
+    public static final String MOD_INTEGRATION = "mod integration";
     //Config entries
     public static boolean ALLOW_CREATION;
     public static boolean FOG_ENABLED;
