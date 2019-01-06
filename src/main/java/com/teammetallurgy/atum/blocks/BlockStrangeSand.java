@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockCactus;
@@ -32,7 +33,7 @@ public class BlockStrangeSand extends BlockFalling implements IOreDictEntry {
                 world.getBlockState(pos.north()).getMaterial() == Material.WATER ||
                 world.getBlockState(pos.south()).getMaterial() == Material.WATER);
 
-        if (plant.getBlock() instanceof BlockCactus) {
+        if (plant.getBlock() instanceof BlockCactus || plant.getBlock() == AtumBlocks.ANPUTS_FINGERS) {
             return true;
         }
 

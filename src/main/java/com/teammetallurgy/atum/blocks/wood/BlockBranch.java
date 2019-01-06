@@ -114,11 +114,6 @@ public class BlockBranch extends Block {
     }
 
     @Override
-    public boolean isPassable(IBlockAccess world, BlockPos pos) {
-        return false;
-    }
-
-    @Override
     @SideOnly(Side.CLIENT)
     public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
         return true;

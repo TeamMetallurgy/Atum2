@@ -145,9 +145,10 @@ public class AtumItems {
     public static final Item DUSTY_BONE = new Item();
     public static final Item SCROLL = new Item();
     public static final Item WOLF_PELT = new Item();
-    public static final Item FLAX_SEEDS = new ItemSeeds(AtumBlocks.FLAX, Blocks.FARMLAND);
+    public static final Item ANPUTS_FINGERS_SPORES = new ItemAtumSeeds(AtumBlocks.ANPUTS_FINGERS, AtumBlocks.SAND);
+    public static final Item FLAX_SEEDS = new ItemAtumSeeds(AtumBlocks.FLAX, Blocks.FARMLAND);
     public static final Item FLAX = new Item();
-    public static final Item EMMER_SEEDS = new ItemSeeds(AtumBlocks.EMMER_WHEAT, Blocks.FARMLAND);
+    public static final Item EMMER_SEEDS = new ItemAtumSeeds(AtumBlocks.EMMER_WHEAT, Blocks.FARMLAND);
     public static final Item EMMER = new Item();
     public static final Item EMMER_FLOUR = new ItemEmmerFlour();
     public static final Item EMMER_DOUGH = new Item();
@@ -259,6 +260,7 @@ public class AtumItems {
         registerItem(SCROLL, "scroll");
         registerItem(WOLF_PELT, "wolf_pelt");
         registerItem(FERTILE_SOIL_PILE, "fertile_soil_pile");
+        registerItem(ANPUTS_FINGERS_SPORES, "anputs_fingers_spores");
         registerItem(FLAX, "flax");
         registerItem(FLAX_SEEDS, "flax_seeds");
         registerItem(EMMER_SEEDS, "emmer_seeds");
@@ -279,6 +281,7 @@ public class AtumItems {
         OreDictHelper.add(Items.BLAZE_POWDER, "dustBlaze");
         OreDictHelper.add(EFREET_HEART, "rodBlaze");
         OreDictHelper.add(new ItemStack(VIAL_OF_EFREET_BLOOD), "powderBlaze", "dustBlaze");
+        OreDictHelper.add(ANPUTS_FINGERS_SPORES, "cropNetherWart");
         OreDictHelper.add(FLAX, "cropFlax");
         OreDictHelper.add(FLAX_SEEDS, "seed");
         OreDictHelper.add(FLAX_SEEDS, "seedFlax");

@@ -6,8 +6,9 @@ import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.utils.*;
-import net.minecraft.block.Block;
+import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -28,6 +29,7 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.commons.lang3.StringUtils;
 
+import static com.teammetallurgy.atum.utils.RecipeHelper.*;
 import static net.minecraft.block.BlockFlower.EnumFlowerType;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
@@ -66,9 +68,13 @@ public class AtumRecipes {
     }
 
     private static void addBrewingRecipes() {
-        RecipeHelper.addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
-        RecipeHelper.addBrewingRecipeWithSubPotions("dustBlaze", PotionTypes.STRENGTH);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
+        addBrewingRecipeWithSubPotions("dustBlaze", PotionTypes.STRENGTH);
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(AtumItems.ECTOPLASM), new ItemStack(Items.EXPERIENCE_BOTTLE));
+        //Anput's Fingers
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.AWKWARD));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.AWKWARD));
     }
 
     @SubscribeEvent
@@ -112,21 +118,6 @@ public class AtumRecipes {
         addQuernRecipe("miners_delight", new QuernRecipe("flowerMinersDelight", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
         addQuernRecipe("icy_iris", new QuernRecipe("flowerIcyIris", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
         addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
-    }
-
-    private static void addFlowerRecipeOre(Block flowerBlock, EnumFlowerType flowerType, EnumDyeColor color, RegistryEvent.Register<IQuernRecipe> event) {
-        ItemStack flower = new ItemStack(flowerBlock, 1, flowerType.getMeta());
-        String oreDict = "flower" + StringUtils.capitalize(color.getTranslationKey());
-        OreDictHelper.add(flower, oreDict);
-        if (!event.getRegistry().containsKey(new ResourceLocation(Constants.MOD_ID, oreDict))) {
-            addQuernRecipe(oreDict, new QuernRecipe(oreDict, new ItemStack(Items.DYE, 2, color.getDyeDamage()), 2), event);
-        }
-    }
-
-    private static void addQuernRecipe(String registryName, IQuernRecipe quernRecipe, RegistryEvent.Register<IQuernRecipe> event) {
-        if (!quernRecipe.getInput().isEmpty()) {
-            AtumRegistry.registerRecipe(registryName, quernRecipe, event);
-        }
     }
 
     @SubscribeEvent
