@@ -5,7 +5,7 @@ import net.minecraft.client.model.ModelQuadruped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
 
@@ -101,11 +101,6 @@ public class ModelCamel extends ModelQuadruped {
         boolean canHaveCrate = !camel.isChild() && camel.hasCrate();
         boolean isSaddled = !isChild && camel.isHorseSaddled();
 
-        if (isSaddled) {
-            this.saddle1.render(scale);
-            this.saddle2.render(scale);
-        }
-
         if (isChild) {
             GlStateManager.pushMatrix();
             GlStateManager.translate(0.0F, this.childYOffset * scale, this.childZOffset * scale);
@@ -141,34 +136,32 @@ public class ModelCamel extends ModelQuadruped {
             this.leg2.render(scale);
             this.leg3.render(scale);
             this.leg4.render(scale);
+
+            if (isSaddled) {
+                this.saddle1.render(scale);
+                this.saddle2.render(scale);
+            }
         }
-        
-        /*if(canHaveChest) {
-        	this.chest_left.render(scale);
-        	this.chest_right.render(scale);
-        }*/
+
+        if (canHaveCrate) {
+            this.chest_left.render(scale);
+            this.chest_right.render(scale);
+        }
     }
 
     @Override
-    public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        super.setLivingAnimations(livingBase, limbSwing, limbSwingAmount, partialTickTime);
-        EntityCamel camel = (EntityCamel) livingBase;
-        boolean isSaddled = camel.isHorseSaddled();
-        boolean isBeingRidden = camel.isBeingRidden();
-        float rearingAmount = camel.getRearingAmount(partialTickTime);
-        float rearing = 1.0F - rearingAmount;
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
+        limbSwingAmount *= EntityCamel.CAMEL_RIDING_SPEED_AMOUNT;
+        super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
+        EntityCamel camel = (EntityCamel) entity;
 
-        if (isSaddled) {
-            /*this.horseSaddleBottom.rotationPointY = rearingAmount * 0.5F + rearing * 2.0F;
-            this.horseSaddleBottom.rotationPointZ = rearingAmount * 11.0F + rearing * 2.0F;
-            this.horseSaddleFront.rotationPointY = this.horseSaddleBottom.rotationPointY;
-            this.horseSaddleBack.rotationPointY = this.horseSaddleBottom.rotationPointY;
-            this.horseSaddleFront.rotationPointZ = this.horseSaddleBottom.rotationPointZ;
-            this.horseSaddleBack.rotationPointZ = this.horseSaddleBottom.rotationPointZ;
-            this.horseSaddleBottom.rotateAngleX = this.body.rotateAngleX;
-            this.horseSaddleFront.rotateAngleX = this.body.rotateAngleX;
-            this.horseSaddleBack.rotateAngleX = this.body.rotateAngleX;*/
+        if (camel.isBeingRidden()) {
+            this.head.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.025F * limbSwingAmount;
+            this.tail.rotateAngleX = -45.5F + (MathHelper.sqrt(Math.pow(camel.motionX, 2) + Math.pow(camel.motionZ, 2)));
+        } else {
+            this.tail.rotateAngleX = -45.5F;
         }
+        this.tail.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 0.1F * limbSwingAmount;
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

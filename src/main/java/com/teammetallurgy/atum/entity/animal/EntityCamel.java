@@ -42,6 +42,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> DATA_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.BOOLEAN);
+    public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
     private String texturePath;
     private boolean didSpit;
     private EntityCamel caravanHead;
@@ -69,7 +70,6 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.18D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
         this.getEntityAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
     }
@@ -237,6 +237,15 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
             float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
             passenger.setPosition(this.posX + (double) (0.1F * sin), this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ - (double) (0.1F * cos));
+        }
+    }
+
+    @Override
+    public void setAIMoveSpeed(float speed) {
+        if (this.isBeingRidden()) {
+            super.setAIMoveSpeed(speed * CAMEL_RIDING_SPEED_AMOUNT);
+        } else {
+            super.setAIMoveSpeed(speed);
         }
     }
 

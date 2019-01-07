@@ -12,8 +12,10 @@
 		"frame": "goal"
     },
     "parent": "atum:core/pyramidscheme",
-	"rewards": {
-        "loot": "atum:thoths_direction"
+    "rewards": {
+        "loot": [
+            "atum:advancements/thoths_direction"
+        ]
     },
     "criteria": {
         "killed_pharaoh": {

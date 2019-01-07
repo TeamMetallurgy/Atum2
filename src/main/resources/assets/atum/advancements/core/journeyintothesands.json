@@ -14,7 +14,9 @@
     },
 	"parent": "atum:core/root",
 	"rewards": {
-        "loot": "atum:thoths_bearings"
+        "loot": [
+            "atum:advancements/thoths_bearings"
+        ]
     },
     "criteria": {
         "entered_atum": {
