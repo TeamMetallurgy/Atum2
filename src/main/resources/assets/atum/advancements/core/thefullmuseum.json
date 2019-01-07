@@ -12,6 +12,9 @@
 		"frame": "challenge"
     },
     "parent": "atum:core/itbelongsinamuseum",
+	"rewards": {
+        "experience": 500
+    },
     "criteria": {
         "gebs_toil": {
             "trigger": "minecraft:inventory_changed",

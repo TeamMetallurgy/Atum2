@@ -12,6 +12,9 @@
 		"frame": "goal"
     },
     "parent": "atum:core/strongsilenttype",
+	"rewards": {
+        "experience": 100
+    },
     "criteria": {
         "summoned_stonewarden": {
             "trigger": "minecraft:summoned_entity",

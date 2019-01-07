@@ -12,6 +12,9 @@
 		"frame": "challenge"
     },
     "parent": "atum:core/assassinassin",
+	"rewards": {
+        "experience": 250
+    },
     "criteria": {
         "brigand": {
             "trigger": "minecraft:player_killed_entity",

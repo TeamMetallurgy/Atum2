@@ -12,6 +12,9 @@
 		"frame": "goal"
     },
     "parent": "atum:core/killorbekilled",
+	"rewards": {
+        "experience": 100
+    },
     "criteria": {
 		"assassin": {
             "trigger": "minecraft:player_killed_entity",

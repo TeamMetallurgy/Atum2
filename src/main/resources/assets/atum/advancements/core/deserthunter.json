@@ -12,6 +12,9 @@
 		"frame": "challenge"
     },
     "parent": "atum:core/sandyboi",
+	"rewards": {
+        "experience": 250
+    },
     "criteria": {
         "desertwolf": {
             "trigger": "minecraft:player_killed_entity",

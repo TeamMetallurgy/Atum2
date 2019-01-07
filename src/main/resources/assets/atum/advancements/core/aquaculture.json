@@ -11,6 +11,9 @@
         }
     },
     "parent": "atum:core/ahope",
+	"rewards": {
+        "experience": 50
+    },
     "criteria": {
         "fish_skeletal": {
             "trigger": "minecraft:inventory_changed",

@@ -12,6 +12,9 @@
 		"frame": "goal"
     },
     "parent": "atum:core/pyramidscheme",
+	"rewards": {
+        "loot": "atum:thoths_direction"
+    },
     "criteria": {
         "killed_pharaoh": {
             "trigger": "minecraft:player_killed_entity",

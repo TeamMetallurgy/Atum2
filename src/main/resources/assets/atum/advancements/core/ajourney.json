@@ -12,6 +12,9 @@
 		"frame": "challenge"
     },
 	"parent": "atum:core/amirage",
+	"rewards": {
+        "experience": 250
+    },
     "criteria": {
         "oasis": {
             "trigger": "minecraft:location",

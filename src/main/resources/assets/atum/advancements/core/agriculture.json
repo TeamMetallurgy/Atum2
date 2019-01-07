@@ -11,6 +11,9 @@
         }
     },
     "parent": "atum:core/ahope",
+	"rewards": {
+        "experience": 100
+    },
     "criteria": {
         "emmer": {
             "trigger": "minecraft:placed_block",

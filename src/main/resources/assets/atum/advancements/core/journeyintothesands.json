@@ -9,10 +9,13 @@
         "description": {
             "translate": "Enter Atum"
         },
-        "show_toast": true,
+        "show_toast": false,
         "announce_to_chat": false
     },
 	"parent": "atum:core/root",
+	"rewards": {
+        "loot": "atum:thoths_bearings"
+    },
     "criteria": {
         "entered_atum": {
             "trigger": "minecraft:changed_dimension",

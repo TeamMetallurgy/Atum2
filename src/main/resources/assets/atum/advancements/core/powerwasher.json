@@ -11,6 +11,9 @@
         }
     },
     "parent": "atum:core/justlikenew",
+	"rewards": {
+        "experience": 500
+    },
     "criteria": {
         "silver_ring": {
             "trigger": "minecraft:inventory_changed",
