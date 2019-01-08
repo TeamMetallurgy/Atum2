@@ -49,7 +49,7 @@ public class ItemAnubisMercy extends ItemAmulet {
         if (event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
             ItemStack heldStack = player.getHeldItem(hand);
-            if (getAmulet(player).getItem() == AtumItems.ANUBIS_MERCY) {
+            if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.ANUBIS_MERCY) {
                 heldStack = getAmulet(player);
             }
             if (heldStack.getItem() == AtumItems.ANUBIS_MERCY) {
@@ -129,6 +129,7 @@ public class ItemAnubisMercy extends ItemAmulet {
             tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
         } else {
             tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
+            tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".line4"));
         }
 
         int remaining = stack.getMaxDamage() - stack.getItemDamage();

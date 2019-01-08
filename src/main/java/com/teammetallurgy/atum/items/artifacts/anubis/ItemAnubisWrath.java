@@ -73,6 +73,21 @@ public class ItemAnubisWrath extends ItemSword {
         return EnumRarity.RARE;
     }
 
+    @Override
+    public boolean showDurabilityBar(@Nonnull ItemStack stack) {
+        return getSouls(stack) > 0;
+    }
+
+    @Override
+    public double getDurabilityForDisplay(@Nonnull ItemStack stack) {
+        return (double) (getSoulUpgradeTier(getTier(stack)) - getSouls(stack)) / (double) getSoulUpgradeTier(getTier(stack));
+    }
+
+    @Override
+    public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
+        return 12452784;
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         EntityPlayer player = event.getEntityPlayer();
@@ -162,6 +177,10 @@ public class ItemAnubisWrath extends ItemSword {
         return souls < 50 ? 0 : souls < 150 ? 1 : souls < 500 ? 2 : 3;
     }
 
+    private static int getSoulUpgradeTier(int tier) {
+        return tier == 0 ? 50 : tier == 1 ? 150 : tier == 2 ? 500 : 500;
+    }
+
     @Override
     @SideOnly(Side.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
@@ -171,6 +190,8 @@ public class ItemAnubisWrath extends ItemSword {
         } else {
             tooltip.add(I18n.format(this.getTranslationKey() + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")) + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-        tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".kills", getSouls(stack)));
+        if (tooltipType.isAdvanced()) {
+            tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".kills", getSouls(stack)));
+        }
     }
 }
