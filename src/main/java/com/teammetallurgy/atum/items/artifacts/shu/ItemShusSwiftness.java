@@ -2,20 +2,20 @@ package com.teammetallurgy.atum.items.artifacts.shu;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.items.ItemAmulet;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -26,7 +26,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
-public class ItemShusSwiftness extends Item {
+public class ItemShusSwiftness extends ItemAmulet {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("f51280de-21d2-47f5-bc9a-e55ef1acfe2d"), "Shu's Swiftness speed boost", 0.025D, 0);
 
     public ItemShusSwiftness() {
@@ -35,17 +35,20 @@ public class ItemShusSwiftness extends Item {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
+    @Optional.Method(modid = "baubles")
+    public void onWornTick(ItemStack stack, EntityLivingBase livingBase) {
+        if (livingBase instanceof EntityPlayer) {
+            EntityPlayer player = (EntityPlayer) livingBase;
+            ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+            if (player.onGround) {
+                if (stack.getItem() == this) {
+                    this.doEffect(player.world, player, stack);
+                } else if (attribute.hasModifier(SPEED_BOOST)) {
+                    attribute.removeModifier(SPEED_BOOST);
+                }
+            }
+        }
     }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
-    }
-
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
@@ -95,10 +98,5 @@ public class ItemShusSwiftness extends Item {
         DecimalFormat format = new DecimalFormat("#.##");
         String localizedRemaining = I18n.format("tooltip.atum.minutesRemaining",  format.format(remaining));
         tooltip.add(localizedRemaining);
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

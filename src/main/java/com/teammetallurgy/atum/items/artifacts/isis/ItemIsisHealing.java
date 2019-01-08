@@ -2,18 +2,18 @@ package com.teammetallurgy.atum.items.artifacts.isis;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.items.ItemAmulet;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.Optional;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemIsisHealing extends Item {
+public class ItemIsisHealing extends ItemAmulet {
     private int duration = 40;
 
     public ItemIsisHealing() {
@@ -31,15 +31,15 @@ public class ItemIsisHealing extends Item {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
+    @Optional.Method(modid = "baubles")
+    public void onWornTick(ItemStack stack, EntityLivingBase livingBase) {
+        if (stack.getItem() == this && livingBase instanceof EntityPlayer) {
+            if (duration >= 1) {
+                duration--;
+            }
+            EntityPlayer player = (EntityPlayer) livingBase;
+            this.doEffect(player.world, player, getAmulet(player));
+        }
     }
 
     @Override
@@ -49,12 +49,10 @@ public class ItemIsisHealing extends Item {
         }
         if (entity instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) entity;
-            if (player.onGround) {
-                if (player.getHeldItem(EnumHand.OFF_HAND).getItem() == this) {
-                    this.doEffect(world, player, stack);
-                } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == this) {
-                    this.doEffect(world, player, stack);
-                }
+            if (player.getHeldItem(EnumHand.OFF_HAND).getItem() == this) {
+                this.doEffect(world, player, stack);
+            } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == this) {
+                this.doEffect(world, player, stack);
             }
         }
     }
@@ -85,10 +83,5 @@ public class ItemIsisHealing extends Item {
         } else {
             tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
     }
 }

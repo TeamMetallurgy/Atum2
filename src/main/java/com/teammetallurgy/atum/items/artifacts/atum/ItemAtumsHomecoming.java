@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.items.ItemAmulet;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
@@ -9,8 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 import net.minecraft.util.ActionResult;
@@ -31,23 +30,11 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-public class ItemAtumsHomecoming extends Item {
+public class ItemAtumsHomecoming extends ItemAmulet {
 
     public ItemAtumsHomecoming() {
         super();
         this.setMaxDamage(20);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 
     @Override

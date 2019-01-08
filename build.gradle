@@ -19,6 +19,9 @@ repositories {
   maven { 
     url "http://maven.blamejared.com" 
   }
+  maven {
+    url = "http://maven.thiakil.com"
+  }
 }
 
 sourceCompatibility = 1.8
@@ -45,6 +48,7 @@ dependencies {
     runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
     deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}"
     deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:${ct_version}"
+	deobfProvided "com.azanor.baubles:Baubles:${baubles_version}"
 }
 
 processResources {
