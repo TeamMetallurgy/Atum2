@@ -12,7 +12,7 @@
     },
     "parent": "atum:core/goldendatebridge",
     "criteria": {
-        "date": {
+        "enchantedgoldendate": {
             "trigger": "consume_item",
             "conditions": {
                 "items": [
