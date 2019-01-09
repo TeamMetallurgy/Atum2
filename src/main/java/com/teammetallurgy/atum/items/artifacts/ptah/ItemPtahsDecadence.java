@@ -6,10 +6,12 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.SoundCategory;
@@ -42,20 +44,25 @@ public class ItemPtahsDecadence extends ItemPickaxe {
 
     @SubscribeEvent
     public static void harvestEvent(BlockEvent.HarvestDropsEvent event) {
-        if (event.getHarvester() != null && event.getHarvester().getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.PTAHS_DECADENCE) {
+        EntityPlayer player = event.getHarvester();
+        if (player != null && player.getHeldItemMainhand().getItem() == AtumItems.PTAHS_DECADENCE) {
             World world = event.getWorld();
             IBlockState state = event.getState();
             BlockPos pos = event.getPos();
-            Block dropBlock = Block.getBlockFromItem(state.getBlock().getItemDropped(world.getBlockState(pos), itemRand, 0));
-            if (world.rand.nextFloat() <= 0.25F && (dropBlock == AtumBlocks.IRON_ORE || dropBlock == Blocks.IRON_ORE)) {
-                if (dropBlock == AtumBlocks.IRON_ORE) {
-                    event.getDrops().clear();
-                    event.getDrops().add(new ItemStack(AtumBlocks.GOLD_ORE));
-                    world.playSound(null, pos, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1.0F, 1.0F);
-                } else {
-                    event.getDrops().clear();
-                    event.getDrops().add(new ItemStack(Blocks.GOLD_ORE));
-                    world.playSound(null, pos, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            if (world.isAirBlock(pos)) {
+                Item itemDropped = state.getBlock().getItemDropped(world.getBlockState(pos), itemRand, 0);
+                if (itemDropped == null || itemDropped == Items.AIR) return;
+                Block dropBlock = Block.getBlockFromItem(itemDropped);
+                if (world.rand.nextFloat() <= 0.50F && (dropBlock == AtumBlocks.IRON_ORE || dropBlock == Blocks.IRON_ORE)) {
+                    if (dropBlock == AtumBlocks.IRON_ORE) {
+                        event.getDrops().clear();
+                        event.getDrops().add(new ItemStack(AtumBlocks.GOLD_ORE));
+                        world.playSound(null, pos, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    } else {
+                        event.getDrops().clear();
+                        event.getDrops().add(new ItemStack(Blocks.GOLD_ORE));
+                        world.playSound(null, pos, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
                 }
             }
         }
