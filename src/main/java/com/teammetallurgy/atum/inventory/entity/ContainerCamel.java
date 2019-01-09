@@ -1,10 +1,5 @@
 package com.teammetallurgy.atum.inventory.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
-
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import net.minecraft.block.Block;
@@ -18,11 +13,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContainerCamel extends Container {
     private final IInventory camelInventory;
     private final EntityCamel camel;
-    
     private List<Slot> rightCrateSlots = new ArrayList<>();
     private List<Slot> leftCrateSlots = new ArrayList<>();
 
@@ -160,8 +156,7 @@ public class ContainerCamel extends Container {
     }
 
     private void updateLeftChestSlots() {
-        if (camel.hasLeftCrate())
-        {
+        if (camel.hasLeftCrate()) {
             boolean hasLeftSlots = false;
             for (Slot slot : leftCrateSlots) {
                 if (inventorySlots.contains(slot)) {
@@ -178,7 +173,7 @@ public class ContainerCamel extends Container {
         } else {
             for (int i = 0; i < inventorySlots.size(); i++) {
                 Slot slot = inventorySlots.get(i);
-                if (leftCrateSlots.contains(slot)) {    
+                if (leftCrateSlots.contains(slot)) {
                     inventorySlots.remove(i);
                     inventoryItemStacks.remove(i);
                     i--;
@@ -191,8 +186,7 @@ public class ContainerCamel extends Container {
     }
 
     private void updateRightChestSlots() {
-        if (camel.hasRightCrate())
-        {
+        if (camel.hasRightCrate()) {
             boolean hasRightSlots = false;
             for (Slot slot : rightCrateSlots) {
                 if (inventorySlots.contains(slot)) {
@@ -201,15 +195,15 @@ public class ContainerCamel extends Container {
                 }
             }
             if (!hasRightSlots) {
-                for (int i = 0; i < rightCrateSlots.size(); i++) {
-                    inventorySlots.add(camel.getNonCrateSize() + leftCrateSlots.size(), rightCrateSlots.get(i));
+                for (Slot rightCrateSlot : rightCrateSlots) {
+                    inventorySlots.add(camel.getNonCrateSize() + leftCrateSlots.size(), rightCrateSlot);
                     inventoryItemStacks.add(ItemStack.EMPTY);
                 }
             }
         } else {
             for (int i = 0; i < inventorySlots.size(); i++) {
                 Slot slot = inventorySlots.get(i);
-                if(rightCrateSlots.contains(slot)) {    
+                if (rightCrateSlots.contains(slot)) {
                     inventorySlots.remove(i);
                     inventoryItemStacks.remove(i);
                     i--;

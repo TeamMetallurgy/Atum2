@@ -36,6 +36,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -430,7 +431,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         }
         this.horseChest.addInventoryChangeListener(this);
         this.updateHorseSlots();
-        this.itemHandler = new InvWrapper(this.horseChest); //TODO, when inventory is working
+        this.itemHandler = new InvWrapper(this.horseChest);
     }
 
     @Override
@@ -451,20 +452,12 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         return 4;
     }
 
-    public ItemStack getLeftCrate() {
-        return this.dataManager.get(LEFT_CRATE);
-    }
-
     public boolean hasLeftCrate() {
-        return !getLeftCrate().isEmpty();
-    }
-
-    public ItemStack getRightCrate() {
-        return this.dataManager.get(RIGHT_CRATE);
+        return !this.dataManager.get(LEFT_CRATE).isEmpty();
     }
 
     public boolean hasRightCrate() {
-        return !getRightCrate().isEmpty();
+        return !this.dataManager.get(RIGHT_CRATE).isEmpty();
     }
 
     @Override
