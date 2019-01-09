@@ -234,8 +234,9 @@ public class ContainerCamel extends Container {
         if (slot != null && slot.getHasStack()) {
             ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
-            if (index < this.camelInventory.getSizeInventory()) {
-                if (!this.mergeItemStack(slotStack, this.camelInventory.getSizeInventory(), this.inventorySlots.size(), true)) {
+            int camelInventorySize = camel.getNonCrateSize() + (camel.hasLeftCrate() ? leftCrateSlots.size() : 0) + (camel.hasRightCrate() ? rightCrateSlots.size() : 0);
+            if (index < camelInventorySize) {
+                if (!this.mergeItemStack(slotStack, camelInventorySize, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else if (this.getSlot(1).isItemValid(slotStack) && !this.getSlot(1).getHasStack()) {
@@ -258,7 +259,7 @@ public class ContainerCamel extends Container {
                 if (!this.mergeItemStack(slotStack, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.camelInventory.getSizeInventory() <= 5 || !this.mergeItemStack(slotStack, 5, this.camelInventory.getSizeInventory(), false)) {
+            } else if (camelInventorySize <= 5 || !this.mergeItemStack(slotStack, 5, camelInventorySize, false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.isEmpty()) {
