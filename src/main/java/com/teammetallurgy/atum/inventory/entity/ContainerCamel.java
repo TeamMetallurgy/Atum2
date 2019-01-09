@@ -67,6 +67,13 @@ public class ContainerCamel extends Container {
             public boolean isItemValid(ItemStack stack) {
                 return Block.getBlockFromItem(stack.getItem()) instanceof BlockCrate;
             }
+            
+            @Override
+            public void onSlotChanged()
+            {
+            	super.onSlotChanged();
+            	ContainerCamel.this.updateChestSlots();
+            }
 
             @Override
             public int getSlotStackLimit() {
@@ -94,7 +101,7 @@ public class ContainerCamel extends Container {
         if (camel != null && camel.hasRightCrate()) {
             for (int row = 0; row < 3; ++row) {
                 for (int slot = 0; slot < camel.getInventoryColumns(); ++slot) {
-                    this.addSlotToContainer(new Slot(camelInventory, camel.getNonCrateSize() + 1 + slot + row * camel.getInventoryColumns(), 98 + slot * 18, 86 + row * 18));
+                    this.addSlotToContainer(new Slot(camelInventory, camel.getNonCrateSize() + (camel.hasLeftCrate() ? 3 * camel.getInventoryColumns() : 0) + slot + row * camel.getInventoryColumns(), 98 + slot * 18, 86 + row * 18));
                 }
             }
         }
@@ -106,6 +113,22 @@ public class ContainerCamel extends Container {
         for (int slot = 0; slot < 9; ++slot) {
             this.addSlotToContainer(new Slot(playerInventory, slot, 8 + slot * 18, 212));
         }
+    }
+    
+    private void updateChestSlots() {
+    	System.out.println(camel.hasLeftCrate());
+    	if(camel.hasLeftCrate())
+    		return;
+    	for(int i = 0; i < this.inventorySlots.size(); i++) {
+    		Slot slot = this.inventorySlots.get(i);
+    		if(slot.inventory == camelInventory) {	
+	    		if(slot.getSlotIndex() >= camel.getNonCrateSize() && slot.getSlotIndex() < camel.getNonCrateSize() + 12) {
+	    			System.out.println("Removing");
+	    			this.inventorySlots.remove(i);
+	    			i--;
+	    		}
+	    	}
+    	}
     }
 
     @Override

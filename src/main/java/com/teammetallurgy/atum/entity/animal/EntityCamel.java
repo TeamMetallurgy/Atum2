@@ -439,14 +439,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @Override
     protected int getInventorySize() {
-        int size = this.getNonCrateSize();
-        if (this.hasLeftCrate()) {
-            size += this.getInventoryColumns() * 3;
-        }
-        if (this.hasRightCrate()) {
-            size += this.getInventoryColumns() * 3;
-        }
-        return size;
+        return this.getNonCrateSize() + 2 * (this.getInventoryColumns() * 3);
     }
 
     public int getNonCrateSize() {
