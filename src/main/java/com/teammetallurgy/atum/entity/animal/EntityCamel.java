@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.ai.AICamelCaravan;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
@@ -16,6 +15,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ContainerHorseChest;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -41,7 +41,8 @@ import java.util.Objects;
 public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
-    private static final DataParameter<Boolean> DATA_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<ItemStack> LEFT_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
+    private static final DataParameter<ItemStack> RIGHT_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
     public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
     private String texturePath;
     private boolean didSpit;
@@ -54,16 +55,18 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         this.setSize(0.9F, 1.87F);
         this.canGallop = false;
         this.stepHeight = 1.6F;
+        this.initHorseChest();
     }
 
     @Override
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(DATA_COLOR_ID, -1);
-        this.dataManager.register(DATA_CRATE, Boolean.FALSE);
         if (this.hasSkinVariants()) {
             this.dataManager.register(VARIANT, 0);
         }
+        this.dataManager.register(LEFT_CRATE, ItemStack.EMPTY);
+        this.dataManager.register(RIGHT_CRATE, ItemStack.EMPTY);
     }
 
     @Override
@@ -190,18 +193,6 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void onDeath(@Nonnull DamageSource cause) {
-        super.onDeath(cause);
-
-        if (this.hasCrate()) {
-            if (!this.world.isRemote) {
-                this.dropItem(Item.getItemFromBlock(BlockCrate.getCrate(BlockAtumPlank.WoodType.PALM)), 1);
-            }
-            this.setCrated(false);
-        }
-    }
-
-    @Override
     public void setSwingingArms(boolean swingingArms) {
     }
 
@@ -311,6 +302,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             super.updateHorseSlots();
             this.setColorByItem(this.horseChest.getStackInSlot(2));
         }
+        this.dataManager.set(LEFT_CRATE, this.horseChest.getStackInSlot(3));
+        this.dataManager.set(RIGHT_CRATE, this.horseChest.getStackInSlot(4));
     }
 
     private void setColorByItem(@Nonnull ItemStack stack) {
@@ -358,9 +351,14 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (!this.horseChest.getStackInSlot(2).isEmpty()) {
             compound.setTag("Carpet", this.horseChest.getStackInSlot(2).writeToNBT(new NBTTagCompound()));
         }
-        compound.setBoolean("CratedCamel", this.hasCrate());
+        if (!this.horseChest.getStackInSlot(3).isEmpty()) {
+            compound.setTag("CrateLeft", this.horseChest.getStackInSlot(3).writeToNBT(new NBTTagCompound()));
+        }
+        if (!this.horseChest.getStackInSlot(3).isEmpty()) {
+            compound.setTag("CrateRight", this.horseChest.getStackInSlot(4).writeToNBT(new NBTTagCompound()));
+        }
 
-        if (this.hasCrate()) {
+        if (this.hasLeftCrate()) {
             NBTTagList tagList = new NBTTagList();
             for (int slot = this.getNonCrateSize(); slot < this.horseChest.getSizeInventory(); ++slot) {
                 ItemStack slotStack = this.horseChest.getStackInSlot(slot);
@@ -389,9 +387,14 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                 this.horseChest.setInventorySlotContents(1, armorStack);
             }
         }
-        this.setCrated(compound.getBoolean("CratedCamel"));
+        if (compound.hasKey("CrateLeft", 10)) {
+            this.horseChest.setInventorySlotContents(3, new ItemStack(compound.getCompoundTag("CrateLeft")));
+        }
+        if (compound.hasKey("CrateRight", 10)) {
+            this.horseChest.setInventorySlotContents(4, new ItemStack(compound.getCompoundTag("CrateRight")));
+        }
 
-        if (this.hasCrate()) {
+        if (this.hasLeftCrate()) {
             NBTTagList tagList = compound.getTagList("Items", 10);
             this.initHorseChest();
             for (int i = 0; i < tagList.tagCount(); ++i) {
@@ -407,65 +410,67 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @Override
     protected void initHorseChest() {
-        ContainerHorseChest containerhorsechest = this.horseChest;
+        ContainerHorseChest caemlInventory = this.horseChest;
         System.out.println("Camel Inventory Size testing " +  this.getInventorySize());
-        this.horseChest = new ContainerHorseChest("CamelChest", 18);
+        this.horseChest = new ContainerHorseChest("CamelChest", this.getInventorySize());
         this.horseChest.setCustomName(this.getName());
 
-        if (containerhorsechest != null) {
-            containerhorsechest.removeInventoryChangeListener(this);
-            int i = Math.min(containerhorsechest.getSizeInventory(), this.horseChest.getSizeInventory());
+        if (caemlInventory != null) {
+            caemlInventory.removeInventoryChangeListener(this);
+            int size = Math.min(caemlInventory.getSizeInventory(), this.horseChest.getSizeInventory());
 
-            for (int j = 0; j < i; ++j) {
-                ItemStack itemstack = containerhorsechest.getStackInSlot(j);
-
-                if (!itemstack.isEmpty()) {
-                    this.horseChest.setInventorySlotContents(j, itemstack.copy());
+            for (int slot = 0; slot < size; ++slot) {
+                ItemStack slotStack = caemlInventory.getStackInSlot(slot);
+                if (!slotStack.isEmpty()) {
+                    this.horseChest.setInventorySlotContents(slot, slotStack.copy());
                 }
             }
         }
 
         this.horseChest.addInventoryChangeListener(this);
         this.updateHorseSlots();
-        //this.itemHandler = new net.minecraftforge.items.wrapper.InvWrapper(this.horseChest);
+        //this.itemHandler = new InvWrapper(this.horseChest); //TODO, when inventory is working
+    }
+
+    @Override
+    public void onInventoryChanged(IInventory invBasic) {
+        this.updateHorseSlots();
     }
 
     @Override
     protected int getInventorySize() {
-        return this.hasCrate() ? this.getNonCrateSize() + (3 * this.getInventoryColumns()) : this.getNonCrateSize();
+        int size = this.getNonCrateSize();
+        if (this.hasLeftCrate()) {
+            size += this.getInventoryColumns() * 3;
+        }
+        if (this.hasRightCrate()) {
+            size += this.getInventoryColumns() * 3;
+        }
+        return size;
     }
 
-    private int getNonCrateSize() {
-        return 3;
-    }
-
-    public int getInventoryColumns() {
+    public int getNonCrateSize() {
         return 5;
     }
 
-    public boolean hasCrate() {
-        return this.dataManager.get(DATA_CRATE);
+    public int getInventoryColumns() {
+        return 4;
     }
 
-    public void setCrated(boolean crated) {
-        this.dataManager.set(DATA_CRATE, crated);
+    public ItemStack getLeftCrate() {
+        return this.dataManager.get(LEFT_CRATE);
     }
 
-    @Override
-    public boolean replaceItemInInventory(int inventorySlot, @Nonnull ItemStack stack) {
-        if (inventorySlot == 499) {
-            if (this.hasCrate() && stack.isEmpty()) {
-                this.setCrated(false);
-                this.initHorseChest();
-                return true;
-            }
-            if (!this.hasCrate() && stack.getItem() == Item.getItemFromBlock(BlockCrate.getCrate(BlockAtumPlank.WoodType.PALM))) {
-                this.setCrated(true);
-                this.initHorseChest();
-                return true;
-            }
-        }
-        return super.replaceItemInInventory(inventorySlot, stack);
+    public boolean hasLeftCrate() {
+        return !getLeftCrate().isEmpty();
+    }
+
+    public ItemStack getRightCrate() {
+        return this.dataManager.get(RIGHT_CRATE);
+    }
+
+    public boolean hasRightCrate() {
+        return !getRightCrate().isEmpty();
     }
 
     @Override
@@ -495,11 +500,9 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                     return true;
                 }
 
-                if (!eating && !this.hasCrate() && heldStack.getItem() == Item.getItemFromBlock(BlockCrate.getCrate(BlockAtumPlank.WoodType.PALM))) {
-                    this.setCrated(true);
-                    this.playChestEquipSound();
+                if (!eating && (!this.hasLeftCrate() ||!this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof BlockCrate) {
+                    this.openGUI(player);
                     eating = true;
-                    this.initHorseChest();
                 }
                 if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() == Items.SADDLE) {
                     this.openGUI(player);
@@ -592,10 +595,6 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (!this.isSilent()) {
             this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
-    }
-
-    private void playChestEquipSound() {
-        this.playSound(SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
     }
 
     static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityDesertWolf> {

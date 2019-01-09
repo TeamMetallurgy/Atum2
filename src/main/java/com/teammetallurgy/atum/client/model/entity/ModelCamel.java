@@ -98,7 +98,6 @@ public class ModelCamel extends ModelQuadruped {
         EntityCamel camel = (EntityCamel) entity;
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, camel);
         boolean isChild = camel.isChild();
-        boolean canHaveCrate = !camel.isChild() && camel.hasCrate();
         boolean isSaddled = !isChild && camel.isHorseSaddled();
 
         if (isChild) {
@@ -141,11 +140,14 @@ public class ModelCamel extends ModelQuadruped {
                 this.saddle1.render(scale);
                 this.saddle2.render(scale);
             }
-        }
 
-        if (canHaveCrate) {
-            this.chest_left.render(scale);
-            this.chest_right.render(scale);
+            if (camel.hasLeftCrate()) {
+                this.chest_left.render(scale);
+            }
+            if (camel.hasRightCrate()) {
+                this.chest_right.render(scale);
+            }
+
         }
     }
 

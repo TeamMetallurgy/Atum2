@@ -45,8 +45,11 @@ public class GuiCamel extends GuiContainer {
         this.drawTexturedModalRect(width, height, 0, 0, this.xSize, this.ySize);
 
         if (this.camel != null) {
-            if (this.camel.hasCrate()) {
-                this.drawTexturedModalRect(width + 79, height + 17, 0, this.ySize, this.camel.getInventoryColumns() * 18, 54);
+            if (this.camel.hasLeftCrate()) {
+                this.drawTexturedModalRect(width + 7, height + 85, this.xSize, 0, this.camel.getInventoryColumns() * 18, 54); //Left Crate
+            }
+            if (this.camel.hasRightCrate()) {
+                this.drawTexturedModalRect(width + 97, height + 85, this.xSize, 0, this.camel.getInventoryColumns() * 18, 54); //Right Crate
             }
             GuiInventory.drawEntityOnScreen(width + 88, height + 50, 17, (float) (width + 51) - this.mousePosx, (float) (height + 75 - 50) - this.mousePosY, this.camel);
         }
