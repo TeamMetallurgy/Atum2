@@ -1,16 +1,12 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.ItemAmulet;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
@@ -28,24 +24,12 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 @Mod.EventBusSubscriber
-public class ItemNuitsVanishing extends Item {
-    public static boolean isInvisible;
+public class ItemNuitsVanishing extends ItemAmulet {
+    private static boolean isInvisible;
 
     public ItemNuitsVanishing() {
-        this.setMaxStackSize(1);
+        super();
         this.setMaxDamage(3600);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 
     @SubscribeEvent
@@ -57,16 +41,14 @@ public class ItemNuitsVanishing extends Item {
         }
     }
 
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return enchantment == Enchantments.UNBREAKING;
-    }
-
     @SubscribeEvent
     public static void onTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
+        if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
+            heldStack = getAmulet(player);
+        }
         if (!player.world.isRemote && event.phase == TickEvent.Phase.START) {
             if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
                 if (player.onGround && !player.isSneaking() && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
@@ -86,11 +68,6 @@ public class ItemNuitsVanishing extends Item {
                 }
             }
         }
-    }
-
-    @Override
-    public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-        return toRepair.getItem() == Items.DIAMOND;
     }
 
     @Override

@@ -4,7 +4,7 @@
             "item": "atum:date"
         },
         "title": {
-            "translate": "Its a Date!"
+            "translate": "It's a Date!"
         },
         "description": {
             "translate": "Eat a Date"
@@ -15,12 +15,10 @@
         "date": {
             "trigger": "consume_item",
             "conditions": {
-                "items": [
-                    {
-                        "item": "atum:date"
-                    }
-                ]
+                "item": {
+                    "item": "atum:date"
+                }
             }
         }
-	}
+    }
 }

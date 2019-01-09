@@ -30,7 +30,7 @@ public class BiomeDeadwoodForest extends AtumBiome {
         super.decorate(world, random, pos);
 
         if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.SHROOM)) {
-            for (int amount = 0; amount < 14; ++amount) {
+            for (int amount = 0; amount < 10; ++amount) {
                 if (random.nextInt(10) == 0) {
                     int x = random.nextInt(16) + 8;
                     int z = random.nextInt(16) + 8;

@@ -12,11 +12,13 @@
     },
     "parent": "atum:core/sandyboi",
     "criteria": {
-        "tamed_camel": {
+        "camel": {
             "trigger": "tame_animal",
-			"entity_object": {
-				"type": "atum:camel"
-			}
+            "conditions": {
+                "entity": {
+                    "type": "atum:camel"
+                }
+            }
         }
     }
 }

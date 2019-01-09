@@ -12,14 +12,12 @@
     },
     "parent": "atum:core/itsadate",
     "criteria": {
-        "goldendate": {
+        "golden_date": {
             "trigger": "consume_item",
             "conditions": {
-                "items": [
-                    {
-                        "item": "atum:golden_date"
-                    }
-                ]
+                "item": {
+                    "item": "atum:golden_date"
+                }
             }
         }
 	}

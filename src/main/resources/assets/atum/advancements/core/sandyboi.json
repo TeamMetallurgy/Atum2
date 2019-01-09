@@ -12,11 +12,13 @@
     },
     "parent": "atum:core/killorbekilled",
     "criteria": {
-        "tamed_desert_wolf": {
+        "desert_wolf": {
             "trigger": "tame_animal",
-			"entity_object": {
-				"type": "atum:desert_wolf"
-			}
+            "conditions": {
+                "entity": {
+                    "type": "atum:desert_wolf"
+                }
+            }
         }
     }
 }
