@@ -98,7 +98,6 @@ public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEnt
 
     @Override
     public void getOreDictEntries() {
-        OreDictHelper.add(this, "blockGlass", getColorString().replace("silver", "light_gray"));
         OreDictHelper.add(this, "blockGlass");
     }
 }

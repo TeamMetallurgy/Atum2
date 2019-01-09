@@ -19,14 +19,10 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.event.entity.player.BonemealEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-@Mod.EventBusSubscriber
 public class BlockFertileSoil extends Block implements IGrowable {
 
     public BlockFertileSoil() {
@@ -77,10 +73,6 @@ public class BlockFertileSoil extends Block implements IGrowable {
             }
         }
         return false;
-    }
-
-    @SubscribeEvent
-    public static void onBonemeal(BonemealEvent event) {
     }
 
     @Override
