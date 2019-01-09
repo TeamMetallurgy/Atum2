@@ -30,9 +30,12 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -411,7 +414,6 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     protected void initHorseChest() {
         ContainerHorseChest caemlInventory = this.horseChest;
-        System.out.println("Camel Inventory Size testing " +  this.getInventorySize());
         this.horseChest = new ContainerHorseChest("CamelChest", this.getInventorySize());
         this.horseChest.setCustomName(this.getName());
 
@@ -426,10 +428,9 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                 }
             }
         }
-
         this.horseChest.addInventoryChangeListener(this);
         this.updateHorseSlots();
-        //this.itemHandler = new InvWrapper(this.horseChest); //TODO, when inventory is working
+        this.itemHandler = new InvWrapper(this.horseChest); //TODO, when inventory is working
     }
 
     @Override
@@ -493,7 +494,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                     return true;
                 }
 
-                if (!eating && (!this.hasLeftCrate() ||!this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof BlockCrate) {
+                if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof BlockCrate) {
                     this.openGUI(player);
                     eating = true;
                 }
@@ -588,6 +589,23 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (!this.isSilent()) {
             this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
+    }
+
+    private IItemHandler itemHandler = null; // Initialized by initHorseChest above.
+
+    @Override
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return (T) itemHandler;
+        }
+        return super.getCapability(capability, facing);
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+        return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 
     static class AIDefendTarget extends EntityAINearestAttackableTarget<EntityDesertWolf> {
