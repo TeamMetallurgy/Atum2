@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.Mirror;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -26,6 +25,8 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class RuinPieces {
@@ -37,8 +38,8 @@ public class RuinPieces {
     }
 
     public static class RuinTemplate extends StructureComponentTemplate {
-        private static final NonNullList<EntityEntry> BANDITS = NonNullList.from(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
-        public static final NonNullList<EntityEntry> UNDEAD = NonNullList.from(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
+        private static final List<EntityEntry> BANDITS = Arrays.asList(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
+        public static final List<EntityEntry> UNDEAD = Arrays.asList(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
         private int ruinType;
         private Rotation rotation;
         private Mirror mirror;

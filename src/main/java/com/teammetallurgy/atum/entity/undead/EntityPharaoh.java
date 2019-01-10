@@ -18,6 +18,7 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -29,6 +30,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Style;
@@ -125,6 +127,11 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.dataManager.register(PREFIX, suffixID);
         this.dataManager.register(SUFFIX, prefixID);
         this.dataManager.register(NUMERAL, numID);
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.VINDICATION_ILLAGER_AMBIENT;
     }
 
     @Override
@@ -236,6 +243,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     public void knockBack(@Nonnull Entity entity, float strength, double xRatio, double zRatio) {
         if (God.getGod(this.getVariant()) != God.PTAH) {
+            strength *= 0.20F;
             super.knockBack(entity, strength, xRatio, zRatio);
         }
     }

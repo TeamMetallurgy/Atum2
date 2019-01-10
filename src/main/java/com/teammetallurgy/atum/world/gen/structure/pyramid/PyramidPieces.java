@@ -21,7 +21,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.*;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -35,6 +38,7 @@ import net.minecraft.world.gen.structure.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -95,9 +99,8 @@ public class PyramidPieces {
     }
 
     public static class PyramidTemplate extends StructureComponentTemplate {
-        public static final NonNullList<Block> FLOOR_TRAPS = NonNullList.from(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        public static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
-        public boolean isDefeated = false;
+        public static final List<Block> FLOOR_TRAPS = Arrays.asList(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
+        static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
         private Mirror mirror;
@@ -272,7 +275,6 @@ public class PyramidPieces {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
-            compound.setBoolean("IsDefeated", this.isDefeated);
         }
 
         @Override
@@ -280,7 +282,6 @@ public class PyramidPieces {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.isDefeated = compound.getBoolean("IsDefeated");
             this.loadTemplate(manager);
         }
     }

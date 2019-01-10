@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ItemAtumShield extends Item {
-    private ItemStack repairItem = ItemStack.EMPTY;
+    private Item repairItem;
 
     public ItemAtumShield() {
         this.setMaxStackSize(1);
@@ -54,12 +54,12 @@ public class ItemAtumShield extends Item {
     }
 
     public ItemAtumShield setRepairItem(Item item) {
-        this.repairItem = new ItemStack(item);
+        this.repairItem = item;
         return this;
     }
 
     @Override
     public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair == this.repairItem;
+        return this.repairItem != null && repair.getItem() == this.repairItem;
     }
 }

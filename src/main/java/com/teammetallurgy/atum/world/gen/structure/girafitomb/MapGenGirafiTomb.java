@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
-import net.minecraft.util.NonNullList;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,14 +15,16 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class MapGenGirafiTomb extends MapGenStructure {
-    private static final NonNullList<Biome> ALLOWED_BIOMES = NonNullList.from(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.DRIED_RIVER);
+    private static final List<Biome> ALLOWED_BIOMES = Arrays.asList(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.DRIED_RIVER);
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387999;
     private int spacing = 32;
-    private int separation = 25;
+    private int separation = 26;
 
     public MapGenGirafiTomb(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;

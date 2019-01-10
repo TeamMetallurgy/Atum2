@@ -44,7 +44,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
-            if (!hasWater(world, pos) && world.getBiome(pos) != AtumBiomes.OASIS) {
+            if (!hasWater(world, pos) && world.getBiome(pos) != AtumBiomes.OASIS || world.getBlockState(pos.up()).isSideSolid(world, pos, EnumFacing.DOWN)) {
                 world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
             } else {
                 if (world.getLightFromNeighbors(pos.up()) >= 9 && world.getBiome(pos) == AtumBiomes.OASIS) {
@@ -67,7 +67,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-4, 0, -4), pos.add(4, 4, 4))) {
+        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
             if (world.getBlockState(mutableBlockPos).getMaterial() == Material.WATER) {
                 return true;
             }
@@ -94,14 +94,6 @@ public class BlockFertileSoil extends Block implements IGrowable {
                 return plant.getBlock() instanceof BlockStem;
             default:
                 return super.canSustainPlant(state, world, pos, direction, plantable);
-        }
-    }
-
-    @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
-        super.neighborChanged(state, world, pos, neighborBlock, neighborPos);
-        if (world.getBlockState(pos.up()).isSideSolid(world, pos, EnumFacing.DOWN)) {
-            world.setBlockState(pos, AtumBlocks.SAND.getDefaultState());
         }
     }
 

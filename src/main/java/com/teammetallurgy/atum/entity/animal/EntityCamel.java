@@ -495,6 +495,16 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                     this.openGUI(player);
                     return true;
                 }
+                if (!eating && heldStack.getItem() == Items.BUCKET && !this.isChild() && this.isTame()) {
+                    heldStack.shrink(1);
+                    player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+                    if (heldStack.isEmpty()) {
+                        player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
+                    } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET))) {
+                        player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
+                    }
+                    return true;
+                }
 
                 if (eating) {
                     if (!player.capabilities.isCreativeMode) {
