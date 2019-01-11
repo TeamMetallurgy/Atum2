@@ -274,7 +274,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             }
         }
 
-        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL) {
+        if (!this.world.isRemote && this.world.getDifficulty() == EnumDifficulty.PEACEFUL && !this.isTamed()) {
             this.setDead();
         }
 

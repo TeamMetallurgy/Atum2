@@ -45,6 +45,7 @@ public class AICamelCaravan extends EntityAIBase {
                     }
                 }
             }
+
             if (camel == null) {
                 return false;
             } else if (distance < 4.0D) {
@@ -117,6 +118,6 @@ public class AICamelCaravan extends EntityAIBase {
     }
 
     private boolean canLeadCaravan(EntityCamel camel) {
-        return camel.getLeashed() || camel.isHorseSaddled() && camel.isBeingRidden();
+        return camel.getLeashed() || camel.isHorseSaddled() && camel.isBeingRidden() && (!camel.hasColor() || camel.getColor() == this.camel.getColor());
     }
 }
