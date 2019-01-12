@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
+import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -61,5 +63,14 @@ public class WorldProviderAtum extends WorldProvider {
         float f2 = 0.75F * f;
         float f3 = 0.6F * f;
         return new Vec3d((double) f1, (double) f2, (double) f3);
+    }
+
+    @Override
+    public void onWorldSave() {
+        NBTTagCompound tagCompound = new NBTTagCompound();
+
+        tagCompound.setTag("StartStructure", AtumStartTeleporter.writeToNBT());
+        this.world.getWorldInfo().setDimensionData(this.world.provider.getDimension(), tagCompound);
+        System.out.println("onWorldSave" + tagCompound);
     }
 }

@@ -5,9 +5,11 @@ import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenBonusCrate;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenStartStructure;
 import net.minecraft.entity.Entity;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.WorldSettings;
 import net.minecraftforge.common.util.ITeleporter;
 import net.minecraftforge.event.world.WorldEvent;
@@ -16,7 +18,19 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
 public class AtumStartTeleporter implements ITeleporter {
+    private static boolean hasStartStructureSpawned;
     private static WorldSettings worldSettings;
+
+    public AtumStartTeleporter(WorldServer world) {
+        System.out.println(world.getWorldInfo().getDimensionData(world.provider.getDimension()));
+        NBTTagCompound tagCompound = world.getWorldInfo().getDimensionData(world.provider.getDimension()).getCompoundTag("StartStructure");
+        System.out.println("Tag: " + tagCompound);
+        if (tagCompound.hasKey("HasStartStructureSpawned")) {
+            hasStartStructureSpawned = tagCompound.getBoolean("HasStartStructureSpawned");
+            System.out.println("StartStructureSpawned hasKey in constructor" + " Value: " + hasStartStructureSpawned);
+
+        }
+    }
 
     @Override
     public void placeEntity(World world, Entity entity, float yaw) {
@@ -28,18 +42,27 @@ public class AtumStartTeleporter implements ITeleporter {
             pos = pos.up();
         }
         entity.moveToBlockPosAndAngles(pos.up(), yaw, entity.rotationPitch);
-        this.onAtumJoining(world, entity, pos);
+
+        System.out.println("Place Entity");
+        if (!hasStartStructureSpawned) {
+            System.out.println("onAtumJoining called");
+            this.onAtumJoining(world, pos);
+            hasStartStructureSpawned = true;
+        }
     }
 
-    private void onAtumJoining(World world, Entity entity, BlockPos pos) {
+    private void onAtumJoining(World world, BlockPos pos) {
         if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
             if (AtumConfig.START_IN_ATUM_PORTAL) {
-                AtumTeleporter.createPortal(world, entity);
+                System.out.println("Create start portal");
+                AtumTeleporter.createPortal(world, pos, null);
             }
             if (!AtumConfig.ATUM_START_STRUCTURE.isEmpty()) {
+                System.out.println("Start structure");
                 new WorldGenStartStructure().generate(world, world.rand, pos.down());
             }
             if (worldSettings != null && worldSettings.isBonusChestEnabled()) {
+                System.out.println("Bonus chest");
                 WorldGenBonusCrate bonusCrate = new WorldGenBonusCrate();
                 for (int i = 0; i < 10; ++i) {
                     int j = world.rand.nextInt(6) - world.rand.nextInt(6);
@@ -51,6 +74,13 @@ public class AtumStartTeleporter implements ITeleporter {
                 }
             }
         }
+    }
+
+    public static NBTTagCompound writeToNBT() {
+        NBTTagCompound tagCompound = new NBTTagCompound();
+        System.out.println("Write to NBT");
+        tagCompound.setBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
+        return tagCompound;
     }
 
     @SubscribeEvent

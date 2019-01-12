@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class AtumTeleporter extends Teleporter {
 
@@ -167,11 +168,10 @@ public class AtumTeleporter extends Teleporter {
 
     @Override
     public boolean makePortal(Entity entity) {
-        return createPortal(this.world, entity);
+        return createPortal(this.world, new BlockPos(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), MathHelper.floor(entity.posZ)), entity);
     }
 
-    public static boolean createPortal(World world, Entity entity) {
-        BlockPos pos = new BlockPos(MathHelper.floor(entity.posX), MathHelper.floor(entity.posY), MathHelper.floor(entity.posZ));
+    public static boolean createPortal(World world, BlockPos pos, @Nullable Entity entity) {
         IBlockState portalState = AtumBlocks.PORTAL.getDefaultState();
         IBlockState sandState;
 
@@ -183,7 +183,7 @@ public class AtumTeleporter extends Teleporter {
             pos = pos.up();
         }
 
-        if (entity.dimension == 0) {
+        if (entity != null && entity.dimension == 0) {
             sandState = Blocks.SANDSTONE.getDefaultState();
         } else {
             sandState = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState();

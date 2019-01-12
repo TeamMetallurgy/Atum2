@@ -72,10 +72,10 @@ public class AtumEventListener {
         persistedTag.setBoolean(TAG_ATUM_START, true);
         tag.setTag(EntityPlayer.PERSISTED_NBT_TAG, persistedTag);
 
-        if (shouldStartInAtum && event.player instanceof EntityPlayerMP) {
+        if (shouldStartInAtum && event.player instanceof EntityPlayerMP && event.player.world instanceof WorldServer) {
             EntityPlayerMP player = (EntityPlayerMP) event.player;
-            World world = player.world;
-            BlockPortal.changeDimension(world, player, AtumConfig.DIMENSION_ID, new AtumStartTeleporter());
+            WorldServer world = (WorldServer) player.world;
+            BlockPortal.changeDimension(world, player, AtumConfig.DIMENSION_ID, new AtumStartTeleporter(world));
         }
     }
 
