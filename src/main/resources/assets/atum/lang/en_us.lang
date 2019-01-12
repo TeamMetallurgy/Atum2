@@ -1,6 +1,5 @@
 # Misc
 itemGroup.atum=Atum
-biome.desert.name=Desert
 
 # Blocks
 tile.atum.portal.name=Atum Portal
@@ -284,6 +283,10 @@ item.atum.desertHelmetIron.name=Desert Helmet (Iron)
 item.atum.desertChestIron.name=Desert Chestplate (Iron)
 item.atum.desertLegsIron.name=Desert Leggings (Iron)
 item.atum.desertBootsIron.name=Desert Boots (Iron)
+item.atum.desertHelmetGold.name=Desert Helmet (Gold)
+item.atum.desertChestGold.name=Desert Chestplate (Gold)
+item.atum.desertLegsGold.name=Desert Leggings (Gold)
+item.atum.desertBootsGold.name=Desert Boots (Gold)
 item.atum.desertHelmetDiamond.name=Desert Helmet (Diamond)
 item.atum.desertChestDiamond.name=Desert Chestplate (Diamond)
 item.atum.desertLegsDiamond.name=Desert Leggings (Diamond)
@@ -311,6 +314,8 @@ item.atum.emmer.name=Emmer
 item.atum.emmerDough.name=Emmer Dough
 item.atum.emmerFlour.name=Emmer Flour
 item.atum.emmerBread.name=Emmer Bread
+item.atum.camelRaw.name=Raw Camel
+item.atum.camelCooked.name=Cooked Camel
 item.atum.fishForsaken.name=Forsaken Fish
 item.atum.fishMummified.name=Mummified Fish
 item.atum.fishJeweled.name=Jeweled Fish

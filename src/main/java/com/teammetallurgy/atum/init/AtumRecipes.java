@@ -65,6 +65,7 @@ public class AtumRecipes {
         GameRegistry.addSmelting(AtumItems.JEWELED_FISH, new ItemStack(Items.GOLD_NUGGET, 3), 0.3F);
         GameRegistry.addSmelting(AtumItems.GOLD_COIN, new ItemStack(Items.GOLD_NUGGET), 0.1F);
         GameRegistry.addSmelting(AtumItems.EMMER_DOUGH, new ItemStack(AtumItems.EMMER_BREAD), 0.1F);
+        GameRegistry.addSmelting(AtumItems.CAMEL_RAW, new ItemStack(AtumItems.CAMEL_COOKED), 0.35F);
         GameRegistry.addSmelting(AtumItems.ECTOPLASM, new ItemStack(Items.SLIME_BALL), 0.1F);
     }
 

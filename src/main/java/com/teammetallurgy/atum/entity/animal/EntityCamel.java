@@ -4,8 +4,15 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.ai.AICamelCaravan;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.biome.BiomeDeadOasis;
+import com.teammetallurgy.atum.world.biome.BiomeOasis;
+import com.teammetallurgy.atum.world.biome.BiomeSandDunes;
+import com.teammetallurgy.atum.world.biome.BiomeSandPlains;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
@@ -29,7 +36,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -87,7 +94,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
         if (hasSkinVariants()) {
-            final int variant = MathHelper.getInt(world.rand, 0, getVariantAmount());
+            final int variant = this.getCamelVariantBiome();
             this.setVariant(variant);
         }
         return livingdata;
@@ -141,7 +148,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @Nullable
     protected ResourceLocation getLootTable() {
-        return LootTableList.ENTITIES_COW; //TODO
+        return AtumLootTables.CAMEL;
     }
 
     @Override
@@ -161,10 +168,6 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         }
     }
 
-    private int getVariantAmount() {
-        return 5;
-    }
-
     private boolean hasSkinVariants() {
         return true;
     }
@@ -176,6 +179,27 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     private int getVariant() {
         return this.dataManager.get(VARIANT);
+    }
+
+    private int getCamelVariantBiome() {
+        Biome biome = this.world.getBiome(new BlockPos(this));
+        int chance = this.rand.nextInt(100);
+
+        if (this.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+            if (biome instanceof BiomeSandPlains) {
+                return chance <= 50 ? 0 : 5;
+            } else if (biome instanceof BiomeSandDunes) {
+                return chance <= 50 ? 0 : 2;
+            } else if (biome instanceof BiomeOasis) {
+                return chance <= 50 ? 0 : 1;
+            } else if (biome instanceof BiomeDeadOasis) {
+                return chance <= 50 ? 3 : 4;
+            } else {
+                return 0;
+            }
+        } else {
+            return MathHelper.getInt(rand, 0, 5);
+        }
     }
 
     @SideOnly(Side.CLIENT)
@@ -592,6 +616,23 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (!this.isSilent()) {
             this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
+    }
+
+    @Override
+    public float getBlockPathWeight(BlockPos pos) {
+        Block blockDown = this.world.getBlockState(pos.down()).getBlock();
+        return blockDown == AtumBlocks.SAND || blockDown == AtumBlocks.FERTILE_SOIL || blockDown == AtumBlocks.LIMESTONE_GRAVEL || blockDown == this.spawnableBlock ? 10.0F : this.world.getLightBrightness(pos) - 0.5F;
+    }
+
+    @Override
+    public boolean getCanSpawnHere() {
+        int x = MathHelper.floor(this.posX);
+        int y = MathHelper.floor(this.getEntityBoundingBox().minY);
+        int z = MathHelper.floor(this.posZ);
+        BlockPos spawnPos = new BlockPos(x, y, z);
+        Block spawnBlock = this.world.getBlockState(spawnPos.down()).getBlock();
+        return (spawnBlock == AtumBlocks.SAND || spawnBlock == AtumBlocks.FERTILE_SOIL || spawnBlock == AtumBlocks.LIMESTONE_GRAVEL || spawnBlock == this.spawnableBlock) && this.world.getLight(spawnPos) > 8 &&
+                this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && this.world.getBlockState((new BlockPos(this)).down()).canEntitySpawn(this);
     }
 
     private IItemHandler itemHandler = null; // Initialized by initHorseChest above.

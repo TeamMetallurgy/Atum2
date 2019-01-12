@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:wanderer_boots"
+    },
+    {
+      "item": "minecraft:golden_boots"
+    }
+  ],
+  "result": {
+    "item": "atum:desert_boots_gold"
+  }
+}

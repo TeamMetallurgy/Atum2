@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "atum:items/desert_legs_gold",
+    "layer1": "atum:items/desert_legs_gold_overlay"
+  }
+}

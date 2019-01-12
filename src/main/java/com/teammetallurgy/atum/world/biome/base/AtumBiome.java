@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.biome.base;
 
 import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.animal.EntityDesertRabbit;
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.animal.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityAssassin;
 import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
@@ -71,9 +70,8 @@ public class AtumBiome extends Biome {
 
     protected void addDefaultSpawns() {
         //Animals
-        addSpawn(EntityDesertWolf.class, 5, 2, 4, EnumCreatureType.CREATURE);
-        addSpawn(EntityDesertRabbit.class, 10, 2, 3, EnumCreatureType.CREATURE);
-        addSpawn(EntityBat.class, 10, 8, 8, EnumCreatureType.AMBIENT);
+        addSpawn(EntityDesertRabbit.class, 5, 2, 3, EnumCreatureType.CREATURE);
+        addSpawn(EntityBat.class, 5, 8, 8, EnumCreatureType.AMBIENT);
 
         //Bandits
         addSpawn(EntityAssassin.class, 1, 1, 1, SURFACE);

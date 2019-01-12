@@ -3,9 +3,11 @@ package com.teammetallurgy.atum.world.biome;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
+import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -26,6 +28,13 @@ public class BiomeDeadOasis extends AtumBiome {
         this.decorator.grassPerChunk = 2;
 
         this.addDefaultSpawns();
+    }
+
+    @Override
+    protected void addDefaultSpawns() {
+        super.addDefaultSpawns();
+
+        addSpawn(EntityCamel.class, 6, 2, 6, EnumCreatureType.CREATURE);
     }
 
     @Override

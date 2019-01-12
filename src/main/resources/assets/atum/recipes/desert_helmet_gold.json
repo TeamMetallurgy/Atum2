@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:wanderer_helmet"
+    },
+    {
+      "item": "minecraft:golden_helmet"
+    }
+  ],
+  "result": {
+    "item": "atum:desert_helmet_gold"
+  }
+}

@@ -14,6 +14,7 @@ public class ItemTexturedArmor extends ItemArmor {
     private Item repairItem;
     private final String armorPieceName;
     private boolean isDyeable;
+    private int damageModifier;
 
     public ItemTexturedArmor(ArmorMaterial material, String name, EntityEquipmentSlot slot) {
         super(material, 0, slot);
@@ -28,6 +29,16 @@ public class ItemTexturedArmor extends ItemArmor {
     public ItemTexturedArmor setDyeable() {
         this.isDyeable = true;
         return this;
+    }
+
+    public ItemTexturedArmor setDamageModifier(int percentage) {
+        this.damageModifier = percentage;
+        return this;
+    }
+
+    @Override
+    public int getMaxDamage(@Nonnull ItemStack stack) {
+        return damageModifier > 0 ? super.getMaxDamage(stack) + (super.getMaxDamage(stack) * this.damageModifier / 100) : super.getMaxDamage(stack);
     }
 
     @Override
