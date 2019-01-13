@@ -16,6 +16,7 @@ import com.teammetallurgy.atum.world.biome.BiomeSandPlains;
 import net.minecraft.block.Block;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -48,12 +49,15 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.UUID;
 
 public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(EntityCamel.class, DataSerializers.VARINT);
     private static final DataParameter<ItemStack> LEFT_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
     private static final DataParameter<ItemStack> RIGHT_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
+    private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
+    private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("13a48eeb-c17d-45cc-8163-e7210a6adfc9");
     public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
     private String texturePath;
     private boolean didSpit;
@@ -78,6 +82,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         }
         this.dataManager.register(LEFT_CRATE, ItemStack.EMPTY);
         this.dataManager.register(RIGHT_CRATE, ItemStack.EMPTY);
+        this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
     }
 
     @Override
@@ -330,8 +335,27 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             super.updateHorseSlots();
             this.setColorByItem(this.horseChest.getStackInSlot(2));
         }
+        this.setArmorStack(this.horseChest.getStackInSlot(1));
         this.dataManager.set(LEFT_CRATE, this.horseChest.getStackInSlot(3));
         this.dataManager.set(RIGHT_CRATE, this.horseChest.getStackInSlot(4));
+    }
+
+    private void setArmorStack(@Nonnull ItemStack stack) {
+        ArmorType armorType = ArmorType.getByItemStack(stack);
+        this.dataManager.set(ARMOR_STACK, stack);
+
+        if (!this.world.isRemote) {
+            this.getEntityAttribute(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
+            int protection = armorType.getProtection();
+            if (protection != 0) {
+                this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", (double) protection, 0)).setSaved(false));
+            }
+        }
+    }
+
+    @Nonnull
+    public ItemStack getArmor() {
+        return this.dataManager.get(ARMOR_STACK);
     }
 
     private void setColorByItem(@Nonnull ItemStack stack) {
@@ -342,13 +366,13 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         }
     }
 
-    public boolean isValidCarpet(ItemStack stack) {
+    public boolean isValidCarpet(@Nonnull ItemStack stack) {
         return stack.getItem() == Item.getItemFromBlock(Blocks.CARPET);
     }
 
     @Override
-    public boolean isArmor(ItemStack stack) {
-        return false; //TODO Armor items needs to be implemented first
+    public boolean isArmor(@Nonnull ItemStack stack) {
+        return ArmorType.isArmor(stack);
     }
 
     @Override
@@ -688,6 +712,58 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                 }
             }
             return super.shouldContinueExecuting();
+        }
+    }
+
+    public enum ArmorType {
+        NONE(0),
+        IRON(5, "iron"),
+        GOLD(7, "gold"),
+        DIAMOND(11, "diamond");
+
+        private final ResourceLocation textureName;
+        private final String typeName;
+        private final int protection;
+
+        ArmorType(int armorStrength) {
+            this.protection = armorStrength;
+            this.typeName = null;
+            this.textureName = null;
+        }
+
+        ArmorType(int armorStrength, String typeName) {
+            this.protection = armorStrength;
+            this.typeName = typeName;
+            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entities/armor/camel_armor_" + typeName + ".png");
+        }
+
+        public int getProtection() {
+            return this.protection;
+        }
+
+        public String getName() {
+            return typeName;
+        }
+
+        public ResourceLocation getTextureName() {
+            return textureName;
+        }
+
+        public static ArmorType getByItemStack(@Nonnull ItemStack stack) {
+            Item item = stack.getItem();
+            if (item == AtumItems.CAMEL_IRON_ARMOR) {
+                return IRON;
+            } else if (item == AtumItems.CAMEL_GOLD_ARMOR) {
+                return GOLD;
+            } else if (item == AtumItems.CAMEL_DIAMOND_ARMOR) {
+                return DIAMOND;
+            } else {
+                return NONE;
+            }
+        }
+
+        public static boolean isArmor(@Nonnull ItemStack stack) {
+            return getByItemStack(stack) != NONE;
         }
     }
 }

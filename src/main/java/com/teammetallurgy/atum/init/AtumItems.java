@@ -145,6 +145,9 @@ public class AtumItems {
     public static final Item DESERT_WOLF_IRON_ARMOR = new Item().setMaxStackSize(1);
     public static final Item DESERT_WOLF_GOLD_ARMOR = new Item().setMaxStackSize(1);
     public static final Item DESERT_WOLF_DIAMOND_ARMOR = new Item().setMaxStackSize(1);
+    public static final Item CAMEL_IRON_ARMOR = new Item().setMaxStackSize(1);
+    public static final Item CAMEL_GOLD_ARMOR = new Item().setMaxStackSize(1);
+    public static final Item CAMEL_DIAMOND_ARMOR = new Item().setMaxStackSize(1);
     public static final Item ECTOPLASM = new Item();
     public static final Item MANDIBLES = new Item();
     public static final Item DUSTY_BONE = new Item();
@@ -266,6 +269,9 @@ public class AtumItems {
         registerItem(DESERT_WOLF_IRON_ARMOR, "desert_wolf_iron_armor");
         registerItem(DESERT_WOLF_GOLD_ARMOR, "desert_wolf_gold_armor");
         registerItem(DESERT_WOLF_DIAMOND_ARMOR, "desert_wolf_diamond_armor");
+        registerItem(CAMEL_IRON_ARMOR, "camel_iron_armor");
+        registerItem(CAMEL_GOLD_ARMOR, "camel_gold_armor");
+        registerItem(CAMEL_DIAMOND_ARMOR, "camel_diamond_armor");
         registerItem(ECTOPLASM, "ectoplasm");
         registerItem(MANDIBLES, "mandibles");
         registerItem(DUSTY_BONE, "dusty_bone", "bone");

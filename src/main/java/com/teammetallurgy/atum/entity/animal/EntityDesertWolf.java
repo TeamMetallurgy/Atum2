@@ -1002,7 +1002,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             return textureName;
         }
 
-        public static ArmorType getByItemStack(ItemStack stack) {
+        public static ArmorType getByItemStack(@Nonnull ItemStack stack) {
             Item item = stack.getItem();
             if (item == AtumItems.DESERT_WOLF_IRON_ARMOR) {
                 return IRON;
@@ -1015,7 +1015,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             }
         }
 
-        public static boolean isArmor(ItemStack stack) {
+        public static boolean isArmor(@Nonnull ItemStack stack) {
             return getByItemStack(stack) != NONE;
         }
     }
