@@ -2,13 +2,13 @@ package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
-import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
+import net.minecraft.world.WorldServer;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 public class WorldProviderAtum extends WorldProvider {
+    public boolean hasStartStructureSpawned;
 
     @Override
     @Nonnull
@@ -27,6 +28,8 @@ public class WorldProviderAtum extends WorldProvider {
     protected void init() {
         this.hasSkyLight = true;
         this.biomeProvider = new AtumBiomeProvider(world.getWorldInfo());
+        NBTTagCompound tagCompound = this.world.getWorldInfo().getDimensionData(this.world.provider.getDimension());
+        this.hasStartStructureSpawned = this.world instanceof WorldServer && tagCompound.getBoolean("HasStartStructureSpawned");
     }
 
     @Override
@@ -68,9 +71,7 @@ public class WorldProviderAtum extends WorldProvider {
     @Override
     public void onWorldSave() {
         NBTTagCompound tagCompound = new NBTTagCompound();
-
-        tagCompound.setTag("StartStructure", AtumStartTeleporter.writeToNBT());
-        this.world.getWorldInfo().setDimensionData(this.world.provider.getDimension(), tagCompound);
-        System.out.println("onWorldSave" + tagCompound);
+        tagCompound.setBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
+        world.getWorldInfo().setDimensionData(this.world.provider.getDimension(), tagCompound);
     }
 }

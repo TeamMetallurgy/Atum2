@@ -58,8 +58,8 @@ public class ContainerTrap extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) { //TODO
-        return true;
+    public boolean canInteractWith(@Nonnull EntityPlayer player) {
+        return trapInventory.isUsableByPlayer(player);
     }
 
     @Override
