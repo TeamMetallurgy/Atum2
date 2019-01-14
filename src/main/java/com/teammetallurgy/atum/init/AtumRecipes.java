@@ -128,8 +128,8 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) {
-        AtumRegistry.registerRecipe("test", new SpinningWheelRecipe("cropEmmer", new ItemStack(Items.POTATO), 6), event);
-        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumItems.FLAX, new ItemStack(Items.CARROT), 6), event);
+        AtumRegistry.registerRecipe("test", new SpinningWheelRecipe(AtumItems.WOLF_PELT, new ItemStack(Items.STRING, 2), 6), event);
+        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumItems.FLAX, new ItemStack(Items.CARROT), 4), event);
     }
 
     @SubscribeEvent

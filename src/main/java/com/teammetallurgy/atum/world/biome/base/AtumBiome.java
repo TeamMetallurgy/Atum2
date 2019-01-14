@@ -44,8 +44,8 @@ import java.util.Objects;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private static final EnumCreatureType UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("underground", IUnderground.class, 20, Material.AIR, false, false));
-    private static final EnumCreatureType SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("surface", IMob.class, 45, Material.AIR, false, false));
+    private static EnumCreatureType UNDERGROUND;
+    private static EnumCreatureType SURFACE;
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected double deadwoodRarity = 0.1D;
@@ -97,6 +97,11 @@ public class AtumBiome extends Biome {
         min = AtumConfig.config.get(category, "min", min).getInt();
         max = AtumConfig.config.get(category, "max", max).getInt();
         this.getSpawnableList(type).add(new SpawnListEntry(entityClass, weight, min, max));
+    }
+
+    public static void initCreatureTypes() {
+        UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("UNDERGROUND", IUnderground.class, 20, Material.AIR, false, false));
+        SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("SURFACE", IMob.class, 45, Material.AIR, false, false));
     }
 
     @Override

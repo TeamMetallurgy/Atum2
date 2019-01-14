@@ -24,6 +24,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
@@ -54,14 +57,15 @@ public class BlockSpinningWheel extends BlockContainer {
 
         if (tileEntity instanceof TileEntitySpinningWheel) {
             TileEntitySpinningWheel spinningWheel = (TileEntitySpinningWheel) tileEntity;
-            if (!spinningWheel.isEmpty() && player.isSneaking()) {
-                ItemStack slotStack = spinningWheel.getStackInSlot(0);
-                ItemStack copyStack = new ItemStack(slotStack.getItem());
-                StackHelper.giveItem(player, EnumHand.MAIN_HAND, copyStack);
+            if (player.isSneaking()) {
+                StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(0).copy());
+                StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1).copy());
                 spinningWheel.decrStackSize(0, 1);
+                spinningWheel.decrStackSize(1, 1);
                 spinningWheel.input = null;
                 spinningWheel.rotations = 0;
                 spinningWheel.wheel = false;
+                world.setBlockState(pos, world.getBlockState(pos).withProperty(SPOOL, 0), 2);
                 spinningWheel.markDirty();
             }
         }
@@ -84,12 +88,16 @@ public class BlockSpinningWheel extends BlockContainer {
                     }
                     ItemStack inputStack = new ItemStack(spinningWheel.input);
                     if (StackHelper.areStacksEqualIgnoreSize(inputStack, heldStack)) {
-                        System.out.println("Can insert");
                         canInsert = true;
+                    } else if (!inputStack.isEmpty()) {
+                        if (world.isRemote) {
+                            player.sendStatusMessage(new TextComponentTranslation("chat.atum.spinningWheel.recipeInProgress", inputStack.getDisplayName()).setStyle(new Style().setColor(TextFormatting.RED)), true);
+                            world.playSound(player, new BlockPos(player), SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.BLOCKS, 0.8F, 1.0F);
+                        }
                     }
+
                     if (canInsert) {
                         spinningWheel.setInventorySlotContents(0, copyStack);
-
                         if (!player.isCreative()) {
                             heldStack.shrink(1);
                         }
@@ -97,7 +105,6 @@ public class BlockSpinningWheel extends BlockContainer {
                     }
                 } else if (spinningWheel.input != null) {
                     ItemStack input = new ItemStack(spinningWheel.input);
-                    System.out.println("Input: " + input);
                     for (ISpinningWheelRecipe spinningWheelRecipe : RecipeHandlers.spinningWheelRecipes) {
                         if (spinningWheelRecipe.isValidInput(input)) {
                             if (!spinningWheel.isEmpty()) {
@@ -110,35 +117,39 @@ public class BlockSpinningWheel extends BlockContainer {
                                 spinningWheel.wheel = false;
                             } else if (!spinningWheel.wheel && state.getValue(SPOOL) < 3 && !spinningWheel.isEmpty()) {
                                 spinningWheel.rotations += 1;
-                                System.out.println(spinningWheel.rotations);
                                 if (world.isRemote) {
                                     world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_LADDER_FALL, SoundCategory.BLOCKS, 0.55F, 0.4F, true);
                                 }
                             }
                             if (state.getValue(SPOOL) == 3) {
-                                System.out.println("Set output");
-                                spinningWheel.setInventorySlotContents(1, spinningWheelRecipe.getOutput().copy());
+                                ItemStack copyOutput = spinningWheelRecipe.getOutput();
+                                ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount(), copyOutput.getMetadata());
+                                spinningWheel.setInventorySlotContents(1, output);
                                 spinningWheel.input = null;
                             }
-
-                            System.out.println("Spool: " + state.getValue(SPOOL));
                         }
                     }
                     spinningWheel.markDirty();
                 }
             } else if (facing == state.getValue(FACING)) {
-                if (state.getValue(SPOOL) == 3) {
-                    if (!world.isRemote) {
-                        StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1));
-                    }
-                    spinningWheel.decrStackSize(1, 1);
-                    spinningWheel.input = null;
-                    world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
-                    spinningWheel.markDirty();
-                }
+                this.output(world, pos, player, spinningWheel);
             }
         }
         return true;
+    }
+
+    public void output(World world, BlockPos pos, @Nullable EntityPlayer player, TileEntitySpinningWheel spinningWheel) {
+        IBlockState state = world.getBlockState(pos);
+        if (state.getValue(SPOOL) == 3) {
+            if (!world.isRemote && player != null) {
+                StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1));
+                spinningWheel.decrStackSize(1, 1);
+            }
+            spinningWheel.input = null;
+            spinningWheel.wheel = false;
+            world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
+            spinningWheel.markDirty();
+        }
     }
 
     @Override
@@ -176,7 +187,7 @@ public class BlockSpinningWheel extends BlockContainer {
     @Override
     @Nonnull
     public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer));
+        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override

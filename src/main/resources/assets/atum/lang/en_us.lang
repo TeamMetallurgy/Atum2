@@ -697,6 +697,7 @@ chat.atum.summonPharaoh=was summoned by
 chat.atum.killPharaoh=was slain by
 chat.atum.cannotSpawnPharaoh=The pharaoh turns over in his sarcophagus
 chat.atum.water.evaporated=Water in your container evaporated
+chat.atum.spinningWheel.recipeInProgress=The Spinning Wheel already contains an input (%s)
 
 # GUI
 atum.configGui.atumStart=Start in Atum
