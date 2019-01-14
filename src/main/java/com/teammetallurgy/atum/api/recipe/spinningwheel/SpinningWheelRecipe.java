@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.api.recipe.quern;
+package com.teammetallurgy.atum.api.recipe.spinningwheel;
 
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
@@ -10,35 +10,34 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implements IQuernRecipe {
+public class SpinningWheelRecipe extends IForgeRegistryEntry.Impl<ISpinningWheelRecipe> implements ISpinningWheelRecipe {
     private final NonNullList<ItemStack> inputs;
     private final ItemStack output;
     private final int rotations;
 
-    public QuernRecipe(String input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(String input, ItemStack output, int rotations) {
         this(OreDictionary.getOres(input, false), output, rotations);
     }
 
-    public QuernRecipe(Block input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(Block input, ItemStack output, int rotations) {
         this(new ItemStack(input), output, rotations);
     }
 
-    public QuernRecipe(Item input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(Item input, ItemStack output, int rotations) {
         this(new ItemStack(input), output, rotations);
     }
 
-    public QuernRecipe(ItemStack input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(ItemStack input, ItemStack output, int rotations) {
         this(NonNullList.withSize(1, input), output, rotations);
     }
 
-    private QuernRecipe(NonNullList<ItemStack> input, ItemStack output, int rotations) {
+    private SpinningWheelRecipe(NonNullList<ItemStack> input, ItemStack output, int rotations) {
         this.inputs = input;
         this.output = output;
         this.rotations = rotations;
     }
 
     @Override
-    @Nonnull
     public NonNullList<ItemStack> getInput() {
         return this.inputs;
     }
@@ -54,7 +53,6 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
     }
 
     @Override
-    @Nonnull
     public ItemStack getOutput() {
         return this.output;
     }

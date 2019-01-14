@@ -15,7 +15,9 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.machines.BlockQuern;
+import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntitySpinningWheel;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterSlab;
@@ -110,6 +112,7 @@ public class AtumBlocks {
     public static final BlockAtumTorch BONE_TORCH = new BlockAtumTorch();
     public static final BlockAtumTorch PHARAOH_TORCH = new BlockAtumTorch();
     public static final Block QUERN = new BlockQuern();
+    public static final Block SPINNING_WHEEL = new BlockSpinningWheel();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block POISON_TRAP = new BlockPoisonTrap();
     public static final Block TAR_TRAP = new BlockTarTrap();
@@ -157,6 +160,7 @@ public class AtumBlocks {
         registerBlock(FERTILE_SOIL, "fertile_soil");
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");
         registerBlock(QUERN, "quern");
+        registerBlock(SPINNING_WHEEL, "spinning_wheel");
         registerBlock(BURNING_TRAP, "burning_trap");
         registerBlock(POISON_TRAP, "poison_trap");
         registerBlock(TAR_TRAP, "tar_trap");
@@ -259,19 +263,23 @@ public class AtumBlocks {
     }
 
     public static void registerTileEntities() {
+        //Chests
         GameRegistry.registerTileEntity(TileEntityLimestoneChest.class, new ResourceLocation(Constants.MOD_ID, "limestone_chest"));
         GameRegistry.registerTileEntity(TileEntityChestSpawner.class, new ResourceLocation(Constants.MOD_ID, "cursed_chest"));
         GameRegistry.registerTileEntity(TileEntitySarcophagus.class, new ResourceLocation(Constants.MOD_ID, "sarcophagus"));
+        GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
+        //Traps
         GameRegistry.registerTileEntity(TileEntityBurningTrap.class, new ResourceLocation(Constants.MOD_ID, "burning_trap"));
         GameRegistry.registerTileEntity(TileEntityPoisonTrap.class, new ResourceLocation(Constants.MOD_ID, "poison_trap"));
         GameRegistry.registerTileEntity(TileEntityTarTrap.class, new ResourceLocation(Constants.MOD_ID, "tar_trap"));
         GameRegistry.registerTileEntity(TileEntitySmokeTrap.class, new ResourceLocation(Constants.MOD_ID, "smoke_trap"));
         GameRegistry.registerTileEntity(TileEntityArrowTrap.class, new ResourceLocation(Constants.MOD_ID, "arrow_trap"));
-        GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
-        GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
+
         GameRegistry.registerTileEntity(TileEntityHeartOfRa.class, new ResourceLocation(Constants.MOD_ID, "heart_of_ra"));
         GameRegistry.registerTileEntity(TileEntityRadiantBeacon.class, new ResourceLocation(Constants.MOD_ID, "radiant_beacon"));
+        GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
         GameRegistry.registerTileEntity(TileEntityQuern.class, new ResourceLocation(Constants.MOD_ID, "quern"));
+        GameRegistry.registerTileEntity(TileEntitySpinningWheel.class, new ResourceLocation(Constants.MOD_ID, "spinning_wheel"));
     }
 
     public static void setBlockInfo() {
@@ -306,6 +314,7 @@ public class AtumBlocks {
         Blocks.FIRE.setFireInfo(WEED, 60, 100);
         Blocks.FIRE.setFireInfo(PALM_LOG, 5, 5);
         Blocks.FIRE.setFireInfo(DEADWOOD_LOG, 5, 5);
+        Blocks.FIRE.setFireInfo(SPINNING_WHEEL, 2, 1);
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
             Blocks.FIRE.setFireInfo(BlockAtumWoodSlab.getSlab(type), 5, 20);
             Blocks.FIRE.setFireInfo(BlockAtumPlank.getPlank(type), 5, 20);

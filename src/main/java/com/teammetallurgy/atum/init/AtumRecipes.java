@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
+import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
+import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
@@ -40,6 +42,7 @@ public class AtumRecipes {
     @SubscribeEvent
     public static void registerRegistries(RegistryEvent.NewRegistry event) {
         RecipeHandlers.quernRecipes = (IForgeRegistryModifiable<IQuernRecipe>) AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
+        RecipeHandlers.spinningWheelRecipes = (IForgeRegistryModifiable<ISpinningWheelRecipe>) AtumRegistry.makeRegistry("spinning_wheel_recipes", ISpinningWheelRecipe.class);
     }
 
     private static void register() {
@@ -121,6 +124,12 @@ public class AtumRecipes {
         addQuernRecipe("miners_delight", new QuernRecipe("flowerMinersDelight", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
         addQuernRecipe("icy_iris", new QuernRecipe("flowerIcyIris", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
         addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
+    }
+
+    @SubscribeEvent
+    public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) {
+        AtumRegistry.registerRecipe("test", new SpinningWheelRecipe("cropEmmer", new ItemStack(Items.POTATO), 6), event);
+        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumItems.FLAX, new ItemStack(Items.CARROT), 6), event);
     }
 
     @SubscribeEvent

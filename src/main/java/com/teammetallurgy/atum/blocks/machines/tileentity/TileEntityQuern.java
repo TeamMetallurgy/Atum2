@@ -170,7 +170,6 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
         return false;
     }
 
-    // TODO Figure out what to do with these two
     @Override
     public Container createContainer(@Nonnull InventoryPlayer inventoryPlayer, @Nonnull EntityPlayer player) {
         return null;
