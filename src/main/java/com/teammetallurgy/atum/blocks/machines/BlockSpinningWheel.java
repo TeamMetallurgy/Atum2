@@ -60,8 +60,8 @@ public class BlockSpinningWheel extends BlockContainer {
             if (player.isSneaking()) {
                 StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(0).copy());
                 StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1).copy());
-                spinningWheel.decrStackSize(0, 1);
-                spinningWheel.decrStackSize(1, 1);
+                spinningWheel.decrStackSize(0, spinningWheel.getInventoryStackLimit());
+                spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
                 spinningWheel.input = null;
                 spinningWheel.rotations = 0;
                 spinningWheel.wheel = false;
@@ -143,7 +143,7 @@ public class BlockSpinningWheel extends BlockContainer {
         if (state.getValue(SPOOL) == 3) {
             if (!world.isRemote && player != null) {
                 StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1));
-                spinningWheel.decrStackSize(1, 1);
+                spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
             }
             spinningWheel.input = null;
             spinningWheel.wheel = false;
