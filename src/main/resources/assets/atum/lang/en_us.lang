@@ -812,7 +812,8 @@ item.atum.idolOfLabor.65=RELEASE DATE TOMORROW, GO FIX ALL THE THINGS GIRAFI!
 
 #JEI
 atum.quern=Quern
-gui.atum.category.quern.rotations=x%s
+atum.spinningwheel=Spinning Wheel
+gui.atum.rotations=x%s
 jei.item.atum.emmerDough=Crafted by combining Emmer Flour with water
 
 #Just Tips support
