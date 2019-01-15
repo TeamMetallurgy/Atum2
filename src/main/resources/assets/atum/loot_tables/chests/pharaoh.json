@@ -337,6 +337,30 @@
         },
         {
           "type": "item",
+          "name": "atum:desert_wolf_gold_armor",
+          "entryName": "desert_wolf_gold_armor",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "atum:desert_wolf_diamond_armor",
+          "entryName": "desert_wolf_diamond_armor",
+          "weight": 2
+        },
+        {
+          "type": "item",
+          "name": "atum:camel_gold_armor",
+          "entryName": "camel_gold_armor",
+          "weight": 5
+        },
+        {
+          "type": "item",
+          "name": "atum:camel_diamond_armor",
+          "entryName": "camel_diamond_armor",
+          "weight": 2
+        },
+        {
+          "type": "item",
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
           "weight": 10
@@ -350,7 +374,7 @@
               "function": "enchant_randomly"
             }
           ],
-          "weight": 5
+          "weight": 25
         }
       ]
     },
