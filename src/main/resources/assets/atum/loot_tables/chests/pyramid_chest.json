@@ -421,6 +421,24 @@
         },
         {
           "type": "item",
+          "name": "atum:camel_iron_armor",
+          "entryName": "camel_iron_armor",
+          "weight": 15
+        },
+        {
+          "type": "item",
+          "name": "atum:camel_gold_armor",
+          "entryName": "camel_gold_armor",
+          "weight": 10
+        },
+        {
+          "type": "item",
+          "name": "atum:camel_diamond_armor",
+          "entryName": "camel_diamond_armor",
+          "weight": 5
+        },
+        {
+          "type": "item",
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
           "weight": 10
