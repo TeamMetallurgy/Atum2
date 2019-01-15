@@ -452,7 +452,7 @@
               "function": "enchant_randomly"
             }
           ],
-          "weight": 1
+          "weight": 10
         }
       ]
     },
