@@ -1,0 +1,15 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "LL",
+    "LL"
+  ],
+  "key": {
+    "L": {
+      "item": "atum:linen_cloth"
+    }
+  },
+  "result": {
+    "item": "atum:linen_white"
+  }
+}

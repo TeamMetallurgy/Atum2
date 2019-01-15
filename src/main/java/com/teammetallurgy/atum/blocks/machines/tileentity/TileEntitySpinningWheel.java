@@ -111,18 +111,19 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
         }
     }
 
-    private IItemHandler handlerSide = new SpinningWheelInvWrapper(this, world, pos, EnumFacing.WEST);
-    private IItemHandler handlerBottom = new SpinningWheelInvWrapper(this, world, pos, EnumFacing.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
+    private IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
 
     @Override
     @Nullable
     public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
-        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (facing == EnumFacing.DOWN) {
                 return (T) handlerBottom;
             } else {
                 return (T) handlerSide;
             }
+        }
         return null;
     }
 
@@ -161,42 +162,5 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
             compound.setTag("input", this.input);
         }
         return compound;
-    }
-
-    public static class SpinningWheelInvWrapper extends SidedInvWrapper {
-        TileEntitySpinningWheel spinningWheel;
-
-        public SpinningWheelInvWrapper(TileEntitySpinningWheel spinningWheel, World world, BlockPos pos, EnumFacing side) {
-            super(spinningWheel, side);
-        }
-
-        @Override
-        @Nonnull
-        public ItemStack insertItem(int slot, @Nonnull ItemStack stack, boolean simulate) {
-
-            System.out.println("Empty");
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public void setStackInSlot(int slot, @Nonnull ItemStack stack) {
-
-        }
-
-        @Override
-        @Nonnull
-        public ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return ItemStack.EMPTY;
-        }
-
-        @Override
-        public int getSlotLimit(int slot) {
-            return 0;
-        }
-
-        @Override
-        public boolean isItemValid(int slot, @Nonnull ItemStack stack) {
-            return false;
-        }
     }
 }

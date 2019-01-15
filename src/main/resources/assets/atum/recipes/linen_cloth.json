@@ -5,10 +5,10 @@
   ],
   "key": {
     "X": {
-      "item": "atum:flax"
+      "item": "atum:linen_thread"
     }
   },
   "result": {
-    "item": "atum:linen"
+    "item": "atum:linen_cloth"
   }
 }

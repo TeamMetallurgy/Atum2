@@ -14,6 +14,8 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
+import com.teammetallurgy.atum.blocks.linen.BlockLinen;
+import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
 import com.teammetallurgy.atum.blocks.machines.BlockQuern;
 import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
@@ -239,6 +241,9 @@ public class AtumBlocks {
         BlockAtumStainedGlass.registerStainedGlass(FRAMED_GLASS);
         registerBlock(THIN_FRAMED_GLASS, "thin_framed_glass");
         BlockAtumStainedGlassPane.registerStainedGlassPane(THIN_FRAMED_GLASS);
+
+        BlockLinen.registerLinenBlocks();
+        BlockLinenCarpet.registerLinenCarpets();
 
         // Wood
         BlockAtumPlank.registerPlanks();

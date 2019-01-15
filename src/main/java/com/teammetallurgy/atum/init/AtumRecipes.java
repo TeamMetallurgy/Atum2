@@ -7,6 +7,8 @@ import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
+import com.teammetallurgy.atum.blocks.linen.BlockLinen;
+import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
@@ -27,6 +29,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.commons.lang3.StringUtils;
@@ -128,8 +131,9 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) {
-        AtumRegistry.registerRecipe("test", new SpinningWheelRecipe(AtumItems.WOLF_PELT, new ItemStack(Items.STRING, 2), 6), event);
-        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumItems.FLAX, new ItemStack(Items.CARROT), 4), event);
+        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumItems.FLAX, new ItemStack(AtumItems.LINEN_THREAD, 3), 4), event);
+        AtumRegistry.registerRecipe("wolf_pelt", new SpinningWheelRecipe(AtumItems.WOLF_PELT, new ItemStack(Items.STRING, 2), 5), event);
+        AtumRegistry.registerRecipe("cloth_scrap", new SpinningWheelRecipe(AtumItems.SCRAP, new ItemStack(AtumItems.LINEN_THREAD), 2), event);
     }
 
     @SubscribeEvent
@@ -137,6 +141,7 @@ public class AtumRecipes {
         IForgeRegistry<IRecipe> registry = event.getRegistry();
         final ResourceLocation crystal = new ResourceLocation(Constants.MOD_ID, "crystal_glass");
         final ResourceLocation framed = new ResourceLocation(Constants.MOD_ID, "framed_glass");
+        final ResourceLocation linen = new ResourceLocation(Constants.MOD_ID, "linen");
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
             String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
@@ -145,6 +150,10 @@ public class AtumRecipes {
             AtumRegistry.registerRecipe("crystal_to_framed_" + colorName, new ShapedOreRecipe(framed, BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), " S ", "SGS", " S ", 'S', "stickWood", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)), event);
             AtumRegistry.registerRecipe("thin_crystal_" + colorName, new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)), event);
             AtumRegistry.registerRecipe("thin_framed_" + colorName, new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.FRAMED_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color)), event);
+            if (color != EnumDyeColor.WHITE) {
+                AtumRegistry.registerRecipe("linen_" + colorName, new ShapelessOreRecipe(linen, new ItemStack(BlockLinen.getLinen(color)), new ItemStack(Items.DYE, 1, color.getDyeDamage()), BlockLinen.getLinen(EnumDyeColor.WHITE)), event);
+            }
+            AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 3), "LL", 'L', BlockLinen.getLinen(color)), event);
         }
         AtumRecipes.register();
         fixOreDictEntries(registry);

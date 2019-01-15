@@ -175,9 +175,8 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState getActualState(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-
         if (tileEntity instanceof TileEntitySpinningWheel) {
             return state.withProperty(WHEEL, ((TileEntitySpinningWheel) tileEntity).wheel);
         }

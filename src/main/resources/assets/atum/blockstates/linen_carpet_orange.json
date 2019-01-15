@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "wool": "atum:blocks/linen_orange"
+        },
+        "model": "atum:linen_carpet"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}
