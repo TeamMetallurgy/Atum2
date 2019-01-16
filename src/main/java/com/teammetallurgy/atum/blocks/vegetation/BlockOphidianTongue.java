@@ -112,7 +112,7 @@ public class BlockOphidianTongue extends BlockVine implements IOreDictEntry {
         if (state.getValue(EAST)) {
             meta |= EnumFacing.EAST.getHorizontalIndex();
         }
-        meta = meta | (state.getValue(HAS_FLOWERS) ? 8 : 0);
+        meta = meta | (state.getValue(HAS_FLOWERS) ? 4 : 0);
         return meta;
     }
 
