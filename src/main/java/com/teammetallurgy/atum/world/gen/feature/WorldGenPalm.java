@@ -5,6 +5,9 @@ import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import net.minecraft.block.BlockVine;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -105,18 +108,43 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     this.spawnLeaf(world, leafPos.add(3, -1, 0));
                     this.spawnLeaf(world, leafPos.add(-3, -1, 0));
 
+                    if (random.nextDouble() <= 0.50D) {
+                        for (int height = 0; height < treeHeight - 1; ++height) {
+                            BlockPos upN = pos.up(height);
+                            stateDown = world.getBlockState(upN);
+
+                            if (stateDown.getBlock().isAir(stateDown, world, upN) || stateDown.getBlock().isLeaves(stateDown, world, upN) || stateDown.getMaterial() == Material.VINE) {
+                                this.setBlockAndNotifyAdequately(world, pos.up(height), BLOCK_LOG);
+                                if (height > 0) {
+                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(-1, height, 0))) {
+                                        this.addOphidianTongue(world, pos.add(-1, height, 0), BlockVine.EAST);
+                                    }
+                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(1, height, 0))) {
+                                        this.addOphidianTongue(world, pos.add(1, height, 0), BlockVine.WEST);
+                                    }
+                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, -1))) {
+                                        this.addOphidianTongue(world, pos.add(0, height, -1), BlockVine.SOUTH);
+                                    }
+                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, 1))) {
+                                        this.addOphidianTongue(world, pos.add(0, height, 1), BlockVine.NORTH);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                     BlockPos datePos = leafPos.down().offset(EnumFacing.Plane.HORIZONTAL.random(random));
                     if (this.stateLeaves.getBlock() == BLOCK_LEAVES && random.nextFloat() <= 0.10F) {
                         world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().withProperty(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
                     }
                 }
 
-                for (int j3 = 0; j3 < treeHeight; ++j3) {
-                    BlockPos upN = pos.up(j3);
+                for (int height = 0; height < treeHeight; ++height) {
+                    BlockPos upN = pos.up(height);
                     IBlockState stateUpN = world.getBlockState(upN);
 
                     if (stateUpN.getBlock().isAir(stateUpN, world, upN) || stateUpN.getBlock().isLeaves(stateUpN, world, upN)) {
-                        this.setBlockAndNotifyAdequately(world, pos.up(j3), this.stateWood);
+                        this.setBlockAndNotifyAdequately(world, pos.up(height), this.stateWood);
                     }
                 }
                 return true;
@@ -131,5 +159,9 @@ public class WorldGenPalm extends WorldGenAbstractTree {
         if (world.isAirBlock(pos) || state.getBlock().canBeReplacedByLeaves(state, world, pos)) {
             this.setBlockAndNotifyAdequately(world, pos, this.stateLeaves);
         }
+    }
+
+    private void addOphidianTongue(World world, BlockPos pos, PropertyBool prop) {
+        this.setBlockAndNotifyAdequately(world, pos, AtumBlocks.OPHIDIAN_TONGUE.getDefaultState().withProperty(prop, Boolean.TRUE));
     }
 }

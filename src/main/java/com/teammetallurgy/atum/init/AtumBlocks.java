@@ -322,6 +322,7 @@ public class AtumBlocks {
         Blocks.FIRE.setFireInfo(PALM_LOG, 5, 5);
         Blocks.FIRE.setFireInfo(DEADWOOD_LOG, 5, 5);
         Blocks.FIRE.setFireInfo(SPINNING_WHEEL, 2, 1);
+        Blocks.FIRE.setFireInfo(OPHIDIAN_TONGUE, 15, 100);
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
             Blocks.FIRE.setFireInfo(BlockAtumWoodSlab.getSlab(type), 5, 20);
             Blocks.FIRE.setFireInfo(BlockAtumPlank.getPlank(type), 5, 20);
