@@ -150,7 +150,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
+        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.values()[this.getVariant()] + ".png"));
     }
 
     @Override
@@ -310,7 +310,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @SubscribeEvent
-    public void onBerserk (LivingHurtEvent event) {
+    public void onBerserk(LivingHurtEvent event) {
         if (event.getSource().getTrueSource() == this && God.getGod(this.getVariant()) == God.MONTU) {
             if (this.berserkTimer == 0) {
                 event.setAmount(event.getAmount());
