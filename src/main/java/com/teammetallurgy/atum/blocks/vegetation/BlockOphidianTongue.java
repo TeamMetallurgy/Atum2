@@ -92,29 +92,27 @@ public class BlockOphidianTongue extends BlockVine implements IOreDictEntry {
     @Override
     @Nonnull
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(SOUTH, (meta & 1) > 0).withProperty(WEST, (meta & 2) > 0).withProperty(NORTH, (meta & 4) > 0).withProperty(EAST, (meta & 8) > 0).withProperty(HAS_FLOWERS, (meta & 10) > 0);
+        IBlockState state = this.getDefaultState();
+        EnumFacing facing = EnumFacing.byHorizontalIndex(meta & 0x11b);
+        return state.withProperty(SOUTH, facing == EnumFacing.SOUTH).withProperty(WEST, facing == EnumFacing.WEST).withProperty(NORTH, facing == EnumFacing.NORTH).withProperty(EAST, facing == EnumFacing.EAST).withProperty(HAS_FLOWERS, ((meta & 15) >> 2) == 1);
     }
 
     @Override
     public int getMetaFromState(IBlockState state) {
         int meta = 0;
-
         if (state.getValue(SOUTH)) {
-            meta |= 1;
+            meta |= EnumFacing.SOUTH.getHorizontalIndex();
         }
         if (state.getValue(WEST)) {
-            meta |= 2;
+            meta |= EnumFacing.WEST.getHorizontalIndex();
         }
         if (state.getValue(NORTH)) {
-            meta |= 4;
+            meta |= EnumFacing.NORTH.getHorizontalIndex();
         }
         if (state.getValue(EAST)) {
-            meta |= 8;
+            meta |= EnumFacing.EAST.getHorizontalIndex();
         }
-        if (state.getValue(HAS_FLOWERS)) {
-            meta |= 10;
-        }
-
+        meta = meta | (state.getValue(HAS_FLOWERS) ? 8 : 0);
         return meta;
     }
 
