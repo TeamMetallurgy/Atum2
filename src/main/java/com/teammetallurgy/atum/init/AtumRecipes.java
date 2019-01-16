@@ -76,14 +76,28 @@ public class AtumRecipes {
     }
 
     private static void addBrewingRecipes() {
-        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
         addBrewingRecipeWithSubPotions("dustBlaze", PotionTypes.STRENGTH);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.DUSTY_BONE), PotionTypes.FIRE_RESISTANCE);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.ECTOPLASM), PotionTypes.INVISIBILITY);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.GLISTERING_DATE), PotionTypes.REGENERATION);
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD), new ItemStack(AtumItems.ECTOPLASM), new ItemStack(Items.EXPERIENCE_BOTTLE));
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.KHNUMITE), PotionTypes.SLOWNESS);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.SKELETAL_FISH), PotionTypes.WATER_BREATHING);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.WOLF_PELT), PotionTypes.SWIFTNESS);
+
         //Anput's Fingers
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD));
         addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), PotionTypes.AWKWARD));
         addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), PotionTypes.AWKWARD));
+
+        //Fertile Soil modifier (Glowstone)
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.LEAPING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_LEAPING));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.SWIFTNESS), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_SWIFTNESS));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.HEALING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_HEALING));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.HARMING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_HARMING));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.POISON), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_POISON));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.REGENERATION), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_REGENERATION));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRENGTH), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.STRONG_STRENGTH));
     }
 
     @SubscribeEvent
@@ -131,7 +145,7 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) {
-        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumItems.FLAX, new ItemStack(AtumItems.LINEN_THREAD, 3), 4), event);
+        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe("cropFlax", new ItemStack(AtumItems.LINEN_THREAD, 3), 4), event);
         AtumRegistry.registerRecipe("wolf_pelt", new SpinningWheelRecipe(AtumItems.WOLF_PELT, new ItemStack(Items.STRING, 2), 5), event);
         AtumRegistry.registerRecipe("cloth_scrap", new SpinningWheelRecipe(AtumItems.SCRAP, new ItemStack(AtumItems.LINEN_THREAD), 2), event);
     }

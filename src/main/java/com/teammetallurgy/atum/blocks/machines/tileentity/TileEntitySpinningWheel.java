@@ -60,6 +60,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
         super.onDataPacket(manager, packet);
         this.readFromNBT(packet.getNbtCompound());
+        this.markDirty();
     }
 
     @Override
