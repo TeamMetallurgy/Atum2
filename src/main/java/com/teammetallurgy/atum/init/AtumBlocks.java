@@ -95,6 +95,7 @@ public class AtumBlocks {
     public static final BlockShrub SHRUB = new BlockShrub();
     public static final BlockShrub WEED = new BlockShrub();
     public static final BlockPapyrus PAPYRUS = new BlockPapyrus();
+    public static final Block OPHIDIAN_TONGUE = new BlockOphidianTongue();
     public static final Block FLAX = new BlockFlax();
     public static final Block FERTILE_SOIL = new BlockFertileSoil();
     public static final Block FERTILE_SOIL_TILLED = new BlockFertileSoilTilled();
@@ -158,6 +159,7 @@ public class AtumBlocks {
         registerBlock(SHRUB, "shrub");
         registerBlock(WEED, "weed");
         registerBlock(PAPYRUS, "papyrus", null);
+        registerBlock(OPHIDIAN_TONGUE, "ophidian_tongue");
         registerBlock(FLAX, "flax_block", null);
         registerBlock(FERTILE_SOIL, "fertile_soil");
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");

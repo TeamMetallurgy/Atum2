@@ -148,6 +148,7 @@ public class AtumItems {
     public static final Item LINEN_CLOTH = new Item();
     public static final Item FLAX_SEEDS = new ItemAtumSeeds(AtumBlocks.FLAX, Blocks.FARMLAND);
     public static final Item FLAX = new Item();
+    public static final Item OPHIDIAN_TONGUE_FLOWER = new Item();
     public static final Item EMMER_SEEDS = new ItemAtumSeeds(AtumBlocks.EMMER_WHEAT, Blocks.FARMLAND);
     public static final Item ANPUTS_FINGERS_SPORES = new ItemAtumSeeds(AtumBlocks.ANPUTS_FINGERS, AtumBlocks.SAND);
     public static final Item EMMER = new Item();
@@ -273,6 +274,7 @@ public class AtumItems {
         registerItem(LINEN_CLOTH, "linen_cloth");
         registerItem(FLAX_SEEDS, "flax_seeds");
         registerItem(FLAX, "flax");
+        registerItem(OPHIDIAN_TONGUE_FLOWER, "ophidian_tongue_flower");
         registerItem(EMMER_SEEDS, "emmer_seeds");
         registerItem(EMMER, "emmer");
         registerItem(EMMER_FLOUR, "emmer_flour");

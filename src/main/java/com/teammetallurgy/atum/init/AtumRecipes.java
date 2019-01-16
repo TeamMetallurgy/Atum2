@@ -84,6 +84,7 @@ public class AtumRecipes {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.MANDIBLES), PotionTypes.WEAKNESS);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.SKELETAL_FISH), PotionTypes.WATER_BREATHING);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.WOLF_PELT), PotionTypes.SWIFTNESS);
+        addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.OPHIDIAN_TONGUE_FLOWER), PotionTypes.POISON);
 
         //Anput's Fingers
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.WATER), "cropNetherWart", addPotionToItemStack(new ItemStack(Items.POTIONITEM), PotionTypes.AWKWARD));
