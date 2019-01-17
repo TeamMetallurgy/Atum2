@@ -8,9 +8,8 @@ import com.teammetallurgy.atum.items.artifacts.horus.ItemHorusAscension;
 import com.teammetallurgy.atum.items.tools.ItemScepter;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.BlockStairs;
+
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
@@ -405,12 +404,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     private void trySpawnMummy(BlockPos pos, EnumFacing facing) {
-        pos = pos.offset(facing);
-        if (!world.isAirBlock(pos.offset(facing))) {
-            pos = pos.offset(facing, 2);
-        }
-        if ((WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntityLiving.SpawnPlacementType.ON_GROUND, world, pos) || world.getBlockState(pos.down()) instanceof BlockStairs) && world.isAirBlock(pos)) {
-            EntityMummy entityMummy = new EntityMummy(world);
+        BlockPos base = pos.offset(facing, 1);
+
+    	if (!world.isBlockFullCube(pos) && !world.isBlockFullCube(pos.offset(EnumFacing.UP)))
+    	{
+    		EntityMummy entityMummy = new EntityMummy(world);
             entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
             entityMummy.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
@@ -418,6 +416,28 @@ public class EntityPharaoh extends EntityUndeadBase {
                 AnvilChunkLoader.spawnEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();
+            return;
+    	}
+        
+        for (EnumFacing offset : EnumFacing.HORIZONTALS)
+        {
+        	// Don't spawn the mummy on top of the pharaoh
+        	if (offset == facing.getOpposite())
+        		continue;
+        	
+        	pos = base.offset(offset);
+        	if (!world.isBlockFullCube(pos) && !world.isBlockFullCube(pos.offset(EnumFacing.UP)))
+        	{
+	    		EntityMummy entityMummy = new EntityMummy(world);
+	            entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
+	            entityMummy.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
+	
+	            if (!world.isRemote) {
+	                AnvilChunkLoader.spawnEntity(entityMummy, world);
+	            }
+	            entityMummy.spawnExplosionParticle();
+	            return;
+        	}
         }
     }
 
