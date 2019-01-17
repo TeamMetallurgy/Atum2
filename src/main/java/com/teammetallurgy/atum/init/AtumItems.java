@@ -144,6 +144,7 @@ public class AtumItems {
     public static final Item CAMEL_DIAMOND_ARMOR = new Item().setMaxStackSize(1);
     public static final Item SCROLL = new Item();
     public static final Item SCRAP = new Item();
+    public static final Item LINEN_BANDAGE = new ItemLinenBandage();
     public static final Item LINEN_THREAD = new Item();
     public static final Item LINEN_CLOTH = new Item();
     public static final Item FLAX_SEEDS = new ItemAtumSeeds(AtumBlocks.FLAX, Blocks.FARMLAND);
@@ -270,6 +271,7 @@ public class AtumItems {
         registerItem(CAMEL_DIAMOND_ARMOR, "camel_diamond_armor");
         registerItem(SCROLL, "scroll");
         registerItem(SCRAP, "cloth_scrap");
+        registerItem(LINEN_BANDAGE, "linen_bandage");
         registerItem(LINEN_THREAD, "linen_thread");
         registerItem(LINEN_CLOTH, "linen_cloth");
         registerItem(FLAX_SEEDS, "flax_seeds");
