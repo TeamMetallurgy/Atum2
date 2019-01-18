@@ -1,6 +1,16 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
+import org.lwjgl.input.Keyboard;
+
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,15 +22,17 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-
+@Mod.EventBusSubscriber(value = Side.CLIENT) 
 public class ItemEyesOfAtum extends ItemTexturedArmor {
+    private static PotionEffect savedNightVision;
 
     public ItemEyesOfAtum() {
         super(ArmorMaterial.DIAMOND, "atum_armor_1", EntityEquipmentSlot.HEAD);
@@ -38,7 +50,7 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
         super.onArmorTick(world, player, stack);
 
         if (world.getTotalWorldTime() % 15L == 0L) {
-            player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 255, 0, false, false));
+            //player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 255, 0, false, false));
         }
     }
 
@@ -57,5 +69,38 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
         } else {
             tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
+    }
+
+    @SubscribeEvent
+    public static void drawScreen(DrawScreenEvent.Pre event) {
+    	EntityPlayer player = Minecraft.getMinecraft().player;
+    	System.out.println(player.getActivePotionEffects());
+    	if(player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATUM)
+    	{
+    		if(savedNightVision != null && savedNightVision.getDuration() == 0) {
+    			savedNightVision = null;
+    		}
+			player.removePotionEffect(MobEffects.NIGHT_VISION);
+			if(savedNightVision != null)
+				player.addPotionEffect(savedNightVision);
+    	}
+    }
+    
+    @SubscribeEvent
+    public static void nightVision(RenderTickEvent event) {
+    	EntityPlayer player = Minecraft.getMinecraft().player;
+    	if(player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATUM)
+    	{
+	    	if(event.phase == Phase.START) {
+	    		PotionEffect temp = player.getActivePotionEffect(MobEffects.NIGHT_VISION);
+	    		if(temp != null && !temp.isCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM)))
+	    			savedNightVision = temp;
+	    		
+	    		player.removePotionEffect(MobEffects.NIGHT_VISION);
+	    		PotionEffect eyes = new PotionEffect(MobEffects.NIGHT_VISION, 1200, 0, false, false);
+	    		eyes.addCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM));
+	    		player.addPotionEffect(eyes);
+	    	}
+    	}
     }
 }
