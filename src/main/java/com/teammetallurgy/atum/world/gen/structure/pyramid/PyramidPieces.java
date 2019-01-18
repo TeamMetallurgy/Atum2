@@ -229,7 +229,6 @@ public class PyramidPieces {
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
                     if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                         ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.SARCOPHAGUS_ARTIFACT, rand.nextLong());
                     }
                 }
