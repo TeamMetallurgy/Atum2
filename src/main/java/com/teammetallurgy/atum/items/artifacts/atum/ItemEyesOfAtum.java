@@ -1,15 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
-import java.util.List;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
-import org.lwjgl.input.Keyboard;
-
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -29,6 +21,11 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.lwjgl.input.Keyboard;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
 
 @Mod.EventBusSubscriber(value = Side.CLIENT) 
 public class ItemEyesOfAtum extends ItemTexturedArmor {
@@ -43,15 +40,6 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
     @SideOnly(Side.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
-    }
-
-    @Override
-    public void onArmorTick(World world, EntityPlayer player, @Nonnull ItemStack stack) {
-        super.onArmorTick(world, player, stack);
-
-        if (world.getTotalWorldTime() % 15L == 0L) {
-            //player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 255, 0, false, false));
-        }
     }
 
     @Override
@@ -72,34 +60,35 @@ public class ItemEyesOfAtum extends ItemTexturedArmor {
     }
 
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void drawScreen(DrawScreenEvent.Pre event) {
-    	EntityPlayer player = Minecraft.getMinecraft().player;
-    	if(player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATUM)
-    	{
-    		if(savedNightVision != null && savedNightVision.getDuration() == 0) {
-    			savedNightVision = null;
-    		}
-			player.removePotionEffect(MobEffects.NIGHT_VISION);
-			if(savedNightVision != null)
-				player.addPotionEffect(savedNightVision);
-    	}
+        EntityPlayer player = Minecraft.getMinecraft().player;
+        if (player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATUM) {
+            if (savedNightVision != null && savedNightVision.getDuration() == 0) {
+                savedNightVision = null;
+            }
+            player.removePotionEffect(MobEffects.NIGHT_VISION);
+            if (savedNightVision != null) {
+                player.addPotionEffect(savedNightVision);
+            }
+        }
     }
-    
+
     @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public static void nightVision(RenderTickEvent event) {
-    	EntityPlayer player = Minecraft.getMinecraft().player;
-    	if(player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATUM)
-    	{
-	    	if(event.phase == Phase.START) {
-	    		PotionEffect temp = player.getActivePotionEffect(MobEffects.NIGHT_VISION);
-	    		if(temp != null && !temp.isCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM)))
-	    			savedNightVision = temp;
-	    		
-	    		player.removePotionEffect(MobEffects.NIGHT_VISION);
-	    		PotionEffect eyes = new PotionEffect(MobEffects.NIGHT_VISION, 1200, 0, false, false);
-	    		eyes.addCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM));
-	    		player.addPotionEffect(eyes);
-	    	}
-    	}
+        EntityPlayer player = Minecraft.getMinecraft().player;
+        if (player != null && player.getItemStackFromSlot(EntityEquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATUM) {
+            if (event.phase == Phase.START) {
+                PotionEffect temp = player.getActivePotionEffect(MobEffects.NIGHT_VISION);
+                if (temp != null && !temp.isCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM))) {
+                    savedNightVision = temp;
+                }
+                player.removePotionEffect(MobEffects.NIGHT_VISION);
+                PotionEffect eyes = new PotionEffect(MobEffects.NIGHT_VISION, 1200, 0, false, false);
+                eyes.addCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM));
+                player.addPotionEffect(eyes);
+            }
+        }
     }
 }
