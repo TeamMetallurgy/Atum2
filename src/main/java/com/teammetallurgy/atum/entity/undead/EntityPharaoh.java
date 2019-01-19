@@ -401,23 +401,25 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     public void spawnGuards(BlockPos pos) {
         EnumFacing facing = EnumFacing.byHorizontalIndex(MathHelper.floor(this.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
-        this.trySpawnMummy(pos, facing.rotateYCCW());
-        this.trySpawnMummy(pos, facing.rotateY());
+        this.trySpawnMummy(pos, facing);
+        this.trySpawnMummy(pos, facing.rotateY().rotateY());
     }
 
     private void trySpawnMummy(BlockPos pos, EnumFacing facing) {
+    	System.out.println(facing);
         BlockPos base = pos.offset(facing, 1);
 
-    	if (!world.isBlockFullCube(pos) && !world.isBlockFullCube(pos.offset(EnumFacing.UP)))
+    	if (!world.isBlockFullCube(base) && !world.isBlockFullCube(base.offset(EnumFacing.UP)))
     	{
     		EntityMummy entityMummy = new EntityMummy(world);
-            entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
-            entityMummy.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
+            entityMummy.onInitialSpawn(world.getDifficultyForLocation(base), null);
+            entityMummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
             if (!world.isRemote) {
                 AnvilChunkLoader.spawnEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();
+            System.out.println("Spawn at " + base);
             return;
     	}
         
@@ -427,17 +429,18 @@ public class EntityPharaoh extends EntityUndeadBase {
         	if (offset == facing.getOpposite())
         		continue;
         	
-        	pos = base.offset(offset);
-        	if (!world.isBlockFullCube(pos) && !world.isBlockFullCube(pos.offset(EnumFacing.UP)))
+        	BlockPos new_pos = base.offset(offset);
+        	if (!world.isBlockFullCube(new_pos) && !world.isBlockFullCube(new_pos.offset(EnumFacing.UP)))
         	{
 	    		EntityMummy entityMummy = new EntityMummy(world);
-	            entityMummy.onInitialSpawn(world.getDifficultyForLocation(pos), null);
-	            entityMummy.setLocationAndAngles(pos.getX(), pos.getY(), pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
+	            entityMummy.onInitialSpawn(world.getDifficultyForLocation(new_pos), null);
+	            entityMummy.setLocationAndAngles(new_pos.getX(), new_pos.getY(), new_pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 	
 	            if (!world.isRemote) {
 	                AnvilChunkLoader.spawnEntity(entityMummy, world);
 	            }
 	            entityMummy.spawnExplosionParticle();
+	            System.out.println("Spawn at " + new_pos);
 	            return;
         	}
         }
