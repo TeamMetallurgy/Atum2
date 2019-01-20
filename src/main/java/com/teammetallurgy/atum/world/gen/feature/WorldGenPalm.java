@@ -117,17 +117,27 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                                 if (stateDown.getBlock().isAir(stateDown, world, upN) || stateDown.getBlock().isLeaves(stateDown, world, upN) || stateDown.getMaterial() == Material.VINE) {
                                     this.setBlockAndNotifyAdequately(world, pos.up(height), BLOCK_LOG);
                                     if (height > 0) {
+                                        height += 1;
+                                        int randAmount = MathHelper.getInt(random, 1, 3);
                                         if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(-1, height, 0))) {
-                                            this.addOphidianTongue(world, pos.add(-1, height, 0), BlockVine.EAST);
+                                            for (int amount = 0; amount <= randAmount; amount++) {
+                                                this.addOphidianTongue(world, pos.add(-1, height - amount, 0), BlockVine.EAST);
+                                            }
                                         }
                                         if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(1, height, 0))) {
-                                            this.addOphidianTongue(world, pos.add(1, height, 0), BlockVine.WEST);
+                                            for (int amount = 0; amount <= randAmount; amount++) {
+                                                this.addOphidianTongue(world, pos.add(1, height - amount, 0), BlockVine.WEST);
+                                            }
                                         }
                                         if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, -1))) {
-                                            this.addOphidianTongue(world, pos.add(0, height, -1), BlockVine.SOUTH);
+                                            for (int amount = 0; amount <= randAmount; amount++) {
+                                                this.addOphidianTongue(world, pos.add(0, height - amount, -1), BlockVine.SOUTH);
+                                            }
                                         }
                                         if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, 1))) {
-                                            this.addOphidianTongue(world, pos.add(0, height, 1), BlockVine.NORTH);
+                                            for (int amount = 0; amount <= randAmount; amount++) {
+                                                this.addOphidianTongue(world, pos.add(0, height - amount, 1), BlockVine.NORTH);
+                                            }
                                         }
                                     }
                                 }
