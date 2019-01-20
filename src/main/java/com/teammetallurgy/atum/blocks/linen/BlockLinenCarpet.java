@@ -98,7 +98,7 @@ public class BlockLinenCarpet extends BlockLinen {
     }
 
     @Override
-    protected String getColorString() {
+    public String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
         return this.getRegistryName().getPath().replace("linen_carpet_", "");
     }

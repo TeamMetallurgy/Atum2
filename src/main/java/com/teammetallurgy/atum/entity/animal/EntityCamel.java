@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.ai.AICamelCaravan;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
@@ -360,14 +361,19 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     private void setColorByItem(@Nonnull ItemStack stack) {
         if (this.isValidCarpet(stack)) {
-            this.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
+            if (stack.getItem() == Item.getItemFromBlock(Blocks.CARPET)) {
+                this.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
+            } else if (Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet) {
+                BlockLinenCarpet linenCarpet = (BlockLinenCarpet) Block.getBlockFromItem(stack.getItem());
+                this.setColor(EnumDyeColor.valueOf(linenCarpet.getColorString().toUpperCase()));
+            }
         } else {
             this.setColor(null);
         }
     }
 
     public boolean isValidCarpet(@Nonnull ItemStack stack) {
-        return stack.getItem() == Item.getItemFromBlock(Blocks.CARPET);
+        return stack.getItem() == Item.getItemFromBlock(Blocks.CARPET) || Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet;
     }
 
     @Override
