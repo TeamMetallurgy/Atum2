@@ -16,8 +16,10 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.linen.BlockLinen;
 import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
+import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.blocks.machines.BlockQuern;
 import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntitySpinningWheel;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
@@ -116,6 +118,7 @@ public class AtumBlocks {
     public static final BlockAtumTorch PHARAOH_TORCH = new BlockAtumTorch();
     public static final Block QUERN = new BlockQuern();
     public static final Block SPINNING_WHEEL = new BlockSpinningWheel();
+    public static final Block KILN = new BlockKiln();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block POISON_TRAP = new BlockPoisonTrap();
     public static final Block TAR_TRAP = new BlockTarTrap();
@@ -165,6 +168,7 @@ public class AtumBlocks {
         registerBlock(FERTILE_SOIL_TILLED, "fertile_soil_tilled");
         registerBlock(QUERN, "quern");
         registerBlock(SPINNING_WHEEL, "spinning_wheel");
+        registerBlock(KILN, "kiln");
         registerBlock(BURNING_TRAP, "burning_trap");
         registerBlock(POISON_TRAP, "poison_trap");
         registerBlock(TAR_TRAP, "tar_trap");
@@ -287,6 +291,7 @@ public class AtumBlocks {
         GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
         GameRegistry.registerTileEntity(TileEntityQuern.class, new ResourceLocation(Constants.MOD_ID, "quern"));
         GameRegistry.registerTileEntity(TileEntitySpinningWheel.class, new ResourceLocation(Constants.MOD_ID, "spinning_wheel"));
+        GameRegistry.registerTileEntity(TileEntityKiln.class, new ResourceLocation(Constants.MOD_ID, "kiln"));
     }
 
     public static void setBlockInfo() {

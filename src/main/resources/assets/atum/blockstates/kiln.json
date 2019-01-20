@@ -1,0 +1,26 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "up": "atum:blocks/limestone_brick_small",
+            "down": "#up",
+            "north": "atum:blocks/kiln_off",
+            "south": "#up",
+            "west": "#up",
+            "east": "#up",
+            "particle": "#up"
+        },
+        "model" : "cube"
+    },
+    "variants": {
+        "inventory": [{}],
+        "facing=north,is_burning=false": { "model": "cube" },
+        "facing=south,is_burning=false": { "model": "cube", "y": 180 },
+        "facing=west,is_burning=false":  { "model": "cube", "y": 270 },
+        "facing=east,is_burning=false":  { "model": "cube", "y": 90 },
+        "facing=north,is_burning=true": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" } },
+        "facing=south,is_burning=true": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 180 },
+        "facing=west,is_burning=true":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 270 },
+        "facing=east,is_burning=true":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 90 }
+    }
+}
