@@ -41,7 +41,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumRegistry {
     public static final NonNullList<AtumBiome> BIOMES = NonNullList.create();
     private static final NonNullList<EntityEntry> MOBS = NonNullList.create();

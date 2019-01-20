@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.tefnut;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
@@ -27,7 +28,7 @@ import org.lwjgl.input.Keyboard;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class ItemTefnutsCall extends Item {
 
     public ItemTefnutsCall() {

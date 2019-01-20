@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.particle;
 
 import com.teammetallurgy.atum.client.TextureManagerParticles;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.util.ResourceLocation;
@@ -12,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 @SideOnly(Side.CLIENT)
 public class ParticleBase extends Particle {
 

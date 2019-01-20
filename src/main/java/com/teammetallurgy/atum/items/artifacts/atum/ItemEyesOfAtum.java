@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
@@ -27,7 +28,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT) 
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ItemEyesOfAtum extends ItemTexturedArmor {
     private static PotionEffect savedNightVision;
 

@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
@@ -47,7 +48,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class ItemAnubisWrath extends ItemSword {
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
 

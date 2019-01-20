@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenBonusCrate;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenStartStructure;
@@ -15,7 +16,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumStartTeleporter implements ITeleporter {
     private static WorldSettings worldSettings;
 

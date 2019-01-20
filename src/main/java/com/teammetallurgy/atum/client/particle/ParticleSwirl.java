@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ParticleSwirl extends ParticleBase {
     private static final ResourceLocation ANUBIS = new ResourceLocation(Constants.MOD_ID, "particle/anubis");
     private static final ResourceLocation ANUBIS_SKULL = new ResourceLocation(Constants.MOD_ID, "particle/anubis_skull");

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ParticleTefnut extends ParticleBase {
     private static final ResourceLocation TEFNUT = new ResourceLocation(Constants.MOD_ID, "particle/tefnut");
 

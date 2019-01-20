@@ -66,7 +66,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ClientProxy extends CommonProxy {
     private static final ModelResourceLocation THOTHS_BEARINGS = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "thoths_bearings"), "inventory");
     public static AtumParticles atumParticles;

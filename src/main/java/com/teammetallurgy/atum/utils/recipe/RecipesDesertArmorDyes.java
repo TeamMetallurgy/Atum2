@@ -20,7 +20,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class RecipesDesertArmorDyes extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
 
     public RecipesDesertArmorDyes() {

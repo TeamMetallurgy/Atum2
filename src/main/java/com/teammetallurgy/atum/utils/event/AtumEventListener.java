@@ -14,6 +14,7 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemAtumsBounty;
 import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
@@ -58,7 +59,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumEventListener {
 
     private static final String TAG_ATUM_START = "atum_start";

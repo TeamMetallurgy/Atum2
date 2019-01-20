@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ParticleLightSparkle extends ParticleBase {
     private static final ResourceLocation LIGHT_SPARKLE = new ResourceLocation(Constants.MOD_ID, "particle/light_sparkle");
     private float particleScaleOverTime;

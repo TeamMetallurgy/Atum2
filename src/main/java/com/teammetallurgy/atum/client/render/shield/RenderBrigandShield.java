@@ -16,7 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class RenderBrigandShield extends TileEntityItemStackRenderer {
     private final ModelBrigandShield modelShield = new ModelBrigandShield();
     private static ItemBakedBase bakedBase;

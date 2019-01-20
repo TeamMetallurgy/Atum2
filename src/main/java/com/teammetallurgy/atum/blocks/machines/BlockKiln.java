@@ -40,6 +40,11 @@ public class BlockKiln extends BlockContainer {
     }
 
     @Override
+    public void onBlockClicked(World worldIn, BlockPos pos, EntityPlayer playerIn) {
+        super.onBlockClicked(worldIn, pos, playerIn);
+    }
+
+    @Override
     public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (!world.isRemote) {
             world.setBlockState(pos, state.withProperty(IS_BURNING, true), 2);

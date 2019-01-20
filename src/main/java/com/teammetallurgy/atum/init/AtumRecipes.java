@@ -38,7 +38,7 @@ import static com.teammetallurgy.atum.utils.recipe.RecipeHelper.*;
 import static net.minecraft.block.BlockFlower.EnumFlowerType;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumRecipes {
 
     @SubscribeEvent

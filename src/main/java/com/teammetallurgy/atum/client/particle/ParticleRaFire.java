@@ -14,7 +14,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(value = Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ParticleRaFire extends ParticleBase {
     private static final ResourceLocation RA_FIRE = new ResourceLocation(Constants.MOD_ID, "particle/ra_fire");
     private final float flameScale;
