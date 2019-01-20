@@ -75,7 +75,7 @@ public class StackHelper {
         }
     }
 
-    public static void spawnItemStack(World world, double x, double y, double z, ItemStack stack) {
+    public static void spawnItemStack(World world, double x, double y, double z, @Nonnull ItemStack stack) {
         final Random random = new Random();
         float xOffset = random.nextFloat() * 0.8F + 0.1F;
         float yOffset = random.nextFloat() * 0.8F + 0.1F;
@@ -91,7 +91,15 @@ public class StackHelper {
         }
     }
 
-    public static boolean areStacksEqualIgnoreSize(ItemStack stackA, ItemStack stackB) {
-        return !stackA.isEmpty() && !stackB.isEmpty() && stackA.getItem() == stackB.getItem() && stackA.getMetadata() == stackB.getMetadata();
+    public static boolean areStacksEqualIgnoreSize(@Nonnull ItemStack stackA, @Nonnull ItemStack stackB) {
+        if (stackA.isEmpty() && stackB.isEmpty()) {
+            return false;
+        } else if (stackA.getItem() != stackB.getItem()) {
+            return false;
+        } else if (stackA.getMetadata() != stackB.getMetadata()) {
+            return false;
+        } else {
+            return (stackA.getTagCompound() == null || stackA.getTagCompound().equals(stackB.getTagCompound())) && stackA.areCapsCompatible(stackB);
+        }
     }
 }

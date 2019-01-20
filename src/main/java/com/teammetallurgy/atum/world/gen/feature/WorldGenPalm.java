@@ -108,25 +108,27 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     this.spawnLeaf(world, leafPos.add(3, -1, 0));
                     this.spawnLeaf(world, leafPos.add(-3, -1, 0));
 
-                    if (random.nextDouble() <= 0.50D) {
-                        for (int height = 0; height < treeHeight - 1; ++height) {
-                            BlockPos upN = pos.up(height);
-                            stateDown = world.getBlockState(upN);
+                    if (this.stateWood.getBlock() == AtumBlocks.PALM_LOG) {
+                        if (random.nextDouble() <= 0.50D) {
+                            for (int height = 0; height < treeHeight - 1; ++height) {
+                                BlockPos upN = pos.up(height);
+                                stateDown = world.getBlockState(upN);
 
-                            if (stateDown.getBlock().isAir(stateDown, world, upN) || stateDown.getBlock().isLeaves(stateDown, world, upN) || stateDown.getMaterial() == Material.VINE) {
-                                this.setBlockAndNotifyAdequately(world, pos.up(height), BLOCK_LOG);
-                                if (height > 0) {
-                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(-1, height, 0))) {
-                                        this.addOphidianTongue(world, pos.add(-1, height, 0), BlockVine.EAST);
-                                    }
-                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(1, height, 0))) {
-                                        this.addOphidianTongue(world, pos.add(1, height, 0), BlockVine.WEST);
-                                    }
-                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, -1))) {
-                                        this.addOphidianTongue(world, pos.add(0, height, -1), BlockVine.SOUTH);
-                                    }
-                                    if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, 1))) {
-                                        this.addOphidianTongue(world, pos.add(0, height, 1), BlockVine.NORTH);
+                                if (stateDown.getBlock().isAir(stateDown, world, upN) || stateDown.getBlock().isLeaves(stateDown, world, upN) || stateDown.getMaterial() == Material.VINE) {
+                                    this.setBlockAndNotifyAdequately(world, pos.up(height), BLOCK_LOG);
+                                    if (height > 0) {
+                                        if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(-1, height, 0))) {
+                                            this.addOphidianTongue(world, pos.add(-1, height, 0), BlockVine.EAST);
+                                        }
+                                        if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(1, height, 0))) {
+                                            this.addOphidianTongue(world, pos.add(1, height, 0), BlockVine.WEST);
+                                        }
+                                        if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, -1))) {
+                                            this.addOphidianTongue(world, pos.add(0, height, -1), BlockVine.SOUTH);
+                                        }
+                                        if (random.nextInt(25) == 0 && world.isAirBlock(pos.add(0, height, 1))) {
+                                            this.addOphidianTongue(world, pos.add(0, height, 1), BlockVine.NORTH);
+                                        }
                                     }
                                 }
                             }

@@ -40,7 +40,7 @@ public class AtumAspects {
         event.register.registerObjectTag(new ItemStack(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CHISELED)), (new AspectList()).add(Aspect.EARTH, 3).add(Aspect.AIR, 1));
         event.register.registerObjectTag(new ItemStack(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED)), (new AspectList()).add(Aspect.EARTH, 3).add(Aspect.CRAFT, 1));
         event.register.registerObjectTag(new ItemStack(BlockLimestoneSlab.getSlab(BlockLimestoneBricks.BrickType.SMALL)), (new AspectList()).add(Aspect.EARTH, 1));
-        event.register.registerObjectTag(new ItemStack(AtumBlocks.SANDY_CLAY), (new AspectList()).add(Aspect.EARTH, 16).add(Aspect.WATER, 4).add(Aspect.ENTROPY, 2));
+        event.register.registerObjectTag(new ItemStack(AtumBlocks.MARL), (new AspectList()).add(Aspect.EARTH, 16).add(Aspect.WATER, 4).add(Aspect.ENTROPY, 2));
         event.register.registerObjectTag(new ItemStack(AtumBlocks.ALABASTER), (new AspectList()).add(Aspect.EARTH, 5).add(Aspect.AIR, 1));
         event.register.registerObjectTag(new ItemStack(BlockAlabasterBricks.getBrick(BlockAlabasterBricks.Type.TILED)), (new AspectList()).add(Aspect.EARTH, 1));
         event.register.registerObjectTag(new ItemStack(BlockAlabasterBricks.getBrick(BlockAlabasterBricks.Type.PILLAR)), (new AspectList()).add(Aspect.EARTH, 1));

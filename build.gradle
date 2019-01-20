@@ -27,9 +27,9 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "${minecraft_version}-${mod_version}" + ".beta" + getBuildNumber()
+version = "${minecraft_version}-${mod_version}" + getBuildNumber()
 group= "com.teammetallurgy.atum"
-archivesBaseName = "Atum2"
+archivesBaseName = "Atum"
 
 minecraft {
     version = "${minecraft_version}-${forge_version}"
@@ -90,5 +90,5 @@ artifacts {
 }
 
 String getBuildNumber() {
-    return System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : '0';
+    return System.getenv('BUILD_NUMBER') ? ".beta" + System.getenv('BUILD_NUMBER') : "";
 }

@@ -60,7 +60,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         //Noise
         this.dirtGen = generateMineable(AtumBlocks.SAND.getDefaultState(), 32);
         this.gravelGen = generateMineable(AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32);
-        this.clayGen = generateMineable(AtumBlocks.SANDY_CLAY.getDefaultState(), 12);
+        this.clayGen = generateMineable(AtumBlocks.MARL.getDefaultState(), 12);
 
         this.treesPerChunk = 0;
         this.shrubChance = 0.3F;

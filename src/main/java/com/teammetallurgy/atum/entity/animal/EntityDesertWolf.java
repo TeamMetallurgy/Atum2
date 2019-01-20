@@ -352,7 +352,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @Override
     public void setScaleForAge(boolean child) {
         if (this.isAlpha()) {
-            this.setScale(1.55F);
+            this.setScale(1.6F);
         } else {
             super.setScaleForAge(child);
         }

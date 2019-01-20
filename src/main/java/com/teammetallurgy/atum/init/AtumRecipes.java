@@ -34,10 +34,9 @@ import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.commons.lang3.StringUtils;
 
-import static com.teammetallurgy.atum.utils.RecipeHelper.*;
+import static com.teammetallurgy.atum.utils.recipe.RecipeHelper.*;
 import static net.minecraft.block.BlockFlower.EnumFlowerType;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
-import static net.minecraftforge.common.brewing.BrewingRecipeRegistry.addRecipe;
 
 @Mod.EventBusSubscriber
 public class AtumRecipes {
@@ -67,7 +66,6 @@ public class AtumRecipes {
         GameRegistry.addSmelting(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE), new ItemStack(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CRACKED)), 0.1F);
         GameRegistry.addSmelting(AtumBlocks.LIMESTONE, new ItemStack(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED)), 0.1F);
         GameRegistry.addSmelting(AtumBlocks.SAND, new ItemStack(AtumBlocks.CRYSTAL_GLASS), 0.1F);
-        GameRegistry.addSmelting(AtumBlocks.SANDY_CLAY, new ItemStack(Blocks.HARDENED_CLAY), 0.35F);
         GameRegistry.addSmelting(AtumItems.JEWELED_FISH, new ItemStack(Items.GOLD_NUGGET, 3), 0.3F);
         GameRegistry.addSmelting(AtumItems.GOLD_COIN, new ItemStack(Items.GOLD_NUGGET), 0.1F);
         GameRegistry.addSmelting(AtumItems.EMMER_DOUGH, new ItemStack(AtumItems.EMMER_BREAD), 0.1F);
@@ -104,7 +102,9 @@ public class AtumRecipes {
     @SubscribeEvent
     public static void registerQuernRecipes(RegistryEvent.Register<IQuernRecipe> event) {
         addQuernRecipe("emmer_wheat", new QuernRecipe("cropEmmer", new ItemStack(AtumItems.EMMER_FLOUR), 3), event);
-        addQuernRecipe("gravel", new QuernRecipe("gravel", new ItemStack(Items.FLINT), 5), event);
+        addQuernRecipe("rod_blaze", new QuernRecipe("rodBlaze", new ItemStack(Items.BLAZE_POWDER, 3), 4), event);
+        addQuernRecipe("marl", new QuernRecipe(AtumBlocks.MARL, new ItemStack(Items.CLAY_BALL, 3), 2), event);
+        addQuernRecipe("gravel", new QuernRecipe("gravel", new ItemStack(Items.FLINT), 4), event);
         addQuernRecipe("sugarcane", new QuernRecipe("sugarcane", new ItemStack(Items.SUGAR, 2), 3), event);
 
         ////Dyes

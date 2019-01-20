@@ -8,6 +8,8 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerBipedArmor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
@@ -36,9 +38,14 @@ public class RenderStoneguard extends RenderBiped<EntityStoneguard> {
 
     @Override
     @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard entity) {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(entity.getClass())).getRegistryName()).getPath();
-        String texture = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + entity.getVariant()) + ".png");
+    protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard stoneguard) {
+        if (stoneguard.hasCustomName()) {
+            if (stoneguard.getCustomNameTag().equalsIgnoreCase("iron") || stoneguard.getCustomNameTag().equalsIgnoreCase("nutz")) {
+                return new ResourceLocation(Constants.MOD_ID, "textures/entities/stoneguard_derp.png");
+            }
+        }
+        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(stoneguard.getClass())).getRegistryName()).getPath();
+        String texture = new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + stoneguard.getVariant()) + ".png";
         ResourceLocation location = CACHE.get(texture);
 
         if (location == null) {

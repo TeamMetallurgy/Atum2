@@ -1,7 +1,8 @@
-package com.teammetallurgy.atum.utils;
+package com.teammetallurgy.atum.utils.recipe;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.EnumDyeColor;
