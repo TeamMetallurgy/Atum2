@@ -52,7 +52,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
                             if (fuelStack.isEmpty()) {
                                 ItemStack item1 = item.getContainerItem(fuelStack);
-                                this.inventory.set(1, item1); //TODO
+                                this.inventory.set(4, item1);
                             }
                         }
                     }
@@ -138,19 +138,22 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             if (smeltingResult.isEmpty()) {
                 return false;
             } else {
-                ItemStack output = this.inventory.get(2);
-                if (output.isEmpty()) {
-                    return true;
-                } else if (!output.isItemEqual(smeltingResult)) {
-                    return false;
-                } else if (output.getCount() + smeltingResult.getCount() <= this.getInventoryStackLimit() && output.getCount() + smeltingResult.getCount() <= output.getMaxStackSize()) {
-                    return true;
-                } else {
-                    return output.getCount() + smeltingResult.getCount() <= smeltingResult.getMaxStackSize();
+                for (ItemStack output : this.getOutputs()) {
+                    if (output.isEmpty()) {
+                        return true;
+                    } else if (!output.isItemEqual(smeltingResult)) {
+                        return false;
+                    } else if (output.getCount() + smeltingResult.getCount() <= this.getInventoryStackLimit() && output.getCount() + smeltingResult.getCount() <= output.getMaxStackSize()) {
+                        return true;
+                    } else {
+                        return output.getCount() + smeltingResult.getCount() <= smeltingResult.getMaxStackSize();
+                    }
                 }
+                return false;
             }
         }
     }
+
 
     public void smeltItem() { //TODO
         if (this.canSmelt()) {
@@ -161,7 +164,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             for (ItemStack output : outputs) {
                 for (int index = 0; index < outputs.size(); index++) {
                     if (output.isEmpty()) {
-                        this.inventory.set(index, smeltingResult.copy());
+                        this.inventory.set(5, smeltingResult.copy());
                     } else if (output.getItem() == smeltingResult.getItem()) {
                         output.grow(smeltingResult.getCount());
                     }
@@ -192,8 +195,24 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         return ItemStack.EMPTY;
     }
 
+    @Nonnull
+    private ItemStack getOutput(List<ItemStack> outputs) {
+        for (ItemStack output : outputs) {
+            for (IKilnRecipe kilnRecipe : RecipeHandlers.kilnRecipes) {
+                if (StackHelper.areStacksEqualIgnoreSize(kilnRecipe.getOutput(), output)) { //TODO Maybe
+                    return kilnRecipe.getOutput();
+                }
+            }
+        }
+        return ItemStack.EMPTY;
+    }
+
     private List<ItemStack> getInputs() {
         return Arrays.asList(this.inventory.get(0), this.inventory.get(1), this.inventory.get(2), this.inventory.get(3));
+    }
+
+    private List<ItemStack> getOutputs() {
+        return Arrays.asList(this.inventory.get(5), this.inventory.get(6), this.inventory.get(7), this.inventory.get(8));
     }
 
     @Override

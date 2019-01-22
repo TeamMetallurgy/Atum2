@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
+import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
@@ -144,6 +145,11 @@ public class AtumRecipes {
         addQuernRecipe("miners_delight", new QuernRecipe("flowerMinersDelight", new ItemStack(Items.DYE, 3, EnumDyeColor.PINK.getDyeDamage()), 3), event);
         addQuernRecipe("icy_iris", new QuernRecipe("flowerIcyIris", new ItemStack(Items.DYE, 3, EnumDyeColor.LIGHT_BLUE.getDyeDamage()), 3), event);
         addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
+    }
+
+    @SubscribeEvent
+    public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
+        AtumRegistry.registerRecipe("test", new KilnRecipe(AtumBlocks.LIMESTONE_CRACKED, new ItemStack(AtumBlocks.LIMESTONE), 0.2F), event);
     }
 
     @SubscribeEvent
