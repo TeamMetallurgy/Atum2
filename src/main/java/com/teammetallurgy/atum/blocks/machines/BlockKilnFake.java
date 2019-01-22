@@ -1,20 +1,25 @@
 package com.teammetallurgy.atum.blocks.machines;
 
-import javax.annotation.Nonnull;
-
+import com.teammetallurgy.atum.blocks.base.IRenderMapper;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 
-public class BlockKilnFake extends Block {
+import javax.annotation.Nonnull;
+
+public class BlockKilnFake extends Block implements IRenderMapper {
     public static final PropertyBool UP = PropertyBool.create("up");
     public static final PropertyBool EAST = PropertyBool.create("east");
     public static final PropertyBool NORTH = PropertyBool.create("north");
@@ -25,6 +30,12 @@ public class BlockKilnFake extends Block {
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
         this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false).withProperty(EAST, false).withProperty(NORTH, false));
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
+        return new ItemStack(AtumBlocks.KILN);
     }
 
     @Override
@@ -50,8 +61,14 @@ public class BlockKilnFake extends Block {
         return meta;
     }
 
-    protected BlockStateContainer createBlockState()
-    {
-        return new BlockStateContainer(this, new IProperty[] {UP, NORTH, EAST});
+    @Override
+    @Nonnull
+    protected BlockStateContainer createBlockState() {
+        return new BlockStateContainer(this, UP, NORTH, EAST);
+    }
+
+    @Override
+    public IProperty[] getNonRenderingProperties() {
+        return new IProperty[]{UP, NORTH, EAST};
     }
 }

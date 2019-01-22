@@ -8,14 +8,6 @@
     },
     "variants": {
         "normal": [{}],
-        "inventory": [{}],
-        "east=true,north=true,up=true": { "model": "cube_all" },
-        "east=true,north=true,up=false": { "model": "cube_all" },
-        "east=true,north=false,up=true": { "model": "cube_all" },
-        "east=true,north=false,up=false": { "model": "cube_all" },
-        "east=false,north=true,up=true": { "model": "cube_all" },
-        "east=false,north=true,up=false": { "model": "cube_all" },
-        "east=false,north=false,up=true": { "model": "cube_all" },
-        "east=false,north=false,up=false": { "model": "cube_all" }
+        "inventory": [{}]
     }
 }
