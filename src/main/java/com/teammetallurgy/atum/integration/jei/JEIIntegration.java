@@ -1,10 +1,13 @@
 package com.teammetallurgy.atum.integration.jei;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
+import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.integration.jei.kiln.KilnRecipeCategory;
+import com.teammetallurgy.atum.integration.jei.kiln.KilnRecipeWrapper;
 import com.teammetallurgy.atum.integration.jei.quern.QuernRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.quern.QuernRecipeWrapper;
 import com.teammetallurgy.atum.integration.jei.spinningwheel.SpinningWheelRecipeCategory;
@@ -24,6 +27,7 @@ import net.minecraft.item.ItemStack;
 public class JEIIntegration implements IModPlugin {
     public static final String QUERN = Constants.MOD_ID + "." + "quern";
     public static final String SPINNING_WHEEL = Constants.MOD_ID + "." + "spinningwheel";
+    public static final String KILN = Constants.MOD_ID + "." + "kiln";
 
     @Override
     public void register(IModRegistry registry) {
@@ -39,6 +43,10 @@ public class JEIIntegration implements IModPlugin {
         registry.addRecipeCatalyst(new ItemStack(AtumBlocks.SPINNING_WHEEL), SPINNING_WHEEL);
         registry.handleRecipes(ISpinningWheelRecipe.class, recipe -> new SpinningWheelRecipeWrapper(recipe.getRegistryName(), recipe.getInput(), recipe.getOutput(), recipe.getRotations()), SPINNING_WHEEL);
         registry.addRecipes(RecipeHandlers.spinningWheelRecipes.getValuesCollection(), SPINNING_WHEEL);
+        //Kiln
+        registry.addRecipeCatalyst(new ItemStack(AtumBlocks.KILN), KILN, VanillaRecipeCategoryUid.FUEL);
+        registry.handleRecipes(IKilnRecipe.class, recipe -> new KilnRecipeWrapper(recipe.getRegistryName(), recipe.getInput(), recipe.getOutput(), recipe.getExperience()), KILN);
+        registry.addRecipes(RecipeHandlers.kilnRecipes.getValuesCollection(), KILN);
 
         registry.addRecipeCatalyst(new ItemStack(AtumBlocks.LIMESTONE_FURNACE), VanillaRecipeCategoryUid.SMELTING, VanillaRecipeCategoryUid.FUEL);
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
@@ -48,6 +56,7 @@ public class JEIIntegration implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registry) {
         registry.addRecipeCategories(new QuernRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
         registry.addRecipeCategories(new SpinningWheelRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
+        registry.addRecipeCategories(new KilnRecipeCategory(registry.getJeiHelpers().getGuiHelper()));
     }
 
     private void addInfo(ItemStack stack, IModRegistry registry) {

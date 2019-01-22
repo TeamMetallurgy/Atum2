@@ -4,10 +4,14 @@ import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.utils.StackHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockOre;
+import net.minecraft.block.BlockSponge;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -15,6 +19,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -154,7 +159,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         }
     }
 
-
     public void smeltItem() { //TODO
         if (this.canSmelt()) {
             List<ItemStack> inputs = this.getInputs();
@@ -213,6 +217,20 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
     private List<ItemStack> getOutputs() {
         return Arrays.asList(this.inventory.get(5), this.inventory.get(6), this.inventory.get(7), this.inventory.get(8));
+    }
+
+    public static boolean canKilnNotSmelt(@Nonnull ItemStack stack) {
+        Item item = stack.getItem();
+        Block block = Block.getBlockFromItem(stack.getItem());
+
+        String oreName = "";
+        for (int oreId : OreDictionary.getOreIDs(new ItemStack(item))) {
+            oreName = OreDictionary.getOreName(oreId);
+        }
+        System.out.println(oreName);
+        return item instanceof ItemFood || block instanceof BlockOre || oreName.contains("plank") || oreName.contains("log") || oreName.contains("stick") ||
+                oreName.contains("ore") || oreName.contains("ingot") && !oreName.contains("ingotBrick") || oreName.contains("nugget") || oreName.contains("gem") || oreName.contains("dust") ||
+                oreName.contains("dye") || block instanceof BlockSponge;
     }
 
     @Override

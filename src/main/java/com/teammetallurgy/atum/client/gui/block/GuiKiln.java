@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class GuiKiln extends GuiContainer {
-    private static final ResourceLocation KILN_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/kiln.png");
+    public static final ResourceLocation KILN_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/kiln.png");
     private final InventoryPlayer playerInventory;
     private final IInventory kiln;
 

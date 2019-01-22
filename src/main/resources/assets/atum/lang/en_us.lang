@@ -1,12 +1,12 @@
-# Misc
-itemGroup.atum=Atum
-
 # Blocks
 tile.atum.portal.name=Atum Portal
 tile.atum.chestSpawner.name=Limestone Chest
 tile.atum.sand.name=Strange Sand
 tile.atum.limestoneGravel.name=Limestone Gravel
 tile.atum.marl.name=Marl
+tile.atum.raStone.name=Ra Stone
+tile.atum.khnumiteBlock.name=Khnumite Block
+tile.atum.khnumiteFace.name=Khnumite Face
 tile.atum.limestone.name=Limestone
 tile.atum.limestoneCracked.name=Cracked Limestone
 tile.atum.limestoneBrickSmall.name=Small Limestone Bricks
@@ -36,9 +36,6 @@ tile.atum.largeWall.name=Large Limestone Brick Wall
 tile.atum.crackedBrickWall.name=Limestone Cracked Brick Wall
 tile.atum.chiseledWall.name=Limestone Chiseled Brick Wall
 tile.atum.carvedWall.name=Limestone Carved Brick Wall
-tile.atum.raStone.name=Ra Stone
-tile.atum.khnumiteBlock.name=Khnumite Block
-tile.atum.khnumiteFace.name=Khnumite Face
 item.atum.limestoneDoor.name=Limestone Door
 item.atum.limestoneCrackedDoor.name=Cracked Limestone Door
 item.atum.limestoneBrickSmallDoor.name=Small Limestone Bricks Door
@@ -46,6 +43,86 @@ item.atum.limestoneBrickLargeDoor.name=Large Limestone Bricks Door
 item.atum.limestoneBrickCrackedBrickDoor.name=Cracked Limestone Bricks Door
 item.atum.limestoneBrickChiseledDoor.name=Chiseled Limestone Bricks Door
 item.atum.limestoneBrickCarvedDoor.name=Carved Limestone Bricks Door
+tile.atum.ceramicWhite.name=White Ceramic Tile Block
+tile.atum.ceramicOrange.name=Orange Ceramic Tile Block
+tile.atum.ceramicMagenta.name=Magenta Ceramic Tile Block
+tile.atum.ceramicLightBlue.name=Light Blue Ceramic Tile Block
+tile.atum.ceramicYellow.name=Yellow Ceramic Tile Block
+tile.atum.ceramicLime.name=Lime Ceramic Tile Block
+tile.atum.ceramicPink.name=Pink Ceramic Tile Block
+tile.atum.ceramicGray.name=Gray Ceramic Tile Block
+tile.atum.ceramicSilver.name=Silver Ceramic Tile Block
+tile.atum.ceramicCyan.name=Cyan Ceramic Tile Block
+tile.atum.ceramicPurple.name=Purple Ceramic Tile Block
+tile.atum.ceramicBlue.name=Blue Ceramic Tile Block
+tile.atum.ceramicBrown.name=Brown Ceramic Tile Block
+tile.atum.ceramicGreen.name=Green Ceramic Tile Block
+tile.atum.ceramicRed.name=Red Ceramic Tile Block
+tile.atum.ceramicBlack.name=Black Ceramic Tile Block
+tile.atum.ceramicTileWhite.name=White Ceramic Tile
+tile.atum.ceramicTileOrange.name=Orange Ceramic Tile
+tile.atum.ceramicTileMagenta.name=Magenta Ceramic Tile
+tile.atum.ceramicTileLightBlue.name=Light Blue Ceramic Tile
+tile.atum.ceramicTileYellow.name=Yellow Ceramic Tile
+tile.atum.ceramicTileLime.name=Lime Ceramic Tile
+tile.atum.ceramicTilePink.name=Pink Ceramic Tile
+tile.atum.ceramicTileGray.name=Gray Ceramic Tile
+tile.atum.ceramicTileSilver.name=Silver Ceramic Tile
+tile.atum.ceramicTileCyan.name=Cyan Ceramic Tile
+tile.atum.ceramicTilePurple.name=Purple Ceramic Tile
+tile.atum.ceramicTileBlue.name=Blue Ceramic Tile
+tile.atum.ceramicTileBrown.name=Brown Ceramic Tile
+tile.atum.ceramicTileGreen.name=Green Ceramic Tile
+tile.atum.ceramicTileRed.name=Red Ceramic Tile
+tile.atum.ceramicTileBlack.name=Black Ceramic Tile
+tile.atum.ceramicSlabWhite.name=White Ceramic Tile Slab
+tile.atum.ceramicSlabOrange.name=Orange Ceramic Tile Slab
+tile.atum.ceramicSlabMagenta.name=Magenta Ceramic Tile Slab
+tile.atum.ceramicSlabLightBlue.name=Light Blue Ceramic Tile Slab
+tile.atum.ceramicSlabYellow.name=Yellow Ceramic Tile Slab
+tile.atum.ceramicSlabLime.name=Lime Ceramic Tile Slab
+tile.atum.ceramicSlabPink.name=Pink Ceramic Tile Slab
+tile.atum.ceramicSlabGray.name=Gray Ceramic Tile Slab
+tile.atum.ceramicSlabSilver.name=Silver Ceramic Tile Slab
+tile.atum.ceramicSlabCyan.name=Cyan Ceramic Tile Slab
+tile.atum.ceramicSlabPurple.name=Purple Ceramic Tile Slab
+tile.atum.ceramicSlabBlue.name=Blue Ceramic Tile Slab
+tile.atum.ceramicSlabBrown.name=Brown Ceramic Tile Slab
+tile.atum.ceramicSlabGreen.name=Green Ceramic Tile Slab
+tile.atum.ceramicSlabRed.name=Red Ceramic Tile Slab
+tile.atum.ceramicSlabBlack.name=Black Ceramic Tile Slab
+tile.atum.ceramicStairsWhite.name=White Ceramic Tile Stairs
+tile.atum.ceramicStairsOrange.name=Orange Ceramic Tile Stairs
+tile.atum.ceramicStairsMagenta.name=Magenta Ceramic Tile Stairs
+tile.atum.ceramicStairsLightBlue.name=Light Blue Ceramic Tile Stairs
+tile.atum.ceramicStairsYellow.name=Yellow Ceramic Tile Stairs
+tile.atum.ceramicStairsLime.name=Lime Ceramic Tile Stairs
+tile.atum.ceramicStairsPink.name=Pink Ceramic Tile Stairs
+tile.atum.ceramicStairsGray.name=Gray Ceramic Tile Stairs
+tile.atum.ceramicStairsSilver.name=Silver Ceramic Tile Stairs
+tile.atum.ceramicStairsCyan.name=Cyan Ceramic Tile Stairs
+tile.atum.ceramicStairsPurple.name=Purple Ceramic Tile Stairs
+tile.atum.ceramicStairsBlue.name=Blue Ceramic Tile Stairs
+tile.atum.ceramicStairsBrown.name=Brown Ceramic Tile Stairs
+tile.atum.ceramicStairsGreen.name=Green Ceramic Tile Stairs
+tile.atum.ceramicStairsRed.name=Red Ceramic Tile Stairs
+tile.atum.ceramicStairsBlack.name=Black Ceramic Tile Stairs
+tile.atum.ceramicWallWhite.name=White Ceramic Tile Wall
+tile.atum.ceramicWallOrange.name=Orange Ceramic Tile Wall
+tile.atum.ceramicWallMagenta.name=Magenta Ceramic Tile Wall
+tile.atum.ceramicWallLightBlue.name=Light Blue Ceramic Tile Wall
+tile.atum.ceramicWallYellow.name=Yellow Ceramic Tile Wall
+tile.atum.ceramicWallLime.name=Lime Ceramic Tile Wall
+tile.atum.ceramicWallPink.name=Pink Ceramic Tile Wall
+tile.atum.ceramicWallGray.name=Gray Ceramic Tile Wall
+tile.atum.ceramicWallSilver.name=Silver Ceramic Tile Wall
+tile.atum.ceramicWallCyan.name=Cyan Ceramic Tile Wall
+tile.atum.ceramicWallPurple.name=Purple Ceramic Tile Wall
+tile.atum.ceramicWallBlue.name=Blue Ceramic Tile Wall
+tile.atum.ceramicWallBrown.name=Brown Ceramic Tile Wall
+tile.atum.ceramicWallGreen.name=Green Ceramic Tile Wall
+tile.atum.ceramicWallRed.name=Red Ceramic Tile Wall
+tile.atum.ceramicWallBlack.name=Black Ceramic Tile Wall
 tile.atum.alabaster.name=Alabaster
 tile.atum.alabasterBrickSmooth.name=Smooth Alabaster
 tile.atum.alabasterBrickPolished.name=Polished Alabaster Brick
@@ -218,7 +295,6 @@ tile.atum.crystalLightBlueStainedGlass.name=Light Blue Stained Crystal Glass
 tile.atum.crystalMagentaStainedGlass.name=Magenta Stained Crystal Glass
 tile.atum.crystalOrangeStainedGlass.name=Orange Stained Crystal Glass
 tile.atum.crystalWhiteStainedGlass.name=White Stained Crystal Glass
-
 tile.atum.framedBlackStainedGlass.name=Black Stained Framed Glass
 tile.atum.framedRedStainedGlass.name=Red Stained Framed Glass
 tile.atum.framedGreenStainedGlass.name=Green Stained Framed Glass
@@ -235,7 +311,6 @@ tile.atum.framedLightBlueStainedGlass.name=Light Blue Stained Framed Glass
 tile.atum.framedMagentaStainedGlass.name=Magenta Stained Framed Glass
 tile.atum.framedOrangeStainedGlass.name=Orange Stained Framed Glass
 tile.atum.framedWhiteStainedGlass.name=White Stained Framed Glass
-
 tile.atum.thinCrystalBlackStainedGlass.name=Black Stained Thin Crystal Glass
 tile.atum.thinCrystalRedStainedGlass.name=Red Stained Thin Crystal Glass
 tile.atum.thinCrystalGreenStainedGlass.name=Green Stained Thin Crystal Glass
@@ -252,7 +327,6 @@ tile.atum.thinCrystalLightBlueStainedGlass.name=Light Blue Stained Thin Crystal 
 tile.atum.thinCrystalMagentaStainedGlass.name=Magenta Stained Thin Crystal Glass
 tile.atum.thinCrystalOrangeStainedGlass.name=Orange Stained Thin Crystal Glass
 tile.atum.thinCrystalWhiteStainedGlass.name=White Stained Thin Crystal Glass
-
 tile.atum.thinFramedBlackStainedGlass.name=Black Stained Thin Framed Glass
 tile.atum.thinFramedRedStainedGlass.name=Red Stained Thin Framed Glass
 tile.atum.thinFramedGreenStainedGlass.name=Green Stained Thin Framed Glass
@@ -424,7 +498,7 @@ item.atum.deadwoodStick.name=Deadwood Stick
 item.atum.crunchyScarab.name=Crunchy Scarab
 item.atum.crunchyGoldenScarab.name=Crunchy Golden Scarab
 
-# Item Information
+# Artifacts
 item.atum.gebsGrounding.line1=Pinning Arrow: Slows enemies
 item.atum.gebsGrounding.line2=on hit
 item.atum.gebsGrounding.line3=Pinning Arrow
@@ -652,6 +726,7 @@ entity.atum.tarantula.name=Tarantula
 entity.atum.warlord.name=Warlord
 entity.atum.wraith.name=Wraith
 
+# Death Messages
 death.attack.assassinated=%1$s was assassinated
 
 # Pharaoh Names
@@ -690,7 +765,6 @@ entity.atum.pharaoh.Xo=Xo'
 entity.atum.pharaoh.Yat=Yat'
 entity.atum.pharaoh.Zyt=Zyt'
 entity.atum.pharaoh.Khep=Khep'
-
 entity.atum.pharaoh.ahat=ahat
 entity.atum.pharaoh.amesh=amesh
 entity.atum.pharaoh.amon=amon
@@ -726,6 +800,9 @@ entity.atum.pharaoh.neferk=neferk
 entity.atum.pharaoh.khatne=khatne
 entity.atum.pharaoh.tepy=tepy
 entity.atum.pharaoh.moret=moret
+
+# Creative Tab
+itemGroup.atum=Atum
 
 # Chat
 chat.atum.disabled=Scarab portal creation is disabled
@@ -814,13 +891,14 @@ item.atum.idolOfLabor.63=Apparently that is vanilla behavior.
 item.atum.idolOfLabor.64=Oh for bug breaking.
 item.atum.idolOfLabor.65=RELEASE DATE TOMORROW, GO FIX ALL THE THINGS GIRAFI!
 
-#JEI
+# JEI
 atum.quern=Quern
 atum.spinningwheel=Spinning Wheel
+atum.kiln=Kiln
 gui.atum.rotations=x%s
 jei.item.atum.emmerDough=Crafted by combining Emmer Flour with water
 
-#Just Tips support
+# Just Tips support
 mods.tips.atum.1=You will die.
 mods.tips.atum.2=You can create Stoneguards & Stonewardens yourself, to help defend your base!
 mods.tips.atum.3=Pharaohs have different unique abilities

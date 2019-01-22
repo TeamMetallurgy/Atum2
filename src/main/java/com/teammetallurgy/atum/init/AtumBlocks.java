@@ -70,15 +70,15 @@ public class AtumBlocks {
     public static final Block SAND = new BlockStrangeSand();
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block MARL = new BlockMarl();
-    public static final Block LIMESTONE = new BlockLimestone();
+    public static final Block KHNUMITE_BLOCK = new BlockKhnumite();
+    public static final Block KHNUMITE_FACE = new BlockKhnumiteFace();
     public static final Block LIMESTONE_CRACKED = new Block(Material.ROCK, MapColor.SAND).setHardness(1.5F).setResistance(10.0F);
+    public static final Block LIMESTONE = new BlockLimestone();
     public static final Block LIMESTONE_WALL = new BlockLimestoneWall();
     public static final Block LIMESTONE_CRACKED_WALL = new BlockLimestoneWall();
     public static final Block ALABASTER = new BlockAlabaster();
     public static final Block PORPHYRY = new BlockPorphyry();
     public static final Block RA_STONE = new BlockRaStone();
-    public static final Block KHNUMITE_BLOCK = new BlockKhnumite();
-    public static final Block KHNUMITE_FACE = new BlockKhnumiteFace();
     public static final Block SMOOTH_STAIRS = new BlockAtumStairs(LIMESTONE.getDefaultState());
     public static final Block CRACKED_STAIRS = new BlockAtumStairs(LIMESTONE_CRACKED.getDefaultState());
     public static final Block SMOOTH_LIMESTONE_SLAB = new BlockAtumSlab(Material.ROCK);
@@ -203,17 +203,17 @@ public class AtumBlocks {
         BlockAtumTorchUnlit.registerUnlitTorches();
 
         //Limestone
+        registerBlock(LIMESTONE_GRAVEL, "limestone_gravel");
+        registerBlock(MARL, "marl");
+        registerBlock(RA_STONE, "ra_stone", null);
+        registerBlock(LIMESTONE_CRACKED, "limestone_cracked");
+        registerBlock(LIMESTONE, "limestone");
         BlockLimestoneBricks.registerBricks();
         registerBlock(SMOOTH_LIMESTONE_SLAB, new ItemAtumSlab(SMOOTH_LIMESTONE_SLAB, (BlockAtumSlab) SMOOTH_LIMESTONE_SLAB), "limestone_smooth_slab");
         registerBlock(CRACKED_LIMESTONE_SLAB, new ItemAtumSlab(CRACKED_LIMESTONE_SLAB, (BlockAtumSlab) CRACKED_LIMESTONE_SLAB), "limestone_cracked_slab");
         BlockLimestoneSlab.registerSlabs();
-        registerBlock(LIMESTONE_GRAVEL, "limestone_gravel");
-        registerBlock(MARL, "marl");
-        registerBlock(RA_STONE, "ra_stone", null);
         registerBlock(KHNUMITE_BLOCK, "khnumite_block");
         registerBlock(KHNUMITE_FACE, "khnumite_face");
-        registerBlock(LIMESTONE, "limestone");
-        registerBlock(LIMESTONE_CRACKED, "limestone_cracked");
         registerBlock(SMOOTH_STAIRS, "smooth_stairs");
         registerBlock(CRACKED_STAIRS, "cracked_stairs");
         BlockAtumStairs.registerLimestoneStairs();

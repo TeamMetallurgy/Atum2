@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.linen.BlockLinen;
 import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
@@ -22,11 +23,13 @@ import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -147,9 +150,17 @@ public class AtumRecipes {
         addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
-        AtumRegistry.registerRecipe("test", new KilnRecipe(AtumBlocks.LIMESTONE_CRACKED, new ItemStack(AtumBlocks.LIMESTONE), 0.2F), event);
+
+        //Add valid vanilla & modded recipes
+        for (ItemStack input : FurnaceRecipes.instance().getSmeltingList().keySet()) {
+            ItemStack output = FurnaceRecipes.instance().getSmeltingList().get(input);
+            ResourceLocation id = input != null && !input.isEmpty() ? input.getItem().getRegistryName() : null;
+            if (id != null && !TileEntityKiln.canKilnNotSmelt(input) && !TileEntityKiln.canKilnNotSmelt(output)) {
+                AtumRegistry.registerRecipe(id.getPath(), new KilnRecipe(input.getItem(), output, FurnaceRecipes.instance().getSmeltingExperience(output)), event);
+            }
+        }
     }
 
     @SubscribeEvent
