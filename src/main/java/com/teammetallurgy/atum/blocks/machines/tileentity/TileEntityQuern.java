@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.machines.BlockQuern;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.SoundEvents;
@@ -22,7 +21,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -119,11 +117,6 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
         compound.setInteger("currentRotation", this.currentRotation);
         compound.setInteger("quernRotations", this.quernRotations);
         return compound;
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newSate) {
-        return oldState.getBlock() != newSate.getBlock();
     }
 
     @Override

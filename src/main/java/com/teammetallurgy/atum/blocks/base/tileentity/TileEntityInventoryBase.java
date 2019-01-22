@@ -1,10 +1,13 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityLockableLoot;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
@@ -21,13 +24,8 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot {
     }
 
     @Override
-    public boolean isEmpty() {
-        for (ItemStack stack : this.inventory) {
-            if (!stack.isEmpty()) {
-                return false;
-            }
-        }
-        return true;
+    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newSate) {
+        return oldState.getBlock() != newSate.getBlock();
     }
 
     @Override
@@ -45,6 +43,16 @@ public abstract class TileEntityInventoryBase extends TileEntityLockableLoot {
     @Nonnull
     public String getName() {
         return this.hasCustomName() ? this.customName : this.getBlockType().getTranslationKey() + ".name";
+    }
+
+    @Override
+    public boolean isEmpty() {
+        for (ItemStack stack : this.inventory) {
+            if (!stack.isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

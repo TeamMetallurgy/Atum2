@@ -22,7 +22,6 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -176,11 +175,6 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Nonnull
     public String getGuiID() {
         return String.valueOf(new ResourceLocation(Constants.MOD_ID, "trap"));
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newSate) {
-        return oldState.getBlock() != newSate.getBlock();
     }
 
     @Override
