@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
-import com.teammetallurgy.atum.inventory.entity.ContainerAlphaDesertWolf;
+import com.teammetallurgy.atum.inventory.container.entity.ContainerAlphaDesertWolf;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

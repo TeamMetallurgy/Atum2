@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
-import com.teammetallurgy.atum.inventory.entity.ContainerCamel;
+import com.teammetallurgy.atum.inventory.container.entity.ContainerCamel;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
-import com.teammetallurgy.atum.inventory.block.ContainerTrap;
+import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;

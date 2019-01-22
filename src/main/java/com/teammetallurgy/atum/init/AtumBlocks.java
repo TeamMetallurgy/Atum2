@@ -17,6 +17,7 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.linen.BlockLinen;
 import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
+import com.teammetallurgy.atum.blocks.machines.BlockKilnFake;
 import com.teammetallurgy.atum.blocks.machines.BlockQuern;
 import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
@@ -119,6 +120,7 @@ public class AtumBlocks {
     public static final Block QUERN = new BlockQuern();
     public static final Block SPINNING_WHEEL = new BlockSpinningWheel();
     public static final Block KILN = new BlockKiln();
+    public static final Block KILN_FAKE = new BlockKilnFake();
     public static final Block BURNING_TRAP = new BlockBurningTrap();
     public static final Block POISON_TRAP = new BlockPoisonTrap();
     public static final Block TAR_TRAP = new BlockTarTrap();
@@ -169,6 +171,7 @@ public class AtumBlocks {
         registerBlock(QUERN, "quern");
         registerBlock(SPINNING_WHEEL, "spinning_wheel");
         registerBlock(KILN, "kiln");
+        registerBlock(KILN_FAKE, "kiln_fake");
         registerBlock(BURNING_TRAP, "burning_trap");
         registerBlock(POISON_TRAP, "poison_trap");
         registerBlock(TAR_TRAP, "tar_trap");

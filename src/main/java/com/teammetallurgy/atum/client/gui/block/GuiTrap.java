@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.gui.block;
 
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
-import com.teammetallurgy.atum.inventory.block.ContainerTrap;
+import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;

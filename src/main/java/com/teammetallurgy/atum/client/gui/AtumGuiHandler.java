@@ -1,18 +1,21 @@
 package com.teammetallurgy.atum.client.gui;
 
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.GuiLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.client.gui.block.ContainerCrate;
+import com.teammetallurgy.atum.client.gui.block.GuiKiln;
 import com.teammetallurgy.atum.client.gui.block.GuiTrap;
 import com.teammetallurgy.atum.client.gui.entity.GuiAlphaDesertWolf;
 import com.teammetallurgy.atum.client.gui.entity.GuiCamel;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
-import com.teammetallurgy.atum.inventory.block.ContainerTrap;
-import com.teammetallurgy.atum.inventory.entity.ContainerAlphaDesertWolf;
-import com.teammetallurgy.atum.inventory.entity.ContainerCamel;
+import com.teammetallurgy.atum.inventory.container.block.ContainerCrate;
+import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
+import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
+import com.teammetallurgy.atum.inventory.container.entity.ContainerAlphaDesertWolf;
+import com.teammetallurgy.atum.inventory.container.entity.ContainerCamel;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,6 +55,8 @@ public class AtumGuiHandler implements IGuiHandler {
                 } else {
                     return null;
                 }
+            case 5:
+                return new ContainerKiln(player.inventory, (TileEntityKiln) Objects.requireNonNull(tileEntity));
         }
         return null;
     }
@@ -82,6 +87,8 @@ public class AtumGuiHandler implements IGuiHandler {
                 } else {
                     return null;
                 }
+            case 5:
+                return new GuiKiln(player.inventory, (TileEntityKiln) Objects.requireNonNull(tileEntity));
         }
         return null;
     }

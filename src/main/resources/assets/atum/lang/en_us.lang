@@ -146,6 +146,7 @@ tile.atum.linenCarpetBlack.name=Black Linen Carpet
 tile.atum.quern.name=Quern
 tile.atum.spinningWheel.name=Spinning Wheel
 tile.atum.kiln.name=Kiln
+tile.atum.kilnFake.name=Small Limestone Bricks
 tile.atum.burningTrap.name=Burning Trap
 tile.atum.poisonTrap.name=Poison Trap
 tile.atum.tarTrap.name=Tar Trap

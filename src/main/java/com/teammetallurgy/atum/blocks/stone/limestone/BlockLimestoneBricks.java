@@ -17,7 +17,6 @@ import net.minecraft.item.ItemDoor;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -30,7 +29,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     private static final Map<BrickType, BlockAtumDoor> DOORS = Maps.newEnumMap(BrickType.class);
 
     public BlockLimestoneBricks() {
-        super(Material.ROCK);
+        super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
@@ -45,12 +44,6 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     @Override
     public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
         return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F: super.getExplosionResistance(world, pos, exploder, explosion);
-    }
-
-    @Override
-    @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return MapColor.SAND;
     }
 
     public static void registerBricks() {

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
+import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
@@ -45,6 +46,7 @@ public class AtumRecipes {
     public static void registerRegistries(RegistryEvent.NewRegistry event) {
         RecipeHandlers.quernRecipes = (IForgeRegistryModifiable<IQuernRecipe>) AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
         RecipeHandlers.spinningWheelRecipes = (IForgeRegistryModifiable<ISpinningWheelRecipe>) AtumRegistry.makeRegistry("spinning_wheel_recipes", ISpinningWheelRecipe.class);
+        RecipeHandlers.kilnRecipes = (IForgeRegistryModifiable<IKilnRecipe>) AtumRegistry.makeRegistry("kiln_recipes", IKilnRecipe.class);
     }
 
     private static void register() {

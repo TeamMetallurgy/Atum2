@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.api.recipe;
 
+import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
@@ -13,4 +14,8 @@ public class RecipeHandlers {
      * Instance for the Spinning Wheel recipes
      */
     public static IForgeRegistryModifiable<ISpinningWheelRecipe> spinningWheelRecipes;
+    /**
+     * Instance for the Kiln recipes
+     */
+    public static IForgeRegistryModifiable<IKilnRecipe> kilnRecipes;
 }

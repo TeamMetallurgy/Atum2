@@ -15,23 +15,23 @@ public class SpinningWheelRecipe extends IForgeRegistryEntry.Impl<ISpinningWheel
     private final ItemStack output;
     private final int rotations;
 
-    public SpinningWheelRecipe(String input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(String input, @Nonnull ItemStack output, int rotations) {
         this(OreDictionary.getOres(input, false), output, rotations);
     }
 
-    public SpinningWheelRecipe(Block input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(Block input, @Nonnull ItemStack output, int rotations) {
         this(new ItemStack(input), output, rotations);
     }
 
-    public SpinningWheelRecipe(Item input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(Item input, @Nonnull ItemStack output, int rotations) {
         this(new ItemStack(input), output, rotations);
     }
 
-    public SpinningWheelRecipe(ItemStack input, ItemStack output, int rotations) {
+    public SpinningWheelRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
         this(NonNullList.withSize(1, input), output, rotations);
     }
 
-    private SpinningWheelRecipe(NonNullList<ItemStack> input, ItemStack output, int rotations) {
+    private SpinningWheelRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, int rotations) {
         this.inputs = input;
         this.output = output;
         this.rotations = rotations;
@@ -53,6 +53,7 @@ public class SpinningWheelRecipe extends IForgeRegistryEntry.Impl<ISpinningWheel
     }
 
     @Override
+    @Nonnull
     public ItemStack getOutput() {
         return this.output;
     }

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.inventory.entity;
+package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;

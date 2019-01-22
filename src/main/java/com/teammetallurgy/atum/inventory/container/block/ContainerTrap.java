@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.inventory.block;
+package com.teammetallurgy.atum.inventory.container.block;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;

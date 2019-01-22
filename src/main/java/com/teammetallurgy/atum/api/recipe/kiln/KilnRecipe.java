@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.api.recipe.quern;
+package com.teammetallurgy.atum.api.recipe.kiln;
 
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
@@ -10,31 +10,31 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implements IQuernRecipe {
+public class KilnRecipe extends IForgeRegistryEntry.Impl<IKilnRecipe> implements IKilnRecipe {
     private final NonNullList<ItemStack> inputs;
     private final ItemStack output;
-    private final int rotations;
+    private final float experience;
 
-    public QuernRecipe(String input, @Nonnull ItemStack output, int rotations) {
-        this(OreDictionary.getOres(input, false), output, rotations);
+    public KilnRecipe(String input, @Nonnull ItemStack output, float experience) {
+        this(OreDictionary.getOres(input, false), output, experience);
     }
 
-    public QuernRecipe(Block input, @Nonnull ItemStack output, int rotations) {
-        this(new ItemStack(input), output, rotations);
+    public KilnRecipe(Block input, @Nonnull ItemStack output, float experience) {
+        this(new ItemStack(input), output, experience);
     }
 
-    public QuernRecipe(Item input, @Nonnull ItemStack output, int rotations) {
-        this(new ItemStack(input), output, rotations);
+    public KilnRecipe(Item input, @Nonnull ItemStack output, float experience) {
+        this(new ItemStack(input), output, experience);
     }
 
-    public QuernRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
-        this(NonNullList.withSize(1, input), output, rotations);
+    public KilnRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, float experience) {
+        this(NonNullList.withSize(1, input), output, experience);
     }
 
-    private QuernRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, int rotations) {
+    private KilnRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, float experience) {
         this.inputs = input;
         this.output = output;
-        this.rotations = rotations;
+        this.experience = experience;
     }
 
     @Override
@@ -60,7 +60,7 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
     }
 
     @Override
-    public int getRotations() {
-        return this.rotations;
+    public float getExperience() {
+        return experience;
     }
 }
