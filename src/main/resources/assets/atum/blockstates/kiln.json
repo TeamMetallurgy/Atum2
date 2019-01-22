@@ -14,13 +14,21 @@
     },
     "variants": {
         "inventory": [{}],
-        "facing=north,is_burning=false": { "model": "cube" },
-        "facing=south,is_burning=false": { "model": "cube", "y": 180 },
-        "facing=west,is_burning=false":  { "model": "cube", "y": 270 },
-        "facing=east,is_burning=false":  { "model": "cube", "y": 90 },
-        "facing=north,is_burning=true": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" } },
-        "facing=south,is_burning=true": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 180 },
-        "facing=west,is_burning=true":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 270 },
-        "facing=east,is_burning=true":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 90 }
+        "facing=north,is_burning=false,multiblock_primary=true": { "model": "cube" },
+        "facing=south,is_burning=false,multiblock_primary=true": { "model": "cube", "y": 180 },
+        "facing=west,is_burning=false,multiblock_primary=true":  { "model": "cube", "y": 270 },
+        "facing=east,is_burning=false,multiblock_primary=true":  { "model": "cube", "y": 90 },
+        "facing=north,is_burning=true,multiblock_primary=true": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" } },
+        "facing=south,is_burning=true,multiblock_primary=true": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 180 },
+        "facing=west,is_burning=true,multiblock_primary=true":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 270 },
+        "facing=east,is_burning=true,multiblock_primary=true":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 90 },
+        "facing=north,is_burning=false,multiblock_primary=false": { "model": "cube" },
+        "facing=south,is_burning=false,multiblock_primary=false": { "model": "cube", "y": 180 },
+        "facing=west,is_burning=false,multiblock_primary=false":  { "model": "cube", "y": 270 },
+        "facing=east,is_burning=false,multiblock_primary=false":  { "model": "cube", "y": 90 },
+        "facing=north,is_burning=true,multiblock_primary=false": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" } },
+        "facing=south,is_burning=true,multiblock_primary=false": { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 180 },
+        "facing=west,is_burning=true,multiblock_primary=false":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 270 },
+        "facing=east,is_burning=true,multiblock_primary=false":  { "model": "cube", "textures": { "north": "atum:blocks/kiln_on" }, "y": 90 }
     }
 }
