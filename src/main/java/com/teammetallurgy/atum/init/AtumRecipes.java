@@ -29,7 +29,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
@@ -150,15 +149,18 @@ public class AtumRecipes {
         addQuernRecipe("rose", new QuernRecipe("flowerRose", new ItemStack(Items.DYE, 3, EnumDyeColor.RED.getDyeDamage()), 3), event);
     }
 
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent
     public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
 
+    }
+
+    public static void addKilnRecipes() {
         //Add valid vanilla & modded recipes
         for (ItemStack input : FurnaceRecipes.instance().getSmeltingList().keySet()) {
             ItemStack output = FurnaceRecipes.instance().getSmeltingList().get(input);
             ResourceLocation id = input != null && !input.isEmpty() ? input.getItem().getRegistryName() : null;
             if (id != null && !TileEntityKiln.canKilnNotSmelt(input) && !TileEntityKiln.canKilnNotSmelt(output)) {
-                AtumRegistry.registerRecipe(id.getPath(), new KilnRecipe(input.getItem(), output, FurnaceRecipes.instance().getSmeltingExperience(output)), event);
+                RecipeHandlers.kilnRecipes.register(new KilnRecipe(input.getItem(), output, FurnaceRecipes.instance().getSmeltingExperience(output)).setRegistryName(id));
             }
         }
     }
