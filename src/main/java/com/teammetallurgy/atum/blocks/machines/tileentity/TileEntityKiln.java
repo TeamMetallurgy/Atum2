@@ -227,10 +227,9 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         for (int oreId : OreDictionary.getOreIDs(new ItemStack(item))) {
             oreName = OreDictionary.getOreName(oreId);
         }
-        System.out.println(oreName);
         return item instanceof ItemFood || block instanceof BlockOre || oreName.contains("plank") || oreName.contains("log") || oreName.contains("stick") ||
                 oreName.contains("ore") || oreName.contains("ingot") && !oreName.contains("ingotBrick") || oreName.contains("nugget") || oreName.contains("gem") || oreName.contains("dust") ||
-                oreName.contains("dye") || block instanceof BlockSponge;
+                oreName.contains("dye") || oreName.contains("slimeball") || block instanceof BlockSponge;
     }
 
     @Override

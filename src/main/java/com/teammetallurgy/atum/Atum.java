@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
+import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.proxy.CommonProxy;
@@ -54,6 +55,7 @@ public class Atum {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         proxy.init();
+        AtumRecipes.addKilnRecipes();
         NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
         IntegrationHandler.INSTANCE.init();
     }
