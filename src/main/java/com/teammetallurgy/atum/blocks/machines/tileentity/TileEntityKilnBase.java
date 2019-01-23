@@ -5,54 +5,48 @@ import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.blocks.machines.BlockKilnFake;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
 public class TileEntityKilnBase extends TileEntityInventoryBase implements ISidedInventory {
-    protected static final int[] SLOTS_TOP = new int[] {0, 1, 2, 3};
-    protected static final int[] SLOTS_BOTTOM = new int[] {5, 6, 7, 8};
-    protected static final int[] SLOTS_SIDES = new int[] {4};
+    protected static final int[] SLOTS_TOP = new int[]{0, 1, 2, 3};
+    protected static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
+    protected static final int[] SLOTS_SIDES = new int[]{4};
 
     public TileEntityKilnBase() {
         super(9);
     }
-    
+
     public boolean isPrimary() {
-    	IBlockState state = world.getBlockState(this.pos);
-    	return state.getBlock() == AtumBlocks.KILN && state.getValue(BlockKiln.MULTIBLOCK_PRIMARY);
+        IBlockState state = world.getBlockState(this.pos);
+        return state.getBlock() == AtumBlocks.KILN && state.getValue(BlockKiln.MULTIBLOCK_PRIMARY);
     }
-    
-    public TileEntityKilnBase getPrimary() {    	
-    	IBlockState state = world.getBlockState(this.pos);
-    	
-    	if (state.getBlock() == AtumBlocks.KILN) {
-    		if(state.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
-    			return this;
-    		else
-    			return (TileEntityKilnBase) world.getTileEntity(((BlockKiln)state.getBlock()).getPrimaryKilnBlock(world, pos));
-    	}
-    	else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
-			return (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake)state.getBlock()).getPrimaryKilnBlock(world, pos));
-    	}
-    	
-    	return null;
+
+    public TileEntityKilnBase getPrimary() {
+        IBlockState state = world.getBlockState(this.pos);
+
+        if (state.getBlock() == AtumBlocks.KILN) {
+            if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
+                return this;
+            } else {
+                return (TileEntityKilnBase) world.getTileEntity(((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos));
+            }
+        } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
+            return (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos));
+        }
+        return null;
     }
 
     @Override
@@ -66,10 +60,9 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-    	if(!isPrimary()) { 
-    		return getPrimary().isItemValidForSlot(index, stack);
-    	}
-    	
+        if (!isPrimary()) {
+            return getPrimary().isItemValidForSlot(index, stack);
+        }
         if (index >= 5 && index <= 9) {
             return false;
         } else if (index != 4) {
@@ -83,10 +76,9 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     @Nonnull
     public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
-    	if(!isPrimary()) { 
-    		return getPrimary().createContainer(playerInventory, player);
-    	}
-    	
+        if (!isPrimary()) {
+            return getPrimary().createContainer(playerInventory, player);
+        }
         return new ContainerKiln(playerInventory, this);
     }
 
@@ -99,10 +91,9 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     @Nonnull
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-    	if(!isPrimary()) { 
-    		return getPrimary().getSlotsForFace(side);
-    	}
-    	
+        if (!isPrimary()) {
+            return getPrimary().getSlotsForFace(side);
+        }
         if (side == EnumFacing.DOWN) {
             return SLOTS_BOTTOM;
         } else {
@@ -112,57 +103,55 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
-    	if(!isPrimary()) { 
-    		return getPrimary().canInsertItem(index, stack, side);
-    	}
-    	
+        if (!isPrimary()) {
+            return getPrimary().canInsertItem(index, stack, side);
+        }
         return this.isItemValidForSlot(index, stack);
     }
 
     @Override
     public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
-    	if(!isPrimary()) { 
-    		return getPrimary().canExtractItem(index, stack, side);
-    	}
-
+        if (!isPrimary()) {
+            return getPrimary().canExtractItem(index, stack, side);
+        }
         if (side == EnumFacing.DOWN && index == 4) {
             Item item = stack.getItem();
             return item == Items.WATER_BUCKET || item == Items.BUCKET;
         }
         return true;
     }
-    
+
 
     @Override
     @Nonnull
     protected NonNullList<ItemStack> getItems() {
-    	if(!isPrimary()) { 
-    		return getPrimary().getItems();
-    	}
-    	return super.getItems();
+        if (!isPrimary()) {
+            return getPrimary().getItems();
+        }
+        return super.getItems();
     }
-    
+
     @Override
     public int getSizeInventory() {
-    	if(!isPrimary()) { 
-    		return getPrimary().getSizeInventory();
-    	}
-    	return super.getSizeInventory();
+        if (!isPrimary()) {
+            return getPrimary().getSizeInventory();
+        }
+        return super.getSizeInventory();
     }
 
     @Override
     public int getInventoryStackLimit() {
-    	if(!isPrimary()) { 
-    		return getPrimary().getInventoryStackLimit();
-    	}
-    	return super.getInventoryStackLimit();
+        if (!isPrimary()) {
+            return getPrimary().getInventoryStackLimit();
+        }
+        return super.getInventoryStackLimit();
     }
 
     @Override
     public boolean isEmpty() {
-    	if(!isPrimary()) { 
-    		return getPrimary().isEmpty();
-    	}
-    	return super.isEmpty();
+        if (!isPrimary()) {
+            return getPrimary().isEmpty();
+        }
+        return super.isEmpty();
     }
 }

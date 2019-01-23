@@ -2,8 +2,7 @@ package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.IAction;
 import crafttweaker.annotations.ZenRegister;
@@ -18,17 +17,12 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 @ZenRegister
-@ZenClass("mods.atum.SpinningWheel")
-public class CTSpinningWheel {
+@ZenClass("mods.atum.Kiln")
+public class CTKiln {
 
     @ZenMethod
-    public static void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), CraftTweakerMC.getItemStack(output), rotations));
-    }
-
-    @ZenMethod
-    public static void addInput(IItemStack input, int rotations) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), new ItemStack(AtumItems.LINEN_THREAD), rotations));
+    public static void addRecipe(IItemStack input, IItemStack output, double experience) {
+        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), CraftTweakerMC.getItemStack(output), (float) experience));
     }
 
     @ZenMethod
@@ -38,23 +32,23 @@ public class CTSpinningWheel {
 
     private static class Add implements IAction {
         private ItemStack input, output;
-        private int rotations;
+        private float experience;
 
-        Add(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
+        Add(@Nonnull ItemStack input, @Nonnull ItemStack output, float experience) {
             this.input = input;
             this.output = output;
-            this.rotations = rotations;
+            this.experience = experience;
         }
 
         @Override
         public void apply() {
             ResourceLocation registryName = new ResourceLocation("crafttweaker", Objects.requireNonNull(this.input.getItem().getRegistryName()).getPath());
-            RecipeHandlers.spinningWheelRecipes.register(new SpinningWheelRecipe(this.input, this.output, this.rotations).setRegistryName(registryName));
+            RecipeHandlers.kilnRecipes.register(new KilnRecipe(this.input, this.output, this.experience).setRegistryName(registryName));
         }
 
         @Override
         public String describe() {
-            return "Added new Spinning Wheel recipe. Input: " + input.getDisplayName() + " Output: " + output.getDisplayName();
+            return "Added new Kiln recipe. Input: " + input.getDisplayName() + " Output: " + output.getDisplayName();
         }
     }
 
@@ -68,16 +62,16 @@ public class CTSpinningWheel {
         @Override
         public void apply() {
             final ResourceLocation location = new ResourceLocation(id);
-            if (!RecipeHandlers.spinningWheelRecipes.containsKey(location)) {
-                Atum.LOG.error("No Spinning Wheel recipe exists called: " + this.id);
+            if (!RecipeHandlers.kilnRecipes.containsKey(location)) {
+                Atum.LOG.error("No Kiln recipe exists called: " + this.id);
             } else {
-                RecipeHandlers.spinningWheelRecipes.remove(location);
+                RecipeHandlers.kilnRecipes.remove(location);
             }
         }
 
         @Override
         public String describe() {
-            return "Removed Spinning Wheel recipe: " + this.id;
+            return "Removed Kiln recipe: " + this.id;
         }
     }
 }

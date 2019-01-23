@@ -13,6 +13,7 @@ import net.minecraft.util.ResourceLocation;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
+import javax.annotation.Nonnull;
 import java.util.Objects;
 
 @ZenRegister
@@ -33,7 +34,7 @@ public class CTQuern {
         private ItemStack input, output;
         private int rotations;
 
-        Add(ItemStack input, ItemStack output, int rotations) {
+        Add(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
             this.input = input;
             this.output = output;
             this.rotations = rotations;

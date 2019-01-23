@@ -160,7 +160,7 @@ public class AtumRecipes {
             ItemStack output = FurnaceRecipes.instance().getSmeltingList().get(input);
             ResourceLocation id = input != null && !input.isEmpty() ? input.getItem().getRegistryName() : null;
             if (id != null && !TileEntityKiln.canKilnNotSmelt(input) && !TileEntityKiln.canKilnNotSmelt(output)) {
-                RecipeHandlers.kilnRecipes.register(new KilnRecipe(input.getItem(), output, FurnaceRecipes.instance().getSmeltingExperience(output)).setRegistryName(id));
+                RecipeHandlers.kilnRecipes.register(new KilnRecipe(input.getItem(), output, FurnaceRecipes.instance().getSmeltingExperience(output)).setRegistryName(new ResourceLocation(Constants.MOD_ID, id.getPath())));
             }
         }
     }
