@@ -1,12 +1,21 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
+import java.util.Arrays;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
+import com.teammetallurgy.atum.blocks.machines.BlockKilnFake;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.StackHelper;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
@@ -14,16 +23,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-
-import javax.annotation.Nonnull;
-import java.util.Arrays;
-import java.util.List;
 
 public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     private int burnTime;
@@ -33,6 +39,10 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
     @Override
     public void update() { //TODO
+    	if(!isPrimary()) { 
+    		return;
+    	}
+    	
         boolean isBurning = this.isBurning();
         boolean markDirty = false;
 
@@ -91,6 +101,11 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
+    	if(!isPrimary()) { 
+    		getPrimary().setInventorySlotContents(index, stack);
+    		return;
+    	}
+    	
         super.setInventorySlotContents(index, stack);
         ItemStack slotStack = this.inventory.get(index);
         boolean isValid = !stack.isEmpty() && stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack);
@@ -122,6 +137,10 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     }
 
     public boolean isBurning() {
+    	if(!isPrimary()) { 
+    		return ((TileEntityKiln)getPrimary()).isBurning();
+    	}
+    	
         return this.burnTime > 0;
     }
 

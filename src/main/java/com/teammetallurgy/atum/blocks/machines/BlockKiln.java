@@ -34,7 +34,7 @@ import java.util.List;
 public class BlockKiln extends BlockContainer implements IRenderMapper {
     private static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool IS_BURNING = PropertyBool.create("is_burning");
-    private static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
+    public static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
 
     public BlockKiln() {
         super(Material.ROCK, MapColor.SAND);
@@ -46,7 +46,6 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
 
     @Override
     public boolean hasTileEntity(IBlockState state) {
-        System.out.println(state.getValue(MULTIBLOCK_PRIMARY));
         return state.getValue(MULTIBLOCK_PRIMARY);
     }
 
@@ -138,7 +137,7 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         return null;
     }
 
-    private BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
+    public BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
             return pos;
@@ -156,11 +155,13 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
 
     private void createMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, world.getBlockState(primaryPos).getValue(FACING));
+        System.out.println("Creating Multiblock: " + primaryPos);
         for (BlockPos brickPos : brickPositions) {
+        	System.out.println("Building Block: " + brickPos + " " + (primaryPos.getY() - 1 == brickPos.getY()) + " " + (primaryPos.getX() - 1 == brickPos.getX()) + " " + (primaryPos.getZ() - 1 == brickPos.getZ()));
             world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState()
                     .withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY())
-                    .withProperty(BlockKilnFake.EAST, primaryPos.getZ() - 1 == brickPos.getZ())
-                    .withProperty(BlockKilnFake.NORTH, primaryPos.getX() - 1 == brickPos.getX()));
+                    .withProperty(BlockKilnFake.EAST, primaryPos.getX() - 1 == brickPos.getX())
+                    .withProperty(BlockKilnFake.NORTH, primaryPos.getZ() - 1 == brickPos.getZ()));
         }
     }
 
