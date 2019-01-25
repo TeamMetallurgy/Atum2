@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
@@ -37,6 +38,8 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Objects;
 
 import static com.teammetallurgy.atum.utils.recipe.RecipeHelper.*;
 import static net.minecraft.block.BlockFlower.EnumFlowerType;
@@ -158,9 +161,18 @@ public class AtumRecipes {
         //Add valid vanilla & modded recipes
         for (ItemStack input : FurnaceRecipes.instance().getSmeltingList().keySet()) {
             ItemStack output = FurnaceRecipes.instance().getSmeltingList().get(input);
-            ResourceLocation id = input != null && !input.isEmpty() ? input.getItem().getRegistryName() : null;
-            if (id != null && !TileEntityKiln.canKilnNotSmelt(input) && !TileEntityKiln.canKilnNotSmelt(output)) {
-                RecipeHandlers.kilnRecipes.register(new KilnRecipe(input.getItem(), output, FurnaceRecipes.instance().getSmeltingExperience(output)).setRegistryName(new ResourceLocation(Constants.MOD_ID, id.getPath())));
+            String inputId = Objects.requireNonNull(input.getItem().getRegistryName()).getPath();
+            String outputID = Objects.requireNonNull(output.getItem().getRegistryName()).getPath();
+            if (!input.isEmpty() && !TileEntityKiln.canKilnNotSmelt(input) && !TileEntityKiln.canKilnNotSmelt(output)) {
+                int inMeta = input.getMetadata();
+                int outMeta = output.getMetadata();
+                ResourceLocation id = new ResourceLocation(Constants.MOD_ID, inputId + "_" + (inMeta > 0 && inMeta != OreDictionary.WILDCARD_VALUE ? inMeta + "_" : "") +
+                        outputID + (outMeta > 0 && outMeta != OreDictionary.WILDCARD_VALUE ? "_" + outMeta : ""));
+                if (!RecipeHandlers.kilnRecipes.containsKey(id)) {
+                    RecipeHandlers.kilnRecipes.register(new KilnRecipe(input, output, FurnaceRecipes.instance().getSmeltingExperience(output)).setRegistryName(id));
+                } else {
+                    Atum.LOG.error("Kiln Recipe with ID: " + id + " already exists");
+                }
             }
         }
     }

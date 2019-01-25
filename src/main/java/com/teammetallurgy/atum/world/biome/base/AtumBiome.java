@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.biome.base;
 
+import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.animal.EntityDesertRabbit;
 import com.teammetallurgy.atum.entity.animal.EntityTarantula;
@@ -40,6 +41,7 @@ import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
@@ -97,6 +99,25 @@ public class AtumBiome extends Biome {
         min = AtumConfig.config.get(category, "min", min).getInt();
         max = AtumConfig.config.get(category, "max", max).getInt();
         this.getSpawnableList(type).add(new SpawnListEntry(entityClass, weight, min, max));
+    }
+
+    @Override
+    @Nonnull
+    public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) { //Attempt at fixing ArrayIndexOutOfBoundsException
+        if (creatureType == EnumCreatureType.MONSTER) {
+            return this.spawnableMonsterList;
+        } else if (creatureType == EnumCreatureType.CREATURE) {
+            return this.spawnableCreatureList;
+        } else if (creatureType == EnumCreatureType.WATER_CREATURE) {
+            return this.spawnableWaterCreatureList;
+        } else if (creatureType == EnumCreatureType.AMBIENT) {
+            return this.spawnableCaveCreatureList;
+        } else {
+            if (!this.modSpawnableLists.containsKey(creatureType)) {
+                this.modSpawnableLists.put(creatureType, Lists.newArrayList());
+            }
+            return this.modSpawnableLists.get(creatureType);
+        }
     }
 
     public static void initCreatureTypes() {
