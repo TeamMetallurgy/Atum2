@@ -159,9 +159,7 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         for (BlockPos brickPos : brickPositions) {
             System.out.println("Building Block: " + brickPos + " " + (primaryPos.getY() - 1 == brickPos.getY()) + " " + (primaryPos.getX() - 1 == brickPos.getX()) + " " + (primaryPos.getZ() - 1 == brickPos.getZ()));
             world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState()
-                    .withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY())
-                    .withProperty(BlockKilnFake.EAST, primaryPos.getX() - 1 == brickPos.getX())
-                    .withProperty(BlockKilnFake.NORTH, primaryPos.getZ() - 1 == brickPos.getZ()));
+                    .withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
         }
     }
 

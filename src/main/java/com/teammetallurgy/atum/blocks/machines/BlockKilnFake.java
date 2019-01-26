@@ -26,15 +26,13 @@ import javax.annotation.Nonnull;
 
 public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     public static final PropertyBool UP = PropertyBool.create("up");
-    public static final PropertyBool EAST = PropertyBool.create("east");
-    public static final PropertyBool NORTH = PropertyBool.create("north");
 
     public BlockKilnFake() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false).withProperty(EAST, false).withProperty(NORTH, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false));
     }
 
     @Override
@@ -61,15 +59,19 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     public BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
         BlockPos primaryPos = pos;
-        System.out.println(state.getValue(UP) + " " + state.getValue(EAST) + " " + state.getValue(NORTH));
+        System.out.println(state.getValue(UP));
         if (state.getValue(UP))
             primaryPos = primaryPos.offset(EnumFacing.UP);
-        if (state.getValue(EAST))
-            primaryPos = primaryPos.offset(EnumFacing.EAST);
-        if (state.getValue(NORTH))
-            primaryPos = primaryPos.offset(EnumFacing.SOUTH);
 
-        return primaryPos;
+        for(int dx = -1; dx <= 1; dx++) {
+        	for (int dz = -1; dz <= 1; dz++) {
+        		IBlockState primaryState = world.getBlockState(primaryPos.add(dx, 0, dz));
+        		if(primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY) == true)
+        			return primaryPos.add(dx, 0, dz);
+        	}
+        }
+
+        return null;
     }
 
     @Override
@@ -81,7 +83,7 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     @Override
     @Nonnull
     public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(UP, (meta & 0b001) == 1).withProperty(EAST, (meta & 0b010) > 0).withProperty(NORTH, (meta & 0b100) > 0);
+        return this.getDefaultState().withProperty(UP, (meta & 0b001) == 1);
     }
 
     @Override
@@ -89,12 +91,6 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         int meta = 0;
         if (state.getValue(UP)) {
             meta |= 0b001;
-        }
-        if (state.getValue(EAST)) {
-            meta |= 0b010;
-        }
-        if (state.getValue(NORTH)) {
-            meta |= 0b100;
         }
         return meta;
     }
@@ -108,11 +104,11 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     @Override
     @Nonnull
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, UP, NORTH, EAST);
+        return new BlockStateContainer(this, UP);
     }
 
     @Override
     public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{UP, NORTH, EAST};
+        return new IProperty[]{ UP };
     }
 }
