@@ -61,7 +61,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         if (!isPrimary()) {
-            return getPrimary().isItemValidForSlot(index, stack);
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.isItemValidForSlot(index, stack);
+        	} else {
+        		return false;
+        	}
         }
         if (index >= 5 && index <= 9) {
             return false;
@@ -77,7 +82,10 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
         if (!isPrimary()) {
-            return getPrimary().createContainer(playerInventory, player);
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.createContainer(playerInventory, player);
+        	}
         }
         return new ContainerKiln(playerInventory, this);
     }
@@ -92,7 +100,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
         if (!isPrimary()) {
-            return getPrimary().getSlotsForFace(side);
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.getSlotsForFace(side);
+        	} else {
+        		return new int[0];
+        	}
         }
         if (side == EnumFacing.DOWN) {
             return SLOTS_BOTTOM;
@@ -104,7 +117,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
         if (!isPrimary()) {
-            return getPrimary().canInsertItem(index, stack, side);
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.canInsertItem(index, stack, side);
+        	} else {
+        		return false;
+        	}
         }
         return this.isItemValidForSlot(index, stack);
     }
@@ -112,7 +130,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
         if (!isPrimary()) {
-            return getPrimary().canExtractItem(index, stack, side);
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.canExtractItem(index, stack, side);
+        	} else {
+        		return false;
+        	}
         }
         if (side == EnumFacing.DOWN && index == 4) {
             Item item = stack.getItem();
@@ -126,7 +149,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     protected NonNullList<ItemStack> getItems() {
         if (!isPrimary()) {
-            return getPrimary().getItems();
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.getItems();
+        	} else {
+        		return NonNullList.create();
+        	}
         }
         return super.getItems();
     }
@@ -134,7 +162,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public int getSizeInventory() {
         if (!isPrimary()) {
-            return getPrimary().getSizeInventory();
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.getSizeInventory();
+        	} else {
+        		return 0;
+        	}
         }
         return super.getSizeInventory();
     }
@@ -142,7 +175,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public int getInventoryStackLimit() {
         if (!isPrimary()) {
-            return getPrimary().getInventoryStackLimit();
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.getInventoryStackLimit();
+        	} else {
+        		return 0;
+        	}
         }
         return super.getInventoryStackLimit();
     }
@@ -150,7 +188,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean isEmpty() {
         if (!isPrimary()) {
-            return getPrimary().isEmpty();
+        	TileEntityKilnBase primary = getPrimary();
+        	if(primary != null) {
+        		return primary.isEmpty();
+        	} else {
+        		return false;
+        	}
         }
         return super.isEmpty();
     }
