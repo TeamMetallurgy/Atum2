@@ -94,31 +94,41 @@ public class ContainerKiln extends Container {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
+    	int slotFuel = 4;
+    	int internalStart = 0;
+    	int internalEnd = 3;
+    	int outputStart = 5;
+    	int outputEnd = 8;
+    	int playerStart = 9;
+    	int playerEnd = 35;
+    	int hotbarStart = 36;
+    	int hotbarEnd = 44;
+    	
         if (slot != null && slot.getHasStack()) {
             ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
-            if (index == 2) {
-                if (!this.mergeItemStack(slotStack, 3, 39, true)) {
+            if (index == slotFuel) {
+                if (!this.mergeItemStack(slotStack, playerStart, hotbarEnd + 1, true)) {
                     return ItemStack.EMPTY;
                 }
                 slot.onSlotChange(slotStack, stack);
-            } else if (index != 1 && index != 0) {
+            } else if ((index < internalStart || index > internalEnd) && (index < outputStart || index > outputEnd)) {
                 if (!FurnaceRecipes.instance().getSmeltingResult(slotStack).isEmpty()) { //TODO
-                    if (!this.mergeItemStack(slotStack, 0, 1, false)) {
+                    if (!this.mergeItemStack(slotStack, internalStart, internalEnd + 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (TileEntityFurnace.isItemFuel(slotStack)) {
-                    if (!this.mergeItemStack(slotStack, 1, 2, false)) {
+                    if (!this.mergeItemStack(slotStack, slotFuel, slotFuel + 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 3 && index < 30) {
-                    if (!this.mergeItemStack(slotStack, 30, 39, false)) {
+                } else if (index >= playerStart && index <= playerEnd) {
+                    if (!this.mergeItemStack(slotStack, hotbarStart, hotbarEnd + 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 30 && index < 39 && !this.mergeItemStack(slotStack, 3, 30, false)) {
+                } else if (index >= hotbarStart && index <= hotbarEnd && !this.mergeItemStack(slotStack, playerStart, playerEnd + 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(slotStack, 3, 39, false)) {
+            } else if (!this.mergeItemStack(slotStack, playerStart, hotbarEnd + 1, false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.isEmpty()) {
