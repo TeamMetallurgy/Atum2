@@ -17,6 +17,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
@@ -41,10 +42,15 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                 return this;
             } else {
-                return (TileEntityKilnBase) world.getTileEntity(((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos));
+            	BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
+            	IBlockState primaryState = world.getBlockState(primaryPos);
+            	if(primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
+            		return (TileEntityKilnBase) world.getTileEntity(primaryPos);
+            	else
+            		return null;
             }
         } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
-            return (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos));
+            return (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
         }
         return null;
     }
@@ -103,8 +109,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         	TileEntityKilnBase primary = getPrimary();
         	if(primary != null) {
         		return primary.getSlotsForFace(side);
-        	} else {
-        		return new int[0];
         	}
         }
         if (side == EnumFacing.DOWN) {
@@ -152,8 +156,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         	TileEntityKilnBase primary = getPrimary();
         	if(primary != null) {
         		return primary.getItems();
-        	} else {
-        		return NonNullList.create();
         	}
         }
         return super.getItems();

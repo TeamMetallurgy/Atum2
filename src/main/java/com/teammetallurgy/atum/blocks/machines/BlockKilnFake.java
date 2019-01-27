@@ -45,7 +45,7 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         if (world.isRemote) {
             return true;
         }
-        BlockPos tepos = getPrimaryKilnBlock(world, pos);
+        BlockPos tepos = getPrimaryKilnBlock(world, pos, state);
         if (tepos != null) {
             TileEntity tileEntity = world.getTileEntity(tepos);
             if (tileEntity instanceof TileEntityKiln) {
@@ -56,8 +56,16 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
-    public BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
+    @Override
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos, state);
+        if(primaryPos != null) {
+        	IBlockState primaryState = world.getBlockState(primaryPos);
+        	((BlockKiln)AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
+        }
+    }
+
+    public BlockPos getPrimaryKilnBlock(World world, BlockPos pos, IBlockState state) {
         BlockPos primaryPos = pos;
         System.out.println(state.getValue(UP));
         if (state.getValue(UP))
