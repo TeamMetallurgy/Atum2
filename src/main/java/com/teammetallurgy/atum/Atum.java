@@ -9,7 +9,6 @@ import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumCreativeTab;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimension;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
@@ -40,7 +39,6 @@ public class Atum {
     public void preInit(FMLPreInitializationEvent event) {
         new AtumConfig(event.getSuggestedConfigurationFile());
         IntegrationHandler.INSTANCE.initModIntegration();
-        AtumBiome.initCreatureTypes();
         AtumDimension.register();
         NetworkHandler.register();
         StructureAtumMineshaftPieces.registerMineshaft();

@@ -1,7 +1,5 @@
 package com.teammetallurgy.atum.world.biome.base;
 
-import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.animal.EntityDesertRabbit;
 import com.teammetallurgy.atum.entity.animal.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityAssassin;
@@ -25,7 +23,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
@@ -36,18 +33,15 @@ import net.minecraft.world.biome.BiomeDecorator;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
 import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.Objects;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    private static EnumCreatureType UNDERGROUND;
-    private static EnumCreatureType SURFACE;
+    //private static EnumCreatureType UNDERGROUND; //TODO Revisit in 1.13
+    //private static EnumCreatureType SURFACE; //TODO Revisit in 1.13
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected double deadwoodRarity = 0.1D;
@@ -76,21 +70,21 @@ public class AtumBiome extends Biome {
         addSpawn(EntityBat.class, 5, 8, 8, EnumCreatureType.AMBIENT);
 
         //Bandits
-        addSpawn(EntityAssassin.class, 1, 1, 1, SURFACE);
-        addSpawn(EntityBarbarian.class, 8, 1, 2, SURFACE);
-        addSpawn(EntityBrigand.class, 30, 2, 3, SURFACE);
-        addSpawn(EntityNomad.class, 22, 1, 4, SURFACE);
+        addSpawn(EntityAssassin.class, 1, 1, 1, EnumCreatureType.MONSTER);
+        addSpawn(EntityBarbarian.class, 8, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(EntityBrigand.class, 30, 2, 3, EnumCreatureType.MONSTER);
+        addSpawn(EntityNomad.class, 22, 1, 4, EnumCreatureType.MONSTER);
 
         //Undead
-        addSpawn(EntityBonestorm.class, 5, 1, 2, SURFACE);
-        addSpawn(EntityForsaken.class, 22, 1, 4, SURFACE);
-        addSpawn(EntityMummy.class, 30, 1, 3, SURFACE);
-        addSpawn(EntityWraith.class, 10, 1, 2, SURFACE);
+        addSpawn(EntityBonestorm.class, 5, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(EntityForsaken.class, 22, 1, 4, EnumCreatureType.MONSTER);
+        addSpawn(EntityMummy.class, 30, 1, 3, EnumCreatureType.MONSTER);
+        addSpawn(EntityWraith.class, 10, 1, 2, EnumCreatureType.MONSTER);
 
         //Underground
-        addSpawn(EntityStoneguard.class, 34, 1, 2, UNDERGROUND);
-        addSpawn(EntityStonewarden.class, 1, 1, 1, UNDERGROUND);
-        addSpawn(EntityTarantula.class, 20, 1, 3, UNDERGROUND);
+        addSpawn(EntityStoneguard.class, 34, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(EntityStonewarden.class, 1, 1, 1, EnumCreatureType.MONSTER);
+        addSpawn(EntityTarantula.class, 20, 1, 3, EnumCreatureType.MONSTER);
     }
 
     protected void addSpawn(Class<? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type) {
@@ -101,28 +95,9 @@ public class AtumBiome extends Biome {
         this.getSpawnableList(type).add(new SpawnListEntry(entityClass, weight, min, max));
     }
 
-    @Override
-    @Nonnull
-    public List<SpawnListEntry> getSpawnableList(EnumCreatureType creatureType) { //Attempt at fixing ArrayIndexOutOfBoundsException
-        if (creatureType == EnumCreatureType.MONSTER) {
-            return this.spawnableMonsterList;
-        } else if (creatureType == EnumCreatureType.CREATURE) {
-            return this.spawnableCreatureList;
-        } else if (creatureType == EnumCreatureType.WATER_CREATURE) {
-            return this.spawnableWaterCreatureList;
-        } else if (creatureType == EnumCreatureType.AMBIENT) {
-            return this.spawnableCaveCreatureList;
-        } else {
-            if (!this.modSpawnableLists.containsKey(creatureType)) {
-                this.modSpawnableLists.put(creatureType, Lists.newArrayList());
-            }
-            return this.modSpawnableLists.get(creatureType);
-        }
-    }
-
-    public static void initCreatureTypes() {
-        UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("UNDERGROUND", IUnderground.class, 20, Material.AIR, false, false));
-        SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("SURFACE", IMob.class, 45, Material.AIR, false, false));
+    public static void initCreatureTypes() { //TODO Revisit in 1.13
+       /* UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("UNDERGROUND", IUnderground.class, 20, Material.AIR, false, false));
+        SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("SURFACE", IMob.class, 45, Material.AIR, false, false));*/
     }
 
     @Override

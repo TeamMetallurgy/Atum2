@@ -11,6 +11,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemCoal;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -240,9 +241,10 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         for (int oreId : OreDictionary.getOreIDs(new ItemStack(item))) {
             oreName = OreDictionary.getOreName(oreId);
         }
-        return item instanceof ItemFood || block instanceof BlockOre || oreName.contains("plank") || oreName.contains("log") || oreName.contains("stick") ||
+        return item instanceof ItemFood || block instanceof BlockOre || item instanceof ItemCoal ||
+                oreName.contains("plank") || oreName.contains("log") || oreName.contains("stick") || oreName.contains("torch") || oreName.contains("plant") || oreName.contains("sugarcane") ||
                 oreName.contains("ore") || oreName.contains("ingot") && !oreName.contains("ingotBrick") || oreName.contains("nugget") || oreName.contains("gem") || oreName.contains("dust") ||
-                oreName.contains("dye") || oreName.contains("slimeball") || block instanceof BlockSponge;
+                oreName.contains("dye") || oreName.contains("slime") || oreName.contains("leather") || block instanceof BlockSponge;
     }
 
     @Override
