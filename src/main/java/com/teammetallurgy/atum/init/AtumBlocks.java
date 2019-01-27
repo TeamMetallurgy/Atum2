@@ -171,7 +171,7 @@ public class AtumBlocks {
         registerBlock(QUERN, "quern");
         registerBlock(SPINNING_WHEEL, "spinning_wheel");
         registerBlock(KILN, "kiln");
-        registerBlock(KILN_FAKE, "kiln_fake");
+        registerBlock(KILN_FAKE, "kiln_fake", null);
         registerBlock(BURNING_TRAP, "burning_trap");
         registerBlock(POISON_TRAP, "poison_trap");
         registerBlock(TAR_TRAP, "tar_trap");

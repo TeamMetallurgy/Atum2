@@ -1,13 +1,12 @@
 {
   "type": "forge:ore_shaped",
   "pattern": [
-    "PPP",
-    "SSS",
-    "PPP"
+    "SS",
+    "SL"
   ],
   "key": {
-    "P": {
-      "ore": "plankWood",
+    "L": {
+      "ore": "leather",
       "type": "forge:ore_dict"
     },
     "S": {
@@ -15,7 +14,7 @@
     }
   },
   "result": {
-    "item": "minecraft:bookshelf",
-    "count": 1
+    "item": "minecraft:book",
+    "count": 2
   }
 }

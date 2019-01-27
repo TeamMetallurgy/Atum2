@@ -306,6 +306,7 @@ public class AtumItems {
     public static void setItemInfo() {
         OreDictHelper.add(Items.BLAZE_ROD, "rodBlaze");
         OreDictHelper.add(Items.BLAZE_POWDER, "dustBlaze");
+        OreDictHelper.add(DUST_BONE_STICK, "stickWood");
         OreDictHelper.add(EFREET_HEART, "rodBlaze");
         OreDictHelper.add(ANPUTS_FINGERS_SPORES, "cropNetherWart");
         OreDictHelper.add(LINEN_THREAD, "string");

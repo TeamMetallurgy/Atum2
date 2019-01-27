@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
-import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;

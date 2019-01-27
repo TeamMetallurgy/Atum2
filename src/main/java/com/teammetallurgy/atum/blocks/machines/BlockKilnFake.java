@@ -59,9 +59,9 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     @Override
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
         BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos, state);
-        if(primaryPos != null) {
-        	IBlockState primaryState = world.getBlockState(primaryPos);
-        	((BlockKiln)AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
+        if (primaryPos != null) {
+            IBlockState primaryState = world.getBlockState(primaryPos);
+            ((BlockKiln) AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
         }
     }
 
@@ -71,14 +71,13 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         if (state.getValue(UP))
             primaryPos = primaryPos.offset(EnumFacing.UP);
 
-        for(int dx = -1; dx <= 1; dx++) {
-        	for (int dz = -1; dz <= 1; dz++) {
-        		IBlockState primaryState = world.getBlockState(primaryPos.add(dx, 0, dz));
-        		if(primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY) == true)
-        			return primaryPos.add(dx, 0, dz);
-        	}
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dz = -1; dz <= 1; dz++) {
+                IBlockState primaryState = world.getBlockState(primaryPos.add(dx, 0, dz));
+                if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
+                    return primaryPos.add(dx, 0, dz);
+            }
         }
-
         return null;
     }
 
@@ -117,6 +116,6 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
 
     @Override
     public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{ UP };
+        return new IProperty[]{UP};
     }
 }

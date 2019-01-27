@@ -31,26 +31,32 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     }
 
     public boolean isPrimary() {
-        IBlockState state = world.getBlockState(this.pos);
-        return state.getBlock() == AtumBlocks.KILN && state.getValue(BlockKiln.MULTIBLOCK_PRIMARY);
+        if (this.hasWorld()) {
+            IBlockState state = this.world.getBlockState(this.pos);
+            return state.getBlock() == AtumBlocks.KILN && state.getValue(BlockKiln.MULTIBLOCK_PRIMARY);
+        } else {
+            return false;
+        }
     }
 
     public TileEntityKilnBase getPrimary() {
-        IBlockState state = world.getBlockState(this.pos);
+        if (this.hasWorld()) {
+            IBlockState state = world.getBlockState(this.pos);
 
-        if (state.getBlock() == AtumBlocks.KILN) {
-            if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
-                return this;
-            } else {
-            	BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
-            	IBlockState primaryState = world.getBlockState(primaryPos);
-            	if(primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
-            		return (TileEntityKilnBase) world.getTileEntity(primaryPos);
-            	else
-            		return null;
+            if (state.getBlock() == AtumBlocks.KILN) {
+                if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
+                    return this;
+                } else {
+                    BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
+                    IBlockState primaryState = world.getBlockState(primaryPos);
+                    if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
+                        return (TileEntityKilnBase) world.getTileEntity(primaryPos);
+                    else
+                        return null;
+                }
+            } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
+                return (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
             }
-        } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
-            return (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
         }
         return null;
     }
@@ -67,12 +73,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.isItemValidForSlot(index, stack);
-        	} else {
-        		return false;
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.isItemValidForSlot(index, stack);
+            } else {
+                return false;
+            }
         }
         if (index >= 5 && index <= 9) {
             return false;
@@ -88,10 +94,10 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.createContainer(playerInventory, player);
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.createContainer(playerInventory, player);
+            }
         }
         return new ContainerKiln(playerInventory, this);
     }
@@ -106,10 +112,10 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     public int[] getSlotsForFace(@Nonnull EnumFacing side) {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.getSlotsForFace(side);
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.getSlotsForFace(side);
+            }
         }
         if (side == EnumFacing.DOWN) {
             return SLOTS_BOTTOM;
@@ -121,12 +127,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.canInsertItem(index, stack, side);
-        	} else {
-        		return false;
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.canInsertItem(index, stack, side);
+            } else {
+                return false;
+            }
         }
         return this.isItemValidForSlot(index, stack);
     }
@@ -134,12 +140,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.canExtractItem(index, stack, side);
-        	} else {
-        		return false;
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.canExtractItem(index, stack, side);
+            } else {
+                return false;
+            }
         }
         if (side == EnumFacing.DOWN && index == 4) {
             Item item = stack.getItem();
@@ -153,10 +159,10 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     protected NonNullList<ItemStack> getItems() {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.getItems();
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.getItems();
+            }
         }
         return super.getItems();
     }
@@ -164,12 +170,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public int getSizeInventory() {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.getSizeInventory();
-        	} else {
-        		return 0;
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.getSizeInventory();
+            } else {
+                return 0;
+            }
         }
         return super.getSizeInventory();
     }
@@ -177,12 +183,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public int getInventoryStackLimit() {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.getInventoryStackLimit();
-        	} else {
-        		return 0;
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.getInventoryStackLimit();
+            } else {
+                return 0;
+            }
         }
         return super.getInventoryStackLimit();
     }
@@ -190,12 +196,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public boolean isEmpty() {
         if (!isPrimary()) {
-        	TileEntityKilnBase primary = getPrimary();
-        	if(primary != null) {
-        		return primary.isEmpty();
-        	} else {
-        		return false;
-        	}
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return primary.isEmpty();
+            } else {
+                return false;
+            }
         }
         return super.isEmpty();
     }

@@ -167,8 +167,8 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         EnumFacing multiblockDir = facing.rotateY();
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         IBlockState primaryState = world.getBlockState(primaryPos);
-        if(primaryState.getBlock() == AtumBlocks.KILN) {
-        	world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false));
+        if (primaryState.getBlock() == AtumBlocks.KILN) {
+            world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false));
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
