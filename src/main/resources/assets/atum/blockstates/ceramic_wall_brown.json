@@ -1,0 +1,34 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "wall": "atum:blocks/ceramic_tile_brown",
+            "particle": "#wall"
+        },
+        "model":"atum:empty",
+        "uvlock": true
+    },
+    "variants": {
+        "inventory": [ {"model": "wall_inventory"} ],
+        "up":{
+        	"true":{"submodel":{"up_model":{"model":"wall_post"}}},
+        	"false":{}
+        },
+        "north":{
+        	"true":{"submodel":{"north_model":{"model":"wall_side"}}},
+        	"false":{}
+        },
+        "east":{
+        	"true":{"submodel":{"east_model":{"model":"wall_side", "y": 90}}},
+        	"false":{}
+    	},
+        "south":{
+        	"true":{"submodel":{"south_model":{"model":"wall_side", "y": 180}}},
+        	"false":{}
+    	},
+        "west":{
+        	"true":{"submodel":{"west_model":{"model":"wall_side", "y": 270}}},
+        	"false":{}
+    	}
+    }
+}

@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "all": "atum:blocks/ceramic_tile_yellow"
+        },
+        "model": "cube_all"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}

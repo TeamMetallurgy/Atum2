@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "wool": "atum:blocks/ceramic_tile_purple"
+        },
+        "model": "atum:carpet"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}

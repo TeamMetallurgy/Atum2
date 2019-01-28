@@ -4,7 +4,7 @@
         "textures": {
             "wool": "atum:blocks/linen_orange"
         },
-        "model": "atum:linen_carpet"
+        "model": "atum:carpet"
     },
     "variants": {
         "normal": [{}],

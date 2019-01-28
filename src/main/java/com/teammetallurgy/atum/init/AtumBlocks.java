@@ -27,6 +27,10 @@ import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterSlab;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterWall;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramic;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicSlab;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicTile;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicWall;
 import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumite;
 import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumiteFace;
 import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumiteRaw;
@@ -237,6 +241,13 @@ public class AtumBlocks {
         BlockPorphyrySlab.registerSlabs();
         BlockAtumStairs.registerPorphyryStairs();
         BlockPorphyryWall.registerWalls();
+
+        //Ceramic
+        BlockCeramic.registerCeramicBlocks();
+        BlockCeramicSlab.registerSlabs();
+        BlockCeramicTile.registerTile();
+        BlockAtumStairs.registerCeramicStairs();
+        BlockCeramicWall.registerWalls();
 
         registerBlock(RADIANT_BEACON, "radiant_beacon");
         registerBlock(RADIANT_BEACON_FRAMED, "radiant_beacon_framed", null);

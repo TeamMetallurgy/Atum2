@@ -8,11 +8,16 @@ import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
+import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlassPane;
 import com.teammetallurgy.atum.blocks.linen.BlockLinen;
 import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramic;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicSlab;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicTile;
+import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicWall;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
@@ -154,7 +159,7 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
-
+        AtumRegistry.registerRecipe("marl", new KilnRecipe(AtumBlocks.MARL, new ItemStack(BlockCeramic.getCeramicBlocks(EnumDyeColor.WHITE)), 0.1F), event);
     }
 
     public static void addKilnRecipes() {
@@ -190,6 +195,7 @@ public class AtumRecipes {
         final ResourceLocation crystal = new ResourceLocation(Constants.MOD_ID, "crystal_glass");
         final ResourceLocation framed = new ResourceLocation(Constants.MOD_ID, "framed_glass");
         final ResourceLocation linen = new ResourceLocation(Constants.MOD_ID, "linen");
+        final ResourceLocation ceramic = new ResourceLocation(Constants.MOD_ID, "ceramic");
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
             String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
@@ -200,7 +206,12 @@ public class AtumRecipes {
             AtumRegistry.registerRecipe("thin_framed_" + colorName, new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.FRAMED_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color)), event);
             if (color != EnumDyeColor.WHITE) {
                 AtumRegistry.registerRecipe("linen_" + colorName, new ShapelessOreRecipe(linen, new ItemStack(BlockLinen.getLinen(color)), new ItemStack(Items.DYE, 1, color.getDyeDamage()), BlockLinen.getLinen(EnumDyeColor.WHITE)), event);
+                AtumRegistry.registerRecipe("ceramic_" + colorName, new ShapelessOreRecipe(ceramic, new ItemStack(BlockCeramic.getCeramicBlocks(color)), new ItemStack(Items.DYE, 1, color.getDyeDamage()), BlockCeramic.getCeramicBlocks(EnumDyeColor.WHITE)), event);
             }
+            AtumRegistry.registerRecipe("ceramic_tile_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicTile.getTile(color), 3), "CC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
+            AtumRegistry.registerRecipe("ceramic_slab_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicSlab.getSlab(color), 6), "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
+            AtumRegistry.registerRecipe("ceramic_stairs_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockAtumStairs.getCeramicStairs(color), 4), "C  ", "CC ", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)).setMirrored(true), event);
+            AtumRegistry.registerRecipe("ceramic_wall_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicWall.getWall(color), 6), "CCC", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
             AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 3), "LL", 'L', BlockLinen.getLinen(color)), event);
         }
         AtumRecipes.register();
