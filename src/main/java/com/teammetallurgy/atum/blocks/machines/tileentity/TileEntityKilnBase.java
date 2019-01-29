@@ -54,6 +54,8 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
                     primary.setPrimary(true);
                 } else {
                     BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
+                    if(primaryPos == null)
+                    	return null;
                     IBlockState primaryState = world.getBlockState(primaryPos);
                     if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                         primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);

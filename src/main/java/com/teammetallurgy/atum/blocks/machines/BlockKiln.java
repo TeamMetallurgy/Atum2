@@ -110,6 +110,10 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         }
 
         state = world.getBlockState(pos);
+        tryMakeMultiblock(world, pos, state);
+    }
+    
+    public void tryMakeMultiblock(World world, BlockPos pos, IBlockState state) {
         EnumFacing facing = state.getValue(FACING);
         if (checkMultiblock(world, pos, facing)) {
             System.out.println("Creating Multiblock");
@@ -142,8 +146,12 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         IBlockState state = world.getBlockState(pos);
         if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
             return pos;
+        } else {
+        	state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
+        	if(state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY))
+        		return pos.offset(state.getValue(FACING).rotateYCCW());
         }
-        return pos.offset(state.getValue(FACING).rotateYCCW());
+        return null;
     }
 
     /*
@@ -181,7 +189,7 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         }
     }
 
-    private boolean checkMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
+    public boolean checkMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         if (world.getBlockState(primaryPos).getBlock() != AtumBlocks.KILN) {
             return false;
