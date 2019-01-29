@@ -155,25 +155,30 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         IBlockState primaryState = world.getBlockState(primaryPos);
         BlockPos secondaryPos = primaryPos.offset(facing.rotateY());
         IBlockState secondaryState = world.getBlockState(secondaryPos);
+        BlockPos dropPos = primaryPos;
+
         if (primaryState.getBlock() == AtumBlocks.KILN) {
             world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false).withProperty(IS_BURNING, false));
         }
-
-        TileEntity tileEntity = world.getTileEntity(primaryPos);
-        if (tileEntity instanceof TileEntityKilnBase) {
-            TileEntityKilnBase kilnBase = (TileEntityKilnBase) tileEntity;
-            kilnBase.setPrimary(false);
-            InventoryHelper.dropInventoryItems(world, primaryPos, kilnBase);
-            kilnBase.invalidate();
-        }
-
         if (secondaryState.getBlock() == AtumBlocks.KILN) {
             world.setBlockState(secondaryPos, secondaryState.withProperty(IS_BURNING, false));
+        } else {
+        	dropPos = secondaryPos;
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
                 world.setBlockState(brickPos, BlockLimestoneBricks.getBrick(BrickType.SMALL).getDefaultState());
+            } else {
+            	dropPos = brickPos;
             }
+        }
+        
+        TileEntity tileEntity = world.getTileEntity(primaryPos);
+        if (tileEntity instanceof TileEntityKilnBase) {
+            TileEntityKilnBase kilnBase = (TileEntityKilnBase) tileEntity;
+            kilnBase.setPrimary(false);
+            InventoryHelper.dropInventoryItems(world, dropPos, kilnBase);
+            kilnBase.invalidate();
         }
     }
 
