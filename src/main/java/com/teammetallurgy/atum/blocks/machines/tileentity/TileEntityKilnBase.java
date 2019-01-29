@@ -188,8 +188,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             TileEntityKilnBase primary = getPrimary();
             if (primary != null) {
                 return primary.getSizeInventory();
-            } else {
-                return 0;
             }
         }
         return super.getSizeInventory();
@@ -201,8 +199,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             TileEntityKilnBase primary = getPrimary();
             if (primary != null) {
                 return primary.getInventoryStackLimit();
-            } else {
-                return 0;
             }
         }
         return super.getInventoryStackLimit();
@@ -214,8 +210,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             TileEntityKilnBase primary = getPrimary();
             if (primary != null) {
                 return primary.isEmpty();
-            } else {
-                return false;
             }
         }
         return super.isEmpty();
