@@ -28,20 +28,20 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     protected static final int[] SLOTS_SIDES = new int[]{4};
 
     private TileEntityKilnBase primary;
-    private boolean isprimary;
-    
+    private boolean isPrimary;
+
     public TileEntityKilnBase() {
         super(9);
-        isprimary = false;
+        isPrimary = false;
     }
 
     public boolean isPrimary() {
-        return isprimary;
+        return isPrimary;
     }
-    
+
     public void setPrimary(boolean value) {
-    	System.out.println(isprimary);
-    	isprimary = value;
+        System.out.println(isPrimary);
+        isPrimary = value;
     }
 
     public TileEntityKilnBase getPrimary() {
@@ -57,14 +57,20 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
                     IBlockState primaryState = world.getBlockState(primaryPos);
                     if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                         primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
-                    	primary.setPrimary(true);
+                        if (primary != null) {
+                            primary.setPrimary(true);
+                            System.out.println("else");
+                        }
                     } else {
                         return null;
                     }
                 }
             } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
-            	primary = (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
-                primary.setPrimary(true);
+                primary = (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
+                if (primary != null) {
+                    primary.setPrimary(true);
+                    System.out.println("else if");
+                }
             }
         }
         return primary;
@@ -218,14 +224,14 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        this.isprimary = compound.getBoolean("isprimary");
+        this.isPrimary = compound.getBoolean("is_primary");
     }
 
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setBoolean("isprimary", this.isprimary);
+        compound.setBoolean("is_primary", this.isPrimary);
         return compound;
     }
 }
