@@ -122,7 +122,7 @@ public class LighthousePieces {
 
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.LIGHTHOUSE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);

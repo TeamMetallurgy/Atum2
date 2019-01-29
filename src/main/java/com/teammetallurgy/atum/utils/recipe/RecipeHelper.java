@@ -55,7 +55,7 @@ public class RecipeHelper {
         String oreDict = "flower" + StringUtils.capitalize(color.getTranslationKey());
         OreDictHelper.add(flower, oreDict);
         if (!event.getRegistry().containsKey(new ResourceLocation(Constants.MOD_ID, oreDict))) {
-            addQuernRecipe(oreDict, new QuernRecipe(oreDict, new ItemStack(Items.DYE, 2, color.getDyeDamage()), 2), event);
+            addQuernRecipe(oreDict, new QuernRecipe(oreDict, new ItemStack(Items.DYE, 2, color.getDyeDamage()), 1), event);
         }
     }
 

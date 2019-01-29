@@ -149,6 +149,8 @@ public class AtumItems {
     public static final Item LINEN_BANDAGE = new ItemLinenBandage();
     public static final Item LINEN_THREAD = new Item();
     public static final Item LINEN_CLOTH = new Item();
+    public static final Item DYE_BLACK = new ItemDye();
+    public static final Item DYE_BROWN = new ItemDye();
     public static final Item FLAX_SEEDS = new ItemAtumSeeds(AtumBlocks.FLAX, Blocks.FARMLAND);
     public static final Item FLAX = new Item();
     public static final Item OPHIDIAN_TONGUE_FLOWER = new Item();
@@ -275,6 +277,8 @@ public class AtumItems {
         registerItem(LINEN_BANDAGE, "linen_bandage");
         registerItem(LINEN_THREAD, "linen_thread");
         registerItem(LINEN_CLOTH, "linen_cloth");
+        registerItem(DYE_BLACK, "dye_black");
+        registerItem(DYE_BROWN, "dye_brown");
         registerItem(FLAX_SEEDS, "flax_seeds");
         registerItem(FLAX, "flax");
         registerItem(OPHIDIAN_TONGUE_FLOWER, "ophidian_tongue_flower");
@@ -306,6 +310,8 @@ public class AtumItems {
     public static void setItemInfo() {
         OreDictHelper.add(Items.BLAZE_ROD, "rodBlaze");
         OreDictHelper.add(Items.BLAZE_POWDER, "dustBlaze");
+        OreDictHelper.add(DYE_BLACK, "dyeBlack");
+        OreDictHelper.add(DYE_BROWN, "dyeBrown");
         OreDictHelper.add(DUST_BONE_STICK, "stickWood");
         OreDictHelper.add(EFREET_HEART, "rodBlaze");
         OreDictHelper.add(ANPUTS_FINGERS_SPORES, "cropNetherWart");
