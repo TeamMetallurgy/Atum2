@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
-import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;
@@ -12,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
@@ -139,7 +137,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         if (this.inventory.get(inputSlot).isEmpty()) {
             return false;
         } else {
-            ItemStack result = FurnaceRecipes.instance().getSmeltingResult(this.inventory.get(inputSlot));
+            ItemStack result = this.getSmeltingResult(this.inventory.get(inputSlot));
 
             if (result.isEmpty()) {
                 return false;
@@ -162,7 +160,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     private void smeltItem(int inputSlot, int outputSlot) {
         if (this.canSmelt(inputSlot, outputSlot)) {
             ItemStack input = this.inventory.get(inputSlot);
-            ItemStack result = FurnaceRecipes.instance().getSmeltingResult(input);
+            ItemStack result = this.getSmeltingResult(input);
             ItemStack output = this.inventory.get(outputSlot);
 
             if (output.isEmpty()) {
@@ -175,27 +173,17 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     }
 
     @Nonnull
-    private ItemStack getSmeltingResult(List<ItemStack> inputs) {
-        for (ItemStack input : inputs) {
-            for (IKilnRecipe kilnRecipe : RecipeHandlers.kilnRecipes) {
-                if (StackHelper.areStacksEqualIgnoreSize(kilnRecipe.getInput().get(0), input)) { //TODO Maybe
-                    return kilnRecipe.getOutput();
-                }
+    private ItemStack getSmeltingResult(@Nonnull ItemStack input) {
+        for (IKilnRecipe kilnRecipe : RecipeHandlers.kilnRecipes) {
+            if (compareItemStacks(kilnRecipe.getInput().get(0), input)) {
+                return kilnRecipe.getOutput();
             }
         }
         return ItemStack.EMPTY;
     }
 
-    @Nonnull
-    private ItemStack getOutput(List<ItemStack> outputs) {
-        for (ItemStack output : outputs) {
-            for (IKilnRecipe kilnRecipe : RecipeHandlers.kilnRecipes) {
-                if (StackHelper.areStacksEqualIgnoreSize(kilnRecipe.getOutput(), output)) { //TODO Maybe
-                    return kilnRecipe.getOutput();
-                }
-            }
-        }
-        return ItemStack.EMPTY;
+    private boolean compareItemStacks(@Nonnull ItemStack stack1, @Nonnull ItemStack stack2) {
+        return stack2.getItem() == stack1.getItem() && (stack1.getMetadata() == 32767 || stack2.getMetadata() == stack1.getMetadata());
     }
 
     private List<ItemStack> getInputs() {
