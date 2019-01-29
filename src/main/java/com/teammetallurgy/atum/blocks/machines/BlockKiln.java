@@ -80,12 +80,6 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
 
     @Override
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityKiln) {
-            InventoryHelper.dropInventoryItems(world, pos, (TileEntityKiln) tileEntity);
-            world.updateComparatorOutputLevel(pos, this);
-        }
-
         if (state.getValue(MULTIBLOCK_PRIMARY)) {
             this.destroyMultiblock(world, pos, state.getValue(FACING));
         } else {
@@ -114,7 +108,6 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, true));
             world.setBlockState(pos.offset(facing.rotateY()), state.withProperty(MULTIBLOCK_PRIMARY, false));
             createMultiblock(world, pos);
-
         } else if (checkMultiblock(world, pos.offset(facing.rotateYCCW()), facing)) {
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, false));
             world.setBlockState(pos.offset(facing.rotateYCCW()), state.withProperty(MULTIBLOCK_PRIMARY, true));
@@ -160,12 +153,22 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
     void destroyMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         IBlockState primaryState = world.getBlockState(primaryPos);
+        BlockPos secondaryPos = primaryPos.offset(facing.rotateY());
+        IBlockState secondaryState = world.getBlockState(secondaryPos);
         if (primaryState.getBlock() == AtumBlocks.KILN) {
-            world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false));
-            TileEntity tileEntity = world.getTileEntity(primaryPos);
-            if (tileEntity instanceof TileEntityKilnBase) {
-                ((TileEntityKilnBase) tileEntity).setPrimary(false);
-            }
+            world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false).withProperty(IS_BURNING, false));
+        }
+
+        TileEntity tileEntity = world.getTileEntity(primaryPos);
+        if (tileEntity instanceof TileEntityKilnBase) {
+            TileEntityKilnBase kilnBase = (TileEntityKilnBase) tileEntity;
+            kilnBase.setPrimary(false);
+            InventoryHelper.dropInventoryItems(world, primaryPos, kilnBase);
+            kilnBase.invalidate();
+        }
+
+        if (secondaryState.getBlock() == AtumBlocks.KILN) {
+            world.setBlockState(secondaryPos, secondaryState.withProperty(IS_BURNING, false));
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
