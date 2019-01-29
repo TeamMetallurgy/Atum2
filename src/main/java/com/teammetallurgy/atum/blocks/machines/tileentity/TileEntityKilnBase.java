@@ -16,13 +16,18 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class TileEntityKilnBase extends TileEntityInventoryBase implements ISidedInventory {
-    protected static final int[] SLOTS_TOP = new int[]{0, 1, 2, 3};
-    protected static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
-    protected static final int[] SLOTS_SIDES = new int[]{4};
+    private static final int[] SLOTS_TOP = new int[]{0, 1, 2, 3};
+    private static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
+    private static final int[] SLOTS_SIDES = new int[]{4};
 
     private TileEntityKilnBase primary;
     private boolean isPrimary;
@@ -32,7 +37,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         isPrimary = false;
     }
 
-    public boolean isPrimary() {
+    boolean isPrimary() {
         return isPrimary;
     }
 
@@ -40,7 +45,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         isPrimary = value;
     }
 
-    public TileEntityKilnBase getPrimary() {
+    TileEntityKilnBase getPrimary() {
         if (this.hasWorld() && primary == null) {
             IBlockState state = world.getBlockState(this.pos);
 
@@ -50,8 +55,8 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
                     primary.setPrimary(true);
                 } else {
                     BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
-                    if(primaryPos == null)
-                    	return null;
+                    if (primaryPos == null)
+                        return null;
                     IBlockState primaryState = world.getBlockState(primaryPos);
                     if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                         primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
@@ -92,13 +97,10 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             }
         }
         if (index >= 5 && index <= 9) {
-            System.out.println("output");
             return false;
         } else if (index == 4) {
-            System.out.println("Input");
             return TileEntityFurnace.isItemFuel(stack);
         } else {
-            System.out.println("Else");
             return true;
         }
     }
@@ -212,5 +214,24 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         super.writeToNBT(compound);
         compound.setBoolean("is_primary", this.isPrimary);
         return compound;
+    }
+
+    private IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
+    private IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
+
+    @Override
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
+            if (facing == EnumFacing.DOWN) {
+                return (T) handlerBottom;
+            } else if (facing == EnumFacing.UP) {
+                return (T) handlerTop;
+            } else {
+                return (T) handlerSide;
+            }
+        return super.getCapability(capability, facing);
     }
 }

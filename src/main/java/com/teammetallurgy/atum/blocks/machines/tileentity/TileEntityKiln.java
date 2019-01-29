@@ -145,7 +145,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         return inventory.getField(0) > 0;
     }
 
-    public int getCookTime(@Nonnull ItemStack stack) {
+    private int getCookTime(@Nonnull ItemStack stack) {
         return 200;
     }
 
@@ -174,7 +174,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         }
     }
 
-    public void smeltItem() { //TODO
+    private void smeltItem() { //TODO
         if (this.canSmelt()) {
             List<ItemStack> inputs = this.getInputs();
             List<ItemStack> outputs = Arrays.asList(this.inventory.get(5), this.inventory.get(6), this.inventory.get(7), this.inventory.get(8));

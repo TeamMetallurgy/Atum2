@@ -1,17 +1,11 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import java.util.Map;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
@@ -28,6 +22,10 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Map;
 
 public class BlockLimestoneBricks extends Block implements IRenderMapper {
     public static final PropertyBool UNBREAKABLE = PropertyBool.create("unbreakable");
