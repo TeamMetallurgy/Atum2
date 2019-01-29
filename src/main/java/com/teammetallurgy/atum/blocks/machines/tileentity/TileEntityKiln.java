@@ -102,11 +102,17 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             return;
         }
 
-        super.setInventorySlotContents(index, stack);
         ItemStack slotStack = this.inventory.get(index);
         boolean isValid = !stack.isEmpty() && stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack);
 
-        if (index == 0 && !isValid) {
+        this.fillWithLoot(null);
+        this.getItems().set(index, stack);
+
+        if (stack.getCount() > this.getInventoryStackLimit()) {
+            stack.setCount(this.getInventoryStackLimit());
+        }
+
+        if (index <= 3 && !isValid) {
             this.totalCookTime = this.getCookTime(stack);
             this.cookTime = 0;
             this.markDirty();
