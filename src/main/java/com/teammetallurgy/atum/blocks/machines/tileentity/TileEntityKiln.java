@@ -39,28 +39,26 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             return;
         }
 
+        boolean isBurning = this.isBurning();
+        boolean markDirty = false;
+        int inputSlot = 0;
+        int outputSlot = 5;
+
         if (this.isBurning()) {
             --this.burnTime;
         }
 
-        this.processInput(0, 5);
-    }
-
-    private void processInput(int inputSlot, int outputSlot) {
-        boolean isBurning = this.isBurning();
-        boolean markDirty = false;
 
         if (!this.world.isRemote) {
             ItemStack fuelStack = this.inventory.get(4);
 
-            if (this.isBurning() || !fuelStack.isEmpty() && !this.getInputs().isEmpty()) {
+            if (this.isBurning() || !fuelStack.isEmpty() && !this.inventory.get(inputSlot).isEmpty()) {
                 if (!this.isBurning() && this.canSmelt(inputSlot, outputSlot)) {
                     this.burnTime = TileEntityFurnace.getItemBurnTime(fuelStack);
                     this.currentItemBurnTime = this.burnTime;
 
                     if (this.isBurning()) {
                         markDirty = true;
-
                         if (!fuelStack.isEmpty()) {
                             fuelStack.shrink(1);
                         }
@@ -69,7 +67,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
                 if (this.isBurning() && this.canSmelt(inputSlot, outputSlot)) {
                     ++this.cookTime;
-
                     if (this.cookTime == this.totalCookTime) {
                         this.cookTime = 0;
                         this.totalCookTime = this.getCookTime(this.inventory.get(inputSlot));
