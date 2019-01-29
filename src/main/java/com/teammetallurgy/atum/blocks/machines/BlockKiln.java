@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.machines;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks.BrickType;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -161,14 +162,17 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
             world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState()
                     .withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
         }
+        ((TileEntityKilnBase)world.getTileEntity(primaryPos)).setPrimary(true);
     }
 
     public void destroyMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
+    	System.out.println("destroy");
         EnumFacing multiblockDir = facing.rotateY();
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         IBlockState primaryState = world.getBlockState(primaryPos);
         if (primaryState.getBlock() == AtumBlocks.KILN) {
             world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false));
+            ((TileEntityKilnBase)world.getTileEntity(primaryPos)).setPrimary(false);
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
