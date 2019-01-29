@@ -67,7 +67,6 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
 
     public BlockPos getPrimaryKilnBlock(World world, BlockPos pos, IBlockState state) {
         BlockPos primaryPos = pos;
-        System.out.println(state.getValue(UP));
         if (state.getValue(UP))
             primaryPos = primaryPos.offset(EnumFacing.UP);
 

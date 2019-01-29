@@ -406,7 +406,6 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     private void trySpawnMummy(BlockPos pos, EnumFacing facing) {
-    	System.out.println(facing);
         BlockPos base = pos.offset(facing, 1);
 
     	if (!world.isBlockFullCube(base) && !world.isBlockFullCube(base.offset(EnumFacing.UP)))
@@ -419,7 +418,6 @@ public class EntityPharaoh extends EntityUndeadBase {
                 AnvilChunkLoader.spawnEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();
-            System.out.println("Spawn at " + base);
             return;
     	}
         
@@ -440,7 +438,6 @@ public class EntityPharaoh extends EntityUndeadBase {
 	                AnvilChunkLoader.spawnEntity(entityMummy, world);
 	            }
 	            entityMummy.spawnExplosionParticle();
-	            System.out.println("Spawn at " + new_pos);
 	            return;
         	}
         }

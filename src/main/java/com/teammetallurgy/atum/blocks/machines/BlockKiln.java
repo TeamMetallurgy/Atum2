@@ -86,13 +86,9 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
             world.updateComparatorOutputLevel(pos, this);
         }
 
-        System.out.println("Destory " + state.getBlock());
-
         if (state.getValue(MULTIBLOCK_PRIMARY)) {
-            System.out.println("From primary");
             this.destroyMultiblock(world, pos, state.getValue(FACING));
         } else {
-            System.out.println("From secondary");
             this.destroyMultiblock(world, pos.offset(state.getValue(FACING).rotateYCCW()), state.getValue(FACING));
         }
         super.breakBlock(world, pos, state);
@@ -116,13 +112,11 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
     public void tryMakeMultiblock(World world, BlockPos pos, IBlockState state) {
         EnumFacing facing = state.getValue(FACING);
         if (checkMultiblock(world, pos, facing)) {
-            System.out.println("Creating Multiblock");
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, true));
             world.setBlockState(pos.offset(facing.rotateY()), state.withProperty(MULTIBLOCK_PRIMARY, false));
             createMultiblock(world, pos, facing);
 
         } else if (checkMultiblock(world, pos.offset(facing.rotateYCCW()), facing)) {
-            System.out.println("Creating Multiblock");
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, false));
             world.setBlockState(pos.offset(facing.rotateYCCW()), state.withProperty(MULTIBLOCK_PRIMARY, true));
             createMultiblock(world, pos.offset(facing.rotateYCCW()), facing);
@@ -164,9 +158,7 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
 
     public void createMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, world.getBlockState(primaryPos).getValue(FACING));
-        System.out.println("Creating Multiblock: " + primaryPos);
         for (BlockPos brickPos : brickPositions) {
-            System.out.println("Building Block: " + brickPos + " " + (primaryPos.getY() - 1 == brickPos.getY()) + " " + (primaryPos.getX() - 1 == brickPos.getX()) + " " + (primaryPos.getZ() - 1 == brickPos.getZ()));
             world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState()
                     .withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
         }
@@ -174,7 +166,6 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
     }
 
     public void destroyMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
-    	System.out.println("destroy");
         EnumFacing multiblockDir = facing.rotateY();
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         IBlockState primaryState = world.getBlockState(primaryPos);

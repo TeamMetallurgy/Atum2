@@ -8,11 +8,8 @@ import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.SlotFurnaceFuel;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -40,7 +37,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     }
 
     public void setPrimary(boolean value) {
-        System.out.println(isPrimary);
         isPrimary = value;
     }
 
@@ -61,7 +57,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
                         primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
                         if (primary != null) {
                             primary.setPrimary(true);
-                            System.out.println("else");
                         }
                     } else {
                         return null;
@@ -71,7 +66,6 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
                 primary = (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
                 if (primary != null) {
                     primary.setPrimary(true);
-                    System.out.println("else if");
                 }
             }
         }
@@ -98,12 +92,14 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             }
         }
         if (index >= 5 && index <= 9) {
+            System.out.println("output");
             return false;
-        } else if (index != 4) {
-            return true;
+        } else if (index == 4) {
+            System.out.println("Input");
+            return TileEntityFurnace.isItemFuel(stack);
         } else {
-            ItemStack fuelStack = this.inventory.get(4);
-            return TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuelStack.getItem() != Items.BUCKET;
+            System.out.println("Else");
+            return true;
         }
     }
 
@@ -156,21 +152,8 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
-        if (!isPrimary()) {
-            TileEntityKilnBase primary = getPrimary();
-            if (primary != null) {
-                return primary.canExtractItem(index, stack, side);
-            } else {
-                return false;
-            }
-        }
-        if (side == EnumFacing.DOWN && index == 4) {
-            Item item = stack.getItem();
-            return item == Items.WATER_BUCKET || item == Items.BUCKET;
-        }
-        return true;
+        return this.isPrimary() || this.getPrimary() != null && this.getPrimary().canExtractItem(index, stack, side);
     }
-
 
     @Override
     @Nonnull
