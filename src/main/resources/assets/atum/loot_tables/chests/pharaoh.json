@@ -371,10 +371,12 @@
           "entryName": "enchanted_book",
           "functions": [
             {
-              "function": "enchant_randomly"
+              "function": "enchant_with_levels",
+              "levels": 30,
+              "treasure": true
             }
           ],
-          "weight": 25
+          "weight": 30
         }
       ]
     },
