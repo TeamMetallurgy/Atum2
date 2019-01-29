@@ -47,7 +47,7 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
 
     @Override
     public boolean hasTileEntity(IBlockState state) {
-        return state.getValue(MULTIBLOCK_PRIMARY);
+        return true;
     }
 
     @Override
