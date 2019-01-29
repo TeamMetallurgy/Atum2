@@ -51,20 +51,22 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             if (state.getBlock() == AtumBlocks.KILN) {
                 if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                     primary = this;
+                    primary.setPrimary(true);
                 } else {
                     BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
                     IBlockState primaryState = world.getBlockState(primaryPos);
-                    if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
+                    if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                         primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
-                    else
+                    	primary.setPrimary(true);
+                    } else {
                         return null;
+                    }
                 }
             } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
             	primary = (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
+                primary.setPrimary(true);
             }
         }
-        System.out.println(primary.isPrimary());
-        primary.setPrimary(true);
         return primary;
     }
 
