@@ -104,35 +104,32 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
                 ((TileEntityKiln) tileEntity).setCustomName(stack.getDisplayName());
             }
         }
-
         state = world.getBlockState(pos);
         tryMakeMultiblock(world, pos, state);
     }
-    
+
     public void tryMakeMultiblock(World world, BlockPos pos, IBlockState state) {
         EnumFacing facing = state.getValue(FACING);
         if (checkMultiblock(world, pos, facing)) {
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, true));
             world.setBlockState(pos.offset(facing.rotateY()), state.withProperty(MULTIBLOCK_PRIMARY, false));
-            createMultiblock(world, pos, facing);
+            createMultiblock(world, pos);
 
         } else if (checkMultiblock(world, pos.offset(facing.rotateYCCW()), facing)) {
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, false));
             world.setBlockState(pos.offset(facing.rotateYCCW()), state.withProperty(MULTIBLOCK_PRIMARY, true));
-            createMultiblock(world, pos.offset(facing.rotateYCCW()), facing);
+            createMultiblock(world, pos.offset(facing.rotateYCCW()));
         }
     }
 
-    public BlockPos getSecondaryKilnBlock(World world, BlockPos pos) {
+    public static BlockPos getSecondaryKilnFromPrimary(World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() == AtumBlocks.KILN && !state.getValue(MULTIBLOCK_PRIMARY)) {
-            return pos;
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityKiln) {
+            if (state.getBlock() == AtumBlocks.KILN && ((TileEntityKiln) tileEntity).isPrimary()) {
+                return pos.offset(state.getValue(FACING).rotateY());
+            }
         }
-        state = world.getBlockState(pos.offset(state.getValue(FACING).rotateY()));
-        if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
-            return pos.offset(state.getValue(FACING).rotateY());
-        }
-
         return null;
     }
 
@@ -141,37 +138,34 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
             return pos;
         } else {
-        	state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
-        	if(state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY))
-        		return pos.offset(state.getValue(FACING).rotateYCCW());
+            state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
+            if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY))
+                return pos.offset(state.getValue(FACING).rotateYCCW());
         }
         return null;
     }
 
-    /*
-     *  Can only be used after the primary kiln block state has been set correctly.
-     */
-    public boolean isPrimaryKilnBlock(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        return state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY);
-    }
-
-    public void createMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
+    private void createMultiblock(World world, BlockPos primaryPos) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, world.getBlockState(primaryPos).getValue(FACING));
         for (BlockPos brickPos : brickPositions) {
             world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState()
                     .withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
         }
-        ((TileEntityKilnBase)world.getTileEntity(primaryPos)).setPrimary(true);
+        TileEntity tileEntity = world.getTileEntity(primaryPos);
+        if (tileEntity instanceof TileEntityKilnBase) {
+            ((TileEntityKilnBase) tileEntity).setPrimary(true);
+        }
     }
 
-    public void destroyMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
-        EnumFacing multiblockDir = facing.rotateY();
+    void destroyMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         IBlockState primaryState = world.getBlockState(primaryPos);
         if (primaryState.getBlock() == AtumBlocks.KILN) {
             world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false));
-            ((TileEntityKilnBase)world.getTileEntity(primaryPos)).setPrimary(false);
+            TileEntity tileEntity = world.getTileEntity(primaryPos);
+            if (tileEntity instanceof TileEntityKilnBase) {
+                ((TileEntityKilnBase) tileEntity).setPrimary(false);
+            }
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
@@ -180,7 +174,7 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         }
     }
 
-    public boolean checkMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
+    private boolean checkMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         if (world.getBlockState(primaryPos).getBlock() != AtumBlocks.KILN) {
             return false;

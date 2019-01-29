@@ -37,7 +37,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         isPrimary = false;
     }
 
-    boolean isPrimary() {
+    public boolean isPrimary() {
         return isPrimary;
     }
 

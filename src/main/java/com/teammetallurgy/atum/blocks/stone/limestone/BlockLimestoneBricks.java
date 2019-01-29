@@ -39,25 +39,25 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
         this.setSoundType(SoundType.STONE);
         this.setDefaultState(this.blockState.getBaseState().withProperty(UNBREAKABLE, false));
     }
-    
+
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, EntityLivingBase placer, @Nonnull ItemStack stack) {
-    	super.onBlockPlacedBy(world, pos, state, placer, stack);
-    	
-    	if (state.getBlock() == BlockLimestoneBricks.getBrick(BrickType.SMALL)) {
-    		for (int dx = -1; dx <= 1; dx++) {
-    			for (int dy = -1; dy <= 1; dy++) {
-    				for (int dz = -1; dz <= 1; dz++) {
-    					BlockPos checkPos = pos.add(dx, dy, dz);
-    					IBlockState kilnState = world.getBlockState(checkPos);
-    					if (kilnState.getBlock() == AtumBlocks.KILN) {
-    						BlockKiln kiln = (BlockKiln) kilnState.getBlock();
-    						kiln.tryMakeMultiblock(world, checkPos, kilnState);
-    					}
-    				}
-    			}
-    		}
-    	}
+        super.onBlockPlacedBy(world, pos, state, placer, stack);
+
+        if (state.getBlock() == BlockLimestoneBricks.getBrick(BrickType.SMALL)) {
+            for (int dx = -1; dx <= 1; dx++) {
+                for (int dy = -1; dy <= 1; dy++) {
+                    for (int dz = -1; dz <= 1; dz++) {
+                        BlockPos checkPos = pos.add(dx, dy, dz);
+                        IBlockState kilnState = world.getBlockState(checkPos);
+                        if (kilnState.getBlock() == AtumBlocks.KILN) {
+                            BlockKiln kiln = (BlockKiln) kilnState.getBlock();
+                            kiln.tryMakeMultiblock(world, checkPos, kilnState);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -67,7 +67,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
 
     @Override
     public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-        return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F: super.getExplosionResistance(world, pos, exploder, explosion);
+        return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
     }
 
     public static void registerBricks() {
