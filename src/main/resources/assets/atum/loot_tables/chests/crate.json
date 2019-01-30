@@ -7,6 +7,21 @@
         "max": 5
       },
       "entries": [
+	 {
+          "type": "minecraft:item",
+	  "name": "minecraft:map"
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "atum:pyramid",
+              "decoration": "red_x",
+              "zoom": 4,
+              "skip_existing_chunks": true
+            }
+          ],
+
+	  "weight": 150
+        },
         {
           "type": "item",
           "name": "minecraft:string",
