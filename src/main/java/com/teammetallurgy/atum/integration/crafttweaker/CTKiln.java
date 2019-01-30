@@ -31,8 +31,8 @@ public class CTKiln {
     }
 
     @ZenMethod
-    public static void blacklist(IItemStack ingredient) {
-        CraftTweakerAPI.apply(new Blacklist(CraftTweakerMC.getItemStack(ingredient)));
+    public static void blacklist(String id) {
+        CraftTweakerAPI.apply(new Blacklist(id));
     }
 
     private static class Add implements IAction {
@@ -81,22 +81,23 @@ public class CTKiln {
     }
 
     private static class Blacklist implements IAction {
-        private ItemStack blacklistedStack;
+        private String id;
 
-        Blacklist(@Nonnull ItemStack blacklistedStack) {
-            this.blacklistedStack = blacklistedStack;
+        Blacklist(String id) {
+            this.id = id;
         }
 
         @Override
         public void apply() {
-            if (!RecipeHandlers.kilnBlacklist.contains(this.blacklistedStack)) {
-                RecipeHandlers.kilnBlacklist.add(this.blacklistedStack);
+            final ResourceLocation location = new ResourceLocation(this.id);
+            if (!RecipeHandlers.kilnBlacklist.contains(location)) {
+                RecipeHandlers.kilnBlacklist.add(location);
             }
         }
 
         @Override
         public String describe() {
-            return "Blacklisted " + this.blacklistedStack + " from being in a Kiln recipe";
+            return "Blacklisted " + this.id + " from being in a Kiln recipe";
         }
     }
 }

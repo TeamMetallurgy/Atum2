@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.integration.crafttweaker.CTKiln;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
 
 import java.util.ArrayList;
@@ -28,5 +28,5 @@ public class RecipeHandlers {
      * Used to blacklist what Furnace recipes the Kiln grabs
      * Can be used by other mods or in a CraftTweaker script, see {@link CTKiln}
      */
-    public static List<ItemStack> kilnBlacklist = new ArrayList<>();
+    public static List<ResourceLocation> kilnBlacklist = new ArrayList<>();
 }
