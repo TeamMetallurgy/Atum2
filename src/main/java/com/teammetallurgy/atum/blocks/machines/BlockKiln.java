@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
@@ -12,7 +11,6 @@ import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -32,17 +30,18 @@ import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BlockKiln extends BlockContainer implements IRenderMapper {
+public class BlockKiln extends BlockContainer {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool IS_BURNING = PropertyBool.create("is_burning");
     public static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
+    public static final PropertyBool MULTIBLOCK_SECONDARY = PropertyBool.create("multiblock_secondary");
 
     public BlockKiln() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(3.5F);
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(IS_BURNING, false).withProperty(MULTIBLOCK_PRIMARY, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(IS_BURNING, false).withProperty(MULTIBLOCK_PRIMARY, false).withProperty(MULTIBLOCK_SECONDARY, false));
     }
 
     @Override
@@ -132,8 +131,9 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
             return pos;
         } else {
             state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
-            if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY))
+            if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
                 return pos.offset(state.getValue(FACING).rotateYCCW());
+            }
         }
         return null;
     }
@@ -163,16 +163,16 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         if (secondaryState.getBlock() == AtumBlocks.KILN) {
             world.setBlockState(secondaryPos, secondaryState.withProperty(IS_BURNING, false));
         } else {
-        	dropPos = secondaryPos;
+            dropPos = secondaryPos;
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
                 world.setBlockState(brickPos, BlockLimestoneBricks.getBrick(BrickType.SMALL).getDefaultState());
             } else {
-            	dropPos = brickPos;
+                dropPos = brickPos;
             }
         }
-        
+
         TileEntity tileEntity = world.getTileEntity(primaryPos);
         if (tileEntity instanceof TileEntityKilnBase) {
             TileEntityKilnBase kilnBase = (TileEntityKilnBase) tileEntity;
@@ -211,6 +211,19 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
         positions.add(offset.offset(facing.getOpposite()).offset(EnumFacing.DOWN));
 
         return positions;
+    }
+
+    @Override
+    @Nonnull
+    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityKiln) {
+            TileEntityKiln kiln = (TileEntityKiln) tileEntity;
+            if (kiln.getPrimary() != null) {
+                return state.withProperty(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
+            }
+        }
+        return state;
     }
 
     @Override
@@ -259,11 +272,6 @@ public class BlockKiln extends BlockContainer implements IRenderMapper {
     @Override
     @Nonnull
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, IS_BURNING, MULTIBLOCK_PRIMARY);
-    }
-
-    @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{MULTIBLOCK_PRIMARY};
+        return new BlockStateContainer(this, FACING, IS_BURNING, MULTIBLOCK_PRIMARY, MULTIBLOCK_SECONDARY);
     }
 }

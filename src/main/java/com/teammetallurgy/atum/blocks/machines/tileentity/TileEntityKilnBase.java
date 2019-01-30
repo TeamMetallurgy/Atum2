@@ -45,7 +45,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         isPrimary = value;
     }
 
-    TileEntityKilnBase getPrimary() {
+    public TileEntityKilnBase getPrimary() {
         if (this.hasWorld() && primary == null) {
             IBlockState state = world.getBlockState(this.pos);
 
