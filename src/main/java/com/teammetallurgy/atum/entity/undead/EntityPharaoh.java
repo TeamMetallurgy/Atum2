@@ -95,12 +95,6 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    protected void setVariant(int variant) {
-        super.setVariant(variant);
-        God.MAP.put(variant, God.values()[variant]);
-    }
-
-    @Override
     protected void applyEntityAI() {
         super.applyEntityAI();
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
@@ -151,7 +145,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.values()[this.getVariant()] + ".png"));
+        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
     }
 
     @Override
@@ -420,20 +414,20 @@ public class EntityPharaoh extends EntityUndeadBase {
             entityMummy.spawnExplosionParticle();
             return;
     	}
-        
+
         for (EnumFacing offset : EnumFacing.HORIZONTALS)
         {
         	// Don't spawn the mummy on top of the pharaoh
         	if (offset == facing.getOpposite())
         		continue;
-        	
+
         	BlockPos new_pos = base.offset(offset);
         	if (!world.isBlockFullCube(new_pos) && !world.isBlockFullCube(new_pos.offset(EnumFacing.UP)))
         	{
 	    		EntityMummy entityMummy = new EntityMummy(world);
 	            entityMummy.onInitialSpawn(world.getDifficultyForLocation(new_pos), null);
 	            entityMummy.setLocationAndAngles(new_pos.getX(), new_pos.getY(), new_pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
-	
+
 	            if (!world.isRemote) {
 	                AnvilChunkLoader.spawnEntity(entityMummy, world);
 	            }
@@ -458,7 +452,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         SHU("shu", TextFormatting.BLUE),
         TEFNUT("tefnut", TextFormatting.DARK_BLUE);
 
-        public static final Map<Integer, God> MAP = Maps.newHashMap();
+        public static Map<Integer, God> MAP;
         private final String name;
         private final TextFormatting color;
 
@@ -476,6 +470,12 @@ public class EntityPharaoh extends EntityUndeadBase {
         }
 
         public static God getGod(int godType) {
+            if (MAP == null) {
+                MAP = Maps.newHashMap();
+                for (God g : God.values()) {
+                    MAP.put(g.ordinal(), g);
+                }
+            }
             God god = MAP.get(godType);
             return god == null ? ANPUT : god;
         }
