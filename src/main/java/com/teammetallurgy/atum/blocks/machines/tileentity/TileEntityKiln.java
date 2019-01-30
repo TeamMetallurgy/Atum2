@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;
+import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
@@ -51,7 +52,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             ItemStack fuelStack = this.inventory.get(4);
 
             if (this.isBurning() || !fuelStack.isEmpty() && !this.inventory.get(inputSlot).isEmpty()) {
-                if (!this.isBurning() && this.canSmelt(inputSlot, outputSlot)) {
+                if (!this.isBurning() && this.canSmelt(inputSlot, 5, 8) != -1) {
                     this.burnTime = TileEntityFurnace.getItemBurnTime(fuelStack);
                     this.currentItemBurnTime = this.burnTime;
 
@@ -62,13 +63,24 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
                         }
                     }
                 }
+                
+                boolean canSmeltAny = false;
+                for(int i = 0; i <= 4; i++)
+                	canSmeltAny |= this.canSmelt(i, 5, 8) != -1;
 
-                if (this.isBurning() && this.canSmelt(inputSlot, outputSlot)) {
+                if (this.isBurning() && canSmeltAny) {
                     ++this.cookTime;
+                    System.out.println(cookTime);
                     if (this.cookTime == this.totalCookTime) {
                         this.cookTime = 0;
-                        this.totalCookTime = this.getCookTime(this.inventory.get(inputSlot));
-                        this.smeltItem(inputSlot, outputSlot);
+                        this.totalCookTime = 0;
+                        for(int i = 0; i < 4; i++) {
+                        	if (this.totalCookTime < this.getCookTime(this.inventory.get(inputSlot))) {
+                        		this.totalCookTime = this.getCookTime(this.inventory.get(inputSlot));
+                        	}
+                        }
+                        for(int i = 0; i <= 4; i++)
+                        	this.smeltItem(i, 5, 8);
                         markDirty = true;
                     }
                 } else {
@@ -133,32 +145,39 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         return 200;
     }
 
-    private boolean canSmelt(int inputSlot, int outputSlot) {
+    private int canSmelt(int inputSlot, int outputSlotStart, int outputSlotEnd) {
         if (this.inventory.get(inputSlot).isEmpty()) {
-            return false;
+            return -1;
         } else {
             ItemStack result = this.getSmeltingResult(this.inventory.get(inputSlot));
 
             if (result.isEmpty()) {
-                return false;
+                return -1;
             } else {
+            	for(int outputSlot = outputSlotStart; outputSlot <= outputSlotEnd; outputSlot++)
+            	{
                 ItemStack output = this.inventory.get(outputSlot);
 
-                if (output.isEmpty()) {
-                    return true;
-                } else if (!output.isItemEqual(result)) {
-                    return false;
-                } else if (output.getCount() + result.getCount() <= this.getInventoryStackLimit() && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
-                    return true;
-                } else {
-                    return output.getCount() + result.getCount() <= result.getMaxStackSize();
-                }
+	                if (output.isEmpty()) {
+	                    return outputSlot;
+	                } else if (!output.isItemEqual(result)) {
+	                    continue;
+	                } else if (output.getCount() + result.getCount() <= this.getInventoryStackLimit() && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
+	                    return outputSlot;
+	                } else {
+	                    if (output.getCount() + result.getCount() <= result.getMaxStackSize())
+	                    	return outputSlot;
+	                }
+            	}
             }
         }
+        
+        return -1;
     }
 
-    private void smeltItem(int inputSlot, int outputSlot) {
-        if (this.canSmelt(inputSlot, outputSlot)) {
+    private void smeltItem(int inputSlot, int outputSlotStart, int outputSlotEnd) {
+    	int outputSlot = this.canSmelt(inputSlot, outputSlotStart, outputSlotEnd);
+        if (outputSlot != -1) {
             ItemStack input = this.inventory.get(inputSlot);
             ItemStack result = this.getSmeltingResult(input);
             ItemStack output = this.inventory.get(outputSlot);
