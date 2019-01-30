@@ -9,7 +9,7 @@
       "entries": [
 	 {
           "type": "minecraft:item",
-	  "name": "minecraft:map"
+	  "name": "minecraft:map",
           "functions": [
             {
               "function": "minecraft:exploration_map",
@@ -19,7 +19,6 @@
               "skip_existing_chunks": true
             }
           ],
-
 	  "weight": 150
         },
         {
