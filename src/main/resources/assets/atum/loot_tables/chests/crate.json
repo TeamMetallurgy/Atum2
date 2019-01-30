@@ -8,8 +8,9 @@
       },
       "entries": [
 	 {
-          "type": "minecraft:item",
+          "type": "item",
 	  "name": "minecraft:map",
+	  "entryName": "map",	 
           "functions": [
             {
               "function": "minecraft:exploration_map",
