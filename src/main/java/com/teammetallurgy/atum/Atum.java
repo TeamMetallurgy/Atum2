@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum;
 
+import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
@@ -19,6 +20,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
@@ -56,5 +58,10 @@ public class Atum {
         AtumRecipes.addKilnRecipes();
         NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
         IntegrationHandler.INSTANCE.init();
+    }
+
+    @Mod.EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+        System.out.println("Late blacklist: " + RecipeHandlers.kilnBlacklist);
     }
 }

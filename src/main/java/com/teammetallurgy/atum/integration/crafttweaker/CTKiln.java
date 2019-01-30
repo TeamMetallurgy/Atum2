@@ -30,6 +30,11 @@ public class CTKiln {
         CraftTweakerAPI.apply(new Remove(id));
     }
 
+    @ZenMethod
+    public static void blacklist(IItemStack ingredient) {
+        CraftTweakerAPI.apply(new Blacklist(CraftTweakerMC.getItemStack(ingredient)));
+    }
+
     private static class Add implements IAction {
         private ItemStack input, output;
         private float experience;
@@ -72,6 +77,26 @@ public class CTKiln {
         @Override
         public String describe() {
             return "Removed Kiln recipe: " + this.id;
+        }
+    }
+
+    private static class Blacklist implements IAction {
+        private ItemStack blacklistedStack;
+
+        Blacklist(@Nonnull ItemStack blacklistedStack) {
+            this.blacklistedStack = blacklistedStack;
+        }
+
+        @Override
+        public void apply() {
+            if (!RecipeHandlers.kilnBlacklist.contains(this.blacklistedStack)) {
+                RecipeHandlers.kilnBlacklist.add(this.blacklistedStack);
+            }
+        }
+
+        @Override
+        public String describe() {
+            return "Blacklisted " + this.blacklistedStack + " from being in a Kiln recipe";
         }
     }
 }

@@ -13,6 +13,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -58,5 +59,6 @@ public class BlockLinen extends Block implements IOreDictEntry {
     @Override
     public void getOreDictEntries() {
         OreDictHelper.add(this, "wool");
+        OreDictHelper.add(this, "wool" + WordUtils.capitalize(EnumDyeColor.valueOf(this.getColorString().toUpperCase()).getTranslationKey()));
     }
 }
