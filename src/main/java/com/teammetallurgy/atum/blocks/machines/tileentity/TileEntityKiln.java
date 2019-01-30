@@ -31,6 +31,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
+    private static int maxCookTime = 2;
 
     @Override
     public void update() { //TODO
@@ -48,6 +49,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         }
 
 
+        System.out.println(this.burnTime);
         if (!this.world.isRemote) {
             ItemStack fuelStack = this.inventory.get(4);
 
@@ -74,10 +76,8 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
                     if (this.cookTime == this.totalCookTime) {
                         this.cookTime = 0;
                         this.totalCookTime = 0;
-                        for(int i = 0; i < 4; i++) {
-                        	if (this.totalCookTime < this.getCookTime(this.inventory.get(inputSlot))) {
-                        		this.totalCookTime = this.getCookTime(this.inventory.get(inputSlot));
-                        	}
+                        if(!this.isInputEmpty()) {
+                        	this.totalCookTime = this.getCookTime();
                         }
                         for(int i = 0; i <= 4; i++)
                         	this.smeltItem(i, 5, 8);
@@ -86,7 +86,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
                 } else {
                     this.cookTime = 0;
                 }
-            } else if (!this.isBurning() && this.cookTime > 0) {
+            } else if ((!this.isBurning() && this.cookTime > 0) || this.isInputEmpty()) {
                 this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.totalCookTime);
             }
 
@@ -103,6 +103,14 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         if (markDirty) {
             this.markDirty();
         }
+    }
+    
+    public boolean isInputEmpty() {
+        for(int i = 0; i <= 4; i++) {
+        	if (!this.inventory.get(i).isEmpty())
+        		return false;
+        }
+        return true;
     }
 
     @Override
@@ -123,8 +131,8 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         }
 
         if (index <= 3 && !isValid) {
-            this.totalCookTime = this.getCookTime(stack);
-            this.cookTime = 0;
+            this.totalCookTime = this.getCookTime();
+            //this.cookTime = 0;
             this.markDirty();
         }
     }
@@ -141,7 +149,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         return inventory.getField(0) > 0;
     }
 
-    private int getCookTime(@Nonnull ItemStack stack) {
+    private int getCookTime() {
         return 200;
     }
 
