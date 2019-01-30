@@ -30,10 +30,9 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
-    private static int maxCookTime = 2;
 
     @Override
-    public void update() { //TODO
+    public void update() {
         if (!isPrimary()) {
             return;
         }

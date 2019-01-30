@@ -7,21 +7,6 @@
         "max": 5
       },
       "entries": [
-	 {
-          "type": "item",
-	  "name": "minecraft:map",
-	  "entryName": "map",	 
-          "functions": [
-            {
-              "function": "minecraft:exploration_map",
-              "destination": "atum:pyramid",
-              "decoration": "red_x",
-              "zoom": 4,
-              "skip_existing_chunks": true
-            }
-          ],
-	  "weight": 150
-        },
         {
           "type": "item",
           "name": "minecraft:string",
@@ -37,7 +22,7 @@
           ],
           "weight": 75
         },
-	{
+	    {
           "type": "item",
           "name": "minecraft:feather",
           "entryName": "feather",
@@ -52,7 +37,7 @@
           ],
           "weight": 75
         },
-	{
+	    {
           "type": "item",
           "name": "minecraft:leather",
           "entryName": "leather",
@@ -67,7 +52,7 @@
           ],
           "weight": 75
         },
-	{
+	    {
           "type": "item",
           "name": "atum:cloth_scrap",
           "entryName": "cloth_scrap",
@@ -187,7 +172,7 @@
           ],
           "weight": 45
         },
-	{
+	    {
           "type": "item",
           "name": "atum:emmer_seeds",
           "entryName": "emmer_seeds",
@@ -202,7 +187,7 @@
           ],
           "weight": 40
         },
-	{
+	    {
           "type": "item",
           "name": "melon_seeds",
           "entryName": "melon_seeds",
@@ -335,7 +320,7 @@
           ],
           "weight": 20
         },
-	{
+	    {
           "type": "item",
           "name": "atum:pharaoh_torch",
           "entryName": "pharaoh_torch",
