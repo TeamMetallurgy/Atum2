@@ -219,7 +219,7 @@ public class BlockKiln extends BlockContainer {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityKiln) {
             TileEntityKiln kiln = (TileEntityKiln) tileEntity;
-            if (kiln.getPrimary() != null) {
+            if (this.getPrimaryKilnBlock(kiln.getWorld(), pos) != null) {
                 return state.withProperty(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
             }
         }
