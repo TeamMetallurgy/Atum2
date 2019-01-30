@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
@@ -41,8 +40,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
         boolean isBurning = this.isBurning();
         boolean markDirty = false;
-        int inputSlot = 0;
-        int outputSlot = 5;
 
         if (this.isBurning()) {
             --this.burnTime;
@@ -51,8 +48,13 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         if (!this.world.isRemote) {
             ItemStack fuelStack = this.inventory.get(4);
 
-            if (this.isBurning() || !fuelStack.isEmpty() && !this.inventory.get(inputSlot).isEmpty()) {
-                if (!this.isBurning() && this.canSmelt(inputSlot, 5, 8) != -1) {
+            if (this.isBurning() || !fuelStack.isEmpty() && !this.getInputs().isEmpty()) {
+                boolean canSmeltAny = false;
+                for (int i = 0; i <= 4; i++) {
+                    canSmeltAny |= this.canSmelt(i, 5, 8) != -1;
+                }
+
+                if (!this.isBurning() && canSmeltAny) {
                     this.burnTime = TileEntityFurnace.getItemBurnTime(fuelStack);
                     this.currentItemBurnTime = this.burnTime;
 
@@ -63,21 +65,17 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
                         }
                     }
                 }
-                
-                boolean canSmeltAny = false;
-                for(int i = 0; i <= 4; i++)
-                	canSmeltAny |= this.canSmelt(i, 5, 8) != -1;
 
                 if (this.isBurning() && canSmeltAny) {
                     ++this.cookTime;
                     if (this.cookTime == this.totalCookTime) {
                         this.cookTime = 0;
                         this.totalCookTime = 0;
-                        if(!this.isInputEmpty()) {
-                        	this.totalCookTime = this.getCookTime();
+                        if (!this.isInputEmpty()) {
+                            this.totalCookTime = this.getCookTime();
                         }
-                        for(int i = 0; i <= 4; i++)
-                        	this.smeltItem(i, 5, 8);
+                        for (int i = 0; i <= 4; i++)
+                            this.smeltItem(i, 5, 8);
                         markDirty = true;
                     }
                 } else {
@@ -101,11 +99,12 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             this.markDirty();
         }
     }
-    
-    public boolean isInputEmpty() {
-        for(int i = 0; i <= 4; i++) {
-        	if (!this.inventory.get(i).isEmpty())
-        		return false;
+
+    private boolean isInputEmpty() {
+        for (int i = 0; i <= 4; i++) {
+            if (!this.inventory.get(i).isEmpty()) {
+                return false;
+            }
         }
         return true;
     }
@@ -129,7 +128,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
         if (index <= 3 && !isValid) {
             this.totalCookTime = this.getCookTime();
-            //this.cookTime = 0;
             this.markDirty();
         }
     }
@@ -159,29 +157,27 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             if (result.isEmpty()) {
                 return -1;
             } else {
-            	for(int outputSlot = outputSlotStart; outputSlot <= outputSlotEnd; outputSlot++)
-            	{
-                ItemStack output = this.inventory.get(outputSlot);
+                for (int outputSlot = outputSlotStart; outputSlot <= outputSlotEnd; outputSlot++) {
+                    ItemStack output = this.inventory.get(outputSlot);
 
-	                if (output.isEmpty()) {
-	                    return outputSlot;
-	                } else if (!output.isItemEqual(result)) {
-	                    continue;
-	                } else if (output.getCount() + result.getCount() <= this.getInventoryStackLimit() && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
-	                    return outputSlot;
-	                } else {
-	                    if (output.getCount() + result.getCount() <= result.getMaxStackSize())
-	                    	return outputSlot;
-	                }
-            	}
+                    if (output.isEmpty()) {
+                        return outputSlot;
+                    } else if (!output.isItemEqual(result)) {
+                        continue;
+                    } else if (output.getCount() + result.getCount() <= this.getInventoryStackLimit() && output.getCount() + result.getCount() <= output.getMaxStackSize()) {
+                        return outputSlot;
+                    } else {
+                        if (output.getCount() + result.getCount() <= result.getMaxStackSize())
+                            return outputSlot;
+                    }
+                }
             }
         }
-        
         return -1;
     }
 
     private void smeltItem(int inputSlot, int outputSlotStart, int outputSlotEnd) {
-    	int outputSlot = this.canSmelt(inputSlot, outputSlotStart, outputSlotEnd);
+        int outputSlot = this.canSmelt(inputSlot, outputSlotStart, outputSlotEnd);
         if (outputSlot != -1) {
             ItemStack input = this.inventory.get(inputSlot);
             ItemStack result = this.getSmeltingResult(input);
@@ -212,10 +208,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
     private List<ItemStack> getInputs() {
         return Arrays.asList(this.inventory.get(0), this.inventory.get(1), this.inventory.get(2), this.inventory.get(3));
-    }
-
-    private List<ItemStack> getOutputs() {
-        return Arrays.asList(this.inventory.get(5), this.inventory.get(6), this.inventory.get(7), this.inventory.get(8));
     }
 
     public static boolean canKilnNotSmelt(@Nonnull ItemStack stack) {
