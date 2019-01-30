@@ -48,8 +48,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             --this.burnTime;
         }
 
-
-        System.out.println(this.burnTime);
         if (!this.world.isRemote) {
             ItemStack fuelStack = this.inventory.get(4);
 
@@ -72,7 +70,6 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
                 if (this.isBurning() && canSmeltAny) {
                     ++this.cookTime;
-                    System.out.println(cookTime);
                     if (this.cookTime == this.totalCookTime) {
                         this.cookTime = 0;
                         this.totalCookTime = 0;
