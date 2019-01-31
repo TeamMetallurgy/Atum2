@@ -1,15 +1,24 @@
 package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.integration.IModIntegration;
-import mcjty.theoneprobe.TheOneProbe;
+import mcjty.theoneprobe.api.ITheOneProbe;
+import net.minecraftforge.fml.common.event.FMLInterModComms;
 
-public class TOPSupport implements IModIntegration {
+import java.util.function.Function;
+
+public class TOPSupport implements IModIntegration, Function<ITheOneProbe, Void> {
     public static final String THE_ONE_PROBE = "theoneprobe";
 
     @Override
-    public void preInit() {
+    public void init() {
+        FMLInterModComms.sendFunctionMessage(THE_ONE_PROBE, "getTheOneProbe", "com.teammetallurgy.atum.integration.theoneprobe.TOPSupport");
+    }
+
+    @Override
+    public Void apply(ITheOneProbe theOneProbe) {
         AtumProbeInfoProvider atumProbeInfoProvider = new AtumProbeInfoProvider();
-        TheOneProbe.theOneProbeImp.registerProvider(atumProbeInfoProvider);
-        TheOneProbe.theOneProbeImp.registerBlockDisplayOverride(atumProbeInfoProvider);
+        theOneProbe.registerProvider(atumProbeInfoProvider);
+        theOneProbe.registerBlockDisplayOverride(atumProbeInfoProvider);
+        return null;
     }
 }

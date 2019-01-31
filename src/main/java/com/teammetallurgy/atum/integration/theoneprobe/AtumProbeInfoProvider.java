@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Objects;
 
@@ -57,7 +58,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
                             .item(door)
                             .vertical()
                             .itemLabel(door)
-                            .text(MODNAME + Tools.getModName(blockState.getBlock()));
+                            .text(MODNAME + Constants.MOD_NAME.replace("2", " 2")); //Lazy way to get it to show properly
                     return true;
                 }
             }
