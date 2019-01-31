@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.init.AtumBlocks;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;

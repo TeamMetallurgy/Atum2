@@ -2,11 +2,10 @@ package com.teammetallurgy.atum.integration.waila;
 
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
+import com.teammetallurgy.atum.utils.AtumUtils;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -36,18 +35,12 @@ public class WailaHUDHandler implements IWailaDataProvider {
             if (config.getConfig("general.showcrop")) {
                 float growthValue = ((float) accessor.getMetadata() / 7.0F) * 100.0F;
                 if (growthValue < 100.0F) {
-                    tooltip.add(LangUtil.translateG("hud.msg.growth") + " : " + LangUtil.translateG("hud.msg.growth.value", (int) growthValue));
+                    tooltip.add(AtumUtils.format("hud.msg.growth") + " : " + AtumUtils.format("hud.msg.growth.value", (int) growthValue));
                 } else {
-                    tooltip.add(LangUtil.translateG("hud.msg.growth") + " : " + LangUtil.translateG("hud.msg.mature"));
+                    tooltip.add(AtumUtils.format("hud.msg.growth") + " : " + AtumUtils.format("hud.msg.mature"));
                 }
             }
         }
         return tooltip;
-    }
-
-    public static void register() {
-        IWailaDataProvider provider = new WailaHUDHandler();
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockAtumDoor.class);
-        ModuleRegistrar.instance().registerBodyProvider(provider, BlockDate.class);
     }
 }

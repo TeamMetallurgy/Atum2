@@ -28,7 +28,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     private BlockPos primaryPos;
 
-    public TileEntityKilnBase() {
+    TileEntityKilnBase() {
         super(9);
     }
 
@@ -44,7 +44,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     	return primaryPos;
     }
 
-    public TileEntityKilnBase getPrimary() {
+    TileEntityKilnBase getPrimary() {
         if(this.isPrimary()) {
         	return this;
         }
