@@ -93,7 +93,7 @@ public class EntityUndeadBase extends EntityMob {
         if (this.hasSkinVariants()) {
             final int variant = MathHelper.getInt(world.rand, 0, this.getVariantAmount());
             this.setVariant(variant);
-            this.setVariantAbilities(difficulty);
+            this.setVariantAbilities(difficulty, variant);
         }
         return livingdata;
     }
@@ -102,7 +102,7 @@ public class EntityUndeadBase extends EntityMob {
         return 6;
     }
 
-    protected void setVariantAbilities(DifficultyInstance difficulty) {
+    protected void setVariantAbilities(DifficultyInstance difficulty, int variant) {
     }
 
     @Override

@@ -149,14 +149,15 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    protected void setVariantAbilities(DifficultyInstance difficulty) {
-        super.setVariantAbilities(difficulty);
+    protected void setVariantAbilities(DifficultyInstance difficulty, int variant) {
+        super.setVariantAbilities(difficulty, variant);
 
         prefixID = rand.nextInt(prefixArray.length);
         suffixID = rand.nextInt(suffixArray.length);
         numID = rand.nextInt(numeralArray.length);
+        System.out.println(prefixID + " " + suffixID + " " + numID) ;
 
-        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
+        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(variant).getColor())));
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
@@ -233,6 +234,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         int p = this.dataManager.get(PREFIX);
         int s = this.dataManager.get(SUFFIX);
         int n = this.dataManager.get(NUMERAL);
+        System.out.println(p + " " + " " + s + " " + n);
         return "Pharaoh " + AtumUtils.format("entity.atum.pharaoh." + prefixArray[p]) + AtumUtils.format("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH)) + " " + numeralArray[n];
     }
 
@@ -378,11 +380,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
-        suffixID = compound.getInteger("suffix");
         prefixID = compound.getInteger("prefix");
+        suffixID = compound.getInteger("suffix");
         numID = compound.getInteger("numeral");
-        this.dataManager.set(PREFIX, compound.getInteger("suffix"));
-        this.dataManager.set(SUFFIX, compound.getInteger("prefix"));
+        this.dataManager.set(PREFIX, compound.getInteger("prefix"));
+        this.dataManager.set(SUFFIX, compound.getInteger("suffix"));
         this.dataManager.set(NUMERAL, compound.getInteger("numeral"));
         if (this.hasSarcophagus) {
             if (compound.hasKey("sarcophagus_x")) {
