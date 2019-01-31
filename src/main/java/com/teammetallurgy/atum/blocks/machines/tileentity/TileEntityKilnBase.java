@@ -1,17 +1,14 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
-import com.teammetallurgy.atum.blocks.machines.BlockKiln;
-import com.teammetallurgy.atum.blocks.machines.BlockKilnFake;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
