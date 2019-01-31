@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.machines;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
+import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -61,22 +62,17 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos, state);
         if (primaryPos != null) {
             IBlockState primaryState = world.getBlockState(primaryPos);
-            ((BlockKiln) AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
+            if(primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
+            	((BlockKiln) AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
         }
     }
 
     public BlockPos getPrimaryKilnBlock(World world, BlockPos pos, IBlockState state) {
-        BlockPos primaryPos = pos;
-        if (state.getValue(UP))
-            primaryPos = primaryPos.offset(EnumFacing.UP);
-
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dz = -1; dz <= 1; dz++) {
-                IBlockState primaryState = world.getBlockState(primaryPos.add(dx, 0, dz));
-                if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
-                    return primaryPos.add(dx, 0, dz);
-            }
-        }
+    	TileEntity te = world.getTileEntity(pos);
+    	if(te instanceof TileEntityKilnBase) {
+    		TileEntityKilnBase tekb = (TileEntityKilnBase)te;
+    		return tekb.getPrimaryPos();
+    	}
         return null;
     }
 

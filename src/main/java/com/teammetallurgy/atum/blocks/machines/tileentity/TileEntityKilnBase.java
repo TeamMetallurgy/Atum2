@@ -29,51 +29,35 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     private static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
     private static final int[] SLOTS_SIDES = new int[]{4};
 
-    private TileEntityKilnBase primary;
-    private boolean isPrimary;
+    private BlockPos primaryPos;
 
     public TileEntityKilnBase() {
         super(9);
-        isPrimary = false;
     }
 
     public boolean isPrimary() {
-        return isPrimary;
+        return primaryPos != null && primaryPos.equals(this.pos);
     }
-
-    public void setPrimary(boolean value) {
-        isPrimary = value;
+    
+    public void setPrimaryPos(BlockPos primaryPos) {
+    	this.primaryPos = primaryPos;
+    }
+    
+    public BlockPos getPrimaryPos() {
+    	return primaryPos;
     }
 
     public TileEntityKilnBase getPrimary() {
-        if (this.hasWorld() && primary != null) {
-            if (!primary.isPrimary()) {
-                primary = null;
-            }
+        if(this.isPrimary()) {
+        	return this;
         }
-        if (this.hasWorld() && primary == null) {
-            IBlockState state = world.getBlockState(this.pos);
-
-            if (state.getBlock() == AtumBlocks.KILN) {
-                if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
-                    primary = this;
-                } else {
-                    BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
-                    if(primaryPos != null) {
-                        primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
-                    }
-                }
-            } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
-                BlockPos primaryPos = ((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state);
-                if (primaryPos != null) {
-                    primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
-                }
-            }
+        if (this.hasWorld() && primaryPos != null) {
+        	TileEntity te = world.getTileEntity(primaryPos);
+        	if(te instanceof TileEntityKilnBase) {
+        		return (TileEntityKilnBase) te;
+        	}
         }
-        if (primary != null) {
-            primary.setPrimary(true);
-        }
-        return primary;
+        return null;
     }
 
     @Override
@@ -204,14 +188,27 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Override
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
-        this.isPrimary = compound.getBoolean("is_primary");
+        boolean hasPrimary = compound.getBoolean("has_primary");
+        if(hasPrimary) {
+        	int x = compound.getInteger("px");
+        	int y = compound.getInteger("py");
+        	int z = compound.getInteger("pz");
+        	primaryPos = new BlockPos(x, y, z);
+        }
     }
 
     @Override
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        compound.setBoolean("is_primary", this.isPrimary);
+        if(primaryPos != null) {
+        	compound.setBoolean("has_primary", true);
+        	compound.setInteger("px", primaryPos.getX());
+        	compound.setInteger("py", primaryPos.getY());
+        	compound.setInteger("pz", primaryPos.getZ());
+        } else {
+        	compound.setBoolean("has_primary", false);
+        }
         return compound;
     }
 
