@@ -114,14 +114,9 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     protected void entityInit() {
         super.entityInit();
-        if (prefixID == 0 && suffixID == 0 && numID == 0) {
-            prefixID = rand.nextInt(prefixArray.length);
-            suffixID = rand.nextInt(suffixArray.length);
-            numID = rand.nextInt(numeralArray.length);
-        }
-        this.dataManager.register(PREFIX, suffixID);
-        this.dataManager.register(SUFFIX, prefixID);
-        this.dataManager.register(NUMERAL, numID);
+        this.dataManager.register(PREFIX, 0);
+        this.dataManager.register(SUFFIX, 0);
+        this.dataManager.register(NUMERAL, 0);
     }
 
     @Override
@@ -149,8 +144,18 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    protected void setVariant(int variant) {
+        super.setVariant(variant);
+    }
+
+    @Override
     protected void setVariantAbilities(DifficultyInstance difficulty) {
         super.setVariantAbilities(difficulty);
+
+        prefixID = rand.nextInt(prefixArray.length);
+        suffixID = rand.nextInt(suffixArray.length);
+        numID = rand.nextInt(numeralArray.length);
+
         bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
 
         this.setEquipmentBasedOnDifficulty(difficulty);
@@ -225,14 +230,10 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     @Nonnull
     public String getName() {
-        try {
-            int p = this.dataManager.get(PREFIX);
-            int s = this.dataManager.get(SUFFIX);
-            int n = this.dataManager.get(NUMERAL);
-            return "Pharaoh " + AtumUtils.format("entity.atum.pharaoh." + prefixArray[p]) + AtumUtils.format("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH)) + " " + numeralArray[n];
-        } catch (Exception e) {
-            return "";
-        }
+        int p = this.dataManager.get(PREFIX);
+        int s = this.dataManager.get(SUFFIX);
+        int n = this.dataManager.get(NUMERAL);
+        return "Pharaoh " + AtumUtils.format("entity.atum.pharaoh." + prefixArray[p]) + AtumUtils.format("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH)) + " " + numeralArray[n];
     }
 
     @Override
@@ -323,6 +324,8 @@ public class EntityPharaoh extends EntityUndeadBase {
     public void onUpdate() {
         super.onUpdate();
 
+        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
+
         if (this.world.getDifficulty().getId() == 0) {
             if (this.hasSarcophagus) {
                 TileEntity te = world.getTileEntity(this.getSarcophagusPos());
@@ -359,9 +362,9 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
-        compound.setInteger("prefix", this.dataManager.get(PREFIX));
-        compound.setInteger("suffix", this.dataManager.get(SUFFIX));
-        compound.setInteger("numeral", this.dataManager.get(NUMERAL));
+        compound.setInteger("prefix", prefixID);
+        compound.setInteger("suffix", suffixID);
+        compound.setInteger("numeral", numID);
         if (hasSarcophagus) {
             BlockPos sarcophagusPos = getSarcophagusPos();
             if (sarcophagusPos != null) {
@@ -378,9 +381,9 @@ public class EntityPharaoh extends EntityUndeadBase {
         suffixID = compound.getInteger("suffix");
         prefixID = compound.getInteger("prefix");
         numID = compound.getInteger("numeral");
-        this.dataManager.set(PREFIX, prefixID);
-        this.dataManager.set(SUFFIX, suffixID);
-        this.dataManager.set(NUMERAL, numID);
+        this.dataManager.set(PREFIX, compound.getInteger("suffix"));
+        this.dataManager.set(SUFFIX, compound.getInteger("prefix"));
+        this.dataManager.set(NUMERAL, compound.getInteger("numeral"));
         if (this.hasSarcophagus) {
             if (compound.hasKey("sarcophagus_x")) {
                 int x = compound.getInteger("sarcophagus_x");
@@ -402,9 +405,8 @@ public class EntityPharaoh extends EntityUndeadBase {
     private void trySpawnMummy(BlockPos pos, EnumFacing facing) {
         BlockPos base = pos.offset(facing, 1);
 
-    	if (!world.isBlockFullCube(base) && !world.isBlockFullCube(base.offset(EnumFacing.UP)))
-    	{
-    		EntityMummy entityMummy = new EntityMummy(world);
+        if (!world.isBlockFullCube(base) && !world.isBlockFullCube(base.offset(EnumFacing.UP))) {
+            EntityMummy entityMummy = new EntityMummy(world);
             entityMummy.onInitialSpawn(world.getDifficultyForLocation(base), null);
             entityMummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
@@ -413,27 +415,25 @@ public class EntityPharaoh extends EntityUndeadBase {
             }
             entityMummy.spawnExplosionParticle();
             return;
-    	}
+        }
 
-        for (EnumFacing offset : EnumFacing.HORIZONTALS)
-        {
-        	// Don't spawn the mummy on top of the pharaoh
-        	if (offset == facing.getOpposite())
-        		continue;
+        for (EnumFacing offset : EnumFacing.HORIZONTALS) {
+            // Don't spawn the mummy on top of the pharaoh
+            if (offset == facing.getOpposite())
+                continue;
 
-        	BlockPos new_pos = base.offset(offset);
-        	if (!world.isBlockFullCube(new_pos) && !world.isBlockFullCube(new_pos.offset(EnumFacing.UP)))
-        	{
-	    		EntityMummy entityMummy = new EntityMummy(world);
-	            entityMummy.onInitialSpawn(world.getDifficultyForLocation(new_pos), null);
-	            entityMummy.setLocationAndAngles(new_pos.getX(), new_pos.getY(), new_pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
+            BlockPos new_pos = base.offset(offset);
+            if (!world.isBlockFullCube(new_pos) && !world.isBlockFullCube(new_pos.offset(EnumFacing.UP))) {
+                EntityMummy entityMummy = new EntityMummy(world);
+                entityMummy.onInitialSpawn(world.getDifficultyForLocation(new_pos), null);
+                entityMummy.setLocationAndAngles(new_pos.getX(), new_pos.getY(), new_pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
-	            if (!world.isRemote) {
-	                AnvilChunkLoader.spawnEntity(entityMummy, world);
-	            }
-	            entityMummy.spawnExplosionParticle();
-	            return;
-        	}
+                if (!world.isRemote) {
+                    AnvilChunkLoader.spawnEntity(entityMummy, world);
+                }
+                entityMummy.spawnExplosionParticle();
+                return;
+            }
         }
     }
 
