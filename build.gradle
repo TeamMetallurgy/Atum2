@@ -20,7 +20,12 @@ repositories {
     url "http://maven.blamejared.com" 
   }
   maven {
+    name 'Baubles'
     url = "http://maven.thiakil.com"
+  }
+  maven {
+    name 'TheOneProbe'
+    url "https://maven.tterrag.com/"
   }
 }
 
@@ -49,6 +54,7 @@ dependencies {
     deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}"
     deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:${ct_version}"
 	deobfProvided "com.azanor.baubles:Baubles:${baubles_version}"
+	deobfProvided "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}"
 }
 
 processResources {

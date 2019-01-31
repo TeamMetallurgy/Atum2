@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.integration;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
+import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.common.Loader;
@@ -17,6 +18,7 @@ public class IntegrationHandler {
 
     public void initModIntegration() {
         mods.put(Thaumcraft.THAUMCRAFT_ID, Thaumcraft.class);
+        mods.put(TOPSupport.THE_ONE_PROBE, TOPSupport.class);
 
         List<String> enabledModSupport = mods.keySet().stream().filter(modid -> AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modid, true).getBoolean()).collect(Collectors.toList());
         AtumConfig.config.save();
