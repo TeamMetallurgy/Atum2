@@ -3,8 +3,6 @@ package com.teammetallurgy.atum.integration.theoneprobe;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import com.teammetallurgy.atum.utils.Constants;
-import mcjty.theoneprobe.TheOneProbe;
-import mcjty.theoneprobe.Tools;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -12,7 +10,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import org.apache.commons.lang3.text.WordUtils;
 
 import java.util.Objects;
 
@@ -29,7 +26,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
 
     @Override
     public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        IProbeConfig config = TheOneProbe.theOneProbeImp.createProbeConfig();
+        IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (this.show(mode, config.getShowCropPercentage())) {
             if (blockState.getBlock() instanceof BlockDate) {
@@ -46,7 +43,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
 
     @Override
     public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
-        IProbeConfig config = TheOneProbe.theOneProbeImp.createProbeConfig();
+        IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (mode != ProbeMode.DEBUG && !this.show(mode, config.getShowSilverfish())) {
             if (blockState.getBlock() instanceof BlockAtumDoor) {

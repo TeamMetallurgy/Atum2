@@ -54,7 +54,7 @@ dependencies {
     deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}"
     deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:${ct_version}"
 	deobfProvided "com.azanor.baubles:Baubles:${baubles_version}:api"
-	deobfProvided "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}"
+	deobfProvided "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}:api"
 }
 
 processResources {

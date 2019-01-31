@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.integration.IModIntegration;
+import mcjty.theoneprobe.api.IProbeConfig;
 import mcjty.theoneprobe.api.ITheOneProbe;
 import net.minecraftforge.fml.common.event.FMLInterModComms;
 
@@ -9,7 +10,7 @@ import java.util.function.Function;
 public class TOPSupport implements IModIntegration, Function<ITheOneProbe, Void> {
     public static final String THE_ONE_PROBE = "theoneprobe";
 
-    public static ITheOneProbe theOneProbe;
+    private static ITheOneProbe theOneProbe;
 
     @Override
     public void init() {
@@ -25,7 +26,7 @@ public class TOPSupport implements IModIntegration, Function<ITheOneProbe, Void>
         return null;
     }
 
-    /*public static IProbeConfig getProbeConfig() {
+    static IProbeConfig getProbeConfig() {
         return theOneProbe.createProbeConfig();
-    }*/
+    }
 }

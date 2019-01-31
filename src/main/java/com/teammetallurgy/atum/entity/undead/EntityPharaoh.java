@@ -155,9 +155,8 @@ public class EntityPharaoh extends EntityUndeadBase {
         prefixID = rand.nextInt(prefixArray.length);
         suffixID = rand.nextInt(suffixArray.length);
         numID = rand.nextInt(numeralArray.length);
-        System.out.println(prefixID + " " + suffixID + " " + numID) ;
 
-        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(variant).getColor())));
+        this.setPharaohName(this.prefixID, this.suffixID, this.numID);
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
@@ -234,7 +233,6 @@ public class EntityPharaoh extends EntityUndeadBase {
         int p = this.dataManager.get(PREFIX);
         int s = this.dataManager.get(SUFFIX);
         int n = this.dataManager.get(NUMERAL);
-        System.out.println(p + " " + " " + s + " " + n);
         return "Pharaoh " + AtumUtils.format("entity.atum.pharaoh." + prefixArray[p]) + AtumUtils.format("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH)) + " " + numeralArray[n];
     }
 
@@ -326,7 +324,9 @@ public class EntityPharaoh extends EntityUndeadBase {
     public void onUpdate() {
         super.onUpdate();
 
-        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
+        if (!world.isRemote) {
+            this.setBossInfo(this.getVariant());
+        }
 
         if (this.world.getDifficulty().getId() == 0) {
             if (this.hasSarcophagus) {
@@ -383,9 +383,6 @@ public class EntityPharaoh extends EntityUndeadBase {
         prefixID = compound.getInteger("prefix");
         suffixID = compound.getInteger("suffix");
         numID = compound.getInteger("numeral");
-        this.dataManager.set(PREFIX, compound.getInteger("prefix"));
-        this.dataManager.set(SUFFIX, compound.getInteger("suffix"));
-        this.dataManager.set(NUMERAL, compound.getInteger("numeral"));
         if (this.hasSarcophagus) {
             if (compound.hasKey("sarcophagus_x")) {
                 int x = compound.getInteger("sarcophagus_x");
@@ -396,6 +393,13 @@ public class EntityPharaoh extends EntityUndeadBase {
                 this.dataManager.set(SARCOPHAGUS_POS, Optional.absent());
             }
         }
+        this.setPharaohName(compound.getInteger("prefix"), compound.getInteger("suffix"), compound.getInteger("numeral"));
+    }
+
+    private void setPharaohName(int prefix, int suffix, int numeral) {
+        this.dataManager.set(PREFIX, prefix);
+        this.dataManager.set(SUFFIX, suffix);
+        this.dataManager.set(NUMERAL, numeral);
     }
 
     public void spawnGuards(BlockPos pos) {
@@ -437,6 +441,10 @@ public class EntityPharaoh extends EntityUndeadBase {
                 return;
             }
         }
+    }
+
+    private void setBossInfo(int variant) {
+        this.bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(variant).getColor())));
     }
 
     public enum God {
