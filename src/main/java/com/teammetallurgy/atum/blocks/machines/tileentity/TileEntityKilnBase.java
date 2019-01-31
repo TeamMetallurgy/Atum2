@@ -12,6 +12,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.NonNullList;
@@ -46,33 +47,32 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     }
 
     public TileEntityKilnBase getPrimary() {
+        if (this.hasWorld() && primary != null) {
+            if (!primary.isPrimary()) {
+                primary = null;
+            }
+        }
         if (this.hasWorld() && primary == null) {
             IBlockState state = world.getBlockState(this.pos);
 
             if (state.getBlock() == AtumBlocks.KILN) {
                 if (state.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
                     primary = this;
-                    primary.setPrimary(true);
                 } else {
                     BlockPos primaryPos = ((BlockKiln) state.getBlock()).getPrimaryKilnBlock(world, pos);
-                    if (primaryPos == null)
-                        return null;
-                    IBlockState primaryState = world.getBlockState(primaryPos);
-                    if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY)) {
+                    if(primaryPos != null) {
                         primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
-                        if (primary != null) {
-                            primary.setPrimary(true);
-                        }
-                    } else {
-                        return null;
                     }
                 }
             } else if (state.getBlock() == AtumBlocks.KILN_FAKE) {
-                primary = (TileEntityKilnBase) world.getTileEntity(((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state));
-                if (primary != null) {
-                    primary.setPrimary(true);
+                BlockPos primaryPos = ((BlockKilnFake) state.getBlock()).getPrimaryKilnBlock(world, pos, state);
+                if (primaryPos != null) {
+                    primary = (TileEntityKilnBase) world.getTileEntity(primaryPos);
                 }
             }
+        }
+        if (primary != null) {
+            primary.setPrimary(true);
         }
         return primary;
     }
