@@ -30,10 +30,6 @@ repositories {
     name 'TheOneProbe'
     url "https://maven.tterrag.com/"
   }
-  maven {
-    name 'Forestry + Binnies Mods'
-    url "http://maven.ic2.player.to/"
-  }
 }
 
 sourceCompatibility = 1.8
@@ -62,7 +58,6 @@ dependencies {
     deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:${ct_version}"
 	deobfProvided "com.azanor.baubles:Baubles:${baubles_version}:api"
 	deobfProvided "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}:api"
-	deobfProvided "net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}:api"
 }
 
 processResources {

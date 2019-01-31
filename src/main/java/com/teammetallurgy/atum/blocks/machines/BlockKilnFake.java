@@ -62,17 +62,17 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos, state);
         if (primaryPos != null) {
             IBlockState primaryState = world.getBlockState(primaryPos);
-            if(primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
-            	((BlockKiln) AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
+            if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(BlockKiln.MULTIBLOCK_PRIMARY))
+                ((BlockKiln) AtumBlocks.KILN).destroyMultiblock(world, primaryPos, primaryState.getValue(BlockKiln.FACING));
         }
     }
 
-    public BlockPos getPrimaryKilnBlock(World world, BlockPos pos, IBlockState state) {
-    	TileEntity te = world.getTileEntity(pos);
-    	if(te instanceof TileEntityKilnBase) {
-    		TileEntityKilnBase tekb = (TileEntityKilnBase)te;
-    		return tekb.getPrimaryPos();
-    	}
+    private BlockPos getPrimaryKilnBlock(World world, BlockPos pos, IBlockState state) {
+        TileEntity te = world.getTileEntity(pos);
+        if (te instanceof TileEntityKilnBase) {
+            TileEntityKilnBase tekb = (TileEntityKilnBase) te;
+            return tekb.getPrimaryPos();
+        }
         return null;
     }
 

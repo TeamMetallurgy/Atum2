@@ -35,24 +35,24 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     public boolean isPrimary() {
         return primaryPos != null && primaryPos.equals(this.pos);
     }
-    
+
     public void setPrimaryPos(BlockPos primaryPos) {
-    	this.primaryPos = primaryPos;
+        this.primaryPos = primaryPos;
     }
-    
+
     public BlockPos getPrimaryPos() {
-    	return primaryPos;
+        return primaryPos;
     }
 
     TileEntityKilnBase getPrimary() {
-        if(this.isPrimary()) {
-        	return this;
+        if (this.isPrimary()) {
+            return this;
         }
         if (this.hasWorld() && primaryPos != null) {
-        	TileEntity te = world.getTileEntity(primaryPos);
-        	if(te instanceof TileEntityKilnBase) {
-        		return (TileEntityKilnBase) te;
-        	}
+            TileEntity te = world.getTileEntity(primaryPos);
+            if (te instanceof TileEntityKilnBase) {
+                return (TileEntityKilnBase) te;
+            }
         }
         return null;
     }
@@ -186,11 +186,11 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     public void readFromNBT(NBTTagCompound compound) {
         super.readFromNBT(compound);
         boolean hasPrimary = compound.getBoolean("has_primary");
-        if(hasPrimary) {
-        	int x = compound.getInteger("px");
-        	int y = compound.getInteger("py");
-        	int z = compound.getInteger("pz");
-        	primaryPos = new BlockPos(x, y, z);
+        if (hasPrimary) {
+            int x = compound.getInteger("px");
+            int y = compound.getInteger("py");
+            int z = compound.getInteger("pz");
+            primaryPos = new BlockPos(x, y, z);
         }
     }
 
@@ -198,13 +198,13 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     @Nonnull
     public NBTTagCompound writeToNBT(NBTTagCompound compound) {
         super.writeToNBT(compound);
-        if(primaryPos != null) {
-        	compound.setBoolean("has_primary", true);
-        	compound.setInteger("px", primaryPos.getX());
-        	compound.setInteger("py", primaryPos.getY());
-        	compound.setInteger("pz", primaryPos.getZ());
+        if (primaryPos != null) {
+            compound.setBoolean("has_primary", true);
+            compound.setInteger("px", primaryPos.getX());
+            compound.setInteger("py", primaryPos.getY());
+            compound.setInteger("pz", primaryPos.getZ());
         } else {
-        	compound.setBoolean("has_primary", false);
+            compound.setBoolean("has_primary", false);
         }
         return compound;
     }

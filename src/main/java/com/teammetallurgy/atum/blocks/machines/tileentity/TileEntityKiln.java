@@ -88,13 +88,13 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
             if (isBurning != this.isBurning()) {
                 markDirty = true;
+                world.setBlockState(pos, world.getBlockState(pos).withProperty(BlockKiln.IS_BURNING, this.isBurning()));
                 BlockPos secondaryKilnPos = BlockKiln.getSecondaryKilnFromPrimary(world, pos);
                 if (secondaryKilnPos != null) {
-                	IBlockState secondaryState = world.getBlockState(secondaryKilnPos);
-                	if(secondaryState.getBlock() == AtumBlocks.KILN)
-                		world.setBlockState(secondaryKilnPos, secondaryState.withProperty(BlockKiln.IS_BURNING, this.isBurning()));
-                	else
-                		System.out.println("Secondary Kiln block is " + secondaryState.getBlock() + " at " + secondaryKilnPos);
+                    IBlockState secondaryState = world.getBlockState(secondaryKilnPos);
+                    if (secondaryState.getBlock() == AtumBlocks.KILN) {
+                        world.setBlockState(secondaryKilnPos, secondaryState.withProperty(BlockKiln.IS_BURNING, this.isBurning()));
+                    }
                 }
             }
         }

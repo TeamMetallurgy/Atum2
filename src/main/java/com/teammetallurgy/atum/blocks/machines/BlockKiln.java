@@ -33,8 +33,8 @@ import java.util.List;
 public class BlockKiln extends BlockContainer {
     public static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyBool IS_BURNING = PropertyBool.create("is_burning");
-    public static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
-    public static final PropertyBool MULTIBLOCK_SECONDARY = PropertyBool.create("multiblock_secondary");
+    static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
+    private static final PropertyBool MULTIBLOCK_SECONDARY = PropertyBool.create("multiblock_secondary");
 
     public BlockKiln() {
         super(Material.ROCK, MapColor.SAND);
@@ -42,11 +42,6 @@ public class BlockKiln extends BlockContainer {
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 0);
         this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(IS_BURNING, false).withProperty(MULTIBLOCK_PRIMARY, false).withProperty(MULTIBLOCK_SECONDARY, false));
-    }
-
-    @Override
-    public boolean hasTileEntity(IBlockState state) {
-        return true;
     }
 
     @Override
