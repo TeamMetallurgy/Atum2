@@ -51,7 +51,11 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
                 if (location.toString().contains("limestone")) {
                     location = new ResourceLocation(location.toString().replace("_door", ""));
                     ItemStack door = new ItemStack(Objects.requireNonNull(Item.REGISTRY.getObject(location)));
-                    probeInfo.horizontal().item(door).itemLabel(door);
+                    probeInfo.horizontal()
+                             .item(door)
+                             .vertical()
+                             .itemLabel(door)
+                             .text(MODNAME + Tools.getModName(blockState.getBlock()));
                     return true;
                 }
             }
