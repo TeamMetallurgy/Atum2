@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemThothsDirection extends ItemCompass {
+public class ItemThothsDirection extends ItemCompass { //Revisit later
     private BlockPos pyramidPos;
     private int searchTime;
     private boolean isSearching = false;

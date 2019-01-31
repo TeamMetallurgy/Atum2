@@ -84,8 +84,6 @@ public class AtumAspects {
         event.register.registerObjectTag(new ItemStack(AtumItems.TEFNUTS_CALL), (new AspectList()).add(Aspect.FIRE, 6).add(Aspect.MOTION, 4).add(Aspect.MAGIC, 2));
         event.register.registerObjectTag(new ItemStack(AtumItems.SHUS_SWIFTNESS), (new AspectList()).add(Aspect.AIR, 8).add(Aspect.MOTION, 12).add(Aspect.MAGIC, 1));
         event.register.registerObjectTag(new ItemStack(AtumItems.ISIS_HEALING), (new AspectList()).add(Aspect.LIFE, 12).add(Aspect.MAGIC, 6));
-        event.register.registerObjectTag(new ItemStack(AtumItems.THOTHS_BEARINGS), (new AspectList()).add(Aspect.PLANT, 6).add(Aspect.MIND, 18));
-        event.register.registerObjectTag(new ItemStack(AtumItems.THOTHS_DIRECTION), (new AspectList()).add(Aspect.ENERGY, 14).add(Aspect.MAGIC, 5));
         event.register.registerObjectTag(new ItemStack(AtumItems.ANUBIS_MERCY), (new AspectList()).add(Aspect.DEATH, 18).add(Aspect.MAGIC, 5));
         event.register.registerObjectTag(new ItemStack(AtumItems.NUITS_VANISHING), (new AspectList()).add(Aspect.SENSES, 10).add(Aspect.MAGIC, 5).add(Aspect.EXCHANGE, 4).add(Aspect.MOTION, 2));
 

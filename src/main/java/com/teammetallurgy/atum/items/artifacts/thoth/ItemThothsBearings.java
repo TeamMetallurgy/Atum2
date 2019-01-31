@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ItemThothsBearings extends ItemMap {
+public class ItemThothsBearings extends ItemMap { //Revisit later
 
     public ItemThothsBearings() {
         this.setMaxStackSize(1);

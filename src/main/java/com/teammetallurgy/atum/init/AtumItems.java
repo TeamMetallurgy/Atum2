@@ -144,6 +144,7 @@ public class AtumItems {
     public static final Item CAMEL_IRON_ARMOR = new Item().setMaxStackSize(1);
     public static final Item CAMEL_GOLD_ARMOR = new Item().setMaxStackSize(1);
     public static final Item CAMEL_DIAMOND_ARMOR = new Item().setMaxStackSize(1);
+    public static final Item GRAVEROBBERS_MAP = new ItemGraverobbersMap();
     public static final Item SCROLL = new Item();
     public static final Item SCRAP = new Item();
     public static final Item LINEN_BANDAGE = new ItemLinenBandage();
@@ -236,8 +237,8 @@ public class AtumItems {
         registerItem(ISIS_HEALING, "isis_healing");
         registerItem(MONTUS_BLAST, "montus_blast");
         registerItem(MONTUS_STRIKE, "montus_strike");
-        registerItem(THOTHS_BEARINGS, "thoths_bearings");
-        registerItem(THOTHS_DIRECTION, "thoths_direction");
+        //registerItem(THOTHS_BEARINGS, "thoths_bearings");
+        //registerItem(THOTHS_DIRECTION, "thoths_direction");
         registerItem(ANUBIS_MERCY, "anubiss_mercy");
         registerItem(ANUBIS_WRATH, "anubiss_wrath");
         registerItem(NUITS_VANISHING, "nuits_vanishing");
@@ -272,6 +273,7 @@ public class AtumItems {
         registerItem(CAMEL_IRON_ARMOR, "camel_iron_armor");
         registerItem(CAMEL_GOLD_ARMOR, "camel_gold_armor");
         registerItem(CAMEL_DIAMOND_ARMOR, "camel_diamond_armor");
+        registerItem(GRAVEROBBERS_MAP, "graverobbers_map");
         registerItem(SCROLL, "scroll");
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN_BANDAGE, "linen_bandage");

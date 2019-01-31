@@ -140,7 +140,7 @@ public class MapGenPyramid extends MapGenStructure {
             if (y < 60) {
                 this.isValid = false;
             } else {
-                int yChance = MathHelper.getInt(random, 10, 18);
+                int yChance = MathHelper.getInt(random, 10, 16);
                 BlockPos pos = new BlockPos(chunkX * 16 + 8, y - yChance, chunkZ * 16 + 8);
                 List<StructureComponent> components = PyramidPieces.getComponents(world.getSaveHandler().getStructureTemplateManager(), pos, rotation, random);
                 this.components.addAll(components);

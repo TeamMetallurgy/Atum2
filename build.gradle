@@ -11,12 +11,15 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 repositories {
   maven {
+    name 'JEI'
     url "http://dvs1.progwml6.com/files/maven"
   }
   maven {
+    name 'Hwyla'
     url "http://tehnut.info/maven"
   }
   maven { 
+    name 'CraftTweaker2'
     url "http://maven.blamejared.com" 
   }
   maven {
@@ -26,6 +29,10 @@ repositories {
   maven {
     name 'TheOneProbe'
     url "https://maven.tterrag.com/"
+  }
+  maven {
+    name 'Forestry + Binnies Mods'
+    url "http://maven.ic2.player.to/"
   }
 }
 
@@ -55,6 +62,7 @@ dependencies {
     deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:${ct_version}"
 	deobfProvided "com.azanor.baubles:Baubles:${baubles_version}:api"
 	deobfProvided "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}:api"
+	deobfProvided "net.sengir.forestry:forestry_${minecraft_version}:${forestry_version}:api"
 }
 
 processResources {

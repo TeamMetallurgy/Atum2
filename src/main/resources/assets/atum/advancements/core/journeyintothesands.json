@@ -13,11 +13,6 @@
         "announce_to_chat": false
     },
 	"parent": "atum:core/root",
-	"rewards": {
-        "loot": [
-            "atum:advancements/thoths_bearings"
-        ]
-    },
     "criteria": {
         "entered_atum": {
             "trigger": "minecraft:changed_dimension",
