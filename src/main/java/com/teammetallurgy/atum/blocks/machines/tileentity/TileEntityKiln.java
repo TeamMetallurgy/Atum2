@@ -116,7 +116,10 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         if (!isPrimary()) {
-            getPrimary().setInventorySlotContents(index, stack);
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                primary.setInventorySlotContents(index, stack);
+            }
             return;
         }
 
@@ -138,7 +141,10 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
     public boolean isBurning() {
         if (!isPrimary()) {
-            return ((TileEntityKiln) getPrimary()).isBurning();
+            TileEntityKilnBase primary = getPrimary();
+            if (primary != null) {
+                return ((TileEntityKiln) primary).isBurning();
+            }
         }
         return this.burnTime > 0;
     }

@@ -32,6 +32,7 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
+        this.setHarvestLevel("pickaxe", 0);
         this.setSoundType(SoundType.STONE);
         this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false));
     }
