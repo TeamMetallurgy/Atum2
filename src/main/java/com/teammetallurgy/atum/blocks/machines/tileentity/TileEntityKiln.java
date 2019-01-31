@@ -3,9 +3,12 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
+import com.teammetallurgy.atum.init.AtumBlocks;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
@@ -87,9 +90,12 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
             if (isBurning != this.isBurning()) {
                 markDirty = true;
                 BlockPos secondaryKilnPos = BlockKiln.getSecondaryKilnFromPrimary(world, pos);
-                world.setBlockState(pos, world.getBlockState(pos).withProperty(BlockKiln.IS_BURNING, this.isBurning()));
                 if (secondaryKilnPos != null) {
-                    world.setBlockState(secondaryKilnPos, world.getBlockState(secondaryKilnPos).withProperty(BlockKiln.IS_BURNING, this.isBurning()));
+                	IBlockState secondaryState = world.getBlockState(secondaryKilnPos);
+                	if(secondaryState.getBlock() == AtumBlocks.KILN)
+                		world.setBlockState(secondaryKilnPos, secondaryState.withProperty(BlockKiln.IS_BURNING, this.isBurning()));
+                	else
+                		System.out.println("Secondary Kiln block is " + secondaryState.getBlock() + " at " + secondaryKilnPos);
                 }
             }
         }
