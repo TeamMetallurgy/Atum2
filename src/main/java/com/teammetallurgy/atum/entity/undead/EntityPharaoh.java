@@ -95,6 +95,12 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    protected void setVariant(int variant) {
+        super.setVariant(variant);
+        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
+    }
+
+    @Override
     protected void applyEntityAI() {
         super.applyEntityAI();
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
@@ -151,7 +157,6 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     protected void setVariantAbilities(DifficultyInstance difficulty) {
         super.setVariantAbilities(difficulty);
-        bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(this.getVariant()).getColor())));
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
