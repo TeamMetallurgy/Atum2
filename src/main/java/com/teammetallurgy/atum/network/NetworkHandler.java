@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.network;
 
 import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
 import com.teammetallurgy.atum.network.packet.PacketParticle;
+import com.teammetallurgy.atum.network.packet.PacketStormStrength;
+import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
@@ -19,6 +21,8 @@ public class NetworkHandler {
         lastDiscriminator++;
         registerPacket(PacketParticle.class, Side.CLIENT);
         registerPacket(PacketOpenWolfGui.class, Side.SERVER);
+        registerPacket(PacketWeather.class, Side.CLIENT);
+        registerPacket(PacketStormStrength.class, Side.CLIENT);
     }
 
     @SuppressWarnings("all")

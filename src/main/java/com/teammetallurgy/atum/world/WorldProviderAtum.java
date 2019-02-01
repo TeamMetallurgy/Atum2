@@ -1,6 +1,9 @@
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.network.packet.PacketStormStrength;
+import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -62,6 +65,9 @@ public class WorldProviderAtum extends WorldProvider {
         if (f > 1.0F) {
             f = 1.0F;
         }
+        
+        // Darken fog as sandstorm builds
+        // f *= (1 - this.stormStrength) * 0.8 + 0.2;
 
         float f1 = 0.9F * f;
         float f2 = 0.75F * f;
@@ -95,25 +101,33 @@ public class WorldProviderAtum extends WorldProvider {
     public void updateWeather()
     {
         super.updateWeather();
-        stormTime++;
+        //System.out.println(isStorming + " " + stormTime);
         if(stormTime <= 0) {
         	if(isStorming) {
-        		stormTime = this.world.rand.nextInt(600) + 600;
+        		stormTime = this.world.rand.nextInt(6000) + 6000;
+        		System.out.println("New Storm: " + stormTime);
         	} else {
-        		stormTime = this.world.rand.nextInt(16800) + 1200;
+        		stormTime = this.world.rand.nextInt(168000) + 12000;
+        		System.out.println("Next Storm: " + stormTime);
         	}
+    		NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
         } else {
         	stormTime--;
-        	if (stormTime <= 0)
+        	if (stormTime <= 0) {
         		isStorming = !isStorming;
+        	}
         }
         
         prevStormStrength = stormStrength;
         if (isStorming) {
-        	stormStrength += 0.01f;
+        	stormStrength += 0.002f;
         } else {
-        	stormStrength -= 0.01f;
+        	stormStrength -= 0.002f;
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
+        
+        if(stormStrength != prevStormStrength) {
+        	NetworkHandler.WRAPPER.sendToDimension(new PacketStormStrength(stormStrength), this.getDimension());
+        }
     }
 }
