@@ -2,12 +2,16 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
+
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
@@ -207,6 +211,23 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
             compound.setBoolean("has_primary", false);
         }
         return compound;
+    }
+
+    @Override
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(this.pos, 0, this.getUpdateTag());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
+        super.onDataPacket(manager, packet);
+        this.readFromNBT(packet.getNbtCompound());
+    }
+
+    @Override
+    @Nonnull
+    public NBTTagCompound getUpdateTag() {
+        return this.writeToNBT(new NBTTagCompound());
     }
 
     private IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
