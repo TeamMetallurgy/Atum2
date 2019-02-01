@@ -6,6 +6,8 @@ import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.WorldProviderAtum;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -34,15 +36,80 @@ public class ClientEvents {
     protected static final ResourceLocation SAND_BLUR_TEX_PATH = new ResourceLocation("atum", "textures/hud/sandstormwip.png");
     private static float intensity = 1;    
     
+    @SubscribeEvent
+    public static void renderlast(RenderWorldLastEvent event) {
+        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
+			
+        	WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+			float rain = provider.stormStrength;
+			if(rain < 0.0001f)
+				return;
+	
+			ScaledResolution scaledRes = new ScaledResolution(Minecraft.getMinecraft());
+	        Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
+	        GlStateManager.enableBlend();
+	
+	        
+	        GlStateManager.disableDepth();
+	        GlStateManager.depthMask(false);
+	        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+	        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+	        GlStateManager.disableAlpha();
+	        Minecraft.getMinecraft().getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
+	
+	        EntityPlayerSP player = Minecraft.getMinecraft().player;
+	        boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
+	        
+	        Tessellator tessellator = Tessellator.getInstance();
+	        BufferBuilder bufferbuilder = tessellator.getBuffer();
+	        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+	        
+	        int min = 2;
+	        if(Minecraft.getMinecraft().gameSettings.hideGUI)
+	        	min = 1;
+	        
+	        for(int i = 2; i < 6; i++)
+	        {
+		        float scale = 0.2f / (float)i;
+	            if(!sky) { 
+	            	intensity -= 0.0005f;
+	            	intensity = intensity < 0 ? 0 : intensity;
+	            } else {
+	            	intensity += 0.01f;
+	            	intensity = intensity > 1 ? 1 : intensity;
+	            }
+	            GlStateManager.color(0.5f, 0.5f, 0.5f, (float)Math.pow(intensity - 0.1f, i) *  rain);
+		        float scaleX = 0.01f * scaledRes.getScaledHeight() * scale * scaledRes.getScaleFactor();
+		        float scaleY = 0.01f * scaledRes.getScaledWidth() * scale * scaledRes.getScaleFactor();
+		        float speed = 500f - i * 15;
+		        float movement = -(System.currentTimeMillis() % (int)speed)/speed;
+	        	float yaw = 0.25f * (Minecraft.getMinecraft().player.rotationYaw % 360 / 360f) / scale;
+	        	float pitch = 0.5f * (Minecraft.getMinecraft().player.rotationPitch % 360 / 360f) / scale;
+	
+		        bufferbuilder.pos(0.0D, (double)scaledRes.getScaledHeight(), 90.0D)                              .tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
+		        bufferbuilder.pos((double)scaledRes.getScaledWidth(), (double)scaledRes.getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
+		        bufferbuilder.pos((double)scaledRes.getScaledWidth(), 0.0D, 90.0D)                               .tex(1.0D / scaleX + movement + yaw, 0.0D + pitch).endVertex();
+		        bufferbuilder.pos(0.0D, 0.0D, 90.0D)                                                             .tex(movement + yaw, 0.0D + pitch).endVertex();
+	        }
+	        tessellator.draw();
+	
+	        GlStateManager.depthMask(true);
+	        GlStateManager.enableDepth();
+	        GlStateManager.enableAlpha();
+	        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+        }
+    }
+    
 	@SubscribeEvent
 	public static void renderSand(RenderGameOverlayEvent.Pre event) {
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
 
 			if(event.getType() != ElementType.ALL)
 				return;
-			
-			float rain = Minecraft.getMinecraft().player.world.rainingStrength;
-			if(Minecraft.getMinecraft().player.world.rainingStrength < 0.0001f)
+
+        	WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+			float rain = provider.stormStrength;
+			if(rain < 0.0001f)
 				return;
 	
 			ScaledResolution scaledRes = event.getResolution();
@@ -63,7 +130,7 @@ public class ClientEvents {
 	        Tessellator tessellator = Tessellator.getInstance();
 	        BufferBuilder bufferbuilder = tessellator.getBuffer();
 	        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-	        for(int i = 1; i < 6; i++)
+	        for(int i = 1; i < 2; i++)
 	        {
 		        float scale = 0.2f / (float)i;
 	            if(!sky) { 

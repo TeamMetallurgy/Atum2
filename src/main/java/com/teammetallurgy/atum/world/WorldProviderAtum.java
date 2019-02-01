@@ -30,6 +30,7 @@ public class WorldProviderAtum extends WorldProvider {
         this.biomeProvider = new AtumBiomeProvider(world.getWorldInfo());
         NBTTagCompound tagCompound = this.world.getWorldInfo().getDimensionData(this.world.provider.getDimension());
         this.hasStartStructureSpawned = this.world instanceof WorldServer && tagCompound.getBoolean("HasStartStructureSpawned");
+        this.isStorming = this.world instanceof WorldServer && tagCompound.getBoolean("IsStorming");
     }
 
     @Override
@@ -72,6 +73,47 @@ public class WorldProviderAtum extends WorldProvider {
     public void onWorldSave() {
         NBTTagCompound tagCompound = new NBTTagCompound();
         tagCompound.setBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
+        tagCompound.setBoolean("IsStorming", isStorming);
         world.getWorldInfo().setDimensionData(this.world.provider.getDimension(), tagCompound);
+    }
+
+    public boolean isStorming;
+    public int stormTime;
+    public float prevStormStrength;
+    public float stormStrength;
+    
+    @Override
+    public void calculateInitialWeather()
+    {
+        super.calculateInitialWeather();
+        if(isStorming) {
+        	stormStrength = 1;
+        }
+    }
+
+    @Override
+    public void updateWeather()
+    {
+        super.updateWeather();
+        stormTime++;
+        if(stormTime <= 0) {
+        	if(isStorming) {
+        		stormTime = this.world.rand.nextInt(600) + 600;
+        	} else {
+        		stormTime = this.world.rand.nextInt(16800) + 1200;
+        	}
+        } else {
+        	stormTime--;
+        	if (stormTime <= 0)
+        		isStorming = !isStorming;
+        }
+        
+        prevStormStrength = stormStrength;
+        if (isStorming) {
+        	stormStrength += 0.01f;
+        } else {
+        	stormStrength -= 0.01f;
+        }
+        stormStrength = MathHelper.clamp(stormStrength, 0, 1);
     }
 }
