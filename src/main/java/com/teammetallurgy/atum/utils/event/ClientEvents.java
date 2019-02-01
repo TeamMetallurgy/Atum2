@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -33,87 +32,86 @@ import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ClientEvents {
-    protected static final ResourceLocation SAND_BLUR_TEX_PATH = new ResourceLocation("atum", "textures/hud/sandstormwip.png");
+    private static final ResourceLocation SAND_BLUR_TEX_PATH = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
     private static float intensity = 1;    
     
     @SubscribeEvent
     public static void renderlast(RenderWorldLastEvent event) {
-        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {	
-	        if(Minecraft.getMinecraft().gameSettings.hideGUI)
-	        	renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
-	        else
-	        	renderSand(event.getPartialTicks(), 2, 3, 4, 5, 6);
+        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
+            if (Minecraft.getMinecraft().gameSettings.hideGUI) {
+                renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
+            } else {
+                renderSand(event.getPartialTicks(), 2, 3, 4, 5, 6);
+            }
         }
     }
     
 	@SubscribeEvent
 	public static void renderSand(RenderGameOverlayEvent.Pre event) {
-		if(event.getType() != ElementType.ALL)
-			return;
+        if (event.getType() != ElementType.ALL) return;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
-        	renderSand(event.getPartialTicks(), 1);
+            renderSand(event.getPartialTicks(), 1);
         }
-	}
+    }
 	
 	private static void renderSand(float partialTicks, int... layers) {
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
 
-        	WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
-			float rain = provider.stormStrength;
-			
-			if(rain < 0.0001f)
-				return;
-			
-			float light = Minecraft.getMinecraft().player.world.getSunBrightness(partialTicks);
+            WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+            float rain = provider.stormStrength;
 
-			ScaledResolution scaledRes = new ScaledResolution(Minecraft.getMinecraft());
-	        Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
-	        GlStateManager.enableBlend();
-	        GlStateManager.disableDepth();
-	        GlStateManager.depthMask(false);
-	        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-	        GlStateManager.disableAlpha();
-	        Minecraft.getMinecraft().getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
-	
-	        EntityPlayerSP player = Minecraft.getMinecraft().player;
-	        boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
-	        
-	        Tessellator tessellator = Tessellator.getInstance();
-	        BufferBuilder bufferbuilder = tessellator.getBuffer();
-	        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-	        for(int i : layers)
-	        {
-		        float scale = 0.2f / (float)i;
-		        float alpha = (float)Math.pow(rain - 0.1f, i) * rain;
-		        
-		        // Make it easier to see
+            if (rain < 0.0001f)
+                return;
+
+            float light = Minecraft.getMinecraft().player.world.getSunBrightness(partialTicks);
+
+            ScaledResolution scaledRes = new ScaledResolution(Minecraft.getMinecraft());
+            Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
+            GlStateManager.enableBlend();
+            GlStateManager.disableDepth();
+            GlStateManager.depthMask(false);
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.disableAlpha();
+            Minecraft.getMinecraft().getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
+
+            EntityPlayerSP player = Minecraft.getMinecraft().player;
+            boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
+
+            Tessellator tessellator = Tessellator.getInstance();
+            BufferBuilder bufferbuilder = tessellator.getBuffer();
+            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+            for (int i : layers) {
+                float scale = 0.2f / (float) i;
+                float alpha = (float) Math.pow(rain - 0.1f, i) * rain;
+
+                // Make it easier to see
                 /*ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
                 if (helmet.getItem() instanceof ItemEyesOfAtum) {
                     alpha -= 0.4f;
                 }*/
 
-	            GlStateManager.color(0.75f * light, 0.75f * light, 0.75f * light, alpha);
-		        float scaleX = 0.01f * scaledRes.getScaledHeight() * scale * scaledRes.getScaleFactor();
-		        float scaleY = 0.01f * scaledRes.getScaledWidth() * scale * scaledRes.getScaleFactor();
-		        float speed = 500f - i * 15;
-		        float movement = -(System.currentTimeMillis() % (int)speed)/speed;
-	        	float yaw = 0.25f * (Minecraft.getMinecraft().player.rotationYaw % 360 / 360f) / scale;
-	        	float pitch = 0.5f * (Minecraft.getMinecraft().player.rotationPitch % 360 / 360f) / scale;
-	
-		        bufferbuilder.pos(0.0D, (double)scaledRes.getScaledHeight(), 90.0D)                              .tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
-		        bufferbuilder.pos((double)scaledRes.getScaledWidth(), (double)scaledRes.getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
-		        bufferbuilder.pos((double)scaledRes.getScaledWidth(), 0.0D, 90.0D)                               .tex(1.0D / scaleX + movement + yaw, 0.0D + pitch).endVertex();
-		        bufferbuilder.pos(0.0D, 0.0D, 90.0D)                                                             .tex(movement + yaw, 0.0D + pitch).endVertex();
-	        }
-	        tessellator.draw();
-	
-	        GlStateManager.depthMask(true);
-	        GlStateManager.enableDepth();
-	        GlStateManager.enableAlpha();
-	        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+                GlStateManager.color(0.75f * light, 0.75f * light, 0.75f * light, alpha);
+                float scaleX = 0.01f * scaledRes.getScaledHeight() * scale * scaledRes.getScaleFactor();
+                float scaleY = 0.01f * scaledRes.getScaledWidth() * scale * scaledRes.getScaleFactor();
+                float speed = 500f - i * 15;
+                float movement = -(System.currentTimeMillis() % (int) speed) / speed;
+                float yaw = 0.25f * (Minecraft.getMinecraft().player.rotationYaw % 360 / 360f) / scale;
+                float pitch = 0.5f * (Minecraft.getMinecraft().player.rotationPitch % 360 / 360f) / scale;
+
+                bufferbuilder.pos(0.0D, (double) scaledRes.getScaledHeight(), 90.0D).tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
+                bufferbuilder.pos((double) scaledRes.getScaledWidth(), (double) scaledRes.getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
+                bufferbuilder.pos((double) scaledRes.getScaledWidth(), 0.0D, 90.0D).tex(1.0D / scaleX + movement + yaw, 0.0D + pitch).endVertex();
+                bufferbuilder.pos(0.0D, 0.0D, 90.0D).tex(movement + yaw, 0.0D + pitch).endVertex();
+            }
+            tessellator.draw();
+
+            GlStateManager.depthMask(true);
+            GlStateManager.enableDepth();
+            GlStateManager.enableAlpha();
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         }
-	}
+    }
 
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
@@ -133,9 +131,9 @@ public class ClientEvents {
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
-            	WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+                WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
                 fogDensity *= 6 - (5 - 5 * provider.stormStrength);
-                
+
                 GlStateManager.setFogDensity(fogDensity);
             }
         }

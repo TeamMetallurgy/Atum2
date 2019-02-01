@@ -65,7 +65,7 @@ public class WorldProviderAtum extends WorldProvider {
         if (f > 1.0F) {
             f = 1.0F;
         }
-        
+
         // Darken fog as sandstorm builds
         // f *= (1 - this.stormStrength) * 0.8 + 0.2;
 
@@ -87,47 +87,45 @@ public class WorldProviderAtum extends WorldProvider {
     public int stormTime;
     public float prevStormStrength;
     public float stormStrength;
-    
+
     @Override
-    public void calculateInitialWeather()
-    {
+    public void calculateInitialWeather() {
         super.calculateInitialWeather();
-        if(isStorming) {
-        	stormStrength = 1;
+        if (isStorming) {
+            stormStrength = 1;
         }
     }
 
     @Override
-    public void updateWeather()
-    {
+    public void updateWeather() {
         super.updateWeather();
         //System.out.println(isStorming + " " + stormTime);
-        if(stormTime <= 0) {
-        	if(isStorming) {
-        		stormTime = this.world.rand.nextInt(6000) + 6000;
-        		System.out.println("New Storm: " + stormTime);
-        	} else {
-        		stormTime = this.world.rand.nextInt(168000) + 12000;
-        		System.out.println("Next Storm: " + stormTime);
-        	}
-    		NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
+        if (stormTime <= 0) {
+            if (isStorming) {
+                stormTime = this.world.rand.nextInt(6000) + 6000;
+                System.out.println("New Storm: " + stormTime);
+            } else {
+                stormTime = this.world.rand.nextInt(168000) + 12000;
+                System.out.println("Next Storm: " + stormTime);
+            }
+            NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
         } else {
-        	stormTime--;
-        	if (stormTime <= 0) {
-        		isStorming = !isStorming;
-        	}
+            stormTime--;
+            if (stormTime <= 0) {
+                isStorming = !isStorming;
+            }
         }
-        
+
         prevStormStrength = stormStrength;
         if (isStorming) {
-        	stormStrength += 0.002f;
+            stormStrength += 0.002f;
         } else {
-        	stormStrength -= 0.002f;
+            stormStrength -= 0.002f;
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
-        
-        if(stormStrength != prevStormStrength) {
-        	NetworkHandler.WRAPPER.sendToDimension(new PacketStormStrength(stormStrength), this.getDimension());
+
+        if (stormStrength != prevStormStrength) {
+            NetworkHandler.WRAPPER.sendToDimension(new PacketStormStrength(stormStrength), this.getDimension());
         }
     }
 }

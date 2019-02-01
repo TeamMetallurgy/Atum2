@@ -1,11 +1,7 @@
 package com.teammetallurgy.atum.network.packet;
 
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.WorldProvider;
@@ -26,8 +22,8 @@ public class PacketWeather extends Packet<PacketWeather> {
 	protected void handleClientSide(EntityPlayer player) {
 		//System.out.println(isStorming + " " + player.world.isRemote);
 		WorldProvider provider = Minecraft.getMinecraft().player.world.provider;
-		if(provider instanceof WorldProviderAtum) {
-			WorldProviderAtum providerAtum = (WorldProviderAtum)provider;
+		if (provider instanceof WorldProviderAtum) {
+			WorldProviderAtum providerAtum = (WorldProviderAtum) provider;
 			providerAtum.isStorming = isStorming;
 			providerAtum.stormTime = stormTime;
 		}

@@ -217,7 +217,7 @@ public class AtumRecipes {
             AtumRegistry.registerRecipe("ceramic_slab_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicSlab.getSlab(color), 6), "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
             AtumRegistry.registerRecipe("ceramic_stairs_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockAtumStairs.getCeramicStairs(color), 4), "C  ", "CC ", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)).setMirrored(true), event);
             AtumRegistry.registerRecipe("ceramic_wall_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicWall.getWall(color), 6), "CCC", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
-            AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 3), "LL", 'L', BlockLinen.getLinen(color)), event);
+            AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 5), "LLL", 'L', BlockLinen.getLinen(color)), event);
         }
         AtumRecipes.register();
         fixOreDictEntries(registry);

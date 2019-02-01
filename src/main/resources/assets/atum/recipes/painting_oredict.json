@@ -1,0 +1,21 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    "SSS",
+    "SWS",
+    "SSS"
+  ],
+  "key": {
+    "S": {
+      "ore": "stickWood",
+      "type": "forge:ore_dict"
+    },
+    "W": {
+      "ore": "wool",
+      "type": "forge:ore_dict"
+    }
+  },
+  "result": {
+    "item": "minecraft:painting"
+  }
+}
