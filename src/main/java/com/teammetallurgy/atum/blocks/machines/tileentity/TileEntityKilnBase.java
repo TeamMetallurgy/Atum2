@@ -2,8 +2,6 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
