@@ -27,7 +27,7 @@ public class ItemGraverobbersMap extends ItemMap {
                 BlockPos pyramidPos = world.findNearestStructure(PyramidPieces.PYRAMID.toString(), new BlockPos(entity.posX, 0, entity.posZ), true);
 
                 if (pyramidPos != null) {
-                    ItemStack mapStack = setupNewMap(world, (double) pyramidPos.getX(), (double) pyramidPos.getZ(), (byte) 2, true, true);
+                    ItemStack mapStack = setupNewMap(world, (double) pyramidPos.getX(), (double) pyramidPos.getZ(), (byte) 3, true, true);
                     renderBiomePreviewMap(world, mapStack);
                     MapData.addTargetDecoration(mapStack, pyramidPos, "+", MapDecoration.Type.TARGET_X);
 
