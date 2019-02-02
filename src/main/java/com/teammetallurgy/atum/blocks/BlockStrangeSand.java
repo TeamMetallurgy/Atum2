@@ -17,6 +17,7 @@ import net.minecraftforge.common.IPlantable;
 import javax.annotation.Nonnull;
 
 public class BlockStrangeSand extends BlockFalling implements IOreDictEntry {
+
     public BlockStrangeSand() {
         super(Material.SAND);
         this.setTickRandomly(true);

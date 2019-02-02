@@ -1,25 +1,17 @@
 package com.teammetallurgy.atum.client.render.shield;
 
 import com.teammetallurgy.atum.client.model.shield.ModelStoneguardShield;
-import com.teammetallurgy.atum.client.render.ItemBakedBase;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.event.ModelBakeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class RenderStoneguardShield extends TileEntityItemStackRenderer {
     private final ModelStoneguardShield modelShield = new ModelStoneguardShield();
-    private static ItemBakedBase bakedBase;
     private static String textureName;
 
     public RenderStoneguardShield(String textureName) {
@@ -32,12 +24,5 @@ public class RenderStoneguardShield extends TileEntityItemStackRenderer {
         Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/shield/" + textureName + ".png"));
         this.modelShield.render();
         GlStateManager.popMatrix();
-    }
-
-    @SubscribeEvent
-    public static void onModelBake(ModelBakeEvent event) {
-        ModelResourceLocation modelLocation = new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, textureName), "inventory");
-        bakedBase = new ItemBakedBase(event.getModelRegistry().getObject(modelLocation));
-        event.getModelRegistry().putObject(modelLocation, bakedBase);
     }
 }
