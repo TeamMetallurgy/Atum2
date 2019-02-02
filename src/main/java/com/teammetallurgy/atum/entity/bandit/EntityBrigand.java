@@ -42,7 +42,7 @@ public class EntityBrigand extends EntityBanditBase {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR));
+        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
         this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.BRIGAND_SHIELD));
     }
 
@@ -57,7 +57,7 @@ public class EntityBrigand extends EntityBanditBase {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.GREATSWORD) {
+            if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.GREATSWORD_IRON) {
                 float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
                 float i = 1.2F;
 
