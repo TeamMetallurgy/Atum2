@@ -1,7 +1,7 @@
 {
     "display": {
         "icon": {
-            "item": "atum:dagger"
+            "item": "atum:iron_dagger"
         },
         "title": {
             "translate": "Expected Result"
