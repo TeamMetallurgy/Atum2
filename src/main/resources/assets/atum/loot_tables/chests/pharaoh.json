@@ -3,7 +3,7 @@
     {
       "name": "atum:pharaoh",
       "rolls": {
-        "min": 1,
+        "min": 4,
         "max": 6
       },
       "entries": [
@@ -119,95 +119,40 @@
           "weight": 1
         },
         {
-          "type": "item",
-          "name": "golden_pickaxe",
-          "entryName": "golden_pickaxe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0.20,
-                "max": 0.99
-              }
-            },
-            {
-              "function": "enchant_randomly"
-            }
-          ],
-          "weight": 30
+          "type": "loot_table",
+          "name": "atum:gold_weapons_0",
+          "weight": 50,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "golden_axe",
-          "entryName": "golden_axe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0.20,
-                "max": 0.99
-              }
-            },
-            {
-              "function": "enchant_randomly"
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:gold_weapons_35",
+          "weight": 10,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "golden_hoe",
-          "entryName": "golden_hoe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0.20,
-                "max": 0.99
-              }
-            },
-            {
-              "function": "enchant_randomly"
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:gold_armor_0",
+          "weight": 50,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "golden_shovel",
-          "entryName": "golden_shovel",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0.20,
-                "max": 0.99
-              }
-            },
-            {
-              "function": "enchant_randomly"
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:gold_armor_35",
+          "weight": 10,
+          "quality": 2
         },
-
-        {
-          "type": "item",
-          "name": "golden_sword",
-          "entryName": "golden_sword",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0.20,
-                "max": 0.99
-              }
-            },
-            {
-              "function": "enchant_randomly"
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:diamond_weapon_35",
+          "weight": 2,
+          "quality": 2
+        },
+		{
+          "type": "loot_table",
+          "name": "atum:diamond_armor_35",
+          "weight": 2,
+          "quality": 2
         },
         {
           "type": "item",
@@ -364,6 +309,21 @@
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
           "weight": 10
+        },
+		{
+          "type": "item",
+          "name": "atum:disenchanting_scroll",
+          "entryName": "disenchanting_scroll",
+		  "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 2,
+                "max": 3
+              }
+            }
+			],
+			"weight": 30
         },
         {
           "type": "item",

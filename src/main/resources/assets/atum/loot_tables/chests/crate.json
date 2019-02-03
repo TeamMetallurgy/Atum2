@@ -220,81 +220,35 @@
           "entryName": "golden_date_enchanted",
           "weight": 1
         },
-        {
-          "type": "item",
-          "name": "atum:limestone_pickaxe",
-          "entryName": "limestone_pickaxe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:limestone_weapons_0",
+          "weight": 150,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "atum:limestone_axe",
-          "entryName": "limestone_axe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_weapons_0",
+          "weight": 25,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "atum:limestone_hoe",
-          "entryName": "limestone_hoe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_weapons_25",
+          "weight": 10,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "atum:limestone_shovel",
-          "entryName": "limestone_shovel",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_armor_0",
+          "weight": 25,
+          "quality": 2
         },
-
-        {
-          "type": "item",
-          "name": "atum:limestone_sword",
-          "entryName": "limestone_sword",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_armor_25",
+          "weight": 10,
+          "quality": 2
         },
         {
           "type": "item",
@@ -396,43 +350,58 @@
           "type": "item",
           "name": "atum:desert_wolf_iron_armor",
           "entryName": "desert_wolf_iron_armor",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "item",
           "name": "atum:desert_wolf_gold_armor",
           "entryName": "desert_wolf_gold_armor",
-          "weight": 5
+          "weight": 2
         },
         {
           "type": "item",
           "name": "atum:desert_wolf_diamond_armor",
           "entryName": "desert_wolf_diamond_armor",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "atum:camel_iron_armor",
           "entryName": "camel_iron_armor",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "item",
           "name": "atum:camel_gold_armor",
           "entryName": "camel_gold_armor",
-          "weight": 5
+          "weight": 2
         },
         {
           "type": "item",
           "name": "atum:camel_diamond_armor",
           "entryName": "camel_diamond_armor",
-          "weight": 2
+          "weight": 1
         },
         {
           "type": "item",
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
           "weight": 3
+        },
+		{
+          "type": "item",
+          "name": "atum:disenchanting_scroll",
+          "entryName": "disenchanting_scroll",
+		  "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+			],
+			"weight": 5
         },
         {
           "type": "item",

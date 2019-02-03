@@ -3,7 +3,7 @@
     {
       "name": "atum:pyramid_chest",
       "rolls": {
-        "min": 1,
+        "min": 2,
         "max": 5
       },
       "entries": [
@@ -215,95 +215,40 @@
           "weight": 1
         },
         {
-          "type": "item",
-          "name": "iron_pickaxe",
-          "entryName": "iron_pickaxe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            },
-		    {
-              "function": "enchant_randomly"
-            }
-			],
-          "weight": 30
+          "type": "loot_table",
+          "name": "atum:iron_weapons_0",
+          "weight": 75,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "iron_axe",
-          "entryName": "iron_axe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            },
-		    {
-              "function": "enchant_randomly"
-            }
-			],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_weapons_25",
+          "weight": 10,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "iron_hoe",
-          "entryName": "iron_hoe",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            },
-		    {
-              "function": "enchant_randomly"
-            }
-          ],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_armor_0",
+          "weight": 75,
+          "quality": 2
         },
-        {
-          "type": "item",
-          "name": "iron_shovel",
-          "entryName": "iron_shovel",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            },
-		    {
-              "function": "enchant_randomly"
-            }
-		],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:iron_armor_25",
+          "weight": 10,
+          "quality": 2
         },
-
-        {
-          "type": "item",
-          "name": "iron_sword",
-          "entryName": "iron_sword",
-          "functions": [
-            {
-              "function": "set_damage",
-              "damage": {
-                "min": 0,
-                "max": 0.90
-              }
-            },
-		    {
-              "function": "enchant_randomly"
-            }
-			],
-          "weight": 30
+		{
+          "type": "loot_table",
+          "name": "atum:diamond_weapon_35",
+          "weight": 2,
+          "quality": 2
+        },
+		{
+          "type": "loot_table",
+          "name": "atum:diamond_armor_35",
+          "weight": 2,
+          "quality": 2
         },
         {
           "type": "item",
@@ -405,43 +350,58 @@
           "type": "item",
           "name": "atum:desert_wolf_iron_armor",
           "entryName": "desert_wolf_iron_armor",
-          "weight": 15
+          "weight": 10
         },
         {
           "type": "item",
           "name": "atum:desert_wolf_gold_armor",
           "entryName": "desert_wolf_gold_armor",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "item",
           "name": "atum:desert_wolf_diamond_armor",
           "entryName": "desert_wolf_diamond_armor",
-          "weight": 5
+          "weight": 3
         },
         {
           "type": "item",
           "name": "atum:camel_iron_armor",
           "entryName": "camel_iron_armor",
-          "weight": 15
+          "weight": 10
         },
         {
           "type": "item",
           "name": "atum:camel_gold_armor",
           "entryName": "camel_gold_armor",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "item",
           "name": "atum:camel_diamond_armor",
           "entryName": "camel_diamond_armor",
-          "weight": 5
+          "weight": 3
         },
         {
           "type": "item",
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
           "weight": 10
+        },
+		{
+          "type": "item",
+          "name": "atum:disenchanting_scroll",
+          "entryName": "disenchanting_scroll",
+		  "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 2
+              }
+            }
+			],
+			"weight": 10
         },
         {
           "type": "item",
