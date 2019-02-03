@@ -147,6 +147,7 @@ public class AtumItems {
     public static final Item CAMEL_GOLD_ARMOR = new Item().setMaxStackSize(1);
     public static final Item CAMEL_DIAMOND_ARMOR = new Item().setMaxStackSize(1);
     public static final Item GRAVEROBBERS_MAP = new ItemGraverobbersMap();
+    public static final Item DISENCHANTING_SCROLL = new Item();
     public static final Item SCROLL = new Item();
     public static final Item SCRAP = new Item();
     public static final Item LINEN_BANDAGE = new ItemLinenBandage();
@@ -278,6 +279,7 @@ public class AtumItems {
         registerItem(CAMEL_GOLD_ARMOR, "camel_gold_armor");
         registerItem(CAMEL_DIAMOND_ARMOR, "camel_diamond_armor");
         registerItem(GRAVEROBBERS_MAP, "graverobbers_map");
+        registerItem(DISENCHANTING_SCROLL, "disenchanting_scroll");
         registerItem(SCROLL, "scroll");
         registerItem(SCRAP, "cloth_scrap");
         registerItem(LINEN_BANDAGE, "linen_bandage");
