@@ -1,0 +1,253 @@
+{
+  "pools": [
+	{
+      "name": "atum:iron_weapons_35",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:short_bow",
+          "entryName": "atum_shortbow",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "minecraft:iron_pickaxe",
+          "entryName": "iron_pickaxe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_axe",
+          "entryName": "iron_axe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_hoe",
+          "entryName": "iron_hoe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_randomly"
+			}
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:iron_shovel",
+          "entryName": "iron_shovel",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:iron_scimitar",
+          "entryName": "iron_scimitar",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:iron_dagger",
+          "entryName": "iron_dagger",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:iron_khopesh",
+          "entryName": "iron_khopesh",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:iron_club",
+          "entryName": "iron_club",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:brigand_shield",
+          "entryName": "brigand_shield",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_randomly"
+			}
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:iron_greatsword",
+          "entryName": "iron_greatsword",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            },
+			{
+			  "function": "enchant_with_levels",
+			  "levels": {
+                "min": 30,
+                "max": 40
+              },
+			  "treasure": true
+			}
+          ],
+          "weight": 30
+        }
+		]
+	}
+  ]
+}

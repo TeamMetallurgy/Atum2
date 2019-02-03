@@ -1,0 +1,85 @@
+{
+  "pools": [
+	{
+      "name": "atum:gold_weapons_0",
+      "rolls": 1,
+      "entries": [
+		{
+          "type": "item",
+          "name": "minecraft:golden_pickaxe",
+          "entryName": "golden_pickaxe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:golden_axe",
+          "entryName": "golden_axe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:golden_hoe",
+          "entryName": "golden_hoe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:golden_shovel",
+          "entryName": "golden_shovel",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "minecraft:golden_sword",
+          "entryName": "golden_sword",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        }
+		]
+	}
+  ]
+}

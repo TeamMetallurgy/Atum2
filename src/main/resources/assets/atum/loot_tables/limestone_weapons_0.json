@@ -1,0 +1,85 @@
+{
+  "pools": [
+	{
+      "name": "atum:limestone_weapons_0",
+		"rolls": 1,
+		"entries": [
+        {
+          "type": "item",
+          "name": "atum:limestone_pickaxe",
+          "entryName": "limestone_pickaxe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_axe",
+          "entryName": "limestone_axe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_hoe",
+          "entryName": "limestone_hoe",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_shovel",
+          "entryName": "limestone_shovel",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:limestone_sword",
+          "entryName": "limestone_sword",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+            }
+          ],
+          "weight": 30
+        }
+		]
+	}
+  ]
+}

@@ -1,0 +1,1226 @@
+{
+  "pools": [
+	{
+      "name": "atum:diamond_armor_0",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_black",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1908001}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_red",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:11546150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_green",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:6192150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_brown",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8606770}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3949738}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_purple",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8991416}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_cyan",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1481884}}"
+            }
+          ],
+          "weight": 30
+        },
+				{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_light_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:10329495}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:4673362}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_pink",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:15961002}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_lime",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8439583}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16701501}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_light_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3847130}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_magenta",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:13061821}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_orange",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16351261}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_helmet_diamond",
+          "entryName": "atum_desert_helmet_diamond_white",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16383998}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_black",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1908001}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_red",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:11546150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_green",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:6192150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_brown",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8606770}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3949738}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_purple",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8991416}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_cyan",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1481884}}"
+            }
+          ],
+          "weight": 30
+        },
+				{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_light_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:10329495}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:4673362}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_pink",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:15961002}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_lime",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8439583}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16701501}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_light_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3847130}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_magenta",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:13061821}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_orange",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16351261}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_chest_diamond",
+          "entryName": "atum_desert_chest_diamond_white",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16383998}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_black",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1908001}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_red",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:11546150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_green",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:6192150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_brown",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8606770}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3949738}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_purple",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8991416}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_cyan",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1481884}}"
+            }
+          ],
+          "weight": 30
+        },
+				{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_light_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:10329495}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:4673362}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_pink",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:15961002}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_lime",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8439583}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16701501}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_light_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3847130}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_magenta",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:13061821}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_orange",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16351261}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_legs_diamond",
+          "entryName": "atum_desert_legs_diamond_white",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16383998}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_black",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1908001}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_red",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:11546150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_green",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:6192150}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_brown",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8606770}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3949738}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_purple",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8991416}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_cyan",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:1481884}}"
+            }
+          ],
+          "weight": 30
+        },
+				{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_light_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:10329495}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_gray",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:4673362}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_pink",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:15961002}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_lime",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:8439583}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16701501}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_light_blue",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:3847130}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_magenta",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:13061821}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_orange",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16351261}}"
+            }
+          ],
+          "weight": 30
+        },
+		{
+          "type": "item",
+          "name": "atum:desert_boots_diamond",
+          "entryName": "atum_desert_boots_diamond_white",
+          "functions": [
+            {
+              "function": "set_damage",
+              "damage": {
+                "min": 0.25,
+                "max": 0.75
+              }
+			},
+			{
+			  "function": "set_nbt",
+			  "tag": "{display:{color:16383998}}"
+            }
+          ],
+          "weight": 30
+        }
+		]
+	}
+  ]
+}
