@@ -19,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -70,7 +71,8 @@ public class BlockSandLayers extends BlockFalling {
 
     @Override
     public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
-        int i = state.getValue(LAYERS) - 1;
+        int i = state.getValue(LAYERS) - 2;
+        i = MathHelper.clamp(i, 0, 8);
         float f = 0.125F;
         AxisAlignedBB axisalignedbb = state.getBoundingBox(world, pos);
         return new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.maxX, (double) ((float) i * f), axisalignedbb.maxZ);

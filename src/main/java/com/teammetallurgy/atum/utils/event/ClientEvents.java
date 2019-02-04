@@ -131,9 +131,10 @@ public class ClientEvents {
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
-                WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
-                fogDensity *= 6 - (5 - 5 * provider.stormStrength);
-
+            	WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+                int sandstormFog = 2;
+            	fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
+                
                 GlStateManager.setFogDensity(fogDensity);
             }
         }
