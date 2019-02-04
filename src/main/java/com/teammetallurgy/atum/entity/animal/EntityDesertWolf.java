@@ -349,14 +349,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return this.height * 0.8F;
     }
 
-    @Override
+    /*@Override
     public void setScaleForAge(boolean child) {
         if (this.isAlpha()) {
             this.setScale(1.6F);
         } else {
             super.setScaleForAge(child);
         }
-    }
+    }*/
 
     @Override
     public int getVerticalFaceSpeed() {
