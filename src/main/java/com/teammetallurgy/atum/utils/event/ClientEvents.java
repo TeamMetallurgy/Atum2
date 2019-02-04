@@ -33,8 +33,8 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ClientEvents {
     private static final ResourceLocation SAND_BLUR_TEX_PATH = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
-    private static float intensity = 1;    
-    
+    private static float intensity = 1;
+
     @SubscribeEvent
     public static void renderlast(RenderWorldLastEvent event) {
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
@@ -45,17 +45,17 @@ public class ClientEvents {
             }
         }
     }
-    
-	@SubscribeEvent
-	public static void renderSand(RenderGameOverlayEvent.Pre event) {
+
+    @SubscribeEvent
+    public static void renderSand(RenderGameOverlayEvent.Pre event) {
         if (event.getType() != ElementType.ALL) return;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
             renderSand(event.getPartialTicks(), 1);
         }
     }
-	
-	private static void renderSand(float partialTicks, int... layers) {
+
+    private static void renderSand(float partialTicks, int... layers) {
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
 
             WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
@@ -131,10 +131,10 @@ public class ClientEvents {
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
-            	WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+                WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
                 int sandstormFog = 2;
-            	fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
-                
+                fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
+
                 GlStateManager.setFogDensity(fogDensity);
             }
         }

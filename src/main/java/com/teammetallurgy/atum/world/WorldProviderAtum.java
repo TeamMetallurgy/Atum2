@@ -18,6 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
@@ -98,7 +99,7 @@ public class WorldProviderAtum extends WorldProvider {
     public float prevStormStrength;
     public float stormStrength;
     private int updateLCG = (new Random()).nextInt();
-    
+
     @Override
     public void calculateInitialWeather() {
         super.calculateInitialWeather();
@@ -106,50 +107,46 @@ public class WorldProviderAtum extends WorldProvider {
             stormStrength = 1;
         }
     }
-    
-    public boolean canPlaceSandAt(BlockPos pos) {
-    	IBlockState state = world.getBlockState(pos);
-    	if (state.getBlock() == AtumBlocks.SAND) {
-    		return false;
-    	}
-    	if (state.getBlock().isReplaceable(world, pos)) {
+
+    private boolean canPlaceSandAt(BlockPos pos, Biome biome) {
+        IBlockState state = world.getBlockState(pos);
+        if (state.getBlock() == AtumBlocks.SAND || state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL || !ChunkGeneratorAtum.canPlaceSandLayer(world, pos, biome)) {
+            return false;
+        }
+        if (state.getBlock().isReplaceable(world, pos)) {
             state = world.getBlockState(pos.down());
-            BlockFaceShape blockfaceshape = state.getBlockFaceShape(world, pos.down(), EnumFacing.UP);
-        	if (blockfaceshape == BlockFaceShape.SOLID || state.getBlock().isLeaves(state, world, pos.down())) {
-        		return true;
-        	}
-    	}
-    	return false;
+            BlockFaceShape blockFaceShape = state.getBlockFaceShape(world, pos.down(), EnumFacing.UP);
+            return blockFaceShape == BlockFaceShape.SOLID || state.getBlock().isLeaves(state, world, pos.down());
+        }
+        return false;
     }
 
     @Override
-    public void updateWeather()
-    {
+    public void updateWeather() {
         //super.updateWeather();
         //System.out.println(isStorming + " " + stormTime);
 
         int cleanWeatherTime = world.getWorldInfo().getCleanWeatherTime();
 
-        if (cleanWeatherTime > 0)
-        {
+        if (cleanWeatherTime > 0) {
             --cleanWeatherTime;
             world.getWorldInfo().setCleanWeatherTime(cleanWeatherTime);
             this.stormTime = isStorming ? 1 : 2;
         }
-        
-        if(stormTime % 20 == 0)
-        	System.out.println("StormTime: " + stormTime);
+
+        if (stormTime % 20 == 0)
+            System.out.println("StormTime: " + stormTime);
         //stormTime = 60;
-        
-        if(stormTime <= 0) {
-        	if(isStorming) {
-        		stormTime = this.world.rand.nextInt(6000) + 6000;
-        		System.out.println("New Storm: " + stormTime);
-        	} else {
-        		stormTime = this.world.rand.nextInt(168000) + 12000;
-        		System.out.println("Next Storm: " + stormTime);
-        	}
-    		NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
+
+        if (stormTime <= 0) {
+            if (isStorming) {
+                stormTime = this.world.rand.nextInt(6000) + 6000;
+                System.out.println("New Storm: " + stormTime);
+            } else {
+                stormTime = this.world.rand.nextInt(168000) + 12000;
+                System.out.println("Next Storm: " + stormTime);
+            }
+            NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
         } else {
             stormTime--;
             if (stormTime <= 0) {
@@ -159,44 +156,44 @@ public class WorldProviderAtum extends WorldProvider {
 
         prevStormStrength = stormStrength;
         if (isStorming) {
-            stormStrength += 0.002f;
+            stormStrength += 0.002F;
         } else {
-            stormStrength -= 0.002f;
+            stormStrength -= 0.002F;
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
 
         if (stormStrength != prevStormStrength) {
             NetworkHandler.WRAPPER.sendToDimension(new PacketStormStrength(stormStrength), this.getDimension());
         }
-        
-        if(!world.isRemote) {
-        	Iterator<Chunk> iterator = world.getPersistentChunkIterable(((WorldServer)world).getPlayerChunkMap().getChunkIterator());
-	        while (iterator.hasNext()) {
+
+        if (!world.isRemote) {
+            Iterator<Chunk> iterator = world.getPersistentChunkIterable(((WorldServer) world).getPlayerChunkMap().getChunkIterator());
+            while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();
-                int j = chunk.x * 16;
-                int k = chunk.z * 16;
-                
-		        if (world.rand.nextInt(16) == 0) {
-		            this.updateLCG = this.updateLCG * 3 + 1013904223;
-		            int j2 = this.updateLCG >> 2;
-		            BlockPos blockpos1 = world.getPrecipitationHeight(new BlockPos(j + (j2 & 15), 0, k + (j2 >> 8 & 15)));
-		            BlockPos blockpos2 = blockpos1.down();
-		            
-		            if (world.isAreaLoaded(blockpos2, 1)) {// Forge: check area to avoid loading neighbors in unloaded chunks
-		            	IBlockState sandState = world.getBlockState(blockpos1);
-		            	if (stormStrength > 0.9f) {
-			            	if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
-			            		int layers = sandState.getValue(BlockSandLayers.LAYERS);
-			            		if (layers < 3) {
-			            			world.setBlockState(blockpos1, sandState.withProperty(BlockSandLayers.LAYERS, ++layers));
-			            		}
-			            	} else if (canPlaceSandAt(blockpos1)) {
-				            	world.setBlockState(blockpos1, AtumBlocks.SAND_LAYERED.getDefaultState());
-			            	}
-		            	}
-		            }
-		        }
-	        }
+                int x = chunk.x * 16;
+                int z = chunk.z * 16;
+
+                if (world.rand.nextInt(16) == 0) {
+                    this.updateLCG = this.updateLCG * 3 + 1013904223;
+                    int j2 = this.updateLCG >> 2;
+                    BlockPos pos = world.getPrecipitationHeight(new BlockPos(x + (j2 & 15), 0, z + (j2 >> 8 & 15)));
+                    BlockPos posDown = pos.down();
+
+                    if (world.isAreaLoaded(posDown, 1)) {// Forge: check area to avoid loading neighbors in unloaded chunks
+                        IBlockState sandState = world.getBlockState(pos);
+                        if (stormStrength > 0.9f) {
+                            if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
+                                int layers = sandState.getValue(BlockSandLayers.LAYERS);
+                                if (layers < 3) {
+                                    world.setBlockState(pos, sandState.withProperty(BlockSandLayers.LAYERS, ++layers));
+                                }
+                            } else if (canPlaceSandAt(pos, world.getBiome(pos))) {
+                                world.setBlockState(pos, AtumBlocks.SAND_LAYERED.getDefaultState());
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

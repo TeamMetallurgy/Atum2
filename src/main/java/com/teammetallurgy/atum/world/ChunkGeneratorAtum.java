@@ -360,7 +360,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 for (int j3 = 0; j3 < 16; ++j3) {
                     BlockPos blockpos1 = this.world.getPrecipitationHeight(blockpos.add(k2, 0, j3));
 
-                    if (this.canPlaceSandLayer(blockpos1, biome)) {
+                    if (canPlaceSandLayer(world, blockpos1, biome) && world.isAirBlock(blockpos1)) {
                         for (EnumFacing facing : EnumFacing.HORIZONTALS) {
                             BlockPos posOffset = blockpos1.offset(facing);
                             if (world.getBlockState(posOffset).isSideSolid(world, posOffset, EnumFacing.UP)) {
@@ -375,12 +375,12 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         BlockFalling.fallInstantly = false;
     }
 
-    private boolean canPlaceSandLayer(BlockPos pos, Biome biome) {
-        return world.isAirBlock(pos)
-                && world.getBlockState(pos.down()).getBlock() != AtumBlocks.LIMESTONE_CRACKED
-                && world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP)
-                && biome != AtumBiomes.OASIS
-                && !(world.getBlockState(pos.down()).getBlock() instanceof BlockSandLayers)
+    static boolean canPlaceSandLayer(World world, BlockPos pos, Biome biome) {
+        IBlockState stateDown = world.getBlockState(pos.down());
+        return biome != AtumBiomes.OASIS
+                && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
+                && stateDown.isSideSolid(world, pos, EnumFacing.UP)
+                && !(stateDown.getBlock() instanceof BlockSandLayers)
                 && !(world.getBlockState(pos).getBlock() instanceof BlockSandLayers);
     }
 
