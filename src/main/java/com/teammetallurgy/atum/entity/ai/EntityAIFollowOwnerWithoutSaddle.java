@@ -11,9 +11,7 @@ public class EntityAIFollowOwnerWithoutSaddle extends EntityAIFollowOwner {
         this.wolf = tameableIn;
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
+    @Override
     public boolean shouldExecute() {
         if (wolf.isSaddled()) return false;
         return super.shouldExecute();
