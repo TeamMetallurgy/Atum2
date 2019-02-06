@@ -1,24 +1,24 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:date"
-        },
-        "title": {
-            "translate": "It's a Date!"
-        },
-        "description": {
-            "translate": "Eat a Date"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:date"
     },
-    "parent": "atum:core/ahope",
-    "criteria": {
-        "date": {
-            "trigger": "consume_item",
-            "conditions": {
-                "item": {
-                    "item": "atum:date"
-                }
-            }
-        }
+    "title": {
+      "translate": "It's a Date!"
+    },
+    "description": {
+      "translate": "Eat a Date"
     }
+  },
+  "parent": "atum:core/ahope",
+  "criteria": {
+    "date": {
+      "trigger": "consume_item",
+      "conditions": {
+        "item": {
+          "item": "atum:date"
+        }
+      }
+    }
+  }
 }

@@ -1,74 +1,74 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:desert_boots_iron"
-        },
-        "title": {
-            "translate": "A Journey"
-        },
-        "description": {
-            "translate": "Visit all Atum biomes"
-        },
-		"frame": "challenge"
+  "display": {
+    "icon": {
+      "item": "atum:desert_boots_iron"
     },
-	"parent": "atum:core/amirage",
-	"rewards": {
-        "experience": 250
+    "title": {
+      "translate": "A Journey"
     },
-    "criteria": {
-        "oasis": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:oasis"
-            }
-        },
-		"deadoasis": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:dead_oasis"
-            }
-        },
-		"deadwood_forest": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:deadwood_forest"
-            }
-        },
-		"dried_river": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:dried_river"
-            }
-        },
-		"limestone_crags": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:limestone_crags"
-            }
-        },
-		"limestone_mountains": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:limestone_mountains"
-            }
-        },
-		"sand_dunes": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:sand_dunes"
-            }
-        },
-		"sand_hills": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:sand_hills"
-            }
-        },
-		"sand_plains": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:sand_plains"
-            }
-        }
+    "description": {
+      "translate": "Visit all Atum biomes"
+    },
+    "frame": "challenge"
+  },
+  "parent": "atum:core/amirage",
+  "rewards": {
+    "experience": 250
+  },
+  "criteria": {
+    "oasis": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:oasis"
+      }
+    },
+    "deadoasis": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:dead_oasis"
+      }
+    },
+    "deadwood_forest": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:deadwood_forest"
+      }
+    },
+    "dried_river": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:dried_river"
+      }
+    },
+    "limestone_crags": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:limestone_crags"
+      }
+    },
+    "limestone_mountains": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:limestone_mountains"
+      }
+    },
+    "sand_dunes": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:sand_dunes"
+      }
+    },
+    "sand_hills": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:sand_hills"
+      }
+    },
+    "sand_plains": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:sand_plains"
+      }
     }
+  }
 }

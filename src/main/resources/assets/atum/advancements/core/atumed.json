@@ -1,57 +1,57 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:body_of_atum"
-        },
-        "title": {
-            "translate": "Atumed"
-        },
-        "description": {
-            "translate": "Obtain the full Atum armorset"
-        },
-		"frame": "challenge"
+  "display": {
+    "icon": {
+      "item": "atum:body_of_atum"
     },
-    "parent": "atum:core/itbelongsinamuseum",
-    "criteria": {
-        "eyes_of_atum": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:eyes_of_atum"
-                    }
-                ]
-            }
-        },
-        "body_of_atum": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:body_of_atum"
-                    }
-                ]
-            }
-        },
-        "legs_of_atum": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:legs_of_atum"
-                    }
-                ]
-            }
-        },
-        "feet_of_atum": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:feet_of_atum"
-                    }
-                ]
-            }
-        }
-	}
+    "title": {
+      "translate": "Atumed"
+    },
+    "description": {
+      "translate": "Obtain the full Atum armorset"
+    },
+    "frame": "challenge"
+  },
+  "parent": "atum:core/itbelongsinamuseum",
+  "criteria": {
+    "eyes_of_atum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:eyes_of_atum"
+          }
+        ]
+      }
+    },
+    "body_of_atum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:body_of_atum"
+          }
+        ]
+      }
+    },
+    "legs_of_atum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:legs_of_atum"
+          }
+        ]
+      }
+    },
+    "feet_of_atum": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:feet_of_atum"
+          }
+        ]
+      }
+    }
+  }
 }

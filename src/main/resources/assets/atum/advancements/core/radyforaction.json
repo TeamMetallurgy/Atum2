@@ -1,57 +1,57 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:body_of_ra"
-        },
-        "title": {
-            "translate": "Ra-dy for Action"
-        },
-        "description": {
-            "translate": "Obtain the full Ra armorset"
-        },
-		"frame": "challenge"
+  "display": {
+    "icon": {
+      "item": "atum:body_of_ra"
     },
-    "parent": "atum:core/itbelongsinamuseum",
-    "criteria": {
-        "halo_of_ra": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:halo_of_ra"
-                    }
-                ]
-            }
-        },
-        "body_of_ra": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:body_of_ra"
-                    }
-                ]
-            }
-        },
-        "legs_of_ra": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:legs_of_ra"
-                    }
-                ]
-            }
-        },
-        "feet_of_ra": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:feet_of_ra"
-                    }
-                ]
-            }
-        }
-	}
+    "title": {
+      "translate": "Ra-dy for Action"
+    },
+    "description": {
+      "translate": "Obtain the full Ra armorset"
+    },
+    "frame": "challenge"
+  },
+  "parent": "atum:core/itbelongsinamuseum",
+  "criteria": {
+    "halo_of_ra": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:halo_of_ra"
+          }
+        ]
+      }
+    },
+    "body_of_ra": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:body_of_ra"
+          }
+        ]
+      }
+    },
+    "legs_of_ra": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:legs_of_ra"
+          }
+        ]
+      }
+    },
+    "feet_of_ra": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:feet_of_ra"
+          }
+        ]
+      }
+    }
+  }
 }

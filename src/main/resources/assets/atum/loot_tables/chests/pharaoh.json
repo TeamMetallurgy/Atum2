@@ -22,7 +22,7 @@
           ],
           "weight": 100
         },
-      	{
+        {
           "type": "item",
           "name": "minecraft:leather",
           "entryName": "leather",
@@ -120,37 +120,37 @@
         },
         {
           "type": "loot_table",
-          "name": "atum:gold_weapons_0",
+          "name": "atum:chests/subloot/gold_weapons_0",
           "weight": 50,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:gold_weapons_35",
+          "name": "atum:chests/subloot/gold_weapons_35",
           "weight": 10,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:gold_armor_0",
+          "name": "atum:chests/subloot/gold_armor_0",
           "weight": 50,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:gold_armor_35",
+          "name": "atum:chests/subloot/gold_armor_35",
           "weight": 10,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:diamond_weapon_35",
+          "name": "atum:chests/subloot/diamond_weapon_35",
           "weight": 2,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:diamond_armor_35",
+          "name": "atum:chests/subloot/diamond_armor_35",
           "weight": 2,
           "quality": 2
         },
@@ -310,11 +310,11 @@
           "entryName": "totem_of_undying",
           "weight": 10
         },
-		{
+        {
           "type": "item",
           "name": "atum:disenchanting_scroll",
           "entryName": "disenchanting_scroll",
-		  "functions": [
+          "functions": [
             {
               "function": "set_count",
               "count": {
@@ -322,8 +322,8 @@
                 "max": 3
               }
             }
-			],
-			"weight": 30
+          ],
+          "weight": 30
         },
         {
           "type": "item",
@@ -342,10 +342,7 @@
     },
     {
       "name": "atum:pharaoh_sand",
-      "rolls": {
-        "min": 0,
-        "max": 2
-      },
+      "rolls": 1,
       "entries": [
         {
           "type": "item",
@@ -355,8 +352,8 @@
             {
               "function": "set_count",
               "count": {
-                "min": 1,
-                "max": 8
+                "min": 0,
+                "max": 6
               }
             }
           ],

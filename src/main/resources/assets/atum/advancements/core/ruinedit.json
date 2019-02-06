@@ -1,22 +1,22 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:limestone_brick_cracked_brick"
-        },
-        "title": {
-            "translate": "Ruined It"
-        },
-        "description": {
-            "translate": "Enter a Ruin"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:limestone_brick_cracked_brick"
     },
-    "parent": "atum:core/journeyintothesands",
-    "criteria": {
-        "in_ruin": {
-            "trigger": "minecraft:location",
-            "conditions": {
-                "feature": "atum:ruin"
-            }
-        }
+    "title": {
+      "translate": "Ruined It"
+    },
+    "description": {
+      "translate": "Enter a Ruin"
     }
+  },
+  "parent": "atum:core/journeyintothesands",
+  "criteria": {
+    "in_ruin": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "feature": "atum:ruin"
+      }
+    }
+  }
 }

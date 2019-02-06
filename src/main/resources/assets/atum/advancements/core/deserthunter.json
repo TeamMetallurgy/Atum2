@@ -1,60 +1,60 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:short_bow"
-        },
-        "title": {
-            "translate": "Desert Hunter"
-        },
-        "description": {
-            "translate": "Kill one of each type of Atum animal"
-        },
-		"frame": "challenge"
+  "display": {
+    "icon": {
+      "item": "atum:short_bow"
     },
-    "parent": "atum:core/sandyboi",
-	"rewards": {
-        "experience": 250
+    "title": {
+      "translate": "Desert Hunter"
     },
-    "criteria": {
-        "desertwolf": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:desert_wolf"
-					}
-				}
-        },
-		"desertrabbit": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:desert_rabbit"
-					}
-				}
-        },
-		"tarantula": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:tarantula"
-					}
-				}
-        },
-		"camel": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:camel"
-					}
-				}
-        },
-		"scarab": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:scarab"
-					}
-				}
+    "description": {
+      "translate": "Kill one of each type of Atum animal"
+    },
+    "frame": "challenge"
+  },
+  "parent": "atum:core/sandyboi",
+  "rewards": {
+    "experience": 250
+  },
+  "criteria": {
+    "desertwolf": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:desert_wolf"
         }
+      }
+    },
+    "desertrabbit": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:desert_rabbit"
+        }
+      }
+    },
+    "tarantula": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:tarantula"
+        }
+      }
+    },
+    "camel": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:camel"
+        }
+      }
+    },
+    "scarab": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:scarab"
+        }
+      }
     }
+  }
 }

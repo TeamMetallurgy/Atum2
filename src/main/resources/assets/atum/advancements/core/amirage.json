@@ -1,22 +1,22 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:shrub"
-        },
-        "title": {
-            "translate": "A Mirage"
-        },
-        "description": {
-            "translate": "Visit a dead oasis"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:shrub"
     },
-	"parent": "atum:core/ruinedit",
-    "criteria": {
-        "entered_atum": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:dead_oasis"
-            }
-        }
+    "title": {
+      "translate": "A Mirage"
+    },
+    "description": {
+      "translate": "Visit a dead oasis"
     }
+  },
+  "parent": "atum:core/ruinedit",
+  "criteria": {
+    "entered_atum": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:dead_oasis"
+      }
+    }
+  }
 }

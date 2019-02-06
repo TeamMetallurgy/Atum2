@@ -68,7 +68,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
-    public InventoryBasic desertWolfInventory;
+    private InventoryBasic desertWolfInventory;
     private float headRotationCourse;
     private float headRotationCourseWild;
     private boolean isWet;
@@ -350,14 +350,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return this.height * 0.8F;
     }
 
-    /*@Override
+    @Override
     public void setScaleForAge(boolean child) {
         if (this.isAlpha()) {
             this.setScale(1.6F);
         } else {
             super.setScaleForAge(child);
         }
-    }*/
+    }
 
     @Override
     public int getVerticalFaceSpeed() {
@@ -602,7 +602,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return this.dataManager.get(SADDLED);
     }
 
-    public void setSaddled(boolean saddled) {
+    private void setSaddled(boolean saddled) {
         if (saddled) {
             this.dataManager.set(SADDLED, Boolean.TRUE);
         } else {
@@ -688,8 +688,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public void writeEntityToNBT(NBTTagCompound compound) {
-        super.writeEntityToNBT(compound);
         compound.setInteger("Variant", this.getVariant());
+        super.writeEntityToNBT(compound);
         compound.setBoolean("Angry", this.isAngry());
         compound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
         compound.setBoolean("Saddle", this.isSaddled());
@@ -706,8 +706,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public void readEntityFromNBT(NBTTagCompound compound) {
-        super.readEntityFromNBT(compound);
         this.setVariant(compound.getInteger("Variant"));
+        super.readEntityFromNBT(compound);
         this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
         this.setAngry(compound.getBoolean("Angry"));

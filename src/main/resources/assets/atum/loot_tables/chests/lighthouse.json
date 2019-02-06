@@ -22,7 +22,7 @@
           ],
           "weight": 55
         },
-	    {
+        {
           "type": "item",
           "name": "minecraft:leather",
           "entryName": "leather",
@@ -37,7 +37,7 @@
           ],
           "weight": 30
         },
-	    {
+        {
           "type": "item",
           "name": "atum:cloth_scrap",
           "entryName": "cloth_scrap",
@@ -127,7 +127,7 @@
           ],
           "weight": 45
         },
-	    {
+        {
           "type": "item",
           "name": "atum:emmer_seeds",
           "entryName": "emmer_seeds",
@@ -142,7 +142,7 @@
           ],
           "weight": 40
         },
-	    {
+        {
           "type": "item",
           "name": "melon_seeds",
           "entryName": "melon_seeds",
@@ -169,33 +169,33 @@
           "entryName": "golden_date_enchanted",
           "weight": 1
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:limestone_weapons_0",
+          "name": "atum:chests/subloot/limestone_weapons_0",
           "weight": 150,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:iron_weapons_0",
+          "name": "atum:chests/subloot/iron_weapons_0",
           "weight": 25,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:iron_weapons_25",
+          "name": "atum:chests/subloot/iron_weapons_25",
           "weight": 10,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:iron_armor_0",
+          "name": "atum:chests/subloot/iron_armor_0",
           "weight": 25,
           "quality": 2
         },
-		{
+        {
           "type": "loot_table",
-          "name": "atum:iron_armor_25",
+          "name": "atum:chests/subloot/iron_armor_25",
           "weight": 10,
           "quality": 2
         },
@@ -333,11 +333,11 @@
           ],
           "weight": 24
         },
-		{
+        {
           "type": "item",
           "name": "atum:disenchanting_scroll",
           "entryName": "disenchanting_scroll",
-		  "functions": [
+          "functions": [
             {
               "function": "set_count",
               "count": {
@@ -345,8 +345,8 @@
                 "max": 3
               }
             }
-			],
-			"weight": 15
+          ],
+          "weight": 15
         },
         {
           "type": "item",
@@ -403,10 +403,7 @@
     },
     {
       "name": "atum:lighthouse_sand",
-      "rolls": {
-        "min": 1,
-        "max": 2
-      },
+      "rolls": 1,
       "entries": [
         {
           "type": "item",
@@ -417,7 +414,7 @@
               "function": "set_count",
               "count": {
                 "min": 1,
-                "max": 2
+                "max": 3
               }
             }
           ],

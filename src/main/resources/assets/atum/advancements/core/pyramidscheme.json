@@ -1,22 +1,22 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:limestone_brick_large"
-        },
-        "title": {
-            "translate": "Pyramid Scheme"
-        },
-        "description": {
-            "translate": "Enter a Pyramid"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:limestone_brick_large"
     },
-    "parent": "atum:core/journeyintothesands",
-    "criteria": {
-        "in_pyramid": {
-            "trigger": "minecraft:location",
-            "conditions": {
-                "feature": "atum:pyramid"
-            }
-        }
+    "title": {
+      "translate": "Pyramid Scheme"
+    },
+    "description": {
+      "translate": "Enter a Pyramid"
     }
+  },
+  "parent": "atum:core/journeyintothesands",
+  "criteria": {
+    "in_pyramid": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "feature": "atum:pyramid"
+      }
+    }
+  }
 }

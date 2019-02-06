@@ -1,24 +1,24 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:dusty_bone"
-        },
-        "title": {
-            "translate": "Sandy Boi"
-        },
-        "description": {
-            "translate": "Tame a desert wolf"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:dusty_bone"
     },
-    "parent": "atum:core/killorbekilled",
-    "criteria": {
-        "desert_wolf": {
-            "trigger": "tame_animal",
-            "conditions": {
-                "entity": {
-                    "type": "atum:desert_wolf"
-                }
-            }
-        }
+    "title": {
+      "translate": "Sandy Boi"
+    },
+    "description": {
+      "translate": "Tame a desert wolf"
     }
+  },
+  "parent": "atum:core/killorbekilled",
+  "criteria": {
+    "desert_wolf": {
+      "trigger": "tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "atum:desert_wolf"
+        }
+      }
+    }
+  }
 }

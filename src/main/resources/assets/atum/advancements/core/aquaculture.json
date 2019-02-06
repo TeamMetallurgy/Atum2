@@ -1,62 +1,67 @@
 {
-    "display": {
-        "icon": {
+  "display": {
+    "icon": {
+      "item": "atum:fish_skeletal"
+    },
+    "title": {
+      "translate": "Aquaculture"
+    },
+    "description": {
+      "translate": "Catch a fish in Atum"
+    }
+  },
+  "parent": "atum:core/ahope",
+  "rewards": {
+    "experience": 50
+  },
+  "criteria": {
+    "fish_skeletal": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
             "item": "atum:fish_skeletal"
-        },
-        "title": {
-            "translate": "Aquaculture"
-        },
-        "description": {
-            "translate": "Catch a fish in Atum"
-        }
+          }
+        ]
+      }
     },
-    "parent": "atum:core/ahope",
-	"rewards": {
-        "experience": 50
+    "fish_mummified": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:fish_mummified"
+          }
+        ]
+      }
     },
-    "criteria": {
-        "fish_skeletal": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:fish_skeletal"
-                    }
-                ]
-            }
-        },
-		"fish_mummified": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:fish_mummified"
-                    }
-                ]
-            }
-        },
-		"fish_forsaken": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:fish_forsaken"
-                    }
-                ]
-            }
-        },
-		"fish_jeweled": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:fish_jeweled"
-                    }
-                ]
-            }
-        }
-	},
-	"requirements": [
-		["fish_skeletal", "fish_jeweled", "fish_mummified", "fish_forsaken"]
-	]
+    "fish_forsaken": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:fish_forsaken"
+          }
+        ]
+      }
+    },
+    "fish_jeweled": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:fish_jeweled"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "fish_skeletal",
+      "fish_jeweled",
+      "fish_mummified",
+      "fish_forsaken"
+    ]
+  ]
 }

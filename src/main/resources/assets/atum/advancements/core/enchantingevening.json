@@ -1,24 +1,24 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:golden_date_enchanted"
-        },
-        "title": {
-            "translate": "Enchanting Evening"
-        },
-        "description": {
-            "translate": "Eat an Enchanted Golden Date"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:golden_date_enchanted"
     },
-    "parent": "atum:core/goldendatebridge",
-    "criteria": {
-        "golden_date_enchanted": {
-            "trigger": "consume_item",
-            "conditions": {
-                "item": {
-                    "item": "atum:golden_date_enchanted"
-                }
-            }
+    "title": {
+      "translate": "Enchanting Evening"
+    },
+    "description": {
+      "translate": "Eat an Enchanted Golden Date"
+    }
+  },
+  "parent": "atum:core/goldendatebridge",
+  "criteria": {
+    "golden_date_enchanted": {
+      "trigger": "consume_item",
+      "conditions": {
+        "item": {
+          "item": "atum:golden_date_enchanted"
         }
-	}
+      }
+    }
+  }
 }

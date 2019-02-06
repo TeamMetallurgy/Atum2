@@ -1,28 +1,28 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:dagger_poison"
-        },
-        "title": {
-            "translate": "Assassinassin"
-        },
-        "description": {
-            "translate": "Assassinate an Assassin"
-        },
-		"frame": "goal"
+  "display": {
+    "icon": {
+      "item": "atum:dagger_poison"
     },
-    "parent": "atum:core/killorbekilled",
-	"rewards": {
-        "experience": 100
+    "title": {
+      "translate": "Assassinassin"
     },
-    "criteria": {
-		"assassin": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:assassin"
-					}
-				}
+    "description": {
+      "translate": "Assassinate an Assassin"
+    },
+    "frame": "goal"
+  },
+  "parent": "atum:core/killorbekilled",
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "assassin": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:assassin"
         }
-	}
+      }
+    }
+  }
 }

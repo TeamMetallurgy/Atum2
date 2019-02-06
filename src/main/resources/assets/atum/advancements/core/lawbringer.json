@@ -1,52 +1,52 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:brigand_shield"
-        },
-        "title": {
-            "translate": "Lawbringer"
-        },
-        "description": {
-            "translate": "Kill one of each type of Atum bandit"
-        },
-		"frame": "challenge"
+  "display": {
+    "icon": {
+      "item": "atum:brigand_shield"
     },
-    "parent": "atum:core/assassinassin",
-	"rewards": {
-        "experience": 250
+    "title": {
+      "translate": "Lawbringer"
     },
-    "criteria": {
-        "brigand": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:brigand"
-					}
-				}
-        },
-		"nomad": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:nomad"
-					}
-				}
-        },
-		"barbarian": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:barbarian"
-					}
-				}
-        },
-		"assassin": {
-            "trigger": "minecraft:player_killed_entity",
-				"conditions": {
-					"entity": {
-						"type": "atum:assassin"
-					}
-				}
+    "description": {
+      "translate": "Kill one of each type of Atum bandit"
+    },
+    "frame": "challenge"
+  },
+  "parent": "atum:core/assassinassin",
+  "rewards": {
+    "experience": 250
+  },
+  "criteria": {
+    "brigand": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:brigand"
         }
+      }
+    },
+    "nomad": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:nomad"
+        }
+      }
+    },
+    "barbarian": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:barbarian"
+        }
+      }
+    },
+    "assassin": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:assassin"
+        }
+      }
     }
+  }
 }

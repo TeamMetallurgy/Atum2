@@ -37,7 +37,7 @@
     },
     {
       "name": "atum:assassin_ophidian_tongue",
-      "rolls":  {
+      "rolls": {
         "min": 0,
         "max": 1
       },

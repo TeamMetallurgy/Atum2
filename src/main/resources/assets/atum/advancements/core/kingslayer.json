@@ -1,25 +1,25 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:atums_will"
-        },
-        "title": {
-            "translate": "Kingslayer"
-        },
-        "description": {
-            "translate": "Kill a Pharaoh"
-        },
-		"frame": "goal"
+  "display": {
+    "icon": {
+      "item": "atum:atums_will"
     },
-    "parent": "atum:core/pyramidscheme",
-    "criteria": {
-        "killed_pharaoh": {
-            "trigger": "minecraft:player_killed_entity",
-            "conditions": {
-                "entity": {
-                    "type": "atum:pharaoh"
-                }
-            }
+    "title": {
+      "translate": "Kingslayer"
+    },
+    "description": {
+      "translate": "Kill a Pharaoh"
+    },
+    "frame": "goal"
+  },
+  "parent": "atum:core/pyramidscheme",
+  "criteria": {
+    "killed_pharaoh": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:pharaoh"
         }
+      }
     }
+  }
 }

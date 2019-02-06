@@ -1,3 +1,17 @@
 {
-
+  "__comment:": "TODO, Shadow forgot to do this",
+  "pools": [
+    {
+      "name": "atum:tomb_loot",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "atum:chests/crate",
+          "weight": 1,
+          "quality": 0
+        }
+      ]
+    }
+  ]
 }

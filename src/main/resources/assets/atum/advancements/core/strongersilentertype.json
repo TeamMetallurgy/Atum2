@@ -1,28 +1,28 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:stoneguard_greatsword"
-        },
-        "title": {
-            "translate": "Stronger, Silenter Type"
-        },
-        "description": {
-            "translate": "Summon a Stonewarden"
-        },
-		"frame": "goal"
+  "display": {
+    "icon": {
+      "item": "atum:stoneguard_greatsword"
     },
-    "parent": "atum:core/strongsilenttype",
-	"rewards": {
-        "experience": 100
+    "title": {
+      "translate": "Stronger, Silenter Type"
     },
-    "criteria": {
-        "summoned_stonewarden": {
-            "trigger": "minecraft:summoned_entity",
-            "conditions": {
-                "entity": {
-                    "type": "atum:stonewarden"
-                }
-            }
+    "description": {
+      "translate": "Summon a Stonewarden"
+    },
+    "frame": "goal"
+  },
+  "parent": "atum:core/strongsilenttype",
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "summoned_stonewarden": {
+      "trigger": "minecraft:summoned_entity",
+      "conditions": {
+        "entity": {
+          "type": "atum:stonewarden"
         }
+      }
     }
+  }
 }

@@ -1,24 +1,24 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:golden_date"
-        },
-        "title": {
-            "translate": "Golden Date Bridge"
-        },
-        "description": {
-            "translate": "Eat a Golden Date"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:golden_date"
     },
-    "parent": "atum:core/itsadate",
-    "criteria": {
-        "golden_date": {
-            "trigger": "consume_item",
-            "conditions": {
-                "item": {
-                    "item": "atum:golden_date"
-                }
-            }
+    "title": {
+      "translate": "Golden Date Bridge"
+    },
+    "description": {
+      "translate": "Eat a Golden Date"
+    }
+  },
+  "parent": "atum:core/itsadate",
+  "criteria": {
+    "golden_date": {
+      "trigger": "consume_item",
+      "conditions": {
+        "item": {
+          "item": "atum:golden_date"
         }
-	}
+      }
+    }
+  }
 }

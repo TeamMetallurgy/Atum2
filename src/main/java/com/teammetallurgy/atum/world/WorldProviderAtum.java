@@ -6,10 +6,8 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.PacketStormStrength;
 import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
-
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
@@ -24,10 +22,9 @@ import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Random;
-
-import javax.annotation.Nonnull;
 
 public class WorldProviderAtum extends WorldProvider {
     public boolean hasStartStructureSpawned;

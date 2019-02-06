@@ -1,24 +1,24 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:oasis_grass"
-        },
-        "title": {
-            "translate": "A Hump in the Road"
-        },
-        "description": {
-            "translate": "Tame a camel"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:oasis_grass"
     },
-    "parent": "atum:core/sandyboi",
-    "criteria": {
-        "camel": {
-            "trigger": "tame_animal",
-            "conditions": {
-                "entity": {
-                    "type": "atum:camel"
-                }
-            }
-        }
+    "title": {
+      "translate": "A Hump in the Road"
+    },
+    "description": {
+      "translate": "Tame a camel"
     }
+  },
+  "parent": "atum:core/sandyboi",
+  "criteria": {
+    "camel": {
+      "trigger": "tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "atum:camel"
+        }
+      }
+    }
+  }
 }

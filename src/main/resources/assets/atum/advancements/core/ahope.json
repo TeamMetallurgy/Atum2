@@ -1,22 +1,22 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:palm_sapling"
-        },
-        "title": {
-            "translate": "A Hope"
-        },
-        "description": {
-            "translate": "Visit an oasis"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:palm_sapling"
     },
-	"parent": "atum:core/amirage",
-    "criteria": {
-        "entered_atum": {
-            "trigger": "minecraft:location",
-            "conditions": {
-				"biome": "atum:oasis"
-            }
-        }
+    "title": {
+      "translate": "A Hope"
+    },
+    "description": {
+      "translate": "Visit an oasis"
     }
+  },
+  "parent": "atum:core/amirage",
+  "criteria": {
+    "entered_atum": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:oasis"
+      }
+    }
+  }
 }

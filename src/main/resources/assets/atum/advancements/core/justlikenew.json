@@ -1,319 +1,350 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:loot_silver_ring"
-        },
-        "title": {
-            "translate": "Just Like New"
-        },
-        "description": {
-            "translate": "Wash a relic"
-        }
+  "display": {
+    "icon": {
+      "item": "atum:loot_silver_ring"
     },
-    "parent": "atum:core/pyramidscheme",
-    "criteria": {
-        "silver_ring": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_silver_ring"
-                    }
-                ]
-            }
-        },
-		"gold_ring": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_gold_ring"
-                    }
-                ]
-            }
-        },
-		"sapphire_ring": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_sapphire_ring"
-                    }
-                ]
-            }
-        },
-		"emerald_ring": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_emerald_ring"
-                    }
-                ]
-            }
-        },
-		"ruby_ring": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_ruby_ring"
-                    }
-                ]
-            }
-        },
-		"diamond_ring": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_diamond_ring"
-                    }
-                ]
-            }
-        },
-		"silver_necklace": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_silver_necklace"
-                    }
-                ]
-            }
-        },
-		"gold_necklace": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_gold_necklace"
-                    }
-                ]
-            }
-        },
-		"sapphire_necklace": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_sapphire_necklace"
-                    }
-                ]
-            }
-        },
-		"emerald_necklace": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_emerald_necklace"
-                    }
-                ]
-            }
-        },
-		"ruby_necklace": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_ruby_necklace"
-                    }
-                ]
-            }
-        },
-		"diamond_necklace": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_diamond_necklace"
-                    }
-                ]
-            }
-        },
-		"silver_scepter": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_silver_scepter"
-                    }
-                ]
-            }
-        },
-		"gold_scepter": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_gold_scepter"
-                    }
-                ]
-            }
-        },
-		"sapphire_scepter": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_sapphire_scepter"
-                    }
-                ]
-            }
-        },
-		"emerald_scepter": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_emerald_scepter"
-                    }
-                ]
-            }
-        },
-		"ruby_scepter": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_ruby_scepter"
-                    }
-                ]
-            }
-        },
-		"diamond_scepter": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_diamond_scepter"
-                    }
-                ]
-            }
-        },
-        "silver_idol": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_silver_idol"
-                    }
-                ]
-            }
-        },
-		"gold_idol": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_gold_idol"
-                    }
-                ]
-            }
-        },
-		"sapphire_idol": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_sapphire_idol"
-                    }
-                ]
-            }
-        },
-		"emerald_idol": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_emerald_idol"
-                    }
-                ]
-            }
-        },
-		"ruby_idol": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_ruby_idol"
-                    }
-                ]
-            }
-        },
-		"diamond_idol": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_diamond_idol"
-                    }
-                ]
-            }
-        },
-        "silver_broach": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_silver_broach"
-                    }
-                ]
-            }
-        },
-		"gold_broach": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_gold_broach"
-                    }
-                ]
-            }
-        },
-		"sapphire_broach": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_sapphire_broach"
-                    }
-                ]
-            }
-        },
-		"emerald_broach": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_emerald_broach"
-                    }
-                ]
-            }
-        },
-		"ruby_broach": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_ruby_broach"
-                    }
-                ]
-            }
-        },
-		"diamond_broach": {
-            "trigger": "minecraft:inventory_changed",
-            "conditions": {
-                "items": [
-                    {
-                        "item": "atum:loot_diamond_broach"
-                    }
-                ]
-            }
-        }
-	},
-	"requirements": [
-		["silver_ring", "silver_necklace", "silver_idol", "silver_broach", "silver_scepter", "gold_ring", "gold_necklace", "gold_idol", "gold_broach", "gold_scepter", "sapphire_ring", "sapphire_necklace", "sapphire_idol", "sapphire_broach", "sapphire_scepter", "ruby_ring", "ruby_necklace", "ruby_idol", "ruby_broach", "ruby_scepter", "emerald_ring", "emerald_necklace", "emerald_idol", "emerald_broach", "emerald_scepter", "diamond_ring", "diamond_necklace", "diamond_idol", "diamond_broach", "diamond_scepter"]
-	]
+    "title": {
+      "translate": "Just Like New"
+    },
+    "description": {
+      "translate": "Wash a relic"
+    }
+  },
+  "parent": "atum:core/pyramidscheme",
+  "criteria": {
+    "silver_ring": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_silver_ring"
+          }
+        ]
+      }
+    },
+    "gold_ring": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_gold_ring"
+          }
+        ]
+      }
+    },
+    "sapphire_ring": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_sapphire_ring"
+          }
+        ]
+      }
+    },
+    "emerald_ring": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_emerald_ring"
+          }
+        ]
+      }
+    },
+    "ruby_ring": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_ruby_ring"
+          }
+        ]
+      }
+    },
+    "diamond_ring": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_diamond_ring"
+          }
+        ]
+      }
+    },
+    "silver_necklace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_silver_necklace"
+          }
+        ]
+      }
+    },
+    "gold_necklace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_gold_necklace"
+          }
+        ]
+      }
+    },
+    "sapphire_necklace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_sapphire_necklace"
+          }
+        ]
+      }
+    },
+    "emerald_necklace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_emerald_necklace"
+          }
+        ]
+      }
+    },
+    "ruby_necklace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_ruby_necklace"
+          }
+        ]
+      }
+    },
+    "diamond_necklace": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_diamond_necklace"
+          }
+        ]
+      }
+    },
+    "silver_scepter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_silver_scepter"
+          }
+        ]
+      }
+    },
+    "gold_scepter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_gold_scepter"
+          }
+        ]
+      }
+    },
+    "sapphire_scepter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_sapphire_scepter"
+          }
+        ]
+      }
+    },
+    "emerald_scepter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_emerald_scepter"
+          }
+        ]
+      }
+    },
+    "ruby_scepter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_ruby_scepter"
+          }
+        ]
+      }
+    },
+    "diamond_scepter": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_diamond_scepter"
+          }
+        ]
+      }
+    },
+    "silver_idol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_silver_idol"
+          }
+        ]
+      }
+    },
+    "gold_idol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_gold_idol"
+          }
+        ]
+      }
+    },
+    "sapphire_idol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_sapphire_idol"
+          }
+        ]
+      }
+    },
+    "emerald_idol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_emerald_idol"
+          }
+        ]
+      }
+    },
+    "ruby_idol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_ruby_idol"
+          }
+        ]
+      }
+    },
+    "diamond_idol": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_diamond_idol"
+          }
+        ]
+      }
+    },
+    "silver_broach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_silver_broach"
+          }
+        ]
+      }
+    },
+    "gold_broach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_gold_broach"
+          }
+        ]
+      }
+    },
+    "sapphire_broach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_sapphire_broach"
+          }
+        ]
+      }
+    },
+    "emerald_broach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_emerald_broach"
+          }
+        ]
+      }
+    },
+    "ruby_broach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_ruby_broach"
+          }
+        ]
+      }
+    },
+    "diamond_broach": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:loot_diamond_broach"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "silver_ring",
+      "silver_necklace",
+      "silver_idol",
+      "silver_broach",
+      "silver_scepter",
+      "gold_ring",
+      "gold_necklace",
+      "gold_idol",
+      "gold_broach",
+      "gold_scepter",
+      "sapphire_ring",
+      "sapphire_necklace",
+      "sapphire_idol",
+      "sapphire_broach",
+      "sapphire_scepter",
+      "ruby_ring",
+      "ruby_necklace",
+      "ruby_idol",
+      "ruby_broach",
+      "ruby_scepter",
+      "emerald_ring",
+      "emerald_necklace",
+      "emerald_idol",
+      "emerald_broach",
+      "emerald_scepter",
+      "diamond_ring",
+      "diamond_necklace",
+      "diamond_idol",
+      "diamond_broach",
+      "diamond_scepter"
+    ]
+  ]
 }

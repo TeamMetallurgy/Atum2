@@ -1,24 +1,24 @@
 {
-    "display": {
-        "icon": {
-            "item": "atum:sand"
-        },
-        "title": {
-            "translate": "Journey Into The Sands"
-        },
-        "description": {
-            "translate": "Enter Atum"
-        },
-        "show_toast": false,
-        "announce_to_chat": false
+  "display": {
+    "icon": {
+      "item": "atum:sand"
     },
-	"parent": "atum:core/root",
-    "criteria": {
-        "entered_atum": {
-            "trigger": "minecraft:changed_dimension",
-            "conditions": {
-                "to": "atum"
-            }
-        }
+    "title": {
+      "translate": "Journey Into The Sands"
+    },
+    "description": {
+      "translate": "Enter Atum"
+    },
+    "show_toast": false,
+    "announce_to_chat": false
+  },
+  "parent": "atum:core/root",
+  "criteria": {
+    "entered_atum": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "atum"
+      }
     }
+  }
 }
