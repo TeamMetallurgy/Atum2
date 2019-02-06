@@ -1,7 +1,7 @@
 {
   "pools": [
     {
-      "name": "atum:chests/subloot/iron_armor_25",
+      "name": "atum:iron_armor_25",
       "rolls": 1,
       "entries": [
         {

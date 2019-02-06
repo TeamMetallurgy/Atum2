@@ -1,7 +1,7 @@
 {
   "pools": [
     {
-      "name": "atum:chests/subloot/limestone_weapons_0",
+      "name": "atum:limestone_weapons_0",
       "rolls": 1,
       "entries": [
         {

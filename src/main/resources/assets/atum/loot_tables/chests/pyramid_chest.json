@@ -240,7 +240,7 @@
         },
         {
           "type": "loot_table",
-          "name": "atum:chests/subloot/diamond_weapon_35",
+          "name": "atum:chests/subloot/diamond_weapons_35",
           "weight": 2,
           "quality": 2
         },
