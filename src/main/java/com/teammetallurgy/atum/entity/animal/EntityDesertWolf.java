@@ -100,12 +100,12 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, avoid -> avoid != null && avoid.isAlpha() && (!this.isAlpha() && this.isTamed()), 8.0F, 0.6D, 1.0D));
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityLlama.class, 24.0F, 0.6D, 1.2D));
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, 24.0F, 0.6D, 1.2D));
+        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, avoid -> avoid != null && !this.isAlpha(), 24.0F, 0.6D, 1.2D));
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
         this.tasks.addTask(6, new EntityAIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 0.4D));
         this.tasks.addTask(9, new AIBeg(this, 8.0F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
@@ -350,14 +350,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         return this.height * 0.8F;
     }
 
-    /*@Override
+    @Override
     public void setScaleForAge(boolean child) {
         if (this.isAlpha()) {
             this.setScale(1.6F);
         } else {
             super.setScaleForAge(child);
         }
-    }*/
+    }
 
     @Override
     public int getVerticalFaceSpeed() {

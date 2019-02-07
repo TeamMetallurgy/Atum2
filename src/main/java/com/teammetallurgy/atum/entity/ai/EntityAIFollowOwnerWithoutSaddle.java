@@ -6,9 +6,9 @@ import net.minecraft.entity.ai.EntityAIFollowOwner;
 public class EntityAIFollowOwnerWithoutSaddle extends EntityAIFollowOwner {
     private final EntityDesertWolf wolf;
 
-    public EntityAIFollowOwnerWithoutSaddle(EntityDesertWolf tameableIn, double followSpeedIn, float minDistIn, float maxDistIn) {
-        super(tameableIn, followSpeedIn, minDistIn, maxDistIn);
-        this.wolf = tameableIn;
+    public EntityAIFollowOwnerWithoutSaddle(EntityDesertWolf wolf, double followSpeed, float minDist, float maxDist) {
+        super(wolf, followSpeed, minDist, maxDist);
+        this.wolf = wolf;
     }
 
     @Override
