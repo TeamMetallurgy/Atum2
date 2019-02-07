@@ -9,6 +9,7 @@ import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockSandStone;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -83,8 +84,10 @@ public class BlockPortal extends BlockBreakable {
     public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
         Size size = new Size(world, pos);
 
-        if (!size.isValid()) {
-            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+        if (neighborBlock == this || size.isSandBlock(neighborBlock.getDefaultState())) {
+            if (!size.isValid()) {
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
+            }
         }
     }
 
@@ -109,6 +112,12 @@ public class BlockPortal extends BlockBreakable {
                 }
             }
         }
+    }
+
+    @Override
+    @Nonnull
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
+        return BlockFaceShape.UNDEFINED;
     }
 
     @Override

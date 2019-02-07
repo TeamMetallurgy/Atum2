@@ -883,6 +883,15 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         }
     }
 
+    @Override
+    public void fall(float distance, float damageMultiplier) {
+        if (this.isAlpha() && distance > 5.0F) {
+            super.fall(distance, damageMultiplier);
+        } else if (!this.isAlpha() && distance > 2.5F) {
+            super.fall(distance, damageMultiplier);
+        }
+    }
+
     private boolean isJumping() {
         return this.isWolfJumping;
     }
