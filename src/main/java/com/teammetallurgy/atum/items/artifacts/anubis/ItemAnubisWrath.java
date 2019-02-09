@@ -81,12 +81,12 @@ public class ItemAnubisWrath extends ItemSword {
 
     @Override
     public double getDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return (double) (getSoulUpgradeTier(getTier(stack)) - getSouls(stack)) / (double) getSoulUpgradeTier(getTier(stack));
+        return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? super.getDurabilityForDisplay(stack) : (double) (getSoulUpgradeTier(getTier(stack)) - getSouls(stack)) / (double) getSoulUpgradeTier(getTier(stack));
     }
 
     @Override
     public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return 12452784;
+        return Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? super.getRGBDurabilityForDisplay(stack) : 12452784;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
