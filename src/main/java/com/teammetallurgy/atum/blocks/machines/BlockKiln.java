@@ -168,7 +168,7 @@ public class BlockKiln extends BlockContainer {
         IBlockState secondaryState = world.getBlockState(secondaryPos);
         BlockPos dropPos = primaryPos;
 
-        System.out.println("Destroy " + primaryPos);
+        //System.out.println("Destroy " + primaryPos);
 
         if (primaryState.getBlock() == AtumBlocks.KILN) {
             world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false).withProperty(IS_BURNING, false));

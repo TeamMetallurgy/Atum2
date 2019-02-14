@@ -2,9 +2,7 @@ package com.teammetallurgy.atum.items;
 
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.AtumUtils;
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.utils.*;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -21,7 +19,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class ItemLoot extends Item {
+public class ItemLoot extends Item implements IOreDictEntry {
     private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
     public static void createLootItems() {
@@ -58,6 +56,21 @@ public class ItemLoot extends Item {
         return Type.IDOL;
     }
 
+    public static Quality getQuality(Item item) {
+        if (!(item instanceof ItemLoot)) {
+            Atum.LOG.error("Item is not a loot artifact");
+        } else {
+            for (Type type : Type.values()) {
+                Preconditions.checkNotNull(item.getRegistryName(), "registryName");
+                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("loot_", "").replace(type.getName(), "").replace("_", ""));
+                if (quality != null) {
+                    return quality;
+                }
+            }
+        }
+        return Quality.DIRTY;
+    }
+
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
         World world = entityItem.world;
@@ -80,6 +93,11 @@ public class ItemLoot extends Item {
             }
         }
         return super.onEntityItemUpdate(entityItem);
+    }
+
+    @Override
+    public void getOreDictEntries() {
+        OreDictHelper.add(this, "relic");
     }
 
     public enum Type implements IStringSerializable {
@@ -126,6 +144,15 @@ public class ItemLoot extends Item {
         Quality(String name, int lootWeight) {
             this.unlocalizedName = name;
             this.weight = lootWeight;
+        }
+
+        public static Quality byString(String name) {
+            for (Quality quality : Quality.values()) {
+                if (quality.getName().equals(name)) {
+                    return quality;
+                }
+            }
+            return null;
         }
 
         public int getWeight() {

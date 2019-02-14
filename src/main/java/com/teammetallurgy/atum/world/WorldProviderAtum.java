@@ -132,16 +132,16 @@ public class WorldProviderAtum extends WorldProvider {
         }
 
         if (stormTime % 20 == 0)
-            System.out.println("StormTime: " + stormTime);
+            //System.out.println("StormTime: " + stormTime);
         //stormTime = 60;
 
         if (stormTime <= 0) {
             if (isStorming) {
                 stormTime = this.world.rand.nextInt(6000) + 6000;
-                System.out.println("New Storm: " + stormTime);
+                //System.out.println("New Storm: " + stormTime);
             } else {
                 stormTime = this.world.rand.nextInt(168000) + 12000;
-                System.out.println("Next Storm: " + stormTime);
+                //System.out.println("Next Storm: " + stormTime);
             }
             NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
         } else {

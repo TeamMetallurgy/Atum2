@@ -162,7 +162,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
     @Override
     protected boolean canDespawn() {
-        return this.isAngry();
+        return false;
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.entity.bandit;
 
-import com.teammetallurgy.atum.entity.ai.AtumEntityAIAttackRangedBow;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.entity.EntityLivingBase;
@@ -8,6 +7,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIAttackRangedBow;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.init.SoundEvents;
@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(EntityNomad.class, DataSerializers.BOOLEAN);
-    private AtumEntityAIAttackRangedBow aiArrowAttack = new AtumEntityAIAttackRangedBow<>(this, 0.8D, 30, 15.0F);
+    private EntityAIAttackRangedBow aiArrowAttack = new EntityAIAttackRangedBow<>(this, 0.8D, 30, 15.0F);
     private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.0D, false) {
         @Override
         public void resetTask() {
