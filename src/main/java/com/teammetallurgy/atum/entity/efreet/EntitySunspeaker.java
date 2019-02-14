@@ -47,7 +47,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     private int timeUntilReset;
     private boolean needsInitilization;
     private int wealth;
-    private static final EntityVillager.ITradeList[] TRADES = new EntityVillager.ITradeList[]{new ItemsForCoins(24, AtumItems.DATE, new EntityVillager.PriceInfo(15, 16)), new ItemsForCoins(48, AtumItems.CAMEL_RAW, new EntityVillager.PriceInfo(12, 18)), new ItemsForCoins(64, AtumItems.SCROLL, new EntityVillager.PriceInfo(8, 10)), new ItemsForCoins(48, Items.GLOWSTONE_DUST, new EntityVillager.PriceInfo(1, 4)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, Items.NAME_TAG, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(36, Item.getItemFromBlock(BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(24, AtumItems.ANPUTS_FINGERS_SPORES, new EntityVillager.PriceInfo(6, 8)), new ItemsForCoins(48, AtumItems.LINEN_CLOTH, new EntityVillager.PriceInfo(5, 9)), new ItemsForCoins(96, Items.BREWING_STAND, new EntityVillager.PriceInfo(1, 1))};
+    private static final EntityVillager.ITradeList[] TRADES = new EntityVillager.ITradeList[]{new ItemsForCoins(24, AtumItems.DATE, new EntityVillager.PriceInfo(15, 16)), new ItemsForCoins(48, AtumItems.CAMEL_RAW, new EntityVillager.PriceInfo(12, 18)), new ItemsForCoins(64, AtumItems.SCROLL, new EntityVillager.PriceInfo(8, 10)), new ItemsForCoins(48, Items.GLOWSTONE_DUST, new EntityVillager.PriceInfo(1, 4)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, Items.NAME_TAG, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(36, Item.getItemFromBlock(BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(24, AtumItems.ANPUTS_FINGERS_SPORES, new EntityVillager.PriceInfo(6, 8)), new ItemsForCoins(48, AtumItems.LINEN_CLOTH, new EntityVillager.PriceInfo(5, 9)), new ItemsForManyCoins(64, 32, Items.BREWING_STAND, new EntityVillager.PriceInfo(1, 1))};
 
     public EntitySunspeaker(World world) {
         super(world);
@@ -102,7 +102,6 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
                             merchantrecipe.increaseMaxTradeUses(this.rand.nextInt(6) + this.rand.nextInt(6) + 2);
                         }
                     }
-
                     this.populateBuyingList();
                     this.needsInitilization = false;
                 }
@@ -117,7 +116,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
             this.buyingList = new MerchantRecipeList();
         }
 
-        List<EntityVillager.ITradeList> trades = Collections.singletonList(TRADES[rand.nextInt(TRADES.length - 1)]);
+        List<EntityVillager.ITradeList> trades = Collections.singletonList(TRADES[10]);
 
         for (EntityVillager.ITradeList tradeList : trades) {
             tradeList.addMerchantRecipe(this, this.buyingList, this.rand);
@@ -303,6 +302,28 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
                 buyingAmount = this.buyingAmount.getPrice(random);
             }
             recipeList.add(new MerchantRecipe(new ItemStack(AtumItems.GOLD_COIN, this.price), new ItemStack(this.buyingItem, buyingAmount)));
+        }
+    }
+
+    public static class ItemsForManyCoins implements EntityVillager.ITradeList {
+        int price1;
+        int price2;
+        Item buyingItem;
+        EntityVillager.PriceInfo buyingAmount;
+
+        public ItemsForManyCoins(int price1, int price2, Item item, EntityVillager.PriceInfo buyingAmount) {
+            this.buyingItem = item;
+            this.price1 = price1;
+            this.price2 = price2;
+            this.buyingAmount = buyingAmount;
+        }
+
+        public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
+            int buyingAmount = 1;
+            if (this.buyingAmount != null) {
+                buyingAmount = this.buyingAmount.getPrice(random);
+            }
+            recipeList.add(new MerchantRecipe(new ItemStack(AtumItems.GOLD_COIN, this.price1), new ItemStack(AtumItems.GOLD_COIN, this.price2), new ItemStack(this.buyingItem, buyingAmount)));
         }
     }
 }
