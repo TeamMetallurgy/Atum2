@@ -116,7 +116,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
             this.buyingList = new MerchantRecipeList();
         }
 
-        List<EntityVillager.ITradeList> trades = Collections.singletonList(TRADES[10]);
+        List<EntityVillager.ITradeList> trades = Collections.singletonList(TRADES[rand.nextInt(TRADES.length - 1)]);
 
         for (EntityVillager.ITradeList tradeList : trades) {
             tradeList.addMerchantRecipe(this, this.buyingList, this.rand);
