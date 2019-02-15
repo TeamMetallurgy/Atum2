@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.PacketStormStrength;
 import com.teammetallurgy.atum.network.packet.PacketWeather;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
@@ -132,7 +133,7 @@ public class WorldProviderAtum extends WorldProvider {
         }
 
         if (stormTime % 20 == 0)
-            //System.out.println("StormTime: " + stormTime);
+            //System.out.println("StormTime: " + stormTime + " " + isStorming + " " + stormStrength);
         //stormTime = 60;
 
         if (stormTime <= 0) {
@@ -153,9 +154,9 @@ public class WorldProviderAtum extends WorldProvider {
 
         prevStormStrength = stormStrength;
         if (isStorming) {
-            stormStrength += 0.002F;
+            stormStrength += 1 / (float)(20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
         } else {
-            stormStrength -= 0.002F;
+            stormStrength -= 1 / (float)(20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
 

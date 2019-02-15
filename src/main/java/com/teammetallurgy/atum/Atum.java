@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
+import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,4 +59,10 @@ public class Atum {
         NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
         IntegrationHandler.INSTANCE.init();
     }
+
+    @Mod.EventHandler
+	public static void init(FMLServerStartingEvent event)
+	{
+		event.registerServerCommand(new AtumWeather());
+	}
 }

@@ -41,7 +41,7 @@ public class ClientEvents {
             if (Minecraft.getMinecraft().gameSettings.hideGUI) {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             } else {
-                renderSand(event.getPartialTicks(), 2, 3, 4, 5, 6);
+                renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             }
         }
     }
@@ -51,11 +51,15 @@ public class ClientEvents {
         if (event.getType() != ElementType.ALL) return;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
-            renderSand(event.getPartialTicks(), 1);
+            //renderSand(event.getPartialTicks(), 1);
         }
     }
 
     private static void renderSand(float partialTicks, int... layers) {
+    	float baseDarkness = AtumConfig.SAND_DARKNESS;
+    	float baseAlpha = AtumConfig.SAND_ALPHA;
+    	float eyesOfAtumAlpha = AtumConfig.SAND_EYES_ALPHA;
+    	
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
 
             WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
@@ -83,15 +87,15 @@ public class ClientEvents {
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
             for (int i : layers) {
                 float scale = 0.2f / (float) i;
-                float alpha = (float) Math.pow(rain - 0.1f, i) * rain;
+                float alpha = (float) Math.pow(rain - baseAlpha, i) * rain;
 
                 // Make it easier to see
-                /*ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
+                ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
                 if (helmet.getItem() instanceof ItemEyesOfAtum) {
-                    alpha -= 0.4f;
-                }*/
+                    alpha -= eyesOfAtumAlpha;
+                }
 
-                GlStateManager.color(0.75f * light, 0.75f * light, 0.75f * light, alpha);
+                GlStateManager.color(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
                 float scaleX = 0.01f * scaledRes.getScaledHeight() * scale * scaledRes.getScaleFactor();
                 float scaleY = 0.01f * scaledRes.getScaledWidth() * scale * scaledRes.getScaleFactor();
                 float speed = 500f - i * 15;
@@ -115,6 +119,8 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+    	float sandstormFog = AtumConfig.SANDSTORM_FOG;
+    	
         if (event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
             GlStateManager.setFog(GlStateManager.FogMode.EXP);
             float fogDensity = 0.08F;
@@ -132,7 +138,6 @@ public class ClientEvents {
                     fogDensity = fogDensity / 1.5F;
                 }
                 WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
-                int sandstormFog = 2;
                 fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
 
                 GlStateManager.setFogDensity(fogDensity);

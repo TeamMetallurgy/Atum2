@@ -32,6 +32,7 @@ public class AtumGuiFactory extends DefaultGuiFactory {
         elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.WORLDGEN)));
         elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.MOBS)));
         elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.MOD_INTEGRATION)));
+        elements.add(new ConfigElement(AtumConfig.config.getCategory(AtumConfig.SANDSTORM)));
         return elements;
     }
 }
