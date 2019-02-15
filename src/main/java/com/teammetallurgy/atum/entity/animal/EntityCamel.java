@@ -19,6 +19,7 @@ import net.minecraft.entity.*;
 import net.minecraft.entity.ai.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -155,6 +156,11 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Nullable
     protected ResourceLocation getLootTable() {
         return AtumLootTables.CAMEL;
+    }
+
+    @Override
+    public boolean canMateWith(EntityAnimal otherAnimal) {
+        return otherAnimal != this && otherAnimal instanceof EntityCamel && this.canMate() && ((EntityCamel) otherAnimal).canMate();
     }
 
     @Override
@@ -597,6 +603,14 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             healAmount = 3.0F;
             growthAmount = 60;
             temperAmount = 3;
+        } else if (item == AtumItems.DATE) {
+            healAmount = 3.0F;
+            growthAmount = 60;
+            temperAmount = 3;
+            if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove()) {
+                isEating = true;
+                this.setInLove(player);
+            }
         } else if (item == Items.GOLDEN_CARROT) {
             healAmount = 4.0F;
             growthAmount = 60;

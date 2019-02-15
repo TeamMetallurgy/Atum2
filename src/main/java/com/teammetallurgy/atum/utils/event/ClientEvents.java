@@ -18,7 +18,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -63,10 +62,11 @@ public class ClientEvents {
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
 
             WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
-            float rain = provider.stormStrength;
+            float stormStrength = provider.stormStrength;
 
-            if (rain < 0.0001f)
+            if (stormStrength < 0.0001F) {
                 return;
+            }
 
             float light = Minecraft.getMinecraft().player.world.getSunBrightness(partialTicks);
 
@@ -80,14 +80,12 @@ public class ClientEvents {
             Minecraft.getMinecraft().getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
 
             EntityPlayerSP player = Minecraft.getMinecraft().player;
-            boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
-
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
             for (int i : layers) {
                 float scale = 0.2f / (float) i;
-                float alpha = (float) Math.pow(rain - baseAlpha, i) * rain;
+                float alpha = (float) Math.pow(stormStrength - baseAlpha, i) * stormStrength;
 
                 // Make it easier to see
                 ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);

@@ -24,6 +24,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.MerchantRecipe;
@@ -202,7 +203,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         if (nameTag) {
             heldStack.interactWithEntity(player, this, hand);
             return true;
-        } else if (heldStack.getItem() instanceof ItemLoot && !world.isRemote) {
+        } else if (heldStack.getItem() instanceof ItemLoot) {
             ItemLoot.Type type = ItemLoot.getType(heldStack.getItem());
             ItemLoot.Quality quality = ItemLoot.getQuality(heldStack.getItem());
 
@@ -261,7 +262,25 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
 
         if (amount > 0) {
-            StackHelper.giveItem(player, hand, new ItemStack(AtumItems.GOLD_COIN, amount));
+            if (world.isRemote) {
+                this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
+                this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
+            }
+
+            if (!world.isRemote) {
+                this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
+                StackHelper.giveItem(player, hand, new ItemStack(AtumItems.GOLD_COIN, amount));
+            }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    private void spawnParticles(EnumParticleTypes particleType) {
+        for (int amount = 0; amount < 5; ++amount) {
+            double x = this.rand.nextGaussian() * 0.02D;
+            double y = this.rand.nextGaussian() * 0.02D;
+            double z = this.rand.nextGaussian() * 0.02D;
+            this.world.spawnParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 1.0D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, x, y, z);
         }
     }
 

@@ -20,7 +20,6 @@ public class PacketWeather extends Packet<PacketWeather> {
 
 	@Override
 	protected void handleClientSide(EntityPlayer player) {
-		//System.out.println(isStorming + " " + player.world.isRemote);
 		WorldProvider provider = Minecraft.getMinecraft().player.world.provider;
 		if (provider instanceof WorldProviderAtum) {
 			WorldProviderAtum providerAtum = (WorldProviderAtum) provider;

@@ -30,7 +30,7 @@ public class AtumConfig {
     public static String ATUM_START_STRUCTURE;
     public static boolean START_IN_ATUM_PORTAL;
     public static int DIMENSION_ID;
-    
+
     public static float SANDSTORM_FOG;
     public static float SAND_DARKNESS;
     public static float SAND_ALPHA;
@@ -90,31 +90,31 @@ public class AtumConfig {
         prop.setLanguageKey("atum.configGui.dimensionID").setRequiresMcRestart(true);
         DIMENSION_ID = prop.getInt();
         propOrder.add(prop.getName());
-        
+
         prop = config.get(SANDSTORM, "Sandstorm Fog", 2);
         prop.setComment("Multiplier to fog during sandstorms");
         prop.setLanguageKey("atum.configGui.sandstormfog");
         SANDSTORM_FOG = prop.getLong();
         propOrder.add(prop.getName());
-        
+
         prop = config.get(SANDSTORM, "Sandstorm Brightness", 75);
         prop.setComment("How light the sand particles are (0 - 100)");
         prop.setLanguageKey("atum.configGui.sandbrightness");
         SAND_DARKNESS = prop.getLong() / 100f;
         propOrder.add(prop.getName());
-        
+
         prop = config.get(SANDSTORM, "Sandstorm Base Transparency", 10);
         prop.setComment("Base transparency for sand particles (0 - 100)");
         prop.setLanguageKey("atum.configGui.sandalpha");
         SAND_ALPHA = prop.getLong() / 100f;
         propOrder.add(prop.getName());
-        
+
         prop = config.get(SANDSTORM, "Sandstorm Eyes Transparency", 40);
         prop.setComment("Sand particle transparency while wearing Eyes of Atum (0 - 100)");
         prop.setLanguageKey("atum.configGui.eyesalpha");
         SAND_EYES_ALPHA = prop.getLong() / 100f;
         propOrder.add(prop.getName());
-        
+
         prop = config.get(SANDSTORM, "Sandstorm Transition Time", 25);
         prop.setComment("Seconds it takes to transition from clear to sandstorm");
         prop.setLanguageKey("atum.configGui.sandstormtransition");

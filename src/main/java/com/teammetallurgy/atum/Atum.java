@@ -61,8 +61,7 @@ public class Atum {
     }
 
     @Mod.EventHandler
-	public static void init(FMLServerStartingEvent event)
-	{
-		event.registerServerCommand(new AtumWeather());
-	}
+    public static void serverStart(FMLServerStartingEvent event) {
+        event.registerServerCommand(new AtumWeather());
+    }
 }
