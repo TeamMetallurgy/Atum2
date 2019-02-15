@@ -40,7 +40,7 @@ group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
+    version = "1.12.2-14.23.5.0"
     mappings = "${mappings_version}"
     runDir = "run"
 	
@@ -49,6 +49,11 @@ minecraft {
 	
     replace "@API_VERSION@", "${api_version}"
     replaceIn "package-info.java"
+}
+configurations.forgeGradleUserDevPackage {
+    resolutionStrategy {
+        force 'net.minecraftforge:forge:1.12.2-14.23.5.2815:userdev'
+    }
 }
 
 dependencies {
