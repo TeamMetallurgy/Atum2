@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.network.packet.PacketStormStrength;
 import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
@@ -58,7 +59,8 @@ public class WorldProviderAtum extends WorldProvider {
         if (this.world.getBiome(pos).ignorePlayerSpawnSuitability()) {
             return true;
         } else {
-            return this.world.getGroundAboveSeaLevel(pos).getBlock() == AtumBlocks.SAND;
+            Block spawnBlock = this.world.getGroundAboveSeaLevel(pos).getBlock();
+            return spawnBlock == AtumBlocks.SAND || spawnBlock == AtumBlocks.FERTILE_SOIL || spawnBlock == AtumBlocks.LIMESTONE_GRAVEL;
         }
     }
 

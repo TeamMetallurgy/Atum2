@@ -79,6 +79,6 @@ public class AtumBiomeProvider extends BiomeProvider {
     @Override
     @Nonnull
     public List<Biome> getBiomesToSpawnIn() {
-        return Lists.newArrayList(AtumBiomes.SAND_PLAINS);
+        return Lists.newArrayList(AtumBiomes.DEAD_OASIS, AtumBiomes.DEADWOOD_FOREST, AtumBiomes.OASIS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_PLAINS);
     }
 }
