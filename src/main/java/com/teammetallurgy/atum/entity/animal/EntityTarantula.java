@@ -58,11 +58,6 @@ public class EntityTarantula extends EntityMob implements IUnderground {
     }
 
     @Override
-    protected boolean isValidLightLevel() {
-        return true;
-    }
-
-    @Override
     public double getMountedYOffset() {
         return (double) (this.height * 0.5F);
     }

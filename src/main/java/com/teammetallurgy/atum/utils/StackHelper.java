@@ -57,9 +57,7 @@ public class StackHelper {
      * Gives the specified ItemStack to the player
      */
     public static void giveItem(EntityPlayer player, EnumHand hand, @Nonnull ItemStack stack) {
-        if (player.getHeldItem(hand).isEmpty()) {
-            player.setHeldItem(hand, stack);
-        } else if (!player.inventory.addItemStackToInventory(stack)) {
+        if (!player.inventory.addItemStackToInventory(stack)) {
             player.dropItem(stack, false);
         } else if (player instanceof EntityPlayerMP) {
             ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);

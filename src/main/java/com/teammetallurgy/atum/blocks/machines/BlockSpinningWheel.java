@@ -78,61 +78,63 @@ public class BlockSpinningWheel extends BlockContainer {
 
         if (tileEntity instanceof TileEntitySpinningWheel) {
             TileEntitySpinningWheel spinningWheel = (TileEntitySpinningWheel) tileEntity;
-            if (facing == EnumFacing.UP) {
-                if (spinningWheel.isEmpty() && !heldStack.isEmpty() && spinningWheel.isItemValidForSlot(0, heldStack) && state.getValue(SPOOL) < 3) {
-                    ItemStack copyStack = new ItemStack(heldStack.getItem(), 1, heldStack.getMetadata());
-                    boolean canInsert = false;
+            if (facing == state.getValue(FACING)) {
+                this.output(world, pos, player, spinningWheel);
+            } else {
+                if (facing == EnumFacing.UP) {
+                    if (spinningWheel.isEmpty() && !heldStack.isEmpty() && spinningWheel.isItemValidForSlot(0, heldStack) && state.getValue(SPOOL) < 3) {
+                        ItemStack copyStack = new ItemStack(heldStack.getItem(), 1, heldStack.getMetadata());
+                        boolean canInsert = false;
 
-                    if (spinningWheel.input == null) {
-                        spinningWheel.input = copyStack.writeToNBT(new NBTTagCompound());
-                    }
-                    ItemStack inputStack = new ItemStack(spinningWheel.input);
-                    if (StackHelper.areStacksEqualIgnoreSize(inputStack, heldStack)) {
-                        canInsert = true;
-                    } else if (!inputStack.isEmpty()) {
-                        if (world.isRemote) {
-                            player.sendStatusMessage(new TextComponentTranslation("chat.atum.spinningWheel.recipeInProgress", inputStack.getDisplayName()).setStyle(new Style().setColor(TextFormatting.RED)), true);
-                            world.playSound(player, new BlockPos(player), SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.BLOCKS, 0.8F, 1.0F);
+                        if (spinningWheel.input == null) {
+                            spinningWheel.input = copyStack.writeToNBT(new NBTTagCompound());
                         }
-                    }
+                        ItemStack inputStack = new ItemStack(spinningWheel.input);
+                        if (StackHelper.areStacksEqualIgnoreSize(inputStack, heldStack)) {
+                            canInsert = true;
+                        } else if (!inputStack.isEmpty()) {
+                            if (world.isRemote) {
+                                player.sendStatusMessage(new TextComponentTranslation("chat.atum.spinningWheel.recipeInProgress", inputStack.getDisplayName()).setStyle(new Style().setColor(TextFormatting.RED)), true);
+                                world.playSound(player, new BlockPos(player), SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.BLOCKS, 0.8F, 1.0F);
+                            }
+                        }
 
-                    if (canInsert) {
-                        spinningWheel.setInventorySlotContents(0, copyStack);
-                        if (!player.isCreative()) {
-                            heldStack.shrink(1);
+                        if (canInsert) {
+                            spinningWheel.setInventorySlotContents(0, copyStack);
+                            if (!player.isCreative()) {
+                                heldStack.shrink(1);
+                            }
+                            spinningWheel.markDirty();
+                        }
+                    } else if (spinningWheel.input != null) {
+                        ItemStack input = new ItemStack(spinningWheel.input);
+                        for (ISpinningWheelRecipe spinningWheelRecipe : RecipeHandlers.spinningWheelRecipes) {
+                            if (spinningWheelRecipe.isValidInput(input)) {
+                                if (!spinningWheel.isEmpty()) {
+                                    spinningWheel.wheel = !spinningWheel.wheel;
+                                }
+                                if (spinningWheelRecipe.getRotations() == spinningWheel.rotations && state.getValue(SPOOL) < 3 && !spinningWheel.isEmpty()) {
+                                    world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
+                                    spinningWheel.decrStackSize(0, 1);
+                                    spinningWheel.rotations = 0;
+                                    spinningWheel.wheel = false;
+                                } else if (!spinningWheel.wheel && state.getValue(SPOOL) < 3 && !spinningWheel.isEmpty()) {
+                                    spinningWheel.rotations += 1;
+                                    if (world.isRemote) {
+                                        world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_LADDER_FALL, SoundCategory.BLOCKS, 0.55F, 0.4F, true);
+                                    }
+                                }
+                                if (state.getValue(SPOOL) == 3) {
+                                    ItemStack copyOutput = spinningWheelRecipe.getOutput();
+                                    ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount(), copyOutput.getMetadata());
+                                    spinningWheel.setInventorySlotContents(1, output);
+                                    spinningWheel.input = null;
+                                }
+                            }
                         }
                         spinningWheel.markDirty();
                     }
-                } else if (spinningWheel.input != null) {
-                    ItemStack input = new ItemStack(spinningWheel.input);
-                    for (ISpinningWheelRecipe spinningWheelRecipe : RecipeHandlers.spinningWheelRecipes) {
-                        if (spinningWheelRecipe.isValidInput(input)) {
-                            if (!spinningWheel.isEmpty()) {
-                                spinningWheel.wheel = !spinningWheel.wheel;
-                            }
-                            if (spinningWheelRecipe.getRotations() == spinningWheel.rotations && state.getValue(SPOOL) < 3 && !spinningWheel.isEmpty()) {
-                                world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
-                                spinningWheel.decrStackSize(0, 1);
-                                spinningWheel.rotations = 0;
-                                spinningWheel.wheel = false;
-                            } else if (!spinningWheel.wheel && state.getValue(SPOOL) < 3 && !spinningWheel.isEmpty()) {
-                                spinningWheel.rotations += 1;
-                                if (world.isRemote) {
-                                    world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_LADDER_FALL, SoundCategory.BLOCKS, 0.55F, 0.4F, true);
-                                }
-                            }
-                            if (state.getValue(SPOOL) == 3) {
-                                ItemStack copyOutput = spinningWheelRecipe.getOutput();
-                                ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount(), copyOutput.getMetadata());
-                                spinningWheel.setInventorySlotContents(1, output);
-                                spinningWheel.input = null;
-                            }
-                        }
-                    }
-                    spinningWheel.markDirty();
                 }
-            } else if (facing == state.getValue(FACING)) {
-                this.output(world, pos, player, spinningWheel);
             }
         }
         return true;
