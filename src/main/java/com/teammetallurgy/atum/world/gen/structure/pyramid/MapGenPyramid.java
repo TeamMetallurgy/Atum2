@@ -25,8 +25,8 @@ public class MapGenPyramid extends MapGenStructure {
     private static final List<Biome> ALLOWED_BIOMES = Arrays.asList(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.LIMESTONE_CRAGS, AtumBiomes.DEADWOOD_FOREST);
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387404;
-    private int spacing = 16;
-    private int separation = 4;
+    private int spacing = 18;
+    private int separation = 8;
 
     public MapGenPyramid(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
