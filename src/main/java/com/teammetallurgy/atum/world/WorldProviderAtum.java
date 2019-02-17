@@ -113,6 +113,7 @@ public class WorldProviderAtum extends WorldProvider {
         if (state.getBlock() == AtumBlocks.SAND || state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL || !ChunkGeneratorAtum.canPlaceSandLayer(world, pos, biome)) {
             return false;
         }
+        state = world.getBlockState(pos);
         if (state.getBlock().isReplaceable(world, pos)) {
             state = world.getBlockState(pos.down());
             BlockFaceShape blockFaceShape = state.getBlockFaceShape(world, pos.down(), EnumFacing.UP);
