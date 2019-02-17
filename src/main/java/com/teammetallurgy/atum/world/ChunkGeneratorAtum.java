@@ -378,6 +378,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     static boolean canPlaceSandLayer(World world, BlockPos pos, Biome biome) {
         IBlockState stateDown = world.getBlockState(pos.down());
         return biome != AtumBiomes.OASIS
+                && stateDown.getBlock() != AtumBlocks.SAND
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
                 && stateDown.isSideSolid(world, pos, EnumFacing.UP)
                 && !(stateDown.getBlock() instanceof BlockSandLayers)
