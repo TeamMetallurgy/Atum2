@@ -23,8 +23,8 @@ public class MapGenGirafiTomb extends MapGenStructure {
     private static final List<Biome> ALLOWED_BIOMES = Arrays.asList(AtumBiomes.SAND_PLAINS, AtumBiomes.SAND_DUNES, AtumBiomes.DRIED_RIVER);
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387999;
-    private int spacing = 32;
-    private int separation = 26;
+    private int spacing = 36;
+    private int separation = 30;
 
     public MapGenGirafiTomb(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
