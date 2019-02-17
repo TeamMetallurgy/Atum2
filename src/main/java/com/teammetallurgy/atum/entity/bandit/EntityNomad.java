@@ -30,7 +30,7 @@ import javax.annotation.Nullable;
 
 public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     private static final DataParameter<Boolean> SWINGING_ARMS = EntityDataManager.createKey(EntityNomad.class, DataSerializers.BOOLEAN);
-    private EntityAIAttackRangedBow aiArrowAttack = new EntityAIAttackRangedBow<>(this, 0.8D, 30, 15.0F);
+    private EntityAIAttackRangedBow aiArrowAttack = new EntityAIAttackRangedBow<>(this, 0.75D, 35, 12.0F);
     private final EntityAIAttackMelee aiAttackOnCollide = new EntityAIAttackMelee(this, 1.0D, false) {
         @Override
         public void resetTask() {
@@ -101,7 +101,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         double y = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - arrow.posY;
         double z = target.posZ - this.posZ;
         double height = (double) MathHelper.sqrt(x * x + z * z);
-        arrow.shoot(x, y + height * 0.20000000298023224D, z, 1.6F, (float) (14 - this.world.getDifficulty().getId() * 4));
+        arrow.shoot(x, y + height * 0.20000000298023224D, z, 1.6F, (float) (10 - this.world.getDifficulty().getId() * 4));
         this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.spawnEntity(arrow);
     }
