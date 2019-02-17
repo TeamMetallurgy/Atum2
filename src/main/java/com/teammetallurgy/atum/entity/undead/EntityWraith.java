@@ -135,9 +135,12 @@ public class EntityWraith extends EntityUndeadBase {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (rand.nextDouble() <= 0.25D) {
+            if (rand.nextDouble() <= 0.175D) {
                 if (entity instanceof EntityLivingBase) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 100, 2));
+                    EntityLivingBase livingBase = (EntityLivingBase) entity;
+                    if (!livingBase.isPotionActive(MobEffects.SLOWNESS)) {
+                        livingBase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 1));
+                    }
                 }
             }
             return true;
