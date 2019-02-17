@@ -109,7 +109,7 @@ public class WorldProviderAtum extends WorldProvider {
     }
 
     private boolean canPlaceSandAt(BlockPos pos, Biome biome) {
-        IBlockState state = world.getBlockState(pos);
+        IBlockState state = world.getBlockState(pos.down());
         if (state.getBlock() == AtumBlocks.SAND || state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL || !ChunkGeneratorAtum.canPlaceSandLayer(world, pos, biome)) {
             return false;
         }

@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,6 +18,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class EntityStoneguard extends EntityStoneBase {
+    private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, 0);
 
     public EntityStoneguard(World world) {
         super(world);
@@ -57,26 +59,35 @@ public class EntityStoneguard extends EntityStoneBase {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        int randomSet = MathHelper.getInt(rand, 0, 3);
-        this.setStoneguardEquipment(randomSet);
+        int randomWeapon = MathHelper.getInt(rand, 0, 3);
+        this.setStoneguardEquipment(randomWeapon);
     }
 
-    private void setStoneguardEquipment(int set) {
-        switch (set) {
+    private void setStoneguardEquipment(int randomWeapon) {
+        if (randomWeapon != 2) {
+            this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
+
+            if (!this.world.isRemote) {
+                ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+
+                if (!attribute.hasModifier(SHIELD_ARMOR)) {
+                    this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(SHIELD_ARMOR);
+                }
+            }
+        }
+
+        switch (randomWeapon) {
             case 0:
                 this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
-                this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
                 break;
             case 1:
                 this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_CLUB));
-                this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
                 break;
             case 2:
                 this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_GREATSWORD));
                 break;
             case 3:
                 this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_KHOPESH));
-                this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
                 break;
         }
     }
@@ -87,7 +98,6 @@ public class EntityStoneguard extends EntityStoneBase {
 
         if (!this.isPlayerCreated()) {
             this.setEquipmentBasedOnDifficulty(difficulty);
-            this.setEnchantmentBasedOnDifficulty(difficulty);
 
             final int variant = MathHelper.getInt(world.rand, 0, 7);
             this.setVariant(variant);
