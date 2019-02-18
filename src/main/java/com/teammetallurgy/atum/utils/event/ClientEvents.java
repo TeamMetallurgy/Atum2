@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.utils.event;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
@@ -18,6 +19,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -83,14 +85,26 @@ public class ClientEvents {
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
+            
+
+	        boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
+            if(!sky || player.world.getBiome(new BlockPos(player.posX, player.posY, player.posZ)) == AtumBiomes.OASIS) { 
+            	intensity -= 0.001f * partialTicks;
+            	intensity = Math.max(0, intensity);
+            } else {
+            	intensity += 0.01f * partialTicks;
+            	intensity = Math.min(stormStrength, intensity);
+            }
+            //System.out.println(partialTicks);
+            
             for (int i : layers) {
                 float scale = 0.2f / (float) i;
-                float alpha = (float) Math.pow(stormStrength - baseAlpha, i) * stormStrength;
+                float alpha = (float) Math.pow(intensity - baseAlpha, i) * intensity;
 
                 // Make it easier to see
                 ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
                 if (helmet.getItem() instanceof ItemEyesOfAtum) {
-                    alpha -= eyesOfAtumAlpha;
+                    alpha *= eyesOfAtumAlpha;
                 }
 
                 GlStateManager.color(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
