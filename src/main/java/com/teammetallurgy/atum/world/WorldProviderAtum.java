@@ -174,7 +174,7 @@ public class WorldProviderAtum extends WorldProvider {
                 int x = chunk.x * 16;
                 int z = chunk.z * 16;
 
-                if (world.rand.nextInt(8) == 0) {
+                if (world.rand.nextInt(32) == 0) {
                     this.updateLCG = this.updateLCG * 3 + 1013904223;
                     int j2 = this.updateLCG >> 2;
                     BlockPos pos = world.getPrecipitationHeight(new BlockPos(x + (j2 & 15), 0, z + (j2 >> 8 & 15)));

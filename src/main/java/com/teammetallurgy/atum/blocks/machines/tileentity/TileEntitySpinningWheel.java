@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntitySpinningWheel extends TileEntityInventoryBase implements ISidedInventory {
-    public NBTTagCompound input;
+    public NBTTagCompound input = new NBTTagCompound();
     public boolean wheel;
     public int rotations;
 
@@ -83,8 +83,8 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing facing) {
         int spool = world.getBlockState(pos).getValue(BlockSpinningWheel.SPOOL);
         if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
-                && (this.input == null || StackHelper.areStacksEqualIgnoreSize(new ItemStack(this.input), stack))) {
-            if (this.input == null) {
+                && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(new ItemStack(this.input), stack))) {
+            if (this.input.isEmpty()) {
                 this.input = stack.writeToNBT(new NBTTagCompound());
             }
             return true;

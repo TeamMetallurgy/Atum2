@@ -3,9 +3,7 @@ package com.teammetallurgy.atum.utils.recipe;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -15,6 +13,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.oredict.DyeUtils;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -42,7 +41,7 @@ public class RecipesDesertArmorDyes extends IForgeRegistryEntry.Impl<IRecipe> im
                     }
                     stack = craftingStack;
                 } else {
-                    if (craftingStack.getItem() != Items.DYE) {
+                    if (!DyeUtils.isDye(craftingStack)) {
                         return false;
                     }
                     list.add(craftingStack);
@@ -87,11 +86,11 @@ public class RecipesDesertArmorDyes extends IForgeRegistryEntry.Impl<IRecipe> im
                         ++j;
                     }
                 } else {
-                    if (craftingStack.getItem() != Items.DYE) {
+                    if (!DyeUtils.isDye(craftingStack)) {
                         return ItemStack.EMPTY;
                     }
 
-                    float[] afloat = EnumDyeColor.byDyeDamage(craftingStack.getMetadata()).getColorComponentValues();
+                    float[] afloat = DyeUtils.colorFromStack(craftingStack).get().getColorComponentValues();
                     int l1 = (int) (afloat[0] * 255.0F);
                     int i2 = (int) (afloat[1] * 255.0F);
                     int j2 = (int) (afloat[2] * 255.0F);

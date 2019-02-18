@@ -62,7 +62,7 @@ public class BlockSpinningWheel extends BlockContainer {
                 StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1).copy());
                 spinningWheel.decrStackSize(0, spinningWheel.getInventoryStackLimit());
                 spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
-                spinningWheel.input = null;
+                spinningWheel.input = new NBTTagCompound();
                 spinningWheel.rotations = 0;
                 spinningWheel.wheel = false;
                 world.setBlockState(pos, world.getBlockState(pos).withProperty(SPOOL, 0), 2);
@@ -78,6 +78,7 @@ public class BlockSpinningWheel extends BlockContainer {
 
         if (tileEntity instanceof TileEntitySpinningWheel) {
             TileEntitySpinningWheel spinningWheel = (TileEntitySpinningWheel) tileEntity;
+
             if (facing == state.getValue(FACING)) {
                 this.output(world, pos, player, spinningWheel);
             } else {
@@ -86,7 +87,7 @@ public class BlockSpinningWheel extends BlockContainer {
                         ItemStack copyStack = new ItemStack(heldStack.getItem(), 1, heldStack.getMetadata());
                         boolean canInsert = false;
 
-                        if (spinningWheel.input == null) {
+                        if (spinningWheel.input.isEmpty()) {
                             spinningWheel.input = copyStack.writeToNBT(new NBTTagCompound());
                         }
                         ItemStack inputStack = new ItemStack(spinningWheel.input);
@@ -106,7 +107,7 @@ public class BlockSpinningWheel extends BlockContainer {
                             }
                             spinningWheel.markDirty();
                         }
-                    } else if (spinningWheel.input != null) {
+                    } else if (!spinningWheel.input.isEmpty()) {
                         ItemStack input = new ItemStack(spinningWheel.input);
                         for (ISpinningWheelRecipe spinningWheelRecipe : RecipeHandlers.spinningWheelRecipes) {
                             if (spinningWheelRecipe.isValidInput(input)) {
@@ -128,7 +129,7 @@ public class BlockSpinningWheel extends BlockContainer {
                                     ItemStack copyOutput = spinningWheelRecipe.getOutput();
                                     ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount(), copyOutput.getMetadata());
                                     spinningWheel.setInventorySlotContents(1, output);
-                                    spinningWheel.input = null;
+                                    spinningWheel.input = new NBTTagCompound();
                                 }
                             }
                         }
@@ -147,7 +148,7 @@ public class BlockSpinningWheel extends BlockContainer {
                 StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1));
                 spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
             }
-            spinningWheel.input = null;
+            spinningWheel.input = new NBTTagCompound();
             spinningWheel.wheel = false;
             world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
             spinningWheel.markDirty();

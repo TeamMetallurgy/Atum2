@@ -1,9 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.arrow;
 
 import com.teammetallurgy.atum.entity.projectile.EntityBone;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
