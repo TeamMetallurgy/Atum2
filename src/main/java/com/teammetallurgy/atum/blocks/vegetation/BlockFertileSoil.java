@@ -44,8 +44,12 @@ public class BlockFertileSoil extends Block implements IGrowable {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
-            if (!hasWater(world, pos) || world.getBlockState(pos.up()).isSideSolid(world, pos, EnumFacing.DOWN)) {
+            if (!hasWater(world, pos)) {
                 if (world.getBiome(pos) != AtumBiomes.OASIS) {
+                    world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
+                }
+            } else if (world.getBlockState(pos.up()).isSideSolid(world, pos, EnumFacing.DOWN)) {
+                if (world.rand.nextDouble() >= 0.5D) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
             } else {

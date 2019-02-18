@@ -418,7 +418,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (!this.horseChest.getStackInSlot(3).isEmpty()) {
             compound.setTag("CrateLeft", this.horseChest.getStackInSlot(3).writeToNBT(new NBTTagCompound()));
         }
-        if (!this.horseChest.getStackInSlot(3).isEmpty()) {
+        if (!this.horseChest.getStackInSlot(4).isEmpty()) {
             compound.setTag("CrateRight", this.horseChest.getStackInSlot(4).writeToNBT(new NBTTagCompound()));
         }
 
@@ -549,7 +549,15 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
                 if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof BlockCrate) {
                     this.openGUI(player);
-                    eating = true;
+                    return true;
+                }
+                if (!eating && this.getArmor().isEmpty() && this.isArmor(heldStack)) {
+                    this.openGUI(player);
+                    return true;
+                }
+                if (!eating && this.horseChest.getStackInSlot(2).isEmpty() && this.isValidCarpet(heldStack)) {
+                    this.openGUI(player);
+                    return true;
                 }
                 if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() == Items.SADDLE) {
                     this.openGUI(player);
