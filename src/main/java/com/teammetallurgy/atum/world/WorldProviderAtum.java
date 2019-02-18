@@ -99,6 +99,7 @@ public class WorldProviderAtum extends WorldProvider {
     public float prevStormStrength;
     public float stormStrength;
     private int updateLCG = (new Random()).nextInt();
+    private long lastUpdateTime;
 
     @Override
     public void calculateInitialWeather() {
@@ -136,7 +137,7 @@ public class WorldProviderAtum extends WorldProvider {
         }
 
         if (stormTime % 20 == 0)
-            //System.out.println("StormTime: " + stormTime + " " + isStorming + " " + stormStrength);
+            System.out.println("StormTime: " + stormTime + " " + isStorming + " " + stormStrength);
         //stormTime = 60;
 
         if (stormTime <= 0) {
@@ -163,8 +164,9 @@ public class WorldProviderAtum extends WorldProvider {
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
 
-        if (stormStrength != prevStormStrength) {
+        if (stormStrength != prevStormStrength || lastUpdateTime < System.currentTimeMillis() - 1000) {
             NetworkHandler.WRAPPER.sendToDimension(new PacketStormStrength(stormStrength), this.getDimension());
+            lastUpdateTime = System.currentTimeMillis();
         }
 
         if (!world.isRemote) {
