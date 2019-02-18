@@ -125,9 +125,6 @@ public class WorldProviderAtum extends WorldProvider {
 
     @Override
     public void updateWeather() {
-        //super.updateWeather();
-        //System.out.println(isStorming + " " + stormTime);
-
         int cleanWeatherTime = world.getWorldInfo().getCleanWeatherTime();
 
         if (cleanWeatherTime > 0) {
@@ -136,17 +133,11 @@ public class WorldProviderAtum extends WorldProvider {
             this.stormTime = isStorming ? 1 : 2;
         }
 
-        if (stormTime % 20 == 0)
-            System.out.println("StormTime: " + stormTime + " " + isStorming + " " + stormStrength);
-        //stormTime = 60;
-
         if (stormTime <= 0) {
             if (isStorming) {
                 stormTime = this.world.rand.nextInt(6000) + 6000;
-                //System.out.println("New Storm: " + stormTime);
             } else {
                 stormTime = this.world.rand.nextInt(168000) + 12000;
-                //System.out.println("Next Storm: " + stormTime);
             }
             NetworkHandler.WRAPPER.sendToDimension(new PacketWeather(isStorming, stormTime), this.getDimension());
         } else {
@@ -158,9 +149,9 @@ public class WorldProviderAtum extends WorldProvider {
 
         prevStormStrength = stormStrength;
         if (isStorming) {
-            stormStrength += 1 / (float)(20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
+            stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
         } else {
-            stormStrength -= 1 / (float)(20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
+            stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
 
@@ -176,7 +167,7 @@ public class WorldProviderAtum extends WorldProvider {
                 int x = chunk.x * 16;
                 int z = chunk.z * 16;
 
-                if (world.rand.nextInt(32) == 0) {
+                if (world.rand.nextInt(40) == 0) {
                     this.updateLCG = this.updateLCG * 3 + 1013904223;
                     int j2 = this.updateLCG >> 2;
                     BlockPos pos = world.getPrecipitationHeight(new BlockPos(x + (j2 & 15), 0, z + (j2 >> 8 & 15)));

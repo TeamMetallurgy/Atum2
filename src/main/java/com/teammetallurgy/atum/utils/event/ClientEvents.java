@@ -57,12 +57,11 @@ public class ClientEvents {
     }
 
     private static void renderSand(float partialTicks, int... layers) {
-    	float baseDarkness = AtumConfig.SAND_DARKNESS;
-    	float baseAlpha = AtumConfig.SAND_ALPHA;
-    	float eyesOfAtumAlpha = AtumConfig.SAND_EYES_ALPHA;
-    	
-        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
+        float baseDarkness = AtumConfig.SAND_DARKNESS;
+        float baseAlpha = AtumConfig.SAND_ALPHA;
+        float eyesOfAtumAlpha = AtumConfig.SAND_EYES_ALPHA;
 
+        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
             WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
             float stormStrength = provider.stormStrength;
 
@@ -85,18 +84,16 @@ public class ClientEvents {
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-            
 
-	        boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
-            if(!sky || player.world.getBiome(new BlockPos(player.posX, player.posY, player.posZ)) == AtumBiomes.OASIS) { 
-            	intensity -= 0.001f * partialTicks;
-            	intensity = Math.max(0, intensity);
+            boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
+            if (!sky || player.world.getBiome(new BlockPos(player.posX, player.posY, player.posZ)) == AtumBiomes.OASIS) {
+                intensity -= 0.001f * partialTicks;
+                intensity = Math.max(0, intensity);
             } else {
-            	intensity += 0.01f * partialTicks;
-            	intensity = Math.min(stormStrength, intensity);
+                intensity += 0.01f * partialTicks;
+                intensity = Math.min(stormStrength, intensity);
             }
-            //System.out.println(partialTicks);
-            
+
             for (int i : layers) {
                 float scale = 0.2f / (float) i;
                 float alpha = (float) Math.pow(intensity - baseAlpha, i) * intensity;
@@ -131,8 +128,8 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
-    	float sandstormFog = AtumConfig.SANDSTORM_FOG;
-    	
+        float sandstormFog = AtumConfig.SANDSTORM_FOG;
+
         if (event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
             GlStateManager.setFog(GlStateManager.FogMode.EXP);
             float fogDensity = 0.08F;
