@@ -52,7 +52,7 @@ public class ClientEvents {
         if (event.getType() != ElementType.ALL) return;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
-            //renderSand(event.getPartialTicks(), 1);
+            //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
         }
     }
 
@@ -85,8 +85,9 @@ public class ClientEvents {
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-            boolean sky = player.world.canBlockSeeSky(new BlockPos(player.posX, player.posY, player.posZ));
-            if (!sky || player.world.getBiome(new BlockPos(player.posX, player.posY, player.posZ)) == AtumBiomes.OASIS) {
+            BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
+            boolean sky = player.world.canBlockSeeSky(playerPos);
+            if (!sky || player.world.getBiome(playerPos) == AtumBiomes.OASIS) {
                 intensity -= 0.001f * partialTicks;
                 intensity = Math.max(0, intensity);
             } else {
@@ -138,7 +139,7 @@ public class ClientEvents {
                 EntityPlayer player = (EntityPlayer) event.getEntity();
                 ItemStack helmet = player.getItemStackFromSlot(EntityEquipmentSlot.HEAD);
                 if (player.getPosition().getY() <= 60) {
-                    fogDensity += (float) (62 - player.getPosition().getY()) * 0.00666F;
+                    fogDensity += (float) (62 - player.getPosition().getY()) * 0.005F;
                 }
                 if (helmet.getItem() instanceof ItemEyesOfAtum) {
                     fogDensity = fogDensity / 3;
@@ -146,9 +147,10 @@ public class ClientEvents {
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
-                WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
-                fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
-
+                if (player.posY >= player.world.getSeaLevel() - 8) {
+                    WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+                    fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
+                }
                 GlStateManager.setFogDensity(fogDensity);
             }
         }

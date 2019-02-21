@@ -34,6 +34,7 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
         super(material, color);
         this.setHardness(2.0F);
         this.setDefaultState(this.getDefaultState().withProperty(TYPE, Type.BOTTOM));
+        this.setLightOpacity(255);
         this.useNeighborBrightness = true;
     }
 
@@ -88,6 +89,19 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
         } else {
             return face == EnumFacing.DOWN && type == Type.BOTTOM ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
         }
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
+        int i = source.getCombinedLight(pos, state.getLightValue(source, pos));
+
+        if (i == 0 && state.getBlock() instanceof BlockAtumSlab) {
+            pos = pos.down();
+            state = source.getBlockState(pos);
+            return source.getCombinedLight(pos, state.getLightValue(source, pos));
+        }
+        return super.getPackedLightmapCoords(state, source, pos);
     }
 
     @Override

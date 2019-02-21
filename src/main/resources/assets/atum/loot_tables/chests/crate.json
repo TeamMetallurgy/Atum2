@@ -9,6 +9,12 @@
       "entries": [
         {
           "type": "item",
+          "name": "minecraft:saddle",
+          "entryName": "saddle",
+          "weight": 10
+        },
+        {
+          "type": "item",
           "name": "atum:graverobbers_map",
           "entryName": "graverobbers_map",
           "weight": 10
