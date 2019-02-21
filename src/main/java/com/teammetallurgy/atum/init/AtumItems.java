@@ -324,6 +324,7 @@ public class AtumItems {
         OreDictHelper.add(EFREET_HEART, "rodBlaze");
         OreDictHelper.add(ANPUTS_FINGERS_SPORES, "cropNetherWart");
         OreDictHelper.add(LINEN_THREAD, "string");
+        OreDictHelper.add(SCROLL, "paper");
         OreDictHelper.add(FLAX, "cropFlax");
         OreDictHelper.add(FLAX_SEEDS, "seed");
         OreDictHelper.add(FLAX_SEEDS, "seedFlax");
