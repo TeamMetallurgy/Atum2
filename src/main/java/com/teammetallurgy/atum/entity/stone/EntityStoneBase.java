@@ -20,7 +20,6 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
@@ -204,15 +203,13 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     }
 
     @Override
-    public boolean getCanSpawnHere() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        return this.world.getDifficulty() != EnumDifficulty.PEACEFUL && this.isValidLightLevel() && world.getBlockState(pos.down()).isSideSolid(world, pos, EnumFacing.UP);
-    }
-
-    @Override
     protected boolean isValidLightLevel() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        return world.getLightFor(EnumSkyBlock.SKY, pos) == 0;
+        if (world.getLightFor(EnumSkyBlock.SKY, pos) != 0) {
+            return false;
+        } else {
+            return this.world.getLightFromNeighbors(pos) <= this.rand.nextInt(10);
+        }
     }
 
     protected boolean isPlayerCreated() {

@@ -40,7 +40,7 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
     @Override
     public void update() {
         if (!world.isRemote) {
-            if (this.currentRotation == 360) {
+            if (this.currentRotation >= 360) {
                 this.currentRotation = 0;
                 this.quernRotations += 1;
             }
