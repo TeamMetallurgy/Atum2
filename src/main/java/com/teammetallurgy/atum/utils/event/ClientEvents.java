@@ -62,25 +62,30 @@ public class ClientEvents {
         float eyesOfAtumAlpha = AtumConfig.SAND_EYES_ALPHA;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
-            WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
+            Minecraft mc = Minecraft.getMinecraft();
+            WorldProviderAtum provider = (WorldProviderAtum) mc.player.world.provider;
             float stormStrength = provider.stormStrength;
 
             if (stormStrength < 0.0001F) {
                 return;
             }
 
-            float light = Minecraft.getMinecraft().player.world.getSunBrightness(partialTicks);
+            float light = mc.player.world.getSunBrightness(partialTicks);
 
-            ScaledResolution scaledRes = new ScaledResolution(Minecraft.getMinecraft());
-            Minecraft.getMinecraft().entityRenderer.setupOverlayRendering();
+            GlStateManager.pushMatrix();
+            GlStateManager.pushAttrib();
+            ScaledResolution scaledRes = new ScaledResolution(mc);
+
+            mc.entityRenderer.setupOverlayRendering();
+
             GlStateManager.enableBlend();
             GlStateManager.disableDepth();
             GlStateManager.depthMask(false);
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.disableAlpha();
-            Minecraft.getMinecraft().getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
+            mc.getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
 
-            EntityPlayerSP player = Minecraft.getMinecraft().player;
+            EntityPlayerSP player = mc.player;
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -110,8 +115,8 @@ public class ClientEvents {
                 float scaleY = 0.01f * scaledRes.getScaledWidth() * scale * scaledRes.getScaleFactor();
                 float speed = 500f - i * 15;
                 float movement = -(System.currentTimeMillis() % (int) speed) / speed;
-                float yaw = 0.25f * (Minecraft.getMinecraft().player.rotationYaw % 360 / 360f) / scale;
-                float pitch = 0.5f * (Minecraft.getMinecraft().player.rotationPitch % 360 / 360f) / scale;
+                float yaw = 0.25f * (mc.player.rotationYaw % 360 / 360f) / scale;
+                float pitch = 0.5f * (mc.player.rotationPitch % 360 / 360f) / scale;
 
                 bufferbuilder.pos(0.0D, (double) scaledRes.getScaledHeight(), 90.0D).tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
                 bufferbuilder.pos((double) scaledRes.getScaledWidth(), (double) scaledRes.getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
@@ -124,6 +129,8 @@ public class ClientEvents {
             GlStateManager.enableDepth();
             GlStateManager.enableAlpha();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            GlStateManager.popAttrib();
+            GlStateManager.popMatrix();
         }
     }
 
