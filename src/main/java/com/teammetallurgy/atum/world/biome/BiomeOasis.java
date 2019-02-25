@@ -42,7 +42,7 @@ public class BiomeOasis extends AtumBiome {
         new WorldGenOasisPond().generate(world, random, height);
 
         if (random.nextFloat() <= 0.98F) {
-            new WorldGenPalm(true, random.nextInt(4) + 5).generate(world, random, height);
+            new WorldGenPalm(true, random.nextInt(4) + 5, true).generate(world, random, height);
         }
 
         if (TerrainGen.decorate(world, random, chunkPos, DecorateBiomeEvent.Decorate.EventType.REED)) {

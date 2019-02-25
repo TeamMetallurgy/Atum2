@@ -24,20 +24,22 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     private final int minTreeHeight;
     private final IBlockState stateWood;
     private final IBlockState stateLeaves;
+    private boolean generateOphidiansTongue;
 
     public WorldGenPalm(boolean notify) {
-        this(notify, 5, BLOCK_LOG, BLOCK_LEAVES);
+        this(notify, 5, BLOCK_LOG, BLOCK_LEAVES, false);
     }
 
-    public WorldGenPalm(boolean notify, int minTreeHeight) {
-        this(notify, minTreeHeight, BLOCK_LOG, BLOCK_LEAVES);
+    public WorldGenPalm(boolean notify, int minTreeHeight, boolean generateOphidiansTongue) {
+        this(notify, minTreeHeight, BLOCK_LOG, BLOCK_LEAVES, generateOphidiansTongue);
     }
 
-    public WorldGenPalm(boolean notify, int minTreeHeight, IBlockState wood, IBlockState leaves) {
+    public WorldGenPalm(boolean notify, int minTreeHeight, IBlockState wood, IBlockState leaves, boolean generateOphidiansTongue) {
         super(notify);
         this.minTreeHeight = minTreeHeight;
         this.stateWood = wood;
         this.stateLeaves = leaves;
+        this.generateOphidiansTongue = generateOphidiansTongue;
     }
 
     @Override
@@ -108,7 +110,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     this.spawnLeaf(world, leafPos.add(3, -1, 0));
                     this.spawnLeaf(world, leafPos.add(-3, -1, 0));
 
-                    if (this.stateWood.getBlock() == AtumBlocks.PALM_LOG) {
+                    if (this.generateOphidiansTongue) {
                         if (random.nextDouble() <= 0.50D) {
                             for (int height = 0; height < treeHeight - 1; ++height) {
                                 BlockPos upN = pos.up(height);

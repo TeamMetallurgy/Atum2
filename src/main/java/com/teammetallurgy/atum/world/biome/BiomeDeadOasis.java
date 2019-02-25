@@ -48,7 +48,7 @@ public class BiomeDeadOasis extends AtumBiome {
         (new WorldGenLakes(Blocks.AIR)).generate(world, random, pos.add(i1, j1, k1));
 
         if (random.nextFloat() <= 0.70F) {
-            new WorldGenPalm(true, 5, AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false)).generate(world, random, world.getHeight(pos.add(x, 0, z)));
+            new WorldGenPalm(true, 5, AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false), false).generate(world, random, world.getHeight(pos.add(x, 0, z)));
         }
 
         super.decorate(world, random, pos);
