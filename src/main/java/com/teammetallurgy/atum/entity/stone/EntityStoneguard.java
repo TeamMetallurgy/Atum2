@@ -9,6 +9,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -25,6 +26,7 @@ public class EntityStoneguard extends EntityStoneBase {
         this.setSize(0.6F, 1.8F);
         this.experienceValue = 8;
         this.setCanPickUpLoot(true);
+        new PathNavigateGround(this, world).setEnterDoors(true);
     }
 
     @Override
