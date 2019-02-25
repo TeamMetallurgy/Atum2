@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIOpenDoor;
 import net.minecraft.init.MobEffects;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,7 @@ public class EntityAssassin extends EntityBanditBase {
     public EntityAssassin(World world) {
         super(world);
         this.experienceValue = 12;
-        (new PathNavigateClimber(this, world)).setEnterDoors(true);
+        (new PathNavigateClimber(this, world)).setBreakDoors(true);
     }
 
     @Override
@@ -44,7 +45,8 @@ public class EntityAssassin extends EntityBanditBase {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.2D, true));
+        this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
+        this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.2D, true));
     }
 
     @Override

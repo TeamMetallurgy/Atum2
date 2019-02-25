@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.base;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.IBlockState;
@@ -17,6 +18,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -24,15 +26,27 @@ import java.util.Objects;
 import java.util.Random;
 
 public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
+    private Material doorMaterial;
 
     public BlockAtumDoor(Material material) {
-        super(material);
+        super(Material.WOOD);
         this.disableStats();
         this.setHardness(3.0F);
-        if (material == Material.WOOD) {
+        this.doorMaterial = material;
+        if (this.doorMaterial == Material.WOOD) {
             this.setSoundType(SoundType.WOOD);
         } else {
             this.setSoundType(SoundType.STONE);
+        }
+    }
+
+    @Override
+    @Nonnull
+    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
+        if (this.doorMaterial == Material.WOOD) {
+            return MapColor.WOOD;
+        } else {
+            return MapColor.SAND;
         }
     }
 
@@ -52,27 +66,12 @@ public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
         }
     }
 
-    @Override
-    public void toggleDoor(World world, @Nonnull BlockPos pos, boolean open) {
-        IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() == this) {
-            BlockPos blockpos = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-            IBlockState state1 = pos == blockpos ? state : world.getBlockState(blockpos);
-
-            if (state1.getBlock() == this && state1.getValue(OPEN) != open) {
-                world.setBlockState(blockpos, state1.withProperty(OPEN, open), 10);
-                world.markBlockRangeForRenderUpdate(blockpos, pos);
-                world.playSound(null, pos, open ? this.getOpenSound() : this.getCloseSound(), SoundCategory.BLOCKS, 1.0F, 1.0F);
-            }
-        }
-    }
-
     private SoundEvent getCloseSound() {
-        return this.material == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_DOOR_CLOSE;
+        return this.doorMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_DOOR_CLOSE;
     }
 
     private SoundEvent getOpenSound() {
-        return this.material == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
+        return this.doorMaterial == Material.ROCK ? SoundEvents.BLOCK_STONE_BREAK : SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN;
     }
 
     @Override

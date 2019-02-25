@@ -133,7 +133,7 @@ public class ItemAnubisMercy extends ItemAmulet {
             tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".line4"));
         }
 
-        int remaining = stack.getMaxDamage() - stack.getItemDamage();
+        int remaining = (stack.getMaxDamage() - stack.getItemDamage()) / 332;
         String localizedRemaining = I18n.format("tooltip.atum.usesRemaining", remaining);
         tooltip.add(localizedRemaining);
     }

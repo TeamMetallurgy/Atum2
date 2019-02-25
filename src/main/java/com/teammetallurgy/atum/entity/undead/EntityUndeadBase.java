@@ -20,6 +20,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -41,6 +42,7 @@ public class EntityUndeadBase extends EntityMob {
 
     public EntityUndeadBase(World world) {
         super(world);
+        new PathNavigateGround(this, world).setEnterDoors(true);
     }
 
     protected boolean hasSkinVariants() {

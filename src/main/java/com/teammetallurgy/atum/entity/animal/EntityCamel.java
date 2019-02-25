@@ -527,15 +527,6 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (heldStack.getItem() == Items.SPAWN_EGG) {
             return super.processInteract(player, hand);
         } else {
-            if (!this.isChild()) {
-                if (this.isTame() && player.isSneaking()) {
-                    this.openGUI(player);
-                    return true;
-                }
-                if (this.isBeingRidden()) {
-                    return super.processInteract(player, hand);
-                }
-            }
             if (!heldStack.isEmpty()) {
                 boolean eating = this.handleEating(player, heldStack);
 
@@ -581,6 +572,17 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                     return true;
                 }
             }
+
+            if (!this.isChild()) {
+                if (this.isTame() && player.isSneaking()) {
+                    this.openGUI(player);
+                    return true;
+                }
+                if (this.isBeingRidden()) {
+                    return super.processInteract(player, hand);
+                }
+            }
+
             if (this.isChild()) {
                 return super.processInteract(player, hand);
             } else if (heldStack.interactWithEntity(player, this, hand)) {

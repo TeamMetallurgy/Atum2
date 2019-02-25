@@ -11,8 +11,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
@@ -23,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.DamageSource;
@@ -81,6 +81,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.hasSarcophagus = setSarcophagusPos;
         this.stage = 0;
         this.setCanPickUpLoot(false);
+        ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -95,9 +96,15 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    protected void initEntityAI() {
+        super.initEntityAI();
+        this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
+        this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
+    }
+
+    @Override
     protected void applyEntityAI() {
         super.applyEntityAI();
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
     }
 
