@@ -143,7 +143,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
             }
             return true;
         } else {
-            return false;
+            return super.processInteract(player, hand);
         }
     }
 

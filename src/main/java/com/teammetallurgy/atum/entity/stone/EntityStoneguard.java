@@ -2,14 +2,17 @@ package com.teammetallurgy.atum.entity.stone;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -113,5 +116,19 @@ public class EntityStoneguard extends EntityStoneBase {
     @Nullable
     protected ResourceLocation getLootTable() {
         return AtumLootTables.STONEGUARD;
+    }
+
+    @Override
+    protected boolean processInteract(EntityPlayer player, EnumHand hand) {
+        if (player.isSneaking() && player.getHeldItem(hand).isEmpty()) {
+            if (!world.isRemote) {
+                for (ItemStack held : this.getHeldEquipment()) {
+                    StackHelper.giveItem(player, hand, held);
+                }
+            }
+            return true;
+        } else {
+            return super.processInteract(player, hand);
+        }
     }
 }
