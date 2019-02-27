@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.init.AtumLootTables;
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,6 +19,7 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -82,6 +84,10 @@ public class EntityWraith extends EntityUndeadBase {
     @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_HUSK_DEATH;
+    }
+
+    @Override
+    protected void playStepSound(BlockPos pos, Block blockIn) {
     }
 
     @Override

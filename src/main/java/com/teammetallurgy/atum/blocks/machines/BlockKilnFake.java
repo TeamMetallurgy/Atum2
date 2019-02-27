@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
+import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -14,6 +15,7 @@ import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
@@ -24,6 +26,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     public static final PropertyBool UP = PropertyBool.create("up");
@@ -79,8 +82,20 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
 
     @Override
     @Nonnull
+    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+        return Item.getItemFromBlock(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.SMALL));
+    }
+
+    @Override
+    @Nonnull
     public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
         return new ItemStack(AtumBlocks.KILN);
+    }
+
+    @Override
+    @Nonnull
+    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
+        return ItemStack.EMPTY;
     }
 
     @Override
