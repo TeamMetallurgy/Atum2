@@ -3,10 +3,15 @@ package com.teammetallurgy.atum.entity.animal;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.world.biome.*;
+import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.passive.EntityRabbit;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -28,7 +33,7 @@ public class EntityDesertRabbit extends EntityRabbit {
     @Override
     protected void initEntityAI() {
         super.initEntityAI();
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, AtumItems.DATE, false));
+        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, AtumItems.FLAX, false));
         this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 16.0F, 2.2D, 2.6D));
     }
 
@@ -58,5 +63,27 @@ public class EntityDesertRabbit extends EntityRabbit {
         } else {
             return 0;
         }
+    }
+
+    @Override
+    public boolean isBreedingItem(ItemStack stack) {
+        Item item = stack.getItem();
+        return item == AtumItems.FLAX || item == Items.CARROT || item == Items.GOLDEN_CARROT || item == Item.getItemFromBlock(Blocks.YELLOW_FLOWER);
+    }
+
+    @Override
+    public EntityDesertRabbit createChild(EntityAgeable ageable) {
+        EntityDesertRabbit rabbit = new EntityDesertRabbit(this.world);
+        int type = this.getRandomRabbitType();
+
+        if (this.rand.nextInt(20) != 0) {
+            if (ageable instanceof EntityDesertRabbit && this.rand.nextBoolean()) {
+                type = ((EntityDesertRabbit) ageable).getRabbitType();
+            } else {
+                type = this.getRabbitType();
+            }
+        }
+        rabbit.setRabbitType(type);
+        return rabbit;
     }
 }

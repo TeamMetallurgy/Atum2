@@ -199,13 +199,13 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         if (pos.getY() <= 62 || !this.world.getGameRules().getBoolean("doMobSpawning")) {
             return false;
         } else {
-            return this.world.getBlockState(pos.down()) == AtumBlocks.SAND.getDefaultState() && this.world.getLight(pos) > 8 && this.getBlockPathWeight(pos) >= 0.0F && this.world.canBlockSeeSky(pos) &&
+            return this.world.getBlockState(pos.down()) == AtumBlocks.SAND.getDefaultState() && this.world.getLight(pos) > 8 && this.world.canBlockSeeSky(pos) &&
                     this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
         }
     }
 
     @Override
-    protected void playStepSound(BlockPos pos, Block blockIn) {
+    protected void playStepSound(BlockPos pos, Block block) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
 
