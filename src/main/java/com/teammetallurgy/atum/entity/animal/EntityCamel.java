@@ -90,7 +90,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
         this.getEntityAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
     }
@@ -168,6 +168,14 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         EntityCamel camel = new EntityCamel(this.world);
         camel.onInitialSpawn(this.world.getDifficultyForLocation(new BlockPos(ageable)), null);
         return camel;
+    }
+
+    private float getCamelMaxHealth() {
+        if (this.isTame()) {
+            return 40.0F;
+        } else {
+            return 20.0F;
+        }
     }
 
     @Override
@@ -442,6 +450,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         super.readEntityFromNBT(compound);
         this.setVariant(compound.getInteger("Variant"));
 
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+
         if (compound.hasKey("Carpet", 10)) {
             this.horseChest.setInventorySlotContents(2, new ItemStack(compound.getCompoundTag("Carpet")));
         }
@@ -670,6 +680,13 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (!this.isSilent()) {
             this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
+    }
+
+    @Override
+    public void setHorseTamed(boolean tamed) {
+        super.setHorseTamed(tamed);
+        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+        this.heal(this.getCamelMaxHealth());
     }
 
     @Override
