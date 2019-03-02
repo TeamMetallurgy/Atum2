@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.anubis;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
@@ -94,7 +95,7 @@ public class ItemAnubisWrath extends ItemSword {
         EntityPlayer player = event.getEntityPlayer();
         if (player.world.isRemote) return;
         if (player.getHeldItemMainhand().getItem() == AtumItems.ANUBIS_WRATH && getTier(player.getHeldItemMainhand()) == 3) {
-            if (event.getTarget() instanceof EntityLivingBase && ((EntityLivingBase) event.getTarget()).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD) {
+            if (event.getTarget() instanceof EntityLivingBase && ((EntityLivingBase) event.getTarget()).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && !(event.getTarget() instanceof EntityStoneBase)) {
                 cooldown.put(player, player.getCooledAttackStrength(0.5F));
             }
         }

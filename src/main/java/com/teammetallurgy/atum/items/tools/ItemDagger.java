@@ -2,9 +2,12 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 
 import javax.annotation.Nonnull;
@@ -16,6 +19,11 @@ public class ItemDagger extends ItemSword {
         super(material);
         this.setCreativeTab(null);
         this.damage = material.getAttackDamage() + 2.0F;
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, Enchantment enchantment) {
+        return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.SWEEPING && enchantment != Enchantments.KNOCKBACK;
     }
 
     @Override
