@@ -392,6 +392,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     @Override
     @Nonnull
     public List<Biome.SpawnListEntry> getPossibleCreatures(@Nonnull EnumCreatureType creatureType, @Nonnull BlockPos pos) {
+        if (this.lighthouse.isPositionInStructure(this.world, pos)) {
+            return this.lighthouse.getNaturalSpawns();
+        }
         return this.world.getBiome(pos).getSpawnableList(creatureType);
     }
 

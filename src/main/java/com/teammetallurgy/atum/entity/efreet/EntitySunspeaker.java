@@ -211,6 +211,11 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
+    public int getMaxSpawnedInChunk() {
+        return 2;
+    }
+
+    @Override
     public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         boolean nameTag = heldStack.getItem() == Items.NAME_TAG;

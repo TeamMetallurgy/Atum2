@@ -1,11 +1,14 @@
 package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
+import com.google.common.collect.Lists;
+import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraft.world.gen.structure.StructureBoundingBox;
@@ -14,9 +17,11 @@ import net.minecraft.world.gen.structure.StructureStart;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Random;
 
 public class MapGenLighthouse extends MapGenStructure {
+    private static final List<Biome.SpawnListEntry> SUNSPEAKERS = Lists.<Biome.SpawnListEntry>newArrayList();
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387600;
     private int spacing = 10;
@@ -24,6 +29,14 @@ public class MapGenLighthouse extends MapGenStructure {
 
     public MapGenLighthouse(ChunkGeneratorAtum chunkGenerator) {
         this.chunkGenerator = chunkGenerator;
+    }
+
+    public List<Biome.SpawnListEntry> getNaturalSpawns() {
+        return SUNSPEAKERS;
+    }
+
+    static {
+        SUNSPEAKERS.add(new Biome.SpawnListEntry(EntitySunspeaker.class, 1, 1, 1));
     }
 
     @Override
