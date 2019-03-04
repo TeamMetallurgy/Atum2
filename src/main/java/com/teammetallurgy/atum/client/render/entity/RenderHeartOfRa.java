@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
-    private static final ResourceLocation HEART_OF_RA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entities/heart_of_ra.png");
+    private static final ResourceLocation HEART_OF_RA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/heart_of_ra.png");
     private final ModelBase modelCrystalNoBase = new ModelEnderCrystal(0.0F, false);
 
     public RenderHeartOfRa(RenderManager renderManagerIn) {

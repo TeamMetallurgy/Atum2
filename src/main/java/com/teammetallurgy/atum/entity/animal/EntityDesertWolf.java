@@ -997,7 +997,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entities/armor/desert_wolf_armor_" + typeName + ".png").toString();
+            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entity/armor/desert_wolf_armor_" + typeName + ".png").toString();
         }
 
         public int getProtection() {

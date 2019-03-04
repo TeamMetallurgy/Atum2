@@ -39,11 +39,11 @@ public class RenderStoneguard extends RenderBiped<EntityStoneguard> {
     protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard stoneguard) {
         if (stoneguard.hasCustomName()) {
             if (stoneguard.getCustomNameTag().equalsIgnoreCase("iron") || stoneguard.getCustomNameTag().equalsIgnoreCase("nutz")) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/stoneguard_derp.png");
+                return new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_derp.png");
             }
         }
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(stoneguard.getClass())).getRegistryName()).getPath();
-        String texture = new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + stoneguard.getVariant()) + ".png";
+        String texture = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + stoneguard.getVariant()) + ".png";
         ResourceLocation location = CACHE.get(texture);
 
         if (location == null) {

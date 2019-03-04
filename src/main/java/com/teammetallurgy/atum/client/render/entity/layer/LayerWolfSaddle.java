@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class LayerWolfSaddle implements LayerRenderer<EntityDesertWolf> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entities/desert_wolf_saddle.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
     private final RenderDesertWolf desertWolfRender;
 
     public LayerWolfSaddle(RenderDesertWolf desertWolfRender) {

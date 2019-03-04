@@ -37,7 +37,7 @@ public class RenderStonewarden extends RenderLiving<EntityStonewarden> {
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityStonewarden stonewarden) {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(stonewarden.getClass())).getRegistryName()).getPath();
-        String texture = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + stonewarden.getVariant()) + ".png");
+        String texture = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + stonewarden.getVariant()) + ".png");
         ResourceLocation location = CACHE.get(texture);
 
         if (location == null) {

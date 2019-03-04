@@ -11,11 +11,11 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RenderDesertRabbit extends RenderLiving<EntityDesertRabbit> {
-    private static final ResourceLocation PALE = new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_pale.png");
-    private static final ResourceLocation SANDY = new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_sandy.png");
-    private static final ResourceLocation HAZEL = new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_hazel.png");
-    private static final ResourceLocation UMBER = new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_umber.png");
-    private static final ResourceLocation UMBER_DARK = new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_umber_dark.png");
+    private static final ResourceLocation PALE = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_pale.png");
+    private static final ResourceLocation SANDY = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_sandy.png");
+    private static final ResourceLocation HAZEL = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_hazel.png");
+    private static final ResourceLocation UMBER = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_umber.png");
+    private static final ResourceLocation UMBER_DARK = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_umber_dark.png");
 
     public RenderDesertRabbit(RenderManager manager) {
         super(manager, new ModelRabbit(), 0.3F);
@@ -26,7 +26,7 @@ public class RenderDesertRabbit extends RenderLiving<EntityDesertRabbit> {
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertRabbit rabbit) {
         if (rabbit.hasCustomName()) {
             if (rabbit.getCustomNameTag().equalsIgnoreCase("iron") || rabbit.getCustomNameTag().equalsIgnoreCase("nutz")) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entities/rabbit_iron.png");
+                return new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_iron.png");
             }
         }
         switch (rabbit.getRabbitType()) {

@@ -13,7 +13,7 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class RenderBonestorm extends RenderLiving<EntityBonestorm> {
-    private static final ResourceLocation bonestormTextures = new ResourceLocation(Constants.MOD_ID, "textures/entities/bonestorm.png");
+    private static final ResourceLocation bonestormTextures = new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png");
 
     public RenderBonestorm(RenderManager renderManager) {
         super(renderManager, new ModelBonestorm(), 0.5F);

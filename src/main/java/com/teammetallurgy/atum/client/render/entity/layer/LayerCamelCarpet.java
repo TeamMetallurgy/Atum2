@@ -37,6 +37,6 @@ public class LayerCamelCarpet implements LayerRenderer<EntityCamel> {
     }
 
     private static ResourceLocation carpetLocation(String color) {
-        return new ResourceLocation(Constants.MOD_ID, "textures/entities/camel_carpet/camel_carpet_" + color + ".png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color + ".png");
     }
 }

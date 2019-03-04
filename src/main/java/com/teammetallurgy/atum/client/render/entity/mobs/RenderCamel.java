@@ -46,6 +46,6 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
     }
 
     private ResourceLocation getCamelTexture(String fileName) {
-        return new ResourceLocation(Constants.MOD_ID, "textures/entities/camel_" + fileName + ".png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + fileName + ".png");
     }
 }

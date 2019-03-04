@@ -34,6 +34,6 @@ public class RenderTarantula extends RenderLiving<EntityTarantula> {
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityTarantula tarantula) {
-        return new ResourceLocation(Constants.MOD_ID, "textures/entities/tarantula.png");
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/tarantula.png");
     }
 }

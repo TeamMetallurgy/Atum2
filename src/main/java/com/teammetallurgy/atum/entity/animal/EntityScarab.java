@@ -116,9 +116,9 @@ public class EntityScarab extends EntityMob {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
         if (this.texturePath == null) {
             if (this.getVariant() == 1) {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_golden") + ".png");
+                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_golden") + ".png");
             } else {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName) + ".png");
+                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png");
             }
         }
         return this.texturePath;

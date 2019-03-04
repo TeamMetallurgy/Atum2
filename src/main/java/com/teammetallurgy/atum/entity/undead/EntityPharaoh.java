@@ -149,7 +149,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
+        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
     }
 
     @Override

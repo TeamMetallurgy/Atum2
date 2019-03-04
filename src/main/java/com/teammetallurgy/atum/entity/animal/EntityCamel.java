@@ -227,10 +227,10 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
         if (this.hasSkinVariants()) {
             if (this.texturePath == null) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + "_" + this.getVariant()) + ".png";
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
             }
         } else {
-            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entities/" + entityName + ".png"));
+            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + ".png"));
         }
         return this.texturePath;
     }
@@ -781,7 +781,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entities/armor/camel_armor_" + typeName + ".png");
+            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entity/armor/camel_armor_" + typeName + ".png");
         }
 
         public int getProtection() {
