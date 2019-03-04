@@ -12,9 +12,11 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
+import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -36,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -48,7 +50,12 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     private int timeUntilReset;
     private boolean needsInitilization;
     private int wealth;
-    private static final EntityVillager.ITradeList[] TRADES = new EntityVillager.ITradeList[]{new ItemsForCoins(24, AtumItems.DATE, new EntityVillager.PriceInfo(15, 16)), new ItemsForCoins(48, AtumItems.CAMEL_RAW, new EntityVillager.PriceInfo(12, 18)), new ItemsForCoins(64, AtumItems.SCROLL, new EntityVillager.PriceInfo(8, 10)), new ItemsForCoins(48, Items.GLOWSTONE_DUST, new EntityVillager.PriceInfo(1, 4)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, Items.NAME_TAG, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(36, Item.getItemFromBlock(BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(24, AtumItems.ANPUTS_FINGERS_SPORES, new EntityVillager.PriceInfo(6, 8)), new ItemsForCoins(48, AtumItems.LINEN_CLOTH, new EntityVillager.PriceInfo(5, 9)), new ItemsForManyCoins(64, 32, Items.BREWING_STAND, new EntityVillager.PriceInfo(1, 1))};
+    private int tradeLevel;
+    private static final List<EntityVillager.ITradeList[]> TRADES = Arrays.asList(
+    /*Tier 1*/new EntityVillager.ITradeList[]{new ItemsForCoins(32, Item.getItemFromBlock(BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(16, Item.getItemFromBlock(Blocks.DOUBLE_PLANT/*Sunflower*/), new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(24, AtumItems.DATE, new EntityVillager.PriceInfo(14, 16)), new ItemsForCoins(24, AtumItems.EMMER_BREAD, new EntityVillager.PriceInfo(3, 4))},
+    /*Tier 2*/new EntityVillager.ITradeList[]{new ItemsForCoins(36, AtumItems.LINEN_CLOTH, new EntityVillager.PriceInfo(5, 10)), new ItemsForCoins(48, AtumItems.CAMEL_RAW, new EntityVillager.PriceInfo(13, 18)), new ItemsForCoins(48, AtumItems.SCROLL, new EntityVillager.PriceInfo(9, 12)), new ItemsForCoins(32, AtumItems.ANPUTS_FINGERS_SPORES, new EntityVillager.PriceInfo(8, 10))},
+    /*Tier 3*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Item.getItemFromBlock(Blocks.GLOWSTONE), new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(48, Items.NAME_TAG, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(64, Items.BREWING_STAND, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(36, Items.BLAZE_POWDER, new EntityVillager.PriceInfo(4, 5))},
+     /*Tier 4*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(48, Items.ENDER_PEARL, new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(64, AtumItems.DISENCHANTING_SCROLL, new EntityVillager.PriceInfo(1, 1))});
 
     public EntitySunspeaker(World world) {
         super(world);
@@ -58,6 +65,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     protected void initEntityAI() {
         super.initEntityAI();
         this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
+        this.tasks.addTask(2, new ILookAtTradePlayer(this));
     }
 
     @Override
@@ -113,13 +121,20 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     private void populateBuyingList() {
+        if (this.tradeLevel != 0) {
+            ++this.tradeLevel;
+        } else {
+            this.tradeLevel = 1;
+        }
+
         if (this.buyingList == null) {
             this.buyingList = new MerchantRecipeList();
         }
 
-        List<EntityVillager.ITradeList> trades = Collections.singletonList(TRADES[rand.nextInt(TRADES.length - 1)]);
-
-        for (EntityVillager.ITradeList tradeList : trades) {
+        int level = this.tradeLevel - 1;
+        if (level < TRADES.size()) {
+            EntityVillager.ITradeList[] tradeArray = TRADES.get(level);
+            EntityVillager.ITradeList tradeList = tradeArray[rand.nextInt(tradeArray.length)];
             tradeList.addMerchantRecipe(this, this.buyingList, this.rand);
         }
     }
@@ -287,6 +302,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     public void writeEntityToNBT(NBTTagCompound compound) {
         super.writeEntityToNBT(compound);
         compound.setInteger("Riches", this.wealth);
+        compound.setInteger("TradeLevel", this.tradeLevel);
 
         if (this.buyingList != null) {
             compound.setTag("Offers", this.buyingList.getRecipiesAsTags());
@@ -297,6 +313,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     public void readEntityFromNBT(NBTTagCompound compound) {
         super.readEntityFromNBT(compound);
         this.wealth = compound.getInteger("Riches");
+        this.tradeLevel = compound.getInteger("TradeLevel");
 
         if (compound.hasKey("Offers", 10)) {
             NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
@@ -324,25 +341,22 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    public static class ItemsForManyCoins implements EntityVillager.ITradeList {
-        int price1;
-        int price2;
-        Item buyingItem;
-        EntityVillager.PriceInfo buyingAmount;
+    static class ILookAtTradePlayer extends EntityAIWatchClosest {
+        private final EntitySunspeaker sunspeaker;
 
-        public ItemsForManyCoins(int price1, int price2, Item item, EntityVillager.PriceInfo buyingAmount) {
-            this.buyingItem = item;
-            this.price1 = price1;
-            this.price2 = price2;
-            this.buyingAmount = buyingAmount;
+        public ILookAtTradePlayer(EntitySunspeaker sunspeaker) {
+            super(sunspeaker, EntityPlayer.class, 8.0F);
+            this.sunspeaker = sunspeaker;
         }
 
-        public void addMerchantRecipe(@Nonnull IMerchant merchant, @Nonnull MerchantRecipeList recipeList, @Nonnull Random random) {
-            int buyingAmount = 1;
-            if (this.buyingAmount != null) {
-                buyingAmount = this.buyingAmount.getPrice(random);
+        @Override
+        public boolean shouldExecute() {
+            if (this.sunspeaker.isTrading()) {
+                this.closestEntity = this.sunspeaker.getCustomer();
+                return true;
+            } else {
+                return false;
             }
-            recipeList.add(new MerchantRecipe(new ItemStack(AtumItems.GOLD_COIN, this.price1), new ItemStack(AtumItems.GOLD_COIN, this.price2), new ItemStack(this.buyingItem, buyingAmount)));
         }
     }
 }
