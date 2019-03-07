@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.utils.event;
 
+import org.lwjgl.opengl.GL11;
+
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
@@ -76,7 +78,17 @@ public class ClientEvents {
             GlStateManager.pushAttrib();
             ScaledResolution scaledRes = new ScaledResolution(mc);
 
-            mc.entityRenderer.setupOverlayRendering();
+            //mc.entityRenderer.setupOverlayRendering();
+            
+            GlStateManager.clear(256);
+            GlStateManager.matrixMode(5889);
+            GlStateManager.pushMatrix();
+            GlStateManager.loadIdentity();
+            GlStateManager.ortho(0.0D, scaledRes.getScaledWidth_double(), scaledRes.getScaledHeight_double(), 0.0D, 1000.0D, 3000.0D);
+            GlStateManager.matrixMode(5888);
+            GlStateManager.pushMatrix();
+            GlStateManager.loadIdentity();
+            GlStateManager.translate(0.0F, 0.0F, -2000.0F);
 
             GlStateManager.enableBlend();
             GlStateManager.disableDepth();
@@ -129,6 +141,12 @@ public class ClientEvents {
             GlStateManager.enableDepth();
             GlStateManager.enableAlpha();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+
+            GlStateManager.matrixMode(5889);
+            GlStateManager.popMatrix();
+            GlStateManager.matrixMode(5888);
+            GlStateManager.popMatrix();
+            
             GlStateManager.popAttrib();
             GlStateManager.popMatrix();
         }
