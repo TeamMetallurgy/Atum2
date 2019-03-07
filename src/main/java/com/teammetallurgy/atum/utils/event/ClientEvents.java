@@ -137,6 +137,7 @@ public class ClientEvents {
             }
             tessellator.draw();
 
+            GlStateManager.disableBlend();
             GlStateManager.depthMask(true);
             GlStateManager.enableDepth();
             GlStateManager.enableAlpha();
