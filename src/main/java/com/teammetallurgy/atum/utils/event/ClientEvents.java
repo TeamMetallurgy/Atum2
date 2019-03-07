@@ -79,8 +79,8 @@ public class ClientEvents {
             ScaledResolution scaledRes = new ScaledResolution(mc);
 
             //mc.entityRenderer.setupOverlayRendering();
-            
-            GlStateManager.clear(256);
+
+            //GlStateManager.clear(256);
             GlStateManager.matrixMode(5889);
             GlStateManager.pushMatrix();
             GlStateManager.loadIdentity();
@@ -147,7 +147,7 @@ public class ClientEvents {
             GlStateManager.popMatrix();
             GlStateManager.matrixMode(5888);
             GlStateManager.popMatrix();
-            
+
             GlStateManager.popAttrib();
             GlStateManager.popMatrix();
         }

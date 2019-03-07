@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MapGenLighthouse extends MapGenStructure {
-    private static final List<Biome.SpawnListEntry> SUNSPEAKERS = Lists.<Biome.SpawnListEntry>newArrayList();
+    private static final List<Biome.SpawnListEntry> SUNSPEAKERS = Lists.newArrayList();
     private final ChunkGeneratorAtum chunkGenerator;
     private int seed = 10387600;
     private int spacing = 10;
