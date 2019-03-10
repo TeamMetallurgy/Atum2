@@ -386,7 +386,7 @@
           "type": "item",
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
-          "weight": 10
+          "weight": 5
         },
         {
           "type": "item",
@@ -401,7 +401,7 @@
               }
             }
           ],
-          "weight": 10
+          "weight": 15
         },
         {
           "type": "item",
@@ -412,7 +412,7 @@
               "function": "enchant_randomly"
             }
           ],
-          "weight": 10
+          "weight": 20
         }
       ]
     },
