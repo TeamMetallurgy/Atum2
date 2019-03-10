@@ -390,12 +390,6 @@
         },
         {
           "type": "item",
-          "name": "minecraft:totem_of_undying",
-          "entryName": "totem_of_undying",
-          "weight": 3
-        },
-        {
-          "type": "item",
           "name": "atum:disenchanting_scroll",
           "entryName": "disenchanting_scroll",
           "functions": [
