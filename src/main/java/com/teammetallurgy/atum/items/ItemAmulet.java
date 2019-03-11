@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 
 @Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
 public class ItemAmulet extends Item implements IBauble {
-    protected static final boolean IS_BAUBLES_INSTALLED = Loader.isModLoaded("baubles");
+    public static final boolean IS_BAUBLES_INSTALLED = Loader.isModLoaded("baubles");
 
     public ItemAmulet() {
         super();
@@ -70,7 +70,7 @@ public class ItemAmulet extends Item implements IBauble {
     }
 
     @Optional.Method(modid = "baubles")
-    protected static ItemStack getAmulet(EntityPlayer player) {
+    public static ItemStack getAmulet(EntityPlayer player) {
         return getBaublesInventory(player).getStackInSlot(0);
     }
 

@@ -1,11 +1,10 @@
 package com.teammetallurgy.atum.utils.event;
 
-import org.lwjgl.opengl.GL11;
-
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.artifacts.atum.ItemEyesOfAtum;
+import com.teammetallurgy.atum.items.artifacts.nuit.ItemNuitsVanishing;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
@@ -187,8 +186,11 @@ public class ClientEvents {
         EntityPlayer player = event.getEntityPlayer();
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
+        if (ItemNuitsVanishing.IS_BAUBLES_INSTALLED && ItemNuitsVanishing.getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
+            heldStack = ItemNuitsVanishing.getAmulet(player);
+        }
         if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-            if (player.onGround && !player.isSneaking() && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
+            if (!ItemNuitsVanishing.isPlayerMoving(player)) {
                 event.setCanceled(true);
             }
         }

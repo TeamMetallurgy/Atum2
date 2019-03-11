@@ -45,30 +45,37 @@ public class ItemNuitsVanishing extends ItemAmulet {
     @SubscribeEvent
     public static void onTick(TickEvent.PlayerTickEvent event) {
         EntityPlayer player = event.player;
+        World world = player.world;
         EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
         if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
             heldStack = getAmulet(player);
         }
-        if (!player.world.isRemote && event.phase == TickEvent.Phase.START) {
+        if (event.phase == TickEvent.Phase.START) {
             if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-                if (player.onGround && !player.isSneaking() && player.distanceWalkedModified == player.prevDistanceWalkedModified) {
+                if (!isPlayerMoving(player)) {
                     isInvisible = true;
-                    heldStack.damageItem(1, player);
-                    player.setInvisible(true);
+                    if (!world.isRemote) {
+                        heldStack.damageItem(1, player);
+                        player.setInvisible(true);
+                    }
                 } else {
                     isInvisible = false;
-                    if (player.isInvisible()) {
+                    if (!world.isRemote && player.isInvisible()) {
                         player.setInvisible(false);
                     }
                 }
             } else {
                 isInvisible = false;
-                if (!player.isPotionActive(MobEffects.INVISIBILITY) && player.isInvisible()) {
+                if (!world.isRemote && !player.isPotionActive(MobEffects.INVISIBILITY) && player.isInvisible()) {
                     player.setInvisible(false);
                 }
             }
         }
+    }
+
+    public static boolean isPlayerMoving(EntityPlayer player) {
+        return player.distanceWalkedModified != player.prevDistanceWalkedModified;
     }
 
     @Override
