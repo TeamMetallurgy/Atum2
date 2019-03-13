@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.entity.undead.EntityWraith;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -29,14 +28,10 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.StatList;
-import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
@@ -47,10 +42,8 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -149,33 +142,6 @@ public class AtumEventListener {
         if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
             if (player.getHeldItem(event.getHand()).getItem() == Items.WHEAT_SEEDS && world.getBlockState(event.getPos()).getBlock() instanceof BlockFarmland) {
                 event.setCanceled(true);
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onUseBucket(PlayerInteractEvent.RightClickItem event) {
-        EntityPlayer player = event.getEntityPlayer();
-        if (player.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-            BlockPos pos = event.getPos();
-            ItemStack heldStack = player.getHeldItem(event.getHand());
-            FluidStack fluidStack = FluidUtil.getFluidContained(heldStack);
-            if (fluidStack != null && fluidStack.getFluid() == FluidRegistry.WATER && event.getWorld().getBiome(pos) != AtumBiomes.OASIS && player.getPosition().getY() > 50) {
-                if (heldStack.getItem() == Items.WATER_BUCKET && !player.isCreative()) {
-                    player.setHeldItem(event.getHand(), new ItemStack(Items.BUCKET));
-                }
-                IFluidHandlerItem fluidHandlerItem = FluidUtil.getFluidHandler(heldStack);
-                if (fluidHandlerItem != null) { //Handle modded containers
-                    if (!player.isCreative()) {
-                        fluidHandlerItem.drain(fluidStack.amount, true);
-                        event.getWorld().playSound(null, pos, SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE, SoundCategory.BLOCKS, 0.9F, 1.0F);
-                        player.sendStatusMessage(new TextComponentTranslation("chat.atum.water.evaporated").setStyle(new Style().setColor(TextFormatting.DARK_BLUE)), true);
-                        for (int k = 0; k < 8; ++k) {
-                            player.world.spawnParticle(EnumParticleTypes.SMOKE_LARGE, (double) pos.getX() + Math.random(), (double) pos.getY() + Math.random(), (double) pos.getZ() + Math.random(), 0.0D, 0.0D, 0.0D);
-                        }
-                    }
-                    event.setCanceled(true);
-                }
             }
         }
     }

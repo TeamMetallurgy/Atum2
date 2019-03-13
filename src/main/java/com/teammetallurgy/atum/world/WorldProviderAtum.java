@@ -1,11 +1,13 @@
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.blocks.BlockSandLayers;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.PacketStormStrength;
 import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockFaceShape;
@@ -21,6 +23,9 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -28,7 +33,9 @@ import javax.annotation.Nonnull;
 import java.util.Iterator;
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class WorldProviderAtum extends WorldProvider {
+    private static BlockPos usePos;
     public boolean hasStartStructureSpawned;
 
     @Override
@@ -50,6 +57,19 @@ public class WorldProviderAtum extends WorldProvider {
     @Nonnull
     public IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorAtum(world, world.getSeed(), true, world.getWorldInfo().getGeneratorOptions());
+    }
+
+    @SubscribeEvent
+    public static void onUseBucket(PlayerInteractEvent.RightClickBlock event) {
+        usePos = event.getPos();
+    }
+
+    @Override
+    public boolean doesWaterVaporize() {
+        if (usePos != null) {
+            return world.getBiome(usePos) != AtumBiomes.OASIS && usePos.getY() > 49;
+        }
+        return true;
     }
 
     @Override

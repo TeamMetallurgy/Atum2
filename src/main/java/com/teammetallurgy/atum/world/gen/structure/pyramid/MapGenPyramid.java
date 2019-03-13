@@ -137,7 +137,7 @@ public class MapGenPyramid extends MapGenStructure {
             int groundXZ = chunkPrimer.findGroundBlockIdx(7 + x, 7 + z);
             int y = Math.min(Math.min(ground, groundZ), Math.min(groundX, groundXZ));
 
-            if (y < 57) {
+            if (y < 53) {
                 this.isValid = false;
             } else {
                 int yChance = MathHelper.getInt(random, 10, 16);
