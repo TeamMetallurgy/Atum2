@@ -63,8 +63,8 @@ public class MapGenRuin extends MapGenStructure {
         if (x == xSpacing && z == zSpacing) {
             // Check if this will overlap a pyramid. Since this can spill over into the next
             // chunk all surrounding chunks must be checked also.
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dz = -1; dz <= 1; dz++) {
+            for (int dx = -2; dx <= 2; dx++) {
+                for (int dz = -2; dz <= 2; dz++) {
                     if (chunkGenerator.pyramidGenerator.isPyramidInChunk(chunkX + dx, chunkZ + dz)) {
                         return false;
                     }
