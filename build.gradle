@@ -8,6 +8,7 @@ buildscript {
     }
 }
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'maven-publish'
 
 repositories {
   maven {
@@ -96,6 +97,25 @@ task apiJar(type: Jar) {
 	from sourceSets.main.output
     include 'com/teammetallurgy/atum/api/**/*'
     classifier = 'api'
+}
+
+publishing {
+    tasks.publish.dependsOn 'build'
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId "atum2_${minecraft_version}"
+            artifact jar
+			artifact sourcesJar
+			artifact apiJar
+        }
+    }
+    repositories {
+        if (project.hasProperty('maven_repo')) {
+            maven { url maven_repo }
+        } else {
+            mavenLocal()
+        }
+    }
 }
 
 artifacts {
