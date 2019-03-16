@@ -75,7 +75,7 @@ public class ItemNuitsVanishing extends ItemAmulet {
     }
 
     public static boolean isPlayerMoving(EntityPlayer player) {
-        return player.distanceWalkedModified != player.prevDistanceWalkedModified;
+        return player.distanceWalkedModified != player.prevDistanceWalkedModified || player.isSneaking();
     }
 
     @Override
