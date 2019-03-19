@@ -41,7 +41,7 @@ group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
 minecraft {
-    version = "1.12.2-14.23.5.0"
+    version = "${minecraft_version}-${forge_version}"
     mappings = "${mappings_version}"
     runDir = "run"
 	
@@ -50,11 +50,6 @@ minecraft {
 	
     replace "@API_VERSION@", "${api_version}"
     replaceIn "package-info.java"
-}
-configurations.forgeGradleUserDevPackage {
-    resolutionStrategy {
-        force 'net.minecraftforge:forge:1.12.2-14.23.5.2815:userdev'
-    }
 }
 
 dependencies {
@@ -124,5 +119,5 @@ artifacts {
 }
 
 String getBuildNumber() {
-    return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
+    return System.getenv('BUILD_NUMBER') ? System.getenv('BUILD_NUMBER') : "";
 }
