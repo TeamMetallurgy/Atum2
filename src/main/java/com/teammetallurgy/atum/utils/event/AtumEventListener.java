@@ -44,6 +44,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -108,7 +109,7 @@ public class AtumEventListener {
         BlockPos pos = event.getPos();
         EntityPlayer player = event.getEntityPlayer();
         ItemStack stack = player.getHeldItemMainhand();
-        FluidTank tank = (FluidTank) FluidUtil.getFluidHandler(world, pos, null);
+        IFluidHandler tank = FluidUtil.getFluidHandler(world, pos, null);
 
         if (stack.getItem() instanceof ItemTexturedArmor && ((ItemTexturedArmor) stack.getItem()).hasColor(stack)) {
             IBlockState state = world.getBlockState(pos);
@@ -123,14 +124,18 @@ public class AtumEventListener {
                     player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
                     event.setUseItem(Event.Result.DENY);
                 }
-            } else if (tank != null && tank.getFluid() != null && tank.getFluid().getFluid() == FluidRegistry.WATER && tank.getFluidAmount() >= 250) {
-                if (!world.isRemote) {
-                    ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
-                    player.addStat(StatList.ARMOR_CLEANED);
-                    tank.drain(250, true);
+            } else if (tank instanceof FluidTank) {
+                FluidTank fluidTank = (FluidTank) tank;
+
+                if (fluidTank.getFluid() != null && fluidTank.getFluid().getFluid() == FluidRegistry.WATER && fluidTank.getFluidAmount() >= 250) {
+                    if (!world.isRemote) {
+                        ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
+                        player.addStat(StatList.ARMOR_CLEANED);
+                        tank.drain(250, true);
+                    }
+                    player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
+                    event.setUseItem(Event.Result.ALLOW);
                 }
-                player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
-                event.setUseItem(Event.Result.ALLOW);
             }
         }
     }
