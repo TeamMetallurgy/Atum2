@@ -169,9 +169,11 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     protected void updateAITasks() {
         if (this.isAngry() && this.angerTargetUUID != null && this.getRevengeTarget() == null) {
             EntityPlayer player = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
-            this.setRevengeTarget(player);
-            this.attackingPlayer = player;
-            this.recentlyHit = this.getRevengeTimer();
+            if (player != null) {
+                this.setRevengeTarget(player);
+                this.attackingPlayer = player;
+                this.recentlyHit = this.getRevengeTimer();
+            }
         }
         super.updateAITasks();
     }
@@ -235,8 +237,8 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         if (!hurtBy.isEmpty()) {
             this.angerTargetUUID = UUID.fromString(hurtBy);
             EntityPlayer player = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
-            this.setRevengeTarget(player);
             if (player != null) {
+                this.setRevengeTarget(player);
                 this.attackingPlayer = player;
                 this.recentlyHit = this.getRevengeTimer();
             }
@@ -294,8 +296,6 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
         @Override
         protected void setEntityAttackTarget(EntityCreature creature, @Nonnull EntityLivingBase livingBase) {
-            super.setEntityAttackTarget(creature, livingBase);
-
             if (creature instanceof EntityEfreetBase) {
                 ((EntityEfreetBase) creature).becomeAngryAt(livingBase);
             }
@@ -309,7 +309,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
         @Override
         public boolean shouldExecute() {
-            return ((EntityEfreetBase) this.taskOwner).isAngry() && super.shouldExecute();
+            return ((EntityEfreetBase) this.taskOwner).isAngry();
         }
     }
 }

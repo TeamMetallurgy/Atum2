@@ -55,7 +55,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     /*Tier 1*/new EntityVillager.ITradeList[]{new ItemsForCoins(32, Item.getItemFromBlock(BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(16, Item.getItemFromBlock(Blocks.DOUBLE_PLANT/*Sunflower*/), new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(24, AtumItems.DATE, new EntityVillager.PriceInfo(14, 16)), new ItemsForCoins(24, AtumItems.EMMER_BREAD, new EntityVillager.PriceInfo(3, 4))},
     /*Tier 2*/new EntityVillager.ITradeList[]{new ItemsForCoins(36, AtumItems.LINEN_CLOTH, new EntityVillager.PriceInfo(5, 10)), new ItemsForCoins(48, AtumItems.CAMEL_RAW, new EntityVillager.PriceInfo(13, 18)), new ItemsForCoins(48, AtumItems.SCROLL, new EntityVillager.PriceInfo(9, 12)), new ItemsForCoins(32, AtumItems.ANPUTS_FINGERS_SPORES, new EntityVillager.PriceInfo(8, 10))},
     /*Tier 3*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Item.getItemFromBlock(Blocks.GLOWSTONE), new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(48, Items.NAME_TAG, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(64, Items.BREWING_STAND, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(36, Items.BLAZE_POWDER, new EntityVillager.PriceInfo(4, 5))},
-     /*Tier 4*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(48, Items.ENDER_PEARL, new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(64, AtumItems.DISENCHANTING_SCROLL, new EntityVillager.PriceInfo(1, 1))});
+    /*Tier 4*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(48, Items.ENDER_PEARL, new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(64, AtumItems.DISENCHANTING_SCROLL, new EntityVillager.PriceInfo(1, 1))});
 
     public EntitySunspeaker(World world) {
         super(world);
@@ -212,7 +212,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
 
     @Override
     public int getMaxSpawnedInChunk() {
-        return 2;
+        return 1;
     }
 
     @Override
