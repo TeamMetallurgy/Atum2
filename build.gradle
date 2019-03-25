@@ -36,7 +36,7 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-version = "${minecraft_version}-${mod_version}" + getBuildNumber()
+version = "${minecraft_version}-${mod_version}"
 group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
@@ -116,8 +116,4 @@ publishing {
 artifacts {
     archives sourcesJar
     archives apiJar
-}
-
-String getBuildNumber() {
-    return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
 }
