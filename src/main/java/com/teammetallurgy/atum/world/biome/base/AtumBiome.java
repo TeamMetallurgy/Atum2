@@ -157,7 +157,7 @@ public class AtumBiome extends Biome {
 
                 if (existingState.getMaterial() == Material.AIR) {
                     flag = -1;
-                } else if (existingState == AtumBlocks.LIMESTONE.getDefaultState()) {
+                } else if (existingState.getBlock() == AtumBlocks.LIMESTONE || existingState.getBlock() == Blocks.STONE) {
                     if (flag == -1) {
                         if (elevation <= 0) {
                             stateTop = Blocks.AIR.getDefaultState();
