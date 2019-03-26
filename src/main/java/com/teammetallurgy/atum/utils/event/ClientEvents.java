@@ -169,7 +169,7 @@ public class ClientEvents {
                 if (helmet.getItem() instanceof ItemEyesOfAtum) {
                     fogDensity = fogDensity / 3;
                 }
-                if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
+                if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_GOLD || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
                 if (player.posY >= player.world.getSeaLevel() - 8) {
