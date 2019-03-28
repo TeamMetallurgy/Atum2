@@ -23,6 +23,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.IChunkGenerator;
+import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -57,6 +58,14 @@ public class WorldProviderAtum extends WorldProvider {
     @Nonnull
     public IChunkGenerator createChunkGenerator() {
         return new ChunkGeneratorAtum(world, world.getSeed(), true, world.getWorldInfo().getGeneratorOptions());
+    }
+
+    @Override
+    public void setWorldTime(long time) {
+        if (time == 24000L && this.world.getWorldInfo() instanceof DerivedWorldInfo) {
+            ((DerivedWorldInfo) this.world.getWorldInfo()).delegate.setWorldTime(time); //Workaround for making sleeping work in Atum
+        }
+        super.setWorldTime(time);
     }
 
     @SubscribeEvent

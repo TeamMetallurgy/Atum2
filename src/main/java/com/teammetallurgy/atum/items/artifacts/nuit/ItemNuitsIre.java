@@ -92,7 +92,7 @@ public class ItemNuitsIre extends ItemKhopesh {
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, EntityLivingBase attacker) {
         if (itemRand.nextFloat() <= 0.25F) {
-            applyWither(attacker, target, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_QUARTER);
+            applyWither(target, attacker, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_QUARTER);
         }
         return super.hitEntity(stack, target, attacker);
     }
