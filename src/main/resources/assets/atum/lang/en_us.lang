@@ -903,9 +903,9 @@ atum.kiln=Kiln
 gui.atum.rotations=x%s
 jei.item.atum.emmerDough=Crafted by combining Emmer Flour with water
 
-# Just Tips support
+# JustTheTips support
 mods.tips.atum.1=You will die.
 mods.tips.atum.2=You can create Stoneguards & Stonewardens yourself, to help defend your base!
-mods.tips.atum.3=Pharaohs have different unique abilities
-mods.tips.atum.4=Scarabs can sometimes be found in Deadwood Logs
-mods.tips.atum.5=A Wanderer Helmet will improve your visibility
+mods.tips.atum.3=Pharaohs have different unique abilities.
+mods.tips.atum.4=Scarabs can sometimes be found in Deadwood Logs.
+mods.tips.atum.5=A Wanderer Helmet will improve your visibility.
