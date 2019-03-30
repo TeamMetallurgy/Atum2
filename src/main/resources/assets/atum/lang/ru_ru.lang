@@ -370,15 +370,15 @@ item.atum.ironScimitar.name=Железный ятаган
 item.atum.ironGreatsword.name=Железный большой меч
 item.atum.ironClub.name=Железная палица
 item.atum.ironKhopesh.name=Железный хопеш
-item.atum.stoneguardSword.name=Stoneguard Sword
-item.atum.stoneguardGreatsword.name=Stoneguard большой меч
-item.atum.stoneguardClub.name=Stoneguard Club
-item.atum.stoneguardKhopesh.name=Stoneguard хопеш
-item.atum.stoneguardShield.name=Stoneguard Shield
-item.atum.brigandShield.name=Brigand Shield
-item.atum.shortBow.name=Shortbow
-item.atum.limestoneShovel.name=Limestone Shovel
-item.atum.limestonePickaxe.name=Limestone Pickaxe
+item.atum.stoneguardSword.name=Меч каменного стража
+item.atum.stoneguardGreatsword.name=Большой меч каменного стража
+item.atum.stoneguardClub.name=Палица каменного стража
+item.atum.stoneguardKhopesh.name=Хопеш каменного стража
+item.atum.stoneguardShield.name=Щит каменного стража
+item.atum.brigandShield.name=Щит разбойника
+item.atum.shortBow.name=Короткий лук
+item.atum.limestoneShovel.name=Известняковая лопата
+item.atum.limestonePickaxe.name=Известняковая кирка
 item.atum.limestoneAxe.name=Известняковый топор
 item.atum.limestoneSword.name=Известняковый меч
 item.atum.limestoneHoe.name=Известняковая мотыга
@@ -545,7 +545,7 @@ item.atum.rasFury.line2=поджигает блоки и врагов
 item.atum.rasFury.line3=Огненный выстрел
 
 item.atum.eyesOfAtum.line1=Божественное зрение: улучшенное зрение в темноте,
-item.atum.eyesOfAtum.line2=увеличенный радиус видимости  Атуме
+item.atum.eyesOfAtum.line2=увеличенный радиус видимости в Атуме
 item.atum.eyesOfAtum.line3=Божественное зрение
 
 item.atum.bodyOfAtum.line1=Божественная защита: сокращает вдвое урон
@@ -583,9 +583,9 @@ item.atum.shusBreath.line1=Оттяжка: Быстрое
 item.atum.shusBreath.line2=натяжение
 item.atum.shusBreath.line3=Оттяжка
 
-item.atum.ptahsUndoing.line1=Каменотес: полностью заряженная атака
+item.atum.ptahsUndoing.line1=Каменотёс: полностью заряженная атака
 item.atum.ptahsUndoing.line2=удваивает урон каменным противникам
-item.atum.ptahsUndoing.line3=Каменотес
+item.atum.ptahsUndoing.line3=Каменотёс
 
 item.atum.montusBlast.line1=Взрывная стрела: пущенные с полной силой стрелы
 item.atum.montusBlast.line2=взрываются при ударе
@@ -673,11 +673,11 @@ tooltip.atum.minutesRemaining=%d минут осталось
 tooltip.atum.usesRemaining=%d использований осталось
 
 # Loot
-item.atum.loot.dirty.idol.name=Земляной идол
-item.atum.loot.dirty.necklace.name=Земляное ожерелье
-item.atum.loot.dirty.ring.name=Земляное кольцо
-item.atum.loot.dirty.broach.name=Земляная брошь
-item.atum.loot.dirty.scepter.name=Земляной скипетр
+item.atum.loot.dirty.idol.name=Грязный идол
+item.atum.loot.dirty.necklace.name=Грязное ожерелье
+item.atum.loot.dirty.ring.name=Грязное кольцо
+item.atum.loot.dirty.broach.name=Грязная брошь
+item.atum.loot.dirty.scepter.name=Грязный скипетр
 item.atum.loot.silver.idol.name=Серебряный идол
 item.atum.loot.silver.necklace.name=Серебряное ожерелье
 item.atum.loot.silver.ring.name=Серебряное кольцо
@@ -710,7 +710,7 @@ item.atum.loot.diamond.broach.name=Алмазная брошь
 item.atum.loot.diamond.scepter.name=Алмазный скипетр
 
 # Entity
-entity.atum.assassin.name=Ассассин
+entity.atum.assassin.name=Ассасин
 entity.atum.barbarian.name=Варвар
 entity.atum.bonestorm.name=Костяной ураган
 entity.atum.brigand.name=Разбойник
@@ -724,8 +724,8 @@ entity.atum.mummy.name=Мумия
 entity.atum.nomad.name=Кочевник
 entity.atum.pharaoh.name=Фараон
 entity.atum.scarab.name=Скарабей
-entity.atum.stoneguard.name=Страж камня
-entity.atum.stonewarden.name=Смотритель камня
+entity.atum.stoneguard.name=Каменный страж
+entity.atum.stonewarden.name=Каменный смотритель
 entity.atum.sunspeaker.name=Говорящий с солнцем
 entity.atum.tarantula.name=Тарантул
 entity.atum.warlord.name=Полководец
@@ -905,7 +905,7 @@ jei.item.atum.emmerDough=Создаётся комбинированием му�
 
 # Just Tips support
 mods.tips.atum.1=Ты умрёшь.
-mods.tips.atum.2=Вы можете создавать стражей и смотрителей камня сами для защиты базы!
+mods.tips.atum.2=Вы можете создавать каменных стражей и смотрителей сами для защиты базы!
 mods.tips.atum.3=У фараонов есть разные уникальные способности
 mods.tips.atum.4=Скарабеев иногда можно найти в древесине мёртвого дерева
 mods.tips.atum.5=Шлем странника улучшает ваше зрение
