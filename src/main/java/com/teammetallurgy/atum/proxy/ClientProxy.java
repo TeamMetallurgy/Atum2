@@ -160,6 +160,6 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void spawnParticle(AtumParticles.Types particleType, Entity entity, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), entity.world, x, y, z, xSpeed, ySpeed, zSpeed));
+        ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), Minecraft.getMinecraft().world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 }
