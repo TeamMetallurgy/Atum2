@@ -3,12 +3,14 @@ package com.teammetallurgy.atum.blocks.base.tileentity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.LootTableManager;
 import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nonnull;
@@ -88,6 +90,16 @@ public class TileEntityChestBase extends TileEntityChest {
     @Nonnull
     public AxisAlignedBB getRenderBoundingBox() {
         return new AxisAlignedBB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);
+    }
+
+    @Override
+    public void fillWithLoot(@Nullable EntityPlayer player) { //Added null check for LootTableManager to prevent issues with WIT
+        if (this.lootTable != null) {
+            LootTableManager manager = this.world.getLootTableManager();
+            if (manager != null) {
+                super.fillWithLoot(player);
+            }
+        }
     }
 
     @Override
