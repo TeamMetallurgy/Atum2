@@ -5,7 +5,8 @@ import baubles.api.IBauble;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.*;
-import net.minecraft.block.Block;
+import net.minecraft.block.BlockCauldron;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
@@ -79,8 +80,8 @@ public class ItemLoot extends Item implements IOreDictEntry, IBauble {
     @Override
     public boolean onEntityItemUpdate(EntityItem entityItem) {
         World world = entityItem.world;
-        Block block = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ))).getBlock();
-        if (block == Blocks.WATER || block == Blocks.FLOWING_WATER) {
+        IBlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ)));
+        if ((state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER) || state.getBlock() instanceof BlockCauldron && state.getValue(BlockCauldron.LEVEL) > 0) {
             ItemStack stack = entityItem.getItem();
 
             if (stack.getItem() instanceof ItemLoot && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
