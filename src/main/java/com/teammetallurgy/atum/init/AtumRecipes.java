@@ -19,6 +19,8 @@ import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicSlab;
 import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicTile;
 import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicWall;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
+import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
 import com.teammetallurgy.atum.utils.Constants;
@@ -28,6 +30,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
@@ -231,9 +234,11 @@ public class AtumRecipes {
         final ResourceLocation chest = new ResourceLocation("chest");
         final ResourceLocation trapdoor = new ResourceLocation("trapdoor");
 
+        Ingredient wood = new BlacklistOreIngredient("plankWood", (stack) -> (stack.getItem() instanceof ItemBlock && ((ItemBlock) stack.getItem()).getBlock() instanceof BlockAtumPlank));
+
         //Stick
         recipes.remove(stick);
-        registry.register(new ShapedOreRecipe(stick, new ItemStack(Items.STICK, 4), "P", "P", 'P', "plankWood").setRegistryName(new ResourceLocation(Constants.MOD_ID, "stick"))); //Modded planks
+        registry.register(new ShapedOreRecipe(stick, new ItemStack(Items.STICK, 4), "P", "P", 'P', wood).setRegistryName(new ResourceLocation(Constants.MOD_ID, "stick"))); //Modded planks
         registry.register(new ShapedOreRecipe(stick, new ItemStack(Items.STICK, 4), "P", "P", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(stick));
 
         //Torch
@@ -245,13 +250,19 @@ public class AtumRecipes {
         registry.register(new ShapedOreRecipe(ladder, new ItemStack(Blocks.LADDER, 3), "S S", "SSS", "S S", 'S', "stickWood").setRegistryName(ladder));
 
         //Chest
-        recipes.remove(chest);
-        registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', "plankWood").setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest"))); //Modded chests
-        registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(chest));
+        if(IntegrationHandler.INSTANCE.quarkChests) {
+            recipes.remove(chest);
+            registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', wood).setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest"))); //Modded chests
+            registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest_1")));
+        }else{
+            recipes.remove(chest);
+            registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', wood).setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest"))); //Modded chests
+            registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest_1")));
+        }
 
         //Trapdoor
         recipes.remove(trapdoor);
-        registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
+        registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', wood).setRegistryName(trapdoor));
 
         ////Cracked Limestone
         final ResourceLocation sword = new ResourceLocation("stone_sword");

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.integration;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.integration.quark.Quark;
 import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -16,9 +17,12 @@ public class IntegrationHandler {
     private final NonNullList<IModIntegration> integratedMods = NonNullList.create();
     private HashMap<String, Class<? extends IModIntegration>> mods = new HashMap<>();
 
+    public boolean quarkChests = false;
+
     public void initModIntegration() {
         mods.put(Thaumcraft.THAUMCRAFT_ID, Thaumcraft.class);
         mods.put(TOPSupport.THE_ONE_PROBE, TOPSupport.class);
+        mods.put(Quark.QUARK_ID, Quark.class);
 
         List<String> enabledModSupport = mods.keySet().stream().filter(modid -> AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modid, true).getBoolean()).collect(Collectors.toList());
         AtumConfig.config.save();
