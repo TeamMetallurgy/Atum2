@@ -36,6 +36,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -245,9 +246,10 @@ public class AtumRecipes {
         registry.register(new ShapedOreRecipe(ladder, new ItemStack(Blocks.LADDER, 3), "S S", "SSS", "S S", 'S', "stickWood").setRegistryName(ladder));
 
         //Chest
-        recipes.remove(chest);
-        registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', "plankWood").setRegistryName(new ResourceLocation(Constants.MOD_ID, "chest"))); //Modded chests
-        registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(chest));
+        if (!Constants.IS_QUARK_LOADED || !ForgeRegistries.BLOCKS.containsKey(new ResourceLocation("quark", "custom_chest"))) { //Check if Quark Varied Chests is enabled
+            recipes.remove(chest);
+            registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', "plankWood").setRegistryName(chest));
+        }
 
         //Trapdoor
         recipes.remove(trapdoor);

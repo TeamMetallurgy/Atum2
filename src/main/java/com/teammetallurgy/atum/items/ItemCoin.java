@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
