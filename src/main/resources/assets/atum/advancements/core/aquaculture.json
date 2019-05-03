@@ -4,10 +4,10 @@
       "item": "atum:fish_skeletal"
     },
     "title": {
-      "translate": "Aquaculture"
+      "translate": "advancement.atum.aquaculture"
     },
     "description": {
-      "translate": "Catch a fish in Atum"
+      "translate": "advancement.atum.aquaculture.desc"
     }
   },
   "parent": "atum:core/ahope",

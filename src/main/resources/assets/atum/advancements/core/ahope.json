@@ -4,10 +4,10 @@
       "item": "atum:palm_sapling"
     },
     "title": {
-      "translate": "A Hope"
+      "translate": "advancement.atum.ahope"
     },
     "description": {
-      "translate": "Visit an oasis"
+      "translate": "advancement.atum.ahope.desc"
     }
   },
   "parent": "atum:core/amirage",

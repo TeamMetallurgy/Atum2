@@ -4,10 +4,10 @@
       "item": "atum:dusty_bone"
     },
     "title": {
-      "translate": "Sandy Boi"
+      "translate": "advancement.atum.sandyboi"
     },
     "description": {
-      "translate": "Tame a desert wolf"
+      "translate": "advancement.atum.sandyboi.desc"
     }
   },
   "parent": "atum:core/killorbekilled",

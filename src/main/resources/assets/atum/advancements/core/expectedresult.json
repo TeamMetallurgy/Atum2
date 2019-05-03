@@ -4,10 +4,10 @@
       "item": "atum:iron_dagger"
     },
     "title": {
-      "translate": "Expected Result"
+      "translate": "advancement.atum.expectedresult"
     },
     "description": {
-      "translate": "Die to a mob in Atum"
+      "translate": "advancement.atum.expectedresult.desc"
     }
   },
   "parent": "atum:core/journeyintothesands",

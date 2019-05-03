@@ -4,10 +4,10 @@
       "item": "atum:golden_date_enchanted"
     },
     "title": {
-      "translate": "Enchanting Evening"
+      "translate": "advancement.atum.enchantingevening"
     },
     "description": {
-      "translate": "Eat an Enchanted Golden Date"
+      "translate": "advancement.atum.enchantingevening.desc"
     }
   },
   "parent": "atum:core/goldendatebridge",

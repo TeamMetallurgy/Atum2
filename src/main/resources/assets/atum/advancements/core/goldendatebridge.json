@@ -4,10 +4,10 @@
       "item": "atum:golden_date"
     },
     "title": {
-      "translate": "Golden Date Bridge"
+      "translate": "advancement.atum.goldendatebridge"
     },
     "description": {
-      "translate": "Eat a Golden Date"
+      "translate": "advancement.atum.goldendatebridge.desc"
     }
   },
   "parent": "atum:core/itsadate",

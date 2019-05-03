@@ -4,10 +4,10 @@
       "item": "atum:emmer"
     },
     "title": {
-      "translate": "Agriculture"
+      "translate": "advancement.atum.agriculture"
     },
     "description": {
-      "translate": "Plant these Atum crops"
+      "translate": "advancement.atum.agriculture.desc"
     }
   },
   "parent": "atum:core/ahope",

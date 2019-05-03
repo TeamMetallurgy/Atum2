@@ -4,10 +4,10 @@
       "item": "atum:iron_scimitar"
     },
     "title": {
-      "translate": "Unundead"
+      "translate": "advancement.atum.unundead"
     },
     "description": {
-      "translate": "Kill one of each type of Atum undead"
+      "translate": "advancement.atum.unundead.desc"
     },
     "frame": "challenge"
   },

@@ -4,10 +4,10 @@
       "item": "atum:stoneguard_club"
     },
     "title": {
-      "translate": "Stonecarver"
+      "translate": "advancement.atum.stonecarver"
     },
     "description": {
-      "translate": "Kill a Stoneguard"
+      "translate": "advancement.atum.stonecarver.desc"
     }
   },
   "parent": "atum:core/killorbekilled",

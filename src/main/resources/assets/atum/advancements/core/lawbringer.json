@@ -4,10 +4,10 @@
       "item": "atum:brigand_shield"
     },
     "title": {
-      "translate": "Lawbringer"
+      "translate": "advancement.atum.lawbringer"
     },
     "description": {
-      "translate": "Kill one of each type of Atum bandit"
+      "translate": "advancement.atum.lawbringer.desc"
     },
     "frame": "challenge"
   },

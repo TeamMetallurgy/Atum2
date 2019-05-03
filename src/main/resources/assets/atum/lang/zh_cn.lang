@@ -1,8 +1,70 @@
+# Advancements
+advancement.atum.agriculture=农业
+advancement.atum.agriculture.desc=种植这些阿图姆作物
+advancement.atum.ahope=希望
+advancement.atum.ahope.desc=到访绿洲
+advancement.atum.ahumpintheroad=路上的驼峰
+advancement.atum.ahumpintheroad.desc=驯服一只骆驼
+advancement.atum.ajourney=旅程
+advancement.atum.ajourney.desc=到访所有阿图姆的生物群系
+advancement.atum.amirage=海市蜃楼
+advancement.atum.amirage.desc=到访死去的绿洲
+advancement.atum.aquaculture=水产养殖
+advancement.atum.aquaculture.desc=在阿图姆捕捉一条鱼
+advancement.atum.assassinassin=Assassinassin
+advancement.atum.assassinassin.desc=刺杀一个刺客
+advancement.atum.atumed=Atumed
+advancement.atum.atumed.desc=获得完整的阿图姆套装
+advancement.atum.deserthunter=沙漠猎人
+advancement.atum.deserthunter.desc=杀死每一种阿图姆的动物
+advancement.atum.enchantingevening=迷人的夜晚
+advancement.atum.enchantingevening.desc=吃一个附魔金椰枣
+advancement.atum.expectedresult=预料到的结果
+advancement.atum.expectedresult.desc=死于阿图姆的怪物攻击
+advancement.atum.goldendatebridge=金椰枣大桥
+advancement.atum.goldendatebridge.desc=吃一个金椰枣
+advancement.atum.itbelongsinamuseum=它属于博物馆
+advancement.atum.itbelongsinamuseum.desc=获得一个神器
+advancement.atum.itsadate=它是椰枣！
+advancement.atum.itsadate.desc=吃一个椰枣
+advancement.atum.journeyintothesands=沙漠之旅
+advancement.atum.journeyintothesands.desc=进入阿图姆
+advancement.atum.justlikenew=就像新的一样
+advancement.atum.justlikenew.desc=清洗一个遗物
+advancement.atum.killorbekilled=杀或者被杀
+advancement.atum.killorbekilled.desc=在阿图姆杀死一只怪物
+advancement.atum.kingslayer=弑君者
+advancement.atum.kingslayer.desc=杀死法老
+advancement.atum.lawbringer=执法者
+advancement.atum.lawbringer.desc=杀死每一种阿图姆强盗
+advancement.atum.powerwasher=电动清洗器
+advancement.atum.powerwasher.desc=清洗所有的遗物
+advancement.atum.pyramidscheme=金字塔计划
+advancement.atum.pyramidscheme.desc=进入金字塔
+advancement.atum.radyforaction=准备行动
+advancement.atum.radyforaction.desc=获得完整的拉套装
+advancement.atum.root=阿图姆
+advancement.atum.root.desc=开始你的阿图姆之旅
+advancement.atum.ruinedit=毁了它
+advancement.atum.ruinedit.desc=进入遗迹
+advancement.atum.sandyboi=Sandy Boi
+advancement.atum.sandyboi.desc=驯服一只沙漠狼
+advancement.atum.stonecarver=石头雕刻家
+advancement.atum.stonecarver.desc=杀死一个石头守卫
+advancement.atum.strongersilentertype=更强大、更沉默的人
+advancement.atum.strongersilentertype.desc=召唤一个石头哨兵
+advancement.atum.strongsilenttype=强大、沉默的人
+advancement.atum.strongsilenttype.desc=召唤一个石头守卫
+advancement.atum.thefullmuseum=完整的博物馆
+advancement.atum.thefullmuseum.desc=获取所有神器
+advancement.atum.unundead=反亡灵
+advancement.atum.unundead.desc=杀死每一种阿图姆亡灵
+
 # Blocks
 tile.atum.portal.name=阿图姆传送门
 tile.atum.chestSpawner.name=阿图姆箱子
 tile.atum.sand.name=怪沙
-tile.atum.limestoneGravel.name=石灰岩砂砾
+tile.atum.limestoneGravel.name=石灰岩沙砾
 tile.atum.marl.name=泥灰岩
 tile.atum.raStone.name=拉之石
 tile.atum.khnumiteBlock.name=克奴姆陶块
@@ -262,13 +324,13 @@ tile.atum.deadwoodLadder.name=死树木梯子
 tile.atum.palmTorch.name=棕榈木火把
 tile.atum.deadwoodTorch.name=死树木火把
 tile.atum.limestoneTorch.name=石灰岩火把
-tile.atum.boneLadder.name=骨制梯子
-tile.atum.boneTorch.name=骨制火把
+tile.atum.boneLadder.name=骨质梯子
+tile.atum.boneTorch.name=骨质火把
 tile.atum.pharaohTorch.name=皇家火把
 tile.atum.palmTorchUnlit.name=熄灭的棕榈木火把
 tile.atum.deadwoodTorchUnlit.name=熄灭的死树木火把
 tile.atum.limestoneTorchUnlit.name=熄灭的石灰岩火把
-tile.atum.boneTorchUnlit.name=熄灭的骨制火把
+tile.atum.boneTorchUnlit.name=熄灭的骨质火把
 tile.atum.pharaohTorchUnlit.name=熄灭的皇家火把
 tile.atum.palmSlab.name=棕榈木台阶
 tile.atum.deadwoodSlab.name=死树木台阶
@@ -364,12 +426,12 @@ item.atum.coinGold.name=金币
 item.atum.loot.name=战利品
 item.atum.efreetHeart.name=火焰之心
 item.atum.idolOfLabor.name=劳工神像
-item.atum.ironDagger.name=铁制匕首
+item.atum.ironDagger.name=铁质匕首
 item.atum.daggerPoison.name=剧毒匕首
-item.atum.ironScimitar.name=铁制弯刀
-item.atum.ironGreatsword.name=铁制巨剑
-item.atum.ironClub.name=铁制棍棒
-item.atum.ironKhopesh.name=铁制卡佩许剑
+item.atum.ironScimitar.name=铁质弯刀
+item.atum.ironGreatsword.name=铁质巨剑
+item.atum.ironClub.name=铁质棍棒
+item.atum.ironKhopesh.name=铁质卡佩许剑
 item.atum.stoneguardSword.name=石头守卫剑
 item.atum.stoneguardGreatsword.name=石头守卫巨剑
 item.atum.stoneguardClub.name=石头守卫棍棒
@@ -390,18 +452,18 @@ item.atum.wandererHelmet.name=流浪者头盔
 item.atum.wandererChest.name=流浪者胸甲
 item.atum.wandererLegs.name=流浪者护腿
 item.atum.wandererBoots.name=流浪者靴子
-item.atum.desertHelmetIron.name=沙漠头盔 (铁)
-item.atum.desertChestIron.name=沙漠胸甲 (铁)
-item.atum.desertLegsIron.name=沙漠护腿 (铁)
-item.atum.desertBootsIron.name=沙漠靴子 (铁)
-item.atum.desertHelmetGold.name=沙漠头盔 (金)
-item.atum.desertChestGold.name=沙漠胸甲 (金)
-item.atum.desertLegsGold.name=沙漠护腿 (金)
-item.atum.desertBootsGold.name=沙漠靴子 (金)
-item.atum.desertHelmetDiamond.name=沙漠头盔 (钻石)
-item.atum.desertChestDiamond.name=沙漠胸甲 (钻石)
-item.atum.desertLegsDiamond.name=沙漠护腿 (钻石)
-item.atum.desertBootsDiamond.name=沙漠靴子 (钻石)
+item.atum.desertHelmetIron.name=沙漠头盔（铁）
+item.atum.desertChestIron.name=沙漠胸甲（铁）
+item.atum.desertLegsIron.name=沙漠护腿（铁）
+item.atum.desertBootsIron.name=沙漠靴子（铁）
+item.atum.desertHelmetGold.name=沙漠头盔（金）
+item.atum.desertChestGold.name=沙漠胸甲（金）
+item.atum.desertLegsGold.name=沙漠护腿（金）
+item.atum.desertBootsGold.name=沙漠靴子（金）
+item.atum.desertHelmetDiamond.name=沙漠头盔（钻石）
+item.atum.desertChestDiamond.name=沙漠胸甲（钻石）
+item.atum.desertLegsDiamond.name=沙漠护腿（钻石）
+item.atum.desertBootsDiamond.name=沙漠靴子（钻石）
 item.atum.papyrusPlant.name=纸莎草
 item.atum.ectoplasm.name=外质
 item.atum.mandibles.name=狼蛛下颚骨
@@ -490,12 +552,12 @@ item.atum.scepterRa.name=拉之权杖
 item.atum.scepterSeth.name=赛特之权杖
 item.atum.scepterShu.name=舒之权杖
 item.atum.scepterTefnut.name=泰夫努特之权杖
-item.atum.desertWolfIronArmor.name=铁制沙漠狼盔甲
-item.atum.desertWolfGoldArmor.name=金制沙漠狼盔甲
-item.atum.desertWolfDiamondArmor.name=钻石沙漠狼盔甲
-item.atum.camelIronArmor.name=铁制骆驼盔甲
-item.atum.camelGoldArmor.name=金制骆驼盔甲
-item.atum.camelDiamondArmor.name=钻石骆驼盔甲
+item.atum.desertWolfIronArmor.name=铁质沙漠狼铠
+item.atum.desertWolfGoldArmor.name=金质沙漠狼铠
+item.atum.desertWolfDiamondArmor.name=钻石沙漠狼铠
+item.atum.camelIronArmor.name=铁质骆驼铠
+item.atum.camelGoldArmor.name=金质骆驼铠
+item.atum.camelDiamondArmor.name=钻石骆驼铠
 item.atum.deadwoodDoor.name=死树木门
 item.atum.palmDoor.name=棕榈木门
 item.atum.palmStick.name=棕榈木棍
@@ -504,168 +566,168 @@ item.atum.crunchyScarab.name=脆皮甲虫
 item.atum.crunchyGoldenScarab.name=脆皮圣金甲虫
 
 # Artifacts
-item.atum.gebsGrounding.line1=钉矢: 对被击中的敌人
+item.atum.gebsGrounding.line1=钉矢：对被击中的敌人
 item.atum.gebsGrounding.line2=造成减速
 item.atum.gebsGrounding.line3=钉矢
 
-item.atum.gebsToil.line1=勤勉: 使用时不会消耗耐久
+item.atum.gebsToil.line1=勤勉：使用时不会消耗耐久
 item.atum.gebsToil.line2=并且为你的努力提供经验
 item.atum.gebsToil.line3=绩效
 
-item.atum.atumsHomecoming.line1=回返: 将你传送至
+item.atum.atumsHomecoming.line1=回返：将你传送至
 item.atum.atumsHomecoming.line2=你的出生点
 item.atum.atumsHomecoming.line3=回返
 
-item.atum.gebsMight.line1=猛击: 完全充能时会产生
+item.atum.gebsMight.line1=猛击：完全充能时会产生
 item.atum.gebsMight.line2=眩晕效果
 item.atum.gebsMight.line3=猛击
 
-item.atum.ptahsDecadence.line1=炼金: 在挖矿的时候
+item.atum.ptahsDecadence.line1=炼金：在挖矿的时候
 item.atum.ptahsDecadence.line2=有几率将铁转化成金
 item.atum.ptahsDecadence.line3=财富
 
-item.atum.shusExile.line1=流放: 完全充能时会产生
+item.atum.shusExile.line1=流放：完全充能时会产生
 item.atum.shusExile.line2=额外击退效果
 item.atum.shusExile.line3=流放
 
-item.atum.atumsWill.line1=驱逐: 完全充能时会对
+item.atum.atumsWill.line1=驱逐：完全充能时会对
 item.atum.atumsWill.line2=不死族造成双倍伤害
 item.atum.atumsWill.line3=驱逐
 
-item.atum.atumsProtection.line1=献祭: 当你格挡不死族的攻击时
+item.atum.atumsProtection.line1=献祭：当你格挡不死族的攻击时
 item.atum.atumsProtection.line2=会对它们造成灼烧和伤害
 item.atum.atumsProtection.line3=献祭
 
-item.atum.tefnutsBlessing.line1=播种: 对大地产生祝福，
+item.atum.tefnutsBlessing.line1=播种：对大地产生祝福，
 item.atum.tefnutsBlessing.line2=使作物生长速度加快
 item.atum.tefnutsBlessing.line3=播种
 
-item.atum.rasFury.line1=火矢: 使用燃烧的箭矢可以
+item.atum.rasFury.line1=火矢：使用燃烧的箭矢可以
 item.atum.rasFury.line2=点燃方块和敌人
 item.atum.rasFury.line3=火矢
 
-item.atum.eyesOfAtum.line1=神之视界: 提升在黑暗中的视野，
+item.atum.eyesOfAtum.line1=神之视界：提升在黑暗中的视野，
 item.atum.eyesOfAtum.line2=提升在阿图姆的视野范围
 item.atum.eyesOfAtum.line3=神之视界
 
-item.atum.bodyOfAtum.line1=神之庇佑: 使得来自不死族
+item.atum.bodyOfAtum.line1=神之庇佑：使得来自不死族
 item.atum.bodyOfAtum.line2=的攻击伤害减半
 item.atum.bodyOfAtum.line3=神之庇佑
 
-item.atum.legsOfAtum.line1=神之迅疾: 提升你的
+item.atum.legsOfAtum.line1=神之迅疾：提升你的
 item.atum.legsOfAtum.line2=移动速度
 item.atum.legsOfAtum.line3=神之迅疾
 
-item.atum.feetOfAtum.line1=神之意志: 你将无法
+item.atum.feetOfAtum.line1=神之意志：你将无法
 item.atum.feetOfAtum.line2=被击退
 item.atum.feetOfAtum.line3=神之意志
 
-item.atum.montusStrike.line1=强袭: 完全充能时会造成击退
+item.atum.montusStrike.line1=强袭：完全充能时会造成击退
 item.atum.montusStrike.line2=并且打击所有附近敌人
 item.atum.montusStrike.line3=强袭
 
-item.atum.thothsDirection.line1=指引: 指引你去往
+item.atum.thothsDirection.line1=指引：指引你去往
 item.atum.thothsDirection.line2=最近的宝藏
 item.atum.thothsDirection.line3=指引
-item.atum.thothsDirection.searching=正在寻找宝藏..
+item.atum.thothsDirection.searching=正在寻找宝藏……
 item.atum.thothsDirection.searchingFail=什么也找不到
-item.atum.thothsDirection.found=找到了宝藏! %s
+item.atum.thothsDirection.found=找到了宝藏！%s
 
-item.atum.sethsSting.line1=猛毒: 完全充能时会造成
+item.atum.sethsSting.line1=猛毒：完全充能时会造成
 item.atum.sethsSting.line2=中毒效果
 item.atum.sethsSting.line3=猛毒
 
-item.atum.horussSoaring.line1=掠矢: 完全充能时会使得
+item.atum.horussSoaring.line1=掠矢：完全充能时会使得
 item.atum.horussSoaring.line2=箭矢路径形成直线
 item.atum.horussSoaring.line3=掠矢
 
-item.atum.shusBreath.line1=速矢: 可以减少
+item.atum.shusBreath.line1=速矢：可以减少
 item.atum.shusBreath.line2=瞄准所需的时间
 item.atum.shusBreath.line3=速矢
 
-item.atum.ptahsUndoing.line1=切石: 完全充能时会对石头
+item.atum.ptahsUndoing.line1=切石：完全充能时会对石头
 item.atum.ptahsUndoing.line2=敌人造成双倍伤害
 item.atum.ptahsUndoing.line3=切石
 
-item.atum.montusBlast.line1=破矢: 完全充能时造成剧烈
+item.atum.montusBlast.line1=破矢：完全充能时造成剧烈
 item.atum.montusBlast.line2=冲击形成爆炸
 item.atum.montusBlast.line3=破矢
 
-item.atum.horussAscension.line1=横扫: 完全充能时会将敌人
+item.atum.horussAscension.line1=横扫：完全充能时会将敌人
 item.atum.horussAscension.line2=抛掷空中
 item.atum.horussAscension.line3=横扫
 
-item.atum.haloOfRa.line1=闪耀之怒: 点燃
+item.atum.haloOfRa.line1=闪耀之怒：点燃
 item.atum.haloOfRa.line2=攻击你的敌人
 item.atum.haloOfRa.line3=闪耀之怒
 
-item.atum.bodyOfRa.line1=闪耀之卫: 你不会被
+item.atum.bodyOfRa.line1=闪耀之卫：你不会被
 item.atum.bodyOfRa.line2=火焰所伤害
 item.atum.bodyOfRa.line3=闪耀之卫
 
-item.atum.legsOfRa.line1=闪耀之引: 提升你的
+item.atum.legsOfRa.line1=闪耀之引：提升你的
 item.atum.legsOfRa.line2=奔跑速度
 item.atum.legsOfRa.line3=闪耀之引
 
-item.atum.feetOfRa.line1=闪耀之路: 你可以在
+item.atum.feetOfRa.line1=闪耀之路：你可以在
 item.atum.feetOfRa.line2=熔岩上面行走
 item.atum.feetOfRa.line3=闪耀之路
 
-item.atum.sethsVenom.line1=毒矢: 使用毒箭
+item.atum.sethsVenom.line1=毒矢：使用毒箭
 item.atum.sethsVenom.line2=让敌人中毒
 item.atum.sethsVenom.line3=毒矢
 
-item.atum.tefnutsRain.line1=霰矢: 完全充能时箭矢会分散
+item.atum.tefnutsRain.line1=霰矢：完全充能时箭矢会分散
 item.atum.tefnutsRain.line2=形成多个小型箭矢
 item.atum.tefnutsRain.line3=霰矢
 
-item.atum.tefnutsCall.line1=雷霆: 投掷攻击敌人时
+item.atum.tefnutsCall.line1=雷霆：投掷攻击敌人时
 item.atum.tefnutsCall.line2=造成闪电
 item.atum.tefnutsCall.line3=雷霆
 
-item.atum.atumsBounty.line1=诱惑: 你可以钓到阿图姆中
+item.atum.atumsBounty.line1=诱惑：你可以钓到阿图姆中
 item.atum.atumsBounty.line2=稀有和特殊的鱼类
 item.atum.atumsBounty.line3=诱惑
 
-item.atum.shusSwiftness.line1=迅捷: 手持该物品时
+item.atum.shusSwiftness.line1=迅捷：手持该物品时
 item.atum.shusSwiftness.line2=跑得会更快
 item.atum.shusSwiftness.line3=迅捷
 
-item.atum.isisHealing.line1=复苏: 手持该物品时
+item.atum.isisHealing.line1=复苏：手持该物品时
 item.atum.isisHealing.line2=能缓慢地回复生命
 item.atum.isisHealing.line3=复苏
 
-item.atum.anubissMercy.line1=魂契: 当你死亡时，你可以保留
+item.atum.anubissMercy.line1=魂契：当你死亡时，你可以保留
 item.atum.anubissMercy.line2=你的装备和物品
 item.atum.anubissMercy.line3=魂契
 item.atum.anubissMercy.line4=褪魔诅咒
 
-item.atum.anubissWrath.line1.soulDrinker=噬魂: 吸收杀死的敌人的灵魂
+item.atum.anubissWrath.line1.soulDrinker=噬魂：吸收杀死的敌人的灵魂
 item.atum.anubissWrath.line2.soulDrinker=变得更加强大
-item.atum.anubissWrath.line1.soulUnraveler=释魂: 完全充能时会对存活
+item.atum.anubissWrath.line1.soulUnraveler=释魂：完全充能时会对存活
 item.atum.anubissWrath.line2.soulUnraveler=的敌人造成额外伤害
 item.atum.anubissWrath.soulDrinker=噬魂
 item.atum.anubissWrath.soulUnraveler=释魂
-item.atum.anubissWrath.kills=Kills: %s
+item.atum.anubissWrath.kills=击杀数：%s
 item.atum.anubissWrath.levelup=你的剑产生扭曲，形成一种更加邪恶的形态
 
-item.atum.nuitsVanishing.line1=遁隐: 手持该物品时静止
+item.atum.nuitsVanishing.line1=遁隐：手持该物品时静止
 item.atum.nuitsVanishing.line2=你将无法被看见
 item.atum.nuitsVanishing.line3=遁隐
 
-item.atum.nuitsDuality.line1=连矢: 攻击时连续射出
+item.atum.nuitsDuality.line1=连矢：攻击时连续射出
 item.atum.nuitsDuality.line2=两根箭矢
 item.atum.nuitsDuality.line3=连矢
 
-item.atum.nuitsIre.line1=黄昏: 在攻击或者格挡时
+item.atum.nuitsIre.line1=黄昏：在攻击或者格挡时
 item.atum.nuitsIre.line2=有几率造成凋零效果
 item.atum.nuitsIre.line3=黄昏
 
-item.atum.nuitsQuarter.line1=黎明: 在攻击或者格挡时
+item.atum.nuitsQuarter.line1=黎明：在攻击或者格挡时
 item.atum.nuitsQuarter.line2=有几率造成虚弱效果
 item.atum.nuitsQuarter.line3=黎明
 
-item.atum.anputsHunger.line1=饕餮: 你更加饥饿，但攻击敌人
+item.atum.anputsHunger.line1=饕餮：你更加饥饿，但攻击敌人
 item.atum.anputsHunger.line2=可以让你填饱肚子
 item.atum.anputsHunger.line3=饕餮
 
@@ -683,11 +745,11 @@ item.atum.loot.silver.necklace.name=淡灰色项链
 item.atum.loot.silver.ring.name=淡灰色指环
 item.atum.loot.silver.broach.name=淡灰色胸针
 item.atum.loot.silver.scepter.name=淡灰色权杖
-item.atum.loot.gold.idol.name=金制神像
-item.atum.loot.gold.necklace.name=金制项链
-item.atum.loot.gold.ring.name=金制指环
-item.atum.loot.gold.broach.name=金制胸针
-item.atum.loot.gold.scepter.name=金制权杖
+item.atum.loot.gold.idol.name=金质神像
+item.atum.loot.gold.necklace.name=金质项链
+item.atum.loot.gold.ring.name=金质指环
+item.atum.loot.gold.broach.name=金质胸针
+item.atum.loot.gold.scepter.name=金质权杖
 item.atum.loot.sapphire.idol.name=蓝宝石神像
 item.atum.loot.sapphire.necklace.name=蓝宝石项链
 item.atum.loot.sapphire.ring.name=蓝宝石指环
@@ -807,7 +869,7 @@ entity.atum.pharaoh.tepy=tepy
 entity.atum.pharaoh.moret=moret
 
 # Creative Tab
-itemGroup.atum=阿图姆
+itemGroup.atum=阿图姆：沙漠之旅
 
 # Chat
 chat.atum.disabled=圣甲虫传送门的创建现已被禁止
@@ -816,7 +878,7 @@ chat.atum.summonPharaoh=被你惊动了！
 chat.atum.killPharaoh=被你消灭了！ 
 chat.atum.cannotSpawnPharaoh=法老在他们的石棺里翻了个身。
 chat.atum.water.evaporated=容器中的水蒸发了
-chat.atum.spinningWheel.recipeInProgress=这台纺车已经有东西输入了 (%s)
+chat.atum.spinningWheel.recipeInProgress=这台纺车已经有东西输入了（%s）
 
 # GUI
 atum.configGui.atumStart=在阿图姆中开始
@@ -832,28 +894,28 @@ atum:subtitles.pharaohspawn=法老发出了低哮
 #Idol of Labor
 item.atum.idolOfLabor.1=再加把劲！
 item.atum.idolOfLabor.2=我快死了！
-item.atum.idolOfLabor.3=嗯..什么都不会发生。
+item.atum.idolOfLabor.3=嗯……什么都不会发生。
 item.atum.idolOfLabor.4=这真的超屌的。
-item.atum.idolOfLabor.5=出了点问题!
-item.atum.idolOfLabor.6=不可能!
-item.atum.idolOfLabor.7=好吧，我不得不想出点什么!
-item.atum.idolOfLabor.8=我需要加薪.
+item.atum.idolOfLabor.5=出了点问题！
+item.atum.idolOfLabor.6=不可能！
+item.atum.idolOfLabor.7=好吧，我不得不想出点什么！
+item.atum.idolOfLabor.8=我需要加薪。
 item.atum.idolOfLabor.9=行 ^^
 item.atum.idolOfLabor.10=你又要搞些什么破坏？
 item.atum.idolOfLabor.11=哦，我又得为此做一些调整和很多花里胡哨的东西。哦，好吧。
-item.atum.idolOfLabor.12=也许他在你的某个秘密电子表格上。。
-item.atum.idolOfLabor.13=当然，如果你想要毁掉你的世界。。
+item.atum.idolOfLabor.12=也许他在你的某个秘密电子表格上。
+item.atum.idolOfLabor.13=当然，如果你想要毁掉你的世界。
 item.atum.idolOfLabor.14=表上都已经说了你要做啥！
 item.atum.idolOfLabor.15=这30秒也太难熬了。
-item.atum.idolOfLabor.16=嘟~ 嘟 嘟!
-item.atum.idolOfLabor.17=早睡早起... 这也太早了吧。
+item.atum.idolOfLabor.16=嘟~ 嘟 嘟！
+item.atum.idolOfLabor.17=早睡早起…….这也太早了吧。
 item.atum.idolOfLabor.18=我把他 变红！
 item.atum.idolOfLabor.19=2333
 item.atum.idolOfLabor.20=我绝对不允许这样！
 item.atum.idolOfLabor.21=哦，我今天也放假对吧？
 item.atum.idolOfLabor.22=我又不是为你而活！
 item.atum.idolOfLabor.23=嘘~
-item.atum.idolOfLabor.24=卧槽。
+item.atum.idolOfLabor.24=我的天。
 item.atum.idolOfLabor.25=我晓得，我超爱这个！
 item.atum.idolOfLabor.26=幸好你没有改变它。
 item.atum.idolOfLabor.27=任何改变都不应该有。
@@ -865,10 +927,10 @@ item.atum.idolOfLabor.32=给俺也整一个！
 item.atum.idolOfLabor.33=什么鬼？
 item.atum.idolOfLabor.34=玩命加班，累死累活，还是买不起房！
 item.atum.idolOfLabor.35=我会骗你吗？
-item.atum.idolOfLabor.36="计算完毕"
+item.atum.idolOfLabor.36=“计算完毕”
 item.atum.idolOfLabor.37=等一下。
 item.atum.idolOfLabor.38=八九不离十，我感觉并不是这样。
-item.atum.idolOfLabor.39=怎么算!
+item.atum.idolOfLabor.39=怎么算！
 item.atum.idolOfLabor.40=毫无头绪。
 item.atum.idolOfLabor.41=别。
 item.atum.idolOfLabor.42=它上涨了！
@@ -890,11 +952,11 @@ item.atum.idolOfLabor.57=我很确定它应该会被解决，大概吧。
 item.atum.idolOfLabor.58=哦好吧，看来我今天没有弄坏它，是昨天！嗯。没错~
 item.atum.idolOfLabor.59=配置中。
 item.atum.idolOfLabor.60=我又不可能让石头守卫变成友善生物。
-item.atum.idolOfLabor.61=这会儿先别push没材质的东西,我不想让我的项目坏掉。
+item.atum.idolOfLabor.61=这会儿先别push没材质的东西，我不想让我的项目坏掉。
 item.atum.idolOfLabor.62=怎么没人告诉过我！
 item.atum.idolOfLabor.63=显然这就是原版行为。
 item.atum.idolOfLabor.64=OK，修复BUG~
-item.atum.idolOfLabor.65=明天就要发布了，赶紧搞定所有的事情，GIRAFI(作者)！
+item.atum.idolOfLabor.65=明天就要发布了，赶紧搞定所有的事情，GIRAFI（作者）！
 
 # JEI
 atum.quern=手推石磨

@@ -4,10 +4,10 @@
       "item": "atum:sand"
     },
     "title": {
-      "translate": "Journey Into The Sands"
+      "translate": "advancement.atum.journeyintothesands"
     },
     "description": {
-      "translate": "Enter Atum"
+      "translate": "advancement.atum.journeyintothesands.desc"
     },
     "show_toast": false,
     "announce_to_chat": false

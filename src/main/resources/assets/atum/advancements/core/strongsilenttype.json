@@ -4,10 +4,10 @@
       "item": "atum:stoneguard_shield"
     },
     "title": {
-      "translate": "Strong, Silent Type"
+      "translate": "advancement.atum.strongsilenttype"
     },
     "description": {
-      "translate": "Summon a Stoneguard"
+      "translate": "advancement.atum.strongsilenttype.desc"
     }
   },
   "parent": "atum:core/stonecarver",
