@@ -4,10 +4,10 @@
       "item": "atum:dagger_poison"
     },
     "title": {
-      "translate": "Assassinassin"
+      "translate": "advancement.atum.assassinassin"
     },
     "description": {
-      "translate": "Assassinate an Assassin"
+      "translate": "advancement.atum.assassinassin.desc"
     },
     "frame": "goal"
   },

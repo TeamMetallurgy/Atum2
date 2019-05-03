@@ -4,10 +4,10 @@
       "item": "atum:stoneguard_greatsword"
     },
     "title": {
-      "translate": "Stronger, Silenter Type"
+      "translate": "advancement.atum.strongersilentertype"
     },
     "description": {
-      "translate": "Summon a Stonewarden"
+      "translate": "advancement.atum.strongersilentertype.desc"
     },
     "frame": "goal"
   },

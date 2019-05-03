@@ -4,10 +4,10 @@
       "item": "atum:body_of_ra"
     },
     "title": {
-      "translate": "Ra-dy for Action"
+      "translate": "advancement.atum.radyforaction"
     },
     "description": {
-      "translate": "Obtain the full Ra armorset"
+      "translate": "advancement.atum.radyforaction.desc"
     },
     "frame": "challenge"
   },

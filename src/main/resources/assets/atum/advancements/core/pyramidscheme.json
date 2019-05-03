@@ -4,10 +4,10 @@
       "item": "atum:limestone_brick_large"
     },
     "title": {
-      "translate": "Pyramid Scheme"
+      "translate": "advancement.atum.pyramidscheme"
     },
     "description": {
-      "translate": "Enter a Pyramid"
+      "translate": "advancement.atum.pyramidscheme.desc"
     }
   },
   "parent": "atum:core/journeyintothesands",

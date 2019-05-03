@@ -4,10 +4,10 @@
       "item": "atum:limestone_brick_cracked_brick"
     },
     "title": {
-      "translate": "Ruined It"
+      "translate": "advancement.atum.ruinedit"
     },
     "description": {
-      "translate": "Enter a Ruin"
+      "translate": "advancement.atum.ruinedit.desc"
     }
   },
   "parent": "atum:core/journeyintothesands",

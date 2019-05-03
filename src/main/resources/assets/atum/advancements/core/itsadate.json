@@ -4,10 +4,10 @@
       "item": "atum:date"
     },
     "title": {
-      "translate": "It's a Date!"
+      "translate": "advancement.atum.itsadate"
     },
     "description": {
-      "translate": "Eat a Date"
+      "translate": "advancement.atum.itsadate.desc"
     }
   },
   "parent": "atum:core/ahope",

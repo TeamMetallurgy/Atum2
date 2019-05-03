@@ -4,10 +4,10 @@
       "item": "atum:iron_greatsword"
     },
     "title": {
-      "translate": "Kill Or Be Killed"
+      "translate": "advancement.atum.killorbekilled"
     },
     "description": {
-      "translate": "Kill a mob in Atum"
+      "translate": "advancement.atum.killorbekilled.desc"
     }
   },
   "parent": "atum:core/journeyintothesands",

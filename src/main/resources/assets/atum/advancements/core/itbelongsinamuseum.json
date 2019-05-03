@@ -4,10 +4,10 @@
       "item": "atum:eyes_of_atum"
     },
     "title": {
-      "translate": "It Belongs In A Museum"
+      "translate": "advancement.atum.itbelongsinamuseum"
     },
     "description": {
-      "translate": "Obtain an Artifact"
+      "translate": "advancement.atum.itbelongsinamuseum.desc"
     }
   },
   "parent": "atum:core/kingslayer",
