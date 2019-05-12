@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.integration.champion.ChampionHelper;
+import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -95,8 +95,8 @@ public class EntityBonestorm extends EntityUndeadBase {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        if(ChampionHelper.isChampion(this)) {
-            ResourceLocation texture = ChampionHelper.getTexture(this, "bonestorm");
+        if(ChampionsHelper.isChampion(this)) {
+            ResourceLocation texture = ChampionsHelper.getTexture(this, "bonestorm");
             if (texture != null) {
                 return texture.toString();
             }

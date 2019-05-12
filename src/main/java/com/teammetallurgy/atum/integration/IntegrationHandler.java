@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.integration;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.integration.thaumcraft.Thaumcraft;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -15,12 +16,14 @@ public class IntegrationHandler {
     public static final IntegrationHandler INSTANCE = new IntegrationHandler();
     private final NonNullList<IModIntegration> integratedMods = NonNullList.create();
     private HashMap<String, Class<? extends IModIntegration>> mods = new HashMap<>();
+    private static HashMap<String, Boolean> defaultConfig = new HashMap<>();
 
     public void initModIntegration() {
-        mods.put(Thaumcraft.THAUMCRAFT_ID, Thaumcraft.class);
-        mods.put(TOPSupport.THE_ONE_PROBE, TOPSupport.class);
+        addSupport(Thaumcraft.THAUMCRAFT_ID, Thaumcraft.class, true);
+        addSupport(TOPSupport.THE_ONE_PROBE, TOPSupport.class, true);
+        addSupport(ChampionsHelper.CHAMPION_ID, ChampionsHelper.class, false);
 
-        List<String> enabledModSupport = mods.keySet().stream().filter(modid -> AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modid, true).getBoolean()).collect(Collectors.toList());
+        List<String> enabledModSupport = mods.keySet().stream().filter(IntegrationHandler::getConfigValue).collect(Collectors.toList());
         AtumConfig.config.save();
 
         mods.entrySet().stream().filter(entry -> enabledModSupport.contains(entry.getKey()) && Loader.isModLoaded(entry.getKey())).forEach(entry -> {
@@ -31,6 +34,15 @@ public class IntegrationHandler {
                 e.printStackTrace();
             }
         });
+    }
+
+    private void addSupport(String modID, Class<? extends IModIntegration> modClass, boolean configValue) {
+        mods.put(modID, modClass);
+        defaultConfig.put(modID, configValue);
+    }
+
+    public static boolean getConfigValue(String modID) {
+        return AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modID, defaultConfig.get(modID)).getBoolean();
     }
 
     public void preInit() {

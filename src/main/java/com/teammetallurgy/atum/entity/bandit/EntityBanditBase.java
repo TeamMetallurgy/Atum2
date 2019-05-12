@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
-import com.teammetallurgy.atum.integration.champion.ChampionHelper;
+import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -135,8 +135,8 @@ public class EntityBanditBase extends EntityMob {
     public String getTexture() {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
 
-        if(ChampionHelper.isChampion(this)) {
-            ResourceLocation texture = ChampionHelper.getTexture(this, entityName);
+        if(ChampionsHelper.isChampion(this)) {
+            ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
             if (texture != null) {
                 return texture.toString();
             }

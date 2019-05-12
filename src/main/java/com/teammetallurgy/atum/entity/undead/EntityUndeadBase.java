@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.entity.animal.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
-import com.teammetallurgy.atum.integration.champion.ChampionHelper;
+import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -196,8 +196,8 @@ public class EntityUndeadBase extends EntityMob {
     public String getTexture() {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
 
-        if(ChampionHelper.isChampion(this)) {
-            ResourceLocation texture = ChampionHelper.getTexture(this, "bonestorm");
+        if(ChampionsHelper.isChampion(this)) {
+            ResourceLocation texture = ChampionsHelper.getTexture(this, "bonestorm");
             if (texture != null) {
                 return texture.toString();
             }
