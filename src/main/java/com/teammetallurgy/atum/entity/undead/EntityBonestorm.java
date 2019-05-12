@@ -2,6 +2,12 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.integration.champion.ChampionHelper;
+import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -12,6 +18,9 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -89,6 +98,24 @@ public class EntityBonestorm extends EntityUndeadBase {
         super.updateAITasks();
     }
 
+    @SideOnly(Side.CLIENT)
+    public String getTexture() {
+        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
+
+        if (ChampionHelper.isChampion(this)) {
+            if (ChampionHelper.getTier(this) > 0) {
+                ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_variant_champion_" + ChampionHelper.getTier(this) + ".png");
+
+                TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+                ITextureObject texture = textureManager.getTexture(textureResourceLocation);
+
+                if (texture != TextureUtil.MISSING_TEXTURE) {
+                    return textureResourceLocation.toString();
+                }
+            }
+        }
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png").toString();
+    }
     @Override
     public void fall(float distance, float damageMultiplier) {
     }
