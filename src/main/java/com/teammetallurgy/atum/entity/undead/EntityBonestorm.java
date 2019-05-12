@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.integration.champion.ChampionHelper;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
@@ -12,6 +14,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
@@ -87,6 +91,17 @@ public class EntityBonestorm extends EntityUndeadBase {
         }
 
         super.updateAITasks();
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getTexture() {
+        if(ChampionHelper.isChampion(this)) {
+            ResourceLocation texture = ChampionHelper.getTexture(this, "bonestorm");
+            if (texture != null) {
+                return texture.toString();
+            }
+        }
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png").toString();
     }
 
     @Override
