@@ -7,10 +7,6 @@ import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.integration.champion.ChampionHelper;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.ITextureObject;
-import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
@@ -200,17 +196,10 @@ public class EntityUndeadBase extends EntityMob {
     public String getTexture() {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
 
-        if (ChampionHelper.isChampion(this)) {
-            if(ChampionHelper.getTier(this) > 0) {
-                ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_variant_champion_" + ChampionHelper.getTier(this) + ".png");
-
-                TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
-                ITextureObject texture = textureManager.getTexture(textureResourceLocation);
-
-                if (texture != TextureUtil.MISSING_TEXTURE) {
-                    this.texturePath = textureResourceLocation.toString();
-                    return this.texturePath;
-                }
+        if(ChampionHelper.isChampion(this)) {
+            ResourceLocation texture = ChampionHelper.getTexture(this, "bonestorm");
+            if (texture != null) {
+                return texture.toString();
             }
         }
 
