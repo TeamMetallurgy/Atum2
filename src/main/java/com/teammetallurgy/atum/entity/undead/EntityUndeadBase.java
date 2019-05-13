@@ -197,7 +197,7 @@ public class EntityUndeadBase extends EntityMob {
         String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
 
         if(ChampionsHelper.isChampion(this)) {
-            ResourceLocation texture = ChampionsHelper.getTexture(this, "bonestorm");
+            ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
             if (texture != null) {
                 return texture.toString();
             }
