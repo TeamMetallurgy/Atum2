@@ -70,6 +70,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     private int regenTime = 0;
     private int berserkTimer;
     private float berserkDamage;
+    private String texturePath;
 
     public EntityPharaoh(World world) {
         this(world, false);
@@ -149,12 +150,15 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh" + "_" + God.getGod(this.getVariant()) + ".png"));
+        if (this.texturePath == null)
+            this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh_" + God.getGod(this.getVariant())) + ".png";
+        return this.texturePath;
     }
 
     @Override
     protected void setVariant(int variant) {
         super.setVariant(variant);
+        this.texturePath = null;
     }
 
     @Override

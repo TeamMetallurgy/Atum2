@@ -26,18 +26,19 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Objects;
 import java.util.Random;
 
 public class EntityScarab extends EntityMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityScarab.class, DataSerializers.VARINT);
-    private String texturePath;
+
+    private static final ResourceLocation SCARAB_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab.png");
+    private static final ResourceLocation SCARAB_GOLDEN_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab_golden.png");
+    private ResourceLocation texturePath;
 
     public EntityScarab(World world) {
         super(world);
@@ -112,13 +113,12 @@ public class EntityScarab extends EntityMob {
     }
 
     @SideOnly(Side.CLIENT)
-    public String getTexture() {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
+    public ResourceLocation getTexture() {
         if (this.texturePath == null) {
             if (this.getVariant() == 1) {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_golden") + ".png");
+                this.texturePath = SCARAB_GOLDEN_TEXTURE;
             } else {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png");
+                this.texturePath = SCARAB_TEXTURE;
             }
         }
         return this.texturePath;

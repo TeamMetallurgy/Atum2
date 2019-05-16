@@ -34,7 +34,8 @@ import net.minecraftforge.fml.relauncher.Side;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
 public class ClientEvents {
-    private static final ResourceLocation SAND_BLUR_TEX_PATH = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
+    private static final ResourceLocation MUMMY_BLUR_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/hud/mummyblur.png");
+    private static final ResourceLocation SAND_BLUR_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
     private static float intensity = 1;
 
     @SubscribeEvent
@@ -94,7 +95,7 @@ public class ClientEvents {
             GlStateManager.depthMask(false);
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.disableAlpha();
-            mc.getTextureManager().bindTexture(SAND_BLUR_TEX_PATH);
+            mc.getTextureManager().bindTexture(SAND_BLUR_TEXTURE);
 
             EntityPlayerSP player = mc.player;
             Tessellator tessellator = Tessellator.getInstance();
@@ -211,7 +212,7 @@ public class ClientEvents {
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             GlStateManager.disableAlpha();
-            mc.getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/hud/mummyblur.png"));
+            mc.getTextureManager().bindTexture(MUMMY_BLUR_TEXTURE);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);

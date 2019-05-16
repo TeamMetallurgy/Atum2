@@ -133,21 +133,22 @@ public class EntityBanditBase extends EntityMob {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
+        if (this.texturePath == null) {
+            String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
 
-        if(ChampionsHelper.isChampion(this)) {
-            ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
-            if (texture != null) {
-                return texture.toString();
+            if (ChampionsHelper.isChampion(this)) {
+                ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
+                if (texture != null) {
+                    this.texturePath = texture.toString();
+                    return this.texturePath;
+                }
             }
-        }
 
-        if (this.hasSkinVariants()) {
-            if (this.texturePath == null) {
+            if (this.hasSkinVariants()) {
                 this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+            } else {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png";
             }
-        } else {
-            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + ".png"));
         }
         return this.texturePath;
     }

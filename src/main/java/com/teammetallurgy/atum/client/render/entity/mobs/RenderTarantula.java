@@ -15,6 +15,7 @@ import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
 public class RenderTarantula extends RenderLiving<EntityTarantula> {
+    private static final ResourceLocation TARANTULA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/tarantula.png");
 
     public RenderTarantula(RenderManager manager) {
         super(manager, new ModelSpider(), 0.6F);
@@ -34,6 +35,6 @@ public class RenderTarantula extends RenderLiving<EntityTarantula> {
     @Nullable
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityTarantula tarantula) {
-        return new ResourceLocation(Constants.MOD_ID, "textures/entity/tarantula.png");
+        return TARANTULA_TEXTURE;
     }
 }

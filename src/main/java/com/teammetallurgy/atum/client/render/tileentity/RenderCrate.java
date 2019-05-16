@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
+import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.client.model.chest.ModelCrate;
@@ -12,10 +13,12 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class RenderCrate extends TileEntitySpecialRenderer<TileEntityCrate> {
+    private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private final ModelCrate modelCrate = new ModelCrate();
 
     @Override
@@ -43,7 +46,15 @@ public class RenderCrate extends TileEntitySpecialRenderer<TileEntityCrate> {
             GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
             GlStateManager.matrixMode(5888);
         } else {
-            this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath() + ".png"));
+            String name = Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath();
+            ResourceLocation chestTexture = CACHE.get(name);
+
+            if (chestTexture == null){
+                chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + name + ".png");
+                CACHE.put(name, chestTexture);
+            }
+
+            this.bindTexture(chestTexture);
         }
 
         GlStateManager.pushMatrix();

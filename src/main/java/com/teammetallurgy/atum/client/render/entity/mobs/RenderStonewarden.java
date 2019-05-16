@@ -8,17 +8,15 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
-import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class RenderStonewarden extends RenderLiving<EntityStonewarden> {
-    private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
+    private static final Map<Integer, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderStonewarden(RenderManager manager) {
         super(manager, new ModelStonewarden(), 0.5F);
@@ -36,13 +34,11 @@ public class RenderStonewarden extends RenderLiving<EntityStonewarden> {
 
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityStonewarden stonewarden) {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(stonewarden.getClass())).getRegistryName()).getPath();
-        String texture = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + stonewarden.getVariant()) + ".png");
-        ResourceLocation location = CACHE.get(texture);
+        ResourceLocation location = CACHE.get(stonewarden.getVariant());
 
         if (location == null) {
-            location = new ResourceLocation(texture);
-            CACHE.put(texture, location);
+            location = new ResourceLocation(Constants.MOD_ID, "textures/entity/stonewarden_" + stonewarden.getVariant() + ".png");
+            CACHE.put(stonewarden.getVariant(), location);
         }
         return location;
     }

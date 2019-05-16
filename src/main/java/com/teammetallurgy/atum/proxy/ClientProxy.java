@@ -111,9 +111,9 @@ public class ClientProxy extends CommonProxy {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeartOfRa.class, new RenderHeartOfRaBase());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadiantBeacon.class, new RenderRadiantBeacon());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityQuern.class, new RenderQuern());
-        AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection("atums_protection"));
-        AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield("brigand_shield"));
-        AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield("stoneguard_shield"));
+        AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
+        AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield());
+        AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield());
         ModelLoader.setCustomMeshDefinition(AtumItems.THOTHS_BEARINGS, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "thoths_bearings"), "inventory"));
         ModelLoader.setCustomMeshDefinition(AtumItems.GRAVEROBBERS_MAP, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "graverobbers_map"), "inventory"));
         RenderingRegistry.registerEntityRenderingHandler(EntityTarantula.class, RenderTarantula::new);
