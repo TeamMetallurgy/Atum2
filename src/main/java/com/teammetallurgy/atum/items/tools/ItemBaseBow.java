@@ -70,7 +70,7 @@ public class ItemBaseBow extends ItemBow {
                     boolean hasArrow = player.capabilities.isCreativeMode || (ammoStack.getItem() instanceof ItemArrow && ((ItemArrow) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
                     if (!world.isRemote) {
-                        EntityArrow arrow = setArrow(stack, world, player, velocity);
+                        EntityArrow arrow = setArrow(ammoStack, world, player, velocity);
                         onShoot(arrow, player, velocity);
 
                         if (velocity == 1.0F) {
