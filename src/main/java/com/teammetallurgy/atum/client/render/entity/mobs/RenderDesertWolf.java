@@ -22,7 +22,6 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
-
     private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_tame.png");
     private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_angry.png");
 
@@ -54,15 +53,14 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
         if (desertWolf.isTamed()) {
             if (desertWolf.isArmor(wolfArmor)) {
                 EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(wolfArmor);
-                if(!CACHE.containsKey(armorType.getTextureName())) {
+                if (!CACHE.containsKey(armorType.getTextureName())) {
                     ResourceLocation armorLocation = new ResourceLocation(armorType.getTextureName());
                     Minecraft.getMinecraft().getTextureManager().loadTexture(armorLocation, new LayeredTexture(armorType.getTextureName()));
                     CACHE.put(armorType.getTextureName(), armorLocation);
                 }
                 return CACHE.get(armorType.getTextureName());
             }
-
-            if(!CACHE.containsKey(TAMED_DESERT_WOLF_TEXTURES.toString())) {
+            if (!CACHE.containsKey(TAMED_DESERT_WOLF_TEXTURES.toString())) {
                 Minecraft.getMinecraft().getTextureManager().loadTexture(TAMED_DESERT_WOLF_TEXTURES, new LayeredTexture(TAMED_DESERT_WOLF_TEXTURES.toString()));
                 CACHE.put(TAMED_DESERT_WOLF_TEXTURES.toString(), TAMED_DESERT_WOLF_TEXTURES);
             }
