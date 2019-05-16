@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.teammetallurgy.atum.entity.animal.EntityScarab;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelEnderMite;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -13,6 +14,8 @@ import javax.annotation.Nullable;
 
 @SideOnly(Side.CLIENT)
 public class RenderScarab extends RenderLiving<EntityScarab> {
+    private static final ResourceLocation SCARAB_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab.png");
+    private static final ResourceLocation SCARAB_GOLDEN_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab_golden.png");
 
     public RenderScarab(RenderManager manager) {
         super(manager, new ModelEnderMite(), 0.3F);
@@ -26,6 +29,10 @@ public class RenderScarab extends RenderLiving<EntityScarab> {
     @Override
     @Nullable
     protected ResourceLocation getEntityTexture(@Nonnull EntityScarab entity) {
-        return entity.getTexture();
+        if (entity.getVariant() == 1) {
+            return SCARAB_GOLDEN_TEXTURE;
+        } else {
+            return SCARAB_TEXTURE;
+        }
     }
 }

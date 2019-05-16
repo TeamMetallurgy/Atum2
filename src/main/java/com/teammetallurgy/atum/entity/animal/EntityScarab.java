@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -26,8 +25,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,10 +32,6 @@ import java.util.Random;
 
 public class EntityScarab extends EntityMob {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityScarab.class, DataSerializers.VARINT);
-
-    private static final ResourceLocation SCARAB_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab.png");
-    private static final ResourceLocation SCARAB_GOLDEN_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab_golden.png");
-    private ResourceLocation texturePath;
 
     public EntityScarab(World world) {
         super(world);
@@ -105,23 +98,10 @@ public class EntityScarab extends EntityMob {
 
     private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
-        this.texturePath = null;
     }
 
-    private int getVariant() {
+    public int getVariant() {
         return this.dataManager.get(VARIANT);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public ResourceLocation getTexture() {
-        if (this.texturePath == null) {
-            if (this.getVariant() == 1) {
-                this.texturePath = SCARAB_GOLDEN_TEXTURE;
-            } else {
-                this.texturePath = SCARAB_TEXTURE;
-            }
-        }
-        return this.texturePath;
     }
 
     @Override
@@ -163,7 +143,6 @@ public class EntityScarab extends EntityMob {
         super.onUpdate();
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
-            this.texturePath = null;
         }
     }
 
