@@ -4,10 +4,10 @@
       "item": "atum:short_bow"
     },
     "title": {
-      "translate": "Desert Hunter"
+      "translate": "advancement.atum.deserthunter"
     },
     "description": {
-      "translate": "Kill one of each type of Atum animal"
+      "translate": "advancement.atum.deserthunter.desc"
     },
     "frame": "challenge"
   },

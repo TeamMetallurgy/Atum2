@@ -4,10 +4,10 @@
       "item": "atum:body_of_atum"
     },
     "title": {
-      "translate": "Atumed"
+      "translate": "advancement.atum.atumed"
     },
     "description": {
-      "translate": "Obtain the full Atum armorset"
+      "translate": "advancement.atum.atumed.desc"
     },
     "frame": "challenge"
   },

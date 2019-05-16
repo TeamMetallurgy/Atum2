@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 
 @SideOnly(Side.CLIENT)
 public class LayerWolfSaddle implements LayerRenderer<EntityDesertWolf> {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
+    private static final ResourceLocation SADDLE_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
     private final RenderDesertWolf desertWolfRender;
 
     public LayerWolfSaddle(RenderDesertWolf desertWolfRender) {
@@ -22,7 +22,7 @@ public class LayerWolfSaddle implements LayerRenderer<EntityDesertWolf> {
     @Override
     public void doRenderLayer(@Nonnull EntityDesertWolf desertWolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         if (desertWolf.isSaddled()) {
-            this.desertWolfRender.bindTexture(TEXTURE);
+            this.desertWolfRender.bindTexture(SADDLE_TEXTURE);
             this.desertWolfRender.getMainModel().render(desertWolf, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         }
     }

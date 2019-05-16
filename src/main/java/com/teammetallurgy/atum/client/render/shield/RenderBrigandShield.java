@@ -11,17 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class RenderBrigandShield extends TileEntityItemStackRenderer {
+    private static final ResourceLocation BRIGAND_SHIELD_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/shield/brigand_shield.png");
     private final ModelBrigandShield modelShield = new ModelBrigandShield();
-    private static String textureName;
-
-    public RenderBrigandShield(String textureName) {
-        RenderBrigandShield.textureName = textureName;
-    }
 
     @Override
     public void renderByItem(@Nonnull ItemStack stack, float partialTicks) {
         GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/shield/" + textureName + ".png"));
+        Minecraft.getMinecraft().getTextureManager().bindTexture(BRIGAND_SHIELD_TEXTURE);
         this.modelShield.render();
         GlStateManager.popMatrix();
     }

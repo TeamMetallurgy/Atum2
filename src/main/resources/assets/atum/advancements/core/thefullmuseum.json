@@ -4,10 +4,10 @@
       "item": "atum:atums_homecoming"
     },
     "title": {
-      "translate": "The Full Museum"
+      "translate": "advancement.atum.thefullmuseum"
     },
     "description": {
-      "translate": "Obtain all Artifacts"
+      "translate": "advancement.atum.thefullmuseum.desc"
     },
     "frame": "challenge"
   },

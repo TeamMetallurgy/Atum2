@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.entity.animal.EntityTarantula;
 import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
@@ -193,13 +194,22 @@ public class EntityUndeadBase extends EntityMob {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
-        if (this.hasSkinVariants()) {
-            if (this.texturePath == null) {
-                this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png");
+        if (this.texturePath == null) {
+            String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
+
+            if (ChampionsHelper.isChampion(this)) {
+                ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
+                if (texture != null) {
+                    this.texturePath = texture.toString();
+                    return texturePath;
+                }
             }
-        } else {
-            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + ".png"));
+
+            if (this.hasSkinVariants()) {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+            } else {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png";
+            }
         }
         return this.texturePath;
     }

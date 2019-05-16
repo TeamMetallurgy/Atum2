@@ -4,10 +4,10 @@
       "item": "atum:loot_silver_ring"
     },
     "title": {
-      "translate": "Just Like New"
+      "translate": "advancement.atum.justlikenew"
     },
     "description": {
-      "translate": "Wash a relic"
+      "translate": "advancement.atum.justlikenew.desc"
     }
   },
   "parent": "atum:core/pyramidscheme",

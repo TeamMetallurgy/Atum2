@@ -4,10 +4,10 @@
       "item": "atum:atums_will"
     },
     "title": {
-      "translate": "Kingslayer"
+      "translate": "advancement.atum.kingslayer"
     },
     "description": {
-      "translate": "Kill a Pharaoh"
+      "translate": "advancement.atum.kingslayer.desc"
     },
     "frame": "goal"
   },

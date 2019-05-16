@@ -4,10 +4,10 @@
       "item": "atum:shrub"
     },
     "title": {
-      "translate": "A Mirage"
+      "translate": "advancement.atum.amirage"
     },
     "description": {
-      "translate": "Visit a dead oasis"
+      "translate": "advancement.atum.amirage.desc"
     }
   },
   "parent": "atum:core/ruinedit",

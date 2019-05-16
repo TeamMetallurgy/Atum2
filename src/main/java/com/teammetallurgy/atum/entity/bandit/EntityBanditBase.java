@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
+import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -132,13 +133,22 @@ public class EntityBanditBase extends EntityMob {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
-        if (this.hasSkinVariants()) {
-            if (this.texturePath == null) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+        if (this.texturePath == null) {
+            String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
+
+            if (ChampionsHelper.isChampion(this)) {
+                ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
+                if (texture != null) {
+                    this.texturePath = texture.toString();
+                    return this.texturePath;
+                }
             }
-        } else {
-            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + ".png"));
+
+            if (this.hasSkinVariants()) {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+            } else {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png";
+            }
         }
         return this.texturePath;
     }

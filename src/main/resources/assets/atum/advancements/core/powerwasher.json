@@ -4,10 +4,10 @@
       "item": "atum:loot_diamond_ring"
     },
     "title": {
-      "translate": "Power Washer"
+      "translate": "advancement.atum.powerwasher"
     },
     "description": {
-      "translate": "Wash all the relics"
+      "translate": "advancement.atum.powerwasher.desc"
     }
   },
   "parent": "atum:core/justlikenew",

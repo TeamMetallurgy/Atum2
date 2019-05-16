@@ -4,10 +4,10 @@
       "item": "atum:oasis_grass"
     },
     "title": {
-      "translate": "A Hump in the Road"
+      "translate": "advancement.atum.ahumpintheroad"
     },
     "description": {
-      "translate": "Tame a camel"
+      "translate": "advancement.atum.ahumpintheroad.desc"
     }
   },
   "parent": "atum:core/sandyboi",

@@ -17,6 +17,8 @@ public class RenderDesertRabbit extends RenderLiving<EntityDesertRabbit> {
     private static final ResourceLocation UMBER = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_umber.png");
     private static final ResourceLocation UMBER_DARK = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_umber_dark.png");
 
+    private static final ResourceLocation IRON = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_iron.png");
+
     public RenderDesertRabbit(RenderManager manager) {
         super(manager, new ModelRabbit(), 0.3F);
     }
@@ -26,7 +28,7 @@ public class RenderDesertRabbit extends RenderLiving<EntityDesertRabbit> {
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertRabbit rabbit) {
         if (rabbit.hasCustomName()) {
             if (rabbit.getCustomNameTag().equalsIgnoreCase("iron") || rabbit.getCustomNameTag().equalsIgnoreCase("nutz")) {
-                return new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_iron.png");
+                return IRON;
             }
         }
         switch (rabbit.getRabbitType()) {

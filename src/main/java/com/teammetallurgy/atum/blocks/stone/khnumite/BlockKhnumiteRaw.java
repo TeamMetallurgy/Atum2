@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.stone.khnumite;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
@@ -15,6 +16,7 @@ public class BlockKhnumiteRaw extends Block {
     public BlockKhnumiteRaw() {
         super(Material.CLAY);
         this.setHardness(0.6F);
+        this.setSoundType(SoundType.GROUND);
     }
 
     @Override

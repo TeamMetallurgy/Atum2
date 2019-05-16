@@ -4,10 +4,10 @@
       "item": "atum:desert_boots_iron"
     },
     "title": {
-      "translate": "A Journey"
+      "translate": "advancement.atum.ajourney"
     },
     "description": {
-      "translate": "Visit all Atum biomes"
+      "translate": "advancement.atum.ajourney.desc"
     },
     "frame": "challenge"
   },

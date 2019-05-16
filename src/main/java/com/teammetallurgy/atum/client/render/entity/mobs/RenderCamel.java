@@ -19,6 +19,7 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class RenderCamel extends RenderLiving<EntityCamel> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
+    private static final ResourceLocation GIRAFI = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_girafi.png");
 
     public RenderCamel(RenderManager renderManager) {
         super(renderManager, new ModelCamel(0.0F), 0.7F);
@@ -35,7 +36,7 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
         if (camel.hasCustomName()) {
             String name = camel.getCustomNameTag();
             if (name.equalsIgnoreCase("girafi")) {
-                location = this.getCamelTexture("girafi");
+                return GIRAFI;
             }
         }
         if (location == null) {
@@ -43,9 +44,5 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
             CACHE.put(texture, location);
         }
         return location;
-    }
-
-    private ResourceLocation getCamelTexture(String fileName) {
-        return new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + fileName + ".png");
     }
 }

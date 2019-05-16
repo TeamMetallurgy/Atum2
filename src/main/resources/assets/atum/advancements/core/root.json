@@ -4,10 +4,10 @@
       "item": "atum:scarab"
     },
     "title": {
-      "translate": "Atum"
+      "translate": "advancement.atum.root"
     },
     "description": {
-      "translate": "Beginning your journey into Atum"
+      "translate": "advancement.atum.root.desc"
     },
     "background": "atum:textures/blocks/sand.png",
     "show_toast": true,
