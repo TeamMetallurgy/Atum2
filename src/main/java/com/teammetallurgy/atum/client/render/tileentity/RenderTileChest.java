@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
+import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.client.model.chest.ModelSarcophagus;
@@ -15,10 +16,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.Objects;
 
 @SideOnly(Side.CLIENT)
 public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBase> {
+    private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
+
     private final ModelSarcophagus sarcophagus = new ModelSarcophagus();
     private final ModelChest normalChest = new ModelChest();
     private final ModelChest largeChest = new ModelLargeChest();
@@ -56,7 +60,15 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
                 } else {
-                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + ".png"));
+                    String name = Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath();
+                    ResourceLocation chestTexture = CACHE.get(name);
+
+                    if (chestTexture == null){
+                        chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + name + ".png");
+                        CACHE.put(name, chestTexture);
+                    }
+
+                    this.bindTexture(chestTexture);
                 }
             } else {
                 modelchest = this.largeChest;
@@ -68,10 +80,16 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.scale(8.0F, 4.0F, 1.0F);
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
-                } else if (te.getBlockType() == AtumBlocks.SARCOPHAGUS) {
-                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + "_double.png"));
                 } else {
-                    this.bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + String.valueOf(Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath()) + "_double.png"));
+                    String name = Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath();
+                    ResourceLocation chestTexture = CACHE.get(name);
+
+                    if (chestTexture == null){
+                        chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + name + "_double.png");
+                        CACHE.put(name, chestTexture);
+                    }
+
+                    this.bindTexture(chestTexture);
                 }
             }
 

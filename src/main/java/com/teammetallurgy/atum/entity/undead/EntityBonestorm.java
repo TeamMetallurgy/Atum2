@@ -21,6 +21,9 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class EntityBonestorm extends EntityUndeadBase {
+    private static final ResourceLocation BONESTORM_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png");
+    private String texturePath;
+
     private float heightOffset = 0.2F;
     private int heightOffsetUpdateTime;
 
@@ -95,13 +98,17 @@ public class EntityBonestorm extends EntityUndeadBase {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        if(ChampionsHelper.isChampion(this)) {
-            ResourceLocation texture = ChampionsHelper.getTexture(this, "bonestorm");
-            if (texture != null) {
-                return texture.toString();
+        if (this.texturePath == null) {
+            if (ChampionsHelper.isChampion(this)) {
+                ResourceLocation texture = ChampionsHelper.getTexture(this, "bonestorm");
+                if (texture != null) {
+                    this.texturePath = texture.toString();
+                    return this.texturePath;
+                }
             }
+            this.texturePath = BONESTORM_TEXTURE.toString();
         }
-        return new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png").toString();
+        return this.texturePath;
     }
 
     @Override

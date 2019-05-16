@@ -11,17 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class RenderStoneguardShield extends TileEntityItemStackRenderer {
+    private static final ResourceLocation STONEGUARD_SHIELD_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/shield/stoneguard_shield.png");
     private final ModelStoneguardShield modelShield = new ModelStoneguardShield();
-    private static String textureName;
-
-    public RenderStoneguardShield(String textureName) {
-        RenderStoneguardShield.textureName = textureName;
-    }
 
     @Override
     public void renderByItem(@Nonnull ItemStack stack, float partialTicks) {
         GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/shield/" + textureName + ".png"));
+        Minecraft.getMinecraft().getTextureManager().bindTexture(STONEGUARD_SHIELD_TEXTURE);
         this.modelShield.render();
         GlStateManager.popMatrix();
     }

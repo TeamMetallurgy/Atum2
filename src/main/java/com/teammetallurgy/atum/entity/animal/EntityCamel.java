@@ -224,13 +224,12 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
-        if (this.hasSkinVariants()) {
-            if (this.texturePath == null) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+        if (this.texturePath == null) {
+            if (this.hasSkinVariants()) {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + this.getVariant()) + ".png";
+            } else {
+                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel") + ".png";
             }
-        } else {
-            this.texturePath = String.valueOf(new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + ".png"));
         }
         return this.texturePath;
     }

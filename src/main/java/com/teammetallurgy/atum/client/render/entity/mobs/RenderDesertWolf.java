@@ -53,18 +53,20 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
         if (desertWolf.isTamed()) {
             if (desertWolf.isArmor(wolfArmor)) {
                 EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(wolfArmor);
-                if (!CACHE.containsKey(armorType.getTextureName())) {
-                    ResourceLocation armorLocation = new ResourceLocation(armorType.getTextureName());
-                    Minecraft.getMinecraft().getTextureManager().loadTexture(armorLocation, new LayeredTexture(armorType.getTextureName()));
-                    CACHE.put(armorType.getTextureName(), armorLocation);
+                ResourceLocation armorTexture = CACHE.get(armorType.getTextureName());
+                if (armorTexture == null) {
+                    armorTexture = new ResourceLocation(armorType.getTextureName());
+                    Minecraft.getMinecraft().getTextureManager().loadTexture(armorTexture, new LayeredTexture(armorType.getTextureName()));
+                    CACHE.put(armorType.getTextureName(), armorTexture);
                 }
-                return CACHE.get(armorType.getTextureName());
+                return armorTexture;
             }
-            if (!CACHE.containsKey(TAMED_DESERT_WOLF_TEXTURES.toString())) {
+            ResourceLocation texture = CACHE.get(TAMED_DESERT_WOLF_TEXTURES.toString());
+            if (texture == null) {
                 Minecraft.getMinecraft().getTextureManager().loadTexture(TAMED_DESERT_WOLF_TEXTURES, new LayeredTexture(TAMED_DESERT_WOLF_TEXTURES.toString()));
                 CACHE.put(TAMED_DESERT_WOLF_TEXTURES.toString(), TAMED_DESERT_WOLF_TEXTURES);
             }
-            return TAMED_DESERT_WOLF_TEXTURES;
+            return texture;
         } else {
             return ANGRY_DESERT_WOLF_TEXTURES;
         }

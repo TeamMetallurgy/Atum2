@@ -11,17 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class RenderAtumsProtection extends TileEntityItemStackRenderer {
+    private static final ResourceLocation ATUM_PROTECTION_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/shield/atums_protection.png");
     private final ModelAtumsProtection modelShield = new ModelAtumsProtection();
-    private static String textureName;
-
-    public RenderAtumsProtection(String textureName) {
-        RenderAtumsProtection.textureName = textureName;
-    }
 
     @Override
     public void renderByItem(@Nonnull ItemStack stack, float partialTicks) {
         GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation(Constants.MOD_ID, "textures/shield/" + textureName + ".png"));
+        Minecraft.getMinecraft().getTextureManager().bindTexture(ATUM_PROTECTION_TEXTURE);
         this.modelShield.render();
         GlStateManager.popMatrix();
     }
