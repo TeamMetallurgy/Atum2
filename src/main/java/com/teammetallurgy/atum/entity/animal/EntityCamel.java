@@ -41,7 +41,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -50,7 +49,6 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Objects;
 import java.util.UUID;
 
 public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
@@ -60,8 +58,10 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private static final DataParameter<ItemStack> RIGHT_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
     private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("13a48eeb-c17d-45cc-8163-e7210a6adfc9");
+    private static final ResourceLocation GIRAFI = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_girafi.png");
     public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
-    private String texturePath;
+    private String textureName;
+    private String[] texturePath;
     private boolean didSpit;
     private EntityCamel caravanHead;
     private EntityCamel caravanTail;
@@ -79,9 +79,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     protected void entityInit() {
         super.entityInit();
         this.dataManager.register(DATA_COLOR_ID, -1);
-        if (this.hasSkinVariants()) {
-            this.dataManager.register(VARIANT, 0);
-        }
+        this.dataManager.register(VARIANT, 0);
         this.dataManager.register(LEFT_CRATE, ItemStack.EMPTY);
         this.dataManager.register(RIGHT_CRATE, ItemStack.EMPTY);
         this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
@@ -100,10 +98,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     public IEntityLivingData onInitialSpawn(@Nonnull DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
-        if (hasSkinVariants()) {
-            final int variant = this.getCamelVariantBiome();
-            this.setVariant(variant);
-        }
+        final int variant = this.getCamelVariantBiome();
+        this.setVariant(variant);
         return livingdata;
     }
 
@@ -184,16 +180,14 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
+            this.textureName = null;
             this.texturePath = null;
         }
     }
 
-    private boolean hasSkinVariants() {
-        return true;
-    }
-
     private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
+        this.textureName = null;
         this.texturePath = null;
     }
 
@@ -223,12 +217,38 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @SideOnly(Side.CLIENT)
-    public String getTexture() {
+    public String getTextureName() {
+        if (this.textureName == null)
+            getTextures();
+        return this.textureName;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String[] getTextures() {
         if (this.texturePath == null) {
-            if (this.hasSkinVariants()) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + this.getVariant()) + ".png";
+            this.texturePath = new String[3];
+            if (this.hasCustomName()) {
+                String name = this.getCustomNameTag();
+                if (name.equalsIgnoreCase("girafi")) {
+                    this.textureName = "girafi";
+                    this.texturePath[0] = GIRAFI.toString();
+                }
             } else {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel") + ".png";
+                this.textureName = String.valueOf(this.getVariant());
+                this.texturePath[0] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + this.getVariant()) + ".png";
+            }
+
+            ItemStack armor = this.getArmor();
+            if (!armor.isEmpty()) {
+                EntityCamel.ArmorType armorType = EntityCamel.ArmorType.getByItemStack(armor);
+                this.textureName += "_" + armorType.getName();
+                this.texturePath[1] = armorType.getTextureName();
+            }
+
+            EnumDyeColor color = this.getColor();
+            if (color != null) {
+                this.textureName += "_" + color.getDyeColorName();
+                this.texturePath[2] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getDyeColorName()) + ".png";
             }
         }
         return this.texturePath;
@@ -767,7 +787,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         GOLD(7, "gold"),
         DIAMOND(11, "diamond");
 
-        private final ResourceLocation textureName;
+        private final String textureName;
         private final String typeName;
         private final int protection;
 
@@ -780,7 +800,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entity/armor/camel_armor_" + typeName + ".png");
+            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entity/armor/camel_armor_" + typeName) + ".png";
         }
 
         public int getProtection() {
@@ -791,7 +811,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             return typeName;
         }
 
-        public ResourceLocation getTextureName() {
+        public String getTextureName() {
             return textureName;
         }
 

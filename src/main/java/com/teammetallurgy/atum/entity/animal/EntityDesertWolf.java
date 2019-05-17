@@ -68,6 +68,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
+    private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_tame.png");
+    private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_angry.png");
+    private static final ResourceLocation SADDLE_DESERT_WOLF_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
+    private String textureName;
+    private String[] texturePath;
     private InventoryBasic desertWolfInventory;
     private float headRotationCourse;
     private float headRotationCourseWild;
@@ -273,6 +278,12 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if (this.world.isRemote && this.dataManager.isDirty()) {
+            this.dataManager.setClean();
+            this.textureName = null;
+            this.texturePath = null;
+        }
+
         this.headRotationCourseWild = this.headRotationCourse;
 
         if (angryTimer > 0) {
@@ -330,6 +341,35 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 }
             }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getTextureName() {
+        if (this.textureName == null)
+            getTextures();
+        return this.textureName;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String[] getTextures() {
+        if (this.texturePath == null) {
+            this.texturePath = new String[3];
+            this.textureName = isAngry() ? "angry" : "tamed";
+            this.texturePath[0] = isAngry() ? ANGRY_DESERT_WOLF_TEXTURES.toString() : TAMED_DESERT_WOLF_TEXTURES.toString();
+
+            ItemStack armor = this.getArmor();
+            if (!armor.isEmpty()) {
+                EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(armor);
+                this.textureName += "_" + armorType.getName();
+                this.texturePath[1] = armorType.getTextureName();
+            }
+
+            if (isSaddled()){
+                this.textureName += "_saddled";
+                this.texturePath[2] = SADDLE_DESERT_WOLF_TEXTURE.toString();
+            }
+        }
+        return this.texturePath;
     }
 
     @SideOnly(Side.CLIENT)
@@ -796,6 +836,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
+        this.textureName = null;
+        this.texturePath = null;
     }
 
     private int getVariant() {
