@@ -245,6 +245,20 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
+    public void onDeath(@Nonnull DamageSource cause) {
+        super.onDeath(cause);
+
+        if (!this.world.isRemote && this.desertWolfInventory != null) {
+            for (int i = 0; i < this.desertWolfInventory.getSizeInventory(); ++i) {
+                ItemStack slotStack = this.desertWolfInventory.getStackInSlot(i);
+                if (!slotStack.isEmpty()) {
+                    this.entityDropItem(slotStack, 0.0F);
+                }
+            }
+        }
+    }
+
+    @Override
     public void onLivingUpdate() {
         super.onLivingUpdate();
 
