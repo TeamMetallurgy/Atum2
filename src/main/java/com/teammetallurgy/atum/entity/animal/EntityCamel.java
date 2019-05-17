@@ -58,10 +58,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private static final DataParameter<ItemStack> RIGHT_CRATE = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
     private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityCamel.class, DataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("13a48eeb-c17d-45cc-8163-e7210a6adfc9");
-    private static final ResourceLocation GIRAFI = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_girafi.png");
     public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
     private String textureName;
-    private String[] texturePath;
     private boolean didSpit;
     private EntityCamel caravanHead;
     private EntityCamel caravanTail;
@@ -181,17 +179,15 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.textureName = null;
-            this.texturePath = null;
         }
     }
 
     private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
         this.textureName = null;
-        this.texturePath = null;
     }
 
-    private int getVariant() {
+    public int getVariant() {
         return this.dataManager.get(VARIANT);
     }
 
@@ -217,41 +213,29 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @SideOnly(Side.CLIENT)
-    public String getTextureName() {
-        if (this.textureName == null)
-            getTextures();
-        return this.textureName;
-    }
-
-    @SideOnly(Side.CLIENT)
-    public String[] getTextures() {
-        if (this.texturePath == null) {
-            this.texturePath = new String[3];
+    public String getTexture() {
+        if (this.textureName == null) {
             if (this.hasCustomName()) {
                 String name = this.getCustomNameTag();
                 if (name.equalsIgnoreCase("girafi")) {
                     this.textureName = "girafi";
-                    this.texturePath[0] = GIRAFI.toString();
                 }
             } else {
                 this.textureName = String.valueOf(this.getVariant());
-                this.texturePath[0] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + this.getVariant()) + ".png";
             }
 
             ItemStack armor = this.getArmor();
             if (!armor.isEmpty()) {
                 EntityCamel.ArmorType armorType = EntityCamel.ArmorType.getByItemStack(armor);
                 this.textureName += "_" + armorType.getName();
-                this.texturePath[1] = armorType.getTextureName();
             }
 
             EnumDyeColor color = this.getColor();
             if (color != null) {
                 this.textureName += "_" + color.getDyeColorName();
-                this.texturePath[2] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getDyeColorName()) + ".png";
             }
         }
-        return this.texturePath;
+        return this.textureName;
     }
 
     @Override

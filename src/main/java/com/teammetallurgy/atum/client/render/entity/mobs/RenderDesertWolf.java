@@ -3,12 +3,14 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.client.render.entity.layer.LayerDesertWolfCollar;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.LayeredTexture;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,6 +21,9 @@ import java.util.Map;
 @SideOnly(Side.CLIENT)
 public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
+    private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_tame.png");
+    private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_angry.png");
+    private static final ResourceLocation SADDLE_DESERT_WOLF_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
 
     public RenderDesertWolf(RenderManager renderManager, ModelBase modelBase, float shadowSize) {
         super(renderManager, modelBase, shadowSize);
@@ -43,12 +48,24 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
 
     @Override
     protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf desertWolf) {
-        String textureName = desertWolf.getTextureName();
+        String textureName = desertWolf.getTexture();
 
         ResourceLocation location = CACHE.get(textureName);
         if (location == null) {
             location = new ResourceLocation(textureName);
-            Minecraft.getMinecraft().getTextureManager().loadTexture(location, new LayeredTexture(desertWolf.getTextures()));
+            String[] texturePath = new String[3];
+            texturePath[0] = desertWolf.isAngry() ? ANGRY_DESERT_WOLF_TEXTURES.toString() : TAMED_DESERT_WOLF_TEXTURES.toString();
+
+            ItemStack armor = desertWolf.getArmor();
+            if (!armor.isEmpty()) {
+                EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(armor);
+                texturePath[1] = armorType.getTextureName();
+            }
+
+            if (desertWolf.isSaddled()){
+                texturePath[2] = SADDLE_DESERT_WOLF_TEXTURE.toString();
+            }
+            Minecraft.getMinecraft().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
             CACHE.put(textureName, location);
         }
         return location;
