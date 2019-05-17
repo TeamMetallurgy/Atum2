@@ -68,6 +68,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
     private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
+    private String texturePath;
     private InventoryBasic desertWolfInventory;
     private float headRotationCourse;
     private float headRotationCourseWild;
@@ -273,6 +274,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @Override
     public void onUpdate() {
         super.onUpdate();
+        if (this.world.isRemote && this.dataManager.isDirty()) {
+            this.dataManager.setClean();
+            this.texturePath = null;
+        }
+
         this.headRotationCourseWild = this.headRotationCourse;
 
         if (angryTimer > 0) {
@@ -330,6 +336,24 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 }
             }
         }
+    }
+
+    @SideOnly(Side.CLIENT)
+    public String getTexture() {
+        if (this.texturePath == null) {
+            this.texturePath = isAngry() ? "angry" : "tamed";
+
+            ItemStack armor = this.getArmor();
+            if (!armor.isEmpty()) {
+                EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(armor);
+                this.texturePath += "_" + armorType.getName();
+            }
+
+            if (isSaddled()){
+                this.texturePath += "_saddled";
+            }
+        }
+        return this.texturePath;
     }
 
     @SideOnly(Side.CLIENT)
@@ -796,6 +820,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     private void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
+        this.texturePath = null;
     }
 
     private int getVariant() {
