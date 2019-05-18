@@ -958,6 +958,10 @@ advancement.atum.thefullmuseum.desc=Obtain all Artifacts
 advancement.atum.unundead=Unundead
 advancement.atum.unundead.desc=Kill one of each type of Atum undead
 
+# Commands
+atum.commands.weather.usage=/atumweather <clear|storm OR sandstorm>
+atum.commands.weather.sandstorm=Changing weather to sandstorm
+
 # JEI
 atum.quern=Quern
 atum.spinningwheel=Spinning Wheel
