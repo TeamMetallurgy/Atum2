@@ -12,18 +12,15 @@ import net.minecraft.util.SoundCategory;
 public class TileEntityTarTrap extends TileEntityTrap {
 
     @Override
-    protected void fire(EntityLivingBase livingBase) {
-        if (!livingBase.isPotionActive(MobEffects.SLOWNESS)) {
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 3, false, false));
-        }
-    }
-
-    @Override
-    protected void spawnParticles(EnumFacing facing, EntityLivingBase entity) {
+    protected void triggerTrap(EnumFacing facing, EntityLivingBase entity) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
+
+        if (!entity.isPotionActive(MobEffects.SLOWNESS)) {
+            entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 3, false, false));
+        }
 
         if (world.getTotalWorldTime() % 8L == 0L) {
             world.playSound(x, (double) pos.getY(), z, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
