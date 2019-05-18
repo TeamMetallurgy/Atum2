@@ -22,6 +22,7 @@ import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3i;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -48,9 +49,8 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     AxisAlignedBB getFacingBoxWithRange(EnumFacing facing, int range) {
         BlockPos pos = getPos();
-        EnumFacing.Axis axis = facing.getAxis();
-        EnumFacing.AxisDirection dir = facing.getAxisDirection();
-        return new AxisAlignedBB(pos).expand(axis == EnumFacing.Axis.X ? dir == EnumFacing.AxisDirection.POSITIVE ? +range : -range : 0, axis == EnumFacing.Axis.Y ? dir == EnumFacing.AxisDirection.POSITIVE ? +range : -range : 0, axis == EnumFacing.Axis.Z ? dir == EnumFacing.AxisDirection.POSITIVE ? +range : -range : 0);
+        Vec3i dir = facing.getDirectionVec();
+        return new AxisAlignedBB(pos).expand(dir.getX() * range, dir.getY() * range, dir.getZ() * range);
     }
 
     @Override
@@ -71,8 +71,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
             for (EntityLivingBase livingBase : entities) {
                 if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode : livingBase != null) {
                     canDamageEntity = true;
-                    this.spawnParticles(facing, livingBase);
-                    this.fire(livingBase);
+                    this.triggerTrap(facing, livingBase);
                 } else {
                     canDamageEntity = false;
                 }
@@ -110,10 +109,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         }
     }
 
-    protected void spawnParticles(EnumFacing facing, EntityLivingBase livingBase) {
-    }
-
-    protected void fire(EntityLivingBase livingBase) {
+    protected void triggerTrap(EnumFacing facing, EntityLivingBase livingBase) {
     }
 
     boolean isBurning() {

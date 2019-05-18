@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -42,11 +43,14 @@ public class TileEntityArrowTrap extends TileEntityTrap {
             for (EntityLivingBase livingBase : entities) {
                 boolean cantSeeEntity = findBlock != null && this.getDistance(findBlock.getBlockPos()) < this.getDistance(livingBase.getPosition());
                 if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
-                    canDamageEntity = true;
-                    if (timer == 0) {
-                        timer = 80;
-                        this.spawnParticles(facing, livingBase);
-                        this.fire(livingBase);
+                    if (canSee(facing, livingBase)) {
+                        canDamageEntity = true;
+                        if (timer == 0) {
+                            timer = 80;
+                            this.triggerTrap(facing, livingBase);
+                        }
+                    } else {
+                        canDamageEntity = false;
                     }
                 } else {
                     canDamageEntity = false;
@@ -86,6 +90,11 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         }
     }
 
+    private boolean canSee(EnumFacing facing, EntityLivingBase living){
+        Vec3i dir = facing.getDirectionVec();
+        return this.world.rayTraceBlocks(new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ()), new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ), true, true, false) == null;
+    }
+
     private RayTraceResult rayTraceMinMax(World world, AxisAlignedBB box) {
         final Vec3d min = new Vec3d(box.minX, box.minY, box.minZ);
         final Vec3d max = new Vec3d(box.maxX, box.maxY + 0.05D, box.maxZ);
@@ -100,7 +109,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
     }
     
     @Override
-    protected void spawnParticles(EnumFacing facing, EntityLivingBase livingBase) {
+    protected void triggerTrap(EnumFacing facing, EntityLivingBase livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
