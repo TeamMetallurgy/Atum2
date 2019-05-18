@@ -349,7 +349,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 this.texturePath += "_" + armorType.getName();
             }
 
-            if (isSaddled()){
+            if (isSaddled()) {
                 this.texturePath += "_saddled";
             }
         }

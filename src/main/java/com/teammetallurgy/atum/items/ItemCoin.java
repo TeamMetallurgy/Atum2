@@ -18,7 +18,7 @@ public class ItemCoin extends Item {
     public boolean onEntityItemUpdate(EntityItem entityItem) {
         World world = entityItem.world;
         IBlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ)));
-        if ((state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER) || state.getBlock() instanceof BlockCauldron && state.getValue(BlockCauldron.LEVEL) > 0 && entityItem.getItem().getItem() == AtumItems.DIRTY_COIN) {
+        if (((state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER) || state.getBlock() instanceof BlockCauldron && state.getValue(BlockCauldron.LEVEL) > 0) && entityItem.getItem().getItem() == AtumItems.DIRTY_COIN) {
             ItemStack stack = entityItem.getItem();
             if (!world.isRemote) {
                 while (stack.getCount() > 0) {
