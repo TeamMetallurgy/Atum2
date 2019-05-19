@@ -86,7 +86,7 @@ public class AtumConfig {
         propOrder.add(prop.getName());
 
         prop = config.get(CATEGORY_GENERAL, "Atum Dimension ID", 17);
-        prop.setComment("The ID of the Atum Dimension");
+        prop.setComment("The ID of the Atum Dimension. Changing this will break worlds loaded up with the default ID");
         prop.setLanguageKey("atum.configGui.dimensionID").setRequiresMcRestart(true);
         DIMENSION_ID = prop.getInt();
         propOrder.add(prop.getName());

@@ -359,7 +359,7 @@ atum.container.sarcophagus=石棺
 # Item
 item.atum.scarab.name=圣金甲虫
 item.atum.khnumite.name=克奴姆陶
-item.atum.coinDirty.name=肮脏硬币
+item.atum.coinDirty.name=肮脏的硬币
 item.atum.coinGold.name=金币
 item.atum.loot.name=战利品
 item.atum.efreetHeart.name=火焰之心
@@ -957,6 +957,10 @@ advancement.atum.thefullmuseum=完整的博物馆
 advancement.atum.thefullmuseum.desc=获取所有神器
 advancement.atum.unundead=反亡灵
 advancement.atum.unundead.desc=杀死每一种阿图姆亡灵
+
+# Commands
+atum.commands.weather.usage=/atumweather <clear 或 sandstorm>
+atum.commands.weather.sandstorm=更换到沙尘暴天气
 
 # JEI
 atum.quern=手推石磨

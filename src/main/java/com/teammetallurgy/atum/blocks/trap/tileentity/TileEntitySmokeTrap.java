@@ -11,19 +11,16 @@ import net.minecraft.util.SoundCategory;
 public class TileEntitySmokeTrap extends TileEntityTrap {
 
     @Override
-    protected void fire(EntityLivingBase livingBase) {
-        if (!livingBase.isPotionActive(MobEffects.BLINDNESS)) {
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 120));
-            world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ENTITY_CAT_HISS, SoundCategory.BLOCKS, 0.3F, 0.8F, false);
-        }
-    }
-
-    @Override
-    protected void spawnParticles(EnumFacing facing, EntityLivingBase livingBase) {
+    protected void triggerTrap(EnumFacing facing, EntityLivingBase livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
+
+        if (!livingBase.isPotionActive(MobEffects.BLINDNESS)) {
+            livingBase.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 120));
+            world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ENTITY_CAT_HISS, SoundCategory.BLOCKS, 0.3F, 0.8F, false);
+        }
 
         switch (facing) {
             case DOWN:
