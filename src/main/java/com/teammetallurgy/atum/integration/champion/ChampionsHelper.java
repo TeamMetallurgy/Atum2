@@ -30,7 +30,7 @@ public class ChampionsHelper implements IModIntegration {
     public static ResourceLocation getTexture(Entity entity, String entityName) {
         int tier = ChampionsHelper.getTier(entity);
         if (tier > 0) {
-            ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_variant_champion_" + tier + ".png");
+            ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/variants/" + entityName + "_champion_" + tier + ".png");
             TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
             ITextureObject texture = textureManager.getTexture(textureResourceLocation);
 
