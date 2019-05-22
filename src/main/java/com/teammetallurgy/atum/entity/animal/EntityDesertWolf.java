@@ -90,7 +90,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.setTamed(false);
         this.experienceValue = 6;
         this.stepHeight = 1.1F;
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.register(EntityDesertWolf.class);
         this.initInventory();
     }
 
@@ -539,14 +539,16 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public void openInventoryOverride(GuiOpenEvent event) {
-        if (this.isBeingRidden() && event.getGui() instanceof GuiInventory) {
-            Entity entity = this.getControllingPassenger();
-            if (entity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entity;
-                if (player.getUniqueID() == Minecraft.getMinecraft().player.getUniqueID()) {
-                    NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(this.getEntityId()));
-                    event.setCanceled(true);
+    public static void openInventoryOverride(GuiOpenEvent event) {
+        if (event.getGui() instanceof GuiInventory) {
+            EntityPlayer player = Minecraft.getMinecraft().player;
+            if (player.getRidingEntity() instanceof EntityDesertWolf) {
+                EntityDesertWolf desertWolf = (EntityDesertWolf) player.getRidingEntity();
+                if (player.getUniqueID() == player.getUniqueID()) {
+                    if (desertWolf.isAlpha() && desertWolf.isBeingRidden()) {
+                        NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(desertWolf.getEntityId()));
+                        event.setCanceled(true);
+                    }
                 }
             }
         }
