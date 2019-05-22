@@ -46,10 +46,10 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -61,6 +61,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class EntityDesertWolf extends EntityTameable implements IJumpingMount, IInventoryChangedListener {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(EntityDesertWolf.class, DataSerializers.BOOLEAN);
@@ -90,7 +91,6 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.setTamed(false);
         this.experienceValue = 6;
         this.stepHeight = 1.1F;
-        MinecraftForge.EVENT_BUS.register(EntityDesertWolf.class);
         this.initInventory();
     }
 
