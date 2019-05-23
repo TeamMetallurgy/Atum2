@@ -119,6 +119,13 @@ public class BlockChestBase extends BlockChest {
 
     @Override
     public void onBlockAdded(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        if (tileEntity instanceof TileEntityChestBase) {
+            TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
+            if (chestBase.canBeDouble && chestBase.canBeSingle) {
+                super.onBlockAdded(world, pos, state);
+            }
+        }
     }
 
     @Override
@@ -169,7 +176,6 @@ public class BlockChestBase extends BlockChest {
                 chestBase.setCustomName(stack.getDisplayName());
             }
         }
-        onBlockAdded(world, pos, state);
     }
 
     private static void setChestState(World world, BlockPos pos, IBlockState state) {
