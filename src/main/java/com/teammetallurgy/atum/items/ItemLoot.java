@@ -1,13 +1,10 @@
 package com.teammetallurgy.atum.items;
 
-import baubles.api.BaubleType;
-import baubles.api.IBauble;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.*;
 import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
@@ -20,12 +17,10 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nonnull;
 
-@Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
-public class ItemLoot extends Item implements IOreDictEntry, IBauble {
+public class ItemLoot extends Item implements IOreDictEntry {
     private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
     public static void createLootItems() {
@@ -104,24 +99,6 @@ public class ItemLoot extends Item implements IOreDictEntry, IBauble {
     @Override
     public void getOreDictEntries() {
         OreDictHelper.add(this, "relic");
-    }
-
-    @Override
-    @Optional.Method(modid = "baubles")
-    public BaubleType getBaubleType(@Nonnull ItemStack stack) {
-        Type type = getType(stack.getItem());
-        if (type == Type.NECKLACE) {
-            return BaubleType.AMULET;
-        } else {
-            return BaubleType.RING;
-        }
-    }
-
-    @Override
-    @Optional.Method(modid = "baubles")
-    public boolean canEquip(@Nonnull ItemStack stack, EntityLivingBase player) {
-        Type type = getType(stack.getItem());
-        return type == Type.RING || type == Type.NECKLACE;
     }
 
     public enum Type implements IStringSerializable {

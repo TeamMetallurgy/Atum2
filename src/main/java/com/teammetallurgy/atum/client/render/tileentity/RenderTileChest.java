@@ -105,8 +105,6 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
             GlStateManager.translate(0.5F, 0.5F, 0.5F);
             int angle = 0;
 
-            System.out.println(meta);
-
             if (meta == 2) {
                 angle = 180;
             }
