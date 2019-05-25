@@ -9,6 +9,7 @@ import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -43,9 +44,11 @@ public class ItemShusExile extends ItemBattleAxe {
 
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
-        if (event.getAttacker() instanceof EntityLivingBase && ((EntityLivingBase) event.getAttacker()).getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE) {
-            EntityLivingBase target = event.getEntityLiving();
-            if (cooldown.get(event.getAttacker()) == 1.0F) {
+        Entity attacker = event.getAttacker();
+        if (attacker instanceof EntityPlayer && cooldown.containsKey(attacker)) {
+            EntityPlayer player = (EntityPlayer) attacker;
+            if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && cooldown.get(attacker) == 1.0F) {
+                EntityLivingBase target = event.getEntityLiving();
                 event.setStrength(event.getStrength() * 3F);
                 double x = MathHelper.nextDouble(itemRand, 0.0001D, 0.02D);
                 double z = MathHelper.nextDouble(itemRand, 0.0001D, 0.02D);
@@ -53,6 +56,7 @@ public class ItemShusExile extends ItemBattleAxe {
                     Atum.proxy.spawnParticle(AtumParticles.Types.SHU, target, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + target.getEyeHeight(), target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, x, 0.04D, -z);
                 }
             }
+            cooldown.remove(attacker);
         }
     }
 

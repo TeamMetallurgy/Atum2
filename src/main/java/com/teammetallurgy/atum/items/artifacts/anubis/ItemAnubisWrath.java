@@ -104,14 +104,16 @@ public class ItemAnubisWrath extends ItemSword {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityPlayer && cooldown.get(trueSource) == 1.0F) {
-            event.setAmount(event.getAmount() * 2);
-            cooldown.remove(trueSource);
-            EntityLivingBase entity = event.getEntityLiving();
-            double y = MathHelper.nextDouble(itemRand, 0.02D, 0.13D);
-            for (int l = 0; l < 5; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (itemRand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + entity.getEyeHeight(), entity.posZ + (itemRand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, y, 0.0D);
+        if (trueSource instanceof EntityPlayer && cooldown.containsKey(trueSource)) {
+            if (cooldown.get(trueSource) == 1.0F) {
+                event.setAmount(event.getAmount() * 2);
+                EntityLivingBase entity = event.getEntityLiving();
+                double y = MathHelper.nextDouble(itemRand, 0.02D, 0.13D);
+                for (int l = 0; l < 5; ++l) {
+                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (itemRand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + entity.getEyeHeight(), entity.posZ + (itemRand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, y, 0.0D);
+                }
             }
+            cooldown.remove(trueSource);
         }
     }
 

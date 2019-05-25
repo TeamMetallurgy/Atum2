@@ -11,10 +11,13 @@ import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ChampionsHelper implements IModIntegration {
     public static final String CHAMPION_ID = "champions";
 
+    @SideOnly(Side.CLIENT)
     public static boolean isChampion(Entity entity) {
         if (IntegrationHandler.getConfigValue(CHAMPION_ID)) {
             NBTTagCompound compound = new NBTTagCompound();
@@ -27,6 +30,7 @@ public class ChampionsHelper implements IModIntegration {
         return false;
     }
 
+    @SideOnly(Side.CLIENT)
     public static ResourceLocation getTexture(Entity entity, String entityName) {
         int tier = ChampionsHelper.getTier(entity);
         if (tier > 0) {
@@ -46,6 +50,7 @@ public class ChampionsHelper implements IModIntegration {
         return null;
     }
 
+    @SideOnly(Side.CLIENT)
     public static int getTier(Entity entity) {
         NBTTagCompound compound = new NBTTagCompound();
         entity.writeToNBT(compound);

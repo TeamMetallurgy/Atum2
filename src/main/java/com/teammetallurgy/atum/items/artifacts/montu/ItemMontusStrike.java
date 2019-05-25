@@ -54,16 +54,16 @@ public class ItemMontusStrike extends ItemBattleAxe {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
-        if (attacker != null && cooldown.get(attacker) == 1.0F) {
-            if (attacker instanceof EntityPlayer) {
+        if (attacker instanceof EntityPlayer && cooldown.containsKey(attacker)) {
+            if (cooldown.get(attacker) == 1.0F) {
                 EntityPlayer player = (EntityPlayer) attacker;
                 World world = player.world;
-                float f3 = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+                float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 
                 for (EntityLivingBase entity : world.getEntitiesWithinAABB(EntityLivingBase.class, target.getEntityBoundingBox().grow(2.0D, 0.25D, 2.0D))) {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 12.0D) {
                         entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), (double) MathHelper.sin(player.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
-                        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), f3);
+                        entity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage);
                         for (int amount = 0; amount < 20; amount++) {
                             double d0 = (double) (-MathHelper.sin(player.rotationYaw * 0.017453292F));
                             double d1 = (double) MathHelper.cos(player.rotationYaw * 0.017453292F);
@@ -74,6 +74,7 @@ public class ItemMontusStrike extends ItemBattleAxe {
                     }
                 }
             }
+            cooldown.remove(attacker);
         }
         return super.hitEntity(stack, target, attacker);
     }

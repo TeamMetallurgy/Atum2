@@ -81,11 +81,11 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
                     GlStateManager.translate(0.0625F, 0.0625F, 0.0625F);
                     GlStateManager.matrixMode(5888);
                 } else {
-                    String name = Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath();
+                    String name = Objects.requireNonNull(te.getBlockType().getRegistryName()).getPath() + "_double";
                     ResourceLocation chestTexture = CACHE.get(name);
 
                     if (chestTexture == null){
-                        chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + name + "_double.png");
+                        chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + name + ".png");
                         CACHE.put(name, chestTexture);
                     }
 

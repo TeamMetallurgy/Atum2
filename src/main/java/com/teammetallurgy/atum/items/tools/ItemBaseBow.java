@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -21,7 +22,7 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 
 public class ItemBaseBow extends ItemBow {
-    private ItemStack repairItem = ItemStack.EMPTY;
+    private Item repairItem = AtumItems.LINEN_THREAD;
 
     public ItemBaseBow() {
         this.maxStackSize = 1;
@@ -128,12 +129,12 @@ public class ItemBaseBow extends ItemBow {
     }
 
     protected ItemBaseBow setRepairItem(Item item) {
-        this.repairItem = new ItemStack(item);
+        this.repairItem = item;
         return this;
     }
 
     @Override
     public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair == this.repairItem;
+        return repair.getItem() == this.repairItem;
     }
 }

@@ -65,11 +65,13 @@ public class ItemSethsSting extends ItemDagger {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityLivingBase && cooldown.get(trueSource) == 1.0F) {
-            EntityLivingBase target = event.getEntityLiving();
-            target.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 2));
-            for (int l = 0; l < 14; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.SETH, trueSource, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + itemRand.nextDouble() * (double) target.height, target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, 0.0D, 10.0D, 0.0D);
+        if (trueSource instanceof EntityPlayer && cooldown.containsKey(trueSource)) {
+            if (cooldown.get(trueSource) == 1.0F) {
+                EntityLivingBase target = event.getEntityLiving();
+                target.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 2));
+                for (int l = 0; l < 14; ++l) {
+                    Atum.proxy.spawnParticle(AtumParticles.Types.SETH, trueSource, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + itemRand.nextDouble() * (double) target.height, target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, 0.0D, 10.0D, 0.0D);
+                }
             }
             cooldown.remove(trueSource);
         }

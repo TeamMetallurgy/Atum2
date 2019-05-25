@@ -4,7 +4,6 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import gnu.trove.map.TObjectFloatMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -12,7 +11,6 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -27,7 +25,7 @@ import java.util.UUID;
 public class ItemHammer extends ItemSword {
     private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("b4ebf092-fe62-4250-b945-7dc45b2f1036"), "Hammer stun", -1000.0D, 0);
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
-    protected static int stunTimer = 0;
+    protected static final TObjectFloatMap<EntityLivingBase> stun = new TObjectFloatHashMap<>();
     private final float damage;
 
     public ItemHammer(ToolMaterial material) {
@@ -39,34 +37,39 @@ public class ItemHammer extends ItemSword {
     @SubscribeEvent
     public void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityPlayer && cooldown.get(trueSource) == 1.0F) {
-            EntityLivingBase target = event.getEntityLiving();
-            ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) target.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-            if (!attribute.hasModifier(STUN)) {
-                attribute.applyModifier(STUN);
-                this.onStun(target);
+        if (trueSource instanceof EntityPlayer && cooldown.containsKey(trueSource)) {
+            if (cooldown.get(trueSource) == 1.0F){
+                EntityLivingBase target = event.getEntityLiving();
+                ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) target.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+                if (!attribute.hasModifier(STUN)) {
+                    attribute.applyModifier(STUN);
+                    this.onStun(target);
+                }
             }
             cooldown.remove(trueSource);
         }
     }
 
-    @Override
-    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment);
-    }
-
     protected void onStun(EntityLivingBase target) {
-        stunTimer = 400;
+        stun.put(target, 40);
     }
 
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (stunTimer > 1) {
-            stunTimer--;
-        }
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-        if (stunTimer == 1 && attribute.hasModifier(STUN)) {
-            attribute.removeModifier(STUN);
+        if (attribute.hasModifier(STUN)) {
+            EntityLivingBase entity = event.getEntityLiving();
+            if(!stun.containsKey(entity)){
+                attribute.removeModifier(STUN);
+                return;
+            }
+
+            float stunTime = stun.get(entity);
+            if (stunTime <= 0) {
+                attribute.removeModifier(STUN);
+            } else {
+               stun.put(entity, stunTime - 1);
+            }
         }
     }
 
