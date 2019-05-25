@@ -9,6 +9,7 @@ import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIMoveTowardsTarget;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -65,6 +66,11 @@ public class EntityStonewarden extends EntityStoneBase {
             this.setVariant(1);
         }
         return livingdata;
+    }
+
+    @Override
+    public boolean isPreventingPlayerRest(EntityPlayer player) {
+        return this.getVariant() != 1;
     }
 
     @Override

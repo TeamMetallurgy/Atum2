@@ -113,6 +113,11 @@ public class EntityStoneguard extends EntityStoneBase {
     }
 
     @Override
+    public boolean isPreventingPlayerRest(EntityPlayer player) {
+        return this.getVariant() != 8;
+    }
+
+    @Override
     @Nullable
     protected ResourceLocation getLootTable() {
         return AtumLootTables.STONEGUARD;

@@ -30,6 +30,7 @@ public class AtumConfig {
     public static String ATUM_START_STRUCTURE;
     public static boolean START_IN_ATUM_PORTAL;
     public static int DIMENSION_ID;
+    public static boolean RECIPE_OVERRIDING;
 
     public static float SANDSTORM_FOG;
     public static float SAND_DARKNESS;
@@ -90,6 +91,8 @@ public class AtumConfig {
         prop.setLanguageKey("atum.configGui.dimensionID").setRequiresMcRestart(true);
         DIMENSION_ID = prop.getInt();
         propOrder.add(prop.getName());
+
+        RECIPE_OVERRIDING = config.getBoolean("Enable Atum recipe overriding?", CATEGORY_GENERAL, true, "Atum is removing and adding some vanilla recipes, in order for certain recipes to get priority. It should not break anything. This is a fail safe if it does.");
 
         prop = config.get(SANDSTORM, "Sandstorm Fog", 2);
         prop.setComment("Multiplier to fog during sandstorms");

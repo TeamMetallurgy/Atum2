@@ -19,6 +19,7 @@ import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicSlab;
 import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicTile;
 import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramicWall;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
 import com.teammetallurgy.atum.utils.Constants;
@@ -221,7 +222,9 @@ public class AtumRecipes {
             AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 5), "LLL", 'L', BlockLinen.getLinen(color)), event);
         }
         AtumRecipes.register();
-        fixOreDictEntries(registry);
+        if (AtumConfig.RECIPE_OVERRIDING) {
+            fixOreDictEntries(registry);
+        }
     }
 
     private static void fixOreDictEntries(IForgeRegistry<IRecipe> registry) {
@@ -254,6 +257,16 @@ public class AtumRecipes {
         //Trapdoor
         recipes.remove(trapdoor);
         registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
+
+        //Wool
+        for (EnumDyeColor color : EnumDyeColor.values()) {
+            if (color != EnumDyeColor.WHITE) {
+                ResourceLocation location = new ResourceLocation(color.getName().replace("silver", "light_gray") + "_wool");
+                recipes.remove(location);
+                String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
+                registry.register(new ShapelessOreRecipe(location, new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, color.getMetadata()), "dye" + colorName, "woolWhite").setRegistryName(location));
+            }
+        }
 
         ////Cracked Limestone
         final ResourceLocation sword = new ResourceLocation("stone_sword");
