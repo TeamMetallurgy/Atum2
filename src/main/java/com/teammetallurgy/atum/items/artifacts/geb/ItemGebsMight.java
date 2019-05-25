@@ -44,7 +44,7 @@ public class ItemGebsMight extends ItemHammer {
             double d2 = itemRand.nextGaussian() * 0.02D;
             Atum.proxy.spawnParticle(AtumParticles.Types.GEB, target, target.posX, target.posY + target.getEyeHeight() - 0.1D, target.posZ, d0, d1, d2);
         }
-        stunTimer = 800;
+        stun.put(target, 80);
     }
 
     @Override
