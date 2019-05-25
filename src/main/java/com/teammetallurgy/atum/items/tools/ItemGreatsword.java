@@ -49,8 +49,8 @@ public class ItemGreatsword extends ItemSword {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, EntityLivingBase target, @Nullable EntityLivingBase attacker) {
-        if (attacker != null && cooldown.get(attacker) == 1.0F) {
-            if (attacker instanceof EntityPlayer) {
+        if (attacker instanceof EntityPlayer && cooldown.containsKey(attacker)) {
+            if (cooldown.get(attacker) == 1.0F) {
                 EntityPlayer player = (EntityPlayer) attacker;
                 World world = player.world;
                 float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
@@ -63,6 +63,7 @@ public class ItemGreatsword extends ItemSword {
                     }
                 }
             }
+            cooldown.remove(attacker);
         }
         return super.hitEntity(stack, target, attacker);
     }
