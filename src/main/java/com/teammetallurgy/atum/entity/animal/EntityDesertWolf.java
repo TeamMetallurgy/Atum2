@@ -4,7 +4,7 @@ import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
 import com.teammetallurgy.atum.entity.ai.AISitWithCheck;
-import com.teammetallurgy.atum.entity.ai.EntityAIFollowOwnerWithoutSaddle;
+import com.teammetallurgy.atum.entity.ai.AIFollowOwnerWithoutSaddle;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -104,7 +104,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, avoid -> avoid != null && !this.isAlpha(), 24.0F, 0.6D, 1.2D));
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityAIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(6, new AIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 0.4D));
         this.tasks.addTask(9, new AIBeg(this, 8.0F));
