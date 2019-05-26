@@ -3,7 +3,9 @@ package com.teammetallurgy.atum.items.tools;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import gnu.trove.map.TObjectFloatMap;
+import gnu.trove.map.TObjectIntMap;
 import gnu.trove.map.hash.TObjectFloatHashMap;
+import gnu.trove.map.hash.TObjectIntHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -25,7 +27,7 @@ import java.util.UUID;
 public class ItemHammer extends ItemSword {
     private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("b4ebf092-fe62-4250-b945-7dc45b2f1036"), "Hammer stun", -1000.0D, 0);
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
-    protected static final TObjectFloatMap<EntityLivingBase> stun = new TObjectFloatHashMap<>();
+    protected static final TObjectIntMap<EntityLivingBase> stun = new TObjectIntHashMap<>();
     private final float damage;
 
     public ItemHammer(ToolMaterial material) {
@@ -56,7 +58,7 @@ public class ItemHammer extends ItemSword {
 
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (stun.isEmpty() || stun.get(event.getEntityLiving()) == 0) return;
+        if (stun.isEmpty()) return;
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (attribute.hasModifier(STUN)) {
             EntityLivingBase entity = event.getEntityLiving();
@@ -65,8 +67,9 @@ public class ItemHammer extends ItemSword {
                 return;
             }
 
-            float stunTime = stun.get(entity);
+            int stunTime = stun.get(entity);
             if (stunTime <= 1) {
+                stun.remove(entity);
                 attribute.removeModifier(STUN);
             } else {
                stun.put(entity, stunTime - 1);
