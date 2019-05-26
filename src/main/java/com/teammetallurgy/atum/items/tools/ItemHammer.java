@@ -58,15 +58,10 @@ public class ItemHammer extends ItemSword {
 
     @SubscribeEvent
     public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
-        if (stun.isEmpty()) return;
+        if (stun.isEmpty() || !stun.containsKey(event.getEntityLiving())) return;
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (attribute.hasModifier(STUN)) {
             EntityLivingBase entity = event.getEntityLiving();
-            if(!stun.containsKey(entity)){
-                attribute.removeModifier(STUN);
-                return;
-            }
-
             int stunTime = stun.get(entity);
             if (stunTime <= 1) {
                 stun.remove(entity);
