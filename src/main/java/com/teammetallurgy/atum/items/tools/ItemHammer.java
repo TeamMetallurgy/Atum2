@@ -14,7 +14,6 @@ import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemSword;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -33,14 +32,13 @@ public class ItemHammer extends ItemSword {
     public ItemHammer(ToolMaterial material) {
         super(material);
         this.damage = material.getAttackDamage() + 17.0F;
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @SubscribeEvent
     public void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
         if (trueSource instanceof EntityPlayer && cooldown.containsKey(trueSource)) {
-            if (cooldown.get(trueSource) == 1.0F){
+            if (cooldown.get(trueSource) == 1.0F) {
                 EntityLivingBase target = event.getEntityLiving();
                 ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) target.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
                 if (!attribute.hasModifier(STUN)) {
@@ -67,7 +65,7 @@ public class ItemHammer extends ItemSword {
                 stun.remove(entity);
                 attribute.removeModifier(STUN);
             } else {
-               stun.put(entity, stunTime - 1);
+                stun.put(entity, stunTime - 1);
             }
         }
     }

@@ -44,6 +44,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemBlockSpecial;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import static com.teammetallurgy.atum.api.AtumAPI.MUMMY_ARMOR_MATERIAL;
@@ -334,5 +335,7 @@ public class AtumItems {
         OreDictHelper.add(EMMER_SEEDS, "seedEmmer");
         OreDictHelper.add(EMMER_BREAD, "foodBread");
         OreDictHelper.add(KHNUMITE, "ingotKhnumite");
+
+        MinecraftForge.EVENT_BUS.register(GEBS_MIGHT);
     }
 }

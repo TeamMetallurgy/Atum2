@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.utils;
 
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -41,7 +40,6 @@ public class AtumConfig {
     public AtumConfig(File file) {
         AtumConfig.config = new Configuration(file);
 
-        MinecraftForge.EVENT_BUS.register(this);
         syncConfigData();
     }
 

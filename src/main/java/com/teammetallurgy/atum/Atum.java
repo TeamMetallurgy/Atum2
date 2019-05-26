@@ -17,6 +17,7 @@ import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -39,7 +40,8 @@ public class Atum {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        new AtumConfig(event.getSuggestedConfigurationFile());
+        AtumConfig config = new AtumConfig(event.getSuggestedConfigurationFile());
+        MinecraftForge.EVENT_BUS.register(config);
         IntegrationHandler.INSTANCE.initModIntegration();
         AtumDimension.register();
         NetworkHandler.register();
