@@ -28,6 +28,7 @@ import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -563,7 +564,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                     this.openGUI(player);
                     return true;
                 }
-                if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() == Items.SADDLE) {
+                if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() instanceof ItemSaddle) {
                     this.openGUI(player);
                     return true;
                 }
