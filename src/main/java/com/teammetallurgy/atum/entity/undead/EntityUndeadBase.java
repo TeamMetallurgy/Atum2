@@ -57,7 +57,7 @@ public class EntityUndeadBase extends EntityMob {
         this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
-        applyEntityAI();
+        this.applyEntityAI();
     }
 
     protected void applyEntityAI() {

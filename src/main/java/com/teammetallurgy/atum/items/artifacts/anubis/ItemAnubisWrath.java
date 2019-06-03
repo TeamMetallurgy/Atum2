@@ -77,7 +77,7 @@ public class ItemAnubisWrath extends ItemSword {
 
     @Override
     public boolean showDurabilityBar(@Nonnull ItemStack stack) {
-        return getSouls(stack) > 0;
+        return !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? super.showDurabilityBar(stack) : getSouls(stack) > 0;
     }
 
     @Override
