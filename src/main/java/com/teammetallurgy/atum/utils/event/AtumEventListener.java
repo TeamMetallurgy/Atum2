@@ -19,6 +19,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityFishHook;
@@ -178,6 +179,7 @@ public class AtumEventListener {
             event.setCanceled(true); //We don't want vanillas loot table
             if (heldStack.getItem() instanceof ItemAtumsBounty) {
                 catchFish(world, angler, fishHook, builder, AtumLootTables.ATUMS_BOUNTY);
+                angler.world.spawnEntity(new EntityXPOrb(angler.world, angler.posX, angler.posY + 0.5D, angler.posZ + 0.5D,  world.rand.nextInt(6) + 1));
             } else {
                 catchFish(world, angler, fishHook, builder, AtumLootTables.FISHING);
             }
