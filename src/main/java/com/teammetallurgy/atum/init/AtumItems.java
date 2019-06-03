@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anput.ItemAnputsHunger;
@@ -74,11 +75,11 @@ public class AtumItems {
     public static final Item GREATSWORD_IRON = new ItemGreatsword(ToolMaterial.IRON);
     public static final Item CLUB_IRON = new ItemClub(ToolMaterial.IRON);
     public static final Item KHOPESH_IRON = new ItemKhopesh(ToolMaterial.IRON);
-    public static final Item STONEGUARD_SWORD = new ItemSword(ToolMaterial.STONE);
-    public static final Item STONEGUARD_GREATSWORD = new ItemGreatsword(ToolMaterial.STONE);
-    public static final Item STONEGUARD_CLUB = new ItemClub(ToolMaterial.STONE);
-    public static final Item STONEGUARD_KHOPESH = new ItemKhopesh(ToolMaterial.STONE);
-    public static final Item STONEGUARD_SHIELD = new ItemAtumShield().setRepairItem(Item.getItemFromBlock(AtumBlocks.LIMESTONE)).setMaxDamage(90);
+    public static final Item STONEGUARD_SWORD = new ItemSword(AtumAPI.KHNUMITE);
+    public static final Item STONEGUARD_GREATSWORD = new ItemGreatsword(AtumAPI.KHNUMITE);
+    public static final Item STONEGUARD_CLUB = new ItemClub(AtumAPI.KHNUMITE);
+    public static final Item STONEGUARD_KHOPESH = new ItemKhopesh(AtumAPI.KHNUMITE);
+    public static final Item STONEGUARD_SHIELD = new ItemAtumShield().setRepairItem(KHNUMITE).setMaxDamage(90);
     public static final Item BRIGAND_SHIELD = new ItemAtumShield().setRepairItem(Items.IRON_INGOT).setMaxDamage(150);
     public static final Item EYES_OF_ATUM = new ItemEyesOfAtum();
     public static final Item BODY_OF_ATUM = new ItemBodyOfAtum();

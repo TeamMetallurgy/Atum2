@@ -29,9 +29,9 @@ import java.util.*;
 @SideOnly(Side.CLIENT)
 public class AtumParticles {
     private static final Map<String, IAtumParticleFactory> particleTypes = Maps.newHashMap();
-    protected final ArrayDeque<Particle>[][] fxLayers = new ArrayDeque[4][];
+    private final ArrayDeque<Particle>[][] fxLayers = new ArrayDeque[4][];
     private final Queue<ParticleEmitter> particleEmitters = Queues.newArrayDeque();
-    private static final Queue<Particle> queue = Queues.newArrayDeque();
+    private final Queue<Particle> queue = Queues.newArrayDeque();
     private World world = Minecraft.getMinecraft().world;
 
     public AtumParticles() {
@@ -132,9 +132,9 @@ public class AtumParticles {
         this.world.profiler.endSection();
     }
 
-    private void tickParticleList(Queue<Particle> p_187240_1_) {
-        if (!p_187240_1_.isEmpty()) {
-            Iterator<Particle> iterator = p_187240_1_.iterator();
+    private void tickParticleList(Queue<Particle> particleQueue) {
+        if (!particleQueue.isEmpty()) {
+            Iterator<Particle> iterator = particleQueue.iterator();
 
             while (iterator.hasNext()) {
                 Particle particle = iterator.next();
@@ -168,16 +168,16 @@ public class AtumParticles {
         }
     }
 
-    public void renderParticles(Entity entityIn, float partialTicks) {
+    public void renderParticles(Entity entity, float partialTicks) {
         float f = ActiveRenderInfo.getRotationX();
         float f1 = ActiveRenderInfo.getRotationZ();
         float f2 = ActiveRenderInfo.getRotationYZ();
         float f3 = ActiveRenderInfo.getRotationXY();
         float f4 = ActiveRenderInfo.getRotationXZ();
-        Particle.interpPosX = entityIn.lastTickPosX + (entityIn.posX - entityIn.lastTickPosX) * (double) partialTicks;
-        Particle.interpPosY = entityIn.lastTickPosY + (entityIn.posY - entityIn.lastTickPosY) * (double) partialTicks;
-        Particle.interpPosZ = entityIn.lastTickPosZ + (entityIn.posZ - entityIn.lastTickPosZ) * (double) partialTicks;
-        Particle.cameraViewDir = entityIn.getLook(partialTicks);
+        Particle.interpPosX = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double) partialTicks;
+        Particle.interpPosY = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double) partialTicks;
+        Particle.interpPosZ = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double) partialTicks;
+        Particle.cameraViewDir = entity.getLook(partialTicks);
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.alphaFunc(516, 0.003921569F);
@@ -211,7 +211,7 @@ public class AtumParticles {
 
                     for (final Particle particle : this.fxLayers[i][j]) {
                         try {
-                            particle.renderParticle(bufferbuilder, entityIn, partialTicks, f, f4, f1, f2, f3);
+                            particle.renderParticle(bufferbuilder, entity, partialTicks, f, f4, f1, f2, f3);
                         } catch (Throwable throwable) {
                             CrashReport crashreport = CrashReport.makeCrashReport(throwable, "Rendering Particle");
                             CrashReportCategory crashreportcategory = crashreport.makeCategory("Particle being rendered");
@@ -228,7 +228,6 @@ public class AtumParticles {
                             throw new ReportedException(crashreport);
                         }
                     }
-
                     tessellator.draw();
                 }
             }
@@ -238,13 +237,13 @@ public class AtumParticles {
         GlStateManager.alphaFunc(516, 0.1F);
     }
 
-    public void renderLitParticles(Entity entityIn, float partialTick) {
+    public void renderLitParticles(Entity entity, float partialTick) {
         float f = 0.017453292F;
-        float f1 = MathHelper.cos(entityIn.rotationYaw * f);
-        float f2 = MathHelper.sin(entityIn.rotationYaw * f);
-        float f3 = -f2 * MathHelper.sin(entityIn.rotationPitch * f);
-        float f4 = f1 * MathHelper.sin(entityIn.rotationPitch * f);
-        float f5 = MathHelper.cos(entityIn.rotationPitch * f);
+        float f1 = MathHelper.cos(entity.rotationYaw * f);
+        float f2 = MathHelper.sin(entity.rotationYaw * f);
+        float f3 = -f2 * MathHelper.sin(entity.rotationPitch * f);
+        float f4 = f1 * MathHelper.sin(entity.rotationPitch * f);
+        float f5 = MathHelper.cos(entity.rotationPitch * f);
 
         for (int i = 0; i < 2; ++i) {
             Queue<Particle> queue = this.fxLayers[3][i];
@@ -252,7 +251,7 @@ public class AtumParticles {
                 Tessellator tessellator = Tessellator.getInstance();
                 BufferBuilder bufferbuilder = tessellator.getBuffer();
                 for (Particle particle : queue) {
-                    particle.renderParticle(bufferbuilder, entityIn, partialTick, f1, f5, f2, f3, f4);
+                    particle.renderParticle(bufferbuilder, entity, partialTick, f1, f5, f2, f3, f4);
                 }
             }
         }

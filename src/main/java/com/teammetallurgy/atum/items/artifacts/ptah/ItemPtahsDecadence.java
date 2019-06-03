@@ -44,7 +44,6 @@ public class ItemPtahsDecadence extends ItemPickaxe {
     public static void harvestEvent(BlockEvent.HarvestDropsEvent event) {
         World world = event.getWorld();
         if (!world.isRemote && event.getHarvester() != null && event.getHarvester().getHeldItemMainhand().getItem() == AtumItems.PTAHS_DECADENCE) {
-            System.out.println(event.getState());
             Item itemDropped = event.getState().getBlock().getItemDropped(event.getState(), itemRand, 0);
             if (itemDropped == null || itemDropped == Items.AIR) return;
             Block dropBlock = Block.getBlockFromItem(itemDropped);
