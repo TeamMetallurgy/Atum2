@@ -19,7 +19,9 @@ public class TileEntityPoisonTrap extends TileEntityTrap {
         double z = (double) pos.getZ() + 0.5D;
 
         if (!livingBase.isPotionActive(MobEffects.POISON)) {
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 3, false, false));
+            if (!world.isRemote) {
+                livingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 3, false, false));
+            }
             world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }
         switch (facing) {

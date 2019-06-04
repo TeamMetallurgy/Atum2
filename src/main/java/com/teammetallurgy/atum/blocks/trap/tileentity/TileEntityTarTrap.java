@@ -7,7 +7,6 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.SoundCategory;
 
 public class TileEntityTarTrap extends TileEntityTrap {
 
@@ -19,11 +18,13 @@ public class TileEntityTarTrap extends TileEntityTrap {
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         if (!entity.isPotionActive(MobEffects.SLOWNESS)) {
-            entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 3, false, false));
+            if (!world.isRemote) {
+                entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 3, false, false));
+            }
         }
 
         if (world.getTotalWorldTime() % 8L == 0L) {
-            world.playSound(x, (double) pos.getY(), z, SoundEvents.BLOCK_LAVA_POP, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            entity.playSound(SoundEvents.BLOCK_LAVA_POP, 1.0F, 1.0F);
             switch (facing) {
                 case DOWN:
                     Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
