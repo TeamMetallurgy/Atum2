@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
@@ -21,7 +21,7 @@ public class ContainerAlphaDesertWolf extends Container {
         this.addSlotToContainer(new Slot(wolfInventory, 0, 8, 18) {
             @Override
             public boolean isItemValid(ItemStack stack) {
-                return stack.getItem() == Items.SADDLE && !this.getHasStack();
+                return stack.getItem() instanceof ItemSaddle && !this.getHasStack();
             }
 
             @Override

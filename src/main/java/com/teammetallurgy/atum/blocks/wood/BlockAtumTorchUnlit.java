@@ -3,12 +3,12 @@ package com.teammetallurgy.atum.blocks.wood;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
@@ -17,14 +17,15 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.*;
 
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class BlockAtumTorchUnlit extends BlockAtumTorch {
     private static final List<BlockAtumTorch> TORCHES = Arrays.asList(AtumBlocks.PALM_TORCH, AtumBlocks.DEADWOOD_TORCH, AtumBlocks.LIMESTONE_TORCH, AtumBlocks.BONE_TORCH, AtumBlocks.PHARAOH_TORCH);
     private static final Map<Block, Block> UNLIT = Maps.newHashMap();
@@ -32,7 +33,6 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
 
     public BlockAtumTorchUnlit() {
         super();
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public static void registerUnlitTorches() {
@@ -68,9 +68,9 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
     }
 
     @SubscribeEvent
-    public void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+    public static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
         IBlockState state = event.getWorld().getBlockState(event.getPos());
-        if (event.getItemStack().getItem() == Item.getItemFromBlock(this) && state.getBlock().getLightValue(state.getBlock().getDefaultState(), event.getWorld(), event.getPos()) > 0) {
+        if (Block.getBlockFromItem(event.getItemStack().getItem()) instanceof BlockAtumTorchUnlit && state.getBlock().getLightValue(state.getBlock().getDefaultState(), event.getWorld(), event.getPos()) > 0) {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
             event.getItemStack().shrink(1);

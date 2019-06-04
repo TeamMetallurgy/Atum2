@@ -31,7 +31,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class BlockKhnumiteFace extends BlockHorizontal {
+public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
     private BlockPattern stoneguardBasePattern;
     private BlockPattern stoneguardPattern;
     private BlockPattern stonewardenBasePattern;
@@ -55,7 +55,10 @@ public class BlockKhnumiteFace extends BlockHorizontal {
         if (patternHelper != null) {
             for (int x = 0; x < this.getStonewardenPattern().getPalmLength(); ++x) {
                 for (int y = 0; y < this.getStonewardenPattern().getThumbLength(); ++y) {
-                    world.setBlockState(patternHelper.translateOffset(x, y, 0).getPos(), Blocks.AIR.getDefaultState(), 2);
+                    BlockPos patternPos = patternHelper.translateOffset(x, y, 0).getPos();
+                    if (world.getBlockState(patternPos).getBlock() instanceof IKhnumite) {
+                        world.setBlockState(patternPos, Blocks.AIR.getDefaultState(), 2);
+                    }
                 }
             }
 
@@ -83,7 +86,9 @@ public class BlockKhnumiteFace extends BlockHorizontal {
                 for (int x = 0; x < this.getStoneguardPattern().getPalmLength(); ++x) {
                     for (int y = 0; y < this.getStoneguardPattern().getThumbLength(); ++y) {
                         BlockWorldState worldState = patternHelper.translateOffset(x, y, 0);
-                        world.setBlockState(worldState.getPos(), Blocks.AIR.getDefaultState(), 2);
+                        if (world.getBlockState(worldState.getPos()).getBlock() instanceof IKhnumite) {
+                            world.setBlockState(worldState.getPos(), Blocks.AIR.getDefaultState(), 2);
+                        }
                     }
                 }
                 EntityStoneguard stoneguard = new EntityStoneguard(world);

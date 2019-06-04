@@ -10,7 +10,6 @@
     },
     "variants": {
         "normal": [{}],
-        "inventory": [{}],
         "north":{
             "true":{"submodel":{"north_submodel":{"model":"pane_side"}}},
             "false":{"submodel":{"north_submodel":{"model":"pane_noside"}}}

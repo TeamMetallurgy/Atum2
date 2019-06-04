@@ -3,8 +3,8 @@ package com.teammetallurgy.atum.entity.animal;
 import com.google.common.base.Predicate;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ai.AIBeg;
+import com.teammetallurgy.atum.entity.ai.AIFollowOwnerWithoutSaddle;
 import com.teammetallurgy.atum.entity.ai.AISitWithCheck;
-import com.teammetallurgy.atum.entity.ai.EntityAIFollowOwnerWithoutSaddle;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -104,19 +104,19 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, avoid -> avoid != null && !this.isAlpha(), 24.0F, 0.6D, 1.2D));
         this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityAIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(6, new AIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 0.4D));
         this.tasks.addTask(9, new AIBeg(this, 8.0F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 0, false, false, target -> !this.isTamed()));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, false));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, 10, false, false, target -> !this.isTamed()));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed<>(this, EntityAnimal.class, false, (Predicate<Entity>) entity -> entity instanceof EntitySheep || entity instanceof EntityRabbit));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, false));
+        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, 10, false, false, target -> !this.isTamed()));
     }
 
     @Override
@@ -467,7 +467,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 }
 
                 boolean holdsArmor = ArmorType.isArmor(heldStack);
-                boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() == Items.SADDLE;
+                boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() instanceof ItemSaddle;
 
                 if (holdsArmor || holdsSaddle) {
                     this.openGUI(player);
@@ -485,14 +485,16 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 }
             }
 
-            if (!this.world.isRemote && !this.isBreedingItem(heldStack) && !this.isBeingRidden()) {
-                if (this.isAlpha()) {
+            if (!this.world.isRemote && (!this.isBreedingItem(heldStack) || this.getHealth() >= getMaxHealth())) {
+                if (this.isAlpha() && !this.isBeingRidden()) {
                     this.mountTo(player);
+                    return true;
                 } else if (!this.isAlpha() && this.isOwner(player)) {
                     this.aiSit.setSitting(!this.isSitting());
                     this.isJumping = false;
                     this.navigator.clearPath();
                     this.setAttackTarget(null);
+                    return true;
                 }
             }
         } else if ((heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE || heldStack.getItem() == Items.RABBIT) || heldStack.getItem() == Items.COOKED_RABBIT) {
@@ -521,7 +523,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             }
             return true;
         }
-        return super.processInteract(player, hand);
+        return this.isTamed() && super.processInteract(player, hand);
     }
 
     @Override
@@ -608,7 +610,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
+    public boolean isBreedingItem(@Nonnull ItemStack stack) {
         return stack.getItem() instanceof ItemFood && ((ItemFood) stack.getItem()).isWolfsFavoriteMeat();
     }
 
@@ -658,6 +660,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         if (uuid != null) {
             desertWolf.setOwnerId(uuid);
             desertWolf.setTamed(true);
+            desertWolf.setAngry(false);
             desertWolf.heal(8.0F);
         }
         return desertWolf;
@@ -759,7 +762,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         }
         if (compound.hasKey("SaddleItem", 10)) {
             ItemStack saddleStack = new ItemStack(compound.getCompoundTag("SaddleItem"));
-            if (saddleStack.getItem() == Items.SADDLE) {
+            if (saddleStack.getItem() instanceof ItemSaddle) {
                 this.desertWolfInventory.setInventorySlotContents(0, saddleStack);
             }
         }
@@ -806,7 +809,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     public boolean replaceItemInInventory(int inventorySlot, @Nonnull ItemStack stack) {
         int slot = inventorySlot - 400;
         if (slot >= 0 && slot < 2 && slot < this.desertWolfInventory.getSizeInventory()) {
-            if (slot == 0 && stack.getItem() != Items.SADDLE) {
+            if (slot == 0 && !(stack.getItem() instanceof ItemSaddle)) {
                 return false;
             } else if (slot != 1 || this.isArmor(stack)) {
                 this.desertWolfInventory.setInventorySlotContents(slot, stack);

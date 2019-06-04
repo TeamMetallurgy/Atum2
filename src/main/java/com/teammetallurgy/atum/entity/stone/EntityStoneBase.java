@@ -48,7 +48,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
-        applyEntityAI();
+        this.applyEntityAI();
     }
 
     private void applyEntityAI() {

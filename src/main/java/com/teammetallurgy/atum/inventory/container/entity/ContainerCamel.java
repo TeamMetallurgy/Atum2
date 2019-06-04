@@ -4,10 +4,10 @@ import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -30,7 +30,7 @@ public class ContainerCamel extends Container {
         this.addSlotToContainer(new Slot(camelInventory, 0, 62, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
-                return stack.getItem() == Items.SADDLE && !this.getHasStack() && camel.canBeSaddled();
+                return stack.getItem() instanceof ItemSaddle && !this.getHasStack() && camel.canBeSaddled();
             }
 
             @Override
