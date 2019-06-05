@@ -106,38 +106,42 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onArmorClean(PlayerInteractEvent.RightClickBlock event) {
-        World world = event.getWorld();
-        BlockPos pos = event.getPos();
-        EntityPlayer player = event.getEntityPlayer();
-        ItemStack stack = player.getHeldItemMainhand();
-        IFluidHandler tank = FluidUtil.getFluidHandler(world, pos, null);
+        try {
+            World world = event.getWorld();
+            BlockPos pos = event.getPos();
+            EntityPlayer player = event.getEntityPlayer();
+            ItemStack stack = player.getHeldItemMainhand();
+            IFluidHandler tank = FluidUtil.getFluidHandler(world, pos, event.getFace());
 
-        if (stack.getItem() instanceof ItemTexturedArmor && ((ItemTexturedArmor) stack.getItem()).hasColor(stack)) {
-            IBlockState state = world.getBlockState(pos);
-            if (state.getBlock() instanceof BlockCauldron) {
-                int level = state.getValue(BlockCauldron.LEVEL);
-                if (level > 0) {
-                    if (!world.isRemote) {
-                        ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
-                        player.addStat(StatList.ARMOR_CLEANED);
-                        ((BlockCauldron) state.getBlock()).setWaterLevel(world, pos, state, level - 1);
+            if (stack.getItem() instanceof ItemTexturedArmor && ((ItemTexturedArmor) stack.getItem()).hasColor(stack)) {
+                IBlockState state = world.getBlockState(pos);
+                if (state.getBlock() instanceof BlockCauldron) {
+                    int level = state.getValue(BlockCauldron.LEVEL);
+                    if (level > 0) {
+                        if (!world.isRemote) {
+                            ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
+                            player.addStat(StatList.ARMOR_CLEANED);
+                            ((BlockCauldron) state.getBlock()).setWaterLevel(world, pos, state, level - 1);
+                        }
+                        player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
+                        event.setUseItem(Event.Result.DENY);
                     }
-                    player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
-                    event.setUseItem(Event.Result.DENY);
-                }
-            } else if (tank instanceof FluidTank) {
-                FluidTank fluidTank = (FluidTank) tank;
+                } else if (tank instanceof FluidTank) {
+                    FluidTank fluidTank = (FluidTank) tank;
 
-                if (fluidTank.getFluid() != null && fluidTank.getFluid().getFluid() == FluidRegistry.WATER && fluidTank.getFluidAmount() >= 250) {
-                    if (!world.isRemote) {
-                        ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
-                        player.addStat(StatList.ARMOR_CLEANED);
-                        tank.drain(250, true);
+                    if (fluidTank.getFluid() != null && fluidTank.getFluid().getFluid() == FluidRegistry.WATER && fluidTank.getFluidAmount() >= 250) {
+                        if (!world.isRemote) {
+                            ((ItemTexturedArmor) stack.getItem()).removeColor(stack);
+                            player.addStat(StatList.ARMOR_CLEANED);
+                            tank.drain(250, true);
+                        }
+                        player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
+                        event.setUseItem(Event.Result.ALLOW);
                     }
-                    player.playSound(SoundEvents.ENTITY_BOBBER_SPLASH, 0.16F, 0.66F);
-                    event.setUseItem(Event.Result.ALLOW);
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
