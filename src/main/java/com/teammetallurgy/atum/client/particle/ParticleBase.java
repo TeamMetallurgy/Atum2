@@ -38,8 +38,8 @@ public class ParticleBase extends Particle {
         this.particleTexture = texture;
     }
 
-    static TextureAtlasSprite registerSprite(ResourceLocation location) {
-        return TextureManagerParticles.INSTANCE.registerSprite(location);
+    static void registerSprite(ResourceLocation location) {
+        TextureManagerParticles.INSTANCE.registerSprite(location);
     }
 
     static TextureAtlasSprite getSprite(ResourceLocation location) {

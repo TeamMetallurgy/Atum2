@@ -34,7 +34,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BlockSpinningWheel extends BlockContainer {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    private static final PropertyDirection FACING = BlockHorizontal.FACING;
     public static final PropertyInteger SPOOL = PropertyInteger.create("spool", 0, 3);
     private static final PropertyBool WHEEL = PropertyBool.create("wheel");
 

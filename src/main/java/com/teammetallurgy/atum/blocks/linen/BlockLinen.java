@@ -22,7 +22,7 @@ public class BlockLinen extends Block implements IOreDictEntry {
     private static final Map<EnumDyeColor, Block> LINEN = Maps.newEnumMap(EnumDyeColor.class);
 
 
-    public BlockLinen(Material material) {
+    BlockLinen(Material material) {
         super(material);
         this.setHardness(0.6F);
         this.setSoundType(SoundType.CLOTH);
@@ -46,7 +46,7 @@ public class BlockLinen extends Block implements IOreDictEntry {
         return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase()));
     }
 
-    public String getColorString() {
+    String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
         return this.getRegistryName().getPath().replace("linen_", "");
     }

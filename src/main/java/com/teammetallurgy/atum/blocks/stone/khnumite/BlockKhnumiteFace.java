@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.khnumite;
 
+import com.teammetallurgy.atum.api.blocks.IKhnumite;
 import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
 import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.init.AtumBlocks;

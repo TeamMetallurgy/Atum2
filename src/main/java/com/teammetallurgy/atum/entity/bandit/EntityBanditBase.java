@@ -104,7 +104,7 @@ public class EntityBanditBase extends EntityMob {
         //Don't use for now, might do something with it later
     }
 
-    protected int getVariantAmount() {
+    int getVariantAmount() {
         return 6;
     }
 
@@ -118,7 +118,7 @@ public class EntityBanditBase extends EntityMob {
         }
     }
 
-    protected boolean hasSkinVariants() {
+    boolean hasSkinVariants() {
         return true;
     }
 

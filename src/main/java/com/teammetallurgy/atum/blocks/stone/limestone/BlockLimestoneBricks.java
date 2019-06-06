@@ -32,7 +32,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     private static final Map<BrickType, BlockLimestoneBricks> BRICKS = Maps.newEnumMap(BrickType.class);
     private static final Map<BrickType, BlockAtumDoor> DOORS = Maps.newEnumMap(BrickType.class);
 
-    public BlockLimestoneBricks() {
+    private BlockLimestoneBricks() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);

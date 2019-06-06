@@ -19,7 +19,7 @@ import java.util.Map;
 public class BlockAlabasterBricks extends Block implements IOreDictEntry {
     private static final Map<Type, BlockAlabasterBricks> BRICKS = Maps.newEnumMap(Type.class);
 
-    public BlockAlabasterBricks() {
+    private BlockAlabasterBricks() {
         super(Material.ROCK);
         this.setHardness(1.5F);
         this.setResistance(10.0F);

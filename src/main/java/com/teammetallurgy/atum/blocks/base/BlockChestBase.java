@@ -36,7 +36,7 @@ import java.util.Objects;
 public class BlockChestBase extends BlockChest {
     private static final Type ATUM_CHEST_TYPE = EnumHelper.addEnum(Type.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "chest")), new Class[0]);
 
-    public BlockChestBase() {
+    protected BlockChestBase() {
         super(Objects.requireNonNull(ATUM_CHEST_TYPE));
         this.setSoundType(SoundType.STONE);
         this.setHardness(3.0F);

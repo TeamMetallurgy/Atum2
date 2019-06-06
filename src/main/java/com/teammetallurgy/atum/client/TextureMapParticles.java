@@ -82,7 +82,7 @@ public class TextureMapParticles extends TextureMap { //Originally made by Mezz 
         bar.step("Stitching");
         stitcher.doStitch();
 
-        Atum.LOG.info("Created: {}x{} particle-atlas", stitcher.getCurrentWidth(), stitcher.getCurrentHeight(), this.basePath);
+        Atum.LOG.info("Created: {}x{} particle-atlas {}", stitcher.getCurrentWidth(), stitcher.getCurrentHeight(), this.basePath);
         bar.step("Allocating GL texture");
         TextureUtil.allocateTextureImpl(this.getGlTextureId(), 0, stitcher.getCurrentWidth(), stitcher.getCurrentHeight());
         Map<String, TextureAtlasSprite> map = Maps.newHashMap(this.mapRegisteredSprites);

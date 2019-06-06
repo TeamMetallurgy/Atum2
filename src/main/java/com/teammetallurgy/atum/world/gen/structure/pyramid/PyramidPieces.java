@@ -166,8 +166,6 @@ public class PyramidPieces {
                         this.setTrapsCopy(world, pos, rand, box, 2);
                         break;
                     case "FloorBox":
-                        this.setTrapsCopy(world, pos, rand, box, 3);
-                        break;
                     case "FloorSpace":
                         this.setTrapsCopy(world, pos, rand, box, 3);
                         break;

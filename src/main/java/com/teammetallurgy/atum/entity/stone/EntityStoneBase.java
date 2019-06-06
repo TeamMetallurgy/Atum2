@@ -67,7 +67,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
     }
 
-    protected void setFriendlyAttributes() {
+    void setFriendlyAttributes() {
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
     }
 
@@ -87,7 +87,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         return super.onInitialSpawn(difficulty, livingdata);
     }
 
-    protected void setVariant(int variant) {
+    void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
     }
 
@@ -212,7 +212,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         }
     }
 
-    protected boolean isPlayerCreated() {
+    boolean isPlayerCreated() {
         return (this.dataManager.get(PLAYER_CREATED) & 1) != 0;
     }
 

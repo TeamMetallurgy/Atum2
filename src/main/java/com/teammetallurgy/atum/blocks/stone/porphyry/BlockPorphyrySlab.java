@@ -15,7 +15,7 @@ import java.util.Map;
 public class BlockPorphyrySlab extends BlockAtumSlab {
     private static final Map<BlockAlabasterBricks.Type, Block> PORPHYRY_SLAB = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
 
-    public BlockPorphyrySlab() {
+    private BlockPorphyrySlab() {
         super(Material.ROCK, MapColor.BLACK);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.STONE);

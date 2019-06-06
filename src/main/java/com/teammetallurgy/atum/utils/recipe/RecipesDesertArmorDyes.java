@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.items.ItemTexturedArmor;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.NonNullList;
@@ -18,6 +19,7 @@ import net.minecraftforge.registries.IForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class RecipesDesertArmorDyes extends IForgeRegistryEntry.Impl<IRecipe> implements IRecipe {
@@ -90,7 +92,8 @@ public class RecipesDesertArmorDyes extends IForgeRegistryEntry.Impl<IRecipe> im
                         return ItemStack.EMPTY;
                     }
 
-                    float[] afloat = DyeUtils.colorFromStack(craftingStack).get().getColorComponentValues();
+                    Optional<EnumDyeColor> optionalColor = DyeUtils.colorFromStack(craftingStack);
+                    float[] afloat = optionalColor.map(EnumDyeColor::getColorComponentValues).orElseGet(() -> new float[]{});
                     int l1 = (int) (afloat[0] * 255.0F);
                     int i2 = (int) (afloat[1] * 255.0F);
                     int j2 = (int) (afloat[2] * 255.0F);

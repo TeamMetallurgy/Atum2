@@ -51,7 +51,7 @@ public class ChampionsHelper implements IModIntegration {
     }
 
     @SideOnly(Side.CLIENT)
-    public static int getTier(Entity entity) {
+    private static int getTier(Entity entity) {
         NBTTagCompound compound = new NBTTagCompound();
         entity.writeToNBT(compound);
         if (compound.hasKey("ForgeCaps")) {

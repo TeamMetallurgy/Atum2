@@ -67,7 +67,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
 
@@ -92,7 +92,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
         return blockDown == AtumBlocks.FERTILE_SOIL || blockDown == Blocks.GRASS || blockDown == Blocks.DIRT;
     }
 
-    public void generateTree(World world, BlockPos pos, IBlockState state, Random rand) {
+    private void generateTree(World world, BlockPos pos, IBlockState state, Random rand) {
         if (!TerrainGen.saplingGrowTree(world, rand, pos)) return;
         WorldGenerator generator = (rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true));
         int i = 0;

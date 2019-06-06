@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 public class EntityTefnutsCall extends CustomArrow {
-    public ItemStack stack = ItemStack.EMPTY;
+    private ItemStack stack = ItemStack.EMPTY;
 
     public EntityTefnutsCall(World world) {
         super(world);

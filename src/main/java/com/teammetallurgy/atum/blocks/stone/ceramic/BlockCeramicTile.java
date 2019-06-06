@@ -21,7 +21,7 @@ public class BlockCeramicTile extends BlockCeramic {
     private static final Map<EnumDyeColor, Block> CERAMIC_TILE = Maps.newEnumMap(EnumDyeColor.class);
     private static final AxisAlignedBB TILE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 
-    public BlockCeramicTile() {
+    private BlockCeramicTile() {
         super();
         this.setHardness(0.5F);
     }

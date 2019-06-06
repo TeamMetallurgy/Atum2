@@ -32,7 +32,7 @@ public abstract class BlockTrap extends BlockContainer {
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
     private static final PropertyBool DISABLED = PropertyBool.create("disabled");
 
-    public BlockTrap() {
+    protected BlockTrap() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setHarvestLevel("pickaxe", 0);

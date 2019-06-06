@@ -51,12 +51,10 @@ public class BlockDate extends BlockBush implements IGrowable {
     @Override
     @Nonnull
     public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        switch (state.getValue(AGE)) {
-            case 0:
-                return STEM;
-            default:
-                return BOUNDING_BOX;
+        if (state.getValue(AGE) == 0) {
+            return STEM;
         }
+        return BOUNDING_BOX;
     }
 
     @Override

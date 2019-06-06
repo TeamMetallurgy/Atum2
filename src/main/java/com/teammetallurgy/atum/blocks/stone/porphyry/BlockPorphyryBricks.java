@@ -20,7 +20,7 @@ import static com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBrick
 public class BlockPorphyryBricks extends Block implements IOreDictEntry {
     private static final Map<Type, BlockPorphyryBricks> BRICKS = Maps.newEnumMap(Type.class);
 
-    public BlockPorphyryBricks() {
+    private BlockPorphyryBricks() {
         super(Material.ROCK);
         this.setHardness(1.5F);
         this.setResistance(10.0F);

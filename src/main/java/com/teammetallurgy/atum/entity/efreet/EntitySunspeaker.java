@@ -150,7 +150,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         return this.buyingPlayer;
     }
 
-    public boolean isTrading() {
+    private boolean isTrading() {
         return this.buyingPlayer != null;
     }
 
@@ -326,12 +326,12 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    public static class ItemsForCoins implements EntityVillager.ITradeList {
+    static class ItemsForCoins implements EntityVillager.ITradeList {
         int price;
         Item buyingItem;
         EntityVillager.PriceInfo buyingAmount;
 
-        public ItemsForCoins(int price, Item item, EntityVillager.PriceInfo buyingAmount) {
+        ItemsForCoins(int price, Item item, EntityVillager.PriceInfo buyingAmount) {
             this.buyingItem = item;
             this.price = price;
             this.buyingAmount = buyingAmount;
@@ -349,7 +349,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     static class ILookAtTradePlayer extends EntityAIWatchClosest {
         private final EntitySunspeaker sunspeaker;
 
-        public ILookAtTradePlayer(EntitySunspeaker sunspeaker) {
+        ILookAtTradePlayer(EntitySunspeaker sunspeaker) {
             super(sunspeaker, EntityPlayer.class, 8.0F);
             this.sunspeaker = sunspeaker;
         }
