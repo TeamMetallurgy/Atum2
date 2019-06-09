@@ -23,7 +23,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -49,14 +48,14 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void renderSand(RenderGameOverlayEvent.Pre event) {
         if (event.getType() != ElementType.ALL) return;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
             //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
         }
-    }
+    }*/
 
     private static void renderSand(float partialTicks, int... layers) {
         float baseDarkness = AtumConfig.SAND_DARKNESS;
