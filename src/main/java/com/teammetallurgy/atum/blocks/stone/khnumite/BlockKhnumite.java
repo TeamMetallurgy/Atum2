@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.stone.khnumite;
 
-import com.teammetallurgy.atum.api.blocks.IKhnumite;
 import net.minecraft.block.BlockRotatedPillar;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
