@@ -92,8 +92,8 @@ public class AtumBlocks {
     public static final Block SAND_LAYERED = new BlockSandLayers();
     public static final Block RADIANT_BEACON = new BlockRadiantBeacon();
     public static final Block RADIANT_BEACON_FRAMED = new BlockFramedRadiantBeacon();
-    public static final Block CRYSTAL_GLASS = new BlockAtumGlass(Material.GLASS);
-    public static final Block FRAMED_GLASS = new BlockAtumGlass(Material.GLASS);
+    public static final Block CRYSTAL_GLASS = new BlockAtumGlass();
+    public static final Block FRAMED_GLASS = new BlockAtumGlass();
     public static final Block DATE_BLOCK = new BlockDate();
     public static final Block EMMER_WHEAT = new BlockEmmer();
     public static final BlockAnputsFingers ANPUTS_FINGERS = new BlockAnputsFingers();

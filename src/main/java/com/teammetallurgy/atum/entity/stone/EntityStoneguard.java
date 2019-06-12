@@ -125,7 +125,7 @@ public class EntityStoneguard extends EntityStoneBase {
 
     @Override
     protected boolean processInteract(EntityPlayer player, EnumHand hand) {
-        if (player.isSneaking() && player.getHeldItem(hand).isEmpty()) {
+        if (this.isPlayerCreated() && player.isSneaking() && player.getHeldItem(hand).isEmpty()) {
             if (!world.isRemote) {
                 for (ItemStack held : this.getHeldEquipment()) {
                     StackHelper.giveItem(player, hand, held);
