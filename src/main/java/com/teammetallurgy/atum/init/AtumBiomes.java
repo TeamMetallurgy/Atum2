@@ -36,9 +36,13 @@ public class AtumBiomes {
         BiomeDictionary.addTypes(DRIED_RIVER, BiomeDictionary.Type.RIVER);
         BiomeDictionary.addTypes(LIMESTONE_CRAGS, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.RARE);
         BiomeDictionary.addTypes(LIMESTONE_MOUNTAINS, BiomeDictionary.Type.MOUNTAIN);
-        BiomeDictionary.addTypes(OASIS, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.WET, BiomeDictionary.Type.RARE);
+        BiomeDictionary.addTypes(OASIS, BiomeTags.OASIS, BiomeDictionary.Type.LUSH, BiomeDictionary.Type.WET, BiomeDictionary.Type.RARE);
         BiomeDictionary.addTypes(SAND_DUNES, BiomeDictionary.Type.HILLS);
         BiomeDictionary.addTypes(SAND_HILLS, BiomeDictionary.Type.HILLS);
         BiomeDictionary.addTypes(SAND_PLAINS, BiomeDictionary.Type.PLAINS);
+    }
+
+    public static class BiomeTags {
+        public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
     }
 }

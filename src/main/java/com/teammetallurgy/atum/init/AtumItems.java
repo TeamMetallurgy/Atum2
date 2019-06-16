@@ -334,7 +334,7 @@ public class AtumItems {
         OreDictHelper.add(EMMER_DOUGH, "foodDough");
         OreDictHelper.add(EMMER_SEEDS, "seed");
         OreDictHelper.add(EMMER_SEEDS, "seedEmmer");
-        OreDictHelper.add(EMMER_BREAD, "foodBread");
+        OreDictHelper.add(EMMER_BREAD, "foodBread", "bread");
         OreDictHelper.add(KHNUMITE, "ingotKhnumite");
 
         MinecraftForge.EVENT_BUS.register(GEBS_MIGHT);
