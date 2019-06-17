@@ -146,7 +146,6 @@ public class BlockFertileSoilTilled extends BlockFarmland implements IRenderMapp
 
         switch (plantType) {
             case Crop:
-                return true;
             case Plains:
                 return true;
             default:

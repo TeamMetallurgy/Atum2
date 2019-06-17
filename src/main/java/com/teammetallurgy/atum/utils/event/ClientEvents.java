@@ -21,9 +21,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.WorldProvider;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.world.WorldEvent;
@@ -49,23 +49,24 @@ public class ClientEvents {
         }
     }
 
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void renderSand(RenderGameOverlayEvent.Pre event) {
         if (event.getType() != ElementType.ALL) return;
 
         if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
             //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
         }
-    }
+    }*/
 
     private static void renderSand(float partialTicks, int... layers) {
         float baseDarkness = AtumConfig.SAND_DARKNESS;
         float baseAlpha = AtumConfig.SAND_ALPHA;
         float eyesOfAtumAlpha = AtumConfig.SAND_EYES_ALPHA;
+        Minecraft mc = Minecraft.getMinecraft();
+        WorldProvider worldProvider = mc.player.world.provider;
 
-        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
-            Minecraft mc = Minecraft.getMinecraft();
-            WorldProviderAtum provider = (WorldProviderAtum) mc.player.world.provider;
+        if (worldProvider instanceof WorldProviderAtum && mc.player.dimension == AtumConfig.DIMENSION_ID) {
+            WorldProviderAtum provider = (WorldProviderAtum) worldProvider;
             float stormStrength = provider.stormStrength;
 
             if (stormStrength < 0.0001F) {
@@ -156,8 +157,9 @@ public class ClientEvents {
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
         float sandstormFog = AtumConfig.SANDSTORM_FOG;
+        WorldProvider provider = Minecraft.getMinecraft().player.world.provider;
 
-        if (event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
+        if (provider instanceof WorldProviderAtum && event.getEntity().dimension == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
             GlStateManager.setFog(GlStateManager.FogMode.EXP);
             float fogDensity = 0.08F;
 
@@ -174,8 +176,8 @@ public class ClientEvents {
                     fogDensity = fogDensity / 1.5F;
                 }
                 if (player.posY >= player.world.getSeaLevel() - 8) {
-                    WorldProviderAtum provider = (WorldProviderAtum) Minecraft.getMinecraft().player.world.provider;
-                    fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * provider.stormStrength);
+                    WorldProviderAtum providerAtum = (WorldProviderAtum) provider;
+                    fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * providerAtum.stormStrength);
                 }
                 GlStateManager.setFogDensity(fogDensity);
             }

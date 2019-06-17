@@ -17,7 +17,7 @@ import java.util.Map;
 public class BlockCeramic extends Block {
     private static final Map<EnumDyeColor, Block> CERAMIC = Maps.newEnumMap(EnumDyeColor.class);
 
-    public BlockCeramic() {
+    BlockCeramic() {
         super(Material.ROCK);
         this.setHardness(1.5F);
         this.setResistance(10.0F);

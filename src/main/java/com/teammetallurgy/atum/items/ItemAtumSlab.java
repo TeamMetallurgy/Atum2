@@ -43,7 +43,7 @@ public class ItemAtumSlab extends ItemBlock { //TODO Remove 1.13
 
     @Override
     @Nonnull
-    public EnumActionResult onItemUse(EntityPlayer player, World world, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(EntityPlayer player, World world, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = player.getHeldItem(hand);
 
         if (!heldItem.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, heldItem)) {
@@ -56,7 +56,7 @@ public class ItemAtumSlab extends ItemBlock { //TODO Remove 1.13
                     IBlockState doubleState = state.withProperty(BlockAtumSlab.TYPE, BlockAtumSlab.Type.DOUBLE);
                     AxisAlignedBB axisalignedbb = doubleState.getCollisionBoundingBox(world, pos);
 
-                    if (axisalignedbb != Block.NULL_AABB && world.checkNoEntityCollision(axisalignedbb.offset(pos)) && world.setBlockState(pos, doubleState, 11)) {
+                    if (axisalignedbb != null && axisalignedbb != Block.NULL_AABB && world.checkNoEntityCollision(axisalignedbb.offset(pos)) && world.setBlockState(pos, doubleState, 11)) {
                         SoundType soundType = this.slab.getSoundType(doubleState, world, pos, player);
                         world.playSound(player, pos, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                         heldItem.shrink(1);
@@ -76,7 +76,7 @@ public class ItemAtumSlab extends ItemBlock { //TODO Remove 1.13
 
     @Override
     @SideOnly(Side.CLIENT)
-    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, EntityPlayer player, ItemStack stack) {
+    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, @Nonnull EntityPlayer player, ItemStack stack) {
         IBlockState state = world.getBlockState(pos);
 
         if (state.getBlock() == this.slab) {

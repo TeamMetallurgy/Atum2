@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class AICamelCaravan extends EntityAIBase {
-    public EntityCamel camel;
+    private EntityCamel camel;
     private double speedModifier;
     private int distCheckCounter;
 

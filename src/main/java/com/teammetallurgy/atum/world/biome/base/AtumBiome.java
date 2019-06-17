@@ -198,7 +198,6 @@ public class AtumBiome extends Biome {
     }
 
     public static class AtumBiomeProperties extends BiomeProperties {
-        private String name;
         private int weight;
 
         public AtumBiomeProperties(String biomeName, int weight) {
@@ -210,7 +209,6 @@ public class AtumBiome extends Biome {
             this.setTemperature(2.0F);
             this.setWaterColor(16421912);
             this.weight = weight != 0 ? AtumConfig.config.get(AtumConfig.BIOME + Configuration.CATEGORY_SPLITTER + biomeName, "weight", weight).getInt() : 0;
-            this.name = biomeName;
 
             AtumConfig.config.save();
         }

@@ -31,7 +31,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
     private static final Map<Block, Block> UNLIT = Maps.newHashMap();
     private static final Map<Block, Block> LIT = Maps.newHashMap();
 
-    public BlockAtumTorchUnlit() {
+    private BlockAtumTorchUnlit() {
         super();
     }
 

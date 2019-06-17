@@ -18,7 +18,9 @@ public class TileEntitySmokeTrap extends TileEntityTrap {
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         if (!livingBase.isPotionActive(MobEffects.BLINDNESS)) {
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 120));
+            if (!world.isRemote) {
+                livingBase.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 120));
+            }
             world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ENTITY_CAT_HISS, SoundCategory.BLOCKS, 0.3F, 0.8F, false);
         }
 

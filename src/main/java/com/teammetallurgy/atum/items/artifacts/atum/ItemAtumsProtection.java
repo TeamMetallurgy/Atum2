@@ -34,7 +34,7 @@ public class ItemAtumsProtection extends ItemAtumShield {
 
     public ItemAtumsProtection() {
         super();
-        this.setMaxDamage(336);
+        this.setMaxDamage(500);
         this.setRepairItem(Items.DIAMOND);
     }
 

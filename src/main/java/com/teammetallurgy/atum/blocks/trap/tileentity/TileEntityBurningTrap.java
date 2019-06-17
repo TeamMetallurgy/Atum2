@@ -15,9 +15,11 @@ public class TileEntityBurningTrap extends TileEntityTrap {
         double z = (double) pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
-        livingBase.setFire(8);
+        if (!world.isRemote) {
+            livingBase.setFire(8);
+        }
 
-        if (world.rand.nextDouble() < 0.1D) {
+        if (world.rand.nextDouble() < 0.2D) {
             world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }
         switch (facing) {

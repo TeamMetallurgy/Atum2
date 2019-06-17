@@ -13,15 +13,15 @@ apply plugin: 'maven-publish'
 repositories {
   maven {
     name 'JEI'
-    url "http://dvs1.progwml6.com/files/maven"
+    url "https://dvs1.progwml6.com/files/maven"
   }
   maven {
     name 'Hwyla'
-    url "http://tehnut.info/maven"
+    url "https://tehnut.info/maven"
   }
   maven { 
     name 'CraftTweaker2'
-    url "http://maven.blamejared.com" 
+    url "https://maven.blamejared.com" 
   }
   maven {
     name 'Baubles'

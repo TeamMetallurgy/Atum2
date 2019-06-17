@@ -20,7 +20,7 @@ import java.util.Map;
 public class BlockCeramicSlab extends BlockAtumSlab {
     private static final Map<EnumDyeColor, Block> CERAMIC_SLAB = Maps.newEnumMap(EnumDyeColor.class);
 
-    public BlockCeramicSlab() {
+    private BlockCeramicSlab() {
         super(Material.ROCK);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.STONE);

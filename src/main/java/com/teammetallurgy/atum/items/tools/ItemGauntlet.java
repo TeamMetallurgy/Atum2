@@ -30,7 +30,7 @@ public class ItemGauntlet extends ItemSword {
     protected static final TObjectFloatMap<EntityLivingBase> cooldown = new TObjectFloatHashMap<>();
     private final float damage;
 
-    public ItemGauntlet(ToolMaterial material) {
+    protected ItemGauntlet(ToolMaterial material) {
         super(material);
         this.damage = material.getAttackDamage() + 2.5F;
     }

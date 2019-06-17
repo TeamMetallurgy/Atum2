@@ -22,7 +22,7 @@ public class BlockAtumPlank extends Block implements IOreDictEntry {
     private static final Map<WoodType, Block> PLANKS = Maps.newEnumMap(WoodType.class);
     private static final Map<WoodType, Item> STICKS = Maps.newEnumMap(WoodType.class);
 
-    public BlockAtumPlank() {
+    private BlockAtumPlank() {
         super(Material.WOOD);
         this.setHardness(2.0F);
         this.setResistance(5.0F);

@@ -46,7 +46,7 @@ public class EntityUndeadBase extends EntityMob {
         new PathNavigateGround(this, world).setEnterDoors(true);
     }
 
-    protected boolean hasSkinVariants() {
+    boolean hasSkinVariants() {
         return false;
     }
 
@@ -60,7 +60,7 @@ public class EntityUndeadBase extends EntityMob {
         this.applyEntityAI();
     }
 
-    protected void applyEntityAI() {
+    void applyEntityAI() {
         this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, EntityUndeadBase.class));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
@@ -101,11 +101,11 @@ public class EntityUndeadBase extends EntityMob {
         return livingdata;
     }
 
-    protected int getVariantAmount() {
+    int getVariantAmount() {
         return 6;
     }
 
-    protected void setVariantAbilities(DifficultyInstance difficulty, int variant) {
+    void setVariantAbilities(DifficultyInstance difficulty, int variant) {
     }
 
     @Override
@@ -159,11 +159,11 @@ public class EntityUndeadBase extends EntityMob {
         super.onEntityUpdate();
     }
 
-    protected float getBurnDamage() {
+    float getBurnDamage() {
         return 1.0F;
     }
 
-    protected boolean shouldBurnInDay() {
+    boolean shouldBurnInDay() {
         return true;
     }
 
@@ -183,7 +183,7 @@ public class EntityUndeadBase extends EntityMob {
         }
     }
 
-    protected void setVariant(int variant) {
+    void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
         this.texturePath = null;
     }

@@ -34,6 +34,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -258,13 +259,16 @@ public class AtumRecipes {
         recipes.remove(trapdoor);
         registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
 
-        //Wool
-        for (EnumDyeColor color : EnumDyeColor.values()) {
-            if (color != EnumDyeColor.WHITE) {
-                ResourceLocation location = new ResourceLocation(color.getName().replace("silver", "light_gray") + "_wool");
-                recipes.remove(location);
-                String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
-                registry.register(new ShapelessOreRecipe(location, new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, color.getMetadata()), "dye" + colorName, "woolWhite").setRegistryName(location));
+
+        if (ForgeVersion.getBuildVersion() >= 2831) {
+            //Wool
+            for (EnumDyeColor color : EnumDyeColor.values()) {
+                if (color != EnumDyeColor.WHITE) {
+                    ResourceLocation location = new ResourceLocation(color.getName().replace("silver", "light_gray") + "_wool");
+                    recipes.remove(location);
+                    String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
+                    registry.register(new ShapelessOreRecipe(location, new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, color.getMetadata()), "dye" + colorName, "woolWhite").setRegistryName(location));
+                }
             }
         }
 

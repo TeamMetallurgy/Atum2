@@ -7,9 +7,7 @@ import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeacon;
-import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockRenderLayer;
@@ -22,12 +20,11 @@ import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
-public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEntry {
+public class BlockAtumStainedGlass extends BlockAtumGlass implements IOreDictEntry {
 
     private BlockAtumStainedGlass() {
-        super(Material.GLASS, false);
+        super();
         this.setHardness(0.3F);
         this.setSoundType(SoundType.GLASS);
     }
@@ -49,21 +46,6 @@ public class BlockAtumStainedGlass extends BlockBreakable implements IOreDictEnt
     @SideOnly(Side.CLIENT)
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 0;
-    }
-
-    @Override
-    protected boolean canSilkHarvest() {
-        return true;
-    }
-
-    @Override
-    public boolean isFullCube(IBlockState state) {
-        return false;
     }
 
     @Override

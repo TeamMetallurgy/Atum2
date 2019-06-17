@@ -53,7 +53,7 @@ public class ItemSand extends ItemBlock {
                     }
                     AxisAlignedBB axisalignedbb = iblockstate1.getCollisionBoundingBox(world, blockpos);
 
-                    if (axisalignedbb != Block.NULL_AABB && world.checkNoEntityCollision(axisalignedbb.offset(blockpos)) && world.setBlockState(blockpos, iblockstate1, 10)) {
+                    if (axisalignedbb != null && axisalignedbb != Block.NULL_AABB && world.checkNoEntityCollision(axisalignedbb.offset(blockpos)) && world.setBlockState(blockpos, iblockstate1, 10)) {
                         SoundType soundtype = this.block.getSoundType(iblockstate1, world, pos, player);
                         world.playSound(player, blockpos, soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F);
 
@@ -74,7 +74,7 @@ public class ItemSand extends ItemBlock {
     }
 
     @Override
-    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, EntityPlayer player, ItemStack stack) {
+    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, @Nonnull EntityPlayer player, @Nonnull ItemStack stack) {
         IBlockState state = world.getBlockState(pos);
         return (state.getBlock() == AtumBlocks.SAND_LAYERED && state.getValue(BlockSandLayers.LAYERS) <= 7) || super.canPlaceBlockOnSide(world, pos, side, player, stack);
     }

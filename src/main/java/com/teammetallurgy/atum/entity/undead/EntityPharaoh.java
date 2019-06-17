@@ -179,7 +179,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) { //Don't drop Pharaoh Scepters
     }
 
-    public BlockPos getSarcophagusPos() {
+    private BlockPos getSarcophagusPos() {
         return this.dataManager.get(SARCOPHAGUS_POS).orNull();
     }
 
@@ -475,7 +475,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         SHU("shu", TextFormatting.BLUE),
         TEFNUT("tefnut", TextFormatting.DARK_BLUE);
 
-        public static Map<Integer, God> MAP;
+        static Map<Integer, God> MAP;
         private final String name;
         private final TextFormatting color;
 

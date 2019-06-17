@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class EntityCamelSpit extends EntityLlamaSpit {
-    public EntityCamel owner;
+    private EntityCamel owner;
     private NBTTagCompound ownerNbt;
 
     public EntityCamelSpit(World world) {

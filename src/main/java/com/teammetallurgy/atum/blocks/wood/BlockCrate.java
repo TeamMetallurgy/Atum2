@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 public class BlockCrate extends BlockContainer implements IOreDictEntry {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+    private static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final Map<BlockAtumPlank.WoodType, BlockCrate> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     private BlockCrate() {

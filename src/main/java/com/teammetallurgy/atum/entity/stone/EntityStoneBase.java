@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.*;
@@ -52,11 +53,12 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
     }
 
     private void applyEntityAI() {
+        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, 10, true, false, input -> !isPlayerCreated()));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && (!input.isPlayerCreated() && isPlayerCreated() || input.isPlayerCreated() && !isPlayerCreated())));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityMob.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof EntityStoneBase) && input.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD));
     }
 
     @Override
@@ -67,7 +69,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
     }
 
-    protected void setFriendlyAttributes() {
+    void setFriendlyAttributes() {
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
     }
 
@@ -87,7 +89,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         return super.onInitialSpawn(difficulty, livingdata);
     }
 
-    protected void setVariant(int variant) {
+    void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
     }
 
@@ -212,7 +214,7 @@ public class EntityStoneBase extends EntityMob implements IUnderground {
         }
     }
 
-    protected boolean isPlayerCreated() {
+    boolean isPlayerCreated() {
         return (this.dataManager.get(PLAYER_CREATED) & 1) != 0;
     }
 

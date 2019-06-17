@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.items.*;
+import com.teammetallurgy.atum.items.ItemDye;
 import com.teammetallurgy.atum.items.artifacts.anput.ItemAnputsHunger;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisWrath;
@@ -39,12 +40,9 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.Item;
+import net.minecraft.item.*;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemBlockSpecial;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemSword;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -334,7 +332,7 @@ public class AtumItems {
         OreDictHelper.add(EMMER_DOUGH, "foodDough");
         OreDictHelper.add(EMMER_SEEDS, "seed");
         OreDictHelper.add(EMMER_SEEDS, "seedEmmer");
-        OreDictHelper.add(EMMER_BREAD, "foodBread");
+        OreDictHelper.add(new ItemStack(EMMER_BREAD), "foodBread", "bread");
         OreDictHelper.add(KHNUMITE, "ingotKhnumite");
 
         MinecraftForge.EVENT_BUS.register(GEBS_MIGHT);

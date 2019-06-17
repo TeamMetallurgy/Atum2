@@ -9,7 +9,7 @@ Add to your build.gradle:
 repositories {
   maven {
     // url of the maven that hosts Atum 2 files
-    url "http://girafi.dk/maven/"
+    url "https://girafi.dk/maven/"
   }
 }
 
@@ -19,4 +19,4 @@ dependencies {
 }
 ```
 
-`${mc_version}` & `${atum2_version}` can be found [here](http://girafi.dk/maven/com/teammetallurgy/atum/), check the file name of the version you want.
+`${mc_version}` & `${atum2_version}` can be found [here](https://girafi.dk/maven/com/teammetallurgy/atum/), check the file name of the version you want.

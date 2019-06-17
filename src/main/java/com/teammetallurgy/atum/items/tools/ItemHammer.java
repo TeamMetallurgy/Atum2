@@ -29,7 +29,7 @@ public class ItemHammer extends ItemSword {
     protected static final TObjectIntMap<EntityLivingBase> stun = new TObjectIntHashMap<>();
     private final float damage;
 
-    public ItemHammer(ToolMaterial material) {
+    protected ItemHammer(ToolMaterial material) {
         super(material);
         this.damage = material.getAttackDamage() + 17.0F;
     }

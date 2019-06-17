@@ -32,7 +32,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class BlockOphidianTongue extends BlockVine implements IOreDictEntry {
-    public static final PropertyBool HAS_FLOWERS = PropertyBool.create("flowers");
+    private static final PropertyBool HAS_FLOWERS = PropertyBool.create("flowers");
 
     public BlockOphidianTongue() {
         super();

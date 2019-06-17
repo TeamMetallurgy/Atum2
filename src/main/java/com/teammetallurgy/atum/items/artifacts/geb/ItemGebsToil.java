@@ -39,7 +39,7 @@ public class ItemGebsToil extends ItemSpade {
     }
 
     @Override
-    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World world, IBlockState state, BlockPos pos, EntityLivingBase entityLiving) {
+    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World world, @Nonnull IBlockState state, @Nonnull BlockPos pos, @Nonnull EntityLivingBase entityLiving) {
         if (entityLiving instanceof EntityPlayer && !world.isRemote) {
             ((EntityPlayer) entityLiving).getFoodStats().addExhaustion(-0.005F);
             if (itemRand.nextFloat() <= 0.10F) {

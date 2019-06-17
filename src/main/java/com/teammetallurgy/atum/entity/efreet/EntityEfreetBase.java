@@ -73,15 +73,15 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         }
     }
 
-    protected int getVariantAmount() {
+    int getVariantAmount() {
         return 3;
     }
 
-    protected boolean hasSkinVariants() {
+    boolean hasSkinVariants() {
         return this.getVariantAmount() > 0;
     }
 
-    protected void setVariant(int variant) {
+    void setVariant(int variant) {
         this.dataManager.set(VARIANT, variant);
         this.texturePath = null;
     }

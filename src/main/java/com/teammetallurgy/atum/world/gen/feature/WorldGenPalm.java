@@ -148,7 +148,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     }
 
                     BlockPos datePos = leafPos.down().offset(EnumFacing.Plane.HORIZONTAL.random(random));
-                    if (this.stateLeaves.getBlock() == BLOCK_LEAVES && random.nextFloat() <= 0.10F) {
+                    if (this.stateLeaves.getBlock() == BLOCK_LEAVES.getBlock() && random.nextFloat() <= 0.10F) {
                         world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().withProperty(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
                     }
                 }

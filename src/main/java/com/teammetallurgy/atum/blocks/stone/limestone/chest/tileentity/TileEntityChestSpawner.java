@@ -79,12 +79,11 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
 
     private static ResourceLocation getDayTime(int spawnPool) {
         switch (spawnPool) {
-            case 0:
-                return AtumEntities.BARBARIAN.getRegistryName();
             case 1:
                 return AtumEntities.BRIGAND.getRegistryName();
             case 2:
                 return AtumEntities.NOMAD.getRegistryName();
+            case 0:
             default:
                 return AtumEntities.BARBARIAN.getRegistryName();
         }
@@ -92,12 +91,11 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
 
     private static ResourceLocation getNightTime(int spawnPool) {
         switch (spawnPool) {
-            case 0:
-                return AtumEntities.MUMMY.getRegistryName();
             case 1:
                 return AtumEntities.FORSAKEN.getRegistryName();
             case 2:
                 return AtumEntities.BONESTORM.getRegistryName();
+            case 0:
             default:
                 return AtumEntities.MUMMY.getRegistryName();
         }

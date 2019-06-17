@@ -24,7 +24,7 @@ public class BlockLinenCarpet extends BlockLinen {
     private static final Map<EnumDyeColor, Block> LINEN_CARPET = Maps.newEnumMap(EnumDyeColor.class);
     private static final AxisAlignedBB CARPET_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 
-    public BlockLinenCarpet() {
+    private BlockLinenCarpet() {
         super(Material.CARPET);
         this.setHardness(0.1F);
     }
