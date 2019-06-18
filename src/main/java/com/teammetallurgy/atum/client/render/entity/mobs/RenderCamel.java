@@ -36,11 +36,8 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
         if (location == null) {
             location = new ResourceLocation(textureName);
             String[] texturePath = new String[3];
-            if (camel.hasCustomName()) {
-                String name = camel.getCustomNameTag();
-                if (name.equalsIgnoreCase("girafi")) {
-                    texturePath[0] = GIRAFI.toString();
-                }
+            if ("girafi".equalsIgnoreCase(camel.getCustomNameTag())) {
+                texturePath[0] = GIRAFI.toString();
             } else {
                 texturePath[0] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_" + camel.getVariant()) + ".png";
             }

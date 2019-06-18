@@ -216,11 +216,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @SideOnly(Side.CLIENT)
     public String getTexture() {
         if (this.textureName == null) {
-            if (this.hasCustomName()) {
-                String name = this.getCustomNameTag();
-                if (name.equalsIgnoreCase("girafi")) {
-                    this.textureName = "girafi";
-                }
+            if ("girafi".equalsIgnoreCase(this.getCustomNameTag())) {
+                this.textureName = "girafi";
             } else {
                 this.textureName = String.valueOf(this.getVariant());
             }
