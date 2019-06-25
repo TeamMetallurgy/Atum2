@@ -102,9 +102,8 @@ public class BlockPortal extends BlockBreakable {
 
     public static void changeDimension(World world, EntityPlayerMP player, int dimension, ITeleporter teleporter) {
         if (!world.isRemote) {
-            player.timeUntilPortal = 300;
-
             player.changeDimension(dimension, teleporter);
+            player.timeUntilPortal = 300;
             if (player.dimension == AtumConfig.DIMENSION_ID) {
                 BlockPos playerPos = new BlockPos(player);
                 if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, EnumFacing.UP)) {
