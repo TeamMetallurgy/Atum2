@@ -28,7 +28,7 @@ public class AtumBiomes {
         for (AtumBiome biome : AtumRegistry.BIOMES) {
             ForgeRegistries.BIOMES.register(biome);
             if (biome != AtumBiomes.OASIS) {
-                BiomeDictionary.addTypes(biome, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.DRY);
+                BiomeDictionary.addTypes(biome, BiomeTags.ATUM, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.DRY);
             }
         }
         BiomeDictionary.addTypes(DEAD_OASIS, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.RARE);
@@ -43,6 +43,7 @@ public class AtumBiomes {
     }
 
     public static class BiomeTags {
+        public static final BiomeDictionary.Type ATUM = BiomeDictionary.Type.getType("ATUM");
         public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
     }
 }
