@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.utils.event;
 import com.teammetallurgy.atum.blocks.BlockPortal;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
+import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
@@ -18,8 +19,10 @@ import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
 import net.minecraft.block.*;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityFishHook;
@@ -38,6 +41,7 @@ import net.minecraft.world.WorldServer;
 import net.minecraft.world.storage.loot.LootContext;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.UseHoeEvent;
@@ -183,7 +187,7 @@ public class AtumEventListener {
             event.setCanceled(true); //We don't want vanillas loot table
             if (heldStack.getItem() instanceof ItemAtumsBounty) {
                 catchFish(world, angler, fishHook, builder, AtumLootTables.ATUMS_BOUNTY);
-                angler.world.spawnEntity(new EntityXPOrb(angler.world, angler.posX, angler.posY + 0.5D, angler.posZ + 0.5D,  world.rand.nextInt(6) + 1));
+                angler.world.spawnEntity(new EntityXPOrb(angler.world, angler.posX, angler.posY + 0.5D, angler.posZ + 0.5D, world.rand.nextInt(6) + 1));
             } else {
                 catchFish(world, angler, fishHook, builder, AtumLootTables.FISHING);
             }
@@ -224,6 +228,25 @@ public class AtumEventListener {
             event.setResult(Event.Result.ALLOW);
 
             world.playSound(null, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onSpawn(LivingSpawnEvent.CheckSpawn event) { //TODO Remove in 1.14. Not needed
+        EntityLivingBase livingBase = event.getEntityLiving();
+        if (event.isSpawner() && (livingBase instanceof EntityUndeadBase || livingBase instanceof EntityBanditBase)) {
+            EntityMob mob = (EntityMob) livingBase;
+            if (mob instanceof EntityUndeadBase) {
+                EntityUndeadBase undeadBase = (EntityUndeadBase) mob;
+                if (undeadBase.canSpawnNoHeightCheck(true)) {
+                    event.setResult(Event.Result.ALLOW);
+                }
+            } else if (mob instanceof EntityBanditBase) {
+                EntityBanditBase banditBase = (EntityBanditBase) mob;
+                if (banditBase.canSpawnNoHeightCheck(true)) {
+                    event.setResult(Event.Result.ALLOW);
+                }
+            }
         }
     }
 }

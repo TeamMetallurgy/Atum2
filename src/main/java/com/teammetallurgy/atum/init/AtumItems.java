@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.ItemDye;
+import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anput.ItemAnputsHunger;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisMercy;
 import com.teammetallurgy.atum.items.artifacts.anubis.ItemAnubisWrath;

@@ -179,8 +179,13 @@ public class EntityUndeadBase extends EntityMob {
         if (i <= 62) {
             return false;
         } else {
-            return super.getCanSpawnHere();
+            return canSpawnNoHeightCheck(false);
         }
+    }
+
+    public boolean canSpawnNoHeightCheck(boolean isFromSpawner) {
+        return super.getCanSpawnHere() && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()
+                && (isFromSpawner || !this.world.containsAnyLiquid(this.getEntityBoundingBox()));
     }
 
     void setVariant(int variant) {
