@@ -182,13 +182,20 @@ public class EntityBanditBase extends EntityMob {
     @Override
     public boolean getCanSpawnHere() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
-        return pos.getY() > 62 && this.isValidLightLevel() && this.world.canBlockSeeSky(pos) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL && world.isDaytime() && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
+        return pos.getY() > 62 && canSpawnNoHeightCheck(false);
     }
 
     @Override
     protected boolean isValidLightLevel() {
         BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
         return this.world.getLightFor(EnumSkyBlock.BLOCK, pos) <= 8;
+    }
+
+    public boolean canSpawnNoHeightCheck(boolean isFromSpawner) {
+        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        return this.isValidLightLevel() && this.world.canBlockSeeSky(pos) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL && world.isDaytime()
+                && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()
+                && (isFromSpawner || !this.world.containsAnyLiquid(this.getEntityBoundingBox()));
     }
 
     @Override
