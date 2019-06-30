@@ -125,13 +125,15 @@ public class BlockKiln extends BlockContainer {
     }
 
     private BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
-            return pos;
-        } else {
-            state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
+        if (world != null && !world.isAirBlock(pos)) {
+            IBlockState state = world.getBlockState(pos);
             if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
-                return pos.offset(state.getValue(FACING).rotateYCCW());
+                return pos;
+            } else {
+                state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
+                if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
+                    return pos.offset(state.getValue(FACING).rotateYCCW());
+                }
             }
         }
         return null;
