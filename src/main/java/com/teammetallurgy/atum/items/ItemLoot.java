@@ -105,7 +105,7 @@ public class ItemLoot extends Item implements IOreDictEntry {
         IDOL("idol"),
         NECKLACE("necklace"),
         RING("ring"),
-        BROACH("broach"),
+        BROOCH("brooch"),
         SCEPTER("scepter");
 
         private final String unlocalizedName;
