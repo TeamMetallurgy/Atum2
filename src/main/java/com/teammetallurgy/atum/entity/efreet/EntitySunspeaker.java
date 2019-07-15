@@ -231,7 +231,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
                 double modifier = 1.0D;
                 if (type == ItemLoot.Type.NECKLACE) {
                     modifier = 2.0D;
-                } else if (type == ItemLoot.Type.BROACH) {
+                } else if (type == ItemLoot.Type.BROOCH) {
                     modifier = 2.5D;
                 } else if (type == ItemLoot.Type.SCEPTER) {
                     modifier = 3.0D;

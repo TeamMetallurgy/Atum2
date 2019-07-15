@@ -255,62 +255,62 @@
         ]
       }
     },
-    "silver_broach": {
+    "silver_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_broach"
+            "item": "atum:loot_silver_brooch"
           }
         ]
       }
     },
-    "gold_broach": {
+    "gold_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_gold_broach"
+            "item": "atum:loot_gold_brooch"
           }
         ]
       }
     },
-    "sapphire_broach": {
+    "sapphire_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_sapphire_broach"
+            "item": "atum:loot_sapphire_brooch"
           }
         ]
       }
     },
-    "emerald_broach": {
+    "emerald_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_emerald_broach"
+            "item": "atum:loot_emerald_brooch"
           }
         ]
       }
     },
-    "ruby_broach": {
+    "ruby_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_ruby_broach"
+            "item": "atum:loot_ruby_brooch"
           }
         ]
       }
     },
-    "diamond_broach": {
+    "diamond_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_diamond_broach"
+            "item": "atum:loot_diamond_brooch"
           }
         ]
       }

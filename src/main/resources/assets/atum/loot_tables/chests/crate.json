@@ -330,8 +330,8 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_broach",
-          "entryName": "loot_dirty_broach",
+          "name": "atum:loot_dirty_brooch",
+          "entryName": "loot_dirty_brooch",
           "weight": 10
         },
         {
