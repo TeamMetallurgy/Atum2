@@ -204,6 +204,7 @@ public class AtumRecipes {
         final ResourceLocation framed = new ResourceLocation(Constants.MOD_ID, "framed_glass");
         final ResourceLocation linen = new ResourceLocation(Constants.MOD_ID, "linen");
         final ResourceLocation ceramic = new ResourceLocation(Constants.MOD_ID, "ceramic");
+        final ResourceLocation concretePowder = new ResourceLocation(Constants.MOD_ID, "concrete_powder");
 
         for (EnumDyeColor color : EnumDyeColor.values()) {
             String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
@@ -221,6 +222,8 @@ public class AtumRecipes {
             AtumRegistry.registerRecipe("ceramic_stairs_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockAtumStairs.getCeramicStairs(color), 4), "C  ", "CC ", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)).setMirrored(true), event);
             AtumRegistry.registerRecipe("ceramic_wall_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicWall.getWall(color), 6), "CCC", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
             AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 5), "LLL", 'L', BlockLinen.getLinen(color)), event);
+            //Concrete Powder
+            AtumRegistry.registerRecipe("concrete_powder" + colorName, new ShapelessOreRecipe(concretePowder, new ItemStack(Blocks.CONCRETE_POWDER, 8, color.getMetadata()), "dye" + colorName, "sand", "sand", "sand", "sand", "gravel", "gravel", "gravel", "gravel"), event);
         }
         AtumRecipes.register();
         if (AtumConfig.RECIPE_OVERRIDING) {
