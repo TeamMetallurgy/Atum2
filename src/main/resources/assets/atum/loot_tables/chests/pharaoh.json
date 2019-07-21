@@ -231,8 +231,8 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_brooch",
-          "entryName": "loot_dirty_brooch",
+          "name": "atum:loot_dirty_broach",
+          "entryName": "loot_dirty_broach",
           "functions": [
             {
               "function": "set_count",
