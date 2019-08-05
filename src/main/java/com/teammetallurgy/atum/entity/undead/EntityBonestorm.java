@@ -18,7 +18,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nullable;
-import java.util.Objects;
 
 public class EntityBonestorm extends EntityUndeadBase {
     private static final ResourceLocation BONESTORM_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png");
@@ -146,46 +145,48 @@ public class EntityBonestorm extends EntityUndeadBase {
         public void updateTask() {
             --this.attackTime;
             EntityLivingBase livingBase = this.bonestorm.getAttackTarget();
-            double distance = this.bonestorm.getDistanceSq(Objects.requireNonNull(livingBase));
+            if (livingBase != null) {
+                double distance = this.bonestorm.getDistanceSq(livingBase);
 
-            if (distance < 4.0D) {
-                if (this.attackTime <= 0) {
-                    this.attackTime = 20;
-                    this.bonestorm.attackEntityAsMob(livingBase);
-                }
-                this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
-            } else if (distance < this.getFollowDistance() * this.getFollowDistance()) {
-                double boneX = livingBase.posX - this.bonestorm.posX;
-                double boneY = livingBase.getEntityBoundingBox().minY + (double) (livingBase.height / 2.0F) - (this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F));
-                double boneZ = livingBase.posZ - this.bonestorm.posZ;
-
-                if (this.attackTime <= 0) {
-                    ++this.attackStep;
-
-                    if (this.attackStep == 1) {
-                        this.attackTime = 60;
-                    } else if (this.attackStep <= 4) {
-                        this.attackTime = 6;
-                    } else {
-                        this.attackTime = 100;
-                        this.attackStep = 0;
+                if (distance < 4.0D) {
+                    if (this.attackTime <= 0) {
+                        this.attackTime = 20;
+                        this.bonestorm.attackEntityAsMob(livingBase);
                     }
+                    this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
+                } else if (distance < this.getFollowDistance() * this.getFollowDistance()) {
+                    double boneX = livingBase.posX - this.bonestorm.posX;
+                    double boneY = livingBase.getEntityBoundingBox().minY + (double) (livingBase.height / 2.0F) - (this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F));
+                    double boneZ = livingBase.posZ - this.bonestorm.posZ;
 
-                    if (this.attackStep > 1) {
-                        float f = MathHelper.sqrt(MathHelper.sqrt(distance)) * 0.5F;
-                        this.bonestorm.world.playSound(null, livingBase.getPosition(), SoundEvents.ENTITY_SKELETON_HURT, SoundCategory.HOSTILE, 0.7F, (this.bonestorm.rand.nextFloat() - this.bonestorm.rand.nextFloat()) * 0.2F + 1.0F);
+                    if (this.attackTime <= 0) {
+                        ++this.attackStep;
 
-                        for (int i = 0; i < 1; ++i) {
-                            EntitySmallBone entitySmallBone = new EntitySmallBone(this.bonestorm.world, this.bonestorm, boneX + this.bonestorm.getRNG().nextGaussian() * (double) f, boneY, boneZ + this.bonestorm.getRNG().nextGaussian() * (double) f);
-                            entitySmallBone.posY = this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F) + 0.5D;
-                            this.bonestorm.world.spawnEntity(entitySmallBone);
+                        if (this.attackStep == 1) {
+                            this.attackTime = 60;
+                        } else if (this.attackStep <= 4) {
+                            this.attackTime = 6;
+                        } else {
+                            this.attackTime = 100;
+                            this.attackStep = 0;
+                        }
+
+                        if (this.attackStep > 1) {
+                            float f = MathHelper.sqrt(MathHelper.sqrt(distance)) * 0.5F;
+                            this.bonestorm.world.playSound(null, livingBase.getPosition(), SoundEvents.ENTITY_SKELETON_HURT, SoundCategory.HOSTILE, 0.7F, (this.bonestorm.rand.nextFloat() - this.bonestorm.rand.nextFloat()) * 0.2F + 1.0F);
+
+                            for (int i = 0; i < 1; ++i) {
+                                EntitySmallBone entitySmallBone = new EntitySmallBone(this.bonestorm.world, this.bonestorm, boneX + this.bonestorm.getRNG().nextGaussian() * (double) f, boneY, boneZ + this.bonestorm.getRNG().nextGaussian() * (double) f);
+                                entitySmallBone.posY = this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F) + 0.5D;
+                                this.bonestorm.world.spawnEntity(entitySmallBone);
+                            }
                         }
                     }
+                    this.bonestorm.getLookHelper().setLookPositionWithEntity(livingBase, 10.0F, 10.0F);
+                } else {
+                    this.bonestorm.getNavigator().clearPath();
+                    this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
                 }
-                this.bonestorm.getLookHelper().setLookPositionWithEntity(livingBase, 10.0F, 10.0F);
-            } else {
-                this.bonestorm.getNavigator().clearPath();
-                this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
             }
             super.updateTask();
         }
