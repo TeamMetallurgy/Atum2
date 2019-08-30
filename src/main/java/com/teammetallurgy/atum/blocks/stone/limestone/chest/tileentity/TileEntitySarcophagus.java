@@ -85,7 +85,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
 
     public void spawn(EntityPlayer player, DifficultyInstance difficulty) {
         if (!world.isRemote) {
-            EntityPharaoh pharaoh = new EntityPharaoh(world, true);
+            EntityPharaoh pharaoh = new EntityPharaoh(world);
             pharaoh.onInitialSpawn(difficulty, null);
             EnumFacing blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
             pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
