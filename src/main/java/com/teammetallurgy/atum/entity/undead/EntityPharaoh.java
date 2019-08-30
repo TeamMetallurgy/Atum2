@@ -62,7 +62,6 @@ public class EntityPharaoh extends EntityUndeadBase {
     private static final DataParameter<Integer> NUMERAL = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<BlockPos>> SARCOPHAGUS_POS = EntityDataManager.createKey(EntityPharaoh.class, DataSerializers.OPTIONAL_BLOCK_POS);
     private final BossInfoServer bossInfo = (BossInfoServer) new BossInfoServer(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.NOTCHED_10).setCreateFog(true);
-    private boolean hasSarcophagus;
     private int stage;
     private int suffixID = 0;
     private int prefixID = 0;
@@ -73,18 +72,13 @@ public class EntityPharaoh extends EntityUndeadBase {
     private String texturePath;
 
     public EntityPharaoh(World world) {
-        this(world, false);
-    }
-
-    public EntityPharaoh(World world, boolean setSarcophagusPos) {
         super(world);
         this.setHealth(this.getMaxHealth());
         this.isImmuneToFire = true;
         this.experienceValue = 250;
-        this.hasSarcophagus = setSarcophagusPos;
         this.stage = 0;
         this.setCanPickUpLoot(false);
-        ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
+        ((PathNavigateGround) this.getNavigator()).setBreakDoors(true);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -127,6 +121,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         this.dataManager.register(PREFIX, 0);
         this.dataManager.register(SUFFIX, 0);
         this.dataManager.register(NUMERAL, 0);
+        this.dataManager.register(SARCOPHAGUS_POS, Optional.absent());
     }
 
     @Override
@@ -150,8 +145,9 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     @SideOnly(Side.CLIENT)
     public String getTexture() {
-        if (this.texturePath == null)
+        if (this.texturePath == null) {
             this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh_" + God.getGod(this.getVariant())) + ".png";
+        }
         return this.texturePath;
     }
 
@@ -184,7 +180,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     public void setSarcophagusPos(BlockPos pos) {
-        this.dataManager.register(SARCOPHAGUS_POS, Optional.of(pos));
+        this.dataManager.set(SARCOPHAGUS_POS, Optional.fromNullable(pos));
     }
 
     @Override
@@ -198,7 +194,7 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     public void onDeath(@Nonnull DamageSource source) {
-        if (this.hasSarcophagus) {
+        if (!world.isRemote) {
             BlockPos sarcophagusPos = getSarcophagusPos();
             if (sarcophagusPos != null) {
                 TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
@@ -342,7 +338,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         }
 
         if (this.world.getDifficulty().getId() == 0) {
-            if (this.hasSarcophagus) {
+            if (this.getSarcophagusPos() != null) {
                 TileEntity te = world.getTileEntity(this.getSarcophagusPos());
                 if (te instanceof TileEntitySarcophagus) {
                     ((TileEntitySarcophagus) te).hasSpawned = false;
@@ -380,13 +376,11 @@ public class EntityPharaoh extends EntityUndeadBase {
         compound.setInteger("prefix", prefixID);
         compound.setInteger("suffix", suffixID);
         compound.setInteger("numeral", numID);
-        if (hasSarcophagus) {
-            BlockPos sarcophagusPos = getSarcophagusPos();
-            if (sarcophagusPos != null) {
-                compound.setInteger("sarcophagus_x", sarcophagusPos.getX());
-                compound.setInteger("sarcophagus_y", sarcophagusPos.getY());
-                compound.setInteger("sarcophagus_z", sarcophagusPos.getZ());
-            }
+        BlockPos sarcophagusPos = getSarcophagusPos();
+        if (sarcophagusPos != null) {
+            compound.setInteger("sarcophagus_x", sarcophagusPos.getX());
+            compound.setInteger("sarcophagus_y", sarcophagusPos.getY());
+            compound.setInteger("sarcophagus_z", sarcophagusPos.getZ());
         }
     }
 
@@ -396,15 +390,13 @@ public class EntityPharaoh extends EntityUndeadBase {
         prefixID = compound.getInteger("prefix");
         suffixID = compound.getInteger("suffix");
         numID = compound.getInteger("numeral");
-        if (this.hasSarcophagus) {
-            if (compound.hasKey("sarcophagus_x")) {
-                int x = compound.getInteger("sarcophagus_x");
-                int y = compound.getInteger("sarcophagus_y");
-                int z = compound.getInteger("sarcophagus_z");
-                this.dataManager.set(SARCOPHAGUS_POS, Optional.of(new BlockPos(x, y, z)));
-            } else {
-                this.dataManager.set(SARCOPHAGUS_POS, Optional.absent());
-            }
+        if (compound.hasKey("sarcophagus_x")) {
+            int x = compound.getInteger("sarcophagus_x");
+            int y = compound.getInteger("sarcophagus_y");
+            int z = compound.getInteger("sarcophagus_z");
+            this.dataManager.set(SARCOPHAGUS_POS, Optional.of(new BlockPos(x, y, z)));
+        } else {
+            this.dataManager.set(SARCOPHAGUS_POS, Optional.absent());
         }
         this.setPharaohName(compound.getInteger("prefix"), compound.getInteger("suffix"), compound.getInteger("numeral"));
     }
