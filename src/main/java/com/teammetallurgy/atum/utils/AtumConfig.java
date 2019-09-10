@@ -141,7 +141,7 @@ public class AtumConfig {
 
         PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, true, "Set to true to enable Pyramids");
 
-        WATER_LEVEL = config.getInt("water level", WORLDGEN, 50, 0, 255, "Sets above what Y-level water will vaporize at (Except Oasis)");
+        WATER_LEVEL = config.getInt("water level", WORLDGEN, 50, 0, 255, "Sets above what Y-level water will vaporize at (Except Oasis). Set to 0 to disable");
 
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrder);
 
