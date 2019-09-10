@@ -70,13 +70,15 @@ public class WorldProviderAtum extends WorldProvider {
 
     @SubscribeEvent
     public static void onUseBucket(PlayerInteractEvent.RightClickBlock event) {
-        usePos = event.getPos();
+        if (AtumConfig.WATER_LEVEL > 0) {
+            usePos = event.getPos();
+        }
     }
 
     @Override
     public boolean doesWaterVaporize() {
         if (usePos != null) {
-            return world.getBiome(usePos) != AtumBiomes.OASIS && usePos.getY() > 49;
+            return world.getBiome(usePos) != AtumBiomes.OASIS && usePos.getY() >= AtumConfig.WATER_LEVEL;
         }
         return true;
     }

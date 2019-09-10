@@ -24,7 +24,6 @@ public class AtumConfig {
     //Config entries
     public static boolean ALLOW_CREATION;
     public static boolean FOG_ENABLED;
-    public static boolean PYRAMID_ENABLED;
     public static boolean START_IN_ATUM;
     public static String ATUM_START_STRUCTURE;
     public static boolean START_IN_ATUM_PORTAL;
@@ -37,8 +36,11 @@ public class AtumConfig {
     public static float SAND_EYES_ALPHA;
     public static int SANDSTORM_TRANSITION_TIME;
 
-    public static int subBiomePercentageChance;
-    public static int oasisChance;
+    public static int SUB_BIOME_CHANCE;
+    public static int OASIS_CHANCE;
+
+    public static boolean PYRAMID_ENABLED;
+    public static int WATER_LEVEL;
 
     public AtumConfig(File file) {
         AtumConfig.config = new Configuration(file);
@@ -128,16 +130,18 @@ public class AtumConfig {
         prop = config.get(BIOME, "oases chance", 30);
         prop.setComment("By default 1 in 30 Sand Plains or Sand Dunes biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.");
         prop.setLanguageKey("atum.configGui.oaseschances");
-        subBiomePercentageChance = prop.getInt();
+        SUB_BIOME_CHANCE = prop.getInt();
         propOrder.add(prop.getName());
 
         prop = config.get(BIOME, "oasis percentage", 50);
         prop.setComment("Sets the percentage chance for oases to generate as an Oasis. The remaining oases will generate as an Dead Oasis. Set to 0 to only get Dead Oasis or to 100 to only get Oasis");
         prop.setLanguageKey("atum.configGui.oasispercentage");
-        oasisChance = prop.getInt();
+        OASIS_CHANCE = prop.getInt();
         propOrder.add(prop.getName());
 
         PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, true, "Set to true to enable Pyramids");
+
+        WATER_LEVEL = config.getInt("water level", WORLDGEN, 50, 0, 255, "Sets above what Y-level water will vaporize at (Except Oasis)");
 
         config.setCategoryPropertyOrder(CATEGORY_GENERAL, propOrder);
 
