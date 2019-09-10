@@ -37,6 +37,9 @@ public class AtumConfig {
     public static float SAND_EYES_ALPHA;
     public static int SANDSTORM_TRANSITION_TIME;
 
+    public static int subBiomePercentageChance;
+    public static int oasisChance;
+
     public AtumConfig(File file) {
         AtumConfig.config = new Configuration(file);
 
@@ -120,6 +123,18 @@ public class AtumConfig {
         prop.setComment("Seconds it takes to transition from clear to sandstorm");
         prop.setLanguageKey("atum.configGui.sandstormtransition");
         SANDSTORM_TRANSITION_TIME = prop.getInt();
+        propOrder.add(prop.getName());
+
+        prop = config.get(BIOME, "oases chance", 30);
+        prop.setComment("By default 1 in 30 Sand Plains or Sand Dunes biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.");
+        prop.setLanguageKey("atum.configGui.oaseschances");
+        subBiomePercentageChance = prop.getInt();
+        propOrder.add(prop.getName());
+
+        prop = config.get(BIOME, "oasis percentage", 50);
+        prop.setComment("Sets the percentage chance for oases to generate as an Oasis. The remaining oases will generate as an Dead Oasis. Set to 0 to only get Dead Oasis or to 100 to only get Oasis");
+        prop.setLanguageKey("atum.configGui.oasispercentage");
+        oasisChance = prop.getInt();
         propOrder.add(prop.getName());
 
         PYRAMID_ENABLED = config.getBoolean("Should Pyramids generate in Atum?", WORLDGEN, true, "Set to true to enable Pyramids");
