@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.utils;
 
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumHand;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -25,11 +25,11 @@ public class StackHelper {
      * @param stack the stack you wish to check the NBTTagCompound of
      * @return the stacks tag
      */
-    public static NBTTagCompound getTag(@Nonnull ItemStack stack) {
+    public static CompoundNBT getTag(@Nonnull ItemStack stack) {
         if (!hasTag(stack)) {
-            stack.setTagCompound(new NBTTagCompound());
+            stack.setTag(new CompoundNBT());
         }
-        return stack.getTagCompound();
+        return stack.getTag();
     }
 
     /**
@@ -39,7 +39,7 @@ public class StackHelper {
      * @return whether or not the stack have a tag
      */
     public static boolean hasTag(@Nonnull ItemStack stack) {
-        return stack.hasTagCompound();
+        return stack.hasTag();
     }
 
     /**
@@ -50,17 +50,17 @@ public class StackHelper {
      * @return whether the stack have the key or not
      */
     public static boolean hasKey(@Nonnull ItemStack stack, String string) {
-        return stack.getTagCompound() != null && stack.getTagCompound().hasKey(string);
+        return stack.getTag() != null && stack.getTag().contains(string);
     }
 
     /*
      * Gives the specified ItemStack to the player
      */
-    public static void giveItem(EntityPlayer player, EnumHand hand, @Nonnull ItemStack stack) {
+    public static void giveItem(PlayerEntity player, Hand hand, @Nonnull ItemStack stack) {
         if (!player.inventory.addItemStackToInventory(stack)) {
             player.dropItem(stack, false);
-        } else if (player instanceof EntityPlayerMP) {
-            ((EntityPlayerMP) player).sendContainerToPlayer(player.inventoryContainer);
+        } else if (player instanceof ServerPlayerEntity) {
+            ((ServerPlayerEntity) player).sendContainerToPlayer(player.container);
         }
     }
 
@@ -79,12 +79,11 @@ public class StackHelper {
         float yOffset = random.nextFloat() * 0.8F + 0.1F;
         float zOffset = random.nextFloat() * 0.8F + 0.1F;
         while (!stack.isEmpty()) {
-            EntityItem item = new EntityItem(world, x + (double) xOffset, y + (double) yOffset, z + (double) zOffset, stack.splitStack(random.nextInt(21) + 10));
-            item.motionX = random.nextGaussian() * 0.05000000074505806D;
-            item.motionY = random.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D;
-            item.motionZ = random.nextGaussian() * 0.05000000074505806D;
+            ItemEntity itemEntity = new ItemEntity(world, x + (double) xOffset, y + (double) yOffset, z + (double) zOffset, stack.split(random.nextInt(21) + 10));
+            itemEntity.setDefaultPickupDelay();
+            itemEntity.setMotion(random.nextGaussian() * 0.05000000074505806D, random.nextGaussian() * 0.05000000074505806D + 0.20000000298023224D, random.nextGaussian() * 0.05000000074505806D);
             if (!world.isRemote) {
-                world.spawnEntity(item);
+                world.addEntity(itemEntity);
             }
         }
     }
@@ -94,10 +93,8 @@ public class StackHelper {
             return false;
         } else if (stackA.getItem() != stackB.getItem()) {
             return false;
-        } else if (stackA.getMetadata() != stackB.getMetadata()) {
-            return false;
         } else {
-            return (stackA.getTagCompound() == null || stackA.getTagCompound().equals(stackB.getTagCompound())) && stackA.areCapsCompatible(stackB);
+            return (stackA.getTag() == null || stackA.getTag().equals(stackB.getTag())) && stackA.areCapsCompatible(stackB);
         }
     }
 }

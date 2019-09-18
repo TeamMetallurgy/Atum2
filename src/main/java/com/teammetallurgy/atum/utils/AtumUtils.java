@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.utils;
 
 import com.google.common.base.CaseFormat;
-import net.minecraft.util.text.translation.I18n;
+import net.minecraft.client.resources.I18n;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
 
@@ -44,24 +44,20 @@ public class AtumUtils {
     }
 
     /**
-     * Mirror of {@link I18n#translateToLocal(String)}, to prevent warnings
+     * Mirror of {@link I18n#format(String,Object...)}
      *
      * @param key the string to format
      */
-    public static String format(String key) {
-        return I18n.translateToLocal(key);
-    }
-
     public static String format(String key, Object... objects) {
-        return I18n.translateToLocalFormatted(key, objects);
+        return I18n.format(key, objects);
     }
 
     /**
-     * Mirror of {@link I18n#canTranslate(String)}, to prevent warnings
+     * Mirror of {@link I18n#hasKey(String)}
      *
      * @param key the string to check
      */
     public static boolean hasKey(String key) {
-        return I18n.canTranslate(key);
+        return I18n.hasKey(key);
     }
 }

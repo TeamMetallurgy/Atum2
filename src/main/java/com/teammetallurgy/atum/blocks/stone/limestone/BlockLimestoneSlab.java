@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
-import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.items.AtumSlabItem;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -25,7 +25,7 @@ public class BlockLimestoneSlab extends BlockAtumSlab {
         for (BlockLimestoneBricks.BrickType type : BlockLimestoneBricks.BrickType.values()) {
             BlockAtumSlab limestoneSlab = new BlockLimestoneSlab();
             BRICK_SLAB.put(type, limestoneSlab);
-            AtumRegistry.registerBlock(limestoneSlab, new ItemAtumSlab(limestoneSlab, limestoneSlab), "limestone_" + type.getName() + "_slab");
+            AtumRegistry.registerBlock(limestoneSlab, new AtumSlabItem(limestoneSlab, limestoneSlab), "limestone_" + type.getName() + "_slab");
         }
     }
 

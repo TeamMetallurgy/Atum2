@@ -4,20 +4,17 @@ import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class SpinningWheelRecipe extends IForgeRegistryEntry.Impl<ISpinningWheelRecipe> implements ISpinningWheelRecipe {
+public class SpinningWheelRecipe extends ForgeRegistryEntry<ISpinningWheelRecipe> implements ISpinningWheelRecipe {
     private final NonNullList<ItemStack> inputs;
     private final ItemStack output;
     private final int rotations;
-
-    public SpinningWheelRecipe(String input, @Nonnull ItemStack output, int rotations) {
-        this(OreDictionary.getOres(input, false), output, rotations);
-    }
 
     public SpinningWheelRecipe(Block input, @Nonnull ItemStack output, int rotations) {
         this(new ItemStack(input), output, rotations);
@@ -29,6 +26,14 @@ public class SpinningWheelRecipe extends IForgeRegistryEntry.Impl<ISpinningWheel
 
     public SpinningWheelRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
         this(NonNullList.withSize(1, input), output, rotations);
+    }
+
+    public SpinningWheelRecipe(Tag<Item> input, @Nonnull ItemStack output, int rotations) {
+        this(Ingredient.fromTag(input), output, rotations);
+    }
+
+    public SpinningWheelRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
+        this(NonNullList.from(ItemStack.EMPTY, input.getMatchingStacks()), output, rotations);
     }
 
     private SpinningWheelRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, int rotations) {

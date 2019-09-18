@@ -12,7 +12,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -43,8 +43,8 @@ public class BlockOphidianTongue extends BlockVine implements IOreDictEntry {
 
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (!world.isRemote && state.getValue(HAS_FLOWERS) && entity instanceof EntityLivingBase) {
-            EntityLivingBase livingBase = (EntityLivingBase) entity;
+        if (!world.isRemote && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity) {
+            LivingEntity livingBase = (LivingEntity) entity;
             livingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, 35));
         }
     }

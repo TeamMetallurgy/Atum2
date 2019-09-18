@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
@@ -129,9 +129,9 @@ public class EntityAssassin extends EntityBanditBase {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof EntityLivingBase) {
+            if (this.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
                 entity.attackEntityFrom(ASSASSINATED, (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
-                (((EntityLivingBase) entity)).addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+                (((LivingEntity) entity)).addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
             }
             return true;
         }

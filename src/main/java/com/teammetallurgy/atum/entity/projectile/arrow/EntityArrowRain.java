@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -16,7 +16,7 @@ public class EntityArrowRain extends CustomArrow {
         super(world);
     }
 
-    public EntityArrowRain(World world, EntityLivingBase shooter, float velocity) {
+    public EntityArrowRain(World world, LivingEntity shooter, float velocity) {
         super(world, shooter);
         this.velocity = velocity;
     }
@@ -32,7 +32,7 @@ public class EntityArrowRain extends CustomArrow {
         if (world.getTotalWorldTime() % (this.inGround ? 55L : 3L) == 0L) {
             Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT_DROP, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
-        if (velocity == 1.0F && shootingEntity instanceof EntityLivingBase) {
+        if (velocity == 1.0F && shootingEntity instanceof LivingEntity) {
             if (this.ticksInAir == 12) {
                 this.setDead();
                 if (!isSmallArrow) {

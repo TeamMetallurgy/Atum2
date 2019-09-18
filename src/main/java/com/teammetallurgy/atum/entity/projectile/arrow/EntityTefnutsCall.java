@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,7 +26,7 @@ public class EntityTefnutsCall extends CustomArrow {
         super(world);
     }
 
-    public EntityTefnutsCall(World world, EntityLivingBase shooter) {
+    public EntityTefnutsCall(World world, LivingEntity shooter) {
         super(world, shooter);
     }
 
@@ -71,16 +71,16 @@ public class EntityTefnutsCall extends CustomArrow {
             }
 
             if (entity.attackEntityFrom(damagesource, (float) i)) {
-                if (entity instanceof EntityLivingBase) {
-                    EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
+                if (entity instanceof LivingEntity) {
+                    LivingEntity entitylivingbase = (LivingEntity) entity;
 
                     if (!this.world.isRemote) {
                         entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
                     }
 
-                    if (this.shootingEntity instanceof EntityLivingBase) {
+                    if (this.shootingEntity instanceof LivingEntity) {
                         EnchantmentHelper.applyThornEnchantments(entitylivingbase, this.shootingEntity);
-                        EnchantmentHelper.applyArthropodEnchantments((EntityLivingBase) this.shootingEntity, entitylivingbase);
+                        EnchantmentHelper.applyArthropodEnchantments((LivingEntity) this.shootingEntity, entitylivingbase);
                     }
 
                     this.arrowHit(entitylivingbase);

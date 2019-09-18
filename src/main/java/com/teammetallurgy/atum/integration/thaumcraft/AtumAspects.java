@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.thaumcraft;
+/*package com.teammetallurgy.atum.integration.thaumcraft;
 
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
@@ -94,4 +94,4 @@ public class AtumAspects {
             }
         }
     }
-}
+}*/

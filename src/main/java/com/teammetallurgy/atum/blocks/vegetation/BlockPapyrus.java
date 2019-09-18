@@ -4,8 +4,8 @@ import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockReed;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
@@ -25,7 +25,7 @@ import net.minecraftforge.common.IPlantable;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockPapyrus extends BlockReed implements IRenderMapper {
+public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
     private static final PropertyBool TOP = PropertyBool.create("top");
 
     public BlockPapyrus() {

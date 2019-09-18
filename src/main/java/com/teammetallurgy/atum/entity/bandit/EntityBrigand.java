@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -61,8 +61,8 @@ public class EntityBrigand extends EntityBanditBase {
                 float f = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
                 float i = 1.2F;
 
-                if (entity instanceof EntityLivingBase) {
-                    f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entity).getCreatureAttribute());
+                if (entity instanceof LivingEntity) {
+                    f += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entity).getCreatureAttribute());
                     i += EnchantmentHelper.getKnockbackModifier(this);
                 }
 

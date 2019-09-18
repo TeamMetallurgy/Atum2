@@ -7,12 +7,11 @@ import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -37,7 +36,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class EntityUndeadBase extends EntityMob {
+public class EntityUndeadBase extends MonsterEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityUndeadBase.class, DataSerializers.VARINT);
     private String texturePath;
 
@@ -74,7 +73,7 @@ public class EntityUndeadBase extends EntityMob {
     }
 
     @Override
-    public boolean canAttackClass(Class<? extends EntityLivingBase> cls) {
+    public boolean canAttackClass(Class<? extends LivingEntity> cls) {
         return !EntityUndeadBase.class.isAssignableFrom(cls) && super.canAttackClass(cls);
     }
 

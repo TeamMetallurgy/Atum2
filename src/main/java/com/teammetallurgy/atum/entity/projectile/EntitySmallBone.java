@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity.projectile;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -14,7 +14,7 @@ public class EntitySmallBone extends EntityBone {
         this.setSize(0.3125F, 0.3125F);
     }
 
-    public EntitySmallBone(World world, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+    public EntitySmallBone(World world, LivingEntity shooter, double accelX, double accelY, double accelZ) {
         super(world, shooter, accelX, accelY, accelZ);
         this.setSize(0.3125F, 0.3125F);
     }

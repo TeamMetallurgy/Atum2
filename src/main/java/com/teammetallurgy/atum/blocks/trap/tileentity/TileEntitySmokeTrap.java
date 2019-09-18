@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
@@ -11,7 +11,7 @@ import net.minecraft.util.SoundCategory;
 public class TileEntitySmokeTrap extends TileEntityTrap {
 
     @Override
-    protected void triggerTrap(EnumFacing facing, EntityLivingBase livingBase) {
+    protected void triggerTrap(EnumFacing facing, LivingEntity livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;

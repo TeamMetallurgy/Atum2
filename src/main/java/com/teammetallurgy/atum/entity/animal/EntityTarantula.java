@@ -5,10 +5,9 @@ import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
@@ -94,7 +93,7 @@ public class EntityTarantula extends EntityMob implements IUnderground {
     @Override
     public boolean attackEntityAsMob(Entity entity) {
         if (super.attackEntityAsMob(entity)) {
-            if (entity instanceof EntityLivingBase) {
+            if (entity instanceof LivingEntity) {
                 int i = 0;
                 if (this.world.getDifficulty() == EnumDifficulty.NORMAL) {
                     i = 5;
@@ -102,7 +101,7 @@ public class EntityTarantula extends EntityMob implements IUnderground {
                     i = 8;
                 }
                 if (i > 0) {
-                    ((EntityLivingBase) entity).addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, i * 20, 0));
+                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, i * 20, 0));
                 }
             }
             return true;
@@ -184,7 +183,7 @@ public class EntityTarantula extends EntityMob implements IUnderground {
         }
 
         @Override
-        protected double getAttackReachSqr(EntityLivingBase attackTarget) {
+        protected double getAttackReachSqr(LivingEntity attackTarget) {
             return (double) (4.0F + attackTarget.width);
         }
     }

@@ -7,11 +7,11 @@ import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome.AtumBiomeProperties;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 
-@GameRegistry.ObjectHolder(value = Constants.MOD_ID)
+@ObjectHolder(value = Constants.MOD_ID)
 public class AtumBiomes {
     public static final AtumBiome DEAD_OASIS = registerBiome(new BiomeDeadOasis(new AtumBiomeProperties("Dead Oasis", 0).setHeightVariation(0.0F)), "dead_oasis");
     public static final AtumBiome DEADWOOD_FOREST = registerBiome(new BiomeDeadwoodForest(new AtumBiomeProperties("Deadwood Forest", 10)), "deadwood_forest");

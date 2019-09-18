@@ -6,11 +6,10 @@ import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
-import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.nbt.NBTTagCompound;
@@ -36,7 +35,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class EntityBanditBase extends EntityMob {
+public class EntityBanditBase extends MonsterEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityBanditBase.class, DataSerializers.VARINT);
     private String texturePath;
 
@@ -65,7 +64,7 @@ public class EntityBanditBase extends EntityMob {
     }
 
     @Override
-    public boolean canAttackClass(Class<? extends EntityLivingBase> cls) {
+    public boolean canAttackClass(Class<? extends LivingEntity> cls) {
         return !EntityBanditBase.class.isAssignableFrom(cls) && super.canAttackClass(cls);
     }
 

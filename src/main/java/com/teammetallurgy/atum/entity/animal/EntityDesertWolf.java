@@ -16,30 +16,33 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.IJumpingMount;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.monster.AbstractSkeleton;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.InventoryBasic;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -168,7 +171,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public void setAttackTarget(@Nullable EntityLivingBase livingBase) {
+    public void setAttackTarget(@Nullable LivingEntity livingBase) {
         super.setAttackTarget(livingBase);
 
         if (livingBase == null) {
@@ -696,7 +699,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public boolean shouldAttackEntity(EntityLivingBase target, EntityLivingBase owner) {
+    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
         if (!(target instanceof EntityCreeper) && !(target instanceof EntityGhast)) {
             if (target instanceof EntityDesertWolf) {
                 EntityDesertWolf desertWolf = (EntityDesertWolf) target;
@@ -867,7 +870,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @Override
     public void travel(float strafe, float vertical, float forward) {
         if (this.isBeingRidden() && this.canBeSteered() && this.isSaddled()) {
-            EntityLivingBase livingBase = (EntityLivingBase) this.getControllingPassenger();
+            LivingEntity livingBase = (LivingEntity) this.getControllingPassenger();
             if (livingBase != null) {
                 this.rotationYaw = livingBase.rotationYaw;
                 this.prevRotationYaw = this.rotationYaw;

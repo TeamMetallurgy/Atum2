@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
@@ -18,7 +18,7 @@ public class EntityArrowSlowness extends CustomArrow {
         super(world);
     }
 
-    public EntityArrowSlowness(World world, EntityLivingBase shooter, float velocity) {
+    public EntityArrowSlowness(World world, LivingEntity shooter, float velocity) {
         super(world, shooter);
         this.velocity = velocity;
     }
@@ -26,8 +26,8 @@ public class EntityArrowSlowness extends CustomArrow {
     @Override
     protected void onHit(RayTraceResult raytraceResult) {
         Entity entity = raytraceResult.entityHit;
-        if (raytraceResult != null && entity instanceof EntityLivingBase && !world.isRemote && raytraceResult.typeOfHit == RayTraceResult.Type.ENTITY) {
-            EntityLivingBase livingBase = (EntityLivingBase) entity;
+        if (raytraceResult != null && entity instanceof LivingEntity && !world.isRemote && raytraceResult.typeOfHit == RayTraceResult.Type.ENTITY) {
+            LivingEntity livingBase = (LivingEntity) entity;
             float chance = 0.25F;
             if (velocity == 1.0F) {
                 chance = 1.0F;

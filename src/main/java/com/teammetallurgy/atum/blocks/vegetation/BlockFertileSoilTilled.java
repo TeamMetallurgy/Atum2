@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFarmland;
+import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockFertileSoilTilled extends BlockFarmland implements IRenderMapper {
+public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapper {
     public static final PropertyBool BLESSED = PropertyBool.create("blessed");
 
     public BlockFertileSoilTilled() {

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
-import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.items.AtumSlabItem;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
@@ -40,7 +40,7 @@ public class BlockAtumWoodSlab extends BlockAtumSlab implements IOreDictEntry {
         for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
             BlockAtumWoodSlab woodSlab = new BlockAtumWoodSlab(type);
             SLABS.put(type, woodSlab);
-            AtumRegistry.registerBlock(woodSlab, new ItemAtumSlab(woodSlab, woodSlab), type.getName() + "_slab");
+            AtumRegistry.registerBlock(woodSlab, new AtumSlabItem(woodSlab, woodSlab), type.getName() + "_slab");
         }
     }
 

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.potion.PotionEffect;
@@ -11,7 +11,7 @@ import net.minecraft.util.EnumFacing;
 public class TileEntityTarTrap extends TileEntityTrap {
 
     @Override
-    protected void triggerTrap(EnumFacing facing, EntityLivingBase entity) {
+    protected void triggerTrap(EnumFacing facing, LivingEntity entity) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;

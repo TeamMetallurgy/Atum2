@@ -15,15 +15,15 @@ import com.teammetallurgy.atum.world.biome.BiomeOasis;
 import com.teammetallurgy.atum.world.biome.BiomeSandDunes;
 import com.teammetallurgy.atum.world.biome.BiomeSandPlains;
 import net.minecraft.block.Block;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.IRangedAttackMob;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.EnumDyeColor;
@@ -35,7 +35,10 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
@@ -237,7 +240,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float distanceFactor) {
+    public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
         this.spit(target);
     }
 
@@ -245,7 +248,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     public void setSwingingArms(boolean swingingArms) {
     }
 
-    private void spit(EntityLivingBase target) {
+    private void spit(LivingEntity target) {
         EntityCamelSpit camelSpit = new EntityCamelSpit(this.world, this);
         double d0 = target.posX - this.posX;
         double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - camelSpit.posY;

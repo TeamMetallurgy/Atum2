@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -14,7 +14,7 @@ public class EntityArrowStraight extends CustomArrow {
         super(world);
     }
 
-    public EntityArrowStraight(World world, EntityLivingBase shooter, float velocity) {
+    public EntityArrowStraight(World world, LivingEntity shooter, float velocity) {
         super(world, shooter);
         this.velocity = velocity;
     }
@@ -31,7 +31,7 @@ public class EntityArrowStraight extends CustomArrow {
                 this.setDead();
             }
 
-            if (shootingEntity instanceof EntityLivingBase && !inGround && velocity == 1.0F && this.isEntityAlive()) {
+            if (shootingEntity instanceof LivingEntity && !inGround && velocity == 1.0F && this.isEntityAlive()) {
                 Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
             }
         }

@@ -4,14 +4,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityLockableLoot;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public abstract class TileEntityInventoryBase extends TileEntityLockableLoot {
+public abstract class TileEntityInventoryBase extends LockableLootTileEntity {
     protected NonNullList<ItemStack> inventory;
 
     public TileEntityInventoryBase(int slots) {

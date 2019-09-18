@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import net.minecraft.client.model.ModelIronGolem;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ModelStonewarden extends ModelIronGolem {
 
     @Override
-    public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
+    public void setLivingAnimations(LivingEntity livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
         EntityStonewarden stonewarden = (EntityStonewarden) livingBase;
         int attackTimer = stonewarden.getAttackTimer();
 

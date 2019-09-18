@@ -4,20 +4,17 @@ import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class KilnRecipe extends IForgeRegistryEntry.Impl<IKilnRecipe> implements IKilnRecipe {
+public class KilnRecipe extends ForgeRegistryEntry<IKilnRecipe> implements IKilnRecipe {
     private final NonNullList<ItemStack> inputs;
     private final ItemStack output;
     private final float experience;
-
-    public KilnRecipe(String input, @Nonnull ItemStack output, float experience) {
-        this(OreDictionary.getOres(input, false), output, experience);
-    }
 
     public KilnRecipe(Block input, @Nonnull ItemStack output, float experience) {
         this(new ItemStack(input), output, experience);
@@ -29,6 +26,14 @@ public class KilnRecipe extends IForgeRegistryEntry.Impl<IKilnRecipe> implements
 
     public KilnRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, float experience) {
         this(NonNullList.withSize(1, input), output, experience);
+    }
+
+    public KilnRecipe(Tag<Item> input, @Nonnull ItemStack output, int rotations) {
+        this(Ingredient.fromTag(input), output, rotations);
+    }
+
+    public KilnRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
+        this(NonNullList.from(ItemStack.EMPTY, input.getMatchingStacks()), output, rotations);
     }
 
     private KilnRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, float experience) {

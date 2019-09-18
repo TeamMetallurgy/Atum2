@@ -50,9 +50,8 @@ import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.items.ItemAtumSlab;
-import com.teammetallurgy.atum.items.ItemSand;
+import com.teammetallurgy.atum.items.AtumSlabItem;
+import com.teammetallurgy.atum.items.SandItem;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
@@ -62,15 +61,16 @@ import net.minecraft.block.material.Material;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
+import static com.teammetallurgy.atum.utils.AtumRegistry.registerTileEntity;
 
-@GameRegistry.ObjectHolder(value = Constants.MOD_ID)
+@ObjectHolder(value = Constants.MOD_ID)
 public class AtumBlocks {
     public static final BlockPortal PORTAL = new BlockPortal();
-    public static final BlockChestSpawner CHEST_SPAWNER = new BlockChestSpawner();
+    public static final Block CHEST_SPAWNER = new BlockChestSpawner();
     public static final Block SAND = new BlockStrangeSand();
     public static final Block LIMESTONE_GRAVEL = new BlockLimestoneGravel();
     public static final Block MARL = new BlockMarl();
@@ -96,12 +96,12 @@ public class AtumBlocks {
     public static final Block FRAMED_GLASS = new BlockAtumGlass();
     public static final Block DATE_BLOCK = new BlockDate();
     public static final Block EMMER_WHEAT = new BlockEmmer();
-    public static final BlockAnputsFingers ANPUTS_FINGERS = new BlockAnputsFingers();
+    public static final Block ANPUTS_FINGERS = new BlockAnputsFingers();
     public static final BlockOasisGrass OASIS_GRASS = new BlockOasisGrass();
     public static final BlockDeadGrass DEAD_GRASS = new BlockDeadGrass();
     public static final BlockShrub SHRUB = new BlockShrub();
     public static final BlockShrub WEED = new BlockShrub();
-    public static final BlockPapyrus PAPYRUS = new BlockPapyrus();
+    public static final Block PAPYRUS = registerBlock(new BlockPapyrus(), "papyrus");
     public static final Block OPHIDIAN_TONGUE = new BlockOphidianTongue();
     public static final Block FLAX = new BlockFlax();
     public static final Block FERTILE_SOIL = new BlockFertileSoil();
@@ -159,7 +159,7 @@ public class AtumBlocks {
         registerBlock(PORTAL, "portal", null);
         registerBlock(CHEST_SPAWNER, "chest_spawner", null);
         registerBlock(SAND, "sand");
-        registerBlock(SAND_LAYERED, new ItemSand(SAND_LAYERED), "sand_layer");
+        registerBlock(SAND_LAYERED, new SandItem(SAND_LAYERED), "sand_layer");
         registerBlock(DATE_BLOCK, "date_block", null);
         registerBlock(EMMER_WHEAT, "emmer_wheat", null);
         registerBlock(ANPUTS_FINGERS, "anputs_fingers", null);
@@ -195,7 +195,7 @@ public class AtumBlocks {
         registerBlock(RELIC_ORE, "relic_ore");
         registerBlock(KHNUMITE_RAW, "khnumite_raw");
         registerBlock(BONE_DIRTY, "dirty_bone_block");
-        registerBlock(BONE_DIRTY_SLAB, new ItemAtumSlab(BONE_DIRTY_SLAB, (BlockAtumSlab) BONE_DIRTY_SLAB), "dirty_bone_slab");
+        registerBlock(BONE_DIRTY_SLAB, new AtumSlabItem(BONE_DIRTY_SLAB, (BlockAtumSlab) BONE_DIRTY_SLAB), "dirty_bone_slab");
         registerBlock(BONE_LADDER, "bone_ladder");
         registerBlock(LIMESTONE_FURNACE, "limestone_furnace");
         registerBlock(LIMESTONE_FURNACE_LIT, "limestone_furnace_lit", null);
@@ -213,8 +213,8 @@ public class AtumBlocks {
         registerBlock(LIMESTONE_CRACKED, "limestone_cracked");
         registerBlock(LIMESTONE, "limestone");
         BlockLimestoneBricks.registerBricks();
-        registerBlock(SMOOTH_LIMESTONE_SLAB, new ItemAtumSlab(SMOOTH_LIMESTONE_SLAB, (BlockAtumSlab) SMOOTH_LIMESTONE_SLAB), "limestone_smooth_slab");
-        registerBlock(CRACKED_LIMESTONE_SLAB, new ItemAtumSlab(CRACKED_LIMESTONE_SLAB, (BlockAtumSlab) CRACKED_LIMESTONE_SLAB), "limestone_cracked_slab");
+        registerBlock(SMOOTH_LIMESTONE_SLAB, new AtumSlabItem(SMOOTH_LIMESTONE_SLAB, (BlockAtumSlab) SMOOTH_LIMESTONE_SLAB), "limestone_smooth_slab");
+        registerBlock(CRACKED_LIMESTONE_SLAB, new AtumSlabItem(CRACKED_LIMESTONE_SLAB, (BlockAtumSlab) CRACKED_LIMESTONE_SLAB), "limestone_cracked_slab");
         BlockLimestoneSlab.registerSlabs();
         registerBlock(KHNUMITE_BLOCK, "khnumite_block");
         registerBlock(KHNUMITE_FACE, "khnumite_face");
@@ -287,27 +287,6 @@ public class AtumBlocks {
         registerBlock(DEADWOOD_DOOR, new ItemDoor(DEADWOOD_DOOR), "deadwood_door");
     }
 
-    public static void registerTileEntities() {
-        //Chests
-        GameRegistry.registerTileEntity(TileEntityLimestoneChest.class, new ResourceLocation(Constants.MOD_ID, "limestone_chest"));
-        GameRegistry.registerTileEntity(TileEntityChestSpawner.class, new ResourceLocation(Constants.MOD_ID, "cursed_chest"));
-        GameRegistry.registerTileEntity(TileEntitySarcophagus.class, new ResourceLocation(Constants.MOD_ID, "sarcophagus"));
-        GameRegistry.registerTileEntity(TileEntityCrate.class, new ResourceLocation(Constants.MOD_ID, "crate"));
-        //Traps
-        GameRegistry.registerTileEntity(TileEntityBurningTrap.class, new ResourceLocation(Constants.MOD_ID, "burning_trap"));
-        GameRegistry.registerTileEntity(TileEntityPoisonTrap.class, new ResourceLocation(Constants.MOD_ID, "poison_trap"));
-        GameRegistry.registerTileEntity(TileEntityTarTrap.class, new ResourceLocation(Constants.MOD_ID, "tar_trap"));
-        GameRegistry.registerTileEntity(TileEntitySmokeTrap.class, new ResourceLocation(Constants.MOD_ID, "smoke_trap"));
-        GameRegistry.registerTileEntity(TileEntityArrowTrap.class, new ResourceLocation(Constants.MOD_ID, "arrow_trap"));
-
-        GameRegistry.registerTileEntity(TileEntityHeartOfRa.class, new ResourceLocation(Constants.MOD_ID, "heart_of_ra"));
-        GameRegistry.registerTileEntity(TileEntityRadiantBeacon.class, new ResourceLocation(Constants.MOD_ID, "radiant_beacon"));
-        GameRegistry.registerTileEntity(TileEntityLimestoneFurnace.class, new ResourceLocation(Constants.MOD_ID, "limestone_furnace"));
-        GameRegistry.registerTileEntity(TileEntityQuern.class, new ResourceLocation(Constants.MOD_ID, "quern"));
-        GameRegistry.registerTileEntity(TileEntitySpinningWheel.class, new ResourceLocation(Constants.MOD_ID, "spinning_wheel"));
-        GameRegistry.registerTileEntity(TileEntityKiln.class, new ResourceLocation(Constants.MOD_ID, "kiln"));
-    }
-
     public static void setBlockInfo() {
         //Harvest Levels
         SAND.setHarvestLevel("shovel", 0);
@@ -357,5 +336,27 @@ public class AtumBlocks {
         OreDictHelper.add(Item.REGISTRY.getObject(PALM_DOOR.getRegistryName()), "doorWood");
         OreDictHelper.add(Item.REGISTRY.getObject(DEADWOOD_DOOR.getRegistryName()), "doorWood");
         OreDictHelper.add(KHNUMITE_RAW, "stoneKhnumite");
+    }
+
+    @ObjectHolder(Constants.MOD_ID)
+    public static class AtumTileEntities {
+        //Chests
+        public static final TileEntityType<TileEntityLimestoneChest> LIMESTONE_CHEST = registerTileEntity("limestone_chest", TileEntityType.Builder.create(TileEntityLimestoneChest::new, AtumBlocks.LIMESTONE_CHEST));
+        public static final TileEntityType<TileEntityChestSpawner> CHEST_SPAWNER = registerTileEntity("chest_spawner", TileEntityType.Builder.create(TileEntityChestSpawner::new, AtumBlocks.CHEST_SPAWNER));
+        public static final TileEntityType<TileEntitySarcophagus> SARCOPHAGUS = registerTileEntity("sarcophagus", TileEntityType.Builder.create(TileEntitySarcophagus::new, AtumBlocks.SARCOPHAGUS));
+        public static final TileEntityType<TileEntityLimestoneChest> CRATE = registerTileEntity("crate", TileEntityType.Builder.create(TileEntityLimestoneChest::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
+        //Traps
+        public static final TileEntityType<TileEntityBurningTrap> BURNING_TRAP = registerTileEntity("burning_trap", TileEntityType.Builder.create(TileEntityBurningTrap::new, AtumBlocks.BURNING_TRAP));
+        public static final TileEntityType<TileEntityPoisonTrap> POISON_TRAP = registerTileEntity("poison_trap", TileEntityType.Builder.create(TileEntityPoisonTrap::new, AtumBlocks.POISON_TRAP));
+        public static final TileEntityType<TileEntityTarTrap> TAR_TRAP = registerTileEntity("tar_trap", TileEntityType.Builder.create(TileEntityTarTrap::new, AtumBlocks.TAR_TRAP));
+        public static final TileEntityType<TileEntitySmokeTrap> SMOKE_TRAP = registerTileEntity("smoke_trap", TileEntityType.Builder.create(TileEntitySmokeTrap::new, AtumBlocks.SMOKE_TRAP));
+        public static final TileEntityType<TileEntityArrowTrap> ARROW_TRAP = registerTileEntity("arrow_trap", TileEntityType.Builder.create(TileEntityArrowTrap::new, AtumBlocks.ARROW_TRAP));
+
+        public static final TileEntityType<TileEntityHeartOfRa> HEART_OF_RA = registerTileEntity("heart_of_ra", TileEntityType.Builder.create(TileEntityHeartOfRa::new, AtumBlocks.HEART_OF_RA));
+        public static final TileEntityType<TileEntityRadiantBeacon> RADIANT_BEACON = registerTileEntity("radiant_beacon", TileEntityType.Builder.create(TileEntityRadiantBeacon::new, AtumBlocks.RADIANT_BEACON, AtumBlocks.RADIANT_BEACON_FRAMED));
+        public static final TileEntityType<TileEntityLimestoneFurnace> LIMESTONE_FURNACE = registerTileEntity("limestone_furnace", TileEntityType.Builder.create(TileEntityLimestoneFurnace::new, AtumBlocks.LIMESTONE_FURNACE));
+        public static final TileEntityType<TileEntityQuern> QUERN = registerTileEntity("quern", TileEntityType.Builder.create(TileEntityQuern::new, AtumBlocks.QUERN));
+        public static final TileEntityType<TileEntitySpinningWheel> SPINNING_WHEEL = registerTileEntity("spinning_wheel", TileEntityType.Builder.create(TileEntitySpinningWheel::new, AtumBlocks.SPINNING_WHEEL));
+        public static final TileEntityType<TileEntityKiln> KILN = registerTileEntity("kiln", TileEntityType.Builder.create(TileEntityKiln::new, AtumBlocks.KILN));
     }
 }

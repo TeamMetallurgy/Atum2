@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.utils;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.base.Preconditions;
+import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
@@ -12,26 +13,23 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.NonNullList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
@@ -39,87 +37,48 @@ import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
+import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRegistry {
-    public static final NonNullList<AtumBiome> BIOMES = NonNullList.create();
-    private static final NonNullList<EntityEntry> MOBS = NonNullList.create();
-    private static final NonNullList<EntityEntry> ENTITIES = NonNullList.create();
-    private static final NonNullList<SoundEvent> SOUNDS = NonNullList.create();
-    public static final NonNullList<ItemStack> HIDE_LIST = NonNullList.create();
-    //Entity tracking values
-    private static HashMap<ResourceLocation, Integer> trackingRange = new HashMap<>();
-    private static HashMap<ResourceLocation, Integer> updateFrequency = new HashMap<>();
-    private static HashMap<ResourceLocation, Boolean> sendsVelocityUpdates = new HashMap<>();
-
-    /**
-     * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs, String)}, but have CreativeTab set by default and easy way to set OreDictionary name
-     */
-    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nullable String oreDictName) {
-        return registerItem(item, name, Atum.CREATIVE_TAB, oreDictName);
-    }
-
-    /**
-     * Same as {@link AtumRegistry#registerItem(Item, String, CreativeTabs, String)}, but have CreativeTab set by default
-     */
-    public static Item registerItem(@Nonnull Item item, @Nonnull String name) {
-        return registerItem(item, name, Atum.CREATIVE_TAB, null);
-    }
+    private static final List<Item> ITEMS = Lists.newArrayList();
+    private static final List<Block> BLOCKS = Lists.newArrayList();
+    private static final List<TileEntityType> TILE_ENTITIES = Lists.newArrayList();
+    private static final List<AtumBiome> BIOMES = Lists.newArrayList();
+    private static final List<EntityType<?>> MOBS = Lists.newArrayList();
+    private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
+    private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
 
     /**
      * Registers an item
      *
      * @param item The item to be registered
      * @param name The name to register the item with
-     * @param tab  The creative tab for the item. Set to null for no CreativeTab
      * @return The Item that was registered
      */
-    public static Item registerItem(@Nonnull Item item, @Nonnull String name, @Nullable CreativeTabs tab, @Nullable String oreDictName) {
+    public static Item registerItem(@Nonnull Item item, @Nonnull String name) {
         item.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
-        item.setTranslationKey(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
-        ForgeRegistries.ITEMS.register(item);
-
-        if (tab != null) {
-            item.setCreativeTab(tab);
-        } else if (Constants.IS_JEI_LOADED) {
-            HIDE_LIST.add(new ItemStack(item));
-        }
-
-        if (oreDictName != null) {
-            OreDictHelper.add(item, oreDictName);
-        }
-
-        if (item instanceof IOreDictEntry) {
-            IOreDictEntry entry = (IOreDictEntry) item;
-            OreDictHelper.entries.add(entry);
-        }
-
-        if (FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-            ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)), "inventory"));
-        }
+        ITEMS.add(item);
         return item;
     }
 
     /**
-     * Same as {@link AtumRegistry#registerBlock(Block, Item, String, CreativeTabs)}, but have a basic ItemBlock and CreativeTab set by default
+     * Same as {@link AtumRegistry#registerBlock(Block, BlockItem, String)}, but have a basic ItemBlock
+     *
+     * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static Block registerBlock(@Nonnull Block block, @Nonnull String name) {
-        return registerBlock(block, new ItemBlock(block), name, Atum.CREATIVE_TAB);
+    public static Block registerBlock(@Nonnull Block block, @Nullable Item.Properties properties, @Nonnull String name) {
+        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties() : properties.group(Atum.GROUP));
+        return registerBlock(block, blockItem, name);
     }
 
     /**
-     * Same as {@link AtumRegistry#registerBlock(Block, Item, String, CreativeTabs)}, but have a basic ItemBlock set by default
+     * Same as {@link AtumRegistry#registerBlock(Block, String)}, but allows for registering an BlockItem at the same time
+     *
      */
-    public static Block registerBlock(@Nonnull Block block, @Nonnull String name, @Nullable CreativeTabs tab) {
-        return registerBlock(block, new ItemBlock(block), name, tab);
-    }
-
-    /**
-     * Same as {@link AtumRegistry#registerBlock(Block, Item, String, CreativeTabs)}, but have CreativeTab set by default
-     */
-    public static Block registerBlock(@Nonnull Block block, @Nonnull Item itemBlock, @Nonnull String name) {
-        return registerBlock(block, itemBlock, name, Atum.CREATIVE_TAB);
+    public static Block registerBlock(@Nonnull Block block, BlockItem blockItem, @Nonnull String name) {
+        registerItem(blockItem, AtumUtils.toRegistryName(name));
+        return registerBlock(block, name);
     }
 
     /**
@@ -127,30 +86,30 @@ public class AtumRegistry {
      *
      * @param block The block to be registered
      * @param name  The name to register the block with
-     * @param tab   The creative tab for the block. Set to null for no CreativeTab
      * @return The Block that was registered
      */
-    public static Block registerBlock(@Nonnull Block block, @Nonnull Item itemBlock, @Nonnull String name, @Nullable CreativeTabs tab) {
+    public static Block registerBlock(@Nonnull Block block, @Nonnull String name) {
         block.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
-        block.setTranslationKey(Constants.MOD_ID + "." + AtumUtils.toUnlocalizedName(name));
-        ForgeRegistries.BLOCKS.register(block);
-        registerItem(itemBlock, AtumUtils.toRegistryName(name));
-
-        if (tab != null) {
-            block.setCreativeTab(tab);
-        } else if (Constants.IS_JEI_LOADED) {
-            HIDE_LIST.add(new ItemStack(block));
-        }
-
-        if (block instanceof IOreDictEntry) {
-            IOreDictEntry entry = (IOreDictEntry) block;
-            OreDictHelper.entries.add(entry);
-        }
+        BLOCKS.add(block);
 
         if (block instanceof IRenderMapper && FMLCommonHandler.instance().getSide() == Side.CLIENT) {
             ClientProxy.ignoreRenderProperty(block);
         }
         return block;
+    }
+
+    /**
+     * Registers a TileEntityType
+     *
+     * @param name  The name to register the TileEntity with
+     * @param builder The TileEntityType builder
+     * @return The TileEntity that was registered
+     */
+    public static <T extends TileEntity> TileEntityType<T> registerTileEntity(@Nonnull String name, @Nonnull TileEntityType.Builder<T> builder) {
+        TileEntityType<T> tileEntityType = builder.build(null);
+        tileEntityType.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        TILE_ENTITIES.add(tileEntityType);
+        return tileEntityType;
     }
 
     /**
@@ -196,12 +155,25 @@ public class AtumRegistry {
         return entry;
     }
 
+    /**
+     * Registers a biome
+     *
+     * @param biome The biome to be registered
+     * @param name  The name to register the biome with
+     * @return The Biome that was registered
+     */
     public static AtumBiome registerBiome(AtumBiome biome, String name) {
         biome.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
         BIOMES.add(biome);
         return biome;
     }
 
+    /**
+     * Registers a sound
+     *
+     * @param name  The name to register the sound with
+     * @return The Sound that was registered
+     */
     public static SoundEvent registerSound(String name) {
         ResourceLocation resourceLocation = new ResourceLocation(Constants.MOD_ID, name);
         SoundEvent sound = new SoundEvent(resourceLocation);
@@ -234,18 +206,31 @@ public class AtumRegistry {
         return new RegistryBuilder<T>().setName(new ResourceLocation(Constants.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).allowModification().create();
     }
 
+    /*
+     * Registry events
+     */
+
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
-        AtumItems.registerItems();
+        for (Item item : ITEMS) {
+            event.getRegistry().register(item);
+        }
         AtumItems.setItemInfo();
-        OreDictHelper.register();
     }
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
-        AtumBlocks.registerBlocks();
+        for (Block block : BLOCKS) {
+            event.getRegistry().register(block);
+        }
         AtumBlocks.setBlockInfo();
-        AtumBlocks.registerTileEntities();
+    }
+
+    @SubscribeEvent
+    public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
+        for (TileEntityType tileEntityType : TILE_ENTITIES) {
+            event.getRegistry().register(tileEntityType);
+        }
     }
 
     @SubscribeEvent
@@ -254,7 +239,7 @@ public class AtumRegistry {
     }
 
     @SubscribeEvent
-    public static void registerEntities(RegistryEvent.Register<EntityEntry> event) {
+    public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         new AtumEntities();
 
         int networkIdMob = 0;

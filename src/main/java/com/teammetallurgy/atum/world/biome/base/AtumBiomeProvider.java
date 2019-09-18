@@ -10,7 +10,6 @@ import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeProvider;
 import net.minecraft.world.gen.ChunkGeneratorSettings;
-import net.minecraft.world.gen.layer.*;
 import net.minecraft.world.storage.WorldInfo;
 
 import javax.annotation.Nonnull;

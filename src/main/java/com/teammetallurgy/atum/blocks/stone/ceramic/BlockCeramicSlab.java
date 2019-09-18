@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.stone.ceramic;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
-import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.items.AtumSlabItem;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -31,7 +31,7 @@ public class BlockCeramicSlab extends BlockAtumSlab {
         for (EnumDyeColor color : EnumDyeColor.values()) {
             BlockAtumSlab ceramicSlab = new BlockCeramicSlab();
             CERAMIC_SLAB.put(color, ceramicSlab);
-            AtumRegistry.registerBlock(ceramicSlab, new ItemAtumSlab(ceramicSlab, ceramicSlab), "ceramic_slab_" + color.getName());
+            AtumRegistry.registerBlock(ceramicSlab, new AtumSlabItem(ceramicSlab, ceramicSlab), "ceramic_slab_" + color.getName());
         }
     }
 

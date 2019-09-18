@@ -4,20 +4,18 @@ import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.Tag;
 import net.minecraft.util.NonNullList;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
 
-public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implements IQuernRecipe {
+public class QuernRecipe extends ForgeRegistryEntry<IQuernRecipe> implements IQuernRecipe {
     private final NonNullList<ItemStack> inputs;
     private final ItemStack output;
     private final int rotations;
 
-    public QuernRecipe(String input, @Nonnull ItemStack output, int rotations) {
-        this(OreDictionary.getOres(input, false), output, rotations);
-    }
 
     public QuernRecipe(Block input, @Nonnull ItemStack output, int rotations) {
         this(new ItemStack(input), output, rotations);
@@ -29,6 +27,14 @@ public class QuernRecipe extends IForgeRegistryEntry.Impl<IQuernRecipe> implemen
 
     public QuernRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
         this(NonNullList.withSize(1, input), output, rotations);
+    }
+
+    public QuernRecipe(Tag<Item> input, @Nonnull ItemStack output, int rotations) {
+        this(Ingredient.fromTag(input), output, rotations);
+    }
+
+    public QuernRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
+        this(NonNullList.from(ItemStack.EMPTY, input.getMatchingStacks()), output, rotations);
     }
 
     private QuernRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, int rotations) {

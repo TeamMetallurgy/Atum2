@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.entity.efreet;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -193,7 +193,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    public void setRevengeTarget(@Nullable EntityLivingBase livingBase) {
+    public void setRevengeTarget(@Nullable LivingEntity livingBase) {
         super.setRevengeTarget(livingBase);
         if (livingBase != null) {
             this.angerTargetUUID = livingBase.getUniqueID();
@@ -202,8 +202,8 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
     private void becomeAngryAt(Entity entity) {
         this.angerLevel = 200 + this.rand.nextInt(400);
-        if (entity instanceof EntityLivingBase) {
-            this.setRevengeTarget((EntityLivingBase) entity);
+        if (entity instanceof LivingEntity) {
+            this.setRevengeTarget((LivingEntity) entity);
         }
     }
 
@@ -250,16 +250,16 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         float attackDamage = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
         int knocback = 0;
 
-        if (entity instanceof EntityLivingBase) {
-            attackDamage += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((EntityLivingBase) entity).getCreatureAttribute());
+        if (entity instanceof LivingEntity) {
+            attackDamage += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entity).getCreatureAttribute());
             knocback += EnchantmentHelper.getKnockbackModifier(this);
         }
 
         boolean causeDamage = entity.attackEntityFrom(DamageSource.causeMobDamage(this), attackDamage);
 
         if (causeDamage) {
-            if (knocback > 0 && entity instanceof EntityLivingBase) {
-                ((EntityLivingBase) entity).knockBack(this, (float) knocback * 0.5F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
+            if (knocback > 0 && entity instanceof LivingEntity) {
+                ((LivingEntity) entity).knockBack(this, (float) knocback * 0.5F, (double) MathHelper.sin(this.rotationYaw * 0.017453292F), (double) (-MathHelper.cos(this.rotationYaw * 0.017453292F)));
                 this.motionX *= 0.6D;
                 this.motionZ *= 0.6D;
             }
@@ -295,7 +295,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         }
 
         @Override
-        protected void setEntityAttackTarget(EntityCreature creature, @Nonnull EntityLivingBase livingBase) {
+        protected void setEntityAttackTarget(EntityCreature creature, @Nonnull LivingEntity livingBase) {
             if (creature instanceof EntityEfreetBase) {
                 ((EntityEfreetBase) creature).becomeAngryAt(livingBase);
             }

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
@@ -15,7 +15,7 @@ public class EntityArrowExplosive extends CustomArrow {
         super(world);
     }
 
-    public EntityArrowExplosive(World world, EntityLivingBase shooter, float velocity) {
+    public EntityArrowExplosive(World world, LivingEntity shooter, float velocity) {
         super(world, shooter);
         this.velocity = velocity;
     }

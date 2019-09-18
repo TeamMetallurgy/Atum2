@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.client.model.entity;
 import com.teammetallurgy.atum.entity.bandit.EntityNomad;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
@@ -19,7 +19,7 @@ public class ModelNomad extends ModelPlayer {
     }
 
     @Override
-    public void setLivingAnimations(EntityLivingBase livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
+    public void setLivingAnimations(LivingEntity livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
         this.rightArmPose = ModelBiped.ArmPose.EMPTY;
         this.leftArmPose = ModelBiped.ArmPose.EMPTY;
         ItemStack itemstack = livingBase.getHeldItem(EnumHand.MAIN_HAND);

@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.undead;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
@@ -142,8 +142,8 @@ public class EntityWraith extends EntityUndeadBase {
             return false;
         } else {
             if (rand.nextDouble() <= 0.175D) {
-                if (entity instanceof EntityLivingBase) {
-                    EntityLivingBase livingBase = (EntityLivingBase) entity;
+                if (entity instanceof LivingEntity) {
+                    LivingEntity livingBase = (LivingEntity) entity;
                     if (!livingBase.isPotionActive(MobEffects.SLOWNESS)) {
                         livingBase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 1));
                     }
@@ -171,12 +171,12 @@ public class EntityWraith extends EntityUndeadBase {
         }
 
         @Override
-        protected double getAttackReachSqr(EntityLivingBase attackTarget) {
+        protected double getAttackReachSqr(LivingEntity attackTarget) {
             return (double) (4.0F + attackTarget.width);
         }
     }
 
-    private static class AIWraithTarget<T extends EntityLivingBase> extends EntityAINearestAttackableTarget<T> {
+    private static class AIWraithTarget<T extends LivingEntity> extends EntityAINearestAttackableTarget<T> {
         AIWraithTarget(EntityWraith wraith, Class<T> classTarget) {
             super(wraith, classTarget, true);
         }

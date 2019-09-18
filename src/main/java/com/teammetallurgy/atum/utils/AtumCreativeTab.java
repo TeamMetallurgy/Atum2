@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.utils;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class AtumCreativeTab extends CreativeTabs {
+public class AtumCreativeTab extends ItemGroup {
 
     public AtumCreativeTab() {
         super(Constants.MOD_ID);

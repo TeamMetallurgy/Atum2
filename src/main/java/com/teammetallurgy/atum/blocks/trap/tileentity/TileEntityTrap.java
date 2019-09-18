@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
@@ -61,14 +61,14 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
         if (!this.isDisabled && this.isBurning()) {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
-            Class<? extends EntityLivingBase> entity;
+            Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = EntityPlayer.class;
             } else {
-                entity = EntityLivingBase.class;
+                entity = LivingEntity.class;
             }
-            List<EntityLivingBase> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1));
-            for (EntityLivingBase livingBase : entities) {
+            List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1));
+            for (LivingEntity livingBase : entities) {
                 if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode : livingBase != null) {
                     canDamageEntity = true;
                     this.triggerTrap(facing, livingBase);
@@ -109,7 +109,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         }
     }
 
-    protected void triggerTrap(EnumFacing facing, EntityLivingBase livingBase) {
+    protected void triggerTrap(EnumFacing facing, LivingEntity livingBase) {
     }
 
     boolean isBurning() {

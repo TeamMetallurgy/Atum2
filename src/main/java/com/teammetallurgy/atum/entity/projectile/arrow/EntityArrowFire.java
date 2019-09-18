@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +17,7 @@ public class EntityArrowFire extends CustomArrow {
         super(world);
     }
 
-    public EntityArrowFire(World world, EntityLivingBase shooter) {
+    public EntityArrowFire(World world, LivingEntity shooter) {
         super(world, shooter);
     }
 
@@ -26,7 +26,7 @@ public class EntityArrowFire extends CustomArrow {
         super.onHit(rayTraceResult);
         if (rayTraceResult != null && !world.isRemote) {
             Entity hitEnity = rayTraceResult.entityHit;
-            if (rayTraceResult.typeOfHit == RayTraceResult.Type.ENTITY && hitEnity instanceof EntityLivingBase) {
+            if (rayTraceResult.typeOfHit == RayTraceResult.Type.ENTITY && hitEnity instanceof LivingEntity) {
                 hitEnity.setFire(5);
             } else if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK && shootingEntity instanceof EntityPlayer) {
                 BlockPos pos = rayTraceResult.getBlockPos().offset(rayTraceResult.sideHit);

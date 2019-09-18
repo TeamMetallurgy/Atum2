@@ -5,8 +5,8 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.teleporter.AtumTeleporter;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBreakable;
 import net.minecraft.block.BlockSandStone;
+import net.minecraft.block.BreakableBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
@@ -14,6 +14,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -33,7 +34,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockPortal extends BlockBreakable {
+public class BlockPortal extends BreakableBlock {
     private static final AxisAlignedBB PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public BlockPortal() {
@@ -100,7 +101,7 @@ public class BlockPortal extends BlockBreakable {
         }
     }
 
-    public static void changeDimension(World world, EntityPlayerMP player, int dimension, ITeleporter teleporter) {
+    public static void changeDimension(World world, ServerPlayerEntity player, int dimension, ITeleporter teleporter) {
         if (!world.isRemote) {
             player.changeDimension(dimension, teleporter);
             player.timeUntilPortal = 300;

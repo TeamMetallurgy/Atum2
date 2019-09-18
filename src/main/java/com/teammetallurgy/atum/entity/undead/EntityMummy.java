@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.undead;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -86,8 +86,8 @@ public class EntityMummy extends EntityUndeadBase {
             if (this.isBurning() && this.rand.nextFloat() < (float) this.world.getDifficulty().getId() * 0.4F) {
                 entity.setFire(2 * this.world.getDifficulty().getId());
             }
-            if (entity instanceof EntityLivingBase) {
-                EntityLivingBase base = (EntityLivingBase) entity;
+            if (entity instanceof LivingEntity) {
+                LivingEntity base = (LivingEntity) entity;
                 base.addPotionEffect(new PotionEffect(MobEffects.WITHER, 80, 1));
             }
         }

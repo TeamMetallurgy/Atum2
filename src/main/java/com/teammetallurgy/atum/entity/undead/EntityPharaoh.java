@@ -4,12 +4,12 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
-import com.teammetallurgy.atum.items.artifacts.horus.ItemHorusAscension;
-import com.teammetallurgy.atum.items.tools.ItemScepter;
+import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
+import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
@@ -136,7 +136,7 @@ public class EntityPharaoh extends EntityUndeadBase {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        ItemScepter scepter = ItemScepter.getScepter(God.getGod(getVariant()));
+        ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
             this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(scepter));
         }
@@ -276,8 +276,8 @@ public class EntityPharaoh extends EntityUndeadBase {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (entity instanceof EntityLivingBase && !world.isRemote) {
-                EntityLivingBase entityLiving = (EntityLivingBase) entity;
+            if (entity instanceof LivingEntity && !world.isRemote) {
+                LivingEntity entityLiving = (LivingEntity) entity;
                 switch (God.getGod(this.getVariant())) {
                     case ANPUT:
                         entityLiving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 80, 1));
@@ -301,7 +301,7 @@ public class EntityPharaoh extends EntityUndeadBase {
                         entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
                         break;
                     case SHU:
-                        ItemHorusAscension.knockUp(entityLiving, this, rand);
+                        HorusAscensionItem.knockUp(entityLiving, this, rand);
                         break;
                     case TEFNUT:
                         entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));

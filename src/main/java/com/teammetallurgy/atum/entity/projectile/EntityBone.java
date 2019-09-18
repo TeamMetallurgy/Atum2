@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -18,7 +18,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import javax.annotation.Nonnull;
 
 public abstract class EntityBone extends Entity {
-    EntityLivingBase shootingEntity;
+    LivingEntity shootingEntity;
     private int ticksAlive;
     private int ticksInAir;
     private double accelerationX;
@@ -41,7 +41,7 @@ public abstract class EntityBone extends Entity {
         this.accelerationZ = accelZ / d0 * 0.1D;
     }
 
-    EntityBone(World world, EntityLivingBase shooter, double accelX, double accelY, double accelZ) {
+    EntityBone(World world, LivingEntity shooter, double accelX, double accelY, double accelZ) {
         super(world);
         this.shootingEntity = shooter;
         this.setSize(1.0F, 1.0F);
@@ -167,8 +167,8 @@ public abstract class EntityBone extends Entity {
                     this.accelerationZ = this.motionZ * 0.1D;
                 }
 
-                if (source.getTrueSource() instanceof EntityLivingBase) {
-                    this.shootingEntity = (EntityLivingBase) source.getTrueSource();
+                if (source.getTrueSource() instanceof LivingEntity) {
+                    this.shootingEntity = (LivingEntity) source.getTrueSource();
                 }
 
                 return true;

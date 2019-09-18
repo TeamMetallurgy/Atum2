@@ -5,8 +5,8 @@ import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
 import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.items.ItemLoot;
-import com.teammetallurgy.atum.items.tools.ItemScepter;
+import com.teammetallurgy.atum.items.LootItem;
+import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IMerchant;
@@ -78,7 +78,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ItemScepter.getScepter(EntityPharaoh.God.RA)));
+        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ScepterItem.getScepter(EntityPharaoh.God.RA)));
     }
 
     @Override
@@ -223,19 +223,19 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         if (nameTag) {
             heldStack.interactWithEntity(player, this, hand);
             return true;
-        } else if (heldStack.getItem() instanceof ItemLoot) {
-            ItemLoot.Type type = ItemLoot.getType(heldStack.getItem());
-            ItemLoot.Quality quality = ItemLoot.getQuality(heldStack.getItem());
+        } else if (heldStack.getItem() instanceof LootItem) {
+            LootItem.Type type = LootItem.getType(heldStack.getItem());
+            LootItem.Quality quality = LootItem.getQuality(heldStack.getItem());
 
-            if (quality != ItemLoot.Quality.DIRTY) {
+            if (quality != LootItem.Quality.DIRTY) {
                 double modifier = 1.0D;
-                if (type == ItemLoot.Type.NECKLACE) {
+                if (type == LootItem.Type.NECKLACE) {
                     modifier = 2.0D;
-                } else if (type == ItemLoot.Type.BROACH) {
+                } else if (type == LootItem.Type.BROACH) {
                     modifier = 2.5D;
-                } else if (type == ItemLoot.Type.SCEPTER) {
+                } else if (type == LootItem.Type.SCEPTER) {
                     modifier = 3.0D;
-                } else if (type == ItemLoot.Type.IDOL) {
+                } else if (type == LootItem.Type.IDOL) {
                     modifier = 5.0D;
                 }
                 if (!player.isCreative()) {
@@ -264,20 +264,20 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    private void handleRelicTrade(EntityPlayer player, EnumHand hand, double modifier, ItemLoot.Quality quality) {
+    private void handleRelicTrade(EntityPlayer player, EnumHand hand, double modifier, LootItem.Quality quality) {
         int amount = 0;
 
-        if (quality == ItemLoot.Quality.SILVER) {
+        if (quality == LootItem.Quality.SILVER) {
             amount += modifier;
-        } else if (quality == ItemLoot.Quality.GOLD) {
+        } else if (quality == LootItem.Quality.GOLD) {
             amount += modifier * 2;
-        } else if (quality == ItemLoot.Quality.SAPPHIRE) {
+        } else if (quality == LootItem.Quality.SAPPHIRE) {
             amount += modifier * 3;
-        } else if (quality == ItemLoot.Quality.RUBY) {
+        } else if (quality == LootItem.Quality.RUBY) {
             amount += modifier * 4;
-        } else if (quality == ItemLoot.Quality.EMERALD) {
+        } else if (quality == LootItem.Quality.EMERALD) {
             amount += modifier * 5;
-        } else if (quality == ItemLoot.Quality.DIAMOND) {
+        } else if (quality == LootItem.Quality.DIAMOND) {
             amount += modifier * 10;
         }
 

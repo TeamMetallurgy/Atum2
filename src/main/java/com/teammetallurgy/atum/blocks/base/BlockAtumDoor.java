@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockDoor;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -25,7 +26,7 @@ import javax.annotation.Nonnull;
 import java.util.Objects;
 import java.util.Random;
 
-public class BlockAtumDoor extends BlockDoor implements IRenderMapper {
+public class BlockAtumDoor extends DoorBlock implements IRenderMapper {
     private Material doorMaterial;
 
     public BlockAtumDoor(Material material) {

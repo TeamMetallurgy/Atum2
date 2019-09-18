@@ -36,8 +36,7 @@ import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.integration.IntegrationHandler;
-import com.teammetallurgy.atum.items.ItemTexturedArmor;
+import com.teammetallurgy.atum.items.TexturedArmorItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.properties.IProperty;
@@ -72,12 +71,11 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public void init() {
-        IntegrationHandler.INSTANCE.clientSide();
         //TextureMap Particles
         atumParticles = new AtumParticles();
         TextureManagerParticles managerParticles = TextureManagerParticles.INSTANCE;
         TextureMapParticles textureMap = managerParticles.getTextureMap();
-        Minecraft.getMinecraft().renderEngine.loadTickableTexture(TextureManagerParticles.LOCATION_PARTICLES, textureMap);
+        Minecraft.getInstance().renderEngine.loadTickableTexture(TextureManagerParticles.LOCATION_PARTICLES, textureMap);
 
         //Colors
         BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
@@ -89,7 +87,7 @@ public class ClientProxy extends CommonProxy {
         }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         //Dyeable armor
-        itemColor.registerItemColorHandler((stack, tintIndex) -> tintIndex > 0 ? -1 : ((ItemTexturedArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
+        itemColor.registerItemColorHandler((stack, tintIndex) -> tintIndex > 0 ? -1 : ((TexturedArmorItem) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
         //Dead Grass
         itemColor.registerItemColorHandler((stack, tintIndex) -> {
             IBlockState iblockstate = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();

@@ -1,16 +1,16 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.BlockBush;
+import net.minecraft.block.BushBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.IntegerProperty;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
@@ -25,8 +25,8 @@ import net.minecraftforge.common.ForgeHooks;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockDate extends BlockBush implements IGrowable {
-    public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 7);
+public class BlockDate extends BushBlock implements IGrowable {
+    public static final IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
     private static final AxisAlignedBB STEM = new AxisAlignedBB(0.4125D, 0.625D, 0.4125D, 0.6D, 1.0D, 0.6D);
     private static final AxisAlignedBB BOUNDING_BOX = new AxisAlignedBB(0.3125D, 0.125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
 

@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum;
 
-import com.teammetallurgy.atum.client.gui.AtumGuiHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.proxy.CommonProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumCreativeTab;
 import com.teammetallurgy.atum.utils.Constants;
@@ -16,33 +14,34 @@ import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMinesh
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
-import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = Constants.MOD_ID, name = Constants.MOD_NAME, version = Constants.VERSION, dependencies = Constants.DEPENDENCIES, guiFactory = Constants.FACTORY)
+@Mod(value = Constants.MOD_ID)
 public class Atum {
-    @Mod.Instance(Constants.MOD_ID)
-    public static Atum instance;
-
-    @SidedProxy(clientSide = Constants.CLIENT, serverSide = Constants.SERVER)
-    public static CommonProxy proxy;
-
     public static final Logger LOG = LogManager.getLogger(Constants.MOD_NAME);
-    public static final CreativeTabs CREATIVE_TAB = new AtumCreativeTab();
+    public static final ItemGroup GROUP = new AtumCreativeTab();
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        AtumConfig config = new AtumConfig(event.getSuggestedConfigurationFile());
-        MinecraftForge.EVENT_BUS.register(config);
+    public Atum() {
+        final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
+        modBus.addListener(this::setupCommon);
+        modBus.addListener(this::setupClient);
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
+    }
+
+    private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.initModIntegration();
         NetworkHandler.register();
         StructureAtumMineshaftPieces.registerMineshaft();
@@ -51,24 +50,17 @@ public class Atum {
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
         LighthousePieces.registerLighthouse();
-        IntegrationHandler.INSTANCE.preInit();
-    }
-
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-        proxy.init();
         AtumRecipes.addKilnRecipes();
-        NetworkRegistry.INSTANCE.registerGuiHandler(Atum.instance, new AtumGuiHandler());
-        IntegrationHandler.INSTANCE.init();
-    }
-
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
         AtumDimension.register();
+        IntegrationHandler.INSTANCE.setup();
     }
 
-    @Mod.EventHandler
-    public static void serverStart(FMLServerStartingEvent event) {
-        event.registerServerCommand(new AtumWeather());
+    private void setupClient(FMLClientSetupEvent event) {
+        IntegrationHandler.INSTANCE.clientSide();
+    }
+
+    @SubscribeEvent
+    public void onServerStarting(FMLServerStartingEvent event) {
+        AtumWeather.register(event.getCommandDispatcher());
     }
 }

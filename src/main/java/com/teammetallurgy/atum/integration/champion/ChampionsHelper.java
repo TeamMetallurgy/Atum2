@@ -5,37 +5,37 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.ITextureObject;
+import net.minecraft.client.renderer.texture.MissingTextureSprite;
 import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.TextureUtil;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class ChampionsHelper implements IModIntegration {
     public static final String CHAMPION_ID = "champions";
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static boolean isChampion(Entity entity) {
         if (IntegrationHandler.getConfigValue(CHAMPION_ID)) {
-            NBTTagCompound compound = new NBTTagCompound();
-            entity.writeToNBT(compound);
-            if (compound.hasKey("ForgeCaps")) {
-                NBTTagCompound forgeCaps = compound.getCompoundTag("ForgeCaps");
-                return forgeCaps.hasKey("champions:championship");
+            CompoundNBT compound = new CompoundNBT();
+            entity.deserializeNBT(compound);
+            if (compound.contains("ForgeCaps")) {
+                CompoundNBT forgeCaps = compound.getCompound("ForgeCaps");
+                return forgeCaps.contains("champions:championship");
             }
         }
         return false;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static ResourceLocation getTexture(Entity entity, String entityName) {
         int tier = ChampionsHelper.getTier(entity);
         if (tier > 0) {
             ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/variants/" + entityName + "_champion_" + tier + ".png");
-            TextureManager textureManager = Minecraft.getMinecraft().getTextureManager();
+            TextureManager textureManager = Minecraft.getInstance().getTextureManager();
             ITextureObject texture = textureManager.getTexture(textureResourceLocation);
 
             if (texture == null) {
@@ -43,23 +43,23 @@ public class ChampionsHelper implements IModIntegration {
                 texture = textureManager.getTexture(textureResourceLocation);
             }
 
-            if (texture != TextureUtil.MISSING_TEXTURE) {
+            if (texture != MissingTextureSprite.getDynamicTexture()) {
                 return textureResourceLocation;
             }
         }
         return null;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private static int getTier(Entity entity) {
-        NBTTagCompound compound = new NBTTagCompound();
-        entity.writeToNBT(compound);
-        if (compound.hasKey("ForgeCaps")) {
-            NBTTagCompound forgeCaps = compound.getCompoundTag("ForgeCaps");
-            if (forgeCaps.hasKey("champions:championship")) {
-                NBTTagCompound map = forgeCaps.getCompoundTag("champions:championship");
-                if (map.hasKey("tier")) {
-                    return map.getInteger("tier");
+        CompoundNBT compound = new CompoundNBT();
+        entity.deserializeNBT(compound);
+        if (compound.contains("ForgeCaps")) {
+            CompoundNBT forgeCaps = compound.getCompound("ForgeCaps");
+            if (forgeCaps.contains("champions:championship")) {
+                CompoundNBT map = forgeCaps.getCompound("champions:championship");
+                if (map.contains("tier")) {
+                    return map.getInt("tier");
                 }
             }
         }

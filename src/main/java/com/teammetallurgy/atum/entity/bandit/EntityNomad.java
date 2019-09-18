@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.ai.AIBowAttack;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.IRangedAttackMob;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.projectile.EntityArrow;
@@ -95,7 +95,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    public void attackEntityWithRangedAttack(@Nonnull EntityLivingBase target, float distanceFactor) {
+    public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
         EntityArrow arrow = getArrow(distanceFactor);
         double x = target.posX - this.posX;
         double y = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - arrow.posY;

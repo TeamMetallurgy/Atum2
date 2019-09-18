@@ -1,31 +1,29 @@
 package com.teammetallurgy.atum.integration.crafttweaker;
 
+import com.blamejared.crafttweaker.api.CraftTweakerAPI;
+import com.blamejared.crafttweaker.api.actions.IAction;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
-import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import org.openzen.zencode.java.ZenCodeType;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 @ZenRegister
-@ZenClass("mods.atum.Quern")
+@ZenCodeType.Name("mods.atum.Quern")
 public class CTQuern {
 
-    @ZenMethod
+    @ZenCodeType.Method
     public static void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), CraftTweakerMC.getItemStack(output), rotations));
+        CraftTweakerAPI.apply(new Add(input.getInternal(), output.getInternal(), rotations));
     }
 
-    @ZenMethod
+    @ZenCodeType.Method
     public static void removeRecipe(String id) {
         CraftTweakerAPI.apply(new Remove(id));
     }

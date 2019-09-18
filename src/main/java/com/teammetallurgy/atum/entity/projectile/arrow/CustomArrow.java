@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -20,7 +20,7 @@ public class CustomArrow extends EntityArrow implements IThrowableEntity {
         super(world, x, y, z);
     }
 
-    public CustomArrow(World world, EntityLivingBase shooter) {
+    public CustomArrow(World world, LivingEntity shooter) {
         super(world, shooter);
     }
 

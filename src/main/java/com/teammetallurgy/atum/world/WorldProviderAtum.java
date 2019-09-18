@@ -18,10 +18,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.DimensionType;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldServer;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
-public class WorldProviderAtum extends WorldProvider {
+public class WorldProviderAtum extends Dimension {
     private static BlockPos usePos;
     public boolean hasStartStructureSpawned;
 

@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.entity.projectile.EntitySmallBone;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.init.SoundEvents;
@@ -85,7 +85,7 @@ public class EntityBonestorm extends EntityUndeadBase {
             this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
         }
 
-        EntityLivingBase livingBase = this.getAttackTarget();
+        LivingEntity livingBase = this.getAttackTarget();
 
         if (livingBase != null && livingBase.posY + (double) livingBase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
             this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
@@ -132,7 +132,7 @@ public class EntityBonestorm extends EntityUndeadBase {
 
         @Override
         public boolean shouldExecute() {
-            EntityLivingBase livingBase = this.bonestorm.getAttackTarget();
+            LivingEntity livingBase = this.bonestorm.getAttackTarget();
             return livingBase != null && livingBase.isEntityAlive();
         }
 
@@ -144,7 +144,7 @@ public class EntityBonestorm extends EntityUndeadBase {
         @Override
         public void updateTask() {
             --this.attackTime;
-            EntityLivingBase livingBase = this.bonestorm.getAttackTarget();
+            LivingEntity livingBase = this.bonestorm.getAttackTarget();
             if (livingBase != null) {
                 double distance = this.bonestorm.getDistanceSq(livingBase);
 

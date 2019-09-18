@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.inventory.container.block;
 import com.teammetallurgy.atum.inventory.slot.SlotKilnOutput;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.*;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;

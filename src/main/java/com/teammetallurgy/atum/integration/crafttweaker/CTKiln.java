@@ -1,36 +1,34 @@
 package com.teammetallurgy.atum.integration.crafttweaker;
 
+import com.blamejared.crafttweaker.api.CraftTweakerAPI;
+import com.blamejared.crafttweaker.api.actions.IAction;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
-import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
+import org.openzen.zencode.java.ZenCodeType;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
 @ZenRegister
-@ZenClass("mods.atum.Kiln")
+@ZenCodeType.Name("mods.atum.Kiln")
 public class CTKiln {
 
-    @ZenMethod
+    @ZenCodeType.Method
     public static void addRecipe(IItemStack input, IItemStack output, double experience) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), CraftTweakerMC.getItemStack(output), (float) experience));
+        CraftTweakerAPI.apply(new Add(input.getInternal(), output.getInternal(), (float) experience));
     }
 
-    @ZenMethod
+    @ZenCodeType.Method
     public static void removeRecipe(String id) {
         CraftTweakerAPI.apply(new Remove(id));
     }
 
-    @ZenMethod
+    @ZenCodeType.Method
     public static void blacklist(String id) {
         CraftTweakerAPI.apply(new Blacklist(id));
     }

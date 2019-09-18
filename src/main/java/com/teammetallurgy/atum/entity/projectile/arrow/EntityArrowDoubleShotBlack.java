@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -13,7 +13,7 @@ public class EntityArrowDoubleShotBlack extends CustomArrow {
         super(world);
     }
 
-    public EntityArrowDoubleShotBlack(World world, EntityLivingBase shooter) {
+    public EntityArrowDoubleShotBlack(World world, LivingEntity shooter) {
         super(world, shooter);
     }
 

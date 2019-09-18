@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.stone.alabaster;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
-import com.teammetallurgy.atum.items.ItemAtumSlab;
+import com.teammetallurgy.atum.items.AtumSlabItem;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -25,7 +25,7 @@ public class BlockAlabasterSlab extends BlockAtumSlab {
         for (BlockAlabasterBricks.Type type : BlockAlabasterBricks.Type.values()) {
             BlockAtumSlab slab = new BlockAlabasterSlab();
             ALABASTER_SLAB.put(type, slab);
-            AtumRegistry.registerBlock(slab, new ItemAtumSlab(slab, slab), "alabaster_" + type.getName() + "_slab");
+            AtumRegistry.registerBlock(slab, new AtumSlabItem(slab, slab), "alabaster_" + type.getName() + "_slab");
         }
     }
 }

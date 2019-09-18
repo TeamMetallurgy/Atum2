@@ -9,8 +9,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.*;
 import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
@@ -32,7 +32,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EntityStoneBase extends EntityMob implements IUnderground {
+public class EntityStoneBase extends MonsterEntity implements IUnderground {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EntityStoneBase.class, DataSerializers.VARINT);
     private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(EntityStoneBase.class, DataSerializers.BYTE);
     private int homeCheckTimer;

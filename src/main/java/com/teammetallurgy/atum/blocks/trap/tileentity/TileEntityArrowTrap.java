@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityTippedArrow;
@@ -30,16 +30,16 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         if (timer > 0) timer--;
         if (!this.isDisabled && this.isBurning()) {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
-            Class<? extends EntityLivingBase> entity;
+            Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = EntityPlayer.class;
             } else {
-                entity = EntityLivingBase.class;
+                entity = LivingEntity.class;
             }
             AxisAlignedBB box = getFacingBoxWithRange(facing, 13).shrink(1);
             RayTraceResult findBlock = this.rayTraceMinMax(world, box);
-            List<EntityLivingBase> entities = world.getEntitiesWithinAABB(entity, box);
-            for (EntityLivingBase livingBase : entities) {
+            List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, box);
+            for (LivingEntity livingBase : entities) {
                 boolean cantSeeEntity = findBlock != null && this.getDistance(findBlock.getBlockPos()) < this.getDistance(livingBase.getPosition());
                 if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
                     if (canSee(facing, livingBase)) {
@@ -89,7 +89,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         }
     }
 
-    private boolean canSee(EnumFacing facing, EntityLivingBase living){
+    private boolean canSee(EnumFacing facing, LivingEntity living){
         Vec3i dir = facing.getDirectionVec();
         return this.world.rayTraceBlocks(new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ()), new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ), true, true, false) == null;
     }
@@ -108,7 +108,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
     }
     
     @Override
-    protected void triggerTrap(EnumFacing facing, EntityLivingBase livingBase) {
+    protected void triggerTrap(EnumFacing facing, LivingEntity livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
