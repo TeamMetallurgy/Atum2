@@ -21,16 +21,12 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemSaddle;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.*;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
@@ -44,9 +40,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -90,9 +86,9 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
-        this.getEntityAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
+        this.getAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
     }
 
     @Override
@@ -115,7 +111,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         this.tasks.addTask(4, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(5, new EntityAIFollowParent(this, 1.0D));
         this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.7D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 6.0F));
+        this.tasks.addTask(7, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCamel.AIHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCamel.AIDefendTarget(this));
@@ -216,7 +212,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.textureName == null) {
             if ("girafi".equalsIgnoreCase(this.getCustomNameTag())) {
@@ -364,10 +360,10 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         this.dataManager.set(ARMOR_STACK, stack);
 
         if (!this.world.isRemote) {
-            this.getEntityAttribute(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
+            this.getAttribute(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
             int protection = armorType.getProtection();
             if (protection != 0) {
-                this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", (double) protection, 0)).setSaved(false));
+                this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", (double) protection, 0)).setSaved(false));
             }
         }
     }
@@ -405,7 +401,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void openGUI(@Nonnull EntityPlayer player) {
+    public void openGUI(@Nonnull PlayerEntity player) {
         if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
             this.horseChest.setCustomName(this.getName());
             player.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
@@ -417,21 +413,21 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
         compound.setInteger("Variant", this.getVariant());
 
         if (!this.horseChest.getStackInSlot(1).isEmpty()) {
-            compound.setTag("ArmorItem", this.horseChest.getStackInSlot(1).writeToNBT(new NBTTagCompound()));
+            compound.setTag("ArmorItem", this.horseChest.getStackInSlot(1).writeToNBT(new CompoundNBT()));
         }
         if (!this.horseChest.getStackInSlot(2).isEmpty()) {
-            compound.setTag("Carpet", this.horseChest.getStackInSlot(2).writeToNBT(new NBTTagCompound()));
+            compound.setTag("Carpet", this.horseChest.getStackInSlot(2).writeToNBT(new CompoundNBT()));
         }
         if (!this.horseChest.getStackInSlot(3).isEmpty()) {
-            compound.setTag("CrateLeft", this.horseChest.getStackInSlot(3).writeToNBT(new NBTTagCompound()));
+            compound.setTag("CrateLeft", this.horseChest.getStackInSlot(3).writeToNBT(new CompoundNBT()));
         }
         if (!this.horseChest.getStackInSlot(4).isEmpty()) {
-            compound.setTag("CrateRight", this.horseChest.getStackInSlot(4).writeToNBT(new NBTTagCompound()));
+            compound.setTag("CrateRight", this.horseChest.getStackInSlot(4).writeToNBT(new CompoundNBT()));
         }
 
         if (this.hasLeftCrate()) {
@@ -439,7 +435,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             for (int slot = this.getNonCrateSize(); slot < this.horseChest.getSizeInventory(); ++slot) {
                 ItemStack slotStack = this.horseChest.getStackInSlot(slot);
                 if (!slotStack.isEmpty()) {
-                    NBTTagCompound tagCompound = new NBTTagCompound();
+                    CompoundNBT tagCompound = new CompoundNBT();
                     tagCompound.setByte("Slot", (byte) slot);
                     slotStack.writeToNBT(tagCompound);
                     tagList.appendTag(tagCompound);
@@ -450,11 +446,11 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         this.setVariant(compound.getInteger("Variant"));
 
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
 
         if (compound.hasKey("Carpet", 10)) {
             this.horseChest.setInventorySlotContents(2, new ItemStack(compound.getCompoundTag("Carpet")));
@@ -476,7 +472,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             NBTTagList tagList = compound.getTagList("Items", 10);
             this.initHorseChest();
             for (int i = 0; i < tagList.tagCount(); ++i) {
-                NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+                CompoundNBT tagCompound = tagList.getCompoundTagAt(i);
                 int slot = tagCompound.getByte("Slot") & 255;
                 if (slot >= this.getNonCrateSize() && slot < this.horseChest.getSizeInventory()) {
                     this.horseChest.setInventorySlotContents(slot, new ItemStack(tagCompound));
@@ -535,7 +531,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
 
         if (heldStack.getItem() == Items.SPAWN_EGG) {
@@ -580,7 +576,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                 }
 
                 if (eating) {
-                    if (!player.capabilities.isCreativeMode) {
+                    if (!player.abilities.isCreativeMode) {
                         heldStack.shrink(1);
                     }
                     return true;
@@ -609,7 +605,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    protected boolean handleEating(@Nonnull EntityPlayer player, @Nonnull ItemStack stack) {
+    protected boolean handleEating(@Nonnull PlayerEntity player, @Nonnull ItemStack stack) {
         boolean isEating = false;
         float healAmount = 0.0F;
         int growthAmount = 0;
@@ -689,7 +685,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     public void setHorseTamed(boolean tamed) {
         super.setHorseTamed(tamed);
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
         this.heal(this.getCamelMaxHealth());
     }
 

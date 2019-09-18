@@ -16,7 +16,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
@@ -91,7 +91,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+        protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
             compound.setBoolean("hr", this.hasRails);
             compound.setBoolean("sc", this.hasTarantula);
             compound.setBoolean("hps", this.spawnerPlaced);
@@ -99,7 +99,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
+        protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
             this.hasRails = compound.getBoolean("hr");
             this.hasTarantula = compound.getBoolean("sc");
             this.spawnerPlaced = compound.getBoolean("hps");
@@ -353,13 +353,13 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+        protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
             compound.setBoolean("tf", this.isMultipleFloors);
             compound.setInteger("D", this.corridorDirection.getHorizontalIndex());
         }
 
         @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
+        protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
             this.isMultipleFloors = compound.getBoolean("tf");
             this.corridorDirection = EnumFacing.byHorizontalIndex(compound.getInteger("D"));
         }
@@ -497,12 +497,12 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+        protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
             compound.setInteger("MST", this.mineshaftType.ordinal());
         }
         
         @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
+        protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
             this.mineshaftType = MapGenAtumMineshaft.Type.byOrdinal(compound.getInteger("MST"));
         }
 
@@ -642,7 +642,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+        protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
             NBTTagList tagList = new NBTTagList();
 
             for (StructureBoundingBox box : this.connectedRooms) {
@@ -652,7 +652,7 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
+        protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
             NBTTagList tagList = compound.getTagList("Entrances", 11);
             for (int i = 0; i < tagList.tagCount(); ++i) {
                 this.connectedRooms.add(new StructureBoundingBox(tagList.getIntArrayAt(i)));
@@ -665,11 +665,11 @@ public class StructureAtumMineshaftPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+        protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
         }
 
         @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
+        protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
         }
 
         public Stairs(int type, Random random, StructureBoundingBox box, EnumFacing facing, MapGenAtumMineshaft.Type mineshaftType) {

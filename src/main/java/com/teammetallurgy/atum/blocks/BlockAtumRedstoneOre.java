@@ -8,19 +8,19 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
@@ -48,7 +48,7 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     }
 
     @Override
-    public void onBlockClicked(World world, BlockPos pos, EntityPlayer playerIn) {
+    public void onBlockClicked(World world, BlockPos pos, PlayerEntity playerIn) {
         this.activate(world, pos);
         super.onBlockClicked(world, pos, playerIn);
     }
@@ -60,7 +60,7 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
         this.activate(world, pos);
         return super.onBlockActivated(world, pos, state, player, hand, side, hitX, hitY, hitZ);
     }
@@ -105,7 +105,7 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
         if (this.isLit) {
             this.spawnParticles(world, pos);
@@ -159,7 +159,7 @@ public class BlockAtumRedstoneOre extends Block implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.REDSTONE_ORE, 1, this.damageDropped(state));
     }
 

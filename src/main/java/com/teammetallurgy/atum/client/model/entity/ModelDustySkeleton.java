@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.client.model.entity;
 
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.model.ModelZombie;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ModelDustySkeleton extends ModelZombie {
     public ModelDustySkeleton() {
         this(0.0F);

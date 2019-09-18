@@ -7,14 +7,14 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
-@SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class ParticleRaFire extends ParticleBase {
     private static final ResourceLocation RA_FIRE = new ResourceLocation(Constants.MOD_ID, "particle/ra_fire");
     private final float flameScale;
@@ -89,7 +89,7 @@ public class ParticleRaFire extends ParticleBase {
         registerSprite(RA_FIRE);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Factory implements IAtumParticleFactory {
         @Override
         public Particle createParticle(String particleName, World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {

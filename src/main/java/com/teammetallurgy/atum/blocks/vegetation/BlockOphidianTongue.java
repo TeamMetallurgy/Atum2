@@ -13,13 +13,13 @@ import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.item.Items;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
@@ -45,7 +45,7 @@ public class BlockOphidianTongue extends BlockVine implements IOreDictEntry {
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
         if (!world.isRemote && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity) {
             LivingEntity livingBase = (LivingEntity) entity;
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, 35));
+            livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 35));
         }
     }
 
@@ -69,7 +69,7 @@ public class BlockOphidianTongue extends BlockVine implements IOreDictEntry {
     }
 
     @Override
-    public void harvestBlock(@Nonnull World world, EntityPlayer player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
+    public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
         if (!world.isRemote && stack.getItem() == Items.SHEARS) {
             player.addStat(Objects.requireNonNull(StatList.getBlockStats(this)));
             spawnAsEntity(world, pos, new ItemStack(AtumBlocks.OPHIDIAN_TONGUE, 1, 0));

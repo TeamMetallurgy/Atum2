@@ -17,7 +17,7 @@ import net.minecraft.block.state.pattern.BlockStateMatcher;
 import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
@@ -69,7 +69,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
             stonewarden.setLocationAndAngles((double) stonewardenPos.getX() + 0.5D, (double) stonewardenPos.getY() + 0.05D, (double) stonewardenPos.getZ() + 0.5D, 0.0F, 0.0F);
             world.spawnEntity(stonewarden);
 
-            for (EntityPlayerMP playerMP : world.getEntitiesWithinAABB(EntityPlayerMP.class, stonewarden.getEntityBoundingBox().grow(5.0D))) {
+            for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stonewarden.getEntityBoundingBox().grow(5.0D))) {
                 CriteriaTriggers.SUMMONED_ENTITY.trigger(playerMP, stonewarden);
             }
 
@@ -98,7 +98,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
                 stoneguard.setLocationAndAngles((double) stoneguardPos.getX() + 0.5D, (double) stoneguardPos.getY() + 0.05D, (double) stoneguardPos.getZ() + 0.5D, 0.0F, 0.0F);
                 world.spawnEntity(stoneguard);
 
-                for (EntityPlayerMP playerMP : world.getEntitiesWithinAABB(EntityPlayerMP.class, stoneguard.getEntityBoundingBox().grow(5.0D))) {
+                for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stoneguard.getEntityBoundingBox().grow(5.0D))) {
                     CriteriaTriggers.SUMMONED_ENTITY.trigger(playerMP, stoneguard);
                 }
 

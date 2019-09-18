@@ -2,18 +2,16 @@ package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.CompassItem;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -22,13 +20,11 @@ import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 public class ThothsDirectionItem extends CompassItem { //Revisit later
     private BlockPos pyramidPos;
@@ -38,15 +34,15 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
     public ThothsDirectionItem() {
         this.setMaxStackSize(1);
         this.addPropertyOverride(new ResourceLocation("angle"), new IItemPropertyGetter() {
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             double rotation;
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             double rota;
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             long lastUpdateTick;
 
             @Override
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             public float apply(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity livingBase) {
                 if (livingBase == null && !stack.isOnItemFrame()) {
                     return 0.0F;
@@ -78,7 +74,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                 }
             }
 
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             private double spin(World world) {
                 if (world.getTotalWorldTime() != this.lastUpdateTick) {
                     long delta = world.getTotalWorldTime() - this.lastUpdateTick;
@@ -89,7 +85,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                 return this.rotation;
             }
 
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             private double wobble(World world, double angle) {
                 if (world.getTotalWorldTime() != this.lastUpdateTick) {
                     this.lastUpdateTick = world.getTotalWorldTime();
@@ -102,13 +98,13 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                 return this.rotation;
             }
 
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             private double getFrameRotation(EntityItemFrame frame) {
                 int facingDirection = frame.facingDirection != null ? frame.facingDirection.getHorizontalIndex() : 0;
                 return (double) MathHelper.wrapDegrees(180 + facingDirection * 90);
             }
 
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             private double getPyramidToAngle(World world, Entity entity) {
                 if (isSearching) {
                     return 1.0D;
@@ -122,7 +118,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -135,7 +131,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
         player.sendStatusMessage(new TextComponentTranslation(this.getTranslationKey() + ".searching").setStyle(new Style().setColor(TextFormatting.YELLOW)), true);
         this.searchTime = 60;
         return super.onItemRightClick(world, player, hand);
@@ -152,8 +148,8 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                 this.searchTime = 0;
                 this.isSearching = false;
                 if (!world.isRemote) {
-                    if (entity instanceof EntityPlayer) {
-                        EntityPlayer player = (EntityPlayer) entity;
+                    if (entity instanceof PlayerEntity) {
+                        PlayerEntity player = (PlayerEntity) entity;
                         WorldServer worldServer = (WorldServer) world;
                         BlockPos pos = worldServer.getChunkProvider().chunkGenerator.getNearestStructurePos(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), true);
                         if (pos != null) {
@@ -167,16 +163,5 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
             }
         }
         super.onUpdate(stack, world, entity, itemSlot, isSelected);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
-        }
     }
 }

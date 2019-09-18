@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 
 public class TileEntityBurningTrap extends TileEntityTrap {
 

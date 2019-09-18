@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneFurnace;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.MathHelper;
@@ -93,7 +93,7 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
 
         this.furnaceItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
@@ -110,7 +110,7 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
 
         compound.setInteger("BurnTime", (short) this.furnaceBurnTime);
@@ -241,7 +241,7 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
 
     @Override
     @Nonnull
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer player) {
+    public Container createContainer(InventoryPlayer playerInventory, PlayerEntity player) {
         return new ContainerLimestoneFurnace(playerInventory, this);
     }
 

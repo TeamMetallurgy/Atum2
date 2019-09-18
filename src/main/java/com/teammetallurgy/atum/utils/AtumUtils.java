@@ -2,25 +2,11 @@ package com.teammetallurgy.atum.utils;
 
 import com.google.common.base.CaseFormat;
 import net.minecraft.client.resources.I18n;
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 
 /**
  * Various string related helper methods
  */
 public class AtumUtils {
-
-    /**
-     * Turns a registry name into a unlocalized name.
-     * Can also turn getTranslationKey() into a unlocalized name without mod prefix.
-     * <p>
-     * Example: Turns example_name into exampleName
-     *
-     * @param name the registry name to convert into the unlocalized name.
-     */
-    public static String toUnlocalizedName(String name) {
-        return StringUtils.uncapitalize(WordUtils.capitalize(name, '_')).replace("_", "").replace(Constants.MOD_ID + ".", "_").replace("item.", "").replace("tile.", "").replace(":", ".");
-    }
 
     /**
      * Turns a unlocalized name into a registry name.

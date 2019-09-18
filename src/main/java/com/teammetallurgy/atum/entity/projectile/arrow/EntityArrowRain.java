@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
@@ -24,7 +24,7 @@ public class EntityArrowRain extends CustomArrow {
     public EntityArrowRain(World world, double x, double y, double z) {
         super(world, x, y, z);
         this.isSmallArrow = true;
-        this.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
+        this.pickupStatus = ArrowEntity.PickupStatus.DISALLOWED;
     }
 
     @Override

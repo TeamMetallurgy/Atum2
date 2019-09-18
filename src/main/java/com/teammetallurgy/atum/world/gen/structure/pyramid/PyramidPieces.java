@@ -18,7 +18,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.EnumFacing;
@@ -268,14 +268,14 @@ public class PyramidPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(NBTTagCompound compound) {
+        protected void writeStructureToNBT(CompoundNBT compound) {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
         }
 
         @Override
-        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
+        protected void readStructureFromNBT(CompoundNBT compound, TemplateManager manager) {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));
@@ -391,11 +391,11 @@ public class PyramidPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(@Nonnull NBTTagCompound compound) {
+        protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
         }
 
         @Override
-        protected void readStructureFromNBT(@Nonnull NBTTagCompound compound, @Nonnull TemplateManager manager) {
+        protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
         }
 
         class Pair {

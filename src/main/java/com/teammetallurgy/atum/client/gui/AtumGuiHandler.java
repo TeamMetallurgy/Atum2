@@ -18,7 +18,7 @@ import com.teammetallurgy.atum.inventory.container.entity.ContainerAlphaDesertWo
 import com.teammetallurgy.atum.inventory.container.entity.ContainerCamel;
 import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -30,7 +30,7 @@ import java.util.Objects;
 public class AtumGuiHandler implements IGuiHandler {
 
     @Override
-    public Object getServerGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getServerGuiElement(int id, PlayerEntity player, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
         Entity entity = world.getEntityByID(x);
 
@@ -62,7 +62,7 @@ public class AtumGuiHandler implements IGuiHandler {
     }
 
     @Override
-    public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
+    public Object getClientGuiElement(int id, PlayerEntity player, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
         Entity entity = world.getEntityByID(x);
 

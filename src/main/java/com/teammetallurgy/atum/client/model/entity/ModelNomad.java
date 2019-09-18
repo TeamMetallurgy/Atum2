@@ -6,12 +6,12 @@ import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumHandSide;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.util.Hand;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ModelNomad extends ModelPlayer {
 
     public ModelNomad() {
@@ -22,7 +22,7 @@ public class ModelNomad extends ModelPlayer {
     public void setLivingAnimations(LivingEntity livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
         this.rightArmPose = ModelBiped.ArmPose.EMPTY;
         this.leftArmPose = ModelBiped.ArmPose.EMPTY;
-        ItemStack itemstack = livingBase.getHeldItem(EnumHand.MAIN_HAND);
+        ItemStack itemstack = livingBase.getHeldItem(Hand.MAIN_HAND);
 
         if (itemstack.getItem() instanceof ItemBow && ((EntityNomad) livingBase).isSwingingArms()) {
             if (livingBase.getPrimaryHand() == EnumHandSide.RIGHT) {

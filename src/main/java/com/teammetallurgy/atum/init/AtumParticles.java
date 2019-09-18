@@ -20,13 +20,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ReportedException;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class AtumParticles {
     private static final Map<String, IAtumParticleFactory> particleTypes = Maps.newHashMap();
     private final ArrayDeque<Particle>[][] fxLayers = new ArrayDeque[4][];

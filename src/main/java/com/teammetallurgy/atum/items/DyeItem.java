@@ -5,18 +5,18 @@ import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 
 import javax.annotation.Nonnull;
 
 public class DyeItem extends Item implements IOreDictEntry {
 
     @Override
-    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, EntityPlayer player, LivingEntity target, EnumHand hand) {
+    public boolean itemInteractionForEntity(@Nonnull ItemStack stack, PlayerEntity player, LivingEntity target, Hand hand) {
         if (target instanceof EntitySheep) {
             EntitySheep sheep = (EntitySheep) target;
             EnumDyeColor color = EnumDyeColor.BLACK;

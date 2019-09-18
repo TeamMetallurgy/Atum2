@@ -7,16 +7,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class ParticleLightSparkle extends ParticleBase {
     private static final ResourceLocation LIGHT_SPARKLE = new ResourceLocation(Constants.MOD_ID, "particle/light_sparkle");
     private float particleScaleOverTime;
@@ -73,7 +73,7 @@ public class ParticleLightSparkle extends ParticleBase {
         registerSprite(LIGHT_SPARKLE);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Factory implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new ParticleLightSparkle(world, x, y, z, xSpeed, ySpeed, zSpeed);

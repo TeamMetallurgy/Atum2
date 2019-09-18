@@ -14,11 +14,11 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -54,17 +54,17 @@ public class BlockSpinningWheel extends BlockContainer {
     }
 
     @Override
-    public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) {
+    public void onBlockClicked(World world, BlockPos pos, PlayerEntity player) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof TileEntitySpinningWheel) {
             TileEntitySpinningWheel spinningWheel = (TileEntitySpinningWheel) tileEntity;
             if (player.isSneaking()) {
-                StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(0).copy());
-                StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1).copy());
+                StackHelper.giveItem(player, Hand.MAIN_HAND, spinningWheel.getStackInSlot(0).copy());
+                StackHelper.giveItem(player, Hand.MAIN_HAND, spinningWheel.getStackInSlot(1).copy());
                 spinningWheel.decrStackSize(0, spinningWheel.getInventoryStackLimit());
                 spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
-                spinningWheel.input = new NBTTagCompound();
+                spinningWheel.input = new CompoundNBT();
                 spinningWheel.rotations = 0;
                 spinningWheel.wheel = false;
                 world.setBlockState(pos, world.getBlockState(pos).withProperty(SPOOL, 0), 2);
@@ -74,7 +74,7 @@ public class BlockSpinningWheel extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
         ItemStack heldStack = player.getHeldItem(hand);
 
@@ -90,7 +90,7 @@ public class BlockSpinningWheel extends BlockContainer {
                         boolean canInsert = false;
 
                         if (spinningWheel.input.isEmpty()) {
-                            spinningWheel.input = copyStack.writeToNBT(new NBTTagCompound());
+                            spinningWheel.input = copyStack.writeToNBT(new CompoundNBT());
                         }
                         ItemStack inputStack = new ItemStack(spinningWheel.input);
                         if (StackHelper.areStacksEqualIgnoreSize(inputStack, heldStack)) {
@@ -131,7 +131,7 @@ public class BlockSpinningWheel extends BlockContainer {
                                     ItemStack copyOutput = spinningWheelRecipe.getOutput();
                                     ItemStack output = new ItemStack(copyOutput.getItem(), copyOutput.getCount(), copyOutput.getMetadata());
                                     spinningWheel.setInventorySlotContents(1, output);
-                                    spinningWheel.input = new NBTTagCompound();
+                                    spinningWheel.input = new CompoundNBT();
                                 }
                             }
                         }
@@ -143,14 +143,14 @@ public class BlockSpinningWheel extends BlockContainer {
         return true;
     }
 
-    public void output(World world, BlockPos pos, @Nullable EntityPlayer player, TileEntitySpinningWheel spinningWheel) {
+    public void output(World world, BlockPos pos, @Nullable PlayerEntity player, TileEntitySpinningWheel spinningWheel) {
         IBlockState state = world.getBlockState(pos);
         if (state.getValue(SPOOL) == 3) {
             if (!world.isRemote && player != null) {
-                StackHelper.giveItem(player, EnumHand.MAIN_HAND, spinningWheel.getStackInSlot(1));
+                StackHelper.giveItem(player, Hand.MAIN_HAND, spinningWheel.getStackInSlot(1));
                 spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
             }
-            spinningWheel.input = new NBTTagCompound();
+            spinningWheel.input = new CompoundNBT();
             spinningWheel.wheel = false;
             world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
             spinningWheel.markDirty();
@@ -159,7 +159,7 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, EntityPlayer player) {
+    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.SPINNING_WHEEL);
     }
 

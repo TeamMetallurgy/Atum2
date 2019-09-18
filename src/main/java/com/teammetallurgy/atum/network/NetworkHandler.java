@@ -5,9 +5,9 @@ import com.teammetallurgy.atum.network.packet.PacketParticle;
 import com.teammetallurgy.atum.network.packet.PacketStormStrength;
 import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
 
 public class NetworkHandler {
     public static SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(Constants.MOD_ID);
@@ -19,10 +19,10 @@ public class NetworkHandler {
 
     public static void register() {
         lastDiscriminator++;
-        registerPacket(PacketParticle.class, Side.CLIENT);
-        registerPacket(PacketOpenWolfGui.class, Side.SERVER);
-        registerPacket(PacketWeather.class, Side.CLIENT);
-        registerPacket(PacketStormStrength.class, Side.CLIENT);
+        registerPacket(PacketParticle.class, Dist.CLIENT);
+        registerPacket(PacketOpenWolfGui.class, Dist.SERVER);
+        registerPacket(PacketWeather.class, Dist.CLIENT);
+        registerPacket(PacketStormStrength.class, Dist.CLIENT);
     }
 
     @SuppressWarnings("all")

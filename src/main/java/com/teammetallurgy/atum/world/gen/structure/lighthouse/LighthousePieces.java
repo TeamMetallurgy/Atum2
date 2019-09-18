@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -138,7 +138,7 @@ public class LighthousePieces {
         }
 
         @Override
-        protected void writeStructureToNBT(NBTTagCompound compound) {
+        protected void writeStructureToNBT(CompoundNBT compound) {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
@@ -146,7 +146,7 @@ public class LighthousePieces {
         }
 
         @Override
-        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
+        protected void readStructureFromNBT(CompoundNBT compound, TemplateManager manager) {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));

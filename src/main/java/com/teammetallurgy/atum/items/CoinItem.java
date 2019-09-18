@@ -5,9 +5,9 @@ import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -22,7 +22,7 @@ public class CoinItem extends Item {
             ItemStack stack = entityItem.getItem();
             if (!world.isRemote) {
                 while (stack.getCount() > 0) {
-                    if (itemRand.nextFloat() <= 0.10F) {
+                    if (random.nextFloat() <= 0.10F) {
                         stack.shrink(1);
                         world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
                     } else {

@@ -5,12 +5,12 @@ import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class TileEntitySpinningWheel extends TileEntityInventoryBase implements ISidedInventory {
-    public NBTTagCompound input = new NBTTagCompound();
+    public CompoundNBT input = new CompoundNBT();
     public boolean wheel;
     public int rotations;
 
@@ -57,8 +57,8 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        return this.writeToNBT(new CompoundNBT());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
         if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
                 && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(new ItemStack(this.input), stack))) {
             if (this.input.isEmpty()) {
-                this.input = stack.writeToNBT(new NBTTagCompound());
+                this.input = stack.writeToNBT(new CompoundNBT());
             }
             return true;
         } else {
@@ -127,7 +127,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
 
     @Override
     @Nonnull
-    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
+    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull PlayerEntity player) {
         return null;
     }
 
@@ -138,7 +138,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.wheel = compound.getBoolean("wheel");
         this.rotations = compound.getInteger("rotations");
@@ -147,7 +147,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
 
     @Nonnull
     @Override
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
         compound.setBoolean("wheel", this.wheel);
         compound.setInteger("rotations", this.rotations);

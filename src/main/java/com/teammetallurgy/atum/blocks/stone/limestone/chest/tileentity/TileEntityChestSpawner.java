@@ -5,10 +5,10 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.EnumFacing;
@@ -112,7 +112,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.spawnerLogic.readFromNBT(compound);
         spawnPool = compound.getInteger("spawnPool");
@@ -120,7 +120,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(@Nonnull CompoundNBT compound) {
         super.writeToNBT(compound);
         this.spawnerLogic.writeToNBT(compound);
         compound.setInteger("spawnPool", spawnPool);
@@ -128,7 +128,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
+    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         double d0 = 4.0D;
         double d1 = 3.0D;
         List<EntityMob> list = super.world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB((double) super.pos.getX() - d0, (double) super.pos.getY() - d1, (double) super.pos.getZ() - d0, (double) super.pos.getX() + d0, (double) super.pos.getY() + d1, (double) super.pos.getZ() + d0));
@@ -150,8 +150,8 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        NBTTagCompound tag = this.writeToNBT(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = this.writeToNBT(new CompoundNBT());
         tag.removeTag("SpawnPotentials");
         return tag;
     }

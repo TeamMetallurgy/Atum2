@@ -6,16 +6,16 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
 public class ParticleSwirl extends ParticleBase {
     private static final ResourceLocation ANUBIS = new ResourceLocation(Constants.MOD_ID, "particle/anubis");
     private static final ResourceLocation ANUBIS_SKULL = new ResourceLocation(Constants.MOD_ID, "particle/anubis_skull");
@@ -90,7 +90,7 @@ public class ParticleSwirl extends ParticleBase {
         registerSprite(SHU);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Anubis implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -99,7 +99,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class AnubisSkull implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -108,7 +108,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Gas implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -118,7 +118,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Geb implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -127,7 +127,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Horus implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -136,7 +136,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Isis implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -146,7 +146,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class NuitBlack implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -155,7 +155,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class NuitWhite implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);
@@ -164,7 +164,7 @@ public class ParticleSwirl extends ParticleBase {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static class Shu implements IAtumParticleFactory {
         public Particle createParticle(String name, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             ParticleSwirl particle = new ParticleSwirl(world, x, y, z, xSpeed, ySpeed, zSpeed);

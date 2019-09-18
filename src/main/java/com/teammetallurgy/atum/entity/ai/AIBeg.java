@@ -3,15 +3,15 @@ package com.teammetallurgy.atum.entity.ai;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.entity.ai.EntityAIBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Items;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 
 public class AIBeg extends EntityAIBase {
     private final EntityDesertWolf desertWolf;
-    private EntityPlayer player;
+    private PlayerEntity player;
     private final World world;
     private final float minPlayerDistance;
     private int timeoutCounter;
@@ -59,8 +59,8 @@ public class AIBeg extends EntityAIBase {
     }
 
 
-    private boolean hasTemptationItemInHand(EntityPlayer player) {
-        for (EnumHand enumhand : EnumHand.values()) {
+    private boolean hasTemptationItemInHand(PlayerEntity player) {
+        for (Hand enumhand : Hand.values()) {
             ItemStack heldStack = player.getHeldItem(enumhand);
 
             if (this.desertWolf.isTamed() && (heldStack.getItem() == Items.BONE || heldStack.getItem() == AtumItems.DUSTY_BONE)) {

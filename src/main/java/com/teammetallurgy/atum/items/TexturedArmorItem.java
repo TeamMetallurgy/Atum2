@@ -18,7 +18,11 @@ public class TexturedArmorItem extends DyeableArmorItem {
     private int damageModifier;
 
     public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot) {
-        super(material, slot, new Item.Properties().group(Atum.GROUP));
+        this(material, name, slot, new Item.Properties());
+    }
+
+    public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot, Item.Properties properties) {
+        super(material, slot, properties.group(Atum.GROUP));
         this.armorPieceName = name;
     }
 

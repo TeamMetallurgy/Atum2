@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.base.tileentity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -94,7 +94,7 @@ public class TileEntityChestBase extends ChestTileEntity {
     }
 
     @Override
-    public void fillWithLoot(@Nullable EntityPlayer player) { //Added null check for LootTableManager to prevent issues with WIT
+    public void fillWithLoot(@Nullable PlayerEntity player) { //Added null check for LootTableManager to prevent issues with WIT
         if (this.lootTable != null) {
             LootTableManager manager = this.world.getLootTableManager();
             if (manager != null) {

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.inventory.container.block;
 
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -12,7 +12,7 @@ public class ContainerCrate extends Container {
     private final IInventory crateInventory;
     private final int numRows;
 
-    public ContainerCrate(IInventory playerInventory, IInventory chestInventory, EntityPlayer player) {
+    public ContainerCrate(IInventory playerInventory, IInventory chestInventory, PlayerEntity player) {
         this.crateInventory = chestInventory;
         this.numRows = chestInventory.getSizeInventory() / 9;
         crateInventory.openInventory(player);
@@ -36,13 +36,13 @@ public class ContainerCrate extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
         return crateInventory.isUsableByPlayer(player);
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack slotStack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
@@ -68,7 +68,7 @@ public class ContainerCrate extends Container {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player) {
+    public void onContainerClosed(PlayerEntity player) {
         super.onContainerClosed(player);
         this.crateInventory.closeInventory(player);
     }

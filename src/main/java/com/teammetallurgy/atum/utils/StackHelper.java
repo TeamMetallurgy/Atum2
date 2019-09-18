@@ -19,10 +19,10 @@ import java.util.Random;
 public class StackHelper {
 
     /**
-     * Gets the NBTTagCompound from the ItemStack.
+     * Gets the CompoundNBT from the ItemStack.
      * If the ItemStack does not have any NBTTagCompounds, a new empty one will be given
      *
-     * @param stack the stack you wish to check the NBTTagCompound of
+     * @param stack the stack you wish to check the CompoundNBT of
      * @return the stacks tag
      */
     public static CompoundNBT getTag(@Nonnull ItemStack stack) {
@@ -33,7 +33,7 @@ public class StackHelper {
     }
 
     /**
-     * Checks if the ItemStack have a NBTTagCompound associated with it
+     * Checks if the ItemStack have a CompoundNBT associated with it
      *
      * @param stack the stack
      * @return whether or not the stack have a tag
@@ -43,10 +43,10 @@ public class StackHelper {
     }
 
     /**
-     * Checks if the ItemStack have the specified NBTTagCompound key
+     * Checks if the ItemStack have the specified CompoundNBT key
      *
      * @param stack  the stack
-     * @param string the NBTTagCompound string key
+     * @param string the CompoundNBT string key
      * @return whether the stack have the key or not
      */
     public static boolean hasKey(@Nonnull ItemStack stack, String string) {

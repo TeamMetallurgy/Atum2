@@ -5,9 +5,9 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -25,7 +25,7 @@ public class EntityArrowPoison extends CustomArrow {
     @Override
     public void onUpdate() {
         super.onUpdate();
-        if (shootingEntity instanceof EntityPlayer && world.getTotalWorldTime() % 4L == 0L) {
+        if (shootingEntity instanceof PlayerEntity && world.getTotalWorldTime() % 4L == 0L) {
             Atum.proxy.spawnParticle(AtumParticles.Types.SETH, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
     }
@@ -35,7 +35,7 @@ public class EntityArrowPoison extends CustomArrow {
         Entity entity = raytraceResult.entityHit;
         if (raytraceResult != null && entity instanceof LivingEntity && !world.isRemote && raytraceResult.typeOfHit == RayTraceResult.Type.ENTITY) {
             LivingEntity livingBase = (LivingEntity) entity;
-            livingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 0, false, true));
+            livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 80, 0, false, true));
         }
         super.onHit(raytraceResult);
     }

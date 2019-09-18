@@ -3,14 +3,14 @@ package com.teammetallurgy.atum.inventory.container.entity;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import net.minecraft.block.Block;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class ContainerCamel extends Container {
     private List<Slot> rightCrateSlots = new ArrayList<>();
     private List<Slot> leftCrateSlots = new ArrayList<>();
 
-    public ContainerCamel(IInventory playerInventory, IInventory camelInventory, final EntityCamel camel, EntityPlayer player) {
+    public ContainerCamel(IInventory playerInventory, IInventory camelInventory, final EntityCamel camel, PlayerEntity player) {
         this.camelInventory = camelInventory;
         this.camel = camel;
         camelInventory.openInventory(player);
@@ -34,7 +34,7 @@ public class ContainerCamel extends Container {
             }
 
             @Override
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             public boolean isEnabled() {
                 return camel.canBeSaddled();
             }
@@ -52,7 +52,7 @@ public class ContainerCamel extends Container {
             }
 
             @Override
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             public boolean isEnabled() {
                 return camel.wearsArmor();
             }
@@ -83,7 +83,7 @@ public class ContainerCamel extends Container {
             }
 
             @Override
-            public boolean canTakeStack(EntityPlayer playerIn) {
+            public boolean canTakeStack(PlayerEntity playerIn) {
                 for (Slot slot : leftCrateSlots) {
                     if (slot.getHasStack()) {
                         return false;
@@ -111,7 +111,7 @@ public class ContainerCamel extends Container {
             }
 
             @Override
-            public boolean canTakeStack(EntityPlayer playerIn) {
+            public boolean canTakeStack(PlayerEntity playerIn) {
                 for (Slot slot : rightCrateSlots) {
                     if (slot.getHasStack()) {
                         return false;
@@ -216,13 +216,13 @@ public class ContainerCamel extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
         return this.camelInventory.isUsableByPlayer(player) && this.camel.isEntityAlive() && this.camel.getDistance(player) < 8.0F;
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -266,7 +266,7 @@ public class ContainerCamel extends Container {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player) {
+    public void onContainerClosed(PlayerEntity player) {
         super.onContainerClosed(player);
         this.camelInventory.closeInventory(player);
     }

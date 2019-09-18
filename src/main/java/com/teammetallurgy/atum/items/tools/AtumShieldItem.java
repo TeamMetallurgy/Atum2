@@ -20,7 +20,11 @@ public class AtumShieldItem extends Item {
     private Item repairItem;
 
     public AtumShieldItem(int maxDamage) {
-        super(new Item.Properties().defaultMaxDamage(maxDamage).group(Atum.GROUP));
+        this(maxDamage, new Item.Properties());
+    }
+
+    public AtumShieldItem(int maxDamage, Item.Properties properties) {
+        super(properties.defaultMaxDamage(maxDamage).group(Atum.GROUP));
         this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
             @OnlyIn(Dist.CLIENT)
             public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {

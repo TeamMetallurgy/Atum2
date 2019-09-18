@@ -7,32 +7,25 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.PickaxeItem;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class PtahsUndoingItem extends PickaxeItem {
@@ -51,9 +44,9 @@ public class PtahsUndoingItem extends PickaxeItem {
     @SubscribeEvent
     public static void onAttack(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) trueSource;
-            ItemStack held = player.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
+        if (trueSource instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) trueSource;
+            ItemStack held = player.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
             if (held.getItem() == AtumItems.PTAHS_UNDOING) {
                 LivingEntity target = event.getEntityLiving();
                 if (target instanceof EntityStoneBase) {
@@ -75,9 +68,9 @@ public class PtahsUndoingItem extends PickaxeItem {
 
     @Override
     @Nonnull
-    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot slot) {
+    public Multimap<String, AttributeModifier> getItemAttributeModifiers(EquipmentSlotType slot) {
         Multimap<String, AttributeModifier> map = HashMultimap.create();
-        if (slot == EntityEquipmentSlot.MAINHAND) {
+        if (slot == EquipmentSlotType.MAINHAND) {
             map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", (double) this.attackDamage + 2.0D, 0));
             map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier", (double) this.attackSpeed, 0));
         }
@@ -85,7 +78,7 @@ public class PtahsUndoingItem extends PickaxeItem {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -94,17 +87,6 @@ public class PtahsUndoingItem extends PickaxeItem {
     @Nonnull
     public EnumRarity getRarity(@Nonnull ItemStack stack) {
         return EnumRarity.RARE;
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
-        }
     }
 
     @Override

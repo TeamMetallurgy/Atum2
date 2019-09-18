@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.items.food;
 
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +19,7 @@ public class DateGoldEnchantedItem extends ItemFood { //TODO Remove in 1.13, and
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -31,12 +31,12 @@ public class DateGoldEnchantedItem extends ItemFood { //TODO Remove in 1.13, and
     }
 
     @Override
-    protected void onFoodEaten(@Nonnull ItemStack stack, World world, @Nonnull EntityPlayer player) {
+    protected void onFoodEaten(@Nonnull ItemStack stack, World world, @Nonnull PlayerEntity player) {
         if (!world.isRemote) {
-            player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 400, 1));
-            player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 6000, 0));
-            player.addPotionEffect(new PotionEffect(MobEffects.FIRE_RESISTANCE, 6000, 0));
-            player.addPotionEffect(new PotionEffect(MobEffects.ABSORPTION, 2400, 3));
+            player.addPotionEffect(new EffectInstance(Effects.REGENERATION, 400, 1));
+            player.addPotionEffect(new EffectInstance(Effects.RESISTANCE, 6000, 0));
+            player.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 6000, 0));
+            player.addPotionEffect(new EffectInstance(Effects.ABSORPTION, 2400, 3));
         }
     }
 }

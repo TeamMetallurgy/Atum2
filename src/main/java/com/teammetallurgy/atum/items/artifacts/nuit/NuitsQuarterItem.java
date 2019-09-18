@@ -5,34 +5,29 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class NuitsQuarterItem extends KhopeshItem {
@@ -42,7 +37,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     public NuitsQuarterItem() {
         super(ToolMaterial.DIAMOND);
         this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
-            @SideOnly(Side.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             public float apply(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
                 return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
@@ -50,7 +45,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -79,11 +74,11 @@ public class NuitsQuarterItem extends KhopeshItem {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
-        if (hand == EnumHand.OFF_HAND) {
-            player.setActiveHand(EnumHand.OFF_HAND);
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+        if (hand == Hand.OFF_HAND) {
+            player.setActiveHand(Hand.OFF_HAND);
             this.isOffhand = true;
-            return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(EnumHand.OFF_HAND));
+            return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(Hand.OFF_HAND));
         }
         this.isOffhand = false;
         return super.onItemRightClick(world, player, hand);
@@ -91,7 +86,7 @@ public class NuitsQuarterItem extends KhopeshItem {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (itemRand.nextFloat() <= 0.25F) {
+        if (random.nextFloat() <= 0.25F) {
             applyWeakness(target, attacker,attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_IRE);
         }
         return super.hitEntity(stack, target, attacker);
@@ -100,7 +95,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     @SubscribeEvent
     public static void onUse(LivingEntityUseItemEvent.Tick event) {
         LivingEntity entity = event.getEntityLiving();
-        if (entity instanceof EntityPlayer && entity.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.NUITS_QUARTER) {
+        if (entity instanceof PlayerEntity && entity.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.NUITS_QUARTER) {
             isBlocking = true;
         }
     }
@@ -108,7 +103,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getImmediateSource();
-        if (trueSource instanceof LivingEntity && event.getEntityLiving() instanceof EntityPlayer && isBlocking && itemRand.nextFloat() <= 0.25F) {
+        if (trueSource instanceof LivingEntity && event.getEntityLiving() instanceof PlayerEntity && isBlocking && random.nextFloat() <= 0.25F) {
             applyWeakness((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getHeldItemMainhand().getItem() == AtumItems.NUITS_IRE);
             isBlocking = false;
         }
@@ -117,20 +112,9 @@ public class NuitsQuarterItem extends KhopeshItem {
     private static void applyWeakness(LivingEntity attacker, LivingEntity target, boolean isNuitsIreHeld) {
         if (attacker != target) {
             for (int l = 0; l < 8; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.NUIT_BLACK, target, target.posX + (itemRand.nextDouble() - 0.5D) * (double) target.width, target.posY + itemRand.nextDouble() * (double) target.height, target.posZ + (itemRand.nextDouble() - 0.5D) * (double) target.width, 0.0D, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.NUIT_BLACK, target, target.posX + (random.nextDouble() - 0.5D) * (double) target.width, target.posY + random.nextDouble() * (double) target.height, target.posZ + (random.nextDouble() - 0.5D) * (double) target.width, 0.0D, 0.0D, 0.0D);
             }
-            attacker.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
+            attacker.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
         }
     }
 }

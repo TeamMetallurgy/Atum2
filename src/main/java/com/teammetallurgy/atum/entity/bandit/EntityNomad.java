@@ -8,22 +8,22 @@ import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -55,11 +55,11 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(13.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(13.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
+        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
     }
 
     @Override
@@ -96,7 +96,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
 
     @Override
     public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
-        EntityArrow arrow = getArrow(distanceFactor);
+        ArrowEntity arrow = getArrow(distanceFactor);
         double x = target.posX - this.posX;
         double y = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - arrow.posY;
         double z = target.posZ - this.posZ;
@@ -106,23 +106,23 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         this.world.spawnEntity(arrow);
     }
 
-    private EntityArrow getArrow(float distanceFactor) {
+    private ArrowEntity getArrow(float distanceFactor) {
         EntityTippedArrow arrow = new EntityTippedArrow(this.world, this);
         arrow.setEnchantmentEffectsFromEntity(this, distanceFactor);
         return arrow;
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         this.setCombatTask();
     }
 
     @Override
-    public void setItemStackToSlot(EntityEquipmentSlot slot, @Nonnull ItemStack stack) {
+    public void setItemStackToSlot(EquipmentSlotType slot, @Nonnull ItemStack stack) {
         super.setItemStackToSlot(slot, stack);
 
-        if (!this.world.isRemote && slot == EntityEquipmentSlot.MAINHAND) {
+        if (!this.world.isRemote && slot == EquipmentSlotType.MAINHAND) {
             this.setCombatTask();
         }
     }
@@ -143,7 +143,7 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
         return AtumLootTables.NOMAD;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean isSwingingArms() {
         return this.dataManager.get(SWINGING_ARMS);
     }

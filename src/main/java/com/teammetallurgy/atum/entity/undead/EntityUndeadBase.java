@@ -13,24 +13,24 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -54,14 +54,14 @@ public class EntityUndeadBase extends MonsterEntity {
         this.tasks.addTask(0, new EntityAISwimming(this));
         this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.applyEntityAI();
     }
 
     void applyEntityAI() {
         this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, EntityUndeadBase.class));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityEfreetBase.class, true));
@@ -108,8 +108,8 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    public boolean isPotionApplicable(@Nonnull PotionEffect potionEffect) {
-        return potionEffect.getPotion() != MobEffects.POISON && super.isPotionApplicable(potionEffect);
+    public boolean isPotionApplicable(@Nonnull EffectInstance potionEffect) {
+        return potionEffect.getPotion() != Effects.POISON && super.isPotionApplicable(potionEffect);
     }
 
     @Override
@@ -196,7 +196,7 @@ public class EntityUndeadBase extends MonsterEntity {
         return this.dataManager.get(VARIANT);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
             String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
@@ -219,7 +219,7 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
         if (this.hasSkinVariants()) {
             compound.setInteger("Variant", this.getVariant());
@@ -227,7 +227,7 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         if (this.hasSkinVariants()) {
             this.setVariant(compound.getInteger("Variant"));

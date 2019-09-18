@@ -4,16 +4,16 @@ import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityLlamaSpit;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,7 +22,7 @@ import java.util.UUID;
 
 public class EntityCamelSpit extends EntityLlamaSpit {
     private EntityCamel owner;
-    private NBTTagCompound ownerNbt;
+    private CompoundNBT ownerNbt;
 
     public EntityCamelSpit(World world) {
         super(world);
@@ -35,7 +35,7 @@ public class EntityCamelSpit extends EntityLlamaSpit {
         this.setSize(0.25F, 0.25F);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public EntityCamelSpit(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
     }
@@ -141,16 +141,16 @@ public class EntityCamelSpit extends EntityLlamaSpit {
     }
 
     @Override
-    protected void readEntityFromNBT(NBTTagCompound compound) {
+    protected void readEntityFromNBT(CompoundNBT compound) {
         if (compound.hasKey("Owner", 10)) {
             this.ownerNbt = compound.getCompoundTag("Owner");
         }
     }
 
     @Override
-    protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+    protected void writeEntityToNBT(@Nonnull CompoundNBT compound) {
         if (this.owner != null) {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
+            CompoundNBT nbttagcompound = new CompoundNBT();
             UUID uuid = this.owner.getUniqueID();
             nbttagcompound.setUniqueId("OwnerUUID", uuid);
             compound.setTag("Owner", nbttagcompound);

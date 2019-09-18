@@ -8,15 +8,15 @@ import net.minecraft.block.BlockCauldron;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.StatList;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
@@ -28,7 +28,7 @@ public class EmmerFlourItem extends Item implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, @Nonnull EnumHand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         RayTraceResult rayTrace = this.rayTrace(world, player, true);
 
@@ -68,7 +68,7 @@ public class EmmerFlourItem extends Item implements IOreDictEntry {
         }
     }
 
-    private void giveDough(EntityPlayer player, EnumHand hand, ItemStack heldStack) {
+    private void giveDough(PlayerEntity player, Hand hand, ItemStack heldStack) {
         player.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
         player.playSound(SoundEvents.BLOCK_WATERLILY_PLACE, 1.0F, 1.0F);
         StackHelper.giveItem(player, hand, new ItemStack(AtumItems.EMMER_DOUGH));

@@ -3,27 +3,16 @@ package com.teammetallurgy.atum.items.artifacts.nuit;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.AmuletItem;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.lwjgl.input.Keyboard;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class NuitsVanishingItem extends AmuletItem {
@@ -37,7 +26,7 @@ public class NuitsVanishingItem extends AmuletItem {
     @SubscribeEvent
     public static void onTarget(LivingSetAttackTargetEvent event) {
         if (isInvisible && event.getTarget() != null && event.getEntityLiving() != null) {
-            if (event.getTarget() instanceof EntityPlayer) {
+            if (event.getTarget() instanceof PlayerEntity) {
                 ((LivingEntity) event.getEntityLiving()).setAttackTarget(null);
             }
         }
@@ -79,16 +68,5 @@ public class NuitsVanishingItem extends AmuletItem {
 
     public static boolean isPlayerMoving(PlayerEntity player) {
         return player.distanceWalkedModified != player.prevDistanceWalkedModified || player.isSneaking();
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
-        }
     }
 }

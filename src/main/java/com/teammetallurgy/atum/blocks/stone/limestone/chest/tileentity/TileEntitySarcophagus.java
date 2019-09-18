@@ -7,10 +7,10 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.EnumFacing;
@@ -51,12 +51,12 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        return this.writeToNBT(new CompoundNBT());
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.hasSpawned = compound.getBoolean("spawned");
         this.isOpenable = compound.getBoolean("openable");
@@ -64,7 +64,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(@Nonnull NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(@Nonnull CompoundNBT compound) {
         super.writeToNBT(compound);
         compound.setBoolean("spawned", this.hasSpawned);
         compound.setBoolean("openable", this.isOpenable);
@@ -72,7 +72,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
+    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         return this.isOpenable && super.isUsableByPlayer(player);
     }
 
@@ -83,7 +83,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
         world.notifyBlockUpdate(pos, state, state, 3);
     }
 
-    public void spawn(EntityPlayer player, DifficultyInstance difficulty) {
+    public void spawn(PlayerEntity player, DifficultyInstance difficulty) {
         if (!world.isRemote) {
             EntityPharaoh pharaoh = new EntityPharaoh(world);
             pharaoh.onInitialSpawn(difficulty, null);
@@ -96,7 +96,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
             pharaoh.spawnExplosionParticle();
             this.hasSpawned = true;
 
-            for (EntityPlayerMP playerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+            for (ServerPlayerEntity playerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
                 playerMP.sendMessage(new TextComponentString(EntityPharaoh.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
             }
         }

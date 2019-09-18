@@ -3,11 +3,11 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 
 public class TileEntityPoisonTrap extends TileEntityTrap {
 
@@ -18,9 +18,9 @@ public class TileEntityPoisonTrap extends TileEntityTrap {
         double y = (double) pos.getY() + world.rand.nextDouble() * 0.7D;
         double z = (double) pos.getZ() + 0.5D;
 
-        if (!livingBase.isPotionActive(MobEffects.POISON)) {
+        if (!livingBase.isPotionActive(Effects.POISON)) {
             if (!world.isRemote) {
-                livingBase.addPotionEffect(new PotionEffect(MobEffects.POISON, 80, 3, false, false));
+                livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 80, 3, false, false));
             }
             world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }

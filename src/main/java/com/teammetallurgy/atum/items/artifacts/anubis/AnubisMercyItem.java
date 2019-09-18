@@ -5,37 +5,38 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.AmuletItem;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.EnumHand;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AnubisMercyItem extends AmuletItem {
 
     public AnubisMercyItem() {
-        super();
-        this.setMaxDamage(1000);
+        super(new Item.Properties().maxDamage(1000));
     }
 
     @Override
@@ -46,44 +47,46 @@ public class AnubisMercyItem extends AmuletItem {
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        EnumHand hand = entity.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.ANUBIS_MERCY ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
-        if (event.getEntityLiving() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
+        Hand hand = entity.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.ANUBIS_MERCY ? Hand.OFF_HAND : Hand.MAIN_HAND;
+        if (event.getEntityLiving() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) entity;
             ItemStack heldStack = player.getHeldItem(hand);
-            if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.ANUBIS_MERCY) {
+            /*if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.ANUBIS_MERCY) {
                 heldStack = getAmulet(player);
-            }
+            }*/
             if (heldStack.getItem() == AtumItems.ANUBIS_MERCY) {
                 if (!player.world.isRemote) {
-                    heldStack.damageItem(334, player);
+                    heldStack.damageItem(334, player, (e) -> {
+                        e.sendBreakAnimation(hand);
+                    });
 
-                    NBTTagList tagList = new NBTTagList();
-                    player.inventory.writeToNBT(tagList);
+                    ListNBT tagList = new ListNBT();
+                    player.inventory.write(tagList);
 
-                    if (IS_BAUBLES_INSTALLED) {
+                    /*if (IS_BAUBLES_INSTALLED) {
                         for (int slot = 0; slot < getBaublesInventory(player).getSizeInventory(); ++slot) {
                             if (!getBaublesInventory(player).getStackInSlot(slot).isEmpty()) {
-                                NBTTagCompound tag = new NBTTagCompound();
-                                tag.setByte("Slot", (byte) (slot + 200));
+                                CompoundNBT tag = new CompoundNBT();
+                                tag.putByte("Slot", (byte) (slot + 200));
                                 getBaublesInventory(player).getStackInSlot(slot).writeToNBT(tag);
-                                tagList.appendTag(tag);
+                                tagList.add(tag);
                             }
                         }
                         getBaublesInventory(player).clear();
-                    }
-                    getPlayerData(player).setTag("Inventory", tagList);
+                    }*/
+                    getPlayerData(player).put("Inventory", tagList);
 
                     player.inventory.mainInventory.clear();
                     player.inventory.armorInventory.clear();
                     player.inventory.offHandInventory.clear();
                 }
 
-                double y = MathHelper.nextDouble(itemRand, 0.01D, 0.1D);
+                double y = MathHelper.nextDouble(random, 0.01D, 0.1D);
                 for (int l = 0; l < 22; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.04D, y, 0.0D);
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, y, 0.04D);
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, -0.04D, y, 0.0D);
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (itemRand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (itemRand.nextDouble() - 0.5D) * (double) player.width, 0.0D, y, -0.04D);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.04D, y, 0.0D);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, 0.04D);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), -0.04D, y, 0.0D);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS_SKULL, player, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, -0.04D);
                 }
                 player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
@@ -92,49 +95,42 @@ public class AnubisMercyItem extends AmuletItem {
 
     @SubscribeEvent
     public static void onRespawn(PlayerEvent.PlayerRespawnEvent event) {
-        EntityPlayer player = event.player;
-        NBTTagCompound playerData = getPlayerData(player);
-        if (!event.player.world.isRemote && playerData.hasKey("Inventory")) {
-            NBTTagList tagList = playerData.getTagList("Inventory", 10);
-            player.inventory.readFromNBT(tagList);
+        PlayerEntity player = event.getPlayer();
+        CompoundNBT playerData = getPlayerData(player);
+        if (!player.world.isRemote && playerData.contains("Inventory")) {
+            ListNBT tagList = playerData.getList("Inventory", 10);
+            player.inventory.read(tagList);
 
-            if (IS_BAUBLES_INSTALLED) {
+            /*if (IS_BAUBLES_INSTALLED) {
                 getBaublesInventory(player).clear();
-                for (int count = 0; count < tagList.tagCount(); ++count) {
-                    NBTTagCompound tag = tagList.getCompoundTagAt(count);
+                for (int count = 0; count < tagList.size(); ++count) {
+                    CompoundNBT tag = tagList.getCompound(count);
                     int j = tag.getByte("Slot") & 255;
-                    ItemStack stack = new ItemStack(tag);
+                    ItemStack stack = ItemStack.read(tag);
                     if (!stack.isEmpty()) {
                         if (j >= 200 && j < getBaublesInventory(player).getSizeInventory() + 200) {
                             getBaublesInventory(player).setInventorySlotContents(j - 200, stack);
                         }
                     }
                 }
-            }
-            getPlayerData(player).removeTag("Inventory");
+            }*/
+            getPlayerData(player).remove("Inventory");
         }
     }
 
-    private static NBTTagCompound getPlayerData(EntityPlayer player) {
-        if (!player.getEntityData().hasKey(EntityPlayer.PERSISTED_NBT_TAG)) {
-            player.getEntityData().setTag(EntityPlayer.PERSISTED_NBT_TAG, new NBTTagCompound());
+    private static CompoundNBT getPlayerData(PlayerEntity player) {
+        if (!player.getPersistentData().contains(PlayerEntity.PERSISTED_NBT_TAG)) {
+            player.getPersistentData().put(PlayerEntity.PERSISTED_NBT_TAG, new CompoundNBT());
         }
-        return player.getEntityData().getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG);
+        return player.getPersistentData().getCompound(PlayerEntity.PERSISTED_NBT_TAG);
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
-            tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".line4"));
-        }
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
+        int remaining = (stack.getMaxDamage() - stack.getDamage()) / 332;
+        tooltip.add(new TranslationTextComponent("atum.tooltip.uses_remaining", remaining));
 
-        int remaining = (stack.getMaxDamage() - stack.getItemDamage()) / 332;
-        String localizedRemaining = I18n.format("tooltip.atum.usesRemaining", remaining);
-        tooltip.add(localizedRemaining);
+        tooltip.add(new TranslationTextComponent(Constants.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".disenchantment_curse").applyTextStyle(TextFormatting.DARK_RED));
     }
 }

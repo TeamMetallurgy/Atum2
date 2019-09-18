@@ -8,7 +8,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
@@ -91,8 +91,8 @@ public class BlockAnputsFingers extends BlockCrops {
 
     @Override
     public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
-        if (!world.isRemote && entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
+        if (!world.isRemote && entity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) entity;
             MinecraftServer server = world.getMinecraftServer();
             Integer lastTouched = this.lastTouchedTick.get(player.getUniqueID());
             if (server != null) {

@@ -11,7 +11,7 @@ import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
@@ -62,7 +62,7 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
-    public void onBlockClicked(World world, BlockPos pos, EntityPlayer player) {
+    public void onBlockClicked(World world, BlockPos pos, PlayerEntity player) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityQuern) {
             TileEntityQuern quern = (TileEntityQuern) tileEntity;
@@ -72,7 +72,7 @@ public class BlockQuern extends BlockContainer {
                 } else {
                     ItemStack slotStack = quern.getStackInSlot(0);
                     ItemStack copyStack = new ItemStack(slotStack.getItem());
-                    StackHelper.giveItem(player, EnumHand.MAIN_HAND, copyStack);
+                    StackHelper.giveItem(player, Hand.MAIN_HAND, copyStack);
                     quern.decrStackSize(0, 1);
                 }
                 quern.markDirty();
@@ -82,7 +82,7 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
         if (player == null || player instanceof FakePlayer) return true;
         ItemStack heldStack = player.getHeldItem(hand);
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -122,7 +122,7 @@ public class BlockQuern extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, EnumHand hand) {
+    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 

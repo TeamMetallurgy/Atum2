@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.blocks.beacon.BlockHeartOfRa;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
@@ -70,10 +70,10 @@ public class EntityHeartOfRa extends Entity {
     }
 
     @Override
-    protected void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+    protected void writeEntityToNBT(@Nonnull CompoundNBT compound) {
     }
 
     @Override
-    protected void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+    protected void readEntityFromNBT(@Nonnull CompoundNBT compound) {
     }
 }

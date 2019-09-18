@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.inventory.container.block;
 
 import com.teammetallurgy.atum.inventory.slot.SlotKilnOutput;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -78,19 +78,19 @@ public class ContainerKiln extends Container {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void updateProgressBar(int id, int data) {
         this.kiln.setField(id, data);
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
         return this.kiln.isUsableByPlayer(player);
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(EntityPlayer player, int index) { //TODO
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) { //TODO
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 

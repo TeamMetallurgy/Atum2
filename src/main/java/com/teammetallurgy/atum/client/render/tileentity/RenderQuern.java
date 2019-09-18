@@ -8,12 +8,12 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
     private static final ResourceLocation QUERN_STONE = new ResourceLocation(Constants.MOD_ID, "textures/blocks/quern_stone.png");
     private static final ModelQuernStone QUERN_STONE_MODEL = new ModelQuernStone();

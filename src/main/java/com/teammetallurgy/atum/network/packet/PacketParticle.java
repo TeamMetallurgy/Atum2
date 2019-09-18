@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.network.packet;
 
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.proxy.ClientProxy;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 
 public class PacketParticle extends Packet<PacketParticle> {
@@ -28,12 +28,12 @@ public class PacketParticle extends Packet<PacketParticle> {
     }
 
     @Override
-    protected void handleClientSide(EntityPlayer player) {
+    protected void handleClientSide(PlayerEntity player) {
         ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particle.getParticleName(), player.world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed));
     }
 
     @Override
-    protected void handleServerSide(EntityPlayer player) {
+    protected void handleServerSide(PlayerEntity player) {
     }
 
     @Override

@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 

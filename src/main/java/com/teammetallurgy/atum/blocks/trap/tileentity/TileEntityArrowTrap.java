@@ -2,16 +2,16 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.entity.projectile.EntityTippedArrow;
-import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
@@ -32,7 +32,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
-                entity = EntityPlayer.class;
+                entity = PlayerEntity.class;
             } else {
                 entity = LivingEntity.class;
             }
@@ -41,7 +41,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
             List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, box);
             for (LivingEntity livingBase : entities) {
                 boolean cantSeeEntity = findBlock != null && this.getDistance(findBlock.getBlockPos()) < this.getDistance(livingBase.getPosition());
-                if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
+                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
                     if (canSee(facing, livingBase)) {
                         canDamageEntity = true;
                         if (timer == 0) {
@@ -146,21 +146,21 @@ public class TileEntityArrowTrap extends TileEntityTrap {
 
     private void fireArrow(World world, EnumFacing facing, double x, double y, double z) {
         if (!world.isRemote) {
-            EntityArrow arrow = new EntityTippedArrow(world, x, y, z);
+            ArrowEntity arrow = new EntityTippedArrow(world, x, y, z);
             arrow.shoot((double) facing.getXOffset(), (double) ((float) facing.getYOffset() + 0.1F), (double) facing.getZOffset(), 1.1F, 6.0F);
             world.spawnEntity(arrow);
         }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.timer = compound.getInteger("Timer");
     }
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
         compound.setInteger("Timer", this.timer);
         return compound;

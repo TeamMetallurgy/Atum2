@@ -5,19 +5,19 @@ import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -43,7 +43,7 @@ public class AtumSlabItem extends ItemBlock { //TODO Remove 1.13
 
     @Override
     @Nonnull
-    public EnumActionResult onItemUse(EntityPlayer player, World world, @Nonnull BlockPos pos, @Nonnull EnumHand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public EnumActionResult onItemUse(PlayerEntity player, World world, @Nonnull BlockPos pos, @Nonnull Hand hand, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ) {
         ItemStack heldItem = player.getHeldItem(hand);
 
         if (!heldItem.isEmpty() && player.canPlayerEdit(pos.offset(facing), facing, heldItem)) {
@@ -61,8 +61,8 @@ public class AtumSlabItem extends ItemBlock { //TODO Remove 1.13
                         world.playSound(player, pos, soundType.getPlaceSound(), SoundCategory.BLOCKS, (soundType.getVolume() + 1.0F) / 2.0F, soundType.getPitch() * 0.8F);
                         heldItem.shrink(1);
 
-                        if (player instanceof EntityPlayerMP) {
-                            CriteriaTriggers.PLACED_BLOCK.trigger((EntityPlayerMP) player, pos, heldItem);
+                        if (player instanceof ServerPlayerEntity) {
+                            CriteriaTriggers.PLACED_BLOCK.trigger((ServerPlayerEntity) player, pos, heldItem);
                         }
                     }
                     return EnumActionResult.SUCCESS;
@@ -75,8 +75,8 @@ public class AtumSlabItem extends ItemBlock { //TODO Remove 1.13
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, @Nonnull EntityPlayer player, ItemStack stack) {
+    @OnlyIn(Dist.CLIENT)
+    public boolean canPlaceBlockOnSide(World world, @Nonnull BlockPos pos, @Nonnull EnumFacing side, @Nonnull PlayerEntity player, ItemStack stack) {
         IBlockState state = world.getBlockState(pos);
 
         if (state.getBlock() == this.slab) {
@@ -92,7 +92,7 @@ public class AtumSlabItem extends ItemBlock { //TODO Remove 1.13
         return stateOffset.getBlock() == this.slab || super.canPlaceBlockOnSide(world, pos, side, player, stack);
     }
 
-    private boolean tryPlace(EntityPlayer player, @Nonnull ItemStack stack, World world, BlockPos pos) {
+    private boolean tryPlace(PlayerEntity player, @Nonnull ItemStack stack, World world, BlockPos pos) {
         IBlockState state = world.getBlockState(pos);
 
         if (state.getBlock() == this.slab) {

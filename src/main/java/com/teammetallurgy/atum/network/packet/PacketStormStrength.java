@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.network.packet;
 
 import com.teammetallurgy.atum.world.WorldProviderAtum;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.world.WorldProvider;
 
@@ -17,7 +17,7 @@ public class PacketStormStrength extends Packet<PacketStormStrength> {
 	}
 
 	@Override
-	protected void handleClientSide(EntityPlayer player) {
+	protected void handleClientSide(PlayerEntity player) {
 		WorldProvider provider = Minecraft.getMinecraft().player.world.provider;
 		if (provider instanceof WorldProviderAtum) {
 			WorldProviderAtum providerAtum = (WorldProviderAtum) provider;
@@ -26,7 +26,7 @@ public class PacketStormStrength extends Packet<PacketStormStrength> {
 	}
 
 	@Override
-	protected void handleServerSide(EntityPlayer player) {
+	protected void handleServerSide(PlayerEntity player) {
 	}
 
 	@Override

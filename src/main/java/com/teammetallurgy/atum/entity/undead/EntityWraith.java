@@ -7,18 +7,18 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateClimber;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -47,7 +47,7 @@ public class EntityWraith extends EntityUndeadBase {
 
     protected void applyEntityAI() {
         super.applyEntityAI();
-        this.targetTasks.addTask(1, new EntityWraith.AIWraithTarget<>(this, EntityPlayer.class));
+        this.targetTasks.addTask(1, new EntityWraith.AIWraithTarget<>(this, PlayerEntity.class));
     }
 
     @Override
@@ -59,10 +59,10 @@ public class EntityWraith extends EntityUndeadBase {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
     }
 
     @Override
@@ -144,8 +144,8 @@ public class EntityWraith extends EntityUndeadBase {
             if (rand.nextDouble() <= 0.175D) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingBase = (LivingEntity) entity;
-                    if (!livingBase.isPotionActive(MobEffects.SLOWNESS)) {
-                        livingBase.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 80, 1));
+                    if (!livingBase.isPotionActive(Effects.SLOWNESS)) {
+                        livingBase.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 80, 1));
                     }
                 }
             }

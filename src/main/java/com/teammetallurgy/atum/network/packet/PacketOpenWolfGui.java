@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.network.packet;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketBuffer;
 
 public class PacketOpenWolfGui extends Packet<PacketOpenWolfGui> {
@@ -17,11 +17,11 @@ public class PacketOpenWolfGui extends Packet<PacketOpenWolfGui> {
 	}
 
 	@Override
-	protected void handleClientSide(EntityPlayer player) {
+	protected void handleClientSide(PlayerEntity player) {
 	}
 
 	@Override
-	protected void handleServerSide(EntityPlayer player) {
+	protected void handleServerSide(PlayerEntity player) {
 		Entity wolf = player.world.getEntityByID(wolfID);
 		if (wolf instanceof EntityDesertWolf) {
 			((EntityDesertWolf) wolf).getInventory().setCustomName(wolf.getName());

@@ -4,10 +4,9 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -15,12 +14,13 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,7 +48,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         this.tasks.addTask(5, new EntityAIOpenDoor(this, true));
         this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 0.6D));
         this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.applyEntityAI();
     }
@@ -62,7 +62,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
     }
 
     @Override
@@ -90,7 +90,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         return this.dataManager.get(VARIANT);
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
             String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
@@ -155,7 +155,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean canRenderOnFire() {
         return this.isAngry() && fire > 0;
     }
@@ -168,7 +168,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     @Override
     protected void updateAITasks() {
         if (this.isAngry() && this.angerTargetUUID != null && this.getRevengeTarget() == null) {
-            EntityPlayer player = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
+            PlayerEntity player = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
             if (player != null) {
                 this.setRevengeTarget(player);
                 this.attackingPlayer = player;
@@ -184,7 +184,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
             return false;
         } else {
             Entity entity = source.getTrueSource();
-            if (entity instanceof EntityPlayer) {
+            if (entity instanceof PlayerEntity) {
                 this.becomeAngryAt(entity);
             }
             this.fire = 1000;
@@ -212,7 +212,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
         if (this.hasSkinVariants()) {
             compound.setInteger("Variant", this.getVariant());
@@ -226,7 +226,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         if (this.hasSkinVariants()) {
             this.setVariant(compound.getInteger("Variant"));
@@ -236,7 +236,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
         if (!hurtBy.isEmpty()) {
             this.angerTargetUUID = UUID.fromString(hurtBy);
-            EntityPlayer player = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
+            PlayerEntity player = this.world.getPlayerEntityByUUID(this.angerTargetUUID);
             if (player != null) {
                 this.setRevengeTarget(player);
                 this.attackingPlayer = player;
@@ -247,7 +247,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) { //Copied from EntityMob, to allow Efreet to attack
-        float attackDamage = (float) this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
         int knocback = 0;
 
         if (entity instanceof LivingEntity) {
@@ -270,8 +270,8 @@ public abstract class EntityEfreetBase extends EntityAgeable {
                 entity.setFire(fireAspect * 4);
             }
 
-            if (entity instanceof EntityPlayer) {
-                EntityPlayer player = (EntityPlayer) entity;
+            if (entity instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) entity;
                 ItemStack heldStack = this.getHeldItemMainhand();
                 ItemStack stackActive = player.isHandActive() ? player.getActiveItemStack() : ItemStack.EMPTY;
 
@@ -302,9 +302,9 @@ public abstract class EntityEfreetBase extends EntityAgeable {
         }
     }
 
-    static class AITargetAggressor extends EntityAINearestAttackableTarget<EntityPlayer> {
+    static class AITargetAggressor extends EntityAINearestAttackableTarget<PlayerEntity> {
         AITargetAggressor(EntityEfreetBase efreet) {
-            super(efreet, EntityPlayer.class, true);
+            super(efreet, PlayerEntity.class, true);
         }
 
         @Override

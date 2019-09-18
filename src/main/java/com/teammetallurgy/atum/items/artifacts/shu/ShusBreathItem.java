@@ -4,23 +4,17 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowQuickdraw;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
 
 public class ShusBreathItem extends BaseBowItem {
 
@@ -30,7 +24,7 @@ public class ShusBreathItem extends BaseBowItem {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -42,7 +36,7 @@ public class ShusBreathItem extends BaseBowItem {
     }
 
     @Override
-    protected EntityArrow setArrow(ItemStack stack, World world, EntityPlayer player, float velocity) {
+    protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
         return new EntityArrowQuickdraw(world, player);
     }
 
@@ -52,27 +46,16 @@ public class ShusBreathItem extends BaseBowItem {
     }
 
     @Override
-    protected void onVelocity(World world, EntityPlayer player, float velocity) {
+    protected void onVelocity(World world, PlayerEntity player, float velocity) {
         if (velocity == 1.0F) {
-            double x = MathHelper.nextDouble(itemRand, 0.01D, 0.1D);
-            double z = MathHelper.nextDouble(itemRand, 0.01D, 0.1D);
+            double x = MathHelper.nextDouble(random, 0.01D, 0.1D);
+            double z = MathHelper.nextDouble(random, 0.01D, 0.1D);
             for (int l = 0; l < 12; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, x, 0.0D, 0.0D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, z);
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, -x, 0.0D, 0.0D);
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.width, player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.width, 0.0D, 0.0D, -z);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), x, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, z);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), -x, 0.0D, 0.0D);
+                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, -z);
             }
-        }
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
         }
     }
 }

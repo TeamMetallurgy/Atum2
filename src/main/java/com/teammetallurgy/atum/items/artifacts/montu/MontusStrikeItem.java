@@ -7,33 +7,26 @@ import com.teammetallurgy.atum.items.tools.BattleAxeItem;
 import com.teammetallurgy.atum.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class MontusStrikeItem extends BattleAxeItem {
-    private static final Object2FloatMap<EntityPlayer> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     @Override
     public int getMaxItemUseDuration(@Nonnull ItemStack stack) {
@@ -43,7 +36,7 @@ public class MontusStrikeItem extends BattleAxeItem {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        EntityPlayer player = event.getEntityPlayer();
+        PlayerEntity player = event.getEntityPlayer();
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getHeldItemMainhand().getItem() == AtumItems.MONTUS_STRIKE) {
@@ -54,11 +47,11 @@ public class MontusStrikeItem extends BattleAxeItem {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, @Nullable LivingEntity attacker) {
-        if (attacker instanceof EntityPlayer && cooldown.containsKey(attacker)) {
+        if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
             if (cooldown.get(attacker) == 1.0F) {
-                EntityPlayer player = (EntityPlayer) attacker;
+                PlayerEntity player = (PlayerEntity) attacker;
                 World world = player.world;
-                float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+                float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
 
                 for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, target.getEntityBoundingBox().grow(2.0D, 0.25D, 2.0D))) {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 12.0D) {
@@ -77,16 +70,5 @@ public class MontusStrikeItem extends BattleAxeItem {
             cooldown.remove(attacker);
         }
         return super.hitEntity(stack, target, attacker);
-    }
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1"));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2"));
-        } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + ".line3") + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
-        }
     }
 }

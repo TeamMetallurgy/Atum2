@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.projectile;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.BlockPos;
@@ -11,9 +11,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 
@@ -64,7 +64,7 @@ public abstract class EntityBone extends Entity {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean isInRangeToRenderDist(double distance) {
         double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
 
@@ -108,14 +108,14 @@ public abstract class EntityBone extends Entity {
     protected abstract void onImpact(RayTraceResult result);
 
     @Override
-    public void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
+    public void writeEntityToNBT(@Nonnull CompoundNBT compound) {
         compound.setTag("direction", this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
         compound.setTag("power", this.newDoubleNBTList(this.accelerationX, this.accelerationY, this.accelerationZ));
         compound.setInteger("life", this.ticksAlive);
     }
 
     @Override
-    public void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
+    public void readEntityFromNBT(@Nonnull CompoundNBT compound) {
         if (compound.hasKey("power", 9)) {
             NBTTagList nbttaglist = compound.getTagList("power", 6);
 

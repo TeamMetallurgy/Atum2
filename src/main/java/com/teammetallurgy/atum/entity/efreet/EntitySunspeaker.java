@@ -15,26 +15,26 @@ import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EnumHand;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -44,7 +44,7 @@ import java.util.Random;
 
 public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     @Nullable
-    private EntityPlayer buyingPlayer;
+    private PlayerEntity buyingPlayer;
     @Nullable
     private MerchantRecipeList buyingList;
     private int timeUntilReset;
@@ -71,14 +71,14 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
     }
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(ScepterItem.getScepter(EntityPharaoh.God.RA)));
+        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(EntityPharaoh.God.RA)));
     }
 
     @Override
@@ -114,7 +114,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
                     this.populateBuyingList();
                     this.needsInitilization = false;
                 }
-                this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
+                this.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, 0));
             }
         }
         super.updateAITasks();
@@ -140,13 +140,13 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
-    public void setCustomer(@Nullable EntityPlayer player) {
+    public void setCustomer(@Nullable PlayerEntity player) {
         this.buyingPlayer = player;
     }
 
     @Override
     @Nullable
-    public EntityPlayer getCustomer() {
+    public PlayerEntity getCustomer() {
         return this.buyingPlayer;
     }
 
@@ -156,7 +156,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
 
     @Override
     @Nullable
-    public MerchantRecipeList getRecipes(@Nonnull EntityPlayer player) {
+    public MerchantRecipeList getRecipes(@Nonnull PlayerEntity player) {
         if (this.buyingList == null) {
             this.populateBuyingList();
         }
@@ -194,7 +194,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public void setRecipes(@Nullable MerchantRecipeList recipeList) {
     }
 
@@ -216,7 +216,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
-    public boolean processInteract(EntityPlayer player, @Nonnull EnumHand hand) {
+    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         boolean nameTag = heldStack.getItem() == Items.NAME_TAG;
 
@@ -264,7 +264,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    private void handleRelicTrade(EntityPlayer player, EnumHand hand, double modifier, LootItem.Quality quality) {
+    private void handleRelicTrade(PlayerEntity player, Hand hand, double modifier, LootItem.Quality quality) {
         int amount = 0;
 
         if (quality == LootItem.Quality.SILVER) {
@@ -294,7 +294,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     private void spawnParticles(EnumParticleTypes particleType) {
         for (int amount = 0; amount < 5; ++amount) {
             double x = this.rand.nextGaussian() * 0.02D;
@@ -304,7 +304,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
         compound.setInteger("Riches", this.wealth);
         compound.setInteger("TradeLevel", this.tradeLevel);
@@ -315,13 +315,13 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         this.wealth = compound.getInteger("Riches");
         this.tradeLevel = compound.getInteger("TradeLevel");
 
         if (compound.hasKey("Offers", 10)) {
-            NBTTagCompound nbttagcompound = compound.getCompoundTag("Offers");
+            CompoundNBT nbttagcompound = compound.getCompoundTag("Offers");
             this.buyingList = new MerchantRecipeList(nbttagcompound);
         }
     }
@@ -350,7 +350,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         private final EntitySunspeaker sunspeaker;
 
         ILookAtTradePlayer(EntitySunspeaker sunspeaker) {
-            super(sunspeaker, EntityPlayer.class, 8.0F);
+            super(sunspeaker, PlayerEntity.class, 8.0F);
             this.sunspeaker = sunspeaker;
         }
 

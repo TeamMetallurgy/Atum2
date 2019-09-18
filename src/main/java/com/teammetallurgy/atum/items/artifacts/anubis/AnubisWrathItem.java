@@ -10,39 +10,38 @@ import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.client.resources.I18n;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.util.InputMappings;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SwordItem;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.EnumHand;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.*;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.EventPriority;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.input.Keyboard;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -51,51 +50,53 @@ import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AnubisWrathItem extends SwordItem {
-    private static final Object2FloatMap<EntityPlayer> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private final float attackDamage;
 
     public AnubisWrathItem() {
-        super(ToolMaterial.DIAMOND);
+        super(ItemTier.DIAMOND, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
         this.addPropertyOverride(new ResourceLocation("tier"), new IItemPropertyGetter() {
-            @SideOnly(Side.CLIENT)
-            public float apply(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
+            @OnlyIn(Dist.CLIENT)
+            public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
                 return (float) getTier(stack);
             }
         });
+        int tier = getTier(new ItemStack(this)); //TODO test
+        this.attackDamage = tier == 3 ? 9.0F : tier + 5.0F;
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
 
     @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
+    public float getAttackDamage() {
+        return this.attackDamage;
     }
 
     @Override
     public boolean showDurabilityBar(@Nonnull ItemStack stack) {
-        return !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? super.showDurabilityBar(stack) : getSouls(stack) > 0;
+        return !InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.showDurabilityBar(stack) : getSouls(stack) > 0;
     }
 
     @Override
     public double getDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? super.getDurabilityForDisplay(stack) : (double) (getSoulUpgradeTier(getTier(stack)) - Math.min(getSouls(stack), 500)) / (double) getSoulUpgradeTier(getTier(stack));
+        return !InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getDurabilityForDisplay(stack) : (double) (getSoulUpgradeTier(getTier(stack)) - Math.min(getSouls(stack), 500)) / (double) getSoulUpgradeTier(getTier(stack));
     }
 
     @Override
     public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return !Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) ? super.getRGBDurabilityForDisplay(stack) : 12452784;
+        return !InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getRGBDurabilityForDisplay(stack) : 12452784;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        EntityPlayer player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         if (player.world.isRemote) return;
         if (player.getHeldItemMainhand().getItem() == AtumItems.ANUBIS_WRATH && getTier(player.getHeldItemMainhand()) == 3) {
-            if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getCreatureAttribute() != EnumCreatureAttribute.UNDEAD && !(event.getTarget() instanceof EntityStoneBase)) {
+            if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getCreatureAttribute() != CreatureAttribute.UNDEAD && !(event.getTarget() instanceof EntityStoneBase)) {
                 cooldown.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
@@ -104,16 +105,16 @@ public class AnubisWrathItem extends SwordItem {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof EntityPlayer && cooldown.containsKey(trueSource)) {
-            if (cooldown.get(trueSource) == 1.0F) {
+        if (trueSource instanceof PlayerEntity && cooldown.containsKey(trueSource)) {
+            if (cooldown.getFloat(trueSource) == 1.0F) {
                 event.setAmount(event.getAmount() * 2);
                 LivingEntity entity = event.getEntityLiving();
-                double y = MathHelper.nextDouble(itemRand, 0.02D, 0.13D);
+                double y = MathHelper.nextDouble(random, 0.02D, 0.13D);
                 for (int l = 0; l < 5; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (itemRand.nextDouble() - 0.5D) * (double) entity.width, entity.posY + entity.getEyeHeight(), entity.posZ + (itemRand.nextDouble() - 0.5D) * (double) entity.width, 0.0D, y, 0.0D);
+                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + entity.getEyeHeight(), entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, y, 0.0D);
                 }
             }
-            cooldown.remove(trueSource);
+            cooldown.removeFloat(trueSource);
         }
     }
 
@@ -122,32 +123,32 @@ public class AnubisWrathItem extends SwordItem {
         Entity source = event.getSource().getTrueSource();
         if (source instanceof LivingEntity && ((LivingEntity) source).getHeldItemMainhand().getItem() == AtumItems.ANUBIS_WRATH) {
             ItemStack heldStack = ((LivingEntity) source).getHeldItemMainhand();
-            NBTTagCompound tag = StackHelper.getTag(heldStack);
-            tag.setInteger("souls", getSouls(heldStack) + 1);
+            CompoundNBT tag = StackHelper.getTag(heldStack);
+            tag.putInt("souls", getSouls(heldStack) + 1);
             if (getSouls(heldStack) == 50 || getSouls(heldStack) == 150 || getSouls(heldStack) == 500) {
                 source.world.playSound(null, source.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0F, 0.0F);
-                if (source instanceof EntityPlayer) {
-                    ((EntityPlayer) source).sendStatusMessage(new TextComponentTranslation(heldStack.getTranslationKey() + ".levelup").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)), true);
+                if (source instanceof PlayerEntity) {
+                    ((PlayerEntity) source).sendStatusMessage(new TranslationTextComponent(heldStack.getTranslationKey() + ".levelup").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)), true);
                 }
             }
         }
-        if (event.getEntityLiving() instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-            InventoryPlayer inv = player.inventory;
+        if (event.getEntityLiving() instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) event.getEntityLiving();
+            PlayerInventory inv = player.inventory;
             if (inv.hasItemStack(findAnubisWrath(player))) {
-                NBTTagCompound tag = StackHelper.getTag(findAnubisWrath(player));
-                tag.setInteger("souls", getSouls(findAnubisWrath(player)) / 2);
+                CompoundNBT tag = StackHelper.getTag(findAnubisWrath(player));
+                tag.putInt("souls", getSouls(findAnubisWrath(player)) / 2);
                 player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }
         }
     }
 
     @Nonnull
-    private static ItemStack findAnubisWrath(EntityPlayer player) {
-        if (player.getHeldItem(EnumHand.OFF_HAND).getItem() == AtumItems.ANUBIS_WRATH) {
-            return player.getHeldItem(EnumHand.OFF_HAND);
-        } else if (player.getHeldItem(EnumHand.MAIN_HAND).getItem() == AtumItems.ANUBIS_WRATH) {
-            return player.getHeldItem(EnumHand.MAIN_HAND);
+    private static ItemStack findAnubisWrath(PlayerEntity player) {
+        if (player.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.ANUBIS_WRATH) {
+            return player.getHeldItem(Hand.OFF_HAND);
+        } else if (player.getHeldItem(Hand.MAIN_HAND).getItem() == AtumItems.ANUBIS_WRATH) {
+            return player.getHeldItem(Hand.MAIN_HAND);
         } else {
             for (int i = 0; i < player.inventory.getSizeInventory(); ++i) {
                 ItemStack stack = player.inventory.getStackInSlot(i);
@@ -161,19 +162,19 @@ public class AnubisWrathItem extends SwordItem {
 
     @Override
     @Nonnull
-    public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EntityEquipmentSlot slot, @Nonnull ItemStack stack) {
+    public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
         Multimap<String, AttributeModifier> map = HashMultimap.create();
-        if (slot == EntityEquipmentSlot.MAINHAND) {
+        if (slot == EquipmentSlotType.MAINHAND) {
             int tier = getTier(stack);
-            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", tier == 3 ? 9.0D : (double) tier + 5.0D, 0));
+            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
             double speed = tier == 0 ? 0.6D : tier == 1 ? 0.7D : tier == 2 ? 0.8D : tier == 3 ? 1.0D : 0;
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", speed - 3.0D, 0));
+            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", speed - 3.0D, AttributeModifier.Operation.ADDITION));
         }
         return map;
     }
 
     private static int getSouls(@Nonnull ItemStack stack) {
-        return StackHelper.hasKey(stack, "souls") ? Objects.requireNonNull(stack.getTagCompound()).getInteger("souls") : 0;
+        return StackHelper.hasKey(stack, "souls") && stack.getTag() != null ? stack.getTag().getInt("souls") : 0;
     }
 
     private static int getTier(@Nonnull ItemStack stack) {
@@ -186,16 +187,18 @@ public class AnubisWrathItem extends SwordItem {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<String> tooltip, ITooltipFlag tooltipType) {
-        if (Keyboard.isKeyDown(42)) {
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line1" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")));
-            tooltip.add(TextFormatting.DARK_PURPLE + I18n.format(this.getTranslationKey() + ".line2" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")));
+    @OnlyIn(Dist.CLIENT)
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
+        String itemIdentifier = Objects.requireNonNull(stack.getItem().getRegistryName()).getPath() + ".tooltip";
+        if (InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+            tooltip.add(new TranslationTextComponent(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
+            tooltip.add(new TranslationTextComponent(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
         } else {
-            tooltip.add(I18n.format(this.getTranslationKey() + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")) + " " + TextFormatting.DARK_GRAY + "[SHIFT]");
+            tooltip.add(new TranslationTextComponent(itemIdentifier + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker"))
+                    .appendText(" ").appendSibling(new TranslationTextComponent(Constants.MOD_ID + ".tooltip.shift").applyTextStyle(TextFormatting.DARK_GRAY)));
         }
         if (tooltipType.isAdvanced()) {
-            tooltip.add(TextFormatting.DARK_RED + I18n.format(this.getTranslationKey() + ".kills", getSouls(stack)));
+            tooltip.add(new TranslationTextComponent(itemIdentifier + ".kills", getSouls(stack)).applyTextStyle(TextFormatting.DARK_RED));
         }
     }
 }

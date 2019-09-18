@@ -6,32 +6,32 @@ import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Items;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileEntityTrap extends TileEntityInventoryBase implements ITickable {
+public class TileEntityTrap extends TileEntityInventoryBase implements ITickableTileEntity {
     int burnTime;
     int currentItemBurnTime;
     boolean isDisabled = false;
@@ -63,13 +63,13 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
             EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
-                entity = EntityPlayer.class;
+                entity = PlayerEntity.class;
             } else {
                 entity = LivingEntity.class;
             }
             List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1));
             for (LivingEntity livingBase : entities) {
-                if (livingBase instanceof EntityPlayer ? !((EntityPlayer) livingBase).capabilities.isCreativeMode : livingBase != null) {
+                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).capabilities.isCreativeMode : livingBase != null) {
                     canDamageEntity = true;
                     this.triggerTrap(facing, livingBase);
                 } else {
@@ -116,13 +116,13 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         return this.burnTime > 0;
     }
 
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public static boolean isBurning(IInventory inventory) {
         return inventory.getField(0) > 0;
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
+    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         return super.isUsableByPlayer(player) && !isInsidePyramid;
     }
 
@@ -163,7 +163,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     @Nonnull
-    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
+    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull PlayerEntity player) {
         return new ContainerTrap(playerInventory, this);
     }
 
@@ -186,12 +186,12 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        return this.writeToNBT(new CompoundNBT());
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.burnTime = compound.getInteger("BurnTime");
         this.isDisabled = compound.getBoolean("Disabled");
@@ -200,7 +200,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
         compound.setInteger("BurnTime", (short) this.burnTime);
         compound.setBoolean("Disabled", this.isDisabled);

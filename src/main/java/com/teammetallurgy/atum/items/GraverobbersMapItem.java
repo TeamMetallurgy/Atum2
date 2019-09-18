@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.items;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MapItem;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
@@ -19,9 +19,9 @@ public class GraverobbersMapItem extends MapItem {
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, World world, @Nullable Entity entity, int itemSlot, boolean isSelected) {
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == this ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+        if (entity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) entity;
+            Hand hand = player.getHeldItem(Hand.OFF_HAND).getItem() == this ? Hand.OFF_HAND : Hand.MAIN_HAND;
             ItemStack heldStack = player.getHeldItem(hand);
             if (heldStack.getItem() == this && heldStack.getMetadata() == 0) {
                 BlockPos pyramidPos = world.findNearestStructure(PyramidPieces.PYRAMID.toString(), new BlockPos(entity.posX, 0, entity.posZ), true);

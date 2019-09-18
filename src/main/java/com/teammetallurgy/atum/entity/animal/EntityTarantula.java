@@ -9,18 +9,18 @@ import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateClimber;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
@@ -43,10 +43,10 @@ public class EntityTarantula extends EntityMob implements IUnderground {
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new AITarantulaAttack(this));
         this.tasks.addTask(5, new EntityAIWanderAvoidWater(this, 0.8D));
-        this.tasks.addTask(6, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(6, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
         this.tasks.addTask(6, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false, EntityTarantula.class));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPlayer.class, true));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
         this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
     }
 
@@ -84,10 +84,10 @@ public class EntityTarantula extends EntityMob implements IUnderground {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class EntityTarantula extends EntityMob implements IUnderground {
                     i = 8;
                 }
                 if (i > 0) {
-                    ((LivingEntity) entity).addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, i * 20, 0));
+                    ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, i * 20, 0));
                 }
             }
             return true;
@@ -152,8 +152,8 @@ public class EntityTarantula extends EntityMob implements IUnderground {
     }
 
     @Override
-    public boolean isPotionApplicable(@Nonnull PotionEffect effect) {
-        return effect.getPotion() != MobEffects.POISON && super.isPotionApplicable(effect);
+    public boolean isPotionApplicable(@Nonnull EffectInstance effect) {
+        return effect.getPotion() != Effects.POISON && super.isPotionApplicable(effect);
     }
 
     private boolean isBesideClimbableBlock() {

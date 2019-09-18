@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.client.model.entity;
 import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import net.minecraft.client.model.ModelIronGolem;
 import net.minecraft.entity.LivingEntity;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class ModelStonewarden extends ModelIronGolem {
 
     @Override

@@ -2,12 +2,12 @@ package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
@@ -60,7 +60,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
+    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         if (this.world.getTileEntity(this.pos) != this) {
             return false;
         } else {
@@ -89,7 +89,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     @Nonnull
-    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull EntityPlayer player) {
+    public Container createContainer(@Nonnull InventoryPlayer playerInventory, @Nonnull PlayerEntity player) {
         if (!isPrimary()) {
             TileEntityKilnBase primary = getPrimary();
             if (primary != null) {
@@ -185,7 +185,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound compound) {
+    public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         boolean hasPrimary = compound.getBoolean("has_primary");
         if (hasPrimary) {
@@ -198,7 +198,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     @Nonnull
-    public NBTTagCompound writeToNBT(NBTTagCompound compound) {
+    public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
         if (primaryPos != null) {
             compound.setBoolean("has_primary", true);
@@ -224,8 +224,8 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     @Nonnull
-    public NBTTagCompound getUpdateTag() {
-        return this.writeToNBT(new NBTTagCompound());
+    public CompoundNBT getUpdateTag() {
+        return this.writeToNBT(new CompoundNBT());
     }
 
     private IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);

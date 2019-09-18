@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.SoundEvents;
 
 public class TileEntityTarTrap extends TileEntityTrap {
 
@@ -17,9 +17,9 @@ public class TileEntityTarTrap extends TileEntityTrap {
         double z = (double) pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
-        if (!entity.isPotionActive(MobEffects.SLOWNESS)) {
+        if (!entity.isPotionActive(Effects.SLOWNESS)) {
             if (!world.isRemote) {
-                entity.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 120, 3, false, false));
+                entity.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 120, 3, false, false));
             }
         }
 

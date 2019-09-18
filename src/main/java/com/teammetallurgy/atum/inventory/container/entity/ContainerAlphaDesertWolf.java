@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
@@ -14,7 +14,7 @@ public class ContainerAlphaDesertWolf extends Container {
     private final IInventory wolfInventory;
     private final EntityDesertWolf desertWolf;
 
-    public ContainerAlphaDesertWolf(IInventory playerInventory, IInventory wolfInventory, final EntityDesertWolf desertWolf, EntityPlayer player) {
+    public ContainerAlphaDesertWolf(IInventory playerInventory, IInventory wolfInventory, final EntityDesertWolf desertWolf, PlayerEntity player) {
         this.wolfInventory = wolfInventory;
         this.desertWolf = desertWolf;
         wolfInventory.openInventory(player);
@@ -51,13 +51,13 @@ public class ContainerAlphaDesertWolf extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull EntityPlayer player) {
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
         return this.wolfInventory.isUsableByPlayer(player) && this.desertWolf.isEntityAlive() && this.desertWolf.getDistance(player) < 8.0F;
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(EntityPlayer player, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -88,7 +88,7 @@ public class ContainerAlphaDesertWolf extends Container {
     }
 
     @Override
-    public void onContainerClosed(EntityPlayer player) {
+    public void onContainerClosed(PlayerEntity player) {
         super.onContainerClosed(player);
         this.wolfInventory.closeInventory(player);
     }

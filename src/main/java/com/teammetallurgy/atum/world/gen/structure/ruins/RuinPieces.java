@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.init.Blocks;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.Mirror;
@@ -100,7 +100,7 @@ public class RuinPieces {
         }
 
         @Override
-        protected void writeStructureToNBT(NBTTagCompound compound) {
+        protected void writeStructureToNBT(CompoundNBT compound) {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
@@ -108,7 +108,7 @@ public class RuinPieces {
         }
 
         @Override
-        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
+        protected void readStructureFromNBT(CompoundNBT compound, TemplateManager manager) {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));

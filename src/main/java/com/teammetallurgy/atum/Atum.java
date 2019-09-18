@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumCreativeTab;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.AtumDimension;
+import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
@@ -51,7 +51,6 @@ public class Atum {
         GirafiTombPieces.registerGirafiTomb();
         LighthousePieces.registerLighthouse();
         AtumRecipes.addKilnRecipes();
-        AtumDimension.register();
         IntegrationHandler.INSTANCE.setup();
     }
 
@@ -61,6 +60,7 @@ public class Atum {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
+        MinecraftForge.EVENT_BUS.register(new AtumDimensionRegistration());
         AtumWeather.register(event.getCommandDispatcher());
     }
 }

@@ -5,12 +5,12 @@ import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-@SideOnly(Side.CLIENT)
+@OnlyIn(Dist.CLIENT)
 public class LayerDesertWolfCollar implements LayerRenderer<EntityDesertWolf> {
     private static final ResourceLocation COLLAR_TEXTURE = new ResourceLocation("textures/entity/wolf/wolf_collar.png");
     private final RenderDesertWolf wolfRenderer;

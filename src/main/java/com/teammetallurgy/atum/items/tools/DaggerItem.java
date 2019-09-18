@@ -13,7 +13,11 @@ import javax.annotation.Nonnull;
 public class DaggerItem extends SwordItem {
 
     public DaggerItem(IItemTier itemTier) {
-        super(itemTier, 2, -2.0F, new Item.Properties().group(Atum.GROUP));
+        this(itemTier, new Item.Properties().group(Atum.GROUP));
+    }
+
+    public DaggerItem(IItemTier itemTier, Item.Properties properties) {
+        super(itemTier, 2, -2.0F, properties.group(Atum.GROUP));
     }
 
     @Override

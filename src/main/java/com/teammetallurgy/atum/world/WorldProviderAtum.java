@@ -12,7 +12,7 @@ import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -24,11 +24,11 @@ import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraft.world.storage.DerivedWorldInfo;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.Iterator;
@@ -42,14 +42,14 @@ public class WorldProviderAtum extends Dimension {
     @Override
     @Nonnull
     public DimensionType getDimensionType() {
-        return AtumDimension.ATUM;
+        return AtumDimensionRegistration.ATUM;
     }
 
     @Override
     protected void init() {
         this.hasSkyLight = true;
         this.biomeProvider = new AtumBiomeProvider(world.getWorldInfo());
-        NBTTagCompound tagCompound = this.world.getWorldInfo().getDimensionData(this.world.provider.getDimension());
+        CompoundNBT tagCompound = this.world.getWorldInfo().getDimensionData(this.world.provider.getDimension());
         this.hasStartStructureSpawned = this.world instanceof WorldServer && tagCompound.getBoolean("HasStartStructureSpawned");
         this.isStorming = this.world instanceof WorldServer && tagCompound.getBoolean("IsStorming");
     }
@@ -101,7 +101,7 @@ public class WorldProviderAtum extends Dimension {
 
     @Override
     @Nonnull
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public Vec3d getFogColor(float par1, float par2) {
         float f = MathHelper.cos(par1 * 3.1415927F * 2.0F) * 2.0F + 0.5F;
         if (f < 0.2F) {
@@ -123,7 +123,7 @@ public class WorldProviderAtum extends Dimension {
 
     @Override
     public void onWorldSave() {
-        NBTTagCompound tagCompound = new NBTTagCompound();
+        CompoundNBT tagCompound = new CompoundNBT();
         tagCompound.setBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
         tagCompound.setBoolean("IsStorming", isStorming);
         world.getWorldInfo().setDimensionData(this.world.provider.getDimension(), tagCompound);

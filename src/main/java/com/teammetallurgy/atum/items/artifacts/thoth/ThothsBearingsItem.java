@@ -2,15 +2,15 @@ package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MapItem;
-import net.minecraft.util.EnumHand;
+import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,7 +22,7 @@ public class ThothsBearingsItem extends MapItem { //Revisit later
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
     }
@@ -35,9 +35,9 @@ public class ThothsBearingsItem extends MapItem { //Revisit later
 
     @Override
     public void onUpdate(@Nonnull ItemStack stack, World world, @Nullable Entity entity, int itemSlot, boolean isSelected) {
-        if (entity instanceof EntityPlayer) {
-            EntityPlayer player = (EntityPlayer) entity;
-            EnumHand hand = player.getHeldItem(EnumHand.OFF_HAND).getItem() == this ? EnumHand.OFF_HAND : EnumHand.MAIN_HAND;
+        if (entity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) entity;
+            Hand hand = player.getHeldItem(Hand.OFF_HAND).getItem() == this ? Hand.OFF_HAND : Hand.MAIN_HAND;
             ItemStack heldStack = player.getHeldItem(hand);
             if (heldStack.getItem() == this && heldStack.getMetadata() == 0) {
                 ItemStack map = ThothsBearingsItem.setupNewMap(world, entity.posX, entity.posZ, (byte) 4, true, true);

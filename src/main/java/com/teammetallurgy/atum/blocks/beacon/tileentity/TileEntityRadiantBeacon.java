@@ -7,15 +7,15 @@ import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockStainedGlass;
 import net.minecraft.block.BlockStainedGlassPane;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -38,7 +38,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
     }
 
     @Override
-    public boolean isUsableByPlayer(@Nonnull EntityPlayer player) {
+    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         return false;
     }
 
@@ -93,15 +93,15 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
         }
 
         if (!this.world.isRemote) {
-            for (EntityPlayerMP entityplayermp : this.world.getEntitiesWithinAABB(EntityPlayerMP.class, (new AxisAlignedBB((double) x, (double) y, (double) z, (double) x, (double) (y - 4), (double) z)).grow(10.0D, 5.0D, 10.0D))) {
-                CriteriaTriggers.CONSTRUCT_BEACON.trigger(entityplayermp, this);
+            for (ServerPlayerEntity ServerPlayerEntity : this.world.getEntitiesWithinAABB(ServerPlayerEntity.class, (new AxisAlignedBB((double) x, (double) y, (double) z, (double) x, (double) (y - 4), (double) z)).grow(10.0D, 5.0D, 10.0D))) {
+                CriteriaTriggers.CONSTRUCT_BEACON.trigger(ServerPlayerEntity, this);
             }
         }
     }
 
     @Override
     @Nonnull
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public List<TileEntityBeacon.BeamSegment> getBeamSegments() {
         return this.beamSegments;
     }

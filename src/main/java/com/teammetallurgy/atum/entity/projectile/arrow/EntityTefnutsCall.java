@@ -5,17 +5,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -43,10 +43,10 @@ public class EntityTefnutsCall extends CustomArrow {
     @Override
     protected void onHit(RayTraceResult raytraceResult) {
         Entity entity = raytraceResult.entityHit;
-        if (raytraceResult != null && raytraceResult.entityHit instanceof EntityPlayer) {
-            EntityPlayer entityplayer = (EntityPlayer) raytraceResult.entityHit;
+        if (raytraceResult != null && raytraceResult.entityHit instanceof PlayerEntity) {
+            PlayerEntity entityplayer = (PlayerEntity) raytraceResult.entityHit;
 
-            if (this.shootingEntity instanceof EntityPlayer && !((EntityPlayer) this.shootingEntity).canAttackPlayer(entityplayer)) {
+            if (this.shootingEntity instanceof PlayerEntity && !((PlayerEntity) this.shootingEntity).canAttackPlayer(entityplayer)) {
                 raytraceResult = null;
             }
         }
@@ -85,8 +85,8 @@ public class EntityTefnutsCall extends CustomArrow {
 
                     this.arrowHit(entitylivingbase);
 
-                    if (this.shootingEntity != null && entitylivingbase != this.shootingEntity && entitylivingbase instanceof EntityPlayer && this.shootingEntity instanceof EntityPlayerMP) {
-                        ((EntityPlayerMP) this.shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
+                    if (this.shootingEntity != null && entitylivingbase != this.shootingEntity && entitylivingbase instanceof PlayerEntity && this.shootingEntity instanceof ServerPlayerEntity) {
+                        ((ServerPlayerEntity) this.shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
                     }
                 }
                 world.addWeatherEffect(new EntityLightningBolt(world, posX, posY, posZ, false));
@@ -96,21 +96,21 @@ public class EntityTefnutsCall extends CustomArrow {
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public boolean canRenderOnFire() {
         return false;
     }
 
     @Override
-    public void writeEntityToNBT(@Nonnull NBTTagCompound compound) {
-        NBTTagCompound stackTag = new NBTTagCompound();
+    public void writeEntityToNBT(@Nonnull CompoundNBT compound) {
+        CompoundNBT stackTag = new CompoundNBT();
         stack.writeToNBT(stackTag);
         compound.setTag("stack", stackTag);
     }
 
     @Override
-    public void readEntityFromNBT(@Nonnull NBTTagCompound compound) {
-        NBTTagCompound stackTag = compound.getCompoundTag("stack");
+    public void readEntityFromNBT(@Nonnull CompoundNBT compound) {
+        CompoundNBT stackTag = compound.getCompoundTag("stack");
         stack = new ItemStack(stackTag);
     }
 }

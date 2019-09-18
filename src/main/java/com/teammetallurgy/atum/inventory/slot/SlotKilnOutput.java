@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
@@ -13,10 +13,10 @@ import net.minecraft.util.math.MathHelper;
 import javax.annotation.Nonnull;
 
 public class SlotKilnOutput extends Slot {
-    private final EntityPlayer player;
+    private final PlayerEntity player;
     private int removeCount;
 
-    public SlotKilnOutput(EntityPlayer player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
+    public SlotKilnOutput(PlayerEntity player, IInventory inventoryIn, int slotIndex, int xPosition, int yPosition) {
         super(inventoryIn, slotIndex, xPosition, yPosition);
         this.player = player;
     }
@@ -37,7 +37,7 @@ public class SlotKilnOutput extends Slot {
 
     @Override
     @Nonnull
-    public ItemStack onTake(EntityPlayer thePlayer, @Nonnull ItemStack stack) {
+    public ItemStack onTake(PlayerEntity thePlayer, @Nonnull ItemStack stack) {
         this.onCrafting(stack);
         super.onTake(thePlayer, stack);
         return stack;

@@ -8,11 +8,11 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -37,11 +37,11 @@ public class EntityMummy extends EntityUndeadBase {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(22.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(22.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
     }
 
     @Override
@@ -53,7 +53,7 @@ public class EntityMummy extends EntityUndeadBase {
     public void onLivingUpdate() {
         super.onLivingUpdate();
 
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (this.isBurning() && !attribute.hasModifier(SPEED_BOOST_BURNING)) {
             attribute.applyModifier(SPEED_BOOST_BURNING);
         } else {
@@ -88,7 +88,7 @@ public class EntityMummy extends EntityUndeadBase {
             }
             if (entity instanceof LivingEntity) {
                 LivingEntity base = (LivingEntity) entity;
-                base.addPotionEffect(new PotionEffect(MobEffects.WITHER, 80, 1));
+                base.addPotionEffect(new EffectInstance(Effects.WITHER, 80, 1));
             }
         }
 

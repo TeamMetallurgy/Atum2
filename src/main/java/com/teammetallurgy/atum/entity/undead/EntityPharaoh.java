@@ -14,23 +14,19 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackMelee;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOpenDoor;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.MobEffects;
-import net.minecraft.init.SoundEvents;
-import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.Style;
@@ -41,12 +37,12 @@ import net.minecraft.world.BossInfoServer;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.storage.AnvilChunkLoader;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -108,11 +104,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
-        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0F);
+        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300.0D);
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
+        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
+        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0F);
     }
 
     @Override
@@ -138,12 +134,12 @@ public class EntityPharaoh extends EntityUndeadBase {
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
-            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(scepter));
+            this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(scepter));
         }
     }
 
     @Override
-    @SideOnly(Side.CLIENT)
+    @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
             this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh_" + God.getGod(this.getVariant())) + ".png";
@@ -213,10 +209,10 @@ public class EntityPharaoh extends EntityUndeadBase {
         }
 
         if (source.damageType.equals("player")) {
-            EntityPlayer slayer = (EntityPlayer) source.getTrueSource();
+            PlayerEntity slayer = (PlayerEntity) source.getTrueSource();
             if (!world.isRemote && slayer != null) {
-                List<EntityPlayerMP> players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
-                for (EntityPlayer player : players) {
+                List<ServerPlayerEntity> players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
+                for (PlayerEntity player : players) {
                     player.sendMessage(new TextComponentString(God.getGod(this.getVariant()).getColor() + this.getName() + " " + AtumUtils.format("chat.atum.killPharaoh") + " " + slayer.getGameProfile().getName()));
                 }
             }
@@ -225,13 +221,13 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    public void addTrackingPlayer(EntityPlayerMP player) {
+    public void addTrackingPlayer(ServerPlayerEntity player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(EntityPlayerMP player) {
+    public void removeTrackingPlayer(ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }
@@ -280,31 +276,31 @@ public class EntityPharaoh extends EntityUndeadBase {
                 LivingEntity entityLiving = (LivingEntity) entity;
                 switch (God.getGod(this.getVariant())) {
                     case ANPUT:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 80, 1));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.HUNGER, 80, 1));
                         break;
                     case ANUBIS:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.WITHER, 60, 1));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.WITHER, 60, 1));
                         break;
                     case GEB:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 60, 1));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60, 1));
                         break;
                     case HORUS:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.MINING_FATIGUE, 60, 1));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 60, 1));
                         break;
                     case NUIT:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 60));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60));
                         break;
                     case RA:
                         entityLiving.setFire(4);
                         break;
                     case SETH:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.POISON, 100, 1));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
                         break;
                     case SHU:
                         HorusAscensionItem.knockUp(entityLiving, this, rand);
                         break;
                     case TEFNUT:
-                        entityLiving.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 60));
+                        entityLiving.addPotionEffect(new EffectInstance(Effects.NAUSEA, 60));
                         break;
                     default:
                         break;
@@ -371,7 +367,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    public void writeEntityToNBT(NBTTagCompound compound) {
+    public void writeEntityToNBT(CompoundNBT compound) {
         super.writeEntityToNBT(compound);
         compound.setInteger("prefix", prefixID);
         compound.setInteger("suffix", suffixID);
@@ -385,7 +381,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound compound) {
+    public void readEntityFromNBT(CompoundNBT compound) {
         super.readEntityFromNBT(compound);
         prefixID = compound.getInteger("prefix");
         suffixID = compound.getInteger("suffix");
