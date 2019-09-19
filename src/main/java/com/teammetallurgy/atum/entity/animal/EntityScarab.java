@@ -5,8 +5,8 @@ import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
@@ -134,8 +134,8 @@ public class EntityScarab extends EntityMob {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
         }
@@ -173,8 +173,8 @@ public class EntityScarab extends EntityMob {
 
     @Override
     @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.ARTHROPOD;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.ARTHROPOD;
     }
 
     @Override
@@ -190,7 +190,7 @@ public class EntityScarab extends EntityMob {
     }
 
     static class AIHideInBlock extends EntityAIWander {
-        private EnumFacing facing;
+        private Direction facing;
         private boolean doMerge;
 
         AIHideInBlock(EntityScarab scarab) {
@@ -208,9 +208,9 @@ public class EntityScarab extends EntityMob {
                 Random random = this.entity.getRNG();
 
                 if (ForgeEventFactory.getMobGriefingEvent(this.entity.world, this.entity) && random.nextInt(10) == 0) {
-                    this.facing = EnumFacing.random(random);
+                    this.facing = Direction.random(random);
                     BlockPos pos = (new BlockPos(this.entity.posX, this.entity.posY + 0.5D, this.entity.posZ)).offset(this.facing);
-                    IBlockState state = this.entity.world.getBlockState(pos);
+                    BlockState state = this.entity.world.getBlockState(pos);
 
                     if (state.getBlock() == AtumBlocks.LIMESTONE || state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
                         this.doMerge = true;
@@ -234,7 +234,7 @@ public class EntityScarab extends EntityMob {
             } else {
                 World world = this.entity.world;
                 BlockPos pos = (new BlockPos(this.entity.posX, this.entity.posY + 0.5D, this.entity.posZ)).offset(this.facing);
-                IBlockState state = world.getBlockState(pos);
+                BlockState state = world.getBlockState(pos);
 
                 if (state.getBlock() == AtumBlocks.LIMESTONE) {
                     world.setBlockState(pos, AtumBlocks.LIMESTONE.getDefaultState().withProperty(BlockLimestone.HAS_SCARAB, true), 3);

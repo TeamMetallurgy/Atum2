@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -74,7 +74,7 @@ public class BiomeLimestoneCrags extends AtumBiome {
                             float f2 = (float) MathHelper.abs(j1) - 0.25F;
 
                             if ((i1 == 0 && j1 == 0 || f1 * f1 + f2 * f2 <= f * f) && (i1 != -l && i1 != l && j1 != -l && j1 != l || rand.nextFloat() <= 0.75F)) {
-                                IBlockState state = world.getBlockState(pos.add(i1, k, j1));
+                                BlockState state = world.getBlockState(pos.add(i1, k, j1));
                                 Block block = state.getBlock();
 
                                 if (block.isAir(state, world, pos.add(i1, k, j1)) || block == groundBlock) {
@@ -112,7 +112,7 @@ public class BiomeLimestoneCrags extends AtumBiome {
                         }
 
                         while (pos1.getY() > 50) {
-                            IBlockState state = world.getBlockState(pos1);
+                            BlockState state = world.getBlockState(pos1);
                             Block block1 = state.getBlock();
 
                             if (!state.getBlock().isAir(state, world, pos1) && block1 != groundBlock) {

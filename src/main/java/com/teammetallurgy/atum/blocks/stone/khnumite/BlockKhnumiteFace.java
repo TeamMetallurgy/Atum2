@@ -6,11 +6,12 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.BlockDispenser;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.BlockWorldState;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockMaterialMatcher;
 import net.minecraft.block.state.pattern.BlockPattern;
 import net.minecraft.block.state.pattern.BlockStateMatcher;
@@ -18,12 +19,11 @@ import net.minecraft.block.state.pattern.FactoryBlockPattern;
 import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Bootstrap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -39,12 +39,12 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
 
     public BlockKhnumiteFace() {
         super(Material.ROCK, MapColor.CLAY);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH));
         this.setHardness(2.0F);
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
         super.onBlockAdded(world, pos, state);
         this.trySpawnStonemob(world, pos);
     }
@@ -67,9 +67,9 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
             stonewarden.setPlayerCreated(true);
             stonewarden.onInitialSpawn(world.getDifficultyForLocation(pos), null);
             stonewarden.setLocationAndAngles((double) stonewardenPos.getX() + 0.5D, (double) stonewardenPos.getY() + 0.05D, (double) stonewardenPos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.spawnEntity(stonewarden);
+            world.addEntity(stonewarden);
 
-            for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stonewarden.getEntityBoundingBox().grow(5.0D))) {
+            for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stonewarden.getBoundingBox().grow(5.0D))) {
                 CriteriaTriggers.SUMMONED_ENTITY.trigger(playerMP, stonewarden);
             }
 
@@ -96,9 +96,9 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
                 stoneguard.onInitialSpawn(world.getDifficultyForLocation(pos), null);
                 BlockPos stoneguardPos = patternHelper.translateOffset(0, 2, 0).getPos();
                 stoneguard.setLocationAndAngles((double) stoneguardPos.getX() + 0.5D, (double) stoneguardPos.getY() + 0.05D, (double) stoneguardPos.getZ() + 0.5D, 0.0F, 0.0F);
-                world.spawnEntity(stoneguard);
+                world.addEntity(stoneguard);
 
-                for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stoneguard.getEntityBoundingBox().grow(5.0D))) {
+                for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stoneguard.getBoundingBox().grow(5.0D))) {
                     CriteriaTriggers.SUMMONED_ENTITY.trigger(playerMP, stoneguard);
                 }
 
@@ -114,31 +114,31 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
+    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(FACING).getHorizontalIndex();
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta));
+    public BlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, Direction.byHorizontalIndex(meta));
     }
 
     @Override

@@ -20,7 +20,7 @@ public class CrunchyScarabItem extends Item {
         }
         return super.hasEffect(stack);
     }
-Z
+
     @Override
     public int getUseDuration(@Nonnull ItemStack stack) {
         return 10;

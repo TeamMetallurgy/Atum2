@@ -5,8 +5,8 @@ import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
@@ -58,7 +58,7 @@ public class EntityStoneBase extends MonsterEntity implements IUnderground {
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && (!input.isPlayerCreated() && isPlayerCreated() || input.isPlayerCreated() && !isPlayerCreated())));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
         this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityMob.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof EntityStoneBase) && input.getCreatureAttribute() == EnumCreatureAttribute.UNDEAD));
+        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityMob.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof EntityStoneBase) && input.getCreatureAttribute() == CreatureAttribute.UNDEAD));
     }
 
     @Override
@@ -102,8 +102,8 @@ public class EntityStoneBase extends MonsterEntity implements IUnderground {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
@@ -206,7 +206,7 @@ public class EntityStoneBase extends MonsterEntity implements IUnderground {
 
     @Override
     protected boolean isValidLightLevel() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        BlockPos pos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
         if (world.getLightFor(EnumSkyBlock.SKY, pos) != 0) {
             return false;
         } else {

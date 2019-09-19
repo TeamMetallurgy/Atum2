@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockSponge;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemCoal;
@@ -91,7 +91,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
                 world.setBlockState(pos, world.getBlockState(pos).withProperty(BlockKiln.IS_BURNING, this.isBurning()));
                 BlockPos secondaryKilnPos = BlockKiln.getSecondaryKilnFromPrimary(world, pos);
                 if (secondaryKilnPos != null) {
-                    IBlockState secondaryState = world.getBlockState(secondaryKilnPos);
+                    BlockState secondaryState = world.getBlockState(secondaryKilnPos);
                     if (secondaryState.getBlock() == AtumBlocks.KILN) {
                         world.setBlockState(secondaryKilnPos, secondaryState.withProperty(BlockKiln.IS_BURNING, this.isBurning()));
                     }

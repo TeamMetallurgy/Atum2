@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.utils.event;
 
 import com.teammetallurgy.atum.blocks.linen.BlockLinen;
 import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ public class FurnaceFuel {
             event.setBurnTime(100);
         } else if (Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet) {
             event.setBurnTime(67);
-        } else if (stack.getItem() == BlockAtumPlank.getStick(BlockAtumPlank.WoodType.PALM) || stack.getItem() == BlockAtumPlank.getStick(BlockAtumPlank.WoodType.DEADWOOD)) {
+        } else if (stack.getItem() == AtumItems.PALM_STICK || stack.getItem() == AtumItems.DEADWOOD_STICK) {
             event.setBurnTime(100);
         }
     }

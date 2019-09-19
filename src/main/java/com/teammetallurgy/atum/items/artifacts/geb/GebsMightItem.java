@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.HammerItem;
 import net.minecraft.entity.LivingEntity;
@@ -31,7 +30,7 @@ public class GebsMightItem extends HammerItem {
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;
             double d2 = random.nextGaussian() * 0.02D;
-            Atum.proxy.spawnParticle(AtumParticles.Types.GEB, target, target.posX, target.posY + target.getEyeHeight() - 0.1D, target.posZ, d0, d1, d2);
+            target.world.addParticle(AtumParticles.GEB, target.posX, target.posY + target.getEyeHeight() - 0.1D, target.posZ, d0, d1, d2);
         }
         stun.put(target, 80);
     }

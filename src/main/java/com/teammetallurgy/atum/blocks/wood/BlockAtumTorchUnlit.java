@@ -6,11 +6,11 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -53,7 +53,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         ItemStack heldStack = player.getHeldItem(hand);
         Block block = Block.getBlockFromItem(heldStack.getItem());
         if ((heldStack.getItem() instanceof ItemFlintAndSteel || block.getLightValue(block.getDefaultState(), world, pos) > 0)) {
@@ -69,7 +69,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
 
     @SubscribeEvent
     public static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
-        IBlockState state = event.getWorld().getBlockState(event.getPos());
+        BlockState state = event.getWorld().getBlockState(event.getPos());
         if (Block.getBlockFromItem(event.getItemStack().getItem()) instanceof BlockAtumTorchUnlit && state.getBlock().getLightValue(state.getBlock().getDefaultState(), event.getWorld(), event.getPos()) > 0) {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
@@ -80,12 +80,12 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
     }
 
     @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public int getLightValue(BlockState state, IBlockAccess world, BlockPos pos) {
         return 0;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand) {
     }
 }

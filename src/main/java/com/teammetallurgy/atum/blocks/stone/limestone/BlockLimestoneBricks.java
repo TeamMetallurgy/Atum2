@@ -7,13 +7,13 @@ import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemDoor;
@@ -41,7 +41,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
         if (state.getBlock() == BlockLimestoneBricks.getBrick(BrickType.SMALL)) {
@@ -49,7 +49,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
                         BlockPos checkPos = pos.add(dx, dy, dz);
-                        IBlockState kilnState = world.getBlockState(checkPos);
+                        BlockState kilnState = world.getBlockState(checkPos);
                         if (kilnState.getBlock() == AtumBlocks.KILN) {
                             BlockKiln kiln = (BlockKiln) kilnState.getBlock();
                             kiln.tryMakeMultiblock(world, checkPos, kilnState);
@@ -61,7 +61,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     }
 
     @Override
-    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+    public float getBlockHardness(BlockState state, World world, BlockPos pos) {
         return state.getValue(UNBREAKABLE) ? -1.0F : super.getBlockHardness(state, world, pos);
     }
 
@@ -96,12 +96,12 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(UNBREAKABLE, meta > 0);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(UNBREAKABLE) ? 1 : 0;
     }
 

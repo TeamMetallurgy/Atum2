@@ -3,11 +3,11 @@ package com.teammetallurgy.atum.blocks.wood;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.entity.animal.EntityScarab;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
@@ -24,16 +24,16 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     }
 
     @Override
-    public boolean canSustainLeaves(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public boolean canSustainLeaves(BlockState state, IBlockAccess world, BlockPos pos) {
         return false;
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, float chance, int fortune) {
+    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
             EntityScarab scarab = new EntityScarab(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.spawnEntity(scarab);
+            world.addEntity(scarab);
             scarab.spawnExplosionParticle();
         }
         super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
@@ -41,14 +41,14 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     @Nonnull
     @Override
-    public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
         return BlockAtumPlank.WoodType.DEADWOOD.getMapColor();
     }
 
     @Nonnull
     @Override
-    public IBlockState getStateFromMeta(int meta) { //Bad way of doing this, but only way I could get it working
-        IBlockState state = this.getDefaultState();
+    public BlockState getStateFromMeta(int meta) { //Bad way of doing this, but only way I could get it working
+        BlockState state = this.getDefaultState();
 
         switch (meta) {
             case 0:
@@ -80,7 +80,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
 
         switch (state.getValue(LOG_AXIS)) {

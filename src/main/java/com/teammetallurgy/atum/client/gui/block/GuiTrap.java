@@ -41,8 +41,8 @@ public class GuiTrap extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(TRAP_GUI);
-        int width = (this.width - this.xSize) / 2;
-        int height = (this.height - this.ySize) / 2;
+        int width = (this.getWidth() - this.xSize) / 2;
+        int height = (this.getHeight() - this.ySize) / 2;
         this.drawTexturedModalRect(width, height, 0, 0, this.xSize, this.ySize);
 
         if (TileEntityTrap.isBurning(this.trapInventory)) {

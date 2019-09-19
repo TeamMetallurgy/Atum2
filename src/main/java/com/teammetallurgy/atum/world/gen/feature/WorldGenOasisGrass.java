@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockOasisGrass;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -18,7 +18,7 @@ public class WorldGenOasisGrass extends WorldGenerator {
 
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
-        for (IBlockState state = world.getBlockState(pos); (state.getBlock().isAir(state, world, pos) || state.getBlock().isLeaves(state, world, pos)) && pos.getY() > 0; state = world.getBlockState(pos)) {
+        for (BlockState state = world.getBlockState(pos); (state.getBlock().isAir(state, world, pos) || state.getBlock().isLeaves(state, world, pos)) && pos.getY() > 0; state = world.getBlockState(pos)) {
             pos = pos.down();
         }
         for (int i = 0; i < 128; ++i) {

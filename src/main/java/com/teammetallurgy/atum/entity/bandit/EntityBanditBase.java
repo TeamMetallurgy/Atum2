@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
-import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -108,8 +108,8 @@ public class EntityBanditBase extends MonsterEntity {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
@@ -154,8 +154,8 @@ public class EntityBanditBase extends MonsterEntity {
 
     @Override
     @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.UNDEFINED;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.UNDEFINED;
     }
 
     @Override
@@ -180,21 +180,21 @@ public class EntityBanditBase extends MonsterEntity {
 
     @Override
     public boolean getCanSpawnHere() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        BlockPos pos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
         return pos.getY() > 62 && canSpawnNoHeightCheck(false);
     }
 
     @Override
     protected boolean isValidLightLevel() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        BlockPos pos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
         return this.world.getLightFor(EnumSkyBlock.BLOCK, pos) <= 8;
     }
 
     public boolean canSpawnNoHeightCheck(boolean isFromSpawner) {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        BlockPos pos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
         return this.isValidLightLevel() && this.world.canBlockSeeSky(pos) && this.world.getDifficulty() != EnumDifficulty.PEACEFUL && world.isDaytime()
-                && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()
-                && (isFromSpawner || !this.world.containsAnyLiquid(this.getEntityBoundingBox()));
+                && this.world.checkNoEntityCollision(this.getBoundingBox()) && this.world.getCollisionBoxes(this, this.getBoundingBox()).isEmpty()
+                && (isFromSpawner || !this.world.containsAnyLiquid(this.getBoundingBox()));
     }
 
     @Override

@@ -6,14 +6,14 @@ import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.DifficultyInstance;
@@ -79,7 +79,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     public void setOpenable() {
         this.isOpenable = true;
         this.markDirty();
-        IBlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         world.notifyBlockUpdate(pos, state, state, 3);
     }
 
@@ -87,16 +87,16 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
         if (!world.isRemote) {
             EntityPharaoh pharaoh = new EntityPharaoh(world);
             pharaoh.onInitialSpawn(difficulty, null);
-            EnumFacing blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
+            Direction blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
             pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
             pharaoh.rotationYawHead = blockFacing.getHorizontalAngle() + 90;
             pharaoh.setSarcophagusPos(pos);
-            world.spawnEntity(pharaoh);
+            world.addEntity(pharaoh);
             pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 1).down());
             pharaoh.spawnExplosionParticle();
             this.hasSpawned = true;
 
-            for (ServerPlayerEntity playerMP : FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers()) {
+            for (ServerPlayerEntity playerMP : FMLCommonHandler.instance().getInstanceServerInstance().getPlayerList().getPlayers()) {
                 playerMP.sendMessage(new TextComponentString(EntityPharaoh.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
             }
         }
@@ -115,7 +115,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
         return this.isOpenable && super.hasCapability(capability, facing);
     }
 }

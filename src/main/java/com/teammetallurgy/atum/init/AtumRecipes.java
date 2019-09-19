@@ -24,7 +24,7 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.BlacklistOreIngredient;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.Blocks;
 import net.minecraft.init.PotionTypes;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;

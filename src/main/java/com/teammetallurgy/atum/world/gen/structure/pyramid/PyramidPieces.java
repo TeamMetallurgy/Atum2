@@ -16,12 +16,12 @@ import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLadder;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -100,7 +100,7 @@ public class PyramidPieces {
 
     public static class PyramidTemplate extends StructureComponentTemplate {
         public static final List<Block> FLOOR_TRAPS = Arrays.asList(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        static final IBlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
+        static final BlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
         private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
         private Mirror mirror;
@@ -131,21 +131,21 @@ public class PyramidPieces {
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
             if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
-                IBlockState arrowTrap = AtumBlocks.ARROW_TRAP.getDefaultState();
+                BlockState arrowTrap = AtumBlocks.ARROW_TRAP.getDefaultState();
 
                 if (rand.nextDouble() <= 0.3D) {
                     switch (function) {
                         case "ArrowWest":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(EnumFacing.WEST));
+                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.WEST));
                             break;
                         case "ArrowEast":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(EnumFacing.EAST));
+                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.EAST));
                             break;
                         case "ArrowSouth":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(EnumFacing.SOUTH));
+                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.SOUTH));
                             break;
                         case "ArrowNorth":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(EnumFacing.NORTH));
+                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.NORTH));
                             break;
                     }
                     world.setBlockState(pos, arrowTrap, 2);
@@ -157,7 +157,7 @@ public class PyramidPieces {
                     case "FloorTrap":
                         if (rand.nextDouble() <= 0.5D) {
                             Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                            world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
+                            world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, Direction.UP), 2);
                         } else {
                             world.setBlockState(pos, CARVED_BRICK, 2);
                         }
@@ -244,12 +244,12 @@ public class PyramidPieces {
 
         private void setTrapsCopy(World world, BlockPos pos, Random rand, StructureBoundingBox box, int range) {
             if (rand.nextDouble() <= 0.5D) {
-                IBlockState copy = null;
-                for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                BlockState copy = null;
+                for (Direction horizontal : Direction.HORIZONTALS) {
                     for (int xMin = 0; xMin <= range; xMin++) {
                         BlockPos posOffset = pos.offset(horizontal, xMin);
                         if (box.isVecInside(posOffset)) {
-                            IBlockState adjacent = world.getBlockState(pos.offset(horizontal, xMin));
+                            BlockState adjacent = world.getBlockState(pos.offset(horizontal, xMin));
                             if (adjacent.getBlock() instanceof BlockTrap) {
                                 copy = adjacent;
                             }
@@ -260,7 +260,7 @@ public class PyramidPieces {
                     world.setBlockState(pos, copy, 2);
                 } else {
                     Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                    world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, EnumFacing.UP), 2);
+                    world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, Direction.UP), 2);
                 }
             } else {
                 world.setBlockState(pos, CARVED_BRICK, 2);
@@ -289,7 +289,7 @@ public class PyramidPieces {
         public Maze() {
         }
 
-        public Maze(StructureBoundingBox boundingBox, EnumFacing componentType) {
+        public Maze(StructureBoundingBox boundingBox, Direction componentType) {
             this.setCoordBaseMode(componentType);
             this.boundingBox = boundingBox;
         }
@@ -334,10 +334,10 @@ public class PyramidPieces {
         }
 
         private void placeTrap(World world, boolean[][] maze, int x, int z, Random random, StructureBoundingBox validBounds) {
-            IBlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
+            BlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
-            List<EnumFacing> validDirections = new ArrayList<>();
-            for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+            List<Direction> validDirections = new ArrayList<>();
+            for (Direction facing : Direction.HORIZONTALS) {
                 if (x + facing.getXOffset() >= 0 && x + facing.getXOffset() < maze.length && z + facing.getZOffset() >= 0 && z + facing.getZOffset() < maze[0].length) {
                     if (maze[x + facing.getXOffset()][z + facing.getZOffset()]) {
                         validDirections.add(facing.getOpposite());

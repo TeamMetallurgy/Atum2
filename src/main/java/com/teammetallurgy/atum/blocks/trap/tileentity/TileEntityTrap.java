@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityInventoryBase;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +18,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -43,11 +43,11 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     public void setDisabledStatus(boolean isDisabled) {
         this.isDisabled = isDisabled;
-        IBlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         world.notifyBlockUpdate(pos, state, state, 3);
     }
 
-    AxisAlignedBB getFacingBoxWithRange(EnumFacing facing, int range) {
+    AxisAlignedBB getFacingBoxWithRange(Direction facing, int range) {
         BlockPos pos = getPos();
         Vec3i dir = facing.getDirectionVec();
         return new AxisAlignedBB(pos).expand(dir.getX() * range, dir.getY() * range, dir.getZ() * range);
@@ -60,7 +60,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         boolean canDamageEntity = false;
 
         if (!this.isDisabled && this.isBurning()) {
-            EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
+            Direction facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
@@ -109,7 +109,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
         }
     }
 
-    protected void triggerTrap(EnumFacing facing, LivingEntity livingBase) {
+    protected void triggerTrap(Direction facing, LivingEntity livingBase) {
     }
 
     boolean isBurning() {
@@ -215,7 +215,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
         return !this.isInsidePyramid && super.hasCapability(capability, facing);
     }
 }

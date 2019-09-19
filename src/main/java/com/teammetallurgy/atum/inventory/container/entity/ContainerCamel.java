@@ -217,7 +217,7 @@ public class ContainerCamel extends Container {
 
     @Override
     public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return this.camelInventory.isUsableByPlayer(player) && this.camel.isEntityAlive() && this.camel.getDistance(player) < 8.0F;
+        return this.camelInventory.isUsableByPlayer(player) && this.camel.isAlive() && this.camel.getDistance(player) < 8.0F;
     }
 
     @Override

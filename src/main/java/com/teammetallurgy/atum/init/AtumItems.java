@@ -46,10 +46,13 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
 
 @ObjectHolder(value = Constants.MOD_ID)
 public class AtumItems {
+    public static final Item PALM_STICK = registerItem(new SimpleItem(), "palm_stick");
+    public static final Item DEADWOOD_STICK = registerItem(new SimpleItem(), "deadwood_stick");
     public static final Item DUST_BONE_STICK = registerItem(new SimpleItem(), "dusty_bone_stick");
     public static final Item KHNUMITE = registerItem(new SimpleItem(), "khnumite");
     public static final Item DIRTY_COIN = registerItem(new CoinItem(), "coin_dirty");
     public static final Item GOLD_COIN = registerItem(new CoinItem(), "coin_gold");
+    public static final LootItem RELICS = LootItem.createRelics();
     public static final Item EFREET_HEART = registerItem(new SimpleItem(), "efreet_heart");
     public static final Item SCARAB = registerItem(new ScarabItem(), "scarab");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");
@@ -71,6 +74,7 @@ public class AtumItems {
     public static final Item STONEGUARD_KHOPESH = registerItem(new KhopeshItem(AtumMats.KHNUMITE), "stoneguard_khopesh");
     public static final Item STONEGUARD_SHIELD = registerItem(new AtumShieldItem(90).setRepairItem(KHNUMITE), "stoneguard_shield");
     public static final Item BRIGAND_SHIELD = registerItem(new AtumShieldItem(150), "brigand_shield");
+    public static final ScepterItem SCEPTERS = ScepterItem.registerScepters(); //TODO Test if this works
     public static final Item EYES_OF_ATUM = registerItem(new EyesOfAtumItem(), "eyes_of_atum");
     public static final Item BODY_OF_ATUM = registerItem(new BodyOfAtumItem(), "body_of_atum");
     public static final Item LEGS_OF_ATUM = registerItem(new LegsOfAtumItem(), "legs_of_atum");
@@ -137,7 +141,6 @@ public class AtumItems {
     public static final Item CAMEL_IRON_ARMOR = registerItem(new NonStackableItem(), "camel_iron_armor");
     public static final Item CAMEL_GOLD_ARMOR = registerItem(new NonStackableItem(), "camel_gold_armor");
     public static final Item CAMEL_DIAMOND_ARMOR = registerItem(new NonStackableItem(), "camel_diamond_armor");
-    public static final Item GRAVEROBBERS_MAP = registerItem(new GraverobbersMapItem(), "graverobbers_map");
     public static final Item DISENCHANTING_SCROLL = registerItem(new SimpleItem(), "disenchanting_scroll");
     public static final Item SCROLL = registerItem(new SimpleItem(), "scroll");
     public static final Item SCRAP = registerItem(new SimpleItem(), "cloth_scrap");
@@ -173,16 +176,14 @@ public class AtumItems {
     public static final Item CRUNCHY_GOLD_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_GOLD_SCARAB)), "crunchy_golden_scarab");
 
     /*public static void registerAdditionalItems() { //TODO
-        BlockAtumPlank.registerSticks()
-        ItemLoot.createLootItems()
         registerBlock(AtumBlocks.HEART_OF_RA, new Item.Properties().group(Atum.GROUP), "heart_of_ra")
-        ItemScepter.registerScepters()
     }*/
 
     public static void setItemInfo() {
         //OreDictHelper.add(SCROLL, "paper"); //TODO
         //OreDictHelper.add(EMMER_DOUGH, "foodDough"); //TODO
         //OreDictHelper.add(new ItemStack(EMMER_BREAD), "foodBread", "bread"); //TODO
+        //OreDictHelper.add(EMMER_FLOUR, "foodFlour");
 
         MinecraftForge.EVENT_BUS.register(GEBS_MIGHT);
     }

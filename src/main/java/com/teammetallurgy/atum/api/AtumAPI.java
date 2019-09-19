@@ -14,6 +14,7 @@ public class AtumAPI {
 
     public static class Tags {
         public static final Tag<Item> DUSTS_BLAZE = tag("forge", "dusts/blaze");
+        public static final Tag<Item> RELIC = tag(Constants.MOD_ID, "relic");
         public static final Tag<Item> TOOLTIP = tag(Constants.MOD_ID, "tooltip");
 
         public static Tag<Item> tag(String modID, String name) {

@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.blocks.stone.ceramic;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -40,17 +40,17 @@ public class BlockCeramicTile extends BlockCeramic {
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return TILE_AABB;
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
@@ -60,11 +60,11 @@ public class BlockCeramicTile extends BlockCeramic {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         this.checkForDrop(worldIn, pos, state);
     }
 
-    private boolean checkForDrop(World world, BlockPos pos, IBlockState state) {
+    private boolean checkForDrop(World world, BlockPos pos, BlockState state) {
         if (!this.canBlockStay(world, pos)) {
             this.dropBlockAsItem(world, pos, state, 0);
             world.setBlockToAir(pos);
@@ -80,8 +80,8 @@ public class BlockCeramicTile extends BlockCeramic {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing facing) {
-        if (facing == EnumFacing.UP) {
+    public boolean shouldSideBeRendered(BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, Direction facing) {
+        if (facing == Direction.UP) {
             return true;
         } else {
             return world.getBlockState(pos.offset(facing)).getBlock() == this || super.shouldSideBeRendered(state, world, pos, facing);
@@ -90,7 +90,7 @@ public class BlockCeramicTile extends BlockCeramic {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
-        return face == EnumFacing.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction face) {
+        return face == Direction.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 }

@@ -7,11 +7,11 @@ import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -87,8 +87,8 @@ public class WorldGenAtumDungeons extends WorldGenerator {
                     if (world.isAirBlock(chestPos)) {
                         int j3 = 0;
 
-                        for (EnumFacing enumfacing : EnumFacing.Plane.HORIZONTAL) {
-                            if (world.getBlockState(chestPos.offset(enumfacing)).getMaterial().isSolid()) {
+                        for (Direction Direction : Direction.Plane.HORIZONTAL) {
+                            if (world.getBlockState(chestPos.offset(Direction)).getMaterial().isSolid()) {
                                 ++j3;
                             }
                         }

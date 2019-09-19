@@ -7,12 +7,12 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -44,7 +44,7 @@ public class BlockSpinningWheel extends BlockContainer {
         super(Material.WOOD);
         this.setHardness(1.2F);
         this.setHarvestLevel("axe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(SPOOL, 0).withProperty(WHEEL, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(SPOOL, 0).withProperty(WHEEL, false));
     }
 
     @Nullable
@@ -74,7 +74,7 @@ public class BlockSpinningWheel extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
         ItemStack heldStack = player.getHeldItem(hand);
 
@@ -84,7 +84,7 @@ public class BlockSpinningWheel extends BlockContainer {
             if (facing == state.getValue(FACING)) {
                 this.output(world, pos, player, spinningWheel);
             } else {
-                if (facing == EnumFacing.UP) {
+                if (facing == Direction.UP) {
                     if (spinningWheel.isEmpty() && !heldStack.isEmpty() && spinningWheel.isItemValidForSlot(0, heldStack) && state.getValue(SPOOL) < 3) {
                         ItemStack copyStack = new ItemStack(heldStack.getItem(), 1, heldStack.getMetadata());
                         boolean canInsert = false;
@@ -144,7 +144,7 @@ public class BlockSpinningWheel extends BlockContainer {
     }
 
     public void output(World world, BlockPos pos, @Nullable PlayerEntity player, TileEntitySpinningWheel spinningWheel) {
-        IBlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         if (state.getValue(SPOOL) == 3) {
             if (!world.isRemote && player != null) {
                 StackHelper.giveItem(player, Hand.MAIN_HAND, spinningWheel.getStackInSlot(1));
@@ -159,12 +159,12 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.SPINNING_WHEEL);
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntitySpinningWheel) {
             InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
@@ -174,13 +174,13 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntitySpinningWheel) {
             return state.withProperty(WHEEL, ((TileEntitySpinningWheel) tileEntity).wheel);
@@ -190,18 +190,18 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
+    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
         return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.byHorizontalIndex(meta & 3)).withProperty(SPOOL, (meta & 15) >> 2);
+    public BlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, Direction.byHorizontalIndex(meta & 3)).withProperty(SPOOL, (meta & 15) >> 2);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int meta = 0;
         meta = meta | state.getValue(FACING).getHorizontalIndex();
         meta = meta | state.getValue(SPOOL) << 2;
@@ -210,13 +210,13 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rotation) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
         return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirror) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
         return state.withRotation(mirror.toRotation(state.getValue(FACING)));
     }
 

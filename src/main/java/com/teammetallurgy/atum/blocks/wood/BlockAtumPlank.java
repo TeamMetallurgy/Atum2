@@ -2,13 +2,12 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +17,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Objects;
 
-public class BlockAtumPlank extends Block implements IOreDictEntry {
+public class BlockAtumPlank extends Block {
     private static final Map<WoodType, Block> PLANKS = Maps.newEnumMap(WoodType.class);
     private static final Map<WoodType, Item> STICKS = Maps.newEnumMap(WoodType.class);
 
@@ -41,27 +40,14 @@ public class BlockAtumPlank extends Block implements IOreDictEntry {
         return PLANKS.get(type);
     }
 
-    public static void registerSticks() {
-        for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            Item stick = new Item();
-            STICKS.put(type, stick);
-            AtumRegistry.registerItem(stick, type.getName() + "Stick");
-            OreDictHelper.add(stick, "stickWood");
-        }
-    }
-
-    public static Item getStick(WoodType type) {
-        return STICKS.get(type);
-    }
-
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
         return WoodType.byIndex(WoodType.values().length).getMapColor();
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return 0;
     }
 

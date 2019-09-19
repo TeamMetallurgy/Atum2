@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.proxy;
+package com.teammetallurgy.atum.utils;
 
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
@@ -8,8 +8,6 @@ import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.client.TextureManagerParticles;
-import com.teammetallurgy.atum.client.TextureMapParticles;
 import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
 import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
 import com.teammetallurgy.atum.client.model.entity.ModelNomad;
@@ -35,12 +33,10 @@ import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
 import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.model.ModelZombie;
@@ -50,7 +46,6 @@ import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.RenderArrow;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
@@ -66,32 +61,24 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
-public class ClientProxy extends CommonProxy {
-    public static AtumParticles atumParticles;
+public class ClientHandler {
 
-    @Override
-    public void init() {
-        //TextureMap Particles
-        atumParticles = new AtumParticles();
-        TextureManagerParticles managerParticles = TextureManagerParticles.INSTANCE;
-        TextureMapParticles textureMap = managerParticles.getTextureMap();
-        Minecraft.getInstance().renderEngine.loadTickableTexture(TextureManagerParticles.LOCATION_PARTICLES, textureMap);
-
+    public static void init() {
         //Colors
-        BlockColors blockColors = Minecraft.getMinecraft().getBlockColors();
-        ItemColors itemColor = Minecraft.getMinecraft().getItemColors();
+        BlockColors blockColors = Minecraft.getInstance().getBlockColors();
+        ItemColors itemColor = Minecraft.getInstance().getItemColors();
         //Palm Leave color
         itemColor.registerItemColorHandler((stack, tintIndex) -> {
-            IBlockState state = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
-            return Minecraft.getMinecraft().getBlockColors().colorMultiplier(state, null, null, tintIndex);
+            BlockState state = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
+            return Minecraft.getInstance().getBlockColors().colorMultiplier(state, null, null, tintIndex);
         }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         //Dyeable armor
         itemColor.registerItemColorHandler((stack, tintIndex) -> tintIndex > 0 ? -1 : ((TexturedArmorItem) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
         //Dead Grass
         itemColor.registerItemColorHandler((stack, tintIndex) -> {
-            IBlockState iblockstate = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
-            return blockColors.colorMultiplier(iblockstate, null, null, tintIndex);
+            BlockState BlockState = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
+            return blockColors.colorMultiplier(BlockState, null, null, tintIndex);
         }, AtumBlocks.DEAD_GRASS);
         blockColors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
             if (worldIn != null && pos != null) {
@@ -154,10 +141,5 @@ public class ClientProxy extends CommonProxy {
                 ModelLoader.setCustomStateMapper(block, stateMapper);
             }
         }
-    }
-
-    @Override
-    public void spawnParticle(AtumParticles.Types particleType, Entity entity, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-        ClientProxy.atumParticles.addEffect(ClientProxy.atumParticles.spawnEffectParticle(particleType.getParticleName(), Minecraft.getMinecraft().world, x, y, z, xSpeed, ySpeed, zSpeed));
     }
 }

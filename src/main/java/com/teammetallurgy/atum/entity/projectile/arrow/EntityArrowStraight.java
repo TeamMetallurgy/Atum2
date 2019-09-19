@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -10,8 +10,8 @@ import net.minecraft.world.World;
 public class EntityArrowStraight extends CustomArrow {
     private float velocity;
 
-    public EntityArrowStraight(World world) {
-        super(world);
+    public EntityArrowStraight(EntityType<? extends CustomArrow> entityType, World world) {
+        super(entityType, world);
     }
 
     public EntityArrowStraight(World world, LivingEntity shooter, float velocity) {
@@ -20,19 +20,19 @@ public class EntityArrowStraight extends CustomArrow {
     }
 
     @Override
-    public void onUpdate() {
+    public void tick() {
         if (!world.isRemote) {
-            super.onUpdate();
+            super.tick();
         }
 
         if (this.velocity == 1.0F) {
-            this.motionY += 0.05;
+            this.getMotion().add(0.0D, 0.05D, 0.0D);
             if (!this.inGround && ticksExisted > 300) {
-                this.setDead();
+                this.remove();
             }
 
-            if (shootingEntity instanceof LivingEntity && !inGround && velocity == 1.0F && this.isEntityAlive()) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+            if (this.getShooter() instanceof LivingEntity && !inGround && velocity == 1.0F && this.isAlive()) {
+                world.addParticle(AtumParticles.HORUS, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
             }
         }
     }

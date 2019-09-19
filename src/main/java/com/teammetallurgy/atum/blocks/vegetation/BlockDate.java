@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.BushBlock;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.IntegerProperty;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -41,7 +41,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     @SuppressWarnings("all")
-    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+    public float getBlockHardness(BlockState state, World world, BlockPos pos) {
         if (state.getValue(AGE) != 3) {
             this.blockHardness = 0.25F;
         }
@@ -50,7 +50,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         if (state.getValue(AGE) == 0) {
             return STEM;
         }
@@ -58,7 +58,7 @@ public class BlockDate extends BushBlock implements IGrowable {
     }
 
     @Override
-    public void updateTick(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
+    public void updateTick(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, Random rand) {
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
             if (!world.isAreaLoaded(pos, 1)) return;
@@ -72,16 +72,16 @@ public class BlockDate extends BushBlock implements IGrowable {
     }
 
     @Override
-    public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
+    public boolean canBlockStay(World world, BlockPos pos, BlockState state) {
         if (state.getBlock() == this) {
-            IBlockState stateUp = world.getBlockState(pos.up());
+            BlockState stateUp = world.getBlockState(pos.up());
             return stateUp.getBlock().isLeaves(stateUp, world, pos.up());
         }
         return this.canSustainBush(world.getBlockState(pos.down()));
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         if (state.getValue(AGE) == 7) {
             dropBlockAsItem(world, pos, state, 0);
             return world.setBlockState(pos, this.getDefaultState());
@@ -90,7 +90,7 @@ public class BlockDate extends BushBlock implements IGrowable {
     }
 
     @Override
-    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull BlockState state, int fortune) {
         if (state.getValue(AGE) == 7) {
             super.getDrops(drops, world, pos, state, fortune);
         }
@@ -98,7 +98,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return AtumItems.DATE;
     }
 
@@ -109,18 +109,18 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumItems.DATE);
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(AGE, meta);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(AGE);
     }
 
@@ -131,17 +131,17 @@ public class BlockDate extends BushBlock implements IGrowable {
     }
 
     @Override
-    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return state.getValue(AGE) != 7;
     }
 
     @Override
-    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         int growth = state.getValue(AGE) + MathHelper.getInt(rand, 1, 2);
         int maxAge = 7;
 

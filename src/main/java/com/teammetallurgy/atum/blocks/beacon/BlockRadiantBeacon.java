@@ -6,19 +6,19 @@ import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBeacon;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -47,13 +47,13 @@ public class BlockRadiantBeacon extends BlockBeacon {
 
     @Override
     @Nonnull
-    public Material getMaterial(IBlockState state) {
+    public Material getMaterial(BlockState state) {
         return Material.GLASS;
     }
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
         return MapColor.getBlockColor(state.getValue(COLOR));
     }
 
@@ -70,7 +70,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
     }
 
     @Override
-    public boolean onBlockActivated(World world, @Nonnull BlockPos pos, IBlockState state, @Nonnull PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, @Nonnull BlockPos pos, BlockState state, @Nonnull PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         ItemStack heldStack = player.getHeldItem(hand);
         if (heldStack.isEmpty()) {
             return false;
@@ -110,12 +110,12 @@ public class BlockRadiantBeacon extends BlockBeacon {
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(COLOR).getMetadata();
     }
 

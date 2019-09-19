@@ -31,7 +31,7 @@ public class AIBeg extends EntityAIBase {
 
     @Override
     public boolean shouldContinueExecuting() {
-        if (!this.player.isEntityAlive()) {
+        if (!this.player.isAlive()) {
             return false;
         } else if (this.desertWolf.getDistanceSq(this.player) > (double) (this.minPlayerDistance * this.minPlayerDistance)) {
             return false;

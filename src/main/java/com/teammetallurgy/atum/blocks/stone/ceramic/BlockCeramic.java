@@ -4,9 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -38,7 +38,7 @@ public class BlockCeramic extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
         return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase()));
     }
 
@@ -48,7 +48,7 @@ public class BlockCeramic extends Block {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return 0;
     }
 }

@@ -4,18 +4,15 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
@@ -35,7 +32,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class BlockCrate extends BlockContainer implements IOreDictEntry {
+public class BlockCrate extends BlockContainer {
     private static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final Map<BlockAtumPlank.WoodType, BlockCrate> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
@@ -43,7 +40,7 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
         super(Material.WOOD);
         this.setHardness(3.0F);
         this.setSoundType(SoundType.WOOD);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH));
     }
 
     public static void registerCrates() {
@@ -65,34 +62,34 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
         return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length).getMapColor();
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasCustomBreakingProgress(IBlockState state) {
+    public boolean hasCustomBreakingProgress(BlockState state) {
         return true;
     }
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return true;
         }
@@ -107,13 +104,13 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
+    public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, LivingEntity placer, ItemStack stack) {
-        EnumFacing facing = EnumFacing.byHorizontalIndex(MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        Direction facing = Direction.byHorizontalIndex(MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
         state = state.withProperty(FACING, facing);
         BlockPos posNorth = pos.north();
         BlockPos posSouth = pos.south();
@@ -126,8 +123,8 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
 
         if (!isNorth && !isSouth && !isWest && !isEast) {
             world.setBlockState(pos, state, 3);
-        } else if (facing.getAxis() != EnumFacing.Axis.X || !isNorth && !isSouth) {
-            if (facing.getAxis() == EnumFacing.Axis.Z && (isWest || isEast)) {
+        } else if (facing.getAxis() != Direction.Axis.X || !isNorth && !isSouth) {
+            if (facing.getAxis() == Direction.Axis.Z && (isWest || isEast)) {
                 if (isWest) {
                     world.setBlockState(posWest, state, 3);
                 } else {
@@ -153,7 +150,7 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
         super.neighborChanged(state, world, pos, blockIn, fromPos);
         TileEntity tileEntity = world.getTileEntity(pos);
 
@@ -163,7 +160,7 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof TileEntityCrate) {
@@ -173,7 +170,7 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
     }
 
     @Override
-    public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
+    public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
         if (tileEntity instanceof TileEntityCrate) {
             InventoryHelper.dropInventoryItems(world, pos, (TileEntityCrate) tileEntity);
             world.updateComparatorOutputLevel(pos, this);
@@ -182,19 +179,19 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
     }
 
     @Override
-    public boolean hasComparatorInputOverride(IBlockState state) {
+    public boolean hasComparatorInputOverride(BlockState state) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
+    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
         return Container.calcRedstoneFromInventory((TileEntityCrate) world.getTileEntity(pos));
     }
 
-    public IBlockState correctFacing(World world, BlockPos pos, IBlockState state) {
-        EnumFacing facingCheck = null;
-        for (EnumFacing horizontal : EnumFacing.Plane.HORIZONTAL) {
-            IBlockState stateHorizontal = world.getBlockState(pos.offset(horizontal));
+    public BlockState correctFacing(World world, BlockPos pos, BlockState state) {
+        Direction facingCheck = null;
+        for (Direction horizontal : Direction.Plane.HORIZONTAL) {
+            BlockState stateHorizontal = world.getBlockState(pos.offset(horizontal));
             if (stateHorizontal.getBlock() == this) {
                 return state;
             }
@@ -210,7 +207,7 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
         if (facingCheck != null) {
             return state.withProperty(FACING, facingCheck.getOpposite());
         } else {
-            EnumFacing facing = state.getValue(FACING);
+            Direction facing = state.getValue(FACING);
 
             if (world.getBlockState(pos.offset(facing)).isFullBlock()) {
                 facing = facing.getOpposite();
@@ -227,29 +224,29 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        EnumFacing facing = EnumFacing.byIndex(meta);
+    public BlockState getStateFromMeta(int meta) {
+        Direction facing = Direction.byIndex(meta);
 
-        if (facing.getAxis() == EnumFacing.Axis.Y) {
-            facing = EnumFacing.NORTH;
+        if (facing.getAxis() == Direction.Axis.Y) {
+            facing = Direction.NORTH;
         }
         return this.getDefaultState().withProperty(FACING, facing);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(FACING).getIndex();
     }
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
     
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirror) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
         return state.withRotation(mirror.toRotation(state.getValue(FACING)));
     }
 
@@ -261,7 +258,7 @@ public class BlockCrate extends BlockContainer implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing facing) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction facing) {
         return BlockFaceShape.UNDEFINED;
     }
 

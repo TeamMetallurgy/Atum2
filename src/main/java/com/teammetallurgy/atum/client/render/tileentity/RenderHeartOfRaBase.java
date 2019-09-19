@@ -26,7 +26,7 @@ public class RenderHeartOfRaBase extends TileEntitySpecialRenderer<TileEntityHea
         int yOffset = 0;
         for (int j = 0; j < EnumDyeColor.values().length - 1; ++j) {
             TileEntityBeacon.BeamSegment beam = new TileEntityBeacon.BeamSegment(EnumDyeColor.RED.getColorComponentValues());
-            TileEntityBeaconRenderer.renderBeamSegment(x, y, z, (double) partialTicks, 1.0F, heartOfRa.getWorld().getTotalWorldTime(), yOffset, 256 - heartOfRa.getPos().getY() - 16, beam.getColors());
+            TileEntityBeaconRenderer.renderBeamSegment(x, y, z, (double) partialTicks, 1.0F, heartOfRa.getWorld().getGameTime(), yOffset, 256 - heartOfRa.getPos().getY() - 16, beam.getColors());
             yOffset += beam.getHeight();
         }
         GlStateManager.enableFog();

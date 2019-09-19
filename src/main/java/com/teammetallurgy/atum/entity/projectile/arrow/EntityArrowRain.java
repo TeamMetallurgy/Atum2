@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.ResourceLocation;
@@ -12,8 +12,8 @@ public class EntityArrowRain extends CustomArrow {
     private float velocity;
     private boolean isSmallArrow = false;
 
-    public EntityArrowRain(World world) {
-        super(world);
+    public EntityArrowRain(EntityType<? extends EntityArrowRain> entityType, World world) {
+        super(entityType, world);
     }
 
     public EntityArrowRain(World world, LivingEntity shooter, float velocity) {
@@ -28,13 +28,13 @@ public class EntityArrowRain extends CustomArrow {
     }
 
     @Override
-    public void onUpdate() {
-        if (world.getTotalWorldTime() % (this.inGround ? 55L : 3L) == 0L) {
-            Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT_DROP, this, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+    public void tick() {
+        if (world.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
+            world.addParticle(AtumParticles.TEFNUT_DROP, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
         }
-        if (velocity == 1.0F && shootingEntity instanceof LivingEntity) {
+        if (velocity == 1.0F && this.getShooter() instanceof LivingEntity) {
             if (this.ticksInAir == 12) {
-                this.setDead();
+                this.remove();
                 if (!isSmallArrow) {
                     EntityArrowRain arrow1 = new EntityArrowRain(world, this.posX + 0.5D, this.posY, this.posZ);
 
@@ -46,15 +46,15 @@ public class EntityArrowRain extends CustomArrow {
 
                     EntityArrowRain arrow5 = new EntityArrowRain(world, this.posX, this.posY, this.posZ);
 
-                    world.spawnEntity(arrow1);
-                    world.spawnEntity(arrow2);
-                    world.spawnEntity(arrow3);
-                    world.spawnEntity(arrow4);
-                    world.spawnEntity(arrow5);
+                    world.addEntity(arrow1);
+                    world.addEntity(arrow2);
+                    world.addEntity(arrow3);
+                    world.addEntity(arrow4);
+                    world.addEntity(arrow5);
                 }
             }
         }
-        super.onUpdate();
+        super.tick();
     }
 
     @Override

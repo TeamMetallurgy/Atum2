@@ -10,7 +10,6 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -18,6 +17,8 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -48,6 +49,7 @@ public class AtumRegistry {
     private static final List<EntityType<?>> MOBS = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
+    private static final List<ParticleType> PARTICLES = Lists.newArrayList();
 
     /**
      * Registers an item
@@ -74,7 +76,6 @@ public class AtumRegistry {
 
     /**
      * Same as {@link AtumRegistry#registerBlock(Block, String)}, but allows for registering an BlockItem at the same time
-     *
      */
     public static Block registerBlock(@Nonnull Block block, BlockItem blockItem, @Nonnull String name) {
         registerItem(blockItem, AtumUtils.toRegistryName(name));
@@ -93,7 +94,7 @@ public class AtumRegistry {
         BLOCKS.add(block);
 
         if (block instanceof IRenderMapper && FMLCommonHandler.instance().getSide() == Dist.CLIENT) {
-            ClientProxy.ignoreRenderProperty(block);
+            ClientHandler.ignoreRenderProperty(block);
         }
         return block;
     }
@@ -101,7 +102,7 @@ public class AtumRegistry {
     /**
      * Registers a TileEntityType
      *
-     * @param name  The name to register the TileEntity with
+     * @param name    The name to register the TileEntity with
      * @param builder The TileEntityType builder
      * @return The TileEntity that was registered
      */
@@ -171,7 +172,7 @@ public class AtumRegistry {
     /**
      * Registers a sound
      *
-     * @param name  The name to register the sound with
+     * @param name The name to register the sound with
      * @return The Sound that was registered
      */
     public static SoundEvent registerSound(String name) {
@@ -180,6 +181,20 @@ public class AtumRegistry {
         sound.setRegistryName(resourceLocation);
         SOUNDS.add(sound);
         return sound;
+    }
+
+    /**
+     * Registers a particle
+     *
+     * @param name The name to register the sound with
+     * @return The Sound that was registered
+     */
+    public static BasicParticleType registerParticle(String name) {
+        ResourceLocation resourceLocation = new ResourceLocation(Constants.MOD_ID, name);
+        BasicParticleType particleType = new BasicParticleType(false);
+        particleType.setRegistryName(resourceLocation);
+        PARTICLES.add(particleType);
+        return particleType;
     }
 
     /**
@@ -242,7 +257,6 @@ public class AtumRegistry {
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         new AtumEntities();
 
-        int networkIdMob = 0;
         for (EntityEntry entry : MOBS) {
             Preconditions.checkNotNull(entry.getRegistryName(), "registryName");
             networkIdMob++;
@@ -265,7 +279,7 @@ public class AtumRegistry {
                     .name(AtumUtils.toUnlocalizedName(entry.getName()))
                     .build());
         }
-        
+
         EntityRegistry.instance().lookupModSpawn(EntityCamelSpit.class, true).setCustomSpawning(null, true);
     }
 
@@ -273,6 +287,13 @@ public class AtumRegistry {
     public static void registerSound(RegistryEvent.Register<SoundEvent> event) {
         for (SoundEvent sound : SOUNDS) {
             event.getRegistry().register(sound);
+        }
+    }
+
+    @SubscribeEvent
+    public static void registerParticle(RegistryEvent.Register<ParticleType<?>> event) {
+        for (ParticleType particleType : PARTICLES) {
+            event.getRegistry().register(particleType);
         }
     }
 }

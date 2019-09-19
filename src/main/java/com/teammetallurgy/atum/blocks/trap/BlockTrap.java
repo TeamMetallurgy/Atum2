@@ -4,12 +4,12 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,11 +38,11 @@ public abstract class BlockTrap extends BlockContainer {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(DISABLED, Boolean.FALSE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(DISABLED, Boolean.FALSE));
     }
 
     @Override
-    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+    public float getBlockHardness(BlockState state, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         return tileEntity instanceof TileEntityTrap && ((TileEntityTrap) tileEntity).isInsidePyramid ? -1.0F :  super.getBlockHardness(state, world, pos);
     }
@@ -54,7 +54,7 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return true;
         } else {
@@ -77,21 +77,21 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
                 if (world.isBlockPowered(pos)) {
                     this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, true);
                 } else if (!world.isBlockPowered(pos)) {
-                    world.scheduleUpdate(pos, this, 4);
+                    world.getPendingBlockTicks().scheduleTick(pos, this, 4);
                 }
             }
         }
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World world, BlockPos pos, BlockState state, Random rand) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
@@ -102,7 +102,7 @@ public abstract class BlockTrap extends BlockContainer {
         }
     }
 
-    private void setDisabled(World world, BlockPos pos, IBlockState state, TileEntityTrap trap, boolean disabledStatus) {
+    private void setDisabled(World world, BlockPos pos, BlockState state, TileEntityTrap trap, boolean disabledStatus) {
         trap.setDisabledStatus(disabledStatus);
         world.setBlockState(pos, state.withProperty(DISABLED, disabledStatus));
         world.notifyBlockUpdate(pos, state, state, 3);
@@ -110,34 +110,34 @@ public abstract class BlockTrap extends BlockContainer {
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
         super.onBlockAdded(world, pos, state);
         this.setDefaultDirection(world, pos, state);
     }
 
-    private void setDefaultDirection(World world, BlockPos pos, IBlockState state) {
+    private void setDefaultDirection(World world, BlockPos pos, BlockState state) {
         if (!world.isRemote) {
-            EnumFacing facing = state.getValue(FACING);
+            Direction facing = state.getValue(FACING);
             boolean isNorth = world.getBlockState(pos.north()).isFullBlock();
             boolean isSouth = world.getBlockState(pos.south()).isFullBlock();
 
-            if (facing == EnumFacing.NORTH && isNorth && !isSouth) {
-                facing = EnumFacing.SOUTH;
-            } else if (facing == EnumFacing.SOUTH && isSouth && !isNorth) {
-                facing = EnumFacing.NORTH;
+            if (facing == Direction.NORTH && isNorth && !isSouth) {
+                facing = Direction.SOUTH;
+            } else if (facing == Direction.SOUTH && isSouth && !isNorth) {
+                facing = Direction.NORTH;
             } else {
                 boolean isWest = world.getBlockState(pos.west()).isFullBlock();
                 boolean isEast = world.getBlockState(pos.east()).isFullBlock();
 
-                if (facing == EnumFacing.WEST && isWest && !isEast) {
-                    facing = EnumFacing.EAST;
-                } else if (facing == EnumFacing.EAST && isEast && !isWest) {
-                    facing = EnumFacing.WEST;
+                if (facing == Direction.WEST && isWest && !isEast) {
+                    facing = Direction.EAST;
+                } else if (facing == Direction.EAST && isEast && !isWest) {
+                    facing = Direction.WEST;
                 }
             }
             world.setBlockState(pos, state.getBlock().getDefaultState().withProperty(FACING, facing), 2);
@@ -145,8 +145,8 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        world.setBlockState(pos, state.withProperty(FACING, EnumFacing.getDirectionFromEntityLiving(pos, placer)), 2);
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        world.setBlockState(pos, state.withProperty(FACING, Direction.getDirectionFromEntityLiving(pos, placer)), 2);
 
         TileEntity tileentity = world.getTileEntity(pos);
 
@@ -159,7 +159,7 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileentity = world.getTileEntity(pos);
 
         if (tileentity instanceof TileEntityTrap) {
@@ -170,40 +170,40 @@ public abstract class BlockTrap extends BlockContainer {
     }
 
     @Override
-    public boolean canProvidePower(IBlockState state) {
+    public boolean canProvidePower(BlockState state) {
         return true;
     }
 
     @Override
-    public boolean hasComparatorInputOverride(IBlockState state) {
+    public boolean hasComparatorInputOverride(BlockState state) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(IBlockState blockState, World world, BlockPos pos) {
+    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
         return Container.calcRedstone(world.getTileEntity(pos));
     }
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rotation) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
         return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.byIndex(meta & 7)).withProperty(DISABLED, (meta & 8) > 0);
+    public BlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, Direction.byIndex(meta & 7)).withProperty(DISABLED, (meta & 8) > 0);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         i = i | state.getValue(FACING).getIndex();
 

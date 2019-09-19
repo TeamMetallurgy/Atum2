@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.items.food;
 
+import com.teammetallurgy.atum.Atum;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IStringSerializable;
@@ -10,7 +11,7 @@ public class FishItem extends Item {
     private final FishType fishType;
 
     public FishItem(FishType type) {
-        super();
+        super(new Item.Properties().group(Atum.GROUP));
         fishType = type;
     }
 

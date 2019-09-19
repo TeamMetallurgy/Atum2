@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumCreativeTab;
+import com.teammetallurgy.atum.utils.ClientHandler;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
@@ -55,6 +56,7 @@ public class Atum {
     }
 
     private void setupClient(FMLClientSetupEvent event) {
+        ClientHandler.init();
         IntegrationHandler.INSTANCE.clientSide();
     }
 

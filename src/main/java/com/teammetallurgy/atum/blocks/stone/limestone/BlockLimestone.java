@@ -6,12 +6,12 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -31,11 +31,11 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, float chance, int fortune) {
+    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
             EntityScarab scarab = new EntityScarab(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.spawnEntity(scarab);
+            world.addEntity(scarab);
             scarab.spawnExplosionParticle();
         }
         super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
@@ -43,7 +43,7 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(AtumBlocks.LIMESTONE_CRACKED);
     }
 
@@ -54,12 +54,12 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(HAS_SCARAB, meta > 0);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(HAS_SCARAB) ? 1 : 0;
     }
 

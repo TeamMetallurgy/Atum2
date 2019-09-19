@@ -1,12 +1,11 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -42,10 +41,10 @@ public class BodyOfAtumItem extends TexturedArmorItem {
         Entity target = event.getSource().getTrueSource();
         World world = entity.world;
 
-        if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATUM && target instanceof LivingEntity && ((LivingEntity) target).getCreatureAttribute() == EnumCreatureAttribute.UNDEAD) {
+        if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATUM && target instanceof LivingEntity && ((LivingEntity) target).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
             if (entity instanceof ServerPlayerEntity) {
                 for (int l = 0; l < 16; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + world.rand.nextDouble() * (double) entity.height, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
+                    entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + world.rand.nextDouble() * (double) entity.getHeight(), entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
                 }
             }
             event.setAmount(event.getAmount() / 2);

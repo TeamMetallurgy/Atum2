@@ -105,8 +105,8 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
     @Override
     @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.UNDEFINED;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.UNDEFINED;
     }
 
     @Override
@@ -145,8 +145,8 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
@@ -247,7 +247,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) { //Copied from EntityMob, to allow Efreet to attack
-        float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+        float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
         int knocback = 0;
 
         if (entity instanceof LivingEntity) {

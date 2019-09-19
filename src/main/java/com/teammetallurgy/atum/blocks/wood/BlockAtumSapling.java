@@ -7,15 +7,10 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockBush;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -57,17 +52,17 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return SAPLING_AABB;
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state) {
+    protected boolean canSustainBush(BlockState state) {
         return state.getBlock() == AtumBlocks.FERTILE_SOIL || state.getBlock() == Blocks.GRASS || state.getBlock() == Blocks.DIRT;
     }
 
     @Override
-    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
+    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, Random rand) {
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
 
@@ -78,7 +73,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
         }
     }
 
-    private void grow(World world, BlockPos pos, IBlockState state, Random random) {
+    private void grow(World world, BlockPos pos, BlockState state, Random random) {
         if (state.getValue(STAGE) == 0) {
             world.setBlockState(pos, state.cycleProperty(STAGE), 4);
         } else {
@@ -87,12 +82,12 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
     }
 
     @Override
-    public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
+    public boolean canBlockStay(World world, BlockPos pos, BlockState state) {
         Block blockDown = world.getBlockState(pos.down()).getBlock();
         return blockDown == AtumBlocks.FERTILE_SOIL || blockDown == Blocks.GRASS || blockDown == Blocks.DIRT;
     }
 
-    private void generateTree(World world, BlockPos pos, IBlockState state, Random rand) {
+    private void generateTree(World world, BlockPos pos, BlockState state, Random rand) {
         if (!TerrainGen.saplingGrowTree(world, rand, pos)) return;
         WorldGenerator generator = (rand.nextInt(10) == 0 ? new WorldGenBigTree(true) : new WorldGenTrees(true));
         int i = 0;
@@ -107,7 +102,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
                 break;
         }
 
-        IBlockState stateAir = Blocks.AIR.getDefaultState();
+        BlockState stateAir = Blocks.AIR.getDefaultState();
 
         if (flag) {
             world.setBlockState(pos.add(i, 0, j), stateAir, 4);
@@ -136,28 +131,28 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
     }
 
     @Override
-    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return (double) world.rand.nextFloat() < 0.45D;
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.grow(world, pos, state, rand);
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(STAGE, (meta & 8) >> 3);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         i = i | state.getValue(STAGE) << 3;
         return i;

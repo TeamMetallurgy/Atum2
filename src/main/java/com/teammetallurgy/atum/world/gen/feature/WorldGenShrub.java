@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockShrub;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -23,7 +23,7 @@ public class WorldGenShrub extends WorldGenerator {
     public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int size = random.nextInt(this.groupSize / 2) + this.groupSize / 2;
         do {
-            IBlockState state = world.getBlockState(pos);
+            BlockState state = world.getBlockState(pos);
             if (!state.getBlock().isAir(state, world, pos) && !state.getBlock().isLeaves(state, world, pos)) break;
             pos = pos.down();
         } while (pos.getY() > 0);

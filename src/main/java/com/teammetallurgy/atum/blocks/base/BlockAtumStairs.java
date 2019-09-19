@@ -10,9 +10,9 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.EnumDyeColor;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 
 import java.util.Map;
 
@@ -23,10 +23,10 @@ public class BlockAtumStairs extends BlockStairs {
     private static final Map<EnumDyeColor, Block> CERAMIC_STAIRS = Maps.newEnumMap(EnumDyeColor.class);
     private static final Map<BlockAtumPlank.WoodType, Block> WOOD_STAIRS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
-    public BlockAtumStairs(IBlockState modelState) {
+    public BlockAtumStairs(BlockState modelState) {
         super(modelState);
         this.useNeighborBrightness = true;
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT));
     }
 
     public static void registerLimestoneStairs() {

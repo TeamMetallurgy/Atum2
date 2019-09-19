@@ -4,15 +4,14 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStem;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -35,12 +34,12 @@ public class BlockFertileSoil extends Block implements IGrowable {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
         return MapColor.GRASS;
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random random) {
+    public void updateTick(World world, BlockPos pos, BlockState state, Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
@@ -48,7 +47,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
                 if (world.getBiome(pos) != AtumBiomes.OASIS) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
-            } else if (world.getBlockState(pos.up()).isSideSolid(world, pos, EnumFacing.DOWN)) {
+            } else if (world.getBlockState(pos.up()).isSideSolid(world, pos, Direction.DOWN)) {
                 if (world.rand.nextDouble() >= 0.5D) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
@@ -60,8 +59,8 @@ public class BlockFertileSoil extends Block implements IGrowable {
                         if (posGrow.getY() >= 0 && posGrow.getY() < 256 && !world.isBlockLoaded(posGrow) || !hasWater(world, posGrow)) {
                             return;
                         }
-                        IBlockState stateUp = world.getBlockState(posGrow.up());
-                        IBlockState stateGrow = world.getBlockState(posGrow);
+                        BlockState stateUp = world.getBlockState(posGrow.up());
+                        BlockState stateGrow = world.getBlockState(posGrow);
 
                         if (stateGrow.getBlock() == AtumBlocks.SAND && world.getLightFromNeighbors(posGrow.up()) >= 4 && stateUp.getLightOpacity(world, pos.up()) <= 2) {
                             world.setBlockState(posGrow, AtumBlocks.FERTILE_SOIL.getDefaultState());
@@ -82,8 +81,8 @@ public class BlockFertileSoil extends Block implements IGrowable {
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull EnumFacing direction, IPlantable plantable) {
-        IBlockState plant = plantable.getPlant(world, pos.offset(direction));
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
+        BlockState plant = plantable.getPlant(world, pos.offset(direction));
         EnumPlantType plantType = plantable.getPlantType(world, pos.up());
 
         boolean hasWater = (world.getBlockState(pos.east()).getMaterial() == Material.WATER ||
@@ -110,13 +109,13 @@ public class BlockFertileSoil extends Block implements IGrowable {
 
     @Override
     @Nonnull
-    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
+    protected ItemStack getSilkTouchDrop(@Nonnull BlockState state) {
         return new ItemStack(AtumBlocks.FERTILE_SOIL);
     }
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return AtumItems.FERTILE_SOIL_PILE;
     }
 
@@ -126,17 +125,17 @@ public class BlockFertileSoil extends Block implements IGrowable {
     }
 
     @Override
-    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         BlockPos posUp = pos.up();
 
         for (int amount = 0; amount < 36; ++amount) {
@@ -147,7 +146,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
                 if (amountCheck >= amount / 16) {
                     if (world.isAirBlock(up)) {
                         if (rand.nextDouble() <= 75) {
-                            IBlockState grassState = AtumBlocks.OASIS_GRASS.getDefaultState();
+                            BlockState grassState = AtumBlocks.OASIS_GRASS.getDefaultState();
                             if (AtumBlocks.OASIS_GRASS.canBlockStay(world, up, grassState)) {
                                 world.setBlockState(up, grassState, 3);
                             }

@@ -2,12 +2,12 @@ package com.teammetallurgy.atum.blocks.base.tileentity;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -29,11 +29,11 @@ public class TileEntityChestBase extends ChestTileEntity {
     }
 
     @Override
-    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newState) {
+    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull BlockState oldState, @Nonnull BlockState newState) {
         return oldState.getBlock() != newState.getBlock();
     }
 
-    private void setNeighbor(TileEntityChest chest, EnumFacing side) {
+    private void setNeighbor(TileEntityChest chest, Direction side) {
         if (chest.isInvalid()) {
             adjacentChestChecked = false;
         } else if (adjacentChestChecked) {
@@ -63,7 +63,7 @@ public class TileEntityChestBase extends ChestTileEntity {
 
     @Nullable
     @Override
-    protected TileEntityChest getAdjacentChest(@Nonnull EnumFacing side) {
+    protected TileEntityChest getAdjacentChest(@Nonnull Direction side) {
         BlockPos pos = this.pos.offset(side);
 
         if (isChestAt(pos) && this.canBeDouble) {
@@ -105,7 +105,7 @@ public class TileEntityChestBase extends ChestTileEntity {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (!this.canBeDouble) {
             return (T) getSingleChestHandler();
         }

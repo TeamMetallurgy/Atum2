@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.utils.StackHelper;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.IMerchant;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -16,7 +17,6 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -181,7 +181,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
 
         if (recipe.getRewardsExp()) {
-            this.world.spawnEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
+            this.world.addEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
         }
     }
 
@@ -231,7 +231,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
                 double modifier = 1.0D;
                 if (type == LootItem.Type.NECKLACE) {
                     modifier = 2.0D;
-                } else if (type == LootItem.Type.BROACH) {
+                } else if (type == LootItem.Type.BROOCH) {
                     modifier = 2.5D;
                 } else if (type == LootItem.Type.SCEPTER) {
                     modifier = 3.0D;
@@ -247,7 +247,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
             } else {
                 return super.processInteract(player, hand);
             }
-        } else if (!this.holdingSpawnEggOfClass(heldStack, this.getClass()) && this.isEntityAlive() && !this.isTrading() && !this.isChild() && !player.isSneaking()) {
+        } else if (!this.holdingSpawnEggOfClass(heldStack, this.getClass()) && this.isAlive() && !this.isTrading() && !this.isChild() && !player.isSneaking()) {
             if (this.buyingList == null) {
                 this.populateBuyingList();
             }
@@ -283,7 +283,7 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
 
         if (amount > 0) {
             if (world.isRemote) {
-                this.spawnParticles(EnumParticleTypes.VILLAGER_HAPPY);
+                this.addParticles(EnumParticleTypes.VILLAGER_HAPPY);
                 this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
             }
 
@@ -295,12 +295,12 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @OnlyIn(Dist.CLIENT)
-    private void spawnParticles(EnumParticleTypes particleType) {
+    private void addParticles(EnumParticleTypes particleType) {
         for (int amount = 0; amount < 5; ++amount) {
             double x = this.rand.nextGaussian() * 0.02D;
             double y = this.rand.nextGaussian() * 0.02D;
             double z = this.rand.nextGaussian() * 0.02D;
-            this.world.spawnParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 1.0D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, x, y, z);
+            this.world.addParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.posY + 1.0D + (double) (this.rand.nextFloat() * this.getHeight()), this.posZ + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), x, y, z);
         }
     }
 

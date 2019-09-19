@@ -1,31 +1,19 @@
 package com.teammetallurgy.atum.items.tools;
 
+import com.teammetallurgy.atum.Atum;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.AxeItem;
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 public class BattleAxeItem extends AxeItem {
 
-    protected BattleAxeItem() {
-        super(ToolMaterial.DIAMOND);
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
+    public BattleAxeItem(IItemTier tier, float attackDamage, float attackSpeed, Item.Properties properties) {
+        super(tier, attackDamage, attackSpeed, properties.group(Atum.GROUP));
     }
 
     @Override

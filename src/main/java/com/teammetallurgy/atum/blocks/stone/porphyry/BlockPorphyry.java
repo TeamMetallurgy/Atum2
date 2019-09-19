@@ -1,13 +1,12 @@
 package com.teammetallurgy.atum.blocks.stone.porphyry;
 
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.ItemStack;
 
-public class BlockPorphyry extends Block implements IOreDictEntry {
+public class BlockPorphyry extends Block {
 
     public BlockPorphyry() {
         super(Material.ROCK, MapColor.BLACK);

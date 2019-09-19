@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AtumShieldItem;
@@ -54,7 +53,7 @@ public class AtumsProtectionItem extends AtumShieldItem {
             trueSource.setFire(8);
             trueSource.attackEntityFrom(DamageSource.GENERIC, 2.0F);
             for (int l = 0; l < 26; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, entity, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + random.nextDouble() * (double) entity.height, entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
+                entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + random.nextDouble() * (double) entity.getHeight(), entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
             }
             isBlocking = false;
         }

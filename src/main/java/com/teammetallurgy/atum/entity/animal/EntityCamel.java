@@ -15,6 +15,7 @@ import com.teammetallurgy.atum.world.biome.BiomeOasis;
 import com.teammetallurgy.atum.world.biome.BiomeSandDunes;
 import com.teammetallurgy.atum.world.biome.BiomeSandPlains;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -22,10 +23,11 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.passive.AbstractHorse;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerHorseChest;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
@@ -173,8 +175,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
@@ -247,12 +249,12 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private void spit(LivingEntity target) {
         EntityCamelSpit camelSpit = new EntityCamelSpit(this.world, this);
         double d0 = target.posX - this.posX;
-        double d1 = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - camelSpit.posY;
+        double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - camelSpit.posY;
         double d2 = target.posZ - this.posZ;
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
         this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-        this.world.spawnEntity(camelSpit);
+        this.world.addEntity(camelSpit);
         this.didSpit = true;
     }
 
@@ -267,7 +269,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @Override
     public double getMountedYOffset() {
-        return (double) this.height * 0.78D;
+        return (double) this.getHeight() * 0.78D;
     }
 
     @Override
@@ -656,7 +658,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
             isEating = true;
         }
         if (this.isChild() && growthAmount > 0) {
-            this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, this.posY + 0.5D + (double) (this.rand.nextFloat() * this.height), this.posZ + (double) (this.rand.nextFloat() * this.width * 2.0F) - (double) this.width, 0.0D, 0.0D, 0.0D);
+            this.world.addParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.posY + 0.5D + (double) (this.rand.nextFloat() * this.getHeight()), this.posZ + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
 
             if (!this.world.isRemote) {
                 this.addGrowth(growthAmount);
@@ -698,12 +700,12 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     public boolean getCanSpawnHere() {
         int x = MathHelper.floor(this.posX);
-        int y = MathHelper.floor(this.getEntityBoundingBox().minY);
+        int y = MathHelper.floor(this.getBoundingBox().minY);
         int z = MathHelper.floor(this.posZ);
         BlockPos spawnPos = new BlockPos(x, y, z);
         Block spawnBlock = this.world.getBlockState(spawnPos.down()).getBlock();
         return (spawnBlock == AtumBlocks.SAND || spawnBlock == AtumBlocks.FERTILE_SOIL || spawnBlock == AtumBlocks.LIMESTONE_GRAVEL || spawnBlock == this.spawnableBlock) && this.world.getLight(spawnPos) > 8 &&
-                this.getBlockPathWeight(new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ)) >= 0.0F && this.world.getBlockState((new BlockPos(this)).down()).canEntitySpawn(this);
+                this.getBlockPathWeight(new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ)) >= 0.0F && this.world.getBlockState((new BlockPos(this)).down()).canEntitySpawn(this);
     }
 
     private IItemHandler itemHandler = null; // Initialized by initHorseChest above.
@@ -711,7 +713,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     @Override
     @Nullable
     @SuppressWarnings("unchecked")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) itemHandler;
         }
@@ -719,7 +721,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 

@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.vegetation;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFarmland;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -20,7 +20,7 @@ public class BlockEmmer extends BlockCrops {
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state) {
+    protected boolean canSustainBush(BlockState state) {
         return state.getBlock() instanceof BlockFarmland;
     }
 

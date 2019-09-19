@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.beacon;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 
@@ -16,7 +16,7 @@ public class BlockFramedRadiantBeacon extends BlockRadiantBeacon {
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(AtumBlocks.RADIANT_BEACON);
     }
 }

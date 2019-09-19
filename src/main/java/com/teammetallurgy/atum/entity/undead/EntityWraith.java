@@ -91,8 +91,8 @@ public class EntityWraith extends EntityUndeadBase {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
         if (!this.world.isRemote) {
             this.setBesideClimbableBlock(this.collidedHorizontally);
         }
@@ -172,7 +172,7 @@ public class EntityWraith extends EntityUndeadBase {
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return (double) (4.0F + attackTarget.width);
+            return (double) (4.0F + attacktarget.getWidth());
         }
     }
 

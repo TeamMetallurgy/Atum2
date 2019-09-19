@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.network;
 
 import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
-import com.teammetallurgy.atum.network.packet.PacketParticle;
 import com.teammetallurgy.atum.network.packet.PacketStormStrength;
 import com.teammetallurgy.atum.network.packet.PacketWeather;
 import com.teammetallurgy.atum.utils.Constants;
@@ -19,7 +18,6 @@ public class NetworkHandler {
 
     public static void register() {
         lastDiscriminator++;
-        registerPacket(PacketParticle.class, Dist.CLIENT);
         registerPacket(PacketOpenWolfGui.class, Dist.SERVER);
         registerPacket(PacketWeather.class, Dist.CLIENT);
         registerPacket(PacketStormStrength.class, Dist.CLIENT);

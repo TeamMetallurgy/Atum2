@@ -199,12 +199,12 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public boolean getCanSpawnHere() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        BlockPos pos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
         if (pos.getY() <= 62 || !this.world.getGameRules().getBoolean("doMobSpawning")) {
             return false;
         } else {
             return this.world.getBlockState(pos.down()) == AtumBlocks.SAND.getDefaultState() && this.world.getLight(pos) > 8 && this.world.canBlockSeeSky(pos) &&
-                    this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getEntityBoundingBox());
+                    this.world.checkNoEntityCollision(this.getBoundingBox()) && this.world.getCollisionBoxes(this, this.getBoundingBox()).isEmpty() && !this.world.containsAnyLiquid(this.getBoundingBox());
         }
     }
 
@@ -275,8 +275,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
@@ -329,13 +329,13 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
             }
 
             if (this.timeWolfIsShaking > 0.4F) {
-                float y = (float) this.getEntityBoundingBox().minY;
+                float y = (float) this.getBoundingBox().minY;
                 int shakingTime = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
 
                 for (int j = 0; j < shakingTime; ++j) {
-                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                    this.world.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f1, (double) (y + 0.8F), this.posZ + (double) f2, this.motionX, this.motionY, this.motionZ);
+                    float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                    float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                    this.world.addParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double) f1, (double) (y + 0.8F), this.posZ + (double) f2, this.motionX, this.motionY, this.motionZ);
                 }
             }
         }
@@ -388,7 +388,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public float getEyeHeight() {
-        return this.height * 0.8F;
+        return this.getHeight() * 0.8F;
     }
 
     @Override
@@ -425,7 +425,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) {
-        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()));
+        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue()));
 
         if (shouldAttack) {
             this.applyEnchantments(this, entity);
@@ -546,7 +546,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @OnlyIn(Dist.CLIENT)
     public static void openInventoryOverride(GuiOpenEvent event) {
         if (event.getGui() instanceof GuiInventory) {
-            PlayerEntity player = Minecraft.getMinecraft().player;
+            PlayerEntity player = Minecraft.getInstance().player;
             if (player.getRidingEntity() instanceof EntityDesertWolf) {
                 EntityDesertWolf desertWolf = (EntityDesertWolf) player.getRidingEntity();
                 if (player.getUniqueID() == player.getUniqueID()) {
@@ -911,7 +911,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                 this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
                 if (this.canPassengerSteer()) {
-                    this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getAttributeValue() * 0.80F);
+                    this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 0.80F);
                     super.travel(strafe, vertical, forward);
                 } else if (livingBase instanceof PlayerEntity) {
                     this.motionX = 0.0D;
@@ -948,7 +948,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     private double getWolfJumpStrength() {
-        return this.getAttribute(JUMP_STRENGTH).getAttributeValue();
+        return this.getAttribute(JUMP_STRENGTH).getValue();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -1013,7 +1013,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     @Override
     @Nullable
     @SuppressWarnings("unchecked")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return (T) itemHandler;
         }
@@ -1021,7 +1021,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
         return capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY || super.hasCapability(capability, facing);
     }
 

@@ -4,12 +4,12 @@ import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -36,22 +36,22 @@ public class BlockQuern extends BlockContainer {
     public BlockQuern() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH));
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return AABB;
     }
 
@@ -82,7 +82,7 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         if (player == null || player instanceof FakePlayer) return true;
         ItemStack heldStack = player.getHeldItem(hand);
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -112,7 +112,7 @@ public class BlockQuern extends BlockContainer {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityQuern) {
             InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
@@ -122,35 +122,35 @@ public class BlockQuern extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
+    public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        EnumFacing facing = EnumFacing.byIndex(meta);
+    public BlockState getStateFromMeta(int meta) {
+        Direction facing = Direction.byIndex(meta);
 
-        if (facing.getAxis() == EnumFacing.Axis.Y) {
-            facing = EnumFacing.NORTH;
+        if (facing.getAxis() == Direction.Axis.Y) {
+            facing = Direction.NORTH;
         }
         return this.getDefaultState().withProperty(FACING, facing);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(FACING).getIndex();
     }
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirrorIn) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
         return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
     }
 
@@ -162,18 +162,18 @@ public class BlockQuern extends BlockContainer {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing facing) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction facing) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
-    public boolean hasCustomBreakingProgress(IBlockState state) {
+    public boolean hasCustomBreakingProgress(BlockState state) {
         return true;
     }
 }

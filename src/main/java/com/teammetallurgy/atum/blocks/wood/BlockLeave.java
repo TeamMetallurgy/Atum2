@@ -7,11 +7,11 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -20,7 +20,7 @@ import net.minecraft.item.Items;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -57,7 +57,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     @Override
-    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, Random rand) {
+    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, Random rand) {
         if (BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM) {
             if (!world.isRemote) {
                 if (state.getValue(CHECK_DECAY) && state.getValue(DECAYABLE)) {
@@ -86,7 +86,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     private boolean isValidLocation(@Nonnull World worldIn, @Nonnull BlockPos pos) {
-        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+        for (Direction facing : Direction.HORIZONTALS) {
             BlockPos check = pos.offset(facing);
             if (worldIn.getBlockState(check).getBlock() == AtumBlocks.PALM_LOG) {
                 return true;
@@ -97,18 +97,18 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull EnumFacing facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
+    public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
         return this.getDefaultState().withProperty(CHECK_DECAY, false).withProperty(DECAYABLE, false);
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(DECAYABLE, (meta & 1) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
 
         if (!state.getValue(DECAYABLE)) {
@@ -133,7 +133,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     @Override
-    public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull IBlockState state, TileEntity te, @Nonnull ItemStack stack) {
+    public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull BlockState state, TileEntity te, @Nonnull ItemStack stack) {
         if (!world.isRemote && stack.getItem() == Items.SHEARS) {
             player.addStat(Objects.requireNonNull(StatList.getBlockStats(this)));
         } else {
@@ -142,13 +142,13 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     @Override
-    protected int getSaplingDropChance(IBlockState state) {
+    protected int getSaplingDropChance(BlockState state) {
         return 10;
     }
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM ? Item.getItemFromBlock(Block.REGISTRY.getObject(new ResourceLocation(String.valueOf(state.getBlock().getRegistryName()).replace("leaves", "sapling")))) : Items.AIR;
     }
 
@@ -171,7 +171,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return Blocks.LEAVES.getDefaultState().isOpaqueCube();
     }
 
@@ -181,17 +181,17 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     }
 
     @Override
-    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+    public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM && state.getValue(DECAYABLE) && isValidLocation(world, pos.down()) && world.isAirBlock(pos.down());
     }
 
     @Override
-    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length) == BlockAtumPlank.WoodType.PALM;
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         if (canGrow(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
             world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
         }

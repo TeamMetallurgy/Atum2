@@ -1,0 +1,23 @@
+modLoader="javafml"
+loaderVersion="[28,)"
+
+[[mods]]
+    modId="atum"
+    version="${file.jarVersion}"
+    displayName="Atum 2"
+    displayURL="http://minecraft.curseforge.com/projects/atum"
+    issueTrackerURL="https://github.com/TeamMetallurgy/Atum2/issues"
+    authors="Shadowclaimer, Girafi, RebelKeithy"
+    credits="Glassmaker, lclc98, KanonBaum, Logomaster256 & DragonChef"
+    description='''
+    Atum 2 is a dimension mod that opens up a whole new desert dimension that contains an eternal world full of sand, temples, and tons of new foes.
+    Journey into Atum and discover ancient artifacts as you battle your way through vicious new enemies!
+    Atum is not for the faint of heart! Bring your best armor, weapon, and food/torches before you embark!
+    '''
+
+[[dependencies.atum]]
+    modId="forge"
+    mandatory=true
+    versionRange="[28.1,)"
+    ordering="AFTER"
+    side="BOTH"

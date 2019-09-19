@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.EntityPigZombie;
@@ -128,8 +128,8 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
@@ -168,13 +168,13 @@ public class EntityUndeadBase extends MonsterEntity {
 
     @Override
     @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.UNDEAD;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.UNDEAD;
     }
 
     @Override
     public boolean getCanSpawnHere() {
-        int i = MathHelper.floor(this.getEntityBoundingBox().minY);
+        int i = MathHelper.floor(this.getBoundingBox().minY);
         if (i <= 62) {
             return false;
         } else {
@@ -183,8 +183,8 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     public boolean canSpawnNoHeightCheck(boolean isFromSpawner) {
-        return super.getCanSpawnHere() && this.world.checkNoEntityCollision(this.getEntityBoundingBox()) && this.world.getCollisionBoxes(this, this.getEntityBoundingBox()).isEmpty()
-                && (isFromSpawner || !this.world.containsAnyLiquid(this.getEntityBoundingBox()));
+        return super.getCanSpawnHere() && this.world.checkNoEntityCollision(this.getBoundingBox()) && this.world.getCollisionBoxes(this, this.getBoundingBox()).isEmpty()
+                && (isFromSpawner || !this.world.containsAnyLiquid(this.getBoundingBox()));
     }
 
     void setVariant(int variant) {

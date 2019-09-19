@@ -1,18 +1,17 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 
 public class TileEntityPoisonTrap extends TileEntityTrap {
 
     @Override
-    protected void triggerTrap(EnumFacing facing, LivingEntity livingBase) {
+    protected void triggerTrap(Direction facing, LivingEntity livingBase) {
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 0.7D;
@@ -26,22 +25,22 @@ public class TileEntityPoisonTrap extends TileEntityTrap {
         }
         switch (facing) {
             case DOWN:
-                Atum.proxy.spawnParticle(AtumParticles.Types.GAS, livingBase, x - randomPos, (double) pos.getY() - 0.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.GAS, x - randomPos, (double) pos.getY() - 0.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 0.0D, 0.0D, 0.0D);
                 break;
             case UP:
-                Atum.proxy.spawnParticle(AtumParticles.Types.GAS, livingBase, x - randomPos, (double) pos.getY() + 1.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.GAS, x - randomPos, (double) pos.getY() + 1.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 0.0D, 0.0D, 0.0D);
                 break;
             case WEST:
-                Atum.proxy.spawnParticle(AtumParticles.Types.GAS, livingBase, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.GAS, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case EAST:
-                Atum.proxy.spawnParticle(AtumParticles.Types.GAS, livingBase, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.GAS, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case NORTH:
-                Atum.proxy.spawnParticle(AtumParticles.Types.GAS, livingBase, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.GAS, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
             case SOUTH:
-                Atum.proxy.spawnParticle(AtumParticles.Types.GAS, livingBase, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.GAS, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
         }
     }

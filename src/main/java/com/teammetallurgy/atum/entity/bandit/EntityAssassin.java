@@ -72,8 +72,8 @@ public class EntityAssassin extends EntityBanditBase {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (!this.world.isRemote) {
             this.setBesideClimbableBlock(this.collidedHorizontally);
@@ -130,7 +130,7 @@ public class EntityAssassin extends EntityBanditBase {
             return false;
         } else {
             if (this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
-                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue());
+                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
                 (((LivingEntity) entity)).addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
             }
             return true;

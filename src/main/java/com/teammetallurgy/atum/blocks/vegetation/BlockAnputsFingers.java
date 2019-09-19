@@ -3,15 +3,15 @@ package com.teammetallurgy.atum.blocks.vegetation;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
@@ -35,13 +35,13 @@ public class BlockAnputsFingers extends BlockCrops {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
         return MapColor.GRAY;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return AABB[this.getAge(state)];
     }
 
@@ -69,7 +69,7 @@ public class BlockAnputsFingers extends BlockCrops {
     }
 
     @Override
-    protected boolean canSustainBush(IBlockState state) {
+    protected boolean canSustainBush(BlockState state) {
         return state.getBlock() == AtumBlocks.SAND;
     }
 
@@ -79,10 +79,10 @@ public class BlockAnputsFingers extends BlockCrops {
     }
 
     @Override
-    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull Random rand) {
+    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
         int age = this.getAge(state);
         if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
-            IBlockState newState = state.withProperty(this.getAgeProperty(), age + 1);
+            BlockState newState = state.withProperty(this.getAgeProperty(), age + 1);
             world.setBlockState(pos, newState, 2);
             ForgeHooks.onCropsGrowPost(world, pos, state, newState);
         }
@@ -90,10 +90,10 @@ public class BlockAnputsFingers extends BlockCrops {
     }
 
     @Override
-    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {
         if (!world.isRemote && entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
-            MinecraftServer server = world.getMinecraftServer();
+            MinecraftServer server = world.getInstanceServer();
             Integer lastTouched = this.lastTouchedTick.get(player.getUniqueID());
             if (server != null) {
                 if (lastTouched != null && server.getTickCounter() - lastTouched < 35) return;
@@ -106,18 +106,18 @@ public class BlockAnputsFingers extends BlockCrops {
     }
 
     @Override
-    public boolean canBlockStay(World world, BlockPos pos, IBlockState state) {
-        IBlockState stateDown = world.getBlockState(pos.down());
-        return world.getLightFor(EnumSkyBlock.SKY, pos) < 15 && stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), EnumFacing.UP, this);
+    public boolean canBlockStay(World world, BlockPos pos, BlockState state) {
+        BlockState stateDown = world.getBlockState(pos.down());
+        return world.getLightFor(EnumSkyBlock.SKY, pos) < 15 && stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), Direction.UP, this);
     }
 
     @Override
-    public boolean canGrow(World world, BlockPos pos, @Nonnull IBlockState state, boolean isClient) {
+    public boolean canGrow(World world, BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return false;
     }
 
     @Override
-    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, IBlockState state) {
+    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
         return false;
     }
 

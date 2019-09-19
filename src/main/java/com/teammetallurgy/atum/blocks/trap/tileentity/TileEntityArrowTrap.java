@@ -8,7 +8,7 @@ import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -29,7 +29,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
 
         if (timer > 0) timer--;
         if (!this.isDisabled && this.isBurning()) {
-            EnumFacing facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
+            Direction facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
@@ -89,7 +89,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         }
     }
 
-    private boolean canSee(EnumFacing facing, LivingEntity living){
+    private boolean canSee(Direction facing, LivingEntity living){
         Vec3i dir = facing.getDirectionVec();
         return this.world.rayTraceBlocks(new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ()), new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ), true, true, false) == null;
     }
@@ -108,7 +108,7 @@ public class TileEntityArrowTrap extends TileEntityTrap {
     }
     
     @Override
-    protected void triggerTrap(EnumFacing facing, LivingEntity livingBase) {
+    protected void triggerTrap(Direction facing, LivingEntity livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
@@ -119,36 +119,36 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         switch (facing) {
             case DOWN:
                 fireArrow(world, facing, x - randomPos, y - 0.5D, z);
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case UP:
                 fireArrow(world, facing, x - randomPos, y + 1.0D, z);
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case WEST:
                 fireArrow(world, facing, x - 0.52D, y, z + randomPos);
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case EAST:
                 fireArrow(world, facing, x + 0.52D, y, z + randomPos);
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case NORTH:
                 fireArrow(world, facing, x + randomPos, y, z - 0.52D);
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
             case SOUTH:
                 fireArrow(world, facing, x + randomPos, y, z + 0.52D);
-                world.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
         }
     }
 
-    private void fireArrow(World world, EnumFacing facing, double x, double y, double z) {
+    private void fireArrow(World world, Direction facing, double x, double y, double z) {
         if (!world.isRemote) {
             ArrowEntity arrow = new EntityTippedArrow(world, x, y, z);
             arrow.shoot((double) facing.getXOffset(), (double) ((float) facing.getYOffset() + 0.1F), (double) facing.getZOffset(), 1.1F, 6.0F);
-            world.spawnEntity(arrow);
+            world.addEntity(arrow);
         }
     }
 

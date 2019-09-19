@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.blocks.vegetation;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.NonNullList;
@@ -27,7 +27,7 @@ public class BlockOasisGrass extends BlockBush implements IShearable {
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return TALL_GRASS_AABB;
     }
 
@@ -59,7 +59,7 @@ public class BlockOasisGrass extends BlockBush implements IShearable {
     }
 
     @Override
-    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull BlockState state, int fortune) {
         Random random = RANDOM;
         if (random.nextInt(8) != 0) return;
         ItemStack seed;

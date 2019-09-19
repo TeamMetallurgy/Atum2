@@ -8,13 +8,13 @@ import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks.Brick
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
@@ -42,7 +42,7 @@ public class BlockKiln extends BlockContainer {
         this.setHardness(3.5F);
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH).withProperty(IS_BURNING, false).withProperty(MULTIBLOCK_PRIMARY, false).withProperty(MULTIBLOCK_SECONDARY, false));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(IS_BURNING, false).withProperty(MULTIBLOCK_PRIMARY, false).withProperty(MULTIBLOCK_SECONDARY, false));
     }
 
     @Override
@@ -52,7 +52,7 @@ public class BlockKiln extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         if (world.isRemote) {
             return true;
         }
@@ -69,17 +69,17 @@ public class BlockKiln extends BlockContainer {
     }
 
     @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public int getLightValue(BlockState state, IBlockAccess world, BlockPos pos) {
         return state.getValue(IS_BURNING) ? (int) (15.0F * 0.875F) : 0;
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         if (state.getValue(MULTIBLOCK_PRIMARY)) {
             this.destroyMultiblock(world, pos, state.getValue(FACING));
         } else {
             BlockPos primaryPos = pos.offset(state.getValue(FACING).rotateYCCW());
-            IBlockState primaryState = world.getBlockState(primaryPos);
+            BlockState primaryState = world.getBlockState(primaryPos);
             if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(MULTIBLOCK_PRIMARY)) {
                 this.destroyMultiblock(world, primaryPos, primaryState.getValue(FACING));
             }
@@ -88,7 +88,7 @@ public class BlockKiln extends BlockContainer {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
 
         if (stack.hasDisplayName()) {
@@ -101,8 +101,8 @@ public class BlockKiln extends BlockContainer {
         tryMakeMultiblock(world, pos, state);
     }
 
-    public void tryMakeMultiblock(World world, BlockPos pos, IBlockState state) {
-        EnumFacing facing = state.getValue(FACING);
+    public void tryMakeMultiblock(World world, BlockPos pos, BlockState state) {
+        Direction facing = state.getValue(FACING);
         if (checkMultiblock(world, pos, facing)) {
             world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, true));
             world.setBlockState(pos.offset(facing.rotateY()), state.withProperty(MULTIBLOCK_PRIMARY, false));
@@ -115,7 +115,7 @@ public class BlockKiln extends BlockContainer {
     }
 
     public static BlockPos getSecondaryKilnFromPrimary(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityKiln) {
             if (state.getBlock() == AtumBlocks.KILN && ((TileEntityKiln) tileEntity).isPrimary()) {
@@ -127,7 +127,7 @@ public class BlockKiln extends BlockContainer {
 
     private BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
         if (world != null && !world.isAirBlock(pos)) {
-            IBlockState state = world.getBlockState(pos);
+            BlockState state = world.getBlockState(pos);
             if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
                 return pos;
             } else {
@@ -164,11 +164,11 @@ public class BlockKiln extends BlockContainer {
         }
     }
 
-    void destroyMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
+    void destroyMultiblock(World world, BlockPos primaryPos, Direction facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
-        IBlockState primaryState = world.getBlockState(primaryPos);
+        BlockState primaryState = world.getBlockState(primaryPos);
         BlockPos secondaryPos = primaryPos.offset(facing.rotateY());
-        IBlockState secondaryState = world.getBlockState(secondaryPos);
+        BlockState secondaryState = world.getBlockState(secondaryPos);
         BlockPos dropPos = primaryPos;
 
         if (primaryState.getBlock() == AtumBlocks.KILN) {
@@ -202,7 +202,7 @@ public class BlockKiln extends BlockContainer {
         }
     }
 
-    private boolean checkMultiblock(World world, BlockPos primaryPos, EnumFacing facing) {
+    private boolean checkMultiblock(World world, BlockPos primaryPos, Direction facing) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, facing);
         if (world.getBlockState(primaryPos).getBlock() != AtumBlocks.KILN) {
             return false;
@@ -211,7 +211,7 @@ public class BlockKiln extends BlockContainer {
             return false;
         }
         for (BlockPos brickPos : brickPositions) {
-            IBlockState brickState = world.getBlockState(brickPos);
+            BlockState brickState = world.getBlockState(brickPos);
             if (brickState.getBlock() != BlockLimestoneBricks.getBrick(BrickType.SMALL)) {
                 return false;
             }
@@ -219,23 +219,23 @@ public class BlockKiln extends BlockContainer {
         return true;
     }
 
-    private List<BlockPos> getKilnBrickPositions(BlockPos pos, EnumFacing facing) {
+    private List<BlockPos> getKilnBrickPositions(BlockPos pos, Direction facing) {
         List<BlockPos> positions = new LinkedList<>();
-        positions.add(pos.offset(EnumFacing.DOWN));
+        positions.add(pos.offset(Direction.DOWN));
         positions.add(pos.offset(facing.getOpposite()));
-        positions.add(pos.offset(facing.getOpposite()).offset(EnumFacing.DOWN));
+        positions.add(pos.offset(facing.getOpposite()).offset(Direction.DOWN));
 
         BlockPos offset = pos.offset(facing.rotateY());
-        positions.add(offset.offset(EnumFacing.DOWN));
+        positions.add(offset.offset(Direction.DOWN));
         positions.add(offset.offset(facing.getOpposite()));
-        positions.add(offset.offset(facing.getOpposite()).offset(EnumFacing.DOWN));
+        positions.add(offset.offset(facing.getOpposite()).offset(Direction.DOWN));
 
         return positions;
     }
 
     @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityKiln) {
             TileEntityKiln kiln = (TileEntityKiln) tileEntity;
@@ -248,24 +248,24 @@ public class BlockKiln extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
+    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(MULTIBLOCK_PRIMARY, false);
     }
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(IS_BURNING, (meta & 4) != 0).withProperty(FACING, EnumFacing.byHorizontalIndex(meta & 3)).withProperty(MULTIBLOCK_PRIMARY, (meta & 8) != 0);
+    public BlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(IS_BURNING, (meta & 4) != 0).withProperty(FACING, Direction.byHorizontalIndex(meta & 3)).withProperty(MULTIBLOCK_PRIMARY, (meta & 8) != 0);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int meta = 0;
         meta = meta | (state.getValue(FACING)).getHorizontalIndex();
         if (state.getValue(IS_BURNING)) {
@@ -279,13 +279,13 @@ public class BlockKiln extends BlockContainer {
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rotation) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
         return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirror) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
         return state.withRotation(mirror.toRotation(state.getValue(FACING)));
     }
 

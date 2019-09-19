@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.blocks;
 
 import net.minecraft.block.BlockClay;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.Item;
 
 import javax.annotation.Nonnull;
@@ -18,7 +18,7 @@ public class BlockMarl extends BlockClay {
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Item.getItemFromBlock(this);
     }
 

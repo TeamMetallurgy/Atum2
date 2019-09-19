@@ -5,11 +5,11 @@ import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
 import com.teammetallurgy.atum.blocks.wood.BlockLeave;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockVine;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -19,11 +19,11 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class WorldGenPalm extends WorldGenAbstractTree {
-    private static final IBlockState BLOCK_LOG = AtumBlocks.PALM_LOG.getDefaultState();
-    private static final IBlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false);
+    private static final BlockState BLOCK_LOG = AtumBlocks.PALM_LOG.getDefaultState();
+    private static final BlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false);
     private final int minTreeHeight;
-    private final IBlockState stateWood;
-    private final IBlockState stateLeaves;
+    private final BlockState stateWood;
+    private final BlockState stateLeaves;
     private boolean generateOphidiansTongue;
 
     public WorldGenPalm(boolean notify) {
@@ -34,7 +34,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
         this(notify, minTreeHeight, BLOCK_LOG, BLOCK_LEAVES, generateOphidiansTongue);
     }
 
-    public WorldGenPalm(boolean notify, int minTreeHeight, IBlockState wood, IBlockState leaves, boolean generateOphidiansTongue) {
+    public WorldGenPalm(boolean notify, int minTreeHeight, BlockState wood, BlockState leaves, boolean generateOphidiansTongue) {
         super(notify);
         this.minTreeHeight = minTreeHeight;
         this.stateWood = wood;
@@ -46,8 +46,8 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     public boolean generate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
-        IBlockState soil = world.getBlockState(pos.down());
-        boolean isSoil = stateWood.getBlock() == AtumBlocks.PALM_LOG ? soil.getBlock().canSustainPlant(soil, world, pos.down(), EnumFacing.UP, (BlockAtumSapling) BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256 : soil.getBlock() == AtumBlocks.LIMESTONE_GRAVEL;
+        BlockState soil = world.getBlockState(pos.down());
+        boolean isSoil = stateWood.getBlock() == AtumBlocks.PALM_LOG ? soil.getBlock().canSustainPlant(soil, world, pos.down(), Direction.UP, (BlockAtumSapling) BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256 : soil.getBlock() == AtumBlocks.LIMESTONE_GRAVEL;
         if (isSoil) {
             for (int j = pos.getY(); j <= pos.getY() + 1 + treeHeight; ++j) {
 
@@ -79,7 +79,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                 return false;
             } else {
                 BlockPos down = pos.down();
-                IBlockState stateDown = world.getBlockState(down);
+                BlockState stateDown = world.getBlockState(down);
 
                 if (pos.getY() >= 256 - treeHeight - 1) {
                     return false;
@@ -147,7 +147,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                         }
                     }
 
-                    BlockPos datePos = leafPos.down().offset(EnumFacing.Plane.HORIZONTAL.random(random));
+                    BlockPos datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(random));
                     if (this.stateLeaves.getBlock() == BLOCK_LEAVES.getBlock() && random.nextFloat() <= 0.10F) {
                         world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().withProperty(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
                     }
@@ -155,7 +155,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
 
                 for (int height = 0; height < treeHeight; ++height) {
                     BlockPos upN = pos.up(height);
-                    IBlockState stateUpN = world.getBlockState(upN);
+                    BlockState stateUpN = world.getBlockState(upN);
 
                     if (stateUpN.getBlock().isAir(stateUpN, world, upN) || stateUpN.getBlock().isLeaves(stateUpN, world, upN)) {
                         this.setBlockAndNotifyAdequately(world, pos.up(height), this.stateWood);
@@ -169,7 +169,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     }
 
     private void spawnLeaf(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(pos);
         if (world.isAirBlock(pos) || state.getBlock().canBeReplacedByLeaves(state, world, pos)) {
             this.setBlockAndNotifyAdequately(world, pos, this.stateLeaves);
         }

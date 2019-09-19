@@ -4,8 +4,8 @@ import com.teammetallurgy.atum.entity.IUnderground;
 import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
+import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
@@ -52,13 +52,13 @@ public class EntityTarantula extends EntityMob implements IUnderground {
 
     @Override
     public boolean getCanSpawnHere() {
-        BlockPos pos = new BlockPos(this.posX, this.getEntityBoundingBox().minY, this.posZ);
+        BlockPos pos = new BlockPos(this.posX, this.getBoundingBox().minY, this.posZ);
         return pos.getY() >= 40 && pos.getY() <= 62 && super.getCanSpawnHere() && !this.world.canBlockSeeSky(pos.down());
     }
 
     @Override
     public double getMountedYOffset() {
-        return (double) (this.height * 0.5F);
+        return (double) (this.getHeight() * 0.5F);
     }
 
     @Override
@@ -74,8 +74,8 @@ public class EntityTarantula extends EntityMob implements IUnderground {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
         if (!this.world.isRemote) {
             this.setBesideClimbableBlock(this.collidedHorizontally);
         }
@@ -147,8 +147,8 @@ public class EntityTarantula extends EntityMob implements IUnderground {
 
     @Override
     @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute() {
-        return EnumCreatureAttribute.ARTHROPOD;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.ARTHROPOD;
     }
 
     @Override
@@ -184,7 +184,7 @@ public class EntityTarantula extends EntityMob implements IUnderground {
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return (double) (4.0F + attackTarget.width);
+            return (double) (4.0F + attacktarget.getWidth());
         }
     }
 }

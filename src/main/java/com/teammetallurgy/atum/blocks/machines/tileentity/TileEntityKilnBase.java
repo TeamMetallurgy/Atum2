@@ -12,7 +12,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
@@ -107,22 +107,22 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
 
     @Override
     @Nonnull
-    public int[] getSlotsForFace(@Nonnull EnumFacing side) {
+    public int[] getSlotsForFace(@Nonnull Direction side) {
         if (!isPrimary()) {
             TileEntityKilnBase primary = getPrimary();
             if (primary != null) {
                 return primary.getSlotsForFace(side);
             }
         }
-        if (side == EnumFacing.DOWN) {
+        if (side == Direction.DOWN) {
             return SLOTS_BOTTOM;
         } else {
-            return side == EnumFacing.UP ? SLOTS_TOP : SLOTS_SIDES;
+            return side == Direction.UP ? SLOTS_TOP : SLOTS_SIDES;
         }
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
+    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction side) {
         if (!isPrimary()) {
             TileEntityKilnBase primary = getPrimary();
             if (primary != null) {
@@ -135,7 +135,7 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     }
 
     @Override
-    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing side) {
+    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction side) {
         return this.isPrimary() || this.getPrimary() != null && this.getPrimary().canExtractItem(index, stack, side);
     }
 
@@ -228,18 +228,18 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         return this.writeToNBT(new CompoundNBT());
     }
 
-    private IItemHandler handlerTop = new SidedInvWrapper(this, EnumFacing.UP);
-    private IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
-    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
+    private IItemHandler handlerTop = new SidedInvWrapper(this, Direction.UP);
+    private IItemHandler handlerBottom = new SidedInvWrapper(this, Direction.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, Direction.WEST);
 
     @Override
     @Nullable
     @SuppressWarnings("unchecked")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY)
-            if (facing == EnumFacing.DOWN) {
+            if (facing == Direction.DOWN) {
                 return (T) handlerBottom;
-            } else if (facing == EnumFacing.UP) {
+            } else if (facing == Direction.UP) {
                 return (T) handlerTop;
             } else {
                 return (T) handlerSide;

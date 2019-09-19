@@ -44,7 +44,7 @@ public class RenderTefnutsCall extends Render<EntityTefnutsCall> {
             GlStateManager.enableOutlineMode(this.getTeamColor(tefnutsCall));
         }
 
-        Minecraft.getMinecraft().getRenderItem().renderItem(new ItemStack(AtumItems.TEFNUTS_CALL), ItemCameraTransforms.TransformType.GROUND);
+        Minecraft.getInstance().getRenderItem().renderItem(new ItemStack(AtumItems.TEFNUTS_CALL), ItemCameraTransforms.TransformType.GROUND);
 
         if (this.renderOutlines) {
             GlStateManager.disableOutlineMode();

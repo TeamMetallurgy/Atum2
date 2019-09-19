@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
@@ -9,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 
@@ -26,17 +26,19 @@ public class EntityArrowSlowness extends CustomArrow {
 
     @Override
     protected void onHit(RayTraceResult raytraceResult) {
-        Entity entity = raytraceResult.entityHit;
-        if (raytraceResult != null && entity instanceof LivingEntity && !world.isRemote && raytraceResult.getType() == RayTraceResult.Type.ENTITY) {
-            LivingEntity livingBase = (LivingEntity) entity;
-            float chance = 0.25F;
-            if (velocity == 1.0F) {
-                chance = 1.0F;
-            }
-            if (rand.nextFloat() <= chance) {
-                livingBase.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60, 1, false, true));
-                for (int amount = 0; amount < 25; ++amount) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.GEB, entity, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), this.posY, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, -0.06D, 0.0D);
+        if (raytraceResult.getType() == RayTraceResult.Type.ENTITY) {
+            Entity entity = ((EntityRayTraceResult) raytraceResult).getEntity();
+            if (!world.isRemote && entity instanceof LivingEntity) {
+                LivingEntity livingBase = (LivingEntity) entity;
+                float chance = 0.25F;
+                if (velocity == 1.0F) {
+                    chance = 1.0F;
+                }
+                if (rand.nextFloat() <= chance) {
+                    livingBase.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60, 1, false, true));
+                    for (int amount = 0; amount < 25; ++amount) {
+                        world.addParticle(AtumParticles.GEB, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), this.posY, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, -0.06D, 0.0D);
+                    }
                 }
             }
         }

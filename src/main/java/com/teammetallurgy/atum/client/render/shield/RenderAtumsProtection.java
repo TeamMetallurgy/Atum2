@@ -17,7 +17,7 @@ public class RenderAtumsProtection extends TileEntityItemStackRenderer {
     @Override
     public void renderByItem(@Nonnull ItemStack stack, float partialTicks) {
         GlStateManager.pushMatrix();
-        Minecraft.getMinecraft().getTextureManager().bindTexture(ATUM_PROTECTION_TEXTURE);
+        Minecraft.getInstance().getTextureManager().bindTexture(ATUM_PROTECTION_TEXTURE);
         this.modelShield.render();
         GlStateManager.popMatrix();
     }

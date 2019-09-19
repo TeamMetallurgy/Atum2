@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootTableList;
+import net.minecraft.world.storage.loot.LootTables;
 
 public class AtumLootTables {
     //Entities
@@ -43,6 +43,6 @@ public class AtumLootTables {
     public static final ResourceLocation RELIC = register("blocks/relic_ore");
 
     private static ResourceLocation register(String path) {
-        return LootTableList.register(new ResourceLocation(Constants.MOD_ID, path));
+        return LootTables.register(new ResourceLocation(Constants.MOD_ID, path));
     }
 }

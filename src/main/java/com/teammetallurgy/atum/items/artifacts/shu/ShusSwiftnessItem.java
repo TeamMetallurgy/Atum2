@@ -1,15 +1,14 @@
 package com.teammetallurgy.atum.items.artifacts.shu;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.items.AmuletItem;
+import com.teammetallurgy.atum.items.tools.AmuletItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.text.ITextComponent;
@@ -17,7 +16,6 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.Optional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,14 +24,13 @@ import java.util.List;
 import java.util.UUID;
 
 public class ShusSwiftnessItem extends AmuletItem {
-    private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("f51280de-21d2-47f5-bc9a-e55ef1acfe2d"), "Shu's Swiftness speed boost", 0.025D, 0);
+    private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("f51280de-21d2-47f5-bc9a-e55ef1acfe2d"), "Shu's Swiftness speed boost", 0.025D, AttributeModifier.Operation.ADDITION);
 
     public ShusSwiftnessItem() {
-        super();
-        this.setMaxDamage(12000);
+        super(new Item.Properties().maxDamage(12000));
     }
 
-    @Override
+    /*@Override
     @Optional.Method(modid = "baubles")
     public void onWornTick(ItemStack stack, LivingEntity livingBase) {
         if (livingBase instanceof PlayerEntity) {
@@ -47,10 +44,10 @@ public class ShusSwiftnessItem extends AmuletItem {
                 }
             }
         }
-    }
+    }*/
 
     @Override
-    public void onUpdate(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+    public void inventoryTick(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
             ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
@@ -70,7 +67,7 @@ public class ShusSwiftnessItem extends AmuletItem {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (player.moveForward != 0.0F) {
             for (int l = 0; l < 2; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.SHU, player, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 0.2D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
+                player.world.addParticle(AtumParticles.SHU, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 0.2D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
         if (!world.isRemote) {
@@ -78,7 +75,9 @@ public class ShusSwiftnessItem extends AmuletItem {
                 attribute.applyModifier(SPEED_BOOST);
             }
             if (!player.abilities.isCreativeMode) {
-                heldStack.damageItem(1, player);
+                heldStack.damageItem(1, player, (p_213622_1_) -> {
+                    p_213622_1_.sendBreakAnimation(player.getActiveHand());
+                });
             }
         }
     }

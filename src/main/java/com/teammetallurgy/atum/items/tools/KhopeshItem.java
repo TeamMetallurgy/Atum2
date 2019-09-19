@@ -28,7 +28,11 @@ public class KhopeshItem extends SwordItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     public KhopeshItem(IItemTier itemTier) {
-        super(itemTier, 3, -2.6F, new Item.Properties().group(Atum.GROUP));
+        this(itemTier, new Item.Properties());
+    }
+
+    public KhopeshItem(IItemTier itemTier, Item.Properties properties) {
+        super(itemTier, 3, -2.6F, properties.group(Atum.GROUP));
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)

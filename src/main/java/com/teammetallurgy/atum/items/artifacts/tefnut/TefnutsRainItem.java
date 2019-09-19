@@ -5,9 +5,10 @@ import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowRain;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.Rarity;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -17,8 +18,7 @@ import javax.annotation.Nonnull;
 public class TefnutsRainItem extends BaseBowItem {
 
     public TefnutsRainItem() {
-        super();
-        this.setMaxDamage(650);
+        super(new Item.Properties().maxDamage(650).rarity(Rarity.RARE));
         this.setRepairItem(Items.DIAMOND);
     }
 
@@ -26,12 +26,6 @@ public class TefnutsRainItem extends BaseBowItem {
     @OnlyIn(Dist.CLIENT)
     public boolean hasEffect(@Nonnull ItemStack stack) {
         return true;
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 
     @Override

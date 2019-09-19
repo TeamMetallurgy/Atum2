@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
@@ -15,7 +14,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class HorusAscensionItem extends GauntletItem {
@@ -31,8 +29,8 @@ public class HorusAscensionItem extends GauntletItem {
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, @Nullable LivingEntity attacker) {
-        if (cooldown.get(attacker) == 1.0F) {
+    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, LivingEntity attacker) {
+        if (cooldown.getFloat(attacker) == 1.0F) {
             knockUp(target, attacker, random);
         }
         return super.hitEntity(stack, target, attacker);
@@ -55,7 +53,7 @@ public class HorusAscensionItem extends GauntletItem {
             double x = MathHelper.nextDouble(random, 0.0001D, 0.04D);
             double z = MathHelper.nextDouble(random, 0.0001D, 0.04D);
             for (int amount = 0; amount < 50; ++amount) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.HORUS, target, target.posX, target.posY + 0.3D, target.posZ, x, 0.01D + random.nextDouble() * 0.4D, -z);
+                target.world.addParticle(AtumParticles.HORUS, target.posX, target.posY + 0.3D, target.posZ, x, 0.01D + random.nextDouble() * 0.4D, -z);
             }
         }
     }

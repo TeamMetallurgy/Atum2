@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.blocks.base.BlockChestBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,7 +39,7 @@ public class BlockSarcophagus extends BlockChestBase {
     }
 
     @Override
-    public float getBlockHardness(IBlockState state, World world, BlockPos pos) {
+    public float getBlockHardness(BlockState state, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntitySarcophagus && !((TileEntitySarcophagus) tileEntity).isOpenable) {
             return -1.0F;
@@ -59,9 +59,9 @@ public class BlockSarcophagus extends BlockChestBase {
     }
 
     @Override
-    public boolean onBlockActivated(World world, @Nonnull BlockPos pos, IBlockState state, @Nonnull PlayerEntity player, Hand hand, EnumFacing side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(World world, @Nonnull BlockPos pos, BlockState state, @Nonnull PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        EnumFacing facing = state.getValue(FACING);
+        Direction facing = state.getValue(FACING);
 
         //Right-Click left block, when right-clicking right block
         BlockPos posLeft = pos.offset(facing.rotateY());
@@ -78,7 +78,7 @@ public class BlockSarcophagus extends BlockChestBase {
             TileEntitySarcophagus sarcophagus = (TileEntitySarcophagus) tileEntity;
             if (!sarcophagus.hasSpawned) {
                 if (this.canSpawnPharaoh(world, pos, facing)) {
-                    for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                    for (Direction horizontal : Direction.HORIZONTALS) {
                         TileEntity tileEntityOffset = world.getTileEntity(pos.offset(horizontal));
                         if (tileEntityOffset instanceof TileEntitySarcophagus) {
                             ((TileEntitySarcophagus) tileEntityOffset).hasSpawned = true;
@@ -97,7 +97,7 @@ public class BlockSarcophagus extends BlockChestBase {
         return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
     }
 
-    private boolean canSpawnPharaoh(World world, BlockPos pos, EnumFacing facing) {
+    private boolean canSpawnPharaoh(World world, BlockPos pos, Direction facing) {
         boolean isTopLeftCorner = world.getBlockState(pos.offset(facing.rotateY(), 2).offset(facing.getOpposite(), 1)).getBlock() == AtumBlocks.PHARAOH_TORCH;
         boolean isBottomLeftCorner = world.getBlockState(pos.offset(facing.rotateY(), 2).offset(facing, 2)).getBlock() == AtumBlocks.PHARAOH_TORCH;
         boolean isTopRightCorner = world.getBlockState(pos.offset(facing.rotateYCCW(), 3).offset(facing.getOpposite(), 1)).getBlock() == AtumBlocks.PHARAOH_TORCH;
@@ -106,7 +106,7 @@ public class BlockSarcophagus extends BlockChestBase {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, IBlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         TileEntity tileEntity = world.getTileEntity(pos);
 
@@ -116,7 +116,7 @@ public class BlockSarcophagus extends BlockChestBase {
             sarcophagus.setOpenable();
             sarcophagus.updateContainingBlockInfo();
 
-            for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+            for (Direction horizontal : Direction.HORIZONTALS) {
                 TileEntity tileEntityOffset = world.getTileEntity(pos.offset(horizontal));
                 if (tileEntityOffset instanceof TileEntitySarcophagus) {
                     ((TileEntitySarcophagus) tileEntityOffset).hasSpawned = true;
@@ -129,7 +129,7 @@ public class BlockSarcophagus extends BlockChestBase {
 
     @SubscribeEvent
     public static void onPlaced(BlockEvent.PlaceEvent event) { //Prevent placement, if right side of Sarcophagus would be next to another Sarcophagi block
-        IBlockState placedState = event.getPlacedBlock();
+        BlockState placedState = event.getPlacedBlock();
         if (placedState.getBlock() instanceof BlockSarcophagus) {
             if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.getValue(FACING))) {
                 event.setCanceled(true);
@@ -137,7 +137,7 @@ public class BlockSarcophagus extends BlockChestBase {
         }
     }
 
-    private static boolean canPlaceRightSac(World world, BlockPos pos, EnumFacing facing) {
+    private static boolean canPlaceRightSac(World world, BlockPos pos, Direction facing) {
         boolean right2 = world.getBlockState(pos.offset(facing.rotateYCCW(), 2)).getBlock() instanceof BlockSarcophagus;
         boolean up = world.getBlockState(pos.offset(facing.rotateYCCW()).offset(facing)).getBlock() instanceof BlockSarcophagus;
         boolean down = world.getBlockState(pos.offset(facing.rotateYCCW()).offset(facing.getOpposite())).getBlock() instanceof BlockSarcophagus;
@@ -146,12 +146,12 @@ public class BlockSarcophagus extends BlockChestBase {
 
     @Nonnull
     @Override
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.SARCOPHAGUS);
     }
 
     @Override
-    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, @Nonnull BlockState state, int fortune) {
         drops.add(new ItemStack(AtumBlocks.SARCOPHAGUS));
     }
 }

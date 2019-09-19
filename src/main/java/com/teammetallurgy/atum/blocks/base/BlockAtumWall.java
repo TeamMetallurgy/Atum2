@@ -2,15 +2,15 @@ package com.teammetallurgy.atum.blocks.base;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -39,24 +39,24 @@ public class BlockAtumWall extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
         return MapColor.SAND;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         state = this.getActualState(state, source, pos);
         return AABB_BY_INDEX[getAABBIndex(state)];
     }
 
     @Override
-    public boolean canPlaceTorchOnTop(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+    public boolean canPlaceTorchOnTop(@Nonnull BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
         return true;
     }
 
     @Override
-    public void addCollisionBoxToList(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
+    public void addCollisionBoxToList(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull AxisAlignedBB entityBox, @Nonnull List<AxisAlignedBB> collidingBoxes, @Nullable Entity entityIn, boolean isActualState) {
         if (!isActualState) {
             state = this.getActualState(state, world, pos);
         }
@@ -64,30 +64,30 @@ public class BlockAtumWall extends Block {
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
         blockState = this.getActualState(blockState, worldIn, pos);
         return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
     }
 
-    private static int getAABBIndex(IBlockState state) {
+    private static int getAABBIndex(BlockState state) {
         int i = 0;
         if (state.getValue(NORTH)) {
-            i |= 1 << EnumFacing.NORTH.getHorizontalIndex();
+            i |= 1 << Direction.NORTH.getHorizontalIndex();
         }
         if (state.getValue(EAST)) {
-            i |= 1 << EnumFacing.EAST.getHorizontalIndex();
+            i |= 1 << Direction.EAST.getHorizontalIndex();
         }
         if (state.getValue(SOUTH)) {
-            i |= 1 << EnumFacing.SOUTH.getHorizontalIndex();
+            i |= 1 << Direction.SOUTH.getHorizontalIndex();
         }
         if (state.getValue(WEST)) {
-            i |= 1 << EnumFacing.WEST.getHorizontalIndex();
+            i |= 1 << Direction.WEST.getHorizontalIndex();
         }
         return i;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
@@ -97,14 +97,14 @@ public class BlockAtumWall extends Block {
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
-    private boolean canConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
-        IBlockState iblockstate = world.getBlockState(pos);
-        Block block = iblockstate.getBlock();
-        BlockFaceShape blockfaceshape = iblockstate.getBlockFaceShape(world, pos, facing);
+    private boolean canConnectTo(IBlockAccess world, BlockPos pos, Direction facing) {
+        BlockState BlockState = world.getBlockState(pos);
+        Block block = BlockState.getBlock();
+        BlockFaceShape blockfaceshape = BlockState.getBlockFaceShape(world, pos, facing);
         boolean flag = blockfaceshape == BlockFaceShape.MIDDLE_POLE_THICK || blockfaceshape == BlockFaceShape.MIDDLE_POLE && block instanceof BlockFenceGate;
         return !isExcepBlockForAttachWithPiston(block) && blockfaceshape == BlockFaceShape.SOLID || flag;
     }
@@ -115,32 +115,32 @@ public class BlockAtumWall extends Block {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
-        return side != EnumFacing.DOWN || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+    public boolean shouldSideBeRendered(BlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, Direction side) {
+        return side != Direction.DOWN || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return 0;
     }
 
     @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess worldIn, BlockPos pos) {
-        boolean north = canWallConnectTo(worldIn, pos, EnumFacing.NORTH);
-        boolean east = canWallConnectTo(worldIn, pos, EnumFacing.EAST);
-        boolean south = canWallConnectTo(worldIn, pos, EnumFacing.SOUTH);
-        boolean west = canWallConnectTo(worldIn, pos, EnumFacing.WEST);
+    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess worldIn, BlockPos pos) {
+        boolean north = canWallConnectTo(worldIn, pos, Direction.NORTH);
+        boolean east = canWallConnectTo(worldIn, pos, Direction.EAST);
+        boolean south = canWallConnectTo(worldIn, pos, Direction.SOUTH);
+        boolean west = canWallConnectTo(worldIn, pos, Direction.WEST);
         boolean isNorthSouthOrEastWest = north && !east && south && !west || !north && east && !south && west;
         return state.withProperty(UP, !isNorthSouthOrEastWest || !worldIn.isAirBlock(pos.up())).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west);
     }
 
     @Override
-    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, Direction facing) {
         return canConnectTo(world, pos.offset(facing), facing.getOpposite());
     }
 
-    private boolean canWallConnectTo(IBlockAccess world, BlockPos pos, EnumFacing facing) {
+    private boolean canWallConnectTo(IBlockAccess world, BlockPos pos, Direction facing) {
         BlockPos other = pos.offset(facing);
         Block block = world.getBlockState(other).getBlock();
         return block.canBeConnectedTo(world, other, facing.getOpposite()) || canConnectTo(world, other, facing.getOpposite());
@@ -154,7 +154,7 @@ public class BlockAtumWall extends Block {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
-        return face != EnumFacing.UP && face != EnumFacing.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
+        return face != Direction.UP && face != Direction.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
     }
 }

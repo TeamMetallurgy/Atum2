@@ -52,7 +52,7 @@ public class EntityCamelSpit extends EntityLlamaSpit {
     }
 
     @Override
-    public void onUpdate() {
+    public void tick() {
         if (!this.world.isRemote) {
             this.setFlag(6, this.isGlowing());
         }
@@ -102,7 +102,7 @@ public class EntityCamelSpit extends EntityLlamaSpit {
         this.rotationPitch = this.prevRotationPitch + (this.rotationPitch - this.prevRotationPitch) * 0.2F;
         this.rotationYaw = this.prevRotationYaw + (this.rotationYaw - this.prevRotationYaw) * 0.2F;
 
-        if (!this.world.isMaterialInBB(this.getEntityBoundingBox(), Material.AIR)) {
+        if (!this.world.isMaterialInBB(this.getBoundingBox(), Material.AIR)) {
             this.setDead();
         } else if (this.isInWater()) {
             this.setDead();
@@ -121,12 +121,12 @@ public class EntityCamelSpit extends EntityLlamaSpit {
     @Nullable
     private Entity getHitEntity(Vec3d pos, Vec3d motionPos) {
         Entity entity = null;
-        List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getEntityBoundingBox().expand(this.motionX, this.motionY, this.motionZ).grow(1.0D));
+        List<Entity> list = this.world.getEntitiesWithinAABBExcludingEntity(this, this.getBoundingBox().expand(this.motionX, this.motionY, this.motionZ).grow(1.0D));
         double distance = 0.0D;
 
         for (Entity hitEntity : list) {
             if (hitEntity != this.owner) {
-                AxisAlignedBB box = hitEntity.getEntityBoundingBox().grow(0.30000001192092896D);
+                AxisAlignedBB box = hitEntity.getBoundingBox().grow(0.30000001192092896D);
                 RayTraceResult rayTrace = box.calculateIntercept(pos, motionPos);
                 if (rayTrace != null) {
                     double squareDistanceTo = pos.squareDistanceTo(rayTrace.hitVec);
@@ -161,7 +161,7 @@ public class EntityCamelSpit extends EntityLlamaSpit {
         if (this.ownerNbt != null && this.ownerNbt.hasUniqueId("OwnerUUID")) {
             UUID uuid = this.ownerNbt.getUniqueId("OwnerUUID");
 
-            for (EntityCamel entitycamel : this.world.getEntitiesWithinAABB(EntityCamel.class, this.getEntityBoundingBox().grow(15.0D))) {
+            for (EntityCamel entitycamel : this.world.getEntitiesWithinAABB(EntityCamel.class, this.getBoundingBox().grow(15.0D))) {
                 if (entitycamel.getUniqueID().equals(uuid)) {
                     this.owner = entitycamel;
                     break;

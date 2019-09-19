@@ -19,12 +19,12 @@ import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisGrass;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -142,8 +142,8 @@ public class AtumBiome extends Biome {
     @Override
     public void genTerrainBlocks(World world, Random random, @Nonnull ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) {
         int height = 63;
-        IBlockState stateTop = this.topBlock;
-        IBlockState stateFiller = this.fillerBlock;
+        BlockState stateTop = this.topBlock;
+        BlockState stateFiller = this.fillerBlock;
         int flag = -1;
         int elevation = (int) (stoneNoise / 3.0D + 3.0D + random.nextDouble() * 0.25D);
         int xx = x & 15;
@@ -153,7 +153,7 @@ public class AtumBiome extends Biome {
             if (yy <= random.nextInt(5)) {
                 chunkPrimer.setBlockState(zz, yy, xx, Blocks.BEDROCK.getDefaultState());
             } else {
-                IBlockState existingState = chunkPrimer.getBlockState(zz, yy, xx);
+                BlockState existingState = chunkPrimer.getBlockState(zz, yy, xx);
 
                 if (existingState.getMaterial() == Material.AIR) {
                     flag = -1;

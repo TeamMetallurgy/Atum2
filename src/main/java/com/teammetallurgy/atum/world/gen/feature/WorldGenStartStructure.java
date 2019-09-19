@@ -20,7 +20,7 @@ public class WorldGenStartStructure extends WorldGenerator {
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
         TemplateManager manager = world.getSaveHandler().getStructureTemplateManager();
-        Template template = manager.get(world.getMinecraftServer(), new ResourceLocation(AtumConfig.ATUM_START_STRUCTURE));
+        Template template = manager.get(world.getInstanceServer(), new ResourceLocation(AtumConfig.ATUM_START_STRUCTURE));
 
         if (template != null) {
             Random random = world.getChunk(pos).getRandomWithSeed(955718210L);

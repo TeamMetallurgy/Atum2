@@ -5,39 +5,40 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.BlockCauldron;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.CauldronBlock;
+import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 
-public class LootItem extends Item implements IOreDictEntry {
+public class LootItem extends Item {
     private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
-    public static void createLootItems() {
-        for (Type type : Type.values()) {
-            for (Quality quality : Quality.values()) {
-                Item item = new LootItem();
-                if (quality == Quality.DIRTY) {
-                    item.setMaxStackSize(64);
-                } else {
-                    item.setMaxStackSize(16);
-                }
-                LOOT_ENTRIES.add(new LootEntry(quality, quality.getWeight()));
-                AtumRegistry.registerItem(item, "loot." + quality.getName() + "." + type.getName());
-            }
-        }
+    public LootItem(int stackSize) {
+        super(new Item.Properties().group(Atum.GROUP).maxStackSize(stackSize));
     }
 
-    public static Item getLootItem(Type type, Quality quality) {
-        return Item.REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName("loot." + quality.getName() + "." + type.getName())));
+    public static LootItem createRelics() {
+        for (Type type : Type.values()) {
+            for (Quality quality : Quality.values()) {
+                Item item = new LootItem(quality == Quality.DIRTY ? 64 : 16);
+                LOOT_ENTRIES.add(new LootEntry(quality, quality.getWeight()));
+                return (LootItem) AtumRegistry.registerItem(item, "loot." + quality.getName() + "." + type.getName());
+            }
+        }
+        return null;
+    }
+
+    public Item getLootItem(Type type, Quality quality) {
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName("loot." + quality.getName() + "." + type.getName())));
     }
 
     public static Type getType(Item item) {
@@ -71,12 +72,10 @@ public class LootItem extends Item implements IOreDictEntry {
     }
 
     @Override
-    public boolean onEntityItemUpdate(EntityItem entityItem) {
+    public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
         World world = entityItem.world;
-        IBlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ)));
-        if ((state.getBlock() == Blocks.WATER || state.getBlock() == Blocks.FLOWING_WATER) || state.getBlock() instanceof BlockCauldron && state.getValue(BlockCauldron.LEVEL) > 0) {
-            ItemStack stack = entityItem.getItem();
-
+        BlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ)));
+        if (state.getFluidState().isTagged(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.get(CauldronBlock.LEVEL) > 0) {
             if (stack.getItem() instanceof LootItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
                 while (stack.getCount() > 0) {
                     Item item = getLootItem(getType(stack.getItem()), WeightedRandom.getRandomItem(random, LOOT_ENTRIES).quality);
@@ -84,26 +83,21 @@ public class LootItem extends Item implements IOreDictEntry {
                         stack.shrink(1);
                         world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
                     } else {
-                        world.spawnEntity(new EntityItem(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(item)));
+                        world.addEntity(new ItemEntity(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(item)));
                         world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
                         stack.shrink(1);
                     }
                 }
             }
         }
-        return super.onEntityItemUpdate(entityItem);
-    }
-
-    @Override
-    public void getOreDictEntries() {
-        OreDictHelper.add(this, "relic");
+        return super.onEntityItemUpdate(stack, entityItem);
     }
 
     public enum Type implements IStringSerializable {
         IDOL("idol"),
         NECKLACE("necklace"),
         RING("ring"),
-        BROACH("broach"),
+        BROOCH("broach"),
         SCEPTER("scepter");
 
         private final String unlocalizedName;

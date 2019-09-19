@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenerator;
@@ -26,7 +26,7 @@ public class WorldGenSpring extends WorldGenerator {
         } else if (pos.getY() >= 50) {
             return false;
         } else {
-            IBlockState state = world.getBlockState(pos);
+            BlockState state = world.getBlockState(pos);
 
             if (!state.getBlock().isAir(state, world, pos) && state.getBlock() != AtumBlocks.LIMESTONE) {
                 return false;
@@ -60,7 +60,7 @@ public class WorldGenSpring extends WorldGenerator {
                 }
 
                 if (limestoneCheck == 3 && airCheck == 1) {
-                    IBlockState blockState = this.block.getDefaultState();
+                    BlockState blockState = this.block.getDefaultState();
                     world.setBlockState(pos, blockState, 2);
                     world.immediateBlockTick(pos, blockState, rand);
                 }

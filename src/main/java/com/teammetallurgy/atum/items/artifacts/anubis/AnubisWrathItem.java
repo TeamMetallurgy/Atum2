@@ -111,7 +111,7 @@ public class AnubisWrathItem extends SwordItem {
                 LivingEntity entity = event.getEntityLiving();
                 double y = MathHelper.nextDouble(random, 0.02D, 0.13D);
                 for (int l = 0; l < 5; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.ANUBIS, entity, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + entity.getEyeHeight(), entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, y, 0.0D);
+                    entity.world.addParticle(AtumParticles.ANUBIS, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + entity.getEyeHeight(), entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, y, 0.0D);
                 }
             }
             cooldown.removeFloat(trueSource);

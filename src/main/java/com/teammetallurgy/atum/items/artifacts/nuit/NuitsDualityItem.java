@@ -9,11 +9,8 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.stats.StatList;
+import net.minecraft.item.*;
+import net.minecraft.stats.Stats;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
@@ -23,12 +20,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
-import java.util.Objects;
 
 public class NuitsDualityItem extends BaseBowItem {
 
     public NuitsDualityItem() {
-        super();
+        super(new Item.Properties().rarity(Rarity.RARE));
         this.setRepairItem(Items.DIAMOND);
     }
 
@@ -39,18 +35,12 @@ public class NuitsDualityItem extends BaseBowItem {
     }
 
     @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
-    }
-
-    @Override
     public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
             boolean infinity = player.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
-            ItemStack ammoStack = this.findAmmo(player);
-            int maxUses = this.getMaxItemUseDuration(stack) - timeLeft;
+            ItemStack ammoStack = player.findAmmo(stack);
+            int maxUses = this.getUseDuration(stack) - timeLeft;
             maxUses = ForgeEventFactory.onArrowLoose(stack, world, player, maxUses, !ammoStack.isEmpty() || infinity);
             if (maxUses < 0) return;
 
@@ -62,7 +52,7 @@ public class NuitsDualityItem extends BaseBowItem {
 
                 this.onVelocity(world, player, velocity);
 
-                if ((double) velocity >= 0.1D) {
+                if (!((double) velocity < 0.1D)) {
                     boolean hasArrow = player.abilities.isCreativeMode || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
                     if (!world.isRemote) {
@@ -70,11 +60,8 @@ public class NuitsDualityItem extends BaseBowItem {
                         doubleShotLower.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         EntityArrowDoubleShotWhite doubleShotHigher = new EntityArrowDoubleShotWhite(world, player);
                         doubleShotHigher.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
-                        doubleShotLower.motionX += MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D));
-                        doubleShotLower.motionZ += MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D));
-                        doubleShotHigher.motionX += MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D));
-                        doubleShotHigher.motionY += 0.2D;
-                        doubleShotHigher.motionZ += MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D));
+                        doubleShotLower.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.0F, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
+                        doubleShotHigher.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.2D, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
 
                         if (velocity == 1.0F) {
                             doubleShotLower.setIsCritical(true);
@@ -96,14 +83,16 @@ public class NuitsDualityItem extends BaseBowItem {
                             doubleShotLower.setFire(100);
                             doubleShotHigher.setFire(100);
                         }
-                        stack.damageItem(1, player);
+                        stack.damageItem(1, player, (e) -> {
+                            e.sendBreakAnimation(player.getActiveHand());
+                        });
 
                         if (hasArrow || player.abilities.isCreativeMode && (ammoStack.getItem() == Items.SPECTRAL_ARROW || ammoStack.getItem() == Items.TIPPED_ARROW)) {
                             doubleShotLower.pickupStatus = CustomArrow.PickupStatus.CREATIVE_ONLY;
                             doubleShotHigher.pickupStatus = CustomArrow.PickupStatus.CREATIVE_ONLY;
                         }
-                        world.spawnEntity(doubleShotLower);
-                        world.spawnEntity(doubleShotHigher);
+                        world.addEntity(doubleShotLower);
+                        world.addEntity(doubleShotHigher);
                     }
                     world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
@@ -114,7 +103,7 @@ public class NuitsDualityItem extends BaseBowItem {
                             player.inventory.deleteStack(ammoStack);
                         }
                     }
-                    player.addStat(Objects.requireNonNull(StatList.getObjectUseStats(this)));
+                    player.addStat(Stats.ITEM_USED.get(this));
                 }
             }
         }

@@ -21,7 +21,7 @@ public class AICamelCaravan extends EntityAIBase {
     @Override
     public boolean shouldExecute() {
         if (this.camel.isTame() && !this.canLeadCaravan(this.camel) && !this.camel.inCaravan()) {
-            List<EntityCamel> list = this.camel.world.getEntitiesWithinAABB(this.camel.getClass(), this.camel.getEntityBoundingBox().grow(9.0D, 4.0D, 9.0D));
+            List<EntityCamel> list = this.camel.world.getEntitiesWithinAABB(this.camel.getClass(), this.camel.getBoundingBox().grow(9.0D, 4.0D, 9.0D));
             EntityCamel camel = null;
             double distance = Double.MAX_VALUE;
 
@@ -63,7 +63,7 @@ public class AICamelCaravan extends EntityAIBase {
 
     @Override
     public boolean shouldContinueExecuting() {
-        if (this.camel.inCaravan() && this.camel.getCaravanHead() != null && this.camel.getCaravanHead().isEntityAlive() && this.firstCanBeCaravanLeader(this.camel, 0)) {
+        if (this.camel.inCaravan() && this.camel.getCaravanHead() != null && this.camel.getCaravanHead().isAlive() && this.firstCanBeCaravanLeader(this.camel, 0)) {
             double distanceSq = this.camel.getDistanceSq(this.camel.getCaravanHead());
 
             if (distanceSq > 676.0D) {

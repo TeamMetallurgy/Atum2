@@ -185,7 +185,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    protected void despawnEntity() {
+    protected void deaddEntity() {
     }
 
     @Override
@@ -196,7 +196,7 @@ public class EntityPharaoh extends EntityUndeadBase {
                 TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
                 if (tileEntity instanceof TileEntitySarcophagus) {
                     ((TileEntitySarcophagus) tileEntity).setOpenable();
-                    for (EnumFacing horizontal : EnumFacing.HORIZONTALS) {
+                    for (Direction horizontal : Direction.HORIZONTALS) {
                         TileEntity tileEntityOffset = world.getTileEntity(sarcophagusPos.offset(horizontal));
                         if (tileEntityOffset instanceof TileEntitySarcophagus) {
                             ((TileEntitySarcophagus) tileEntityOffset).setOpenable();
@@ -211,7 +211,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         if (source.damageType.equals("player")) {
             PlayerEntity slayer = (PlayerEntity) source.getTrueSource();
             if (!world.isRemote && slayer != null) {
-                List<ServerPlayerEntity> players = FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayers();
+                List<ServerPlayerEntity> players = FMLCommonHandler.instance().getInstanceServerInstance().getPlayerList().getPlayers();
                 for (PlayerEntity player : players) {
                     player.sendMessage(new TextComponentString(God.getGod(this.getVariant()).getColor() + this.getName() + " " + AtumUtils.format("chat.atum.killPharaoh") + " " + slayer.getGameProfile().getName()));
                 }
@@ -326,8 +326,8 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (!world.isRemote) {
             this.setBossInfo(this.getVariant());
@@ -404,39 +404,39 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     public void spawnGuards(BlockPos pos) {
-        EnumFacing facing = EnumFacing.byHorizontalIndex(MathHelper.floor(this.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
+        Direction facing = Direction.byHorizontalIndex(MathHelper.floor(this.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
         this.trySpawnMummy(pos, facing);
         this.trySpawnMummy(pos, facing.rotateY().rotateY());
     }
 
-    private void trySpawnMummy(BlockPos pos, EnumFacing facing) {
+    private void trySpawnMummy(BlockPos pos, Direction facing) {
         BlockPos base = pos.offset(facing, 1);
 
-        if (!world.isBlockFullCube(base) && !world.isBlockFullCube(base.offset(EnumFacing.UP))) {
+        if (!world.isBlockFullCube(base) && !world.isBlockFullCube(base.offset(Direction.UP))) {
             EntityMummy entityMummy = new EntityMummy(world);
             entityMummy.onInitialSpawn(world.getDifficultyForLocation(base), null);
             entityMummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
             if (!world.isRemote) {
-                AnvilChunkLoader.spawnEntity(entityMummy, world);
+                AnvilChunkLoader.addEntity(entityMummy, world);
             }
             entityMummy.spawnExplosionParticle();
             return;
         }
 
-        for (EnumFacing offset : EnumFacing.HORIZONTALS) {
+        for (Direction offset : Direction.HORIZONTALS) {
             // Don't spawn the mummy on top of the pharaoh
             if (offset == facing.getOpposite())
                 continue;
 
             BlockPos new_pos = base.offset(offset);
-            if (!world.isBlockFullCube(new_pos) && !world.isBlockFullCube(new_pos.offset(EnumFacing.UP))) {
+            if (!world.isBlockFullCube(new_pos) && !world.isBlockFullCube(new_pos.offset(Direction.UP))) {
                 EntityMummy entityMummy = new EntityMummy(world);
                 entityMummy.onInitialSpawn(world.getDifficultyForLocation(new_pos), null);
                 entityMummy.setLocationAndAngles(new_pos.getX(), new_pos.getY(), new_pos.getZ(), world.rand.nextFloat() * 360.0F, 0.0F);
 
                 if (!world.isRemote) {
-                    AnvilChunkLoader.spawnEntity(entityMummy, world);
+                    AnvilChunkLoader.addEntity(entityMummy, world);
                 }
                 entityMummy.spawnExplosionParticle();
                 return;

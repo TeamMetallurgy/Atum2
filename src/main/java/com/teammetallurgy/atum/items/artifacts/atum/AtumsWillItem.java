@@ -60,7 +60,7 @@ public class AtumsWillItem extends SwordItem {
                 LivingEntity target = event.getEntityLiving();
                 event.setAmount(event.getAmount() * 2);
                 for (int l = 0; l < 16; ++l) {
-                    Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, target, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + random.nextDouble() * (double) target.getHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
+                    target.world.addParticle(AtumParticles.LIGHT_SPARKLE, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + random.nextDouble() * (double) target.getHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
                 }
             }
             cooldown.removeFloat(trueSource);

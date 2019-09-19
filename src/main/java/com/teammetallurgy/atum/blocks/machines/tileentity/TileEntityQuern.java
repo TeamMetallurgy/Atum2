@@ -16,7 +16,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityHopper;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -65,7 +65,7 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
     }
 
     private void outputItems(@Nonnull ItemStack stack, BlockPos pos) {
-        EnumFacing facing = world.getBlockState(pos).getValue(BlockQuern.FACING).getOpposite();
+        Direction facing = world.getBlockState(pos).getValue(BlockQuern.FACING).getOpposite();
         TileEntity tileEntity = world.getTileEntity(pos.offset(facing));
         if (tileEntity instanceof ISidedInventory && ((ISidedInventory) tileEntity).getSlotsForFace(facing).length > 0 || tileEntity instanceof IInventory && ((IInventory) tileEntity).getSizeInventory() > 0) {
             IInventory inventory = ((IInventory) tileEntity);
@@ -144,22 +144,22 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
 
     @Override
     @Nonnull
-    public int[] getSlotsForFace(@Nonnull EnumFacing side) {
+    public int[] getSlotsForFace(@Nonnull Direction side) {
         return new int[0];
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing facing) {
+    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
         return false;
     }
 
     @Override
-    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing facing) {
+    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
         return false;
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
         return false;
     }
 

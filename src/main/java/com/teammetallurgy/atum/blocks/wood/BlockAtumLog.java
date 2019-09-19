@@ -1,18 +1,17 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockLog;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public class BlockAtumLog extends BlockLog implements IOreDictEntry {
+public class BlockAtumLog extends BlockLog {
 
     public BlockAtumLog() {
         super();
@@ -21,14 +20,14 @@ public class BlockAtumLog extends BlockLog implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
         return BlockAtumPlank.WoodType.PALM.getMapColor();
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        IBlockState state = this.getDefaultState();
+    public BlockState getStateFromMeta(int meta) {
+        BlockState state = this.getDefaultState();
 
         switch (meta & 12) {
             case 0:
@@ -47,7 +46,7 @@ public class BlockAtumLog extends BlockLog implements IOreDictEntry {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
 
         switch (state.getValue(LOG_AXIS)) {

@@ -18,7 +18,7 @@ public class PacketStormStrength extends Packet<PacketStormStrength> {
 
 	@Override
 	protected void handleClientSide(PlayerEntity player) {
-		WorldProvider provider = Minecraft.getMinecraft().player.world.provider;
+		WorldProvider provider = Minecraft.getInstance().player.world.provider;
 		if (provider instanceof WorldProviderAtum) {
 			WorldProviderAtum providerAtum = (WorldProviderAtum) provider;
 			providerAtum.stormStrength = stormStrength;

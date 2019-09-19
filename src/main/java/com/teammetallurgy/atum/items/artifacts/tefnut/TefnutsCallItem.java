@@ -9,14 +9,15 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Rarity;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.common.Mod;
@@ -27,9 +28,7 @@ import javax.annotation.Nonnull;
 public class TefnutsCallItem extends Item {
 
     public TefnutsCallItem() {
-        super();
-        this.setMaxDamage(650);
-        this.setMaxStackSize(1);
+        super(new Item.Properties().maxDamage(650).rarity(Rarity.RARE));
     }
 
     @Override
@@ -39,26 +38,14 @@ public class TefnutsCallItem extends Item {
     }
 
     @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
-    }
-
-    @Override
-    public int getMaxItemUseDuration(@Nonnull ItemStack stack) {
+    public int getUseDuration(@Nonnull ItemStack stack) {
         return 7200;
     }
 
     @Override
     @Nonnull
-    public EnumAction getItemUseAction(@Nonnull ItemStack stack) {
-        return EnumAction.BOW;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldRotateAroundWhenRendering() {
-        return false;
+    public UseAction getUseAction(@Nonnull ItemStack stack) {
+        return UseAction.BOW;
     }
 
     @Override
@@ -76,7 +63,7 @@ public class TefnutsCallItem extends Item {
     public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
-            int j = this.getMaxItemUseDuration(stack) - timeLeft;
+            int j = this.getUseDuration(stack) - timeLeft;
             if (j > 21) {
                 j = 21;
             }
@@ -88,9 +75,13 @@ public class TefnutsCallItem extends Item {
                 spear.setStack(stack);
 
                 world.addEntity(spear);
-                world.updateEntity(spear);
+                if (world instanceof ServerWorld) {
+                    ((ServerWorld) world).updateEntity(spear);
+                }
 
-                stack.damageItem(4, player);
+                stack.damageItem(4, player, (e) -> {
+                    e.sendBreakAnimation(entityLiving.getActiveHand());
+                });
             }
             player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
         }
@@ -100,6 +91,6 @@ public class TefnutsCallItem extends Item {
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
         player.setActiveHand(hand);
-        return new ActionResult<>(EnumActionResult.PASS, player.getHeldItem(hand));
+        return new ActionResult<>(ActionResultType.PASS, player.getHeldItem(hand));
     }
 }

@@ -1,23 +1,17 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.block.Block;
-import net.minecraft.block.FarmlandBlock;
-import net.minecraft.block.IGrowable;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,12 +36,12 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public void updateTick(@Nonnull World world, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(@Nonnull World world, BlockPos pos, BlockState state, Random rand) {
         int moisture = state.getValue(MOISTURE);
 
         Block blockUp = world.getBlockState(pos.up()).getBlock();
         if (state.getValue(BLESSED) && blockUp instanceof IGrowable) {
-            world.scheduleUpdate(pos.up(), blockUp, this.tickRate(world));
+            world.getPendingBlockTicks().scheduleTick(pos.up(), blockUp, this.tickRate(world));
         }
 
         if (!this.hasWater(world, pos) && !world.isRainingAt(pos.up())) {
@@ -68,14 +62,14 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand) {
-        if (state.getValue(BLESSED) && !world.getBlockState(pos.up()).isNormalCube()) {
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand) {
+        if (state.get(BLESSED) && !world.getBlockState(pos.up()).isNormalCube()) {
             if (rand.nextDouble() <= 0.15D) {
                 for (int amount = 0; amount < 3; ++amount) {
                     double d0 = rand.nextGaussian() * 0.01D;
                     double d1 = rand.nextGaussian() * 0.005D;
                     double d2 = rand.nextGaussian() * 0.01D;
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TEFNUT, Minecraft.getMinecraft().player, (double) ((float) pos.getX() + rand.nextFloat()), (double) pos.getY() + 1.05D, (double) ((float) pos.getZ() + rand.nextFloat()), d0, d1, d2);
+                    world.addParticle(AtumParticles.TEFNUT, (float) pos.getX() + rand.nextFloat(), (double) pos.getY() + 1.05D, (float) pos.getZ() + rand.nextFloat(), d0, d1, d2);
                 }
             }
         }
@@ -90,19 +84,19 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     private static void turnToSoil(World world, BlockPos pos) {
-        IBlockState state = AtumBlocks.FERTILE_SOIL.getDefaultState();
+        BlockState state = AtumBlocks.FERTILE_SOIL.getDefaultState();
         world.setBlockState(pos, state);
         AxisAlignedBB axisAlignedBB = field_194405_c.offset(pos);
 
         for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(null, axisAlignedBB)) {
-            double axisY = Math.min(axisAlignedBB.maxY - axisAlignedBB.minY, axisAlignedBB.maxY - entity.getEntityBoundingBox().minY);
+            double axisY = Math.min(axisAlignedBB.maxY - axisAlignedBB.minY, axisAlignedBB.maxY - entity.getBoundingBox().minY);
             entity.setPositionAndUpdate(entity.posX, entity.posY + axisY + 0.001D, entity.posZ);
         }
     }
 
     private boolean hasCrops(World world, BlockPos pos) {
         Block block = world.getBlockState(pos.up()).getBlock();
-        return block instanceof IPlantable && canSustainPlant(world.getBlockState(pos), world, pos, EnumFacing.UP, (IPlantable) block);
+        return block instanceof IPlantable && canSustainPlant(world.getBlockState(pos), world, pos, Direction.UP, (IPlantable) block);
     }
 
     private boolean hasWater(World world, BlockPos pos) {
@@ -115,7 +109,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         super.neighborChanged(state, world, pos, block, fromPos);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
@@ -124,7 +118,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public void onPlantGrow(IBlockState state, @Nonnull World world, @Nonnull BlockPos pos, BlockPos source) {
+    public void onPlantGrow(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, BlockPos source) {
         if (this == AtumBlocks.FERTILE_SOIL_TILLED) {
             world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState(), 2);
         }
@@ -132,7 +126,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
         super.onBlockAdded(world, pos, state);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
@@ -141,7 +135,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull EnumFacing direction, IPlantable plantable) {
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
         EnumPlantType plantType = plantable.getPlantType(world, pos.up());
 
         switch (plantType) {
@@ -155,7 +149,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(@Nonnull BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, Direction side) {
         switch (side) {
             case UP:
                 return true;
@@ -163,7 +157,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
             case SOUTH:
             case WEST:
             case EAST:
-                IBlockState stateSide = world.getBlockState(pos.offset(side));
+                BlockState stateSide = world.getBlockState(pos.offset(side));
                 Block block = stateSide.getBlock();
                 return !stateSide.isOpaqueCube() && block != AtumBlocks.FERTILE_SOIL && block != Blocks.GRASS_PATH;
             default:
@@ -173,7 +167,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, @Nullable Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, @Nullable Random rand, int fortune) {
         return AtumItems.FERTILE_SOIL_PILE;
     }
 
@@ -184,12 +178,12 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(MOISTURE, meta & 7).withProperty(BLESSED, meta > 7);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(MOISTURE) + (state.getValue(BLESSED) ? 8 : 0);
     }
 

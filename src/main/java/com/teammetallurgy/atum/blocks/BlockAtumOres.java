@@ -3,11 +3,10 @@ package com.teammetallurgy.atum.blocks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockOre;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Random;
 
-public class BlockAtumOres extends BlockOre implements IOreDictEntry {
+public class BlockAtumOres extends BlockOre {
 
     public BlockAtumOres() {
         super();
@@ -37,7 +36,7 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         if (this == AtumBlocks.COAL_ORE) {
             return Items.COAL;
         } else if (this == AtumBlocks.DIAMOND_ORE) {
@@ -59,7 +58,7 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
     }
 
     @Override
-    public int getExpDrop(@Nullable IBlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune) {
+    public int getExpDrop(@Nullable BlockState state, net.minecraft.world.IBlockAccess world, BlockPos pos, int fortune) {
         Random rand = world instanceof World ? ((World) world).rand : new Random();
         if (this.getItemDropped(state, rand, fortune) != Item.getItemFromBlock(this)) {
             int xp = 0;
@@ -83,12 +82,12 @@ public class BlockAtumOres extends BlockOre implements IOreDictEntry {
     }
 
     @Override
-    public int damageDropped(IBlockState state) {
+    public int damageDropped(BlockState state) {
         return this == AtumBlocks.LAPIS_ORE ? EnumDyeColor.BLUE.getDyeDamage() : 0;
     }
 
     @Override
-    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess blockAccess, BlockPos pos, @Nonnull IBlockState state, int fortune) {
+    public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockAccess blockAccess, BlockPos pos, @Nonnull BlockState state, int fortune) {
         World world = blockAccess instanceof World ? ((World) blockAccess) : null;
 
         if (this == AtumBlocks.RELIC_ORE) {

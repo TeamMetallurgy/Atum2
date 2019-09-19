@@ -102,7 +102,7 @@ public class LighthousePieces {
                     EntitySunspeaker sunspeaker = new EntitySunspeaker(world);
                     sunspeaker.setLocationAndAngles((double) j + 0.5D, (double) k, (double) l + 0.5D, 0.0F, 0.0F);
                     sunspeaker.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(sunspeaker)), null);
-                    world.spawnEntity(sunspeaker);
+                    world.addEntity(sunspeaker);
                 }
 
                 // Failsafe

@@ -52,7 +52,7 @@ public class ContainerAlphaDesertWolf extends Container {
 
     @Override
     public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return this.wolfInventory.isUsableByPlayer(player) && this.desertWolf.isEntityAlive() && this.desertWolf.getDistance(player) < 8.0F;
+        return this.wolfInventory.isUsableByPlayer(player) && this.desertWolf.isAlive() && this.desertWolf.getDistance(player) < 8.0F;
     }
 
     @Override

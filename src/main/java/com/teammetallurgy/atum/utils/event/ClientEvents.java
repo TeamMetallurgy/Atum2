@@ -3,18 +3,14 @@ package com.teammetallurgy.atum.utils.event;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
-import com.teammetallurgy.atum.proxy.ClientProxy;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
@@ -30,8 +26,6 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -56,7 +50,7 @@ public class ClientEvents {
     public static void renderSand(RenderGameOverlayEvent.Pre event) {
         if (event.getType() != ElementType.ALL) return;
 
-        if (Minecraft.getMinecraft().player.dimension == AtumConfig.DIMENSION_ID) {
+        if (Minecraft.getInstance().player.dimension == AtumConfig.DIMENSION_ID) {
             //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
         }
     }*/
@@ -192,9 +186,9 @@ public class ClientEvents {
         PlayerEntity player = event.getPlayer();
         Hand hand = player.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? Hand.OFF_HAND : Hand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
-        if (NuitsVanishingItem.IS_BAUBLES_INSTALLED && NuitsVanishingItem.getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
+        /*if (NuitsVanishingItem.IS_BAUBLES_INSTALLED && NuitsVanishingItem.getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
             heldStack = NuitsVanishingItem.getAmulet(player);
-        }
+        }*/
         if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
             if (!NuitsVanishingItem.isPlayerMoving(player)) {
                 event.setCanceled(true);
@@ -229,40 +223,6 @@ public class ClientEvents {
             GlStateManager.enableDepthTest();
             GlStateManager.enableAlphaTest();
             GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onClientTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) {
-            if (Minecraft.getInstance().world != null && !Minecraft.getInstance().isGamePaused()) {
-                ClientProxy.atumParticles.updateEffects();
-            }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onRenderLastWorld(RenderWorldLastEvent event) {
-        GameRenderer gameRenderer = Minecraft.getInstance().gameRenderer;
-        AtumParticles particles = ClientProxy.atumParticles;
-        Minecraft mc = Minecraft.getInstance();
-        Entity entity = mc.getRenderViewEntity();
-
-        if (entity != null) {
-            gameRenderer.enableLightmap();
-            mc.getProfiler().endStartSection("litParticles");
-            particles.renderLitParticles(entity, event.getPartialTicks());
-            RenderHelper.disableStandardItemLighting();
-            mc.getProfiler().endStartSection("particles");
-            particles.renderParticles(entity, event.getPartialTicks());
-            gameRenderer.disableLightmap();
-        }
-    }
-
-    @SubscribeEvent
-    public static void onWorldLoad(WorldEvent.Load event) {
-        if (event.getWorld().isRemote()) {
-            ClientProxy.atumParticles.clearEffects(event.getWorld().getWorld());
         }
     }
 }

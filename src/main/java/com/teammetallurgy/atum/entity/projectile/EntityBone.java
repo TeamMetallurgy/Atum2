@@ -66,7 +66,7 @@ public abstract class EntityBone extends Entity {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean isInRangeToRenderDist(double distance) {
-        double d0 = this.getEntityBoundingBox().getAverageEdgeLength() * 4.0D;
+        double d0 = this.getBoundingBox().getAverageEdgeLength() * 4.0D;
 
         if (Double.isNaN(d0)) {
             d0 = 4.0D;
@@ -77,9 +77,9 @@ public abstract class EntityBone extends Entity {
     }
 
     @Override
-    public void onUpdate() {
+    public void tick() {
         if (this.world.isRemote || (this.shootingEntity == null || !this.shootingEntity.isDead) && this.world.isBlockLoaded(new BlockPos(this))) {
-            super.onUpdate();
+            super.tick();
             ++this.ticksInAir;
             RayTraceResult raytraceresult = ProjectileHelper.forwardsRaycast(this, true, this.ticksInAir >= 25, this.shootingEntity);
 

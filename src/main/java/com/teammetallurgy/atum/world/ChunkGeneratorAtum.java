@@ -19,10 +19,10 @@ import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import com.teammetallurgy.atum.world.gen.structure.tomb.MapGenTomb;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.block.BlockFalling;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -40,7 +40,7 @@ import java.util.List;
 import java.util.Random;
 
 public class ChunkGeneratorAtum implements IChunkGenerator {
-    private static final IBlockState LIMESTONE = AtumBlocks.LIMESTONE.getDefaultState();
+    private static final BlockState LIMESTONE = AtumBlocks.LIMESTONE.getDefaultState();
     private final Random rand;
     private NoiseGeneratorOctaves minLimitPerlinNoise;
     private NoiseGeneratorOctaves maxLimitPerlinNoise;
@@ -80,7 +80,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         this.scaleNoise = new NoiseGeneratorOctaves(this.rand, 10);
         this.depthNoise = new NoiseGeneratorOctaves(this.rand, 16);
         this.forestNoise = new NoiseGeneratorOctaves(this.rand, 8);
-        this.heightMap = new double[825];
+        this.getHeight()Map = new double[825];
         this.biomeWeights = new float[25];
 
         for (int i = -2; i <= 2; ++i) {
@@ -122,14 +122,14 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
 
                 for (int i2 = 0; i2 < 32; ++i2) {
                     double d0 = 0.125D;
-                    double d1 = this.heightMap[i1 + i2];
-                    double d2 = this.heightMap[j1 + i2];
-                    double d3 = this.heightMap[k1 + i2];
-                    double d4 = this.heightMap[l1 + i2];
-                    double d5 = (this.heightMap[i1 + i2 + 1] - d1) * d0;
-                    double d6 = (this.heightMap[j1 + i2 + 1] - d2) * d0;
-                    double d7 = (this.heightMap[k1 + i2 + 1] - d3) * d0;
-                    double d8 = (this.heightMap[l1 + i2 + 1] - d4) * d0;
+                    double d1 = this.getHeight()Map[i1 + i2];
+                    double d2 = this.getHeight()Map[j1 + i2];
+                    double d3 = this.getHeight()Map[k1 + i2];
+                    double d4 = this.getHeight()Map[l1 + i2];
+                    double d5 = (this.getHeight()Map[i1 + i2 + 1] - d1) * d0;
+                    double d6 = (this.getHeight()Map[j1 + i2 + 1] - d2) * d0;
+                    double d7 = (this.getHeight()Map[k1 + i2 + 1] - d3) * d0;
+                    double d8 = (this.getHeight()Map[l1 + i2 + 1] - d4) * d0;
 
                     for (int j2 = 0; j2 < 8; ++j2) {
                         double d9 = 0.25D;
@@ -300,7 +300,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                         double d6 = (double) ((float) (l1 - 29) / 3.0F);
                         d5 = d5 * (1.0D - d6) + -10.0D * d6;
                     }
-                    this.heightMap[i] = d5;
+                    this.getHeight()Map[i] = d5;
                     ++i;
                 }
             }
@@ -360,9 +360,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                     BlockPos blockpos1 = this.world.getPrecipitationHeight(blockpos.add(k2, 0, j3));
 
                     if (canPlaceSandLayer(world, blockpos1, biome) && world.isAirBlock(blockpos1)) {
-                        for (EnumFacing facing : EnumFacing.HORIZONTALS) {
+                        for (Direction facing : Direction.HORIZONTALS) {
                             BlockPos posOffset = blockpos1.offset(facing);
-                            if (world.getBlockState(posOffset).isSideSolid(world, posOffset, EnumFacing.UP)) {
+                            if (world.getBlockState(posOffset).isSideSolid(world, posOffset, Direction.UP)) {
                                 int layers = MathHelper.getInt(rand, 1, 3);
                                 this.world.setBlockState(blockpos1, AtumBlocks.SAND_LAYERED.getDefaultState().withProperty(BlockSandLayers.LAYERS, layers), 2);
                             }
@@ -375,10 +375,10 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     }
 
     static boolean canPlaceSandLayer(World world, BlockPos pos, Biome biome) {
-        IBlockState stateDown = world.getBlockState(pos.down());
+        BlockState stateDown = world.getBlockState(pos.down());
         return biome != AtumBiomes.OASIS
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
-                && stateDown.isSideSolid(world, pos, EnumFacing.UP)
+                && stateDown.isSideSolid(world, pos, Direction.UP)
                 && !(stateDown.getBlock() instanceof BlockSandLayers)
                 && !(world.getBlockState(pos).getBlock() instanceof BlockSandLayers);
     }

@@ -74,16 +74,16 @@ public class EntityBonestorm extends EntityUndeadBase {
 
     @Override
     protected void updateAITasks() {
-        --this.heightOffsetUpdateTime;
+        --this.getHeight()OffsetUpdateTime;
 
-        if (this.heightOffsetUpdateTime <= 0) {
-            this.heightOffsetUpdateTime = 100;
-            this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
+        if (this.getHeight()OffsetUpdateTime <= 0) {
+            this.getHeight()OffsetUpdateTime = 100;
+            this.getHeight()Offset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
         }
 
         LivingEntity livingBase = this.getAttackTarget();
 
-        if (livingBase != null && livingBase.posY + (double) livingBase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
+        if (livingBase != null && livingBase.posY + (double) livingBase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.getHeight()Offset) {
             this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
             this.isAirBorne = true;
         }
@@ -129,7 +129,7 @@ public class EntityBonestorm extends EntityUndeadBase {
         @Override
         public boolean shouldExecute() {
             LivingEntity livingBase = this.bonestorm.getAttackTarget();
-            return livingBase != null && livingBase.isEntityAlive();
+            return livingBase != null && livingBase.isAlive();
         }
 
         @Override
@@ -152,7 +152,7 @@ public class EntityBonestorm extends EntityUndeadBase {
                     this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
                 } else if (distance < this.getFollowDistance() * this.getFollowDistance()) {
                     double boneX = livingBase.posX - this.bonestorm.posX;
-                    double boneY = livingBase.getEntityBoundingBox().minY + (double) (livingBase.height / 2.0F) - (this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F));
+                    double boneY = livingBase.getBoundingBox().minY + (double) (livingBase.height / 2.0F) - (this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F));
                     double boneZ = livingBase.posZ - this.bonestorm.posZ;
 
                     if (this.attackTime <= 0) {
@@ -174,7 +174,7 @@ public class EntityBonestorm extends EntityUndeadBase {
                             for (int i = 0; i < 1; ++i) {
                                 EntitySmallBone entitySmallBone = new EntitySmallBone(this.bonestorm.world, this.bonestorm, boneX + this.bonestorm.getRNG().nextGaussian() * (double) f, boneY, boneZ + this.bonestorm.getRNG().nextGaussian() * (double) f);
                                 entitySmallBone.posY = this.bonestorm.posY + (double) (this.bonestorm.height / 2.0F) + 0.5D;
-                                this.bonestorm.world.spawnEntity(entitySmallBone);
+                                this.bonestorm.world.addEntity(entitySmallBone);
                             }
                         }
                     }
@@ -188,7 +188,7 @@ public class EntityBonestorm extends EntityUndeadBase {
         }
 
         private double getFollowDistance() {
-            return this.bonestorm.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getAttributeValue();
+            return this.bonestorm.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
         }
     }
 }

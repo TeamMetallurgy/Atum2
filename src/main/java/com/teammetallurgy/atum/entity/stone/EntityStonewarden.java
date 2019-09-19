@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.entity.stone;
 
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -85,10 +85,10 @@ public class EntityStonewarden extends EntityStoneBase {
             int x = MathHelper.floor(this.posX);
             int y = MathHelper.floor(this.posY - 0.20000000298023224D);
             int z = MathHelper.floor(this.posZ);
-            IBlockState state = this.world.getBlockState(new BlockPos(x, y, z));
+            BlockState state = this.world.getBlockState(new BlockPos(x, y, z));
 
             if (state.getMaterial() != Material.AIR) {
-                this.world.spawnParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, this.getEntityBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.width, 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D, Block.getStateId(state));
+                this.world.addParticle(EnumParticleTypes.BLOCK_CRACK, this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.getWidth(), this.getBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.getWidth(), 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D, Block.getStateId(state));
             }
         }
     }

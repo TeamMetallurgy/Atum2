@@ -1,11 +1,11 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -26,9 +26,9 @@ public class EntityArrowFire extends CustomArrow {
         super.onHit(rayTraceResult);
         if (rayTraceResult != null && !world.isRemote) {
             Entity hitEnity = rayTraceResult.entityHit;
-            if (rayTraceResult.typeOfHit == RayTraceResult.Type.ENTITY && hitEnity instanceof LivingEntity) {
+            if (rayTraceResult.getType() == RayTraceResult.Type.ENTITY && hitEnity instanceof LivingEntity) {
                 hitEnity.setFire(5);
-            } else if (rayTraceResult.typeOfHit == RayTraceResult.Type.BLOCK && shootingEntity instanceof PlayerEntity) {
+            } else if (rayTraceResult.getType() == RayTraceResult.Type.BLOCK && shootingEntity instanceof PlayerEntity) {
                 BlockPos pos = rayTraceResult.getBlockPos().offset(rayTraceResult.sideHit);
                 PlayerEntity player = (PlayerEntity) shootingEntity;
                 if (player.canPlayerEdit(pos, rayTraceResult.sideHit, player.getHeldItem(player.getActiveHand())) && world.getBlockState(pos).getMaterial() == Material.AIR) {

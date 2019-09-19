@@ -3,14 +3,11 @@ package com.teammetallurgy.atum.blocks.glass;
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBeacon;
-import net.minecraft.block.BlockPane;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
@@ -23,7 +20,7 @@ import org.apache.commons.lang3.text.WordUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntry {
+public class BlockAtumStainedGlassPane extends BlockPane {
 
     private BlockAtumStainedGlassPane() {
         super(Material.GLASS, false);
@@ -52,7 +49,7 @@ public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntr
 
     @Override
     @Nullable
-    public float[] getBeaconColorMultiplier(IBlockState state, World world, BlockPos pos, BlockPos beaconPos) {
+    public float[] getBeaconColorMultiplier(BlockState state, World world, BlockPos pos, BlockPos beaconPos) {
         return EnumDyeColor.valueOf(WordUtils.swapCase(getColorString())).getColorComponentValues();
     }
 
@@ -62,14 +59,14 @@ public class BlockAtumStainedGlassPane extends BlockPane implements IOreDictEntr
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
         if (!world.isRemote) {
             BlockBeacon.updateColorAsync(world, pos);
         }
     }
 
     @Override
-    public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state) {
+    public void breakBlock(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         if (!world.isRemote) {
             BlockBeacon.updateColorAsync(world, pos);
         }

@@ -3,13 +3,10 @@ package com.teammetallurgy.atum.blocks.beacon.tileentity;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.beacon.BlockRadiantBeacon;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BlockAir;
-import net.minecraft.block.BlockStainedGlass;
-import net.minecraft.block.BlockStainedGlassPane;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -55,7 +52,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
             for (int height = y + 1; height < 256; ++height) {
-            IBlockState state = this.world.getBlockState(pos.setPos(x, height, z));
+            BlockState state = this.world.getBlockState(pos.setPos(x, height, z));
             float[] color;
 
             if (state.getBlock() == Blocks.STAINED_GLASS) {

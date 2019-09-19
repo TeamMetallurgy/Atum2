@@ -10,10 +10,10 @@ import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.base.AtumBiomeProvider;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -145,14 +145,14 @@ public class WorldProviderAtum extends Dimension {
     }
 
     private boolean canPlaceSandAt(BlockPos pos, Biome biome) {
-        IBlockState state = world.getBlockState(pos.down());
+        BlockState state = world.getBlockState(pos.down());
         if (state.getBlock() == AtumBlocks.SAND || state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL || !ChunkGeneratorAtum.canPlaceSandLayer(world, pos, biome)) {
             return false;
         }
         state = world.getBlockState(pos);
         if (state.getBlock().isReplaceable(world, pos)) {
             state = world.getBlockState(pos.down());
-            BlockFaceShape blockFaceShape = state.getBlockFaceShape(world, pos.down(), EnumFacing.UP);
+            BlockFaceShape blockFaceShape = state.getBlockFaceShape(world, pos.down(), Direction.UP);
             return blockFaceShape == BlockFaceShape.SOLID || state.getBlock().isLeaves(state, world, pos.down());
         }
         return false;
@@ -209,7 +209,7 @@ public class WorldProviderAtum extends Dimension {
                     BlockPos posDown = pos.down();
 
                     if (world.isAreaLoaded(posDown, 1)) {// Forge: check area to avoid loading neighbors in unloaded chunks
-                        IBlockState sandState = world.getBlockState(pos);
+                        BlockState sandState = world.getBlockState(pos);
                         if (stormStrength > 0.9f) {
                             if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
                                 int layers = sandState.getValue(BlockSandLayers.LAYERS);

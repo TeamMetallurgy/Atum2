@@ -65,7 +65,7 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
             if (desertWolf.isSaddled()) {
                 texturePath[2] = SADDLE_DESERT_WOLF_TEXTURE.toString();
             }
-            Minecraft.getMinecraft().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
+            Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
             CACHE.put(textureName, location);
         }
         return location;

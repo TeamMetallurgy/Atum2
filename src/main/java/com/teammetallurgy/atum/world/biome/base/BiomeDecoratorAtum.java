@@ -5,9 +5,9 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenShrub;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenSpring;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -67,7 +67,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         this.generateFalls = false;
     }
 
-    private WorldGenMinable generateMineable(IBlockState state, int size) {
+    private WorldGenMinable generateMineable(BlockState state, int size) {
         String category = AtumConfig.OREGEN + Configuration.CATEGORY_SPLITTER + Objects.requireNonNull(state.getBlock().getRegistryName()).getPath();
         size = AtumConfig.config.get(category, "vein size", size).getInt();
         AtumConfig.config.save();

@@ -22,7 +22,7 @@ public class GuiAlphaDesertWolf extends GuiContainer {
     private float mousePosY;
 
     public GuiAlphaDesertWolf(IInventory playerInv, IInventory wolfInventory, EntityDesertWolf desertWolf) {
-        super(new ContainerAlphaDesertWolf(playerInv, wolfInventory, desertWolf, Minecraft.getMinecraft().player));
+        super(new ContainerAlphaDesertWolf(playerInv, wolfInventory, desertWolf, Minecraft.getInstance().player));
         this.playerInventory = playerInv;
         this.wolfInventory = wolfInventory;
         this.desertWolf = desertWolf;
@@ -39,8 +39,8 @@ public class GuiAlphaDesertWolf extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         this.mc.getTextureManager().bindTexture(CAMEL_GUI_TEXTURE);
-        int width = (this.width - this.xSize) / 2;
-        int height = (this.height - this.ySize) / 2;
+        int width = (this.getWidth() - this.xSize) / 2;
+        int height = (this.getHeight() - this.ySize) / 2;
         this.drawTexturedModalRect(width, height, 0, 0, this.xSize, this.ySize);
 
         if (this.desertWolf != null) {

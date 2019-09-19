@@ -1,7 +1,17 @@
 ============================================
 
         Atum 2: Return to the Sands
+		     Version 2.1.0
+============================================
 
+Removals
+* Brown & Green dye, since vanilla have them now
+* Graverobber's Map, using vanillas Explorer Map instead
+
+============================================
+
+        Atum 2: Return to the Sands
+             Version 2.0.0
 ============================================
 
 **Atum 2 is a complete rebuild from the ground up of Atum 1. As such there are many, many changes. Not everything is documented here.**

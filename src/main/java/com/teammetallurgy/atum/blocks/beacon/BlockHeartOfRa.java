@@ -3,18 +3,18 @@ package com.teammetallurgy.atum.blocks.beacon;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.entity.EntityHeartOfRa;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.Direction;
 import net.minecraft.util.EnumBlockRenderType;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
@@ -41,43 +41,43 @@ public class BlockHeartOfRa extends BlockContainer {
 
 
     @Override
-    public boolean canEntitySpawn(IBlockState state, Entity entity) {
+    public boolean canEntitySpawn(BlockState state, Entity entity) {
         return entity instanceof EntityHeartOfRa;
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, IBlockState state) {
+    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
         super.onBlockAdded(world, pos, state);
 
         EntityHeartOfRa heartOfRa = new EntityHeartOfRa(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY()), (double) ((float) pos.getZ() + 0.5F));
-        world.spawnEntity(heartOfRa);
+        world.addEntity(heartOfRa);
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(IBlockState state) {
+    public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.MODEL;
     }
 
     @Override
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
         return NULL_AABB;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return AABB;
     }
 
@@ -90,18 +90,18 @@ public class BlockHeartOfRa extends BlockContainer {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 
     @Override
-    public boolean canCreatureSpawn(@Nonnull IBlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLiving.SpawnPlacementType type) {
+    public boolean canCreatureSpawn(@Nonnull BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, EntityLiving.SpawnPlacementType type) {
         return false;
     }
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
         return Items.AIR;
     }
 }

@@ -4,9 +4,10 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.EnumRarity;
+import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -19,8 +20,7 @@ import javax.annotation.Nonnull;
 public class BodyOfRaItem extends TexturedArmorItem {
 
     public BodyOfRaItem() {
-        super(ArmorMaterial.DIAMOND, "ra_armor_1", EquipmentSlotType.CHEST);
-        this.setRepairItem(Items.DIAMOND);
+        super(ArmorMaterial.DIAMOND, "ra_armor_1", EquipmentSlotType.CHEST, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -34,11 +34,5 @@ public class BodyOfRaItem extends TexturedArmorItem {
         if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_RA && event.getSource().isFireDamage()) {
             event.setAmount(0.0F);
         }
-    }
-
-    @Override
-    @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
     }
 }

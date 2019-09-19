@@ -21,11 +21,11 @@ public class EntityArrowExplosive extends CustomArrow {
     }
 
     @Override
-    public void onUpdate() {
-        if (ticksInAir > 0 && velocity == 1.0F && !inGround && world.getTotalWorldTime() % 2L == 0L) {
+    public void tick() {
+        if (ticksInAir > 0 && velocity == 1.0F && !inGround && world.getGameTime() % 2L == 0L) {
             world.playSound(null, getPosition(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
-        super.onUpdate();
+        super.tick();
     }
 
     @Override

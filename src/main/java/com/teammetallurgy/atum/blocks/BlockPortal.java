@@ -4,20 +4,15 @@ import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.teleporter.AtumTeleporter;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockSandStone;
-import net.minecraft.block.BreakableBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -46,17 +41,17 @@ public class BlockPortal extends BreakableBlock {
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         return PORTAL_AABB;
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(IBlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
         return NULL_AABB;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
@@ -81,7 +76,7 @@ public class BlockPortal extends BreakableBlock {
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos) {
         Size size = new Size(world, pos);
 
         if (neighborBlock == this || size.isSandBlock(neighborBlock.getDefaultState())) {
@@ -92,7 +87,7 @@ public class BlockPortal extends BreakableBlock {
     }
 
     @Override
-    public void onEntityCollision(World world, BlockPos pos, IBlockState state, Entity entity) {
+    public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {
         if (!entity.isRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
             final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
@@ -106,7 +101,7 @@ public class BlockPortal extends BreakableBlock {
             player.timeUntilPortal = 300;
             if (player.dimension == AtumConfig.DIMENSION_ID) {
                 BlockPos playerPos = new BlockPos(player);
-                if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, EnumFacing.UP)) {
+                if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, Direction.UP)) {
                     player.setSpawnChunk(playerPos, true, AtumConfig.DIMENSION_ID);
                 }
             }
@@ -115,7 +110,7 @@ public class BlockPortal extends BreakableBlock {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction face) {
         return BlockFaceShape.UNDEFINED;
     }
 
@@ -126,7 +121,7 @@ public class BlockPortal extends BreakableBlock {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return ItemStack.EMPTY;
     }
 
@@ -149,10 +144,10 @@ public class BlockPortal extends BreakableBlock {
         public Size(World world, BlockPos pos) {
             this.world = world;
 
-            int east = getDistanceUntilEdge(pos, EnumFacing.EAST);
-            int west = getDistanceUntilEdge(pos, EnumFacing.WEST);
-            int north = getDistanceUntilEdge(pos, EnumFacing.NORTH);
-            int south = getDistanceUntilEdge(pos, EnumFacing.SOUTH);
+            int east = getDistanceUntilEdge(pos, Direction.EAST);
+            int west = getDistanceUntilEdge(pos, Direction.WEST);
+            int north = getDistanceUntilEdge(pos, Direction.NORTH);
+            int south = getDistanceUntilEdge(pos, Direction.SOUTH);
 
             int width = east + west - 1;
             int length = north + south - 1;
@@ -203,7 +198,7 @@ public class BlockPortal extends BreakableBlock {
             this.valid = true;
         }
 
-        int getDistanceUntilEdge(BlockPos pos, EnumFacing facing) {
+        int getDistanceUntilEdge(BlockPos pos, Direction facing) {
             int i;
 
             for (i = 0; i < 9; ++i) {
@@ -214,15 +209,15 @@ public class BlockPortal extends BreakableBlock {
                 }
             }
 
-            IBlockState state = this.world.getBlockState(pos.offset(facing, i));
+            BlockState state = this.world.getBlockState(pos.offset(facing, i));
             return isSandBlock(state) ? i : 0;
         }
 
-        boolean isEmptyBlock(IBlockState state) {
+        boolean isEmptyBlock(BlockState state) {
             return state.getMaterial() == Material.WATER;
         }
 
-        boolean isSandBlock(IBlockState state) {
+        boolean isSandBlock(BlockState state) {
             return state.getBlock() instanceof BlockSandStone || state.getBlock() instanceof BlockLimestoneBricks;
         }
 

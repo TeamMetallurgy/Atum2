@@ -27,7 +27,7 @@ public abstract class Packet<REQ extends Packet<REQ>> implements IMessage, IMess
 
     @OnlyIn(Dist.CLIENT)
     private void runClient(final REQ packet, final PlayerEntity player) {
-        Minecraft.getMinecraft().addScheduledTask(() -> packet.handleClientSide(player));
+        Minecraft.getInstance().addScheduledTask(() -> packet.handleClientSide(player));
     }
 
     private void runServer(final REQ packet, final PlayerEntity player) {
@@ -36,7 +36,7 @@ public abstract class Packet<REQ extends Packet<REQ>> implements IMessage, IMess
 
     @OnlyIn(Dist.CLIENT)
     public PlayerEntity getPlayerClient() {
-        return Minecraft.getMinecraft().player;
+        return Minecraft.getInstance().player;
     }
 
     @Override

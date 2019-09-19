@@ -1,16 +1,16 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 
 public class EntityArrowDoubleShotBlack extends CustomArrow {
 
-    public EntityArrowDoubleShotBlack(World world) {
-        super(world);
+    public EntityArrowDoubleShotBlack(EntityType<? extends EntityArrowDoubleShotBlack> entityType, World world) {
+        super(entityType, world);
     }
 
     public EntityArrowDoubleShotBlack(World world, LivingEntity shooter) {
@@ -18,12 +18,12 @@ public class EntityArrowDoubleShotBlack extends CustomArrow {
     }
 
     @Override
-    public void onUpdate() {
-        super.onUpdate();
+    public void tick() {
+        super.tick();
 
         if (this.getIsCritical()) {
             for (int l = 0; l < 8; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.NUIT_BLACK, this, this.posX + (world.rand.nextDouble() - 0.5D) * (double) this.width, this.posY + world.rand.nextDouble() * (double) this.height, this.posZ + (world.rand.nextDouble() - 0.5D) * (double) this.width, 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.NUIT_BLACK, this.posX + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.posY + world.rand.nextDouble() * (double) this.getHeight(), this.posZ + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
     }

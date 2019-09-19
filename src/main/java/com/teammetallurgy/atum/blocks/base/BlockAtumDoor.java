@@ -1,13 +1,12 @@
 package com.teammetallurgy.atum.blocks.base;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockDoor;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -39,7 +38,7 @@ public class BlockAtumDoor extends DoorBlock implements IRenderMapper {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
         if (this.doorMaterial == Material.WOOD) {
             return MapColor.WOOD;
         } else {
@@ -48,9 +47,9 @@ public class BlockAtumDoor extends DoorBlock implements IRenderMapper {
     }
 
     @Override
-    public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull IBlockState state, @Nonnull PlayerEntity player, Hand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
         BlockPos pos1 = state.getValue(HALF) == BlockDoor.EnumDoorHalf.LOWER ? pos : pos.down();
-        IBlockState state1 = pos.equals(pos1) ? state : world.getBlockState(pos1);
+        BlockState state1 = pos.equals(pos1) ? state : world.getBlockState(pos1);
 
         if (state1.getBlock() != this) {
             return false;
@@ -73,19 +72,19 @@ public class BlockAtumDoor extends DoorBlock implements IRenderMapper {
 
     @Override
     @Nonnull
-    public ItemStack getItem(World world, BlockPos pos, IBlockState state) {
+    public ItemStack getItem(World world, BlockPos pos, BlockState state) {
         return new ItemStack(getDoorItem(world.getBlockState(pos).getBlock()));
     }
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return this.getItem(world, pos, state);
     }
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random random, int fortune) {
+    public Item getItemDropped(BlockState state, Random random, int fortune) {
         return state.getValue(HALF) == BlockDoor.EnumDoorHalf.UPPER ? Items.AIR : this.getDoorItem(this);
     }
 

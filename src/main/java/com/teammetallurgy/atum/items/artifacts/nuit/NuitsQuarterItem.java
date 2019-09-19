@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
@@ -8,14 +7,11 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.EnumRarity;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -35,10 +31,10 @@ public class NuitsQuarterItem extends KhopeshItem {
     private static boolean isBlocking = false;
 
     public NuitsQuarterItem() {
-        super(ToolMaterial.DIAMOND);
+        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
         this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
             @OnlyIn(Dist.CLIENT)
-            public float apply(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
+            public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
                 return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
         });
@@ -52,18 +48,12 @@ public class NuitsQuarterItem extends KhopeshItem {
 
     @Override
     @Nonnull
-    public EnumRarity getRarity(@Nonnull ItemStack stack) {
-        return EnumRarity.RARE;
+    public UseAction getUseAction(@Nonnull ItemStack stack) {
+        return UseAction.BLOCK;
     }
 
     @Override
-    @Nonnull
-    public EnumAction getItemUseAction(@Nonnull ItemStack stack) {
-        return EnumAction.BLOCK;
-    }
-
-    @Override
-    public int getMaxItemUseDuration(@Nonnull ItemStack stack) {
+    public int getUseDuration(@Nonnull ItemStack stack) {
         return isOffhand ? 72000 : 0;
     }
 
@@ -78,7 +68,7 @@ public class NuitsQuarterItem extends KhopeshItem {
         if (hand == Hand.OFF_HAND) {
             player.setActiveHand(Hand.OFF_HAND);
             this.isOffhand = true;
-            return new ActionResult<>(EnumActionResult.SUCCESS, player.getHeldItem(Hand.OFF_HAND));
+            return new ActionResult<>(ActionResultType.SUCCESS, player.getHeldItem(Hand.OFF_HAND));
         }
         this.isOffhand = false;
         return super.onItemRightClick(world, player, hand);
@@ -112,7 +102,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     private static void applyWeakness(LivingEntity attacker, LivingEntity target, boolean isNuitsIreHeld) {
         if (attacker != target) {
             for (int l = 0; l < 8; ++l) {
-                Atum.proxy.spawnParticle(AtumParticles.Types.NUIT_BLACK, target, target.posX + (random.nextDouble() - 0.5D) * (double) target.width, target.posY + random.nextDouble() * (double) target.height, target.posZ + (random.nextDouble() - 0.5D) * (double) target.width, 0.0D, 0.0D, 0.0D);
+                target.world.addParticle(AtumParticles.NUIT_BLACK, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + random.nextDouble() * (double) target.getHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
             }
             attacker.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
         }

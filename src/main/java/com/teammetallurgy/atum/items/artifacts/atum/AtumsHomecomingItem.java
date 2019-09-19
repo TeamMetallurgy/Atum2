@@ -1,21 +1,18 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.items.AmuletItem;
+import com.teammetallurgy.atum.items.tools.AmuletItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.server.SPacketPlayerPosLook;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.network.play.server.SPlayerPositionLookPacket;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -38,28 +35,30 @@ public class AtumsHomecomingItem extends AmuletItem {
             while (spawnPointPos.getY() > 1 && world.isAirBlock(spawnPointPos)) {
                 spawnPointPos = spawnPointPos.down();
             }
-            while (!world.canSeeSky(spawnPointPos)) {
+            while (!world.canBlockSeeSky(spawnPointPos)) {
                 spawnPointPos = spawnPointPos.up();
             }
             pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
         }
         teleport(world, player, hand, pos.getX(), pos.getY(), pos.getZ());
         if (!player.isCreative()) {
-            heldStack.damageItem(1, player);
+            heldStack.damageItem(1, player, (e) -> {
+                e.sendBreakAnimation(hand);
+            });
         }
         onTeleport(world, player);
-        return new ActionResult<>(EnumActionResult.PASS, heldStack);
+        return new ActionResult<>(ActionResultType.PASS, heldStack);
     }
 
     private static void teleport(World world, Entity entity, Hand hand, int x, int y, int z) {
         float yaw = entity.rotationYaw;
         float pitch = entity.rotationPitch;
         if (entity instanceof ServerPlayerEntity) {
-            Set<SPacketPlayerPosLook.EnumFlags> set = EnumSet.noneOf(SPacketPlayerPosLook.EnumFlags.class);
+            Set<SPlayerPositionLookPacket.Flags> set = EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class);
             float f = MathHelper.wrapDegrees(yaw);
             float f1 = MathHelper.wrapDegrees(pitch);
 
-            entity.dismountRidingEntity();
+            entity.stopRiding();
             onTeleport(world, entity);
             ((ServerPlayerEntity) entity).connection.setPlayerLocation(x, y, z, f, f1, set);
             entity.setRotationYawHead(f);
@@ -72,7 +71,8 @@ public class AtumsHomecomingItem extends AmuletItem {
         }
 
         if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isElytraFlying()) {
-            entity.motionY = 0.0D;
+            Vec3d motion = entity.getMotion();
+            entity.setMotion(new Vec3d(motion.x, 0.0D, motion.z));
             entity.onGround = true;
         }
     }
@@ -86,7 +86,7 @@ public class AtumsHomecomingItem extends AmuletItem {
             double z = MathHelper.sin(cosRandom) * timesRandom;
             if (entity instanceof ServerPlayerEntity) {
                 ServerPlayerEntity playerMP = (ServerPlayerEntity) entity;
-                Atum.proxy.spawnParticle(AtumParticles.Types.LIGHT_SPARKLE, playerMP, entity.posX + x * 0.1D, entity.posY + 0.3D, entity.posZ + z * 0.1D, x, y, z);
+                playerMP.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.posX + x * 0.1D, entity.posY + 0.3D, entity.posZ + z * 0.1D, x, y, z);
             }
         }
         world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_SHULKER_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);

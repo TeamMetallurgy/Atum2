@@ -1,16 +1,16 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank.WoodType;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class BlockBranch extends Block {
-    public static final PropertyEnum<EnumFacing> FACING = PropertyEnum.create("facing", EnumFacing.class);
+    public static final PropertyEnum<Direction> FACING = PropertyEnum.create("facing", Direction.class);
     private static final PropertyBool NORTH = PropertyBool.create("north");
     private static final PropertyBool EAST = PropertyBool.create("east");
     private static final PropertyBool SOUTH = PropertyBool.create("south");
@@ -34,8 +34,8 @@ public class BlockBranch extends Block {
     private static final PropertyBool UP = PropertyBool.create("up");
     private static final PropertyBool DOWN = PropertyBool.create("down");
 
-    private static final Map<EnumFacing, AxisAlignedBB> bounds;
-    private static final Map<EnumFacing, AxisAlignedBB> connectedBounds;
+    private static final Map<Direction, AxisAlignedBB> bounds;
+    private static final Map<Direction, AxisAlignedBB> connectedBounds;
 
     private static final AxisAlignedBB EAST_AABB = new AxisAlignedBB(5 / 16D, 5 / 16D, 5 / 16D, 1.0D, 11 / 16D, 11 / 16D);
     private static final AxisAlignedBB WEST_AABB = new AxisAlignedBB(0.0D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
@@ -47,14 +47,14 @@ public class BlockBranch extends Block {
     static {
         bounds = new HashMap<>();
         connectedBounds = new HashMap<>();
-        bounds.put(EnumFacing.EAST, EAST_AABB);
-        bounds.put(EnumFacing.WEST, WEST_AABB);
-        bounds.put(EnumFacing.NORTH, NORTH_AABB);
-        bounds.put(EnumFacing.SOUTH, SOUTH_AABB);
-        bounds.put(EnumFacing.UP, UP_AABB);
-        bounds.put(EnumFacing.DOWN, DOWN_AABB);
+        bounds.put(Direction.EAST, EAST_AABB);
+        bounds.put(Direction.WEST, WEST_AABB);
+        bounds.put(Direction.NORTH, NORTH_AABB);
+        bounds.put(Direction.SOUTH, SOUTH_AABB);
+        bounds.put(Direction.UP, UP_AABB);
+        bounds.put(Direction.DOWN, DOWN_AABB);
 
-        for (EnumFacing facing : EnumFacing.VALUES) {
+        for (Direction facing : Direction.VALUES) {
             AxisAlignedBB box = bounds.get(facing);
             AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
             expandedBox.expand(5 * facing.getXOffset(), 5 * facing.getYOffset(), 5 * facing.getZOffset());
@@ -72,31 +72,31 @@ public class BlockBranch extends Block {
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
         if (!this.canSurviveAt(worldIn, pos)) {
             worldIn.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
         if (!this.canSurviveAt(worldIn, pos)) {
-            worldIn.scheduleUpdate(pos, this, 1);
+            worldIn.getPendingBlockTicks().scheduleTick(pos, this, 1);
         }
     }
 
     private boolean canSurviveAt(World world, BlockPos pos) {
-        IBlockState state = world.getBlockState(pos);
-        EnumFacing facing = state.getValue(FACING);
-        IBlockState neighbor = world.getBlockState(pos.add(facing.getDirectionVec()));
+        BlockState state = world.getBlockState(pos);
+        Direction facing = state.getValue(FACING);
+        BlockState neighbor = world.getBlockState(pos.add(facing.getDirectionVec()));
 
         return neighbor.getMaterial() == Material.WOOD;
     }
 
     @Override
     @Nonnull
-    public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        return BlockAtumPlank.getStick(WoodType.DEADWOOD);
+    public Item getItemDropped(BlockState state, Random rand, int fortune) {
+        return AtumItems.DEADWOOD_STICK;
     }
 
     @Override
@@ -105,27 +105,27 @@ public class BlockBranch extends Block {
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return false;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return false;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
+    public boolean shouldSideBeRendered(BlockState state, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, Direction side) {
         return true;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
-        EnumFacing facing = state.getValue(FACING);
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+        Direction facing = state.getValue(FACING);
 
-        IBlockState neighbor = source.getBlockState(pos.add(facing.getDirectionVec()));
+        BlockState neighbor = source.getBlockState(pos.add(facing.getDirectionVec()));
         if (neighbor.getBlock() == this) {
             AxisAlignedBB box = connectedBounds.get(facing);
             AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
@@ -137,20 +137,20 @@ public class BlockBranch extends Block {
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
+    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
         return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, facing.getOpposite());
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, EnumFacing.UP.VALUES[meta]);
+    public BlockState getStateFromMeta(int meta) {
+        return this.getDefaultState().withProperty(FACING, Direction.UP.VALUES[meta]);
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
-        EnumFacing enumFacing = state.getValue(FACING);
-        return enumFacing.ordinal();
+    public int getMetaFromState(BlockState state) {
+        Direction Direction = state.getValue(FACING);
+        return Direction.ordinal();
     }
 
     @Override
@@ -161,18 +161,18 @@ public class BlockBranch extends Block {
 
     @Override
     @Nonnull
-    public IBlockState getActualState(@Nonnull IBlockState state, IBlockAccess world, BlockPos pos) {
-        EnumFacing enumFacing = state.getValue(FACING);
-        return state.withProperty(NORTH, enumFacing != EnumFacing.NORTH && shouldConnect(EnumFacing.NORTH, world, pos))
-                .withProperty(EAST, enumFacing != EnumFacing.EAST && shouldConnect(EnumFacing.EAST, world, pos))
-                .withProperty(SOUTH, enumFacing != EnumFacing.SOUTH && shouldConnect(EnumFacing.SOUTH, world, pos))
-                .withProperty(WEST, enumFacing != EnumFacing.WEST && shouldConnect(EnumFacing.WEST, world, pos))
-                .withProperty(UP, enumFacing != EnumFacing.UP && shouldConnect(EnumFacing.UP, world, pos))
-                .withProperty(DOWN, enumFacing != EnumFacing.DOWN && shouldConnect(EnumFacing.DOWN, world, pos));
+    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
+        Direction Direction = state.getValue(FACING);
+        return state.withProperty(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
+                .withProperty(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
+                .withProperty(SOUTH, Direction != Direction.SOUTH && shouldConnect(Direction.SOUTH, world, pos))
+                .withProperty(WEST, Direction != Direction.WEST && shouldConnect(Direction.WEST, world, pos))
+                .withProperty(UP, Direction != Direction.UP && shouldConnect(Direction.UP, world, pos))
+                .withProperty(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
     }
 
-    private boolean shouldConnect(EnumFacing direction, IBlockAccess worldIn, BlockPos pos) {
-        IBlockState neighborState = worldIn.getBlockState(pos.add(direction.getDirectionVec()));
+    private boolean shouldConnect(Direction direction, IBlockAccess worldIn, BlockPos pos) {
+        BlockState neighborState = worldIn.getBlockState(pos.add(direction.getDirectionVec()));
         if (neighborState.getBlock() == this) {
             return neighborState.getValue(FACING) == direction.getOpposite();
         }
@@ -181,7 +181,7 @@ public class BlockBranch extends Block {
 
     @Override
     @Nonnull
-    public IBlockState withRotation(@Nonnull IBlockState state, Rotation rot) {
+    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         switch (rot) {
             case CLOCKWISE_180:
                 return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(EAST, state.getValue(WEST)).withProperty(SOUTH, state.getValue(NORTH)).withProperty(WEST, state.getValue(EAST));
@@ -196,7 +196,7 @@ public class BlockBranch extends Block {
 
     @Override
     @Nonnull
-    public IBlockState withMirror(@Nonnull IBlockState state, Mirror mirror) {
+    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
         switch (mirror) {
             case LEFT_RIGHT:
                 return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(NORTH));

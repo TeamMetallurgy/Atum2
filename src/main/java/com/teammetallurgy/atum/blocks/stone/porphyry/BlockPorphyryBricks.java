@@ -2,13 +2,12 @@ package com.teammetallurgy.atum.blocks.stone.porphyry;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
@@ -17,7 +16,7 @@ import java.util.Map;
 
 import static com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks.Type;
 
-public class BlockPorphyryBricks extends Block implements IOreDictEntry {
+public class BlockPorphyryBricks extends Block {
     private static final Map<Type, BlockPorphyryBricks> BRICKS = Maps.newEnumMap(Type.class);
 
     private BlockPorphyryBricks() {
@@ -29,12 +28,12 @@ public class BlockPorphyryBricks extends Block implements IOreDictEntry {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess worldIn, BlockPos pos) {
         return MapColor.QUARTZ;
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return 0;
     }
 

@@ -23,7 +23,7 @@ public class WorldGenFossil extends WorldGenerator {
     @Override
     public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
         Random random = world.getChunk(pos).getRandomWithSeed(987234911L);
-        MinecraftServer server = world.getMinecraftServer();
+        MinecraftServer server = world.getInstanceServer();
         Rotation[] rotations = Rotation.values();
         Rotation rotation = rotations[random.nextInt(rotations.length)];
         int size = random.nextInt(16);

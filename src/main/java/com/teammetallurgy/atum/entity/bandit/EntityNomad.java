@@ -98,12 +98,12 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
         ArrowEntity arrow = getArrow(distanceFactor);
         double x = target.posX - this.posX;
-        double y = target.getEntityBoundingBox().minY + (double) (target.height / 3.0F) - arrow.posY;
+        double y = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - arrow.posY;
         double z = target.posZ - this.posZ;
         double height = (double) MathHelper.sqrt(x * x + z * z);
         arrow.shoot(x, y + height * 0.20000000298023224D, z, 1.6F, (float) (11 - this.world.getDifficulty().getId() * 4));
         this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.spawnEntity(arrow);
+        this.world.addEntity(arrow);
     }
 
     private ArrowEntity getArrow(float distanceFactor) {

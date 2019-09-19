@@ -1,11 +1,11 @@
 package com.teammetallurgy.atum.blocks.base;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -24,8 +24,8 @@ public class ItemDoubleChest extends ItemBlock {
     }
 
     @Override
-    public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull PlayerEntity player, World world, @Nonnull BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, @Nonnull IBlockState newState) {
-        EnumFacing horizontal = EnumFacing.byHorizontalIndex(MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+    public boolean placeBlockAt(@Nonnull ItemStack stack, @Nonnull PlayerEntity player, World world, @Nonnull BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, @Nonnull BlockState newState) {
+        Direction horizontal = Direction.byHorizontalIndex(MathHelper.floor(player.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
         BlockPos posRight = pos.offset(horizontal.rotateY());
 
         if (!world.getBlockState(posRight).getBlock().isReplaceable(world, posRight) || !world.isAirBlock(posRight)) {

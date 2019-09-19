@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -24,7 +24,7 @@ public abstract class TileEntityInventoryBase extends LockableLootTileEntity {
     }
 
     @Override
-    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull IBlockState oldState, @Nonnull IBlockState newSate) {
+    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull BlockState oldState, @Nonnull BlockState newSate) {
         return oldState.getBlock() != newSate.getBlock();
     }
 

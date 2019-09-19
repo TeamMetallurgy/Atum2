@@ -51,7 +51,7 @@ public class EntityTefnutsCall extends CustomArrow {
             }
         }
 
-        if (raytraceResult != null && entity != null && raytraceResult.typeOfHit == RayTraceResult.Type.ENTITY) {
+        if (raytraceResult != null && entity != null && raytraceResult.getType() == RayTraceResult.Type.ENTITY) {
             float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
             int i = MathHelper.ceil((double) f * this.getDamage());
             if (this.getIsCritical()) {

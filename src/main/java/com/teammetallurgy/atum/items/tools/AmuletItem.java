@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items;
+package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.enchantment.Enchantment;

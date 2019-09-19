@@ -69,7 +69,7 @@ public class SlotKilnOutput extends Slot {
             while (count > 0) {
                 int k = EntityXPOrb.getXPSplit(count);
                 count -= k;
-                this.player.world.spawnEntity(new EntityXPOrb(this.player.world, this.player.posX, this.player.posY + 0.5D, this.player.posZ + 0.5D, k));
+                this.player.world.addEntity(new EntityXPOrb(this.player.world, this.player.posX, this.player.posY + 0.5D, this.player.posZ + 0.5D, k));
             }
         }
         this.removeCount = 0;

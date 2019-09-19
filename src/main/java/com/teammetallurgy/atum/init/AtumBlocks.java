@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
 import com.teammetallurgy.atum.blocks.base.BlockAtumSlab;
@@ -51,14 +52,14 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.items.AtumSlabItem;
-import com.teammetallurgy.atum.items.SandItem;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBone;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.tileentity.TileEntityType;
@@ -159,7 +160,7 @@ public class AtumBlocks {
         registerBlock(PORTAL, "portal", null);
         registerBlock(CHEST_SPAWNER, "chest_spawner", null);
         registerBlock(SAND, "sand");
-        registerBlock(SAND_LAYERED, new SandItem(SAND_LAYERED), "sand_layer");
+        registerBlock(SAND_LAYERED, new BlockItem(SAND_LAYERED, new Item.Properties().group(Atum.GROUP)), "sand_layer");
         registerBlock(DATE_BLOCK, "date_block", null);
         registerBlock(EMMER_WHEAT, "emmer_wheat", null);
         registerBlock(ANPUTS_FINGERS, "anputs_fingers", null);

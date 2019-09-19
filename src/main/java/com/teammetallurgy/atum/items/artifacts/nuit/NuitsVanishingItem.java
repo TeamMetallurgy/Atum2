@@ -1,10 +1,11 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.AmuletItem;
+import com.teammetallurgy.atum.items.tools.AmuletItem;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
@@ -19,16 +20,13 @@ public class NuitsVanishingItem extends AmuletItem {
     private static boolean isInvisible;
 
     public NuitsVanishingItem() {
-        super();
-        this.setMaxDamage(3600);
+        super(new Item.Properties().maxDamage(3600));
     }
 
     @SubscribeEvent
     public static void onTarget(LivingSetAttackTargetEvent event) {
-        if (isInvisible && event.getTarget() != null && event.getEntityLiving() != null) {
-            if (event.getTarget() instanceof PlayerEntity) {
-                ((LivingEntity) event.getEntityLiving()).setAttackTarget(null);
-            }
+        if (isInvisible && event.getTarget() instanceof PlayerEntity && event.getEntityLiving() instanceof MobEntity) {
+            ((MobEntity) event.getEntityLiving()).setAttackTarget(null);
         }
     }
 
@@ -38,9 +36,9 @@ public class NuitsVanishingItem extends AmuletItem {
         World world = player.world;
         Hand hand = player.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? Hand.OFF_HAND : Hand.MAIN_HAND;
         ItemStack heldStack = player.getHeldItem(hand);
-        if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
+        /*if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
             heldStack = getAmulet(player);
-        }
+        }*/
         if (event.phase == TickEvent.Phase.START) {
             if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
                 if (!isPlayerMoving(player)) {

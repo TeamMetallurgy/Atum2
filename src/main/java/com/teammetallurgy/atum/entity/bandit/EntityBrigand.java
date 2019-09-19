@@ -58,7 +58,7 @@ public class EntityBrigand extends EntityBanditBase {
             return false;
         } else {
             if (this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == AtumItems.GREATSWORD_IRON) {
-                float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue();
+                float f = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
                 float i = 1.2F;
 
                 if (entity instanceof LivingEntity) {

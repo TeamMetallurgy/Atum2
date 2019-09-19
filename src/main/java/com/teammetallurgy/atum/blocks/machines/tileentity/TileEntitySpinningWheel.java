@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -69,10 +69,10 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
 
     @Override
     @Nonnull
-    public int[] getSlotsForFace(@Nonnull EnumFacing side) {
-        if (side == EnumFacing.DOWN) {
+    public int[] getSlotsForFace(@Nonnull Direction side) {
+        if (side == Direction.DOWN) {
             return new int[]{1};
-        } else if (side != EnumFacing.UP) {
+        } else if (side != Direction.UP) {
             return new int[]{0};
         } else {
             return new int[0];
@@ -80,7 +80,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing facing) {
+    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
         int spool = world.getBlockState(pos).getValue(BlockSpinningWheel.SPOOL);
         if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
                 && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(new ItemStack(this.input), stack))) {
@@ -94,9 +94,9 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     }
 
     @Override
-    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull EnumFacing direction) {
+    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction direction) {
         BlockSpinningWheel spinningWheel = (BlockSpinningWheel) world.getBlockState(pos).getBlock();
-        if (index == 1 && direction == EnumFacing.DOWN) {
+        if (index == 1 && direction == Direction.DOWN) {
             spinningWheel.output(world, pos, null, this);
             return true;
         } else {
@@ -104,14 +104,14 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
         }
     }
 
-    private IItemHandler handlerSide = new SidedInvWrapper(this, EnumFacing.WEST);
-    private IItemHandler handlerBottom = new SidedInvWrapper(this, EnumFacing.DOWN);
+    private IItemHandler handlerSide = new SidedInvWrapper(this, Direction.WEST);
+    private IItemHandler handlerBottom = new SidedInvWrapper(this, Direction.DOWN);
 
     @Override
     @Nullable
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable EnumFacing facing) {
+    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (facing == EnumFacing.DOWN) {
+            if (facing == Direction.DOWN) {
                 return (T) handlerBottom;
             } else {
                 return (T) handlerSide;
@@ -121,8 +121,8 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
-        return facing != EnumFacing.UP && super.hasCapability(capability, facing);
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
+        return facing != Direction.UP && super.hasCapability(capability, facing);
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Blocks;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
@@ -42,7 +42,7 @@ public class AtumTeleporter extends Teleporter {
             final PortalPosition portalPosition = this.destinationCoordinateCache.get(chunkId);
             distance = 0.0D;
             location = portalPosition;
-            portalPosition.lastUpdateTime = this.world.getTotalWorldTime();
+            portalPosition.lastUpdateTime = this.world.getGameTime();
             doesPortalExist = false;
         } else {
             final BlockPos entityPos = new BlockPos(entity);
@@ -71,45 +71,45 @@ public class AtumTeleporter extends Teleporter {
 
         if (distance >= 0.0D) {
             if (doesPortalExist) {
-                this.destinationCoordinateCache.put(chunkId, new PortalPosition(location, this.world.getTotalWorldTime()));
+                this.destinationCoordinateCache.put(chunkId, new PortalPosition(location, this.world.getGameTime()));
             }
 
             double tpX = location.getX() + 0.5D;
             double tpY = location.getY() + 0.5D;
             double tpZ = location.getZ() + 0.5D;
-            EnumFacing direction = null;
+            Direction direction = null;
 
             if (this.world.getBlockState(location.west()).getBlock() == AtumBlocks.PORTAL) {
-                direction = EnumFacing.NORTH;
+                direction = Direction.NORTH;
             }
 
             if (this.world.getBlockState(location.east()).getBlock() == AtumBlocks.PORTAL) {
-                direction = EnumFacing.SOUTH;
+                direction = Direction.SOUTH;
             }
 
             if (this.world.getBlockState(location.north()).getBlock() == AtumBlocks.PORTAL) {
-                direction = EnumFacing.EAST;
+                direction = Direction.EAST;
             }
 
             if (this.world.getBlockState(location.south()).getBlock() == AtumBlocks.PORTAL) {
-                direction = EnumFacing.WEST;
+                direction = Direction.WEST;
             }
 
-            final EnumFacing enumfacing1 = EnumFacing.byHorizontalIndex(MathHelper.floor(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
+            final Direction Direction1 = Direction.byHorizontalIndex(MathHelper.floor(entity.rotationYaw * 4.0F / 360.0F + 0.5D) & 3);
 
             if (direction != null) {
-                EnumFacing enumfacing2 = direction.rotateYCCW();
+                Direction Direction2 = direction.rotateYCCW();
                 final BlockPos blockpos2 = location.offset(direction);
                 boolean flag2 = this.isInsideBlock(blockpos2);
-                boolean flag3 = this.isInsideBlock(blockpos2.offset(enumfacing2));
+                boolean flag3 = this.isInsideBlock(blockpos2.offset(Direction2));
 
                 if (flag3 && flag2) {
-                    location = location.offset(enumfacing2);
+                    location = location.offset(Direction2);
                     direction = direction.getOpposite();
-                    enumfacing2 = enumfacing2.getOpposite();
+                    Direction2 = Direction2.getOpposite();
                     final BlockPos blockpos3 = location.offset(direction);
                     flag2 = this.isInsideBlock(blockpos3);
-                    flag3 = this.isInsideBlock(blockpos3.offset(enumfacing2));
+                    flag3 = this.isInsideBlock(blockpos3.offset(Direction2));
                 }
 
                 float f6 = 0.5F;
@@ -126,20 +126,20 @@ public class AtumTeleporter extends Teleporter {
                 tpX = location.getX() + 0.5D;
                 tpY = location.getY() + 0.5D;
                 tpZ = location.getZ() + 0.5D;
-                tpX += enumfacing2.getXOffset() * f6 + direction.getXOffset() * f1;
-                tpZ += enumfacing2.getYOffset() * f6 + direction.getYOffset() * f1;
+                tpX += Direction2.getXOffset() * f6 + direction.getXOffset() * f1;
+                tpZ += Direction2.getYOffset() * f6 + direction.getYOffset() * f1;
                 float f2 = 0.0F;
                 float f3 = 0.0F;
                 float f4 = 0.0F;
                 float f5 = 0.0F;
 
-                if (direction == enumfacing1) {
+                if (direction == Direction1) {
                     f2 = 1.0F;
                     f3 = 1.0F;
-                } else if (direction == enumfacing1.getOpposite()) {
+                } else if (direction == Direction1.getOpposite()) {
                     f2 = -1.0F;
                     f3 = -1.0F;
-                } else if (direction == enumfacing1.rotateY()) {
+                } else if (direction == Direction1.rotateY()) {
                     f4 = 1.0F;
                     f5 = -1.0F;
                 } else {
@@ -151,7 +151,7 @@ public class AtumTeleporter extends Teleporter {
                 final double d3 = entity.motionZ;
                 entity.motionX = d2 * f2 + d3 * f5;
                 entity.motionZ = d2 * f4 + d3 * f3;
-                entity.rotationYaw = rotationYaw - enumfacing1.getHorizontalIndex() * 90 + direction.getHorizontalIndex() * 90;
+                entity.rotationYaw = rotationYaw - Direction1.getHorizontalIndex() * 90 + direction.getHorizontalIndex() * 90;
             } else {
                 entity.motionX = entity.motionY = entity.motionZ = 0.0D;
             }
@@ -172,8 +172,8 @@ public class AtumTeleporter extends Teleporter {
     }
 
     public static boolean createPortal(World world, BlockPos pos, @Nullable Entity entity) {
-        IBlockState portalState = AtumBlocks.PORTAL.getDefaultState();
-        IBlockState sandState;
+        BlockState portalState = AtumBlocks.PORTAL.getDefaultState();
+        BlockState sandState;
 
         while (pos.getY() > 1 && world.isAirBlock(pos)) {
             pos = pos.down();

@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import net.minecraft.block.BlockGravel;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,20 +23,20 @@ public class BlockLimestoneGravel extends BlockGravel {
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull IBlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull EnumFacing facing, IPlantable plantable) {
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull Direction facing, IPlantable plantable) {
         EnumPlantType plantType = plantable.getPlantType(world, pos.offset(facing));
         return plantType == EnumPlantType.Desert;
     }
 
     @Override
     @Nonnull
-    public MapColor getMapColor(IBlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public MapColor getMapColor(BlockState state, IBlockAccess worldIn, BlockPos pos) {
         return MapColor.SAND;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public int getDustColor(IBlockState state) {
+    public int getDustColor(BlockState state) {
         return -2370656;
     }
 }

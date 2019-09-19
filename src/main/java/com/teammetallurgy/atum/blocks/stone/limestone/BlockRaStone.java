@@ -1,19 +1,18 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBreakable;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.EnumPushReaction;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
@@ -38,7 +37,7 @@ public class BlockRaStone extends BlockBreakable {
 
     @Override
     @Nonnull
-    public EnumPushReaction getPushReaction(IBlockState state) {
+    public EnumPushReaction getPushReaction(BlockState state) {
         return EnumPushReaction.NORMAL;
     }
 
@@ -50,16 +49,16 @@ public class BlockRaStone extends BlockBreakable {
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, IBlockState state, Random rand) {
+    public void updateTick(World world, BlockPos pos, BlockState state, Random rand) {
         if ((rand.nextInt(3) == 0 || this.countNeighbors(world, pos) < 4) && world.getLightFromNeighbors(pos) > 11 - state.getValue(AGE) - state.getLightOpacity()) {
             this.startToDisappear(world, pos, state, rand, true);
         } else {
-            world.scheduleUpdate(pos, this, MathHelper.getInt(rand, 20, 40));
+            world.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.getInt(rand, 20, 40));
         }
     }
 
     @Override
-    public void neighborChanged(IBlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         if (block == this) {
             int i = this.countNeighbors(world, pos);
             if (i < 2) {
@@ -70,7 +69,7 @@ public class BlockRaStone extends BlockBreakable {
 
     private int countNeighbors(World worldIn, BlockPos pos) {
         int i = 0;
-        for (EnumFacing facing : EnumFacing.values()) {
+        for (Direction facing : Direction.values()) {
             if (worldIn.getBlockState(pos.offset(facing)).getBlock() == this) {
                 ++i;
                 if (i >= 4) {
@@ -81,18 +80,18 @@ public class BlockRaStone extends BlockBreakable {
         return i;
     }
 
-    private void startToDisappear(World world, BlockPos pos, IBlockState state, Random rand, boolean meltNeighbors) {
+    private void startToDisappear(World world, BlockPos pos, BlockState state, Random rand, boolean meltNeighbors) {
         int i = state.getValue(AGE);
         if (i < 3) {
             world.setBlockState(pos, state.withProperty(AGE, i + 1), 2);
-            world.scheduleUpdate(pos, this, MathHelper.getInt(rand, 20, 40));
+            world.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.getInt(rand, 20, 40));
         } else {
             this.turnIntoLava(world, pos);
 
             if (meltNeighbors) {
-                for (EnumFacing facing : EnumFacing.values()) {
+                for (Direction facing : Direction.values()) {
                     BlockPos posOffset = pos.offset(facing);
-                    IBlockState stateOffset = world.getBlockState(posOffset);
+                    BlockState stateOffset = world.getBlockState(posOffset);
 
                     if (stateOffset.getBlock() == this) {
                         this.startToDisappear(world, posOffset, stateOffset, rand, false);
@@ -115,13 +114,13 @@ public class BlockRaStone extends BlockBreakable {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(@Nonnull IBlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
         return ItemStack.EMPTY;
     }
 
     @Override
     @Nonnull
-    protected ItemStack getSilkTouchDrop(@Nonnull IBlockState state) {
+    protected ItemStack getSilkTouchDrop(@Nonnull BlockState state) {
         return ItemStack.EMPTY;
     }
 
@@ -132,13 +131,13 @@ public class BlockRaStone extends BlockBreakable {
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         return state.getValue(AGE);
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
+    public BlockState getStateFromMeta(int meta) {
         return this.getDefaultState().withProperty(AGE, MathHelper.clamp(meta, 0, 3));
     }
 }

@@ -52,7 +52,7 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
             if (color != null) {
                 texturePath[2] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getDyeColorName()) + ".png";
             }
-            Minecraft.getMinecraft().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
+            Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
             CACHE.put(textureName, location);
         }
 

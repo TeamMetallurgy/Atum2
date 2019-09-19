@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.blocks.base;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -51,7 +51,7 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
         switch (state.getValue(TYPE)) {
             case DOUBLE:
                 return FULL_BLOCK_AABB;
@@ -63,37 +63,37 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     }
 
     @Override
-    public boolean isTopSolid(IBlockState state) {
+    public boolean isTopSolid(BlockState state) {
         return state.getValue(TYPE) == Type.DOUBLE || state.getValue(TYPE) == Type.TOP;
     }
 
     @Override
-    public boolean isOpaqueCube(IBlockState state) {
+    public boolean isOpaqueCube(BlockState state) {
         return state.getValue(TYPE) == Type.DOUBLE;
     }
 
     @Override
-    public boolean isFullCube(IBlockState state) {
+    public boolean isFullCube(BlockState state) {
         return state.getValue(TYPE) == Type.DOUBLE;
     }
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, IBlockState state, BlockPos pos, EnumFacing face) {
+    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
         Type type = state.getValue(TYPE);
 
         if (type == Type.DOUBLE) {
             return BlockFaceShape.SOLID;
-        } else if (face == EnumFacing.UP && type == Type.TOP) {
+        } else if (face == Direction.UP && type == Type.TOP) {
             return BlockFaceShape.SOLID;
         } else {
-            return face == EnumFacing.DOWN && type == Type.BOTTOM ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+            return face == Direction.DOWN && type == Type.BOTTOM ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
         }
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public int getPackedLightmapCoords(IBlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
+    public int getPackedLightmapCoords(BlockState state, IBlockAccess source, @Nonnull BlockPos pos) {
         int i = source.getCombinedLight(pos, state.getLightValue(source, pos));
 
         if (i == 0 && state.getBlock() instanceof BlockAtumSlab) {
@@ -105,7 +105,7 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     }
 
     @Override
-    public boolean doesSideBlockRendering(IBlockState state, IBlockAccess world, BlockPos pos, EnumFacing face) {
+    public boolean doesSideBlockRendering(BlockState state, IBlockAccess world, BlockPos pos, Direction face) {
         if (ForgeModContainer.disableStairSlabCulling) {
             return super.doesSideBlockRendering(state, world, pos, face);
         }
@@ -115,30 +115,30 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
         }
 
         Type type = state.getValue(TYPE);
-        return (type == Type.TOP && face == EnumFacing.UP) || (type == Type.BOTTOM && face == EnumFacing.DOWN);
+        return (type == Type.TOP && face == Direction.UP) || (type == Type.BOTTOM && face == Direction.DOWN);
     }
 
     @Override
     @Nonnull
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        IBlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(TYPE, Type.BOTTOM);
+    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
+        BlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(TYPE, Type.BOTTOM);
 
         if (state.getValue(TYPE) == Type.DOUBLE) {
             return state.withProperty(TYPE, Type.DOUBLE);
         } else {
-            return facing != EnumFacing.DOWN && (facing == EnumFacing.UP || (double) hitY <= 0.5D) ? state : state.withProperty(TYPE, Type.TOP);
+            return facing != Direction.DOWN && (facing == Direction.UP || (double) hitY <= 0.5D) ? state : state.withProperty(TYPE, Type.TOP);
         }
     }
 
     @Override
-    public int quantityDropped(IBlockState state, int fortune, @Nonnull Random random) {
+    public int quantityDropped(BlockState state, int fortune, @Nonnull Random random) {
         return state.getValue(TYPE) == Type.DOUBLE ? 2 : 1;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(IBlockState state, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, EnumFacing side) {
-        if (side != EnumFacing.UP && side != EnumFacing.DOWN && !super.shouldSideBeRendered(state, blockAccess, pos, side)) {
+    public boolean shouldSideBeRendered(BlockState state, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, Direction side) {
+        if (side != Direction.UP && side != Direction.DOWN && !super.shouldSideBeRendered(state, blockAccess, pos, side)) {
             return false;
         }
         return super.shouldSideBeRendered(state, blockAccess, pos, side);
@@ -146,8 +146,8 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
 
     @Override
     @Nonnull
-    public IBlockState getStateFromMeta(int meta) {
-        IBlockState state = this.getDefaultState().withProperty(TYPE, Type.byOrdinal(meta & 7));
+    public BlockState getStateFromMeta(int meta) {
+        BlockState state = this.getDefaultState().withProperty(TYPE, Type.byOrdinal(meta & 7));
 
         if (state.getValue(TYPE) != Type.DOUBLE) {
             state = state.withProperty(TYPE, (meta & 8) == 0 ? Type.BOTTOM : Type.TOP);
@@ -157,7 +157,7 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     }
 
     @Override
-    public int getMetaFromState(IBlockState state) {
+    public int getMetaFromState(BlockState state) {
         int i = 0;
         i = i | state.getValue(TYPE).ordinal();
 

@@ -3,15 +3,15 @@ package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -50,8 +50,8 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
             super.setNextSpawnData(spawnerEntity);
 
             if (this.getSpawnerWorld() != null) {
-                IBlockState iblockstate = this.getSpawnerWorld().getBlockState(this.getSpawnerPosition());
-                this.getSpawnerWorld().notifyBlockUpdate(TileEntityChestSpawner.this.pos, iblockstate, iblockstate, 4);
+                BlockState BlockState = this.getSpawnerWorld().getBlockState(this.getSpawnerPosition());
+                this.getSpawnerWorld().notifyBlockUpdate(TileEntityChestSpawner.this.pos, BlockState, BlockState, 4);
             }
         }
 
@@ -181,7 +181,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable EnumFacing facing) {
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
         return false;
     }
 }

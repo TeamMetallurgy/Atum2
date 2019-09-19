@@ -15,8 +15,16 @@
         },
         {
           "type": "item",
-          "name": "atum:graverobbers_map",
-          "entryName": "graverobbers_map",
+          "functions": [
+            {
+              "function": "minecraft:exploration_map",
+              "destination": "atum:pyramid",
+              "decoration": "red_x",
+              "zoom": 1,
+              "skip_existing_chunks": false
+            }
+          ],
+          "name": "minecraft:map",
           "weight": 15
         },
         {

@@ -3,8 +3,8 @@ package com.teammetallurgy.atum.world.gen.feature;
 import com.teammetallurgy.atum.blocks.wood.BlockBranch;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.block.BlockState;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree {
-    private static final IBlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true);
-    private static final IBlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
+    private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true);
+    private static final BlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
 
     public WorldGenDeadwood(boolean notify) {
         super(notify);
@@ -58,14 +58,14 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
                 return false;
             } else {
                 BlockPos down = pos.down();
-                IBlockState state = world.getBlockState(down);
+                BlockState state = world.getBlockState(down);
                 boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
                 if (isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
                     List<BlockPos> logs = new ArrayList<BlockPos>();
                     for (int height = 0; height < baseHeight; ++height) {
                         BlockPos upN = pos.up(height);
-                        IBlockState state2 = world.getBlockState(upN);
+                        BlockState state2 = world.getBlockState(upN);
 
                         if (state2.getBlock().isAir(state2, world, upN)
                                 || state2.getBlock().isLeaves(state2, world, upN)) {
@@ -95,9 +95,9 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
         BlockPos baseLog = queue.peek().getLeft();
         int count = 0;
 
-        Set<EnumFacing> choosenFacings = new HashSet<>();
-        Map<EnumFacing, Integer> balancingCount = new HashMap<>();
-        for (EnumFacing facing : EnumFacing.VALUES) {
+        Set<Direction> choosenFacings = new HashSet<>();
+        Map<Direction, Integer> balancingCount = new HashMap<>();
+        for (Direction facing : Direction.VALUES) {
             balancingCount.put(facing, 0);
         }
 
@@ -110,7 +110,7 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
             int branchLength = pair.getRight();
 
             choosenFacings.clear();
-            for (EnumFacing facing : EnumFacing.VALUES) {
+            for (Direction facing : Direction.VALUES) {
 
                 // Prevent a split from splitting in both directions
                 if (choosenFacings.contains(facing.getOpposite())) {
@@ -118,9 +118,9 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
                 }
 
                 // Prevent branches 3 blocks in the same direction
-                IBlockState curr = world.getBlockState(pos);
+                BlockState curr = world.getBlockState(pos);
                 if (curr.getBlock() == BRANCH.getBlock() && curr.getValue(BlockBranch.FACING) == facing.getOpposite()) {
-                    IBlockState prev = world.getBlockState(pos.add(facing.getOpposite().getDirectionVec()));
+                    BlockState prev = world.getBlockState(pos.add(facing.getOpposite().getDirectionVec()));
                     if (prev.getBlock() == BRANCH.getBlock() && prev.getValue(BlockBranch.FACING) == facing.getOpposite()) {
                         continue;
                     }
@@ -128,14 +128,14 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
 
                 double dist = baseLog.getDistance(pos.getX(), pos.getY(), pos.getZ());
                 float probability = 0.8f;
-                if (facing == EnumFacing.UP) {
+                if (facing == Direction.UP) {
                     probability *= 1.5;
 
                     // Stop branches from growing from the top of logs
                     if (world.getBlockState(pos).getBlock() == LOG.getBlock()) {
                         probability = 0;
                     }
-                } else if (facing == EnumFacing.DOWN) {
+                } else if (facing == Direction.DOWN) {
                     probability = 0.00f;
                 }
 
@@ -159,7 +159,7 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
                         choosenFacings.add(facing);
 
                         // Store the count for the direction chosen to help with balancing the tree
-                        if (facing != EnumFacing.UP && facing != EnumFacing.DOWN) {
+                        if (facing != Direction.UP && facing != Direction.DOWN) {
                             if (balancingCount.get(facing) > 0) {
                                 balancingCount.put(facing, balancingCount.get(facing) - 1);
                             } else {

@@ -1,17 +1,16 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvents;
 
 public class TileEntityTarTrap extends TileEntityTrap {
 
     @Override
-    protected void triggerTrap(EnumFacing facing, LivingEntity entity) {
+    protected void triggerTrap(Direction facing, LivingEntity entity) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
@@ -23,26 +22,26 @@ public class TileEntityTarTrap extends TileEntityTrap {
             }
         }
 
-        if (world.getTotalWorldTime() % 8L == 0L) {
+        if (world.getGameTime() % 8L == 0L) {
             entity.playSound(SoundEvents.BLOCK_LAVA_POP, 1.0F, 1.0F);
             switch (facing) {
                 case DOWN:
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(AtumParticles.TAR, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
                     break;
                 case UP:
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x - randomPos, y + 0.65D, z, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(AtumParticles.TAR, x - randomPos, y + 0.65D, z, 0.0D, 0.0D, 0.0D);
                     break;
                 case WEST:
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(AtumParticles.TAR, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                     break;
                 case EAST:
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(AtumParticles.TAR, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                     break;
                 case NORTH:
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(AtumParticles.TAR, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                     break;
                 case SOUTH:
-                    Atum.proxy.spawnParticle(AtumParticles.Types.TAR, entity, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                    world.addParticle(AtumParticles.TAR, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
                     break;
             }
         }
