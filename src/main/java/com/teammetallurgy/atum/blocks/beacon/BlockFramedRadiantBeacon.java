@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.beacon;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 
 import javax.annotation.Nonnull;
@@ -11,7 +11,7 @@ import java.util.Random;
 public class BlockFramedRadiantBeacon extends BlockRadiantBeacon {
 
     public BlockFramedRadiantBeacon() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, DyeColor.WHITE));
     }
 
     @Override

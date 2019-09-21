@@ -56,7 +56,7 @@ public class EntityCamelSpit extends EntityLlamaSpit {
         if (!this.world.isRemote) {
             this.setFlag(6, this.isGlowing());
         }
-        this.onEntityUpdate();
+        this.baseTick();
 
         if (this.ownerNbt != null) {
             this.restoreOwnerFromSave();
@@ -141,14 +141,14 @@ public class EntityCamelSpit extends EntityLlamaSpit {
     }
 
     @Override
-    protected void readEntityFromNBT(CompoundNBT compound) {
+    protected void readAdditional(CompoundNBT compound) {
         if (compound.hasKey("Owner", 10)) {
             this.ownerNbt = compound.getCompoundTag("Owner");
         }
     }
 
     @Override
-    protected void writeEntityToNBT(@Nonnull CompoundNBT compound) {
+    protected void writeAdditional(@Nonnull CompoundNBT compound) {
         if (this.owner != null) {
             CompoundNBT nbttagcompound = new CompoundNBT();
             UUID uuid = this.owner.getUniqueID();

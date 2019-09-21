@@ -6,9 +6,9 @@ import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class AtumCreativeTab extends ItemGroup {
+public class AtumItemGroup extends ItemGroup {
 
-    public AtumCreativeTab() {
+    public AtumItemGroup() {
         super(Constants.MOD_ID);
         this.setBackgroundImageName("item_search.png");
     }

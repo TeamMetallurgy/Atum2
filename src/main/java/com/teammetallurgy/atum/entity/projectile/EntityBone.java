@@ -60,7 +60,7 @@ public abstract class EntityBone extends Entity {
     }
 
     @Override
-    protected void entityInit() {
+    protected void registerData() {
     }
 
     @Override
@@ -108,14 +108,14 @@ public abstract class EntityBone extends Entity {
     protected abstract void onImpact(RayTraceResult result);
 
     @Override
-    public void writeEntityToNBT(@Nonnull CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         compound.setTag("direction", this.newDoubleNBTList(this.motionX, this.motionY, this.motionZ));
         compound.setTag("power", this.newDoubleNBTList(this.accelerationX, this.accelerationY, this.accelerationZ));
-        compound.setInteger("life", this.ticksAlive);
+        compound.putInt("life", this.ticksAlive);
     }
 
     @Override
-    public void readEntityFromNBT(@Nonnull CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         if (compound.hasKey("power", 9)) {
             NBTTagList nbttaglist = compound.getTagList("power", 6);
 
@@ -126,7 +126,7 @@ public abstract class EntityBone extends Entity {
             }
         }
 
-        this.ticksAlive = compound.getInteger("life");
+        this.ticksAlive = compound.getInt("life");
 
         if (compound.hasKey("direction", 9) && compound.getTagList("direction", 6).tagCount() == 3) {
             NBTTagList nbttaglist1 = compound.getTagList("direction", 6);

@@ -6,10 +6,10 @@ import com.teammetallurgy.atum.utils.Constants;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
@@ -30,7 +30,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
 
         if (this.show(mode, config.getShowCropPercentage())) {
             if (blockState.getBlock() instanceof BlockDate) {
-                int age = blockState.getValue(BlockDate.AGE);
+                int age = blockState.get(BlockDate.AGE);
                 int maxAge = 7;
                 if (age == maxAge) {
                     probeInfo.text(OK + "Fully grown");
@@ -50,12 +50,12 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
                 ResourceLocation location = Objects.requireNonNull(blockState.getBlock().getRegistryName());
                 if (location.toString().contains("limestone")) {
                     location = new ResourceLocation(location.toString().replace("_door", ""));
-                    ItemStack door = new ItemStack(Objects.requireNonNull(Item.REGISTRY.getObject(location)));
+                    ItemStack door = new ItemStack(ForgeRegistries.ITEMS.getValue(location));
                     probeInfo.horizontal()
                             .item(door)
                             .vertical()
                             .itemLabel(door)
-                            .text(MODNAME + Constants.MOD_NAME.replace("2", " 2")); //Lazy way to get it to show properly
+                            .text(MODNAME + Constants.MOD_NAME);
                     return true;
                 }
             }

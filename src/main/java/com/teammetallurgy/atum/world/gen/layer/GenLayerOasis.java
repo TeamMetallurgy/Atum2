@@ -26,9 +26,9 @@ public class GenLayerOasis extends GenLayer {
                 this.initChunkSeed(j + x, i + z);
                 int k = parent[j + 1 + (i + 1) * (areaWidth + 2)];
 
-                if (AtumConfig.SUB_BIOME_CHANCE > 0 && this.nextInt(AtumConfig.SUB_BIOME_CHANCE) == 0) {
+                if (AtumConfig.BIOME.subBiomeChance.get() > 0 && this.nextInt(AtumConfig.SUB_BIOME_CHANCE) == 0) {
                     if (k == AtumBiome.getIdForBiome(AtumBiomes.SAND_PLAINS) || k == AtumBiome.getIdForBiome(AtumBiomes.SAND_DUNES)) {
-                        if (this.nextInt(100) < AtumConfig.OASIS_CHANCE) {
+                        if (this.nextInt(100) < AtumConfig.BIOME.oasisChance.get()) {
                             cache[j + i * areaWidth] = AtumBiome.getIdForBiome(AtumBiomes.OASIS);
                         } else {
                             cache[j + i * areaWidth] = AtumBiome.getIdForBiome(AtumBiomes.DEAD_OASIS);

@@ -102,14 +102,14 @@ public class EntityTefnutsCall extends CustomArrow {
     }
 
     @Override
-    public void writeEntityToNBT(@Nonnull CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         CompoundNBT stackTag = new CompoundNBT();
         stack.writeToNBT(stackTag);
         compound.setTag("stack", stackTag);
     }
 
     @Override
-    public void readEntityFromNBT(@Nonnull CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         CompoundNBT stackTag = compound.getCompoundTag("stack");
         stack = new ItemStack(stackTag);
     }

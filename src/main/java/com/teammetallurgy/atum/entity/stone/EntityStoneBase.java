@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -43,27 +43,27 @@ public class EntityStoneBase extends MonsterEntity implements IUnderground {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
-        this.tasks.addTask(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 1.0D, false));
+        this.goalSelector.addGoal(4, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.goalSelector.addGoal(6, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.goalSelector.addGoal(8, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(8, new EntityAILookIdle(this));
         this.applyEntityAI();
     }
 
     private void applyEntityAI() {
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, 10, true, false, input -> !isPlayerCreated()));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && (!input.isPlayerCreated() && isPlayerCreated() || input.isPlayerCreated() && !isPlayerCreated())));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityMob.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof EntityStoneBase) && input.getCreatureAttribute() == CreatureAttribute.UNDEAD));
+        this.targetSelector.addGoal(1, new EntityAIHurtByTarget(this, false));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, 10, true, false, input -> !isPlayerCreated()));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, 10, true, false, input -> input != null && (!input.isPlayerCreated() && isPlayerCreated() || input.isPlayerCreated() && !isPlayerCreated())));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestAttackableTarget<>(this, EntityMob.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof EntityStoneBase) && input.getCreatureAttribute() == CreatureAttribute.UNDEAD));
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
 
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
@@ -74,15 +74,15 @@ public class EntityStoneBase extends MonsterEntity implements IUnderground {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(VARIANT, 0);
         this.dataManager.register(PLAYER_CREATED, (byte) 0);
     }
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         if (this.isPlayerCreated()) {
             this.setFriendlyAttributes();
         }
@@ -229,16 +229,16 @@ public class EntityStoneBase extends MonsterEntity implements IUnderground {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", this.getVariant());
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putInt("Variant", this.getVariant());
         compound.setBoolean("PlayerCreated", this.isPlayerCreated());
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
-        this.setVariant(compound.getInteger("Variant"));
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.setVariant(compound.getInt("Variant"));
         this.setPlayerCreated(compound.getBoolean("PlayerCreated"));
     }
 }

@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -83,7 +83,7 @@ public class BlockAtumOres extends BlockOre {
 
     @Override
     public int damageDropped(BlockState state) {
-        return this == AtumBlocks.LAPIS_ORE ? EnumDyeColor.BLUE.getDyeDamage() : 0;
+        return this == AtumBlocks.LAPIS_ORE ? DyeColor.BLUE.getDyeDamage() : 0;
     }
 
     @Override

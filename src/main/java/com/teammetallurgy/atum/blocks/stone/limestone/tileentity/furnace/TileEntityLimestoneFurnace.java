@@ -98,9 +98,9 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
 
         this.furnaceItemStacks = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(compound, this.furnaceItemStacks);
-        this.furnaceBurnTime = compound.getInteger("BurnTime");
-        this.cookTime = compound.getInteger("CookTime");
-        this.totalCookTime = compound.getInteger("CookTimeTotal");
+        this.furnaceBurnTime = compound.getInt("BurnTime");
+        this.cookTime = compound.getInt("CookTime");
+        this.totalCookTime = compound.getInt("CookTimeTotal");
         this.currentItemBurnTime = getItemBurnTime(this.furnaceItemStacks.get(1));
 
         if (compound.hasKey("CustomName", 8)) {
@@ -113,9 +113,9 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
 
-        compound.setInteger("BurnTime", (short) this.furnaceBurnTime);
-        compound.setInteger("CookTime", (short) this.cookTime);
-        compound.setInteger("CookTimeTotal", (short) this.totalCookTime);
+        compound.putInt("BurnTime", (short) this.furnaceBurnTime);
+        compound.putInt("CookTime", (short) this.cookTime);
+        compound.putInt("CookTimeTotal", (short) this.totalCookTime);
         ItemStackHelper.saveAllItems(compound, this.furnaceItemStacks);
 
         if (this.hasCustomName()) {

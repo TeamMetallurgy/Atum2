@@ -7,6 +7,7 @@
 Removals
 * Brown & Green dye, since vanilla have them now
 * Graverobber's Map, using vanillas Explorer Map instead
+* Kiln recipe names have been changed, which will result in errors on world load. You can safely proceed still though.
 
 ============================================
 

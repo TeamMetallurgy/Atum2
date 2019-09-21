@@ -193,7 +193,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Override
     public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
-        this.burnTime = compound.getInteger("BurnTime");
+        this.burnTime = compound.getInt("BurnTime");
         this.isDisabled = compound.getBoolean("Disabled");
         this.isInsidePyramid = compound.getBoolean("InPyramid");
     }
@@ -202,7 +202,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Nonnull
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
-        compound.setInteger("BurnTime", (short) this.burnTime);
+        compound.putInt("BurnTime", (short) this.burnTime);
         compound.setBoolean("Disabled", this.isDisabled);
         compound.setBoolean("InPyramid", this.isInsidePyramid);
         return compound;

@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class BlockLinenCarpet extends BlockLinen {
-    private static final Map<EnumDyeColor, Block> LINEN_CARPET = Maps.newEnumMap(EnumDyeColor.class);
+    private static final Map<DyeColor, Block> LINEN_CARPET = Maps.newEnumMap(DyeColor.class);
     private static final AxisAlignedBB CARPET_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 
     private BlockLinenCarpet() {
@@ -30,14 +30,14 @@ public class BlockLinenCarpet extends BlockLinen {
     }
 
     public static void registerLinenCarpets() {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             BlockLinenCarpet linenCarpet = new BlockLinenCarpet();
             LINEN_CARPET.put(color, linenCarpet);
             AtumRegistry.registerBlock(linenCarpet, "linen_carpet_" + color.getName());
         }
     }
 
-    public static Block getLinenBlock(EnumDyeColor color) {
+    public static Block getLinenBlock(DyeColor color) {
         return LINEN_CARPET.get(color);
     }
 

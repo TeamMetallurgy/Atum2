@@ -24,17 +24,17 @@ public class EntityDesertRabbit extends EntityRabbit {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.32D);
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(3, new EntityAITempt(this, 1.0D, AtumItems.FLAX, false));
-        this.tasks.addTask(4, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 16.0F, 2.2D, 2.6D));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(3, new EntityAITempt(this, 1.0D, AtumItems.FLAX, false));
+        this.goalSelector.addGoal(4, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 16.0F, 2.2D, 2.6D));
     }
 
     @Override

@@ -7,7 +7,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class BlockCeramic extends Block {
-    private static final Map<EnumDyeColor, Block> CERAMIC = Maps.newEnumMap(EnumDyeColor.class);
+    private static final Map<DyeColor, Block> CERAMIC = Maps.newEnumMap(DyeColor.class);
 
     BlockCeramic() {
         super(Material.ROCK);
@@ -25,21 +25,21 @@ public class BlockCeramic extends Block {
     }
 
     public static void registerCeramicBlocks() {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             BlockCeramic ceramic = new BlockCeramic();
             CERAMIC.put(color, ceramic);
             AtumRegistry.registerBlock(ceramic, "ceramic_" + color.getName());
         }
     }
 
-    public static Block getCeramicBlocks(EnumDyeColor color) {
+    public static Block getCeramicBlocks(DyeColor color) {
         return CERAMIC.get(color);
     }
 
     @Override
     @Nonnull
     public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase()));
+        return MapColor.getBlockColor(DyeColor.valueOf(getColorString().toUpperCase()));
     }
 
     private String getColorString() {

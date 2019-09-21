@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockDeadBush;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.DeadBushBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class BlockShrub extends BlockDeadBush {
+public class BlockShrub extends DeadBushBlock {
 
     public BlockShrub() {
         super();

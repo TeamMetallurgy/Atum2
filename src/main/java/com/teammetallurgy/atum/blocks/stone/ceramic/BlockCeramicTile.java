@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public class BlockCeramicTile extends BlockCeramic {
-    private static final Map<EnumDyeColor, Block> CERAMIC_TILE = Maps.newEnumMap(EnumDyeColor.class);
+    private static final Map<DyeColor, Block> CERAMIC_TILE = Maps.newEnumMap(DyeColor.class);
     private static final AxisAlignedBB TILE_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0625D, 1.0D);
 
     private BlockCeramicTile() {
@@ -27,14 +27,14 @@ public class BlockCeramicTile extends BlockCeramic {
     }
 
     public static void registerTile() {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             BlockCeramicTile ceramicTile = new BlockCeramicTile();
             CERAMIC_TILE.put(color, ceramicTile);
             AtumRegistry.registerBlock(ceramicTile, "ceramic_tile_" + color.getName());
         }
     }
 
-    public static Block getTile(EnumDyeColor color) {
+    public static Block getTile(DyeColor color) {
         return CERAMIC_TILE.get(color);
     }
 

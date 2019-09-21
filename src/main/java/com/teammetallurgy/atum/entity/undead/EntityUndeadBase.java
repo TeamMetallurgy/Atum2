@@ -8,11 +8,12 @@ import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.EntityPigZombie;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.EntityWolf;
+import net.minecraft.entity.monster.ZombiePigmanEntity;
+import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -27,10 +28,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,26 +51,26 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(6, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.goalSelector.addGoal(7, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.goalSelector.addGoal(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(8, new EntityAILookIdle(this));
         this.applyEntityAI();
     }
 
     void applyEntityAI() {
-        this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, EntityUndeadBase.class));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityEfreetBase.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityDesertWolf.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityDesertWolf.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityWolf.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityPigZombie.class, true));
-        this.targetTasks.addTask(2, new EntityAINearestAttackableTarget<>(this, EntityTarantula.class, true));
+        this.targetSelector.addGoal(0, new EntityAIHurtByTarget(this, false, EntityUndeadBase.class));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityBanditBase.class, true));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityEfreetBase.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestAttackableTarget<>(this, EntityDesertWolf.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestAttackableTarget<>(this, EntityDesertWolf.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestAttackableTarget<>(this, WolfEntity.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestAttackableTarget<>(this, ZombiePigmanEntity.class, true));
+        this.targetSelector.addGoal(2, new EntityAINearestAttackableTarget<>(this, EntityTarantula.class, true));
     }
 
     @Override
@@ -78,8 +79,8 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         if (this.hasSkinVariants()) {
             this.dataManager.register(VARIANT, 0);
         }
@@ -87,13 +88,13 @@ public class EntityUndeadBase extends MonsterEntity {
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
-        livingdata = super.onInitialSpawn(difficulty, livingdata);
+    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
         if (this.hasSkinVariants()) {
-            final int variant = MathHelper.getInt(world.rand, 0, this.getVariantAmount());
+            final int variant = MathHelper.nextInt(world.getRandom(), 0, this.getVariantAmount());
             this.setVariant(variant);
             this.setVariantAbilities(difficulty, variant);
         }
@@ -130,7 +131,6 @@ public class EntityUndeadBase extends MonsterEntity {
     @Override
     public void tick() {
         super.tick();
-
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
@@ -138,24 +138,26 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
-        if (this.world.isDaytime() && this.world.canSeeSky(this.getPosition()) && !this.world.isRemote && !this.isImmuneToFire && this.shouldBurnInDay()) {
+    public void livingTick() {
+        super.livingTick();
+        if (this.world.isDaytime() && this.world.canBlockSeeSky(this.getPosition()) && !this.world.isRemote && !this.isImmuneToFire() && this.shouldBurnInDay()) {
             this.setFire(8);
         }
     }
 
     @Override
-    public void onEntityUpdate() {
-        if (this.fire > 0) {
-            if (!this.isImmuneToFire) {
-                if (this.fire % 20 == 0) {
+    public void baseTick() {
+        if (this.func_223314_ad() > 0) {
+            int fire = this.func_223314_ad();
+            if (!this.isImmuneToFire()) {
+                if (this.func_223314_ad() % 20 == 0) {
                     this.attackEntityFrom(DamageSource.ON_FIRE, getBurnDamage());
                 }
-                --this.fire;
+                --fire;
+                this.func_223308_g(fire);
             }
         }
-        super.onEntityUpdate();
+        super.baseTick();
     }
 
     float getBurnDamage() {
@@ -199,7 +201,7 @@ public class EntityUndeadBase extends MonsterEntity {
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            String entityName = Objects.requireNonNull(Objects.requireNonNull(EntityRegistry.getEntry(this.getClass())).getRegistryName()).getPath();
+            String entityName = Objects.requireNonNull(this.getType().getRegistryName()).getPath();
 
             if (ChampionsHelper.isChampion(this)) {
                 ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
@@ -219,18 +221,18 @@ public class EntityUndeadBase extends MonsterEntity {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
-            compound.setInteger("Variant", this.getVariant());
+            compound.putInt("Variant", this.getVariant());
         }
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         if (this.hasSkinVariants()) {
-            this.setVariant(compound.getInteger("Variant"));
+            this.setVariant(compound.getInt("Variant"));
         }
     }
 }

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.teleporter.AtumTeleporter;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -18,12 +18,11 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -90,19 +89,19 @@ public class BlockPortal extends BreakableBlock {
     public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {
         if (!entity.isRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
-            final int dimension = player.dimension == AtumConfig.DIMENSION_ID ? DimensionType.OVERWORLD.getId() : AtumConfig.DIMENSION_ID;
+            final DimensionType dimension = player.dimension == AtumDimensionRegistration.ATUM ? DimensionType.OVERWORLD : AtumDimensionRegistration.ATUM;
             changeDimension(world, (ServerPlayerEntity) entity, dimension, new AtumTeleporter(player.server.getWorld(dimension)));
         }
     }
 
-    public static void changeDimension(World world, ServerPlayerEntity player, int dimension, ITeleporter teleporter) {
+    public static void changeDimension(World world, ServerPlayerEntity player, DimensionType dimension) {
         if (!world.isRemote) {
-            player.changeDimension(dimension, teleporter);
+            player.changeDimension(dimension);
             player.timeUntilPortal = 300;
-            if (player.dimension == AtumConfig.DIMENSION_ID) {
+            if (player.dimension == AtumDimensionRegistration.ATUM) {
                 BlockPos playerPos = new BlockPos(player);
                 if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, Direction.UP)) {
-                    player.setSpawnChunk(playerPos, true, AtumConfig.DIMENSION_ID);
+                    player.setSpawnChunk(playerPos, true, AtumDimensionRegistration.ATUM);
                 }
             }
         }

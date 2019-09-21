@@ -80,7 +80,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
         this.scaleNoise = new NoiseGeneratorOctaves(this.rand, 10);
         this.depthNoise = new NoiseGeneratorOctaves(this.rand, 16);
         this.forestNoise = new NoiseGeneratorOctaves(this.rand, 8);
-        this.getHeight()Map = new double[825];
+        this.heightMap = new double[825];
         this.biomeWeights = new float[25];
 
         for (int i = -2; i <= 2; ++i) {
@@ -122,14 +122,14 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
 
                 for (int i2 = 0; i2 < 32; ++i2) {
                     double d0 = 0.125D;
-                    double d1 = this.getHeight()Map[i1 + i2];
-                    double d2 = this.getHeight()Map[j1 + i2];
-                    double d3 = this.getHeight()Map[k1 + i2];
-                    double d4 = this.getHeight()Map[l1 + i2];
-                    double d5 = (this.getHeight()Map[i1 + i2 + 1] - d1) * d0;
-                    double d6 = (this.getHeight()Map[j1 + i2 + 1] - d2) * d0;
-                    double d7 = (this.getHeight()Map[k1 + i2 + 1] - d3) * d0;
-                    double d8 = (this.getHeight()Map[l1 + i2 + 1] - d4) * d0;
+                    double d1 = this.heightMap[i1 + i2];
+                    double d2 = this.heightMap[j1 + i2];
+                    double d3 = this.heightMap[k1 + i2];
+                    double d4 = this.heightMap[l1 + i2];
+                    double d5 = (this.heightMap[i1 + i2 + 1] - d1) * d0;
+                    double d6 = (this.heightMap[j1 + i2 + 1] - d2) * d0;
+                    double d7 = (this.heightMap[k1 + i2 + 1] - d3) * d0;
+                    double d8 = (this.heightMap[l1 + i2 + 1] - d4) * d0;
 
                     for (int j2 = 0; j2 < 8; ++j2) {
                         double d9 = 0.25D;
@@ -192,7 +192,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, chunkprimer);
             }
-            if (AtumConfig.PYRAMID_ENABLED) {
+            if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
                 this.pyramidGenerator.generate(this.world, x, z, chunkprimer);
             }
             this.ruinGenerator.generate(this.world, x, z, chunkprimer);
@@ -300,7 +300,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                         double d6 = (double) ((float) (l1 - 29) / 3.0F);
                         d5 = d5 * (1.0D - d6) + -10.0D * d6;
                     }
-                    this.getHeight()Map[i] = d5;
+                    this.heightMap[i] = d5;
                     ++i;
                 }
             }
@@ -324,7 +324,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generateStructure(this.world, this.rand, chunkpos);
             }
-            if (AtumConfig.PYRAMID_ENABLED) {
+            if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
                 this.pyramidGenerator.generateStructure(this.world, this.rand, chunkpos);
             }
             this.ruinGenerator.generateStructure(this.world, this.rand, chunkpos);
@@ -442,7 +442,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             if (this.settings.useMineShafts) {
                 this.mineshaftGenerator.generate(this.world, x, z, null);
             }
-            if (AtumConfig.PYRAMID_ENABLED) {
+            if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
                 this.pyramidGenerator.generate(this.world, x, z, null);
             }
             this.ruinGenerator.generate(this.world, x, z, null);

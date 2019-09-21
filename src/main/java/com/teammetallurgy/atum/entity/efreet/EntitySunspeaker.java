@@ -62,15 +62,15 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, false));
-        this.tasks.addTask(2, new ILookAtTradePlayer(this));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(1, new EntityAIAttackMelee(this, 1.0D, false));
+        this.goalSelector.addGoal(2, new ILookAtTradePlayer(this));
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
         this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
@@ -304,10 +304,10 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
         }
     }
 
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("Riches", this.wealth);
-        compound.setInteger("TradeLevel", this.tradeLevel);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putInt("Riches", this.wealth);
+        compound.putInt("TradeLevel", this.tradeLevel);
 
         if (this.buyingList != null) {
             compound.setTag("Offers", this.buyingList.getRecipiesAsTags());
@@ -315,10 +315,10 @@ public class EntitySunspeaker extends EntityEfreetBase implements IMerchant {
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
-        this.wealth = compound.getInteger("Riches");
-        this.tradeLevel = compound.getInteger("TradeLevel");
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.wealth = compound.getInt("Riches");
+        this.tradeLevel = compound.getInt("TradeLevel");
 
         if (compound.hasKey("Offers", 10)) {
             CompoundNBT nbttagcompound = compound.getCompoundTag("Offers");

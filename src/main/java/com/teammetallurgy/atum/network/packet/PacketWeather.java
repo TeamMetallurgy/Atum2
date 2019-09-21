@@ -20,9 +20,9 @@ public class PacketWeather extends Packet<PacketWeather> {
 
 	@Override
 	protected void handleClientSide(PlayerEntity player) {
-		WorldProvider provider = Minecraft.getInstance().player.world.provider;
-		if (provider instanceof WorldProviderAtum) {
-			WorldProviderAtum providerAtum = (WorldProviderAtum) provider;
+		WorldProvider dimension = Minecraft.getInstance().player.world.dimension;
+		if (dimension instanceof WorldProviderAtum) {
+			WorldProviderAtum providerAtum = (WorldProviderAtum) dimension;
 			providerAtum.isStorming = isStorming;
 			providerAtum.stormTime = stormTime;
 		}

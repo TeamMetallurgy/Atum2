@@ -52,7 +52,7 @@ public class HammerItem extends SwordItem {
     }
 
     @SubscribeEvent
-    public void onLivingUpdate(LivingEvent.LivingUpdateEvent event) {
+    public void livingTick(LivingEvent.LivingUpdateEvent event) {
         if (stun.isEmpty() || !stun.containsKey(event.getEntityLiving())) return;
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (attribute.hasModifier(STUN)) {

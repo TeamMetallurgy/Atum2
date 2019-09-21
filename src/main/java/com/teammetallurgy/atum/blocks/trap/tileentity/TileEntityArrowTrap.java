@@ -155,14 +155,14 @@ public class TileEntityArrowTrap extends TileEntityTrap {
     @Override
     public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
-        this.timer = compound.getInteger("Timer");
+        this.timer = compound.getInt("Timer");
     }
 
     @Override
     @Nonnull
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
-        compound.setInteger("Timer", this.timer);
+        compound.putInt("Timer", this.timer);
         return compound;
     }
 }

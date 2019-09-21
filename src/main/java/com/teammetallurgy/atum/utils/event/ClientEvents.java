@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -37,7 +38,7 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void renderlast(RenderWorldLastEvent event) {
-        if (Minecraft.getInstance().player.dimension.getId() == AtumConfig.DIMENSION_ID) {
+        if (Minecraft.getInstance().player.dimension == AtumDimensionRegistration.ATUM) {
             if (Minecraft.getInstance().gameSettings.hideGUI) {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             } else {
@@ -50,19 +51,19 @@ public class ClientEvents {
     public static void renderSand(RenderGameOverlayEvent.Pre event) {
         if (event.getType() != ElementType.ALL) return;
 
-        if (Minecraft.getInstance().player.dimension == AtumConfig.DIMENSION_ID) {
+        if (Minecraft.getInstance().player.dimension == AtumDimensionRegistration.ATUM) {
             //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
         }
     }*/
 
     private static void renderSand(float partialTicks, int... layers) {
-        float baseDarkness = AtumConfig.SAND_DARKNESS;
-        float baseAlpha = AtumConfig.SAND_ALPHA;
-        float eyesOfAtumAlpha = AtumConfig.SAND_EYES_ALPHA;
+        float baseDarkness = AtumConfig.SANDSTORM.sandDarkness.get() / 100.0F;
+        float baseAlpha = AtumConfig.SANDSTORM.sandAlpha.get() / 100.0F;
+        float eyesOfAtumAlpha = AtumConfig.SANDSTORM.sandEyesAlpha.get() / 100.0F;
         Minecraft mc = Minecraft.getInstance();
         Dimension dimension = mc.player.world.getDimension();
 
-        if (dimension instanceof WorldProviderAtum && mc.player.dimension.getId() == AtumConfig.DIMENSION_ID) {
+        if (dimension instanceof WorldProviderAtum && mc.player.dimension == AtumDimensionRegistration.ATUM) {
             WorldProviderAtum atum = (WorldProviderAtum) dimension;
             float stormStrength = atum.stormStrength;
 
@@ -152,11 +153,11 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
-        float sandstormFog = AtumConfig.SANDSTORM_FOG;
+        float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
         Dimension dimension = Minecraft.getInstance().player.world.dimension;
         Entity entity = event.getInfo().getRenderViewEntity();
 
-        if (dimension instanceof WorldProviderAtum && entity.dimension.getId() == AtumConfig.DIMENSION_ID && AtumConfig.FOG_ENABLED) {
+        if (dimension instanceof WorldProviderAtum && entity.dimension == AtumDimensionRegistration.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
             GlStateManager.fogMode(GlStateManager.FogMode.EXP);
             float fogDensity = 0.08F;
 

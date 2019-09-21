@@ -141,7 +141,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.wheel = compound.getBoolean("wheel");
-        this.rotations = compound.getInteger("rotations");
+        this.rotations = compound.getInt("rotations");
         this.input = compound.getCompoundTag("input");
     }
 
@@ -150,7 +150,7 @@ public class TileEntitySpinningWheel extends TileEntityInventoryBase implements 
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
         compound.setBoolean("wheel", this.wheel);
-        compound.setInteger("rotations", this.rotations);
+        compound.putInt("rotations", this.rotations);
         if (this.input != null) {
             compound.setTag("input", this.input);
         }

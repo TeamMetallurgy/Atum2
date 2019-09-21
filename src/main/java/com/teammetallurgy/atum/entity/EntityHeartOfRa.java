@@ -31,7 +31,7 @@ public class EntityHeartOfRa extends Entity {
     }
 
     @Override
-    protected void entityInit() {
+    protected void registerData() {
     }
 
     @Override
@@ -70,10 +70,10 @@ public class EntityHeartOfRa extends Entity {
     }
 
     @Override
-    protected void writeEntityToNBT(@Nonnull CompoundNBT compound) {
+    protected void writeAdditional(@Nonnull CompoundNBT compound) {
     }
 
     @Override
-    protected void readEntityFromNBT(@Nonnull CompoundNBT compound) {
+    protected void readAdditional(@Nonnull CompoundNBT compound) {
     }
 }

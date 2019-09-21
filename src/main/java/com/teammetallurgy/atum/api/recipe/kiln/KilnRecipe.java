@@ -28,12 +28,12 @@ public class KilnRecipe extends ForgeRegistryEntry<IKilnRecipe> implements IKiln
         this(NonNullList.withSize(1, input), output, experience);
     }
 
-    public KilnRecipe(Tag<Item> input, @Nonnull ItemStack output, int rotations) {
-        this(Ingredient.fromTag(input), output, rotations);
+    public KilnRecipe(Tag<Item> input, @Nonnull ItemStack output, float experience) {
+        this(Ingredient.fromTag(input), output, experience);
     }
 
-    public KilnRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
-        this(NonNullList.from(ItemStack.EMPTY, input.getMatchingStacks()), output, rotations);
+    public KilnRecipe(Ingredient input, @Nonnull ItemStack output, float experience) {
+        this(NonNullList.from(ItemStack.EMPTY, input.getMatchingStacks()), output, experience);
     }
 
     private KilnRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, float experience) {

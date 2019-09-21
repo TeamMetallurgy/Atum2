@@ -817,12 +817,11 @@
   "chat.atum.spinning_wheel.recipe_in_progress": "Le rouet contient déjà quelque chose (%s)",
 
   "_comment": "GUI",
-  "atum.config_gui.atum_start": "Commencer dans Atum",
-  "atum.config_gui.atum_start_portal": "Créer un portail Atum au démarrage de la partie",
-  "atum.config_gui.atum_start_structure": "Structure de départ Atum",
-  "atum.config_gui.dimension_iD": "ID de dimension pour Atum",
-  "atum.config_gui.fog": "Brouillard Atum",
-  "atum.config_gui.portal_creation": "Portail Atum",
+  "atum.config.atum_start": "Commencer dans Atum",
+  "atum.config.atum_start_portal": "Créer un portail Atum au démarrage de la partie",
+  "atum.config.atum_start_structure": "Structure de départ Atum",
+  "atum.config.fog": "Brouillard Atum",
+  "atum.config.portal_creation": "Portail Atum",
 
   "_comment": "Subtitles",
   "atum:subtitles.pharaohspawn": "Grognements de Pharaon",

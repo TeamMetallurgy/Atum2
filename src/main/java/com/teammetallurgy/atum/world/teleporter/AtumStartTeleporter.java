@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.teleporter;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenBonusCrate;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenStartStructure;
@@ -31,7 +32,7 @@ public class AtumStartTeleporter implements ITeleporter {
         }
         entity.moveToBlockPosAndAngles(pos.up(), yaw, entity.rotationPitch);
 
-        WorldProviderAtum atum = (WorldProviderAtum) world.provider;
+        WorldProviderAtum atum = (WorldProviderAtum) world.dimension;
         if (!atum.hasStartStructureSpawned) {
             this.onAtumJoining(world, pos);
             atum.hasStartStructureSpawned = true;
@@ -39,11 +40,11 @@ public class AtumStartTeleporter implements ITeleporter {
     }
 
     private void onAtumJoining(World world, BlockPos pos) {
-        if (world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
-            if (AtumConfig.START_IN_ATUM_PORTAL) {
+        if (world.dimension.getType() == AtumDimensionRegistration.ATUM) {
+            if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 AtumTeleporter.createPortal(world, pos, null);
             }
-            if (!AtumConfig.ATUM_START_STRUCTURE.isEmpty()) {
+            if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
                 new WorldGenStartStructure().generate(world, world.rand, pos.down());
             }
             if (worldSettings != null && worldSettings.isBonusChestEnabled()) {

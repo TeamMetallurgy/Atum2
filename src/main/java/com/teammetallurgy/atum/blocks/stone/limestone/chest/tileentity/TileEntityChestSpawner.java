@@ -115,7 +115,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
     public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
         this.spawnerLogic.readFromNBT(compound);
-        spawnPool = compound.getInteger("spawnPool");
+        spawnPool = compound.getInt("spawnPool");
     }
 
     @Override
@@ -123,7 +123,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
     public CompoundNBT writeToNBT(@Nonnull CompoundNBT compound) {
         super.writeToNBT(compound);
         this.spawnerLogic.writeToNBT(compound);
-        compound.setInteger("spawnPool", spawnPool);
+        compound.putInt("spawnPool", spawnPool);
         return compound;
     }
 

@@ -8,8 +8,8 @@ import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.biome.BiomeDeadOasis;
 import com.teammetallurgy.atum.world.biome.BiomeOasis;
 import com.teammetallurgy.atum.world.biome.BiomeSandDunes;
@@ -76,8 +76,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(DATA_COLOR_ID, -1);
         this.dataManager.register(VARIANT, 0);
         this.dataManager.register(LEFT_CRATE, ItemStack.EMPTY);
@@ -86,8 +86,8 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
         this.getAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
@@ -95,7 +95,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(@Nonnull DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public ILivingEntityData onInitialSpawn(@Nonnull DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
         final int variant = this.getCamelVariantBiome();
@@ -104,19 +104,19 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
-        this.tasks.addTask(2, new AICamelCaravan(this, 2.0999999046325684D));
-        this.tasks.addTask(3, new EntityAIAttackRanged(this, 1.25D, 40, 20.0F));
-        this.tasks.addTask(3, new EntityAIPanic(this, 1.2D));
-        this.tasks.addTask(4, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(5, new EntityAIFollowParent(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWanderAvoidWater(this, 0.7D));
-        this.tasks.addTask(7, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityCamel.AIHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityCamel.AIDefendTarget(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new EntityAIRunAroundLikeCrazy(this, 1.2D));
+        this.goalSelector.addGoal(2, new AICamelCaravan(this, 2.0999999046325684D));
+        this.goalSelector.addGoal(3, new EntityAIAttackRanged(this, 1.25D, 40, 20.0F));
+        this.goalSelector.addGoal(3, new EntityAIPanic(this, 1.2D));
+        this.goalSelector.addGoal(4, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(5, new EntityAIFollowParent(this, 1.0D));
+        this.goalSelector.addGoal(6, new EntityAIWanderAvoidWater(this, 0.7D));
+        this.goalSelector.addGoal(7, new EntityAIWatchClosest(this, PlayerEntity.class, 6.0F));
+        this.goalSelector.addGoal(8, new EntityAILookIdle(this));
+        this.targetSelector.addGoal(1, new EntityCamel.AIHurtByTarget(this));
+        this.targetSelector.addGoal(2, new EntityCamel.AIDefendTarget(this));
     }
 
     @Override
@@ -197,7 +197,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
         Biome biome = this.world.getBiome(new BlockPos(this));
         int chance = this.rand.nextInt(100);
 
-        if (this.world.provider.getDimension() == AtumConfig.DIMENSION_ID) {
+        if (this.world.dimension.getDimension() == AtumDimensionRegistration.ATUM) {
             if (biome instanceof BiomeSandPlains) {
                 return chance <= 50 ? 0 : 5;
             } else if (biome instanceof BiomeSandDunes) {
@@ -229,7 +229,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                 this.textureName += "_" + armorType.getName();
             }
 
-            EnumDyeColor color = this.getColor();
+            DyeColor color = this.getColor();
             if (color != null) {
                 this.textureName += "_" + color.getDyeColorName();
             }
@@ -333,12 +333,12 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Nullable
-    public EnumDyeColor getColor() {
+    public DyeColor getColor() {
         int color = this.dataManager.get(DATA_COLOR_ID);
-        return color == -1 ? null : EnumDyeColor.byMetadata(color);
+        return color == -1 ? null : DyeColor.byMetadata(color);
     }
 
-    private void setColor(@Nullable EnumDyeColor color) {
+    private void setColor(@Nullable DyeColor color) {
         this.dataManager.set(DATA_COLOR_ID, color == null ? -1 : color.getMetadata());
     }
 
@@ -378,10 +378,10 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     private void setColorByItem(@Nonnull ItemStack stack) {
         if (this.isValidCarpet(stack)) {
             if (stack.getItem() == Item.getItemFromBlock(Blocks.CARPET)) {
-                this.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
+                this.setColor(DyeColor.byMetadata(stack.getMetadata()));
             } else if (Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet) {
                 BlockLinenCarpet linenCarpet = (BlockLinenCarpet) Block.getBlockFromItem(stack.getItem());
-                this.setColor(EnumDyeColor.valueOf(linenCarpet.getColorString().toUpperCase()));
+                this.setColor(DyeColor.valueOf(linenCarpet.getColorString().toUpperCase()));
             }
         } else {
             this.setColor(null);
@@ -415,9 +415,9 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("Variant", this.getVariant());
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putInt("Variant", this.getVariant());
 
         if (!this.horseChest.getStackInSlot(1).isEmpty()) {
             compound.setTag("ArmorItem", this.horseChest.getStackInSlot(1).writeToNBT(new CompoundNBT()));
@@ -448,9 +448,9 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
-        this.setVariant(compound.getInteger("Variant"));
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        this.setVariant(compound.getInt("Variant"));
 
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
 

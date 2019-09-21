@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.AtumCreativeTab;
+import com.teammetallurgy.atum.utils.AtumItemGroup;
 import com.teammetallurgy.atum.utils.ClientHandler;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimensionRegistration;
@@ -32,7 +32,7 @@ import org.apache.logging.log4j.Logger;
 @Mod(value = Constants.MOD_ID)
 public class Atum {
     public static final Logger LOG = LogManager.getLogger(Constants.MOD_NAME);
-    public static final ItemGroup GROUP = new AtumCreativeTab();
+    public static final ItemGroup GROUP = new AtumItemGroup();
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -51,7 +51,6 @@ public class Atum {
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
         LighthousePieces.registerLighthouse();
-        AtumRecipes.addKilnRecipes();
         IntegrationHandler.INSTANCE.setup();
     }
 
@@ -62,6 +61,7 @@ public class Atum {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
+        AtumRecipes.addKilnRecipes(event.getServer());
         MinecraftForge.EVENT_BUS.register(new AtumDimensionRegistration());
         AtumWeather.register(event.getCommandDispatcher());
     }

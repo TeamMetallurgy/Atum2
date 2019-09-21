@@ -104,7 +104,7 @@ public class RuinPieces {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
-            compound.setInteger("Type", this.ruinType);
+            compound.putInt("Type", this.ruinType);
         }
 
         @Override
@@ -112,7 +112,7 @@ public class RuinPieces {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.ruinType = compound.getInteger("Type");
+            this.ruinType = compound.getInt("Type");
             this.loadTemplate(manager);
         }
     }

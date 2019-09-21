@@ -5,27 +5,27 @@ import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockOre;
-import net.minecraft.block.BlockSponge;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.OreBlock;
+import net.minecraft.block.SpongeBlock;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemCoal;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.oredict.OreDictionary;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+
+import static net.minecraftforge.common.Tags.Items.*;
 
 public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     private int burnTime;
@@ -220,19 +220,22 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
         return Arrays.asList(this.inventory.get(0), this.inventory.get(1), this.inventory.get(2), this.inventory.get(3));
     }
 
-    public static boolean canKilnNotSmelt(@Nonnull ItemStack stack) {
+    public static boolean canKilnNotSmelt(Ingredient ingredient) {
+        for (ItemStack stack : ingredient.getMatchingStacks()) {
+            return canKilnNotSmelt(stack);
+        }
+        return true;
+    }
+
+    public static boolean canKilnNotSmelt(ItemStack stack) {
         Item item = stack.getItem();
         Block block = Block.getBlockFromItem(stack.getItem());
 
-        String oreName = "";
-        for (int oreId : OreDictionary.getOreIDs(stack)) {
-            oreName = OreDictionary.getOreName(oreId).toLowerCase(Locale.ENGLISH);
-        }
         return RecipeHandlers.kilnBlacklist.contains(item.getRegistryName()) || RecipeHandlers.kilnBlacklist.contains(block.getRegistryName()) ||
-                item instanceof ItemFood || block instanceof BlockOre || item instanceof ItemCoal ||
-                oreName.contains("plank") || oreName.contains("log") || oreName.contains("stick") || oreName.contains("torch") || oreName.contains("plant") || oreName.contains("sugarcane") ||
-                oreName.contains("ore") || oreName.contains("ingot") && !oreName.contains("ingotbrick") || oreName.contains("nugget") || oreName.contains("gem") || oreName.contains("dust") || oreName.contains("crushed") ||
-                oreName.contains("dye") || oreName.contains("slime") || oreName.contains("leather") || oreName.contains("rubber") || block instanceof BlockSponge;
+                item.isFood() || block instanceof OreBlock || item.isIn(ItemTags.COALS) || item.isIn(ORES_COAL) || item.isIn(STORAGE_BLOCKS_COAL) ||
+                item.isIn(ItemTags.PLANKS) || item.isIn(ItemTags.LOGS) || item.isIn(RODS_WOODEN) || item.isIn(ItemTags.SMALL_FLOWERS) ||
+                item.isIn(ORES) || item.isIn(INGOTS) && !item.isIn(INGOTS_BRICK) || item.isIn(NUGGETS) || item.isIn(GEMS) || item.isIn(DUSTS) ||
+                item.isIn(DYES) || item.isIn(SLIMEBALLS) || item.isIn(LEATHER) || block instanceof SpongeBlock;
     }
 
     @Override
@@ -276,9 +279,9 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     @Override
     public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
-        this.burnTime = compound.getInteger("BurnTime");
-        this.cookTime = compound.getInteger("CookTime");
-        this.totalCookTime = compound.getInteger("CookTimeTotal");
+        this.burnTime = compound.getInt("BurnTime");
+        this.cookTime = compound.getInt("CookTime");
+        this.totalCookTime = compound.getInt("CookTimeTotal");
         this.currentItemBurnTime = TileEntityFurnace.getItemBurnTime(this.inventory.get(4));
     }
 
@@ -286,9 +289,9 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
     @Nonnull
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
-        compound.setInteger("BurnTime", (short) this.burnTime);
-        compound.setInteger("CookTime", (short) this.cookTime);
-        compound.setInteger("CookTimeTotal", (short) this.totalCookTime);
+        compound.putInt("BurnTime", (short) this.burnTime);
+        compound.putInt("CookTime", (short) this.cookTime);
+        compound.putInt("CookTimeTotal", (short) this.totalCookTime);
         return compound;
     }
 }

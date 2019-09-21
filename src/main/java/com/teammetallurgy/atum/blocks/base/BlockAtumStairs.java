@@ -11,7 +11,7 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.Direction;
 
 import java.util.Map;
@@ -20,7 +20,7 @@ public class BlockAtumStairs extends BlockStairs {
     private static final Map<BlockLimestoneBricks.BrickType, Block> BRICK_STAIRS = Maps.newEnumMap(BlockLimestoneBricks.BrickType.class);
     private static final Map<BlockAlabasterBricks.Type, Block> ALABASTER_STAIRS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
     private static final Map<BlockAlabasterBricks.Type, Block> PORPHYRY_STAIRS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
-    private static final Map<EnumDyeColor, Block> CERAMIC_STAIRS = Maps.newEnumMap(EnumDyeColor.class);
+    private static final Map<DyeColor, Block> CERAMIC_STAIRS = Maps.newEnumMap(DyeColor.class);
     private static final Map<BlockAtumPlank.WoodType, Block> WOOD_STAIRS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
     public BlockAtumStairs(BlockState modelState) {
@@ -79,14 +79,14 @@ public class BlockAtumStairs extends BlockStairs {
     }
 
     public static void registerCeramicStairs() {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             Block ceramicStair = new BlockAtumStairs(BlockCeramic.getCeramicBlocks(color).getDefaultState());
             CERAMIC_STAIRS.put(color, ceramicStair);
             AtumRegistry.registerBlock(ceramicStair, "ceramic_stairs_" + color.getName());
         }
     }
 
-    public static Block getCeramicStairs(EnumDyeColor color) {
+    public static Block getCeramicStairs(DyeColor color) {
         return CERAMIC_STAIRS.get(color);
     }
 }

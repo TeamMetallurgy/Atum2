@@ -41,33 +41,33 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(3, new EntityAIMoveIndoors(this));
-        this.tasks.addTask(4, new EntityAIRestrictOpenDoor(this));
-        this.tasks.addTask(5, new EntityAIOpenDoor(this, true));
-        this.tasks.addTask(6, new EntityAIMoveTowardsRestriction(this, 0.6D));
-        this.tasks.addTask(7, new EntityAIWanderAvoidWater(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(3, new EntityAIMoveIndoors(this));
+        this.goalSelector.addGoal(4, new EntityAIRestrictOpenDoor(this));
+        this.goalSelector.addGoal(5, new EntityAIOpenDoor(this, true));
+        this.goalSelector.addGoal(6, new EntityAIMoveTowardsRestriction(this, 0.6D));
+        this.goalSelector.addGoal(7, new EntityAIWanderAvoidWater(this, 1.0D));
+        this.goalSelector.addGoal(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(8, new EntityAILookIdle(this));
         this.applyEntityAI();
     }
 
     protected void applyEntityAI() {
-        this.targetTasks.addTask(1, new EntityEfreetBase.AIHurtByAggressor(this));
-        this.targetTasks.addTask(2, new EntityEfreetBase.AITargetAggressor(this));
+        this.targetSelector.addGoal(1, new EntityEfreetBase.AIHurtByAggressor(this));
+        this.targetSelector.addGoal(2, new EntityEfreetBase.AITargetAggressor(this));
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         if (this.hasSkinVariants()) {
             this.dataManager.register(VARIANT, 0);
         }
@@ -126,7 +126,7 @@ public abstract class EntityEfreetBase extends EntityAgeable {
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
         this.setEquipmentBasedOnDifficulty(difficulty);
@@ -212,10 +212,10 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
-            compound.setInteger("Variant", this.getVariant());
+            compound.putInt("Variant", this.getVariant());
         }
         compound.setShort("Anger", (short) this.angerLevel);
         if (this.angerTargetUUID != null) {
@@ -226,10 +226,10 @@ public abstract class EntityEfreetBase extends EntityAgeable {
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         if (this.hasSkinVariants()) {
-            this.setVariant(compound.getInteger("Variant"));
+            this.setVariant(compound.getInt("Variant"));
         }
         this.angerLevel = compound.getShort("Anger");
         String hurtBy = compound.getString("HurtBy");

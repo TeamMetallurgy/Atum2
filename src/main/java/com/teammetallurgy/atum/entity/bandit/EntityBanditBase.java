@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -46,21 +46,21 @@ public class EntityBanditBase extends MonsterEntity {
     }
 
     @Override
-    protected void initEntityAI() {
-        this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
-        this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 6.0F, 1.0D, 1.2D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(5, new EntityAIMoveTowardsRestriction(this, 1.0D));
+        this.goalSelector.addGoal(6, new EntityAIWander(this, 1.0D));
+        this.goalSelector.addGoal(7, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, 6.0F, 1.0D, 1.2D));
+        this.goalSelector.addGoal(8, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(8, new EntityAILookIdle(this));
         this.applyEntityAI();
     }
 
     protected void applyEntityAI() {
-        this.targetTasks.addTask(0, new EntityAIHurtByTarget(this, false, EntityBanditBase.class));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
+        this.targetSelector.addGoal(0, new EntityAIHurtByTarget(this, false, EntityBanditBase.class));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, true));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityStoneBase.class, true));
     }
 
     @Override
@@ -69,8 +69,8 @@ public class EntityBanditBase extends MonsterEntity {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         if (this.hasSkinVariants()) {
             this.dataManager.register(VARIANT, 0);
         }
@@ -84,7 +84,7 @@ public class EntityBanditBase extends MonsterEntity {
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
 
         this.setEnchantmentBasedOnDifficulty(difficulty);
@@ -198,18 +198,18 @@ public class EntityBanditBase extends MonsterEntity {
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
-            compound.setInteger("Variant", this.getVariant());
+            compound.putInt("Variant", this.getVariant());
         }
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         if (this.hasSkinVariants()) {
-            this.setVariant(compound.getInteger("Variant"));
+            this.setVariant(compound.getInt("Variant"));
         }
     }
 }

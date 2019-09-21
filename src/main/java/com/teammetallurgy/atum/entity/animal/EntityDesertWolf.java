@@ -98,33 +98,33 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    protected void initEntityAI() {
+    protected void registerGoals() {
         this.aiSit = new AISitWithCheck(this, !this.isAlpha());
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiSit);
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, avoid -> avoid != null && avoid.isAlpha() && (!this.isAlpha() && this.isTamed()), 8.0F, 0.6D, 1.0D));
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityLlama.class, 24.0F, 0.6D, 1.2D));
-        this.tasks.addTask(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, avoid -> avoid != null && !this.isAlpha(), 24.0F, 0.6D, 1.2D));
-        this.tasks.addTask(4, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(5, new EntityAIAttackMelee(this, 1.0D, true));
-        this.tasks.addTask(6, new AIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWanderAvoidWater(this, 0.4D));
-        this.tasks.addTask(9, new AIBeg(this, 8.0F));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, 0, false, false, target -> !this.isTamed()));
-        this.targetTasks.addTask(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, 10, false, false, target -> !this.isTamed()));
-        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(4, new EntityAITargetNonTamed<>(this, EntityAnimal.class, false, (Predicate<Entity>) entity -> entity instanceof EntitySheep || entity instanceof EntityRabbit));
-        this.targetTasks.addTask(5, new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, 10, false, false, target -> !this.isTamed()));
+        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(2, this.aiSit);
+        this.goalSelector.addGoal(3, new EntityAIAvoidEntity<>(this, EntityDesertWolf.class, avoid -> avoid != null && avoid.isAlpha() && (!this.isAlpha() && this.isTamed()), 8.0F, 0.6D, 1.0D));
+        this.goalSelector.addGoal(3, new EntityAIAvoidEntity<>(this, EntityLlama.class, 24.0F, 0.6D, 1.2D));
+        this.goalSelector.addGoal(3, new EntityAIAvoidEntity<>(this, EntityCamel.class, avoid -> avoid != null && !this.isAlpha(), 24.0F, 0.6D, 1.2D));
+        this.goalSelector.addGoal(4, new EntityAILeapAtTarget(this, 0.4F));
+        this.goalSelector.addGoal(5, new EntityAIAttackMelee(this, 1.0D, true));
+        this.goalSelector.addGoal(6, new AIFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(7, new EntityAIMate(this, 1.0D));
+        this.goalSelector.addGoal(8, new EntityAIWanderAvoidWater(this, 0.4D));
+        this.goalSelector.addGoal(9, new AIBeg(this, 8.0F));
+        this.goalSelector.addGoal(10, new EntityAIWatchClosest(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(10, new EntityAILookIdle(this));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, PlayerEntity.class, 0, false, false, target -> !this.isTamed()));
+        this.targetSelector.addGoal(1, new EntityAINearestAttackableTarget<>(this, EntityUndeadBase.class, 10, false, false, target -> !this.isTamed()));
+        this.targetSelector.addGoal(1, new EntityAIOwnerHurtByTarget(this));
+        this.targetSelector.addGoal(2, new EntityAIOwnerHurtTarget(this));
+        this.targetSelector.addGoal(3, new EntityAIHurtByTarget(this, true));
+        this.targetSelector.addGoal(4, new EntityAITargetNonTamed<>(this, EntityAnimal.class, false, (Predicate<Entity>) entity -> entity instanceof EntitySheep || entity instanceof EntityRabbit));
+        this.targetSelector.addGoal(5, new EntityAINearestAttackableTarget<>(this, AbstractSkeleton.class, 10, false, false, target -> !this.isTamed()));
     }
 
     @Override
     @Nullable
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, @Nullable ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
         if (world.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100) {
             this.setVariant(1);
@@ -160,8 +160,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
 
         this.getAttributeMap().registerAttribute(JUMP_STRENGTH);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
@@ -187,11 +187,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
         this.dataManager.register(BEGGING, Boolean.FALSE);
-        this.dataManager.register(COLLAR_COLOR, EnumDyeColor.GREEN.getDyeDamage());
+        this.dataManager.register(COLLAR_COLOR, DyeColor.GREEN.getDyeDamage());
         this.dataManager.register(VARIANT, 0);
         this.dataManager.register(SADDLED, Boolean.FALSE);
         this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
@@ -263,8 +263,8 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public void onLivingUpdate() {
-        super.onLivingUpdate();
+    public void livingTick() {
+        super.livingTick();
 
         if (!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
             this.isShaking = true;
@@ -457,7 +457,7 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
                         return true;
                     }
                 } else if (heldStack.getItem() instanceof ItemDye) {
-                    EnumDyeColor color = EnumDyeColor.byDyeDamage(heldStack.getMetadata());
+                    DyeColor color = DyeColor.byDyeDamage(heldStack.getMetadata());
 
                     if (color != this.getCollarColor()) {
                         this.setCollarColor(color);
@@ -635,11 +635,11 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
         }
     }
 
-    public EnumDyeColor getCollarColor() {
-        return EnumDyeColor.byDyeDamage(this.dataManager.get(COLLAR_COLOR) & 15);
+    public DyeColor getCollarColor() {
+        return DyeColor.byDyeDamage(this.dataManager.get(COLLAR_COLOR) & 15);
     }
 
-    private void setCollarColor(EnumDyeColor color) {
+    private void setCollarColor(DyeColor color) {
         this.dataManager.set(COLLAR_COLOR, color.getDyeDamage());
     }
 
@@ -733,14 +733,14 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        compound.setInteger("Variant", this.getVariant());
-        super.writeEntityToNBT(compound);
+    public void writeAdditional(CompoundNBT compound) {
+        compound.putInt("Variant", this.getVariant());
+        super.writeAdditional(compound);
         compound.setBoolean("Angry", this.isAngry());
         compound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
         compound.setBoolean("Saddle", this.isSaddled());
         if (angryTimer > 0) {
-            compound.setInteger("AngryTimer", angryTimer);
+            compound.putInt("AngryTimer", angryTimer);
         }
         if (!this.desertWolfInventory.getStackInSlot(0).isEmpty()) {
             compound.setTag("SaddleItem", this.desertWolfInventory.getStackInSlot(0).writeToNBT(new CompoundNBT()));
@@ -751,17 +751,17 @@ public class EntityDesertWolf extends EntityTameable implements IJumpingMount, I
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        this.setVariant(compound.getInteger("Variant"));
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        this.setVariant(compound.getInt("Variant"));
+        super.readAdditional(compound);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
         this.setAngry(compound.getBoolean("Angry"));
         this.setSaddled(compound.getBoolean("Saddle"));
-        angryTimer = compound.getInteger("AngryTimer");
+        angryTimer = compound.getInt("AngryTimer");
 
         if (compound.hasKey("CollarColor", 99)) {
-            this.setCollarColor(EnumDyeColor.byDyeDamage(compound.getByte("CollarColor")));
+            this.setCollarColor(DyeColor.byDyeDamage(compound.getByte("CollarColor")));
         }
         if (compound.hasKey("SaddleItem", 10)) {
             ItemStack saddleStack = new ItemStack(compound.getCompoundTag("SaddleItem"));

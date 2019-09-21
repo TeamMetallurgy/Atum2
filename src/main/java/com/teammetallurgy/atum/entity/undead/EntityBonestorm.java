@@ -29,14 +29,14 @@ public class EntityBonestorm extends EntityUndeadBase {
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(1, new EntityBonestorm.AIBoneAttack(this));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(1, new EntityBonestorm.AIBoneAttack(this));
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
@@ -64,26 +64,26 @@ public class EntityBonestorm extends EntityUndeadBase {
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void livingTick() {
         if (!this.onGround && this.motionY < 0.0D) {
             this.motionY *= 0.6D;
         }
 
-        super.onLivingUpdate();
+        super.livingTick();
     }
 
     @Override
     protected void updateAITasks() {
-        --this.getHeight()OffsetUpdateTime;
+        --this.heightOffsetUpdateTime;
 
-        if (this.getHeight()OffsetUpdateTime <= 0) {
-            this.getHeight()OffsetUpdateTime = 100;
-            this.getHeight()Offset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
+        if (this.heightOffsetUpdateTime <= 0) {
+            this.heightOffsetUpdateTime = 100;
+            this.heightOffset = 0.5F + (float) this.rand.nextGaussian() * 3.0F;
         }
 
         LivingEntity livingBase = this.getAttackTarget();
 
-        if (livingBase != null && livingBase.posY + (double) livingBase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.getHeight()Offset) {
+        if (livingBase != null && livingBase.posY + (double) livingBase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
             this.motionY += (0.30000001192092896D - this.motionY) * 0.30000001192092896D;
             this.isAirBorne = true;
         }

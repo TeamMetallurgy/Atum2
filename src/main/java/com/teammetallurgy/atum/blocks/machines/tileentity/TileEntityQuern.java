@@ -106,16 +106,16 @@ public class TileEntityQuern extends TileEntityInventoryBase implements ITickabl
     @Override
     public void readFromNBT(CompoundNBT compound) {
         super.readFromNBT(compound);
-        this.currentRotation = compound.getInteger("currentRotation");
-        this.quernRotations = compound.getInteger("quernRotations");
+        this.currentRotation = compound.getInt("currentRotation");
+        this.quernRotations = compound.getInt("quernRotations");
     }
 
     @Nonnull
     @Override
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
-        compound.setInteger("currentRotation", this.currentRotation);
-        compound.setInteger("quernRotations", this.quernRotations);
+        compound.putInt("currentRotation", this.currentRotation);
+        compound.putInt("quernRotations", this.quernRotations);
         return compound;
     }
 

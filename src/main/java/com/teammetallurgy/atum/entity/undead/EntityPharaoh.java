@@ -89,21 +89,21 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(1, new EntityAIOpenDoor(this, false));
-        this.tasks.addTask(2, new EntityAIAttackMelee(this, 1.0D, false));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(1, new EntityAIOpenDoor(this, false));
+        this.goalSelector.addGoal(2, new EntityAIAttackMelee(this, 1.0D, false));
     }
 
     @Override
     protected void applyEntityAI() {
         super.applyEntityAI();
-        this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
+        this.targetSelector.addGoal(1, new EntityAIHurtByTarget(this, false));
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
@@ -112,8 +112,8 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(PREFIX, 0);
         this.dataManager.register(SUFFIX, 0);
         this.dataManager.register(NUMERAL, 0);
@@ -351,7 +351,7 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void livingTick() {
         if (regenTime++ > 60) {
             regenTime = 0;
             this.heal(God.getGod(this.getVariant()) == God.ISIS ? 2 : 1);
@@ -363,38 +363,38 @@ public class EntityPharaoh extends EntityUndeadBase {
             this.berserkDamage = 0;
             this.berserkTimer = 0;
         }
-        super.onLivingUpdate();
+        super.livingTick();
     }
 
     @Override
-    public void writeEntityToNBT(CompoundNBT compound) {
-        super.writeEntityToNBT(compound);
-        compound.setInteger("prefix", prefixID);
-        compound.setInteger("suffix", suffixID);
-        compound.setInteger("numeral", numID);
+    public void writeAdditional(CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putInt("prefix", prefixID);
+        compound.putInt("suffix", suffixID);
+        compound.putInt("numeral", numID);
         BlockPos sarcophagusPos = getSarcophagusPos();
         if (sarcophagusPos != null) {
-            compound.setInteger("sarcophagus_x", sarcophagusPos.getX());
-            compound.setInteger("sarcophagus_y", sarcophagusPos.getY());
-            compound.setInteger("sarcophagus_z", sarcophagusPos.getZ());
+            compound.putInt("sarcophagus_x", sarcophagusPos.getX());
+            compound.putInt("sarcophagus_y", sarcophagusPos.getY());
+            compound.putInt("sarcophagus_z", sarcophagusPos.getZ());
         }
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
-        prefixID = compound.getInteger("prefix");
-        suffixID = compound.getInteger("suffix");
-        numID = compound.getInteger("numeral");
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
+        prefixID = compound.getInt("prefix");
+        suffixID = compound.getInt("suffix");
+        numID = compound.getInt("numeral");
         if (compound.hasKey("sarcophagus_x")) {
-            int x = compound.getInteger("sarcophagus_x");
-            int y = compound.getInteger("sarcophagus_y");
-            int z = compound.getInteger("sarcophagus_z");
+            int x = compound.getInt("sarcophagus_x");
+            int y = compound.getInt("sarcophagus_y");
+            int z = compound.getInt("sarcophagus_z");
             this.dataManager.set(SARCOPHAGUS_POS, Optional.of(new BlockPos(x, y, z)));
         } else {
             this.dataManager.set(SARCOPHAGUS_POS, Optional.absent());
         }
-        this.setPharaohName(compound.getInteger("prefix"), compound.getInteger("suffix"), compound.getInteger("numeral"));
+        this.setPharaohName(compound.getInt("prefix"), compound.getInt("suffix"), compound.getInt("numeral"));
     }
 
     private void setPharaohName(int prefix, int suffix, int numeral) {

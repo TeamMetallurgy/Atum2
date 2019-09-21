@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.ai.AIBowAttack;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import net.minecraft.entity.IEntityLivingData;
+import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -53,8 +53,8 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(13.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
@@ -63,8 +63,8 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(SWINGING_ARMS, false);
     }
 
@@ -74,9 +74,9 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, IEntityLivingData livingdata) {
+    public ILivingEntityData onInitialSpawn(DifficultyInstance difficulty, ILivingEntityData livingdata) {
         livingdata = super.onInitialSpawn(difficulty, livingdata);
-        this.tasks.addTask(4, this.aiArrowAttack);
+        this.goalSelector.addGoal(4, this.aiArrowAttack);
 
         return livingdata;
     }
@@ -87,9 +87,9 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
             this.tasks.removeTask(this.aiArrowAttack);
 
             if (this.getHeldItemMainhand().getItem() instanceof ItemBow) {
-                this.tasks.addTask(4, this.aiArrowAttack);
+                this.goalSelector.addGoal(4, this.aiArrowAttack);
             } else {
-                this.tasks.addTask(4, this.aiAttackOnCollide);
+                this.goalSelector.addGoal(4, this.aiAttackOnCollide);
             }
         }
     }
@@ -113,8 +113,8 @@ public class EntityNomad extends EntityBanditBase implements IRangedAttackMob {
     }
 
     @Override
-    public void readEntityFromNBT(CompoundNBT compound) {
-        super.readEntityFromNBT(compound);
+    public void readAdditional(CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setCombatTask();
     }
 

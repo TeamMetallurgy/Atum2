@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.LayeredTexture;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -48,7 +48,7 @@ public class RenderCamel extends RenderLiving<EntityCamel> {
                 texturePath[1] = armorType.getTextureName();
             }
 
-            EnumDyeColor color = camel.getColor();
+            DyeColor color = camel.getColor();
             if (color != null) {
                 texturePath[2] = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getDyeColorName()) + ".png";
             }

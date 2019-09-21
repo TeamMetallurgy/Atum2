@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:crops/emmer",
+    "#forge:crops/flax"
+  ]
+}

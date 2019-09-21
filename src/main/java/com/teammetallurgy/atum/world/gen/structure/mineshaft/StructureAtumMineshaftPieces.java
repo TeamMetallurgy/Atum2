@@ -95,7 +95,7 @@ public class StructureAtumMineshaftPieces {
             compound.setBoolean("hr", this.hasRails);
             compound.setBoolean("sc", this.hasTarantula);
             compound.setBoolean("hps", this.spawnerPlaced);
-            compound.setInteger("Num", this.sectionCount);
+            compound.putInt("Num", this.sectionCount);
         }
 
         @Override
@@ -103,7 +103,7 @@ public class StructureAtumMineshaftPieces {
             this.hasRails = compound.getBoolean("hr");
             this.hasTarantula = compound.getBoolean("sc");
             this.spawnerPlaced = compound.getBoolean("hps");
-            this.sectionCount = compound.getInteger("Num");
+            this.sectionCount = compound.getInt("Num");
         }
 
         Corridor(int type, Random random, StructureBoundingBox box, Direction facing, MapGenAtumMineshaft.Type mineshaftType) {
@@ -355,13 +355,13 @@ public class StructureAtumMineshaftPieces {
         @Override
         protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
             compound.setBoolean("tf", this.isMultipleFloors);
-            compound.setInteger("D", this.corridorDirection.getHorizontalIndex());
+            compound.putInt("D", this.corridorDirection.getHorizontalIndex());
         }
 
         @Override
         protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
             this.isMultipleFloors = compound.getBoolean("tf");
-            this.corridorDirection = Direction.byHorizontalIndex(compound.getInteger("D"));
+            this.corridorDirection = Direction.byHorizontalIndex(compound.getInt("D"));
         }
 
         public Cross(int type, Random random, StructureBoundingBox box, @Nullable Direction facing, MapGenAtumMineshaft.Type mineshaftType) {
@@ -498,12 +498,12 @@ public class StructureAtumMineshaftPieces {
 
         @Override
         protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
-            compound.setInteger("MST", this.mineshaftType.ordinal());
+            compound.putInt("MST", this.mineshaftType.ordinal());
         }
         
         @Override
         protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
-            this.mineshaftType = MapGenAtumMineshaft.Type.byOrdinal(compound.getInteger("MST"));
+            this.mineshaftType = MapGenAtumMineshaft.Type.byOrdinal(compound.getInt("MST"));
         }
 
         BlockState getSupportBlock() {

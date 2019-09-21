@@ -40,25 +40,25 @@ public class EntityWraith extends EntityUndeadBase {
     }
 
     @Override
-    protected void initEntityAI() {
-        super.initEntityAI();
-        this.tasks.addTask(1, new EntityWraith.AIWraithAttack(this));
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(1, new EntityWraith.AIWraithAttack(this));
     }
 
     protected void applyEntityAI() {
         super.applyEntityAI();
-        this.targetTasks.addTask(1, new EntityWraith.AIWraithTarget<>(this, PlayerEntity.class));
+        this.targetSelector.addGoal(1, new EntityWraith.AIWraithTarget<>(this, PlayerEntity.class));
     }
 
     @Override
-    protected void entityInit() {
-        super.entityInit();
+    protected void registerData() {
+        super.registerData();
         this.dataManager.register(CLIMBING, (byte) 0);
     }
 
     @Override
-    protected void applyEntityAttributes() {
-        super.applyEntityAttributes();
+    protected void registerAttributes() {
+        super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.35D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
@@ -99,10 +99,10 @@ public class EntityWraith extends EntityUndeadBase {
     }
 
     @Override
-    public void onLivingUpdate() {
+    public void livingTick() {
         cycleHeight = (cycleHeight + 1) % cycleTime;
 
-        super.onLivingUpdate();
+        super.livingTick();
     }
 
     @Override

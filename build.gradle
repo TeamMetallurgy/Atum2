@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: false
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
@@ -27,8 +27,8 @@ repositories {
     url = "https://maven.blamejared.com" 
   }
   maven {
-    name 'TheOneProbe'
-    url "https://maven.tterrag.com/"
+    name = "TheOneProbe"
+    url = "https://maven.tterrag.com"
   }
 }
 
@@ -65,8 +65,8 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
-    compile fg.deobf("com.blamejared.crafttweaker:CraftTweaker:${minecraft_version}-${ct_version}")
-	compileOnly fg.deobf("mcjty.theoneprobe:TheOneProbe-1.14:${top_version}:api")
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker:${minecraft_version}-${ct_version}")
+	compileOnly "mcjty.theoneprobe:TheOneProbe-1.14:${top_version}:api"
 }
 
 
@@ -76,11 +76,6 @@ jar {
             "Implementation-Version": "${version}"
         ])
     }
-}
-
-task sourcesJar(type: Jar) {
-	from sourceSets.main.allJava
-	classifier = 'sources'
 }
 
 task apiJar(type: Jar) {
@@ -96,7 +91,6 @@ publishing {
         mavenJava(MavenPublication) {
             artifactId "atum2_${minecraft_version}"
             artifact jar
-			artifact sourcesJar
 			artifact apiJar
         }
     }
@@ -110,7 +104,6 @@ publishing {
 }
 
 artifacts {
-    archives sourcesJar
     archives apiJar
 }
 

@@ -49,7 +49,7 @@ public class WorldProviderAtum extends Dimension {
     protected void init() {
         this.hasSkyLight = true;
         this.biomeProvider = new AtumBiomeProvider(world.getWorldInfo());
-        CompoundNBT tagCompound = this.world.getWorldInfo().getDimensionData(this.world.provider.getDimension());
+        CompoundNBT tagCompound = this.world.getWorldInfo().getDimensionData(this.world.dimension.getDimension());
         this.hasStartStructureSpawned = this.world instanceof WorldServer && tagCompound.getBoolean("HasStartStructureSpawned");
         this.isStorming = this.world instanceof WorldServer && tagCompound.getBoolean("IsStorming");
     }
@@ -70,8 +70,7 @@ public class WorldProviderAtum extends Dimension {
 
     @SubscribeEvent
     public static void onUseBucket(PlayerInteractEvent.RightClickBlock event) {
-        System.out.println(AtumConfig.WATER_LEVEL);
-        if (AtumConfig.WATER_LEVEL > 0) {
+        if (AtumConfig.WORLD_GEN.waterLevel.get() > 0) {
             usePos = event.getPos();
         } else {
             usePos = null;
@@ -81,7 +80,7 @@ public class WorldProviderAtum extends Dimension {
     @Override
     public boolean doesWaterVaporize() {
         if (usePos != null) {
-            return world.getBiome(usePos) != AtumBiomes.OASIS && usePos.getY() >= AtumConfig.WATER_LEVEL;
+            return world.getBiome(usePos) != AtumBiomes.OASIS && usePos.getY() >= AtumConfig.WORLD_GEN.waterLevel.get();
         } else {
             return false;
         }
@@ -126,7 +125,7 @@ public class WorldProviderAtum extends Dimension {
         CompoundNBT tagCompound = new CompoundNBT();
         tagCompound.setBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
         tagCompound.setBoolean("IsStorming", isStorming);
-        world.getWorldInfo().setDimensionData(this.world.provider.getDimension(), tagCompound);
+        world.getWorldInfo().setDimensionData(this.world.dimension.getDimension(), tagCompound);
     }
 
     public boolean isStorming;
@@ -184,9 +183,9 @@ public class WorldProviderAtum extends Dimension {
 
         prevStormStrength = stormStrength;
         if (isStorming) {
-            stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
+            stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
         } else {
-            stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM_TRANSITION_TIME);
+            stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
         }
         stormStrength = MathHelper.clamp(stormStrength, 0, 1);
 

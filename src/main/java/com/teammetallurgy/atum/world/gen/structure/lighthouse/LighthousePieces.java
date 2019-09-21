@@ -142,7 +142,7 @@ public class LighthousePieces {
             super.writeStructureToNBT(compound);
             compound.setString("Rot", this.placeSettings.getRotation().name());
             compound.setString("Mi", this.placeSettings.getMirror().name());
-            compound.setInteger("SunspeakerCount", this.sunspeakerSpawned);
+            compound.putInt("SunspeakerCount", this.sunspeakerSpawned);
         }
 
         @Override
@@ -150,7 +150,7 @@ public class LighthousePieces {
             super.readStructureFromNBT(compound, manager);
             this.rotation = Rotation.valueOf(compound.getString("Rot"));
             this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.sunspeakerSpawned = compound.getInteger("SunspeakerCount");
+            this.sunspeakerSpawned = compound.getInt("SunspeakerCount");
             this.loadTemplate(manager);
         }
     }

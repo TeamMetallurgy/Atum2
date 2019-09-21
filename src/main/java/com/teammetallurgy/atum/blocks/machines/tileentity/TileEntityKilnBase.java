@@ -189,9 +189,9 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         super.readFromNBT(compound);
         boolean hasPrimary = compound.getBoolean("has_primary");
         if (hasPrimary) {
-            int x = compound.getInteger("px");
-            int y = compound.getInteger("py");
-            int z = compound.getInteger("pz");
+            int x = compound.getInt("px");
+            int y = compound.getInt("py");
+            int z = compound.getInt("pz");
             primaryPos = new BlockPos(x, y, z);
         }
     }
@@ -202,9 +202,9 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
         super.writeToNBT(compound);
         if (primaryPos != null) {
             compound.setBoolean("has_primary", true);
-            compound.setInteger("px", primaryPos.getX());
-            compound.setInteger("py", primaryPos.getY());
-            compound.setInteger("pz", primaryPos.getZ());
+            compound.putInt("px", primaryPos.getX());
+            compound.putInt("py", primaryPos.getY());
+            compound.putInt("pz", primaryPos.getZ());
         } else {
             compound.setBoolean("has_primary", false);
         }

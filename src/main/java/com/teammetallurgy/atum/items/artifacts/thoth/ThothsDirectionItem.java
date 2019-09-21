@@ -132,7 +132,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
 
     @Override
     public void inventoryTick(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
-        if (AtumConfig.PYRAMID_ENABLED) {
+        if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
             if (this.searchTime > 1) {
                 this.isSearching = true;
                 this.searchTime--;

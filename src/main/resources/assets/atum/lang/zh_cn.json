@@ -817,12 +817,11 @@
   "chat.atum.spinning_wheel.recipe_in_progress": "这台纺车已经有东西输入了（%s）",
 
   "_comment": "GUI",
-  "atum.config_gui.atum_start": "在阿图姆中开始",
-  "atum.config_gui.atum_start_portal": "初始形成阿图姆传送门",
-  "atum.config_gui.atum_start_structure": "阿图姆初始建筑",
-  "atum.config_gui.dimension_iD": "阿图姆维度ID",
-  "atum.config_gui.fog": "阿图姆尘雾",
-  "atum.config_gui.portal_creation": "阿图姆传送门",
+  "atum.config.atum_start": "在阿图姆中开始",
+  "atum.config.atum_start_portal": "初始形成阿图姆传送门",
+  "atum.config.atum_start_structure": "阿图姆初始建筑",
+  "atum.config.fog": "阿图姆尘雾",
+  "atum.config.portal_creation": "阿图姆传送门",
 
   "_comment": "Subtitles",
   "atum:subtitles.pharaohspawn": "法老发出了低哮",

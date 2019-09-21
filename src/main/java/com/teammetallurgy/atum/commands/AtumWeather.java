@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.commands;
 
-import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -37,10 +37,10 @@ public class AtumWeather extends CommandBase {
 
 	@Override
 	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
-		World world = server.getWorld(AtumConfig.DIMENSION_ID);
+		World world = server.getWorld(AtumDimensionRegistration.ATUM);
 
-		if (world.provider instanceof WorldProviderAtum) {
-			WorldProviderAtum atum = (WorldProviderAtum) world.provider;
+		if (world.dimension instanceof WorldProviderAtum) {
+			WorldProviderAtum atum = (WorldProviderAtum) world.dimension;
 
 			int time = (300 + (new Random()).nextInt(600)) * 20;
 

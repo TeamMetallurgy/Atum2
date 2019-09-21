@@ -4,22 +4,22 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.base.BlockAtumWall;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 
 import java.util.Map;
 
 public class BlockCeramicWall extends BlockAtumWall {
-    private static final Map<EnumDyeColor, Block> WALLS = Maps.newEnumMap(EnumDyeColor.class);
+    private static final Map<DyeColor, Block> WALLS = Maps.newEnumMap(DyeColor.class);
 
     public static void registerWalls() {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             Block wall = new BlockCeramicWall();
             WALLS.put(color, wall);
             AtumRegistry.registerBlock(wall, "ceramic_wall_" + color.getName());
         }
     }
 
-    public static Block getWall(EnumDyeColor type) {
+    public static Block getWall(DyeColor type) {
         return WALLS.get(type);
     }
 }

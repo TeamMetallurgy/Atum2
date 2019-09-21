@@ -13,7 +13,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -32,11 +32,11 @@ import javax.annotation.Nullable;
 import java.util.HashMap;
 
 public class BlockRadiantBeacon extends BlockBeacon {
-    public static final PropertyEnum<EnumDyeColor> COLOR = PropertyEnum.create("color", EnumDyeColor.class);
-    private static final HashMap<Integer, EnumDyeColor> RGB_TO_DYE = Maps.newHashMap();
+    public static final PropertyEnum<DyeColor> COLOR = PropertyEnum.create("color", DyeColor.class);
+    private static final HashMap<Integer, DyeColor> RGB_TO_DYE = Maps.newHashMap();
 
     public BlockRadiantBeacon() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, EnumDyeColor.WHITE));
+        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, DyeColor.WHITE));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
             Item item = heldStack.getItem();
             if (!world.isRemote) {
                 if (item == Item.getItemFromBlock(Blocks.STAINED_GLASS) || item == Item.getItemFromBlock(Blocks.STAINED_GLASS_PANE)) {
-                    world.setBlockState(pos, AtumBlocks.RADIANT_BEACON.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(heldStack.getMetadata())), 2);
+                    world.setBlockState(pos, AtumBlocks.RADIANT_BEACON.getDefaultState().withProperty(COLOR, DyeColor.byMetadata(heldStack.getMetadata())), 2);
                     if (!player.isCreative()) {
                         heldStack.shrink(1);
                     }
@@ -89,7 +89,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
                         int g = (int) (color[1] * 255F);
                         int b = (int) (color[2] * 255F);
                         int rgb = ((r & 0x0FF) << 16) | ((g & 0x0FF) << 8) | (b & 0x0FF);
-                        EnumDyeColor dyeColor = RGB_TO_DYE.get(rgb);
+                        DyeColor dyeColor = RGB_TO_DYE.get(rgb);
 
                         Block block = AtumBlocks.RADIANT_BEACON;
                         if (Block.getBlockFromItem(item) == BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, dyeColor) || Block.getBlockFromItem(item) == BlockAtumStainedGlass.getGlass(AtumBlocks.THIN_FRAMED_GLASS, dyeColor)) {
@@ -111,7 +111,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(COLOR, EnumDyeColor.byMetadata(meta));
+        return this.getDefaultState().withProperty(COLOR, DyeColor.byMetadata(meta));
     }
 
     @Override
@@ -127,7 +127,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
 
     static {
         if (FMLCommonHandler.instance().getSide() == Dist.CLIENT) {
-            for (EnumDyeColor color : EnumDyeColor.values()) {
+            for (DyeColor color : DyeColor.values()) {
                 RGB_TO_DYE.put(color.getColorValue(), color);
             }
         }

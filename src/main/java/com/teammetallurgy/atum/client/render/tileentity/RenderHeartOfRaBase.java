@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,8 +24,8 @@ public class RenderHeartOfRaBase extends TileEntitySpecialRenderer<TileEntityHea
         GlStateManager.disableFog();
         GlStateManager.translate(0, 2.07D, 0);
         int yOffset = 0;
-        for (int j = 0; j < EnumDyeColor.values().length - 1; ++j) {
-            TileEntityBeacon.BeamSegment beam = new TileEntityBeacon.BeamSegment(EnumDyeColor.RED.getColorComponentValues());
+        for (int j = 0; j < DyeColor.values().length - 1; ++j) {
+            TileEntityBeacon.BeamSegment beam = new TileEntityBeacon.BeamSegment(DyeColor.RED.getColorComponentValues());
             TileEntityBeaconRenderer.renderBeamSegment(x, y, z, (double) partialTicks, 1.0F, heartOfRa.getWorld().getGameTime(), yOffset, 256 - heartOfRa.getPos().getY() - 16, beam.getColors());
             yOffset += beam.getHeight();
         }

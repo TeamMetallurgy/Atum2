@@ -8,7 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -29,13 +29,13 @@ public class BlockAtumStainedGlassPane extends BlockPane {
     }
 
     public static void registerStainedGlassPane(Block glassBlock) {
-        for (EnumDyeColor color : EnumDyeColor.values()) {
+        for (DyeColor color : DyeColor.values()) {
             Preconditions.checkNotNull(glassBlock.getRegistryName(), "registryName");
             AtumRegistry.registerBlock(new BlockAtumStainedGlassPane(), glassBlock.getRegistryName().getPath().replace("_glass", "") + "_" + color.getName() + "_stained_glass");
         }
     }
 
-    public static Block getGlass(Block baseGlassBlack, EnumDyeColor color) {
+    public static Block getGlass(Block baseGlassBlack, DyeColor color) {
         Preconditions.checkNotNull(baseGlassBlack.getRegistryName(), "registryName");
         return REGISTRY.getObject(new ResourceLocation(Constants.MOD_ID, "thin_" + baseGlassBlack.getRegistryName().getPath().replace("_glass", "") + "_" + color.getName() + "_stained_glass"));
     }
@@ -50,7 +50,7 @@ public class BlockAtumStainedGlassPane extends BlockPane {
     @Override
     @Nullable
     public float[] getBeaconColorMultiplier(BlockState state, World world, BlockPos pos, BlockPos beaconPos) {
-        return EnumDyeColor.valueOf(WordUtils.swapCase(getColorString())).getColorComponentValues();
+        return DyeColor.valueOf(WordUtils.swapCase(getColorString())).getColorComponentValues();
     }
 
     private String getColorString() {
