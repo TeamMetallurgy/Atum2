@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.entity.animal.EntityScarab;
+import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MapColor;
@@ -19,7 +19,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     public BlockDeadwood() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAS_SCARAB, false));
+        this.setDefaultState(this.blockState.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y).with(HAS_SCARAB, false));
         this.setHardness(1.0F);
     }
 
@@ -31,7 +31,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     @Override
     public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
-            EntityScarab scarab = new EntityScarab(world);
+            ScarabEntity scarab = new ScarabEntity(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(scarab);
             scarab.spawnExplosionParticle();
@@ -52,28 +52,28 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
         switch (meta) {
             case 0:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Y);
                 break;
             case 1:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y).withProperty(HAS_SCARAB, true);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Y).with(HAS_SCARAB, true);
                 break;
             case 2:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.X);
                 break;
             case 3:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.X).withProperty(HAS_SCARAB, true);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.X).with(HAS_SCARAB, true);
                 break;
             case 4:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Z);
                 break;
             case 5:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z).withProperty(HAS_SCARAB, true);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Z).with(HAS_SCARAB, true);
                 break;
             case 6:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.NONE);
                 break;
             case 7:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE).withProperty(HAS_SCARAB, true);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.NONE).with(HAS_SCARAB, true);
                 break;
         }
         return state;

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
+import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import net.minecraft.client.model.ModelIronGolem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,7 +11,7 @@ public class ModelStonewarden extends ModelIronGolem {
 
     @Override
     public void setLivingAnimations(LivingEntity livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        EntityStonewarden stonewarden = (EntityStonewarden) livingBase;
+        StonewardenEntity stonewarden = (StonewardenEntity) livingBase;
         int attackTimer = stonewarden.getAttackTimer();
 
         if (attackTimer > 0) {

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.client.render.entity.layer.LayerDesertWolfCollar;
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
+public class RenderDesertWolf extends RenderLiving<DesertWolfEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_tame.png");
     private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_angry.png");
@@ -31,12 +31,12 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     }
 
     @Override
-    protected float handleRotationFloat(EntityDesertWolf desertWolf, float rotation) {
+    protected float handleRotationFloat(DesertWolfEntity desertWolf, float rotation) {
         return desertWolf.getTailRotation();
     }
 
     @Override
-    public void doRender(@Nonnull EntityDesertWolf desertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nonnull DesertWolfEntity desertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
         if (desertWolf.isWolfWet()) {
             GlStateManager.pushMatrix();
             float f = desertWolf.getBrightness() * desertWolf.getShadingWhileWet(partialTicks);
@@ -47,7 +47,7 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityDesertWolf desertWolf) {
+    protected ResourceLocation getEntityTexture(@Nonnull DesertWolfEntity desertWolf) {
         String textureName = desertWolf.getTexture();
 
         ResourceLocation location = CACHE.get(textureName);
@@ -58,7 +58,7 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
 
             ItemStack armor = desertWolf.getArmor();
             if (!armor.isEmpty()) {
-                EntityDesertWolf.ArmorType armorType = EntityDesertWolf.ArmorType.getByItemStack(armor);
+                DesertWolfEntity.ArmorType armorType = DesertWolfEntity.ArmorType.getByItemStack(armor);
                 texturePath[1] = armorType.getTextureName();
             }
 
@@ -72,7 +72,7 @@ public class RenderDesertWolf extends RenderLiving<EntityDesertWolf> {
     }
 
     @Override
-    protected void preRenderCallback(EntityDesertWolf desertWolf, float partialTickTime) {
+    protected void preRenderCallback(DesertWolfEntity desertWolf, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
             GlStateManager.scale(scale, scale, scale);

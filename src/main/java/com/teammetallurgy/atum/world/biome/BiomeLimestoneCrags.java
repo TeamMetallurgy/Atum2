@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
@@ -31,7 +31,7 @@ public class BiomeLimestoneCrags extends AtumBiome {
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
         
-        addSpawn(EntityDesertWolf.class, 5, 2, 4, EnumCreatureType.CREATURE);
+        addSpawn(DesertWolfEntity.class, 5, 2, 4, EnumCreatureType.CREATURE);
     }
 
     @Override

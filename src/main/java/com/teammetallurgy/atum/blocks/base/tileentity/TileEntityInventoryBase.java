@@ -63,21 +63,21 @@ public abstract class TileEntityInventoryBase extends LockableLootTileEntity {
             ItemStackHelper.loadAllItems(compound, this.getItems());
         }
 
-        if (compound.hasKey("CustomName", 8)) {
+        if (compound.contains("CustomName", 8)) {
             this.customName = compound.getString("CustomName");
         }
     }
 
     @Override
     @Nonnull
-    public CompoundNBT writeToNBT(CompoundNBT compound) {
-        super.writeToNBT(compound);
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
         if (!this.checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, this.getItems());
         }
 
         if (this.hasCustomName()) {
-            compound.setString("CustomName", this.customName);
+            compound.putString("CustomName", this.customName);
         }
         return compound;
     }

@@ -36,7 +36,7 @@ public class BlockDate extends BushBlock implements IGrowable {
         this.setTickRandomly(true);
         this.setSoundType(SoundType.PLANT);
         this.setCreativeTab(null);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0));
+        this.setDefaultState(this.blockState.getBaseState().with(AGE, 0));
     }
 
     @Override
@@ -116,7 +116,7 @@ public class BlockDate extends BushBlock implements IGrowable {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(AGE, meta);
+        return this.getDefaultState().with(AGE, meta);
     }
 
     @Override
@@ -150,7 +150,7 @@ public class BlockDate extends BushBlock implements IGrowable {
         }
 
         if (state.getValue(AGE) != 7) {
-            world.setBlockState(pos, this.getDefaultState().withProperty(AGE, growth), 2);
+            world.setBlockState(pos, this.getDefaultState().with(AGE, growth), 2);
         }
     }
 }

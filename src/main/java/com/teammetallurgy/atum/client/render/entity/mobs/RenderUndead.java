@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
+import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -15,7 +15,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderUndead extends RenderBiped<EntityUndeadBase> {
+public class RenderUndead extends RenderBiped<UndeadBaseEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderUndead(RenderManager renderManager, ModelBiped modelBiped) {
@@ -32,7 +32,7 @@ public class RenderUndead extends RenderBiped<EntityUndeadBase> {
 
     @Override
     @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull EntityUndeadBase entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull UndeadBaseEntity entity) {
         String texture = entity.getTexture();
         ResourceLocation location = CACHE.get(texture);
 

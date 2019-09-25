@@ -36,7 +36,7 @@ public class BlockQuern extends BlockContainer {
     public BlockQuern() {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
     }
 
     @Override
@@ -123,7 +123,7 @@ public class BlockQuern extends BlockContainer {
     @Override
     @Nonnull
     public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
+        return this.getDefaultState().with(FACING, placer.getHorizontalFacing());
     }
 
     @Override
@@ -134,7 +134,7 @@ public class BlockQuern extends BlockContainer {
         if (facing.getAxis() == Direction.Axis.Y) {
             facing = Direction.NORTH;
         }
-        return this.getDefaultState().withProperty(FACING, facing);
+        return this.getDefaultState().with(FACING, facing);
     }
 
     @Override
@@ -145,7 +145,7 @@ public class BlockQuern extends BlockContainer {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+        return state.with(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override

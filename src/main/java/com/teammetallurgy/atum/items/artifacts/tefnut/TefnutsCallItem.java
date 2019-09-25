@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.tefnut;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -69,7 +69,7 @@ public class TefnutsCallItem extends Item {
             }
 
             if (!world.isRemote) {
-                EntityTefnutsCall spear = new EntityTefnutsCall(world, player);
+                TefnutsCallEntity spear = new TefnutsCallEntity(world, player);
                 spear.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, (float) j / 25.0F + 0.25F, 1.0F);
                 spear.setDamage(spear.getDamage() * 2.0D);
                 spear.setStack(stack);

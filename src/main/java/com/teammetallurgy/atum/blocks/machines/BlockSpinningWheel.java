@@ -44,7 +44,7 @@ public class BlockSpinningWheel extends BlockContainer {
         super(Material.WOOD);
         this.setHardness(1.2F);
         this.setHarvestLevel("axe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(SPOOL, 0).withProperty(WHEEL, false));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(SPOOL, 0).with(WHEEL, false));
     }
 
     @Nullable
@@ -67,7 +67,7 @@ public class BlockSpinningWheel extends BlockContainer {
                 spinningWheel.input = new CompoundNBT();
                 spinningWheel.rotations = 0;
                 spinningWheel.wheel = false;
-                world.setBlockState(pos, world.getBlockState(pos).withProperty(SPOOL, 0), 2);
+                world.setBlockState(pos, world.getBlockState(pos).with(SPOOL, 0), 2);
                 spinningWheel.markDirty();
             }
         }
@@ -183,7 +183,7 @@ public class BlockSpinningWheel extends BlockContainer {
     public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntitySpinningWheel) {
-            return state.withProperty(WHEEL, ((TileEntitySpinningWheel) tileEntity).wheel);
+            return state.with(WHEEL, ((TileEntitySpinningWheel) tileEntity).wheel);
         }
         return state;
     }
@@ -191,13 +191,13 @@ public class BlockSpinningWheel extends BlockContainer {
     @Override
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, Direction.byHorizontalIndex(meta & 3)).withProperty(SPOOL, (meta & 15) >> 2);
+        return this.getDefaultState().with(FACING, Direction.byHorizontalIndex(meta & 3)).with(SPOOL, (meta & 15) >> 2);
     }
 
     @Override
@@ -211,7 +211,7 @@ public class BlockSpinningWheel extends BlockContainer {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
-        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.with(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override

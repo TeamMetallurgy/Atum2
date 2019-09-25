@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.client.model.entity.ModelStonewarden;
-import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
+import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderStonewarden extends RenderLiving<EntityStonewarden> {
+public class RenderStonewarden extends RenderLiving<StonewardenEntity> {
     private static final Map<Integer, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderStonewarden(RenderManager manager) {
@@ -23,7 +23,7 @@ public class RenderStonewarden extends RenderLiving<EntityStonewarden> {
     }
 
     @Override
-    protected void applyRotations(EntityStonewarden stonewarden, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void applyRotations(StonewardenEntity stonewarden, float ageInTicks, float rotationYaw, float partialTicks) {
         super.applyRotations(stonewarden, ageInTicks, rotationYaw, partialTicks);
         if ((double) stonewarden.limbSwingAmount >= 0.01D) {
             float swingValue = stonewarden.limbSwing - stonewarden.limbSwingAmount * (1.0F - partialTicks) + 6.0F;
@@ -33,7 +33,7 @@ public class RenderStonewarden extends RenderLiving<EntityStonewarden> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityStonewarden stonewarden) {
+    protected ResourceLocation getEntityTexture(@Nonnull StonewardenEntity stonewarden) {
         ResourceLocation location = CACHE.get(stonewarden.getVariant());
 
         if (location == null) {

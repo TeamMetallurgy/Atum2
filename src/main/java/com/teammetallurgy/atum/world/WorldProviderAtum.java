@@ -123,8 +123,8 @@ public class WorldProviderAtum extends Dimension {
     @Override
     public void onWorldSave() {
         CompoundNBT tagCompound = new CompoundNBT();
-        tagCompound.setBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
-        tagCompound.setBoolean("IsStorming", isStorming);
+        tagCompound.putBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
+        tagCompound.putBoolean("IsStorming", isStorming);
         world.getWorldInfo().setDimensionData(this.world.dimension.getDimension(), tagCompound);
     }
 
@@ -213,7 +213,7 @@ public class WorldProviderAtum extends Dimension {
                             if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
                                 int layers = sandState.getValue(BlockSandLayers.LAYERS);
                                 if (layers < 3) {
-                                    world.setBlockState(pos, sandState.withProperty(BlockSandLayers.LAYERS, ++layers));
+                                    world.setBlockState(pos, sandState.with(BlockSandLayers.LAYERS, ++layers));
                                 }
                             } else if (canPlaceSandAt(pos, world.getBiome(pos))) {
                                 world.setBlockState(pos, AtumBlocks.SAND_LAYERED.getDefaultState());

@@ -201,12 +201,12 @@ public class TileEntityKilnBase extends TileEntityInventoryBase implements ISide
     public CompoundNBT writeToNBT(CompoundNBT compound) {
         super.writeToNBT(compound);
         if (primaryPos != null) {
-            compound.setBoolean("has_primary", true);
+            compound.putBoolean("has_primary", true);
             compound.putInt("px", primaryPos.getX());
             compound.putInt("py", primaryPos.getY());
             compound.putInt("pz", primaryPos.getZ());
         } else {
-            compound.setBoolean("has_primary", false);
+            compound.putBoolean("has_primary", false);
         }
         return compound;
     }

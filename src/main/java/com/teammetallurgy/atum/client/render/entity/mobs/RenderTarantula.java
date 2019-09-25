@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
-import com.teammetallurgy.atum.entity.animal.EntityTarantula;
+import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelSpider;
 import net.minecraft.client.renderer.GlStateManager;
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderTarantula extends RenderLiving<EntityTarantula> {
+public class RenderTarantula extends RenderLiving<TarantulaEntity> {
     private static final ResourceLocation TARANTULA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/tarantula.png");
 
     public RenderTarantula(RenderManager manager) {
@@ -22,19 +22,19 @@ public class RenderTarantula extends RenderLiving<EntityTarantula> {
     }
 
     @Override
-    protected float getDeathMaxRotation(EntityTarantula tarantula)
+    protected float getDeathMaxRotation(TarantulaEntity tarantula)
     {
         return 180.0F;
     }
 
     @Override
-    protected void preRenderCallback(EntityTarantula tarantula, float partialTickTime) {
+    protected void preRenderCallback(TarantulaEntity tarantula, float partialTickTime) {
         GlStateManager.scale(0.6F, 0.6F, 0.6F);
     }
 
     @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityTarantula tarantula) {
+    protected ResourceLocation getEntityTexture(@Nonnull TarantulaEntity tarantula) {
         return TARANTULA_TEXTURE;
     }
 }

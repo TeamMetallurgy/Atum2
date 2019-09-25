@@ -9,8 +9,8 @@ import com.teammetallurgy.atum.client.gui.block.GuiKiln;
 import com.teammetallurgy.atum.client.gui.block.GuiTrap;
 import com.teammetallurgy.atum.client.gui.entity.GuiAlphaDesertWolf;
 import com.teammetallurgy.atum.client.gui.entity.GuiCamel;
-import com.teammetallurgy.atum.entity.animal.EntityCamel;
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.CamelEntity;
+import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.inventory.container.block.ContainerCrate;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
 import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
@@ -43,14 +43,14 @@ public class AtumGuiHandler implements IGuiHandler {
                 return new ContainerTrap(player.inventory, (TileEntityTrap) Objects.requireNonNull(tileEntity));
             case 3:
                 if (entity != null) {
-                    EntityCamel camel = (EntityCamel) entity;
+                    CamelEntity camel = (CamelEntity) entity;
                     return new ContainerCamel(player.inventory, camel.getHorseChest(), camel, player);
                 } else {
                     return null;
                 }
             case 4:
                 if (entity != null) {
-                    EntityDesertWolf desertWolf = (EntityDesertWolf) entity;
+                    DesertWolfEntity desertWolf = (DesertWolfEntity) entity;
                     return new ContainerAlphaDesertWolf(player.inventory, desertWolf.getInventory(), desertWolf, player);
                 } else {
                     return null;
@@ -75,14 +75,14 @@ public class AtumGuiHandler implements IGuiHandler {
                 return new GuiTrap(player.inventory, (TileEntityTrap) Objects.requireNonNull(tileEntity));
             case 3:
                 if (entity != null) {
-                    EntityCamel camel = (EntityCamel) entity;
+                    CamelEntity camel = (CamelEntity) entity;
                     return new GuiCamel(player.inventory, camel.getHorseChest(), camel);
                 } else {
                     return null;
                 }
             case 4:
                 if (entity != null) {
-                    EntityDesertWolf desertWolf = (EntityDesertWolf) entity;
+                    DesertWolfEntity desertWolf = (DesertWolfEntity) entity;
                     return new GuiAlphaDesertWolf(player.inventory, desertWolf.getInventory(), desertWolf);
                 } else {
                     return null;

@@ -120,7 +120,7 @@ public class TileEntityChestSpawner extends TileEntityChestBase {
 
     @Override
     @Nonnull
-    public CompoundNBT writeToNBT(@Nonnull CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.writeToNBT(compound);
         this.spawnerLogic.writeToNBT(compound);
         compound.putInt("spawnPool", spawnPool);

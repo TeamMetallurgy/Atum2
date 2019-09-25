@@ -37,7 +37,7 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
         this.setResistance(10.0F);
         this.setHarvestLevel("pickaxe", 0);
         this.setSoundType(SoundType.STONE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false));
+        this.setDefaultState(this.blockState.getBaseState().with(UP, false));
     }
 
     @Override
@@ -101,7 +101,7 @@ public class BlockKilnFake extends BlockContainer implements IRenderMapper {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(UP, (meta & 0b001) == 1);
+        return this.getDefaultState().with(UP, (meta & 0b001) == 1);
     }
 
     @Override

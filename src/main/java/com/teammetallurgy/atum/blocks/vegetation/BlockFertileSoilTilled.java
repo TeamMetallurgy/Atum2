@@ -32,7 +32,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     public BlockFertileSoilTilled() {
         super();
         this.setHardness(0.5F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(MOISTURE, 0).withProperty(BLESSED, false));
+        this.setDefaultState(this.blockState.getBaseState().with(MOISTURE, 0).with(BLESSED, false));
     }
 
     @Override
@@ -46,12 +46,12 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
         if (!this.hasWater(world, pos) && !world.isRainingAt(pos.up())) {
             if (moisture > 0) {
-                world.setBlockState(pos, state.withProperty(MOISTURE, moisture - 1), 2);
+                world.setBlockState(pos, state.with(MOISTURE, moisture - 1), 2);
             } else if (!this.hasCrops(world, pos)) {
                 turnToSoil(world, pos);
             }
         } else if (moisture < 7) {
-            world.setBlockState(pos, state.withProperty(MOISTURE, 7), 2);
+            world.setBlockState(pos, state.with(MOISTURE, 7), 2);
         }
     }
 
@@ -179,7 +179,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(MOISTURE, meta & 7).withProperty(BLESSED, meta > 7);
+        return this.getDefaultState().with(MOISTURE, meta & 7).with(BLESSED, meta > 7);
     }
 
     @Override

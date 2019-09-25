@@ -17,7 +17,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityMinecartChest;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.Direction;
@@ -92,9 +92,9 @@ public class StructureAtumMineshaftPieces {
 
         @Override
         protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
-            compound.setBoolean("hr", this.hasRails);
-            compound.setBoolean("sc", this.hasTarantula);
-            compound.setBoolean("hps", this.spawnerPlaced);
+            compound.putBoolean("hr", this.hasRails);
+            compound.putBoolean("sc", this.hasTarantula);
+            compound.putBoolean("hps", this.spawnerPlaced);
             compound.putInt("Num", this.sectionCount);
         }
 
@@ -232,7 +232,7 @@ public class StructureAtumMineshaftPieces {
             BlockPos pos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
 
             if (box.isVecInside(pos) && world.getBlockState(pos).getMaterial() == Material.AIR && world.getBlockState(pos.down()).getMaterial() != Material.AIR) {
-                BlockState railState = Blocks.RAIL.getDefaultState().withProperty(BlockRail.SHAPE, random.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
+                BlockState railState = Blocks.RAIL.getDefaultState().with(BlockRail.SHAPE, random.nextBoolean() ? BlockRailBase.EnumRailDirection.NORTH_SOUTH : BlockRailBase.EnumRailDirection.EAST_WEST);
                 this.setBlockState(world, railState, x, y, z, box);
                 EntityMinecartChest cartChest = new EntityMinecartChest(world, (double) ((float) pos.getX() + 0.5F), (double) ((float) pos.getY() + 0.5F), (double) ((float) pos.getZ() + 0.5F));
                 cartChest.setLootTable(loot, random.nextLong());
@@ -305,7 +305,7 @@ public class StructureAtumMineshaftPieces {
                 }
 
                 if (this.hasRails) {
-                    BlockState railState = Blocks.RAIL.getDefaultState().withProperty(BlockRail.SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH);
+                    BlockState railState = Blocks.RAIL.getDefaultState().with(BlockRail.SHAPE, BlockRailBase.EnumRailDirection.NORTH_SOUTH);
 
                     for (int j3 = 0; j3 <= count; ++j3) {
                         BlockState state = this.getBlockStateFromPos(world, 1, -1, j3, box);
@@ -334,11 +334,11 @@ public class StructureAtumMineshaftPieces {
                 } else {
                     this.fillWithBlocks(world, box, x, yMax, z, xMin, yMax, z, plankState, airState, false);
                     if (mineshaftType == MapGenAtumMineshaft.Type.DEADWOOD) {
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.DEADWOOD_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, Direction.NORTH));
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.DEADWOOD_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, Direction.SOUTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.DEADWOOD_TORCH).getDefaultState().with(BlockAtumTorch.FACING, Direction.NORTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.DEADWOOD_TORCH).getDefaultState().with(BlockAtumTorch.FACING, Direction.SOUTH));
                     } else {
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.LIMESTONE_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, Direction.NORTH));
-                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.LIMESTONE_TORCH).getDefaultState().withProperty(BlockAtumTorch.FACING, Direction.SOUTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z - 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.LIMESTONE_TORCH).getDefaultState().with(BlockAtumTorch.FACING, Direction.NORTH));
+                        this.randomlyPlaceBlock(world, box, random, 0.05F, x + 1, yMax, z + 1, BlockAtumTorchUnlit.getUnlitTorch(AtumBlocks.LIMESTONE_TORCH).getDefaultState().with(BlockAtumTorch.FACING, Direction.SOUTH));
                     }
                 }
             }
@@ -354,7 +354,7 @@ public class StructureAtumMineshaftPieces {
 
         @Override
         protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
-            compound.setBoolean("tf", this.isMultipleFloors);
+            compound.putBoolean("tf", this.isMultipleFloors);
             compound.putInt("D", this.corridorDirection.getHorizontalIndex());
         }
 
@@ -643,18 +643,18 @@ public class StructureAtumMineshaftPieces {
 
         @Override
         protected void writeStructureToNBT(@Nonnull CompoundNBT compound) {
-            NBTTagList tagList = new NBTTagList();
+            ListNBT tagList = new ListNBT();
 
             for (StructureBoundingBox box : this.connectedRooms) {
-                tagList.appendTag(box.toNBTTagIntArray());
+                tagList.add(box.toNBTTagIntArray());
             }
-            compound.setTag("Entrances", tagList);
+            compound.put("Entrances", tagList);
         }
 
         @Override
         protected void readStructureFromNBT(@Nonnull CompoundNBT compound, @Nonnull TemplateManager manager) {
-            NBTTagList tagList = compound.getTagList("Entrances", 11);
-            for (int i = 0; i < tagList.tagCount(); ++i) {
+            ListNBT tagList = compound.getList("Entrances", 11);
+            for (int i = 0; i < tagList.size(); ++i) {
                 this.connectedRooms.add(new StructureBoundingBox(tagList.getIntArrayAt(i)));
             }
         }

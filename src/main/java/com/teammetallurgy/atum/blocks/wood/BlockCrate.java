@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -32,7 +33,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Map;
 
-public class BlockCrate extends BlockContainer {
+public class BlockCrate extends ContainerBlock {
     private static final PropertyDirection FACING = BlockHorizontal.FACING;
     private static final Map<BlockAtumPlank.WoodType, BlockCrate> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
 
@@ -40,7 +41,7 @@ public class BlockCrate extends BlockContainer {
         super(Material.WOOD);
         this.setHardness(3.0F);
         this.setSoundType(SoundType.WOOD);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
     }
 
     public static void registerCrates() {
@@ -105,13 +106,13 @@ public class BlockCrate extends BlockContainer {
     @Override
     @Nonnull
     public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
+        return this.getDefaultState().with(FACING, placer.getHorizontalFacing());
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
         Direction facing = Direction.byHorizontalIndex(MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
-        state = state.withProperty(FACING, facing);
+        state = state.with(FACING, facing);
         BlockPos posNorth = pos.north();
         BlockPos posSouth = pos.south();
         BlockPos posWest = pos.west();
@@ -205,7 +206,7 @@ public class BlockCrate extends BlockContainer {
         }
 
         if (facingCheck != null) {
-            return state.withProperty(FACING, facingCheck.getOpposite());
+            return state.with(FACING, facingCheck.getOpposite());
         } else {
             Direction facing = state.getValue(FACING);
 
@@ -218,7 +219,7 @@ public class BlockCrate extends BlockContainer {
             if (world.getBlockState(pos.offset(facing)).isFullBlock()) {
                 facing = facing.getOpposite();
             }
-            return state.withProperty(FACING, facing);
+            return state.with(FACING, facing);
         }
     }
 
@@ -230,7 +231,7 @@ public class BlockCrate extends BlockContainer {
         if (facing.getAxis() == Direction.Axis.Y) {
             facing = Direction.NORTH;
         }
-        return this.getDefaultState().withProperty(FACING, facing);
+        return this.getDefaultState().with(FACING, facing);
     }
 
     @Override
@@ -241,7 +242,7 @@ public class BlockCrate extends BlockContainer {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+        return state.with(FACING, rot.rotate(state.getValue(FACING)));
     }
     
     @Override

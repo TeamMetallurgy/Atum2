@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
+import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
@@ -17,7 +17,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderStoneguard extends RenderBiped<EntityStoneguard> {
+public class RenderStoneguard extends RenderBiped<StoneguardEntity> {
     private static final Map<Integer, ResourceLocation> CACHE = Maps.newHashMap();
     private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_derp.png");
 
@@ -35,7 +35,7 @@ public class RenderStoneguard extends RenderBiped<EntityStoneguard> {
 
     @Override
     @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull EntityStoneguard stoneguard) {
+    protected ResourceLocation getEntityTexture(@Nonnull StoneguardEntity stoneguard) {
         if (stoneguard.hasCustomName()) {
             if (stoneguard.getCustomNameTag().equalsIgnoreCase("iron") || stoneguard.getCustomNameTag().equalsIgnoreCase("nutz")) {
                 return STONEGUARD_IRON_TEXTURE;

@@ -82,7 +82,7 @@ public class BlockAnputsFingers extends BlockCrops {
     public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
         int age = this.getAge(state);
         if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
-            BlockState newState = state.withProperty(this.getAgeProperty(), age + 1);
+            BlockState newState = state.with(this.getAgeProperty(), age + 1);
             world.setBlockState(pos, newState, 2);
             ForgeHooks.onCropsGrowPost(world, pos, state, newState);
         }

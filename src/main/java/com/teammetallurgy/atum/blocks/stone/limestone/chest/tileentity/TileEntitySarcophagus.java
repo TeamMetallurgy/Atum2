@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockSarcophagus;
-import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
+import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
@@ -66,8 +66,8 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
     @Nonnull
     public CompoundNBT writeToNBT(@Nonnull CompoundNBT compound) {
         super.writeToNBT(compound);
-        compound.setBoolean("spawned", this.hasSpawned);
-        compound.setBoolean("openable", this.isOpenable);
+        compound.putBoolean("spawned", this.hasSpawned);
+        compound.putBoolean("openable", this.isOpenable);
         return compound;
     }
 
@@ -85,7 +85,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
 
     public void spawn(PlayerEntity player, DifficultyInstance difficulty) {
         if (!world.isRemote) {
-            EntityPharaoh pharaoh = new EntityPharaoh(world);
+            PharaohEntity pharaoh = new PharaohEntity(world);
             pharaoh.onInitialSpawn(difficulty, null);
             Direction blockFacing = world.getBlockState(pos).getValue(BlockSarcophagus.FACING);
             pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
@@ -97,7 +97,7 @@ public class TileEntitySarcophagus extends TileEntityChestBase {
             this.hasSpawned = true;
 
             for (ServerPlayerEntity playerMP : FMLCommonHandler.instance().getInstanceServerInstance().getPlayerList().getPlayers()) {
-                playerMP.sendMessage(new TextComponentString(EntityPharaoh.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
+                playerMP.sendMessage(new TextComponentString(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
             }
         }
         this.world.playSound(pos.getX(), pos.getY(), pos.getZ(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 0.8F, 1.0F, true);

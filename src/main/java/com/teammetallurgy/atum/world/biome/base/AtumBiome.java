@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.world.biome.base;
 
-import com.teammetallurgy.atum.entity.animal.EntityDesertRabbit;
-import com.teammetallurgy.atum.entity.animal.EntityTarantula;
-import com.teammetallurgy.atum.entity.bandit.EntityAssassin;
-import com.teammetallurgy.atum.entity.bandit.EntityBarbarian;
-import com.teammetallurgy.atum.entity.bandit.EntityBrigand;
-import com.teammetallurgy.atum.entity.bandit.EntityNomad;
-import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
-import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
-import com.teammetallurgy.atum.entity.undead.EntityBonestorm;
-import com.teammetallurgy.atum.entity.undead.EntityForsaken;
-import com.teammetallurgy.atum.entity.undead.EntityMummy;
-import com.teammetallurgy.atum.entity.undead.EntityWraith;
+import com.teammetallurgy.atum.entity.animal.DesertRabbitEntity;
+import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
+import com.teammetallurgy.atum.entity.bandit.AssassinEntity;
+import com.teammetallurgy.atum.entity.bandit.BarbarianEntity;
+import com.teammetallurgy.atum.entity.bandit.BrigandEntity;
+import com.teammetallurgy.atum.entity.bandit.NomadEntity;
+import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
+import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
+import com.teammetallurgy.atum.entity.undead.BonestormEntity;
+import com.teammetallurgy.atum.entity.undead.ForsakenEntity;
+import com.teammetallurgy.atum.entity.undead.MummyEntity;
+import com.teammetallurgy.atum.entity.undead.WraithEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
@@ -66,25 +66,25 @@ public class AtumBiome extends Biome {
 
     protected void addDefaultSpawns() {
         //Animals
-        addSpawn(EntityDesertRabbit.class, 5, 2, 3, EnumCreatureType.CREATURE);
+        addSpawn(DesertRabbitEntity.class, 5, 2, 3, EnumCreatureType.CREATURE);
         addSpawn(EntityBat.class, 5, 8, 8, EnumCreatureType.AMBIENT);
 
         //Bandits
-        addSpawn(EntityAssassin.class, 1, 1, 1, EnumCreatureType.MONSTER);
-        addSpawn(EntityBarbarian.class, 8, 1, 2, EnumCreatureType.MONSTER);
-        addSpawn(EntityBrigand.class, 30, 2, 3, EnumCreatureType.MONSTER);
-        addSpawn(EntityNomad.class, 22, 1, 4, EnumCreatureType.MONSTER);
+        addSpawn(AssassinEntity.class, 1, 1, 1, EnumCreatureType.MONSTER);
+        addSpawn(BarbarianEntity.class, 8, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(BrigandEntity.class, 30, 2, 3, EnumCreatureType.MONSTER);
+        addSpawn(NomadEntity.class, 22, 1, 4, EnumCreatureType.MONSTER);
 
         //Undead
-        addSpawn(EntityBonestorm.class, 5, 1, 2, EnumCreatureType.MONSTER);
-        addSpawn(EntityForsaken.class, 22, 1, 4, EnumCreatureType.MONSTER);
-        addSpawn(EntityMummy.class, 30, 1, 3, EnumCreatureType.MONSTER);
-        addSpawn(EntityWraith.class, 10, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(BonestormEntity.class, 5, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(ForsakenEntity.class, 22, 1, 4, EnumCreatureType.MONSTER);
+        addSpawn(MummyEntity.class, 30, 1, 3, EnumCreatureType.MONSTER);
+        addSpawn(WraithEntity.class, 10, 1, 2, EnumCreatureType.MONSTER);
 
         //Underground
-        addSpawn(EntityStoneguard.class, 34, 1, 2, EnumCreatureType.MONSTER);
-        addSpawn(EntityStonewarden.class, 1, 1, 1, EnumCreatureType.MONSTER);
-        addSpawn(EntityTarantula.class, 20, 1, 3, EnumCreatureType.MONSTER);
+        addSpawn(StoneguardEntity.class, 34, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(StonewardenEntity.class, 1, 1, 1, EnumCreatureType.MONSTER);
+        addSpawn(TarantulaEntity.class, 20, 1, 3, EnumCreatureType.MONSTER);
     }
 
     protected void addSpawn(Class<? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type) {

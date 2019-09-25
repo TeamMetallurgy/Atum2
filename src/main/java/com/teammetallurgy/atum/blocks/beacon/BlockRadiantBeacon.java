@@ -36,7 +36,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
     private static final HashMap<Integer, DyeColor> RGB_TO_DYE = Maps.newHashMap();
 
     public BlockRadiantBeacon() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, DyeColor.WHITE));
+        this.setDefaultState(this.blockState.getBaseState().with(COLOR, DyeColor.WHITE));
     }
 
     @Override
@@ -78,7 +78,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
             Item item = heldStack.getItem();
             if (!world.isRemote) {
                 if (item == Item.getItemFromBlock(Blocks.STAINED_GLASS) || item == Item.getItemFromBlock(Blocks.STAINED_GLASS_PANE)) {
-                    world.setBlockState(pos, AtumBlocks.RADIANT_BEACON.getDefaultState().withProperty(COLOR, DyeColor.byMetadata(heldStack.getMetadata())), 2);
+                    world.setBlockState(pos, AtumBlocks.RADIANT_BEACON.getDefaultState().with(COLOR, DyeColor.byId(heldStack.getMetadata())), 2);
                     if (!player.isCreative()) {
                         heldStack.shrink(1);
                     }
@@ -96,7 +96,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
                             block = AtumBlocks.RADIANT_BEACON_FRAMED;
                         }
 
-                        world.setBlockState(pos, block.getDefaultState().withProperty(COLOR, dyeColor));
+                        world.setBlockState(pos, block.getDefaultState().with(COLOR, dyeColor));
                         if (!player.isCreative()) {
                             heldStack.shrink(1);
                         }
@@ -111,7 +111,7 @@ public class BlockRadiantBeacon extends BlockBeacon {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(COLOR, DyeColor.byMetadata(meta));
+        return this.getDefaultState().with(COLOR, DyeColor.byId(meta));
     }
 
     @Override

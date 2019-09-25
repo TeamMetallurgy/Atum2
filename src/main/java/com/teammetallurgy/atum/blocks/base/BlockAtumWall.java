@@ -33,7 +33,7 @@ public class BlockAtumWall extends Block {
 
     protected BlockAtumWall() {
         super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, false).withProperty(NORTH, false).withProperty(EAST, false).withProperty(SOUTH, false).withProperty(WEST, false));
+        this.setDefaultState(this.blockState.getBaseState().with(UP, false).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false));
         this.setHardness(2.0F);
     }
 
@@ -132,7 +132,7 @@ public class BlockAtumWall extends Block {
         boolean south = canWallConnectTo(worldIn, pos, Direction.SOUTH);
         boolean west = canWallConnectTo(worldIn, pos, Direction.WEST);
         boolean isNorthSouthOrEastWest = north && !east && south && !west || !north && east && !south && west;
-        return state.withProperty(UP, !isNorthSouthOrEastWest || !worldIn.isAirBlock(pos.up())).withProperty(NORTH, north).withProperty(EAST, east).withProperty(SOUTH, south).withProperty(WEST, west);
+        return state.with(UP, !isNorthSouthOrEastWest || !worldIn.isAirBlock(pos.up())).with(NORTH, north).with(EAST, east).with(SOUTH, south).with(WEST, west);
     }
 
     @Override

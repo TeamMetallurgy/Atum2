@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
-import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
 import net.minecraft.entity.LivingEntity;
@@ -37,7 +37,7 @@ public class HorusAscensionItem extends GauntletItem {
     }
 
     public static void knockUp(LivingEntity target, LivingEntity attacker, Random random) {
-        if (attacker != null && !(target instanceof EntityStoneBase)) {
+        if (attacker != null && !(target instanceof StoneBaseEntity)) {
             if (!attacker.world.isRemote) {
                 double dx = target.posX - attacker.posX;
                 double dz = target.posZ - attacker.posZ;

@@ -187,7 +187,7 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return this.writeToNBT(new CompoundNBT());
+        return this.write(new CompoundNBT());
     }
 
     @Override
@@ -200,11 +200,11 @@ public class TileEntityTrap extends TileEntityInventoryBase implements ITickable
 
     @Override
     @Nonnull
-    public CompoundNBT writeToNBT(CompoundNBT compound) {
-        super.writeToNBT(compound);
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
         compound.putInt("BurnTime", (short) this.burnTime);
-        compound.setBoolean("Disabled", this.isDisabled);
-        compound.setBoolean("InPyramid", this.isInsidePyramid);
+        compound.putBoolean("Disabled", this.isDisabled);
+        compound.putBoolean("InPyramid", this.isInsidePyramid);
         return compound;
     }
 

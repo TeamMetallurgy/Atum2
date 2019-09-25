@@ -1,12 +1,13 @@
 package com.teammetallurgy.atum;
 
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumItemGroup;
-import com.teammetallurgy.atum.utils.ClientHandler;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
@@ -43,6 +44,7 @@ public class Atum {
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {
+        AtumEntities.registerSpawnPlacement();
         IntegrationHandler.INSTANCE.initModIntegration();
         NetworkHandler.register();
         StructureAtumMineshaftPieces.registerMineshaft();

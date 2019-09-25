@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class WorldGenPalm extends WorldGenAbstractTree {
     private static final BlockState BLOCK_LOG = AtumBlocks.PALM_LOG.getDefaultState();
-    private static final BlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false);
+    private static final BlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().with(BlockLeave.CHECK_DECAY, false);
     private final int minTreeHeight;
     private final BlockState stateWood;
     private final BlockState stateLeaves;
@@ -149,7 +149,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
 
                     BlockPos datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(random));
                     if (this.stateLeaves.getBlock() == BLOCK_LEAVES.getBlock() && random.nextFloat() <= 0.10F) {
-                        world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().withProperty(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
+                        world.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(BlockDate.AGE, MathHelper.getInt(random, 0, 7)), 2);
                     }
                 }
 
@@ -176,6 +176,6 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     }
 
     private void addOphidianTongue(World world, BlockPos pos, PropertyBool prop) {
-        this.setBlockAndNotifyAdequately(world, pos, AtumBlocks.OPHIDIAN_TONGUE.getDefaultState().withProperty(prop, Boolean.TRUE));
+        this.setBlockAndNotifyAdequately(world, pos, AtumBlocks.OPHIDIAN_TONGUE.getDefaultState().with(prop, Boolean.TRUE));
     }
 }

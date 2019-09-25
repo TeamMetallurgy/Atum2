@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.blocks.beacon;
 
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
-import com.teammetallurgy.atum.entity.EntityHeartOfRa;
-import net.minecraft.block.BlockContainer;
+import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockFaceShape;
@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockHeartOfRa extends BlockContainer {
+public class BlockHeartOfRa extends ContainerBlock {
     private static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 
     public BlockHeartOfRa() {
@@ -42,14 +42,14 @@ public class BlockHeartOfRa extends BlockContainer {
 
     @Override
     public boolean canEntitySpawn(BlockState state, Entity entity) {
-        return entity instanceof EntityHeartOfRa;
+        return entity instanceof HeartOfRaEntity;
     }
 
     @Override
     public void onBlockAdded(World world, BlockPos pos, BlockState state) {
         super.onBlockAdded(world, pos, state);
 
-        EntityHeartOfRa heartOfRa = new EntityHeartOfRa(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY()), (double) ((float) pos.getZ() + 0.5F));
+        HeartOfRaEntity heartOfRa = new HeartOfRaEntity(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY()), (double) ((float) pos.getZ() + 0.5F));
         world.addEntity(heartOfRa);
     }
 

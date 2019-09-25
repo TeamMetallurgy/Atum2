@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum.utils;
 
-import com.google.common.base.CaseFormat;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
@@ -13,10 +11,13 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntity;
@@ -24,14 +25,11 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityEntryBuilder;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -45,8 +43,7 @@ public class AtumRegistry {
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
     private static final List<TileEntityType> TILE_ENTITIES = Lists.newArrayList();
-    private static final List<AtumBiome> BIOMES = Lists.newArrayList();
-    private static final List<EntityType<?>> MOBS = Lists.newArrayList();
+    public static final List<AtumBiome> BIOMES = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType> PARTICLES = Lists.newArrayList();
@@ -93,7 +90,7 @@ public class AtumRegistry {
         block.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
         BLOCKS.add(block);
 
-        if (block instanceof IRenderMapper && FMLCommonHandler.instance().getSide() == Dist.CLIENT) {
+        if (block instanceof IRenderMapper && EffectiveSide.get() == LogicalSide.CLIENT) {
             ClientHandler.ignoreRenderProperty(block);
         }
         return block;
@@ -116,44 +113,46 @@ public class AtumRegistry {
     /**
      * Registers any mob, that will have a spawn egg.
      *
-     * @param entityClass The entity class
-     * @return The EntityEntry that was registered
+     * @param name         String to register the entity as
+     * @param eggPrimary   Primary egg color
+     * @param eggSecondary Secondary Color
+     * @param builder      Builder for the entity
+     * @return The EntityType that was registered
      */
-    public static EntityEntry registerMob(@Nonnull Class<? extends Entity> entityClass, int eggPrimary, int eggSecondary) {
-        ResourceLocation location = new ResourceLocation(Constants.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
-        EntityEntry entry = new EntityEntry(entityClass, location.toString());
-        entry.setRegistryName(location);
-        entry.setEgg(new EntityList.EntityEggInfo(location, eggPrimary, eggSecondary));
-        MOBS.add(entry);
-        return entry;
+    public static <T extends Entity> EntityType<T> registerMob(String name, int eggPrimary, int eggSecondary, EntityType.Builder<T> builder) {
+        EntityType<T> entityType = registerEntity(name, builder);
+        Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).group(ItemGroup.MISC));
+        registerItem(spawnEgg, name + "_spawn_egg");
+        return entityType;
+    }
+
+    /**
+     * Registers an entity
+     *
+     * @param name    String to register the entity as
+     * @param builder Builder for the entity
+     * @return The EntityType that was registered
+     */
+    public static <T extends Entity> EntityType<T> registerEntity(String name, EntityType.Builder<T> builder) {
+        ResourceLocation location = new ResourceLocation(Constants.MOD_ID, name);
+        EntityType<T> entityType = builder.build(location.toString());
+        entityType.setRegistryName(location);
+        ENTITIES.add(entityType);
+        return entityType;
     }
 
     /**
      * Registers arrow.
      *
-     * @param entityClass The arrow entity class
-     * @return The EntityEntry that was registered
+     * @param name String to register the arrow with
+     * @return The Arrow EntityType that was registered
      */
-    public static EntityEntry registerArrow(@Nonnull Class<? extends Entity> entityClass) {
-        return registerEntity(entityClass, 64, 20, false);
-    }
-
-    /**
-     * Registers any kind of entity, that is not a mob.
-     *
-     * @param entityClass The entity class
-     * @return The EntityEntry that was registered
-     */
-    public static EntityEntry registerEntity(@Nonnull Class<? extends Entity> entityClass, int range, int updateFreq, boolean sendVelocityUpdates) {
-        ResourceLocation location = new ResourceLocation(Constants.MOD_ID, CaseFormat.UPPER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, entityClass.getSimpleName()).replace("entity_", ""));
-        EntityEntry entry = new EntityEntry(entityClass, location.toString());
-        entry.setRegistryName(location);
-        trackingRange.put(location, range);
-        updateFrequency.put(location, updateFreq);
-        sendsVelocityUpdates.put(location, sendVelocityUpdates);
-        ENTITIES.add(entry);
-
-        return entry;
+    public static <T extends AbstractArrowEntity> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory) {
+        EntityType.Builder<T> builder = EntityType.Builder.create(factory, EntityClassification.MISC)
+                .size(0.5F, 0.5F)
+                .setTrackingRange(4)
+                .setUpdateInterval(20);
+        return registerEntity(name, builder);
     }
 
     /**
@@ -250,37 +249,20 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        AtumBiomes.registerBiomes();
+        for (Biome biome : BIOMES) {
+            event.getRegistry().register(biome);
+        }
+        AtumBiomes.addBiomeTags();
     }
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         new AtumEntities();
 
-        for (EntityEntry entry : MOBS) {
-            Preconditions.checkNotNull(entry.getRegistryName(), "registryName");
-            networkIdMob++;
-            event.getRegistry().register(EntityEntryBuilder.create()
-                    .entity(entry.getEntityClass())
-                    .id(entry.getRegistryName(), networkIdMob)
-                    .name(AtumUtils.toUnlocalizedName(entry.getName()))
-                    .tracker(80, 3, true)
-                    .egg(entry.getEgg().primaryColor, entry.getEgg().secondaryColor)
-                    .build());
+        for (EntityType entityType : ENTITIES) {
+            event.getRegistry().register(entityType);
         }
-        int networkIdEntity = MOBS.size() + 1;
-        for (EntityEntry entry : ENTITIES) {
-            Preconditions.checkNotNull(entry.getRegistryName(), "registryName");
-            networkIdEntity++;
-            event.getRegistry().register(EntityEntryBuilder.create()
-                    .entity(entry.getEntityClass())
-                    .id(entry.getRegistryName(), networkIdEntity)
-                    .tracker(trackingRange.get(entry.getRegistryName()), updateFrequency.get(entry.getRegistryName()), sendsVelocityUpdates.get(entry.getRegistryName()))
-                    .name(AtumUtils.toUnlocalizedName(entry.getName()))
-                    .build());
-        }
-
-        EntityRegistry.instance().lookupModSpawn(EntityCamelSpit.class, true).setCustomSpawning(null, true);
+        //EntityRegistry.instance().lookupModSpawn(EntityCamelSpit.class, true).setCustomSpawning(null, true); //TODO Check if this is needed
     }
 
     @SubscribeEvent

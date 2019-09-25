@@ -100,7 +100,7 @@ public class PyramidPieces {
 
     public static class PyramidTemplate extends StructureComponentTemplate {
         public static final List<Block> FLOOR_TRAPS = Arrays.asList(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        static final BlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().withProperty(BlockLimestoneBricks.UNBREAKABLE, true);
+        static final BlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().with(BlockLimestoneBricks.UNBREAKABLE, true);
         private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
         private Mirror mirror;
@@ -136,16 +136,16 @@ public class PyramidPieces {
                 if (rand.nextDouble() <= 0.3D) {
                     switch (function) {
                         case "ArrowWest":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.WEST));
+                            arrowTrap = arrowTrap.with(BlockTrap.FACING, rotation.rotate(Direction.WEST));
                             break;
                         case "ArrowEast":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.EAST));
+                            arrowTrap = arrowTrap.with(BlockTrap.FACING, rotation.rotate(Direction.EAST));
                             break;
                         case "ArrowSouth":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.SOUTH));
+                            arrowTrap = arrowTrap.with(BlockTrap.FACING, rotation.rotate(Direction.SOUTH));
                             break;
                         case "ArrowNorth":
-                            arrowTrap = arrowTrap.withProperty(BlockTrap.FACING, rotation.rotate(Direction.NORTH));
+                            arrowTrap = arrowTrap.with(BlockTrap.FACING, rotation.rotate(Direction.NORTH));
                             break;
                     }
                     world.setBlockState(pos, arrowTrap, 2);
@@ -157,7 +157,7 @@ public class PyramidPieces {
                     case "FloorTrap":
                         if (rand.nextDouble() <= 0.5D) {
                             Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                            world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, Direction.UP), 2);
+                            world.setBlockState(pos, trap.getDefaultState().with(BlockTrap.FACING, Direction.UP), 2);
                         } else {
                             world.setBlockState(pos, CARVED_BRICK, 2);
                         }
@@ -260,7 +260,7 @@ public class PyramidPieces {
                     world.setBlockState(pos, copy, 2);
                 } else {
                     Block trap = FLOOR_TRAPS.get(rand.nextInt(FLOOR_TRAPS.size()));
-                    world.setBlockState(pos, trap.getDefaultState().withProperty(BlockTrap.FACING, Direction.UP), 2);
+                    world.setBlockState(pos, trap.getDefaultState().with(BlockTrap.FACING, Direction.UP), 2);
                 }
             } else {
                 world.setBlockState(pos, CARVED_BRICK, 2);
@@ -270,8 +270,8 @@ public class PyramidPieces {
         @Override
         protected void writeStructureToNBT(CompoundNBT compound) {
             super.writeStructureToNBT(compound);
-            compound.setString("Rot", this.placeSettings.getRotation().name());
-            compound.setString("Mi", this.placeSettings.getMirror().name());
+            compound.putString("Rot", this.placeSettings.getRotation().name());
+            compound.putString("Mi", this.placeSettings.getMirror().name());
         }
 
         @Override
@@ -327,7 +327,7 @@ public class PyramidPieces {
                     // Place sand of the floor of the maze
                     else {
                         int layers = MathHelper.getInt(random, 1, 2);
-                        this.setBlockState(world, AtumBlocks.SAND_LAYERED.getDefaultState().withProperty(BlockSandLayers.LAYERS, layers), x, 0, z, validBounds);
+                        this.setBlockState(world, AtumBlocks.SAND_LAYERED.getDefaultState().with(BlockSandLayers.LAYERS, layers), x, 0, z, validBounds);
                     }
                 }
             }
@@ -346,7 +346,7 @@ public class PyramidPieces {
             }
 
             if (!validDirections.isEmpty()) {
-                trapState = trapState.withProperty(BlockTrap.FACING, validDirections.get(random.nextInt(validDirections.size())));
+                trapState = trapState.with(BlockTrap.FACING, validDirections.get(random.nextInt(validDirections.size())));
                 this.setBlockState(world, trapState, x, 0, z, validBounds);
             }
         }

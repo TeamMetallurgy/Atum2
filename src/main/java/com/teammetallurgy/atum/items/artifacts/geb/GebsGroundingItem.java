@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowSlowness;
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowSlownessEntity;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -29,6 +29,6 @@ public class GebsGroundingItem extends BaseBowItem {
 
     @Override
     protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowSlowness(world, player, velocity);
+        return new ArrowSlownessEntity(world, player, velocity);
     }
 }

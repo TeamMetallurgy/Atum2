@@ -138,13 +138,13 @@ public class BlockBranch extends Block {
     @Override
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(FACING, facing.getOpposite());
+        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(FACING, facing.getOpposite());
     }
 
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, Direction.UP.VALUES[meta]);
+        return this.getDefaultState().with(FACING, Direction.UP.VALUES[meta]);
     }
 
     @Override
@@ -163,12 +163,12 @@ public class BlockBranch extends Block {
     @Nonnull
     public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
         Direction Direction = state.getValue(FACING);
-        return state.withProperty(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
-                .withProperty(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
-                .withProperty(SOUTH, Direction != Direction.SOUTH && shouldConnect(Direction.SOUTH, world, pos))
-                .withProperty(WEST, Direction != Direction.WEST && shouldConnect(Direction.WEST, world, pos))
-                .withProperty(UP, Direction != Direction.UP && shouldConnect(Direction.UP, world, pos))
-                .withProperty(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
+        return state.with(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
+                .with(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
+                .with(SOUTH, Direction != Direction.SOUTH && shouldConnect(Direction.SOUTH, world, pos))
+                .with(WEST, Direction != Direction.WEST && shouldConnect(Direction.WEST, world, pos))
+                .with(UP, Direction != Direction.UP && shouldConnect(Direction.UP, world, pos))
+                .with(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
     }
 
     private boolean shouldConnect(Direction direction, IBlockAccess worldIn, BlockPos pos) {
@@ -184,11 +184,11 @@ public class BlockBranch extends Block {
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         switch (rot) {
             case CLOCKWISE_180:
-                return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(EAST, state.getValue(WEST)).withProperty(SOUTH, state.getValue(NORTH)).withProperty(WEST, state.getValue(EAST));
+                return state.with(NORTH, state.getValue(SOUTH)).with(EAST, state.getValue(WEST)).with(SOUTH, state.getValue(NORTH)).with(WEST, state.getValue(EAST));
             case COUNTERCLOCKWISE_90:
-                return state.withProperty(NORTH, state.getValue(EAST)).withProperty(EAST, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(WEST)).withProperty(WEST, state.getValue(NORTH));
+                return state.with(NORTH, state.getValue(EAST)).with(EAST, state.getValue(SOUTH)).with(SOUTH, state.getValue(WEST)).with(WEST, state.getValue(NORTH));
             case CLOCKWISE_90:
-                return state.withProperty(NORTH, state.getValue(WEST)).withProperty(EAST, state.getValue(NORTH)).withProperty(SOUTH, state.getValue(EAST)).withProperty(WEST, state.getValue(SOUTH));
+                return state.with(NORTH, state.getValue(WEST)).with(EAST, state.getValue(NORTH)).with(SOUTH, state.getValue(EAST)).with(WEST, state.getValue(SOUTH));
             default:
                 return state;
         }
@@ -199,9 +199,9 @@ public class BlockBranch extends Block {
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
         switch (mirror) {
             case LEFT_RIGHT:
-                return state.withProperty(NORTH, state.getValue(SOUTH)).withProperty(SOUTH, state.getValue(NORTH));
+                return state.with(NORTH, state.getValue(SOUTH)).with(SOUTH, state.getValue(NORTH));
             case FRONT_BACK:
-                return state.withProperty(EAST, state.getValue(WEST)).withProperty(WEST, state.getValue(EAST));
+                return state.with(EAST, state.getValue(WEST)).with(WEST, state.getValue(EAST));
             default:
                 return super.withMirror(state, mirror);
         }

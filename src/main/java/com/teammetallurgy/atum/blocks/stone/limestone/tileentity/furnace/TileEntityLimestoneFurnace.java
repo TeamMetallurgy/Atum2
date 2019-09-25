@@ -103,7 +103,7 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
         this.totalCookTime = compound.getInt("CookTimeTotal");
         this.currentItemBurnTime = getItemBurnTime(this.furnaceItemStacks.get(1));
 
-        if (compound.hasKey("CustomName", 8)) {
+        if (compound.contains("CustomName", 8)) {
             this.limestoneFurnaceName = compound.getString("CustomName");
         }
     }
@@ -119,7 +119,7 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
         ItemStackHelper.saveAllItems(compound, this.furnaceItemStacks);
 
         if (this.hasCustomName()) {
-            compound.setString("CustomName", this.limestoneFurnaceName);
+            compound.putString("CustomName", this.limestoneFurnaceName);
         }
         return compound;
     }

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import com.teammetallurgy.atum.entity.bandit.EntityNomad;
+import com.teammetallurgy.atum.entity.bandit.NomadEntity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.entity.LivingEntity;
@@ -24,7 +24,7 @@ public class ModelNomad extends ModelPlayer {
         this.leftArmPose = ModelBiped.ArmPose.EMPTY;
         ItemStack itemstack = livingBase.getHeldItem(Hand.MAIN_HAND);
 
-        if (itemstack.getItem() instanceof ItemBow && ((EntityNomad) livingBase).isSwingingArms()) {
+        if (itemstack.getItem() instanceof ItemBow && ((NomadEntity) livingBase).isSwingingArms()) {
             if (livingBase.getPrimaryHand() == EnumHandSide.RIGHT) {
                 this.rightArmPose = ModelBiped.ArmPose.BOW_AND_ARROW;
             } else {

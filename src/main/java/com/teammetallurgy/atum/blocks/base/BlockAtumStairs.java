@@ -26,7 +26,7 @@ public class BlockAtumStairs extends BlockStairs {
     public BlockAtumStairs(BlockState modelState) {
         super(modelState);
         this.useNeighborBrightness = true;
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(HALF, BlockStairs.EnumHalf.BOTTOM).withProperty(SHAPE, BlockStairs.EnumShape.STRAIGHT));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(HALF, BlockStairs.EnumHalf.BOTTOM).with(SHAPE, BlockStairs.EnumShape.STRAIGHT));
     }
 
     public static void registerLimestoneStairs() {

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.entity.animal.EntityScarab;
+import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
@@ -27,13 +27,13 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(HAS_SCARAB, false));
+        this.setDefaultState(this.blockState.getBaseState().with(HAS_SCARAB, false));
     }
 
     @Override
     public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
         if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
-            EntityScarab scarab = new EntityScarab(world);
+            ScarabEntity scarab = new ScarabEntity(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(scarab);
             scarab.spawnExplosionParticle();
@@ -55,7 +55,7 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(HAS_SCARAB, meta > 0);
+        return this.getDefaultState().with(HAS_SCARAB, meta > 0);
     }
 
     @Override

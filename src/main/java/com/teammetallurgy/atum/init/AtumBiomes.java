@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.world.biome.*;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome.AtumBiomeProperties;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
@@ -24,9 +23,8 @@ public class AtumBiomes {
     public static final AtumBiome SAND_HILLS = registerBiome(new BiomeSandHills(new AtumBiomeProperties("Sand Hills", 10).setBaseHeight(0.3F).setHeightVariation(0.3F)), "sand_hills");
     public static final AtumBiome SAND_PLAINS = registerBiome(new BiomeSandPlains(new AtumBiomeProperties("Sand Plains", 30)), "sand_plains");
 
-    public static void registerBiomes() {
+    public static void addBiomeTags() {
         for (AtumBiome biome : AtumRegistry.BIOMES) {
-            ForgeRegistries.BIOMES.register(biome);
             if (biome != AtumBiomes.OASIS) {
                 BiomeDictionary.addTypes(biome, BiomeTags.ATUM, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.DRY);
             }

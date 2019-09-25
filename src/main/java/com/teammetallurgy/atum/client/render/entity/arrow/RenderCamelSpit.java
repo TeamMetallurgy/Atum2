@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.arrow;
 
-import com.teammetallurgy.atum.entity.projectile.EntityCamelSpit;
+import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
 import net.minecraft.client.model.ModelLlamaSpit;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderCamelSpit extends Render<EntityCamelSpit> {
+public class RenderCamelSpit extends Render<CamelSpitEntity> {
     private static final ResourceLocation LLAMA_SPIT_TEXTURE = new ResourceLocation("textures/entity/llama/spit.png");
     private final ModelLlamaSpit model = new ModelLlamaSpit();
 
@@ -21,7 +21,7 @@ public class RenderCamelSpit extends Render<EntityCamelSpit> {
     }
 
     @Override
-    public void doRender(EntityCamelSpit entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(CamelSpitEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y + 0.15F, (float) z);
         GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks - 90.0F, 0.0F, 1.0F, 0.0F);
@@ -45,7 +45,7 @@ public class RenderCamelSpit extends Render<EntityCamelSpit> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityCamelSpit entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull CamelSpitEntity entity) {
         return LLAMA_SPIT_TEXTURE;
     }
 }

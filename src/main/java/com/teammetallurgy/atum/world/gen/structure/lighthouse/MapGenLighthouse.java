@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
+import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
@@ -36,7 +36,7 @@ public class MapGenLighthouse extends MapGenStructure {
     }
 
     static {
-        SUNSPEAKERS.add(new Biome.SpawnListEntry(EntitySunspeaker.class, 1, 1, 1));
+        SUNSPEAKERS.add(new Biome.SpawnListEntry(SunspeakerEntity.class, 1, 1, 1));
     }
 
     @Override

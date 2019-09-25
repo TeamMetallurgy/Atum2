@@ -11,7 +11,7 @@ import java.util.Random;
 public class BlockFramedRadiantBeacon extends BlockRadiantBeacon {
 
     public BlockFramedRadiantBeacon() {
-        this.setDefaultState(this.blockState.getBaseState().withProperty(COLOR, DyeColor.WHITE));
+        this.setDefaultState(this.blockState.getBaseState().with(COLOR, DyeColor.WHITE));
     }
 
     @Override

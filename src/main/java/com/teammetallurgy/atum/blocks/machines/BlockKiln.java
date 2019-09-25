@@ -42,7 +42,7 @@ public class BlockKiln extends BlockContainer {
         this.setHardness(3.5F);
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(IS_BURNING, false).withProperty(MULTIBLOCK_PRIMARY, false).withProperty(MULTIBLOCK_SECONDARY, false));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(IS_BURNING, false).with(MULTIBLOCK_PRIMARY, false).with(MULTIBLOCK_SECONDARY, false));
     }
 
     @Override
@@ -89,7 +89,7 @@ public class BlockKiln extends BlockContainer {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        world.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
+        world.setBlockState(pos, state.with(FACING, placer.getHorizontalFacing().getOpposite()), 2);
 
         if (stack.hasDisplayName()) {
             TileEntity tileEntity = world.getTileEntity(pos);
@@ -104,12 +104,12 @@ public class BlockKiln extends BlockContainer {
     public void tryMakeMultiblock(World world, BlockPos pos, BlockState state) {
         Direction facing = state.getValue(FACING);
         if (checkMultiblock(world, pos, facing)) {
-            world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, true));
-            world.setBlockState(pos.offset(facing.rotateY()), state.withProperty(MULTIBLOCK_PRIMARY, false));
+            world.setBlockState(pos, state.with(MULTIBLOCK_PRIMARY, true));
+            world.setBlockState(pos.offset(facing.rotateY()), state.with(MULTIBLOCK_PRIMARY, false));
             createMultiblock(world, pos);
         } else if (checkMultiblock(world, pos.offset(facing.rotateYCCW()), facing)) {
-            world.setBlockState(pos, state.withProperty(MULTIBLOCK_PRIMARY, false));
-            world.setBlockState(pos.offset(facing.rotateYCCW()), state.withProperty(MULTIBLOCK_PRIMARY, true));
+            world.setBlockState(pos, state.with(MULTIBLOCK_PRIMARY, false));
+            world.setBlockState(pos.offset(facing.rotateYCCW()), state.with(MULTIBLOCK_PRIMARY, true));
             createMultiblock(world, pos.offset(facing.rotateYCCW()));
         }
     }
@@ -143,7 +143,7 @@ public class BlockKiln extends BlockContainer {
     private void createMultiblock(World world, BlockPos primaryPos) {
         List<BlockPos> brickPositions = getKilnBrickPositions(primaryPos, world.getBlockState(primaryPos).getValue(FACING));
         for (BlockPos brickPos : brickPositions) {
-            world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState().withProperty(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
+            world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState().with(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
             TileEntity tileEntity = world.getTileEntity(brickPos);
             if (tileEntity != null) {
                 ((TileEntityKilnBase) tileEntity).setPrimaryPos(primaryPos);
@@ -172,10 +172,10 @@ public class BlockKiln extends BlockContainer {
         BlockPos dropPos = primaryPos;
 
         if (primaryState.getBlock() == AtumBlocks.KILN) {
-            world.setBlockState(primaryPos, primaryState.withProperty(MULTIBLOCK_PRIMARY, false).withProperty(IS_BURNING, false));
+            world.setBlockState(primaryPos, primaryState.with(MULTIBLOCK_PRIMARY, false).with(IS_BURNING, false));
         }
         if (secondaryState.getBlock() == AtumBlocks.KILN) {
-            world.setBlockState(secondaryPos, secondaryState.withProperty(IS_BURNING, false));
+            world.setBlockState(secondaryPos, secondaryState.with(IS_BURNING, false));
         } else {
             dropPos = secondaryPos;
         }
@@ -240,7 +240,7 @@ public class BlockKiln extends BlockContainer {
         if (tileEntity instanceof TileEntityKiln) {
             TileEntityKiln kiln = (TileEntityKiln) tileEntity;
             if (this.getPrimaryKilnBlock(kiln.getWorld(), pos) != null) {
-                return state.withProperty(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
+                return state.with(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
             }
         }
         return state;
@@ -249,7 +249,7 @@ public class BlockKiln extends BlockContainer {
     @Override
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite()).withProperty(MULTIBLOCK_PRIMARY, false);
+        return this.getDefaultState().with(FACING, placer.getHorizontalFacing().getOpposite()).with(MULTIBLOCK_PRIMARY, false);
     }
 
     @Override
@@ -261,7 +261,7 @@ public class BlockKiln extends BlockContainer {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(IS_BURNING, (meta & 4) != 0).withProperty(FACING, Direction.byHorizontalIndex(meta & 3)).withProperty(MULTIBLOCK_PRIMARY, (meta & 8) != 0);
+        return this.getDefaultState().with(IS_BURNING, (meta & 4) != 0).with(FACING, Direction.byHorizontalIndex(meta & 3)).with(MULTIBLOCK_PRIMARY, (meta & 8) != 0);
     }
 
     @Override
@@ -280,7 +280,7 @@ public class BlockKiln extends BlockContainer {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
-        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.with(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override

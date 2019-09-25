@@ -37,7 +37,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
         this.setHardness(1.5F);
         this.setResistance(10.0F);
         this.setSoundType(SoundType.STONE);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UNBREAKABLE, false));
+        this.setDefaultState(this.blockState.getBaseState().with(UNBREAKABLE, false));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class BlockLimestoneBricks extends Block implements IRenderMapper {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(UNBREAKABLE, meta > 0);
+        return this.getDefaultState().with(UNBREAKABLE, meta > 0);
     }
 
     @Override

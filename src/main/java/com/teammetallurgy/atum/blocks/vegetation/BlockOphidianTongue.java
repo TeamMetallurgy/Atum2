@@ -34,7 +34,7 @@ public class BlockOphidianTongue extends BlockVine {
 
     public BlockOphidianTongue() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(UP, Boolean.FALSE).withProperty(NORTH, Boolean.FALSE).withProperty(EAST, Boolean.FALSE).withProperty(SOUTH, Boolean.FALSE).withProperty(WEST, Boolean.FALSE).withProperty(HAS_FLOWERS, false));
+        this.setDefaultState(this.blockState.getBaseState().with(UP, Boolean.FALSE).with(NORTH, Boolean.FALSE).with(EAST, Boolean.FALSE).with(SOUTH, Boolean.FALSE).with(WEST, Boolean.FALSE).with(HAS_FLOWERS, false));
         this.setHardness(0.2F);
         this.setSoundType(SoundType.PLANT);
     }
@@ -51,7 +51,7 @@ public class BlockOphidianTongue extends BlockVine {
     public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
         super.updateTick(world, pos, state, rand);
         if (!world.isRemote && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
-            world.setBlockState(pos, state.withProperty(HAS_FLOWERS, true), 2);
+            world.setBlockState(pos, state.with(HAS_FLOWERS, true), 2);
         }
     }
 
@@ -92,7 +92,7 @@ public class BlockOphidianTongue extends BlockVine {
     public BlockState getStateFromMeta(int meta) {
         BlockState state = this.getDefaultState();
         Direction facing = Direction.byHorizontalIndex(meta & 0x11b);
-        return state.withProperty(SOUTH, facing == Direction.SOUTH).withProperty(WEST, facing == Direction.WEST).withProperty(NORTH, facing == Direction.NORTH).withProperty(EAST, facing == Direction.EAST).withProperty(HAS_FLOWERS, ((meta & 15) >> 2) == 1);
+        return state.with(SOUTH, facing == Direction.SOUTH).with(WEST, facing == Direction.WEST).with(NORTH, facing == Direction.NORTH).with(EAST, facing == Direction.EAST).with(HAS_FLOWERS, ((meta & 15) >> 2) == 1);
     }
 
     @Override

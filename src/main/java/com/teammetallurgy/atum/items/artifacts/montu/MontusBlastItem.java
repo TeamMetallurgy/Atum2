@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowExplosive;
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowExplosiveEntity;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,7 +27,7 @@ public class MontusBlastItem extends BaseBowItem {
 
     @Override
     protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowExplosive(world, player, velocity);
+        return new ArrowExplosiveEntity(world, player, velocity);
     }
 
     @Override

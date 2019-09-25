@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
@@ -30,7 +30,7 @@ public class ClubItem extends SwordItem {
     public static void onHurt(LivingHurtEvent event) {
         LivingEntity target = event.getEntityLiving();
         Entity source = event.getSource().getTrueSource();
-        if (!(target instanceof EntityStoneBase) && source instanceof LivingEntity) {
+        if (!(target instanceof StoneBaseEntity) && source instanceof LivingEntity) {
             LivingEntity attacker = (LivingEntity) source;
             if (attacker.getHeldItemMainhand().getItem() instanceof ClubItem) {
                 float knockback = 0.0F;
@@ -46,7 +46,7 @@ public class ClubItem extends SwordItem {
     public static void onAttack(AttackEntityEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player.world.isRemote) return;
-        if (event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof EntityStoneBase)) {
+        if (event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof StoneBaseEntity)) {
             if (player.getHeldItemMainhand().getItem() instanceof ClubItem) {
                 cooldown.put(player, player.getCooledAttackStrength(0.5F));
             }

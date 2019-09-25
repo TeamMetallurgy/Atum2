@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.tefnut;
 
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowRainEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowRain;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -30,7 +30,7 @@ public class TefnutsRainItem extends BaseBowItem {
 
     @Override
     protected CustomArrow setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowRain(world, player, velocity);
+        return new ArrowRainEntity(world, player, velocity);
     }
 
     @Override

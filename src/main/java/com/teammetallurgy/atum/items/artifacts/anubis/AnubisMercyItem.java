@@ -67,7 +67,7 @@ public class AnubisMercyItem extends AmuletItem {
                             if (!getBaublesInventory(player).getStackInSlot(slot).isEmpty()) {
                                 CompoundNBT tag = new CompoundNBT();
                                 tag.putByte("Slot", (byte) (slot + 200));
-                                getBaublesInventory(player).getStackInSlot(slot).writeToNBT(tag);
+                                getBaublesInventory(player).getStackInSlot(slot).write(tag);
                                 tagList.add(tag);
                             }
                         }

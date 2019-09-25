@@ -38,7 +38,7 @@ public abstract class BlockTrap extends BlockContainer {
         super(Material.ROCK, MapColor.SAND);
         this.setHardness(1.5F);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH).withProperty(DISABLED, Boolean.FALSE));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(DISABLED, Boolean.FALSE));
     }
 
     @Override
@@ -104,7 +104,7 @@ public abstract class BlockTrap extends BlockContainer {
 
     private void setDisabled(World world, BlockPos pos, BlockState state, TileEntityTrap trap, boolean disabledStatus) {
         trap.setDisabledStatus(disabledStatus);
-        world.setBlockState(pos, state.withProperty(DISABLED, disabledStatus));
+        world.setBlockState(pos, state.with(DISABLED, disabledStatus));
         world.notifyBlockUpdate(pos, state, state, 3);
     }
 
@@ -140,13 +140,13 @@ public abstract class BlockTrap extends BlockContainer {
                     facing = Direction.WEST;
                 }
             }
-            world.setBlockState(pos, state.getBlock().getDefaultState().withProperty(FACING, facing), 2);
+            world.setBlockState(pos, state.getBlock().getDefaultState().with(FACING, facing), 2);
         }
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        world.setBlockState(pos, state.withProperty(FACING, Direction.getDirectionFromEntityLiving(pos, placer)), 2);
+        world.setBlockState(pos, state.with(FACING, Direction.getDirectionFromEntityLiving(pos, placer)), 2);
 
         TileEntity tileentity = world.getTileEntity(pos);
 
@@ -187,7 +187,7 @@ public abstract class BlockTrap extends BlockContainer {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
-        return state.withProperty(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.with(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
@@ -199,7 +199,7 @@ public abstract class BlockTrap extends BlockContainer {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, Direction.byIndex(meta & 7)).withProperty(DISABLED, (meta & 8) > 0);
+        return this.getDefaultState().with(FACING, Direction.byIndex(meta & 7)).with(DISABLED, (meta & 8) > 0);
     }
 
     @Override

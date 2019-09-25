@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
@@ -119,27 +119,27 @@ public class TileEntityArrowTrap extends TileEntityTrap {
         switch (facing) {
             case DOWN:
                 fireArrow(world, facing, x - randomPos, y - 0.5D, z);
-                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE_NORMAL, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case UP:
                 fireArrow(world, facing, x - randomPos, y + 1.0D, z);
-                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE_NORMAL, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case WEST:
                 fireArrow(world, facing, x - 0.52D, y, z + randomPos);
-                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case EAST:
                 fireArrow(world, facing, x + 0.52D, y, z + randomPos);
-                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE_NORMAL, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case NORTH:
                 fireArrow(world, facing, x + randomPos, y, z - 0.52D);
-                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE_NORMAL, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
             case SOUTH:
                 fireArrow(world, facing, x + randomPos, y, z + 0.52D);
-                world.addParticle(EnumParticleTypes.SMOKE_NORMAL, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE_NORMAL, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
         }
     }
@@ -160,8 +160,8 @@ public class TileEntityArrowTrap extends TileEntityTrap {
 
     @Override
     @Nonnull
-    public CompoundNBT writeToNBT(CompoundNBT compound) {
-        super.writeToNBT(compound);
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
         compound.putInt("Timer", this.timer);
         return compound;
     }

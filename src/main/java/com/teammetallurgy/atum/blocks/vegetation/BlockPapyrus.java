@@ -33,7 +33,7 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
         this.setTickRandomly(true);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, 0).withProperty(TOP, false));
+        this.setDefaultState(this.blockState.getBaseState().with(AGE, 0).with(TOP, false));
     }
 
     @Override
@@ -50,9 +50,9 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
                     if (ForgeHooks.onCropsGrowPre(world, pos, state, true)) {
                         if (j == 15) {
                             world.setBlockState(pos.up(), this.getDefaultState());
-                            world.setBlockState(pos, state.withProperty(AGE, 0), 4);
+                            world.setBlockState(pos, state.with(AGE, 0), 4);
                         } else {
-                            world.setBlockState(pos, state.withProperty(AGE, j + 1), 4);
+                            world.setBlockState(pos, state.with(AGE, j + 1), 4);
                         }
                         ForgeHooks.onCropsGrowPost(world, pos, state, world.getBlockState(pos));
                     }
@@ -116,7 +116,7 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
     @Nonnull
     public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
         BlockPos upperPos = pos.add(0, 1, 0);
-        return state.withProperty(TOP, world.isAirBlock(upperPos));
+        return state.with(TOP, world.isAirBlock(upperPos));
     }
 
     @Override

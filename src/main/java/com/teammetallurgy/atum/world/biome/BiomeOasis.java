@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.animal.EntityCamel;
+import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisPond;
@@ -29,7 +29,7 @@ public class BiomeOasis extends AtumBiome {
         this.decorator.waterlilyPerChunk = 100;
         this.deadwoodRarity = 0.0D;
 
-        addSpawn(EntityCamel.class, 6, 2, 6, EnumCreatureType.CREATURE);
+        addSpawn(CamelEntity.class, 6, 2, 6, EnumCreatureType.CREATURE);
     }
 
     @Override

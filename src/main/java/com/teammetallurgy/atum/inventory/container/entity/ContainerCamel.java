@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.entity.animal.EntityCamel;
+import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
@@ -18,11 +18,11 @@ import java.util.List;
 
 public class ContainerCamel extends Container {
     private final IInventory camelInventory;
-    private final EntityCamel camel;
+    private final CamelEntity camel;
     private List<Slot> rightCrateSlots = new ArrayList<>();
     private List<Slot> leftCrateSlots = new ArrayList<>();
 
-    public ContainerCamel(IInventory playerInventory, IInventory camelInventory, final EntityCamel camel, PlayerEntity player) {
+    public ContainerCamel(IInventory playerInventory, IInventory camelInventory, final CamelEntity camel, PlayerEntity player) {
         this.camelInventory = camelInventory;
         this.camel = camel;
         camelInventory.openInventory(player);

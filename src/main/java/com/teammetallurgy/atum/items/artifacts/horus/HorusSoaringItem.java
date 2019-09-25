@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowStraight;
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowStraightEntity;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -26,7 +26,7 @@ public class HorusSoaringItem extends BaseBowItem {
 
     @Override
     protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowStraight(world, player, velocity);
+        return new ArrowStraightEntity(world, player, velocity);
     }
 
     @Override

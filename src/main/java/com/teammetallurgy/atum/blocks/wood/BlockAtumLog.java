@@ -15,7 +15,7 @@ public class BlockAtumLog extends BlockLog {
 
     public BlockAtumLog() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LOG_AXIS, BlockLog.EnumAxis.Y));
+        this.setDefaultState(this.blockState.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y));
     }
 
     @Override
@@ -31,16 +31,16 @@ public class BlockAtumLog extends BlockLog {
 
         switch (meta & 12) {
             case 0:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Y);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Y);
                 break;
             case 4:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.X);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.X);
                 break;
             case 8:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.Z);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Z);
                 break;
             default:
-                state = state.withProperty(LOG_AXIS, BlockLog.EnumAxis.NONE);
+                state = state.with(LOG_AXIS, BlockLog.EnumAxis.NONE);
         }
         return state;
     }

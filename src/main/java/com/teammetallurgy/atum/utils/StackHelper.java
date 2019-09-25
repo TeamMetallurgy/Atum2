@@ -27,7 +27,7 @@ public class StackHelper {
      */
     public static CompoundNBT getTag(@Nonnull ItemStack stack) {
         if (!hasTag(stack)) {
-            stack.setTag(new CompoundNBT());
+            stack.put(new CompoundNBT());
         }
         return stack.getTag();
     }

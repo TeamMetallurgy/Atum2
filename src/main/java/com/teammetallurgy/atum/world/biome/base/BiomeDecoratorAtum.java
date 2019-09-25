@@ -43,7 +43,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         this.alabasterGen = generateMineable(AtumBlocks.ALABASTER.getDefaultState(), 33);
         this.porphyryGen = generateMineable(AtumBlocks.PORPHYRY.getDefaultState(), 33);
         this.khnumite = generateMineable(AtumBlocks.KHNUMITE_RAW.getDefaultState(), 5);
-        this.limestoneScarab = generateMineable(AtumBlocks.LIMESTONE.getDefaultState().withProperty(BlockLimestone.HAS_SCARAB, true), 10);
+        this.limestoneScarab = generateMineable(AtumBlocks.LIMESTONE.getDefaultState().with(BlockLimestone.HAS_SCARAB, true), 10);
         this.boneGen = generateMineable(AtumBlocks.BONE_ORE.getDefaultState(), 8);
         this.relicGen = generateMineable(AtumBlocks.RELIC_ORE.getDefaultState(), 4);
 

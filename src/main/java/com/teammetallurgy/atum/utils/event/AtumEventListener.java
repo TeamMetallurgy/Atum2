@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.utils.event;
 import com.teammetallurgy.atum.blocks.BlockPortal;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
-import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
-import com.teammetallurgy.atum.entity.undead.EntityPharaoh;
-import com.teammetallurgy.atum.entity.undead.EntityUndeadBase;
-import com.teammetallurgy.atum.entity.undead.EntityWraith;
+import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
+import com.teammetallurgy.atum.entity.undead.PharaohEntity;
+import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
+import com.teammetallurgy.atum.entity.undead.WraithEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -168,7 +168,7 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onFallDamage(LivingFallEvent event) {
-        if (event.getEntity() instanceof EntityWraith || event.getEntity() instanceof EntityPharaoh) {
+        if (event.getEntity() instanceof WraithEntity || event.getEntity() instanceof PharaohEntity) {
             event.setDistance(0.0F);
         }
 
@@ -176,7 +176,7 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
-        if (event.getSource().getDamageType().equals("drown") && (event.getEntity() instanceof EntityUndeadBase || event.getEntity() instanceof EntityStoneBase)) {
+        if (event.getSource().getDamageType().equals("drown") && (event.getEntity() instanceof UndeadBaseEntity || event.getEntity() instanceof StoneBaseEntity)) {
             event.setCanceled(true);
         }
     }

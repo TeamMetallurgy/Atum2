@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity;
 
-import com.teammetallurgy.atum.entity.EntityHeartOfRa;
+import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelEnderCrystal;
@@ -15,7 +15,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
+public class RenderHeartOfRa extends Render<HeartOfRaEntity> {
     private static final ResourceLocation HEART_OF_RA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/heart_of_ra.png");
     private final ModelBase modelCrystalNoBase = new ModelEnderCrystal(0.0F, false);
 
@@ -25,7 +25,7 @@ public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
     }
 
     @Override
-    public void doRender(@Nonnull EntityHeartOfRa entity, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nonnull HeartOfRaEntity entity, double x, double y, double z, float entityYaw, float partialTicks) {
         float rotationTicks = (float) entity.innerRotation + partialTicks;
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y + 1.0F, (float) z);
@@ -50,7 +50,7 @@ public class RenderHeartOfRa extends Render<EntityHeartOfRa> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityHeartOfRa entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull HeartOfRaEntity entity) {
         return HEART_OF_RA_TEXTURE;
     }
 }

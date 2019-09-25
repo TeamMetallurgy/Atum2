@@ -37,7 +37,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
 
     private BlockLeave() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().withProperty(CHECK_DECAY, true).withProperty(DECAYABLE, true));
+        this.setDefaultState(this.blockState.getBaseState().with(CHECK_DECAY, true).with(DECAYABLE, true));
     }
 
     public static void registerLeaves() {
@@ -64,7 +64,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
                     if (!nearLog(world, pos)) {
                         super.updateTick(world, pos, state, rand);
                     } else {
-                        world.setBlockState(pos, state.withProperty(CHECK_DECAY, false), 4);
+                        world.setBlockState(pos, state.with(CHECK_DECAY, false), 4);
                     }
                 }
                 if (this == getLeave(BlockAtumPlank.WoodType.PALM) && world.rand.nextDouble() <= 0.05F) {
@@ -98,13 +98,13 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     @Override
     @Nonnull
     public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
-        return this.getDefaultState().withProperty(CHECK_DECAY, false).withProperty(DECAYABLE, false);
+        return this.getDefaultState().with(CHECK_DECAY, false).with(DECAYABLE, false);
     }
 
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(DECAYABLE, (meta & 1) == 0).withProperty(CHECK_DECAY, (meta & 8) > 0);
+        return this.getDefaultState().with(DECAYABLE, (meta & 1) == 0).with(CHECK_DECAY, (meta & 8) > 0);
     }
 
     @Override
@@ -123,7 +123,7 @@ public class BlockLeave extends BlockLeaves implements IGrowable, IRenderMapper,
     @Override
     @Nonnull
     public BlockPlanks.EnumType getWoodType(int meta) {
-        return BlockPlanks.EnumType.byMetadata(0);
+        return BlockPlanks.EnumType.byId(0);
     }
 
     @Override

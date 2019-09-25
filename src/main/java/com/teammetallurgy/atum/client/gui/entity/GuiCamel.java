@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
-import com.teammetallurgy.atum.entity.animal.EntityCamel;
+import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.inventory.container.entity.ContainerCamel;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -17,11 +17,11 @@ public class GuiCamel extends GuiContainer {
     private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/gui/camel.png");
     private final IInventory playerInventory;
     private final IInventory camelInventory;
-    private final EntityCamel camel;
+    private final CamelEntity camel;
     private float mousePosx;
     private float mousePosY;
 
-    public GuiCamel(IInventory playerInv, IInventory camelInv, EntityCamel camel) {
+    public GuiCamel(IInventory playerInv, IInventory camelInv, CamelEntity camel) {
         super(new ContainerCamel(playerInv, camelInv, camel, Minecraft.getInstance().player));
         this.playerInventory = playerInv;
         this.camelInventory = camelInv;

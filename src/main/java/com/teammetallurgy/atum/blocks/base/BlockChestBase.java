@@ -134,7 +134,7 @@ public class BlockChestBase extends BlockChest {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityChestBase) {
             TileEntityChestBase chestBase = (TileEntityChestBase) tileEntity;
-            state = state.withProperty(FACING, facing);
+            state = state.with(FACING, facing);
             BlockPos posNorth = pos.north();
             BlockPos posSouth = pos.south();
             BlockPos posWest = pos.west();

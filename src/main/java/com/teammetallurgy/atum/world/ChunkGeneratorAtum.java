@@ -364,7 +364,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                             BlockPos posOffset = blockpos1.offset(facing);
                             if (world.getBlockState(posOffset).isSideSolid(world, posOffset, Direction.UP)) {
                                 int layers = MathHelper.getInt(rand, 1, 3);
-                                this.world.setBlockState(blockpos1, AtumBlocks.SAND_LAYERED.getDefaultState().withProperty(BlockSandLayers.LAYERS, layers), 2);
+                                this.world.setBlockState(blockpos1, AtumBlocks.SAND_LAYERED.getDefaultState().with(BlockSandLayers.LAYERS, layers), 2);
                             }
                         }
                     }

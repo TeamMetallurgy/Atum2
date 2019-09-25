@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.entity.bandit.EntityBanditBase;
+import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderBandit extends RenderBiped<EntityBanditBase> {
+public class RenderBandit extends RenderBiped<BanditBaseEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderBandit(RenderManager manager) {
@@ -37,7 +37,7 @@ public class RenderBandit extends RenderBiped<EntityBanditBase> {
 
     @Override
     @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull EntityBanditBase entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull BanditBaseEntity entity) {
         String texture = entity.getTexture();
         ResourceLocation location = CACHE.get(texture);
 

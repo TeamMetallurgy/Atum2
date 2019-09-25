@@ -98,8 +98,8 @@ public class TombPieces {
         @Override
         protected void writeStructureToNBT(CompoundNBT compound) {
             super.writeStructureToNBT(compound);
-            compound.setString("Rot", this.placeSettings.getRotation().name());
-            compound.setString("Mi", this.placeSettings.getMirror().name());
+            compound.putString("Rot", this.placeSettings.getRotation().name());
+            compound.putString("Mi", this.placeSettings.getMirror().name());
         }
 
         @Override

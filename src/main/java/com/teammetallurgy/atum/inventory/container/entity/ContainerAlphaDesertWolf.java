@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.inventory.container.entity;
 
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
@@ -12,9 +12,9 @@ import javax.annotation.Nonnull;
 
 public class ContainerAlphaDesertWolf extends Container {
     private final IInventory wolfInventory;
-    private final EntityDesertWolf desertWolf;
+    private final DesertWolfEntity desertWolf;
 
-    public ContainerAlphaDesertWolf(IInventory playerInventory, IInventory wolfInventory, final EntityDesertWolf desertWolf, PlayerEntity player) {
+    public ContainerAlphaDesertWolf(IInventory playerInventory, IInventory wolfInventory, final DesertWolfEntity desertWolf, PlayerEntity player) {
         this.wolfInventory = wolfInventory;
         this.desertWolf = desertWolf;
         wolfInventory.openInventory(player);

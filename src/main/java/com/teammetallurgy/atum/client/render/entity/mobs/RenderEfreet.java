@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.entity.efreet.EntityEfreetBase;
+import com.teammetallurgy.atum.entity.efreet.EfreetBaseEntity;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderBiped;
@@ -16,7 +16,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderEfreet extends RenderBiped<EntityEfreetBase> {
+public class RenderEfreet extends RenderBiped<EfreetBaseEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderEfreet(RenderManager manager) {
@@ -37,7 +37,7 @@ public class RenderEfreet extends RenderBiped<EntityEfreetBase> {
 
     @Override
     @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull EntityEfreetBase entity) {
+    protected ResourceLocation getEntityTexture(@Nonnull EfreetBaseEntity entity) {
         String texture = entity.getTexture();
         ResourceLocation location = CACHE.get(texture);
 

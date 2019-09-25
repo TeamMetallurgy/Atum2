@@ -1,13 +1,12 @@
 package com.teammetallurgy.atum.blocks.stone.khnumite;
 
-import com.teammetallurgy.atum.entity.stone.EntityStoneguard;
-import com.teammetallurgy.atum.entity.stone.EntityStonewarden;
+import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
+import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BlockDispenser;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.BlockStateContainer;
@@ -20,7 +19,6 @@ import net.minecraft.dispenser.IBlockSource;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.init.Bootstrap;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
@@ -39,7 +37,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
 
     public BlockKhnumiteFace() {
         super(Material.ROCK, MapColor.CLAY);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, Direction.NORTH));
+        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
         this.setHardness(2.0F);
     }
 
@@ -63,7 +61,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
             }
 
             BlockPos stonewardenPos = patternHelper.translateOffset(1, 2, 0).getPos();
-            EntityStonewarden stonewarden = new EntityStonewarden(world);
+            StonewardenEntity stonewarden = new StonewardenEntity(world);
             stonewarden.setPlayerCreated(true);
             stonewarden.onInitialSpawn(world.getDifficultyForLocation(pos), null);
             stonewarden.setLocationAndAngles((double) stonewardenPos.getX() + 0.5D, (double) stonewardenPos.getY() + 0.05D, (double) stonewardenPos.getZ() + 0.5D, 0.0F, 0.0F);
@@ -91,7 +89,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
                         }
                     }
                 }
-                EntityStoneguard stoneguard = new EntityStoneguard(world);
+                StoneguardEntity stoneguard = new StoneguardEntity(world);
                 stoneguard.setPlayerCreated(true);
                 stoneguard.onInitialSpawn(world.getDifficultyForLocation(pos), null);
                 BlockPos stoneguardPos = patternHelper.translateOffset(0, 2, 0).getPos();
@@ -115,13 +113,13 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
     @Override
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing().getOpposite());
+        return this.getDefaultState().with(FACING, placer.getHorizontalFacing().getOpposite());
     }
 
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
-        return state.withProperty(FACING, rot.rotate(state.getValue(FACING)));
+        return state.with(FACING, rot.rotate(state.getValue(FACING)));
     }
 
     @Override
@@ -138,7 +136,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(FACING, Direction.byHorizontalIndex(meta));
+        return this.getDefaultState().with(FACING, Direction.byHorizontalIndex(meta));
     }
 
     @Override
@@ -148,7 +146,7 @@ public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
     }
 
     public static void addDispenerSupport() {
-        BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(Item.getItemFromBlock(AtumBlocks.KHNUMITE_FACE), new Bootstrap.BehaviorDispenseOptional() {
+        DispenserBlock.registerDispenseBehavior(AtumBlocks.KHNUMITE_FACE.asItem(), new Bootstrap.BehaviorDispenseOptional() {
             @Override
             @Nonnull
             protected ItemStack dispenseStack(IBlockSource source, @Nonnull ItemStack stack) {

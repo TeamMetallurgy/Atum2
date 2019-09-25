@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -86,7 +86,7 @@ public class ModelDesertWolf extends ModelBase {
 
     @Override
     public void setLivingAnimations(LivingEntity livingBase, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        EntityDesertWolf desertWolf = (EntityDesertWolf) livingBase;
+        DesertWolfEntity desertWolf = (DesertWolfEntity) livingBase;
 
         if (desertWolf.isAngry()) {
             this.wolfTail.rotateAngleY = 0.0F;
@@ -139,7 +139,7 @@ public class ModelDesertWolf extends ModelBase {
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
-        EntityDesertWolf desertWolf = (EntityDesertWolf) entity;
+        DesertWolfEntity desertWolf = (DesertWolfEntity) entity;
         if (!desertWolf.isBeingRidden()) {
             this.wolfHeadMain.rotateAngleX = headPitch * 0.017453292F;
         }

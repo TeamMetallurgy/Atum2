@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.arrow;
 
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
+import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -17,14 +17,14 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderTefnutsCall extends Render<EntityTefnutsCall> {
+public class RenderTefnutsCall extends Render<TefnutsCallEntity> {
 
     public RenderTefnutsCall(RenderManager renderManager) {
         super(renderManager);
     }
 
     @Override
-    public void doRender(@Nonnull EntityTefnutsCall tefnutsCall, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void doRender(@Nonnull TefnutsCallEntity tefnutsCall, double x, double y, double z, float entityYaw, float partialTicks) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x, (float) y, (float) z);
         GlStateManager.rotate((tefnutsCall.prevRotationYaw + (tefnutsCall.rotationYaw - tefnutsCall.prevRotationYaw) * partialTicks) - 90.0F, 0.0F, 1.0F, 0.0F);
@@ -58,7 +58,7 @@ public class RenderTefnutsCall extends Render<EntityTefnutsCall> {
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull EntityTefnutsCall tefnutsCall) {
+    protected ResourceLocation getEntityTexture(@Nonnull TefnutsCallEntity tefnutsCall) {
         return TextureMap.LOCATION_BLOCKS_TEXTURE;
     }
 }

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
-import com.teammetallurgy.atum.entity.stone.EntityStoneBase;
+import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
@@ -47,7 +47,7 @@ public class PtahsUndoingItem extends PickaxeItem {
             ItemStack held = player.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
             if (held.getItem() == AtumItems.PTAHS_UNDOING) {
                 LivingEntity target = event.getEntityLiving();
-                if (target instanceof EntityStoneBase) {
+                if (target instanceof StoneBaseEntity) {
                     if (!player.getCooldownTracker().hasCooldown(held.getItem())) {
                         event.setAmount(event.getAmount() * 2);
                     }

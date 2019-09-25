@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 import java.util.*;
 
 public class WorldGenDeadwood extends WorldGenAbstractTree {
-    private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true);
+    private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().with(BlockDeadwood.HAS_SCARAB, true);
     private static final BlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
 
     public WorldGenDeadwood(boolean notify) {
@@ -147,7 +147,7 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
                 if (random.nextFloat() < probability) {
                     BlockPos nextPos = pos.add(facing.getDirectionVec());
                     if (world.isAirBlock(nextPos)) {
-                        world.setBlockState(nextPos, BRANCH.withProperty(BlockBranch.FACING, facing.getOpposite()));
+                        world.setBlockState(nextPos, BRANCH.with(BlockBranch.FACING, facing.getOpposite()));
 
                         // Add this branch onto the queue to spawn new branches from
                         queue.add(new ImmutablePair<BlockPos, Integer>(nextPos, branchLength + 1));

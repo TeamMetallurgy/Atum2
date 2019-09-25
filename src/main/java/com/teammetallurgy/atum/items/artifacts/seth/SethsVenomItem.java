@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.seth;
 
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowPoisonEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowPoison;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -29,6 +29,6 @@ public class SethsVenomItem extends BaseBowItem {
 
     @Override
     protected CustomArrow setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowPoison(world, player);
+        return new ArrowPoisonEntity(world, player);
     }
 }

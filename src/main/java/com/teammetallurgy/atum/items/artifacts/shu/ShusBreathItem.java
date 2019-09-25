@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.shu;
 
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowQuickdraw;
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowQuickdrawEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.LivingEntity;
@@ -30,7 +30,7 @@ public class ShusBreathItem extends BaseBowItem {
 
     @Override
     protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowQuickdraw(world, player);
+        return new ArrowQuickdrawEntity(world, player);
     }
 
     @Override

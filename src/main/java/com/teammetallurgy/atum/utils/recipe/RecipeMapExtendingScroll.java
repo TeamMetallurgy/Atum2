@@ -84,7 +84,7 @@ public class RecipeMapExtendingScroll extends ShapedRecipes {
         stack.setCount(1);
 
         if (stack.getTagCompound() == null) {
-            stack.setTagCompound(new CompoundNBT());
+            stack.putCompound(new CompoundNBT());
         }
         stack.getTagCompound().putInt("map_scale_direction", 1);
         return stack;

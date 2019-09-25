@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
-import com.teammetallurgy.atum.entity.animal.EntityDesertWolf;
+import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.inventory.container.entity.ContainerAlphaDesertWolf;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -17,11 +17,11 @@ public class GuiAlphaDesertWolf extends GuiContainer {
     private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/gui/desert_wolf.png");
     private final IInventory playerInventory;
     private final IInventory wolfInventory;
-    private final EntityDesertWolf desertWolf;
+    private final DesertWolfEntity desertWolf;
     private float mousePosx;
     private float mousePosY;
 
-    public GuiAlphaDesertWolf(IInventory playerInv, IInventory wolfInventory, EntityDesertWolf desertWolf) {
+    public GuiAlphaDesertWolf(IInventory playerInv, IInventory wolfInventory, DesertWolfEntity desertWolf) {
         super(new ContainerAlphaDesertWolf(playerInv, wolfInventory, desertWolf, Minecraft.getInstance().player));
         this.playerInventory = playerInv;
         this.wolfInventory = wolfInventory;

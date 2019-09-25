@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.entity.efreet.EntitySunspeaker;
+import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -99,7 +99,7 @@ public class LighthousePieces {
                 if (box.isVecInside(pos) && world.isAirBlock(pos)) {
                     ++this.sunspeakerSpawned;
 
-                    EntitySunspeaker sunspeaker = new EntitySunspeaker(world);
+                    SunspeakerEntity sunspeaker = new SunspeakerEntity(world);
                     sunspeaker.setLocationAndAngles((double) j + 0.5D, (double) k, (double) l + 0.5D, 0.0F, 0.0F);
                     sunspeaker.onInitialSpawn(world.getDifficultyForLocation(new BlockPos(sunspeaker)), null);
                     world.addEntity(sunspeaker);
@@ -140,8 +140,8 @@ public class LighthousePieces {
         @Override
         protected void writeStructureToNBT(CompoundNBT compound) {
             super.writeStructureToNBT(compound);
-            compound.setString("Rot", this.placeSettings.getRotation().name());
-            compound.setString("Mi", this.placeSettings.getMirror().name());
+            compound.putString("Rot", this.placeSettings.getRotation().name());
+            compound.putString("Mi", this.placeSettings.getMirror().name());
             compound.putInt("SunspeakerCount", this.sunspeakerSpawned);
         }
 

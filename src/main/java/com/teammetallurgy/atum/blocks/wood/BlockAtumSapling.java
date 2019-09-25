@@ -33,7 +33,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
         super();
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(STAGE, 0));
+        this.setDefaultState(this.blockState.getBaseState().with(STAGE, 0));
     }
 
     public static void registerSaplings() {
@@ -148,7 +148,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(STAGE, (meta & 8) >> 3);
+        return this.getDefaultState().with(STAGE, (meta & 8) >> 3);
     }
 
     @Override

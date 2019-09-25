@@ -34,7 +34,7 @@ public class BlockSandLayers extends BlockFalling {
 
     public BlockSandLayers() {
         super(SAND_LAYER);
-        this.setDefaultState(this.blockState.getBaseState().withProperty(LAYERS, 1));
+        this.setDefaultState(this.blockState.getBaseState().with(LAYERS, 1));
         this.setSoundType(SoundType.SAND);
         this.setLightOpacity(0);
         this.setHardness(0.1F);
@@ -140,7 +140,7 @@ public class BlockSandLayers extends BlockFalling {
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().withProperty(LAYERS, (meta & 7) + 1);
+        return this.getDefaultState().with(LAYERS, (meta & 7) + 1);
     }
 
     @Override

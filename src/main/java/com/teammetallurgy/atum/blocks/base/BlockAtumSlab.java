@@ -33,7 +33,7 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     public BlockAtumSlab(Material material, MapColor color) {
         super(material, color);
         this.setHardness(2.0F);
-        this.setDefaultState(this.getDefaultState().withProperty(TYPE, Type.BOTTOM));
+        this.setDefaultState(this.getDefaultState().with(TYPE, Type.BOTTOM));
         this.setLightOpacity(255);
         this.useNeighborBrightness = true;
     }
@@ -121,12 +121,12 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     @Override
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        BlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).withProperty(TYPE, Type.BOTTOM);
+        BlockState state = super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(TYPE, Type.BOTTOM);
 
         if (state.getValue(TYPE) == Type.DOUBLE) {
-            return state.withProperty(TYPE, Type.DOUBLE);
+            return state.with(TYPE, Type.DOUBLE);
         } else {
-            return facing != Direction.DOWN && (facing == Direction.UP || (double) hitY <= 0.5D) ? state : state.withProperty(TYPE, Type.TOP);
+            return facing != Direction.DOWN && (facing == Direction.UP || (double) hitY <= 0.5D) ? state : state.with(TYPE, Type.TOP);
         }
     }
 
@@ -147,10 +147,10 @@ public class BlockAtumSlab extends Block { //TODO Remove and replace with BlockS
     @Override
     @Nonnull
     public BlockState getStateFromMeta(int meta) {
-        BlockState state = this.getDefaultState().withProperty(TYPE, Type.byOrdinal(meta & 7));
+        BlockState state = this.getDefaultState().with(TYPE, Type.byOrdinal(meta & 7));
 
         if (state.getValue(TYPE) != Type.DOUBLE) {
-            state = state.withProperty(TYPE, (meta & 8) == 0 ? Type.BOTTOM : Type.TOP);
+            state = state.with(TYPE, (meta & 8) == 0 ? Type.BOTTOM : Type.TOP);
         }
 
         return state;

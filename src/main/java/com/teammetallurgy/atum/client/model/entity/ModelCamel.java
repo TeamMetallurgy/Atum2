@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import com.teammetallurgy.atum.entity.animal.EntityCamel;
+import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.client.model.ModelQuadruped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -95,7 +95,7 @@ public class ModelCamel extends ModelQuadruped {
 
     @Override
     public void render(@Nonnull Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        EntityCamel camel = (EntityCamel) entity;
+        CamelEntity camel = (CamelEntity) entity;
         this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, camel);
         boolean isChild = camel.isChild();
         boolean isSaddled = !isChild && camel.isHorseSaddled();
@@ -153,9 +153,9 @@ public class ModelCamel extends ModelQuadruped {
 
     @Override
     public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entity) {
-        limbSwingAmount *= EntityCamel.CAMEL_RIDING_SPEED_AMOUNT;
+        limbSwingAmount *= CamelEntity.CAMEL_RIDING_SPEED_AMOUNT;
         super.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scaleFactor, entity);
-        EntityCamel camel = (EntityCamel) entity;
+        CamelEntity camel = (CamelEntity) entity;
 
         if (camel.isBeingRidden()) {
             this.head.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.025F * limbSwingAmount;

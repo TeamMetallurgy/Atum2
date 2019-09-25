@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotBlackEntity;
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotWhiteEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowDoubleShotBlack;
-import com.teammetallurgy.atum.entity.projectile.arrow.EntityArrowDoubleShotWhite;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -56,9 +56,9 @@ public class NuitsDualityItem extends BaseBowItem {
                     boolean hasArrow = player.abilities.isCreativeMode || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
                     if (!world.isRemote) {
-                        EntityArrowDoubleShotBlack doubleShotLower = new EntityArrowDoubleShotBlack(world, player);
+                        ArrowDoubleShotBlackEntity doubleShotLower = new ArrowDoubleShotBlackEntity(world, player);
                         doubleShotLower.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
-                        EntityArrowDoubleShotWhite doubleShotHigher = new EntityArrowDoubleShotWhite(world, player);
+                        ArrowDoubleShotWhiteEntity doubleShotHigher = new ArrowDoubleShotWhiteEntity(world, player);
                         doubleShotHigher.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         doubleShotLower.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.0F, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
                         doubleShotHigher.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.2D, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
@@ -111,6 +111,6 @@ public class NuitsDualityItem extends BaseBowItem {
 
     @Override
     protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new EntityArrowDoubleShotWhite(world, player);
+        return new ArrowDoubleShotWhiteEntity(world, player);
     }
 }
