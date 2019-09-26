@@ -7,8 +7,8 @@ import com.teammetallurgy.atum.items.AtumSlabItem;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 
 import java.util.Map;
 
@@ -16,7 +16,7 @@ public class BlockPorphyrySlab extends BlockAtumSlab {
     private static final Map<BlockAlabasterBricks.Type, Block> PORPHYRY_SLAB = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
 
     private BlockPorphyrySlab() {
-        super(Material.ROCK, MapColor.BLACK);
+        super(Material.ROCK, MaterialColor.BLACK);
         this.setHardness(2.0F);
         this.setSoundType(SoundType.STONE);
         this.useNeighborBrightness = true;

@@ -4,12 +4,12 @@ import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -24,7 +24,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     }
 
     @Override
-    public boolean canSustainLeaves(BlockState state, IBlockAccess world, BlockPos pos) {
+    public boolean canSustainLeaves(BlockState state, IBlockReader world, BlockPos pos) {
         return false;
     }
 
@@ -41,7 +41,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     @Nonnull
     @Override
-    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
         return BlockAtumPlank.WoodType.DEADWOOD.getMapColor();
     }
 

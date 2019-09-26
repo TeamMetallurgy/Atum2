@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockFenceGate;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -13,7 +13,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -39,19 +39,19 @@ public class BlockAtumWall extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
-        return MapColor.SAND;
+    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
+        return MaterialColor.SAND;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
         state = this.getActualState(state, source, pos);
         return AABB_BY_INDEX[getAABBIndex(state)];
     }
 
     @Override
-    public boolean canPlaceTorchOnTop(@Nonnull BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+    public boolean canPlaceTorchOnTop(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return true;
     }
 
@@ -64,7 +64,7 @@ public class BlockAtumWall extends Block {
     }
 
     @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, @Nonnull IBlockAccess worldIn, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState blockState, @Nonnull IBlockReader worldIn, @Nonnull BlockPos pos) {
         blockState = this.getActualState(blockState, worldIn, pos);
         return CLIP_AABB_BY_INDEX[getAABBIndex(blockState)];
     }
@@ -92,7 +92,7 @@ public class BlockAtumWall extends Block {
     }
 
     @Override
-    public boolean isPassable(IBlockAccess world, BlockPos pos) {
+    public boolean isPassable(IBlockReader world, BlockPos pos) {
         return false;
     }
 
@@ -101,7 +101,7 @@ public class BlockAtumWall extends Block {
         return false;
     }
 
-    private boolean canConnectTo(IBlockAccess world, BlockPos pos, Direction facing) {
+    private boolean canConnectTo(IBlockReader world, BlockPos pos, Direction facing) {
         BlockState BlockState = world.getBlockState(pos);
         Block block = BlockState.getBlock();
         BlockFaceShape blockfaceshape = BlockState.getBlockFaceShape(world, pos, facing);
@@ -115,7 +115,7 @@ public class BlockAtumWall extends Block {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(BlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, Direction side) {
+    public boolean shouldSideBeRendered(BlockState blockState, @Nonnull IBlockReader blockAccess, @Nonnull BlockPos pos, Direction side) {
         return side != Direction.DOWN || super.shouldSideBeRendered(blockState, blockAccess, pos, side);
     }
 
@@ -126,7 +126,7 @@ public class BlockAtumWall extends Block {
 
     @Override
     @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess worldIn, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockReader worldIn, BlockPos pos) {
         boolean north = canWallConnectTo(worldIn, pos, Direction.NORTH);
         boolean east = canWallConnectTo(worldIn, pos, Direction.EAST);
         boolean south = canWallConnectTo(worldIn, pos, Direction.SOUTH);
@@ -136,11 +136,11 @@ public class BlockAtumWall extends Block {
     }
 
     @Override
-    public boolean canBeConnectedTo(IBlockAccess world, BlockPos pos, Direction facing) {
+    public boolean canBeConnectedTo(IBlockReader world, BlockPos pos, Direction facing) {
         return canConnectTo(world, pos.offset(facing), facing.getOpposite());
     }
 
-    private boolean canWallConnectTo(IBlockAccess world, BlockPos pos, Direction facing) {
+    private boolean canWallConnectTo(IBlockReader world, BlockPos pos, Direction facing) {
         BlockPos other = pos.offset(facing);
         Block block = world.getBlockState(other).getBlock();
         return block.canBeConnectedTo(world, other, facing.getOpposite()) || canConnectTo(world, other, facing.getOpposite());
@@ -154,7 +154,7 @@ public class BlockAtumWall extends Block {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
         return face != Direction.UP && face != Direction.DOWN ? BlockFaceShape.MIDDLE_POLE_THICK : BlockFaceShape.CENTER_BIG;
     }
 }

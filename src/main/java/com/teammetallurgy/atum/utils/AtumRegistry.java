@@ -62,21 +62,29 @@ public class AtumRegistry {
     }
 
     /**
-     * Same as {@link AtumRegistry#registerBlock(Block, BlockItem, String)}, but have a basic ItemBlock
+     * Same as {@link AtumRegistry#registerBlock(Block, Item.Properties, String)}, but have an empty Item.Properties set
+     *
+     */
+    public static Block registerBlock(@Nonnull Block block, @Nonnull String name) {
+        return registerBlock(block, new Item.Properties(), name);
+    }
+
+    /**
+     * Same as {@link AtumRegistry#registerBlockWithItem(Block, BlockItem, String)}, but have a basic BlockItem
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
     public static Block registerBlock(@Nonnull Block block, @Nullable Item.Properties properties, @Nonnull String name) {
         BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties() : properties.group(Atum.GROUP));
-        return registerBlock(block, blockItem, name);
+        return registerBlockWithItem(block, blockItem, name);
     }
 
     /**
-     * Same as {@link AtumRegistry#registerBlock(Block, String)}, but allows for registering an BlockItem at the same time
+     * Same as {@link AtumRegistry#registerBaseBlock(Block, String)}, but allows for registering an BlockItem at the same time
      */
-    public static Block registerBlock(@Nonnull Block block, BlockItem blockItem, @Nonnull String name) {
+    public static Block registerBlockWithItem(@Nonnull Block block, BlockItem blockItem, @Nonnull String name) {
         registerItem(blockItem, AtumUtils.toRegistryName(name));
-        return registerBlock(block, name);
+        return registerBaseBlock(block, name);
     }
 
     /**
@@ -86,7 +94,7 @@ public class AtumRegistry {
      * @param name  The name to register the block with
      * @return The Block that was registered
      */
-    public static Block registerBlock(@Nonnull Block block, @Nonnull String name) {
+    public static Block registerBaseBlock(@Nonnull Block block, @Nonnull String name) {
         block.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
         BLOCKS.add(block);
 

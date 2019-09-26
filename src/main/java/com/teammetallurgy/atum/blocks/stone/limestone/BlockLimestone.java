@@ -7,8 +7,8 @@ import com.teammetallurgy.atum.utils.IOreDictEntry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -24,7 +24,7 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     public static final PropertyBool HAS_SCARAB = PropertyBool.create("contains_scarab");
 
     public BlockLimestone() {
-        super(Material.ROCK, MapColor.SAND);
+        super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
         this.setDefaultState(this.blockState.getBaseState().with(HAS_SCARAB, false));

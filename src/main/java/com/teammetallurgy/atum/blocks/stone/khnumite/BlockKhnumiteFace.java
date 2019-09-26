@@ -4,11 +4,9 @@ import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.BlockWorldState;
 import net.minecraft.block.state.pattern.BlockMaterialMatcher;
@@ -26,19 +24,19 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 
-public class BlockKhnumiteFace extends BlockHorizontal implements IKhnumite {
+public class BlockKhnumiteFace extends HorizontalBlock implements IKhnumite {
     private BlockPattern stoneguardBasePattern;
     private BlockPattern stoneguardPattern;
     private BlockPattern stonewardenBasePattern;
     private BlockPattern stonewardenPattern;
 
     public BlockKhnumiteFace() {
-        super(Material.ROCK, MapColor.CLAY);
+        super(Block.Properties.create(Material.ROCK, MaterialColor.CLAY).hardnessAndResistance(2.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1));
         this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
-        this.setHardness(2.0F);
     }
 
     @Override

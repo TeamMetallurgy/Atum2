@@ -2,11 +2,11 @@ package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -22,19 +22,19 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BlockQuern extends BlockContainer {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+public class BlockQuern extends ContainerBlock {
+    public static final PropertyDirection FACING = HorizontalBlock.FACING;
     private static final AxisAlignedBB AABB = new AxisAlignedBB(0.12D, 0.0D, 0.12D, 0.88D, 0.38D, 0.88D);
 
     public BlockQuern() {
-        super(Material.ROCK, MapColor.SAND);
+        super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(1.5F);
         this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
     }
@@ -51,7 +51,7 @@ public class BlockQuern extends BlockContainer {
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
         return AABB;
     }
 
@@ -162,7 +162,7 @@ public class BlockQuern extends BlockContainer {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction facing) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader world, BlockState state, BlockPos pos, Direction facing) {
         return BlockFaceShape.UNDEFINED;
     }
 

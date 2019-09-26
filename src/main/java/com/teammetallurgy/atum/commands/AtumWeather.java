@@ -2,10 +2,7 @@ package com.teammetallurgy.atum.commands;
 
 import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.WorldProviderAtum;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
-import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -16,7 +13,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-public class AtumWeather extends CommandBase {
+public class AtumWeather {
 
 	@Override
 	@Nonnull

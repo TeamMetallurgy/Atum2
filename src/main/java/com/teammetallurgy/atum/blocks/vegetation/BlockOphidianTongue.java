@@ -3,10 +3,7 @@ package com.teammetallurgy.atum.blocks.vegetation;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.OreDictHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -29,7 +26,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Random;
 
-public class BlockOphidianTongue extends BlockVine {
+public class BlockOphidianTongue extends VineBlock {
     private static final PropertyBool HAS_FLOWERS = PropertyBool.create("flowers");
 
     public BlockOphidianTongue() {

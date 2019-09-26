@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockTorch;
 import net.minecraft.block.SoundType;
+import net.minecraft.block.TorchBlock;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
-public class BlockAtumTorch extends BlockTorch {
+public class BlockAtumTorch extends TorchBlock {
 
     public BlockAtumTorch() {
         super();
@@ -16,7 +16,7 @@ public class BlockAtumTorch extends BlockTorch {
     }
 
     @Override
-    public int getLightValue(BlockState state, IBlockAccess world, BlockPos pos) {
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         return (int) (15.0F * 0.9375F);
     }
 }

@@ -3,15 +3,16 @@ package com.teammetallurgy.atum.blocks.wood;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.LogBlock;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 import java.util.Objects;
 
-public class BlockAtumLog extends BlockLog {
+public class BlockAtumLog extends LogBlock {
 
     public BlockAtumLog() {
         super();
@@ -20,7 +21,7 @@ public class BlockAtumLog extends BlockLog {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
         return BlockAtumPlank.WoodType.PALM.getMapColor();
     }
 

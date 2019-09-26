@@ -1,12 +1,9 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.EnumPushReaction;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,11 +20,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockRaStone extends BlockBreakable {
+public class BlockRaStone extends BreakableBlock {
     private static final PropertyInteger AGE = PropertyInteger.create("age", 0, 3);
 
     public BlockRaStone() {
-        super(Material.ROCK, false, MapColor.RED);
+        super(Material.ROCK, false, MaterialColor.RED);
         this.setTickRandomly(true);
         this.setHardness(0.5F);
         this.setLightOpacity(3);

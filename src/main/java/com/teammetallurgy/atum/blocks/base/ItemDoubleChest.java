@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.blocks.base;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class ItemDoubleChest extends ItemBlock {
+public class ItemDoubleChest extends BlockItem {
 
     public ItemDoubleChest(Block block) {
         super(block);

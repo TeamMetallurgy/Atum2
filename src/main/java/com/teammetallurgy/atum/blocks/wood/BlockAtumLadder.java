@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import net.minecraft.block.BlockLadder;
+import net.minecraft.block.LadderBlock;
 import net.minecraft.block.SoundType;
 
-public class BlockAtumLadder extends BlockLadder {
+public class BlockAtumLadder extends LadderBlock {
 
     public BlockAtumLadder() {
         super();

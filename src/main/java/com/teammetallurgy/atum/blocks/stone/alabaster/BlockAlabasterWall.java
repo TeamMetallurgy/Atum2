@@ -5,9 +5,9 @@ import com.teammetallurgy.atum.blocks.base.BlockAtumWall;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -17,8 +17,8 @@ public class BlockAlabasterWall extends BlockAtumWall {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
-        return MapColor.QUARTZ;
+    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
+        return MaterialColor.QUARTZ;
     }
 
     public static void registerWalls() {

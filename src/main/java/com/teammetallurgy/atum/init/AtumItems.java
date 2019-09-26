@@ -34,7 +34,9 @@ import com.teammetallurgy.atum.items.food.CrunchyScarabItem;
 import com.teammetallurgy.atum.items.food.EmmerFlourItem;
 import com.teammetallurgy.atum.items.food.FishItem;
 import com.teammetallurgy.atum.items.tools.*;
+import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
@@ -56,6 +58,7 @@ public class AtumItems {
     public static final Item EFREET_HEART = registerItem(new SimpleItem(), "efreet_heart");
     public static final Item SCARAB = registerItem(new ScarabItem(), "scarab");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");
+    static final Block HEART_OF_RA = AtumRegistry.registerBlock(AtumBlocks.HEART_OF_RA, "heart_of_ra");
     public static final Item SHORT_BOW = registerItem(new BaseBowItem(new Item.Properties().maxDamage(384)), "short_bow");
     public static final Item LIMESTONE_SHOVEL = registerItem(new ShovelItem(AtumMats.LIMESTONE, 1.2F, -3.0F, new Item.Properties().group(Atum.GROUP)), "limestone_shovel");
     public static final Item LIMESTONE_PICKAXE = registerItem(new PickaxeItem(AtumMats.LIMESTONE, 1, -2.8F, new Item.Properties().group(Atum.GROUP)), "limestone_pickaxe");
@@ -174,10 +177,6 @@ public class AtumItems {
     public static final Item SKELETAL_FISH = registerItem(new FishItem(FishItem.FishType.SKELETAL), "fish_skeletal");
     public static final Item CRUNCHY_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_SCARAB)), "crunchy_scarab");
     public static final Item CRUNCHY_GOLD_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_GOLD_SCARAB)), "crunchy_golden_scarab");
-
-    /*public static void registerAdditionalItems() { //TODO
-        registerBlock(AtumBlocks.HEART_OF_RA, new Item.Properties().group(Atum.GROUP), "heart_of_ra")
-    }*/
 
     public static void setItemInfo() {
         //OreDictHelper.add(SCROLL, "paper"); //TODO

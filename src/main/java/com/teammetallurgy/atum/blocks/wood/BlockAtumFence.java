@@ -3,19 +3,19 @@ package com.teammetallurgy.atum.blocks.wood;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFence;
+import net.minecraft.block.FenceBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 
-public class BlockAtumFence extends BlockFence {
+public class BlockAtumFence extends FenceBlock {
 
-    public BlockAtumFence(MapColor mapColor) {
+    public BlockAtumFence(MaterialColor mapColor) {
         super(Material.WOOD, mapColor);
         this.setHardness(2.0F);
         this.setResistance(5.0F);
@@ -23,7 +23,7 @@ public class BlockAtumFence extends BlockFence {
     }
 
     @Override
-    public boolean canConnectTo(IBlockAccess world, @Nonnull BlockPos pos, @Nonnull Direction facing) {
+    public boolean canConnectTo(IBlockReader world, @Nonnull BlockPos pos, @Nonnull Direction facing) {
         Block block = world.getBlockState(pos).getBlock();
         return canBlockConnect(block) || super.canConnectTo(world, pos, facing);
     }

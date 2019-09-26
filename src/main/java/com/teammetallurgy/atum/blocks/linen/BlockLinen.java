@@ -7,11 +7,11 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.Nonnull;
@@ -41,8 +41,8 @@ public class BlockLinen extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.getBlockColor(DyeColor.valueOf(getColorString().toUpperCase()));
+    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
+        return MaterialColor.getBlockColor(DyeColor.valueOf(getColorString().toUpperCase()));
     }
 
     String getColorString() {

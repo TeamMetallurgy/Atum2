@@ -6,12 +6,12 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -42,7 +42,7 @@ public class BlockAtumPlank extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
         return WoodType.byIndex(WoodType.values().length).getMapColor();
     }
 
@@ -58,19 +58,19 @@ public class BlockAtumPlank extends Block {
     }
 
     public enum WoodType implements IStringSerializable {
-        PALM("palm", MapColor.WOOD),
-        DEADWOOD("deadwood", MapColor.WOOD);
+        PALM("palm", MaterialColor.WOOD),
+        DEADWOOD("deadwood", MaterialColor.WOOD);
 
         private static final BlockAtumPlank.WoodType[] ORDINAL_LOOKUP = new BlockAtumPlank.WoodType[values().length];
         private final String unlocalizedName;
-        private final MapColor mapColor;
+        private final MaterialColor mapColor;
 
-        WoodType(String unlocalizedName, MapColor mapColor) {
+        WoodType(String unlocalizedName, MaterialColor mapColor) {
             this.unlocalizedName = unlocalizedName;
             this.mapColor = mapColor;
         }
 
-        public MapColor getMapColor() {
+        public MaterialColor getMapColor() {
             return this.mapColor;
         }
 

@@ -13,7 +13,7 @@ import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenBigTree;
 import net.minecraft.world.gen.feature.WorldGenTrees;
@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 import java.util.Random;
 
-public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMapper, IOreDictEntry {
+public class BlockAtumSapling extends BushBlock implements IGrowable, IRenderMapper, IOreDictEntry {
     private static final PropertyInteger STAGE = PropertyInteger.create("stage", 0, 1);
     private static final AxisAlignedBB SAPLING_AABB = new AxisAlignedBB(0.4125D, 0.0D, 0.4125D, 0.6D, 0.5D, 0.6D);
     private static final Map<BlockAtumPlank.WoodType, Block> SAPLINGS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
@@ -52,7 +52,7 @@ public class BlockAtumSapling extends BlockBush implements IGrowable, IRenderMap
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
         return SAPLING_AABB;
     }
 

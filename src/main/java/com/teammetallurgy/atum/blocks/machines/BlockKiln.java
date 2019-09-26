@@ -6,12 +6,12 @@ import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks.BrickType;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -23,7 +23,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -31,14 +31,14 @@ import javax.annotation.Nullable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class BlockKiln extends BlockContainer {
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
+public class BlockKiln extends ContainerBlock {
+    public static final PropertyDirection FACING = HorizontalBlock.FACING;
     public static final PropertyBool IS_BURNING = PropertyBool.create("is_burning");
     static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
     private static final PropertyBool MULTIBLOCK_SECONDARY = PropertyBool.create("multiblock_secondary");
 
     public BlockKiln() {
-        super(Material.ROCK, MapColor.SAND);
+        super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(3.5F);
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 0);
@@ -69,7 +69,7 @@ public class BlockKiln extends BlockContainer {
     }
 
     @Override
-    public int getLightValue(BlockState state, IBlockAccess world, BlockPos pos) {
+    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
         return state.getValue(IS_BURNING) ? (int) (15.0F * 0.875F) : 0;
     }
 
@@ -235,7 +235,7 @@ public class BlockKiln extends BlockContainer {
 
     @Override
     @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntityKiln) {
             TileEntityKiln kiln = (TileEntityKiln) tileEntity;

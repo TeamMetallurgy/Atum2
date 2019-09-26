@@ -39,15 +39,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelPlayer;
-import net.minecraft.client.model.ModelZombie;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
-import net.minecraft.client.renderer.entity.RenderArrow;
-import net.minecraft.item.ItemBlock;
+import net.minecraft.client.renderer.entity.ArrowRenderer;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.client.renderer.entity.model.ZombieModel;
+import net.minecraft.item.BlockItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.ColorizerFoliage;
 import net.minecraft.world.biome.BiomeColorHelper;
@@ -69,19 +68,19 @@ public class ClientHandler {
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
         ItemColors itemColor = Minecraft.getInstance().getItemColors();
         //Palm Leave color
-        itemColor.registerItemColorHandler((stack, tintIndex) -> {
-            BlockState state = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
+        itemColor.register((stack, tintIndex) -> {
+            BlockState state = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return Minecraft.getInstance().getBlockColors().colorMultiplier(state, null, null, tintIndex);
         }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
-        blockColors.registerBlockColorHandler((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
+        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         //Dyeable armor
-        itemColor.registerItemColorHandler((stack, tintIndex) -> tintIndex > 0 ? -1 : ((TexturedArmorItem) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
+        itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((TexturedArmorItem) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
         //Dead Grass
-        itemColor.registerItemColorHandler((stack, tintIndex) -> {
-            BlockState BlockState = ((ItemBlock) stack.getItem()).getBlock().getDefaultState();
+        itemColor.register((stack, tintIndex) -> {
+            BlockState BlockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return blockColors.colorMultiplier(BlockState, null, null, tintIndex);
         }, AtumBlocks.DEAD_GRASS);
-        blockColors.registerBlockColorHandler((state, worldIn, pos, tintIndex) -> {
+        blockColors.register((state, worldIn, pos, tintIndex) -> {
             if (worldIn != null && pos != null) {
                 return BiomeColorHelper.getGrassColorAtPos(worldIn, pos);
             } else {
@@ -100,18 +99,16 @@ public class ClientHandler {
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield());
         AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield());
-        ModelLoader.setCustomMeshDefinition(AtumItems.THOTHS_BEARINGS, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "thoths_bearings"), "inventory"));
-        ModelLoader.setCustomMeshDefinition(AtumItems.GRAVEROBBERS_MAP, stack -> new ModelResourceLocation(new ResourceLocation(Constants.MOD_ID, "graverobbers_map"), "inventory"));
         RenderingRegistry.registerEntityRenderingHandler(TarantulaEntity.class, RenderTarantula::new);
         RenderingRegistry.registerEntityRenderingHandler(AssassinEntity.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(BrigandEntity.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(BarbarianEntity.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(NomadEntity.class, manager -> new RenderBandit(manager, new ModelNomad()));
         RenderingRegistry.registerEntityRenderingHandler(WarlordEntity.class, RenderBandit::new);
-        RenderingRegistry.registerEntityRenderingHandler(PharaohEntity.class, manager -> new RenderUndead(manager, new ModelPlayer(0.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(MummyEntity.class, manager -> new RenderUndead(manager, new ModelZombie()));
+        RenderingRegistry.registerEntityRenderingHandler(PharaohEntity.class, manager -> new RenderUndead(manager, new PlayerModel(0.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(MummyEntity.class, manager -> new RenderUndead(manager, new ZombieModel()));
         RenderingRegistry.registerEntityRenderingHandler(ForsakenEntity.class, manager -> new RenderUndead(manager, new ModelDustySkeleton()));
-        RenderingRegistry.registerEntityRenderingHandler(WraithEntity.class, manager -> new RenderUndead(manager, new ModelZombie()));
+        RenderingRegistry.registerEntityRenderingHandler(WraithEntity.class, manager -> new RenderUndead(manager, new ZombieModel()));
         RenderingRegistry.registerEntityRenderingHandler(SunspeakerEntity.class, RenderEfreet::new);
         RenderingRegistry.registerEntityRenderingHandler(BonestormEntity.class, RenderBonestorm::new);
         RenderingRegistry.registerEntityRenderingHandler(StoneguardEntity.class, RenderStoneguard::new);
@@ -120,7 +117,7 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(CamelEntity.class, RenderCamel::new);
         RenderingRegistry.registerEntityRenderingHandler(ScarabEntity.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(DesertRabbitEntity.class, RenderDesertRabbit::new);
-        RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new RenderArrow<CustomArrow>(manager) {
+        RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new ArrowRenderer<CustomArrow>(manager) {
             @Override
             protected ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {
                 return entity.getTexture();

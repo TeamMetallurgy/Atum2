@@ -6,10 +6,10 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -28,8 +28,8 @@ public class BlockPorphyryBricks extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess worldIn, BlockPos pos) {
-        return MapColor.QUARTZ;
+    public MaterialColor getMapColor(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        return MaterialColor.QUARTZ;
     }
 
     @Override

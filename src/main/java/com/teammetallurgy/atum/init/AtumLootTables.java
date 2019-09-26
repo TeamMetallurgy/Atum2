@@ -25,9 +25,6 @@ public class AtumLootTables {
     public static final ResourceLocation SARCOPHAGUS_ARTIFACT = register("chests/sarcophagus_artifact");
     public static final ResourceLocation TOMB_CHEST = register("chests/tomb");
 
-    //Blocks
-    public static final ResourceLocation RELIC = register("blocks/relic_ore");
-
     private static ResourceLocation register(String path) {
         return LootTables.register(new ResourceLocation(Constants.MOD_ID, path));
     }

@@ -1,16 +1,14 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -24,36 +22,22 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 
 public class BlockCrate extends ContainerBlock {
-    private static final PropertyDirection FACING = BlockHorizontal.FACING;
-    private static final Map<BlockAtumPlank.WoodType, BlockCrate> CRATES = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
+    private static final PropertyDirection FACING = HorizontalBlock.FACING;
 
-    private BlockCrate() {
+    public BlockCrate() {
         super(Material.WOOD);
         this.setHardness(3.0F);
         this.setSoundType(SoundType.WOOD);
         this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
-    }
-
-    public static void registerCrates() {
-        for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            BlockCrate crate = new BlockCrate();
-            CRATES.put(type, crate);
-            AtumRegistry.registerBlock(crate, type.getName() + "_crate");
-        }
-    }
-
-    public static BlockCrate getCrate(BlockAtumPlank.WoodType type) {
-        return CRATES.get(type);
     }
 
     @Override
@@ -63,7 +47,7 @@ public class BlockCrate extends ContainerBlock {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess blockAccess, BlockPos blockPos) {
+    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
         return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length).getMapColor();
     }
 
@@ -259,7 +243,7 @@ public class BlockCrate extends ContainerBlock {
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess world, BlockState state, BlockPos pos, Direction facing) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader world, BlockState state, BlockPos pos, Direction facing) {
         return BlockFaceShape.UNDEFINED;
     }
 

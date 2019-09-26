@@ -6,11 +6,11 @@ import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
@@ -28,11 +28,11 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockKilnFake extends BlockContainer implements IRenderMapper {
+public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
     public static final PropertyBool UP = PropertyBool.create("up");
 
     public BlockKilnFake() {
-        super(Material.ROCK, MapColor.SAND);
+        super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(1.5F);
         this.setResistance(10.0F);
         this.setHarvestLevel("pickaxe", 0);

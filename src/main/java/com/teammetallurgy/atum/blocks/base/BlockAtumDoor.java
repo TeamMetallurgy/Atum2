@@ -4,8 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DoorBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.IProperty;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -14,7 +14,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -38,11 +38,11 @@ public class BlockAtumDoor extends DoorBlock implements IRenderMapper {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
+    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
         if (this.doorMaterial == Material.WOOD) {
-            return MapColor.WOOD;
+            return MaterialColor.WOOD;
         } else {
-            return MapColor.SAND;
+            return MaterialColor.SAND;
         }
     }
 

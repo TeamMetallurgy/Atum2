@@ -15,7 +15,7 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -116,13 +116,13 @@ public class BlockBranch extends Block {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(BlockState state, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, Direction side) {
+    public boolean shouldSideBeRendered(BlockState state, @Nonnull IBlockReader blockAccess, @Nonnull BlockPos pos, Direction side) {
         return true;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
         Direction facing = state.getValue(FACING);
 
         BlockState neighbor = source.getBlockState(pos.add(facing.getDirectionVec()));
@@ -161,7 +161,7 @@ public class BlockBranch extends Block {
 
     @Override
     @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
         Direction Direction = state.getValue(FACING);
         return state.with(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
                 .with(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
@@ -171,7 +171,7 @@ public class BlockBranch extends Block {
                 .with(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
     }
 
-    private boolean shouldConnect(Direction direction, IBlockAccess worldIn, BlockPos pos) {
+    private boolean shouldConnect(Direction direction, IBlockReader worldIn, BlockPos pos) {
         BlockState neighborState = worldIn.getBlockState(pos.add(direction.getDirectionVec()));
         if (neighborState.getBlock() == this) {
             return neighborState.getValue(FACING) == direction.getOpposite();

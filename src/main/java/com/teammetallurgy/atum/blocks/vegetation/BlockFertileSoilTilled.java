@@ -15,12 +15,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -30,8 +31,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     public static final PropertyBool BLESSED = PropertyBool.create("blessed");
 
     public BlockFertileSoilTilled() {
-        super();
-        this.setHardness(0.5F);
+        super(Block.Properties.create(Material.EARTH).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
         this.setDefaultState(this.blockState.getBaseState().with(MOISTURE, 0).with(BLESSED, false));
     }
 
@@ -135,8 +135,8 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
-        EnumPlantType plantType = plantable.getPlantType(world, pos.up());
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
+        PlantType plantType = plantable.getPlantType(world, pos.up());
 
         switch (plantType) {
             case Crop:
@@ -149,7 +149,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(@Nonnull BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, Direction side) {
+    public boolean shouldSideBeRendered(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, Direction side) {
         switch (side) {
             case UP:
                 return true;

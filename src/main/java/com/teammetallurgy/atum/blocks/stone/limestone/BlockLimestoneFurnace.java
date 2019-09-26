@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.blocks.stone.limestone;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyDirection;
@@ -31,8 +31,8 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockLimestoneFurnace extends BlockContainer {
-    private static final PropertyDirection FACING = BlockHorizontal.FACING;
+public class BlockLimestoneFurnace extends ContainerBlock {
+    private static final PropertyDirection FACING = HorizontalBlock.FACING;
     private final boolean isBurning;
     private static boolean keepInventory;
 

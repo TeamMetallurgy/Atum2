@@ -5,9 +5,9 @@ import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntitySpinningWheel;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockHorizontal;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
@@ -29,14 +29,14 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BlockSpinningWheel extends BlockContainer {
-    private static final PropertyDirection FACING = BlockHorizontal.FACING;
+public class BlockSpinningWheel extends ContainerBlock {
+    private static final PropertyDirection FACING = HorizontalBlock.FACING;
     public static final PropertyInteger SPOOL = PropertyInteger.create("spool", 0, 3);
     private static final PropertyBool WHEEL = PropertyBool.create("wheel");
 
@@ -180,7 +180,7 @@ public class BlockSpinningWheel extends BlockContainer {
 
     @Override
     @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockAccess world, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof TileEntitySpinningWheel) {
             return state.with(WHEEL, ((TileEntitySpinningWheel) tileEntity).wheel);

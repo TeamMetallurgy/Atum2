@@ -7,7 +7,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -41,7 +41,7 @@ public class BlockShrub extends DeadBushBlock {
 
     @Override
     @Nonnull
-    public List<ItemStack> onSheared(@Nonnull ItemStack stack, IBlockAccess world, BlockPos pos, int fortune) {
+    public List<ItemStack> onSheared(@Nonnull ItemStack stack, IBlockReader world, BlockPos pos, int fortune) {
         return Collections.singletonList(new ItemStack(this));
     }
 }

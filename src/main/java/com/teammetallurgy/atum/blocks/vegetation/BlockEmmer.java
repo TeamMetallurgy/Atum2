@@ -1,22 +1,22 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFarmland;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.item.Item;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.EnumPlantType;
+import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.PlantType;
 
 import javax.annotation.Nonnull;
 
-public class BlockEmmer extends BlockCrops {
+public class BlockEmmer extends CropsBlock {
 
     @Override
     @Nonnull
-    public EnumPlantType getPlantType(IBlockAccess world, BlockPos pos) {
-        return EnumPlantType.Crop;
+    public PlantType getPlantType(IBlockReader world, BlockPos pos) {
+        return PlantType.Crop;
     }
 
     @Override

@@ -5,11 +5,11 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
@@ -38,8 +38,8 @@ public class BlockCeramic extends Block {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.getBlockColor(DyeColor.valueOf(getColorString().toUpperCase()));
+    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
+        return MaterialColor.getBlockColor(DyeColor.valueOf(getColorString().toUpperCase()));
     }
 
     private String getColorString() {

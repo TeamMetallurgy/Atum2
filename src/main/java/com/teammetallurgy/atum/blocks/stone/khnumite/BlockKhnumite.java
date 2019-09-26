@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.blocks.stone.khnumite;
 
-import net.minecraft.block.BlockRotatedPillar;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.RotatedPillarBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraftforge.common.ToolType;
 
-public class BlockKhnumite extends BlockRotatedPillar implements IKhnumite {
+public class BlockKhnumite extends RotatedPillarBlock implements IKhnumite {
 
     public BlockKhnumite() {
-        super(Material.ROCK, MapColor.CLAY);
-        this.setHardness(2.0F);
+        super(Properties.create(Material.ROCK, MaterialColor.CLAY).hardnessAndResistance(2.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1));
     }
 }

@@ -4,12 +4,12 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
 import com.teammetallurgy.atum.blocks.glass.BlockAtumStainedGlass;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import net.minecraft.block.BeaconBlock;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockBeacon;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,7 +21,7 @@ import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -31,7 +31,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.HashMap;
 
-public class BlockRadiantBeacon extends BlockBeacon {
+public class BlockRadiantBeacon extends BeaconBlock {
     public static final PropertyEnum<DyeColor> COLOR = PropertyEnum.create("color", DyeColor.class);
     private static final HashMap<Integer, DyeColor> RGB_TO_DYE = Maps.newHashMap();
 
@@ -53,8 +53,8 @@ public class BlockRadiantBeacon extends BlockBeacon {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.getBlockColor(state.getValue(COLOR));
+    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
+        return MaterialColor.getBlockColor(state.getValue(COLOR));
     }
 
     @Override

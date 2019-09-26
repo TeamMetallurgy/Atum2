@@ -1,12 +1,8 @@
 package com.teammetallurgy.atum.blocks;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialLogic;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
@@ -19,35 +15,33 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockSandLayers extends BlockFalling {
-    private static final Material SAND_LAYER = new MaterialLogic(MapColor.SAND).setReplaceable();
+public class BlockSandLayers extends FallingBlock {
+    private static final Material SAND_LAYER = new Material.Builder(MaterialColor.SAND).notSolid().replaceable().build();
     public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
     private static final AxisAlignedBB[] SAND_AABB = new AxisAlignedBB[]{new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.375D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.625D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
     public BlockSandLayers() {
-        super(SAND_LAYER);
+        super(Block.Properties.create(SAND_LAYER).hardnessAndResistance(0.1F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
         this.setDefaultState(this.blockState.getBaseState().with(LAYERS, 1));
-        this.setSoundType(SoundType.SAND);
-        this.setLightOpacity(0);
-        this.setHardness(0.1F);
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
         return SAND_AABB[state.getValue(LAYERS)];
     }
 
     @Override
-    public boolean isPassable(IBlockAccess world, BlockPos pos) {
+    public boolean isPassable(IBlockReader world, BlockPos pos) {
         return world.getBlockState(pos).getValue(LAYERS) < 5;
     }
 
@@ -57,19 +51,19 @@ public class BlockSandLayers extends BlockFalling {
     }
 
     @Override
-    public boolean isSideSolid(BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos, Direction side) {
+    public boolean isSideSolid(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, Direction side) {
         BlockState actualState = this.getActualState(state, world, pos);
         return actualState.getValue(LAYERS) >= 8;
     }
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockAccess worldIn, BlockState state, BlockPos pos, Direction face) {
+    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
         return face == Direction.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
     }
 
     @Override
-    public AxisAlignedBB getCollisionBoundingBox(BlockState state, @Nonnull IBlockAccess world, @Nonnull BlockPos pos) {
+    public AxisAlignedBB getCollisionBoundingBox(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         int i = state.getValue(LAYERS) - 2;
         i = MathHelper.clamp(i, 0, 8);
         float f = 0.125F;
@@ -128,7 +122,7 @@ public class BlockSandLayers extends BlockFalling {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(BlockState blockState, @Nonnull IBlockAccess blockAccess, @Nonnull BlockPos pos, Direction side) {
+    public boolean shouldSideBeRendered(BlockState blockState, @Nonnull IBlockReader blockAccess, @Nonnull BlockPos pos, Direction side) {
         if (side == Direction.UP) {
             return true;
         } else {
@@ -144,7 +138,7 @@ public class BlockSandLayers extends BlockFalling {
     }
 
     @Override
-    public boolean isReplaceable(IBlockAccess world, @Nonnull BlockPos pos) {
+    public boolean isReplaceable(IBlockReader world, @Nonnull BlockPos pos) {
         return true;
     }
 

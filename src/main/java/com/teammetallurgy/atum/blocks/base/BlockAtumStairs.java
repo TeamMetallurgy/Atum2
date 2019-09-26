@@ -1,32 +1,22 @@
 package com.teammetallurgy.atum.blocks.base;
 
-import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramic;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyryBricks;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.StairsBlock;
 import net.minecraft.item.DyeColor;
-import net.minecraft.util.Direction;
 
-import java.util.Map;
+import java.util.function.Supplier;
 
-public class BlockAtumStairs extends BlockStairs {
-    private static final Map<BlockLimestoneBricks.BrickType, Block> BRICK_STAIRS = Maps.newEnumMap(BlockLimestoneBricks.BrickType.class);
-    private static final Map<BlockAlabasterBricks.Type, Block> ALABASTER_STAIRS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
-    private static final Map<BlockAlabasterBricks.Type, Block> PORPHYRY_STAIRS = Maps.newEnumMap(BlockAlabasterBricks.Type.class);
-    private static final Map<DyeColor, Block> CERAMIC_STAIRS = Maps.newEnumMap(DyeColor.class);
-    private static final Map<BlockAtumPlank.WoodType, Block> WOOD_STAIRS = Maps.newEnumMap(BlockAtumPlank.WoodType.class);
+public class BlockAtumStairs extends StairsBlock {
 
-    public BlockAtumStairs(BlockState modelState) {
-        super(modelState);
-        this.useNeighborBrightness = true;
-        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(HALF, BlockStairs.EnumHalf.BOTTOM).with(SHAPE, BlockStairs.EnumShape.STRAIGHT));
+    public BlockAtumStairs(Supplier<BlockState> supplier, Properties properties) {
+        super(supplier, properties);
     }
 
     public static void registerLimestoneStairs() {

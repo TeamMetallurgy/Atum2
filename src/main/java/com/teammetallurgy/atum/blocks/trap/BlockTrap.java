@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.blocks.trap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
@@ -30,12 +30,12 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public abstract class BlockTrap extends BlockContainer {
+public abstract class BlockTrap extends ContainerBlock {
     public static final PropertyDirection FACING = PropertyDirection.create("facing");
     private static final PropertyBool DISABLED = PropertyBool.create("disabled");
 
     protected BlockTrap() {
-        super(Material.ROCK, MapColor.SAND);
+        super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(1.5F);
         this.setHarvestLevel("pickaxe", 0);
         this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(DISABLED, Boolean.FALSE));

@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.material.MapColor;
+import net.minecraft.block.CropsBlock;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
@@ -15,7 +15,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.EnumSkyBlock;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.UUID;
 
-public class BlockAnputsFingers extends BlockCrops {
+public class BlockAnputsFingers extends CropsBlock {
     private static final PropertyInteger ANPUTS_FINGERS_AGE = PropertyInteger.create("age", 0, 3);
     private static final AxisAlignedBB[] AABB = new AxisAlignedBB[]{new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
     private HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
@@ -35,13 +35,13 @@ public class BlockAnputsFingers extends BlockCrops {
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.GRAY;
+    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
+        return MaterialColor.GRAY;
     }
 
     @Override
     @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockAccess source, BlockPos pos) {
+    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
         return AABB[this.getAge(state)];
     }
 

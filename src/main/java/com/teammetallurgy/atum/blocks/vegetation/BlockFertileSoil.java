@@ -7,17 +7,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IGrowable;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.PlantType;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -25,17 +26,14 @@ import java.util.Random;
 public class BlockFertileSoil extends Block implements IGrowable {
 
     public BlockFertileSoil() {
-        super(Material.GRASS);
-        this.setHardness(0.5F);
-        this.setSoundType(SoundType.GROUND);
-        this.setTickRandomly(true);
+        super(Block.Properties.create(Material.ORGANIC).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
         this.setLightOpacity(255);
     }
 
     @Override
     @Nonnull
-    public MapColor getMapColor(BlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.GRASS;
+    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
+        return MaterialColor.GRASS;
     }
 
     @Override
@@ -81,9 +79,9 @@ public class BlockFertileSoil extends Block implements IGrowable {
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockAccess world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
         BlockState plant = plantable.getPlant(world, pos.offset(direction));
-        EnumPlantType plantType = plantable.getPlantType(world, pos.up());
+        PlantType plantType = plantable.getPlantType(world, pos.up());
 
         boolean hasWater = (world.getBlockState(pos.east()).getMaterial() == Material.WATER ||
                 world.getBlockState(pos.west()).getMaterial() == Material.WATER ||
