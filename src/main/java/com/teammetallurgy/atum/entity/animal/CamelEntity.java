@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
+import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.entity.ai.GoalCamelCaravan;
+import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -102,7 +102,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
         this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
-        this.goalSelector.addGoal(2, new GoalCamelCaravan(this, 2.0999999046325684D));
+        this.goalSelector.addGoal(2, new CamelCaravanGoal(this, 2.0999999046325684D));
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
         this.goalSelector.addGoal(3, new PanicGoal(this, 1.2D));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
@@ -370,7 +370,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     public boolean isValidCarpet(@Nonnull ItemStack stack) {
-        return stack.getItem().isIn(ItemTags.CARPETS) || Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet;
+        return stack.getItem().isIn(ItemTags.CARPETS) || Block.getBlockFromItem(stack.getItem()) instanceof LinenCarpetBlock;
     }
 
     @Override

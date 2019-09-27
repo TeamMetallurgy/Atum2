@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.teleporter;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -186,7 +186,7 @@ public class AtumTeleporter extends Teleporter {
         if (entity != null && entity.dimension == 0) {
             sandState = Blocks.SANDSTONE.getDefaultState();
         } else {
-            sandState = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState();
+            sandState = LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.LARGE).getDefaultState();
         }
 
 

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.trap;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
@@ -38,19 +38,19 @@ public abstract class BlockTrap extends ContainerBlock {
         super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(1.5F);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(DISABLED, Boolean.FALSE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(DISABLED, Boolean.FALSE));
     }
 
     @Override
     public float getBlockHardness(BlockState state, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TileEntityTrap && ((TileEntityTrap) tileEntity).isInsidePyramid ? -1.0F :  super.getBlockHardness(state, world, pos);
+        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? -1.0F :  super.getBlockHardness(state, world, pos);
     }
 
     @Override
     public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TileEntityTrap && ((TileEntityTrap) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
+        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
     }
 
     @Override
@@ -60,14 +60,14 @@ public abstract class BlockTrap extends ContainerBlock {
         } else {
             TileEntity tileEntity = world.getTileEntity(pos);
             boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(Hand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(Hand.OFF_HAND));
-            if (tileEntity instanceof TileEntityTrap) {
-                TileEntityTrap trap = (TileEntityTrap) tileEntity;
+            if (tileEntity instanceof TrapTileEntity) {
+                TrapTileEntity trap = (TrapTileEntity) tileEntity;
                 if (!trap.isInsidePyramid) {
                     player.openGui(Atum.instance, 2, world, pos.getX(), pos.getY(), pos.getZ());
                     return true;
                 }
-                if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {
-                    this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, true);
+                if (trap.isInsidePyramid && isToolEffective && !state.get(DISABLED)) {
+                    this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
                     world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);
                     return true;
                 }
@@ -80,9 +80,9 @@ public abstract class BlockTrap extends ContainerBlock {
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
+            if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
                 if (world.isBlockPowered(pos)) {
-                    this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, true);
+                    this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
                 } else if (!world.isBlockPowered(pos)) {
                     world.getPendingBlockTicks().scheduleTick(pos, this, 4);
                 }
@@ -94,15 +94,15 @@ public abstract class BlockTrap extends ContainerBlock {
     public void updateTick(World world, BlockPos pos, BlockState state, Random rand) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityTrap && !((TileEntityTrap) tileEntity).isInsidePyramid) {
+            if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
                 if (!world.isBlockPowered(pos)) {
-                    this.setDisabled(world, pos, state, (TileEntityTrap) tileEntity, false);
+                    this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, false);
                 }
             }
         }
     }
 
-    private void setDisabled(World world, BlockPos pos, BlockState state, TileEntityTrap trap, boolean disabledStatus) {
+    private void setDisabled(World world, BlockPos pos, BlockState state, TrapTileEntity trap, boolean disabledStatus) {
         trap.setDisabledStatus(disabledStatus);
         world.setBlockState(pos, state.with(DISABLED, disabledStatus));
         world.notifyBlockUpdate(pos, state, state, 3);
@@ -122,7 +122,7 @@ public abstract class BlockTrap extends ContainerBlock {
 
     private void setDefaultDirection(World world, BlockPos pos, BlockState state) {
         if (!world.isRemote) {
-            Direction facing = state.getValue(FACING);
+            Direction facing = state.get(FACING);
             boolean isNorth = world.getBlockState(pos.north()).isFullBlock();
             boolean isSouth = world.getBlockState(pos.south()).isFullBlock();
 
@@ -150,10 +150,10 @@ public abstract class BlockTrap extends ContainerBlock {
 
         TileEntity tileentity = world.getTileEntity(pos);
 
-        if (tileentity instanceof TileEntityTrap) {
-            ((TileEntityTrap) tileentity).isInsidePyramid = false;
+        if (tileentity instanceof TrapTileEntity) {
+            ((TrapTileEntity) tileentity).isInsidePyramid = false;
             if (stack.hasDisplayName()) {
-                ((TileEntityTrap) tileentity).setCustomName(stack.getDisplayName());
+                ((TrapTileEntity) tileentity).setCustomName(stack.getDisplayName());
             }
         }
     }
@@ -162,8 +162,8 @@ public abstract class BlockTrap extends ContainerBlock {
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileentity = world.getTileEntity(pos);
 
-        if (tileentity instanceof TileEntityTrap) {
-            InventoryHelper.dropInventoryItems(world, pos, (TileEntityTrap) tileentity);
+        if (tileentity instanceof TrapTileEntity) {
+            InventoryHelper.dropInventoryItems(world, pos, (TrapTileEntity) tileentity);
             world.updateComparatorOutputLevel(pos, this);
         }
         super.breakBlock(world, pos, state);
@@ -187,13 +187,13 @@ public abstract class BlockTrap extends ContainerBlock {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
-        return state.with(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+        return state.withRotation(mirrorIn.toRotation(state.get(FACING)));
     }
 
     @Override
@@ -205,9 +205,9 @@ public abstract class BlockTrap extends ContainerBlock {
     @Override
     public int getMetaFromState(BlockState state) {
         int i = 0;
-        i = i | state.getValue(FACING).getIndex();
+        i = i | state.get(FACING).getIndex();
 
-        if (state.getValue(DISABLED)) {
+        if (state.get(DISABLED)) {
             i |= 8;
         }
         return i;

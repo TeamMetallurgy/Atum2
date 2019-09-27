@@ -46,7 +46,7 @@ public class RenderUtils {
         if (distance <= (double) (14 * 14)) {
             float yaw = rendererDispatcher.renderInfo.getYaw();
             float pitch = rendererDispatcher.renderInfo.getPitch();
-            FontRenderer fontRenderer = rendererDispatcher.getFontRenderer();
+            FontRenderer font = rendererDispatcher.getFontRenderer();
             GlStateManager.pushMatrix();
 
             GlStateManager.translated(x, y, z);
@@ -61,7 +61,7 @@ public class RenderUtils {
 
             GlStateManager.enableDepthTest();
             GlStateManager.depthMask(true);
-            fontRenderer.drawString(str, -fontRenderer.getStringWidth(str) / 2, 0, -1);
+            font.drawString(str, -font.getStringWidth(str) / 2, 0, -1);
 
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();

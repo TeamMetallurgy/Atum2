@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
-import com.teammetallurgy.atum.client.model.ModelQuernStone;
+import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
+import com.teammetallurgy.atum.client.model.QuernStoneModel;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.RenderUtils;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -14,12 +14,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderQuern extends TileEntitySpecialRenderer<TileEntityQuern> {
+public class RenderQuern extends TileEntitySpecialRenderer<QuernTileEntity> {
     private static final ResourceLocation QUERN_STONE = new ResourceLocation(Constants.MOD_ID, "textures/blocks/quern_stone.png");
-    private static final ModelQuernStone QUERN_STONE_MODEL = new ModelQuernStone();
+    private static final QuernStoneModel QUERN_STONE_MODEL = new QuernStoneModel();
 
     @Override
-    public void render(@Nonnull TileEntityQuern quern, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(@Nonnull QuernTileEntity quern, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.pushMatrix();
         GlStateManager.translate((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GlStateManager.scale(0.95F, 1.0F, 0.95F);

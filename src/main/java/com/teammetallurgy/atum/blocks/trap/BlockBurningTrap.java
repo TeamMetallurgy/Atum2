@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap;
 
-import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityBurningTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.BurningTrapTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -10,6 +10,6 @@ public class BlockBurningTrap extends BlockTrap {
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityBurningTrap();
+        return new BurningTrapTileEntity();
     }
 }

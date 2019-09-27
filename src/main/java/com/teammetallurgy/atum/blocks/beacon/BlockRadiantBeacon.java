@@ -36,7 +36,7 @@ public class BlockRadiantBeacon extends BeaconBlock {
     private static final HashMap<Integer, DyeColor> RGB_TO_DYE = Maps.newHashMap();
 
     public BlockRadiantBeacon() {
-        this.setDefaultState(this.blockState.getBaseState().with(COLOR, DyeColor.WHITE));
+        this.setDefaultState(this.stateContainer.getBaseState().with(COLOR, DyeColor.WHITE));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class BlockRadiantBeacon extends BeaconBlock {
     @Override
     @Nonnull
     public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
-        return MaterialColor.getBlockColor(state.getValue(COLOR));
+        return MaterialColor.getBlockColor(state.get(COLOR));
     }
 
     @Override
@@ -116,7 +116,7 @@ public class BlockRadiantBeacon extends BeaconBlock {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(COLOR).getMetadata();
+        return state.get(COLOR).getMetadata();
     }
 
     @Override

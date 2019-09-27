@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneWall;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorch;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
@@ -513,7 +513,7 @@ public class StructureAtumMineshaftPieces {
                 default:
                     return BlockAtumPlank.getPlank(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState();
                 case LIMESTONE:
-                    return BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState();
+                    return LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.LARGE).getDefaultState();
             }
         }
 
@@ -523,7 +523,7 @@ public class StructureAtumMineshaftPieces {
                 default:
                     return AtumBlocks.DEADWOOD_FENCE.getDefaultState();
                 case LIMESTONE:
-                    return BlockLimestoneWall.getWall(BlockLimestoneBricks.BrickType.LARGE).getDefaultState();
+                    return BlockLimestoneWall.getWall(LimestoneBrickBlock.BrickType.LARGE).getDefaultState();
             }
         }
 

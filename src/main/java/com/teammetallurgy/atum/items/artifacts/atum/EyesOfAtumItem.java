@@ -37,7 +37,7 @@ public class EyesOfAtumItem extends TexturedArmorItem {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public static void drawScreen(DrawScreenEvent.Pre event) {
+    public static void render(DrawScreenEvent.Pre event) {
         PlayerEntity player = Minecraft.getInstance().player;
         if (player != null && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATUM) {
             if (savedNightVision != null && savedNightVision.getDuration() == 0) {

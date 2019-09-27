@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.util.math.BlockPos;
@@ -19,7 +19,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     public BlockDeadwood() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y).with(HAS_SCARAB, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y).with(HAS_SCARAB, false));
         this.setHardness(1.0F);
     }
 
@@ -30,7 +30,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
 
     @Override
     public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
-        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
+        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
             ScarabEntity scarab = new ScarabEntity(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(scarab);
@@ -83,7 +83,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     public int getMetaFromState(BlockState state) {
         int i = 0;
 
-        switch (state.getValue(LOG_AXIS)) {
+        switch (state.get(LOG_AXIS)) {
             case X:
                 i = 2;
                 break;
@@ -96,7 +96,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
                 i = 6;
                 break;
         }
-        return i + (state.getValue(HAS_SCARAB) ? 1 : 0);
+        return i + (state.get(HAS_SCARAB) ? 1 : 0);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
     }
 
     @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{HAS_SCARAB};
+    public Property[] getNonRenderingProperties() {
+        return new Property[]{HAS_SCARAB};
     }
 }

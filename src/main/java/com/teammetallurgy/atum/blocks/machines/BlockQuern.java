@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines;
 
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
+import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
@@ -36,7 +36,7 @@ public class BlockQuern extends ContainerBlock {
     public BlockQuern() {
         super(Material.ROCK, MaterialColor.SAND);
         this.setHardness(1.5F);
-        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
     }
 
     @Override
@@ -58,14 +58,14 @@ public class BlockQuern extends ContainerBlock {
     @Override
     @Nullable
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityQuern();
+        return new QuernTileEntity();
     }
 
     @Override
     public void onBlockClicked(World world, BlockPos pos, PlayerEntity player) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityQuern) {
-            TileEntityQuern quern = (TileEntityQuern) tileEntity;
+        if (tileEntity instanceof QuernTileEntity) {
+            QuernTileEntity quern = (QuernTileEntity) tileEntity;
             if (!quern.isEmpty()) {
                 if (player.isSneaking()) {
                     StackHelper.dropInventoryItems(world, pos, quern);
@@ -87,8 +87,8 @@ public class BlockQuern extends ContainerBlock {
         ItemStack heldStack = player.getHeldItem(hand);
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (tileEntity instanceof TileEntityQuern) {
-            TileEntityQuern quern = (TileEntityQuern) tileEntity;
+        if (tileEntity instanceof QuernTileEntity) {
+            QuernTileEntity quern = (QuernTileEntity) tileEntity;
             ItemStack slotStack = quern.getStackInSlot(0);
             int size = slotStack.getCount();
             if (size < slotStack.getMaxStackSize() && quern.isItemValidForSlot(0, heldStack) && (quern.isEmpty() || StackHelper.areStacksEqualIgnoreSize(heldStack, slotStack))) {
@@ -114,7 +114,7 @@ public class BlockQuern extends ContainerBlock {
     @Override
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityQuern) {
+        if (tileEntity instanceof QuernTileEntity) {
             InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
         }
         super.breakBlock(world, pos, state);
@@ -139,19 +139,19 @@ public class BlockQuern extends ContainerBlock {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(FACING).getIndex();
+        return state.get(FACING).getIndex();
     }
 
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
-        return state.with(FACING, rot.rotate(state.getValue(FACING)));
+        return state.with(FACING, rot.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.getValue(FACING)));
+        return state.withRotation(mirrorIn.toRotation(state.get(FACING)));
     }
 
     @Override

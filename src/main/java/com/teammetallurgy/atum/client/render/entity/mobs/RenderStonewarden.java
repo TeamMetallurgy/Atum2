@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.client.model.entity.ModelStonewarden;
+import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
@@ -19,7 +19,7 @@ public class RenderStonewarden extends RenderLiving<StonewardenEntity> {
     private static final Map<Integer, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderStonewarden(RenderManager manager) {
-        super(manager, new ModelStonewarden(), 0.5F);
+        super(manager, new StonewardenModel(), 0.5F);
     }
 
     @Override

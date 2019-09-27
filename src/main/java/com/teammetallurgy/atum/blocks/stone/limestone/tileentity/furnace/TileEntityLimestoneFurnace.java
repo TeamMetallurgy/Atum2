@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneFurnace;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ItemStackHelper;
@@ -241,7 +241,7 @@ public class TileEntityLimestoneFurnace extends FurnaceTileEntity {
 
     @Override
     @Nonnull
-    public Container createContainer(InventoryPlayer playerInventory, PlayerEntity player) {
+    public Container createContainer(PlayerInventory playerInventory, PlayerEntity player) {
         return new ContainerLimestoneFurnace(playerInventory, this);
     }
 

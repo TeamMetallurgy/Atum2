@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap;
 
-import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityArrowTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.ArrowTrapTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -12,6 +12,6 @@ public class BlockArrowTrap extends BlockTrap {
     @Override
     @Nullable
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityArrowTrap();
+        return new ArrowTrapTileEntity();
     }
 }

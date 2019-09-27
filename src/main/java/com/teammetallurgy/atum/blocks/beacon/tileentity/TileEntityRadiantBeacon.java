@@ -56,7 +56,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
             float[] color;
 
             if (state.getBlock() == Blocks.STAINED_GLASS) {
-                color = state.getValue(BlockStainedGlass.COLOR).getColorComponentValues();
+                color = state.get(BlockStainedGlass.COLOR).getColorComponentValues();
             } else {
                 if (state.getBlock() != Blocks.STAINED_GLASS_PANE || !(state.getBlock() instanceof BlockAir)) {
                     if (state.getLightOpacity(world, pos) >= 15) {
@@ -72,7 +72,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
                         continue;
                     }
                 } else {
-                    color = state.getValue(BlockStainedGlassPane.COLOR).getColorComponentValues();
+                    color = state.get(BlockStainedGlassPane.COLOR).getColorComponentValues();
                 }
             }
 

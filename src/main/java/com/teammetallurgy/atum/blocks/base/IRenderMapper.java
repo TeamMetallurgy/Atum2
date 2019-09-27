@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.blocks.base;
 
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 
 public interface IRenderMapper {
     /**
-     * Used to specify {@link IProperty}s, that should not be used for rendering the block
+     * Used to specify {@link Property}s, that should not be used for rendering the block
      *
-     * @return The IProperty to ignore for rendering
+     * @return The Property to ignore for rendering
      */
-    default IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{};
+    default Property[] getNonRenderingProperties() {
+        return new Property[]{};
     }
 }

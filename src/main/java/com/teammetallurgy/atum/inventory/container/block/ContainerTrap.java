@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.inventory.container.block;
 
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -14,18 +14,18 @@ public class ContainerTrap extends Container {
     private int furnaceBurnTime;
     private int currentItemBurnTime;
 
-    public ContainerTrap(InventoryPlayer playerInventory, IInventory trapInventory) {
+    public ContainerTrap(PlayerInventory playerInventory, IInventory trapInventory) {
         this.trapInventory = trapInventory;
-        this.addSlotToContainer(new SlotFurnaceFuel(trapInventory, 0, 80, 20));
+        this.addSlot(new SlotFurnaceFuel(trapInventory, 0, 80, 20));
 
         for (int rows = 0; rows < 3; ++rows) {
             for (int slots = 0; slots < 9; ++slots) {
-                this.addSlotToContainer(new Slot(playerInventory, slots + rows * 9 + 9, 8 + slots * 18, rows * 18 + 51));
+                this.addSlot(new Slot(playerInventory, slots + rows * 9 + 9, 8 + slots * 18, rows * 18 + 51));
             }
         }
 
         for (int slot = 0; slot < 9; ++slot) {
-            this.addSlotToContainer(new Slot(playerInventory, slot, 8 + slot * 18, 109));
+            this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 109));
         }
     }
 

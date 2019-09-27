@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.client.gui;
 
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.GuiLimestoneFurnace;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
-import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityTrap;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.client.gui.block.GuiKiln;
-import com.teammetallurgy.atum.client.gui.block.GuiTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.client.gui.block.KilnScreen;
+import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.GuiAlphaDesertWolf;
 import com.teammetallurgy.atum.client.gui.entity.GuiCamel;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
@@ -38,9 +38,9 @@ public class AtumGuiHandler implements IGuiHandler {
             case 0:
                 return new ContainerFurnace(player.inventory, (TileEntityLimestoneFurnace) Objects.requireNonNull(tileEntity));
             case 1:
-                return new ContainerCrate(player.inventory, (TileEntityCrate) Objects.requireNonNull(tileEntity), player);
+                return new ContainerCrate(player.inventory, (CrateTileEntity) Objects.requireNonNull(tileEntity), player);
             case 2:
-                return new ContainerTrap(player.inventory, (TileEntityTrap) Objects.requireNonNull(tileEntity));
+                return new ContainerTrap(player.inventory, (TrapTileEntity) Objects.requireNonNull(tileEntity));
             case 3:
                 if (entity != null) {
                     CamelEntity camel = (CamelEntity) entity;
@@ -56,7 +56,7 @@ public class AtumGuiHandler implements IGuiHandler {
                     return null;
                 }
             case 5:
-                return new ContainerKiln(player.inventory, (TileEntityKiln) Objects.requireNonNull(tileEntity));
+                return new ContainerKiln(player.inventory, (KilnTileEntity) Objects.requireNonNull(tileEntity));
         }
         return null;
     }
@@ -70,9 +70,9 @@ public class AtumGuiHandler implements IGuiHandler {
             case 0:
                 return new GuiLimestoneFurnace(player.inventory, (TileEntityLimestoneFurnace) Objects.requireNonNull(tileEntity));
             case 1:
-                return new GuiChest(player.inventory, (TileEntityCrate) Objects.requireNonNull(tileEntity));
+                return new GuiChest(player.inventory, (CrateTileEntity) Objects.requireNonNull(tileEntity));
             case 2:
-                return new GuiTrap(player.inventory, (TileEntityTrap) Objects.requireNonNull(tileEntity));
+                return new TrapScreen(player.inventory, (TrapTileEntity) Objects.requireNonNull(tileEntity));
             case 3:
                 if (entity != null) {
                     CamelEntity camel = (CamelEntity) entity;
@@ -88,7 +88,7 @@ public class AtumGuiHandler implements IGuiHandler {
                     return null;
                 }
             case 5:
-                return new GuiKiln(player.inventory, (TileEntityKiln) Objects.requireNonNull(tileEntity));
+                return new KilnScreen(player.inventory, (KilnTileEntity) Objects.requireNonNull(tileEntity));
         }
         return null;
     }

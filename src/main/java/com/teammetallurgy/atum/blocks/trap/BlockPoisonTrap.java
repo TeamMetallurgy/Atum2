@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap;
 
-import com.teammetallurgy.atum.blocks.trap.tileentity.TileEntityPoisonTrap;
+import com.teammetallurgy.atum.blocks.trap.tileentity.PoisonTrapTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
@@ -12,6 +12,6 @@ public class BlockPoisonTrap extends BlockTrap {
     @Override
     @Nullable
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityPoisonTrap();
+        return new PoisonTrapTileEntity();
     }
 }

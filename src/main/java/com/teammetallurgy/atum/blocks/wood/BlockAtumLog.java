@@ -16,7 +16,7 @@ public class BlockAtumLog extends LogBlock {
 
     public BlockAtumLog() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y));
+        this.setDefaultState(this.stateContainer.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class BlockAtumLog extends LogBlock {
     public int getMetaFromState(BlockState state) {
         int i = 0;
 
-        switch (state.getValue(LOG_AXIS)) {
+        switch (state.get(LOG_AXIS)) {
             case X:
                 i |= 4;
                 break;

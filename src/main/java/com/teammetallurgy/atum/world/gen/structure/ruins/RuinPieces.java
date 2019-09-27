@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -89,8 +89,8 @@ public class RuinPieces {
                         world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);

@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Blocks;
@@ -68,9 +68,9 @@ public class WorldGenAtumDungeons extends WorldGenerator {
                             world.setBlockToAir(boxPos);
                         } else if (world.getBlockState(boxPos).getMaterial().isSolid() && world.getBlockState(boxPos).getBlock() != BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD)) {
                             if (i4 == -1 && rand.nextInt(4) != 0) {
-                                world.setBlockState(boxPos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CRACKED).getDefaultState(), 2);
+                                world.setBlockState(boxPos, LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.CRACKED).getDefaultState(), 2);
                             } else {
-                                world.setBlockState(boxPos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
+                                world.setBlockState(boxPos, LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.LARGE).getDefaultState(), 2);
                             }
                         }
                     }
@@ -97,8 +97,8 @@ public class WorldGenAtumDungeons extends WorldGenerator {
                             world.setBlockState(chestPos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
                             TileEntity tileEntity = world.getTileEntity(chestPos);
 
-                            if (tileEntity instanceof TileEntityCrate) {
-                                ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                            if (tileEntity instanceof CrateTileEntity) {
+                                ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                             }
 
                             break;

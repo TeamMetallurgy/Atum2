@@ -2,11 +2,11 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.client.model.chest.ModelCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.client.model.chest.CrateModel;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -17,12 +17,12 @@ import java.util.Map;
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderCrate extends TileEntitySpecialRenderer<TileEntityCrate> {
+public class RenderCrate extends TileEntitySpecialRenderer<CrateTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
-    private final ModelCrate modelCrate = new ModelCrate();
+    private final CrateModel modelCrate = new CrateModel();
 
     @Override
-    public void render(@Nonnull TileEntityCrate te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(@Nonnull CrateTileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.enableDepth();
         GlStateManager.depthFunc(515);
         GlStateManager.depthMask(true);

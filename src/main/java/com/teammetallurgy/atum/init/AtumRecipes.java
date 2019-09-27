@@ -8,8 +8,8 @@ import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
-import com.teammetallurgy.atum.blocks.stone.ceramic.BlockCeramic;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
+import com.teammetallurgy.atum.blocks.stone.ceramic.CeramicBlock;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Blocks;
@@ -158,7 +158,7 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
-        AtumRegistry.registerRecipe("marl", new KilnRecipe(AtumBlocks.MARL, new ItemStack(BlockCeramic.getCeramicBlocks(DyeColor.WHITE)), 0.1F), event);
+        AtumRegistry.registerRecipe("marl", new KilnRecipe(AtumBlocks.MARL, new ItemStack(CeramicBlock.getCeramicBlocks(DyeColor.WHITE)), 0.1F), event);
     }
 
     public static void addKilnRecipes(MinecraftServer server) {
@@ -169,7 +169,7 @@ public class AtumRecipes {
                 for (Ingredient input : furnaceRecipe.getIngredients()) {
                     ItemStack output = furnaceRecipe.getRecipeOutput();
                     if (input != null && !output.isEmpty()) {
-                        if (!TileEntityKiln.canKilnNotSmelt(input) && !TileEntityKiln.canKilnNotSmelt(output)) {
+                        if (!KilnTileEntity.canKilnNotSmelt(input) && !KilnTileEntity.canKilnNotSmelt(output)) {
                             ResourceLocation id = new ResourceLocation(Constants.MOD_ID, furnaceRecipe.getId().getPath());
                             RecipeHandlers.kilnRecipes.register(new KilnRecipe(input, output, furnaceRecipe.getExperience()).setRegistryName(id));
                         }

@@ -1,39 +1,18 @@
 package com.teammetallurgy.atum.entity.efreet;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
-import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.LootItem;
-import com.teammetallurgy.atum.items.tools.ScepterItem;
-import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.LookAtGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.item.EntityXPOrb;
+import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.IMerchant;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.village.MerchantRecipe;
 import net.minecraft.village.MerchantRecipeList;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -53,7 +32,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IMerchant {
     private int wealth;
     private int tradeLevel;
     private static final List<EntityVillager.ITradeList[]> TRADES = Arrays.asList(
-    /*Tier 1*/new EntityVillager.ITradeList[]{new ItemsForCoins(32, Item.getItemFromBlock(BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(16, Item.getItemFromBlock(Blocks.DOUBLE_PLANT/*Sunflower*/), new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(24, AtumItems.DATE, new EntityVillager.PriceInfo(14, 16)), new ItemsForCoins(24, AtumItems.EMMER_BREAD, new EntityVillager.PriceInfo(3, 4))},
+    /*Tier 1*/new EntityVillager.ITradeList[]{new ItemsForCoins(32, AtumBlocks.PALM_SAPLING.asItem()), new EntityVillager.PriceInfo(4, 5)), new ItemsForCoins(16,Item.getItemFromBlock(Blocks.DOUBLE_PLANT/*Sunflower*/), new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(24,AtumItems.DATE, new EntityVillager.PriceInfo(14, 16)), new ItemsForCoins(24,AtumItems.EMMER_BREAD, new EntityVillager.PriceInfo(3, 4))},
     /*Tier 2*/new EntityVillager.ITradeList[]{new ItemsForCoins(36, AtumItems.LINEN_CLOTH, new EntityVillager.PriceInfo(5, 10)), new ItemsForCoins(48, AtumItems.CAMEL_RAW, new EntityVillager.PriceInfo(13, 18)), new ItemsForCoins(48, AtumItems.SCROLL, new EntityVillager.PriceInfo(9, 12)), new ItemsForCoins(32, AtumItems.ANPUTS_FINGERS_SPORES, new EntityVillager.PriceInfo(8, 10))},
     /*Tier 3*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Item.getItemFromBlock(Blocks.GLOWSTONE), new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(48, Items.NAME_TAG, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(64, Items.BREWING_STAND, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(36, Items.BLAZE_POWDER, new EntityVillager.PriceInfo(4, 5))},
     /*Tier 4*/new EntityVillager.ITradeList[]{new ItemsForCoins(48, Items.SADDLE, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(48, AtumItems.GRAVEROBBERS_MAP, new EntityVillager.PriceInfo(1, 1)), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, new EntityVillager.PriceInfo(1, 2)), new ItemsForCoins(48, Items.ENDER_PEARL, new EntityVillager.PriceInfo(3, 4)), new ItemsForCoins(64, AtumItems.DISENCHANTING_SCROLL, new EntityVillager.PriceInfo(1, 1))});
@@ -176,7 +155,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IMerchant {
         }
 
         if (recipe.getRewardsExp()) {
-            this.world.addEntity(new EntityXPOrb(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
+            this.world.addEntity(new ExperienceOrbEntity(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
         }
     }
 

@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
-import com.teammetallurgy.atum.blocks.wood.BlockLeave;
+import com.teammetallurgy.atum.blocks.wood.PalmLeavesBlock;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
@@ -48,7 +48,7 @@ public class BiomeDeadOasis extends AtumBiome {
         (new WorldGenLakes(Blocks.AIR)).generate(world, random, pos.add(i1, j1, k1));
 
         if (random.nextFloat() <= 0.70F) {
-            new WorldGenPalm(true, 5, AtumBlocks.DEADWOOD_LOG.getDefaultState().with(BlockDeadwood.HAS_SCARAB, true), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState().with(BlockLeave.CHECK_DECAY, false), false).generate(world, random, world.getHeight(pos.add(x, 0, z)));
+            new WorldGenPalm(true, 5, AtumBlocks.DEADWOOD_LOG.getDefaultState().with(BlockDeadwood.HAS_SCARAB, true), PalmLeavesBlock.getLeave(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState().with(PalmLeavesBlock.CHECK_DECAY, false), false).generate(world, random, world.getHeight(pos.add(x, 0, z)));
         }
 
         super.decorate(world, random, pos);

@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
 
@@ -18,7 +18,7 @@ public class ContainerAlphaDesertWolf extends Container {
         this.wolfInventory = wolfInventory;
         this.desertWolf = desertWolf;
         wolfInventory.openInventory(player);
-        this.addSlotToContainer(new Slot(wolfInventory, 0, 8, 18) {
+        this.addSlot(new Slot(wolfInventory, 0, 8, 18) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return stack.getItem() instanceof ItemSaddle && !this.getHasStack();
@@ -29,7 +29,7 @@ public class ContainerAlphaDesertWolf extends Container {
                 return desertWolf.isAlpha();
             }
         });
-        this.addSlotToContainer(new Slot(wolfInventory, 1, 8, 36) {
+        this.addSlot(new Slot(wolfInventory, 1, 8, 36) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return desertWolf.isArmor(stack);
@@ -42,11 +42,11 @@ public class ContainerAlphaDesertWolf extends Container {
         });
         for (int row = 0; row < 3; ++row) {
             for (int slot = 0; slot < 9; ++slot) {
-                this.addSlotToContainer(new Slot(playerInventory, slot + row * 9 + 9, 8 + slot * 18, 102 + row * 18 + -18));
+                this.addSlot(new Slot(playerInventory, slot + row * 9 + 9, 8 + slot * 18, 102 + row * 18 + -18));
             }
         }
         for (int slot = 0; slot < 9; ++slot) {
-            this.addSlotToContainer(new Slot(playerInventory, slot, 8 + slot * 18, 142));
+            this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 142));
         }
     }
 

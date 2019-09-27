@@ -88,7 +88,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
 
     @Override
     public void draw(QuernRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString(AtumUtils.format("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
+        Minecraft.getInstance().font.drawString(AtumUtils.format("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
         this.icon.draw(29, 8);
     }
 }

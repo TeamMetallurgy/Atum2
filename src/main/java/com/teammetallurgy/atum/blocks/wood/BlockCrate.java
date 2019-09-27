@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -37,12 +37,12 @@ public class BlockCrate extends ContainerBlock {
         super(Material.WOOD);
         this.setHardness(3.0F);
         this.setSoundType(SoundType.WOOD);
-        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
     }
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityCrate();
+        return new CrateTileEntity();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class BlockCrate extends ContainerBlock {
         }
 
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityCrate) {
+        if (tileEntity instanceof CrateTileEntity) {
             player.openGui(Atum.instance, 1, world, pos.getX(), pos.getY(), pos.getZ());
             return true;
         }
@@ -128,8 +128,8 @@ public class BlockCrate extends ContainerBlock {
 
         if (stack.hasDisplayName()) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityCrate) {
-                ((TileEntityCrate) tileEntity).setCustomName(stack.getDisplayName());
+            if (tileEntity instanceof CrateTileEntity) {
+                ((CrateTileEntity) tileEntity).setCustomName(stack.getDisplayName());
             }
         }
     }
@@ -139,7 +139,7 @@ public class BlockCrate extends ContainerBlock {
         super.neighborChanged(state, world, pos, blockIn, fromPos);
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (tileEntity instanceof TileEntityCrate) {
+        if (tileEntity instanceof CrateTileEntity) {
             tileEntity.updateContainingBlockInfo();
         }
     }
@@ -148,7 +148,7 @@ public class BlockCrate extends ContainerBlock {
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
-        if (tileEntity instanceof TileEntityCrate) {
+        if (tileEntity instanceof CrateTileEntity) {
             world.updateComparatorOutputLevel(pos, this);
         }
         super.breakBlock(world, pos, state);
@@ -156,8 +156,8 @@ public class BlockCrate extends ContainerBlock {
 
     @Override
     public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
-        if (tileEntity instanceof TileEntityCrate) {
-            InventoryHelper.dropInventoryItems(world, pos, (TileEntityCrate) tileEntity);
+        if (tileEntity instanceof CrateTileEntity) {
+            InventoryHelper.dropInventoryItems(world, pos, (CrateTileEntity) tileEntity);
             world.updateComparatorOutputLevel(pos, this);
         }
         super.harvestBlock(world, player, pos, state, tileEntity, stack);
@@ -170,7 +170,7 @@ public class BlockCrate extends ContainerBlock {
 
     @Override
     public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
-        return Container.calcRedstoneFromInventory((TileEntityCrate) world.getTileEntity(pos));
+        return Container.calcRedstoneFromInventory((CrateTileEntity) world.getTileEntity(pos));
     }
 
     public BlockState correctFacing(World world, BlockPos pos, BlockState state) {
@@ -192,7 +192,7 @@ public class BlockCrate extends ContainerBlock {
         if (facingCheck != null) {
             return state.with(FACING, facingCheck.getOpposite());
         } else {
-            Direction facing = state.getValue(FACING);
+            Direction facing = state.get(FACING);
 
             if (world.getBlockState(pos.offset(facing)).isFullBlock()) {
                 facing = facing.getOpposite();
@@ -220,19 +220,19 @@ public class BlockCrate extends ContainerBlock {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(FACING).getIndex();
+        return state.get(FACING).getIndex();
     }
 
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
-        return state.with(FACING, rot.rotate(state.getValue(FACING)));
+        return state.with(FACING, rot.rotate(state.get(FACING)));
     }
     
     @Override
     @Nonnull
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
+        return state.withRotation(mirror.toRotation(state.get(FACING)));
     }
 
     @Override

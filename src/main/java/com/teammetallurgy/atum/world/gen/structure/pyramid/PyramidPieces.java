@@ -2,14 +2,14 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.BlockSandLayers;
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.trap.BlockTrap;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumTorchUnlit;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
@@ -100,7 +100,7 @@ public class PyramidPieces {
 
     public static class PyramidTemplate extends StructureComponentTemplate {
         public static final List<Block> FLOOR_TRAPS = Arrays.asList(AtumBlocks.BURNING_TRAP, AtumBlocks.POISON_TRAP, AtumBlocks.SMOKE_TRAP, AtumBlocks.TAR_TRAP);
-        static final BlockState CARVED_BRICK = BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.CARVED).getDefaultState().with(BlockLimestoneBricks.UNBREAKABLE, true);
+        static final BlockState CARVED_BRICK = LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.CARVED).getDefaultState().with(LimestoneBrickBlock.UNBREAKABLE, true);
         private ResourceLocation undeadSpawnerPair;
         private Rotation rotation;
         private Mirror mirror;
@@ -197,8 +197,8 @@ public class PyramidPieces {
                         world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);
@@ -208,8 +208,8 @@ public class PyramidPieces {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntityLimestoneChest) {
-                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.PYRAMID_CHEST, rand.nextLong());
+                    if (tileentity instanceof LimestoneChestTileEntity) {
+                        ((LimestoneChestTileEntity) tileentity).setLootTable(AtumLootTables.PYRAMID_CHEST, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);
@@ -217,8 +217,8 @@ public class PyramidPieces {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                    if (tileentity instanceof SarcophagusTileEntity) {
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);
@@ -226,8 +226,8 @@ public class PyramidPieces {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.SARCOPHAGUS_ARTIFACT, rand.nextLong());
+                    if (tileentity instanceof SarcophagusTileEntity) {
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.SARCOPHAGUS_ARTIFACT, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);

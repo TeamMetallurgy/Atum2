@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace;
 
-import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -18,20 +18,20 @@ public class ContainerLimestoneFurnace extends Container {
     private int furnaceBurnTime;
     private int currentItemBurnTime;
 
-    ContainerLimestoneFurnace(InventoryPlayer playerInventory, IInventory furnaceInventory) {
+    ContainerLimestoneFurnace(PlayerInventory playerInventory, IInventory furnaceInventory) {
         this.tileLimestoneFurnace = furnaceInventory;
-        this.addSlotToContainer(new Slot(furnaceInventory, 0, 56, 17));
-        this.addSlotToContainer(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
-        this.addSlotToContainer(new SlotFurnaceOutput(playerInventory.player, furnaceInventory, 2, 116, 35));
+        this.addSlot(new Slot(furnaceInventory, 0, 56, 17));
+        this.addSlot(new SlotFurnaceFuel(furnaceInventory, 1, 56, 53));
+        this.addSlot(new SlotFurnaceOutput(playerInventory.player, furnaceInventory, 2, 116, 35));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
+                this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
         }
 
         for (int k = 0; k < 9; ++k) {
-            this.addSlotToContainer(new Slot(playerInventory, k, 8 + k * 18, 142));
+            this.addSlot(new Slot(playerInventory, k, 8 + k * 18, 142));
         }
     }
 

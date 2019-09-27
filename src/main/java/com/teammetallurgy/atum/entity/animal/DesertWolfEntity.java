@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.ai.GoalBeg;
-import com.teammetallurgy.atum.entity.ai.GoalFollowOwnerWithoutSaddle;
-import com.teammetallurgy.atum.entity.ai.GoalSitWithCheck;
+import com.teammetallurgy.atum.entity.ai.goal.BegGoal;
+import com.teammetallurgy.atum.entity.ai.goal.FollowOwnerWithoutSaddleGoal;
+import com.teammetallurgy.atum.entity.ai.goal.SitWithCheckGoal;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -13,7 +13,7 @@ import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.InventoryScreen;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -95,7 +95,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     @Override
     protected void registerGoals() {
-        this.sitGoal = new GoalSitWithCheck(this, !this.isAlpha());
+        this.sitGoal = new SitWithCheckGoal(this, !this.isAlpha());
         this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, this.sitGoal);
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 8.0F, 0.6D, 1.0D, avoid -> avoid instanceof DesertWolfEntity && ((DesertWolfEntity) avoid).isAlpha() && (!this.isAlpha() && this.isTamed())));
@@ -103,10 +103,10 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, CamelEntity.class, 24.0F, 0.6D, 1.2D, avoid -> avoid != null && !this.isAlpha()));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
-        this.goalSelector.addGoal(6, new GoalFollowOwnerWithoutSaddle(this, 1.0D, 10.0F, 2.0F));
+        this.goalSelector.addGoal(6, new FollowOwnerWithoutSaddleGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 0.4D));
-        this.goalSelector.addGoal(9, new GoalBeg(this, 8.0F));
+        this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
         this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, false, false, target -> !this.isTamed()));
@@ -513,7 +513,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void openInventoryOverride(GuiOpenEvent event) {
-        if (event.getGui() instanceof InventoryScreen) {
+        if (event.getGui() instanceof ContainerScreen) {
             PlayerEntity player = Minecraft.getInstance().player;
             if (player.getRidingEntity() instanceof DesertWolfEntity) {
                 DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();

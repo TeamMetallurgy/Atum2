@@ -2,16 +2,16 @@ package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnBaseTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -37,12 +37,12 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
         this.setResistance(10.0F);
         this.setHarvestLevel("pickaxe", 0);
         this.setSoundType(SoundType.STONE);
-        this.setDefaultState(this.blockState.getBaseState().with(UP, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(UP, false));
     }
 
     @Override
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityKiln();
+        return new KilnTileEntity();
     }
 
     @Override
@@ -53,7 +53,7 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
         BlockPos tepos = getPrimaryKilnBlock(world, pos, state);
         if (tepos != null) {
             TileEntity tileEntity = world.getTileEntity(tepos);
-            if (tileEntity instanceof TileEntityKiln) {
+            if (tileEntity instanceof KilnTileEntity) {
                 player.openGui(Atum.instance, 5, world, tepos.getX(), tepos.getY(), tepos.getZ());
                 return true;
             }
@@ -73,8 +73,8 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
 
     private BlockPos getPrimaryKilnBlock(World world, BlockPos pos, BlockState state) {
         TileEntity te = world.getTileEntity(pos);
-        if (te instanceof TileEntityKilnBase) {
-            TileEntityKilnBase tekb = (TileEntityKilnBase) te;
+        if (te instanceof KilnBaseTileEntity) {
+            KilnBaseTileEntity tekb = (KilnBaseTileEntity) te;
             return tekb.getPrimaryPos();
         }
         return null;
@@ -83,7 +83,7 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
     @Override
     @Nonnull
     public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return Item.getItemFromBlock(BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.SMALL));
+        return Item.getItemFromBlock(LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.SMALL));
     }
 
     @Override
@@ -107,7 +107,7 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
     @Override
     public int getMetaFromState(BlockState state) {
         int meta = 0;
-        if (state.getValue(UP)) {
+        if (state.get(UP)) {
             meta |= 0b001;
         }
         return meta;
@@ -126,7 +126,7 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
     }
 
     @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{UP};
+    public Property[] getNonRenderingProperties() {
+        return new Property[]{UP};
     }
 }

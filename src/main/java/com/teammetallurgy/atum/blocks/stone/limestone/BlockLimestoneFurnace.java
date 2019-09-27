@@ -38,7 +38,7 @@ public class BlockLimestoneFurnace extends ContainerBlock {
 
     public BlockLimestoneFurnace(boolean isBurning) {
         super(Material.ROCK);
-        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
         this.isBurning = isBurning;
 
         this.setHardness(3.5F);
@@ -65,7 +65,7 @@ public class BlockLimestoneFurnace extends ContainerBlock {
             BlockState stateSouth = world.getBlockState(pos.south());
             BlockState stateWest = world.getBlockState(pos.west());
             BlockState stateEast = world.getBlockState(pos.east());
-            Direction facing = state.getValue(FACING);
+            Direction facing = state.get(FACING);
 
             if (facing == Direction.NORTH && stateNorth.isFullBlock() && !stateSouth.isFullBlock()) {
                 facing = Direction.SOUTH;
@@ -84,7 +84,7 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     @OnlyIn(Dist.CLIENT)
     public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand) {
         if (this.isBurning) {
-            Direction facing = state.getValue(FACING);
+            Direction facing = state.get(FACING);
             double d0 = (double) pos.getX() + 0.5D;
             double d1 = (double) pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
             double d2 = (double) pos.getZ() + 0.5D;
@@ -140,11 +140,11 @@ public class BlockLimestoneFurnace extends ContainerBlock {
         keepInventory = true;
 
         if (active) {
-            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE_LIT.getDefaultState().with(FACING, state.getValue(FACING)), 3);
-            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE_LIT.getDefaultState().with(FACING, state.getValue(FACING)), 3);
+            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE_LIT.getDefaultState().with(FACING, state.get(FACING)), 3);
+            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE_LIT.getDefaultState().with(FACING, state.get(FACING)), 3);
         } else {
-            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE.getDefaultState().with(FACING, state.getValue(FACING)), 3);
-            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE.getDefaultState().with(FACING, state.getValue(FACING)), 3);
+            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE.getDefaultState().with(FACING, state.get(FACING)), 3);
+            world.setBlockState(pos, AtumBlocks.LIMESTONE_FURNACE.getDefaultState().with(FACING, state.get(FACING)), 3);
         }
 
         keepInventory = false;
@@ -228,19 +228,19 @@ public class BlockLimestoneFurnace extends ContainerBlock {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return (state.getValue(FACING)).getIndex();
+        return (state.get(FACING)).getIndex();
     }
 
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
-        return state.with(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
+        return state.withRotation(mirror.toRotation(state.get(FACING)));
     }
 
     @Override

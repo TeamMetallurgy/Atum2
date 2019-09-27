@@ -31,13 +31,13 @@ public class BlockSandLayers extends FallingBlock {
 
     public BlockSandLayers() {
         super(Block.Properties.create(SAND_LAYER).hardnessAndResistance(0.1F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
-        this.setDefaultState(this.blockState.getBaseState().with(LAYERS, 1));
+        this.setDefaultState(this.stateContainer.getBaseState().with(LAYERS, 1));
     }
 
     @Override
     @Nonnull
     public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
-        return SAND_AABB[state.getValue(LAYERS)];
+        return SAND_AABB[state.get(LAYERS)];
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BlockSandLayers extends FallingBlock {
 
     @Override
     public boolean isTopSolid(BlockState state) {
-        return state.getValue(LAYERS) == 8;
+        return state.get(LAYERS) == 8;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BlockSandLayers extends FallingBlock {
 
     @Override
     public AxisAlignedBB getCollisionBoundingBox(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        int i = state.getValue(LAYERS) - 2;
+        int i = state.get(LAYERS) - 2;
         i = MathHelper.clamp(i, 0, 8);
         float f = 0.125F;
         AxisAlignedBB axisalignedbb = state.getBoundingBox(world, pos);
@@ -127,7 +127,7 @@ public class BlockSandLayers extends FallingBlock {
             return true;
         } else {
             BlockState state = blockAccess.getBlockState(pos.offset(side));
-            return (state.getBlock() != this || state.getValue(LAYERS) < blockState.getValue(LAYERS)) && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+            return (state.getBlock() != this || state.get(LAYERS) < blockState.getValue(LAYERS)) && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
         }
     }
 
@@ -144,12 +144,12 @@ public class BlockSandLayers extends FallingBlock {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(LAYERS) - 1;
+        return state.get(LAYERS) - 1;
     }
 
     @Override
     public int quantityDropped(BlockState state, int fortune, @Nonnull Random random) {
-        return (state.getValue(LAYERS)) + 1;
+        return (state.get(LAYERS)) + 1;
     }
 
     @Override

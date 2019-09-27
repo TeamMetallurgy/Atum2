@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -121,8 +121,8 @@ public class LighthousePieces {
                         world.setBlockState(pos, palmCrate.correctFacing(world, pos, palmCrate.getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.LIGHTHOUSE, rand.nextLong());
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.LIGHTHOUSE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);

@@ -6,7 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemSaddle;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,7 +27,7 @@ public class ContainerCamel extends Container {
         this.camel = camel;
         camelInventory.openInventory(player);
         //Saddle slot
-        this.addSlotToContainer(new Slot(camelInventory, 0, 62, 64) {
+        this.addSlot(new Slot(camelInventory, 0, 62, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return stack.getItem() instanceof ItemSaddle && !this.getHasStack() && camel.canBeSaddled();
@@ -40,7 +40,7 @@ public class ContainerCamel extends Container {
             }
         });
         //Armor slot
-        this.addSlotToContainer(new Slot(camelInventory, 1, 80, 64) {
+        this.addSlot(new Slot(camelInventory, 1, 80, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return camel.isArmor(stack);
@@ -58,7 +58,7 @@ public class ContainerCamel extends Container {
             }
         });
         //Carpet slot
-        this.addSlotToContainer(new Slot(camelInventory, 2, 98, 64) {
+        this.addSlot(new Slot(camelInventory, 2, 98, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return camel.isValidCarpet(stack);
@@ -70,7 +70,7 @@ public class ContainerCamel extends Container {
             }
         });
         //Left Crate slot
-        this.addSlotToContainer(new Slot(camelInventory, 3, 35, 64) {
+        this.addSlot(new Slot(camelInventory, 3, 35, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return Block.getBlockFromItem(stack.getItem()) instanceof BlockCrate;
@@ -98,7 +98,7 @@ public class ContainerCamel extends Container {
             }
         });
         //Right Crate slot
-        this.addSlotToContainer(new Slot(camelInventory, 4, 125, 64) {
+        this.addSlot(new Slot(camelInventory, 4, 125, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
                 return Block.getBlockFromItem(stack.getItem()) instanceof BlockCrate;
@@ -130,7 +130,7 @@ public class ContainerCamel extends Container {
             for (int slot = 0; slot < camel.getInventoryColumns(); ++slot) {
                 leftCrateSlots.add(new Slot(camelInventory, camel.getNonCrateSize() + slot + row * camel.getInventoryColumns(), 8 + slot * 18, 86 + row * 18));
                 if (camel != null && camel.hasLeftCrate()) {
-                    this.addSlotToContainer(leftCrateSlots.get(leftCrateSlots.size() - 1));
+                    this.addSlot(leftCrateSlots.get(leftCrateSlots.size() - 1));
                 }
             }
         }
@@ -139,19 +139,19 @@ public class ContainerCamel extends Container {
             for (int slot = 0; slot < camel.getInventoryColumns(); ++slot) {
                 rightCrateSlots.add(new Slot(camelInventory, camel.getNonCrateSize() + 3 * camel.getInventoryColumns() + slot + row * camel.getInventoryColumns(), 98 + slot * 18, 86 + row * 18));
                 if (camel != null && camel.hasRightCrate()) {
-                    this.addSlotToContainer(rightCrateSlots.get(rightCrateSlots.size() - 1));
+                    this.addSlot(rightCrateSlots.get(rightCrateSlots.size() - 1));
                 }
             }
         }
         //Player Inventory
         for (int row = 0; row < 3; ++row) {
             for (int slot = 0; slot < 9; ++slot) {
-                this.addSlotToContainer(new Slot(playerInventory, slot + row * 9 + 9, 8 + slot * 18, 102 + row * 18 + 52));
+                this.addSlot(new Slot(playerInventory, slot + row * 9 + 9, 8 + slot * 18, 102 + row * 18 + 52));
             }
         }
         //Player Hotbar
         for (int slot = 0; slot < 9; ++slot) {
-            this.addSlotToContainer(new Slot(playerInventory, slot, 8 + slot * 18, 212));
+            this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 212));
         }
     }
 

@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.BlockPlanks;
 import net.minecraft.block.FenceGateBlock;
 import net.minecraft.block.SoundType;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 
 public class BlockAtumFenceGate extends FenceGateBlock implements IRenderMapper, IOreDictEntry {
 
@@ -17,8 +17,8 @@ public class BlockAtumFenceGate extends FenceGateBlock implements IRenderMapper,
     }
 
     @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{POWERED};
+    public Property[] getNonRenderingProperties() {
+        return new Property[]{POWERED};
     }
 
     @Override

@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumSapling;
-import com.teammetallurgy.atum.blocks.wood.BlockLeave;
+import com.teammetallurgy.atum.blocks.wood.PalmSaplingBlock;
+import com.teammetallurgy.atum.blocks.wood.PalmLeavesBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockVine;
@@ -20,7 +20,7 @@ import java.util.Random;
 
 public class WorldGenPalm extends WorldGenAbstractTree {
     private static final BlockState BLOCK_LOG = AtumBlocks.PALM_LOG.getDefaultState();
-    private static final BlockState BLOCK_LEAVES = BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().with(BlockLeave.CHECK_DECAY, false);
+    private static final BlockState BLOCK_LEAVES = PalmLeavesBlock.getLeave(BlockAtumPlank.WoodType.PALM).getDefaultState().with(PalmLeavesBlock.CHECK_DECAY, false);
     private final int minTreeHeight;
     private final BlockState stateWood;
     private final BlockState stateLeaves;
@@ -47,7 +47,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
         int treeHeight = random.nextInt(3) + this.minTreeHeight;
         boolean flag = true;
         BlockState soil = world.getBlockState(pos.down());
-        boolean isSoil = stateWood.getBlock() == AtumBlocks.PALM_LOG ? soil.getBlock().canSustainPlant(soil, world, pos.down(), Direction.UP, (BlockAtumSapling) BlockAtumSapling.getSapling(BlockAtumPlank.WoodType.PALM)) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256 : soil.getBlock() == AtumBlocks.LIMESTONE_GRAVEL;
+        boolean isSoil = stateWood.getBlock() == AtumBlocks.PALM_LOG ? soil.getBlock().canSustainPlant(soil, world, pos.down(), Direction.UP, (PalmSaplingBlock) PalmSaplingBlock.getSapling(BlockAtumPlank.WoodType.PALM)) && pos.getY() >= 1 && pos.getY() + treeHeight + 1 <= 256 : soil.getBlock() == AtumBlocks.LIMESTONE_GRAVEL;
         if (isSoil) {
             for (int j = pos.getY(); j <= pos.getY() + 1 + treeHeight; ++j) {
 

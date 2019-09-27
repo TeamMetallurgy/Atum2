@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKilnBase;
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks.BrickType;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnBaseTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock.BrickType;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
@@ -42,13 +42,13 @@ public class BlockKiln extends ContainerBlock {
         this.setHardness(3.5F);
         this.setSoundType(SoundType.STONE);
         this.setHarvestLevel("pickaxe", 0);
-        this.setDefaultState(this.blockState.getBaseState().with(FACING, Direction.NORTH).with(IS_BURNING, false).with(MULTIBLOCK_PRIMARY, false).with(MULTIBLOCK_SECONDARY, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(IS_BURNING, false).with(MULTIBLOCK_PRIMARY, false).with(MULTIBLOCK_SECONDARY, false));
     }
 
     @Override
     @Nullable
     public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
-        return new TileEntityKiln();
+        return new KilnTileEntity();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class BlockKiln extends ContainerBlock {
         BlockPos tepos = getPrimaryKilnBlock(world, pos);
         if (tepos != null) {
             TileEntity tileEntity = world.getTileEntity(tepos);
-            if (tileEntity instanceof TileEntityKiln) {
+            if (tileEntity instanceof KilnTileEntity) {
                 player.openGui(Atum.instance, 5, world, tepos.getX(), tepos.getY(), tepos.getZ());
                 return true;
             }
@@ -70,15 +70,15 @@ public class BlockKiln extends ContainerBlock {
 
     @Override
     public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return state.getValue(IS_BURNING) ? (int) (15.0F * 0.875F) : 0;
+        return state.get(IS_BURNING) ? (int) (15.0F * 0.875F) : 0;
     }
 
     @Override
     public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        if (state.getValue(MULTIBLOCK_PRIMARY)) {
-            this.destroyMultiblock(world, pos, state.getValue(FACING));
+        if (state.get(MULTIBLOCK_PRIMARY)) {
+            this.destroyMultiblock(world, pos, state.get(FACING));
         } else {
-            BlockPos primaryPos = pos.offset(state.getValue(FACING).rotateYCCW());
+            BlockPos primaryPos = pos.offset(state.get(FACING).rotateYCCW());
             BlockState primaryState = world.getBlockState(primaryPos);
             if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.getValue(MULTIBLOCK_PRIMARY)) {
                 this.destroyMultiblock(world, primaryPos, primaryState.getValue(FACING));
@@ -93,8 +93,8 @@ public class BlockKiln extends ContainerBlock {
 
         if (stack.hasDisplayName()) {
             TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof TileEntityKiln) {
-                ((TileEntityKiln) tileEntity).setCustomName(stack.getDisplayName());
+            if (tileEntity instanceof KilnTileEntity) {
+                ((KilnTileEntity) tileEntity).setCustomName(stack.getDisplayName());
             }
         }
         state = world.getBlockState(pos);
@@ -102,7 +102,7 @@ public class BlockKiln extends ContainerBlock {
     }
 
     public void tryMakeMultiblock(World world, BlockPos pos, BlockState state) {
-        Direction facing = state.getValue(FACING);
+        Direction facing = state.get(FACING);
         if (checkMultiblock(world, pos, facing)) {
             world.setBlockState(pos, state.with(MULTIBLOCK_PRIMARY, true));
             world.setBlockState(pos.offset(facing.rotateY()), state.with(MULTIBLOCK_PRIMARY, false));
@@ -117,9 +117,9 @@ public class BlockKiln extends ContainerBlock {
     public static BlockPos getSecondaryKilnFromPrimary(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityKiln) {
-            if (state.getBlock() == AtumBlocks.KILN && ((TileEntityKiln) tileEntity).isPrimary()) {
-                return pos.offset(state.getValue(FACING).rotateY());
+        if (tileEntity instanceof KilnTileEntity) {
+            if (state.getBlock() == AtumBlocks.KILN && ((KilnTileEntity) tileEntity).isPrimary()) {
+                return pos.offset(state.get(FACING).rotateY());
             }
         }
         return null;
@@ -128,12 +128,12 @@ public class BlockKiln extends ContainerBlock {
     private BlockPos getPrimaryKilnBlock(World world, BlockPos pos) {
         if (world != null && !world.isAirBlock(pos)) {
             BlockState state = world.getBlockState(pos);
-            if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
+            if (state.getBlock() == AtumBlocks.KILN && state.get(MULTIBLOCK_PRIMARY)) {
                 return pos;
             } else {
-                state = world.getBlockState(pos.offset(state.getValue(FACING).rotateYCCW()));
-                if (state.getBlock() == AtumBlocks.KILN && state.getValue(MULTIBLOCK_PRIMARY)) {
-                    return pos.offset(state.getValue(FACING).rotateYCCW());
+                state = world.getBlockState(pos.offset(state.get(FACING).rotateYCCW()));
+                if (state.getBlock() == AtumBlocks.KILN && state.get(MULTIBLOCK_PRIMARY)) {
+                    return pos.offset(state.get(FACING).rotateYCCW());
                 }
             }
         }
@@ -146,20 +146,20 @@ public class BlockKiln extends ContainerBlock {
             world.setBlockState(brickPos, AtumBlocks.KILN_FAKE.getDefaultState().with(BlockKilnFake.UP, primaryPos.getY() - 1 == brickPos.getY()));
             TileEntity tileEntity = world.getTileEntity(brickPos);
             if (tileEntity != null) {
-                ((TileEntityKilnBase) tileEntity).setPrimaryPos(primaryPos);
+                ((KilnBaseTileEntity) tileEntity).setPrimaryPos(primaryPos);
             }
         }
         TileEntity tileEntity = world.getTileEntity(primaryPos);
-        if (tileEntity instanceof TileEntityKilnBase) {
-            ((TileEntityKilnBase) tileEntity).setPrimaryPos(primaryPos);
+        if (tileEntity instanceof KilnBaseTileEntity) {
+            ((KilnBaseTileEntity) tileEntity).setPrimaryPos(primaryPos);
         }
 
         BlockPos secondaryPos = getSecondaryKilnFromPrimary(world, primaryPos);
 
         if (secondaryPos != null) {
             tileEntity = world.getTileEntity(secondaryPos);
-            if (tileEntity instanceof TileEntityKilnBase) {
-                ((TileEntityKilnBase) tileEntity).setPrimaryPos(primaryPos);
+            if (tileEntity instanceof KilnBaseTileEntity) {
+                ((KilnBaseTileEntity) tileEntity).setPrimaryPos(primaryPos);
             }
         }
     }
@@ -181,23 +181,23 @@ public class BlockKiln extends ContainerBlock {
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
-                world.setBlockState(brickPos, BlockLimestoneBricks.getBrick(BrickType.SMALL).getDefaultState());
+                world.setBlockState(brickPos, LimestoneBrickBlock.getBrick(BrickType.SMALL).getDefaultState());
             } else {
                 dropPos = brickPos;
             }
         }
 
         TileEntity tileEntity = world.getTileEntity(primaryPos);
-        if (tileEntity instanceof TileEntityKilnBase) {
-            TileEntityKilnBase kilnBase = (TileEntityKilnBase) tileEntity;
+        if (tileEntity instanceof KilnBaseTileEntity) {
+            KilnBaseTileEntity kilnBase = (KilnBaseTileEntity) tileEntity;
             kilnBase.setPrimaryPos(null);
             InventoryHelper.dropInventoryItems(world, dropPos, kilnBase);
             kilnBase.invalidate();
         }
 
         tileEntity = world.getTileEntity(secondaryPos);
-        if (tileEntity instanceof TileEntityKilnBase) {
-            TileEntityKilnBase kilnBase = (TileEntityKilnBase) tileEntity;
+        if (tileEntity instanceof KilnBaseTileEntity) {
+            KilnBaseTileEntity kilnBase = (KilnBaseTileEntity) tileEntity;
             kilnBase.setPrimaryPos(null);
         }
     }
@@ -212,7 +212,7 @@ public class BlockKiln extends ContainerBlock {
         }
         for (BlockPos brickPos : brickPositions) {
             BlockState brickState = world.getBlockState(brickPos);
-            if (brickState.getBlock() != BlockLimestoneBricks.getBrick(BrickType.SMALL)) {
+            if (brickState.getBlock() != LimestoneBrickBlock.getBrick(BrickType.SMALL)) {
                 return false;
             }
         }
@@ -237,8 +237,8 @@ public class BlockKiln extends ContainerBlock {
     @Nonnull
     public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof TileEntityKiln) {
-            TileEntityKiln kiln = (TileEntityKiln) tileEntity;
+        if (tileEntity instanceof KilnTileEntity) {
+            KilnTileEntity kiln = (KilnTileEntity) tileEntity;
             if (this.getPrimaryKilnBlock(kiln.getWorld(), pos) != null) {
                 return state.with(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
             }
@@ -267,11 +267,11 @@ public class BlockKiln extends ContainerBlock {
     @Override
     public int getMetaFromState(BlockState state) {
         int meta = 0;
-        meta = meta | (state.getValue(FACING)).getHorizontalIndex();
-        if (state.getValue(IS_BURNING)) {
+        meta = meta | (state.get(FACING)).getHorizontalIndex();
+        if (state.get(IS_BURNING)) {
             meta |= 4;
         }
-        if (state.getValue(MULTIBLOCK_PRIMARY)) {
+        if (state.get(MULTIBLOCK_PRIMARY)) {
             meta |= 8;
         }
         return meta;
@@ -280,13 +280,13 @@ public class BlockKiln extends ContainerBlock {
     @Override
     @Nonnull
     public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
-        return state.with(FACING, rotation.rotate(state.getValue(FACING)));
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.withRotation(mirror.toRotation(state.getValue(FACING)));
+        return state.withRotation(mirror.toRotation(state.get(FACING)));
     }
 
     @Override

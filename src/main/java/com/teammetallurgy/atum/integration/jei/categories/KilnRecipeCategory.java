@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
 import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
-import com.teammetallurgy.atum.client.gui.block.GuiKiln;
+import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
 import com.teammetallurgy.atum.utils.AtumUtils;
@@ -30,11 +30,11 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     private final IDrawableAnimated arrow;
 
     public KilnRecipeCategory(IGuiHelper guiHelper) {
-        this.background = guiHelper.createDrawable(GuiKiln.KILN_GUI, 35, 14, 71, 84);
+        this.background = guiHelper.createDrawable(KilnScreen.KILN_GUI, 35, 14, 71, 84);
         this.icon = guiHelper.createDrawableIngredient(new ItemStack(AtumBlocks.KILN));
-        IDrawableStatic staticFlame = guiHelper.createDrawable(GuiKiln.KILN_GUI, 176, 0, 14, 14);
+        IDrawableStatic staticFlame = guiHelper.createDrawable(KilnScreen.KILN_GUI, 176, 0, 14, 14);
         animatedFlame = guiHelper.createAnimatedDrawable(staticFlame, 300, IDrawableAnimated.StartDirection.TOP, true);
-        arrow = guiHelper.drawableBuilder(GuiKiln.KILN_GUI, 176, 14, 19, 8).buildAnimated(200, IDrawableAnimated.StartDirection.TOP, false);
+        arrow = guiHelper.drawableBuilder(KilnScreen.KILN_GUI, 176, 14, 19, 8).buildAnimated(200, IDrawableAnimated.StartDirection.TOP, false);
     }
 
     @Override
@@ -99,7 +99,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
         float experience = recipe.getExperience();
         if (experience > 0) {
             String experienceString = AtumUtils.format("gui.jei.category.smelting.experience", experience);
-            Minecraft.getInstance().fontRenderer.drawString(experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
+            Minecraft.getInstance().font.drawString(experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
 }

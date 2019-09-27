@@ -2,7 +2,8 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
@@ -11,7 +12,6 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -87,7 +87,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new OpenDoorGoal(this, false));
+        this.goalSelector.addGoal(1, new OpenAnyDoorGoal(this, false));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
     }
 
@@ -192,13 +192,13 @@ public class PharaohEntity extends UndeadBaseEntity {
             BlockPos sarcophagusPos = getSarcophagusPos();
             if (sarcophagusPos != null) {
                 TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
-                if (tileEntity instanceof TileEntitySarcophagus) {
-                    ((TileEntitySarcophagus) tileEntity).setOpenable();
+                if (tileEntity instanceof SarcophagusTileEntity) {
+                    ((SarcophagusTileEntity) tileEntity).setOpenable();
                     for (int i = 0; i < 4; i++) {
                         Direction horizontal = Direction.byHorizontalIndex((5 - i) % 4); //[W, S, E, N]
                         TileEntity tileEntityOffset = world.getTileEntity(sarcophagusPos.offset(horizontal));
-                        if (tileEntityOffset instanceof TileEntitySarcophagus) {
-                            ((TileEntitySarcophagus) tileEntityOffset).setOpenable();
+                        if (tileEntityOffset instanceof SarcophagusTileEntity) {
+                            ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
                         }
                     }
                 } else {
@@ -335,8 +335,8 @@ public class PharaohEntity extends UndeadBaseEntity {
         if (this.world.getDifficulty().getId() == 0) {
             if (this.getSarcophagusPos() != null) {
                 TileEntity te = world.getTileEntity(this.getSarcophagusPos());
-                if (te instanceof TileEntitySarcophagus) {
-                    ((TileEntitySarcophagus) te).hasSpawned = false;
+                if (te instanceof SarcophagusTileEntity) {
+                    ((SarcophagusTileEntity) te).hasSpawned = false;
                 }
             }
             this.remove();

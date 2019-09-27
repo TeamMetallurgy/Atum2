@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.bandit;
 
+import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -7,7 +8,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.OpenDoorGoal;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
@@ -44,7 +44,7 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new OpenDoorGoal(this, false));
+        this.goalSelector.addGoal(1, new OpenAnyDoorGoal(this, false));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, true));
     }
 

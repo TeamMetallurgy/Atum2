@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.utils.event;
 
-import com.teammetallurgy.atum.blocks.linen.BlockLinen;
-import com.teammetallurgy.atum.blocks.linen.BlockLinenCarpet;
+import com.teammetallurgy.atum.blocks.linen.LinenBlock;
+import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.Constants;
@@ -20,9 +20,9 @@ public class FurnaceFuel {
         ItemStack stack = event.getItemStack();
         if (stack.getItem() == getItem(AtumBlocks.DEADWOOD_LADDER) || stack.getItem() == getItem(AtumBlocks.PALM_LADDER)) {
             event.setBurnTime(300);
-        } else if (Block.getBlockFromItem(stack.getItem()) instanceof BlockLinen && !(Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet)) {
+        } else if (Block.getBlockFromItem(stack.getItem()) instanceof LinenBlock && !(Block.getBlockFromItem(stack.getItem()) instanceof LinenCarpetBlock)) {
             event.setBurnTime(100);
-        } else if (Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet) {
+        } else if (Block.getBlockFromItem(stack.getItem()) instanceof LinenCarpetBlock) {
             event.setBurnTime(67);
         } else if (stack.getItem() == AtumItems.PALM_STICK || stack.getItem() == AtumItems.DEADWOOD_STICK) {
             event.setBurnTime(100);

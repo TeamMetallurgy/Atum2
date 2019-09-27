@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.teleporter.AtumTeleporter;
@@ -217,7 +217,7 @@ public class BlockPortal extends BreakableBlock {
         }
 
         boolean isSandBlock(BlockState state) {
-            return state.getBlock() instanceof BlockSandStone || state.getBlock() instanceof BlockLimestoneBricks;
+            return state.getBlock() instanceof BlockSandStone || state.getBlock() instanceof LimestoneBrickBlock;
         }
 
         boolean isValid() {

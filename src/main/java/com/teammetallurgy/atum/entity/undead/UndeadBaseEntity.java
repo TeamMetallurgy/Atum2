@@ -150,14 +150,14 @@ public class UndeadBaseEntity extends MonsterEntity {
 
     @Override
     public void baseTick() {
-        if (this.func_223314_ad() > 0) {
-            int fire = this.func_223314_ad();
+        if (this.getFireTimer() > 0) {
+            int fire = this.getFireTimer();
             if (!this.isImmuneToFire()) {
-                if (this.func_223314_ad() % 20 == 0) {
+                if (this.getFireTimer() % 20 == 0) {
                     this.attackEntityFrom(DamageSource.ON_FIRE, getBurnDamage());
                 }
                 --fire;
-                this.func_223308_g(fire);
+                this.setFireTimer(fire);
             }
         }
         super.baseTick();

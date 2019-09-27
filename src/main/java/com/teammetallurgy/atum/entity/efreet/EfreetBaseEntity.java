@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.efreet;
 
+import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
@@ -40,7 +41,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(2, new OpenDoorGoal(this, true));
+        this.goalSelector.addGoal(2, new OpenAnyDoorGoal(this, true));
         this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 0.6D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
@@ -152,7 +153,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity {
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean canRenderOnFire() {
-        return this.isAngry() && this.func_223314_ad() > 0;
+        return this.isAngry() && this.getFireTimer() > 0;
     }
 
     @Override
@@ -182,7 +183,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity {
             if (entity instanceof PlayerEntity && !((PlayerEntity) entity).isCreative() && this.canEntityBeSeen(entity)) {
                 this.becomeAngryAt(entity);
             }
-            this.func_223308_g(1000);
+            this.setFireTimer(1000);
             return super.attackEntityFrom(source, amount);
         }
     }

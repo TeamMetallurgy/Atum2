@@ -29,7 +29,7 @@ public class BlockRaStone extends BreakableBlock {
         this.setHardness(0.5F);
         this.setLightOpacity(3);
         this.setSoundType(SoundType.STONE);
-        this.setDefaultState(this.blockState.getBaseState().with(AGE, 0));
+        this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
     }
 
     @Override
@@ -47,7 +47,7 @@ public class BlockRaStone extends BreakableBlock {
 
     @Override
     public void updateTick(World world, BlockPos pos, BlockState state, Random rand) {
-        if ((rand.nextInt(3) == 0 || this.countNeighbors(world, pos) < 4) && world.getLightFromNeighbors(pos) > 11 - state.getValue(AGE) - state.getLightOpacity()) {
+        if ((rand.nextInt(3) == 0 || this.countNeighbors(world, pos) < 4) && world.getLightFromNeighbors(pos) > 11 - state.get(AGE) - state.getLightOpacity()) {
             this.startToDisappear(world, pos, state, rand, true);
         } else {
             world.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.getInt(rand, 20, 40));
@@ -78,7 +78,7 @@ public class BlockRaStone extends BreakableBlock {
     }
 
     private void startToDisappear(World world, BlockPos pos, BlockState state, Random rand, boolean meltNeighbors) {
-        int i = state.getValue(AGE);
+        int i = state.get(AGE);
         if (i < 3) {
             world.setBlockState(pos, state.with(AGE, i + 1), 2);
             world.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.getInt(rand, 20, 40));
@@ -129,7 +129,7 @@ public class BlockRaStone extends BreakableBlock {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(AGE);
+        return state.get(AGE);
     }
 
     @Override

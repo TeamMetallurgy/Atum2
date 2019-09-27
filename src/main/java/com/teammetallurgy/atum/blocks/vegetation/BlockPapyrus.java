@@ -8,7 +8,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +33,7 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
         this.setHardness(0.0F);
         this.setSoundType(SoundType.PLANT);
         this.setTickRandomly(true);
-        this.setDefaultState(this.blockState.getBaseState().with(AGE, 0).with(TOP, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0).with(TOP, false));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
                     //Do nothing
                 }
                 if (i < 3) {
-                    int j = state.getValue(AGE);
+                    int j = state.get(AGE);
 
                     if (ForgeHooks.onCropsGrowPre(world, pos, state, true)) {
                         if (j == 15) {
@@ -120,7 +120,7 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
     }
 
     @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{AGE};
+    public Property[] getNonRenderingProperties() {
+        return new Property[]{AGE};
     }
 }

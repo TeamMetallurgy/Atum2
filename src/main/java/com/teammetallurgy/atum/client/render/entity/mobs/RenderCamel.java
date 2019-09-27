@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.client.model.entity.ModelCamel;
+import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -24,7 +24,7 @@ public class RenderCamel extends RenderLiving<CamelEntity> {
     private static final ResourceLocation GIRAFI = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_girafi.png");
 
     public RenderCamel(RenderManager renderManager) {
-        super(renderManager, new ModelCamel(0.0F), 0.7F);
+        super(renderManager, new CamelModel(0.0F), 0.7F);
     }
 
     @Override

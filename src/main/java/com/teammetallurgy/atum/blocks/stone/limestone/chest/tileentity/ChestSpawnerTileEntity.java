@@ -1,0 +1,187 @@
+package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
+
+import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.tileentity.MobSpawnerBaseLogic;
+import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.WeightedSpawnerEntity;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.List;
+import java.util.Random;
+
+public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
+    private final MobSpawnerBaseLogic spawnerLogic = new MobSpawnerBaseLogic() {
+        @Override
+        public void broadcastEvent(int id) {
+            ChestSpawnerTileEntity.this.world.addBlockEvent(ChestSpawnerTileEntity.this.pos, Blocks.MOB_SPAWNER, id, 0);
+        }
+
+        @Override
+        @SuppressWarnings("all")
+        public World getSpawnerWorld() {
+            return ChestSpawnerTileEntity.this.world;
+        }
+
+        @Override
+        @Nonnull
+        public BlockPos getSpawnerPosition() {
+            return ChestSpawnerTileEntity.this.pos;
+        }
+
+        @Override
+        public void setNextSpawnData(@Nonnull WeightedSpawnerEntity spawnerEntity) {
+            super.setNextSpawnData(spawnerEntity);
+
+            if (this.getSpawnerWorld() != null) {
+                BlockState BlockState = this.getSpawnerWorld().getBlockState(this.getSpawnerPosition());
+                this.getSpawnerWorld().notifyBlockUpdate(ChestSpawnerTileEntity.this.pos, BlockState, BlockState, 4);
+            }
+        }
+
+        @Override
+        public void updateSpawner() {
+            if (isRuinChest) {
+                if (!world.isDaytime()) {
+                    setEntityId(getNightTime(spawnPool));
+                } else {
+                    setEntityId(getDayTime(spawnPool));
+                }
+            }
+            super.updateSpawner();
+        }
+    };
+    private int spawnPool;
+    private boolean isRuinChest;
+
+    public ChestSpawnerTileEntity() {
+        super(true, false, AtumBlocks.CHEST_SPAWNER);
+        if (this.isRuinChest) {
+            spawnPool = MathHelper.getInt(new Random(), 0, 2);
+        }
+    }
+
+    private static ResourceLocation getDayTime(int spawnPool) {
+        switch (spawnPool) {
+            case 1:
+                return AtumEntities.BRIGAND.getRegistryName();
+            case 2:
+                return AtumEntities.NOMAD.getRegistryName();
+            case 0:
+            default:
+                return AtumEntities.BARBARIAN.getRegistryName();
+        }
+    }
+
+    private static ResourceLocation getNightTime(int spawnPool) {
+        switch (spawnPool) {
+            case 1:
+                return AtumEntities.FORSAKEN.getRegistryName();
+            case 2:
+                return AtumEntities.BONESTORM.getRegistryName();
+            case 0:
+            default:
+                return AtumEntities.MUMMY.getRegistryName();
+        }
+    }
+
+    public void setRuinChest() {
+        this.isRuinChest = true;
+    }
+
+    @Override
+    public void update() {
+        this.spawnerLogic.updateSpawner();
+        super.update();
+    }
+
+    @Override
+    public void readFromNBT(CompoundNBT compound) {
+        super.readFromNBT(compound);
+        this.spawnerLogic.readFromNBT(compound);
+        spawnPool = compound.getInt("spawnPool");
+    }
+
+    @Override
+    @Nonnull
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
+        super.writeToNBT(compound);
+        this.spawnerLogic.writeToNBT(compound);
+        compound.putInt("spawnPool", spawnPool);
+        return compound;
+    }
+
+    @Override
+    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
+        double d0 = 4.0D;
+        double d1 = 3.0D;
+        List<EntityMob> list = super.world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB((double) super.pos.getX() - d0, (double) super.pos.getY() - d1, (double) super.pos.getZ() - d0, (double) super.pos.getX() + d0, (double) super.pos.getY() + d1, (double) super.pos.getZ() + d0));
+        if (!list.isEmpty()) {
+            if (!super.world.isRemote) {
+                player.sendMessage(new TextComponentTranslation("chat.atum.enemies"));
+            }
+            return false;
+        } else {
+            return this.world.getTileEntity(this.pos) == this && player.getDistanceSq((double) this.pos.getX() + 0.5D, (double) this.pos.getY() + 0.5D, (double) this.pos.getZ() + 0.5D) <= 64.0D;
+        }
+    }
+
+    @Override
+    @Nullable
+    public SPacketUpdateTileEntity getUpdatePacket() {
+        return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
+    }
+
+    @Override
+    @Nonnull
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tag = this.writeToNBT(new CompoundNBT());
+        tag.removeTag("SpawnPotentials");
+        return tag;
+    }
+
+    @Override
+    public boolean receiveClientEvent(int id, int type) {
+        if (id == 1) {
+            return super.receiveClientEvent(id, type);
+        }
+        return this.spawnerLogic.setDelayToMin(id);
+    }
+
+    @Override
+    public boolean onlyOpsCanSetNbt() {
+        return true;
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        return false;
+    }
+
+    @Override
+    @Nonnull
+    public ItemStack decrStackSize(int index, int count) {
+        return ItemStack.EMPTY;
+    }
+
+    @Override
+    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
+        return false;
+    }
+}

@@ -1,15 +1,15 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.blocks.base.BlockChestBase;
-import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
-import com.teammetallurgy.atum.client.model.chest.ModelSarcophagus;
+import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
+import com.teammetallurgy.atum.client.model.chest.SarcophagusModel;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelLargeChest;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,15 +20,15 @@ import java.util.Map;
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBase> {
+public class RenderTileChest extends TileEntitySpecialRenderer<ChestBaseTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    private final ModelSarcophagus sarcophagus = new ModelSarcophagus();
+    private final SarcophagusModel sarcophagus = new SarcophagusModel();
     private final ModelChest normalChest = new ModelChest();
     private final ModelChest largeChest = new ModelLargeChest();
 
     @Override
-    public void render(@Nonnull TileEntityChestBase te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
+    public void render(@Nonnull ChestBaseTileEntity te, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
         GlStateManager.enableDepth();
         GlStateManager.depthFunc(515);
         GlStateManager.depthMask(true);
@@ -37,8 +37,8 @@ public class RenderTileChest extends TileEntitySpecialRenderer<TileEntityChestBa
         if (te.hasWorld()) {
             Block block = te.getBlockType();
             meta = te.getBlockMetadata();
-            if (block instanceof BlockChestBase && meta == 0) {
-                ((BlockChestBase) block).checkForSurroundingChests(te.getWorld(), te.getPos(), te.getWorld().getBlockState(te.getPos()));
+            if (block instanceof ChestBaseBlock && meta == 0) {
+                ((ChestBaseBlock) block).checkForSurroundingChests(te.getWorld(), te.getPos(), te.getWorld().getBlockState(te.getPos()));
                 meta = te.getBlockMetadata();
             }
             te.checkForAdjacentChests();

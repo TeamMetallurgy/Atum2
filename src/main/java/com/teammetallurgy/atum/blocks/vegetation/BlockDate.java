@@ -36,13 +36,13 @@ public class BlockDate extends BushBlock implements IGrowable {
         this.setTickRandomly(true);
         this.setSoundType(SoundType.PLANT);
         this.setCreativeTab(null);
-        this.setDefaultState(this.blockState.getBaseState().with(AGE, 0));
+        this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
     }
 
     @Override
     @SuppressWarnings("all")
     public float getBlockHardness(BlockState state, World world, BlockPos pos) {
-        if (state.getValue(AGE) != 3) {
+        if (state.get(AGE) != 3) {
             this.blockHardness = 0.25F;
         }
         return super.getBlockHardness(state, world, pos);
@@ -51,7 +51,7 @@ public class BlockDate extends BushBlock implements IGrowable {
     @Override
     @Nonnull
     public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
-        if (state.getValue(AGE) == 0) {
+        if (state.get(AGE) == 0) {
             return STEM;
         }
         return BOUNDING_BOX;
@@ -62,7 +62,7 @@ public class BlockDate extends BushBlock implements IGrowable {
         if (!world.isRemote) {
             super.updateTick(world, pos, state, rand);
             if (!world.isAreaLoaded(pos, 1)) return;
-            if (state.getValue(AGE) != 7) {
+            if (state.get(AGE) != 7) {
                 if (ForgeHooks.onCropsGrowPre(world, pos, state, world.rand.nextDouble() <= 0.12F)) {
                     world.setBlockState(pos, state.cycleProperty(AGE), 2);
                     ForgeHooks.onCropsGrowPost(world, pos, state, world.getBlockState(pos));
@@ -82,7 +82,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
-        if (state.getValue(AGE) == 7) {
+        if (state.get(AGE) == 7) {
             dropBlockAsItem(world, pos, state, 0);
             return world.setBlockState(pos, this.getDefaultState());
         }
@@ -91,7 +91,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     public void getDrops(@Nonnull NonNullList<ItemStack> drops, IBlockReader world, BlockPos pos, @Nonnull BlockState state, int fortune) {
-        if (state.getValue(AGE) == 7) {
+        if (state.get(AGE) == 7) {
             super.getDrops(drops, world, pos, state, fortune);
         }
     }
@@ -121,7 +121,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(AGE);
+        return state.get(AGE);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     public boolean canGrow(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
-        return state.getValue(AGE) != 7;
+        return state.get(AGE) != 7;
     }
 
     @Override
@@ -142,14 +142,14 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        int growth = state.getValue(AGE) + MathHelper.getInt(rand, 1, 2);
+        int growth = state.get(AGE) + MathHelper.getInt(rand, 1, 2);
         int maxAge = 7;
 
         if (growth > maxAge) {
             growth = maxAge;
         }
 
-        if (state.getValue(AGE) != 7) {
+        if (state.get(AGE) != 7) {
             world.setBlockState(pos, this.getDefaultState().with(AGE, growth), 2);
         }
     }

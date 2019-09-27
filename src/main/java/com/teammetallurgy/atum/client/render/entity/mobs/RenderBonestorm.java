@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.client.model.entity.ModelBonestorm;
+import com.teammetallurgy.atum.client.model.entity.BonestormModel;
 import com.teammetallurgy.atum.entity.undead.BonestormEntity;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -17,7 +17,7 @@ public class RenderBonestorm extends RenderLiving<BonestormEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public RenderBonestorm(RenderManager renderManager) {
-        super(renderManager, new ModelBonestorm(), 0.5F);
+        super(renderManager, new BonestormModel(), 0.5F);
     }
 
     @Override

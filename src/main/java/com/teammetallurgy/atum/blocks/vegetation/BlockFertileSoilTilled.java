@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
@@ -32,15 +32,15 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     public BlockFertileSoilTilled() {
         super(Block.Properties.create(Material.EARTH).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
-        this.setDefaultState(this.blockState.getBaseState().with(MOISTURE, 0).with(BLESSED, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(MOISTURE, 0).with(BLESSED, false));
     }
 
     @Override
     public void updateTick(@Nonnull World world, BlockPos pos, BlockState state, Random rand) {
-        int moisture = state.getValue(MOISTURE);
+        int moisture = state.get(MOISTURE);
 
         Block blockUp = world.getBlockState(pos.up()).getBlock();
-        if (state.getValue(BLESSED) && blockUp instanceof IGrowable) {
+        if (state.get(BLESSED) && blockUp instanceof IGrowable) {
             world.getPendingBlockTicks().scheduleTick(pos.up(), blockUp, this.tickRate(world));
         }
 
@@ -184,7 +184,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(MOISTURE) + (state.getValue(BLESSED) ? 8 : 0);
+        return state.get(MOISTURE) + (state.get(BLESSED) ? 8 : 0);
     }
 
     @Override
@@ -194,7 +194,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapp
     }
 
     @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{BLESSED};
+    public Property[] getNonRenderingProperties() {
+        return new Property[]{BLESSED};
     }
 }

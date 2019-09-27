@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.BlockState;
@@ -32,8 +32,8 @@ public class WorldGenBonusCrate extends WorldGenerator {
                     world.setBlockState(posRand, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState(), 2);
                     TileEntity tileEntity = world.getTileEntity(posRand);
 
-                    if (tileEntity instanceof TileEntityCrate) {
-                        ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE_BONUS, rand.nextLong());
+                    if (tileEntity instanceof CrateTileEntity) {
+                        ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE_BONUS, rand.nextLong());
                     }
                     BlockPos posEast = posRand.east();
                     BlockPos posWest = posRand.west();

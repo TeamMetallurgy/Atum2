@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.block.properties.PropertyBool;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.item.Item;
@@ -24,15 +24,13 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     public static final PropertyBool HAS_SCARAB = PropertyBool.create("contains_scarab");
 
     public BlockLimestone() {
-        super(Material.ROCK, MaterialColor.SAND);
-        this.setHardness(1.5F);
-        this.setResistance(10.0F);
-        this.setDefaultState(this.blockState.getBaseState().with(HAS_SCARAB, false));
+        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.8F, 6.0F));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_SCARAB, false));
     }
 
     @Override
     public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
-        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.getValue(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
+        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
             ScarabEntity scarab = new ScarabEntity(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(scarab);
@@ -60,7 +58,7 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
 
     @Override
     public int getMetaFromState(BlockState state) {
-        return state.getValue(HAS_SCARAB) ? 1 : 0;
+        return state.get(HAS_SCARAB) ? 1 : 0;
     }
 
     @Override
@@ -70,7 +68,7 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     }
 
     @Override
-    public IProperty[] getNonRenderingProperties() {
-        return new IProperty[]{HAS_SCARAB};
+    public Property[] getNonRenderingProperties() {
+        return new Property[]{HAS_SCARAB};
     }
 }

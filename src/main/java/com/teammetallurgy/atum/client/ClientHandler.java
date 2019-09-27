@@ -1,16 +1,16 @@
 package com.teammetallurgy.atum.client;
 
 import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.blocks.base.tileentity.TileEntityChestBase;
+import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
+import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockLeave;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
-import com.teammetallurgy.atum.client.model.entity.ModelDesertWolf;
-import com.teammetallurgy.atum.client.model.entity.ModelDustySkeleton;
-import com.teammetallurgy.atum.client.model.entity.ModelNomad;
+import com.teammetallurgy.atum.blocks.wood.PalmLeavesBlock;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
+import com.teammetallurgy.atum.client.model.entity.DustySkeletonModel;
+import com.teammetallurgy.atum.client.model.entity.NomadModel;
 import com.teammetallurgy.atum.client.render.entity.RenderHeartOfRa;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderBone;
 import com.teammetallurgy.atum.client.render.entity.arrow.RenderCamelSpit;
@@ -37,7 +37,7 @@ import com.teammetallurgy.atum.items.TexturedArmorItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.properties.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.statemap.IStateMapper;
 import net.minecraft.client.renderer.block.statemap.StateMap;
@@ -71,8 +71,8 @@ public class ClientHandler {
         itemColor.register((stack, tintIndex) -> {
             BlockState state = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return Minecraft.getInstance().getBlockColors().colorMultiplier(state, null, null, tintIndex);
-        }, BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
-        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), BlockLeave.getLeave(BlockAtumPlank.WoodType.PALM), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
+        }, PalmLeavesBlock.getLeave(BlockAtumPlank.WoodType.PALM), PalmLeavesBlock.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
+        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColorHelper.getFoliageColorAtPos(world, pos) : ColorizerFoliage.getFoliageColorBasic(), PalmLeavesBlock.getLeave(BlockAtumPlank.WoodType.PALM), PalmLeavesBlock.getLeave(BlockAtumPlank.WoodType.DEADWOOD));
         //Dyeable armor
         itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((TexturedArmorItem) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
         //Dead Grass
@@ -91,11 +91,11 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityChestBase.class, new RenderTileChest());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityCrate.class, new RenderCrate());
+        ClientRegistry.bindTileEntitySpecialRenderer(ChestBaseTileEntity.class, new RenderTileChest());
+        ClientRegistry.bindTileEntitySpecialRenderer(CrateTileEntity.class, new RenderCrate());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeartOfRa.class, new RenderHeartOfRaBase());
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadiantBeacon.class, new RenderRadiantBeacon());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityQuern.class, new RenderQuern());
+        ClientRegistry.bindTileEntitySpecialRenderer(QuernTileEntity.class, new RenderQuern());
         AtumItems.ATUMS_PROTECTION.setTileEntityItemStackRenderer(new RenderAtumsProtection());
         AtumItems.BRIGAND_SHIELD.setTileEntityItemStackRenderer(new RenderBrigandShield());
         AtumItems.STONEGUARD_SHIELD.setTileEntityItemStackRenderer(new RenderStoneguardShield());
@@ -103,17 +103,17 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AssassinEntity.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(BrigandEntity.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(BarbarianEntity.class, RenderBandit::new);
-        RenderingRegistry.registerEntityRenderingHandler(NomadEntity.class, manager -> new RenderBandit(manager, new ModelNomad()));
+        RenderingRegistry.registerEntityRenderingHandler(NomadEntity.class, manager -> new RenderBandit(manager, new NomadModel()));
         RenderingRegistry.registerEntityRenderingHandler(WarlordEntity.class, RenderBandit::new);
         RenderingRegistry.registerEntityRenderingHandler(PharaohEntity.class, manager -> new RenderUndead(manager, new PlayerModel(0.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(MummyEntity.class, manager -> new RenderUndead(manager, new ZombieModel()));
-        RenderingRegistry.registerEntityRenderingHandler(ForsakenEntity.class, manager -> new RenderUndead(manager, new ModelDustySkeleton()));
+        RenderingRegistry.registerEntityRenderingHandler(ForsakenEntity.class, manager -> new RenderUndead(manager, new DustySkeletonModel()));
         RenderingRegistry.registerEntityRenderingHandler(WraithEntity.class, manager -> new RenderUndead(manager, new ZombieModel()));
         RenderingRegistry.registerEntityRenderingHandler(SunspeakerEntity.class, RenderEfreet::new);
         RenderingRegistry.registerEntityRenderingHandler(BonestormEntity.class, RenderBonestorm::new);
         RenderingRegistry.registerEntityRenderingHandler(StoneguardEntity.class, RenderStoneguard::new);
         RenderingRegistry.registerEntityRenderingHandler(StonewardenEntity.class, RenderStonewarden::new);
-        RenderingRegistry.registerEntityRenderingHandler(DesertWolfEntity.class, manager -> new RenderDesertWolf(manager, new ModelDesertWolf(), 0.5F));
+        RenderingRegistry.registerEntityRenderingHandler(DesertWolfEntity.class, manager -> new RenderDesertWolf(manager, new DesertWolfModel(), 0.5F));
         RenderingRegistry.registerEntityRenderingHandler(CamelEntity.class, RenderCamel::new);
         RenderingRegistry.registerEntityRenderingHandler(ScarabEntity.class, RenderScarab::new);
         RenderingRegistry.registerEntityRenderingHandler(DesertRabbitEntity.class, RenderDesertRabbit::new);
@@ -132,7 +132,7 @@ public class ClientHandler {
     public static void ignoreRenderProperty(Block block) {
         if (block instanceof IRenderMapper) {
             IRenderMapper mapper = (IRenderMapper) block;
-            IProperty[] nonRenderingProperties = mapper.getNonRenderingProperties();
+            Property[] nonRenderingProperties = mapper.getNonRenderingProperties();
 
             if (nonRenderingProperties.length != 0) {
                 IStateMapper stateMapper = (new StateMap.Builder()).ignore(nonRenderingProperties).build();

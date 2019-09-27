@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.nbt.CompoundNBT;
@@ -64,8 +64,8 @@ public class GirafiTombPieces {
                         world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);
@@ -75,8 +75,8 @@ public class GirafiTombPieces {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
+                    if (tileentity instanceof SarcophagusTileEntity) {
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);
@@ -84,8 +84,8 @@ public class GirafiTombPieces {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                    if (tileentity instanceof SarcophagusTileEntity) {
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);

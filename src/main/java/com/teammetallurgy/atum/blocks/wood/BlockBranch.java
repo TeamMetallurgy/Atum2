@@ -87,7 +87,7 @@ public class BlockBranch extends Block {
 
     private boolean canSurviveAt(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        Direction facing = state.getValue(FACING);
+        Direction facing = state.get(FACING);
         BlockState neighbor = world.getBlockState(pos.add(facing.getDirectionVec()));
 
         return neighbor.getMaterial() == Material.WOOD;
@@ -123,7 +123,7 @@ public class BlockBranch extends Block {
     @Override
     @Nonnull
     public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
-        Direction facing = state.getValue(FACING);
+        Direction facing = state.get(FACING);
 
         BlockState neighbor = source.getBlockState(pos.add(facing.getDirectionVec()));
         if (neighbor.getBlock() == this) {
@@ -149,7 +149,7 @@ public class BlockBranch extends Block {
 
     @Override
     public int getMetaFromState(BlockState state) {
-        Direction Direction = state.getValue(FACING);
+        Direction Direction = state.get(FACING);
         return Direction.ordinal();
     }
 
@@ -162,7 +162,7 @@ public class BlockBranch extends Block {
     @Override
     @Nonnull
     public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
-        Direction Direction = state.getValue(FACING);
+        Direction Direction = state.get(FACING);
         return state.with(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
                 .with(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
                 .with(SOUTH, Direction != Direction.SOUTH && shouldConnect(Direction.SOUTH, world, pos))
@@ -184,11 +184,11 @@ public class BlockBranch extends Block {
     public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
         switch (rot) {
             case CLOCKWISE_180:
-                return state.with(NORTH, state.getValue(SOUTH)).with(EAST, state.getValue(WEST)).with(SOUTH, state.getValue(NORTH)).with(WEST, state.getValue(EAST));
+                return state.with(NORTH, state.get(SOUTH)).with(EAST, state.get(WEST)).with(SOUTH, state.get(NORTH)).with(WEST, state.get(EAST));
             case COUNTERCLOCKWISE_90:
-                return state.with(NORTH, state.getValue(EAST)).with(EAST, state.getValue(SOUTH)).with(SOUTH, state.getValue(WEST)).with(WEST, state.getValue(NORTH));
+                return state.with(NORTH, state.get(EAST)).with(EAST, state.get(SOUTH)).with(SOUTH, state.get(WEST)).with(WEST, state.get(NORTH));
             case CLOCKWISE_90:
-                return state.with(NORTH, state.getValue(WEST)).with(EAST, state.getValue(NORTH)).with(SOUTH, state.getValue(EAST)).with(WEST, state.getValue(SOUTH));
+                return state.with(NORTH, state.get(WEST)).with(EAST, state.get(NORTH)).with(SOUTH, state.get(EAST)).with(WEST, state.get(SOUTH));
             default:
                 return state;
         }
@@ -199,9 +199,9 @@ public class BlockBranch extends Block {
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
         switch (mirror) {
             case LEFT_RIGHT:
-                return state.with(NORTH, state.getValue(SOUTH)).with(SOUTH, state.getValue(NORTH));
+                return state.with(NORTH, state.get(SOUTH)).with(SOUTH, state.get(NORTH));
             case FRONT_BACK:
-                return state.with(EAST, state.getValue(WEST)).with(WEST, state.getValue(EAST));
+                return state.with(EAST, state.get(WEST)).with(WEST, state.get(EAST));
             default:
                 return super.withMirror(state, mirror);
         }

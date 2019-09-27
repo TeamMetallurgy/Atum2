@@ -4,33 +4,34 @@ import com.teammetallurgy.atum.blocks.BlockAtumOres;
 import com.teammetallurgy.atum.blocks.BlockPortal;
 import com.teammetallurgy.atum.blocks.BlockSandLayers;
 import com.teammetallurgy.atum.blocks.BlockStrangeSand;
-import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
-import com.teammetallurgy.atum.blocks.base.BlockAtumStairs;
+import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
+import com.teammetallurgy.atum.blocks.base.StairsAtumBlock;
 import com.teammetallurgy.atum.blocks.beacon.BlockFramedRadiantBeacon;
 import com.teammetallurgy.atum.blocks.beacon.BlockRadiantBeacon;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
-import com.teammetallurgy.atum.blocks.glass.BlockAtumGlass;
-import com.teammetallurgy.atum.blocks.glass.BlockAtumPane;
+import com.teammetallurgy.atum.blocks.glass.AtumPaneBlock;
+import com.teammetallurgy.atum.blocks.linen.LinenBlock;
+import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.blocks.machines.BlockKilnFake;
 import com.teammetallurgy.atum.blocks.machines.BlockQuern;
 import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityKiln;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntityQuern;
-import com.teammetallurgy.atum.blocks.machines.tileentity.TileEntitySpinningWheel;
-import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabaster;
-import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumite;
-import com.teammetallurgy.atum.blocks.stone.khnumite.BlockKhnumiteFace;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
+import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
+import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
+import com.teammetallurgy.atum.blocks.stone.ceramic.CeramicBlock;
+import com.teammetallurgy.atum.blocks.stone.ceramic.CeramicTileBlock;
+import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteBlock;
+import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.*;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockChestSpawner;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockLimestoneChest;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.BlockSarcophagus;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityChestSpawner;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.ChestSpawnerTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
-import com.teammetallurgy.atum.blocks.stone.porphyry.BlockPorphyry;
 import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
@@ -39,17 +40,20 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.DyeColor;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerTileEntity;
+import static net.minecraft.block.Block.Properties.create;
+import static net.minecraft.block.Block.Properties.from;
 
 @ObjectHolder(value = Constants.MOD_ID)
 public class AtumBlocks {
     public static final Block PORTAL = registerBlock(new BlockPortal(), null, "portal");
-    public static final Block CHEST_SPAWNER = registerBlock(new BlockChestSpawner(), null, "chest_spawner");
+    public static final Block CHEST_SPAWNER = registerBlock(new ChestSpawnerBlock(), null, "chest_spawner");
     public static final Block SAND = registerBlock(new BlockStrangeSand(), "sand");
     public static final Block SAND_LAYERED = registerBlock(new BlockSandLayers(), "sand_layer");
     public static final Block DATE_BLOCK = registerBlock(new BlockDate(), null, "date_block");
@@ -73,20 +77,20 @@ public class AtumBlocks {
     public static final Block TAR_TRAP = registerBlock(new BlockTarTrap(), "tar_trap");
     public static final Block SMOKE_TRAP = registerBlock(new BlockSmokeTrap(), "smoke_trap");
     public static final Block ARROW_TRAP = registerBlock(new BlockArrowTrap(), "arrow_trap");
-    public static final Block SARCOPHAGUS = registerBlock(new BlockSarcophagus(), "sarcophagus");
-    public static final Block LIMESTONE_CHEST = registerBlock(new BlockLimestoneChest(), "limestone_chest");
-    public static final Block GOLD_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "gold_ore");
-    public static final Block IRON_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "iron_ore");
-    public static final Block COAL_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "coal_ore");
-    public static final Block LAPIS_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "lapis_ore");
-    public static final Block DIAMOND_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "diamond_ore");
-    public static final Block EMERALD_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "emerald_ore");
-    public static final Block REDSTONE_ORE = registerBlock(new RedstoneOreBlock(Block.Properties.create(Material.ROCK).tickRandomly().lightValue(9).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "redstone_ore");
-    public static final Block BONE_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "bone_ore");
-    public static final Block RELIC_ORE = registerBlock(new BlockAtumOres(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "relic_ore");
-    public static final Block KHNUMITE_RAW = registerBlock(new Block(Block.Properties.create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "khnumite_raw");
-    public static final Block DIRTY_BONE = registerBlock(new RotatedPillarBlock(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_block");
-    public static final Block DIRTY_BONE_SLAB = registerBlock(new SlabBlock(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_slab");
+    public static final Block SARCOPHAGUS = registerBlock(new SarcophagusBlock(), "sarcophagus");
+    public static final Block LIMESTONE_CHEST = registerBlock(new LimestoneChestBlock(), "limestone_chest");
+    public static final Block GOLD_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "gold_ore");
+    public static final Block IRON_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "iron_ore");
+    public static final Block COAL_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "coal_ore");
+    public static final Block LAPIS_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "lapis_ore");
+    public static final Block DIAMOND_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "diamond_ore");
+    public static final Block EMERALD_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "emerald_ore");
+    public static final Block REDSTONE_ORE = registerBlock(new RedstoneOreBlock(create(Material.ROCK).tickRandomly().lightValue(9).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "redstone_ore");
+    public static final Block BONE_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "bone_ore");
+    public static final Block RELIC_ORE = registerBlock(new BlockAtumOres(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "relic_ore");
+    public static final Block KHNUMITE_RAW = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "khnumite_raw");
+    public static final Block DIRTY_BONE = registerBlock(new RotatedPillarBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_block");
+    public static final Block DIRTY_BONE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_slab");
     public static final Block BONE_LADDER = registerBlock(new BlockAtumLadder(), "bone_ladder");
     public static final Block LIMESTONE_FURNACE = registerBlock(new BlockLimestoneFurnace(false), "limestone_furnace");
     public static final Block PALM_TORCH = registerBlock(new BlockAtumTorch(), "palm_torch");
@@ -96,72 +100,293 @@ public class AtumBlocks {
     public static final Block PHARAOH_TORCH = registerBlock(new BlockAtumTorch(), "pharaoh_torch");
     //BlockAtumTorchUnlit.registerUnlitTorches() //TODO
     public static final Block LIMESTONE_GRAVEL = registerBlock(new BlockLimestoneGravel(), "limestone_gravel");
-    public static final Block MARL = registerBlock(new Block(Block.Properties.create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "marl");
+    public static final Block MARL = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "marl");
     public static final Block RA_STONE = registerBlock(new BlockRaStone(), null, "ra_stone");
     public static final Block LIMESTONE = registerBlock(new BlockLimestone(), "limestone");
-    public static final Block LIMESTONE_CRACKED = registerBlock(new Block(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "limestone_cracked");
-    //BlockLimestoneBricks.registerBricks() //TODO
-    public static final Block SMOOTH_LIMESTONE_SLAB = registerBlock(new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_smooth_slab");
-    public static final Block CRACKED_LIMESTONE_SLAB = registerBlock(new SlabBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_cracked_slab");
-    //BlockLimestoneSlab.registerSlabs() //TODO
-    public static final Block KHNUMITE_BLOCK = registerBlock(new BlockKhnumite(), "khnumite_block");
-    public static final Block KHNUMITE_FACE = registerBlock(new BlockKhnumiteFace(), "khnumite_face");
-    public static final Block SMOOTH_STAIRS = registerBlock(new BlockAtumStairs(LIMESTONE::getDefaultState, Block.Properties.from(LIMESTONE)), "smooth_stairs");
-    public static final Block CRACKED_STAIRS = registerBlock(new BlockAtumStairs(LIMESTONE_CRACKED::getDefaultState, Block.Properties.from(LIMESTONE_CRACKED)), "cracked_stairs");
-    //BlockAtumStairs.registerLimestoneStairs() //TODO
-    public static final Block LIMESTONE_WALL = registerBlock(new BlockLimestoneWall(), "limestone_wall");
-    public static final Block LIMESTONE_CRACKED_WALL = registerBlock(new BlockLimestoneWall(), "limestone_cracked_wall");
-    //BlockLimestoneWall.registerWalls() //TODO
-    public static final Block LIMESTONE_DOOR = registerBlock(new BlockAtumDoor(Material.ROCK), "limestone_door");
-    public static final Block LIMESTONE_CRACKED_DOOR = registerBlock(new BlockAtumDoor(Material.ROCK), "limestone_cracked_door");
-    //BlockLimestoneBricks.registerDoors() //TODO
-    public static final Block ALABASTER = registerBlock(new BlockAlabaster(), "alabaster");
-    //BlockAlabasterBricks.registerBricks() //TODO
-    //BlockAlabasterSlab.registerSlabs() //TODO
-    //BlockAtumStairs.registerAlabasterStairs() //TODO
-    //BlockAlabasterWall.registerWalls() //TODO
-    public static final Block PORPHYRY = registerBlock(new BlockPorphyry(), "porphyry");
-    //BlockPorphyryBricks.registerBricks() //TODO
-    //BlockPorphyrySlab.registerSlabs() //TODO
-    //BlockAtumStairs.registerPorphyryStairs() //TODO
-    //BlockPorphyryWall.registerWalls() //TODO
-    //BlockCeramic.registerCeramicBlocks() //TODO
-    //BlockCeramicSlab.registerSlabs() //TODO
-    //BlockCeramicTile.registerTile() //TODO
-    //BlockAtumStairs.registerCeramicStairs() //TODO
-    //BlockCeramicWall.registerWalls() //TODO
+    public static final Block LIMESTONE_CRACKED = registerBlock(new Block(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F, 10.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "limestone_cracked");
+    public static final Block LIMESTONE_BRICK_SMALL = registerBlock(new LimestoneBrickBlock(), "limestone_brick_small");
+    public static final Block LIMESTONE_BRICK_LARGE = registerBlock(new LimestoneBrickBlock(), "limestone_brick_large");
+    public static final Block LIMESTONE_BRICK_CRACKED_BRICK = registerBlock(new LimestoneBrickBlock(), "limestone_brick_cracked_brick");
+    public static final Block LIMESTONE_BRICK_CHISELED = registerBlock(new LimestoneBrickBlock(), "limestone_brick_chiseled");
+    public static final Block LIMESTONE_BRICK_CARVED = registerBlock(new LimestoneBrickBlock(), "limestone_brick_carved");
+    public static final Block LIMESTONE_SMOOTH_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_smooth_slab");
+    public static final Block LIMESTONE_CRACKED_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_cracked_slab");
+    public static final Block LIMESTONE_BRICK_SMALL_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_small_slab");
+    public static final Block LIMESTONE_BRICK_LARGE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_large_slab");
+    public static final Block LIMESTONE_CRACKED_BRICK_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_cracked_brick_slab");
+    public static final Block LIMESTONE_BRICK_CHISELED_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_chiseled_slab");
+    public static final Block LIMESTONE_BRICK_CARVED_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_carved_slab");
+    public static final Block KHNUMITE_BLOCK = registerBlock(new KhnumiteBlock(), "khnumite_block");
+    public static final Block KHNUMITE_FACE = registerBlock(new KhnumiteFaceBlock(), "khnumite_face");
+    public static final Block SMOOTH_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE::getDefaultState, from(LIMESTONE)), "smooth_stairs");
+    public static final Block CRACKED_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE_CRACKED::getDefaultState, from(LIMESTONE_CRACKED)), "cracked_stairs");
+    public static final Block SMALL_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE_BRICK_SMALL::getDefaultState, from(LIMESTONE_BRICK_SMALL)), "small_stairs");
+    public static final Block LARGE_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE_BRICK_LARGE::getDefaultState, from(LIMESTONE_BRICK_LARGE)), "large_stairs");
+    public static final Block CRACKED_BRICK_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE_BRICK_CRACKED_BRICK::getDefaultState, from(LIMESTONE_BRICK_CRACKED_BRICK)), "cracked_brick_stairs");
+    public static final Block CHISELED_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE_BRICK_CHISELED::getDefaultState, from(LIMESTONE_BRICK_CHISELED)), "chiseled_stairs");
+    public static final Block CARVED_STAIRS = registerBlock(new StairsAtumBlock(LIMESTONE_BRICK_CARVED::getDefaultState, from(LIMESTONE_BRICK_CARVED)), "carved_stairs");
+    public static final Block LIMESTONE_WALL = registerBlock(new WallBlock(from(LIMESTONE)), "limestone_wall");
+    public static final Block LIMESTONE_CRACKED_WALL = registerBlock(new WallBlock(from(LIMESTONE_CRACKED)), "limestone_cracked_wall");
+    public static final Block SMALL_WALL = registerBlock(new WallBlock(from(LIMESTONE_BRICK_SMALL)), "small_wall");
+    public static final Block LARGE_WALL = registerBlock(new WallBlock(from(LIMESTONE_BRICK_LARGE)), "large_wall");
+    public static final Block CRACKED_BRICK_WALL = registerBlock(new WallBlock(from(LIMESTONE_BRICK_CRACKED_BRICK)), "cracked_brick_wall");
+    public static final Block CHISELED_WALL = registerBlock(new WallBlock(from(LIMESTONE_BRICK_CHISELED)), "chiseled_wall");
+    public static final Block CARVED_WALL = registerBlock(new WallBlock(from(LIMESTONE_BRICK_CARVED)), "carved_wall");
+    public static final Block LIMESTONE_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE)), "limestone_door");
+    public static final Block LIMESTONE_CRACKED_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE_CRACKED)), "limestone_cracked_door");
+    public static final Block LIMESTONE_BRICK_SMALL_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE_BRICK_SMALL)), "limestone_brick_small_door");
+    public static final Block LIMESTONE_BRICK_LARGE_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE_BRICK_LARGE)), "limestone_brick_large_door");
+    public static final Block LIMESTONE_CRACKED_BRICK_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE_BRICK_CRACKED_BRICK)), "limestone_brick_cracked_brick_door");
+    public static final Block LIMESTONE_BRICK_CHISELED_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE_BRICK_CHISELED)), "limestone_brick_chiseled_door");
+    public static final Block LIMESTONE_BRICK_CARVED_DOOR = registerBlock(new DoorAtumBlock(from(LIMESTONE_BRICK_CARVED)), "limestone_brick_carved_door");
+    public static final Block ALABASTER = registerBlock(new Block(create(Material.ROCK, MaterialColor.QUARTZ).hardnessAndResistance(2.0F, 8.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "alabaster");
+    public static final Block ALABASTER_BRICK_SMOOTH = registerBlock(new Block(from(ALABASTER)), "alabaster_brick_smooth");
+    public static final Block ALABASTER_BRICK_POLISHED = registerBlock(new Block(from(ALABASTER)), "alabaster_brick_polished");
+    public static final Block ALABASTER_BRICK_CARVED = registerBlock(new Block(from(ALABASTER)), "alabaster_brick_carved");
+    public static final Block ALABASTER_BRICK_TILED = registerBlock(new Block(from(ALABASTER)), "alabaster_brick_tiled");
+    public static final Block ALABASTER_BRICK_PILLAR = registerBlock(new Block(from(ALABASTER)), "alabaster_brick_pillar");
+    public static final Block ALABASTER_BRICK_SMOOTH_SLAB = registerBlock(new SlabBlock(from(ALABASTER)), "alabaster_smooth_slab");
+    public static final Block ALABASTER_BRICK_POLISHED_SLAB = registerBlock(new SlabBlock(from(ALABASTER)), "alabaster_polished_slab");
+    public static final Block ALABASTER_BRICK_CARVED_SLAB = registerBlock(new SlabBlock(from(ALABASTER)), "alabaster_carved_slab");
+    public static final Block ALABASTER_BRICK_TILED_SLAB = registerBlock(new SlabBlock(from(ALABASTER)), "alabaster_tiled_slab");
+    public static final Block ALABASTER_BRICK_PILLAR_SLAB = registerBlock(new SlabBlock(from(ALABASTER)), "alabaster_pillar_slab");
+    public static final Block ALABASTER_BRICK_SMOOTH_STAIRS = registerBlock(new StairsAtumBlock(ALABASTER_BRICK_SMOOTH::getDefaultState, from(ALABASTER)), "alabaster_smooth_stairs");
+    public static final Block ALABASTER_BRICK_POLISHED_STAIRS = registerBlock(new StairsAtumBlock(ALABASTER_BRICK_POLISHED::getDefaultState, from(ALABASTER)), "alabaster_polished_stairs");
+    public static final Block ALABASTER_BRICK_CARVED_STAIRS = registerBlock(new StairsAtumBlock(ALABASTER_BRICK_CARVED::getDefaultState, from(ALABASTER)), "alabaster_carved_stairs");
+    public static final Block ALABASTER_BRICK_TILED_STAIRS = registerBlock(new StairsAtumBlock(ALABASTER_BRICK_TILED::getDefaultState, from(ALABASTER)), "alabaster_tiled_stairs");
+    public static final Block ALABASTER_BRICK_PILLAR_STARS = registerBlock(new StairsAtumBlock(ALABASTER_BRICK_PILLAR::getDefaultState, from(ALABASTER)), "alabaster_pillar_stairs");
+    public static final Block ALABASTER_BRICK_SMOOTH_WALL = registerBlock(new WallBlock(from(ALABASTER)), "alabaster_smooth_wall");
+    public static final Block ALABASTER_BRICK_POLISHED_WALL = registerBlock(new WallBlock(from(ALABASTER)), "alabaster_polished_wall");
+    public static final Block ALABASTER_BRICK_CARVED_WALL = registerBlock(new WallBlock(from(ALABASTER)), "alabaster_carved_wall");
+    public static final Block ALABASTER_BRICK_TILED_WALL = registerBlock(new WallBlock(from(ALABASTER)), "alabaster_tiled_wall");
+    public static final Block ALABASTER_BRICK_PILLAR_WALL = registerBlock(new WallBlock(from(ALABASTER)), "alabaster_pillar_wall");
+    public static final Block PORPHYRY = registerBlock(new Block(create(Material.ROCK, MaterialColor.BLACK).hardnessAndResistance(1.5F, 5.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "porphyry");
+    public static final Block PORPHYRY_BRICK_SMOOTH = registerBlock(new Block(from(PORPHYRY)), "porphyry_brick_smooth");
+    public static final Block PORPHYRY_BRICK_POLISHED = registerBlock(new Block(from(PORPHYRY)), "porphyry_brick_polished");
+    public static final Block PORPHYRY_BRICK_CARVED = registerBlock(new Block(from(PORPHYRY)), "porphyry_brick_carved");
+    public static final Block PORPHYRY_BRICK_TILED = registerBlock(new Block(from(PORPHYRY)), "porphyry_brick_tiled");
+    public static final Block PORPHYRY_BRICK_PILLAR = registerBlock(new Block(from(PORPHYRY)), "porphyry_brick_pillar");
+    public static final Block PORPHYRY_BRICK_SMOOTH_SLAB = registerBlock(new SlabBlock(from(PORPHYRY)), "porphyry_smooth_slab");
+    public static final Block PORPHYRY_BRICK_POLISHED_SLAB = registerBlock(new SlabBlock(from(PORPHYRY)), "porphyry_polished_slab");
+    public static final Block PORPHYRY_BRICK_CARVED_SLAB = registerBlock(new SlabBlock(from(PORPHYRY)), "porphyry_carved_slab");
+    public static final Block PORPHYRY_BRICK_TILED_SLAB = registerBlock(new SlabBlock(from(PORPHYRY)), "porphyry_tiled_slab");
+    public static final Block PORPHYRY_BRICK_PILLAR_SLAB = registerBlock(new SlabBlock(from(PORPHYRY)), "porphyry_pillar_slab");
+    public static final Block PORPHYRY_BRICK_SMOOTH_STAIRS = registerBlock(new StairsAtumBlock(PORPHYRY_BRICK_SMOOTH::getDefaultState, from(PORPHYRY)), "porphyry_smooth_stairs");
+    public static final Block PORPHYRY_BRICK_POLISHED_STAIRS = registerBlock(new StairsAtumBlock(PORPHYRY_BRICK_POLISHED::getDefaultState, from(PORPHYRY)), "porphyry_polished_stairs");
+    public static final Block PORPHYRY_BRICK_CARVED_STAIRS = registerBlock(new StairsAtumBlock(PORPHYRY_BRICK_CARVED::getDefaultState, from(PORPHYRY)), "porphyry_carved_stairs");
+    public static final Block PORPHYRY_BRICK_TILED_STAIRS = registerBlock(new StairsAtumBlock(PORPHYRY_BRICK_TILED::getDefaultState, from(PORPHYRY)), "porphyry_tiled_stairs");
+    public static final Block PORPHYRY_BRICK_PILLAR_STARS = registerBlock(new StairsAtumBlock(PORPHYRY_BRICK_PILLAR::getDefaultState, from(PORPHYRY)), "porphyry_pillar_stairs");
+    public static final Block PORPHYRY_BRICK_SMOOTH_WALL = registerBlock(new WallBlock(from(PORPHYRY)), "porphyry_smooth_wall");
+    public static final Block PORPHYRY_BRICK_POLISHED_WALL = registerBlock(new WallBlock(from(PORPHYRY)), "porphyry_polished_wall");
+    public static final Block PORPHYRY_BRICK_CARVED_WALL = registerBlock(new WallBlock(from(PORPHYRY)), "porphyry_carved_wall");
+    public static final Block PORPHYRY_BRICK_TILED_WALL = registerBlock(new WallBlock(from(PORPHYRY)), "porphyry_tiled_wall");
+    public static final Block PORPHYRY_BRICK_PILLAR_WALL = registerBlock(new WallBlock(from(PORPHYRY)), "porphyry_pillar_wall");
+    public static final Block CERAMIC_WHITE = registerBlock(new CeramicBlock(DyeColor.WHITE), "ceramic_white");
+    public static final Block CERAMIC_ORANGE = registerBlock(new CeramicBlock(DyeColor.ORANGE), "ceramic_orange");
+    public static final Block CERAMIC_MAGENTA = registerBlock(new CeramicBlock(DyeColor.MAGENTA), "ceramic_magenta");
+    public static final Block CERAMIC_LIGHT_BLUE = registerBlock(new CeramicBlock(DyeColor.LIGHT_BLUE), "ceramic_light_blue");
+    public static final Block CERAMIC_YELLOW = registerBlock(new CeramicBlock(DyeColor.YELLOW), "ceramic_yellow");
+    public static final Block CERAMIC_LIME = registerBlock(new CeramicBlock(DyeColor.LIME), "ceramic_lime");
+    public static final Block CERAMIC_PINK = registerBlock(new CeramicBlock(DyeColor.PINK), "ceramic_pink");
+    public static final Block CERAMIC_GRAY = registerBlock(new CeramicBlock(DyeColor.GRAY), "ceramic_gray");
+    public static final Block CERAMIC_LIGHT_GRAY = registerBlock(new CeramicBlock(DyeColor.LIGHT_GRAY), "ceramic_light_gray");
+    public static final Block CERAMIC_CYAN = registerBlock(new CeramicBlock(DyeColor.CYAN), "ceramic_cyan");
+    public static final Block CERAMIC_PURPLE = registerBlock(new CeramicBlock(DyeColor.PURPLE), "ceramic_purple");
+    public static final Block CERAMIC_BLUE = registerBlock(new CeramicBlock(DyeColor.BLUE), "ceramic_blue");
+    public static final Block CERAMIC_BROWN = registerBlock(new CeramicBlock(DyeColor.BROWN), "ceramic_brown");
+    public static final Block CERAMIC_GREEN = registerBlock(new CeramicBlock(DyeColor.GREEN), "ceramic_green");
+    public static final Block CERAMIC_RED = registerBlock(new CeramicBlock(DyeColor.RED), "ceramic_red");
+    public static final Block CERAMIC_BLACK = registerBlock(new CeramicBlock(DyeColor.BLACK), "ceramic_black");
+    public static final Block CERAMIC_WHITE_SLAB = registerBlock(new SlabBlock(from(CERAMIC_WHITE)), "ceramic_slab_white");
+    public static final Block CERAMIC_ORANGE_SLAB = registerBlock(new SlabBlock(from(CERAMIC_ORANGE)), "ceramic_slab_orange");
+    public static final Block CERAMIC_MAGENTA_SLAB = registerBlock(new SlabBlock(from(CERAMIC_MAGENTA)), "ceramic_slab_magenta");
+    public static final Block CERAMIC_LIGHT_BLUE_SLAB = registerBlock(new SlabBlock(from(CERAMIC_LIGHT_BLUE)), "ceramic_slab_light_blue");
+    public static final Block CERAMIC_YELLOW_SLAB = registerBlock(new SlabBlock(from(CERAMIC_YELLOW)), "ceramic_slab_yellow");
+    public static final Block CERAMIC_LIME_SLAB = registerBlock(new SlabBlock(from(CERAMIC_LIME)), "ceramic_slab_lime");
+    public static final Block CERAMIC_PINK_SLAB = registerBlock(new SlabBlock(from(CERAMIC_PINK)), "ceramic_slab_pink");
+    public static final Block CERAMIC_GRAY_SLAB = registerBlock(new SlabBlock(from(CERAMIC_GRAY)), "ceramic_slab_gray");
+    public static final Block CERAMIC_LIGHT_GRAY_SLAB = registerBlock(new SlabBlock(from(CERAMIC_LIGHT_GRAY)), "ceramic_slab_light_gray");
+    public static final Block CERAMIC_CYAN_SLAB = registerBlock(new SlabBlock(from(CERAMIC_CYAN)), "ceramic_slab_cyan");
+    public static final Block CERAMIC_PURPLE_SLAB = registerBlock(new SlabBlock(from(CERAMIC_PURPLE)), "ceramic_slab_purple");
+    public static final Block CERAMIC_BLUE_SLAB = registerBlock(new SlabBlock(from(CERAMIC_BLUE)), "ceramic_slab_blue");
+    public static final Block CERAMIC_BROWN_SLAB = registerBlock(new SlabBlock(from(CERAMIC_BROWN)), "ceramic_slab_brown");
+    public static final Block CERAMIC_GREEN_SLAB = registerBlock(new SlabBlock(from(CERAMIC_GREEN)), "ceramic_slab_green");
+    public static final Block CERAMIC_RED_SLAB = registerBlock(new SlabBlock(from(CERAMIC_RED)), "ceramic_slab_red");
+    public static final Block CERAMIC_BLACK_SLAB = registerBlock(new SlabBlock(from(CERAMIC_BLACK)), "ceramic_slab_black");
+    public static final Block CERAMIC_WHITE_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_WHITE)), "ceramic_TILE_white");
+    public static final Block CERAMIC_ORANGE_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_ORANGE)), "ceramic_TILE_orange");
+    public static final Block CERAMIC_MAGENTA_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_MAGENTA)), "ceramic_TILE_magenta");
+    public static final Block CERAMIC_LIGHT_BLUE_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_LIGHT_BLUE)), "ceramic_TILE_light_blue");
+    public static final Block CERAMIC_YELLOW_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_YELLOW)), "ceramic_TILE_yellow");
+    public static final Block CERAMIC_LIME_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_LIME)), "ceramic_TILE_lime");
+    public static final Block CERAMIC_PINK_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_PINK)), "ceramic_TILE_pink");
+    public static final Block CERAMIC_GRAY_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_GRAY)), "ceramic_TILE_gray");
+    public static final Block CERAMIC_LIGHT_GRAY_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_LIGHT_GRAY)), "ceramic_TILE_light_gray");
+    public static final Block CERAMIC_CYAN_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_CYAN)), "ceramic_TILE_cyan");
+    public static final Block CERAMIC_PURPLE_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_PURPLE)), "ceramic_TILE_purple");
+    public static final Block CERAMIC_BLUE_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_BLUE)), "ceramic_TILE_blue");
+    public static final Block CERAMIC_BROWN_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_BROWN)), "ceramic_TILE_brown");
+    public static final Block CERAMIC_GREEN_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_GREEN)), "ceramic_TILE_green");
+    public static final Block CERAMIC_RED_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_RED)), "ceramic_TILE_red");
+    public static final Block CERAMIC_BLACK_TILE = registerBlock(new CeramicTileBlock(from(CERAMIC_BLACK)), "ceramic_TILE_black");
+    public static final Block CERAMIC_WHITE_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_WHITE::getDefaultState, from(CERAMIC_WHITE)), "ceramic_stairs_white");
+    public static final Block CERAMIC_ORANGE_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_ORANGE::getDefaultState, from(CERAMIC_ORANGE)), "ceramic_stairs_orange");
+    public static final Block CERAMIC_MAGENTA_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_MAGENTA::getDefaultState, from(CERAMIC_MAGENTA)), "ceramic_stairs_magenta");
+    public static final Block CERAMIC_LIGHT_BLUE_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_LIGHT_BLUE::getDefaultState, from(CERAMIC_LIGHT_BLUE)), "ceramic_stairs_light_blue");
+    public static final Block CERAMIC_YELLOW_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_YELLOW::getDefaultState, from(CERAMIC_YELLOW)), "ceramic_stairs_yellow");
+    public static final Block CERAMIC_LIME_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_LIME::getDefaultState, from(CERAMIC_LIME)), "ceramic_stairs_lime");
+    public static final Block CERAMIC_PINK_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_PINK::getDefaultState, from(CERAMIC_PINK)), "ceramic_stairs_pink");
+    public static final Block CERAMIC_GRAY_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_GRAY::getDefaultState, from(CERAMIC_GRAY)), "ceramic_stairs_gray");
+    public static final Block CERAMIC_LIGHT_GRAY_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_LIGHT_GRAY::getDefaultState, from(CERAMIC_LIGHT_GRAY)), "ceramic_stairs_light_gray");
+    public static final Block CERAMIC_CYAN_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_CYAN::getDefaultState, from(CERAMIC_CYAN)), "ceramic_stairs_cyan");
+    public static final Block CERAMIC_PURPLE_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_PURPLE::getDefaultState, from(CERAMIC_PURPLE)), "ceramic_stairs_purple");
+    public static final Block CERAMIC_BLUE_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_BLUE::getDefaultState, from(CERAMIC_BLUE)), "ceramic_stairs_blue");
+    public static final Block CERAMIC_BROWN_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_BROWN::getDefaultState, from(CERAMIC_BROWN)), "ceramic_stairs_brown");
+    public static final Block CERAMIC_GREEN_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_GREEN::getDefaultState, from(CERAMIC_GREEN)), "ceramic_stairs_green");
+    public static final Block CERAMIC_RED_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_RED::getDefaultState, from(CERAMIC_RED)), "ceramic_stairs_red");
+    public static final Block CERAMIC_BLACK_STAIRS = registerBlock(new StairsAtumBlock(CERAMIC_BLACK::getDefaultState, from(CERAMIC_BLACK)), "ceramic_stairs_black");
+    public static final Block CERAMIC_WHITE_WALL = registerBlock(new WallBlock(from(CERAMIC_WHITE)), "ceramic_wall_white");
+    public static final Block CERAMIC_ORANGE_WALL = registerBlock(new WallBlock(from(CERAMIC_ORANGE)), "ceramic_wall_orange");
+    public static final Block CERAMIC_MAGENTA_WALL = registerBlock(new WallBlock(from(CERAMIC_MAGENTA)), "ceramic_wall_magenta");
+    public static final Block CERAMIC_LIGHT_BLUE_WALL = registerBlock(new WallBlock(from(CERAMIC_LIGHT_BLUE)), "ceramic_wall_light_blue");
+    public static final Block CERAMIC_YELLOW_WALL = registerBlock(new WallBlock(from(CERAMIC_YELLOW)), "ceramic_wall_yellow");
+    public static final Block CERAMIC_LIME_WALL = registerBlock(new WallBlock(from(CERAMIC_LIME)), "ceramic_wall_lime");
+    public static final Block CERAMIC_PINK_WALL = registerBlock(new WallBlock(from(CERAMIC_PINK)), "ceramic_wall_pink");
+    public static final Block CERAMIC_GRAY_WALL = registerBlock(new WallBlock(from(CERAMIC_GRAY)), "ceramic_wall_gray");
+    public static final Block CERAMIC_LIGHT_GRAY_WALL = registerBlock(new WallBlock(from(CERAMIC_LIGHT_GRAY)), "ceramic_wall_light_gray");
+    public static final Block CERAMIC_CYAN_WALL = registerBlock(new WallBlock(from(CERAMIC_CYAN)), "ceramic_wall_cyan");
+    public static final Block CERAMIC_PURPLE_WALL = registerBlock(new WallBlock(from(CERAMIC_PURPLE)), "ceramic_wall_purple");
+    public static final Block CERAMIC_BLUE_WALL = registerBlock(new WallBlock(from(CERAMIC_BLUE)), "ceramic_wall_blue");
+    public static final Block CERAMIC_BROWN_WALL = registerBlock(new WallBlock(from(CERAMIC_BROWN)), "ceramic_wall_brown");
+    public static final Block CERAMIC_GREEN_WALL = registerBlock(new WallBlock(from(CERAMIC_GREEN)), "ceramic_wall_green");
+    public static final Block CERAMIC_RED_WALL = registerBlock(new WallBlock(from(CERAMIC_RED)), "ceramic_wall_red");
+    public static final Block CERAMIC_BLACK_WALL = registerBlock(new WallBlock(from(CERAMIC_BLACK)), "ceramic_wall_black");
     public static final Block RADIANT_BEACON = registerBlock(new BlockRadiantBeacon(), "radiant_beacon");
     public static final Block RADIANT_BEACON_FRAMED = registerBlock(new BlockFramedRadiantBeacon(), null, "radiant_beacon_framed");
-    public static final Block CRYSTAL_GLASS = registerBlock(new BlockAtumGlass(), "crystal_glass");
-    //BlockAtumStainedGlass.registerStainedGlass(CRYSTAL_GLASS) //TODO
-    public static final Block THIN_CRYSTAL_GLASS = registerBlock(new BlockAtumPane(), "thin_crystal_glass");
-    //BlockAtumStainedGlassPane.registerStainedGlassPane(THIN_CRYSTAL_GLASS) //TODO
-    public static final Block FRAMED_GLASS = registerBlock(new BlockAtumGlass(), "framed_glass");
-    //BlockAtumStainedGlass.registerStainedGlass(FRAMED_GLASS) //TODO
-    public static final Block THIN_FRAMED_GLASS = registerBlock(new BlockAtumPane(), "thin_framed_glass");
-    //BlockAtumStainedGlassPane.registerStainedGlassPane(THIN_FRAMED_GLASS) //TODO
-    //BlockLinen.registerLinenBlocks() //TODO
-    //BlockLinenCarpet.registerLinenCarpets() //TODO
-    //BlockAtumPlank.registerPlanks() //TODO
+    public static final Block CRYSTAL_GLASS = registerBlock(new GlassBlock(create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)), "crystal_glass");
+    public static final Block CRYSTAL_WHITE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.WHITE, from(CRYSTAL_GLASS)), "crystal_white_stained_glass");
+    public static final Block CRYSTAL_ORANGE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.ORANGE, from(CRYSTAL_GLASS)), "crystal_orange_stained_glass");
+    public static final Block CRYSTAL_MAGENTA_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.MAGENTA, from(CRYSTAL_GLASS)), "crystal_magenta_stained_glass");
+    public static final Block CRYSTAL_LIGHT_BLUE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.LIGHT_BLUE, from(CRYSTAL_GLASS)), "crystal_light_blue_stained_glass");
+    public static final Block CRYSTAL_YELLOW_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.YELLOW, from(CRYSTAL_GLASS)), "crystal_yellow_stained_glass");
+    public static final Block CRYSTAL_LIME_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.LIME, from(CRYSTAL_GLASS)), "crystal_lime_stained_glass");
+    public static final Block CRYSTAL_PINK_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.PINK, from(CRYSTAL_GLASS)), "crystal_lime_stained_glass");
+    public static final Block CRYSTAL_GRAY_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.GRAY, from(CRYSTAL_GLASS)), "crystal_gray_stained_glass");
+    public static final Block CRYSTAL_LIGHT_GRAY_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.LIGHT_GRAY, from(CRYSTAL_GLASS)), "crystal_light_gray_stained_glass");
+    public static final Block CRYSTAL_CYAN_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.CYAN, from(CRYSTAL_GLASS)), "crystal_cyan_stained_glass");
+    public static final Block CRYSTAL_PURPLE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.PURPLE, from(CRYSTAL_GLASS)), "crystal_purple_stained_glass");
+    public static final Block CRYSTAL_BLUE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.BLUE, from(CRYSTAL_GLASS)), "crystal_blue_stained_glass");
+    public static final Block CRYSTAL_BROWN_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.BROWN, from(CRYSTAL_GLASS)), "crystal_brown_stained_glass");
+    public static final Block CRYSTAL_GREEN_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.GREEN, from(CRYSTAL_GLASS)), "crystal_green_stained_glass");
+    public static final Block CRYSTAL_RED_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.RED, from(CRYSTAL_GLASS)), "crystal_red_stained_glass");
+    public static final Block CRYSTAL_BLACK_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.BLACK, from(CRYSTAL_GLASS)), "crystal_black_stained_glass");
+    public static final Block THIN_CRYSTAL_GLASS = registerBlock(new AtumPaneBlock(), "thin_crystal_glass");
+    public static final Block THIN_CRYSTAL_WHITE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.WHITE, from(THIN_CRYSTAL_GLASS)), "thin_crystal_white_stained_glass");
+    public static final Block THIN_CRYSTAL_ORANGE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.ORANGE, from(THIN_CRYSTAL_GLASS)), "thin_crystal_orange_stained_glass");
+    public static final Block THIN_CRYSTAL_MAGENTA_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.MAGENTA, from(THIN_CRYSTAL_GLASS)), "cthin_rystal_magenta_stained_glass");
+    public static final Block THIN_CRYSTAL_LIGHT_BLUE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.LIGHT_BLUE, from(THIN_CRYSTAL_GLASS)), "thin_crystal_light_blue_stained_glass");
+    public static final Block THIN_CRYSTAL_YELLOW_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.YELLOW, from(THIN_CRYSTAL_GLASS)), "thin_crystal_yellow_stained_glass");
+    public static final Block THIN_CRYSTAL_LIME_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.LIME, from(THIN_CRYSTAL_GLASS)), "thin_crystal_lime_stained_glass");
+    public static final Block THIN_CRYSTAL_PINK_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.PINK, from(THIN_CRYSTAL_GLASS)), "thin_crystal_lime_stained_glass");
+    public static final Block THIN_CRYSTAL_GRAY_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.GRAY, from(THIN_CRYSTAL_GLASS)), "thin_crystal_gray_stained_glass");
+    public static final Block THIN_CRYSTAL_LIGHT_GRAY_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.LIGHT_GRAY, from(THIN_CRYSTAL_GLASS)), "thin_crystal_light_gray_stained_glass");
+    public static final Block THIN_CRYSTAL_CYAN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.CYAN, from(THIN_CRYSTAL_GLASS)), "thin_crystal_cyan_stained_glass");
+    public static final Block THIN_CRYSTAL_PURPLE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.PURPLE, from(THIN_CRYSTAL_GLASS)), "thin_crystal_purple_stained_glass");
+    public static final Block THIN_CRYSTAL_BLUE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BLUE, from(THIN_CRYSTAL_GLASS)), "thin_crystal_blue_stained_glass");
+    public static final Block THIN_CRYSTAL_BROWN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BROWN, from(THIN_CRYSTAL_GLASS)), "thin_crystal_brown_stained_glass");
+    public static final Block THIN_CRYSTAL_GREEN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.GREEN, from(THIN_CRYSTAL_GLASS)), "thin_crystal_green_stained_glass");
+    public static final Block THIN_CRYSTAL_RED_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.RED, from(THIN_CRYSTAL_GLASS)), "thin_crystal_red_stained_glass");
+    public static final Block THIN_CRYSTAL_BLACK_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BLACK, from(THIN_CRYSTAL_GLASS)), "thin_crystal_black_stained_glass");
+    public static final Block FRAMED_GLASS = registerBlock(new GlassBlock(create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)), "framed_glass");
+    public static final Block FRAMED_WHITE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.WHITE, from(FRAMED_GLASS)), "framed_white_stained_glass");
+    public static final Block FRAMED_ORANGE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.ORANGE, from(FRAMED_GLASS)), "framed_orange_stained_glass");
+    public static final Block FRAMED_MAGENTA_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.MAGENTA, from(FRAMED_GLASS)), "framed_magenta_stained_glass");
+    public static final Block FRAMED_LIGHT_BLUE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.LIGHT_BLUE, from(FRAMED_GLASS)), "framed_light_blue_stained_glass");
+    public static final Block FRAMED_YELLOW_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.YELLOW, from(FRAMED_GLASS)), "framed_yellow_stained_glass");
+    public static final Block FRAMED_LIME_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.LIME, from(FRAMED_GLASS)), "framed_lime_stained_glass");
+    public static final Block FRAMED_PINK_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.PINK, from(FRAMED_GLASS)), "framed_lime_stained_glass");
+    public static final Block FRAMED_GRAY_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.GRAY, from(FRAMED_GLASS)), "framed_gray_stained_glass");
+    public static final Block FRAMED_LIGHT_GRAY_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.LIGHT_GRAY, from(FRAMED_GLASS)), "framed_light_gray_stained_glass");
+    public static final Block FRAMED_CYAN_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.CYAN, from(FRAMED_GLASS)), "framed_cyan_stained_glass");
+    public static final Block FRAMED_PURPLE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.PURPLE, from(FRAMED_GLASS)), "framed_purple_stained_glass");
+    public static final Block FRAMED_BLUE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.BLUE, from(FRAMED_GLASS)), "framed_blue_stained_glass");
+    public static final Block FRAMED_BROWN_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.BROWN, from(FRAMED_GLASS)), "framed_brown_stained_glass");
+    public static final Block FRAMED_GREEN_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.GREEN, from(FRAMED_GLASS)), "framed_green_stained_glass");
+    public static final Block FRAMED_RED_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.RED, from(FRAMED_GLASS)), "framed_red_stained_glass");
+    public static final Block FRAMED_BLACK_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.BLACK, from(FRAMED_GLASS)), "framed_black_stained_glass");
+    public static final Block THIN_FRAMED_GLASS = registerBlock(new AtumPaneBlock(), "thin_framed_glass");
+    public static final Block THIN_FRAMED_WHITE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.WHITE, from(THIN_FRAMED_GLASS)), "thin_framed_white_stained_glass");
+    public static final Block THIN_FRAMED_ORANGE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.ORANGE, from(THIN_FRAMED_GLASS)), "thin_framed_orange_stained_glass");
+    public static final Block THIN_FRAMED_MAGENTA_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.MAGENTA, from(THIN_FRAMED_GLASS)), "thin_framed_magenta_stained_glass");
+    public static final Block THIN_FRAMED_LIGHT_BLUE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.LIGHT_BLUE, from(THIN_FRAMED_GLASS)), "thin_framed_light_blue_stained_glass");
+    public static final Block THIN_FRAMED_YELLOW_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.YELLOW, from(THIN_FRAMED_GLASS)), "thin_framed_yellow_stained_glass");
+    public static final Block THIN_FRAMED_LIME_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.LIME, from(THIN_FRAMED_GLASS)), "thin_framed_lime_stained_glass");
+    public static final Block THIN_FRAMED_PINK_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.PINK, from(THIN_FRAMED_GLASS)), "thin_framed_lime_stained_glass");
+    public static final Block THIN_FRAMED_GRAY_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.GRAY, from(THIN_FRAMED_GLASS)), "thin_framed_gray_stained_glass");
+    public static final Block THIN_FRAMED_LIGHT_GRAY_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.LIGHT_GRAY, from(THIN_FRAMED_GLASS)), "thin_framed_light_gray_stained_glass");
+    public static final Block THIN_FRAMED_CYAN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.CYAN, from(THIN_FRAMED_GLASS)), "thin_framed_cyan_stained_glass");
+    public static final Block THIN_FRAMED_PURPLE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.PURPLE, from(THIN_FRAMED_GLASS)), "thin_framed_purple_stained_glass");
+    public static final Block THIN_FRAMED_BLUE_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BLUE, from(THIN_FRAMED_GLASS)), "thin_framed_blue_stained_glass");
+    public static final Block THIN_FRAMED_BROWN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BROWN, from(THIN_FRAMED_GLASS)), "thin_framed_brown_stained_glass");
+    public static final Block THIN_FRAMED_GREEN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.GREEN, from(THIN_FRAMED_GLASS)), "thin_framed_green_stained_glass");
+    public static final Block THIN_FRAMED_RED_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.RED, from(THIN_FRAMED_GLASS)), "thin_framed_red_stained_glass");
+    public static final Block THIN_FRAMED_BLACK_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BLACK, from(THIN_FRAMED_GLASS)), "thin_framed_black_stained_glass");
+    public static final Block LINEN_WHITE = registerBlock(new LinenBlock(DyeColor.WHITE), "linen_white");
+    public static final Block LINEN_ORANGE = registerBlock(new LinenBlock(DyeColor.ORANGE), "linen_orange");
+    public static final Block LINEN_MAGENTA = registerBlock(new LinenBlock(DyeColor.MAGENTA), "linen_magenta");
+    public static final Block LINEN_LIGHT_BLUE = registerBlock(new LinenBlock(DyeColor.LIGHT_BLUE), "linen_light_blue");
+    public static final Block LINEN_YELLOW = registerBlock(new LinenBlock(DyeColor.YELLOW), "linen_yellow");
+    public static final Block LINEN_LIME = registerBlock(new LinenBlock(DyeColor.LIME), "linen_lime");
+    public static final Block LINEN_PINK = registerBlock(new LinenBlock(DyeColor.PINK), "linen_lime");
+    public static final Block LINEN_GRAY = registerBlock(new LinenBlock(DyeColor.GRAY), "linen_gray");
+    public static final Block LINEN_LIGHT_GRAY = registerBlock(new LinenBlock(DyeColor.LIGHT_GRAY), "linen_light_gray");
+    public static final Block LINEN_CYAN = registerBlock(new LinenBlock(DyeColor.CYAN), "linen_cyan");
+    public static final Block LINEN_PURPLE = registerBlock(new LinenBlock(DyeColor.PURPLE), "linen_purple");
+    public static final Block LINEN_BLUE = registerBlock(new LinenBlock(DyeColor.BLUE), "linen_blue");
+    public static final Block LINEN_BROWN = registerBlock(new LinenBlock(DyeColor.BROWN), "linen_brown");
+    public static final Block LINEN_GREEN = registerBlock(new LinenBlock(DyeColor.GREEN), "linen_green");
+    public static final Block LINEN_RED = registerBlock(new LinenBlock(DyeColor.RED), "linen_red");
+    public static final Block LINEN_BLACK = registerBlock(new LinenBlock(DyeColor.BLACK), "linen_black");
+    public static final Block LINEN_CARPET_WHITE = registerBlock(new LinenCarpetBlock(DyeColor.WHITE), "linen_carpet_white");
+    public static final Block LINEN_CARPET_ORANGE = registerBlock(new LinenCarpetBlock(DyeColor.ORANGE), "linen_carpet_orange");
+    public static final Block LINEN_CARPET_MAGENTA = registerBlock(new LinenCarpetBlock(DyeColor.MAGENTA), "linen_carpet_magenta");
+    public static final Block LINEN_CARPET_LIGHT_BLUE = registerBlock(new LinenCarpetBlock(DyeColor.LIGHT_BLUE), "linen_carpet_light_blue");
+    public static final Block LINEN_CARPET_YELLOW = registerBlock(new LinenCarpetBlock(DyeColor.YELLOW), "linen_carpet_yellow");
+    public static final Block LINEN_CARPET_LIME = registerBlock(new LinenCarpetBlock(DyeColor.LIME), "linen_carpet_lime");
+    public static final Block LINEN_CARPET_PINK = registerBlock(new LinenCarpetBlock(DyeColor.PINK), "linen_carpet_lime");
+    public static final Block LINEN_CARPET_GRAY = registerBlock(new LinenCarpetBlock(DyeColor.GRAY), "linen_carpet_gray");
+    public static final Block LINEN_CARPET_LIGHT_GRAY = registerBlock(new LinenCarpetBlock(DyeColor.LIGHT_GRAY), "linen_carpet_light_gray");
+    public static final Block LINEN_CARPET_CYAN = registerBlock(new LinenCarpetBlock(DyeColor.CYAN), "linen_carpet_cyan");
+    public static final Block LINEN_CARPET_PURPLE = registerBlock(new LinenCarpetBlock(DyeColor.PURPLE), "linen_carpet_purple");
+    public static final Block LINEN_CARPET_BLUE = registerBlock(new LinenCarpetBlock(DyeColor.BLUE), "linen_carpet_blue");
+    public static final Block LINEN_CARPET_BROWN = registerBlock(new LinenCarpetBlock(DyeColor.BROWN), "linen_carpet_brown");
+    public static final Block LINEN_CARPET_GREEN = registerBlock(new LinenCarpetBlock(DyeColor.GREEN), "linen_carpet_green");
+    public static final Block LINEN_CARPET_RED = registerBlock(new LinenCarpetBlock(DyeColor.RED), "linen_carpet_red");
+    public static final Block LINEN_CARPET_BLACK = registerBlock(new LinenCarpetBlock(DyeColor.BLACK), "linen_carpet_black");
+    public static final Block PALM_PLANKS = registerBlock(new Block(create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), "palm_planks");
+    public static final Block DEADWOOD_PLANKS = registerBlock(new Block(create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), "deadwood_planks");
     public static final Block PALM_LOG = registerBlock(new BlockAtumLog(), "palm_log");
     public static final Block DEADWOOD_LOG = registerBlock(new BlockDeadwood(), "deadwood_log");
     public static final Block DEADWOOD_BRANCH = registerBlock(new BlockBranch(), null, "deadwood_branch");
-    //BlockAtumStairs.registerWoodStairs() //TODO
-    //BlockAtumWoodSlab.registerSlabs() //TODO
-    //BlockAtumSapling.registerSaplings() //TODO
-    //BlockLeave.registerLeaves() //TODO
+    public static final Block PALM_STAIRS = registerBlock(new StairsAtumBlock(PALM_PLANKS::getDefaultState, from(PALM_PLANKS)), "palm_stairs");
+    public static final Block DEADWOOD_STAIRS = registerBlock(new StairsAtumBlock(DEADWOOD_PLANKS::getDefaultState, from(DEADWOOD_PLANKS)), "deadwood_stairs");
+    public static final Block PALM_SLAB = registerBlock(new SlabBlock(from(PALM_PLANKS)), "palm_slab");
+    public static final Block DEADWOOD_SLAB = registerBlock(new SlabBlock(from(DEADWOOD_PLANKS)), "deadwood_slab");
+    public static final Block PALM_SAPLING = registerBlock(new PalmSaplingBlock(), "palm_sapling");
+    public static final Block PALM_LEAVES = registerBlock(new PalmLeavesBlock(), "palm_leaves");
+    public static final Block DEADWOOD_LEAVES = registerBlock(new LeavesAtumBlock(create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)), null, "deadwood_leaves");
     public static final Block PALM_CRATE = registerBlock(new BlockCrate(), "palm_crate");
     public static final Block DEADWOOD_CRATE = registerBlock(new BlockCrate(), "deadwood_crate");
     public static final Block PALM_LADDER = registerBlock(new BlockAtumLadder(), "palm_ladder");
     public static final Block DEADWOOD_LADDER = registerBlock(new BlockAtumLadder(), "deadwood_ladder");
-    public static final Block PALM_FENCE = registerBlock(new BlockAtumFence(BlockAtumPlank.WoodType.PALM.getMapColor()), "palm_fence");
-    public static final Block DEADWOOD_FENCE = registerBlock(new BlockAtumFence(BlockAtumPlank.WoodType.DEADWOOD.getMapColor()), "deadwood_fence");
+    public static final Block PALM_FENCE = registerBlock(new FenceBlock(from(PALM_PLANKS)), "palm_fence");
+    public static final Block DEADWOOD_FENCE = registerBlock(new FenceBlock(from(DEADWOOD_PLANKS)), "deadwood_fence");
     public static final Block PALM_FENCE_GATE = registerBlock(new BlockAtumFenceGate(), "palm_fence_gate");
     public static final Block DEADWOOD_FENCE_GATE = registerBlock(new BlockAtumFenceGate(), "deadwood_fence_gate");
     public static final Block PALM_HATCH = registerBlock(new BlockAtumTrapDoor(), "palm_hatch");
     public static final Block DEADWOOD_HATCH = registerBlock(new BlockAtumTrapDoor(), "deadwood_hatch");
-    public static final Block PALM_DOOR = registerBlock(new BlockAtumDoor(Material.WOOD), "palm_door");
-    public static final Block DEADWOOD_DOOR = registerBlock(new BlockAtumDoor(Material.WOOD), "deadwood_door");
+    public static final Block PALM_DOOR = registerBlock(new DoorAtumBlock(from(PALM_PLANKS)), "palm_door");
+    public static final Block DEADWOOD_DOOR = registerBlock(new DoorAtumBlock(from(DEADWOOD_PLANKS)), "deadwood_door");
     public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;
 
     public static void setBlockInfo() {
@@ -173,38 +398,40 @@ public class AtumBlocks {
         fire.setFireInfo(DEADWOOD_FENCE_GATE, 5, 20);
         fire.setFireInfo(SHRUB, 60, 100);
         fire.setFireInfo(WEED, 60, 100);
-        fire.setFireInfo(PALM_LOG, 5, 5);
-        fire.setFireInfo(DEADWOOD_LOG, 5, 5);
         fire.setFireInfo(SPINNING_WHEEL, 2, 1);
         fire.setFireInfo(OPHIDIAN_TONGUE, 15, 100);
-        for (BlockAtumPlank.WoodType type : BlockAtumPlank.WoodType.values()) {
-            fire.setFireInfo(BlockAtumWoodSlab.getSlab(type), 5, 20);
-            fire.setFireInfo(BlockAtumPlank.getPlank(type), 5, 20);
-            fire.setFireInfo(BlockLeave.getLeave(type), 30, 60);
-            fire.setFireInfo(BlockAtumStairs.getWoodStairs(type), 5, 20);
-        }
-        BlockKhnumiteFace.addDispenerSupport();
+        fire.setFireInfo(PALM_PLANKS, 5, 20);
+        fire.setFireInfo(DEADWOOD_PLANKS, 5, 20);
+        fire.setFireInfo(PALM_LOG, 5, 5);
+        fire.setFireInfo(DEADWOOD_LOG, 5, 5);
+        fire.setFireInfo(PALM_SLAB, 5, 20);
+        fire.setFireInfo(DEADWOOD_SLAB, 5, 20);
+        fire.setFireInfo(PALM_LEAVES, 30, 60);
+        fire.setFireInfo(DEADWOOD_LEAVES, 30, 60);
+        fire.setFireInfo(PALM_STAIRS, 5, 20);
+        fire.setFireInfo(DEADWOOD_STAIRS, 5, 20);
+        KhnumiteFaceBlock.addDispenerSupport();
     }
 
     @ObjectHolder(Constants.MOD_ID)
     public static class AtumTileEntities {
         //Chests
-        public static final TileEntityType<TileEntityLimestoneChest> LIMESTONE_CHEST = registerTileEntity("limestone_chest", TileEntityType.Builder.create(TileEntityLimestoneChest::new, AtumBlocks.LIMESTONE_CHEST));
-        public static final TileEntityType<TileEntityChestSpawner> CHEST_SPAWNER = registerTileEntity("chest_spawner", TileEntityType.Builder.create(TileEntityChestSpawner::new, AtumBlocks.CHEST_SPAWNER));
-        public static final TileEntityType<TileEntitySarcophagus> SARCOPHAGUS = registerTileEntity("sarcophagus", TileEntityType.Builder.create(TileEntitySarcophagus::new, AtumBlocks.SARCOPHAGUS));
-        public static final TileEntityType<TileEntityLimestoneChest> CRATE = registerTileEntity("crate", TileEntityType.Builder.create(TileEntityLimestoneChest::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
+        public static final TileEntityType<LimestoneChestTileEntity> LIMESTONE_CHEST = registerTileEntity("limestone_chest", TileEntityType.Builder.create(LimestoneChestTileEntity::new, AtumBlocks.LIMESTONE_CHEST));
+        public static final TileEntityType<ChestSpawnerTileEntity> CHEST_SPAWNER = registerTileEntity("chest_spawner", TileEntityType.Builder.create(ChestSpawnerTileEntity::new, AtumBlocks.CHEST_SPAWNER));
+        public static final TileEntityType<SarcophagusTileEntity> SARCOPHAGUS = registerTileEntity("sarcophagus", TileEntityType.Builder.create(SarcophagusTileEntity::new, AtumBlocks.SARCOPHAGUS));
+        public static final TileEntityType<LimestoneChestTileEntity> CRATE = registerTileEntity("crate", TileEntityType.Builder.create(LimestoneChestTileEntity::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
         //Traps
-        public static final TileEntityType<TileEntityBurningTrap> BURNING_TRAP = registerTileEntity("burning_trap", TileEntityType.Builder.create(TileEntityBurningTrap::new, AtumBlocks.BURNING_TRAP));
-        public static final TileEntityType<TileEntityPoisonTrap> POISON_TRAP = registerTileEntity("poison_trap", TileEntityType.Builder.create(TileEntityPoisonTrap::new, AtumBlocks.POISON_TRAP));
-        public static final TileEntityType<TileEntityTarTrap> TAR_TRAP = registerTileEntity("tar_trap", TileEntityType.Builder.create(TileEntityTarTrap::new, AtumBlocks.TAR_TRAP));
-        public static final TileEntityType<TileEntitySmokeTrap> SMOKE_TRAP = registerTileEntity("smoke_trap", TileEntityType.Builder.create(TileEntitySmokeTrap::new, AtumBlocks.SMOKE_TRAP));
-        public static final TileEntityType<TileEntityArrowTrap> ARROW_TRAP = registerTileEntity("arrow_trap", TileEntityType.Builder.create(TileEntityArrowTrap::new, AtumBlocks.ARROW_TRAP));
-
+        public static final TileEntityType<BurningTrapTileEntity> BURNING_TRAP = registerTileEntity("burning_trap", TileEntityType.Builder.create(BurningTrapTileEntity::new, AtumBlocks.BURNING_TRAP));
+        public static final TileEntityType<PoisonTrapTileEntity> POISON_TRAP = registerTileEntity("poison_trap", TileEntityType.Builder.create(PoisonTrapTileEntity::new, AtumBlocks.POISON_TRAP));
+        public static final TileEntityType<TarTrapTileEntity> TAR_TRAP = registerTileEntity("tar_trap", TileEntityType.Builder.create(TarTrapTileEntity::new, AtumBlocks.TAR_TRAP));
+        public static final TileEntityType<SmokeTrapTileEntity> SMOKE_TRAP = registerTileEntity("smoke_trap", TileEntityType.Builder.create(SmokeTrapTileEntity::new, AtumBlocks.SMOKE_TRAP));
+        public static final TileEntityType<ArrowTrapTileEntity> ARROW_TRAP = registerTileEntity("arrow_trap", TileEntityType.Builder.create(ArrowTrapTileEntity::new, AtumBlocks.ARROW_TRAP));
+        //Other
         public static final TileEntityType<TileEntityHeartOfRa> HEART_OF_RA = registerTileEntity("heart_of_ra", TileEntityType.Builder.create(TileEntityHeartOfRa::new, AtumBlocks.HEART_OF_RA));
         public static final TileEntityType<TileEntityRadiantBeacon> RADIANT_BEACON = registerTileEntity("radiant_beacon", TileEntityType.Builder.create(TileEntityRadiantBeacon::new, AtumBlocks.RADIANT_BEACON, AtumBlocks.RADIANT_BEACON_FRAMED));
         public static final TileEntityType<TileEntityLimestoneFurnace> LIMESTONE_FURNACE = registerTileEntity("limestone_furnace", TileEntityType.Builder.create(TileEntityLimestoneFurnace::new, AtumBlocks.LIMESTONE_FURNACE));
-        public static final TileEntityType<TileEntityQuern> QUERN = registerTileEntity("quern", TileEntityType.Builder.create(TileEntityQuern::new, AtumBlocks.QUERN));
-        public static final TileEntityType<TileEntitySpinningWheel> SPINNING_WHEEL = registerTileEntity("spinning_wheel", TileEntityType.Builder.create(TileEntitySpinningWheel::new, AtumBlocks.SPINNING_WHEEL));
-        public static final TileEntityType<TileEntityKiln> KILN = registerTileEntity("kiln", TileEntityType.Builder.create(TileEntityKiln::new, AtumBlocks.KILN));
+        public static final TileEntityType<QuernTileEntity> QUERN = registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));
+        public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = registerTileEntity("spinning_wheel", TileEntityType.Builder.create(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));
+        public static final TileEntityType<KilnTileEntity> KILN = registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN));
     }
 }

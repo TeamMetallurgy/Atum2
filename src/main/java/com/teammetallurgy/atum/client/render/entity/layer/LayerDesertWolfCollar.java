@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.layer;
 
 import com.teammetallurgy.atum.client.render.entity.mobs.RenderDesertWolf;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;

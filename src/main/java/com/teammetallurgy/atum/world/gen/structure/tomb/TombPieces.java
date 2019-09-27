@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntityLimestoneChest;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
 import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
@@ -76,8 +76,8 @@ public class TombPieces {
                         world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
                         world.setBlockToAir(pos);
@@ -87,8 +87,8 @@ public class TombPieces {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntityLimestoneChest) {
-                        ((TileEntityLimestoneChest) tileentity).setLootTable(AtumLootTables.TOMB_CHEST, rand.nextLong());
+                    if (tileentity instanceof LimestoneChestTileEntity) {
+                        ((LimestoneChestTileEntity) tileentity).setLootTable(AtumLootTables.TOMB_CHEST, rand.nextLong());
                     }
                 }
                 world.setBlockToAir(pos);

@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.client.render.entity.arrow;
 import com.teammetallurgy.atum.entity.projectile.EntityBone;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;

@@ -31,14 +31,14 @@ public class BlockOphidianTongue extends VineBlock {
 
     public BlockOphidianTongue() {
         super();
-        this.setDefaultState(this.blockState.getBaseState().with(UP, Boolean.FALSE).with(NORTH, Boolean.FALSE).with(EAST, Boolean.FALSE).with(SOUTH, Boolean.FALSE).with(WEST, Boolean.FALSE).with(HAS_FLOWERS, false));
+        this.setDefaultState(this.stateContainer.getBaseState().with(UP, Boolean.FALSE).with(NORTH, Boolean.FALSE).with(EAST, Boolean.FALSE).with(SOUTH, Boolean.FALSE).with(WEST, Boolean.FALSE).with(HAS_FLOWERS, false));
         this.setHardness(0.2F);
         this.setSoundType(SoundType.PLANT);
     }
 
     @Override
     public void onEntityCollision(World world, BlockPos pos, BlockState state, Entity entity) {
-        if (!world.isRemote && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity) {
+        if (!world.isRemote && state.get(HAS_FLOWERS) && entity instanceof LivingEntity) {
             LivingEntity livingBase = (LivingEntity) entity;
             livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 35));
         }
@@ -47,7 +47,7 @@ public class BlockOphidianTongue extends VineBlock {
     @Override
     public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
         super.updateTick(world, pos, state, rand);
-        if (!world.isRemote && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
+        if (!world.isRemote && !state.get(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
             world.setBlockState(pos, state.with(HAS_FLOWERS, true), 2);
         }
     }
@@ -76,7 +76,7 @@ public class BlockOphidianTongue extends VineBlock {
     @Override
     @Nonnull
     public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return state.getValue(HAS_FLOWERS) ? AtumItems.OPHIDIAN_TONGUE_FLOWER : super.getItemDropped(state, rand, fortune);
+        return state.get(HAS_FLOWERS) ? AtumItems.OPHIDIAN_TONGUE_FLOWER : super.getItemDropped(state, rand, fortune);
     }
 
     @Override
@@ -95,19 +95,19 @@ public class BlockOphidianTongue extends VineBlock {
     @Override
     public int getMetaFromState(BlockState state) {
         int meta = 0;
-        if (state.getValue(SOUTH)) {
+        if (state.get(SOUTH)) {
             meta |= Direction.SOUTH.getHorizontalIndex();
         }
-        if (state.getValue(WEST)) {
+        if (state.get(WEST)) {
             meta |= Direction.WEST.getHorizontalIndex();
         }
-        if (state.getValue(NORTH)) {
+        if (state.get(NORTH)) {
             meta |= Direction.NORTH.getHorizontalIndex();
         }
-        if (state.getValue(EAST)) {
+        if (state.get(EAST)) {
             meta |= Direction.EAST.getHorizontalIndex();
         }
-        meta = meta | (state.getValue(HAS_FLOWERS) ? 4 : 0);
+        meta = meta | (state.get(HAS_FLOWERS) ? 4 : 0);
         return meta;
     }
 

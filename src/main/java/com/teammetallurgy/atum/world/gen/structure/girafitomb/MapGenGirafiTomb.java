@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
 import net.minecraft.util.Rotation;
@@ -145,7 +145,7 @@ public class MapGenGirafiTomb extends MapGenStructure {
                                 if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                                world.setBlockState(pyramidPos, BlockLimestoneBricks.getBrick(BlockLimestoneBricks.BrickType.LARGE).getDefaultState(), 2);
+                                world.setBlockState(pyramidPos, LimestoneBrickBlock.getBrick(LimestoneBrickBlock.BrickType.LARGE).getDefaultState(), 2);
                             }
                         }
                     }

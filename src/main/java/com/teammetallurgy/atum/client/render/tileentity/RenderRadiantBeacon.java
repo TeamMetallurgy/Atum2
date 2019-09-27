@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityBeaconRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntityBeacon;

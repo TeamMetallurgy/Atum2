@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.arrow;
 
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
 import net.minecraft.client.model.ModelLlamaSpit;
-import net.minecraft.client.renderer.GlStateManager;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
