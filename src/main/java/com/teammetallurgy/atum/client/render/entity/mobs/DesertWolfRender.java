@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.client.render.entity.layer.LayerDesertWolfCollar;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
+import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.model.ModelBase;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.LayeredTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -19,15 +19,15 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderDesertWolf extends RenderLiving<DesertWolfEntity> {
+public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfModel<DesertWolfEntity>> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_tame.png");
     private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_angry.png");
     private static final ResourceLocation SADDLE_DESERT_WOLF_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
 
-    public RenderDesertWolf(RenderManager renderManager, ModelBase modelBase, float shadowSize) {
-        super(renderManager, modelBase, shadowSize);
-        this.addLayer(new LayerDesertWolfCollar(this));
+    public DesertWolfRender(EntityRendererManager renderManager) {
+        super(renderManager, new DesertWolfModel<>(), 0.5F);
+        this.addLayer(new DesertWolfCollarLayer(this));
     }
 
     @Override
@@ -40,7 +40,7 @@ public class RenderDesertWolf extends RenderLiving<DesertWolfEntity> {
         if (desertWolf.isWolfWet()) {
             GlStateManager.pushMatrix();
             float f = desertWolf.getBrightness() * desertWolf.getShadingWhileWet(partialTicks);
-            GlStateManager.color(f, f, f);
+            GlStateManager.color3f(f, f, f);
             GlStateManager.popMatrix();
         }
         super.doRender(desertWolf, x, y, z, entityYaw, partialTicks);
@@ -75,7 +75,7 @@ public class RenderDesertWolf extends RenderLiving<DesertWolfEntity> {
     protected void preRenderCallback(DesertWolfEntity desertWolf, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
-            GlStateManager.scale(scale, scale, scale);
+            GlStateManager.scalef(scale, scale, scale);
         }
     }
 }

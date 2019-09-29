@@ -8,7 +8,6 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,6 +15,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.DirectionProperty;
 import net.minecraft.stats.StatList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
@@ -32,7 +32,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockLimestoneFurnace extends ContainerBlock {
-    private static final PropertyDirection FACING = HorizontalBlock.FACING;
+    private static final DirectionProperty FACING = HorizontalBlock.FACING;
     private final boolean isBurning;
     private static boolean keepInventory;
 

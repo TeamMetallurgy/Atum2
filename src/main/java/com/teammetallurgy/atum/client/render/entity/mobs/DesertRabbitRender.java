@@ -2,15 +2,15 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.teammetallurgy.atum.entity.animal.DesertRabbitEntity;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.client.model.ModelRabbit;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.RabbitModel;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RenderDesertRabbit extends RenderLiving<DesertRabbitEntity> {
+public class DesertRabbitRender extends MobRenderer<DesertRabbitEntity, RabbitModel<DesertRabbitEntity>> {
     private static final ResourceLocation PALE = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_pale.png");
     private static final ResourceLocation SANDY = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_sandy.png");
     private static final ResourceLocation HAZEL = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_hazel.png");
@@ -19,30 +19,39 @@ public class RenderDesertRabbit extends RenderLiving<DesertRabbitEntity> {
 
     private static final ResourceLocation IRON = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_iron.png");
 
-    public RenderDesertRabbit(RenderManager manager) {
-        super(manager, new ModelRabbit(), 0.3F);
+    public DesertRabbitRender(EntityRendererManager manager) {
+        super(manager, new RabbitModel<>(), 0.3F);
     }
 
     @Override
     @Nullable
     protected ResourceLocation getEntityTexture(@Nonnull DesertRabbitEntity rabbit) {
-        if (rabbit.hasCustomName()) {
-            if (rabbit.getCustomNameTag().equalsIgnoreCase("iron") || rabbit.getCustomNameTag().equalsIgnoreCase("nutz")) {
-                return IRON;
-            }
-        }
+        ResourceLocation location;
         switch (rabbit.getRabbitType()) {
             case 0:
             default:
-                return PALE;
+                location = PALE;
+                break;
             case 1:
-                return SANDY;
+                location = SANDY;
+                break;
             case 2:
-                return HAZEL;
+                location = HAZEL;
+                break;
             case 3:
-                return UMBER;
+                location = UMBER;
+                break;
             case 4:
-                return UMBER_DARK;
+                location = UMBER_DARK;
+                break;
         }
+
+        if (rabbit.hasCustomName() && rabbit.getCustomName() != null) {
+            String customName = rabbit.getCustomName().getFormattedText();
+            if (customName.equalsIgnoreCase("iron") || customName.equalsIgnoreCase("nutz") || customName.equalsIgnoreCase("vequinox")) {
+                location = IRON;
+            }
+        }
+        return location;
     }
 }

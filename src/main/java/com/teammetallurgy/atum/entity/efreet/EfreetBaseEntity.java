@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.efreet;
 
+import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -27,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class EfreetBaseEntity extends AgeableEntity {
+public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EfreetBaseEntity.class, DataSerializers.VARINT);
     private String texturePath;
     private int angerLevel;
@@ -86,6 +87,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity {
         return this.dataManager.get(VARIANT);
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {

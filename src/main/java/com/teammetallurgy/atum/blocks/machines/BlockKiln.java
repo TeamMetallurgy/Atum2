@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnBaseTileEntity;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock.BrickType;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -13,12 +13,12 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.DirectionProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -32,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class BlockKiln extends ContainerBlock {
-    public static final PropertyDirection FACING = HorizontalBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final PropertyBool IS_BURNING = PropertyBool.create("is_burning");
     static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
     private static final PropertyBool MULTIBLOCK_SECONDARY = PropertyBool.create("multiblock_secondary");

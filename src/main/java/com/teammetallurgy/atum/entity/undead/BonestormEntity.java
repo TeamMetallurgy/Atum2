@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.undead;
 
+import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.projectile.SmallBoneEntity;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
@@ -15,7 +16,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.EnumSet;
 
-public class BonestormEntity extends UndeadBaseEntity {
+public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     private static final ResourceLocation BONESTORM_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/bonestorm.png");
     private String texturePath;
 
@@ -91,6 +92,7 @@ public class BonestormEntity extends UndeadBaseEntity {
         super.updateAITasks();
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {

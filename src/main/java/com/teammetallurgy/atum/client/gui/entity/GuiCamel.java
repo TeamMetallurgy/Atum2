@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.inventory.container.entity.ContainerCamel;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -38,10 +38,10 @@ public class GuiCamel extends ContainerScreen {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(CAMEL_GUI_TEXTURE);
-        int width = (this.getWidth() - this.xSize) / 2;
-        int height = (this.getHeight() - this.ySize) / 2;
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.getMinecraft().getTextureManager().bindTexture(CAMEL_GUI_TEXTURE);
+        int width = (this.width - this.xSize) / 2;
+        int height = (this.height - this.ySize) / 2;
         this.blit(width, height, 0, 0, this.xSize, this.ySize);
 
         if (this.camel != null) {

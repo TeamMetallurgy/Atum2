@@ -8,7 +8,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.BeaconTileEntity;
-import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.api.distmarker.Dist;
@@ -46,7 +45,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
         this.beamSegments.clear();
         this.isComplete = true;
         float[] defaultColor = this.world.getBlockState(this.getPos()).getValue(BlockRadiantBeacon.COLOR).getColorComponentValues();
-        TileEntityBeacon.BeamSegment beamSegment = new TileEntityBeacon.BeamSegment(defaultColor);
+        BeaconTileEntity.BeamSegment beamSegment = new BeaconTileEntity.BeamSegment(defaultColor);
         this.beamSegments.add(beamSegment);
         boolean flag = true;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
@@ -83,7 +82,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
             if (Arrays.equals(color, beamSegment.getColors())) {
                 beamSegment.incrementHeight();
             } else {
-                beamSegment = new TileEntityBeacon.BeamSegment(color);
+                beamSegment = new BeaconTileEntity.BeamSegment(color);
                 this.beamSegments.add(beamSegment);
             }
             flag = false;
@@ -99,7 +98,7 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
     @Override
     @Nonnull
     @OnlyIn(Dist.CLIENT)
-    public List<TileEntityBeacon.BeamSegment> getBeamSegments() {
+    public List<BeaconTileEntity.BeamSegment> getBeamSegments() {
         return this.beamSegments;
     }
 }

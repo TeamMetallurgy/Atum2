@@ -23,7 +23,7 @@ public class BonestormModel<T extends BonestormEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void render(BonestormEntity bonestorm, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(T bonestorm, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
         this.setRotationAngles(bonestorm, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.bonestormHead.render(scale);
 
@@ -33,7 +33,7 @@ public class BonestormModel<T extends BonestormEntity> extends EntityModel<T> {
     }
 
     @Override
-    public void setRotationAngles(BonestormEntity bonestorm, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
+    public void setRotationAngles(T bonestorm, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor) {
         float f = ageInTicks * (float) Math.PI * -0.1F;
         int i;
 

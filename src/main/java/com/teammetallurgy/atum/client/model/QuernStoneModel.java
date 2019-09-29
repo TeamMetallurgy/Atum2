@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.client.model;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 
-public class QuernStoneModel extends ModelBase {
+public class QuernStoneModel extends Model {
     public RendererModel core;
     private RendererModel coreLeft;
     private RendererModel coreFront;

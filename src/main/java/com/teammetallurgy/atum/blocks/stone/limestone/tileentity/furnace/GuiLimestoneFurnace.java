@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace;
 
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import com.mojang.blaze3d.platform.GlStateManager;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;

@@ -1,12 +1,13 @@
 package com.teammetallurgy.atum.client.model.entity;
 
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.model.ModelZombie;
+import net.minecraft.client.renderer.entity.model.ZombieModel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class DustySkeletonModel extends ModelZombie {
+public class DustySkeletonModel extends ZombieModel {
+
     public DustySkeletonModel() {
         this(0.0F);
     }

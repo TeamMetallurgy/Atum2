@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.entity.stone;
 
+import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -16,6 +18,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
@@ -24,7 +27,9 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class StoneguardEntity extends StoneBaseEntity {
+public class StoneguardEntity extends StoneBaseEntity implements ITexture {
+    private static final ResourceLocation STONEGUARD_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard.png");
+    private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_derp.png");
     private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, AttributeModifier.Operation.ADDITION);
 
     public StoneguardEntity(EntityType<? extends StoneBaseEntity> entityType, World world) {
@@ -132,5 +137,17 @@ public class StoneguardEntity extends StoneBaseEntity {
         } else {
             return super.processInteract(player, hand);
         }
+    }
+
+    @Override
+    public String getTexture() {
+        ResourceLocation location = STONEGUARD_TEXTURE;
+        if (this.hasCustomName() && this.getCustomName() != null) {
+            String customName = this.getCustomName().getFormattedText();
+            if (customName.equalsIgnoreCase("iron") || customName.equalsIgnoreCase("nutz") || customName.equalsIgnoreCase("vequinox")) {
+                location = STONEGUARD_IRON_TEXTURE;
+            }
+        }
+        return location.toString();
     }
 }

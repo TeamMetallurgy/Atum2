@@ -10,7 +10,6 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
@@ -19,6 +18,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.DirectionProperty;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -36,7 +36,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BlockSpinningWheel extends ContainerBlock {
-    private static final PropertyDirection FACING = HorizontalBlock.FACING;
+    private static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final PropertyInteger SPOOL = PropertyInteger.create("spool", 0, 3);
     private static final PropertyBool WHEEL = PropertyBool.create("wheel");
 

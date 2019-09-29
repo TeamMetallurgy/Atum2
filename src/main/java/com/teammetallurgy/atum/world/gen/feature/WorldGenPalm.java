@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.PalmSaplingBlock;
 import com.teammetallurgy.atum.blocks.wood.PalmLeavesBlock;
+import com.teammetallurgy.atum.blocks.wood.PalmSaplingBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockVine;

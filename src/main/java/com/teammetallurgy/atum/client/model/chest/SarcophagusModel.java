@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.client.model.chest;
 
-import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.Model;
 
-public class SarcophagusModel extends ModelBase {
+public class SarcophagusModel extends Model {
     public RendererModel base;
     public RendererModel lid;
     public RendererModel liddeco1;

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.client.render.ShieldRenderer;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anput.AnputsHungerItem;
 import com.teammetallurgy.atum.items.artifacts.anubis.AnubisMercyItem;
@@ -75,8 +76,8 @@ public class AtumItems {
     public static final Item STONEGUARD_GREATSWORD = registerItem(new GreatswordItem(AtumMats.KHNUMITE), "stoneguard_greatsword");
     public static final Item STONEGUARD_CLUB = registerItem(new ClubItem(AtumMats.KHNUMITE), "stoneguard_club");
     public static final Item STONEGUARD_KHOPESH = registerItem(new KhopeshItem(AtumMats.KHNUMITE), "stoneguard_khopesh");
-    public static final Item STONEGUARD_SHIELD = registerItem(new AtumShieldItem(90).setRepairItem(KHNUMITE), "stoneguard_shield");
-    public static final Item BRIGAND_SHIELD = registerItem(new AtumShieldItem(150), "brigand_shield");
+    public static final Item STONEGUARD_SHIELD = registerItem(new AtumShieldItem(90, new Item.Properties().setTEISR(() -> ShieldRenderer::new)).setRepairItem(KHNUMITE), "stoneguard_shield");
+    public static final Item BRIGAND_SHIELD = registerItem(new AtumShieldItem(150, new Item.Properties().setTEISR(() -> ShieldRenderer::new)), "brigand_shield");
     public static final ScepterItem SCEPTERS = ScepterItem.registerScepters(); //TODO Test if this works
     public static final Item EYES_OF_ATUM = registerItem(new EyesOfAtumItem(), "eyes_of_atum");
     public static final Item BODY_OF_ATUM = registerItem(new BodyOfAtumItem(), "body_of_atum");

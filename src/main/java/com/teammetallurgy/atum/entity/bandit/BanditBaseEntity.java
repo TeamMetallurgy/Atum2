@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.bandit;
 
+import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
@@ -36,7 +37,7 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Random;
 
-public class BanditBaseEntity extends MonsterEntity {
+public class BanditBaseEntity extends MonsterEntity implements ITexture {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(BanditBaseEntity.class, DataSerializers.VARINT);
     private String texturePath;
 
@@ -130,6 +131,7 @@ public class BanditBaseEntity extends MonsterEntity {
         return this.dataManager.get(VARIANT);
     }
 
+    @Override
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
