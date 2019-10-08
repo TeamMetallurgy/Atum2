@@ -15,7 +15,7 @@ public class RenderRadiantBeacon extends TileEntitySpecialRenderer<TileEntityRad
 
     @Override
     public void render(TileEntityRadiantBeacon radiantBeacon, double x, double y, double z, float partialTicks, int destroyStage, float alpha) {
-        this.renderBeacon(x, y, z, (double) partialTicks, (double) radiantBeacon.shouldBeamRender(), radiantBeacon.getBeamSegments(), (double) radiantBeacon.getWorld().getTotalWorldTime());
+        this.renderBeacon(x, y, z, partialTicks, radiantBeacon.shouldBeamRender(), radiantBeacon.getBeamSegments(), (double) radiantBeacon.getWorld().getTotalWorldTime());
     }
 
     private void renderBeacon(double x, double y, double z, double partialTicks, double textureScale, List<TileEntityBeacon.BeamSegment> beamSegments, double totalWorldTime) {
