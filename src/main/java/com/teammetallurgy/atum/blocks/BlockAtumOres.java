@@ -15,7 +15,7 @@ public class BlockAtumOres extends OreBlock {
     }
 
     @Override
-    protected int func_220281_a(@Nonnull Random rand) {
+    protected int getExperience(@Nonnull Random rand) {
         if (this == AtumBlocks.COAL_ORE) {
             return MathHelper.nextInt(rand, 0, 2);
         } else if (this == AtumBlocks.RELIC_ORE) {

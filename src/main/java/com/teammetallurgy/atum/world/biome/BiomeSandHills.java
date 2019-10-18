@@ -1,8 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.EntityClassification;
 
 public class BiomeSandHills extends AtumBiome {
 
@@ -18,6 +17,6 @@ public class BiomeSandHills extends AtumBiome {
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
         
-        addSpawn(DesertWolfEntity.class, 5, 2, 4, EnumCreatureType.CREATURE);
+        addSpawn(DesertWolfEntity.class, 5, 2, 4, EntityClassification.CREATURE);
     }
 }

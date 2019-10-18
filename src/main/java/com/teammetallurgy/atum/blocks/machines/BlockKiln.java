@@ -12,7 +12,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,9 +33,9 @@ import java.util.List;
 
 public class BlockKiln extends ContainerBlock {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
-    public static final PropertyBool IS_BURNING = PropertyBool.create("is_burning");
-    static final PropertyBool MULTIBLOCK_PRIMARY = PropertyBool.create("multiblock_primary");
-    private static final PropertyBool MULTIBLOCK_SECONDARY = PropertyBool.create("multiblock_secondary");
+    public static final BooleanProperty IS_BURNING = BooleanProperty.create("is_burning");
+    static final BooleanProperty MULTIBLOCK_PRIMARY = BooleanProperty.create("multiblock_primary");
+    private static final BooleanProperty MULTIBLOCK_SECONDARY = BooleanProperty.create("multiblock_secondary");
 
     public BlockKiln() {
         super(Material.ROCK, MaterialColor.SAND);

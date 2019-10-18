@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +25,7 @@ import javax.annotation.Nullable;
 import java.util.Map;
 
 public class LimestoneBrickBlock extends Block implements IRenderMapper {
-    public static final PropertyBool UNBREAKABLE = PropertyBool.create("unbreakable");
+    public static final BooleanProperty UNBREAKABLE = BooleanProperty.create("unbreakable");
     private static final Map<BrickType, BlockAtumDoor> DOORS = Maps.newEnumMap(BrickType.class);
 
     public LimestoneBrickBlock() {

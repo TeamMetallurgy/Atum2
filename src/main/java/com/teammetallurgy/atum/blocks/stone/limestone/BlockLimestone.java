@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockLimestone extends Block implements IOreDictEntry, IRenderMapper {
-    public static final PropertyBool HAS_SCARAB = PropertyBool.create("contains_scarab");
+    public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("contains_scarab");
 
     public BlockLimestone() {
         super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.8F, 6.0F));

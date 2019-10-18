@@ -7,7 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -32,7 +32,7 @@ import java.util.Random;
 
 public abstract class BlockTrap extends ContainerBlock {
     public static final DirectionProperty FACING = DirectionProperty.create("facing");
-    private static final PropertyBool DISABLED = PropertyBool.create("disabled");
+    private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
 
     protected BlockTrap() {
         super(Material.ROCK, MaterialColor.SAND);

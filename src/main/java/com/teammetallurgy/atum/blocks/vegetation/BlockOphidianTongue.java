@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.*;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class BlockOphidianTongue extends VineBlock {
-    private static final PropertyBool HAS_FLOWERS = PropertyBool.create("flowers");
+    private static final BooleanProperty HAS_FLOWERS = BooleanProperty.create("flowers");
 
     public BlockOphidianTongue() {
         super();

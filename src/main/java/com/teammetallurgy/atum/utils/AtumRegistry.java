@@ -8,7 +8,7 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;

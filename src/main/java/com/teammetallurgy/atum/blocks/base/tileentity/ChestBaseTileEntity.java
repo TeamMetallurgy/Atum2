@@ -1,18 +1,17 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockChest;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.LootTableManager;
-import net.minecraftforge.common.capabilities.Capability;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -35,7 +34,7 @@ public class ChestBaseTileEntity extends ChestTileEntity {
 
     @Nullable
     @Override
-    protected TileEntityChest getAdjacentChest(@Nonnull Direction side) {
+    protected ChestTileEntity getAdjacentChest(@Nonnull Direction side) {
         BlockPos pos = this.pos.offset(side);
 
         if (isChestAt(pos) && this.canBeDouble) {
@@ -55,7 +54,7 @@ public class ChestBaseTileEntity extends ChestTileEntity {
         } else {
             Block block = world.getBlockState(pos).getBlock();
             TileEntity tileEntity = world.getTileEntity(pos);
-            return block instanceof BlockChest && ((BlockChest) block).chestType == getChestType() && tileEntity instanceof ChestBaseTileEntity && block == this.chestBlock;
+            return block instanceof ChestBlock && ((ChestBlock) block).chestType == getChestType() && tileEntity instanceof ChestBaseTileEntity && block == this.chestBlock;
         }
     }
 
@@ -67,20 +66,11 @@ public class ChestBaseTileEntity extends ChestTileEntity {
 
     @Override
     public void fillWithLoot(@Nullable PlayerEntity player) { //Added null check for LootTableManager to prevent issues with WIT
-        if (this.lootTable != null) {
-            LootTableManager manager = this.world.getLootTableManager();
+        if (this.lootTable != null && this.world != null && world.getServer() != null) {
+            LootTableManager manager = this.world.getServer().getLootTableManager();
             if (manager != null) {
                 super.fillWithLoot(player);
             }
         }
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-        if (!this.canBeDouble) {
-            return (T) getSingleChestHandler();
-        }
-        return super.getCapability(capability, facing);
     }
 }

@@ -34,7 +34,7 @@ public class SmallBoneEntity extends AbstractFireballEntity {
     @OnlyIn(Dist.CLIENT)
     @Nonnull
     public ItemStack getItem() {
-        ItemStack stack = this.func_213896_l();
+        ItemStack stack = this.getStack();
         return stack.isEmpty() ? new ItemStack(AtumItems.DUSTY_BONE) : stack;
     }
 

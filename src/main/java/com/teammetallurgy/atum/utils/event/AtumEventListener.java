@@ -15,7 +15,6 @@ import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.AtumDimensionRegistration;
-import com.teammetallurgy.atum.world.teleporter.AtumStartTeleporter;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CauldronBlock;
@@ -78,7 +77,7 @@ public class AtumEventListener {
         if (shouldStartInAtum && event.getPlayer() instanceof ServerPlayerEntity && event.getPlayer().world instanceof ServerWorld) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             ServerWorld world = (ServerWorld) player.world;
-            BlockPortal.changeDimension(world, player, AtumDimensionRegistration.ATUM, new AtumStartTeleporter());
+            //BlockPortal.changeDimension(world, player, AtumDimensionRegistration.ATUM, new AtumStartTeleporter()); //TODO
         }
     }
 

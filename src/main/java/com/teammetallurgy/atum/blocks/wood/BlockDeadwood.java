@@ -5,7 +5,7 @@ import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import net.minecraft.block.BlockLog;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.state.Property;
 import net.minecraft.util.math.BlockPos;
@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
-    public static final PropertyBool HAS_SCARAB = PropertyBool.create("has_scarab");
+    public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("has_scarab");
 
     public BlockDeadwood() {
         super();

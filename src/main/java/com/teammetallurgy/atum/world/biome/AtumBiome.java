@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.biome.base;
+package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.animal.DesertRabbitEntity;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
@@ -16,15 +16,16 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.world.biome.base.BiomeDecoratorAtum;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisGrass;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EnumCreatureType;
-import net.minecraft.entity.passive.EntityBat;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.passive.BatEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -40,8 +41,8 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class AtumBiome extends Biome {
-    //private static EnumCreatureType UNDERGROUND; //TODO Revisit in 1.13
-    //private static EnumCreatureType SURFACE; //TODO Revisit in 1.13
+    private static EntityClassification UNDERGROUND; //TODO Revisit in 1.13
+    private static EntityClassification SURFACE; //TODO Revisit in 1.13
     protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected double deadwoodRarity = 0.1D;
@@ -66,28 +67,28 @@ public class AtumBiome extends Biome {
 
     protected void addDefaultSpawns() {
         //Animals
-        addSpawn(DesertRabbitEntity.class, 5, 2, 3, EnumCreatureType.CREATURE);
-        addSpawn(EntityBat.class, 5, 8, 8, EnumCreatureType.AMBIENT);
+        addSpawn(DesertRabbitEntity.class, 5, 2, 3, EntityClassification.CREATURE);
+        addSpawn(BatEntity.class, 5, 8, 8, EntityClassification.AMBIENT);
 
         //Bandits
-        addSpawn(AssassinEntity.class, 1, 1, 1, EnumCreatureType.MONSTER);
-        addSpawn(BarbarianEntity.class, 8, 1, 2, EnumCreatureType.MONSTER);
-        addSpawn(BrigandEntity.class, 30, 2, 3, EnumCreatureType.MONSTER);
-        addSpawn(NomadEntity.class, 22, 1, 4, EnumCreatureType.MONSTER);
+        addSpawn(AssassinEntity.class, 1, 1, 1, EntityClassification.MONSTER);
+        addSpawn(BarbarianEntity.class, 8, 1, 2, EntityClassification.MONSTER);
+        addSpawn(BrigandEntity.class, 30, 2, 3, EntityClassification.MONSTER);
+        addSpawn(NomadEntity.class, 22, 1, 4, EntityClassification.MONSTER);
 
         //Undead
-        addSpawn(BonestormEntity.class, 5, 1, 2, EnumCreatureType.MONSTER);
-        addSpawn(ForsakenEntity.class, 22, 1, 4, EnumCreatureType.MONSTER);
-        addSpawn(MummyEntity.class, 30, 1, 3, EnumCreatureType.MONSTER);
-        addSpawn(WraithEntity.class, 10, 1, 2, EnumCreatureType.MONSTER);
+        addSpawn(BonestormEntity.class, 5, 1, 2, EntityClassification.MONSTER);
+        addSpawn(ForsakenEntity.class, 22, 1, 4, EntityClassification.MONSTER);
+        addSpawn(MummyEntity.class, 30, 1, 3, EntityClassification.MONSTER);
+        addSpawn(WraithEntity.class, 10, 1, 2, EntityClassification.MONSTER);
 
         //Underground
-        addSpawn(StoneguardEntity.class, 34, 1, 2, EnumCreatureType.MONSTER);
-        addSpawn(StonewardenEntity.class, 1, 1, 1, EnumCreatureType.MONSTER);
-        addSpawn(TarantulaEntity.class, 20, 1, 3, EnumCreatureType.MONSTER);
+        addSpawn(StoneguardEntity.class, 34, 1, 2, EntityClassification.MONSTER);
+        addSpawn(StonewardenEntity.class, 1, 1, 1, EntityClassification.MONSTER);
+        addSpawn(TarantulaEntity.class, 20, 1, 3, EntityClassification.MONSTER);
     }
 
-    protected void addSpawn(Class<? extends EntityLiving> entityClass, int weight, int min, int max, EnumCreatureType type) {
+    protected void addSpawn(Class<? extends MobEntity> entityClass, int weight, int min, int max, EntityClassification type) {
         String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
         weight = AtumConfig.config.get(category, "weight", weight).getInt();
         min = AtumConfig.config.get(category, "min", min).getInt();
@@ -197,7 +198,7 @@ public class AtumBiome extends Biome {
         return 12889745;
     }
 
-    public static class AtumBiomeProperties extends BiomeProperties {
+    public static class AtumBiomeProperties extends Biome.Builder {
         private int weight;
 
         public AtumBiomeProperties(String biomeName, int weight) {

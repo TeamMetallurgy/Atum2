@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
@@ -27,12 +27,12 @@ import java.util.Random;
 
 public class BlockBranch extends Block {
     public static final PropertyEnum<Direction> FACING = PropertyEnum.create("facing", Direction.class);
-    private static final PropertyBool NORTH = PropertyBool.create("north");
-    private static final PropertyBool EAST = PropertyBool.create("east");
-    private static final PropertyBool SOUTH = PropertyBool.create("south");
-    private static final PropertyBool WEST = PropertyBool.create("west");
-    private static final PropertyBool UP = PropertyBool.create("up");
-    private static final PropertyBool DOWN = PropertyBool.create("down");
+    private static final BooleanProperty NORTH = BooleanProperty.create("north");
+    private static final BooleanProperty EAST = BooleanProperty.create("east");
+    private static final BooleanProperty SOUTH = BooleanProperty.create("south");
+    private static final BooleanProperty WEST = BooleanProperty.create("west");
+    private static final BooleanProperty UP = BooleanProperty.create("up");
+    private static final BooleanProperty DOWN = BooleanProperty.create("down");
 
     private static final Map<Direction, AxisAlignedBB> bounds;
     private static final Map<Direction, AxisAlignedBB> connectedBounds;

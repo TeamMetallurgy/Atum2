@@ -1,10 +1,10 @@
-package com.teammetallurgy.atum.world;
+/*package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.blocks.BlockSandLayers;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
@@ -21,7 +21,7 @@ import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.block.BlockFalling;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -390,9 +390,9 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
 
     @Override
     @Nonnull
-    public List<Biome.SpawnListEntry> getPossibleCreatures(@Nonnull EnumCreatureType creatureType, @Nonnull BlockPos pos) {
+    public List<Biome.SpawnListEntry> getPossibleCreatures(@Nonnull EntityClassification creatureType, @Nonnull BlockPos pos) {
         if (this.lighthouse.isPositionInStructure(this.world, pos)) {
-            if (creatureType == EnumCreatureType.AMBIENT) {
+            if (creatureType == EntityClassification.AMBIENT) {
                 return this.lighthouse.getNaturalSpawns();
             }
         }
@@ -451,4 +451,4 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             this.lighthouse.generate(this.world, x, z, null);
         }
     }
-}
+}*/

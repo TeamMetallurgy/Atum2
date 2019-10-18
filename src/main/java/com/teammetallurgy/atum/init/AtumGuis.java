@@ -23,7 +23,7 @@ public class AtumGuis {
     public static final ContainerType<ContainerKiln> KILN = register(IForgeContainerType.create((windowID, inv, data) -> {
         BlockPos pos = data.readBlockPos();
         return new ContainerKiln(windowID, pos, inv);
-    }), "tackle_box");
+    }), "kiln");
 
 
     private static <T extends Container> ContainerType<T> register(@Nonnull ContainerType<T> container, @Nonnull String name) {

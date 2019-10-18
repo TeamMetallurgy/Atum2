@@ -3,8 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.*;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome.AtumBiomeProperties;
+import com.teammetallurgy.atum.world.biome.AtumBiome.AtumBiomeProperties;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.registries.ObjectHolder;
 

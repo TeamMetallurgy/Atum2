@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world;
+/*package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.blocks.BlockSandLayers;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -224,4 +224,4 @@ public class WorldProviderAtum extends Dimension {
             }
         }
     }
-}
+}*/

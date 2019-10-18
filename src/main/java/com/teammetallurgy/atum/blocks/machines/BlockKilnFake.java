@@ -11,7 +11,7 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -29,7 +29,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
-    public static final PropertyBool UP = PropertyBool.create("up");
+    public static final BooleanProperty UP = BooleanProperty.create("up");
 
     public BlockKilnFake() {
         super(Material.ROCK, MaterialColor.SAND);

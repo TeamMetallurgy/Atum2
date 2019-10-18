@@ -1,8 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import com.teammetallurgy.atum.world.biome.base.AtumBiome;
-import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.EntityClassification;
 
 public class BiomeSandPlains extends AtumBiome {
 
@@ -18,6 +17,6 @@ public class BiomeSandPlains extends AtumBiome {
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
 
-        addSpawn(CamelEntity.class, 6, 2, 6, EnumCreatureType.CREATURE);
+        addSpawn(CamelEntity.class, 6, 2, 6, EntityClassification.CREATURE);
     }
 }

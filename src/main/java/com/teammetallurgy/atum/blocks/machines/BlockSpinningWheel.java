@@ -9,7 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
@@ -38,7 +38,7 @@ import javax.annotation.Nullable;
 public class BlockSpinningWheel extends ContainerBlock {
     private static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final PropertyInteger SPOOL = PropertyInteger.create("spool", 0, 3);
-    private static final PropertyBool WHEEL = PropertyBool.create("wheel");
+    private static final BooleanProperty WHEEL = BooleanProperty.create("wheel");
 
     public BlockSpinningWheel() {
         super(Material.WOOD);

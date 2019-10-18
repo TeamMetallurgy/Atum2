@@ -6,10 +6,11 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.Property;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -27,8 +28,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class BlockFertileSoilTilled extends FarmlandBlock implements IRenderMapper {
-    public static final PropertyBool BLESSED = PropertyBool.create("blessed");
+public class BlockFertileSoilTilled extends FarmlandBlock {
+    public static final BooleanProperty BLESSED = BooleanProperty.create("blessed");
 
     public BlockFertileSoilTilled() {
         super(Block.Properties.create(Material.EARTH).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
