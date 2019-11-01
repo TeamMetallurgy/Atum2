@@ -62,7 +62,13 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
                     if (this.isBurning()) {
                         markDirty = true;
                         if (!fuelStack.isEmpty()) {
+                            Item fuelItemCached = fuelStack.getItem();
                             fuelStack.shrink(1);
+
+                            if (fuelStack.isEmpty()) {
+                                ItemStack containerStack = fuelItemCached.getContainerItem(fuelStack);
+                                this.inventory.set(4, containerStack);
+                            }
                         }
                     }
                 }
