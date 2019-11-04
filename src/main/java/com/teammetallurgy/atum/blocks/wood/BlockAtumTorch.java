@@ -13,10 +13,6 @@ public class BlockAtumTorch extends BlockTorch {
         this.setHardness(0.0F);
         this.setSoundType(SoundType.WOOD);
         this.setCreativeTab(null);
-    }
-
-    @Override
-    public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return (int) (15.0F * 0.9375F);
+        this.setLightLevel(0.9375F);
     }
 }
