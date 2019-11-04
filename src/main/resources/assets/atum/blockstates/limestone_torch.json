@@ -7,7 +7,6 @@
     }
   },
   "variants": {
-    "inventory": [{"model": "normal_torch"}],
     "facing=up": { "model": "normal_torch" },
     "facing=east": { "model": "normal_torch_wall" },
     "facing=south": { "model": "normal_torch_wall", "y": 90 },
