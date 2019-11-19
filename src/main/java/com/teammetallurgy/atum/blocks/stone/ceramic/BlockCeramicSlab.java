@@ -47,6 +47,6 @@ public class BlockCeramicSlab extends BlockAtumSlab {
 
     private String getColorString() {
         Preconditions.checkNotNull(this.getRegistryName(), "registryName");
-        return this.getRegistryName().getPath().replace("ceramic_", "").replace("_slab", "");
+        return this.getRegistryName().getPath().replace("ceramic_", "").replace("slab_", "");
     }
 }
