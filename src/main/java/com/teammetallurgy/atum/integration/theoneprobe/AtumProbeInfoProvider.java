@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.integration.theoneprobe;
 
-import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
+import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import com.teammetallurgy.atum.utils.Constants;
 import mcjty.theoneprobe.api.*;
@@ -46,7 +46,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
         IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (mode != ProbeMode.DEBUG && !this.show(mode, config.getShowSilverfish())) {
-            if (blockState.getBlock() instanceof BlockAtumDoor) {
+            if (blockState.getBlock() instanceof DoorAtumBlock) {
                 ResourceLocation location = Objects.requireNonNull(blockState.getBlock().getRegistryName());
                 if (location.toString().contains("limestone")) {
                     location = new ResourceLocation(location.toString().replace("_door", ""));

@@ -11,7 +11,7 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -41,7 +41,7 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader reader) {
         return new KilnTileEntity();
     }
 
@@ -96,21 +96,6 @@ public class BlockKilnFake extends ContainerBlock implements IRenderMapper {
     @Nonnull
     protected ItemStack getSilkTouchDrop(@Nonnull BlockState state) {
         return ItemStack.EMPTY;
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(UP, (meta & 0b001) == 1);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        int meta = 0;
-        if (state.get(UP)) {
-            meta |= 0b001;
-        }
-        return meta;
     }
 
     @Override

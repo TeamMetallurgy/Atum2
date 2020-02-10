@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -61,17 +61,6 @@ public class LimestoneBrickBlock extends Block implements IRenderMapper {
     @Override
     public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
         return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(UNBREAKABLE, meta > 0);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(UNBREAKABLE) ? 1 : 0;
     }
 
     @Override

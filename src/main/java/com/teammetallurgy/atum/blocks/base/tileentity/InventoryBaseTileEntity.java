@@ -1,31 +1,27 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.block.BlockState;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 
 public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
     protected NonNullList<ItemStack> inventory;
 
-    public InventoryBaseTileEntity(int slots) {
+    public InventoryBaseTileEntity(TileEntityType<?> tileEntityType, int slots) {
+        super(tileEntityType);
         this.inventory = NonNullList.withSize(slots, ItemStack.EMPTY);
     }
 
     @Override
     public int getSizeInventory() {
         return this.inventory.size();
-    }
-
-    @Override
-    public boolean shouldRefresh(World world, BlockPos pos, @Nonnull BlockState oldState, @Nonnull BlockState newSate) {
-        return oldState.getBlock() != newSate.getBlock();
     }
 
     @Override
@@ -41,8 +37,8 @@ public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
 
     @Override
     @Nonnull
-    public String getName() {
-        return this.hasCustomName() ? this.customName : this.getBlockType().getTranslationKey() + ".name";
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
     }
 
     @Override
@@ -56,15 +52,11 @@ public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
     }
 
     @Override
-    public void readFromNBT(CompoundNBT compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, this.getItems());
-        }
-
-        if (compound.contains("CustomName", 8)) {
-            this.customName = compound.getString("CustomName");
         }
     }
 
@@ -74,10 +66,6 @@ public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
         super.write(compound);
         if (!this.checkLootAndWrite(compound)) {
             ItemStackHelper.saveAllItems(compound, this.getItems());
-        }
-
-        if (this.hasCustomName()) {
-            compound.putString("CustomName", this.customName);
         }
         return compound;
     }

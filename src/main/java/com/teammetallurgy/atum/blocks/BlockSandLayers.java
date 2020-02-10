@@ -132,19 +132,8 @@ public class BlockSandLayers extends FallingBlock {
     }
 
     @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(LAYERS, (meta & 7) + 1);
-    }
-
-    @Override
     public boolean isReplaceable(IBlockReader world, @Nonnull BlockPos pos) {
         return true;
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(LAYERS) - 1;
     }
 
     @Override

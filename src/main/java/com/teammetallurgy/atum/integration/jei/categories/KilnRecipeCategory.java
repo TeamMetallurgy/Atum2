@@ -99,7 +99,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
         float experience = recipe.getExperience();
         if (experience > 0) {
             String experienceString = AtumUtils.format("gui.jei.category.smelting.experience", experience);
-            Minecraft.getInstance().font.drawString(experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
+            Minecraft.getInstance().fontRenderer.drawString(experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
 }

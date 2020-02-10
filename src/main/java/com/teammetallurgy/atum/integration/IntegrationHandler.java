@@ -23,7 +23,7 @@ public class IntegrationHandler {
         addSupport(ChampionsHelper.CHAMPION_ID, ChampionsHelper.class, false);
 
         List<String> enabledModSupport = mods.keySet().stream().filter(IntegrationHandler::getConfigValue).collect(Collectors.toList());
-        AtumConfig.config.save();
+        //AtumConfig.config.save(); //TODO
 
         mods.entrySet().stream().filter(entry -> enabledModSupport.contains(entry.getKey()) && ModList.get().isLoaded(entry.getKey())).forEach(entry -> {
             try {
@@ -41,7 +41,8 @@ public class IntegrationHandler {
     }
 
     public static boolean getConfigValue(String modID) {
-        return AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modID, defaultConfig.get(modID)).getBoolean();
+        return true;
+        //return AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modID, defaultConfig.get(modID)).getBoolean(); //TODO
     }
 
     public void setup() {

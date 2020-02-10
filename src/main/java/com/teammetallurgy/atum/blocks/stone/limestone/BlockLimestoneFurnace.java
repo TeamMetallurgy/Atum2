@@ -156,7 +156,7 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader reader) {
         return new TileEntityLimestoneFurnace();
     }
 
@@ -213,22 +213,6 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     @Nonnull
     public EnumBlockRenderType getRenderType(BlockState state) {
         return EnumBlockRenderType.MODEL;
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        Direction facing = Direction.byIndex(meta);
-
-        if (facing.getAxis() == Direction.Axis.Y) {
-            facing = Direction.NORTH;
-        }
-        return this.getDefaultState().with(FACING, facing);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return (state.get(FACING)).getIndex();
     }
 
     @Override

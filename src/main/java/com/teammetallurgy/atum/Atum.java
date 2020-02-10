@@ -9,13 +9,6 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumItemGroup;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.AtumDimensionRegistration;
-import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
-import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.StructureAtumMineshaftPieces;
-import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
-import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
-import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -47,12 +40,12 @@ public class Atum {
         AtumEntities.registerSpawnPlacement();
         IntegrationHandler.INSTANCE.initModIntegration();
         NetworkHandler.register();
-        StructureAtumMineshaftPieces.registerMineshaft();
+        /*StructureAtumMineshaftPieces.registerMineshaft(); //TODO
         PyramidPieces.registerPyramid();
         RuinPieces.registerRuins();
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
-        LighthousePieces.registerLighthouse();
+        LighthousePieces.registerLighthouse();*/
         IntegrationHandler.INSTANCE.setup();
     }
 
@@ -64,7 +57,7 @@ public class Atum {
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
         AtumRecipes.addKilnRecipes(event.getServer());
-        MinecraftForge.EVENT_BUS.register(new AtumDimensionRegistration());
+        //MinecraftForge.EVENT_BUS.register(new AtumDimensionRegistration()); //TODO
         AtumWeather.register(event.getCommandDispatcher());
     }
 }

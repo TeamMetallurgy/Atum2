@@ -1,12 +1,10 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -175,17 +173,6 @@ public class BlockFertileSoilTilled extends FarmlandBlock {
     @Override
     public int quantityDropped(Random random) {
         return MathHelper.getInt(random, 3, 5);
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(MOISTURE, meta & 7).with(BLESSED, meta > 7);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(MOISTURE) + (state.get(BLESSED) ? 8 : 0);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.integration.waila;
 
-import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
+import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IDataAccessor;
@@ -20,7 +20,7 @@ public class WailaHUDHandler implements IComponentProvider {
     @Override
     @Nonnull
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlock() instanceof BlockAtumDoor && config.get(new ResourceLocation("hide_infestations"))) {
+        if (accessor.getBlock() instanceof DoorAtumBlock && config.get(new ResourceLocation("hide_infestations"))) {
             ResourceLocation location = accessor.getBlock().getRegistryName();
             if (location != null && location.toString().contains("limestone")) {
                 location = new ResourceLocation(location.toString().replace("_door", ""));

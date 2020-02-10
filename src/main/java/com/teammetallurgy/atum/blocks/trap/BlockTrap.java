@@ -7,7 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -194,23 +194,6 @@ public abstract class BlockTrap extends ContainerBlock {
     @Nonnull
     public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
         return state.withRotation(mirrorIn.toRotation(state.get(FACING)));
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(FACING, Direction.byIndex(meta & 7)).with(DISABLED, (meta & 8) > 0);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        int i = 0;
-        i = i | state.get(FACING).getIndex();
-
-        if (state.get(DISABLED)) {
-            i |= 8;
-        }
-        return i;
     }
 
     @Override

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "atum:palm_log",
+    "atum:palm_wood",
+    "atum:stripped_palm_log",
+    "atum:stripped_palm_wood"
+  ]
+}

@@ -115,17 +115,6 @@ public class BlockDate extends BushBlock implements IGrowable {
 
     @Override
     @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(AGE, meta);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(AGE);
-    }
-
-    @Override
-    @Nonnull
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AGE);
     }

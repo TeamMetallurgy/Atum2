@@ -5,11 +5,11 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.BooleanProperty;
-import net.minecraft.block.properties.PropertyEnum;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.state.EnumProperty;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class BlockBranch extends Block {
-    public static final PropertyEnum<Direction> FACING = PropertyEnum.create("facing", Direction.class);
+    public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class);
     private static final BooleanProperty NORTH = BooleanProperty.create("north");
     private static final BooleanProperty EAST = BooleanProperty.create("east");
     private static final BooleanProperty SOUTH = BooleanProperty.create("south");
@@ -139,18 +139,6 @@ public class BlockBranch extends Block {
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
         return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(FACING, facing.getOpposite());
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(FACING, Direction.UP.VALUES[meta]);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        Direction Direction = state.get(FACING);
-        return Direction.ordinal();
     }
 
     @Override

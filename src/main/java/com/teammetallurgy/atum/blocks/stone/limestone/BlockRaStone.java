@@ -126,15 +126,4 @@ public class BlockRaStone extends BreakableBlock {
     protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, AGE);
     }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(AGE);
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(AGE, MathHelper.clamp(meta, 0, 3));
-    }
 }

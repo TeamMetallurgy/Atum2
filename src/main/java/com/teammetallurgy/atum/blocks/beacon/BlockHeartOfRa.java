@@ -6,15 +6,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -35,7 +32,7 @@ public class BlockHeartOfRa extends ContainerBlock {
 
     @Override
     @Nullable
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader reader) {
         return new TileEntityHeartOfRa();
     }
 

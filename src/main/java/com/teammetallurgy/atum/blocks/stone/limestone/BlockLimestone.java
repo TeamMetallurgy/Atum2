@@ -9,7 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -48,17 +48,6 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     @Override
     public void getOreDictEntries() {
         OreDictHelper.add(new ItemStack(this), "stoneLimestone", "stone");
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(HAS_SCARAB, meta > 0);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(HAS_SCARAB) ? 1 : 0;
     }
 
     @Override

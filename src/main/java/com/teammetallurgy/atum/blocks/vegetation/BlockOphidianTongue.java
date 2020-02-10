@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.*;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
@@ -82,33 +82,6 @@ public class BlockOphidianTongue extends VineBlock {
     @Override
     public int quantityDropped(Random random) {
         return 1;
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        BlockState state = this.getDefaultState();
-        Direction facing = Direction.byHorizontalIndex(meta & 0x11b);
-        return state.with(SOUTH, facing == Direction.SOUTH).with(WEST, facing == Direction.WEST).with(NORTH, facing == Direction.NORTH).with(EAST, facing == Direction.EAST).with(HAS_FLOWERS, ((meta & 15) >> 2) == 1);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        int meta = 0;
-        if (state.get(SOUTH)) {
-            meta |= Direction.SOUTH.getHorizontalIndex();
-        }
-        if (state.get(WEST)) {
-            meta |= Direction.WEST.getHorizontalIndex();
-        }
-        if (state.get(NORTH)) {
-            meta |= Direction.NORTH.getHorizontalIndex();
-        }
-        if (state.get(EAST)) {
-            meta |= Direction.EAST.getHorizontalIndex();
-        }
-        meta = meta | (state.get(HAS_FLOWERS) ? 4 : 0);
-        return meta;
     }
 
     @Override

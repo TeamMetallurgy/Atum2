@@ -12,7 +12,7 @@ import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -47,7 +47,7 @@ public class BlockKiln extends ContainerBlock {
 
     @Override
     @Nullable
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader reader) {
         return new KilnTileEntity();
     }
 
@@ -258,24 +258,6 @@ public class BlockKiln extends ContainerBlock {
         return EnumBlockRenderType.MODEL;
     }
 
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(IS_BURNING, (meta & 4) != 0).with(FACING, Direction.byHorizontalIndex(meta & 3)).with(MULTIBLOCK_PRIMARY, (meta & 8) != 0);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        int meta = 0;
-        meta = meta | (state.get(FACING)).getHorizontalIndex();
-        if (state.get(IS_BURNING)) {
-            meta |= 4;
-        }
-        if (state.get(MULTIBLOCK_PRIMARY)) {
-            meta |= 8;
-        }
-        return meta;
-    }
 
     @Override
     @Nonnull

@@ -38,7 +38,7 @@ public class BlockCrate extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader reader) {
         return new CrateTileEntity();
     }
 
@@ -202,22 +202,6 @@ public class BlockCrate extends ContainerBlock {
             }
             return state.with(FACING, facing);
         }
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        Direction facing = Direction.byIndex(meta);
-
-        if (facing.getAxis() == Direction.Axis.Y) {
-            facing = Direction.NORTH;
-        }
-        return this.getDefaultState().with(FACING, facing);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        return state.get(FACING).getIndex();
     }
 
     @Override

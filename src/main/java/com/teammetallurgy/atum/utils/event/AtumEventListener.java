@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.utils.event;
 
-import com.teammetallurgy.atum.blocks.BlockPortal;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
 import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;

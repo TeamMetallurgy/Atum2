@@ -9,7 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.HorizontalBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.BooleanProperty;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.block.properties.PropertyInteger;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
@@ -49,7 +49,7 @@ public class BlockSpinningWheel extends ContainerBlock {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(@Nonnull World world, int meta) {
+    public TileEntity createNewTileEntity(IBlockReader reader) {
         return new SpinningWheelTileEntity();
     }
 
@@ -192,20 +192,6 @@ public class BlockSpinningWheel extends ContainerBlock {
     @Nonnull
     public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
         return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(FACING, placer.getHorizontalFacing().getOpposite());
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getStateFromMeta(int meta) {
-        return this.getDefaultState().with(FACING, Direction.byHorizontalIndex(meta & 3)).with(SPOOL, (meta & 15) >> 2);
-    }
-
-    @Override
-    public int getMetaFromState(BlockState state) {
-        int meta = 0;
-        meta = meta | state.get(FACING).getHorizontalIndex();
-        meta = meta | state.get(SPOOL) << 2;
-        return meta;
     }
 
     @Override

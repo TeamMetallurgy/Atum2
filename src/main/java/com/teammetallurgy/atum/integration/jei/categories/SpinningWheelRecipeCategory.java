@@ -89,7 +89,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     public void draw(SpinningWheelRecipe recipe, double mouseX, double mouseY) {
         Minecraft mc = Minecraft.getInstance();
-        mc.font.drawString(AtumUtils.format("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
-        mc.font.drawString(AtumUtils.format("gui.atum.rotations", 3), 4, 0, Color.gray.getRGB());
+        mc.fontRenderer.drawString(AtumUtils.format("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
+        mc.fontRenderer.drawString(AtumUtils.format("gui.atum.rotations", 3), 4, 0, Color.gray.getRGB());
     }
 }

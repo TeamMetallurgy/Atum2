@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "atum:deadwood_log",
+    "atum:deadwood_wood",
+    "atum:stripped_deadwood_log",
+    "atum:stripped_deadwood_wood"
+  ]
+}

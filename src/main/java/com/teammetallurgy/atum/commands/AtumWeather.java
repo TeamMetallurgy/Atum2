@@ -1,38 +1,20 @@
 package com.teammetallurgy.atum.commands;
 
-import com.teammetallurgy.atum.world.AtumDimensionRegistration;
-import com.teammetallurgy.atum.world.WorldProviderAtum;
-import net.minecraft.command.CommandException;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import com.mojang.brigadier.CommandDispatcher;
+import net.minecraft.command.CommandSource;
+import net.minecraft.command.Commands;
+import net.minecraft.util.text.TranslationTextComponent;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+public class AtumWeather { //TODO
 
-public class AtumWeather {
+	public static void register (CommandDispatcher<CommandSource> dispatcher) {
+		dispatcher.register(Commands.literal("atumweather").requires((p) -> p.hasPermissionLevel(2))
+				.executes((c) ->  sendUsage(c.getSource()))
+				/*.then(Commands.argument())*/);
 
-	@Override
-	@Nonnull
-	public String getName() {
-		return "atumweather";
 	}
 
-	@Override
-	public int getRequiredPermissionLevel() {
-		return 2;
-	}
-
-	@Override
-	@Nonnull
-	public String getUsage(@Nonnull ICommandSender sender) {
-		return "atum.commands.weather.usage";
-	}
-
-	@Override
+	/*@Override
 	public void execute(@Nonnull MinecraftServer server, @Nonnull ICommandSender sender, @Nonnull String[] args) throws CommandException {
 		World world = server.getWorld(AtumDimensionRegistration.ATUM);
 
@@ -67,5 +49,10 @@ public class AtumWeather {
 	@Nonnull
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos targetPos) {
 		return args.length == 1 ? getListOfStringsMatchingLastWord(args, "clear", "sandstorm") : Collections.emptyList();
+	}*/
+
+	private static int sendUsage(CommandSource source) {
+		source.sendFeedback(new TranslationTextComponent("atum.commands.weather.usage"), true);
+		return 0; //TODO?
 	}
 }

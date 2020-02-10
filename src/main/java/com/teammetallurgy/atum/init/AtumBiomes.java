@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.init;
+/*package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
@@ -10,7 +10,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 
 @ObjectHolder(value = Constants.MOD_ID)
-public class AtumBiomes {
+public class AtumBiomes { //TODO
     public static final AtumBiome DEAD_OASIS = registerBiome(new BiomeDeadOasis(new AtumBiomeProperties("Dead Oasis", 0).setHeightVariation(0.0F)), "dead_oasis");
     public static final AtumBiome DEADWOOD_FOREST = registerBiome(new BiomeDeadwoodForest(new AtumBiomeProperties("Deadwood Forest", 10)), "deadwood_forest");
     public static final AtumBiome DRIED_RIVER = registerBiome(new BiomeDriedRiver(new AtumBiomeProperties("Dried River", 0).setBaseHeight(-0.5F).setHeightVariation(0.0F)), "dried_river");
@@ -43,4 +43,4 @@ public class AtumBiomes {
         public static final BiomeDictionary.Type ATUM = BiomeDictionary.Type.getType("ATUM");
         public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
     }
-}
+}*/

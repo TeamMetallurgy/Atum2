@@ -1,112 +1,54 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
-import net.minecraft.block.BlockLog;
+import com.teammetallurgy.atum.init.AtumEntities;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LogBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.BooleanProperty;
-import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.Property;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class BlockDeadwood extends BlockAtumLog implements IRenderMapper {
+public class BlockDeadwood extends LogBlock {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("has_scarab");
 
     public BlockDeadwood() {
-        super();
-        this.setDefaultState(this.stateContainer.getBaseState().with(LOG_AXIS, BlockLog.EnumAxis.Y).with(HAS_SCARAB, false));
-        this.setHardness(1.0F);
+        super(MaterialColor.OBSIDIAN, Block.Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(1.0F).sound(SoundType.WOOD));
+        this.setDefaultState(this.stateContainer.getBaseState().with(HAS_SCARAB, false));
     }
 
-    @Override
-    public boolean canSustainLeaves(BlockState state, IBlockReader world, BlockPos pos) {
+    /*@Override
+    public boolean canSustainLeaves(BlockState state, IBlockReader world, BlockPos pos) { //TODO
         return false;
-    }
+    }*/
 
     @Override
-    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
-        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
-            ScarabEntity scarab = new ScarabEntity(world);
-            scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
+    public void spawnAdditionalDrops(BlockState state, World world, BlockPos pos, @Nonnull ItemStack stack) {
+        super.spawnAdditionalDrops(state, world, pos, stack);
+        if (!world.isRemote && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
+            ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB, world);
+            scarab.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(scarab);
             scarab.spawnExplosionParticle();
         }
-        super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
-    }
-
-    @Nonnull
-    @Override
-    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
-        return BlockAtumPlank.WoodType.DEADWOOD.getMapColor();
-    }
-
-    @Nonnull
-    @Override
-    public BlockState getStateFromMeta(int meta) { //Bad way of doing this, but only way I could get it working
-        BlockState state = this.getDefaultState();
-
-        switch (meta) {
-            case 0:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Y);
-                break;
-            case 1:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Y).with(HAS_SCARAB, true);
-                break;
-            case 2:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.X);
-                break;
-            case 3:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.X).with(HAS_SCARAB, true);
-                break;
-            case 4:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Z);
-                break;
-            case 5:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.Z).with(HAS_SCARAB, true);
-                break;
-            case 6:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.NONE);
-                break;
-            case 7:
-                state = state.with(LOG_AXIS, BlockLog.EnumAxis.NONE).with(HAS_SCARAB, true);
-                break;
-        }
-        return state;
     }
 
     @Override
-    public int getMetaFromState(BlockState state) {
-        int i = 0;
-
-        switch (state.get(LOG_AXIS)) {
-            case X:
-                i = 2;
-                break;
-            case Y:
-                break;
-            case Z:
-                i = 4;
-                break;
-            case NONE:
-                i = 6;
-                break;
-        }
-        return i + (state.get(HAS_SCARAB) ? 1 : 0);
-    }
-
-    @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, LOG_AXIS, HAS_SCARAB);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(AXIS, HAS_SCARAB);
     }
 
     @Override
     public Property[] getNonRenderingProperties() {
-        return new Property[]{HAS_SCARAB};
+        return new Property[]{HAS_SCARAB}; //TODO
     }
 }
