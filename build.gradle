@@ -37,7 +37,7 @@ group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
 minecraft {
-    mappings channel: 'snapshot', version: project.mappings + "-" + "1.14.3"
+    mappings channel: 'stable', version: project.mappings
 	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -65,7 +65,7 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
-    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker:${minecraft_version}-${ct_version}")
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
     compile "mcjty.theoneprobe:TheOneProbe-1.14:${top_version}:api"
 }
 

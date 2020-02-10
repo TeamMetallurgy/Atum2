@@ -33,6 +33,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
 
     private BlockAtumTorchUnlit() {
         super();
+        this.setLightLevel(0);
     }
 
     public static void registerUnlitTorches() {
@@ -77,11 +78,6 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
             StackHelper.giveItem(event.getEntityPlayer(), event.getHand(), new ItemStack(getLitTorch(Block.getBlockFromItem(event.getItemStack().getItem()))));
             event.getWorld().playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 10.0F, 1.0F, false);
         }
-    }
-
-    @Override
-    public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
-        return 0;
     }
 
     @Override

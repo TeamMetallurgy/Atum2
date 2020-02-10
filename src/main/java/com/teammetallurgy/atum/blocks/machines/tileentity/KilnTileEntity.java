@@ -14,8 +14,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.ITickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
@@ -27,14 +28,14 @@ import java.util.List;
 
 import static net.minecraftforge.common.Tags.Items.*;
 
-public class KilnTileEntity extends KilnBaseTileEntity implements ITickable {
+public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileEntity {
     private int burnTime;
     private int currentItemBurnTime;
     private int cookTime;
     private int totalCookTime;
 
     @Override
-    public void update() {
+    public void tick() {
         if (!isPrimary()) {
             return;
         }
@@ -56,13 +57,19 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickable {
                 }
 
                 if (!this.isBurning() && canSmeltAny) {
-                    this.burnTime = TileEntityFurnace.getItemBurnTime(fuelStack);
+                    this.burnTime = FurnaceTileEntity.getItemBurnTime(fuelStack);
                     this.currentItemBurnTime = this.burnTime;
 
                     if (this.isBurning()) {
                         markDirty = true;
                         if (!fuelStack.isEmpty()) {
+                            Item fuelItemCached = fuelStack.getItem();
                             fuelStack.shrink(1);
+
+                            if (fuelStack.isEmpty()) {
+                                ItemStack containerStack = fuelItemCached.getContainerItem(fuelStack);
+                                this.inventory.set(4, containerStack);
+                            }
                         }
                     }
                 }
