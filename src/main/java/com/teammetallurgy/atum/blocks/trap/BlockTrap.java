@@ -7,15 +7,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -23,6 +23,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -44,7 +45,7 @@ public abstract class BlockTrap extends ContainerBlock {
     @Override
     public float getBlockHardness(BlockState state, World world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? -1.0F :  super.getBlockHardness(state, world, pos);
+        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? -1.0F : super.getBlockHardness(state, world, pos);
     }
 
     @Override
@@ -54,7 +55,7 @@ public abstract class BlockTrap extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
         if (world.isRemote) {
             return true;
         } else {
@@ -73,7 +74,7 @@ public abstract class BlockTrap extends ContainerBlock {
                 }
             }
         }
-        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+        return super.onBlockActivated(state, world, pos, player, handIn, rayTraceResult);
     }
 
     @Override
@@ -91,7 +92,7 @@ public abstract class BlockTrap extends ContainerBlock {
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, BlockState state, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
@@ -110,8 +111,8 @@ public abstract class BlockTrap extends ContainerBlock {
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(BlockState state) {
-        return EnumBlockRenderType.MODEL;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
@@ -185,20 +186,18 @@ public abstract class BlockTrap extends ContainerBlock {
     }
 
     @Override
-    @Nonnull
-    public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
+    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
-    public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.get(FACING)));
+    public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
+        return state.rotate(mirror.toRotation(state.get(FACING)));
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, DISABLED);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(FACING, DISABLED);
     }
 }

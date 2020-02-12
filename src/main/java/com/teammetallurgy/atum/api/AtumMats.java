@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.api;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
@@ -163,4 +165,6 @@ public class AtumMats {
             return Ingredient.fromItems(AtumBlocks.LIMESTONE_CRACKED);
         }
     };
+
+    public static final Material HEART_OF_RA = new Material.Builder(MaterialColor.GOLD).notOpaque().notSolid().build();
 }

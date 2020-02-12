@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.integration;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
-import com.teammetallurgy.atum.utils.AtumConfig;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.ModList;
 
@@ -27,7 +26,7 @@ public class IntegrationHandler {
 
         mods.entrySet().stream().filter(entry -> enabledModSupport.contains(entry.getKey()) && ModList.get().isLoaded(entry.getKey())).forEach(entry -> {
             try {
-                integratedMods.add(entry.getValue().newInstance());
+                integratedMods.add(entry.get().newInstance());
             } catch (Exception e) {
                 Atum.LOG.error("Failed to load mod integration handler");
                 e.printStackTrace();

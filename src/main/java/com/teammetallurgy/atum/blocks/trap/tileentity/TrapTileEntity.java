@@ -8,9 +8,9 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.SlotFurnaceFuel;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
@@ -60,7 +60,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
         boolean canDamageEntity = false;
 
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
+            Direction facing = world.getBlockState(pos).get(BlockTrap.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;

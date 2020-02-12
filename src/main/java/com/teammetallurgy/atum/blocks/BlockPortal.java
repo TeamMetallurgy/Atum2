@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import com.teammetallurgy.atum.world.teleporter.AtumTeleporter;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockFaceShape;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -21,11 +20,9 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class BlockPortal extends BreakableBlock {
     private static final AxisAlignedBB PORTAL_AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
@@ -108,24 +105,11 @@ public class BlockPortal extends BreakableBlock {
     }
 
     @Override
-    @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockReader world, BlockState state, BlockPos pos, Direction face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 0;
-    }
-
-    @Override
-    @Nonnull
-    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     @Nonnull
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
@@ -217,7 +201,7 @@ public class BlockPortal extends BreakableBlock {
         }
 
         boolean isSandBlock(BlockState state) {
-            return state.getBlock() instanceof BlockSandStone || state.getBlock() instanceof LimestoneBrickBlock;
+            return state.getBlock().isIn(Tags.Blocks.SANDSTONE) || state.getBlock() instanceof LimestoneBrickBlock;
         }
 
         boolean isValid() {
@@ -225,7 +209,7 @@ public class BlockPortal extends BreakableBlock {
         }
 
         void placePortalBlocks() {
-            for (BlockPos.MutableBlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(nw, se)) {
+            for (BlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(nw, se)) {
                 this.world.setBlockState(portalPos, AtumBlocks.PORTAL.getDefaultState(), 2);
             }
         }

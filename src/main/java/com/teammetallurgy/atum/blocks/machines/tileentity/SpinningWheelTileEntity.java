@@ -7,8 +7,8 @@ import com.teammetallurgy.atum.blocks.machines.BlockSpinningWheel;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -81,7 +81,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Override
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
-        int spool = world.getBlockState(pos).getValue(BlockSpinningWheel.SPOOL);
+        int spool = world.getBlockState(pos).get(BlockSpinningWheel.SPOOL);
         if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
                 && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(new ItemStack(this.input), stack))) {
             if (this.input.isEmpty()) {

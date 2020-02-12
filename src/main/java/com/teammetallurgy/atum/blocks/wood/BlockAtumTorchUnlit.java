@@ -10,7 +10,6 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -53,7 +52,7 @@ public class BlockAtumTorchUnlit extends BlockAtumTorch {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
         ItemStack heldStack = player.getHeldItem(hand);
         Block block = Block.getBlockFromItem(heldStack.getItem());
         if ((heldStack.getItem() instanceof ItemFlintAndSteel || block.getLightValue(block.getDefaultState(), world, pos) > 0)) {

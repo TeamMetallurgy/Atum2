@@ -1,26 +1,23 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.IOreDictEntry;
-import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.Property;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockLimestone extends Block implements IOreDictEntry, IRenderMapper {
+public class BlockLimestone extends Block {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("contains_scarab");
 
     public BlockLimestone() {
@@ -51,9 +48,8 @@ public class BlockLimestone extends Block implements IOreDictEntry, IRenderMappe
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, HAS_SCARAB);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(HAS_SCARAB);
     }
 
     @Override

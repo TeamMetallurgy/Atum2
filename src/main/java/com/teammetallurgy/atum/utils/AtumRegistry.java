@@ -2,13 +2,9 @@ package com.teammetallurgy.atum.utils;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
-import com.teammetallurgy.atum.client.ClientHandler;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -24,12 +20,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.thread.EffectiveSide;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -42,11 +35,11 @@ import java.util.List;
 public class AtumRegistry {
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
-    private static final List<TileEntityType> TILE_ENTITIES = Lists.newArrayList();
-    public static final List<AtumBiome> BIOMES = Lists.newArrayList();
+    private static final List<TileEntityType<?>> TILE_ENTITIES = Lists.newArrayList();
+    //public static final List<AtumBiome> BIOMES = Lists.newArrayList(); //TODO
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
-    private static final List<ParticleType> PARTICLES = Lists.newArrayList();
+    private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
 
     /**
      * Registers an item
@@ -63,7 +56,6 @@ public class AtumRegistry {
 
     /**
      * Same as {@link AtumRegistry#registerBlock(Block, Item.Properties, String)}, but have an empty Item.Properties set
-     *
      */
     public static Block registerBlock(@Nonnull Block block, @Nonnull String name) {
         return registerBlock(block, new Item.Properties(), name);
@@ -98,9 +90,6 @@ public class AtumRegistry {
         block.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
         BLOCKS.add(block);
 
-        if (block instanceof IRenderMapper && EffectiveSide.get() == LogicalSide.CLIENT) {
-            ClientHandler.ignoreRenderProperty(block);
-        }
         return block;
     }
 
@@ -170,11 +159,11 @@ public class AtumRegistry {
      * @param name  The name to register the biome with
      * @return The Biome that was registered
      */
-    public static AtumBiome registerBiome(AtumBiome biome, String name) {
+    /*public static AtumBiome registerBiome(AtumBiome biome, String name) { //TODO
         biome.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
         BIOMES.add(biome);
         return biome;
-    }
+    }*/
 
     /**
      * Registers a sound
@@ -255,19 +244,19 @@ public class AtumRegistry {
         }
     }
 
-    @SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
+    /*@SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) { //TODO
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
         AtumBiomes.addBiomeTags();
-    }
+    }*/
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         new AtumEntities();
 
-        for (EntityType entityType : ENTITIES) {
+        for (EntityType<?> entityType : ENTITIES) {
             event.getRegistry().register(entityType);
         }
         //EntityRegistry.instance().lookupModSpawn(EntityCamelSpit.class, true).setCustomSpawning(null, true); //TODO Check if this is needed
@@ -282,7 +271,7 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerParticle(RegistryEvent.Register<ParticleType<?>> event) {
-        for (ParticleType particleType : PARTICLES) {
+        for (ParticleType<?> particleType : PARTICLES) {
             event.getRegistry().register(particleType);
         }
     }

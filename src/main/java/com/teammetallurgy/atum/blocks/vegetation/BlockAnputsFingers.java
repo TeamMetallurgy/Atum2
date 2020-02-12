@@ -2,15 +2,16 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropsBlock;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +26,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class BlockAnputsFingers extends CropsBlock {
-    private static final PropertyInteger ANPUTS_FINGERS_AGE = PropertyInteger.create("age", 0, 3);
+    private static final IntegerProperty ANPUTS_FINGERS_AGE = IntegerProperty.create("age", 0, 3);
     private static final AxisAlignedBB[] AABB = new AxisAlignedBB[]{new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
     private HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
 
@@ -59,7 +60,7 @@ public class BlockAnputsFingers extends CropsBlock {
 
     @Override
     @Nonnull
-    protected PropertyInteger getAgeProperty() {
+    protected IntegerProperty getAgeProperty() {
         return ANPUTS_FINGERS_AGE;
     }
 
@@ -79,12 +80,12 @@ public class BlockAnputsFingers extends CropsBlock {
     }
 
     @Override
-    public void updateTick(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         int age = this.getAge(state);
         if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
             BlockState newState = state.with(this.getAgeProperty(), age + 1);
             world.setBlockState(pos, newState, 2);
-            ForgeHooks.onCropsGrowPost(world, pos, state, newState);
+            ForgeHooks.onCropsGrowPost(world, pos, state);
         }
         this.checkAndDropBlock(world, pos, state);
     }
@@ -117,13 +118,12 @@ public class BlockAnputsFingers extends CropsBlock {
     }
 
     @Override
-    public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
+    public boolean canUseBonemeal(World world, Random rand, BlockPos pos, BlockState state) {
         return false;
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, ANPUTS_FINGERS_AGE);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(ANPUTS_FINGERS_AGE);
     }
 }

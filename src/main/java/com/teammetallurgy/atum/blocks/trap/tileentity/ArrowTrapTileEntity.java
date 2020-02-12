@@ -29,7 +29,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
 
         if (timer > 0) timer--;
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(pos).getValue(BlockTrap.FACING);
+            Direction facing = world.getBlockState(pos).get(BlockTrap.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;

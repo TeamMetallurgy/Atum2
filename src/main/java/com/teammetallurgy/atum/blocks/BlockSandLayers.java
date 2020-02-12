@@ -3,13 +3,10 @@ package com.teammetallurgy.atum.blocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -26,7 +23,7 @@ import java.util.Random;
 
 public class BlockSandLayers extends FallingBlock {
     private static final Material SAND_LAYER = new Material.Builder(MaterialColor.SAND).notSolid().replaceable().build();
-    public static final PropertyInteger LAYERS = PropertyInteger.create("layers", 1, 8);
+    public static final IntegerProperty LAYERS = IntegerProperty.create("layers", 1, 8);
     private static final AxisAlignedBB[] SAND_AABB = new AxisAlignedBB[]{new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.0D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.125D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.25D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.375D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.625D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.75D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D), new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D)};
 
     public BlockSandLayers() {
@@ -42,7 +39,7 @@ public class BlockSandLayers extends FallingBlock {
 
     @Override
     public boolean isPassable(IBlockReader world, BlockPos pos) {
-        return world.getBlockState(pos).getValue(LAYERS) < 5;
+        return world.getBlockState(pos).get(LAYERS) < 5;
     }
 
     @Override
@@ -53,13 +50,7 @@ public class BlockSandLayers extends FallingBlock {
     @Override
     public boolean isSideSolid(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, Direction side) {
         BlockState actualState = this.getActualState(state, world, pos);
-        return actualState.getValue(LAYERS) >= 8;
-    }
-
-    @Override
-    @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockReader worldIn, BlockState state, BlockPos pos, Direction face) {
-        return face == Direction.DOWN ? BlockFaceShape.SOLID : BlockFaceShape.UNDEFINED;
+        return actualState.get(LAYERS) >= 8;
     }
 
     @Override
@@ -72,23 +63,13 @@ public class BlockSandLayers extends FallingBlock {
     }
 
     @Override
-    public boolean isOpaqueCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
-    }
-
-    @Override
     public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
         BlockState stateDown = world.getBlockState(pos.down());
         Block block = stateDown.getBlock();
 
         if (block != Blocks.BARRIER) {
             BlockFaceShape shape = stateDown.getBlockFaceShape(world, pos.down(), Direction.UP);
-            return shape == BlockFaceShape.SOLID || block == this && stateDown.getValue(LAYERS) == 8;
+            return shape == BlockFaceShape.SOLID || block == this && stateDown.get(LAYERS) == 8;
         } else {
             return false;
         }
@@ -110,30 +91,14 @@ public class BlockSandLayers extends FallingBlock {
     }
 
     @Override
-    @Nonnull
-    public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return Items.AIR;
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return 0;
-    }
-
-    @Override
     @OnlyIn(Dist.CLIENT)
     public boolean shouldSideBeRendered(BlockState blockState, @Nonnull IBlockReader blockAccess, @Nonnull BlockPos pos, Direction side) {
         if (side == Direction.UP) {
             return true;
         } else {
             BlockState state = blockAccess.getBlockState(pos.offset(side));
-            return (state.getBlock() != this || state.get(LAYERS) < blockState.getValue(LAYERS)) && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
+            return (state.getBlock() != this || state.get(LAYERS) < blockState.get(LAYERS)) && super.shouldSideBeRendered(blockState, blockAccess, pos, side);
         }
-    }
-
-    @Override
-    public boolean isReplaceable(IBlockReader world, @Nonnull BlockPos pos) {
-        return true;
     }
 
     @Override
@@ -142,8 +107,7 @@ public class BlockSandLayers extends FallingBlock {
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, LAYERS);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(LAYERS);
     }
 }

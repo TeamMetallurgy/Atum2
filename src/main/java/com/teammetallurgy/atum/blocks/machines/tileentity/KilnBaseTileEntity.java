@@ -4,8 +4,8 @@ import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.inventory.container.block.ContainerKiln;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -97,12 +97,6 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
             }
         }
         return new ContainerKiln(playerInventory, this);
-    }
-
-    @Override
-    @Nonnull
-    public String getGuiID() {
-        return "atum:kiln";
     }
 
     @Override

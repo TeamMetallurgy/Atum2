@@ -15,8 +15,8 @@ import javax.annotation.Nonnull;
 public class RaFireParticle extends SpriteTexturedParticle {
     private final float flameScale;
 
-    private RaFireParticle(World worldIn, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
-        super(worldIn, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
+    private RaFireParticle(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
+        super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.motionX = this.motionX * 0.009999999776482582D + xSpeed;
         this.motionY = this.motionY * 0.009999999776482582D + ySpeed;
         this.motionZ = this.motionZ * 0.009999999776482582D + zSpeed;

@@ -91,7 +91,6 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    @Nullable
     public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 

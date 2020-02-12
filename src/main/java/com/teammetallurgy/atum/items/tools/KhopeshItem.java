@@ -52,7 +52,7 @@ public class KhopeshItem extends SwordItem {
             if (cooldown.getFloat(attacker) == 1.0F) {
                 PlayerEntity player = (PlayerEntity) attacker;
                 World world = player.world;
-                float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+                float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get();
 
                 for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, target.getBoundingBox().grow(1.25D, 0.25D, 1.25D))) {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 10.0D) {

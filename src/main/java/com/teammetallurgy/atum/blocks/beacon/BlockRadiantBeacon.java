@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.IBeaconBeamColorProvider;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -15,13 +16,11 @@ import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,26 +41,20 @@ public class BlockRadiantBeacon extends BeaconBlock {
         return new TileEntityRadiantBeacon();
     }
 
-    /*@Override
+    @Override
     @Nonnull
-    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) { //TODO
-        return MaterialColor.getBlockColor(state.get(COLOR));
-    }*/
+    public MaterialColor getMaterialColor(BlockState state, IBlockReader world, BlockPos pos) {
+        return state.get(COLOR).getMapColor();
+    }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     @Nonnull
     public BlockRenderLayer getRenderLayer() {
         return BlockRenderLayer.TRANSLUCENT;
     }
 
     @Override
-    protected boolean canSilkHarvest() {
-        return true;
-    }
-
-    @Override
-    public boolean onBlockActivated(World world, @Nonnull BlockPos pos, BlockState state, @Nonnull PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         ItemStack heldStack = player.getHeldItem(hand);
         if (heldStack.isEmpty()) {
             return false;
@@ -105,10 +98,8 @@ public class BlockRadiantBeacon extends BeaconBlock {
     }
 
     static {
-        if (FMLCommonHandler.instance().getSide() == Dist.CLIENT) {
-            for (DyeColor color : DyeColor.values()) {
-                RGB_TO_DYE.put(color.getColorValue(), color);
-            }
+        for (DyeColor color : DyeColor.values()) {
+            RGB_TO_DYE.put(color.getColorValue(), color);
         }
     }
 }

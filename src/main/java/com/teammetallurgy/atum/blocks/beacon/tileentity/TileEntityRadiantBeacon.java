@@ -3,13 +3,15 @@ package com.teammetallurgy.atum.blocks.beacon.tileentity;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.beacon.BlockRadiantBeacon;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.BedrockBlock;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.block.IBeaconBeamColorProvider;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -17,8 +19,8 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class TileEntityRadiantBeacon extends BeaconTileEntity {
-    private final List<BeamSegment> beamSegments = Lists.newArrayList();
+public class TileEntityRadiantBeacon extends BeaconTileEntity { //TODO Test
+    private List<BeamSegment> beamSegments = Lists.newArrayList();
 
     @Override
     @Nonnull
@@ -27,51 +29,47 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
     }
 
     @Override
-    public void updateBeacon() {
-        if (this.world != null) {
-            this.updateSegmentColors();
+    public void tick() {
+        World world = this.world;
+        if (world != null && world.getGameTime() % 80L == 0L) {
+            if (!this.beamSegments.isEmpty()) {
+                this.updateSegmentColors(world);
+            }
         }
     }
 
-    @Override
-    public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
-        return false;
-    }
-
-    private void updateSegmentColors() {
+    private void updateSegmentColors(World world) {
         int x = this.pos.getX();
         int y = this.pos.getY();
         int z = this.pos.getZ();
         this.beamSegments.clear();
-        this.isComplete = true;
-        float[] defaultColor = this.world.getBlockState(this.getPos()).getValue(BlockRadiantBeacon.COLOR).getColorComponentValues();
+        float[] defaultColor = world.getBlockState(this.getPos()).get(BlockRadiantBeacon.COLOR).getColorComponentValues();
         BeaconTileEntity.BeamSegment beamSegment = new BeaconTileEntity.BeamSegment(defaultColor);
         this.beamSegments.add(beamSegment);
         boolean flag = true;
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
 
-            for (int height = y + 1; height < 256; ++height) {
-            BlockState state = this.world.getBlockState(pos.setPos(x, height, z));
+        for (int height = y + 1; height < 256; ++height) {
+            BlockState state = world.getBlockState(pos.setPos(x, height, z));
             float[] color;
 
-            if (state.getBlock() == Blocks.STAINED_GLASS) {
-                color = state.get(BlockStainedGlass.COLOR).getColorComponentValues();
+            if (state.getBlock() instanceof IBeaconBeamColorProvider) {
+                color = ((IBeaconBeamColorProvider) state.getBlock()).getColor().getColorComponentValues();
             } else {
-                if (state.getBlock() != Blocks.STAINED_GLASS_PANE || !(state.getBlock() instanceof BlockAir)) {
-                    if (state.getLightOpacity(world, pos) >= 15) {
-                        this.isComplete = false;
+                if (state.getBlock() instanceof AirBlock) {
+                    break;
+                } else {
+                    if (state.getOpacity(world, pos) >= 15 && !(state.getBlock() instanceof BedrockBlock)) {
                         this.beamSegments.clear();
                         break;
                     }
-                    float[] customColor = state.getBlock().getBeaconColorMultiplier(state, this.world, pos, this.getPos());
+                    float[] customColor = state.getBlock().getBeaconColorMultiplier(state, world, pos, this.getPos());
                     if (customColor != null) {
                         color = customColor;
                     } else {
                         beamSegment.incrementHeight();
                         continue;
                     }
-                } else {
-                    color = state.get(BlockStainedGlassPane.COLOR).getColorComponentValues();
                 }
             }
 
@@ -88,8 +86,9 @@ public class TileEntityRadiantBeacon extends BeaconTileEntity {
             flag = false;
         }
 
-        if (!this.world.isRemote) {
-            for (ServerPlayerEntity ServerPlayerEntity : this.world.getEntitiesWithinAABB(ServerPlayerEntity.class, (new AxisAlignedBB((double) x, (double) y, (double) z, (double) x, (double) (y - 4), (double) z)).grow(10.0D, 5.0D, 10.0D))) {
+        if (!world.isRemote) {
+            for (ServerPlayerEntity ServerPlayerEntity : world.getEntitiesWithinAABB(ServerPlayerEntity.class, (new AxisAlignedBB((double) x, y, z, x, y - 4,
+                    z)).grow(10.0D, 5.0D, 10.0D))) {
                 CriteriaTriggers.CONSTRUCT_BEACON.trigger(ServerPlayerEntity, this);
             }
         }

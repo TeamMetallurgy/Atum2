@@ -4,9 +4,11 @@ import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -15,13 +17,13 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SPacketUpdateTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public static final String SARCOPHAGUS_CONTAINER = "atum.container.sarcophagus";
@@ -85,9 +87,9 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
 
     public void spawn(PlayerEntity player, DifficultyInstance difficulty) {
         if (!world.isRemote) {
-            PharaohEntity pharaoh = new PharaohEntity(world);
-            pharaoh.onInitialSpawn(difficulty, null);
-            Direction blockFacing = world.getBlockState(pos).getValue(SarcophagusBlock.FACING);
+            PharaohEntity pharaoh = AtumEntities.PHARAOH.create(this.world);
+            pharaoh.onInitialSpawn(this.world, difficulty, SpawnReason.TRIGGERED, null, null);
+            Direction blockFacing = world.getBlockState(pos).get(SarcophagusBlock.FACING);
             pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
             pharaoh.rotationYawHead = blockFacing.getHorizontalAngle() + 90;
             pharaoh.setSarcophagusPos(pos);
@@ -96,8 +98,11 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             pharaoh.spawnExplosionParticle();
             this.hasSpawned = true;
 
-            for (ServerPlayerEntity playerMP : FMLCommonHandler.instance().getInstanceServerInstance().getPlayerList().getPlayers()) {
-                playerMP.sendMessage(new TextComponentString(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
+            if (this.world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) this.world;
+                for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
+                    playerMP.sendMessage(new StringTextComponent(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName().getFormattedText() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
+                }
             }
         }
         this.world.playSound(pos.getX(), pos.getY(), pos.getZ(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 0.8F, 1.0F, true);
@@ -115,7 +120,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
-        return this.isOpenable && super.hasCapability(capability, facing);
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
+        return this.isOpenable ? super.getCapability(capability, direction) : LazyOptional.empty();
     }
 }

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -12,7 +11,7 @@ import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
 
-public class PalmSaplingBlock extends SaplingBlock implements IGrowable, IRenderMapper {
+public class PalmSaplingBlock extends SaplingBlock implements IGrowable {
     private static final VoxelShape PALM_SAPLING_AABB = Block.makeCuboidShape(0.4125D, 0.0D, 0.4125D, 0.6D, 0.5D, 0.6D);
 
     public PalmSaplingBlock() {

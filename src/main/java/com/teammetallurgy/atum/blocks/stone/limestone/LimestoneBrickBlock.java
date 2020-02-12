@@ -1,20 +1,17 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.blocks.machines.BlockKiln;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.Property;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -22,11 +19,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Map;
 
-public class LimestoneBrickBlock extends Block implements IRenderMapper {
+public class LimestoneBrickBlock extends Block {
     public static final BooleanProperty UNBREAKABLE = BooleanProperty.create("unbreakable");
-    private static final Map<BrickType, BlockAtumDoor> DOORS = Maps.newEnumMap(BrickType.class);
 
     public LimestoneBrickBlock() {
         super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F, 8.0F));
@@ -37,7 +32,7 @@ public class LimestoneBrickBlock extends Block implements IRenderMapper {
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
-        if (state.getBlock() == LimestoneBrickBlock.getBrick(BrickType.SMALL)) {
+        if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_SMALL) {
             for (int dx = -1; dx <= 1; dx++) {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
@@ -60,13 +55,12 @@ public class LimestoneBrickBlock extends Block implements IRenderMapper {
 
     @Override
     public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-        return world.getBlockState(pos).getValue(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
+        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, UNBREAKABLE);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(UNBREAKABLE);
     }
 
     @Override

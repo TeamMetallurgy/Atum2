@@ -5,22 +5,24 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -72,16 +74,16 @@ public class BlockBranch extends Block {
     }
 
     @Override
-    public void updateTick(World worldIn, BlockPos pos, BlockState state, Random rand) {
-        if (!this.canSurviveAt(worldIn, pos)) {
-            worldIn.destroyBlock(pos, true);
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+        if (!this.canSurviveAt(world, pos)) {
+            world.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public void neighborChanged(BlockState state, World worldIn, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        if (!this.canSurviveAt(worldIn, pos)) {
-            worldIn.getPendingBlockTicks().scheduleTick(pos, this, 1);
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
+        if (!this.canSurviveAt(world, pos)) {
+            world.getPendingBlockTicks().scheduleTick(pos, this, 1);
         }
     }
 
@@ -135,16 +137,15 @@ public class BlockBranch extends Block {
         }
     }
 
+    @Nullable
     @Override
-    @Nonnull
-    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(FACING, facing.getOpposite());
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getFace().getOpposite());
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
     }
 
     @Override
@@ -159,18 +160,17 @@ public class BlockBranch extends Block {
                 .with(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
     }
 
-    private boolean shouldConnect(Direction direction, IBlockReader worldIn, BlockPos pos) {
-        BlockState neighborState = worldIn.getBlockState(pos.add(direction.getDirectionVec()));
+    private boolean shouldConnect(Direction direction, IBlockReader world, BlockPos pos) {
+        BlockState neighborState = world.getBlockState(pos.add(direction.getDirectionVec()));
         if (neighborState.getBlock() == this) {
-            return neighborState.getValue(FACING) == direction.getOpposite();
+            return neighborState.get(FACING) == direction.getOpposite();
         }
         return false;
     }
 
     @Override
-    @Nonnull
-    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
-        switch (rot) {
+    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
+        switch (rotation) {
             case CLOCKWISE_180:
                 return state.with(NORTH, state.get(SOUTH)).with(EAST, state.get(WEST)).with(SOUTH, state.get(NORTH)).with(WEST, state.get(EAST));
             case COUNTERCLOCKWISE_90:
@@ -184,14 +184,14 @@ public class BlockBranch extends Block {
 
     @Override
     @Nonnull
-    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
+    public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
         switch (mirror) {
             case LEFT_RIGHT:
                 return state.with(NORTH, state.get(SOUTH)).with(SOUTH, state.get(NORTH));
             case FRONT_BACK:
                 return state.with(EAST, state.get(WEST)).with(WEST, state.get(EAST));
             default:
-                return super.withMirror(state, mirror);
+                return super.mirror(state, mirror);
         }
     }
 }

@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.stone.limestone.chest;
 
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
-import com.teammetallurgy.atum.utils.OreDictHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 

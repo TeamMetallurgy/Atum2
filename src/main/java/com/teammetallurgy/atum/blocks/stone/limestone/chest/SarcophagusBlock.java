@@ -94,7 +94,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
                 }
             }
         }
-        return super.onBlockActivated(world, pos, state, player, hand, facing, hitX, hitY, hitZ);
+        return super.onBlockActivated(state, world, pos, player, handIn, rayTraceResult);
     }
 
     private boolean canSpawnPharaoh(World world, BlockPos pos, Direction facing) {
@@ -131,7 +131,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
     public static void onPlaced(BlockEvent.PlaceEvent event) { //Prevent placement, if right side of Sarcophagus would be next to another Sarcophagi block
         BlockState placedState = event.getPlacedBlock();
         if (placedState.getBlock() instanceof SarcophagusBlock) {
-            if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.getValue(FACING))) {
+            if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.get(FACING))) {
                 event.setCanceled(true);
             }
         }
@@ -146,7 +146,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
 
     @Nonnull
     @Override
-    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.SARCOPHAGUS);
     }
 

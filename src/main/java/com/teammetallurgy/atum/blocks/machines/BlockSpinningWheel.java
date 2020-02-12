@@ -5,39 +5,36 @@ import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.block.properties.PropertyInteger;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.IntegerProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class BlockSpinningWheel extends ContainerBlock {
-    private static final DirectionProperty FACING = HorizontalBlock.FACING;
-    public static final PropertyInteger SPOOL = PropertyInteger.create("spool", 0, 3);
+    private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final IntegerProperty SPOOL = IntegerProperty.create("spool", 0, 3);
     private static final BooleanProperty WHEEL = BooleanProperty.create("wheel");
 
     public BlockSpinningWheel() {
@@ -74,7 +71,7 @@ public class BlockSpinningWheel extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         TileEntity tileEntity = world.getTileEntity(pos);
         ItemStack heldStack = player.getHeldItem(hand);
 
@@ -117,7 +114,7 @@ public class BlockSpinningWheel extends ContainerBlock {
                                     spinningWheel.wheel = !spinningWheel.wheel;
                                 }
                                 if (spinningWheelRecipe.getRotations() == spinningWheel.rotations && state.get(SPOOL) < 3 && !spinningWheel.isEmpty()) {
-                                    world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
+                                    world.setBlockState(pos, state.cycle(SPOOL), 2);
                                     spinningWheel.decrStackSize(0, 1);
                                     spinningWheel.rotations = 0;
                                     spinningWheel.wheel = false;
@@ -152,14 +149,13 @@ public class BlockSpinningWheel extends ContainerBlock {
             }
             spinningWheel.input = new CompoundNBT();
             spinningWheel.wheel = false;
-            world.setBlockState(pos, state.cycleProperty(SPOOL), 2);
+            world.setBlockState(pos, state.cycle(SPOOL), 2);
             spinningWheel.markDirty();
         }
     }
 
     @Override
-    @Nonnull
-    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.SPINNING_WHEEL);
     }
 
@@ -174,8 +170,8 @@ public class BlockSpinningWheel extends ContainerBlock {
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(BlockState state) {
-        return EnumBlockRenderType.MODEL;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
@@ -188,27 +184,25 @@ public class BlockSpinningWheel extends ContainerBlock {
         return state;
     }
 
+    @Nullable
     @Override
-    @Nonnull
-    public BlockState getStateForPlacement(World world, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return super.getStateForPlacement(world, pos, facing, hitX, hitY, hitZ, meta, placer).with(FACING, placer.getHorizontalFacing().getOpposite());
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     @Override
-    @Nonnull
-    public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
+    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
-    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.withRotation(mirror.toRotation(state.get(FACING)));
+    public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
+        return state.rotate(mirror.toRotation(state.get(FACING)));
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING, SPOOL, WHEEL);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(FACING, SPOOL, WHEEL);
     }
 }

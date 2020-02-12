@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
@@ -8,12 +7,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.material.Material;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.Property;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -25,7 +24,7 @@ import net.minecraftforge.common.IPlantable;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
+public class BlockPapyrus extends SugarCaneBlock {
     private static final BooleanProperty TOP = BooleanProperty.create("top");
 
     public BlockPapyrus() {
@@ -37,7 +36,7 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
     }
 
     @Override
-    public void updateTick(World world, BlockPos pos, @Nonnull BlockState state, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         if (world.getBlockState(pos.down()).getBlock() == AtumBlocks.PAPYRUS || this.checkForDrop(world, pos, state)) {
             if (world.isAirBlock(pos.up())) {
                 int i;
@@ -101,15 +100,13 @@ public class BlockPapyrus extends SugarCaneBlock implements IRenderMapper {
     }
 
     @Override
-    @Nonnull
-    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumItems.PAPYRUS_PLANT);
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, AGE, TOP);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(AGE, TOP);
     }
 
     @Override

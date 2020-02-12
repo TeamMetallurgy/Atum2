@@ -1,104 +1,72 @@
 package com.teammetallurgy.atum.blocks.beacon;
 
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
 import com.teammetallurgy.atum.entity.HeartOfRaEntity;
+import com.teammetallurgy.atum.init.AtumEntities;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BlockHeartOfRa extends ContainerBlock {
-    private static final AxisAlignedBB AABB = new AxisAlignedBB(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
 
     public BlockHeartOfRa() {
-        super(Material.GLASS, MaterialColor.GOLD);
+        super(Properties.create(AtumMats.HEART_OF_RA, MaterialColor.GOLD));
     }
 
     @Override
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new TileEntityHeartOfRa();
     }
 
-
     @Override
-    public boolean canEntitySpawn(BlockState state, Entity entity) {
-        return entity instanceof HeartOfRaEntity;
+    public boolean canEntitySpawn(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, EntityType<?> entityType) {
+        return entityType == AtumEntities.HEART_OF_RA;
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
-        super.onBlockAdded(world, pos, state);
+    public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType) {
+        return false;
+    }
 
-        HeartOfRaEntity heartOfRa = new HeartOfRaEntity(world, (double) ((float) pos.getX() + 0.5F), (double) (pos.getY()), (double) ((float) pos.getZ() + 0.5F));
+    @Override
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        super.onBlockAdded(state, world, pos, oldState, isMoving);
+
+        HeartOfRaEntity heartOfRa = new HeartOfRaEntity(world, (float) pos.getX() + 0.5F, pos.getY(), (float) pos.getZ() + 0.5F);
         world.addEntity(heartOfRa);
     }
 
     @Override
-    public boolean isOpaqueCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
+    @Nonnull
+    public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+        return SHAPE;
     }
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(BlockState state) {
-        return EnumBlockRenderType.MODEL;
-    }
-
-    @Override
-    @Nullable
-    public AxisAlignedBB getCollisionBoundingBox(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return NULL_AABB;
-    }
-
-    @Override
-    @Nonnull
-    public AxisAlignedBB getBoundingBox(BlockState state, IBlockReader source, BlockPos pos) {
-        return AABB;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    @Nonnull
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.CUTOUT;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
     @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockReader world, BlockState state, BlockPos pos, Direction face) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    public boolean canCreatureSpawn(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, EntityLiving.SpawnPlacementType type) {
-        return false;
-    }
-
-    @Override
-    @Nonnull
-    public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return Items.AIR;
+    public BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.CUTOUT;
     }
 }

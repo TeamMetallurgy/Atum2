@@ -2,24 +2,23 @@ package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.HorizontalBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.state.BlockFaceShape;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.FakePlayer;
 
@@ -79,7 +78,7 @@ public class BlockQuern extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction facing, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
         if (player == null || player instanceof FakePlayer) return true;
         ItemStack heldStack = player.getHeldItem(hand);
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -99,7 +98,7 @@ public class BlockQuern extends ContainerBlock {
             } else {
                 quern.setRotations(quern.getRotations() + 24);
                 if (world.isRemote) {
-                    world.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
+                    world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
                 }
             }
             quern.markDirty();
@@ -117,40 +116,32 @@ public class BlockQuern extends ContainerBlock {
         super.breakBlock(world, pos, state);
     }
 
+    @Nullable
     @Override
-    @Nonnull
-    public BlockState getStateForPlacement(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction facing, float hitX, float hitY, float hitZ, int meta, @Nonnull LivingEntity placer, Hand hand) {
-        return this.getDefaultState().with(FACING, placer.getHorizontalFacing());
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
     }
 
     @Override
-    @Nonnull
-    public BlockState withRotation(@Nonnull BlockState state, Rotation rot) {
+    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rot) {
         return state.with(FACING, rot.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
-    public BlockState withMirror(@Nonnull BlockState state, Mirror mirrorIn) {
-        return state.withRotation(mirrorIn.toRotation(state.get(FACING)));
+    public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
+        return state.rotate(mirror.toRotation(state.get(FACING)));
+    }
+
+    @Override
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(FACING);
     }
 
     @Override
     @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
-    }
-
-    @Override
-    @Nonnull
-    public BlockFaceShape getBlockFaceShape(IBlockReader world, BlockState state, BlockPos pos, Direction facing) {
-        return BlockFaceShape.UNDEFINED;
-    }
-
-    @Override
-    @Nonnull
-    public EnumBlockRenderType getRenderType(BlockState state) {
-        return EnumBlockRenderType.MODEL;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override

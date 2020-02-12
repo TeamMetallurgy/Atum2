@@ -1,38 +1,36 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.furnace.TileEntityLimestoneFurnace;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
-import net.minecraft.stats.StatList;
+import net.minecraft.state.StateContainer;
+import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BlockLimestoneFurnace extends ContainerBlock {
-    private static final DirectionProperty FACING = HorizontalBlock.FACING;
+    private static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     private final boolean isBurning;
     private static boolean keepInventory;
 
@@ -120,15 +118,15 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(World world, BlockPos pos, BlockState state, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTrace) {
         if (world.isRemote) {
             return true;
         } else {
             TileEntity tileEntity = world.getTileEntity(pos);
 
             if (tileEntity instanceof TileEntityLimestoneFurnace) {
-                player.openGui(Atum.instance, 0, world, pos.getX(), pos.getY(), pos.getZ());
-                player.addStat(StatList.FURNACE_INTERACTION);
+                //player.openGui(Atum.instance, 0, world, pos.getX(), pos.getY(), pos.getZ()); //TODO
+                player.addStat(Stats.INTERACT_WITH_FURNACE);
             }
             return true;
         }
@@ -156,14 +154,14 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new TileEntityLimestoneFurnace();
     }
 
+    @Nullable
     @Override
-    @Nonnull
-    public BlockState getStateForPlacement(World worldIn, BlockPos pos, Direction facing, float hitX, float hitY, float hitZ, int meta, LivingEntity placer) {
-        return this.getDefaultState().with(FACING, placer.getHorizontalFacing().getOpposite());
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     @Override
@@ -180,17 +178,17 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     }
 
     @Override
-    public void breakBlock(World worldIn, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         if (!keepInventory) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            TileEntity tileentity = world.getTileEntity(pos);
 
             if (tileentity instanceof TileEntityLimestoneFurnace) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (TileEntityLimestoneFurnace) tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+                InventoryHelper.dropInventoryItems(world, pos, (TileEntityLimestoneFurnace) tileentity);
+                world.updateComparatorOutputLevel(pos, this);
             }
         }
 
-        super.breakBlock(worldIn, pos, state);
+        super.breakBlock(world, pos, state);
     }
 
     @Override
@@ -204,32 +202,29 @@ public class BlockLimestoneFurnace extends ContainerBlock {
     }
 
     @Override
-    @Nonnull
-    public ItemStack getPickBlock(@Nonnull BlockState state, RayTraceResult target, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return new ItemStack(AtumBlocks.LIMESTONE_FURNACE);
     }
 
     @Override
     @Nonnull
-    public EnumBlockRenderType getRenderType(BlockState state) {
-        return EnumBlockRenderType.MODEL;
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
-    @Nonnull
-    public BlockState withRotation(@Nonnull BlockState state, Rotation rotation) {
+    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
-    public BlockState withMirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.withRotation(mirror.toRotation(state.get(FACING)));
+    public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
+        return state.rotate(mirror.toRotation(state.get(FACING)));
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, FACING);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(FACING);
     }
 }

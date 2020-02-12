@@ -395,7 +395,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) {
-        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue()));
+        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get()));
 
         if (shouldAttack) {
             this.applyEnchantments(this, entity);
@@ -884,7 +884,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                     this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
                     if (this.canPassengerSteer()) {
-                        this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 0.80F);
+                        this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).get() * 0.80F);
                         super.travel(new Vec3d(strafe, travelVec.y, forward));
                     } else if (livingBase instanceof PlayerEntity) {
                         this.setMotion(Vec3d.ZERO);
@@ -920,7 +920,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     private double getWolfJumpStrength() {
-        return this.getAttribute(JUMP_STRENGTH).getValue();
+        return this.getAttribute(JUMP_STRENGTH).get();
     }
 
     @OnlyIn(Dist.CLIENT)

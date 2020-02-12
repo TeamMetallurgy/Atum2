@@ -25,12 +25,12 @@ public class ChestBaseBlock extends ChestBlock { //TODO
     }
 
     @Override
-    public void onBlockHarvested(World worldIn, @Nonnull BlockPos pos, BlockState state, @Nonnull PlayerEntity player) {
-        super.onBlockHarvested(worldIn, pos, state, player);
+    public void onBlockHarvested(World world, @Nonnull BlockPos pos, BlockState state, @Nonnull PlayerEntity player) {
+        super.onBlockHarvested(world, pos, state, player);
 
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        TileEntity tileEntity = world.getTileEntity(pos);
         if (player.isCreative() && tileEntity instanceof ChestBaseTileEntity) {
-            this.harvestBlock(worldIn, player, pos, state, tileEntity, player.getHeldItemMainhand());
+            this.harvestBlock(world, player, pos, state, tileEntity, player.getHeldItemMainhand());
         }
     }
 

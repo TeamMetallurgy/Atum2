@@ -124,7 +124,7 @@ public class AssassinEntity extends BanditBaseEntity {
             return false;
         } else {
             if (this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
-                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get());
                 (((LivingEntity) entity)).addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
             }
             return true;

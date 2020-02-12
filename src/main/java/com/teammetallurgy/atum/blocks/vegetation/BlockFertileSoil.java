@@ -1,12 +1,8 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IGrowable;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.Item;
@@ -26,25 +22,19 @@ import java.util.Random;
 public class BlockFertileSoil extends Block implements IGrowable {
 
     public BlockFertileSoil() {
-        super(Block.Properties.create(Material.ORGANIC).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.create(Material.ORGANIC, MaterialColor.GRASS).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
         this.setLightOpacity(255);
     }
 
     @Override
-    @Nonnull
-    public MaterialColor getMapColor(BlockState state, IBlockReader world, BlockPos pos) {
-        return MaterialColor.GRASS;
-    }
-
-    @Override
-    public void updateTick(World world, BlockPos pos, BlockState state, Random random) {
+    public void tick(BlockState state, World world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-                if (world.getBiome(pos) != AtumBiomes.OASIS) {
+               /* if (world.getBiome(pos) != AtumBiomes.OASIS) { //TODO
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
-                }
+                }*/
             } else if (world.getBlockState(pos.up()).isSideSolid(world, pos, Direction.DOWN)) {
                 if (world.rand.nextDouble() >= 0.5D) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
@@ -60,7 +50,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
                         BlockState stateUp = world.getBlockState(posGrow.up());
                         BlockState stateGrow = world.getBlockState(posGrow);
 
-                        if (stateGrow.getBlock() == AtumBlocks.SAND && world.getLightFromNeighbors(posGrow.up()) >= 4 && stateUp.getLightOpacity(world, pos.up()) <= 2) {
+                        if (stateGrow.getBlock() == AtumBlocks.SAND && world.getLightFromNeighbors(posGrow.up()) >= 4 && stateUp.getOpacity(world, pos.up()) <= 2) {
                             world.setBlockState(posGrow, AtumBlocks.FERTILE_SOIL.getDefaultState());
                         }
                     }
@@ -70,7 +60,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
+        for (BlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
             if (world.getBlockState(mutableBlockPos).getMaterial() == Material.WATER) {
                 return true;
             }
@@ -94,7 +84,7 @@ public class BlockFertileSoil extends Block implements IGrowable {
             case Beach:
                 return hasWater;
             case Crop:
-                return plant.getBlock() instanceof BlockStem;
+                return plant.getBlock() instanceof StemBlock;
             default:
                 return super.canSustainPlant(state, world, pos, direction, plantable);
         }

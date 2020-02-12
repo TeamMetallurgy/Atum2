@@ -7,9 +7,9 @@ import com.teammetallurgy.atum.blocks.machines.BlockQuern;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -65,7 +65,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     private void outputItems(@Nonnull ItemStack stack, BlockPos pos) {
-        Direction facing = world.getBlockState(pos).getValue(BlockQuern.FACING).getOpposite();
+        Direction facing = world.getBlockState(pos).get(BlockQuern.FACING).getOpposite();
         TileEntity tileEntity = world.getTileEntity(pos.offset(facing));
         if (tileEntity instanceof ISidedInventory && ((ISidedInventory) tileEntity).getSlotsForFace(facing).length > 0 || tileEntity instanceof IInventory && ((IInventory) tileEntity).getSizeInventory() > 0) {
             IInventory inventory = ((IInventory) tileEntity);

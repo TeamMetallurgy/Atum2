@@ -5,11 +5,11 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.Property;
+import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +35,7 @@ public class BlockFertileSoilTilled extends FarmlandBlock {
     }
 
     @Override
-    public void updateTick(@Nonnull World world, BlockPos pos, BlockState state, Random rand) {
+    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
         int moisture = state.get(MOISTURE);
 
         Block blockUp = world.getBlockState(pos.up()).getBlock();
@@ -176,9 +176,8 @@ public class BlockFertileSoilTilled extends FarmlandBlock {
     }
 
     @Override
-    @Nonnull
-    protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, MOISTURE, BLESSED);
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+        container.add(MOISTURE, BLESSED);
     }
 
     @Override

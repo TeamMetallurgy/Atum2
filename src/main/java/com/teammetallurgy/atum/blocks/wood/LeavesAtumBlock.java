@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.blocks.base.IRenderMapper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.state.Property;
@@ -10,7 +9,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class LeavesAtumBlock extends LeavesBlock implements IRenderMapper {
+public class LeavesAtumBlock extends LeavesBlock {
 
     public LeavesAtumBlock(Properties properties) {
         super(properties);
