@@ -1,18 +1,13 @@
 package com.teammetallurgy.atum.entity.animal;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
-import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.AtumDimensionRegistration;
-import com.teammetallurgy.atum.world.biome.BiomeDeadOasis;
-import com.teammetallurgy.atum.world.biome.BiomeOasis;
-import com.teammetallurgy.atum.world.biome.BiomeSandDunes;
-import com.teammetallurgy.atum.world.biome.BiomeSandPlains;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -24,8 +19,12 @@ import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -44,12 +43,13 @@ import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
-public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob {
+public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob, INamedContainerProvider {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(CamelEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(CamelEntity.class, DataSerializers.VARINT);
     private static final DataParameter<ItemStack> LEFT_CRATE = EntityDataManager.createKey(CamelEntity.class, DataSerializers.ITEMSTACK);
@@ -187,7 +187,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         Biome biome = this.world.getBiome(new BlockPos(this));
         int chance = this.rand.nextInt(100);
 
-        if (this.world.dimension.getType() == AtumDimensionRegistration.ATUM) {
+        /*if (this.world.dimension.getType() == AtumDimensionRegistration.ATUM) { //TODO
             if (biome instanceof BiomeSandPlains) {
                 return chance <= 50 ? 0 : 5;
             } else if (biome instanceof BiomeSandDunes) {
@@ -199,9 +199,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             } else {
                 return 0;
             }
-        } else {
+        } else {*/
             return MathHelper.nextInt(rand, 0, 5);
-        }
+        //}
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -386,7 +386,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     @Override
     public void openGUI(@Nonnull PlayerEntity player) {
         if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
-            player.openGui(Atum.instance, 3, world, this.getEntityId(), 0, 0);
+            if (player instanceof ServerPlayerEntity) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, this, buf -> buf.writeInt(this.getEntityId()));
+            }
         }
     }
 
@@ -508,7 +510,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
                     return true;
                 }
 
-                if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof BlockCrate) {
+                if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof CrateBlock) {
                     this.openGUI(player);
                     return true;
                 }
@@ -647,6 +649,12 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         super.setHorseTamed(tamed);
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
         this.heal(this.getCamelMaxHealth());
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
+        return new CamelContainer(windowID, playerInventory, this.getEntityId());
     }
 
     static class DefendDesertWolfGoal extends NearestAttackableTargetGoal<DesertWolfEntity> {

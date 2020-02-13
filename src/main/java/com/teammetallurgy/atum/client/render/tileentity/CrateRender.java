@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.client.model.chest.CrateModel;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -28,7 +28,7 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
         GlStateManager.enableDepthTest();
         GlStateManager.depthFunc(515);
         GlStateManager.depthMask(true);
-        BlockState state = te.hasWorld() ? te.getBlockState() : AtumBlocks.PALM_CRATE.getDefaultState().with(BlockCrate.FACING, Direction.SOUTH);
+        BlockState state = te.hasWorld() ? te.getBlockState() : AtumBlocks.PALM_CRATE.getDefaultState().with(CrateBlock.FACING, Direction.SOUTH);
 
         if (destroyStage >= 0) {
             this.bindTexture(DESTROY_STAGES[destroyStage]);
@@ -52,7 +52,7 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
         GlStateManager.enableRescaleNormal();
         GlStateManager.translatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GlStateManager.scalef(1.0F, -1.0F, -1.0F);
-        float angle = state.get(BlockCrate.FACING).getHorizontalAngle();
+        float angle = state.get(CrateBlock.FACING).getHorizontalAngle();
         if ((double) Math.abs(angle) > 1.0E-5D) {
             GlStateManager.translatef(0.5F, 0.5F, 0.5F);
             GlStateManager.rotatef(angle, 0.0F, 1.0F, 0.0F);

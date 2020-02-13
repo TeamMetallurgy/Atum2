@@ -9,7 +9,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -144,15 +144,15 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
 
     @Override
     @Nullable
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 1, this.getUpdateTag());
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 1, this.getUpdateTag());
     }
 
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
         CompoundNBT tag = this.writeToNBT(new CompoundNBT());
-        tag.removeTag("SpawnPotentials");
+        tag.remove("SpawnPotentials");
         return tag;
     }
 

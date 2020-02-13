@@ -39,7 +39,7 @@ public class Atum {
     private void setupCommon(FMLCommonSetupEvent event) {
         AtumEntities.registerSpawnPlacement();
         IntegrationHandler.INSTANCE.initModIntegration();
-        NetworkHandler.register();
+        NetworkHandler.initialize();
         /*StructureAtumMineshaftPieces.registerMineshaft(); //TODO
         PyramidPieces.registerPyramid();
         RuinPieces.registerRuins();

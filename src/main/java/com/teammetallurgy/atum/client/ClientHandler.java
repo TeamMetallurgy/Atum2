@@ -1,14 +1,18 @@
 package com.teammetallurgy.atum.client;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityHeartOfRa;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.client.gui.block.KilnScreen;
+import com.teammetallurgy.atum.client.gui.block.TrapScreen;
+import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
+import com.teammetallurgy.atum.client.gui.entity.CamelScreen;
 import com.teammetallurgy.atum.client.model.entity.BonestormModel;
 import com.teammetallurgy.atum.client.model.entity.DustySkeletonModel;
 import com.teammetallurgy.atum.client.model.entity.NomadModel;
-import com.teammetallurgy.atum.client.render.entity.RenderHeartOfRa;
+import com.teammetallurgy.atum.client.render.entity.HeartOfRaRender;
 import com.teammetallurgy.atum.client.render.entity.arrow.CamelSpitRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.tileentity.*;
@@ -23,11 +27,13 @@ import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.entity.undead.*;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumGuis;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -51,6 +57,11 @@ import javax.annotation.Nonnull;
 public class ClientHandler {
 
     public static void init() {
+        //Screens
+        ScreenManager.registerFactory(AtumGuis.ALPHA_DESERT_WOLF, AlphaDesertWolfScreen::new);
+        ScreenManager.registerFactory(AtumGuis.CAMEL, CamelScreen::new);
+        ScreenManager.registerFactory(AtumGuis.KILN, KilnScreen::new);
+        ScreenManager.registerFactory(AtumGuis.TRAP, TrapScreen::new);
         //Colors
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
         ItemColors itemColor = Minecraft.getInstance().getItemColors();
@@ -80,8 +91,8 @@ public class ClientHandler {
     public static void registerModels(ModelRegistryEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(ChestBaseTileEntity.class, new TileChestRender());
         ClientRegistry.bindTileEntitySpecialRenderer(CrateTileEntity.class, new CrateRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityHeartOfRa.class, new HeartOfRaBaseRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityRadiantBeacon.class, new RadiantBeaconRender());
+        ClientRegistry.bindTileEntitySpecialRenderer(HeartOfRaTileEntity.class, new HeartOfRaBaseRender());
+        ClientRegistry.bindTileEntitySpecialRenderer(RadiantBeaconTileEntity.class, new RadiantBeaconRender());
         ClientRegistry.bindTileEntitySpecialRenderer(QuernTileEntity.class, new QuernRender());
         RenderingRegistry.registerEntityRenderingHandler(TarantulaEntity.class, TarantulaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AssassinEntity.class, AtumBipedRender::new);
@@ -110,7 +121,7 @@ public class ClientHandler {
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         RenderingRegistry.registerEntityRenderingHandler(SmallBoneEntity.class, manager -> new SpriteRenderer<>(manager, itemRenderer, 0.35F));
         //RenderingRegistry.registerEntityRenderingHandler(TefnutsCallEntity.class, TefnutsCallReder::new); //TODO
-        RenderingRegistry.registerEntityRenderingHandler(HeartOfRaEntity.class, RenderHeartOfRa::new);
+        RenderingRegistry.registerEntityRenderingHandler(HeartOfRaEntity.class, HeartOfRaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(CamelSpitEntity.class, CamelSpitRender::new);
     }
 }

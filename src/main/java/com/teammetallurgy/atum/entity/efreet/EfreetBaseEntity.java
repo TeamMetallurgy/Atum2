@@ -246,8 +246,8 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) { //Copied from MobEntity, to allow Efreet to attack
-        float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get();
-        float knockback = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).get();
+        float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+        float knockback = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).getValue();
         if (entity instanceof LivingEntity) {
             attackDamage += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entity).getCreatureAttribute());
             knockback += (float) EnchantmentHelper.getKnockbackModifier(this);

@@ -1,32 +1,26 @@
 package com.teammetallurgy.atum.utils.event;
 
-import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoil;
-import com.teammetallurgy.atum.blocks.vegetation.BlockFertileSoilTilled;
+import com.teammetallurgy.atum.blocks.vegetation.FertileSoilBlock;
+import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.entity.undead.WraithEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
-import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.AtumDimensionRegistration;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CauldronBlock;
-import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
@@ -85,7 +79,7 @@ public class AtumEventListener {
         PlayerEntity player = event.player;
         World world = player.world;
         if (!world.isRemote && AtumConfig.GENERAL.allowCreation.get() && event.phase == TickEvent.Phase.END && player.ticksExisted % 20 == 0) {
-            if (world.dimension.getDimension().getType() == DimensionType.OVERWORLD || world.dimension.getType() == AtumDimensionRegistration.ATUM) {
+            if (world.dimension.getDimension().getType() == DimensionType.OVERWORLD /*|| world.dimension.getType() == AtumDimensionRegistration.ATUM*/) { //TODO
                 for (ItemEntity entityItem : world.getEntitiesWithinAABB(ItemEntity.class, player.getBoundingBox().grow(10.0F, 1.0F, 10.0F))) {
                     BlockState state = world.getBlockState(entityItem.getPosition());
                     if (entityItem.getItem().getItem() == AtumItems.SCARAB && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.getDefaultState())) {
@@ -102,7 +96,7 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onPlace(BlockEvent.EntityPlaceEvent event) {
         BlockState state = event.getPlacedBlock();
-        if (event.getEntity() != null && event.getEntity().world.dimension.getType() == AtumDimensionRegistration.ATUM) {
+        if (event.getEntity() != null /*&& event.getEntity().world.dimension.getType() == AtumDimensionRegistration.ATUM*/) { //TODO
             if (((state.getMaterial() == Material.EARTH || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) || state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED)) {
                 event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState(), 3);
             }
@@ -153,8 +147,8 @@ public class AtumEventListener {
         }
     }
 
-    @SubscribeEvent
-    public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) {
+    /*@SubscribeEvent
+    public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) { //TODO
         PlayerEntity player = event.getPlayer();
         World world = event.getWorld();
         if (player.world.dimension.getType() == AtumDimensionRegistration.ATUM) {
@@ -162,7 +156,7 @@ public class AtumEventListener {
                 event.setCanceled(true);
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public static void onFallDamage(LivingFallEvent event) {
@@ -188,7 +182,7 @@ public class AtumEventListener {
             ItemStack heldStack = angler.getHeldItem(angler.getActiveHand());
             LootContext.Builder builder = new LootContext.Builder((ServerWorld) world);
             builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withParameter(LootParameters.KILLER_ENTITY, angler).withParameter(LootParameters.THIS_ENTITY, bobber);
-            if (world.dimension.getType() == AtumDimensionRegistration.ATUM) {
+            /*if (world.dimension.getType() == AtumDimensionRegistration.ATUM) { //TODO
                 event.setCanceled(true); //We don't want vanillas loot table
                 if (heldStack.getItem() instanceof AtumsBountyItem) {
                     catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.ATUMS_BOUNTY);
@@ -196,7 +190,7 @@ public class AtumEventListener {
                 } else {
                     catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.FISHING);
                 }
-            }
+            }*/
         }
     }
 
@@ -219,9 +213,9 @@ public class AtumEventListener {
         BlockPos pos = event.getContext().getPos();
         BlockState state = world.getBlockState(pos);
         boolean result = false;
-        if (state.getBlock() instanceof BlockFertileSoil) {
+        if (state.getBlock() instanceof FertileSoilBlock) {
             if (event.getContext().getItem().getItem() == AtumItems.TEFNUTS_BLESSING) {
-                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(BlockFertileSoilTilled.MOISTURE, 7).with(BlockFertileSoilTilled.BLESSED, true));
+                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(FertileSoilTilledBlock.MOISTURE, 7).with(FertileSoilTilledBlock.BLESSED, true));
             } else {
                 world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState());
             }

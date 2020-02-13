@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.world.biome.*;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -44,7 +43,7 @@ public class DesertRabbitEntity extends RabbitEntity {
         Biome biome = world.getBiome(new BlockPos(this));
         int i = this.rand.nextInt(100);
 
-        if (biome instanceof BiomeSandPlains) {
+        /*if (biome instanceof BiomeSandPlains) { //TODO
             return i <= 80 ? 0 : 1;
         } else if (biome instanceof BiomeSandDunes) {
             return i <= 60 ? 1 : 2;
@@ -62,9 +61,9 @@ public class DesertRabbitEntity extends RabbitEntity {
             return i <= 33 ? 2 : (i <= 66 ? 3 : 4);
         } else if (biome instanceof BiomeDriedRiver) {
             return i <= 50 ? 1 : 2;
-        } else {
+        } else {*/
             return 0;
-        }
+        //}
     }
 
     @Override

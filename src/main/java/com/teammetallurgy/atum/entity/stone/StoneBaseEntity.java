@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class StoneBaseEntity extends MonsterEntity implements IUnderground {
+public class StoneBaseEntity extends MonsterEntity {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(StoneBaseEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(StoneBaseEntity.class, DataSerializers.BYTE);
     private int homeCheckTimer;

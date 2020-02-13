@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.TileEntityRadiantBeacon;
+import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import net.minecraft.client.renderer.tileentity.BeaconTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.tileentity.BeaconTileEntity;
@@ -12,11 +12,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.List;
 
 @OnlyIn(Dist.CLIENT)
-public class RadiantBeaconRender extends TileEntityRenderer<TileEntityRadiantBeacon> {
+public class RadiantBeaconRender extends TileEntityRenderer<RadiantBeaconTileEntity> {
     private static final ResourceLocation BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
 
     @Override
-    public void render(TileEntityRadiantBeacon radiantBeacon, double x, double y, double z, float partialTicks, int destroyStage) {
+    public void render(RadiantBeaconTileEntity radiantBeacon, double x, double y, double z, float partialTicks, int destroyStage) {
         if (radiantBeacon.getWorld() != null) {
             this.renderBeacon(x, y, z, partialTicks, radiantBeacon.getBeamSegments(), radiantBeacon.getWorld().getGameTime());
         }
@@ -37,7 +37,7 @@ public class RadiantBeaconRender extends TileEntityRenderer<TileEntityRadiantBea
     }
 
     @Override
-    public boolean isGlobalRenderer(TileEntityRadiantBeacon te) {
+    public boolean isGlobalRenderer(RadiantBeaconTileEntity te) {
         return true;
     }
 }

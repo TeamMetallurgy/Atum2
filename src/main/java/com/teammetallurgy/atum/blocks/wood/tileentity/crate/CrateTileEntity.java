@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
-import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.inventory.container.block.ContainerCrate;
+import com.teammetallurgy.atum.blocks.wood.CrateBlock;
+import com.teammetallurgy.atum.inventory.container.block.CrateContainer;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.util.ITickable;
+import net.minecraft.util.ITickableTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -16,7 +16,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 
 import javax.annotation.Nonnull;
 
-public class CrateTileEntity extends InventoryBaseTileEntity implements ITickable {
+public class CrateTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity {
     private int ticksSinceSync;
     private int numPlayersUsing;
     public float lidAngle;
@@ -37,8 +37,8 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
             this.numPlayersUsing = 0;
 
             for (PlayerEntity entityplayer : this.world.getEntitiesWithinAABB(PlayerEntity.class, new AxisAlignedBB((double) ((float) x - 5.0F), (double) ((float) y - 5.0F), (double) ((float) z - 5.0F), (double) ((float) (x + 1) + 5.0F), (double) ((float) (y + 1) + 5.0F), (double) ((float) (z + 1) + 5.0F)))) {
-                if (entityplayer.openContainer instanceof ContainerCrate) {
-                    IInventory iinventory = ((ContainerCrate) entityplayer.openContainer).getCrateInventory();
+                if (entityplayer.openContainer instanceof CrateContainer) {
+                    IInventory iinventory = ((CrateContainer) entityplayer.openContainer).getCrateInventory();
 
                     if (iinventory == this) {
                         ++this.numPlayersUsing;
@@ -89,7 +89,7 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
 
     @Override
     public void closeInventory(@Nonnull PlayerEntity player) {
-        if (!player.isSpectator() && this.getBlockType() instanceof BlockCrate) {
+        if (!player.isSpectator() && this.getBlockType() instanceof CrateBlock) {
             --this.numPlayersUsing;
             this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
             this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
@@ -100,7 +100,7 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
     @Nonnull
     public Container createContainer(@Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
         this.fillWithLoot(player);
-        return new ContainerCrate(playerInventory, this, player);
+        return new CrateContainer(playerInventory, this, player);
     }
 
     @Override

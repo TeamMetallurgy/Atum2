@@ -1,32 +1,22 @@
 package com.teammetallurgy.atum.utils.event;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
-import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.AtumDimensionRegistration;
-import com.teammetallurgy.atum.world.WorldProviderAtum;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -36,8 +26,8 @@ public class ClientEvents {
     private static final ResourceLocation SAND_BLUR_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
     private static float intensity = 1;
 
-    @SubscribeEvent
-    public static void renderlast(RenderWorldLastEvent event) {
+    /*@SubscribeEvent
+    public static void renderlast(RenderWorldLastEvent event) { //TODO
         if (Minecraft.getInstance().player.dimension == AtumDimensionRegistration.ATUM) {
             if (Minecraft.getInstance().gameSettings.hideGUI) {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
@@ -45,7 +35,7 @@ public class ClientEvents {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             }
         }
-    }
+    }*/
 
     /*@SubscribeEvent
     public static void renderSand(RenderGameOverlayEvent.Pre event) {
@@ -56,7 +46,7 @@ public class ClientEvents {
         }
     }*/
 
-    private static void renderSand(float partialTicks, int... layers) {
+    /*private static void renderSand(float partialTicks, int... layers) { //TODO
         float baseDarkness = AtumConfig.SANDSTORM.sandDarkness.get() / 100.0F;
         float baseAlpha = AtumConfig.SANDSTORM.sandAlpha.get() / 100.0F;
         float eyesOfAtumAlpha = AtumConfig.SANDSTORM.sandEyesAlpha.get() / 100.0F;
@@ -149,10 +139,10 @@ public class ClientEvents {
             GlStateManager.popAttributes();
             GlStateManager.popMatrix();
         }
-    }
+    }*/
 
-    @SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
+    /*@SubscribeEvent
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) { //TODO
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
         Dimension dimension = Minecraft.getInstance().player.world.dimension;
         Entity entity = event.getInfo().getRenderViewEntity();
@@ -180,7 +170,7 @@ public class ClientEvents {
                 GlStateManager.fogDensity(fogDensity);
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public static void onRender(RenderPlayerEvent.Pre event) {

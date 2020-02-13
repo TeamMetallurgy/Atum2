@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
-import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
+import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
 import com.teammetallurgy.atum.utils.Constants;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.BlockState;
@@ -29,8 +29,8 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
         IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (this.show(mode, config.getShowCropPercentage())) {
-            if (blockState.getBlock() instanceof BlockDate) {
-                int age = blockState.get(BlockDate.AGE);
+            if (blockState.getBlock() instanceof DateBlock) {
+                int age = blockState.get(DateBlock.AGE);
                 int maxAge = 7;
                 if (age == maxAge) {
                     probeInfo.text(OK + "Fully grown");

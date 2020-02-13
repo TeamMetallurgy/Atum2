@@ -1,19 +1,9 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.EntityLightningBolt;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.play.server.SPacketChangeGameState;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -41,7 +31,7 @@ public class TefnutsCallEntity extends CustomArrow { //TODO
         return stack;
     }
 
-    @Override
+    /*@Override
     protected void onHit(RayTraceResult raytraceResult) {
         Entity entity = raytraceResult.entityHit;
         if (raytraceResult != null && raytraceResult.entityHit instanceof PlayerEntity) {
@@ -94,7 +84,7 @@ public class TefnutsCallEntity extends CustomArrow { //TODO
             }
         }
         super.onHit(raytraceResult);
-    }
+    }*/
 
     @Override
     @OnlyIn(Dist.CLIENT)

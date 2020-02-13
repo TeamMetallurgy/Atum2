@@ -49,8 +49,8 @@ public class BrigandEntity extends BanditBaseEntity {
             return false;
         } else {
             if (this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == AtumItems.GREATSWORD_IRON) {
-                float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get();
-                float knockback = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).get();
+                float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+                float knockback = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).getValue();
 
                 if (entity instanceof LivingEntity) {
                     attackDamage += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entity).getCreatureAttribute());

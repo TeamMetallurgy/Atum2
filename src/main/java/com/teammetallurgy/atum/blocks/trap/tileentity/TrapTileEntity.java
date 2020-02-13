@@ -1,31 +1,30 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
-import com.teammetallurgy.atum.blocks.trap.BlockTrap;
-import com.teammetallurgy.atum.inventory.container.block.ContainerTrap;
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.blocks.trap.TrapBlock;
+import com.teammetallurgy.atum.inventory.container.block.TrapContainer;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.SlotFurnaceFuel;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.FurnaceFuelSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SPacketUpdateTileEntity;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.FurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -36,9 +35,39 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     int currentItemBurnTime;
     boolean isDisabled = false;
     public boolean isInsidePyramid = true;
+    public final IIntArray trapData = new IIntArray() {
+        @Override
+        public int get(int index) {
+            switch (index) {
+                case 0:
+                    return TrapTileEntity.this.burnTime;
+                case 1:
+                    return TrapTileEntity.this.currentItemBurnTime;
+                default:
+                    return 0;
+            }
+        }
 
-    public TrapTileEntity() {
-        super(1);
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 0:
+                    TrapTileEntity.this.burnTime = value;
+                    break;
+                case 1:
+                    TrapTileEntity.this.currentItemBurnTime = value;
+                    break;
+            }
+        }
+
+        @Override
+        public int size() {
+            return 2;
+        }
+    };
+
+    public TrapTileEntity(TileEntityType<?> tileEntityType) {
+        super(tileEntityType, 1);
     }
 
     public void setDisabledStatus(boolean isDisabled) {
@@ -54,13 +83,13 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     }
 
     @Override
-    public void update() {
+    public void tick() {
         boolean isBurningCheck = this.isBurning();
         boolean isBurning = false;
         boolean canDamageEntity = false;
 
-        if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(pos).get(BlockTrap.FACING);
+        if (this.world != null && !this.isDisabled && this.isBurning()) {
+            Direction facing = this.world.getBlockState(pos).get(TrapBlock.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
@@ -69,7 +98,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
             }
             List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1));
             for (LivingEntity livingBase : entities) {
-                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).capabilities.isCreativeMode : livingBase != null) {
+                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() : livingBase != null) {
                     canDamageEntity = true;
                     this.triggerTrap(facing, livingBase);
                 } else {
@@ -90,7 +119,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
             ItemStack fuel = this.inventory.get(0);
             if (this.isBurning() || !fuel.isEmpty()) {
                 if (!this.isBurning()) {
-                    this.burnTime = TileEntityFurnace.getItemBurnTime(fuel) / 10;
+                    this.burnTime = ForgeHooks.getBurnTime(fuel) / 10;
                     this.currentItemBurnTime = this.burnTime;
                     if (this.isBurning()) {
                         isBurning = true;
@@ -116,11 +145,6 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
         return this.burnTime > 0;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public static boolean isBurning(IInventory inventory) {
-        return inventory.getField(0) > 0;
-    }
-
     @Override
     public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         return super.isUsableByPlayer(player) && !isInsidePyramid;
@@ -129,59 +153,18 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         ItemStack fuel = this.inventory.get(0);
-        return !isInsidePyramid && (TileEntityFurnace.isItemFuel(stack) || SlotFurnaceFuel.isBucket(stack) && fuel.getItem() != Items.BUCKET);
+        return !isInsidePyramid && (FurnaceTileEntity.isFuel(stack) || FurnaceFuelSlot.isBucket(stack) && fuel.getItem() != Items.BUCKET);
     }
 
     @Override
-    public int getField(int id) {
-        switch (id) {
-            case 0:
-                return this.burnTime;
-            case 1:
-                return this.currentItemBurnTime;
-            default:
-                return 0;
-        }
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
     }
 
     @Override
-    public void setField(int id, int value) {
-        switch (id) {
-            case 0:
-                this.burnTime = value;
-                break;
-            case 1:
-                this.currentItemBurnTime = value;
-                break;
-        }
-    }
-
-    @Override
-    public int getFieldCount() {
-        return 2;
-    }
-
-    @Override
-    @Nonnull
-    public Container createContainer(@Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
-        return new ContainerTrap(playerInventory, this);
-    }
-
-    @Override
-    @Nonnull
-    public String getGuiID() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "trap"));
-    }
-
-    @Override
-    public SPacketUpdateTileEntity getUpdatePacket() {
-        return new SPacketUpdateTileEntity(this.pos, 0, this.getUpdateTag());
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager manager, SPacketUpdateTileEntity packet) {
+    public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.readFromNBT(packet.getNbtCompound());
+        this.read(packet.getNbtCompound());
     }
 
     @Override
@@ -191,8 +174,8 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     }
 
     @Override
-    public void readFromNBT(CompoundNBT compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         this.burnTime = compound.getInt("BurnTime");
         this.isDisabled = compound.getBoolean("Disabled");
         this.isInsidePyramid = compound.getBoolean("InPyramid");
@@ -210,12 +193,18 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
 
     @Override
     @Nonnull
+    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
+        return new TrapContainer(windowID, playerInventory, this);
+    }
+
+    @Override
+    @Nonnull
     public ItemStack decrStackSize(int index, int count) {
         return !isInsidePyramid ? super.decrStackSize(index, count) : ItemStack.EMPTY;
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
-        return !this.isInsidePyramid && super.hasCapability(capability, facing);
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
+        return !this.isInsidePyramid ? super.getCapability(capability, direction) : LazyOptional.empty();
     }
 }

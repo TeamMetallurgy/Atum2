@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.entity;
 
-import com.teammetallurgy.atum.blocks.beacon.BlockHeartOfRa;
+import com.teammetallurgy.atum.blocks.beacon.HeartOfRaBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.Entity;
@@ -44,7 +44,7 @@ public class HeartOfRaEntity extends Entity {
         this.prevPosZ = this.posZ;
         ++this.innerRotation;
 
-        if (!(world.getBlockState(getPosition()).getBlock() instanceof BlockHeartOfRa)) {
+        if (!(world.getBlockState(getPosition()).getBlock() instanceof HeartOfRaBlock)) {
             this.attackEntityFrom(DamageSource.GENERIC, 1);
         }
     }

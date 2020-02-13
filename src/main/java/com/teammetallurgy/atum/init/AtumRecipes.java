@@ -9,11 +9,9 @@ import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
-import com.teammetallurgy.atum.blocks.stone.ceramic.CeramicBlock;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.FurnaceRecipe;
@@ -158,7 +156,7 @@ public class AtumRecipes {
 
     @SubscribeEvent
     public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
-        AtumRegistry.registerRecipe("marl", new KilnRecipe(AtumBlocks.MARL, new ItemStack(CeramicBlock.getCeramicBlocks(DyeColor.WHITE)), 0.1F), event);
+        AtumRegistry.registerRecipe("marl", new KilnRecipe(AtumBlocks.MARL, new ItemStack(AtumBlocks.CERAMIC_WHITE), 0.1F), event);
     }
 
     public static void addKilnRecipes(MinecraftServer server) {

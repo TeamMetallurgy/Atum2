@@ -78,7 +78,7 @@ public class StonewardenEntity extends StoneBaseEntity {
             --this.attackTimer;
         }
 
-        if (func_213296_b(this.getMotion()) > (double) 2.5000003E-7F && this.rand.nextInt(5) == 0) {
+        if (horizontalMag(this.getMotion()) > (double) 2.5000003E-7F && this.rand.nextInt(5) == 0) {
             int x = MathHelper.floor(this.posX);
             int y = MathHelper.floor(this.posY - 0.20000000298023224D);
             int z = MathHelper.floor(this.posZ);

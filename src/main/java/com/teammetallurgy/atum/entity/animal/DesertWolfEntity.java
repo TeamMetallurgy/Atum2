@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.entity.animal;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ai.goal.BegGoal;
 import com.teammetallurgy.atum.entity.ai.goal.FollowOwnerWithoutSaddleGoal;
 import com.teammetallurgy.atum.entity.ai.goal.SitWithCheckGoal;
@@ -8,8 +7,9 @@ import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
+import com.teammetallurgy.atum.inventory.container.entity.AlphaDesertWolfContainer;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
+import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -26,10 +26,14 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
 import net.minecraft.entity.passive.horse.LlamaEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.IInventoryChangedListener;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
@@ -53,6 +57,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
@@ -62,7 +67,7 @@ import java.util.Random;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
-public class DesertWolfEntity extends TameableEntity implements IJumpingMount, IInventoryChangedListener {
+public class DesertWolfEntity extends TameableEntity implements IJumpingMount, IInventoryChangedListener, INamedContainerProvider {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
@@ -395,7 +400,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) {
-        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).get()));
+        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue()));
 
         if (shouldAttack) {
             this.applyEnchantments(this, entity);
@@ -519,7 +524,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                 DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();
                 if (player.getUniqueID() == player.getUniqueID()) {
                     if (desertWolf.isAlpha() && desertWolf.isBeingRidden()) {
-                        NetworkHandler.WRAPPER.sendToServer(new PacketOpenWolfGui(desertWolf.getEntityId()));
+                        NetworkHandler.CHANNEL.sendToServer(new OpenWolfGuiPacket(desertWolf.getEntityId()));
                         event.setCanceled(true);
                     }
                 }
@@ -529,7 +534,9 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     private void openGUI(PlayerEntity player) {
         if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
-            player.openGui(Atum.instance, 4, world, this.getEntityId(), 0, 0);
+            if (player instanceof ServerPlayerEntity) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, this, buf -> buf.writeInt(this.getEntityId()));
+            }
         }
     }
 
@@ -884,7 +891,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                     this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
                     if (this.canPassengerSteer()) {
-                        this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).get() * 0.80F);
+                        this.setAIMoveSpeed((float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() * 0.80F);
                         super.travel(new Vec3d(strafe, travelVec.y, forward));
                     } else if (livingBase instanceof PlayerEntity) {
                         this.setMotion(Vec3d.ZERO);
@@ -920,7 +927,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     private double getWolfJumpStrength() {
-        return this.getAttribute(JUMP_STRENGTH).get();
+        return this.getAttribute(JUMP_STRENGTH).getValue();
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -989,6 +996,12 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
             return itemHandler.cast();
         }
         return super.getCapability(capability, facing);
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
+        return new AlphaDesertWolfContainer(windowID, playerInventory, this.getEntityId());
     }
 
     public enum ArmorType {

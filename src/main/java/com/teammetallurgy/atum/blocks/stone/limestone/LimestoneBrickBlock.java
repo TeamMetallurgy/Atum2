@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import com.teammetallurgy.atum.blocks.machines.BlockKiln;
+import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,9 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
-import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
@@ -39,7 +37,7 @@ public class LimestoneBrickBlock extends Block {
                         BlockPos checkPos = pos.add(dx, dy, dz);
                         BlockState kilnState = world.getBlockState(checkPos);
                         if (kilnState.getBlock() == AtumBlocks.KILN) {
-                            BlockKiln kiln = (BlockKiln) kilnState.getBlock();
+                            KilnBlock kiln = (KilnBlock) kilnState.getBlock();
                             kiln.tryMakeMultiblock(world, checkPos, kilnState);
                         }
                     }
@@ -63,33 +61,8 @@ public class LimestoneBrickBlock extends Block {
         container.add(UNBREAKABLE);
     }
 
-    @Override
-    public Property[] getNonRenderingProperties() {
+    /*@Override
+    public Property[] getNonRenderingProperties() { //TODO
         return new Property[]{UNBREAKABLE};
-    }
-
-    public enum BrickType implements IStringSerializable {
-        SMALL("small"),
-        LARGE("large"),
-        CRACKED("cracked_brick"),
-        CHISELED("chiseled"),
-        CARVED("carved");
-
-        private final String name;
-
-        BrickType(String name) {
-            this.name = name;
-        }
-
-        @Override
-        public String toString() {
-            return this.name;
-        }
-
-        @Override
-        @Nonnull
-        public String getName() {
-            return this.name;
-        }
-    }
+    }*/
 }

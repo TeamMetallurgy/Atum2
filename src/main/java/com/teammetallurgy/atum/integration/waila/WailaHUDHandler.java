@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.integration.waila;
 
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
-import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
+import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -32,9 +32,9 @@ public class WailaHUDHandler implements IComponentProvider {
 
     @Override
     public void appendBody(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlock() instanceof BlockDate) {
+        if (accessor.getBlock() instanceof DateBlock) {
             if (config.get(new ResourceLocation("crop_progress"))) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().get((BlockDate.AGE)) / 7.0F);
+                addMaturityTooltip(tooltip, accessor.getBlockState().get((DateBlock.AGE)) / 7.0F);
             }
         }
     }

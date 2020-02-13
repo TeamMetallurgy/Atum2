@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TarantulaEntity extends MonsterEntity implements IUnderground {
+public class TarantulaEntity extends MonsterEntity {
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(TarantulaEntity.class, DataSerializers.BYTE);
 
     public TarantulaEntity(EntityType<? extends MonsterEntity> entityType, World world) {

@@ -26,7 +26,7 @@ public class IntegrationHandler {
 
         mods.entrySet().stream().filter(entry -> enabledModSupport.contains(entry.getKey()) && ModList.get().isLoaded(entry.getKey())).forEach(entry -> {
             try {
-                integratedMods.add(entry.get().newInstance());
+                integratedMods.add(entry.getValue().newInstance());
             } catch (Exception e) {
                 Atum.LOG.error("Failed to load mod integration handler");
                 e.printStackTrace();

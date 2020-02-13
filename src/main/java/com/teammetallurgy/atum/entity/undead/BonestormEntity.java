@@ -184,7 +184,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
         }
 
         private double getFollowDistance() {
-            return this.bonestorm.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).get();
+            return this.bonestorm.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
         }
     }
 }

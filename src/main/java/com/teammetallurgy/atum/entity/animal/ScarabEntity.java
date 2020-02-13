@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.animal;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
-import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
+import com.teammetallurgy.atum.blocks.wood.DeadwoodBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
@@ -225,12 +225,12 @@ public class ScarabEntity extends MonsterEntity {
                 BlockState state = world.getBlockState(pos);
 
                 if (state.getBlock() == AtumBlocks.LIMESTONE) {
-                    world.setBlockState(pos, AtumBlocks.LIMESTONE.getDefaultState().with(BlockLimestone.HAS_SCARAB, true), 3);
+                    world.setBlockState(pos, AtumBlocks.LIMESTONE.getDefaultState().with(LimestoneBlock.HAS_SCARAB, true), 3);
                     this.creature.spawnExplosionParticle();
                     this.creature.remove();
                 }
                 if (state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
-                    world.setBlockState(pos, AtumBlocks.DEADWOOD_LOG.getDefaultState().with(BlockDeadwood.HAS_SCARAB, true), 3);
+                    world.setBlockState(pos, AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodBlock.HAS_SCARAB, true), 3);
                     this.creature.spawnExplosionParticle();
                     this.creature.remove();
                 }

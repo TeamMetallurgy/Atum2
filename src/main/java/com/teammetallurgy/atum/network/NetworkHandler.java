@@ -1,30 +1,24 @@
 package com.teammetallurgy.atum.network;
 
-import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
-import com.teammetallurgy.atum.network.packet.PacketStormStrength;
-import com.teammetallurgy.atum.network.packet.PacketWeather;
+import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
+import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
+import com.teammetallurgy.atum.network.packet.WeatherPacket;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class NetworkHandler {
-    public static SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(Constants.MOD_ID);
-    private static int lastDiscriminator = 0;
+    public static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
+            .named(new ResourceLocation(Constants.MOD_ID, "atum_channel"))
+            .clientAcceptedVersions(v -> true)
+            .serverAcceptedVersions(v -> true)
+            .networkProtocolVersion(() -> "ATUM1")
+            .simpleChannel();
 
-    private NetworkHandler(String modId) {
-        WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(modId);
-    }
-
-    public static void register() {
-        lastDiscriminator++;
-        registerPacket(PacketOpenWolfGui.class, Dist.SERVER);
-        registerPacket(PacketWeather.class, Dist.CLIENT);
-        registerPacket(PacketStormStrength.class, Dist.CLIENT);
-    }
-
-    @SuppressWarnings("all")
-    private static void registerPacket(Class packetType, Side side) {
-        WRAPPER.registerMessage(packetType, packetType, lastDiscriminator++, side);
+    public static void initialize() {
+        CHANNEL.registerMessage(0, OpenWolfGuiPacket.class, OpenWolfGuiPacket::encode, OpenWolfGuiPacket::decode, OpenWolfGuiPacket.Handler::handle);
+        CHANNEL.registerMessage(1, WeatherPacket.class, WeatherPacket::encode, WeatherPacket::decode, WeatherPacket.Handler::handle);
+        CHANNEL.registerMessage(2, StormStrengthPacket.class, StormStrengthPacket::encode, StormStrengthPacket::decode, StormStrengthPacket.Handler::handle);
     }
 }

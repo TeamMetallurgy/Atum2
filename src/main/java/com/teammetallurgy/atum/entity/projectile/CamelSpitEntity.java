@@ -51,7 +51,7 @@ public class CamelSpitEntity extends LlamaSpitEntity {
         }
 
         Vec3d motion = this.getMotion();
-        RayTraceResult raytrace = ProjectileHelper.func_221267_a(this, this.getBoundingBox().expand(motion).grow(1.0D), (e) -> !e.isSpectator() && e != this.owner, RayTraceContext.BlockMode.OUTLINE, true);
+        RayTraceResult raytrace = ProjectileHelper.rayTrace(this, this.getBoundingBox().expand(motion).grow(1.0D), (e) -> !e.isSpectator() && e != this.owner, RayTraceContext.BlockMode.OUTLINE, true);
         if (raytrace != null && !ForgeEventFactory.onProjectileImpact(this, raytrace)) {
             this.onHit(raytrace);
         }
@@ -59,7 +59,7 @@ public class CamelSpitEntity extends LlamaSpitEntity {
         this.posX += motion.x;
         this.posY += motion.y;
         this.posZ += motion.z;
-        float f = MathHelper.sqrt(func_213296_b(motion));
+        float f = MathHelper.sqrt(horizontalMag(motion));
         this.rotationYaw = (float) (MathHelper.atan2(motion.x, motion.z) * (double) (180F / (float) Math.PI));
 
         for (this.rotationPitch = (float) (MathHelper.atan2(motion.y, f) * (double) (180F / (float) Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {

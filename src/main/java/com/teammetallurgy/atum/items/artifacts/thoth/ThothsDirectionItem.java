@@ -2,8 +2,6 @@ package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.world.AtumDimensionRegistration;
-import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
@@ -14,7 +12,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -53,9 +50,9 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                     if (world == null) {
                         world = entity.world;
                     }
-                    double angle;
+                    double angle = 0.0D;
 
-                    if (world.getDimension().getType() == AtumDimensionRegistration.ATUM) {
+                    /*if (world.getDimension().getType() == AtumDimensionRegistration.ATUM) { //TODO
                         if (isSearching) {
                             angle = this.spin(world);
                         } else {
@@ -66,7 +63,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                         }
                     } else {
                         angle = Math.random();
-                    }
+                    }*/
                     if (livingNotNull) {
                         angle = this.wobble(world, angle);
                     }
@@ -144,14 +141,14 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                     if (entity instanceof PlayerEntity) {
                         PlayerEntity player = (PlayerEntity) entity;
                         ServerWorld worldServer = (ServerWorld) world;
-                        BlockPos pos = worldServer.getChunkProvider().getChunkGenerator().findNearestStructure(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), 5000, true);
+                        /*BlockPos pos = worldServer.getChunkProvider().getChunkGenerator().findNearestStructure(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), 5000, true); //TODO
                         String translationKey = Constants.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath();
                         if (pos != null) {
                             player.sendStatusMessage(new TranslationTextComponent(translationKey + ".found", player.isCreative() ? "X=" + pos.getX() + " Y=" + pos.getY() + " Z=" + pos.getZ() : "").setStyle(new Style().setColor(TextFormatting.AQUA)), true);
                             this.pyramidPos = pos;
                         } else {
                             player.sendStatusMessage(new TranslationTextComponent(translationKey + ".searchingFail").setStyle(new Style().setColor(TextFormatting.RED)), true);
-                        }
+                        }*/
                     }
                 }
             }

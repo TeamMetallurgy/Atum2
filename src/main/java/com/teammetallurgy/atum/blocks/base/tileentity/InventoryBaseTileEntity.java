@@ -25,14 +25,14 @@ public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
     }
 
     @Override
-    public int getInventoryStackLimit() {
-        return 64;
-    }
-
-    @Override
     @Nonnull
     protected NonNullList<ItemStack> getItems() {
         return inventory;
+    }
+
+    @Override
+    protected void setItems(@Nonnull NonNullList<ItemStack> list) {
+        this.inventory = list;
     }
 
     @Override

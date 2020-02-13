@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 
@@ -26,22 +26,22 @@ public class SmokeTrapTileEntity extends TrapTileEntity {
 
         switch (facing) {
             case DOWN:
-                world.addParticle(ParticleTypes.SMOKE_LARGE, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case UP:
-                world.addParticle(ParticleTypes.SMOKE_LARGE, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case WEST:
-                world.addParticle(ParticleTypes.SMOKE_LARGE, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case EAST:
-                world.addParticle(ParticleTypes.SMOKE_LARGE, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case NORTH:
-                world.addParticle(ParticleTypes.SMOKE_LARGE, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
             case SOUTH:
-                world.addParticle(ParticleTypes.SMOKE_LARGE, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.LARGE_SMOKE, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
         }
     }

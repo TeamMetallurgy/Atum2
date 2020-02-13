@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import com.teammetallurgy.atum.blocks.machines.BlockQuern;
+import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.client.model.QuernStoneModel;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -28,9 +28,9 @@ public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
         GlStateManager.translatef((float) x + 0.5F, (float) y + 1.5F, (float) z + 0.5F);
         GlStateManager.scalef(0.95F, 1.0F, 0.95F);
         GlStateManager.rotatef(180.0F, 0.0F, 0.0F, 1.0F);
-        BlockState state = quern.hasWorld() ? quern.getBlockState() : AtumBlocks.QUERN.getDefaultState().with(BlockQuern.FACING, Direction.SOUTH);
+        BlockState state = quern.hasWorld() ? quern.getBlockState() : AtumBlocks.QUERN.getDefaultState().with(QuernBlock.FACING, Direction.SOUTH);
 
-        float angle = state.get(BlockQuern.FACING).getHorizontalAngle();
+        float angle = state.get(QuernBlock.FACING).getHorizontalAngle();
         if ((double) Math.abs(angle) > 1.0E-5D) {
             GlStateManager.rotatef(angle, 0.0F, 1.0F, 0.0F);
         }

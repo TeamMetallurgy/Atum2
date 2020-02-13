@@ -1,15 +1,14 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.blocks.trap.BlockTrap;
+import com.teammetallurgy.atum.blocks.trap.TrapBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.EntityTippedArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ParticleTypes;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
@@ -22,14 +21,14 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     private int timer = 80;
 
     @Override
-    public void update() {
+    public void tick() {
         boolean isBurningCheck = this.isBurning();
         boolean isBurning = false;
         boolean canDamageEntity = false;
 
         if (timer > 0) timer--;
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(pos).get(BlockTrap.FACING);
+            Direction facing = world.getBlockState(pos).get(TrapBlock.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
@@ -89,9 +88,9 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
         }
     }
 
-    private boolean canSee(Direction facing, LivingEntity living){
+    private boolean canSee(Direction facing, World world, LivingEntity living){
         Vec3i dir = facing.getDirectionVec();
-        return this.world.rayTraceBlocks(new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ()), new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ), true, true, false) == null;
+        return world.rayTraceBlocks(new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ()), new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ), true, true, false) == null;
     }
 
     private RayTraceResult rayTraceMinMax(World world, AxisAlignedBB box) {
@@ -119,42 +118,42 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
         switch (facing) {
             case DOWN:
                 fireArrow(world, facing, x - randomPos, y - 0.5D, z);
-                world.addParticle(ParticleTypes.SMOKE_NORMAL, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE, x - randomPos, y - 0.2D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case UP:
                 fireArrow(world, facing, x - randomPos, y + 1.0D, z);
-                world.addParticle(ParticleTypes.SMOKE_NORMAL, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE, x - randomPos, y + 1.0D, z, 0.0D, 0.0D, 0.0D);
                 break;
             case WEST:
                 fireArrow(world, facing, x - 0.52D, y, z + randomPos);
-                world.addParticle(ParticleTypes.SMOKE_NORMAL, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE, x - 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case EAST:
                 fireArrow(world, facing, x + 0.52D, y, z + randomPos);
-                world.addParticle(ParticleTypes.SMOKE_NORMAL, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE, x + 0.52D, y, z + randomPos, 0.0D, 0.0D, 0.0D);
                 break;
             case NORTH:
                 fireArrow(world, facing, x + randomPos, y, z - 0.52D);
-                world.addParticle(ParticleTypes.SMOKE_NORMAL, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE, x + randomPos, y, z - 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
             case SOUTH:
                 fireArrow(world, facing, x + randomPos, y, z + 0.52D);
-                world.addParticle(ParticleTypes.SMOKE_NORMAL, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
+                world.addParticle(ParticleTypes.SMOKE, x + randomPos, y, z + 0.52D, 0.0D, 0.0D, 0.0D);
                 break;
         }
     }
 
     private void fireArrow(World world, Direction facing, double x, double y, double z) {
         if (!world.isRemote) {
-            ArrowEntity arrow = new EntityTippedArrow(world, x, y, z);
-            arrow.shoot((double) facing.getXOffset(), (double) ((float) facing.getYOffset() + 0.1F), (double) facing.getZOffset(), 1.1F, 6.0F);
+            ArrowEntity arrow = new ArrowEntity(world, x, y, z);
+            arrow.shoot(facing.getXOffset(), (float) facing.getYOffset() + 0.1F, facing.getZOffset(), 1.1F, 6.0F);
             world.addEntity(arrow);
         }
     }
 
     @Override
-    public void readFromNBT(CompoundNBT compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         this.timer = compound.getInt("Timer");
     }
 

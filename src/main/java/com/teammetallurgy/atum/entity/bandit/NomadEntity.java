@@ -92,7 +92,7 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     @Override
     public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
         ItemStack ammo = this.findAmmo(this.getHeldItem(ProjectileHelper.getHandWith(this, AtumItems.SHORT_BOW)));
-        AbstractArrowEntity arrow = ProjectileHelper.func_221272_a(this, ammo, distanceFactor);
+        AbstractArrowEntity arrow = ProjectileHelper.fireArrow(this, ammo, distanceFactor);
         double x = target.posX - this.posX;
         double y = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - arrow.posY;
         double z = target.posZ - this.posZ;
