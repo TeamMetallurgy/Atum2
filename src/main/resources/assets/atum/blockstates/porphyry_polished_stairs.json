@@ -2,9 +2,9 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "bottom": "atum:blocks/porphyry_brick_polished",
-      "top": "atum:blocks/porphyry_brick_polished",
-      "side": "atum:blocks/porphyry_brick_polished"
+      "bottom": "atum:block/porphyry_brick_polished",
+      "top": "atum:block/porphyry_brick_polished",
+      "side": "atum:block/porphyry_brick_polished"
     }
   },
   "variants": {

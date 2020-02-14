@@ -3,7 +3,7 @@
     "defaults": {
         "model": "atum:chest_custom",
         "textures": {
-            "texture": "atum:blocks/chest/sarcophagus"
+            "texture": "atum:block/chest/sarcophagus"
         },
         "uvlock": true
     },

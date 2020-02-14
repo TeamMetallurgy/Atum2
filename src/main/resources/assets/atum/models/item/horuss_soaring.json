@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/horuss_soaring"
+    "layer0": "atum:item/horuss_soaring"
   },
   "overrides": [
     {

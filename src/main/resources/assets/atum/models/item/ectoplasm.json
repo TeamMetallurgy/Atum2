@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/ectoplasm"
+    "layer0": "atum:item/ectoplasm"
   }
 }

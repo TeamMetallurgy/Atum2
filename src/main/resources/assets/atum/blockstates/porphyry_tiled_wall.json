@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "wall": "atum:blocks/porphyry_brick_tiled",
+            "wall": "atum:block/porphyry_brick_tiled",
             "particle": "#wall"
         },
         "model":"atum:empty",

@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/limestone_pickaxe"
+    "layer0": "atum:item/limestone_pickaxe"
   }
 }

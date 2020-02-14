@@ -1,6 +1,6 @@
 {
   "parent": "block/crop",
   "textures": {
-    "crop": "atum:blocks/weed"
+    "crop": "atum:block/weed"
   }
 }

@@ -3,7 +3,7 @@
   "defaults": {
     "model": "tinted_cross",
     "textures": {
-      "cross": "atum:blocks/oasis_grass"
+      "cross": "atum:block/oasis_grass"
     },
     "uvlock": true
   },

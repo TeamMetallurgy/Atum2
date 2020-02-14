@@ -2,8 +2,8 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "particle": "atum:blocks/sand",
-	        "texture": "atum:blocks/sand"
+            "particle": "atum:block/sand",
+	        "texture": "atum:block/sand"
         },
         "model": "snow_height2",
         "uvlock": true

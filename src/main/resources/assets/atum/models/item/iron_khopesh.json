@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/khopesh_iron"
+    "layer0": "atum:item/khopesh_iron"
   }
 }

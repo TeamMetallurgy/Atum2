@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/emmer_flour"
+    "layer0": "atum:item/emmer_flour"
   }
 }

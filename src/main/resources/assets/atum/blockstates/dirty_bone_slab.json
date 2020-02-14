@@ -2,10 +2,10 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "top": "atum:blocks/dirty_bone_block",
+      "top": "atum:block/dirty_bone_block",
       "bottom": "#top",
       "end": "#top",
-      "side": "atum:blocks/dirty_bone_block_side"
+      "side": "atum:block/dirty_bone_block_side"
     }
   },
   "variants": {

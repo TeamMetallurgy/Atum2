@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/flax_seeds"
+    "layer0": "atum:item/flax_seeds"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/nuits_vanishing"
+    "layer0": "atum:item/nuits_vanishing"
   }
 }

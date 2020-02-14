@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "wall": "atum:blocks/ceramic_tile_pink",
+            "wall": "atum:block/ceramic_tile_pink",
             "particle": "#wall"
         },
         "model":"atum:empty",

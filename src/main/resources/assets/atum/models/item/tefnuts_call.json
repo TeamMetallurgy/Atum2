@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/tefnuts_call"
+    "layer0": "atum:item/tefnuts_call"
   },
   "display": {
     "thirdperson_righthand": {

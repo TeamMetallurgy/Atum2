@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/ptahs_decadence"
+    "layer0": "atum:item/ptahs_decadence"
   }
 }

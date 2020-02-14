@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "atum:blocks/porphyry_brick_polished"
+            "all": "atum:block/porphyry_brick_polished"
         },
         "model": "cube_all"
     },

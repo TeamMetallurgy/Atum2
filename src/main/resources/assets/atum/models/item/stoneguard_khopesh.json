@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/stoneguard_khopesh"
+    "layer0": "atum:item/stoneguard_khopesh"
   }
 }

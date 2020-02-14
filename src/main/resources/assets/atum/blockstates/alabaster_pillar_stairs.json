@@ -2,9 +2,9 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "bottom": "atum:blocks/alabaster_brick_pillar",
-      "top": "atum:blocks/alabaster_brick_pillar",
-      "side": "atum:blocks/alabaster_brick_pillar"
+      "bottom": "atum:block/alabaster_brick_pillar",
+      "top": "atum:block/alabaster_brick_pillar",
+      "side": "atum:block/alabaster_brick_pillar"
     }
   },
   "variants": {

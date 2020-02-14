@@ -2,9 +2,9 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "bottom": "atum:blocks/alabaster_brick_smooth",
-      "top": "atum:blocks/alabaster_brick_smooth",
-      "side": "atum:blocks/alabaster_brick_smooth"
+      "bottom": "atum:block/alabaster_brick_smooth",
+      "top": "atum:block/alabaster_brick_smooth",
+      "side": "atum:block/alabaster_brick_smooth"
     }
   },
   "variants": {

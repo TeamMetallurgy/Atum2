@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "atum:blocks/framed_glass_orange"
+            "all": "atum:block/framed_glass_orange"
         },
         "model": "cube_all",
         "uvlock": true

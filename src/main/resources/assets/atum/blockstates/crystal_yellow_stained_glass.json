@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "atum:blocks/crystal_glass_yellow"
+            "all": "atum:block/crystal_glass_yellow"
         },
         "model": "cube_all",
         "uvlock": true

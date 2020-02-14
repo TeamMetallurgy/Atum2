@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/silver_ring"
+    "layer0": "atum:item/silver_ring"
   }
 }

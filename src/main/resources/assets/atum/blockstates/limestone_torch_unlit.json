@@ -3,7 +3,7 @@
   "defaults": {
     "model": "block/torch",
     "textures": {
-      "torch": "atum:blocks/limestone_torch_unlit"
+      "torch": "atum:block/limestone_torch_unlit"
     }
   },
   "variants": {

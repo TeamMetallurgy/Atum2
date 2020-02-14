@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/gold_scepter"
+    "layer0": "atum:item/gold_scepter"
   }
 }

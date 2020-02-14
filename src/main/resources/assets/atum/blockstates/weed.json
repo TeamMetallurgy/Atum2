@@ -1,5 +1,7 @@
 {
   "variants": {
-    "normal": { "model": "atum:weed" }
+    "": {
+      "model": "atum:block/weed"
+    }
   }
 }

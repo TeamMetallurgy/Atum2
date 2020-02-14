@@ -3,7 +3,7 @@
   "defaults": {
     "model": "block/torch",
     "textures": {
-      "torch": "atum:blocks/pharaoh_torch_unlit"
+      "torch": "atum:block/pharaoh_torch_unlit"
     }
   },
   "variants": {

@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "top": "atum:blocks/palm_planks",
+      "top": "atum:block/palm_planks",
       "bottom": "#top",
       "side": "#top"
     }

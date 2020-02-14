@@ -5,10 +5,10 @@
   },
   "variants": {
     "age": {
-      "0": { "textures": { "crop": "atum:blocks/anputs_fingers_stage_0" }},
-      "1": { "textures": { "crop": "atum:blocks/anputs_fingers_stage_1" }},
-      "2": { "textures": { "crop": "atum:blocks/anputs_fingers_stage_1" }},
-      "3": { "textures": { "crop": "atum:blocks/anputs_fingers_stage_2" }}
+      "0": { "textures": { "crop": "atum:block/anputs_fingers_stage_0" }},
+      "1": { "textures": { "crop": "atum:block/anputs_fingers_stage_1" }},
+      "2": { "textures": { "crop": "atum:block/anputs_fingers_stage_1" }},
+      "3": { "textures": { "crop": "atum:block/anputs_fingers_stage_2" }}
     }
   }
 }

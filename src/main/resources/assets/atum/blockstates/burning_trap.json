@@ -2,10 +2,10 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "top": "atum:blocks/limestone_brick_carved",
-            "front_on": "atum:blocks/trap_fire",
-            "side": "atum:blocks/limestone_brick_carved",
-            "front_off": "atum:blocks/trap_fire_off"
+            "top": "atum:block/limestone_brick_carved",
+            "front_on": "atum:block/trap_fire",
+            "side": "atum:block/limestone_brick_carved",
+            "front_off": "atum:block/trap_fire_off"
         }
     },
     "variants": {

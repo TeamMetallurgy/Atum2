@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/seths_venom"
+    "layer0": "atum:item/seths_venom"
   },
   "overrides": [
     {

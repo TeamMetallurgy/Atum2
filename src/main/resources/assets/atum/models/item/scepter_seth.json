@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/scepter_seth"
+    "layer0": "atum:item/scepter_seth"
   }
 }

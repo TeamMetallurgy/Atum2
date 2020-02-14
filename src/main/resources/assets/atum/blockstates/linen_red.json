@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "atum:blocks/linen_red"
+            "all": "atum:block/linen_red"
         },
         "model": "cube_all"
     },

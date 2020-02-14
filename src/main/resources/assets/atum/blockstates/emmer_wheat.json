@@ -5,14 +5,14 @@
   },
   "variants": {
     "age": {
-      "0": { "textures": { "crop": "atum:blocks/emmer_wheat_0" }},
-      "1": { "textures": { "crop": "atum:blocks/emmer_wheat_1" }},
-      "2": { "textures": { "crop": "atum:blocks/emmer_wheat_2" }},
-      "3": { "textures": { "crop": "atum:blocks/emmer_wheat_3" }},
-      "4": { "textures": { "crop": "atum:blocks/emmer_wheat_4" }},
-      "5": { "textures": { "crop": "atum:blocks/emmer_wheat_5" }},
-      "6": { "textures": { "crop": "atum:blocks/emmer_wheat_6" }},
-      "7": { "textures": { "crop": "atum:blocks/emmer_wheat_7" }}
+      "0": { "textures": { "crop": "atum:block/emmer_wheat_0" }},
+      "1": { "textures": { "crop": "atum:block/emmer_wheat_1" }},
+      "2": { "textures": { "crop": "atum:block/emmer_wheat_2" }},
+      "3": { "textures": { "crop": "atum:block/emmer_wheat_3" }},
+      "4": { "textures": { "crop": "atum:block/emmer_wheat_4" }},
+      "5": { "textures": { "crop": "atum:block/emmer_wheat_5" }},
+      "6": { "textures": { "crop": "atum:block/emmer_wheat_6" }},
+      "7": { "textures": { "crop": "atum:block/emmer_wheat_7" }}
     }
   }
 }

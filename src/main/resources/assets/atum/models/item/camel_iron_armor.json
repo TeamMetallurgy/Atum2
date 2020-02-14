@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/camel_iron_armor"
+    "layer0": "atum:item/camel_iron_armor"
   }
 }

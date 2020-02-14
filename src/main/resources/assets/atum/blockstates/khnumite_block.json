@@ -3,8 +3,8 @@
   "defaults": {
     "model": "cube_column",
     "textures": {
-      "end": "atum:blocks/khnumite_block_top",
-      "side": "atum:blocks/khnumite_block_side"
+      "end": "atum:block/khnumite_block_top",
+      "side": "atum:block/khnumite_block_side"
     }
   },
   "variants": {

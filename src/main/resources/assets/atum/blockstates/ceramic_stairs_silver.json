@@ -2,9 +2,9 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "bottom": "atum:blocks/ceramic_tile_light_gray",
-      "top": "atum:blocks/ceramic_tile_light_gray",
-      "side": "atum:blocks/ceramic_tile_light_gray"
+      "bottom": "atum:block/ceramic_tile_light_gray",
+      "top": "atum:block/ceramic_tile_light_gray",
+      "side": "atum:block/ceramic_tile_light_gray"
     }
   },
   "variants": {

@@ -3,7 +3,7 @@
   "defaults": {
     "model": "block/torch",
     "textures": {
-      "torch": "atum:blocks/deadwood_torch"
+      "torch": "atum:block/deadwood_torch"
     }
   },
   "variants": {

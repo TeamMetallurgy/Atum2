@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "wall": "atum:blocks/alabaster_brick_carved",
+            "wall": "atum:block/alabaster_brick_carved",
             "particle": "#wall"
         },
         "model":"atum:empty",

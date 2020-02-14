@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/papyrus_plant"
+    "layer0": "atum:item/papyrus_plant"
   }
 }

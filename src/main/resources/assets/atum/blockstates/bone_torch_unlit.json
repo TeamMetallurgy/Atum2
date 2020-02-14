@@ -3,7 +3,7 @@
   "defaults": {
     "model": "block/torch",
     "textures": {
-      "torch": "atum:blocks/bone_torch_unlit"
+      "torch": "atum:block/bone_torch_unlit"
     }
   },
   "variants": {

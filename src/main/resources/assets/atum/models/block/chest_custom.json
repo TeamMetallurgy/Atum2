@@ -1,9 +1,9 @@
 {
   "parent": "block/block",
   "textures": {
-    "texture": "atum:blocks/chest/limestone_chest",
-    "particle": "atum:blocks/limestone",
-    "overlay": "atum:blocks/chest_no_overlay"
+    "texture": "atum:block/chest/limestone_chest",
+    "particle": "atum:block/limestone",
+    "overlay": "atum:block/chest_no_overlay"
   },
   "elements": [
     {   "from": [ 1, 0, 1 ],

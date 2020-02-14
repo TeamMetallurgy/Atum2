@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/disenchanting_scroll"
+    "layer0": "atum:item/disenchanting_scroll"
   }
 }

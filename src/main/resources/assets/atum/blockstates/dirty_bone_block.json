@@ -3,8 +3,8 @@
   "defaults": {
     "model": "bone_block",
     "textures": {
-      "end": "atum:blocks/dirty_bone_block",
-      "side": "atum:blocks/dirty_bone_block_side"
+      "end": "atum:block/dirty_bone_block",
+      "side": "atum:block/dirty_bone_block_side"
     }
   },
   "variants": {

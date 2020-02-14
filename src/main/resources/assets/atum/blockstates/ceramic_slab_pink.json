@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "top": "atum:blocks/ceramic_tile_pink",
+      "top": "atum:block/ceramic_tile_pink",
       "bottom": "#top",
       "side": "#top"
     }
@@ -11,6 +11,6 @@
     "inventory": [{"model": "half_slab"}],
     "type=bottom": { "model": "half_slab" },
     "type=top": { "model": "upper_slab" },
-    "type=double": { "model": "cube_all", "textures": {"all": "atum:blocks/ceramic_tile_pink"} }
+    "type=double": { "model": "cube_all", "textures": {"all": "atum:block/ceramic_tile_pink"} }
   }
 }

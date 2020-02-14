@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "texture": "atum:blocks/palm_hatch"
+            "texture": "atum:block/palm_hatch"
         },
         "model": "wooden_trapdoor_bottom",
         "uvlock": true

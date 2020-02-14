@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/limestone_brick_cracked_door"
+    "layer0": "atum:item/limestone_brick_cracked_door"
   }
 }

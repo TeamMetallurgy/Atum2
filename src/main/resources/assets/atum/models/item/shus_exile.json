@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/shus_exile"
+    "layer0": "atum:item/shus_exile"
   }
 }

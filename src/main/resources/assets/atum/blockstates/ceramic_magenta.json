@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "all": "atum:blocks/ceramic_tile_magenta"
+            "all": "atum:block/ceramic_tile_magenta"
         },
         "model": "cube_all"
     },

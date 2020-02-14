@@ -2,8 +2,8 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "pane": "atum:blocks/framed_glass_black",
-            "edge": "atum:blocks/thin_glass_top"
+            "pane": "atum:block/framed_glass_black",
+            "edge": "atum:block/thin_glass_top"
         },
         "model": "pane_post",
         "uvlock": true

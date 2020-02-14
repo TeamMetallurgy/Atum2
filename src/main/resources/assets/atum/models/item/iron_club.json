@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/club_iron"
+    "layer0": "atum:item/club_iron"
   }
 }

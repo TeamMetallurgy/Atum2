@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/desert_legs_iron",
-    "layer1": "atum:items/desert_legs_iron_overlay"
+    "layer0": "atum:item/desert_legs_iron",
+    "layer1": "atum:item/desert_legs_iron_overlay"
   }
 }

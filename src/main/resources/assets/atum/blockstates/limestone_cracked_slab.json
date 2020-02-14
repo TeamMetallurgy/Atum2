@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "top": "atum:blocks/limestone_cracked",
+      "top": "atum:block/limestone_cracked",
       "bottom": "#top",
       "side": "#top"
     }

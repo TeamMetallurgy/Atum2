@@ -2,7 +2,7 @@
   "forge_marker": 1,
   "defaults": {
     "textures": {
-      "top": "atum:blocks/deadwood_planks",
+      "top": "atum:block/deadwood_planks",
       "bottom": "#top",
       "side": "#top"
     }

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_mirrored_all",
   "textures": {
-    "all": "atum:blocks/limestone"
+    "all": "atum:block/limestone"
   }
 }

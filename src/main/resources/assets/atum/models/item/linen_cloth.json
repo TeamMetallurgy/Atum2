@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/linen_cloth"
+    "layer0": "atum:item/linen_cloth"
   }
 }

@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "wool": "atum:blocks/linen_magenta"
+            "wool": "atum:block/linen_magenta"
         },
         "model": "atum:carpet"
     },
