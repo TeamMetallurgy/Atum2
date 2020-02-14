@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.Atum;
@@ -140,4 +141,4 @@ public class WorldGenAtumDungeons extends WorldGenerator {
                 return AtumEntities.FORSAKEN.getRegistryName();
         }
     }
-}
+}*/

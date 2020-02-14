@@ -1,30 +1,18 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockDeadwood;
-import com.teammetallurgy.atum.blocks.wood.PalmLeavesBlock;
-import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
-import net.minecraft.block.Blocks;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenLakes;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class BiomeDeadOasis extends AtumBiome {
 
     public BiomeDeadOasis(AtumBiomeProperties properties) {
         super(properties);
 
-        this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
-        this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
+        //this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
+        //this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
 
         this.deadwoodRarity = 0.0D;
-        this.decorator.grassPerChunk = 2;
+        //this.decorator.grassPerChunk = 2;
 
         this.addDefaultSpawns();
     }
@@ -33,10 +21,10 @@ public class BiomeDeadOasis extends AtumBiome {
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
 
-        addSpawn(CamelEntity.class, 6, 2, 6, EntityClassification.CREATURE);
+        addSpawn(AtumEntities.CAMEL, 6, 2, 6, EntityClassification.CREATURE);
     }
 
-    @Override
+    /*@Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int x = random.nextInt(4) + 4;
         int z = random.nextInt(4) + 4;
@@ -61,5 +49,5 @@ public class BiomeDeadOasis extends AtumBiome {
     @Override
     public int getModdedBiomeGrassColor(int original) {
         return 10189386;
-    }
+    }*/
 }

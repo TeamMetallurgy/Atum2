@@ -1,10 +1,7 @@
 package com.teammetallurgy.atum.blocks.trap;
 
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
@@ -32,7 +29,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public abstract class TrapBlock extends ContainerBlock {
-    public static final DirectionProperty FACING = DirectionProperty.create("facing");
+    public static final DirectionProperty FACING = DirectionalBlock.FACING;
     private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
 
     protected TrapBlock() {

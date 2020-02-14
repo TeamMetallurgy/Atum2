@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
@@ -107,4 +108,4 @@ public class GirafiTombPieces {
             this.loadTemplate(manager);
         }
     }
-}
+}*/

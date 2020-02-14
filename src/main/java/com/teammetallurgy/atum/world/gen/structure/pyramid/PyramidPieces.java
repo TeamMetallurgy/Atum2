@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.google.common.collect.Lists;
@@ -413,4 +414,4 @@ public class PyramidPieces {
             }
         }
     }
-}
+}*/

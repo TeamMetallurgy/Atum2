@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockOasisGrass;
@@ -30,4 +31,4 @@ public class WorldGenOasisGrass extends WorldGenerator {
         }
         return true;
     }
-}
+}*/

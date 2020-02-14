@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -39,4 +40,4 @@ public class GenLayerAtumRiverMix extends GenLayer {
         }
         return cache;
     }
-}
+}*/

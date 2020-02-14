@@ -1,64 +1,31 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.animal.DesertRabbitEntity;
-import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
-import com.teammetallurgy.atum.entity.bandit.AssassinEntity;
-import com.teammetallurgy.atum.entity.bandit.BarbarianEntity;
-import com.teammetallurgy.atum.entity.bandit.BrigandEntity;
-import com.teammetallurgy.atum.entity.bandit.NomadEntity;
-import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
-import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
-import com.teammetallurgy.atum.entity.undead.BonestormEntity;
-import com.teammetallurgy.atum.entity.undead.ForsakenEntity;
-import com.teammetallurgy.atum.entity.undead.MummyEntity;
-import com.teammetallurgy.atum.entity.undead.WraithEntity;
-import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.AtumUtils;
-import com.teammetallurgy.atum.world.biome.base.BiomeDecoratorAtum;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenDeadwood;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenFossil;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisGrass;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.passive.BatEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
+import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeDecorator;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class AtumBiome extends Biome {
     private static EntityClassification UNDERGROUND; //TODO Revisit in 1.13
     private static EntityClassification SURFACE; //TODO Revisit in 1.13
-    protected BiomeDecoratorAtum atumDecorator;
+    //protected BiomeDecoratorAtum atumDecorator;
     private int weight;
     protected double deadwoodRarity = 0.1D;
 
     public AtumBiome(AtumBiomeProperties properties) {
         super(properties);
         this.weight = properties.weight;
-        this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
+        //this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
 
-        this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.clear();
-        this.spawnableWaterCreatureList.clear();
-        this.spawnableCaveCreatureList.clear();
+        //this.spawnableMonsterList.clear();
+        //this.spawnableCreatureList.clear();
+        //this.spawnableWaterCreatureList.clear();
+        //this.spawnableCaveCreatureList.clear();
 
-        this.topBlock = AtumBlocks.SAND.getDefaultState();
-        this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
+        //this.topBlock = AtumBlocks.SAND.getDefaultState();
+        //this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
     }
 
     public int getWeight() {
@@ -67,33 +34,33 @@ public class AtumBiome extends Biome {
 
     protected void addDefaultSpawns() {
         //Animals
-        addSpawn(DesertRabbitEntity.class, 5, 2, 3, EntityClassification.CREATURE);
-        addSpawn(BatEntity.class, 5, 8, 8, EntityClassification.AMBIENT);
+        addSpawn(AtumEntities.RABBIT, 5, 2, 3, EntityClassification.CREATURE);
+        addSpawn(EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
 
         //Bandits
-        addSpawn(AssassinEntity.class, 1, 1, 1, EntityClassification.MONSTER);
-        addSpawn(BarbarianEntity.class, 8, 1, 2, EntityClassification.MONSTER);
-        addSpawn(BrigandEntity.class, 30, 2, 3, EntityClassification.MONSTER);
-        addSpawn(NomadEntity.class, 22, 1, 4, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.ASSASSIN, 1, 1, 1, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.BARBARIAN, 8, 1, 2, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.BRIGAND, 30, 2, 3, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.NOMAD, 22, 1, 4, EntityClassification.MONSTER);
 
         //Undead
-        addSpawn(BonestormEntity.class, 5, 1, 2, EntityClassification.MONSTER);
-        addSpawn(ForsakenEntity.class, 22, 1, 4, EntityClassification.MONSTER);
-        addSpawn(MummyEntity.class, 30, 1, 3, EntityClassification.MONSTER);
-        addSpawn(WraithEntity.class, 10, 1, 2, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.FORSAKEN, 22, 1, 4, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.MUMMY, 30, 1, 3, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.WRAITH, 10, 1, 2, EntityClassification.MONSTER);
 
         //Underground
-        addSpawn(StoneguardEntity.class, 34, 1, 2, EntityClassification.MONSTER);
-        addSpawn(StonewardenEntity.class, 1, 1, 1, EntityClassification.MONSTER);
-        addSpawn(TarantulaEntity.class, 20, 1, 3, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.STONEGUARD, 34, 1, 2, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.STONEWARDEN, 1, 1, 1, EntityClassification.MONSTER);
+        addSpawn(AtumEntities.TARANTULA, 20, 1, 3, EntityClassification.MONSTER);
     }
 
-    protected void addSpawn(Class<? extends MobEntity> entityClass, int weight, int min, int max, EntityClassification type) {
-        String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
+    protected void addSpawn(EntityType<?> entityType, int weight, int min, int max, EntityClassification type) {
+       /* String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
         weight = AtumConfig.config.get(category, "weight", weight).getInt();
         min = AtumConfig.config.get(category, "min", min).getInt();
-        max = AtumConfig.config.get(category, "max", max).getInt();
-        this.getSpawnableList(type).add(new SpawnListEntry(entityClass, weight, min, max));
+        max = AtumConfig.config.get(category, "max", max).getInt();*/
+        this.getSpawns(type).add(new SpawnListEntry(entityType, weight, min, max));
     }
 
     public static void initCreatureTypes() { //TODO Revisit in 1.13
@@ -101,7 +68,7 @@ public class AtumBiome extends Biome {
         SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("SURFACE", IMob.class, 45, Material.AIR, false, false));*/
     }
 
-    @Override
+    /*@Override
     @Nonnull
     public BiomeDecorator getModdedBiomeDecorator(@Nonnull BiomeDecorator original) {
         final BiomeDecorator dec = new BiomeDecoratorAtum();
@@ -196,14 +163,13 @@ public class AtumBiome extends Biome {
     @Override
     public int getModdedBiomeFoliageColor(int original) {
         return 12889745;
-    }
+    }*/
 
     public static class AtumBiomeProperties extends Biome.Builder {
         private int weight;
 
         public AtumBiomeProperties(String biomeName, int weight) {
-            super(biomeName);
-            this.setBaseHeight(0.135F);
+            /*this.setBaseHeight(0.135F);
             this.setHeightVariation(0.05F);
             this.setRainfall(0.0F);
             this.setRainDisabled();
@@ -211,20 +177,18 @@ public class AtumBiome extends Biome {
             this.setWaterColor(16421912);
             this.weight = weight != 0 ? AtumConfig.config.get(AtumConfig.BIOME + Configuration.CATEGORY_SPLITTER + biomeName, "weight", weight).getInt() : 0;
 
-            AtumConfig.config.save();
+            AtumConfig.config.save();*/
         }
 
-        @Override
         @Nonnull
-        public AtumBiomeProperties setBaseHeight(float height) {
-            super.setBaseHeight(height);
+        public AtumBiomeProperties setBaseHeight(float height) { //TODO
+            //super.setBaseHeight(height);
             return this;
         }
 
-        @Override
         @Nonnull
-        public AtumBiomeProperties setHeightVariation(float variation) {
-            super.setHeightVariation(variation);
+        public AtumBiomeProperties setHeightVariation(float variation) { //TODO
+            //super.setHeightVariation(variation);
             return this;
         }
     }

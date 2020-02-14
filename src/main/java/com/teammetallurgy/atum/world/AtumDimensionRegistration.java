@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.utils.Constants;
@@ -38,4 +39,4 @@ public class AtumDimensionRegistration {
     public static void registerDimension(RegistryEvent.Register<ModDimension> event) {
         event.getRegistry().register(ATUM_DIMENSION);
     }
-}
+}*/

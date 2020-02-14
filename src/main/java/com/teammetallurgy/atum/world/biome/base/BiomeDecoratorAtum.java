@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.biome.base;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
@@ -227,3 +228,4 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         MinecraftForge.EVENT_BUS.post(new Post(world, random, chunkPos));
     }
 }
+*/

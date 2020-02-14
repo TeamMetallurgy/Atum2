@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
@@ -110,4 +111,4 @@ public class TombPieces {
             this.loadTemplate(manager);
         }
     }
-}
+}*/

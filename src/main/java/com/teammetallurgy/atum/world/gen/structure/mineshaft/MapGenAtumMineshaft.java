@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.teammetallurgy.atum.utils.Constants;
@@ -77,4 +78,4 @@ public class MapGenAtumMineshaft extends MapGenStructure {
             return ordinal >= 0 && ordinal < values().length ? values()[ordinal] : DEADWOOD;
         }
     }
-}
+}*/

@@ -1,37 +1,24 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisPond;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenPapyrus;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenWaterlily;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import net.minecraftforge.event.terraingen.TerrainGen;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class BiomeOasis extends AtumBiome {
 
     public BiomeOasis(AtumBiomeProperties properties) {
         super(properties);
-        this.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
+        //this.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
 
-        this.decorator.deadBushPerChunk = 0;
-        this.atumDecorator.shrubChance = 0;
-        this.decorator.grassPerChunk = 3;
-        this.decorator.waterlilyPerChunk = 100;
+        //this.decorator.deadBushPerChunk = 0;
+        //this.atumDecorator.shrubChance = 0;
+        //this.decorator.grassPerChunk = 3;
+        //this.decorator.waterlilyPerChunk = 100;
         this.deadwoodRarity = 0.0D;
 
-        addSpawn(CamelEntity.class, 6, 2, 6, EntityClassification.CREATURE);
+        addSpawn(AtumEntities.CAMEL, 6, 2, 6, EntityClassification.CREATURE);
     }
 
-    @Override
+    /*@Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         int x = random.nextInt(16) + 8;
         int z = random.nextInt(16) + 8;
@@ -83,5 +70,5 @@ public class BiomeOasis extends AtumBiome {
     @Override
     public int getModdedBiomeGrassColor(int original) {
         return 11987573;
-    }
+    }*/
 }

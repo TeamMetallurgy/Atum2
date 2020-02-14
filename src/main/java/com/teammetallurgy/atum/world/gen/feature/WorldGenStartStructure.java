@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.Atum;
@@ -45,4 +46,4 @@ public class WorldGenStartStructure extends WorldGenerator {
             return false;
         }
     }
-}
+}*/

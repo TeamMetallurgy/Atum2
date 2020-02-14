@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -92,7 +93,8 @@ public class MapGenPyramid extends MapGenStructure {
         return new Start(this.world, this.chunkGenerator, this.rand, chunkX, chunkZ);
     }
 
-    /*@SubscribeEvent
+    */
+/*@SubscribeEvent
     public static void onBlockPlaced(PlayerInteractEvent.RightClickBlock event) {
         if (!event.getWorld().isRemote) {
             WorldServer world = (WorldServer) event.getWorld();
@@ -102,7 +104,8 @@ public class MapGenPyramid extends MapGenStructure {
                 }
             }
         }
-    }*/
+    }*//*
+
 
     public static class Start extends StructureStart {
         private boolean isValid;
@@ -189,4 +192,4 @@ public class MapGenPyramid extends MapGenStructure {
             return this.isValid;
         }
     }
-}
+}*/

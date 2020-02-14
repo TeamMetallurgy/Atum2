@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.google.common.collect.Lists;
@@ -739,4 +740,4 @@ public class StructureAtumMineshaftPieces {
             }
         }
     }
-}
+}*/

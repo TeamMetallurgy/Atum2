@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -93,4 +94,4 @@ public class WorldGenOasisPond  extends WorldGenerator {
             return true;
         }
     }
-}
+}*/

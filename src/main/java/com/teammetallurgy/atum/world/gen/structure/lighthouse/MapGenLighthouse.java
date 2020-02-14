@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
 import com.google.common.collect.Lists;
@@ -168,4 +169,4 @@ public class MapGenLighthouse extends MapGenStructure {
             return this.isValid;
         }
     }
-}
+}*/

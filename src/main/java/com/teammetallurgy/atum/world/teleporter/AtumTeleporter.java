@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
@@ -214,4 +215,4 @@ public class AtumTeleporter extends Teleporter {
         }
         return true;
     }
-}
+}*/

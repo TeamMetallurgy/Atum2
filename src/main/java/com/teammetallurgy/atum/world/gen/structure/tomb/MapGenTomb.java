@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
 import com.teammetallurgy.atum.world.ChunkGeneratorAtum;
@@ -83,7 +84,9 @@ public class MapGenTomb extends MapGenStructure {
             int y = MathHelper.getInt(random, 6, 55);
             BlockPos pos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
 
-            if (y > 60/* || !(world.getBlockState(pos).getBlock() instanceof BlockLimestone)*/) {
+            if (y > 60*/
+/* || !(world.getBlockState(pos).getBlock() instanceof BlockLimestone)*//*
+) {
                 this.isValid = false;
             } else {
                 TombPieces.TombTemplate tomb = new TombPieces.TombTemplate(world.getSaveHandler().getStructureTemplateManager(), pos, random, rotation);
@@ -119,4 +122,4 @@ public class MapGenTomb extends MapGenStructure {
             return this.isValid;
         }
     }
-}
+}*/

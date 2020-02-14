@@ -1,4 +1,4 @@
-/*package com.teammetallurgy.atum.init;
+package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
@@ -43,4 +43,4 @@ public class AtumBiomes { //TODO
         public static final BiomeDictionary.Type ATUM = BiomeDictionary.Type.getType("ATUM");
         public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
     }
-}*/
+}

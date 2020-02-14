@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.wood.BlockBranch;
@@ -177,4 +178,4 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
             }
         }
     }
-}
+}*/

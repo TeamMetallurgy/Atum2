@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
 
 public class BiomeLimestoneMountains extends AtumBiome {
@@ -9,7 +8,7 @@ public class BiomeLimestoneMountains extends AtumBiome {
     public BiomeLimestoneMountains(AtumBiomeProperties properties) {
         super(properties);
 
-        this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
+        //this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
 
         this.addDefaultSpawns();
     }
@@ -18,6 +17,6 @@ public class BiomeLimestoneMountains extends AtumBiome {
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
         
-        addSpawn(DesertWolfEntity.class, 5, 2, 4, EntityClassification.CREATURE);
+        addSpawn(AtumEntities.DESERT_WOLF, 5, 2, 4, EntityClassification.CREATURE);
     }
 }

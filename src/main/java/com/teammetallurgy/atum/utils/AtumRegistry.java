@@ -4,9 +4,11 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -19,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,7 +38,7 @@ public class AtumRegistry {
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
     private static final List<TileEntityType<?>> TILE_ENTITIES = Lists.newArrayList();
-    //public static final List<AtumBiome> BIOMES = Lists.newArrayList(); //TODO
+    public static final List<AtumBiome> BIOMES = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
@@ -176,11 +179,11 @@ public class AtumRegistry {
      * @param name  The name to register the biome with
      * @return The Biome that was registered
      */
-    /*public static AtumBiome registerBiome(AtumBiome biome, String name) { //TODO
+    public static AtumBiome registerBiome(AtumBiome biome, String name) {
         biome.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
         BIOMES.add(biome);
         return biome;
-    }*/
+    }
 
     /**
      * Registers a sound
@@ -256,18 +259,18 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
-        for (TileEntityType tileEntityType : TILE_ENTITIES) {
+        for (TileEntityType<?> tileEntityType : TILE_ENTITIES) {
             event.getRegistry().register(tileEntityType);
         }
     }
 
-    /*@SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event) { //TODO
+    @SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
         AtumBiomes.addBiomeTags();
-    }*/
+    }
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
@@ -276,6 +279,7 @@ public class AtumRegistry {
         for (EntityType<?> entityType : ENTITIES) {
             event.getRegistry().register(entityType);
         }
+        AtumEntities.registerSpawnPlacement();
         //EntityRegistry.instance().lookupModSpawn(EntityCamelSpit.class, true).setCustomSpawning(null, true); //TODO Check if this is needed
     }
 

@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
@@ -159,3 +160,4 @@ public class MapGenGirafiTomb extends MapGenStructure {
         }
     }
 }
+*/

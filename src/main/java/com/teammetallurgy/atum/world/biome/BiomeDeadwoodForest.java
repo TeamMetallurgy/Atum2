@@ -1,30 +1,18 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenBush;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import net.minecraftforge.event.terraingen.TerrainGen;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
-
 public class BiomeDeadwoodForest extends AtumBiome {
-    private WorldGenerator anputsFingersGen = new WorldGenBush(AtumBlocks.ANPUTS_FINGERS);
+    //private WorldGenerator anputsFingersGen = new WorldGenBush(AtumBlocks.ANPUTS_FINGERS);
 
     public BiomeDeadwoodForest(AtumBiomeProperties properties) {
         super(properties);
 
         this.deadwoodRarity = 1.0D;
-        this.decorator.grassPerChunk = 1;
+        //this.decorator.grassPerChunk = 1;
 
         this.addDefaultSpawns();
     }
 
-    @Override
+    /*@Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         super.decorate(world, random, pos);
 
@@ -38,5 +26,5 @@ public class BiomeDeadwoodForest extends AtumBiome {
                 }
             }
         }
-    }
+    }*/
 }

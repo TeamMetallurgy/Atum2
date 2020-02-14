@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.google.common.collect.Lists;
@@ -49,4 +50,4 @@ public class GenLayerAtumBiome extends GenLayer {
         }
         return cache;
     }
-}
+}*/

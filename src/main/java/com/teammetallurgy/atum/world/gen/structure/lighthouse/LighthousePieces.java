@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
@@ -154,4 +155,4 @@ public class LighthousePieces {
             this.loadTemplate(manager);
         }
     }
-}
+}*/

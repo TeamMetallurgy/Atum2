@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
@@ -58,4 +59,4 @@ public class WorldGenBonusCrate extends WorldGenerator {
             return false;
         }
     }
-}
+}*/

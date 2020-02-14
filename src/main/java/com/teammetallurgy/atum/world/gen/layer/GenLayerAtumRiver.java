@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -45,4 +46,4 @@ public class GenLayerAtumRiver extends GenLayer {
     private int riverFilter(int val) {
         return val >= 2 ? 2 + (val & 1) : val;
     }
-}
+}*/

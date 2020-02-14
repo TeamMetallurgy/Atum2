@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import net.minecraft.world.World;
@@ -20,4 +21,4 @@ public class StructureAtumMineshaftStart extends StructureStart {
         this.updateBoundingBox();
         this.markAvailableHeight(world, random, 10);
     }
-}
+}*/

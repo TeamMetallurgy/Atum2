@@ -1,25 +1,15 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
-
-import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class BiomeLimestoneCrags extends AtumBiome {
-    private WorldGenerator genSpikes;
+    //private WorldGenerator genSpikes;
 
     public BiomeLimestoneCrags(AtumBiomeProperties properties) {
         super(properties);
 
-        this.genSpikes = new WorldGenLimestoneSpike();
+        //this.genSpikes = new WorldGenLimestoneSpike();
 
         this.deadwoodRarity = 0.12D;
 
@@ -30,10 +20,10 @@ public class BiomeLimestoneCrags extends AtumBiome {
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
         
-        addSpawn(DesertWolfEntity.class, 5, 2, 4, EntityClassification.CREATURE);
+        addSpawn(AtumEntities.DESERT_WOLF, 5, 2, 4, EntityClassification.CREATURE);
     }
 
-    @Override
+  /*  @Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
         for (int i = 0; i < 3; ++i) {
             int j = random.nextInt(16) + 8;
@@ -43,9 +33,9 @@ public class BiomeLimestoneCrags extends AtumBiome {
         super.decorate(world, random, pos);
     }
 
-    /**
+    *//**
      * Adapted from {@link net.minecraft.world.gen.feature.WorldGenIceSpike}
-     */
+     *//*
     public class WorldGenLimestoneSpike extends WorldGenerator {
         private final Block spikeBlock = AtumBlocks.LIMESTONE;
         private final Block groundBlock = AtumBlocks.SAND;
@@ -131,5 +121,5 @@ public class BiomeLimestoneCrags extends AtumBiome {
                 return true;
             }
         }
-    }
+    }*/
 }

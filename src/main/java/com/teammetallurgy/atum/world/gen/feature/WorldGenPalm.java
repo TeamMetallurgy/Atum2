@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
@@ -178,4 +179,4 @@ public class WorldGenPalm extends WorldGenAbstractTree {
     private void addOphidianTongue(World world, BlockPos pos, PropertyBool prop) {
         this.setBlockAndNotifyAdequately(world, pos, AtumBlocks.OPHIDIAN_TONGUE.getDefaultState().with(prop, Boolean.TRUE));
     }
-}
+}*/

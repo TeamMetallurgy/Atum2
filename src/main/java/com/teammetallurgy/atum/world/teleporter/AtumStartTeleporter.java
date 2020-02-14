@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -65,4 +66,4 @@ public class AtumStartTeleporter implements ITeleporter {
     public static void onCreateSpawnPos(WorldEvent.CreateSpawnPosition event) {
         worldSettings = event.getSettings();
     }
-}
+}*/

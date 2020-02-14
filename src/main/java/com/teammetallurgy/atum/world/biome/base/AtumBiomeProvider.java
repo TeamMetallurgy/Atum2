@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.biome.base;
 
 import com.google.common.collect.Lists;
@@ -69,7 +70,9 @@ public class AtumBiomeProvider extends BiomeProvider {
     }
 
     private GenLayer getBiomeLayer(WorldType worldType, long worldSeed, ChunkGeneratorSettings chunkSettings) {
-        GenLayer ret = new GenLayerAtumBiome(worldSeed /*200L*/, chunkSettings);
+        GenLayer ret = new GenLayerAtumBiome(worldSeed */
+/*200L*//*
+, chunkSettings);
         ret = GenLayerZoom.magnify(1000L, ret, 2);
         ret = new GenLayerBiomeEdge(1000L, ret);
         return ret;
@@ -80,4 +83,4 @@ public class AtumBiomeProvider extends BiomeProvider {
     public List<Biome> getBiomesToSpawnIn() {
         return Lists.newArrayList(AtumBiomes.DEAD_OASIS, AtumBiomes.DEADWOOD_FOREST, AtumBiomes.OASIS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_PLAINS);
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.utils.Constants;
@@ -52,4 +53,4 @@ public class WorldGenFossil extends WorldGenerator {
         template.addBlocksToWorld(world, zero, settings, 20);
         return true;
     }
-}
+}*/

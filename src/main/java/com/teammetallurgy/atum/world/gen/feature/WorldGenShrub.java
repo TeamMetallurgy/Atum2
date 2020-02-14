@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.teammetallurgy.atum.blocks.vegetation.BlockShrub;
@@ -39,4 +40,4 @@ public class WorldGenShrub extends WorldGenerator {
         }
         return true;
     }
-}
+}*/

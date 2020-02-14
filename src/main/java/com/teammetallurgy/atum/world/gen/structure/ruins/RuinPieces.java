@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
@@ -116,4 +117,4 @@ public class RuinPieces {
             this.loadTemplate(manager);
         }
     }
-}
+}*/

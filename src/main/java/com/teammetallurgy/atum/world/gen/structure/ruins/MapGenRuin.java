@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -166,3 +167,4 @@ public class MapGenRuin extends MapGenStructure {
         }
     }
 }
+*/
