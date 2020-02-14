@@ -10,7 +10,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
@@ -47,8 +46,8 @@ public class DeadwoodBlock extends LogBlock {
         container.add(AXIS, HAS_SCARAB);
     }
 
-    @Override
+    /*@Override
     public Property[] getNonRenderingProperties() {
         return new Property[]{HAS_SCARAB}; //TODO
-    }
+    }*/
 }

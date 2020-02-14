@@ -44,8 +44,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerBlock;
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerTileEntity;
+import static com.teammetallurgy.atum.utils.AtumRegistry.*;
 import static net.minecraft.block.Block.Properties.create;
 import static net.minecraft.block.Block.Properties.from;
 
@@ -92,12 +91,11 @@ public class AtumBlocks {
     public static final Block DIRTY_BONE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_slab");
     public static final Block BONE_LADDER = registerBlock(new AtumLadderBlock(), "bone_ladder");
     public static final Block LIMESTONE_FURNACE = registerBlock(new LimestoneFurnaceBlock(), "limestone_furnace");
-    public static final Block PALM_TORCH = registerBlock(new AtumTorchBlock(), "palm_torch");
-    public static final Block DEADWOOD_TORCH = registerBlock(new AtumTorchBlock(), "deadwood_torch");
-    public static final Block LIMESTONE_TORCH = registerBlock(new AtumTorchBlock(), "limestone_torch");
-    public static final Block BONE_TORCH = registerBlock(new AtumTorchBlock(), "bone_torch");
-    public static final Block PHARAOH_TORCH = registerBlock(new AtumTorchBlock(), "pharaoh_torch");
-    //BlockAtumTorchUnlit.registerUnlitTorches() //TODO
+    public static final Block PALM_TORCH = registerTorch(new AtumTorchBlock(14), "palm_torch");
+    public static final Block DEADWOOD_TORCH = registerTorch(new AtumTorchBlock(14), "deadwood_torch");
+    public static final Block LIMESTONE_TORCH = registerTorch(new AtumTorchBlock(14), "limestone_torch");
+    public static final Block BONE_TORCH = registerTorch(new AtumTorchBlock(14), "bone_torch");
+    public static final Block PHARAOH_TORCH = registerTorch(new AtumTorchBlock(14), "pharaoh_torch");
     public static final Block LIMESTONE_GRAVEL = registerBlock(new LimestoneGravelBlock(), "limestone_gravel");
     public static final Block MARL = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "marl");
     public static final Block RA_STONE = registerBlock(new RaStoneBlock(), null, "ra_stone");
@@ -380,16 +378,16 @@ public class AtumBlocks {
     public static final Block PALM_SAPLING = registerBlock(new PalmSaplingBlock(), "palm_sapling");
     public static final Block PALM_LEAVES = registerBlock(new PalmLeavesBlock(), "palm_leaves");
     public static final Block DEADWOOD_LEAVES = registerBlock(new LeavesAtumBlock(create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)), null, "deadwood_leaves");
-    public static final Block PALM_CRATE = registerBlock(new CrateBlock(), "palm_crate");
-    public static final Block DEADWOOD_CRATE = registerBlock(new CrateBlock(), "deadwood_crate");
+    public static final Block PALM_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "palm_crate");
+    public static final Block DEADWOOD_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "deadwood_crate");
     public static final Block PALM_LADDER = registerBlock(new AtumLadderBlock(), "palm_ladder");
     public static final Block DEADWOOD_LADDER = registerBlock(new AtumLadderBlock(), "deadwood_ladder");
     public static final Block PALM_FENCE = registerBlock(new FenceBlock(from(PALM_PLANKS)), "palm_fence");
     public static final Block DEADWOOD_FENCE = registerBlock(new FenceBlock(from(DEADWOOD_PLANKS)), "deadwood_fence");
-    public static final Block PALM_FENCE_GATE = registerBlock(new AtumFenceGateBlock(), "palm_fence_gate");
-    public static final Block DEADWOOD_FENCE_GATE = registerBlock(new AtumFenceGateBlock(), "deadwood_fence_gate");
-    public static final Block PALM_HATCH = registerBlock(new AtumTrapDoorBlock(), "palm_hatch");
-    public static final Block DEADWOOD_HATCH = registerBlock(new AtumTrapDoorBlock(), "deadwood_hatch");
+    public static final Block PALM_FENCE_GATE = registerBlock(new FenceGateBlock(from(PALM_PLANKS)), "palm_fence_gate");
+    public static final Block DEADWOOD_FENCE_GATE = registerBlock(new FenceGateBlock(from(DEADWOOD_PLANKS)), "deadwood_fence_gate");
+    public static final Block PALM_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(3.0F).sound(SoundType.WOOD)), "palm_hatch");
+    public static final Block DEADWOOD_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(3.0F).sound(SoundType.WOOD)), "deadwood_hatch");
     public static final Block PALM_DOOR = registerBlock(new DoorAtumBlock(from(PALM_PLANKS)), "palm_door");
     public static final Block DEADWOOD_DOOR = registerBlock(new DoorAtumBlock(from(DEADWOOD_PLANKS)), "deadwood_door");
     public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;

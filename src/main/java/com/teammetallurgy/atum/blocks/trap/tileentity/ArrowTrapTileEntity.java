@@ -1,18 +1,19 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -20,11 +21,17 @@ import java.util.List;
 public class ArrowTrapTileEntity extends TrapTileEntity {
     private int timer = 80;
 
+    public ArrowTrapTileEntity() {
+        super(AtumBlocks.AtumTileEntities.ARROW_TRAP);
+    }
+
     @Override
     public void tick() {
         boolean isBurningCheck = this.isBurning();
         boolean isBurning = false;
         boolean canDamageEntity = false;
+        World world = this.world;
+        if (world == null) return;
 
         if (timer > 0) timer--;
         if (!this.isDisabled && this.isBurning()) {
@@ -36,16 +43,16 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
                 entity = LivingEntity.class;
             }
             AxisAlignedBB box = getFacingBoxWithRange(facing, 13).shrink(1);
-            RayTraceResult findBlock = this.rayTraceMinMax(world, box);
             List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, box);
             for (LivingEntity livingBase : entities) {
-                boolean cantSeeEntity = findBlock != null && this.getDistance(findBlock.getBlockPos()) < this.getDistance(livingBase.getPosition());
-                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).capabilities.isCreativeMode && !cantSeeEntity : livingBase != null && !cantSeeEntity) {
-                    if (canSee(facing, livingBase)) {
+                BlockRayTraceResult findBlock = this.rayTraceMinMax(world, box, livingBase);
+                boolean cantSeeEntity = this.getDistance(findBlock.getPos()) < this.getDistance(livingBase.getPosition());
+                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() && !cantSeeEntity : !cantSeeEntity) {
+                    if (canSee(facing, world, livingBase)) {
                         canDamageEntity = true;
                         if (timer == 0) {
                             timer = 80;
-                            this.triggerTrap(facing, livingBase);
+                            this.triggerTrap(world, facing, livingBase);
                         }
                     } else {
                         canDamageEntity = false;
@@ -65,11 +72,11 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
             --this.burnTime;
         }
 
-        if (!this.world.isRemote && !this.isDisabled) {
+        if (!world.isRemote && !this.isDisabled) {
             ItemStack fuel = this.inventory.get(0);
             if (this.isBurning() || !fuel.isEmpty()) {
                 if (!this.isBurning()) {
-                    this.burnTime = TileEntityFurnace.getItemBurnTime(fuel) / 10;
+                    this.burnTime = ForgeHooks.getBurnTime(fuel) / 10;
                     this.currentItemBurnTime = this.burnTime;
                     if (this.isBurning()) {
                         isBurning = true;
@@ -90,30 +97,32 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
 
     private boolean canSee(Direction facing, World world, LivingEntity living){
         Vec3i dir = facing.getDirectionVec();
-        return world.rayTraceBlocks(new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ()), new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ), true, true, false) == null;
+        Vec3d posDir = new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ());
+        Vec3d livingPos = new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ);
+        return world.rayTraceBlocks(new RayTraceContext(posDir, livingPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, living)).getType() == RayTraceResult.Type.ENTITY; //TODO Test
     }
 
-    private RayTraceResult rayTraceMinMax(World world, AxisAlignedBB box) {
+    private BlockRayTraceResult rayTraceMinMax(World world, AxisAlignedBB box, LivingEntity living) {
         final Vec3d min = new Vec3d(box.minX, box.minY, box.minZ);
         final Vec3d max = new Vec3d(box.maxX, box.maxY + 0.05D, box.maxZ);
-        return world.rayTraceBlocks(max, min, true, true, false);
+        return world.rayTraceBlocks(new RayTraceContext(max, min, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, living)); //TODO test
     }
 
     private double getDistance(BlockPos position) {
         double d0 = position.getX() - this.pos.getX();
         double d1 = position.getY() - this.pos.getY();
         double d2 = position.getZ() - this.pos.getZ();
-        return (double) MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
+        return MathHelper.sqrt(d0 * d0 + d1 * d1 + d2 * d2);
     }
     
     @Override
-    protected void triggerTrap(Direction facing, LivingEntity livingBase) {
+    protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
-        world.playSound(x, (double) pos.getY(), z, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 1.0F, 1.2F, false);
+        world.playSound(x, pos.getY(), z, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 1.0F, 1.2F, false);
 
         switch (facing) {
             case DOWN:

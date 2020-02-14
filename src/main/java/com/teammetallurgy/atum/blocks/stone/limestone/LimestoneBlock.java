@@ -1,21 +1,19 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class LimestoneBlock extends Block {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("contains_scarab");
@@ -26,25 +24,14 @@ public class LimestoneBlock extends Block {
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, float chance, int fortune) {
-        if (!world.isRemote && world.getGameRules().getBoolean("doTileDrops") && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
-            ScarabEntity scarab = new ScarabEntity(world);
-            scarab.setLocationAndAngles((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
+    public void spawnAdditionalDrops(BlockState state, World world, BlockPos pos, @Nonnull ItemStack stack) {
+        if (!world.isRemote && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
+            ScarabEntity scarab = AtumEntities.SCARAB.create(world);
+            scarab.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);
             world.addEntity(scarab);
             scarab.spawnExplosionParticle();
         }
-        super.dropBlockAsItemWithChance(world, pos, state, chance, fortune);
-    }
-
-    @Override
-    @Nonnull
-    public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return Item.getItemFromBlock(AtumBlocks.LIMESTONE_CRACKED);
-    }
-
-    @Override
-    public void getOreDictEntries() {
-        OreDictHelper.add(new ItemStack(this), "stoneLimestone", "stone");
+        super.spawnAdditionalDrops(state, world, pos, stack);
     }
 
     @Override
@@ -52,8 +39,8 @@ public class LimestoneBlock extends Block {
         container.add(HAS_SCARAB);
     }
 
-    @Override
-    public Property[] getNonRenderingProperties() {
+    /*@Override
+    public Property[] getNonRenderingProperties() { //TODO
         return new Property[]{HAS_SCARAB};
-    }
+    }*/
 }

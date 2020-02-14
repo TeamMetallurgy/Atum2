@@ -1,20 +1,19 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -23,7 +22,6 @@ import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class FertileSoilTilledBlock extends FarmlandBlock {
@@ -32,6 +30,12 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     public FertileSoilTilledBlock() {
         super(Block.Properties.create(Material.EARTH).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
         this.setDefaultState(this.stateContainer.getBaseState().with(MOISTURE, 0).with(BLESSED, false));
+    }
+
+    @Override
+    @Nonnull
+    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+        return FarmlandBlock.SHAPE;
     }
 
     @Override
@@ -55,14 +59,14 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    public int tickRate(World world) {
+    public int tickRate(IWorldReader world) {
         return 5;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random rand) {
-        if (state.get(BLESSED) && !world.getBlockState(pos.up()).isNormalCube()) {
+    public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
+        if (state.get(BLESSED) && !world.getBlockState(pos.up()).isNormalCube(world, pos.up())) {
             if (rand.nextDouble() <= 0.15D) {
                 for (int amount = 0; amount < 3; ++amount) {
                     double d0 = rand.nextGaussian() * 0.01D;
@@ -76,21 +80,14 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
 
     @Override
     public void onFallenUpon(@Nonnull World world, @Nonnull BlockPos pos, Entity entity, float fallDistance) {
-        if (!world.isRemote && entity.canTrample(world, this, pos, fallDistance)) {
+        if (!world.isRemote && entity.canTrample(this.getDefaultState(), pos, fallDistance)) {
             turnToSoil(world, pos);
         }
         entity.fall(fallDistance, 1.0F);
     }
 
     private static void turnToSoil(World world, BlockPos pos) {
-        BlockState state = AtumBlocks.FERTILE_SOIL.getDefaultState();
-        world.setBlockState(pos, state);
-        AxisAlignedBB axisAlignedBB = field_194405_c.offset(pos);
-
-        for (Entity entity : world.getEntitiesWithinAABBExcludingEntity(null, axisAlignedBB)) {
-            double axisY = Math.min(axisAlignedBB.maxY - axisAlignedBB.minY, axisAlignedBB.maxY - entity.getBoundingBox().minY);
-            entity.setPositionAndUpdate(entity.posX, entity.posY + axisY + 0.001D, entity.posZ);
-        }
+        world.setBlockState(pos, nudgeEntitiesWithNewState(world.getBlockState(pos), AtumBlocks.FERTILE_SOIL.getDefaultState(), world, pos));
     }
 
     private boolean hasCrops(World world, BlockPos pos) {
@@ -99,7 +96,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos.MutableBlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, 0, -6), pos.add(6, 1, 6))) {
+        for (BlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, 0, -6), pos.add(6, 1, 6))) {
             if (world.getBlockState(mutableBlockPos).getMaterial() == Material.WATER) {
                 return true;
             }
@@ -108,8 +105,8 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-        super.neighborChanged(state, world, pos, block, fromPos);
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, world, pos, block, fromPos, isMoving);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
             turnToSoil(world, pos);
@@ -117,7 +114,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    public void onPlantGrow(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, BlockPos source) {
+    public void onPlantGrow(BlockState state, @Nonnull IWorld world, @Nonnull BlockPos pos, BlockPos source) {
         if (this == AtumBlocks.FERTILE_SOIL_TILLED) {
             world.setBlockState(pos, AtumBlocks.FERTILE_SOIL.getDefaultState(), 2);
         }
@@ -125,8 +122,8 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
-        super.onBlockAdded(world, pos, state);
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        super.onBlockAdded(state, world, pos, oldState, isMoving);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
             turnToSoil(world, pos);
@@ -136,7 +133,6 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     @Override
     public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
         PlantType plantType = plantable.getPlantType(world, pos.up());
-
         switch (plantType) {
             case Crop:
             case Plains:
@@ -147,41 +143,12 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, Direction side) {
-        switch (side) {
-            case UP:
-                return true;
-            case NORTH:
-            case SOUTH:
-            case WEST:
-            case EAST:
-                BlockState stateSide = world.getBlockState(pos.offset(side));
-                Block block = stateSide.getBlock();
-                return !stateSide.isOpaqueCube() && block != AtumBlocks.FERTILE_SOIL && block != Blocks.GRASS_PATH;
-            default:
-                return super.shouldSideBeRendered(state, world, pos, side);
-        }
-    }
-
-    @Override
-    @Nonnull
-    public Item getItemDropped(BlockState state, @Nullable Random rand, int fortune) {
-        return AtumItems.FERTILE_SOIL_PILE;
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return MathHelper.getInt(random, 3, 5);
-    }
-
-    @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(MOISTURE, BLESSED);
     }
 
-    @Override
-    public Property[] getNonRenderingProperties() {
+    /*@Override
+    public Property[] getNonRenderingProperties() { //TODO
         return new Property[]{BLESSED};
-    }
+    }*/
 }

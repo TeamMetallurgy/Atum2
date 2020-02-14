@@ -13,6 +13,8 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -47,13 +49,13 @@ public class LimestoneBrickBlock extends Block {
     }
 
     @Override
-    public float getBlockHardness(BlockState state, World world, BlockPos pos) {
+    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) {
         return state.get(UNBREAKABLE) ? -1.0F : super.getBlockHardness(state, world, pos);
     }
 
     @Override
-    public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
+    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, exploder, explosion);
     }
 
     @Override

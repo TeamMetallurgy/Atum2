@@ -12,11 +12,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
@@ -27,7 +30,8 @@ import java.util.Random;
 import java.util.UUID;
 
 public class AnputsFingersBlock extends CropsBlock {
-    private static final IntegerProperty ANPUTS_FINGERS_AGE = IntegerProperty.create("age", 0, 3);
+    private static final IntegerProperty ANPUTS_FINGERS_AGE = BlockStateProperties.AGE_0_3;
+    ;
     private static final VoxelShape[] SHAPE = new VoxelShape[]{Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
     private HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
 
@@ -37,7 +41,7 @@ public class AnputsFingersBlock extends CropsBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
         return SHAPE[this.getAge(state)];
     }
 
@@ -59,13 +63,14 @@ public class AnputsFingersBlock extends CropsBlock {
     }
 
     @Override
-    protected boolean canSustainBush(BlockState state) {
+    protected boolean isValidGround(BlockState state, IBlockReader world, BlockPos pos) {
         return state.getBlock() == AtumBlocks.SAND;
     }
 
     @Override
-    public boolean canPlaceBlockAt(World world, BlockPos pos) {
-        return super.canPlaceBlockAt(world, pos) && this.canBlockStay(world, pos, this.getDefaultState());
+    public boolean isValidPosition(@Nonnull BlockState state, IWorldReader world, @Nonnull BlockPos pos) {
+        BlockState stateDown = world.getBlockState(pos.down());
+        return super.isValidPosition(state, world, pos) && world.getLightFor(LightType.SKY, pos) < 15 && stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), Direction.UP, this);
     }
 
     @Override
@@ -76,11 +81,10 @@ public class AnputsFingersBlock extends CropsBlock {
             world.setBlockState(pos, newState, 2);
             ForgeHooks.onCropsGrowPost(world, pos, state);
         }
-        this.checkAndDropBlock(world, pos, state);
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void onEntityCollision(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
         if (!world.isRemote && entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
             MinecraftServer server = world.getServer();
@@ -96,13 +100,7 @@ public class AnputsFingersBlock extends CropsBlock {
     }
 
     @Override
-    public boolean canBlockStay(World world, BlockPos pos, BlockState state) {
-        BlockState stateDown = world.getBlockState(pos.down());
-        return world.getLightFor(LightType.SKY, pos) < 15 && stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), Direction.UP, this);
-    }
-
-    @Override
-    public boolean canGrow(World world, BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean canGrow(IBlockReader world, BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return false;
     }
 

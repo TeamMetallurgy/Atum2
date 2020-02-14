@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.utils;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -10,10 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntity;
@@ -52,6 +51,24 @@ public class AtumRegistry {
         item.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
         ITEMS.add(item);
         return item;
+    }
+
+    /**
+     * Helper method for easily registering torches
+     *
+     * @param torch The torch block to be registered
+     * @param name The name to register the block with
+     * @return The Block that was registered
+     */
+    public static Block registerTorch(@Nonnull Block torch, @Nonnull String name) {
+        AtumTorchUnlitBlock.TORCHES.add(torch);
+        Block unlitTorch = new AtumTorchUnlitBlock();
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch));
+        Block wallTorchUnlit = new AtumWallTorch(Block.Properties.from(unlitTorch));
+        registerBlock(wallTorchLit, null, "wall_" + name);
+        registerBlock(wallTorchUnlit, null, "wall_" + name + "_unlit");
+        registerBlockWithItem(unlitTorch, new WallOrFloorItem(unlitTorch, wallTorchUnlit, new Item.Properties()), name + "_unlit");
+        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties()), name);
     }
 
     /**

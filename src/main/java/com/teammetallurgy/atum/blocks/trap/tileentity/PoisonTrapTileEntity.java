@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
@@ -7,11 +8,16 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 public class PoisonTrapTileEntity extends TrapTileEntity {
 
+    public PoisonTrapTileEntity() {
+        super(AtumBlocks.AtumTileEntities.POISON_TRAP);
+    }
+
     @Override
-    protected void triggerTrap(Direction facing, LivingEntity livingBase) {
+    protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 0.7D;

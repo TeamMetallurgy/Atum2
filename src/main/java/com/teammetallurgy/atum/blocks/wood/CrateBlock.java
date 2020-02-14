@@ -2,8 +2,6 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
@@ -12,6 +10,7 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -32,32 +31,14 @@ import javax.annotation.Nullable;
 public class CrateBlock extends ContainerBlock {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
-    public CrateBlock() {
-        super(Material.WOOD);
-        this.setHardness(3.0F);
-        this.setSoundType(SoundType.WOOD);
+    public CrateBlock(Properties properties) {
+        super(properties);
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new CrateTileEntity();
-    }
-
-    @Override
-    @Nonnull
-    public MaterialColor getMapColor(BlockState state, IBlockReader blockAccess, BlockPos blockPos) {
-        return BlockAtumPlank.WoodType.byIndex(BlockAtumPlank.WoodType.values().length).getMapColor();
-    }
-
-    @Override
-    public boolean isOpaqueCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
     }
 
     @Override
@@ -77,10 +58,10 @@ public class CrateBlock extends ContainerBlock {
         if (world.isRemote) {
             return true;
         }
-
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof CrateTileEntity) {
-            //player.openGui(Atum.instance, 1, world, pos.getX(), pos.getY(), pos.getZ()); //TODO
+            player.openContainer((CrateTileEntity) tileEntity);
+            player.addStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
             return true;
         }
         return false;
@@ -133,9 +114,10 @@ public class CrateBlock extends ContainerBlock {
         }
     }
 
+
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos) {
-        super.neighborChanged(state, world, pos, blockIn, fromPos);
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+        super.neighborChanged(state, world, pos, block, fromPos, isMoving);
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof CrateTileEntity) {
@@ -144,13 +126,13 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void onReplaced(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof CrateTileEntity) {
             world.updateComparatorOutputLevel(pos, this);
         }
-        super.breakBlock(world, pos, state);
+        super.onReplaced(state, world, pos, newState, isMoving);
     }
 
     @Override
@@ -172,45 +154,11 @@ public class CrateBlock extends ContainerBlock {
         return Container.calcRedstoneFromInventory((CrateTileEntity) world.getTileEntity(pos));
     }
 
-    public BlockState correctFacing(World world, BlockPos pos, BlockState state) {
-        Direction facingCheck = null;
-        for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-            BlockState stateHorizontal = world.getBlockState(pos.offset(horizontal));
-            if (stateHorizontal.getBlock() == this) {
-                return state;
-            }
-            if (stateHorizontal.isFullBlock()) {
-                if (facingCheck != null) {
-                    facingCheck = null;
-                    break;
-                }
-                facingCheck = horizontal;
-            }
-        }
-
-        if (facingCheck != null) {
-            return state.with(FACING, facingCheck.getOpposite());
-        } else {
-            Direction facing = state.get(FACING);
-
-            if (world.getBlockState(pos.offset(facing)).isFullBlock()) {
-                facing = facing.getOpposite();
-            }
-            if (world.getBlockState(pos.offset(facing)).isFullBlock()) {
-                facing = facing.rotateY();
-            }
-            if (world.getBlockState(pos.offset(facing)).isFullBlock()) {
-                facing = facing.getOpposite();
-            }
-            return state.with(FACING, facing);
-        }
-    }
-
     @Override
     public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
         return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
-    
+
     @Override
     @Nonnull
     public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
@@ -220,12 +168,5 @@ public class CrateBlock extends ContainerBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(FACING);
-    }
-
-    @Override
-    public void getOreDictEntries() {
-        OreDictHelper.add(this, "crate");
-        OreDictHelper.add(this, "chest");
-        OreDictHelper.add(this, "chestWood");
     }
 }

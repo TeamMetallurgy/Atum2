@@ -1,16 +1,22 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 public class TarTrapTileEntity extends TrapTileEntity {
 
+    public TarTrapTileEntity() {
+        super(AtumBlocks.AtumTileEntities.TAR_TRAP);
+    }
+
     @Override
-    protected void triggerTrap(Direction facing, LivingEntity entity) {
+    protected void triggerTrap(World world, Direction facing, LivingEntity entity) {
         double x = (double) pos.getX() + 0.5D;
         double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
         double z = (double) pos.getZ() + 0.5D;

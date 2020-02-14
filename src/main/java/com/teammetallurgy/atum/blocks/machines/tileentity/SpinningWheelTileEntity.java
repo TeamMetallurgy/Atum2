@@ -4,8 +4,8 @@ import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.StackHelper;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
@@ -15,6 +15,7 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.SidedInvWrapper;
@@ -27,7 +28,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     public int rotations;
 
     public SpinningWheelTileEntity() {
-        super(2);
+        super(AtumBlocks.AtumTileEntities.SPINNING_WHEEL, 2);
     }
 
     @Override
@@ -50,14 +51,14 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.readFromNBT(packet.getNbtCompound());
+        this.read(packet.getNbtCompound());
         this.markDirty();
     }
 
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return this.writeToNBT(new CompoundNBT());
+        return this.write(new CompoundNBT());
     }
 
     @Override
@@ -82,9 +83,9 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
         int spool = world.getBlockState(pos).get(SpinningWheelBlock.SPOOL);
         if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
-                && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(new ItemStack(this.input), stack))) {
+                && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(ItemStack.read(this.input), stack))) {
             if (this.input.isEmpty()) {
-                this.input = stack.writeToNBT(new CompoundNBT());
+                this.input = stack.write(new CompoundNBT());
             }
             return true;
         } else {
@@ -103,54 +104,41 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
         }
     }
 
-    private IItemHandler handlerSide = new SidedInvWrapper(this, Direction.WEST);
-    private IItemHandler handlerBottom = new SidedInvWrapper(this, Direction.DOWN);
+    LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.WEST);
 
-    @Override
     @Nullable
-    public <T> T getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (facing == Direction.DOWN) {
-                return (T) handlerBottom;
-            } else {
-                return (T) handlerSide;
+                return handlers[0].cast();
+            } else if (facing != Direction.UP) {
+                return handlers[1].cast();
             }
         }
-        return null;
+        return LazyOptional.empty();
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
-        return facing != Direction.UP && super.hasCapability(capability, facing);
-    }
-
-    @Override
-    @Nonnull
-    public Container createContainer(@Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
-        return null;
-    }
-
-    @Override
-    @Nonnull
-    public String getGuiID() {
-        return "";
-    }
-
-    @Override
-    public void readFromNBT(CompoundNBT compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         this.rotations = compound.getInt("rotations");
         this.input = compound.getCompound("input");
     }
 
     @Nonnull
     @Override
-    public CompoundNBT writeToNBT(CompoundNBT compound) {
-        super.writeToNBT(compound);
+    public CompoundNBT write(CompoundNBT compound) {
+        super.write(compound);
         compound.putInt("rotations", this.rotations);
         if (this.input != null) {
             compound.put("input", this.input);
         }
         return compound;
+    }
+
+    @Override
+    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) { //Does not have a Screen
+        return null;
     }
 }

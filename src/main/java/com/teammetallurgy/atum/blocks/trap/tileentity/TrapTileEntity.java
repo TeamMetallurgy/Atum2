@@ -22,6 +22,7 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -87,9 +88,11 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
         boolean isBurningCheck = this.isBurning();
         boolean isBurning = false;
         boolean canDamageEntity = false;
+        World world = this.world;
+        if (world == null) return;
 
-        if (this.world != null && !this.isDisabled && this.isBurning()) {
-            Direction facing = this.world.getBlockState(pos).get(TrapBlock.FACING);
+        if (!this.isDisabled && this.isBurning()) {
+            Direction facing = world.getBlockState(pos).get(TrapBlock.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
@@ -100,7 +103,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
             for (LivingEntity livingBase : entities) {
                 if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() : livingBase != null) {
                     canDamageEntity = true;
-                    this.triggerTrap(facing, livingBase);
+                    this.triggerTrap(world, facing, livingBase);
                 } else {
                     canDamageEntity = false;
                 }
@@ -115,7 +118,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
             --this.burnTime;
         }
 
-        if (!this.world.isRemote && !this.isDisabled) {
+        if (!world.isRemote && !this.isDisabled) {
             ItemStack fuel = this.inventory.get(0);
             if (this.isBurning() || !fuel.isEmpty()) {
                 if (!this.isBurning()) {
@@ -138,7 +141,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
         }
     }
 
-    protected void triggerTrap(Direction facing, LivingEntity livingBase) {
+    protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
     }
 
     boolean isBurning() {

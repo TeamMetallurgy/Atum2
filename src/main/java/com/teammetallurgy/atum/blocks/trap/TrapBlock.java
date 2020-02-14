@@ -13,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
@@ -21,10 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -49,9 +47,9 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public float getExplosionResistance(World world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(world, pos, exploder, explosion);
+        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(state, world, pos, exploder, explosion);
     }
 
     @Override
@@ -78,7 +76,7 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
@@ -116,41 +114,13 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void onBlockAdded(World world, BlockPos pos, BlockState state) {
-        super.onBlockAdded(world, pos, state);
-        this.setDefaultDirection(world, pos, state);
-    }
-
-    private void setDefaultDirection(World world, BlockPos pos, BlockState state) {
-        if (!world.isRemote) {
-            Direction facing = state.get(FACING);
-            boolean isNorth = world.getBlockState(pos.north()).isFullBlock();
-            boolean isSouth = world.getBlockState(pos.south()).isFullBlock();
-
-            if (facing == Direction.NORTH && isNorth && !isSouth) {
-                facing = Direction.SOUTH;
-            } else if (facing == Direction.SOUTH && isSouth && !isNorth) {
-                facing = Direction.NORTH;
-            } else {
-                boolean isWest = world.getBlockState(pos.west()).isFullBlock();
-                boolean isEast = world.getBlockState(pos.east()).isFullBlock();
-
-                if (facing == Direction.WEST && isWest && !isEast) {
-                    facing = Direction.EAST;
-                } else if (facing == Direction.EAST && isEast && !isWest) {
-                    facing = Direction.WEST;
-                }
-            }
-            world.setBlockState(pos, state.getBlock().getDefaultState().with(FACING, facing), 2);
-        }
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        world.setBlockState(pos, state.with(FACING, Direction.getDirectionFromEntityLiving(pos, placer)), 2);
-
         TileEntity tileentity = world.getTileEntity(pos);
-
         if (tileentity instanceof TrapTileEntity) {
             ((TrapTileEntity) tileentity).isInsidePyramid = false;
             if (stack.hasDisplayName()) {
@@ -160,14 +130,13 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void breakBlock(World world, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void onReplaced(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         TileEntity tileentity = world.getTileEntity(pos);
-
         if (tileentity instanceof TrapTileEntity) {
             InventoryHelper.dropInventoryItems(world, pos, (TrapTileEntity) tileentity);
             world.updateComparatorOutputLevel(pos, this);
         }
-        super.breakBlock(world, pos, state);
+        super.onReplaced(state, world, pos, newState, isMoving);
     }
 
     @Override

@@ -1,12 +1,10 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.Item;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
@@ -19,8 +17,6 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
@@ -68,7 +64,11 @@ public class BranchBlock extends Block {
 
     public BranchBlock() {
         super(Properties.create(Material.WOOD).hardnessAndResistance(0.8F, 5.0F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(0));
-        this.setLightOpacity(1); //TODO
+    }
+
+    @Override
+    public int getOpacity(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+        return 1;
     }
 
     @Override
@@ -91,33 +91,6 @@ public class BranchBlock extends Block {
         BlockState neighbor = world.getBlockState(pos.add(facing.getDirectionVec()));
 
         return neighbor.getMaterial() == Material.WOOD;
-    }
-
-    @Override
-    @Nonnull
-    public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return AtumItems.DEADWOOD_STICK;
-    }
-
-    @Override
-    public int quantityDropped(Random random) {
-        return random.nextDouble() <= 0.15F ? 1 : 0;
-    }
-
-    @Override
-    public boolean isOpaqueCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    public boolean isFullCube(BlockState state) {
-        return false;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean shouldSideBeRendered(BlockState state, @Nonnull IBlockReader blockAccess, @Nonnull BlockPos pos, Direction side) {
-        return true;
     }
 
     @Override
@@ -146,9 +119,9 @@ public class BranchBlock extends Block {
         container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
     }
 
-    @Override
+    /*@Override
     @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
+    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) { //TODO
         Direction Direction = state.get(FACING);
         return state.with(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
                 .with(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
@@ -156,7 +129,7 @@ public class BranchBlock extends Block {
                 .with(WEST, Direction != Direction.WEST && shouldConnect(Direction.WEST, world, pos))
                 .with(UP, Direction != Direction.UP && shouldConnect(Direction.UP, world, pos))
                 .with(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
-    }
+    }*/
 
     private boolean shouldConnect(Direction direction, IBlockReader world, BlockPos pos) {
         BlockState neighborState = world.getBlockState(pos.add(direction.getDirectionVec()));

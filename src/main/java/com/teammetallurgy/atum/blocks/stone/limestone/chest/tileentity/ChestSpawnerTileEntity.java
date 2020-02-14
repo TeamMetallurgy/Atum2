@@ -5,21 +5,22 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.MobSpawnerBaseLogic;
 import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.spawner.AbstractSpawner;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -27,15 +28,15 @@ import java.util.List;
 import java.util.Random;
 
 public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
-    private final MobSpawnerBaseLogic spawnerLogic = new MobSpawnerBaseLogic() {
+    private final AbstractSpawner spawnerLogic = new AbstractSpawner() {
         @Override
         public void broadcastEvent(int id) {
-            ChestSpawnerTileEntity.this.world.addBlockEvent(ChestSpawnerTileEntity.this.pos, Blocks.MOB_SPAWNER, id, 0);
+            ChestSpawnerTileEntity.this.world.addBlockEvent(ChestSpawnerTileEntity.this.pos, Blocks.SPAWNER, id, 0);
         }
 
         @Override
         @SuppressWarnings("all")
-        public World getSpawnerWorld() {
+        public World getWorld() {
             return ChestSpawnerTileEntity.this.world;
         }
 
@@ -49,22 +50,22 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
         public void setNextSpawnData(@Nonnull WeightedSpawnerEntity spawnerEntity) {
             super.setNextSpawnData(spawnerEntity);
 
-            if (this.getSpawnerWorld() != null) {
-                BlockState BlockState = this.getSpawnerWorld().getBlockState(this.getSpawnerPosition());
-                this.getSpawnerWorld().notifyBlockUpdate(ChestSpawnerTileEntity.this.pos, BlockState, BlockState, 4);
+            if (this.getWorld() != null) {
+                BlockState BlockState = this.getWorld().getBlockState(this.getSpawnerPosition());
+                this.getWorld().notifyBlockUpdate(ChestSpawnerTileEntity.this.pos, BlockState, BlockState, 4);
             }
         }
 
         @Override
-        public void updateSpawner() {
+        public void tick() {
             if (isRuinChest) {
                 if (!world.isDaytime()) {
-                    setEntityId(getNightTime(spawnPool));
+                    setEntityType(getNightTime(spawnPool));
                 } else {
-                    setEntityId(getDayTime(spawnPool));
+                    setEntityType(getDayTime(spawnPool));
                 }
             }
-            super.updateSpawner();
+            super.tick();
         }
     };
     private int spawnPool;
@@ -73,31 +74,31 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     public ChestSpawnerTileEntity() {
         super(true, false, AtumBlocks.CHEST_SPAWNER);
         if (this.isRuinChest) {
-            spawnPool = MathHelper.getInt(new Random(), 0, 2);
+            spawnPool = MathHelper.nextInt(new Random(), 0, 2);
         }
     }
 
-    private static ResourceLocation getDayTime(int spawnPool) {
+    private static EntityType<?> getDayTime(int spawnPool) {
         switch (spawnPool) {
             case 1:
-                return AtumEntities.BRIGAND.getRegistryName();
+                return AtumEntities.BRIGAND;
             case 2:
-                return AtumEntities.NOMAD.getRegistryName();
+                return AtumEntities.NOMAD;
             case 0:
             default:
-                return AtumEntities.BARBARIAN.getRegistryName();
+                return AtumEntities.BARBARIAN;
         }
     }
 
-    private static ResourceLocation getNightTime(int spawnPool) {
+    private static EntityType<?> getNightTime(int spawnPool) {
         switch (spawnPool) {
             case 1:
-                return AtumEntities.FORSAKEN.getRegistryName();
+                return AtumEntities.FORSAKEN;
             case 2:
-                return AtumEntities.BONESTORM.getRegistryName();
+                return AtumEntities.BONESTORM;
             case 0:
             default:
-                return AtumEntities.MUMMY.getRegistryName();
+                return AtumEntities.MUMMY;
         }
     }
 
@@ -106,23 +107,23 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public void update() {
-        this.spawnerLogic.updateSpawner();
-        super.update();
+    public void tick() {
+        this.spawnerLogic.tick();
+        super.tick();
     }
 
     @Override
-    public void readFromNBT(CompoundNBT compound) {
-        super.readFromNBT(compound);
-        this.spawnerLogic.readFromNBT(compound);
+    public void read(@Nonnull CompoundNBT compound) {
+        super.read(compound);
+        this.spawnerLogic.read(compound);
         spawnPool = compound.getInt("spawnPool");
     }
 
     @Override
     @Nonnull
     public CompoundNBT write(@Nonnull CompoundNBT compound) {
-        super.writeToNBT(compound);
-        this.spawnerLogic.writeToNBT(compound);
+        super.write(compound);
+        this.spawnerLogic.write(compound);
         compound.putInt("spawnPool", spawnPool);
         return compound;
     }
@@ -131,10 +132,10 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
         double d0 = 4.0D;
         double d1 = 3.0D;
-        List<EntityMob> list = super.world.getEntitiesWithinAABB(EntityMob.class, new AxisAlignedBB((double) super.pos.getX() - d0, (double) super.pos.getY() - d1, (double) super.pos.getZ() - d0, (double) super.pos.getX() + d0, (double) super.pos.getY() + d1, (double) super.pos.getZ() + d0));
+        List<MonsterEntity> list = super.world.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB((double) super.pos.getX() - d0, (double) super.pos.getY() - d1, (double) super.pos.getZ() - d0, (double) super.pos.getX() + d0, (double) super.pos.getY() + d1, (double) super.pos.getZ() + d0));
         if (!list.isEmpty()) {
             if (!super.world.isRemote) {
-                player.sendMessage(new TextComponentTranslation("chat.atum.enemies"));
+                player.sendMessage(new TranslationTextComponent("chat.atum.enemies"));
             }
             return false;
         } else {
@@ -151,7 +152,7 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        CompoundNBT tag = this.writeToNBT(new CompoundNBT());
+        CompoundNBT tag = this.write(new CompoundNBT());
         tag.remove("SpawnPotentials");
         return tag;
     }
@@ -181,7 +182,7 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public boolean hasCapability(@Nonnull Capability<?> capability, @Nullable Direction facing) {
-        return false;
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
+        return LazyOptional.empty();
     }
 }

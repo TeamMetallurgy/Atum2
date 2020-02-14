@@ -2,14 +2,14 @@ package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.inventory.container.block.CrateContainer;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.util.ITickableTileEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -23,11 +23,11 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
     public float prevLidAngle;
 
     public CrateTileEntity() {
-        super(27);
+        super(AtumBlocks.AtumTileEntities.CRATE, 27);
     }
 
     @Override
-    public void update() {
+    public void tick() {
         int x = this.pos.getX();
         int y = this.pos.getY();
         int z = this.pos.getZ();
@@ -82,30 +82,23 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
             }
 
             ++this.numPlayersUsing;
-            this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
+            this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.numPlayersUsing);
+            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockState().getBlock());
         }
     }
 
     @Override
     public void closeInventory(@Nonnull PlayerEntity player) {
-        if (!player.isSpectator() && this.getBlockType() instanceof CrateBlock) {
+        if (!player.isSpectator() && this.getBlockState().getBlock() instanceof CrateBlock) {
             --this.numPlayersUsing;
-            this.world.addBlockEvent(this.pos, this.getBlockType(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockType(), false);
+            this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.numPlayersUsing);
+            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockState().getBlock());
         }
     }
 
     @Override
     @Nonnull
-    public Container createContainer(@Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
-        this.fillWithLoot(player);
-        return new CrateContainer(playerInventory, this, player);
-    }
-
-    @Override
-    @Nonnull
-    public String getGuiID() {
-        return String.valueOf(new ResourceLocation(Constants.MOD_ID, "crate"));
+    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
+        return ChestContainer.createGeneric9X3(windowID, playerInventory, this);
     }
 }

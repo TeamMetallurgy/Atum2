@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.state.Property;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -23,8 +22,8 @@ public class LeavesAtumBlock extends LeavesBlock {
         }
     }
 
-    @Override
-    public Property[] getNonRenderingProperties() {
+    /*@Override
+    public Property[] getNonRenderingProperties() { //TODO
         return new Property[]{DISTANCE, PERSISTENT};
-    }
+    }*/
 }

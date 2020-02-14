@@ -1,7 +1,6 @@
 {
   "replace": false,
   "values": [
-    "atum:palm_leaves",
-    "atum:deadwood_leaves"
+    "atum:palm_leaves"
   ]
 }

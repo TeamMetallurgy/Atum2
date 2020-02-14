@@ -98,11 +98,11 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AssassinEntity.class, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(BrigandEntity.class, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(BarbarianEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(NomadEntity.class, manager -> new AtumBipedRender<>(manager, new NomadModel(), new NomadModel(0.5F), new NomadModel(1.0F)));
+        RenderingRegistry.registerEntityRenderingHandler(NomadEntity.class, manager -> new AtumBipedRender<>(manager, new NomadModel<>(), new NomadModel<>(0.5F), new NomadModel<>(1.0F)));
         RenderingRegistry.registerEntityRenderingHandler(WarlordEntity.class, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(PharaohEntity.class, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(MummyEntity.class, manager -> new AtumBipedRender<>(manager, new ZombieModel(), new ZombieModel(0.5F, false), new ZombieModel(1.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(ForsakenEntity.class, manager -> new AtumBipedRender<>(manager, new DustySkeletonModel(), new DustySkeletonModel(0.5F), new DustySkeletonModel(1.0F)));
+        RenderingRegistry.registerEntityRenderingHandler(ForsakenEntity.class, manager -> new AtumBipedRender(manager, new DustySkeletonModel(), new DustySkeletonModel(0.5F), new DustySkeletonModel(1.0F)));
         RenderingRegistry.registerEntityRenderingHandler(WraithEntity.class, manager -> new AtumBipedRender<>(manager, new ZombieModel(), new ZombieModel(0.5F, false), new ZombieModel(1.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(SunspeakerEntity.class, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(BonestormEntity.class, manager -> new AtumMobRender<>(manager, new BonestormModel<>()));

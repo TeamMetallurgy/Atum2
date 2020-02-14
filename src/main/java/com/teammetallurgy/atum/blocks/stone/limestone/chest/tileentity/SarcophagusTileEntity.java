@@ -17,13 +17,16 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public static final String SARCOPHAGUS_CONTAINER = "atum.container.sarcophagus";
@@ -34,11 +37,12 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         super(false, true, AtumBlocks.SARCOPHAGUS);
     }
 
+    @Nullable
     @Override
-    @Nonnull
-    public String getName() {
-        return this.hasCustomName() ? this.customName : SARCOPHAGUS_CONTAINER;
+    public ITextComponent getCustomName() {
+        return new TranslationTextComponent(SARCOPHAGUS_CONTAINER);
     }
+
 
     @Override
     public SUpdateTileEntityPacket getUpdatePacket() {
@@ -48,26 +52,26 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.readFromNBT(packet.getNbtCompound());
+        this.read(packet.getNbtCompound());
     }
 
     @Override
     @Nonnull
     public CompoundNBT getUpdateTag() {
-        return this.writeToNBT(new CompoundNBT());
+        return this.write(new CompoundNBT());
     }
 
     @Override
-    public void readFromNBT(CompoundNBT compound) {
-        super.readFromNBT(compound);
+    public void read(CompoundNBT compound) {
+        super.read(compound);
         this.hasSpawned = compound.getBoolean("spawned");
         this.isOpenable = compound.getBoolean("openable");
     }
 
     @Override
     @Nonnull
-    public CompoundNBT writeToNBT(@Nonnull CompoundNBT compound) {
-        super.writeToNBT(compound);
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
+        super.write(compound);
         compound.putBoolean("spawned", this.hasSpawned);
         compound.putBoolean("openable", this.isOpenable);
         return compound;

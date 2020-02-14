@@ -1,15 +1,13 @@
 package com.teammetallurgy.atum.blocks.wood;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.TorchBlock;
+import net.minecraft.block.material.Material;
 
 public class AtumTorchBlock extends TorchBlock {
 
-    public AtumTorchBlock() {
-        super();
-        this.setHardness(0.0F);
-        this.setSoundType(SoundType.WOOD);
-        this.setCreativeTab(null);
-        this.setLightLevel(0.9375F);
+    public AtumTorchBlock(int lightValue) {
+        super(Block.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(0.0F).lightValue(lightValue).sound(SoundType.WOOD));
     }
 }

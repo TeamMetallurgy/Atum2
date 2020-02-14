@@ -8,76 +8,46 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class PapyrusBlock extends SugarCaneBlock {
     private static final BooleanProperty TOP = BooleanProperty.create("top");
 
     public PapyrusBlock() {
-        super();
-        this.setHardness(0.0F);
-        this.setSoundType(SoundType.PLANT);
-        this.setTickRandomly(true);
+        super(Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT));
         this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0).with(TOP, false));
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
-        if (world.getBlockState(pos.down()).getBlock() == AtumBlocks.PAPYRUS || this.checkForDrop(world, pos, state)) {
-            if (world.isAirBlock(pos.up())) {
-                int i;
-                for (i = 1; world.getBlockState(pos.down(i)).getBlock() == this; ++i) {
-                    //Do nothing
-                }
-                if (i < 3) {
-                    int j = state.get(AGE);
-
-                    if (ForgeHooks.onCropsGrowPre(world, pos, state, true)) {
-                        if (j == 15) {
-                            world.setBlockState(pos.up(), this.getDefaultState());
-                            world.setBlockState(pos, state.with(AGE, 0), 4);
-                        } else {
-                            world.setBlockState(pos, state.with(AGE, j + 1), 4);
-                        }
-                        ForgeHooks.onCropsGrowPost(world, pos, state, world.getBlockState(pos));
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean canPlaceBlockAt(World world, @Nonnull BlockPos pos) {
-        BlockState state = world.getBlockState(pos.down());
-        Block block = state.getBlock();
-        if (block.canSustainPlant(state, world, pos.down(), Direction.UP, this)) return true;
+    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+        BlockState soil = world.getBlockState(pos.down());
+        Block block = soil.getBlock();
+        if (block.canSustainPlant(soil, world, pos.down(), Direction.UP, this)) return true;
 
         if (block == this) {
             return true;
-        } else if (block != AtumBlocks.FERTILE_SOIL && block != AtumBlocks.FERTILE_SOIL_TILLED && block != AtumBlocks.SAND) {
-            return false;
         } else {
-            BlockPos blockpos = pos.down();
+            if (block != AtumBlocks.FERTILE_SOIL && block != AtumBlocks.FERTILE_SOIL_TILLED && block != AtumBlocks.SAND) {
+                BlockPos powDown = pos.down();
 
-            for (Direction Direction : Direction.Plane.HORIZONTAL) {
-                BlockState BlockState = world.getBlockState(blockpos.offset(Direction));
-
-                if (BlockState.getMaterial() == Material.WATER) {
-                    return true;
+                for (Direction direction : Direction.Plane.HORIZONTAL) {
+                    IFluidState fluidState = world.getFluidState(powDown.offset(direction));
+                    if (fluidState.isTagged(FluidTags.WATER)) {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -94,9 +64,8 @@ public class PapyrusBlock extends SugarCaneBlock {
     }
 
     @Override
-    @Nonnull
-    public Item getItemDropped(BlockState state, Random rand, int fortune) {
-        return AtumItems.PAPYRUS_PLANT;
+    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
+        world.setBlockState(pos, state.with(TOP, world.isAirBlock(pos.up())));
     }
 
     @Override
@@ -107,17 +76,5 @@ public class PapyrusBlock extends SugarCaneBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(AGE, TOP);
-    }
-
-    @Override
-    @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) {
-        BlockPos upperPos = pos.add(0, 1, 0);
-        return state.with(TOP, world.isAirBlock(upperPos));
-    }
-
-    @Override
-    public Property[] getNonRenderingProperties() {
-        return new Property[]{AGE};
     }
 }
