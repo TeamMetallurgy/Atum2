@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "atum:loot_silver_ring"
+      "item": "atum:loot_light_gray_ring"
     },
     "title": {
       "translate": "advancement.atum.justlikenew"
@@ -17,7 +17,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_ring"
+            "item": "atum:loot_light_gray_ring"
           }
         ]
       }
@@ -77,7 +77,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_necklace"
+            "item": "atum:loot_light_gray_necklace"
           }
         ]
       }
@@ -137,7 +137,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_scepter"
+            "item": "atum:loot_light_gray_scepter"
           }
         ]
       }
@@ -197,7 +197,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_idol"
+            "item": "atum:loot_light_gray_idol"
           }
         ]
       }
@@ -257,7 +257,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_broach"
+            "item": "atum:loot_light_gray_broach"
           }
         ]
       }

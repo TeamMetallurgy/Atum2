@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.blocks.beacon.HeartOfRaBlock;
 import com.teammetallurgy.atum.client.render.ShieldRenderer;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anput.AnputsHungerItem;
@@ -59,7 +60,7 @@ public class AtumItems {
     public static final Item EFREET_HEART = registerItem(new SimpleItem(), "efreet_heart");
     public static final Item SCARAB = registerItem(new ScarabItem(), "scarab");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");
-    static final Block HEART_OF_RA = AtumRegistry.registerBlock(AtumBlocks.HEART_OF_RA, "heart_of_ra");
+    static final Block HEART_OF_RA = AtumRegistry.registerBlock(new HeartOfRaBlock(), "heart_of_ra");
     public static final Item SHORT_BOW = registerItem(new BaseBowItem(new Item.Properties().maxDamage(384)), "short_bow");
     public static final Item LIMESTONE_SHOVEL = registerItem(new ShovelItem(AtumMats.LIMESTONE, 1.2F, -3.0F, new Item.Properties().group(Atum.GROUP)), "limestone_shovel");
     public static final Item LIMESTONE_PICKAXE = registerItem(new PickaxeItem(AtumMats.LIMESTONE, 1, -2.8F, new Item.Properties().group(Atum.GROUP)), "limestone_pickaxe");

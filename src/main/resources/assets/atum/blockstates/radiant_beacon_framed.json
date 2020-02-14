@@ -20,7 +20,7 @@
       "lime": { "textures": { "glass": "atum:blocks/framed_glass_lime" }},
       "pink": { "textures": { "glass": "atum:blocks/framed_glass_pink" }},
       "gray": { "textures": { "glass": "atum:blocks/framed_glass_gray" }},
-      "silver": { "textures": { "glass": "atum:blocks/framed_glass_silver" }},
+      "silver": { "textures": { "glass": "atum:blocks/framed_glass_light_gray" }},
       "cyan": { "textures": { "glass": "atum:blocks/framed_glass_cyan" }},
       "purple": { "textures": { "glass": "atum:blocks/framed_glass_purple" }},
       "blue": { "textures": { "glass": "atum:blocks/framed_glass_blue" }},

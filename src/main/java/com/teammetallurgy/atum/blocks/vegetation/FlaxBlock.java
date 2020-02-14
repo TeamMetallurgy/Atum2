@@ -27,9 +27,9 @@ public class FlaxBlock extends CropsBlock {
         return state.getBlock() instanceof FarmlandBlock;
     }
 
-    @Override
+    /*@Override
     @Nonnull
     protected IItemProvider getSeedsItem() {
-        return AtumItems.FLAX_SEEDS;
-    }
+        return AtumItems.FLAX_SEEDS; //TODO
+    }*/
 }

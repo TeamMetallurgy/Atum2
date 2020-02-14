@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:seeds/flax_seeds",
-    "#forge:seeds/emmer_seeds"
+    "#forge:seeds/flax",
+    "#forge:seeds/emmer"
   ]
 }

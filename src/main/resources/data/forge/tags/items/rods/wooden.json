@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "aquaculture:palm_stick",
-    "aquaculture:deadwood_stick"
+    "atum:palm_stick",
+    "atum:deadwood_stick"
   ]
 }

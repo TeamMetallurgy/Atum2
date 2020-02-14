@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
-import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -243,6 +240,7 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
+        new AtumItems();
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
         }
@@ -251,6 +249,7 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerBlocks(RegistryEvent.Register<Block> event) {
+        new AtumBlocks();
         for (Block block : BLOCKS) {
             event.getRegistry().register(block);
         }
@@ -259,23 +258,24 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
+        new AtumBlocks.AtumTileEntities();
         for (TileEntityType<?> tileEntityType : TILE_ENTITIES) {
             event.getRegistry().register(tileEntityType);
         }
     }
 
-    @SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
+    /*@SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) { //TODO
+        new AtumBiomes();
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
         AtumBiomes.addBiomeTags();
-    }
+    }*/
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
         new AtumEntities();
-
         for (EntityType<?> entityType : ENTITIES) {
             event.getRegistry().register(entityType);
         }
@@ -285,15 +285,16 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerSound(RegistryEvent.Register<SoundEvent> event) {
+        new AtumSounds();
         for (SoundEvent sound : SOUNDS) {
             event.getRegistry().register(sound);
         }
     }
 
-    @SubscribeEvent
-    public static void registerParticle(RegistryEvent.Register<ParticleType<?>> event) {
+    /*@SubscribeEvent
+    public static void registerParticle(RegistryEvent.Register<ParticleType<?>> event) { //TODO
         for (ParticleType<?> particleType : PARTICLES) {
             event.getRegistry().register(particleType);
         }
-    }
+    }*/
 }

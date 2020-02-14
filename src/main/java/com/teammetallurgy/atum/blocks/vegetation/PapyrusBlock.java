@@ -68,10 +68,10 @@ public class PapyrusBlock extends SugarCaneBlock {
         world.setBlockState(pos, state.with(TOP, world.isAirBlock(pos.up())));
     }
 
-    @Override
+    /*@Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        return new ItemStack(AtumItems.PAPYRUS_PLANT);
-    }
+        return new ItemStack(AtumItems.PAPYRUS_PLANT); //TODO
+    }*/
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {

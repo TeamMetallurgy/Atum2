@@ -18,7 +18,7 @@ public class AmuletItem extends Item /*implements IBauble*/ { //TODO Fix when Ba
     public static final boolean IS_BAUBLES_INSTALLED = ModList.get().isLoaded("baubles");
 
     public AmuletItem(Item.Properties properties) {
-        super(properties.maxStackSize(1).rarity(Rarity.RARE).group(Atum.GROUP));
+        super(properties.rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override
