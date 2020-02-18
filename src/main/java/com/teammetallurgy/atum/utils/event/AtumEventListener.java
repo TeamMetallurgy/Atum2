@@ -55,7 +55,6 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumEventListener {
-
     private static final String TAG_ATUM_START = "atum_start";
 
     @SubscribeEvent

@@ -1,8 +1,0 @@
-{
-  "parent": "block/orientable",
-  "textures": {
-    "top": "atum:block/furnace_top",
-    "front": "atum:block/furnace_front_on",
-    "side": "atum:block/furnace_top"
-  }
-}

@@ -47,6 +47,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerItem;
+import static com.teammetallurgy.atum.utils.AtumRegistry.registerRelic;
 
 @ObjectHolder(value = Constants.MOD_ID)
 public class AtumItems {
@@ -56,7 +57,11 @@ public class AtumItems {
     public static final Item KHNUMITE = registerItem(new SimpleItem(), "khnumite");
     public static final Item DIRTY_COIN = registerItem(new CoinItem(), "coin_dirty");
     public static final Item GOLD_COIN = registerItem(new CoinItem(), "coin_gold");
-    public static final LootItem RELICS = LootItem.createRelics();
+    public static final LootItem IDOL_RELICS = registerRelic(LootItem.Type.IDOL);
+    public static final LootItem IDOL_NECKLACES = registerRelic(LootItem.Type.NECKLACE);
+    public static final LootItem IDOL_RINGS = registerRelic(LootItem.Type.RING);
+    public static final LootItem IDOL_BROOCHES = registerRelic(LootItem.Type.BROOCH);
+    public static final LootItem IDOL_SCEPTERS = registerRelic(LootItem.Type.SCEPTER);
     public static final Item EFREET_HEART = registerItem(new SimpleItem(), "efreet_heart");
     public static final Item SCARAB = registerItem(new ScarabItem(), "scarab");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");

@@ -57,6 +57,15 @@ minecraft {
                 }
             }
         }
+        data {
+            workingDirectory project.file('run')
+            args '--mod', 'atum', '--all', '--output', file('src/generated/resources/')
+            mods {
+                atum {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
 

@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "atum:blocks/crystal_glass_lime"
+        "layer0": "atum:block/crystal_glass_lime"
     }
 }

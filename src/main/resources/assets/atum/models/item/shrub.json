@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:blocks/shrub"
+    "layer0": "atum:block/shrub"
   }
 }

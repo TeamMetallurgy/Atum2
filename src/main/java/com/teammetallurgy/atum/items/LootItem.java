@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items;
 
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
@@ -20,21 +19,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import javax.annotation.Nonnull;
 
 public class LootItem extends Item {
-    private static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
+    public static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
 
-    public LootItem(int stackSize) {
-        super(new Item.Properties().group(Atum.GROUP).maxStackSize(stackSize));
-    }
-
-    public static LootItem createRelics() {
-        for (Type type : Type.values()) {
-            for (Quality quality : Quality.values()) {
-                Item item = new LootItem(quality == Quality.DIRTY ? 64 : 16);
-                LOOT_ENTRIES.add(new LootEntry(quality, quality.getWeight()));
-                return (LootItem) AtumRegistry.registerItem(item, "loot." + quality.getName() + "." + type.getName());
-            }
-        }
-        return null;
+    public LootItem(Item.Properties properties) {
+        super(properties.group(Atum.GROUP));
     }
 
     public Item getLootItem(Type type, Quality quality) {
@@ -162,7 +150,7 @@ public class LootItem extends Item {
     public static class LootEntry extends WeightedRandom.Item {
         final Quality quality;
 
-        LootEntry(Quality quality, int weight) {
+        public LootEntry(Quality quality, int weight) {
             super(weight);
             this.quality = quality;
         }

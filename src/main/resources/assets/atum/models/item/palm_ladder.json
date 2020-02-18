@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "atum:blocks/palm_ladder"
+        "layer0": "atum:block/palm_ladder"
     }
 }

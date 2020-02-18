@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumItemGroup;
 import com.teammetallurgy.atum.utils.Constants;
-import com.teammetallurgy.atum.utils.LootTableGenerator;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -44,7 +43,6 @@ public class Atum {
         GirafiTombPieces.registerGirafiTomb();
         LighthousePieces.registerLighthouse();*/
         IntegrationHandler.INSTANCE.setup();
-        LootTableGenerator.validateLootTables();
     }
 
     private void setupClient(FMLClientSetupEvent event) {

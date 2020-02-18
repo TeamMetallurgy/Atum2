@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:limestone_cracked" }
+    "": { "model": "atum:limestone_cracked" }
   }
 }

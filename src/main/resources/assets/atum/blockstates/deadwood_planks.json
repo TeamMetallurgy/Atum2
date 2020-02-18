@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:deadwood_planks" }
+    "": { "model": "atum:deadwood_planks" }
   }
 }

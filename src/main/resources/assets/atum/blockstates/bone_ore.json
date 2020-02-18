@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:bone_ore" }
+    "": { "model": "atum:bone_ore" }
   }
 }

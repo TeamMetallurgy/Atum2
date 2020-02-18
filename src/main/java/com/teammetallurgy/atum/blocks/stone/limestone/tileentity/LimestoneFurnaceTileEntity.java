@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 public class LimestoneFurnaceTileEntity extends FurnaceBaseTileEntity {
 
     public LimestoneFurnaceTileEntity() {
-        super(AtumBlocks.AtumTileEntities.LIMESTONE_FURNACE, IRecipeType.BLASTING, 3);
+        super(AtumBlocks.AtumTileEntities.LIMESTONE_FURNACE, IRecipeType.SMELTING, 3);
     }
 
     @Override

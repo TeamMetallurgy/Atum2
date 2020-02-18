@@ -413,7 +413,7 @@ public class AtumBlocks {
         fire.setFireInfo(DEADWOOD_LEAVES, 30, 60);
         fire.setFireInfo(PALM_STAIRS, 5, 20);
         fire.setFireInfo(DEADWOOD_STAIRS, 5, 20);
-        KhnumiteFaceBlock.addDispenerSupport();
+        //KhnumiteFaceBlock.addDispenserSupport(); //TODO Makes Khnumites face being registered as air when enabled
     }
 
     @ObjectHolder(Constants.MOD_ID)

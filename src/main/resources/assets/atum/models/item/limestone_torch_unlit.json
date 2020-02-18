@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:blocks/limestone_torch_unlit"
+    "layer0": "atum:block/limestone_torch_unlit"
   }
 }

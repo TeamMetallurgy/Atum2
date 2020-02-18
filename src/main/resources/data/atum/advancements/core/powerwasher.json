@@ -20,7 +20,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_light_gray_ring"
+            "item": "atum:loot_silver_ring"
           }
         ]
       }
@@ -80,7 +80,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_light_gray_necklace"
+            "item": "atum:loot_silver_necklace"
           }
         ]
       }
@@ -140,7 +140,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_light_gray_scepter"
+            "item": "atum:loot_silver_scepter"
           }
         ]
       }
@@ -200,7 +200,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_light_gray_idol"
+            "item": "atum:loot_silver_idol"
           }
         ]
       }
@@ -260,7 +260,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_light_gray_broach"
+            "item": "atum:loot_silver_broach"
           }
         ]
       }

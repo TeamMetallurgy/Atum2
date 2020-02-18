@@ -4,7 +4,11 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
-import com.teammetallurgy.atum.init.*;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumSounds;
+import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -18,7 +22,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -54,10 +57,34 @@ public class AtumRegistry {
     }
 
     /**
+     * Helper method for easily registering relics
+     *
+     * @param type  The relic type
+     * @return The dirty relic item that was registered
+     */
+    public static LootItem registerRelic(@Nonnull LootItem.Type type) {
+        Item.Properties nonDirty = new Item.Properties().maxStackSize(16);
+        LootItem dirty = new LootItem(new Item.Properties().maxStackSize(64));
+        registerItem(dirty, getLootName(LootItem.Quality.DIRTY, type));
+        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.SILVER, type));
+        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.GOLD, type));
+        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.SAPPHIRE, type));
+        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.RUBY, type));
+        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.EMERALD, type));
+        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.DIAMOND, type));
+        return dirty;
+    }
+
+    private static String getLootName(@Nonnull LootItem.Quality quality, @Nonnull LootItem.Type type) {
+        LootItem.LOOT_ENTRIES.add(new LootItem.LootEntry(quality, quality.getWeight()));
+        return "loot_" + quality.getName() + "_" + type.getName();
+    }
+
+    /**
      * Helper method for easily registering torches
      *
      * @param torch The torch block to be registered
-     * @param name The name to register the block with
+     * @param name  The name to register the block with
      * @return The Block that was registered
      */
     public static Block registerTorch(@Nonnull Block torch, @Nonnull String name) {

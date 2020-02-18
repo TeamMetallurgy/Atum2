@@ -123,7 +123,7 @@ public class KhnumiteFaceBlock extends HorizontalBlock implements IKhnumite {
         builder.add(HORIZONTAL_FACING);
     }
 
-    public static void addDispenerSupport() {
+    public static void addDispenserSupport() {
         DispenserBlock.registerDispenseBehavior(AtumBlocks.KHNUMITE_FACE.asItem(), new OptionalDispenseBehavior() {
             @Override
             @Nonnull
