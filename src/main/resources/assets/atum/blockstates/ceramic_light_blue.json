@@ -1,13 +1,7 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "atum:block/ceramic_tile_light_blue"
-        },
-        "model": "cube_all"
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+        "": {
+            "model": "atum:block/ceramic_light_blue"
+        }
     }
 }

@@ -1,16 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "top": "atum:block/ceramic_tile_cyan",
-      "bottom": "#top",
-      "side": "#top"
-    }
-  },
   "variants": {
-    "inventory": [{"model": "half_slab"}],
-    "type=bottom": { "model": "half_slab" },
-    "type=top": { "model": "upper_slab" },
-    "type=double": { "model": "cube_all", "textures": {"all": "atum:block/ceramic_tile_cyan"} }
+    "type=bottom": { "model": "atum:block/ceramic_slab_cyan" },
+    "type=top": { "model": "atum:block/ceramic_slab_cyan_top" },
+    "type=double": { "model": "atum:block/ceramic_cyan" }
   }
 }

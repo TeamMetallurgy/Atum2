@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "atum:block/limestone_brick_carved",
+    "front": "atum:block/trap_smoke",
+    "side": "atum:block/limestone_brick_carved"
+  }
+}
