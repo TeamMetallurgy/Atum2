@@ -1,6 +1,0 @@
-{
-  "parent": "block/dispenser",
-  "textures": {
-    "front": "#front_on"
-  }
-}

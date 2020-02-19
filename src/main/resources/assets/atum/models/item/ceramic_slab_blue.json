@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "type=bottom": { "model": "atum:block/ceramic_slab_blue" },
+    "type=top": { "model": "atum:block/ceramic_slab_blue_top" },
+    "type=double": { "model": "atum:block/ceramic_tile_blue" }
+  }
+}
