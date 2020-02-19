@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "all": "atum:block/marl"
+        },
+      "model": "clay"
+    },
+    "variants": {
+        "inventory": [{}],
+        "normal": [{}]
+    }
+}

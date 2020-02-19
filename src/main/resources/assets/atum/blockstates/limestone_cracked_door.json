@@ -1,0 +1,40 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "uvlock": true
+  },
+  "variants": {
+    "facing=east,half=lower,hinge=left,open=false":  { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=south,half=lower,hinge=left,open=false": { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=west,half=lower,hinge=left,open=false":  { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=north,half=lower,hinge=left,open=false": { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=east,half=lower,hinge=right,open=false":  { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=south,half=lower,hinge=right,open=false": { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=west,half=lower,hinge=right,open=false":  { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=north,half=lower,hinge=right,open=false": { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=east,half=lower,hinge=left,open=true":  { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=south,half=lower,hinge=left,open=true": { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=west,half=lower,hinge=left,open=true":  { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=north,half=lower,hinge=left,open=true": { "model": "door_bottom_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=east,half=lower,hinge=right,open=true":  { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=south,half=lower,hinge=right,open=true": { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=west,half=lower,hinge=right,open=true":  { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=north,half=lower,hinge=right,open=true": { "model": "door_bottom", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=east,half=upper,hinge=left,open=false":  { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=south,half=upper,hinge=left,open=false": { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=west,half=upper,hinge=left,open=false":  { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=north,half=upper,hinge=left,open=false": { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=east,half=upper,hinge=right,open=false":  { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=south,half=upper,hinge=right,open=false": { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=west,half=upper,hinge=right,open=false":  { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=north,half=upper,hinge=right,open=false": { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=east,half=upper,hinge=left,open=true":  { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=south,half=upper,hinge=left,open=true": { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 },
+    "facing=west,half=upper,hinge=left,open=true":  { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=north,half=upper,hinge=left,open=true": { "model": "door_top_rh", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=east,half=upper,hinge=right,open=true":  { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 270 },
+    "facing=south,half=upper,hinge=right,open=true": { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"} },
+    "facing=west,half=upper,hinge=right,open=true":  { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 90 },
+    "facing=north,half=upper,hinge=right,open=true": { "model": "door_top", "textures": {"bottom": "atum:block/limestone_cracked", "top": "atum:block/limestone_cracked"}, "y": 180 }
+  }
+}

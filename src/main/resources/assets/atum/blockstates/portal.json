@@ -1,0 +1,10 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "atum:portal"
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{ "model": "atum:portal_full" }]
+  }
+}

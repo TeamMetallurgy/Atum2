@@ -1,0 +1,13 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "textures": {
+            "all": "atum:block/khnumite_raw"
+        },
+        "model": "cube_all"
+    },
+    "variants": {
+        "normal": [{}],
+        "inventory": [{}]
+    }
+}

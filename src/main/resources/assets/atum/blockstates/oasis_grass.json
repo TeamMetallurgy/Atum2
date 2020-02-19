@@ -1,0 +1,14 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "tinted_cross",
+    "textures": {
+      "cross": "atum:block/oasis_grass"
+    },
+    "uvlock": true
+  },
+  "variants": {
+    "inventory": [{ "transform": "forge:default-block" }],
+    "normal": [{}]
+  }
+}

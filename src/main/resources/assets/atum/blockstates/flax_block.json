@@ -1,0 +1,18 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "crop"
+  },
+  "variants": {
+    "age": {
+      "0": { "textures": { "crop": "atum:block/flax_stage_0" }},
+      "1": { "textures": { "crop": "atum:block/flax_stage_1" }},
+      "2": { "textures": { "crop": "atum:block/flax_stage_2" }},
+      "3": { "textures": { "crop": "atum:block/flax_stage_2" }},
+      "4": { "textures": { "crop": "atum:block/flax_stage_3" }},
+      "5": { "textures": { "crop": "atum:block/flax_stage_4" }},
+      "6": { "textures": { "crop": "atum:block/flax_stage_4" }},
+      "7": { "textures": { "crop": "atum:block/flax_stage_5" }}
+    }
+  }
+}

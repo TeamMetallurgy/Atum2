@@ -1,0 +1,83 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+        "texture": "atum:block/deadwood_log"
+    }
+  },
+  "variants": {
+    "normal": [{}],
+    "inventory": [{
+        "model": "atum:deadwood_stem",
+        "transform": "forge:default-block"
+    }],
+    "down": {
+        "true": {
+            "submodel": {
+              "branchD": { "model": "atum:deadwood_branch" }
+            }},
+        "false": {}
+    },
+    "east": {
+        "true": {
+            "submodel": {
+              "branchE": { "model": "atum:deadwood_branch", "x": -90, "y": 90  }
+            }},
+        "false": {}
+    },
+    "facing": {
+        "north": {
+            "submodel": {
+              "stemN": { "model": "atum:deadwood_stem", "x": -90 }
+            }},
+        "south": {
+            "submodel": {
+              "stemS": { "model": "atum:deadwood_stem", "x": 90 }
+            }},
+        "east": {
+            "submodel": {
+              "stemE": { "model": "atum:deadwood_stem", "x": -90, "y": 90 }
+            }},
+        "west": {
+            "submodel": {
+              "stemW": { "model": "atum:deadwood_stem", "x": 90, "y": 90 }
+            }},
+        "up": {
+            "submodel": {
+              "stemU": { "model": "atum:deadwood_stem", "x": 180 }
+            }},
+        "down": {
+            "submodel": {
+              "stemD": { "model": "atum:deadwood_stem" }
+            }}
+    },
+    "north": {
+        "true": {
+            "submodel": {
+              "branchN": { "model": "atum:deadwood_branch", "x": -90 }
+            }},
+        "false": {}
+    },
+    "south": {
+        "true": {
+            "submodel": {
+              "branchS": { "model": "atum:deadwood_branch", "x": 90 }
+            }},
+        "false": {}
+    },
+    "up": {
+        "true": {
+            "submodel": {
+              "branchU": { "model": "atum:deadwood_branch", "x": 180 }
+            }},
+        "false": {}
+    },
+    "west": {
+        "true": {
+            "submodel": {
+              "branchW": { "model": "atum:deadwood_branch", "x": 90, "y": 90 }
+            }},
+        "false": {}
+    }
+  }
+}

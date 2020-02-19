@@ -1,0 +1,16 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "top": "atum:block/limestone_brick_chiseled",
+      "bottom": "#top",
+      "side": "#top"
+    }
+  },
+  "variants": {
+    "inventory": [{"model": "half_slab"}],
+    "type=bottom": { "model": "half_slab" },
+    "type=top": { "model": "upper_slab" },
+    "type=double": { "model": "atum:limestone_brick_chiseled" }
+  }
+}
