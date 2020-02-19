@@ -1,7 +1,7 @@
 {
   "parent": "block/orientable_vertical",
   "textures": {
-    "front": "atum:block/trap_arrow",
+    "front": "atum:block/trap_burning",
     "side": "atum:block/limestone_brick_carved"
   }
 }

@@ -1,16 +1,3 @@
 {
-    "variants": {
-        "disabled=false,facing=down":  { "model": "atum:smoke_trap_vertical_on", "x": 180 },
-        "disabled=false,facing=up":    { "model": "atum:smoke_trap_vertical_on" },
-        "disabled=false,facing=north": { "model": "atum:smoke_trap_on" },
-        "disabled=false,facing=south": { "model": "atum:smoke_trap_on", "y": 180 },
-        "disabled=false,facing=west":  { "model": "atum:smoke_trap_on", "y": 270 },
-        "disabled=false,facing=east":  { "model": "atum:smoke_trap_on", "y": 90 },
-        "disabled=true,facing=down":  { "model": "atum:smoke_trap_vertical_off", "x": 180 },
-        "disabled=true,facing=up":    { "model": "atum:smoke_trap_vertical_off" },
-        "disabled=true,facing=north": { "model": "atum:smoke_trap_off" },
-        "disabled=true,facing=south": { "model": "atum:smoke_trap_off", "y": 180 },
-        "disabled=true,facing=west":  { "model": "atum:smoke_trap_off", "y": 270 },
-        "disabled=true,facing=east":  { "model": "atum:smoke_trap_off", "y": 90 }
-    }
+    "parent": "atum:block/smoke_trap_on"
 }

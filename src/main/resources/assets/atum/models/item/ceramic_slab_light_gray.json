@@ -1,7 +1,3 @@
 {
-  "variants": {
-    "type=bottom": { "model": "atum:block/ceramic_slab_light_gray" },
-    "type=top": { "model": "atum:block/ceramic_slab_light_gray_top" },
-    "type=double": { "model": "atum:block/ceramic_tile_light_gray" }
-  }
+  "parent": "atum:block/ceramic_slab_light_gray"
 }

@@ -2,7 +2,7 @@
   "parent": "block/orientable",
   "textures": {
     "top": "atum:block/limestone_brick_carved",
-    "front": "atum:block/trap_arrow",
+    "front": "atum:block/trap_arrow_off",
     "side": "atum:block/limestone_brick_carved"
   }
 }

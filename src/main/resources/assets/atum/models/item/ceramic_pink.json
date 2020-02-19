@@ -1,6 +1,3 @@
 {
-    "parent": "block/cube_all",
-    "textures": {
-        "all": "atum:block/ceramic_tile_pink"
-    }
+    "parent": "atum:block/ceramic_pink"
 }

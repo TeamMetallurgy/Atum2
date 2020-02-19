@@ -1,8 +1,6 @@
 {
-    "variants": {
-        "": {
-            "model": "atum:block/ceramic_green"
-        }
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "atum:block/ceramic_tile_green"
     }
-}
 }
