@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "atum:crystal_glass" }
+    "": { "model": "atum:block/crystal_glass" }
   }
 }

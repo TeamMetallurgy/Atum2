@@ -1,34 +1,19 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "wall": "atum:block/ceramic_tile_light_blue",
-            "particle": "#wall"
-        },
-        "model":"atum:empty",
-        "uvlock": true
+  "multipart": [
+    {   "when": { "up": "true" },
+      "apply": { "model": "atum:block/ceramic_wall_light_blue_post" }
     },
-    "variants": {
-        "inventory": [ {"model": "wall_inventory"} ],
-        "up":{
-        	"true":{"submodel":{"up_model":{"model":"wall_post"}}},
-        	"false":{}
-        },
-        "north":{
-        	"true":{"submodel":{"north_model":{"model":"wall_side"}}},
-        	"false":{}
-        },
-        "east":{
-        	"true":{"submodel":{"east_model":{"model":"wall_side", "y": 90}}},
-        	"false":{}
-    	},
-        "south":{
-        	"true":{"submodel":{"south_model":{"model":"wall_side", "y": 180}}},
-        	"false":{}
-    	},
-        "west":{
-        	"true":{"submodel":{"west_model":{"model":"wall_side", "y": 270}}},
-        	"false":{}
-    	}
+    {   "when": { "north": "true" },
+      "apply": { "model": "atum:block/ceramic_wall_light_blue_side", "uvlock": true }
+    },
+    {   "when": { "east": "true" },
+      "apply": { "model": "atum:block/ceramic_wall_light_blue_side", "y": 90, "uvlock": true }
+    },
+    {   "when": { "south": "true" },
+      "apply": { "model": "atum:block/ceramic_wall_light_blue_side", "y": 180, "uvlock": true }
+    },
+    {   "when": { "west": "true" },
+      "apply": { "model": "atum:block/ceramic_wall_light_blue_side", "y": 270, "uvlock": true }
     }
+  ]
 }

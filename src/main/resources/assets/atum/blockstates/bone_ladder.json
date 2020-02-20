@@ -1,8 +1,8 @@
 {
     "variants": {
-        "facing=north": { "model": "atum:bone_ladder" },
-        "facing=east":  { "model": "atum:bone_ladder", "y": 90 },
-        "facing=south": { "model": "atum:bone_ladder", "y": 180 },
-        "facing=west":  { "model": "atum:bone_ladder", "y": 270 }
+        "facing=north": { "model": "atum:block/bone_ladder" },
+        "facing=east":  { "model": "atum:block/bone_ladder", "y": 90 },
+        "facing=south": { "model": "atum:block/bone_ladder", "y": 180 },
+        "facing=west":  { "model": "atum:block/bone_ladder", "y": 270 }
     }
 }

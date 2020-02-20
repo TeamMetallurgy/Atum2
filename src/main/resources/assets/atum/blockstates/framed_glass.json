@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "atum:framed_glass" }
+    "": { "model": "atum:block/framed_glass" }
   }
 }

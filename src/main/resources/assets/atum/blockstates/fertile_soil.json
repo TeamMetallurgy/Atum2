@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "atum:fertile_soil" }
+    "": { "model": "atum:block/fertile_soil" }
   }
 }

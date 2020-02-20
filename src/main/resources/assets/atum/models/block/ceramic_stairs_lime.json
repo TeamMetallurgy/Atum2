@@ -1,0 +1,8 @@
+{
+  "parent": "block/stairs",
+  "textures": {
+    "bottom": "atum:block/ceramic_tile_lime",
+    "top": "atum:block/ceramic_tile_lime",
+    "side": "atum:block/ceramic_tile_lime"
+  }
+}

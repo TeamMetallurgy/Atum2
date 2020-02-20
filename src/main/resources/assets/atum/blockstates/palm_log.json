@@ -1,8 +1,8 @@
 {
   "variants": {
-    "axis=y": { "model": "atum:palm_log" },
-    "axis=z": { "model": "atum:palm_log", "x": 90 },
-    "axis=x": { "model": "atum:palm_log", "x": 90, "y": 90 },
-    "axis=none": { "model": "atum:palm_bark" }
+    "axis=y": { "model": "atum:block/palm_log" },
+    "axis=z": { "model": "atum:block/palm_log", "x": 90 },
+    "axis=x": { "model": "atum:block/palm_log", "x": 90, "y": 90 },
+    "axis=none": { "model": "atum:block/palm_bark" }
   }
 }

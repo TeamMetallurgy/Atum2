@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "atum:relic_ore" }
+    "": { "model": "atum:block/relic_ore" }
   }
 }

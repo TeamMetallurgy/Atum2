@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "atum:limestone_brick_small" }
+    "": { "model": "atum:block/limestone_brick_small" }
   }
 }

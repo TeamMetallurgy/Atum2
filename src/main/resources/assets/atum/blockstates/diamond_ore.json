@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "atum:diamond_ore" }
+    "": { "model": "atum:block/diamond_ore" }
   }
 }
