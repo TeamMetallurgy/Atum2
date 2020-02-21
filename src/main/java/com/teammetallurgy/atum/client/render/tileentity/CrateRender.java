@@ -42,7 +42,7 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
             ResourceLocation chestTexture = CACHE.get(name);
 
             if (chestTexture == null) {
-                chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/blocks/chest/" + name + ".png");
+                chestTexture = new ResourceLocation(Constants.MOD_ID, "textures/block/chest/" + name + ".png");
                 CACHE.put(name, chestTexture);
             }
             this.bindTexture(chestTexture);

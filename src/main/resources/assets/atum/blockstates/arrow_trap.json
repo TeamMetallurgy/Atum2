@@ -1,6 +1,6 @@
 {
     "variants": {
-        "disabled=false,facing=down":  { "model": "atum:block/block/arrow_trap_vertical_on", "x": 180 },
+        "disabled=false,facing=down":  { "model": "atum:block/arrow_trap_vertical_on", "x": 180 },
         "disabled=false,facing=up":    { "model": "atum:block/arrow_trap_vertical_on" },
         "disabled=false,facing=north": { "model": "atum:block/arrow_trap_on" },
         "disabled=false,facing=south": { "model": "atum:block/arrow_trap_on", "y": 180 },

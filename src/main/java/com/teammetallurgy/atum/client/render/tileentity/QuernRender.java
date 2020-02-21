@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
-    private static final ResourceLocation QUERN_STONE = new ResourceLocation(Constants.MOD_ID, "textures/blocks/quern_stone.png");
+    private static final ResourceLocation QUERN_STONE = new ResourceLocation(Constants.MOD_ID, "textures/block/quern_stone.png");
     private static final QuernStoneModel QUERN_STONE_MODEL = new QuernStoneModel();
 
     @Override

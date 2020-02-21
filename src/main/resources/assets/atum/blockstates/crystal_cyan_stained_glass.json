@@ -1,14 +1,7 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "atum:block/crystal_glass_cyan"
-        },
-        "model": "cube_all",
-        "uvlock": true
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+        "": {
+            "model": "atum:block/crystal_cyan_stained_glass"
+        }
     }
 }

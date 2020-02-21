@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancement.atum.root.desc"
     },
-    "background": "atum:textures/blocks/sand.png",
+    "background": "atum:textures/block/sand.png",
     "show_toast": true,
     "announce_to_chat": true
   },
