@@ -1,0 +1,7 @@
+{
+    "parent": "block/carpet",
+    "textures": {
+        "particle": "atum:block/linen_light_blue",
+        "wool": "atum:block/linen_light_blue"
+    }
+}
