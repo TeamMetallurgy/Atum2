@@ -1,0 +1,6 @@
+{
+  "parent": "atum:block/spinning_wheel",
+  "textures": {
+    "north": "atum:block/spinning_wheel_front_1"
+  }
+}

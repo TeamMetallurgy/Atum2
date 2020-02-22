@@ -33,7 +33,7 @@ import net.minecraftforge.registries.IForgeRegistryModifiable;
 import static com.teammetallurgy.atum.utils.recipe.RecipeHelper.*;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRecipes {
 
     @SubscribeEvent
@@ -110,22 +110,22 @@ public class AtumRecipes {
         addQuernRecipe("brown_weed", new QuernRecipe(AtumBlocks.WEED, new ItemStack(Items.BROWN_DYE, 2), 1), event);
         addQuernRecipe("green", new QuernRecipe(AtumBlocks.OPHIDIAN_TONGUE, new ItemStack(Items.GREEN_DYE, 2), 1), event);
         addQuernRecipe("red", new QuernRecipe(AtumItems.DATE, new ItemStack(Items.RED_DYE, 2), 1), event);
-        addQuernRecipe("flowersWhite", new QuernRecipe(AtumAPI.Tags.FLOWERS_WHITE, new ItemStack(Items.WHITE_DYE, 2), 1), event);
-        addQuernRecipe("flowersOrange", new QuernRecipe(AtumAPI.Tags.FLOWERS_ORANGE, new ItemStack(Items.ORANGE_DYE, 2), 1), event);
-        addQuernRecipe("flowersMagenta", new QuernRecipe(AtumAPI.Tags.FLOWERS_MAGENTA, new ItemStack(Items.MAGENTA_DYE, 2), 1), event);
-        addQuernRecipe("flowersLightBlue", new QuernRecipe(AtumAPI.Tags.FLOWERS_LIGHT_BLUE, new ItemStack(Items.LIGHT_BLUE_DYE, 2), 1), event);
-        addQuernRecipe("flowersYellow", new QuernRecipe(AtumAPI.Tags.FLOWERS_YELLOW, new ItemStack(Items.YELLOW_DYE, 2), 1), event);
-        addQuernRecipe("flowersLime", new QuernRecipe(AtumAPI.Tags.FLOWERS_LIME, new ItemStack(Items.LIME_DYE, 2), 1), event);
-        addQuernRecipe("flowersPink", new QuernRecipe(AtumAPI.Tags.FLOWERS_PINK, new ItemStack(Items.PINK_DYE, 2), 1), event);
-        addQuernRecipe("flowersGray", new QuernRecipe(AtumAPI.Tags.FLOWERS_GRAY, new ItemStack(Items.GRAY_DYE, 2), 1), event);
-        addQuernRecipe("flowersLightGray", new QuernRecipe(AtumAPI.Tags.FLOWERS_LIGHT_GRAY, new ItemStack(Items.LIGHT_GRAY_DYE, 2), 1), event);
-        addQuernRecipe("flowersCyan", new QuernRecipe(AtumAPI.Tags.FLOWERS_CYAN, new ItemStack(Items.CYAN_DYE, 2), 1), event);
-        addQuernRecipe("flowersPurple", new QuernRecipe(AtumAPI.Tags.FLOWERS_PURPLE, new ItemStack(Items.PURPLE_DYE, 2), 1), event);
-        addQuernRecipe("flowersBlue", new QuernRecipe(AtumAPI.Tags.FLOWERS_BLUE, new ItemStack(Items.BLUE_DYE, 2), 1), event);
-        addQuernRecipe("flowersBrown", new QuernRecipe(AtumAPI.Tags.FLOWERS_BROWN, new ItemStack(Items.BROWN_DYE, 2), 1), event);
-        addQuernRecipe("flowersGreen", new QuernRecipe(AtumAPI.Tags.FLOWERS_GREEN, new ItemStack(Items.GREEN_DYE, 2), 1), event);
-        addQuernRecipe("flowersRed", new QuernRecipe(AtumAPI.Tags.FLOWERS_RED, new ItemStack(Items.RED_DYE, 2), 1), event);
-        addQuernRecipe("flowersBlack", new QuernRecipe(AtumAPI.Tags.FLOWERS_BLACK, new ItemStack(Items.BLACK_DYE, 2), 1), event);
+        addQuernRecipe("flowers_white", new QuernRecipe(AtumAPI.Tags.FLOWERS_WHITE, new ItemStack(Items.WHITE_DYE, 2), 1), event);
+        addQuernRecipe("flowers_orange", new QuernRecipe(AtumAPI.Tags.FLOWERS_ORANGE, new ItemStack(Items.ORANGE_DYE, 2), 1), event);
+        addQuernRecipe("flowers_magenta", new QuernRecipe(AtumAPI.Tags.FLOWERS_MAGENTA, new ItemStack(Items.MAGENTA_DYE, 2), 1), event);
+        addQuernRecipe("flowers_light_blue", new QuernRecipe(AtumAPI.Tags.FLOWERS_LIGHT_BLUE, new ItemStack(Items.LIGHT_BLUE_DYE, 2), 1), event);
+        addQuernRecipe("flowers_yellow", new QuernRecipe(AtumAPI.Tags.FLOWERS_YELLOW, new ItemStack(Items.YELLOW_DYE, 2), 1), event);
+        addQuernRecipe("flowers_lime", new QuernRecipe(AtumAPI.Tags.FLOWERS_LIME, new ItemStack(Items.LIME_DYE, 2), 1), event);
+        addQuernRecipe("flowers_pink", new QuernRecipe(AtumAPI.Tags.FLOWERS_PINK, new ItemStack(Items.PINK_DYE, 2), 1), event);
+        addQuernRecipe("flowers_gray", new QuernRecipe(AtumAPI.Tags.FLOWERS_GRAY, new ItemStack(Items.GRAY_DYE, 2), 1), event);
+        addQuernRecipe("flowers_light_gray", new QuernRecipe(AtumAPI.Tags.FLOWERS_LIGHT_GRAY, new ItemStack(Items.LIGHT_GRAY_DYE, 2), 1), event);
+        addQuernRecipe("flowers_cyan", new QuernRecipe(AtumAPI.Tags.FLOWERS_CYAN, new ItemStack(Items.CYAN_DYE, 2), 1), event);
+        addQuernRecipe("flowers_purple", new QuernRecipe(AtumAPI.Tags.FLOWERS_PURPLE, new ItemStack(Items.PURPLE_DYE, 2), 1), event);
+        addQuernRecipe("flowers_blue", new QuernRecipe(AtumAPI.Tags.FLOWERS_BLUE, new ItemStack(Items.BLUE_DYE, 2), 1), event);
+        addQuernRecipe("flowers_brown", new QuernRecipe(AtumAPI.Tags.FLOWERS_BROWN, new ItemStack(Items.BROWN_DYE, 2), 1), event);
+        addQuernRecipe("flowers_green", new QuernRecipe(AtumAPI.Tags.FLOWERS_GREEN, new ItemStack(Items.GREEN_DYE, 2), 1), event);
+        addQuernRecipe("flowers_red", new QuernRecipe(AtumAPI.Tags.FLOWERS_RED, new ItemStack(Items.RED_DYE, 2), 1), event);
+        addQuernRecipe("flowers_black", new QuernRecipe(AtumAPI.Tags.FLOWERS_BLACK, new ItemStack(Items.BLACK_DYE, 2), 1), event);
 
         addQuernRecipe("beetroot", new QuernRecipe(Items.BEETROOT, new ItemStack(Items.RED_DYE, 2), 2), event);
         addQuernRecipe("sunflower", new QuernRecipe(Blocks.SUNFLOWER, new ItemStack(Items.YELLOW_DYE, 4), 2), event);

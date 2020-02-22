@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "atum:block/spinning_wheel_bottom",
+    "up": "atum:block/spinning_wheel_top_0",
+    "north": "atum:block/spinning_wheel_front_0",
+    "south": "atum:block/spinning_wheel_side",
+    "west": "atum:block/spinning_wheel_side",
+    "east": "atum:block/spinning_wheel_side",
+    "particle": "atum:block/spinning_wheel_side"
+  }
+}

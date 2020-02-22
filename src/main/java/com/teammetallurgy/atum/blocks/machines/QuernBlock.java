@@ -105,7 +105,6 @@ public class QuernBlock extends ContainerBlock {
         super.onReplaced(state, world, pos, newState, isMoving);
     }
 
-    @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());

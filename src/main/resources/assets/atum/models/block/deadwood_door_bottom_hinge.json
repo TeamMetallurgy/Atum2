@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_rh",
+    "textures": {
+        "bottom": "atum:block/deadwood_door_bottom",
+        "top": "atum:block/deadwood_door_top"
+    }
+}

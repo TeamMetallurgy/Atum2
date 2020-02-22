@@ -10,6 +10,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.state.BooleanProperty;
@@ -168,6 +169,11 @@ public class SpinningWheelBlock extends ContainerBlock {
     @Nonnull
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
     }
 
     @Override

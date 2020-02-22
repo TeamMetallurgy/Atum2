@@ -1,0 +1,8 @@
+{
+    "parent": "block/outer_stairs",
+    "textures": {
+        "bottom": "atum:block/porphyry_brick_tiled",
+        "top": "atum:block/porphyry_brick_tiled",
+        "side": "atum:block/porphyry_brick_tiled"
+    }
+}
