@@ -13,6 +13,7 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -95,7 +96,7 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Looks at Choru
 
     @Override
     @Nonnull
-    public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
         Direction facing = state.get(FACING);
 
         BlockState neighbor = reader.getBlockState(pos.add(facing.getDirectionVec()));

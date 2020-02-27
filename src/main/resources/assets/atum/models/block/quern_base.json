@@ -1,5 +1,5 @@
 {
-    "parent": "minecraft:block/block",
+    "parent": "block/block",
     "ambientocclusion": false,
     "textures": {
         "particle": "atum:block/quern_base"

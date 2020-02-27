@@ -2,12 +2,11 @@ package com.teammetallurgy.atum.client.model.shield;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class BrigandShieldModel extends Model {
+public class BrigandShieldModel extends ShieldModel {
     private RendererModel shieldCore;
     private RendererModel handleCore;
     private RendererModel shieldTop1;
@@ -72,6 +71,7 @@ public class BrigandShieldModel extends Model {
         this.shieldCore.addChild(this.shieldTop1);
     }
 
+    @Override
     public void render() {
         GlStateManager.pushMatrix();
         GlStateManager.scaled(1.0D / 0.78D, -1.0D / 0.78D, -1.0D / 0.78D);

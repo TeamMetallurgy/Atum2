@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
   // compile against Atum 2
-  deobfCompile "com.teammetallurgy.atum:atum2_${mc_version}:${mc_version}-${atum2_version}"
+  compile fg.deobf("com.teammetallurgy.atum:atum2_${mc_version}:${mc_version}-${atum2_version}")
 }
 ```
 

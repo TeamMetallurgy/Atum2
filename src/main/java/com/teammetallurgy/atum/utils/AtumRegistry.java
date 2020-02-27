@@ -287,6 +287,7 @@ public class AtumRegistry {
     public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
         new AtumBlocks.AtumTileEntities();
         for (TileEntityType<?> tileEntityType : TILE_ENTITIES) {
+            System.out.println("TESTING: " + tileEntityType);
             event.getRegistry().register(tileEntityType);
         }
     }

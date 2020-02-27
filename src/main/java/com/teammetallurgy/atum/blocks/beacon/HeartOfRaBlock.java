@@ -56,7 +56,7 @@ public class HeartOfRaBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 

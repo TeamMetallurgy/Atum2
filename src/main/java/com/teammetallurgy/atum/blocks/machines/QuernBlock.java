@@ -16,6 +16,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -27,7 +28,7 @@ import javax.annotation.Nullable;
 
 public class QuernBlock extends ContainerBlock {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
-    private static final VoxelShape SHAPE = Block.makeCuboidShape(0.12D, 0.0D, 0.12D, 0.88D, 0.38D, 0.88D);
+    private static final VoxelShape SHAPE = makeCuboidShape(0.12D * 16, 0.0D, 0.12D * 16, 0.88D * 16, 0.38D * 16, 0.88D * 16);
 
     public QuernBlock() {
         super(Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F));
@@ -36,7 +37,7 @@ public class QuernBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getRenderShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
         return SHAPE;
     }
 

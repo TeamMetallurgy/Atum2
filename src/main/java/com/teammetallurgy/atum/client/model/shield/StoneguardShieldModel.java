@@ -2,12 +2,11 @@ package com.teammetallurgy.atum.client.model.shield;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.renderer.entity.model.RendererModel;
-import net.minecraft.client.renderer.model.Model;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class StoneguardShieldModel extends Model {
+public class StoneguardShieldModel extends ShieldModel {
     private RendererModel shieldCore;
     private RendererModel handleCore;
     private RendererModel shieldCenter;
@@ -77,6 +76,7 @@ public class StoneguardShieldModel extends Model {
         this.shieldCore.addChild(this.shieldCenter);
     }
 
+    @Override
     public void render() {
         GlStateManager.pushMatrix();
         GlStateManager.scaled(1.0D / 0.7D, -1.0D / 0.7D, -1.0D / 0.7D);

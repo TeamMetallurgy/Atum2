@@ -18,7 +18,6 @@ import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -75,37 +74,6 @@ public class CrateBlock extends ContainerBlock {
 
     @Override
     public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        Direction facing = Direction.byHorizontalIndex(MathHelper.floor((double) (placer.rotationYaw * 4.0F / 360.0F) + 0.5D) & 3).getOpposite();
-        state = state.with(FACING, facing);
-        BlockPos posNorth = pos.north();
-        BlockPos posSouth = pos.south();
-        BlockPos posWest = pos.west();
-        BlockPos posEast = pos.east();
-        boolean isNorth = this == world.getBlockState(posNorth).getBlock();
-        boolean isSouth = this == world.getBlockState(posSouth).getBlock();
-        boolean isWest = this == world.getBlockState(posWest).getBlock();
-        boolean isEast = this == world.getBlockState(posEast).getBlock();
-
-        if (!isNorth && !isSouth && !isWest && !isEast) {
-            world.setBlockState(pos, state, 3);
-        } else if (facing.getAxis() != Direction.Axis.X || !isNorth && !isSouth) {
-            if (facing.getAxis() == Direction.Axis.Z && (isWest || isEast)) {
-                if (isWest) {
-                    world.setBlockState(posWest, state, 3);
-                } else {
-                    world.setBlockState(posEast, state, 3);
-                }
-                world.setBlockState(pos, state, 3);
-            }
-        } else {
-            if (isNorth) {
-                world.setBlockState(posNorth, state, 3);
-            } else {
-                world.setBlockState(posSouth, state, 3);
-            }
-            world.setBlockState(pos, state, 3);
-        }
-
         if (stack.hasDisplayName()) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
@@ -113,7 +81,6 @@ public class CrateBlock extends ContainerBlock {
             }
         }
     }
-
 
     @Override
     public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
