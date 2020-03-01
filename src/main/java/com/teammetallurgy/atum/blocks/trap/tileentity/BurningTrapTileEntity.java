@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.Direction;
@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 public class BurningTrapTileEntity extends TrapTileEntity {
 
     public BurningTrapTileEntity() {
-        super(AtumBlocks.AtumTileEntities.BURNING_TRAP);
+        super(AtumTileEntities.BURNING_TRAP);
     }
 
     @Override

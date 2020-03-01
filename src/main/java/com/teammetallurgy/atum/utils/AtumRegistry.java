@@ -4,10 +4,7 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.init.AtumSounds;
+import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
@@ -285,9 +282,8 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
-        new AtumBlocks.AtumTileEntities();
+        new AtumTileEntities();
         for (TileEntityType<?> tileEntityType : TILE_ENTITIES) {
-            System.out.println("TESTING: " + tileEntityType);
             event.getRegistry().register(tileEntityType);
         }
     }

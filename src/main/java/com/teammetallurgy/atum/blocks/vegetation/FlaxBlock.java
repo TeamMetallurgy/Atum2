@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.PlantType;
@@ -25,9 +27,9 @@ public class FlaxBlock extends CropsBlock {
         return state.getBlock() instanceof FarmlandBlock;
     }
 
-    /*@Override
+    @Override
     @Nonnull
     protected IItemProvider getSeedsItem() {
-        return AtumItems.FLAX_SEEDS; //TODO
-    }*/
+        return AtumItems.FLAX_SEEDS;
+    }
 }

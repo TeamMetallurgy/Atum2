@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -36,7 +36,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     private int quernRotations;
 
     public QuernTileEntity() {
-        super(AtumBlocks.AtumTileEntities.QUERN, 1);
+        super(AtumTileEntities.QUERN, 1);
     }
 
     @Override

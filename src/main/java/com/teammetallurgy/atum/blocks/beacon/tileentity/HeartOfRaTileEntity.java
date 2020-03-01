@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.beacon.tileentity;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 public class HeartOfRaTileEntity extends TileEntity {
 
     public HeartOfRaTileEntity() {
-        super(AtumBlocks.AtumTileEntities.HEART_OF_RA);
+        super(AtumTileEntities.HEART_OF_RA);
     }
 
     @Override

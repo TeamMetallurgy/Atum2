@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:block/palm_sapling" }
+    "": { "model": "atum:block/palm_sapling" }
   }
 }

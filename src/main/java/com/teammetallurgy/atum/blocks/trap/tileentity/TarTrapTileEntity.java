@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumParticles;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -12,7 +12,7 @@ import net.minecraft.world.World;
 public class TarTrapTileEntity extends TrapTileEntity {
 
     public TarTrapTileEntity() {
-        super(AtumBlocks.AtumTileEntities.TAR_TRAP);
+        super(AtumTileEntities.TAR_TRAP);
     }
 
     @Override

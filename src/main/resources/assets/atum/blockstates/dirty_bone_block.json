@@ -1,16 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "bone_block",
-    "textures": {
-      "end": "atum:block/dirty_bone_block",
-      "side": "atum:block/dirty_bone_block_side"
-    }
-  },
   "variants": {
-    "inventory": [{"model": "bone_block"}],
-    "axis=y": { "model": "bone_block" },
-    "axis=z": { "model": "bone_block", "x": 90 },
-    "axis=x": { "model": "bone_block", "x": 90, "y": 90 }
+    "axis=y": { "model": "atum:block/dirty_bone_block" },
+    "axis=z": { "model": "atum:block/dirty_bone_block", "x": 90 },
+    "axis=x": { "model": "atum:block/dirty_bone_block", "x": 90, "y": 90 }
   }
 }

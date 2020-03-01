@@ -1,0 +1,6 @@
+{
+  "parent": "atum:block/kiln_east",
+  "textures": {
+    "north": "atum:block/kiln_left_off"
+  }
+}

@@ -1,17 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "top": "atum:block/dirty_bone_block",
-      "bottom": "#top",
-      "end": "#top",
-      "side": "atum:block/dirty_bone_block_side"
-    }
-  },
   "variants": {
-    "inventory": [{"model": "half_slab"}],
-    "type=bottom": { "model": "half_slab" },
-    "type=top": { "model": "upper_slab" },
-    "type=double": { "model": "bone_block" }
+    "type=bottom": { "model": "atum:block/dirty_bone_slab" },
+    "type=top": { "model": "atum:block/dirty_bone_slab_top" },
+    "type=double": { "model": "atum:block/dirty_bone_block" }
   }
 }

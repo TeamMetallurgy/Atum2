@@ -1,17 +1,21 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.IFluidState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
@@ -62,12 +66,22 @@ public class PapyrusBlock extends SugarCaneBlock {
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
         world.setBlockState(pos, state.with(TOP, world.isAirBlock(pos.up())));
+        if (world.getBlockState(pos.down()).equals(state.with(TOP, true))) { //Correct non-top papyrus, when manually placed
+            world.setBlockState(pos.down(), state.with(TOP, false));
+        }
     }
 
-    /*@Override
+    @Override
+    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if (world.getBlockState(pos.down()).getBlock() == this) {
+            world.setBlockState(pos.down(), state.with(TOP, world.isAirBlock(pos.up()))); //Fix new top, when top gets removed
+        }
+    }
+
+    @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
-        return new ItemStack(AtumItems.PAPYRUS_PLANT); //TODO
-    }*/
+        return new ItemStack(AtumItems.PAPYRUS_PLANT);
+    }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {

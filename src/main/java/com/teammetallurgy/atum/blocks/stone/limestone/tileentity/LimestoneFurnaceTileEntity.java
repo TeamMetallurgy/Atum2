@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.stone.limestone.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.FurnaceBaseTileEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.FurnaceContainer;
@@ -12,7 +12,7 @@ import javax.annotation.Nonnull;
 public class LimestoneFurnaceTileEntity extends FurnaceBaseTileEntity {
 
     public LimestoneFurnaceTileEntity() {
-        super(AtumBlocks.AtumTileEntities.LIMESTONE_FURNACE, IRecipeType.SMELTING, 3);
+        super(AtumTileEntities.LIMESTONE_FURNACE, IRecipeType.SMELTING, 3);
     }
 
     @Override

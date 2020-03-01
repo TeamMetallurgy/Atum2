@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.FurnaceBaseTileEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -20,7 +20,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
     private BlockPos primaryPos;
 
     KilnBaseTileEntity() {
-        super(AtumBlocks.AtumTileEntities.KILN, IRecipeType.BLASTING, 9);
+        super(AtumTileEntities.KILN, IRecipeType.SMELTING, 9);
     }
 
     public boolean isPrimary() {

@@ -58,7 +58,7 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
 
         @Override
         public void tick() {
-            if (isRuinChest) {
+            if (world != null && isRuinChest) {
                 if (!world.isDaytime()) {
                     setEntityType(getNightTime(spawnPool));
                 } else {

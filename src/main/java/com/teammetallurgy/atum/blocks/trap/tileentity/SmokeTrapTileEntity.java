@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 public class SmokeTrapTileEntity extends TrapTileEntity {
 
     public SmokeTrapTileEntity() {
-        super(AtumBlocks.AtumTileEntities.SMOKE_TRAP);
+        super(AtumTileEntities.SMOKE_TRAP);
     }
 
     @Override

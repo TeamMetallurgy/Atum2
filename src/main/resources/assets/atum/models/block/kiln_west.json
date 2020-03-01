@@ -1,5 +1,14 @@
 {
   "parent": "block/block",
+  "textures": {
+    "up": "atum:block/limestone_brick_small",
+    "down": "atum:block/limestone_brick_small",
+    "north": "atum:block/kiln_off",
+    "south": "atum:block/limestone_brick_small",
+    "west": "atum:block/limestone_brick_small",
+    "east": "atum:block/limestone_brick_small",
+    "particle": "atum:block/limestone_brick_small"
+  },
   "elements": [
     { "from": [ 0, 0, 0 ],
       "to": [ 16, 16, 16 ],

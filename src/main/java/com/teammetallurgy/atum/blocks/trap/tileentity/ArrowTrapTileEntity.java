@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -22,7 +22,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     private int timer = 80;
 
     public ArrowTrapTileEntity() {
-        super(AtumBlocks.AtumTileEntities.ARROW_TRAP);
+        super(AtumTileEntities.ARROW_TRAP);
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+  "parent": "block/bone_block",
+  "textures": {
+    "end": "atum:block/dirty_bone_block",
+    "side": "atum:block/dirty_bone_block_side"
+  }
+}

@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -28,7 +28,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     public int rotations;
 
     public SpinningWheelTileEntity() {
-        super(AtumBlocks.AtumTileEntities.SPINNING_WHEEL, 2);
+        super(AtumTileEntities.SPINNING_WHEEL, 2);
     }
 
     @Override

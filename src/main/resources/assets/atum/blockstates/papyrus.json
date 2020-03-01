@@ -1,19 +1,6 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "cross": "atum:block/papyrus"
-        },
-        "model": "tinted_cross",
-        "uvlock": true
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}],
-        "top": {
-        	"true":{"textures": {"cross": "atum:block/papyrus_top"}},
-        	"false": {"textures": {"cross": "atum:block/papyrus"}}
-        }
-        
+        "top=true": { "model": "atum:block/papyrus_top" },
+        "top=false": { "model": "atum:block/papyrus" }
     }
 }

@@ -1,0 +1,6 @@
+{
+    "parent": "atum:block/date",
+    "textures": {
+        "date": "atum:block/date_stage_2"
+    }
+}

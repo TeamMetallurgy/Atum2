@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.wood.tileentity.crate;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.inventory.container.block.CrateContainer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -29,7 +29,7 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
     public float prevLidAngle;
 
     public CrateTileEntity() {
-        super(AtumBlocks.AtumTileEntities.CRATE, 27);
+        super(AtumTileEntities.CRATE, 27);
     }
 
     @Override
