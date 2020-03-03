@@ -4,10 +4,12 @@ import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
+import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
+import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -22,6 +24,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.IForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryEntry;
 import net.minecraftforge.registries.RegistryBuilder;
@@ -56,7 +59,7 @@ public class AtumRegistry {
     /**
      * Helper method for easily registering relics
      *
-     * @param type  The relic type
+     * @param type The relic type
      * @return The dirty relic item that was registered
      */
     public static LootItem registerRelic(@Nonnull LootItem.Type type) {
@@ -85,14 +88,17 @@ public class AtumRegistry {
      * @return The Block that was registered
      */
     public static Block registerTorch(@Nonnull Block torch, @Nonnull String name) {
-        AtumTorchUnlitBlock.TORCHES.add(torch);
         Block unlitTorch = new AtumTorchUnlitBlock();
         Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch));
-        Block wallTorchUnlit = new AtumWallTorch(Block.Properties.from(unlitTorch).lootFrom(unlitTorch));
-        registerBlock(wallTorchLit, null, "wall_" + name);
-        registerBlock(wallTorchUnlit, null, "wall_" + name + "_unlit");
+        Block wallTorchUnlit = new AtumWallTorchUnlitBlock(wallTorchLit, Block.Properties.from(unlitTorch).lootFrom(unlitTorch));
+        registerBaseBlock(wallTorchLit, "wall_" + name);
+        registerBaseBlock(wallTorchUnlit, "wall_" + name + "_unlit");
         registerBlockWithItem(unlitTorch, new WallOrFloorItem(unlitTorch, wallTorchUnlit, new Item.Properties()), name + "_unlit");
-        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties()), name);
+
+        AtumTorchUnlitBlock.UNLIT.put(torch, unlitTorch);
+        AtumTorchUnlitBlock.LIT.put(unlitTorch, torch);
+
+        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
     }
 
     /**
@@ -321,4 +327,13 @@ public class AtumRegistry {
             event.getRegistry().register(particleType);
         }
     }*/
+
+    @SubscribeEvent
+    public static void data(GatherDataEvent event) {
+        DataGenerator gen = event.getGenerator();
+
+        if (event.includeClient()) {
+            gen.addProvider(new BlockStatesGenerator(gen, event.getExistingFileHelper()));
+        }
+    }
 }

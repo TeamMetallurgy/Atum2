@@ -4,10 +4,10 @@ import com.teammetallurgy.atum.blocks.AtumOresBlock;
 import com.teammetallurgy.atum.blocks.PortalBlock;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.blocks.StrangeSandBlock;
+import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.beacon.FramedRadiantBeaconBlock;
 import com.teammetallurgy.atum.blocks.beacon.RadiantBeaconBlock;
-import com.teammetallurgy.atum.blocks.glass.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
@@ -385,6 +385,7 @@ public class AtumBlocks {
     public static void setBlockInfo() {
         //Fire Info
         FireBlock fire = (FireBlock) Blocks.FIRE;
+        fire.setFireInfo(PALM_PLANKS, 5, 20);
         fire.setFireInfo(PALM_FENCE, 5, 20);
         fire.setFireInfo(PALM_FENCE_GATE, 5, 20);
         fire.setFireInfo(DEADWOOD_FENCE, 5, 20);

@@ -20,31 +20,16 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
-    public static List<Block> TORCHES = new ArrayList<>();
-    private static final Map<Block, Block> UNLIT = Maps.newHashMap();
-    private static final Map<Block, Block> LIT = Maps.newHashMap();
+    public static final Map<Block, Block> UNLIT = Maps.newHashMap();
+    public static final Map<Block, Block> LIT = Maps.newHashMap();
 
     public AtumTorchUnlitBlock() {
         super(0);
-        for (Block torch : TORCHES) {
-            UNLIT.put(torch, this);
-            LIT.put(this, torch);
-        }
-    }
-
-    public static Block getUnlitTorch(Block torch) {
-        return UNLIT.get(torch);
-    }
-
-    private static Block getLitTorch(Block torch) {
-        return LIT.get(torch);
     }
 
     @Override
@@ -55,7 +40,7 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
             if (heldStack.getItem().isDamageable()) {
                 heldStack.damageItem(1, player, (p) -> p.sendBreakAnimation(hand));
             }
-            world.setBlockState(pos, getLitTorch(this).getStateForPlacement(state, rayTraceResult.getFace(), state, world, pos, pos, hand)); //TODO test
+            world.setBlockState(pos, LIT.get(this).getDefaultState());
             world.playSound(null, pos, SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.BLOCKS, 2.5F, 1.0F);
             return true;
         }
@@ -63,13 +48,13 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
     }
 
     @SubscribeEvent
-    public static void onRightClick(PlayerInteractEvent.RightClickBlock event) {
+    public static void onRightClick(PlayerInteractEvent.RightClickBlock event) { //Light unlit held torch
         BlockState state = event.getWorld().getBlockState(event.getPos());
         if (Block.getBlockFromItem(event.getItemStack().getItem()) instanceof AtumTorchUnlitBlock && state.getBlock().getLightValue(state.getBlock().getDefaultState(), event.getWorld(), event.getPos()) > 0) {
             BlockPos pos = event.getPos();
             event.setCanceled(true); //Cancel placement
             event.getItemStack().shrink(1);
-            StackHelper.giveItem(event.getEntityPlayer(), event.getHand(), new ItemStack(getLitTorch(Block.getBlockFromItem(event.getItemStack().getItem()))));
+            StackHelper.giveItem(event.getEntityPlayer(), event.getHand(), new ItemStack(LIT.get(Block.getBlockFromItem(event.getItemStack().getItem()))));
             event.getWorld().playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.BLOCK_FURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 10.0F, 1.0F, false);
         }
     }

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "atum:block/wall_bone_torch_unlit",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "atum:block/wall_bone_torch_unlit",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "atum:block/wall_bone_torch_unlit",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "atum:block/wall_bone_torch_unlit"
+    }
+  }
+}

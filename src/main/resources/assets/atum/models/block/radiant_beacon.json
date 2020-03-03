@@ -1,0 +1,8 @@
+{   "parent": "block/beacon",
+    "textures": {
+        "glass": "atum:block/crystal_glass",
+        "particle": "atum:block/crystal_glass",
+        "obsidian": "atum:block/limestone_brick_large",
+        "beacon": "atum:block/radiant_beacon"
+    }
+}

@@ -1,20 +1,5 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "atum:chest_custom",
-        "textures": {
-            "texture": "atum:block/chest/sarcophagus"
-        },
-        "uvlock": true
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}],
-        "facing":{
-            "north":{},
-            "east":{},
-            "south":{},
-            "west":{}
-        }
+        "": { "model": "atum:block/limestone_chest" }
     }
 }

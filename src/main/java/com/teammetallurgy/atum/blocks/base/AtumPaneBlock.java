@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.glass;
+package com.teammetallurgy.atum.blocks.base;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;

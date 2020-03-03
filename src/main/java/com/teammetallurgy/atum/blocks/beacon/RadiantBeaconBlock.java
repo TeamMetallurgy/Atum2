@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.beacon;
 
-import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BeaconBlock;
@@ -17,18 +16,19 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Hand;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.HashMap;
 
 public class RadiantBeaconBlock extends BeaconBlock {
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
-    private static final HashMap<Integer, DyeColor> RGB_TO_DYE = Maps.newHashMap();
 
     public RadiantBeaconBlock() {
         super(Block.Properties.create(Material.GLASS));
@@ -61,32 +61,26 @@ public class RadiantBeaconBlock extends BeaconBlock {
         } else {
             Block block = Block.getBlockFromItem(heldStack.getItem());
             if (!world.isRemote) {
-                if (block instanceof IBeaconBeamColorProvider) {
-                    world.setBlockState(pos, AtumBlocks.RADIANT_BEACON.getDefaultState().with(COLOR, ((IBeaconBeamColorProvider) block).getColor()), 2);
+                DyeColor color = null;
+                Block beacon = AtumBlocks.RADIANT_BEACON;
+                if (block.getTranslationKey().contains("framed")) {
+                    beacon = AtumBlocks.RADIANT_BEACON_FRAMED;
+                }
+                if (block.isIn(Tags.Blocks.GLASS_COLORLESS) || block.isIn(Tags.Blocks.GLASS_PANES_COLORLESS)) {
+                    color = DyeColor.WHITE;
+                } else if (block instanceof IBeaconBeamColorProvider) {
+                    color = ((IBeaconBeamColorProvider) block).getColor();
+                }
+                if (color != null && color != state.get(COLOR)) {
+                    if (beacon == this) { //Already gets played when changing between framed and crystal
+                        world.playSound(null, pos, SoundEvents.BLOCK_BEACON_DEACTIVATE, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                    }
+                    world.setBlockState(pos, beacon.getDefaultState().with(COLOR, color));
                     if (!player.isCreative()) {
                         heldStack.shrink(1);
                     }
-                } else {
-                    float[] color = block.getBeaconColorMultiplier(state, world, pos, pos);
-                    if (color != null) {
-                        int r = (int) (color[0] * 255F);
-                        int g = (int) (color[1] * 255F);
-                        int b = (int) (color[2] * 255F);
-                        int rgb = ((r & 0x0FF) << 16) | ((g & 0x0FF) << 8) | (b & 0x0FF);
-                        DyeColor dyeColor = RGB_TO_DYE.get(rgb);
-
-                        Block beacon = AtumBlocks.RADIANT_BEACON;
-                        if (block.getTranslationKey().contains("framed")) { //TODO Test
-                            beacon = AtumBlocks.RADIANT_BEACON_FRAMED;
-                        }
-
-                        world.setBlockState(pos, beacon.getDefaultState().with(COLOR, dyeColor));
-                        if (!player.isCreative()) {
-                            heldStack.shrink(1);
-                        }
-                    }
+                    return true;
                 }
-                return true;
             }
         }
         return false;
@@ -95,11 +89,5 @@ public class RadiantBeaconBlock extends BeaconBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(COLOR);
-    }
-
-    static {
-        for (DyeColor color : DyeColor.values()) {
-            RGB_TO_DYE.put(color.getColorValue(), color);
-        }
     }
 }
