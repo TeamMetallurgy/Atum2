@@ -1,6 +1,0 @@
-{
-  "parent": "block/torch_wall",
-  "textures": {
-    "torch": "atum:block/deadwood_torch_unlit"
-  }
-}

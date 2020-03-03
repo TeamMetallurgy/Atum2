@@ -226,6 +226,7 @@ pip-log.txt
 ## ForgeGradle
 #############
 .gradle/
+src/generated/
 build/
 run/
 eclipse/
