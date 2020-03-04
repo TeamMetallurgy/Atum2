@@ -1,7 +1,7 @@
 {
     "variants": {
-        "axis=y":  { "model": "block/stripped_acacia_log" },
-        "axis=z":   { "model": "block/stripped_acacia_log", "x": 90 },
-        "axis=x":   { "model": "block/stripped_acacia_log", "x": 90, "y": 90 }
+        "axis=y":  { "model": "atum:block/stripped_deadwood_log" },
+        "axis=z":   { "model": "atum:block/stripped_deadwood_log", "x": 90 },
+        "axis=x":   { "model": "atum:block/stripped_deadwood_log", "x": 90, "y": 90 }
     }
 }

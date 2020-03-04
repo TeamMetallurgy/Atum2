@@ -1,7 +1,7 @@
 {
     "parent": "block/cube_column",
     "textures": {
-        "end": "atum:block/deadwood_log",
-        "side": "atum:block/deadwood_log"
+        "end": "atum:block/palm_log",
+        "side": "atum:block/palm_log"
     }
 }

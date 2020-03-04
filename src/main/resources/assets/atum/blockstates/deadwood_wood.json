@@ -1,7 +1,7 @@
 {
     "variants": {
-        "axis=y": { "model": "atum:block/acacia_wood" },
-        "axis=z": { "model": "atum:block/acacia_wood", "x": 90 },
-        "axis=x": { "model": "atum:block/acacia_wood", "x": 90, "y": 90 }
+        "axis=y": { "model": "atum:block/deadwood_wood" },
+        "axis=z": { "model": "atum:block/deadwood_wood", "x": 90 },
+        "axis=x": { "model": "atum:block/deadwood_wood", "x": 90, "y": 90 }
     }
 }
