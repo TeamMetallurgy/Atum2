@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "L",
     "L",
@@ -7,8 +7,7 @@
   ],
   "key": {
     "S": {
-      "ore": "stickWood",
-      "type": "forge:ore_dict"
+      "tag": "forge:rods/wooden"
     },
     "L": {
       "item": "atum:limestone_cracked"

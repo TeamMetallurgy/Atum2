@@ -1,23 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "X",
     "#"
   ],
   "key": {
-    "X": [
-      {
-        "item": "minecraft:coal",
-        "data": 0
-      },
-      {
-        "item": "minecraft:coal",
-        "data": 1
-      }
-    ],
+    "X": {
+      "tag": "minecraft:coals"
+    },
     "#": {
-      "ore": "ingotGold",
-      "type": "forge:ore_dict"
+      "tag": "forge:ingots/gold"
     }
   },
   "result": {

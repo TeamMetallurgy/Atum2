@@ -1,12 +1,11 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PPP"
   ],
   "key": {
     "P": {
-      "ore": "plankDeadwood",
-      "type": "forge:ore_dict"
+      "tag": "forge:planks/deadwood"
     }
   },
   "result": {

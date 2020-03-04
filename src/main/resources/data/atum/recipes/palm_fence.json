@@ -6,11 +6,10 @@
   ],
   "key": {
     "S": {
-      "ore": "stickWood",
-      "type": "forge:ore_dict"
+      "tag": "forge:rods/wooden"
     },
     "P": {
-      "item": "atum:palm_planks"
+      "tag": "forge:planks/palm"
     }
   },
   "result": {

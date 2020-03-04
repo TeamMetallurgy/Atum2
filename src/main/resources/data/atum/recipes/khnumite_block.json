@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "KKK",
     "KKK",
@@ -7,8 +7,7 @@
   ],
   "key": {
     "K": {
-      "ore": "ingotKhnumite",
-      "type": "forge:ore_dict"
+      "tag": "forge:ingots/khnumite"
     }
   },
   "result": {

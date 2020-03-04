@@ -1,13 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "KK",
     "SK"
   ],
   "key": {
     "K": {
-      "ore": "ingotKhnumite",
-      "type": "forge:ore_dict"
+      "tag": "forge:ingots/khnumite"
     },
     "S": {
       "item": "atum:stoneguard_sword"

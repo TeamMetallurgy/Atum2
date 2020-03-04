@@ -1,13 +1,11 @@
 {
-  "type": "forge:ore_shapeless",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "ore": "enderpearl",
-      "type": "forge:ore_dict"
+      "tag": "forge:ender_pearls"
     },
     {
-      "ore": "dustBlaze",
-      "type": "forge:ore_dict"
+      "tag": "forge:dusts/blaze"
     }
   ],
   "result": {

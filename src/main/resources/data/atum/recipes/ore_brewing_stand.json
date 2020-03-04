@@ -1,17 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     " B ",
     "CCC"
   ],
   "key": {
     "B": {
-      "ore": "rodBlaze",
-      "type": "forge:ore_dict"
+      "tag": "forge:rods/blaze"
     },
     "C": {
-      "ore": "cobblestone",
-      "type": "forge:ore_dict"
+      "tag": "forge:cobblestone"
     }
   },
   "result": {

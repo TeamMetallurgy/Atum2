@@ -1,24 +1,15 @@
 {
-  "type": "forge:ore_shapeless",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "ore": "gunpowder",
-      "type": "forge:ore_dict"
+      "tag": "forge:gunpowder"
     },
     {
-      "ore": "dustBlaze",
-      "type": "forge:ore_dict"
+      "tag": "forge:dusts/blaze"
     },
-    [
-      {
-        "item": "minecraft:coal",
-        "data": 0
-      },
-      {
-        "item": "minecraft:coal",
-        "data": 1
-      }
-    ]
+    {
+      "tag": "minecraft:coals"
+    }
   ],
   "result": {
     "item": "minecraft:fire_charge",

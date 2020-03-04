@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "LLL",
     "L L",
@@ -7,8 +7,7 @@
   ],
   "key": {
     "L": {
-      "ore": "stoneLimestone",
-      "type": "forge:ore_dict"
+      "tag": "forge:stone/limestone"
     }
   },
   "result": {

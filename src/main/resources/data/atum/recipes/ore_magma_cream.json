@@ -1,13 +1,11 @@
 {
-  "type": "forge:ore_shapeless",
+  "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "ore": "dustBlaze",
-      "type": "forge:ore_dict"
+      "tag": "forge:dusts/blaze"
     },
     {
-      "ore": "slimeball",
-      "type": "forge:ore_dict"
+      "tag": "forge:slimeballs"
     }
   ],
   "result": {

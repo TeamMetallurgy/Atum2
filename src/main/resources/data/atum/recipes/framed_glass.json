@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     " X ",
     "XSX",
@@ -10,8 +10,7 @@
       "item": "atum:crystal_glass"
     },
     "X": {
-      "ore": "stickWood",
-      "type": "forge:ore_dict"
+      "tag": "forge:rods/wooden"
     }
   },
   "result": {

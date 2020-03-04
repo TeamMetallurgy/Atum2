@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "LSL",
     "SRS",
@@ -7,8 +7,7 @@
   ],
   "key": {
     "S": {
-      "ore": "slimeball",
-      "type": "forge:ore_dict"
+      "tag": "forge:slimeballs"
     },
     "L": {
       "item": "atum:limestone_brick_carved"

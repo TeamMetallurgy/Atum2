@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "GBG",
     " G "
@@ -9,8 +9,7 @@
       "item": "atum:crunchy_scarab"
     },
     "G": {
-      "ore": "ingotGold",
-      "type": "forge:ore_dict"
+      "tag": "forge:ingots/gold"
     }
   },
   "result": {

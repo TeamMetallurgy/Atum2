@@ -1,13 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
     "XXX"
   ],
   "key": {
     "X": {
-      "ore": "stoneAlabasterPolished",
-      "type": "forge:ore_dict"
+      "item": "atum:alabaster_brick_polished"
     }
   },
   "result": {

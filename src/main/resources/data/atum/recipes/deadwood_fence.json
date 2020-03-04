@@ -1,17 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PSP",
     "PSP"
   ],
   "key": {
     "S": {
-      "ore": "stickWood",
-      "type": "forge:ore_dict"
+      "tag": "forge:rods/wooden"
     },
     "P": {
-      "ore": "plankDeadwood",
-      "type": "forge:ore_dict"
+      "tag": "forge:planks/deadwood"
     }
   },
   "result": {

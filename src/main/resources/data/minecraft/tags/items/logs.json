@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#minecraft:palm_logs",
-    "#minecraft:deadwood_logs"
+    "#forge:palm_logs",
+    "#forge+:deadwood_logs"
   ]
 }

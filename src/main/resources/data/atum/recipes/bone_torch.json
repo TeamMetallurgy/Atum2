@@ -5,16 +5,9 @@
     "#"
   ],
   "key": {
-    "X": [
-      {
-        "item": "minecraft:coal",
-        "data": 0
-      },
-      {
-        "item": "minecraft:coal",
-        "data": 1
-      }
-    ],
+    "X": {
+      "tag": "minecraft:coals"
+    },
     "#": {
       "item": "atum:dusty_bone_stick"
     }

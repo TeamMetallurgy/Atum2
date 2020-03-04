@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "###",
     "#X#",
@@ -7,8 +7,7 @@
   ],
   "key": {
     "#": {
-      "ore": "ingotGold",
-      "type": "forge:ore_dict"
+      "tag": "forge:ingots/gold"
     },
     "X": {
       "item": "atum:date"

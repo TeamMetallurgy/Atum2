@@ -1,13 +1,12 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     " B ",
     " C "
   ],
   "key": {
     "B": {
-      "ore": "rodBlaze",
-      "type": "forge:ore_dict"
+      "tag": "forge:rods/blaze"
     },
     "C": {
       "item": "minecraft:chorus_fruit_popped"

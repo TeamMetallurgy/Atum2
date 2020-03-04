@@ -1,12 +1,11 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "AA"
   ],
   "key": {
     "A": {
-      "ore": "stonePorphyry",
-      "type": "forge:ore_dict"
+      "tag": "forge:stone/porphyry"
     }
   },
   "result": {
