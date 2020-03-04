@@ -7,11 +7,9 @@
   ],
   "key": {
     "P": {
-      "type": "minecraft:item_nbt",
+      "type": "forge:nbt",
       "item": "minecraft:potion",
-      "nbt": {
-        "Potion": "minecraft:poison"
-      }
+      "nbt": "{Potion:\"minecraft:poison\"}"
     },
     "L": {
       "item": "atum:limestone_brick_carved"

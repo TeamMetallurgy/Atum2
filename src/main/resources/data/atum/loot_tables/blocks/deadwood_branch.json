@@ -1,14 +1,13 @@
 {
-  "type": "minecraft:block",
   "pools": [
     {
       "rolls": 1,
       "entries": [
         {
-          "type": "item",
           "functions": [
             {
               "function": "set_count",
+              "count": 1,
               "conditions": [
                 {
                   "condition": "random_chance",
@@ -17,6 +16,7 @@
               ]
             }
           ],
+          "type": "minecraft:item",
           "name": "atum:deadwood_stick"
         }
       ]

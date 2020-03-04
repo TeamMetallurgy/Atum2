@@ -10,7 +10,7 @@
       "tag": "forge:rods/wooden"
     },
     "P": {
-      "tag": "plankWood"
+      "tag": "minecraft:planks"
     },
     "C": {
       "item": "atum:linen_thread"

@@ -6,7 +6,6 @@
     }
   ],
   "result": {
-    "item": "minecraft:sand",
-    "data": 0
+    "item": "minecraft:sand"
   }
 }

@@ -2,6 +2,6 @@
   "replace": false,
   "values": [
     "#forge:palm_logs",
-    "#forge+:deadwood_logs"
+    "#forge:deadwood_logs"
   ]
 }

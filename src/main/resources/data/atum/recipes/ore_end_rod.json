@@ -9,7 +9,7 @@
       "tag": "forge:rods/blaze"
     },
     "C": {
-      "item": "minecraft:chorus_fruit_popped"
+      "item": "minecraft:popped_chorus_fruit"
     }
   },
   "result": {

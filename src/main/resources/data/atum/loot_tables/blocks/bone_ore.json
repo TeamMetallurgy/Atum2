@@ -49,7 +49,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "atum:dirty_bone"
+              "name": "atum:dirty_bone_block"
             }
           ]
         }

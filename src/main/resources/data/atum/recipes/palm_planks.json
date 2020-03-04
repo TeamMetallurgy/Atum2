@@ -2,7 +2,7 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "minecraft:palm_logs"
+      "tag": "forge:palm_logs"
     }
   ],
   "result": {

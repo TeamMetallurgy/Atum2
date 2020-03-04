@@ -363,8 +363,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:double_plant",
-          "entryName": "rose_bush",
+          "name": "minecraft:rose_bush",
           "functions": [
             {
               "function": "set_count",
@@ -372,18 +371,13 @@
                 "min": 1,
                 "max": 3
               }
-            },
-            {
-              "function": "set_data",
-              "data": 4
             }
           ],
           "weight": 10
         },
         {
           "type": "item",
-          "name": "minecraft:double_plant",
-          "entryName": "sunflower",
+          "name": "minecraft:sunflower",
           "functions": [
             {
               "function": "set_count",
@@ -391,10 +385,6 @@
                 "min": 1,
                 "max": 3
               }
-            },
-            {
-              "function": "set_data",
-              "data": 0
             }
           ],
           "weight": 20
