@@ -51,7 +51,7 @@ public class IsisHealingItem extends AmuletItem {
             double x = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
             double z = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
             for (int l = 0; l < 24; ++l) {
-                player.world.addParticle(AtumParticles.ISIS, player.posX + (world.rand.nextDouble() - 0.25D) * (double) player.getWidth(), player.posY + world.rand.nextDouble() * (double) player.getHeight(), player.posZ + (world.rand.nextDouble() - 0.25D) * (double) player.getWidth(), x, 0.0D, -z);
+                player.world.addParticle(AtumParticles.ISIS, player.getPosX() + (world.rand.nextDouble() - 0.25D) * (double) player.getWidth(), player.getPosY() + world.rand.nextDouble() * (double) player.getHeight(), player.getPosZ() + (world.rand.nextDouble() - 0.25D) * (double) player.getWidth(), x, 0.0D, -z);
             }
             if (!world.isRemote) {
                 player.heal(1.0F);

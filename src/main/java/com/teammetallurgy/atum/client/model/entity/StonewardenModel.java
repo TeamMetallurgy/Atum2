@@ -2,18 +2,18 @@ package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class StonewardenModel<T extends StonewardenEntity> extends EntityModel<T> { //Copied from IronGolemModel, with a few changes
-    private final RendererModel stonewardenHead;
-    private final RendererModel stonewardenBody;
-    public final RendererModel stonewardenRightArm;
-    private final RendererModel stonewardenLeftArm;
-    private final RendererModel stonewardenLeftLeg;
-    private final RendererModel stonewardenRightLeg;
+    private final ModelRenderer stonewardenHead;
+    private final ModelRenderer stonewardenBody;
+    public final ModelRenderer stonewardenRightArm;
+    private final ModelRenderer stonewardenLeftArm;
+    private final ModelRenderer stonewardenLeftLeg;
+    private final ModelRenderer stonewardenRightLeg;
 
     public StonewardenModel() {
         this(0.0F);
@@ -24,24 +24,24 @@ public class StonewardenModel<T extends StonewardenEntity> extends EntityModel<T
     }
 
     public StonewardenModel(float yOffset, float yRotation) {
-        this.stonewardenHead = (new RendererModel(this)).setTextureSize(128, 128);
+        this.stonewardenHead = (new ModelRenderer(this)).setTextureSize(128, 128);
         this.stonewardenHead.setRotationPoint(0.0F, 0.0F + yRotation, -2.0F);
         this.stonewardenHead.setTextureOffset(0, 0).addBox(-4.0F, -12.0F, -5.5F, 8, 10, 8, yOffset);
         this.stonewardenHead.setTextureOffset(24, 0).addBox(-1.0F, -5.0F, -7.5F, 2, 4, 2, yOffset);
-        this.stonewardenBody = (new RendererModel(this)).setTextureSize(128, 128);
+        this.stonewardenBody = (new ModelRenderer(this)).setTextureSize(128, 128);
         this.stonewardenBody.setRotationPoint(0.0F, 0.0F + yRotation, 0.0F);
         this.stonewardenBody.setTextureOffset(0, 40).addBox(-9.0F, -2.0F, -6.0F, 18, 12, 11, yOffset);
         this.stonewardenBody.setTextureOffset(0, 70).addBox(-4.5F, 10.0F, -3.0F, 9, 5, 6, yOffset + 0.5F);
-        this.stonewardenRightArm = (new RendererModel(this)).setTextureSize(128, 128);
+        this.stonewardenRightArm = (new ModelRenderer(this)).setTextureSize(128, 128);
         this.stonewardenRightArm.setRotationPoint(0.0F, -7.0F, 0.0F);
         this.stonewardenRightArm.setTextureOffset(60, 21).addBox(-13.0F, -2.5F, -3.0F, 4, 30, 6, yOffset);
-        this.stonewardenLeftArm = (new RendererModel(this)).setTextureSize(128, 128);
+        this.stonewardenLeftArm = (new ModelRenderer(this)).setTextureSize(128, 128);
         this.stonewardenLeftArm.setRotationPoint(0.0F, -7.0F, 0.0F);
         this.stonewardenLeftArm.setTextureOffset(60, 58).addBox(9.0F, -2.5F, -3.0F, 4, 30, 6, yOffset);
-        this.stonewardenLeftLeg = (new RendererModel(this, 0, 22)).setTextureSize(128, 128);
+        this.stonewardenLeftLeg = (new ModelRenderer(this, 0, 22)).setTextureSize(128, 128);
         this.stonewardenLeftLeg.setRotationPoint(-4.0F, 18.0F + yRotation, 0.0F);
         this.stonewardenLeftLeg.setTextureOffset(37, 0).addBox(-3.5F, -3.0F, -3.0F, 6, 16, 5, yOffset);
-        this.stonewardenRightLeg = (new RendererModel(this, 0, 22)).setTextureSize(128, 128);
+        this.stonewardenRightLeg = (new ModelRenderer(this, 0, 22)).setTextureSize(128, 128);
         this.stonewardenRightLeg.mirror = true;
         this.stonewardenRightLeg.setTextureOffset(60, 0).setRotationPoint(5.0F, 18.0F + yRotation, 0.0F);
         this.stonewardenRightLeg.addBox(-3.5F, -3.0F, -3.0F, 6, 16, 5, yOffset);

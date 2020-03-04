@@ -9,6 +9,7 @@ import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -19,6 +20,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
@@ -52,7 +54,7 @@ public class DateBlock extends BushBlock implements IGrowable {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         if (!world.isRemote) {
             super.tick(state, world, pos, rand);
             if (!world.isAreaLoaded(pos, 1)) return;
@@ -75,12 +77,13 @@ public class DateBlock extends BushBlock implements IGrowable {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
         if (state.get(AGE) == 7) {
             spawnDrops(state, world, pos);
-            return world.setBlockState(pos, this.getDefaultState());
+            return world.setBlockState(pos, this.getDefaultState()) ? ActionResultType.SUCCESS : ActionResultType.PASS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class DateBlock extends BushBlock implements IGrowable {
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void grow(@Nonnull ServerWorld world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         int growth = state.get(AGE) + MathHelper.nextInt(rand, 1, 2);
         int maxAge = 7;
 

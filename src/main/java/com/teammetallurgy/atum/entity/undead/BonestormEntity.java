@@ -84,7 +84,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
 
         LivingEntity livingBase = this.getAttackTarget();
 
-        if (livingBase != null && livingBase.posY + (double) livingBase.getEyeHeight() > this.posY + (double) this.getEyeHeight() + (double) this.heightOffset) {
+        if (livingBase != null && livingBase.getPosY() + (double) livingBase.getEyeHeight() > this.getPosY() + (double) this.getEyeHeight() + (double) this.heightOffset) {
             this.setMotion(this.getMotion().add(0.0D, (0.30000001192092896D - this.getMotion().y) * 0.30000001192092896D, 0.0D));
             this.isAirBorne = true;
         }
@@ -109,7 +109,8 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     private static class AIBoneAttack extends Goal {
@@ -145,11 +146,11 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
                         this.attackTime = 20;
                         this.bonestorm.attackEntityAsMob(livingBase);
                     }
-                    this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
+                    this.bonestorm.getMoveHelper().setMoveTo(livingBase.getPosX(), livingBase.getPosY(), livingBase.getPosZ(), 1.0D);
                 } else if (distance < this.getFollowDistance() * this.getFollowDistance()) {
-                    double boneX = livingBase.posX - this.bonestorm.posX;
-                    double boneY = livingBase.getBoundingBox().minY + (double) (livingBase.getHeight() / 2.0F) - (this.bonestorm.posY + (double) (this.bonestorm.getHeight() / 2.0F));
-                    double boneZ = livingBase.posZ - this.bonestorm.posZ;
+                    double boneX = livingBase.getPosX() - this.bonestorm.getPosX();
+                    double boneY = livingBase.getBoundingBox().minY + (double) (livingBase.getHeight() / 2.0F) - (this.bonestorm.getPosY() + (double) (this.bonestorm.getHeight() / 2.0F));
+                    double boneZ = livingBase.getPosZ() - this.bonestorm.getPosZ();
 
                     if (this.attackTime <= 0) {
                         ++this.attackStep;
@@ -169,7 +170,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
 
                             for (int i = 0; i < 1; ++i) {
                                 SmallBoneEntity entitySmallBone = new SmallBoneEntity(this.bonestorm.world, this.bonestorm, boneX + this.bonestorm.getRNG().nextGaussian() * (double) f, boneY, boneZ + this.bonestorm.getRNG().nextGaussian() * (double) f);
-                                entitySmallBone.posY = this.bonestorm.posY + (this.bonestorm.getHeight() / 2.0F) + 0.5D;
+                                entitySmallBone.setPosition(entitySmallBone.getPosX(), this.bonestorm.getPosY() + (this.bonestorm.getHeight() / 2.0F) + 0.5D, entitySmallBone.getPosZ());
                                 this.bonestorm.world.addEntity(entitySmallBone);
                             }
                         }
@@ -177,7 +178,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
                     this.bonestorm.getLookController().setLookPositionWithEntity(livingBase, 10.0F, 10.0F);
                 } else {
                     this.bonestorm.getNavigator().clearPath();
-                    this.bonestorm.getMoveHelper().setMoveTo(livingBase.posX, livingBase.posY, livingBase.posZ, 1.0D);
+                    this.bonestorm.getMoveHelper().setMoveTo(livingBase.getPosX(), livingBase.getPosY(), livingBase.getPosZ(), 1.0D);
                 }
             }
             super.tick();

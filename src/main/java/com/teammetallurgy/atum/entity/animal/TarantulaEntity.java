@@ -55,7 +55,7 @@ public class TarantulaEntity extends MonsterEntity {
     }
 
     public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() >= 40 && pos.getY() <= 62 && world.canBlockSeeSky(pos) && !world.canBlockSeeSky(pos.down()) && func_223325_c(tarantula, world, spawnReason, pos, random);
+        return pos.getY() >= 40 && pos.getY() <= 62 && world.canBlockSeeSky(pos) && !world.canBlockSeeSky(pos.down()) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random);
     }
 
     @Override

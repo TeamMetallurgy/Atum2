@@ -22,6 +22,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
@@ -31,7 +32,6 @@ import java.util.UUID;
 
 public class AnputsFingersBlock extends CropsBlock {
     private static final IntegerProperty ANPUTS_FINGERS_AGE = BlockStateProperties.AGE_0_3;
-    ;
     private static final VoxelShape[] SHAPE = new VoxelShape[]{Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
     private HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
 
@@ -74,7 +74,7 @@ public class AnputsFingersBlock extends CropsBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         int age = this.getAge(state);
         if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
             BlockState newState = state.with(this.getAgeProperty(), age + 1);

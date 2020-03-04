@@ -58,7 +58,7 @@ public class ShusExileItem extends BattleAxeItem {
                 double x = MathHelper.nextDouble(random, 0.0001D, 0.02D);
                 double z = MathHelper.nextDouble(random, 0.0001D, 0.02D);
                 for (int l = 0; l < 12; ++l) {
-                    target.world.addParticle(AtumParticles.SHU, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + target.getEyeHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), x, 0.04D, -z);
+                    target.world.addParticle(AtumParticles.SHU, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + target.getEyeHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), x, 0.04D, -z);
                 }
             }
             cooldown.removeFloat(attacker);

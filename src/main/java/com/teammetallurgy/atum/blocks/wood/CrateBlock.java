@@ -12,17 +12,12 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -41,29 +36,24 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasCustomBreakingProgress(BlockState state) {
-        return true;
-    }
-
-    @Override
     @Nonnull
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTrace) {
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTrace) {
         if (world.isRemote) {
-            return true;
+            return ActionResultType.PASS;
         }
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof CrateTileEntity) {
             player.openContainer((CrateTileEntity) tileEntity);
             player.addStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Nullable

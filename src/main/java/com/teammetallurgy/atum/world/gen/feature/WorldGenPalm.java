@@ -61,12 +61,12 @@ public class WorldGenPalm extends WorldGenAbstractTree {
                     k = 2;
                 }
 
-                BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+                BlockPos.Mutable Mutable = new BlockPos.Mutable();
 
                 for (int l = pos.getX() - k; l <= pos.getX() + k && flag; ++l) {
                     for (int i1 = pos.getZ() - k; i1 <= pos.getZ() + k && flag; ++i1) {
                         if (j >= 0 && j < 256) {
-                            if (!this.isReplaceable(world, mutableBlockPos.setPos(l, j, i1))) {
+                            if (!this.isReplaceable(world, Mutable.setPos(l, j, i1))) {
                                 flag = false;
                             }
                         } else {
@@ -94,7 +94,7 @@ public class WorldGenPalm extends WorldGenAbstractTree {
 
                     this.spawnLeaf(world, leafPos.add(0, 1, 0));
 
-                    for (BlockPos.MutableBlockPos baseLeafPos : BlockPos.MutableBlockPos.getAllInBoxMutable(leafPos.add(-1, 0, -1), leafPos.add(1, 0, 1))) {
+                    for (BlockPos.Mutable baseLeafPos : BlockPos.Mutable.getAllInBoxMutable(leafPos.add(-1, 0, -1), leafPos.add(1, 0, 1))) {
                         this.spawnLeaf(world, baseLeafPos);
                     }
 

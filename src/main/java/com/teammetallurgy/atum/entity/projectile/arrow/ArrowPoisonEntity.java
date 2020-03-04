@@ -27,7 +27,7 @@ public class ArrowPoisonEntity extends CustomArrow {
     public void tick() {
         super.tick();
         if (this.getShooter() instanceof PlayerEntity && world.getGameTime() % 4L == 0L) {
-            world.addParticle(AtumParticles.SETH, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+            world.addParticle(AtumParticles.SETH, getPosX(), getPosY() - 0.05D, getPosZ(), 0.0D, 0.0D, 0.0D);
         }
     }
 

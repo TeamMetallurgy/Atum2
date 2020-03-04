@@ -39,9 +39,9 @@ public class HeartOfRaEntity extends Entity {
 
     @Override
     public void tick() {
-        this.prevPosX = this.posX;
-        this.prevPosY = this.posY;
-        this.prevPosZ = this.posZ;
+        this.prevPosX = this.getPosX();
+        this.prevPosY = this.getPosY();
+        this.prevPosZ = this.getPosZ();
         ++this.innerRotation;
 
         if (!(world.getBlockState(getPosition()).getBlock() instanceof HeartOfRaBlock)) {
@@ -63,7 +63,7 @@ public class HeartOfRaEntity extends Entity {
                 this.remove();
                 if (!this.world.isRemote) {
                     if (!source.isExplosion()) {
-                        this.world.createExplosion(null, this.posX, this.posY, this.posZ, 3.0F, Explosion.Mode.DESTROY);
+                        this.world.createExplosion(null, this.getPosX(), this.getPosY(), this.getPosZ(), 3.0F, Explosion.Mode.DESTROY);
                         this.entityDropItem(AtumBlocks.HEART_OF_RA.asItem(), 1);
                     }
                 }

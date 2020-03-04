@@ -176,7 +176,7 @@ public class BanditBaseEntity extends MonsterEntity implements ITexture {
     }
 
     public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > 62 && world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 && func_223324_d(banditBase, world, spawnReason, pos, random);
+        return pos.getY() > 62 && world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 && canMonsterSpawn(banditBase, world, spawnReason, pos, random);
     }
 
     @Override

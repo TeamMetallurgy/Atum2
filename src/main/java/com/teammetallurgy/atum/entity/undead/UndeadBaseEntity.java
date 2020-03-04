@@ -178,7 +178,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > 62 && func_223325_c(undeadBase, world, spawnReason, pos, random);
+        return pos.getY() > 62 && canMonsterSpawnInLight(undeadBase, world, spawnReason, pos, random);
     }
 
     void setVariant(int variant) {

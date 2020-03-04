@@ -106,7 +106,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                     return 1.0D;
                 } else if (pyramidPos != null) {
                     BlockPos structurePos = pyramidPos;
-                    return Math.atan2((double) structurePos.getZ() - entity.posZ, (double) structurePos.getX() - entity.posX);
+                    return Math.atan2((double) structurePos.getZ() - entity.getPosZ(), (double) structurePos.getX() - entity.getPosX());
                 }
                 return MathHelper.positiveModulo(this.wobble(world, Math.random()), 1.0D);
             }

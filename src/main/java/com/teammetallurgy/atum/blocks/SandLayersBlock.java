@@ -54,7 +54,7 @@ public class SandLayersBlock extends FallingBlock {
     }
 
     @Override
-    public boolean func_220074_n(BlockState state) {
+    public boolean isTransparent(BlockState state) {
         return true;
     }
 

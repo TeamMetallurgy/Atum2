@@ -127,7 +127,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
 
     @Override
     protected boolean processInteract(PlayerEntity player, Hand hand) {
-        if (this.isPlayerCreated() && player.isSneaking() && player.getHeldItem(hand).isEmpty()) {
+        if (this.isPlayerCreated() && player.isCrouching() && player.getHeldItem(hand).isEmpty()) {
             if (!world.isRemote) {
                 for (ItemStack held : this.getHeldEquipment()) {
                     StackHelper.giveItem(player, hand, held);

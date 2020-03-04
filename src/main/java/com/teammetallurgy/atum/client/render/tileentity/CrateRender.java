@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.IChestLid;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -24,6 +25,10 @@ import java.util.Objects;
 public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private final CrateModel modelCrate = new CrateModel();
+
+    public CrateRender(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+    }
 
     @Override
     public void render(@Nonnull CrateTileEntity crate, double x, double y, double z, float partialTicks, int destroyStage) {

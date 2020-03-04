@@ -236,12 +236,12 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     private void spit(LivingEntity target) {
         CamelSpitEntity camelSpit = new CamelSpitEntity(this.world, this);
-        double d0 = target.posX - this.posX;
-        double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - camelSpit.posY;
-        double d2 = target.posZ - this.posZ;
+        double d0 = target.getPosX() - this.getPosX();
+        double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - camelSpit.getPosY();
+        double d2 = target.getPosZ() - this.getPosZ();
         float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-        this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+        this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         this.world.addEntity(camelSpit);
         this.didSpit = true;
     }
@@ -265,7 +265,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         if (this.isPassenger(passenger)) {
             float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
             float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
-            passenger.setPosition(this.posX + (double) (0.1F * sin), this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ - (double) (0.1F * cos));
+            passenger.setPosition(this.getPosX() + (double) (0.1F * sin), this.getPosY() + this.getMountedYOffset() + passenger.getYOffset(), this.getPosZ() - (double) (0.1F * cos));
         }
     }
 
@@ -546,7 +546,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             }
 
             if (!this.isChild()) {
-                if (this.isTame() && player.isSneaking()) {
+                if (this.isTame() && player.isCrouching()) {
                     this.openGUI(player);
                     return true;
                 }
@@ -618,7 +618,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             isEating = true;
         }
         if (this.isChild() && growthAmount > 0) {
-            this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.posX + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.posY + 0.5D + (double) (this.rand.nextFloat() * this.getHeight()), this.posZ + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
+            this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getPosX() + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.getPosY() + 0.5D + (double) (this.rand.nextFloat() * this.getHeight()), this.getPosZ() + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
 
             if (!this.world.isRemote) {
                 this.addGrowth(growthAmount);
@@ -640,7 +640,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     private void eatingCamel() {
         if (!this.isSilent()) {
-            this.world.playSound(null, this.posX, this.posY, this.posZ, SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
         }
     }
 

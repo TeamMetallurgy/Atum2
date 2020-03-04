@@ -18,6 +18,7 @@ import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
@@ -73,7 +74,7 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Looks at Choru
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         if (!this.canSurviveAt(world, pos)) {
             world.destroyBlock(pos, true);
         }

@@ -44,10 +44,10 @@ public class ShusBreathItem extends BaseBowItem {
             double x = MathHelper.nextDouble(random, 0.01D, 0.1D);
             double z = MathHelper.nextDouble(random, 0.01D, 0.1D);
             for (int l = 0; l < 12; ++l) {
-                player.world.addParticle(AtumParticles.SHU, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), x, 0.0D, 0.0D);
-                player.world.addParticle(AtumParticles.SHU, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, z);
-                player.world.addParticle(AtumParticles.SHU, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), -x, 0.0D, 0.0D);
-                player.world.addParticle(AtumParticles.SHU, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, -z);
+                player.world.addParticle(AtumParticles.SHU, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), x, 0.0D, 0.0D);
+                player.world.addParticle(AtumParticles.SHU, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, z);
+                player.world.addParticle(AtumParticles.SHU, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), -x, 0.0D, 0.0D);
+                player.world.addParticle(AtumParticles.SHU, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, -z);
             }
         }
     }

@@ -1,30 +1,27 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
-import com.google.common.collect.Maps;
-import com.mojang.blaze3d.platform.GlStateManager;
-import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
-import com.teammetallurgy.atum.client.model.chest.SarcophagusModel;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.block.BlockState;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
-import net.minecraft.client.renderer.tileentity.model.ChestModel;
-import net.minecraft.client.renderer.tileentity.model.LargeChestModel;
-import net.minecraft.state.properties.ChestType;
-import net.minecraft.tileentity.IChestLid;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
-import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
 public class TileChestRender extends TileEntityRenderer<ChestBaseTileEntity> {
-    private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
+
+    public TileChestRender(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+    }
+
+    @Override
+    public void render(@Nonnull ChestBaseTileEntity chest, float v, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer renderTypeBuffer, int i, int i1) {
+
+    }
+    /*private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap(); //TODO
     private final SarcophagusModel sarcophagus = new SarcophagusModel();
     private final ChestModel simpleChest = new ChestModel();
     private final ChestModel largeChest = new LargeChestModel();
@@ -90,5 +87,5 @@ public class TileChestRender extends TileEntityRenderer<ChestBaseTileEntity> {
         lidAngle = 1.0F - lidAngle;
         lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
         model.getLid().rotateAngleX = -(lidAngle * 1.5707964F);
-    }
+    }*/
 }

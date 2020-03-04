@@ -44,7 +44,7 @@ public class BodyOfAtumItem extends TexturedArmorItem {
         if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATUM && target instanceof LivingEntity && ((LivingEntity) target).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
             if (entity instanceof ServerPlayerEntity) {
                 for (int l = 0; l < 16; ++l) {
-                    entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + world.rand.nextDouble() * (double) entity.getHeight(), entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
+                    entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + world.rand.nextDouble() * (double) entity.getHeight(), entity.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
                 }
             }
             event.setAmount(event.getAmount() / 2);

@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockRenderLayer;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -49,15 +49,10 @@ public class RadiantBeaconBlock extends BeaconBlock {
 
     @Override
     @Nonnull
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
-
-    @Override
-    public boolean onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         ItemStack heldStack = player.getHeldItem(hand);
         if (heldStack.isEmpty()) {
-            return false;
+            return ActionResultType.FAIL;
         } else {
             Block block = Block.getBlockFromItem(heldStack.getItem());
             if (!world.isRemote) {
@@ -79,11 +74,11 @@ public class RadiantBeaconBlock extends BeaconBlock {
                     if (!player.isCreative()) {
                         heldStack.shrink(1);
                     }
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
         }
-        return false;
+        return ActionResultType.PASS;
     }
 
     @Override

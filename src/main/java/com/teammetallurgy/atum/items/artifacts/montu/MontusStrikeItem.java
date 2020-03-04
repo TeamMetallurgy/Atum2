@@ -72,10 +72,10 @@ public class MontusStrikeItem extends BattleAxeItem {
                         for (int amount = 0; amount < 20; amount++) {
                             double d0 = -MathHelper.sin(player.rotationYaw * 0.017453292F);
                             double d1 = MathHelper.cos(player.rotationYaw * 0.017453292F);
-                            target.world.addParticle(AtumParticles.MONTU, target.posX + d0, target.posY + 1.1D, target.posZ + d1, 0.0D, 0.0D, 0.0D);
-                            entity.world.addParticle(AtumParticles.MONTU, entity.posX + d0, entity.posY + 1.1D, entity.posZ + d1, 0.0D, 0.0D, 0.0D);
+                            target.world.addParticle(AtumParticles.MONTU, target.getPosX() + d0, target.getPosY() + 1.1D, target.getPosZ() + d1, 0.0D, 0.0D, 0.0D);
+                            entity.world.addParticle(AtumParticles.MONTU, entity.getPosX() + d0, entity.getPosY() + 1.1D, entity.getPosZ() + d1, 0.0D, 0.0D, 0.0D);
                         }
-                        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+                        world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
                     }
                 }
             }

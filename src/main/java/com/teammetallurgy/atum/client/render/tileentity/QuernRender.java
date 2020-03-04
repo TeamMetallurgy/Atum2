@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.RenderUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -21,6 +22,10 @@ import javax.annotation.Nonnull;
 public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
     private static final ResourceLocation QUERN_STONE = new ResourceLocation(Constants.MOD_ID, "textures/block/quern_stone.png");
     private static final QuernStoneModel QUERN_STONE_MODEL = new QuernStoneModel();
+
+    public QuernRender(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+    }
 
     @Override
     public void render(@Nonnull QuernTileEntity quern, double x, double y, double z, float partialTicks, int destroyStage) {

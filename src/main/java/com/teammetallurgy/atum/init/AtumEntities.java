@@ -42,7 +42,7 @@ public class AtumEntities {
     public static final EntityType<MummyEntity> MUMMY = registerMob("mummy", 0x515838, 0x868F6B, Builder.create(MummyEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));
     public static final EntityType<NomadEntity> NOMAD = registerMob("nomad", 0xC2C2C2, 0x7E0C0C, Builder.create(NomadEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));
     public static final EntityType<PharaohEntity> PHARAOH = registerMob("pharaoh", 0xD4BC37, 0x3A4BE0, Builder.create(PharaohEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire());
-    public static final EntityType<DesertRabbitEntity> RABBIT = registerMob("desert_rabbit", 0xAE8652, 0x694C29, Builder.create(DesertRabbitEntity::new, EntityClassification.CREATURE).size(0.4F, 0.5F));
+    public static final EntityType<DesertRabbitEntity> DESERT_RABBIT = registerMob("desert_rabbit", 0xAE8652, 0x694C29, Builder.create(DesertRabbitEntity::new, EntityClassification.CREATURE).size(0.4F, 0.5F));
     public static final EntityType<ScarabEntity> SCARAB = registerMob("scarab", 0x61412C, 0x2F1D10, Builder.create(ScarabEntity::new, EntityClassification.MONSTER).size(0.4F, 0.3F));
     public static final EntityType<StoneguardEntity> STONEGUARD = registerMob("stoneguard", 0x918354, 0x695D37, Builder.create(StoneguardEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire());
     public static final EntityType<StonewardenEntity> STONEWARDEN = registerMob("stonewarden", 0x918354, 0x695D37, Builder.create(StonewardenEntity::new, EntityClassification.MONSTER).size(1.4F, 2.7F).immuneToFire());
@@ -71,7 +71,7 @@ public class AtumEntities {
     public static final EntityType<ArrowRainEntity> RAIN_ARROW = registerArrow("arrow_rain", ArrowRainEntity::new);
     public static final EntityType<ArrowSlownessEntity> SLOWNESS_ARROW = registerArrow("arrow_slowness", ArrowSlownessEntity::new);
     public static final EntityType<ArrowStraightEntity> STRAIGHT_ARROW = registerArrow("arrow_straight", ArrowStraightEntity::new);
-    public static final EntityType<TefnutsCallEntity> TEFNUTS_CALL = registerArrow("tefnuts_call", TefnutsCallEntity::new);
+    public static final EntityType<TefnutsCallEntity> TEFNUTS_CALL = registerArrow("tefnuts_call", TefnutsCallEntity::new); //TODO Do not register as arrow
 
     public static void registerSpawnPlacement() {
         EntitySpawnPlacementRegistry.register(ASSASSIN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
@@ -84,7 +84,7 @@ public class AtumEntities {
         EntitySpawnPlacementRegistry.register(MUMMY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(NOMAD, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(PHARAOH, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
-        EntitySpawnPlacementRegistry.register(RABBIT, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
+        EntitySpawnPlacementRegistry.register(DESERT_RABBIT, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
         EntitySpawnPlacementRegistry.register(SCARAB, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ScarabEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(STONEGUARD, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(STONEWARDEN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);

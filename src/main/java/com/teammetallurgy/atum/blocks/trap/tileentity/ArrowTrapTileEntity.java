@@ -98,7 +98,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     private boolean canSee(Direction facing, World world, LivingEntity living){
         Vec3i dir = facing.getDirectionVec();
         Vec3d posDir = new Vec3d(pos.getX() + dir.getX(), pos.getY() + dir.getY(), pos.getZ() + dir.getZ());
-        Vec3d livingPos = new Vec3d(living.posX, living.posY + (double)living.getEyeHeight(), living.posZ);
+        Vec3d livingPos = new Vec3d(living.getPosX(), living.getPosY() + (double)living.getEyeHeight(), living.getPosZ());
         return world.rayTraceBlocks(new RayTraceContext(posDir, livingPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, living)).getType() == RayTraceResult.Type.ENTITY; //TODO Test
     }
 

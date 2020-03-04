@@ -10,6 +10,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements IGrowable {
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, Random rand) {
+    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, Random rand) {
         super.randomTick(state, world, pos, rand);
         if (!world.isRemote) {
             if (world.rand.nextDouble() <= 0.05F) {
@@ -54,7 +55,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements IGrowable {
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void grow(@Nonnull ServerWorld world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         if (canGrow(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
             world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
         }

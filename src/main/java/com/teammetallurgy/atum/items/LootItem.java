@@ -62,17 +62,17 @@ public class LootItem extends Item {
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
         World world = entityItem.world;
-        BlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.posX), MathHelper.floor(entityItem.posY), MathHelper.floor(entityItem.posZ)));
+        BlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.getPosX()), MathHelper.floor(entityItem.getPosY()), MathHelper.floor(entityItem.getPosZ())));
         if (state.getFluidState().isTagged(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.get(CauldronBlock.LEVEL) > 0) {
             if (stack.getItem() instanceof LootItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
                 while (stack.getCount() > 0) {
                     Item item = getLootItem(getType(stack.getItem()), WeightedRandom.getRandomItem(random, LOOT_ENTRIES).quality);
                     if (random.nextFloat() <= 0.10F) {
                         stack.shrink(1);
-                        world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                        world.playSound(null, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
                     } else {
-                        world.addEntity(new ItemEntity(world, entityItem.posX, entityItem.posY, entityItem.posZ, new ItemStack(item)));
-                        world.playSound(null, entityItem.posX, entityItem.posY, entityItem.posZ, SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                        world.addEntity(new ItemEntity(world, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), new ItemStack(item)));
+                        world.playSound(null, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
                         stack.shrink(1);
                     }
                 }

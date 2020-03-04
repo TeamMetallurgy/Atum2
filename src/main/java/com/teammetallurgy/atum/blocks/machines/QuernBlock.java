@@ -53,7 +53,7 @@ public class QuernBlock extends ContainerBlock {
         if (tileEntity instanceof QuernTileEntity) {
             QuernTileEntity quern = (QuernTileEntity) tileEntity;
             if (!quern.isEmpty()) {
-                if (player.isSneaking()) {
+                if (player.isCrouching()) {
                     StackHelper.dropInventoryItems(world, pos, quern);
                 } else {
                     ItemStack slotStack = quern.getStackInSlot(0);
@@ -68,8 +68,9 @@ public class QuernBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
-        if (player == null || player instanceof FakePlayer) return true;
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+        if (player == null || player instanceof FakePlayer) return ActionResultType.PASS;
         ItemStack heldStack = player.getHeldItem(hand);
         TileEntity tileEntity = world.getTileEntity(pos);
 
@@ -92,9 +93,9 @@ public class QuernBlock extends ContainerBlock {
                 }
             }
             quern.markDirty();
-            return true;
+            return ActionResultType.SUCCESS;
         }
-        return true;
+        return ActionResultType.PASS;
     }
 
     @Override
@@ -131,10 +132,5 @@ public class QuernBlock extends ContainerBlock {
     @Nonnull
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
-    }
-
-    @Override
-    public boolean hasCustomBreakingProgress(BlockState state) {
-        return true;
     }
 }

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.render;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.client.model.shield.AtumsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
 import com.teammetallurgy.atum.client.model.shield.ShieldModel;
@@ -10,6 +11,7 @@ import com.teammetallurgy.atum.items.artifacts.atum.AtumsProtectionItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
@@ -29,7 +31,7 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
     private static final StoneguardShieldModel STONEGUARD_SHIELD = new StoneguardShieldModel();
 
     @Override
-    public void renderByItem(@Nonnull ItemStack stack) {
+    public void render(@Nonnull ItemStack stack, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int i, int i1) {
         Item item = stack.getItem();
 
         if (item instanceof BlockItem) {
@@ -47,18 +49,18 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
     }
 
     private void renderShield(@Nonnull ItemStack stack, ShieldModel shieldModel, ResourceLocation texture) {
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         TextureManager textureManager = Minecraft.getInstance().getTextureManager();
         textureManager.bindTexture(texture);
         shieldModel.render();
         if (stack.hasEffect()) {
             this.renderEffect(textureManager, shieldModel::render);
         }
-        GlStateManager.popMatrix();
+        RenderSystem.popMatrix();
     }
 
     private void renderEffect(TextureManager textureManager, Runnable runnable) {
-        GlStateManager.color3f(0.5019608F, 0.2509804F, 0.8F);
+        RenderSystem.color3f(0.5019608F, 0.2509804F, 0.8F);
         textureManager.bindTexture(ItemRenderer.RES_ITEM_GLINT);
         ItemRenderer.renderEffect(Minecraft.getInstance().getTextureManager(), runnable, 1);
     }

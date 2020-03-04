@@ -15,6 +15,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
@@ -39,7 +40,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         int moisture = state.get(MOISTURE);
 
         Block blockUp = world.getBlockState(pos.up()).getBlock();
@@ -83,7 +84,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
         if (!world.isRemote && entity.canTrample(this.getDefaultState(), pos, fallDistance)) {
             turnToSoil(world, pos);
         }
-        entity.fall(fallDistance, 1.0F);
+        entity.onLivingFall(fallDistance, 1.0F);
     }
 
     private static void turnToSoil(World world, BlockPos pos) {
@@ -96,8 +97,8 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, 0, -6), pos.add(6, 1, 6))) {
-            if (world.getBlockState(mutableBlockPos).getMaterial() == Material.WATER) {
+        for (BlockPos Mutable : BlockPos.getAllInBoxMutable(pos.add(-6, 0, -6), pos.add(6, 1, 6))) {
+            if (world.getBlockState(Mutable).getMaterial() == Material.WATER) {
                 return true;
             }
         }

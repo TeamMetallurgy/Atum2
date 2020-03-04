@@ -67,7 +67,7 @@ public class ShusSwiftnessItem extends AmuletItem {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (player.moveForward != 0.0F) {
             for (int l = 0; l < 2; ++l) {
-                player.world.addParticle(AtumParticles.SHU, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 0.2D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
+                player.world.addParticle(AtumParticles.SHU, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 0.2D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
         if (!world.isRemote) {

@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import net.minecraft.client.renderer.tileentity.BeaconTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -14,6 +15,10 @@ import java.util.List;
 @OnlyIn(Dist.CLIENT)
 public class RadiantBeaconRender extends TileEntityRenderer<RadiantBeaconTileEntity> {
     private static final ResourceLocation BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
+
+    public RadiantBeaconRender(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+    }
 
     @Override
     public void render(RadiantBeaconTileEntity radiantBeacon, double x, double y, double z, float partialTicks, int destroyStage) {

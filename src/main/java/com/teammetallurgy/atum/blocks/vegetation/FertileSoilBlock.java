@@ -8,6 +8,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
@@ -27,7 +28,7 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
@@ -60,8 +61,8 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos mutableBlockPos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
-            if (world.getBlockState(mutableBlockPos).getMaterial() == Material.WATER) {
+        for (BlockPos Mutable : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
+            if (world.getBlockState(Mutable).getMaterial() == Material.WATER) {
                 return true;
             }
         }
@@ -101,7 +102,7 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     @Override
-    public void grow(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public void grow(@Nonnull ServerWorld world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         BlockPos posUp = pos.up();
 
         for (int amount = 0; amount < 36; ++amount) {

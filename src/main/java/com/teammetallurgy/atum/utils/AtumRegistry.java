@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
+import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
@@ -13,7 +14,6 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
@@ -42,6 +42,7 @@ public class AtumRegistry {
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
+    public static final List<EntityType<? extends CustomArrow>> ARROWS = Lists.newArrayList();
 
     /**
      * Registers an item
@@ -191,12 +192,14 @@ public class AtumRegistry {
      * @param name String to register the arrow with
      * @return The Arrow EntityType that was registered
      */
-    public static <T extends AbstractArrowEntity> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory) {
+    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory) {
         EntityType.Builder<T> builder = EntityType.Builder.create(factory, EntityClassification.MISC)
                 .size(0.5F, 0.5F)
                 .setTrackingRange(4)
                 .setUpdateInterval(20);
-        return registerEntity(name, builder);
+        EntityType<T> entityType = registerEntity(name, builder);
+        ARROWS.add(entityType);
+        return entityType;
     }
 
     /**

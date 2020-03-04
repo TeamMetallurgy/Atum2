@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
 import net.minecraft.client.renderer.tileentity.BeaconTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.DyeColor;
 import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -13,6 +14,10 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 @OnlyIn(Dist.CLIENT)
 public class HeartOfRaBaseRender extends TileEntityRenderer<HeartOfRaTileEntity> {
     private static final ResourceLocation BEAM = new ResourceLocation("textures/entity/beacon_beam.png");
+
+    public HeartOfRaBaseRender(TileEntityRendererDispatcher dispatcher) {
+        super(dispatcher);
+    }
 
     @Override
     public void render(HeartOfRaTileEntity heartOfRa, double x, double y, double z, float partialTicks, int destroyStage) {

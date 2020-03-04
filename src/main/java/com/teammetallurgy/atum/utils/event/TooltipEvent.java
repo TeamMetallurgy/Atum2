@@ -23,7 +23,7 @@ public class TooltipEvent {
             if (item.isIn(AtumAPI.Tags.TOOLTIP)) {
                 if (item.getRegistryName() != null) {
                     String itemIdentifier = item.getRegistryName().getPath() + ".tooltip";
-                    if (InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                    if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
                         event.getToolTip().add(new TranslationTextComponent(Constants.MOD_ID + "." + itemIdentifier + ".line1").applyTextStyle(TextFormatting.DARK_PURPLE));
                         event.getToolTip().add(new TranslationTextComponent(Constants.MOD_ID + "." + itemIdentifier + ".line2").applyTextStyle(TextFormatting.DARK_PURPLE));
                     } else {

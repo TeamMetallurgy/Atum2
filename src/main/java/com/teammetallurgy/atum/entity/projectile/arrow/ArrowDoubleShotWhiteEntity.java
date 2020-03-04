@@ -23,7 +23,7 @@ public class ArrowDoubleShotWhiteEntity extends CustomArrow {
 
         if (this.getIsCritical()) {
             for (int l = 0; l < 8; ++l) {
-                world.addParticle(AtumParticles.NUIT_WHITE, this.posX + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.posY + world.rand.nextDouble() * (double) this.getHeight(), this.posZ + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
+                world.addParticle(AtumParticles.NUIT_WHITE, this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
     }

@@ -78,17 +78,17 @@ public class AnubisWrathItem extends SwordItem {
 
     @Override
     public boolean showDurabilityBar(@Nonnull ItemStack stack) {
-        return !InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.showDurabilityBar(stack) : getSouls(stack) > 0;
+        return !InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.showDurabilityBar(stack) : getSouls(stack) > 0;
     }
 
     @Override
     public double getDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return !InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getDurabilityForDisplay(stack) : (double) (getSoulUpgradeTier(getTier(stack)) - Math.min(getSouls(stack), 500)) / (double) getSoulUpgradeTier(getTier(stack));
+        return !InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getDurabilityForDisplay(stack) : (double) (getSoulUpgradeTier(getTier(stack)) - Math.min(getSouls(stack), 500)) / (double) getSoulUpgradeTier(getTier(stack));
     }
 
     @Override
     public int getRGBDurabilityForDisplay(@Nonnull ItemStack stack) {
-        return !InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getRGBDurabilityForDisplay(stack) : 12452784;
+        return !InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT) ? super.getRGBDurabilityForDisplay(stack) : 12452784;
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
@@ -111,7 +111,7 @@ public class AnubisWrathItem extends SwordItem {
                 LivingEntity entity = event.getEntityLiving();
                 double y = MathHelper.nextDouble(random, 0.02D, 0.13D);
                 for (int l = 0; l < 5; ++l) {
-                    entity.world.addParticle(AtumParticles.ANUBIS, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + entity.getEyeHeight(), entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, y, 0.0D);
+                    entity.world.addParticle(AtumParticles.ANUBIS, entity.getPosX() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, y, 0.0D);
                 }
             }
             cooldown.removeFloat(trueSource);
@@ -190,7 +190,7 @@ public class AnubisWrathItem extends SwordItem {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
         String itemIdentifier = Objects.requireNonNull(stack.getItem().getRegistryName()).getPath() + ".tooltip";
-        if (InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
             tooltip.add(new TranslationTextComponent(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
             tooltip.add(new TranslationTextComponent(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soulUnraveler" : ".soulDrinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
         } else {

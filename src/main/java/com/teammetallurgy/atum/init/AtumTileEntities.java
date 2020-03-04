@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.Limestone
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnaceTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
@@ -22,7 +23,7 @@ public class AtumTileEntities {
     public static final TileEntityType<LimestoneChestTileEntity> LIMESTONE_CHEST = registerTileEntity("limestone_chest", TileEntityType.Builder.create(LimestoneChestTileEntity::new, AtumBlocks.LIMESTONE_CHEST));
     public static final TileEntityType<ChestSpawnerTileEntity> CHEST_SPAWNER = registerTileEntity("chest_spawner", TileEntityType.Builder.create(ChestSpawnerTileEntity::new, AtumBlocks.CHEST_SPAWNER));
     public static final TileEntityType<SarcophagusTileEntity> SARCOPHAGUS = registerTileEntity("sarcophagus", TileEntityType.Builder.create(SarcophagusTileEntity::new, AtumBlocks.SARCOPHAGUS));
-    public static final TileEntityType<LimestoneChestTileEntity> CRATE = registerTileEntity("crate", TileEntityType.Builder.create(LimestoneChestTileEntity::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
+    public static final TileEntityType<CrateTileEntity> CRATE = registerTileEntity("crate", TileEntityType.Builder.create(CrateTileEntity::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
     //Traps
     public static final TileEntityType<BurningTrapTileEntity> BURNING_TRAP = registerTileEntity("burning_trap", TileEntityType.Builder.create(BurningTrapTileEntity::new, AtumBlocks.BURNING_TRAP));
     public static final TileEntityType<PoisonTrapTileEntity> POISON_TRAP = registerTileEntity("poison_trap", TileEntityType.Builder.create(PoisonTrapTileEntity::new, AtumBlocks.POISON_TRAP));

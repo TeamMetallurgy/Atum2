@@ -10,18 +10,21 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
+import java.util.function.Supplier;
 
 public class ChestBaseBlock extends ChestBlock { //TODO
 
-    protected ChestBaseBlock() {
-        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+    protected ChestBaseBlock(Supplier<TileEntityType<? extends ChestTileEntity>> tileEntitySupplier) {
+        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0), tileEntitySupplier);
     }
 
     @Override

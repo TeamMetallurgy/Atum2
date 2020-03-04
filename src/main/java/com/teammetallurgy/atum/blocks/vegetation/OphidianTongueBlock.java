@@ -13,6 +13,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -34,7 +35,7 @@ public class OphidianTongueBlock extends VineBlock {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         super.tick(state, world, pos, rand);
         if (!world.isRemote && !state.get(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
             world.setBlockState(pos, state.with(HAS_FLOWERS, true), 2);

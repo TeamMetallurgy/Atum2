@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.stone.limestone.chest;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
@@ -10,10 +11,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
@@ -30,6 +28,10 @@ import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class SarcophagusBlock extends ChestBaseBlock {
+
+    public SarcophagusBlock() {
+        super(() -> AtumTileEntities.SARCOPHAGUS);
+    }
 
     @Override
     public TileEntity createNewTileEntity(IBlockReader reader) {
@@ -57,7 +59,8 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         TileEntity tileEntity = world.getTileEntity(pos);
         Direction facing = state.get(FACING);
 
@@ -68,7 +71,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
             SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileLeft;
             if (!sarcophagus.hasSpawned) {
                 this.onBlockActivated(state, world, pos.offset(facing.rotateY()), player, hand, hit);
-                return false;
+                return ActionResultType.PASS;
             }
         }
 
@@ -84,11 +87,11 @@ public class SarcophagusBlock extends ChestBaseBlock {
                     }
                     sarcophagus.spawn(player, world.getDifficultyForLocation(pos));
                     sarcophagus.hasSpawned = true;
-                    return false;
+                    return ActionResultType.PASS;
                 } else if (!sarcophagus.isOpenable) {
                     player.sendStatusMessage(new TranslationTextComponent("chat.atum.cannotSpawnPharaoh").setStyle(new Style().setColor(TextFormatting.RED)), true);
                     world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_INFECT, SoundCategory.HOSTILE, 0.7F, 0.4F, false);
-                    return false;
+                    return ActionResultType.PASS;
                 }
             }
         }

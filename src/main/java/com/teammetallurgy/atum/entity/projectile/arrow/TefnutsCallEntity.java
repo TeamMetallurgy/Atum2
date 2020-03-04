@@ -80,7 +80,7 @@ public class TefnutsCallEntity extends CustomArrow { //TODO
                         ((ServerPlayerEntity) this.shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
                     }
                 }
-                this.world.addWeatherEffect(new EntityLightningBolt(world, posX, posY, posZ, false));
+                this.world.addWeatherEffect(new EntityLightningBolt(world, getPosX(), getPosY(), getPosZ(), false));
             }
         }
         super.onHit(raytraceResult);

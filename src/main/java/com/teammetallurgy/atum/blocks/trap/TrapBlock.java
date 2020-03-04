@@ -20,6 +20,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.*;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -50,9 +51,10 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         if (world.isRemote) {
-            return true;
+            return ActionResultType.PASS;
         } else {
             TileEntity tileEntity = world.getTileEntity(pos);
             boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(Hand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(Hand.OFF_HAND));
@@ -60,12 +62,12 @@ public abstract class TrapBlock extends ContainerBlock {
                 TrapTileEntity trap = (TrapTileEntity) tileEntity;
                 if (!trap.isInsidePyramid) {
                     NetworkHooks.openGui((ServerPlayerEntity) player, trap, pos);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
                 if (trap.isInsidePyramid && isToolEffective && !state.get(DISABLED)) {
                     this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
                     world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
         }
@@ -87,7 +89,7 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {

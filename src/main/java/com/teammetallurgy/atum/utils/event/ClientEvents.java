@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.utils.event;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.utils.Constants;
@@ -72,7 +73,7 @@ public class ClientEvents {
             GlStateManager.matrixMode(5889);
             GlStateManager.pushMatrix();
             GlStateManager.loadIdentity();
-            GlStateManager.ortho(0.0D, mc.mainWindow.getScaledWidth(), mc.mainWindow.getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
+            GlStateManager.ortho(0.0D, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
             GlStateManager.matrixMode(5888);
             GlStateManager.pushMatrix();
             GlStateManager.loadIdentity();
@@ -111,16 +112,16 @@ public class ClientEvents {
                 }
 
                 GlStateManager.color4f(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
-                double scaleX = 0.01f * mc.mainWindow.getScaledHeight() * scale * mc.mainWindow.getGuiScaleFactor();
-                double scaleY = 0.01f * mc.mainWindow.getScaledWidth() * scale * mc.mainWindow.getGuiScaleFactor();
+                double scaleX = 0.01f * mc.getMainWindow().getScaledHeight() * scale * mc.getMainWindow().getGuiScaleFactor();
+                double scaleY = 0.01f * mc.getMainWindow().getScaledWidth() * scale * mc.getMainWindow().getGuiScaleFactor();
                 float speed = 500f - i * 15;
                 float movement = -(System.currentTimeMillis() % (int) speed) / speed;
                 float yaw = 0.25f * (mc.player.rotationYaw % 360 / 360f) / scale;
                 float pitch = 0.5f * (mc.player.rotationPitch % 360 / 360f) / scale;
 
-                bufferbuilder.pos(0.0D, (double) mc.mainWindow.getScaledHeight(), 90.0D).tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
-                bufferbuilder.pos(mc.mainWindow.getScaledWidth(), mc.mainWindow.getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
-                bufferbuilder.pos(mc.mainWindow.getScaledWidth(), 0.0D, 90.0D).tex(1.0D / scaleX + movement + yaw, 0.0D + pitch).endVertex();
+                bufferbuilder.pos(0.0D, (double) mc.getMainWindow().getScaledHeight(), 90.0D).tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
+                bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
+                bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), 0.0D, 90.0D).tex(1.0D / scaleX + movement + yaw, 0.0D + pitch).endVertex();
                 bufferbuilder.pos(0.0D, 0.0D, 90.0D).tex(movement + yaw, 0.0D + pitch).endVertex();
             }
             tessellator.draw();
@@ -193,27 +194,27 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
 
         if (player != null && mc.gameSettings.thirdPersonView == 0 && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
-            int width = mc.mainWindow.getScaledWidth();
-            int height = mc.mainWindow.getScaledHeight();
+            int width = mc.getMainWindow().getScaledWidth();
+            int height = mc.getMainWindow().getScaledHeight();
 
-            GlStateManager.disableDepthTest();
-            GlStateManager.depthMask(false);
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.disableAlphaTest();
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.disableAlphaTest();
             mc.getTextureManager().bindTexture(MUMMY_BLUR_TEXTURE);
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-            bufferbuilder.pos(0.0D, height, -90.0D).tex(0.0D, 1.0D).endVertex();
-            bufferbuilder.pos(width, height, -90.0D).tex(1.0D, 1.0D).endVertex();
-            bufferbuilder.pos(width, 0.0D, -90.0D).tex(1.0D, 0.0D).endVertex();
-            bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0D, 0.0D).endVertex();
+            bufferbuilder.pos(0.0D, height, -90.0D).tex(0.0F, 1.0F).endVertex();
+            bufferbuilder.pos(width, height, -90.0D).tex(1.0F, 1.0F).endVertex();
+            bufferbuilder.pos(width, 0.0D, -90.0D).tex(1.0F, 0.0F).endVertex();
+            bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0F, 0.0F).endVertex();
             tessellator.draw();
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepthTest();
-            GlStateManager.enableAlphaTest();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.enableAlphaTest();
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

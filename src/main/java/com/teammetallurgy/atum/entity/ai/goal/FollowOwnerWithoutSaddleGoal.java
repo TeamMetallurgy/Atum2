@@ -7,13 +7,13 @@ public class FollowOwnerWithoutSaddleGoal extends FollowOwnerGoal {
     private final DesertWolfEntity wolf;
 
     public FollowOwnerWithoutSaddleGoal(DesertWolfEntity wolf, double followSpeed, float minDist, float maxDist) {
-        super(wolf, followSpeed, minDist, maxDist);
+        super(wolf, followSpeed, minDist, maxDist, false);
         this.wolf = wolf;
     }
 
     @Override
     public boolean shouldExecute() {
-        if (wolf.isTamed() && wolf.isAlpha()) {
+        if (this.wolf.isTamed() && this.wolf.isAlpha()) {
             return false;
         }
         return super.shouldExecute();

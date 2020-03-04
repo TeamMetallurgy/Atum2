@@ -1,11 +1,5 @@
 package com.teammetallurgy.atum.client;
 
-import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
-import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.ChestSpawnerTileEntity;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
@@ -17,20 +11,10 @@ import com.teammetallurgy.atum.client.render.entity.HeartOfRaRender;
 import com.teammetallurgy.atum.client.render.entity.arrow.CamelSpitRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.tileentity.*;
-import com.teammetallurgy.atum.entity.HeartOfRaEntity;
-import com.teammetallurgy.atum.entity.animal.*;
-import com.teammetallurgy.atum.entity.bandit.*;
-import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
-import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
-import com.teammetallurgy.atum.entity.projectile.SmallBoneEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
-import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
-import com.teammetallurgy.atum.entity.undead.*;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumGuis;
-import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
+import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -42,6 +26,7 @@ import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.renderer.entity.model.ZombieModel;
 import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.FoliageColors;
@@ -91,40 +76,44 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        ClientRegistry.bindTileEntitySpecialRenderer(ChestBaseTileEntity.class, new TileChestRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(CrateTileEntity.class, new CrateRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(HeartOfRaTileEntity.class, new HeartOfRaBaseRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(RadiantBeaconTileEntity.class, new RadiantBeaconRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(QuernTileEntity.class, new QuernRender());
-        ClientRegistry.bindTileEntitySpecialRenderer(ChestSpawnerTileEntity.class, new ChestTileEntityRenderer<>());
-        RenderingRegistry.registerEntityRenderingHandler(TarantulaEntity.class, TarantulaRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(AssassinEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(BrigandEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(BarbarianEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(NomadEntity.class, manager -> new AtumBipedRender<>(manager, new NomadModel<>(), new NomadModel<>(0.5F), new NomadModel<>(1.0F)));
-        RenderingRegistry.registerEntityRenderingHandler(WarlordEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(PharaohEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(MummyEntity.class, manager -> new AtumBipedRender<>(manager, new ZombieModel(), new ZombieModel(0.5F, false), new ZombieModel(1.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(ForsakenEntity.class, manager -> new AtumBipedRender(manager, new DustySkeletonModel(), new DustySkeletonModel(0.5F), new DustySkeletonModel(1.0F)));
-        RenderingRegistry.registerEntityRenderingHandler(WraithEntity.class, manager -> new AtumBipedRender<>(manager, new ZombieModel(), new ZombieModel(0.5F, false), new ZombieModel(1.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(SunspeakerEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(BonestormEntity.class, manager -> new AtumMobRender<>(manager, new BonestormModel<>()));
-        RenderingRegistry.registerEntityRenderingHandler(StoneguardEntity.class, AtumBipedRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(StonewardenEntity.class, StonewardenRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(DesertWolfEntity.class, DesertWolfRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(CamelEntity.class, CamelRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(ScarabEntity.class, ScarabRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(DesertRabbitEntity.class, DesertRabbitRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(CustomArrow.class, manager -> new ArrowRenderer<CustomArrow>(manager) {
-            @Override
-            protected ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {
-                return entity.getTexture();
-            }
-        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CHEST_SPAWNER, ChestTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.LIMESTONE_CHEST, TileChestRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, TileChestRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CRATE, CrateRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.HEART_OF_RA, HeartOfRaBaseRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.RADIANT_BEACON, RadiantBeaconRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.QUERN, QuernRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TARANTULA, TarantulaRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.ASSASSIN, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BRIGAND, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BRIGAND, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.NOMAD, manager -> new AtumBipedRender<>(manager, new NomadModel<>(), new NomadModel<>(0.5F), new NomadModel<>(1.0F)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BANDIT_WARLORD, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.PHARAOH, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.MUMMY, manager -> new AtumBipedRender<>(manager, new ZombieModel(0.0F, false), new ZombieModel(0.5F, false), new ZombieModel(1.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.FORSAKEN, manager -> new AtumBipedRender<>(manager, new DustySkeletonModel(), new DustySkeletonModel(0.5F), new DustySkeletonModel(1.0F)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.WRAITH, manager -> new AtumBipedRender<>(manager, new ZombieModel(0.0F, false), new ZombieModel(0.5F, false), new ZombieModel(1.0F, false)));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SUNSPEAKER, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BONESTORM, manager -> new AtumMobRender<>(manager, new BonestormModel<>()));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.STONEGUARD, AtumBipedRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.STONEWARDEN, StonewardenRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.DESERT_WOLF, DesertWolfRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL, CamelRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SCARAB, ScarabRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.DESERT_RABBIT, DesertRabbitRender::new);
+        for (EntityType<? extends CustomArrow> arrow : AtumRegistry.ARROWS) {
+            RenderingRegistry.registerEntityRenderingHandler(arrow, manager -> new ArrowRenderer<CustomArrow>(manager) {
+                @Override
+                @Nonnull
+                public ResourceLocation getEntityTexture(@Nonnull CustomArrow entity) {
+                    return entity.getTexture();
+                }
+            });
+        }
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        RenderingRegistry.registerEntityRenderingHandler(SmallBoneEntity.class, manager -> new SpriteRenderer<>(manager, itemRenderer, 0.35F));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SMALL_BONE, manager -> new SpriteRenderer<>(manager, itemRenderer, 0.35F, true));
         //RenderingRegistry.registerEntityRenderingHandler(TefnutsCallEntity.class, TefnutsCallReder::new); //TODO
-        RenderingRegistry.registerEntityRenderingHandler(HeartOfRaEntity.class, HeartOfRaRender::new);
-        RenderingRegistry.registerEntityRenderingHandler(CamelSpitEntity.class, CamelSpitRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.HEART_OF_RA, HeartOfRaRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL_SPIT, CamelSpitRender::new);
     }
 }

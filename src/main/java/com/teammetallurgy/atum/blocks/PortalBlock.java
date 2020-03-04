@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -100,12 +99,6 @@ public class PortalBlock extends BreakableBlock {
     @Override
     public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return ItemStack.EMPTY;
-    }
-
-    @Override
-    @Nonnull
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
     }
 
     public static class Size {
@@ -202,7 +195,7 @@ public class PortalBlock extends BreakableBlock {
         }
 
         void placePortalBlocks() {
-            for (BlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(nw, se)) {
+            for (BlockPos portalPos : BlockPos.Mutable.getAllInBoxMutable(nw, se)) {
                 this.world.setBlockState(portalPos, AtumBlocks.PORTAL.getDefaultState(), 2);
             }
         }

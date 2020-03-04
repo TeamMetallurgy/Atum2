@@ -58,7 +58,7 @@ public class SethsStingItem extends DaggerItem {
                 LivingEntity target = event.getEntityLiving();
                 target.addPotionEffect(new EffectInstance(Effects.POISON, 80, 2));
                 for (int l = 0; l < 14; ++l) {
-                    trueSource.world.addParticle(AtumParticles.SETH, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + random.nextDouble() * (double) target.getHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 10.0D, 0.0D);
+                    trueSource.world.addParticle(AtumParticles.SETH, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + random.nextDouble() * (double) target.getHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 10.0D, 0.0D);
                 }
             }
             cooldown.removeFloat(trueSource);

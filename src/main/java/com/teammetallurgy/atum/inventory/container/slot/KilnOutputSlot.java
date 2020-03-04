@@ -69,7 +69,7 @@ public class KilnOutputSlot extends Slot {
             while (count > 0) {
                 int k = ExperienceOrbEntity.getXPSplit(count);
                 count -= k;
-                this.player.world.addEntity(new ExperienceOrbEntity(this.player.world, this.player.posX, this.player.posY + 0.5D, this.player.posZ + 0.5D, k));
+                this.player.world.addEntity(new ExperienceOrbEntity(this.player.world, this.player.getPosX(), this.player.getPosY() + 0.5D, this.player.getPosZ() + 0.5D, k));
             }
         }
         this.removeCount = 0;

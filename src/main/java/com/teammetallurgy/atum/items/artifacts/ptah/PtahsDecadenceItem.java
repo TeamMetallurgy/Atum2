@@ -37,7 +37,7 @@ public class PtahsDecadenceItem extends PickaxeItem {
         World world = event.getWorld().getWorld();
         if (!world.isRemote && world instanceof ServerWorld && event.getHarvester() != null && event.getHarvester().getHeldItemMainhand().getItem() == AtumItems.PTAHS_DECADENCE) {
             ServerWorld serverWorld = (ServerWorld) world;
-            List<ItemStack> drops = Block.func_220070_a(event.getState(), serverWorld, event.getPos(), null);
+            List<ItemStack> drops = Block.getDrops(event.getState(), serverWorld, event.getPos(), null);
             if (!drops.isEmpty()) {
                 for (ItemStack itemDropped : drops) {
                     Block dropBlock = Block.getBlockFromItem(itemDropped.getItem());

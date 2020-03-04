@@ -72,7 +72,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                         this.furnaceData.set(0, 2); //cookTime
                         this.furnaceData.set(0, 3); //cookTimeTotal
                         if (!this.isInputEmpty()) {
-                            this.furnaceData.set(this.func_214005_h(), 3); //Set cookTimeTotal to getCookTime
+                            this.furnaceData.set(this.getCookTime(), 3); //Set cookTimeTotal to getCookTime
                         }
                         for (int i = 0; i <= 4; i++) {
                             this.smeltItem(i, 5, 8);
@@ -133,7 +133,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         }
 
         if (index <= 3 && !isValid) {
-            this.furnaceData.set(this.func_214005_h(), 3); //cookTimeTotal
+            this.furnaceData.set(this.getCookTime(), 3); //cookTimeTotal
             this.markDirty();
         }
     }

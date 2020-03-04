@@ -28,7 +28,7 @@ public class AtumsProtectionItem extends AtumShieldItem {
     private static boolean isBlocking = false;
 
     public AtumsProtectionItem() {
-        super(500, new Item.Properties().rarity(Rarity.RARE).setTEISR(() -> ItemStackRenderer::new));
+        super(500, new Item.Properties().rarity(Rarity.RARE).setISTER(() -> ItemStackRenderer::new));
         this.setRepairItem(Items.DIAMOND);
     }
 
@@ -54,7 +54,7 @@ public class AtumsProtectionItem extends AtumShieldItem {
             trueSource.setFire(8);
             trueSource.attackEntityFrom(DamageSource.GENERIC, 2.0F);
             for (int l = 0; l < 26; ++l) {
-                entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.posX + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + random.nextDouble() * (double) entity.getHeight(), entity.posZ + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
+                entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + random.nextDouble() * (double) entity.getHeight(), entity.getPosZ() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
             }
             isBlocking = false;
         }

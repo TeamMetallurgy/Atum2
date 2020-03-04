@@ -44,7 +44,7 @@ public class LegsOfRaItem extends TexturedArmorItem {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_RA) {
             if (player.isSprinting()) {
-                player.world.addParticle(AtumParticles.RA_FIRE, player.posX + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 0.15D, player.posZ + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
+                player.world.addParticle(AtumParticles.RA_FIRE, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 0.15D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
                 if (!attribute.hasModifier(SPEED_BOOST)) {
                     attribute.applyModifier(SPEED_BOOST);
                 } else {

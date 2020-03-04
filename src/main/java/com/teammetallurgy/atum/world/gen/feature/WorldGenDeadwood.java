@@ -40,12 +40,12 @@ public class WorldGenDeadwood extends WorldGenAbstractTree {
                 if (y >= pos.getY() + 1 + baseHeight - 2) {
                     k = 2;
                 }
-                BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
+                BlockPos.Mutable Mutable = new BlockPos.Mutable();
 
                 for (int x = pos.getX() - k; x <= pos.getX() + k && doNotGenerate; ++x) {
                     for (int z = pos.getZ() - k; z <= pos.getZ() + k && doNotGenerate; ++z) {
                         if (y >= 0 && y < world.getHeight()) {
-                            if (!this.isReplaceable(world, mutableBlockPos.setPos(x, y, z))) {
+                            if (!this.isReplaceable(world, Mutable.setPos(x, y, z))) {
                                 doNotGenerate = false;
                             }
                         } else {

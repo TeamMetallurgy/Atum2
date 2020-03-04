@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.EnderCrystalModel;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;

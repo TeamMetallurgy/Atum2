@@ -47,7 +47,7 @@ public class RadiantBeaconTileEntity extends BeaconTileEntity { //TODO Test
         BeaconTileEntity.BeamSegment beamSegment = new BeaconTileEntity.BeamSegment(defaultColor);
         this.beamSegments.add(beamSegment);
         boolean flag = true;
-        BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable pos = new BlockPos.Mutable();
 
         for (int height = y + 1; height < 256; ++height) {
             BlockState state = world.getBlockState(pos.setPos(x, height, z));

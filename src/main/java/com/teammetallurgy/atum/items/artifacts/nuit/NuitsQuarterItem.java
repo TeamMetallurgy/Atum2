@@ -102,7 +102,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     private static void applyWeakness(LivingEntity attacker, LivingEntity target, boolean isNuitsIreHeld) {
         if (attacker != target) {
             for (int l = 0; l < 8; ++l) {
-                target.world.addParticle(AtumParticles.NUIT_BLACK, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + random.nextDouble() * (double) target.getHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
+                target.world.addParticle(AtumParticles.NUIT_BLACK, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + random.nextDouble() * (double) target.getHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
             }
             attacker.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
         }

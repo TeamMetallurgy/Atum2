@@ -4,9 +4,9 @@ import com.teammetallurgy.atum.integration.IModIntegration;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.ITextureObject;
 import net.minecraft.client.renderer.texture.MissingTextureSprite;
 import net.minecraft.client.renderer.texture.SimpleTexture;
+import net.minecraft.client.renderer.texture.Texture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundNBT;
@@ -36,7 +36,7 @@ public class ChampionsHelper implements IModIntegration {
         if (tier > 0) {
             ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/variants/" + entityName + "_champion_" + tier + ".png");
             TextureManager textureManager = Minecraft.getInstance().getTextureManager();
-            ITextureObject texture = textureManager.getTexture(textureResourceLocation);
+            Texture texture = textureManager.getTexture(textureResourceLocation);
 
             if (texture == null) {
                 textureManager.loadTexture(textureResourceLocation, new SimpleTexture(textureResourceLocation));

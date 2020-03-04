@@ -97,8 +97,8 @@ public class CamelCaravanGoal extends Goal {
         if (this.camel.inCaravan()) {
             CamelEntity caravanLeader = this.camel.getCaravanHead();
             double distance = this.camel.getDistance(Objects.requireNonNull(caravanLeader));
-            Vec3d vec3d = (new Vec3d(caravanLeader.posX - this.camel.posX, caravanLeader.posY - this.camel.posY, caravanLeader.posZ - this.camel.posZ)).normalize().scale(Math.max(distance - 2.0D, 0.0D));
-            this.camel.getNavigator().tryMoveToXYZ(this.camel.posX + vec3d.x, this.camel.posY + vec3d.y, this.camel.posZ + vec3d.z, this.speedModifier);
+            Vec3d vec3d = (new Vec3d(caravanLeader.getPosX() - this.camel.getPosX(), caravanLeader.getPosY() - this.camel.getPosY(), caravanLeader.getPosZ() - this.camel.getPosZ())).normalize().scale(Math.max(distance - 2.0D, 0.0D));
+            this.camel.getNavigator().tryMoveToXYZ(this.camel.getPosX() + vec3d.x, this.camel.getPosY() + vec3d.y, this.camel.getPosZ() + vec3d.z, this.speedModifier);
         }
     }
 

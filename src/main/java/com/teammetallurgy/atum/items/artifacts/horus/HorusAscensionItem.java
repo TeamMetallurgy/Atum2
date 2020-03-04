@@ -39,8 +39,8 @@ public class HorusAscensionItem extends GauntletItem {
     public static void knockUp(LivingEntity target, LivingEntity attacker, Random random) {
         if (attacker != null && !(target instanceof StoneBaseEntity)) {
             if (!attacker.world.isRemote) {
-                double dx = target.posX - attacker.posX;
-                double dz = target.posZ - attacker.posZ;
+                double dx = target.getPosX() - attacker.getPosX();
+                double dz = target.getPosZ() - attacker.getPosZ();
                 double magnitude = Math.sqrt(dx * dx + dz * dz);
                 dx /= magnitude;
                 dz /= magnitude;
@@ -53,7 +53,7 @@ public class HorusAscensionItem extends GauntletItem {
             double x = MathHelper.nextDouble(random, 0.0001D, 0.04D);
             double z = MathHelper.nextDouble(random, 0.0001D, 0.04D);
             for (int amount = 0; amount < 50; ++amount) {
-                target.world.addParticle(AtumParticles.HORUS, target.posX, target.posY + 0.3D, target.posZ, x, 0.01D + random.nextDouble() * 0.4D, -z);
+                target.world.addParticle(AtumParticles.HORUS, target.getPosX(), target.getPosY() + 0.3D, target.getPosZ(), x, 0.01D + random.nextDouble() * 0.4D, -z);
             }
         }
     }

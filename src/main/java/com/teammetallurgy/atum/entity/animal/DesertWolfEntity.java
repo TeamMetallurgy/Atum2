@@ -314,7 +314,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                 for (int j = 0; j < shakingTime; ++j) {
                     float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
                     float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
-                    this.world.addParticle(ParticleTypes.SPLASH, this.posX + (double) f1, y + 0.8F, this.posZ + (double) f2, motion.x, motion.y, motion.z);
+                    this.world.addParticle(ParticleTypes.SPLASH, this.getPosX() + (double) f1, y + 0.8F, this.getPosZ() + (double) f2, motion.x, motion.y, motion.z);
                 }
             }
         }
@@ -452,7 +452,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
             }
 
             if (!this.isChild()) {
-                if (player.isSneaking()) {
+                if (player.isCrouching()) {
                     this.openGUI(player);
                     return true;
                 }
@@ -833,7 +833,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         if (this.isPassenger(passenger)) {
             float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
             float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
-            passenger.setPosition(this.posX + (double) (0.4F * sin), this.posY + this.getMountedYOffset() + passenger.getYOffset(), this.posZ - (double) (0.4F * cos));
+            passenger.setPosition(this.getPosX() + (double) (0.4F * sin), this.getPosY() + this.getMountedYOffset() + passenger.getYOffset(), this.getPosZ() - (double) (0.4F * cos));
         }
     }
 
@@ -910,12 +910,13 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
         if (this.isAlpha() && distance > 5.0F) {
-            super.fall(distance, damageMultiplier);
+            return super.onLivingFall(distance, damageMultiplier);
         } else if (!this.isAlpha() && distance > 2.5F) {
-            super.fall(distance, damageMultiplier);
+            return super.onLivingFall(distance, damageMultiplier);
         }
+        return false;
     }
 
     private boolean isJumping() {

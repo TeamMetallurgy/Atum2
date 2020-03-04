@@ -58,7 +58,7 @@ public class BegGoal extends Goal {
 
     @Override
     public void tick() {
-        this.desertWolf.getLookController().setLookPosition(this.player.posX, this.player.posY + (double) this.player.getEyeHeight(), this.player.posZ, 10.0F, (float) this.desertWolf.getVerticalFaceSpeed());
+        this.desertWolf.getLookController().setLookPosition(this.player.getPosX(), this.player.getPosY() + (double) this.player.getEyeHeight(), this.player.getPosZ(), 10.0F, (float) this.desertWolf.getVerticalFaceSpeed());
         --this.timeoutCounter;
     }
 

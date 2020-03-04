@@ -65,6 +65,6 @@ public class NuitsVanishingItem extends AmuletItem {
     }
 
     public static boolean isPlayerMoving(PlayerEntity player) {
-        return player.distanceWalkedModified != player.prevDistanceWalkedModified || player.isSneaking();
+        return player.distanceWalkedModified != player.prevDistanceWalkedModified || player.isCrouching();
     }
 }

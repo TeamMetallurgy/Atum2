@@ -43,7 +43,7 @@ public class RasFuryItem extends BaseBowItem {
                 double x = (double) (MathHelper.cos(cosRandom) * timesRandom) * 0.1D;
                 double y = 0.01D + world.rand.nextDouble() * 0.1D;
                 double z = (double) (MathHelper.sin(cosRandom) * timesRandom) * 0.1D;
-                player.world.addParticle(AtumParticles.RA_FIRE, player.posX, player.posY + 0.7D, player.posZ + z * 0.1D, x / 10, y, z / 10);
+                player.world.addParticle(AtumParticles.RA_FIRE, player.getPosX(), player.getPosY() + 0.7D, player.getPosZ() + z * 0.1D, x / 10, y, z / 10);
             }
         }
     }

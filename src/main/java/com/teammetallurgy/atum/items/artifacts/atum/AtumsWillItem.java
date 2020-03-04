@@ -43,7 +43,7 @@ public class AtumsWillItem extends SwordItem {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        PlayerEntity player = event.getEntityPlayer();
+        PlayerEntity player = event.getPlayer();
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
             if (player.getHeldItemMainhand().getItem() == AtumItems.ATUMS_WILL) {
@@ -60,7 +60,7 @@ public class AtumsWillItem extends SwordItem {
                 LivingEntity target = event.getEntityLiving();
                 event.setAmount(event.getAmount() * 2);
                 for (int l = 0; l < 16; ++l) {
-                    target.world.addParticle(AtumParticles.LIGHT_SPARKLE, target.posX + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.posY + random.nextDouble() * (double) target.getHeight(), target.posZ + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
+                    target.world.addParticle(AtumParticles.LIGHT_SPARKLE, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + random.nextDouble() * (double) target.getHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
                 }
             }
             cooldown.removeFloat(trueSource);

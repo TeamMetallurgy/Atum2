@@ -27,9 +27,9 @@ public class BlockStatesGenerator extends BlockStateProvider {
 
     private void generateTorch(Block torch) {
         String torchName = torch.getRegistryName().getPath();
-        simpleBlock(torch, torch(torchName, new ResourceLocation(Constants.MOD_ID, "block/" + torchName)));
-        simpleBlock(AtumTorchUnlitBlock.UNLIT.get(torch), torch(torchName + "_unlit", new ResourceLocation(Constants.MOD_ID, "block/" + torchName + "_unlit")));
-        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Constants.MOD_ID, "wall_" + torchName)), torchWall("wall_" + torchName, new ResourceLocation(Constants.MOD_ID, "block/" + torchName)), 90);
-        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Constants.MOD_ID, "wall_" + torchName + "_unlit")), torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Constants.MOD_ID, "block/" + torchName + "_unlit")), 90);
+        simpleBlock(torch, models().torch(torchName, new ResourceLocation(Constants.MOD_ID, "block/" + torchName)));
+        simpleBlock(AtumTorchUnlitBlock.UNLIT.get(torch), models().torch(torchName + "_unlit", new ResourceLocation(Constants.MOD_ID, "block/" + torchName + "_unlit")));
+        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Constants.MOD_ID, "wall_" + torchName)), models().torchWall("wall_" + torchName, new ResourceLocation(Constants.MOD_ID, "block/" + torchName)), 90);
+        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Constants.MOD_ID, "wall_" + torchName + "_unlit")), models().torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Constants.MOD_ID, "block/" + torchName + "_unlit")), 90);
     }
 }

@@ -40,7 +40,7 @@ public class HaloOfRaItem extends TexturedArmorItem {
                 event.getSource().getImmediateSource().setFire(8);
             }
             for (int l = 0; l < 16; ++l) {
-                entity.world.addParticle(AtumParticles.RA_FIRE, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.posY + world.rand.nextDouble() * (double) entity.getHeight(), entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
+                entity.world.addParticle(AtumParticles.RA_FIRE, entity.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + world.rand.nextDouble() * (double) entity.getHeight(), entity.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
             }
         }
     }

@@ -94,7 +94,7 @@ public class NuitsDualityItem extends BaseBowItem {
                         world.addEntity(doubleShotLower);
                         world.addEntity(doubleShotHigher);
                     }
-                    world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
+                    world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
                     if (!hasArrow && !player.abilities.isCreativeMode) {
                         ammoStack.shrink(2);

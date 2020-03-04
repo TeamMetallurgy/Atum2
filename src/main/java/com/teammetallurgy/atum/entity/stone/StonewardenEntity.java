@@ -79,13 +79,13 @@ public class StonewardenEntity extends StoneBaseEntity {
         }
 
         if (horizontalMag(this.getMotion()) > (double) 2.5000003E-7F && this.rand.nextInt(5) == 0) {
-            int x = MathHelper.floor(this.posX);
-            int y = MathHelper.floor(this.posY - 0.20000000298023224D);
-            int z = MathHelper.floor(this.posZ);
+            int x = MathHelper.floor(this.getPosX());
+            int y = MathHelper.floor(this.getPosY() - 0.20000000298023224D);
+            int z = MathHelper.floor(this.getPosZ());
 
             BlockState state = this.world.getBlockState(new BlockPos(x, y, z));
             if (state.getMaterial() != Material.AIR) {
-                this.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state).setPos(new BlockPos(x, y, z)), this.posX + ((double) this.rand.nextFloat() - 0.5D) * (double) this.getWidth(), this.getBoundingBox().minY + 0.1D, this.posZ + ((double) this.rand.nextFloat() - 0.5D) * (double) this.getWidth(), 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D);
+                this.world.addParticle(new BlockParticleData(ParticleTypes.BLOCK, state).setPos(new BlockPos(x, y, z)), this.getPosX() + ((double) this.rand.nextFloat() - 0.5D) * (double) this.getWidth(), this.getBoundingBox().minY + 0.1D, this.getPosZ() + ((double) this.rand.nextFloat() - 0.5D) * (double) this.getWidth(), 4.0D * ((double) this.rand.nextFloat() - 0.5D), 0.5D, ((double) this.rand.nextFloat() - 0.5D) * 4.0D);
             }
         }
     }

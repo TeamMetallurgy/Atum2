@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
@@ -35,16 +36,17 @@ public class KilnFakeBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
         if (world.isRemote) {
-            return true;
+            return ActionResultType.PASS;
         }
         BlockPos tepos = getPrimaryKilnBlock(world, pos);
         if (tepos != null) {
             TileEntity tileEntity = world.getTileEntity(tepos);
             if (tileEntity instanceof KilnTileEntity) {
                 //player.openGui(Atum.instance, 5, world, tepos.getX(), tepos.getY(), tepos.getZ()); //TODO
-                return true;
+                return ActionResultType.SUCCESS;
             }
         }
         return super.onBlockActivated(state, world, pos, player, handIn, rayTraceResult);

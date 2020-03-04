@@ -30,7 +30,7 @@ public class GebsMightItem extends HammerItem {
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;
             double d2 = random.nextGaussian() * 0.02D;
-            target.world.addParticle(AtumParticles.GEB, target.posX, target.posY + target.getEyeHeight() - 0.1D, target.posZ, d0, d1, d2);
+            target.world.addParticle(AtumParticles.GEB, target.getPosX(), target.getPosY() + target.getEyeHeight() - 0.1D, target.getPosZ(), d0, d1, d2);
         }
         stun.put(target, 80);
     }

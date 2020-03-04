@@ -131,19 +131,15 @@ public class KhnumiteFaceBlock extends HorizontalBlock implements IKhnumite {
                 World world = source.getWorld();
                 BlockPos pos = source.getBlockPos().offset(source.getBlockState().get(DispenserBlock.FACING));
                 KhnumiteFaceBlock khnumiteFace = (KhnumiteFaceBlock) AtumBlocks.KHNUMITE_FACE;
-                this.successful = true;
 
                 if (world.isAirBlock(pos) && khnumiteFace.canDispenserPlace(world, pos)) {
                     if (!world.isRemote) {
                         world.setBlockState(pos, khnumiteFace.getDefaultState(), 3);
                     }
                     stack.shrink(1);
+                    this.successful = true;
                 } else {
-                    ItemStack itemstack = ArmorItem.dispenseArmor(source, stack);
-
-                    if (itemstack.isEmpty()) {
-                        this.successful = false;
-                    }
+                    this.successful = ArmorItem.func_226626_a_(source, stack);
                 }
                 return stack;
             }

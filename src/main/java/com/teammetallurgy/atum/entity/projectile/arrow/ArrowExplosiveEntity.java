@@ -36,7 +36,7 @@ public class ArrowExplosiveEntity extends CustomArrow {
 
         if (velocity == 1.0F) {
             if (!world.isRemote) {
-                world.createExplosion(this, posX, posY, posZ, 2.0F, Explosion.Mode.BREAK);
+                world.createExplosion(this, getPosX(), getPosY(), getPosZ(), 2.0F, Explosion.Mode.BREAK);
             }
             this.remove();
         }

@@ -192,7 +192,7 @@ public class AtumTeleporter extends Teleporter {
 
 
         //Bottom layers
-        for (BlockPos.MutableBlockPos basePos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-2, 0, -2), pos.add(2, 1, 2))) {
+        for (BlockPos.Mutable basePos : BlockPos.Mutable.getAllInBoxMutable(pos.add(-2, 0, -2), pos.add(2, 1, 2))) {
             world.setBlockState(basePos, sandState, 2);
         }
 
@@ -205,12 +205,12 @@ public class AtumTeleporter extends Teleporter {
         }
 
         //Portal blocks
-        for (BlockPos.MutableBlockPos portalPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-1, 1, -1), pos.add(1, 1, 1))) {
+        for (BlockPos.Mutable portalPos : BlockPos.Mutable.getAllInBoxMutable(pos.add(-1, 1, -1), pos.add(1, 1, 1))) {
             world.setBlockState(portalPos, portalState, 2);
         }
 
         //Set air above portal blocks
-        for (BlockPos.MutableBlockPos airPos : BlockPos.MutableBlockPos.getAllInBoxMutable(pos.add(-2, 2, -1), pos.add(2, 3, 1))) {
+        for (BlockPos.Mutable airPos : BlockPos.Mutable.getAllInBoxMutable(pos.add(-2, 2, -1), pos.add(2, 3, 1))) {
             world.setBlockState(airPos, Blocks.AIR.getDefaultState(), 2);
         }
         return true;

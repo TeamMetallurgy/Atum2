@@ -1,9 +1,10 @@
 package com.teammetallurgy.atum.utils;
 
-import com.mojang.blaze3d.platform.GLX;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -13,26 +14,26 @@ import net.minecraft.tileentity.TileEntity;
 
 public class RenderUtils {
 
-    public static void renderItem(TileEntity tileEntity, ItemStack stack, double x, double y, double z, float rotation, boolean drawStackSize) {
+    public static void renderItem(TileEntity tileEntity, ItemStack stack, double x, double y, double z, float rotation, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
-            GlStateManager.pushMatrix();
+            RenderSystem.pushMatrix();
             RenderHelper.disableStandardItemLighting();
 
-            GlStateManager.translated(x + 0.5F, y + 1.225F, z + 0.5F);
-            GlStateManager.disableLighting();
+            RenderSystem.translated(x + 0.5F, y + 1.225F, z + 0.5F);
+            RenderSystem.disableLighting();
 
-            GlStateManager.rotatef(rotation, 0.0F, 1.0F, 0.0F);
-            GlStateManager.scalef(0.25F, 0.25F, 0.25F);
-            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED);
+            RenderSystem.rotatef(rotation, 0.0F, 1.0F, 0.0F);
+            RenderSystem.scalef(0.25F, 0.25F, 0.25F);
+            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);
 
             RenderHelper.enableStandardItemLighting();
-            GlStateManager.popMatrix();
+            RenderSystem.popMatrix();
 
             if (drawStackSize) {
-                GlStateManager.pushMatrix();
+                RenderSystem.pushMatrix();
                 String stackSize = String.valueOf(stack.getCount());
                 drawString(tileEntity, stackSize, x + 0.5F, y + 1.475D, z + 0.5F, 0.003F);
-                GlStateManager.popMatrix();
+                RenderSystem.popMatrix();
             }
         }
     }
@@ -41,43 +42,43 @@ public class RenderUtils {
         setLightmapDisabled(true);
         TileEntityRendererDispatcher rendererDispatcher = TileEntityRendererDispatcher.instance;
         Entity entity = rendererDispatcher.renderInfo.getRenderViewEntity();
-        double distance = te.getDistanceSq(entity.posX, entity.posY, entity.posZ);
+        double distance = te.getDistanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ());
 
         if (distance <= (double) (14 * 14)) {
             float yaw = rendererDispatcher.renderInfo.getYaw();
             float pitch = rendererDispatcher.renderInfo.getPitch();
             FontRenderer font = rendererDispatcher.getFontRenderer();
-            GlStateManager.pushMatrix();
+            RenderSystem.pushMatrix();
 
-            GlStateManager.translated(x, y, z);
-            GlStateManager.normal3f(0.0F, 1.0F, 0.0F);
+            RenderSystem.translated(x, y, z);
+            RenderSystem.normal3f(0.0F, 1.0F, 0.0F);
 
-            GlStateManager.rotatef(-yaw, 0.0F, 1.0F, 0.0F);
-            GlStateManager.rotatef(pitch, 1.0F, 0.0F, 0.0F);
-            GlStateManager.scalef(-0.015F + scaleModifier, -0.015F + scaleModifier, 0.015F + scaleModifier);
-            GlStateManager.disableLighting();
-            GlStateManager.disableDepthTest();
-            GlStateManager.enableBlend();
+            RenderSystem.rotatef(-yaw, 0.0F, 1.0F, 0.0F);
+            RenderSystem.rotatef(pitch, 1.0F, 0.0F, 0.0F);
+            RenderSystem.scalef(-0.015F + scaleModifier, -0.015F + scaleModifier, 0.015F + scaleModifier);
+            RenderSystem.disableLighting();
+            RenderSystem.disableDepthTest();
+            RenderSystem.enableBlend();
 
-            GlStateManager.enableDepthTest();
-            GlStateManager.depthMask(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.depthMask(true);
             font.drawString(str, -font.getStringWidth(str) / 2, 0, -1);
 
-            GlStateManager.enableLighting();
-            GlStateManager.disableBlend();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GlStateManager.popMatrix();
+            RenderSystem.enableLighting();
+            RenderSystem.disableBlend();
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.popMatrix();
         }
         setLightmapDisabled(false);
     }
 
     private static void setLightmapDisabled(boolean disabled) {
-        GlStateManager.activeTexture(GLX.GL_TEXTURE1);
+        RenderSystem.activeTexture(33986);
         if (disabled) {
-            GlStateManager.disableTexture();
+            RenderSystem.disableTexture();
         } else {
-            GlStateManager.enableTexture();
+            RenderSystem.enableTexture();
         }
-        GlStateManager.activeTexture(GLX.GL_TEXTURE0);
+        RenderSystem.activeTexture(33984);
     }
 }

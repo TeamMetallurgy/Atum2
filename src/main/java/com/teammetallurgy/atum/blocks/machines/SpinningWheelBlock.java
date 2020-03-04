@@ -55,7 +55,7 @@ public class SpinningWheelBlock extends ContainerBlock {
 
         if (tileEntity instanceof SpinningWheelTileEntity) {
             SpinningWheelTileEntity spinningWheel = (SpinningWheelTileEntity) tileEntity;
-            if (player.isSneaking()) {
+            if (player.isCrouching()) {
                 StackHelper.giveItem(player, Hand.MAIN_HAND, spinningWheel.getStackInSlot(0).copy());
                 StackHelper.giveItem(player, Hand.MAIN_HAND, spinningWheel.getStackInSlot(1).copy());
                 spinningWheel.decrStackSize(0, spinningWheel.getInventoryStackLimit());
@@ -69,7 +69,8 @@ public class SpinningWheelBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    @Nonnull
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
         TileEntity tileEntity = world.getTileEntity(pos);
         ItemStack heldStack = player.getHeldItem(hand);
 
@@ -135,7 +136,7 @@ public class SpinningWheelBlock extends ContainerBlock {
                 }
             }
         }
-        return true;
+        return ActionResultType.SUCCESS;
     }
 
     public void output(World world, BlockPos pos, @Nullable PlayerEntity player, SpinningWheelTileEntity spinningWheel) {

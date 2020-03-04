@@ -30,21 +30,21 @@ public class ArrowRainEntity extends CustomArrow {
     @Override
     public void tick() {
         if (world.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
-            world.addParticle(AtumParticles.TEFNUT_DROP, posX, posY - 0.05D, posZ, 0.0D, 0.0D, 0.0D);
+            world.addParticle(AtumParticles.TEFNUT_DROP, getPosX(), getPosY() - 0.05D, getPosZ(), 0.0D, 0.0D, 0.0D);
         }
         if (velocity == 1.0F && this.getShooter() instanceof LivingEntity) {
             if (this.ticksInAir == 12) {
                 this.remove();
                 if (!isSmallArrow) {
-                    ArrowRainEntity arrow1 = new ArrowRainEntity(world, this.posX + 0.5D, this.posY, this.posZ);
+                    ArrowRainEntity arrow1 = new ArrowRainEntity(world, this.getPosX() + 0.5D, this.getPosY(), this.getPosZ());
 
-                    ArrowRainEntity arrow2 = new ArrowRainEntity(world, this.posX, this.posY, this.posZ + 0.5D);
+                    ArrowRainEntity arrow2 = new ArrowRainEntity(world, this.getPosX(), this.getPosY(), this.getPosZ() + 0.5D);
 
-                    ArrowRainEntity arrow3 = new ArrowRainEntity(world, this.posX - 0.5D, this.posY, this.posZ);
+                    ArrowRainEntity arrow3 = new ArrowRainEntity(world, this.getPosX() - 0.5D, this.getPosY(), this.getPosZ());
 
-                    ArrowRainEntity arrow4 = new ArrowRainEntity(world, this.posX, this.posY, this.posZ - 0.5D);
+                    ArrowRainEntity arrow4 = new ArrowRainEntity(world, this.getPosX(), this.getPosY(), this.getPosZ() - 0.5D);
 
-                    ArrowRainEntity arrow5 = new ArrowRainEntity(world, this.posX, this.posY, this.posZ);
+                    ArrowRainEntity arrow5 = new ArrowRainEntity(world, this.getPosX(), this.getPosY(), this.getPosZ());
 
                     world.addEntity(arrow1);
                     world.addEntity(arrow2);

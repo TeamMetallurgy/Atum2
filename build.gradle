@@ -16,7 +16,7 @@ sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = co
 repositories {
   maven {
     name = "JEI"
-    url = "https://dvs1.progwml6.com/files/maven"
+    url = "https://dvs1.progwml6.com/files/maven/"
   }
   maven {
     name = "Hwyla"
@@ -37,7 +37,7 @@ group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
 minecraft {
-    mappings channel: 'stable', version: project.mappings
+    mappings channel: 'snapshot', version: project.mappings
 	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
@@ -59,7 +59,7 @@ minecraft {
         }
         data {
             workingDirectory project.file('run')
-            args '--mod', 'atum', '--all', '--output', file('src/generated/resources/')
+            args '--mod', 'atum', '--all', '--output', file("src/generated/resources/"), '--existing', file("src/main/resources/")
             mods {
                 atum {
                     source sourceSets.main
@@ -75,7 +75,7 @@ dependencies {
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
-    compile "mcjty.theoneprobe:TheOneProbe-1.14:${top_version}:api"
+    compile "mcjty.theoneprobe:TheOneProbe-1.15:${top_version}:api"
 }
 
 

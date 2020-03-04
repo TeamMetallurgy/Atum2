@@ -2,23 +2,23 @@ package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.undead.BonestormEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
-import net.minecraft.client.renderer.entity.model.RendererModel;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class BonestormModel<T extends BonestormEntity> extends EntityModel<T> {
-    private RendererModel[] bonestormSticks = new RendererModel[12];
-    private RendererModel bonestormHead;
+    private ModelRenderer[] bonestormSticks = new ModelRenderer[12];
+    private ModelRenderer bonestormHead;
 
     public BonestormModel() {
         for (int i = 0; i < this.bonestormSticks.length; ++i) {
-            this.bonestormSticks[i] = new RendererModel(this, 0, 16);
+            this.bonestormSticks[i] = new ModelRenderer(this, 0, 16);
             this.bonestormSticks[i].addBox(0.0F, 0.0F, 0.0F, 2, 8, 2);
         }
 
-        this.bonestormHead = new RendererModel(this, 0, 0);
+        this.bonestormHead = new ModelRenderer(this, 0, 0);
         this.bonestormHead.addBox(-4.0F, -4.0F, -4.0F, 8, 8, 8);
     }
 
@@ -27,7 +27,7 @@ public class BonestormModel<T extends BonestormEntity> extends EntityModel<T> {
         this.setRotationAngles(bonestorm, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
         this.bonestormHead.render(scale);
 
-        for (RendererModel bonestormStick : this.bonestormSticks) {
+        for (ModelRenderer bonestormStick : this.bonestormSticks) {
             bonestormStick.render(scale);
         }
     }

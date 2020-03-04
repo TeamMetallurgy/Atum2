@@ -28,7 +28,7 @@ public class OpenAnyDoorGoal extends OpenDoorGoal {
                 for (int i = 0; i < Math.min(path.getCurrentPathIndex() + 2, path.getCurrentPathLength()); ++i) {
                     PathPoint pathPoint = path.getPathPointFromIndex(i);
                     this.doorPosition = new BlockPos(pathPoint.x, pathPoint.y + 1, pathPoint.z);
-                    if (this.entity.getDistanceSq(this.doorPosition.getX(), this.entity.posY, this.doorPosition.getZ()) <= 2.25D) {
+                    if (this.entity.getDistanceSq(this.doorPosition.getX(), this.entity.getPosY(), this.doorPosition.getZ()) <= 2.25D) {
                         this.doorInteract = canOpen(this.entity.world, this.doorPosition);
                         if (this.doorInteract) {
                             return true;

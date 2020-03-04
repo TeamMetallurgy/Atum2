@@ -37,7 +37,7 @@ public class ArrowSlownessEntity extends CustomArrow {
                 if (rand.nextFloat() <= chance) {
                     livingBase.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60, 1, false, true));
                     for (int amount = 0; amount < 25; ++amount) {
-                        world.addParticle(AtumParticles.GEB, entity.posX + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), this.posY, entity.posZ + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, -0.06D, 0.0D);
+                        world.addParticle(AtumParticles.GEB, entity.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), this.getPosY(), entity.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, -0.06D, 0.0D);
                     }
                 }
             }

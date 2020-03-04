@@ -9,13 +9,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -40,15 +40,9 @@ public class RaStoneBlock extends BreakableBlock {
     }
 
     @Override
-    @Nonnull
-    public BlockRenderLayer getRenderLayer() {
-        return BlockRenderLayer.TRANSLUCENT;
-    }
-
-    @Override
-    public void tick(BlockState state, World world, BlockPos pos, Random random) {
+    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         if ((random.nextInt(3) == 0 || this.shouldDisappear(world, pos, 4)) && world.getLight(pos) > 11 - state.get(AGE) - state.getOpacity(world, pos) && this.slightlyRemove(state, world, pos)) {
-            try (BlockPos.PooledMutableBlockPos mutablePos = BlockPos.PooledMutableBlockPos.retain()) {
+            try (BlockPos.PooledMutable mutablePos = BlockPos.PooledMutable.retain()) {
                 for (Direction direction : Direction.values()) {
                     mutablePos.setPos(pos).move(direction);
                     BlockState stateDirection = world.getBlockState(mutablePos);
@@ -84,7 +78,7 @@ public class RaStoneBlock extends BreakableBlock {
 
     private boolean shouldDisappear(IBlockReader world, BlockPos pos, int neighborsRequired) {
         int i = 0;
-        try (BlockPos.PooledMutableBlockPos mutablePos = BlockPos.PooledMutableBlockPos.retain()) {
+        try (BlockPos.PooledMutable mutablePos = BlockPos.PooledMutable.retain()) {
             for (Direction direction : Direction.values()) {
                 mutablePos.setPos(pos).move(direction);
                 if (world.getBlockState(mutablePos).getBlock() == this) {

@@ -82,10 +82,10 @@ public class AnubisMercyItem extends AmuletItem {
 
                 double y = MathHelper.nextDouble(random, 0.01D, 0.1D);
                 for (int l = 0; l < 22; ++l) {
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.04D, y, 0.0D);
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, 0.04D);
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), -0.04D, y, 0.0D);
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.posX + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.posY + 1.0D, player.posZ + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, -0.04D);
+                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.04D, y, 0.0D);
+                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, 0.04D);
+                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), -0.04D, y, 0.0D);
+                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, -0.04D);
                 }
                 player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }

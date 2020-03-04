@@ -29,7 +29,7 @@ public class CamelSpitEntity extends LlamaSpitEntity {
     public CamelSpitEntity(World world, CamelEntity camel) {
         this(AtumEntities.CAMEL_SPIT, world);
         this.owner = camel;
-        this.setPosition(camel.posX - (double) (camel.getWidth() + 1.0F) * 0.5D * (double) MathHelper.sin(camel.renderYawOffset * ((float) Math.PI / 180F)), camel.posY + (double) camel.getEyeHeight() - (double) 0.1F, camel.posZ + (double) (camel.getWidth() + 1.0F) * 0.5D * (double) MathHelper.cos(camel.renderYawOffset * ((float) Math.PI / 180F)));
+        this.setPosition(camel.getPosX() - (double) (camel.getWidth() + 1.0F) * 0.5D * (double) MathHelper.sin(camel.renderYawOffset * ((float) Math.PI / 180F)), camel.getPosY() + (double) camel.getEyeHeight() - (double) 0.1F, camel.getPosZ() + (double) (camel.getWidth() + 1.0F) * 0.5D * (double) MathHelper.cos(camel.renderYawOffset * ((float) Math.PI / 180F)));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -56,14 +56,13 @@ public class CamelSpitEntity extends LlamaSpitEntity {
             this.onHit(raytrace);
         }
 
-        this.posX += motion.x;
-        this.posY += motion.y;
-        this.posZ += motion.z;
+        double x = this.getPosX() + motion.x;
+        double y = this.getPosY() + motion.y;
+        double z = this.getPosZ() + motion.z;
         float f = MathHelper.sqrt(horizontalMag(motion));
         this.rotationYaw = (float) (MathHelper.atan2(motion.x, motion.z) * (double) (180F / (float) Math.PI));
 
         for (this.rotationPitch = (float) (MathHelper.atan2(motion.y, f) * (double) (180F / (float) Math.PI)); this.rotationPitch - this.prevRotationPitch < -180.0F; this.prevRotationPitch -= 360.0F) {
-            ;
         }
 
         while (this.rotationPitch - this.prevRotationPitch >= 180.0F) {
@@ -89,7 +88,7 @@ public class CamelSpitEntity extends LlamaSpitEntity {
             if (!this.hasNoGravity()) {
                 this.setMotion(this.getMotion().add(0.0D, -0.06F, 0.0D));
             }
-            this.setPosition(this.posX, this.posY, this.posZ);
+            this.setPosition(x, y, z);
         }
     }
 

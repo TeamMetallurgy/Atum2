@@ -189,7 +189,8 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    public void fall(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
     }
 
     @Override
@@ -202,7 +203,7 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return isValidLightLevel(world, pos, random) && func_223324_d(stoneBase, world, spawnReason, pos, random);
+        return isValidLightLevel(world, pos, random) && canMonsterSpawn(stoneBase, world, spawnReason, pos, random);
     }
 
     boolean isPlayerCreated() {

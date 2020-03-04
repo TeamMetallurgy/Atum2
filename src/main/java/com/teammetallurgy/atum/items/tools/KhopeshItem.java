@@ -58,7 +58,7 @@ public class KhopeshItem extends SwordItem {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 10.0D) {
                         entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
                         entity.attackEntityFrom(DamageSource.causePlayerDamage(player), sweeping);
-                        world.playSound(null, player.posX, player.posY, player.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
+                        world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
                     }
                 }
             }

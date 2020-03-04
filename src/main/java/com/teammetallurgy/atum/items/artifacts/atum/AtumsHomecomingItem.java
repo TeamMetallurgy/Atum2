@@ -86,7 +86,7 @@ public class AtumsHomecomingItem extends AmuletItem {
             double z = MathHelper.sin(cosRandom) * timesRandom;
             if (entity instanceof ServerPlayerEntity) {
                 ServerPlayerEntity playerMP = (ServerPlayerEntity) entity;
-                playerMP.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.posX + x * 0.1D, entity.posY + 0.3D, entity.posZ + z * 0.1D, x, y, z);
+                playerMP.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + x * 0.1D, entity.getPosY() + 0.3D, entity.getPosZ() + z * 0.1D, x, y, z);
             }
         }
         world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_SHULKER_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);

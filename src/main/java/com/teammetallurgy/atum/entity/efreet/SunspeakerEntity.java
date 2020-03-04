@@ -255,7 +255,7 @@ public class SunspeakerEntity extends EfreetBaseEntity /*implements IMerchant*/ 
             double x = this.rand.nextGaussian() * 0.02D;
             double y = this.rand.nextGaussian() * 0.02D;
             double z = this.rand.nextGaussian() * 0.02D;
-            this.world.addParticle(particleType, this.posX + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.posY + 1.0D + (double) (this.rand.nextFloat() * this.getHeight()), this.posZ + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), x, y, z);
+            this.world.addParticle(particleType, this.getPosX() + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.getPosY() + 1.0D + (double) (this.rand.nextFloat() * this.getHeight()), this.getPosZ() + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), x, y, z);
         }
     }
 

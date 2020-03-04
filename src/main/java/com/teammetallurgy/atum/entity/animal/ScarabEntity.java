@@ -151,7 +151,7 @@ public class ScarabEntity extends MonsterEntity {
     }
 
     public static boolean canSpawn(EntityType<ScarabEntity> scarab, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        if (func_223324_d(scarab, world, spawnReason, pos, random)) {
+        if (canMonsterSpawn(scarab, world, spawnReason, pos, random)) {
             PlayerEntity player = world.getClosestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0D, true);
             return player == null;
         } else {
@@ -197,7 +197,7 @@ public class ScarabEntity extends MonsterEntity {
 
                 if (ForgeEventFactory.getMobGriefingEvent(this.creature.world, this.creature) && random.nextInt(10) == 0) {
                     this.facing = Direction.random(random);
-                    BlockPos pos = (new BlockPos(this.creature.posX, this.creature.posY + 0.5D, this.creature.posZ)).offset(this.facing);
+                    BlockPos pos = (new BlockPos(this.creature.getPosX(), this.creature.getPosY() + 0.5D, this.creature.getPosZ())).offset(this.facing);
                     BlockState state = this.creature.world.getBlockState(pos);
 
                     if (state.getBlock() == AtumBlocks.LIMESTONE || state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
@@ -221,7 +221,7 @@ public class ScarabEntity extends MonsterEntity {
                 super.startExecuting();
             } else {
                 World world = this.creature.world;
-                BlockPos pos = (new BlockPos(this.creature.posX, this.creature.posY + 0.5D, this.creature.posZ)).offset(this.facing);
+                BlockPos pos = (new BlockPos(this.creature.getPosX(), this.creature.getPosY() + 0.5D, this.creature.getPosZ())).offset(this.facing);
                 BlockState state = world.getBlockState(pos);
 
                 if (state.getBlock() == AtumBlocks.LIMESTONE) {
