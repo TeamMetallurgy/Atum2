@@ -9,6 +9,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Items;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -27,6 +28,7 @@ public class ItemShusBreath extends ItemBaseBow {
     public ItemShusBreath() {
         super();
         this.setMaxDamage(650);
+        this.setRepairItem(Items.DIAMOND);
     }
 
     @Override

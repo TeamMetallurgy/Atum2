@@ -33,6 +33,10 @@ import java.util.List;
 public class ItemShusExile extends ItemBattleAxe {
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
 
+    public ItemShusExile() {
+        super(ToolMaterial.DIAMOND);
+    }
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
         EntityPlayer player = event.getEntityPlayer();

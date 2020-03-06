@@ -2,13 +2,16 @@ package com.teammetallurgy.atum.items.artifacts.tefnut;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.teammetallurgy.atum.entity.EntityItemTefnutsCall;
 import com.teammetallurgy.atum.entity.projectile.arrow.EntityTefnutsCall;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.EntityEquipmentSlot;
@@ -21,7 +24,9 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -99,6 +104,23 @@ public class ItemTefnutsCall extends Item {
                 stack.damageItem(4, player);
             }
             player.inventory.setInventorySlotContents(player.inventory.currentItem, ItemStack.EMPTY);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onEntityJoinWorld(EntityJoinWorldEvent event) {
+        Entity entity = event.getEntity();
+        if (entity.getClass().equals(EntityItem.class)) {
+            EntityItem original = (EntityItem) entity;
+            if (original.getItem().getItem() instanceof ItemTefnutsCall) {
+                EntityItemTefnutsCall tefnutsCall = new EntityItemTefnutsCall(original.world, original.posX, original.posY, original.posZ, original.getItem());
+                entity.setDead();
+                event.setCanceled(true);
+                tefnutsCall.motionX = original.motionX;
+                tefnutsCall.motionY = original.motionY;
+                tefnutsCall.motionZ = original.motionZ;
+                event.getWorld().spawnEntity(tefnutsCall);
+            }
         }
     }
 
