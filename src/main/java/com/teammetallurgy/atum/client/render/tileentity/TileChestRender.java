@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.render.tileentity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraftforge.api.distmarker.Dist;
@@ -12,9 +13,46 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class TileChestRender extends TileEntityRenderer<ChestBaseTileEntity> {
+    //Sarcophagus
+    public ModelRenderer sarcophagusBase;
+    public ModelRenderer sarcophagusLid;
+    public ModelRenderer sarcophagusLiddeco1;
+    public ModelRenderer sarcophagusLiddeco2;
+    public ModelRenderer sarcophagusLiddeco3;
+    public ModelRenderer sarcophagusGemchest;
+    public ModelRenderer sarcophagusGemhead;
 
     public TileChestRender(TileEntityRendererDispatcher dispatcher) {
         super(dispatcher);
+        //Sarcophagus
+        this.sarcophagusLid = new ModelRenderer(128, 64, 0, 0);
+        this.sarcophagusLid.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusLid.addBox(-16.0F, -2.0F, -16.0F, 30, 2, 14, 0.0F);
+        this.sarcophagusGemchest = new ModelRenderer(128, 64, 0, 45);
+        this.sarcophagusGemchest.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusGemchest.addBox(0.0F, -4.5F, -10.0F, 2, 2, 2, 0.0F);
+        this.sarcophagusBase = new ModelRenderer(128, 64, 0, 19);
+        this.sarcophagusBase.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusBase.addBox(-16.0F, 0.0F, -16.0F, 30, 10, 14, 0.0F);
+        this.sarcophagusLiddeco3 = new ModelRenderer(128, 64, 0, 45);
+        this.sarcophagusLiddeco3.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusLiddeco3.addBox(-4.0F, -4.0F, -13.0F, 15, 1, 8, 0.0F);
+        this.sarcophagusGemhead = new ModelRenderer(128, 64, 0, 45);
+        this.sarcophagusGemhead.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusGemhead.addBox(-12.0F, -4.5F, -10.0F, 2, 2, 2, 0.0F);
+        this.sarcophagusLiddeco1 = new ModelRenderer(128, 64, 48, 51);
+        this.sarcophagusLiddeco1.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusLiddeco1.addBox(-15.0F, -3.0F, -15.0F, 28, 1, 12, 0.0F);
+        this.sarcophagusLiddeco2 = new ModelRenderer(128, 64, 90, 0);
+        this.sarcophagusLiddeco2.setRotationPoint(1.0F, 14.0F, 9.0F);
+        this.sarcophagusLiddeco2.addBox(-14.0F, -4.0F, -13.0F, 8, 1, 8, 0.0F);
+        //        this.sarcophagusLid.render(0.0625F); TODO, kept for later
+        //        this.sarcophagusBase.render(0.0625F);
+        //        this.sarcophagusLiddeco1.render(0.0625F);
+        //        this.sarcophagusLiddeco2.render(0.0625F);
+        //        this.sarcophagusLiddeco3.render(0.0625F);
+        //        this.sarcophagusGemhead.render(0.0625F);
+        //        this.sarcophagusGemchest.render(0.0625F);
     }
 
     @Override

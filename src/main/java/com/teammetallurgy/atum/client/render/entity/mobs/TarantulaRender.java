@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
 import com.teammetallurgy.atum.utils.Constants;
@@ -11,7 +12,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class TarantulaRender<T extends TarantulaEntity> extends MobRenderer<T, SpiderModel<T>> {
@@ -27,13 +27,13 @@ public class TarantulaRender<T extends TarantulaEntity> extends MobRenderer<T, S
     }
 
     @Override
-    protected void preRenderCallback(T tarantula, float partialTickTime) {
+    protected void preRenderCallback(T tarantula, MatrixStack matrixStack, float partialTickTime) {
         GlStateManager.scalef(0.6F, 0.6F, 0.6F);
     }
 
-    @Nullable
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull T tarantula) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(@Nonnull T tarantula) {
         return TARANTULA_TEXTURE;
     }
 }

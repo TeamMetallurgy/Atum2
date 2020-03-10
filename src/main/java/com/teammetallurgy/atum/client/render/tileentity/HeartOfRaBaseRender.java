@@ -1,7 +1,8 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.tileentity.BeaconTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -10,6 +11,8 @@ import net.minecraft.tileentity.BeaconTileEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class HeartOfRaBaseRender extends TileEntityRenderer<HeartOfRaTileEntity> {
@@ -20,25 +23,19 @@ public class HeartOfRaBaseRender extends TileEntityRenderer<HeartOfRaTileEntity>
     }
 
     @Override
-    public void render(HeartOfRaTileEntity heartOfRa, double x, double y, double z, float partialTicks, int destroyStage) {
-        this.renderBeam(heartOfRa, x, y, z, partialTicks);
+    public void render(@Nonnull HeartOfRaTileEntity heartOfRa, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+        this.renderBeam(heartOfRa, partialTicks, matrixStack, buffer);
     }
 
-    private void renderBeam(HeartOfRaTileEntity heartOfRa, double x, double y, double z, float partialTicks) {
+    private void renderBeam(HeartOfRaTileEntity heartOfRa, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer) {
         if (heartOfRa.getWorld() != null) {
-            GlStateManager.pushMatrix();
-            GlStateManager.alphaFunc(516, 0.1F);
-            this.bindTexture(BEAM);
-            GlStateManager.disableFog();
-            GlStateManager.translated(0, 2.07D, 0);
+            //RenderSystem.translated(0, 2.07D, 0);
             int height = 0;
             for (int j = 0; j < DyeColor.values().length - 1; ++j) {
                 BeaconTileEntity.BeamSegment beam = new BeaconTileEntity.BeamSegment(DyeColor.RED.getColorComponentValues());
-                BeaconTileEntityRenderer.renderBeamSegment(x, y, z, partialTicks, 1.0F, heartOfRa.getWorld().getGameTime(), height, 256 - heartOfRa.getPos().getY() - 16, beam.getColors(), 0.2D, 0.25D);
+                BeaconTileEntityRenderer.renderBeamSegment(matrixStack, buffer, BEAM, partialTicks, 1.0F, heartOfRa.getWorld().getGameTime(), height, 256 - heartOfRa.getPos().getY() - 16, beam.getColors(), 0.2F, 0.25F);
                 height += beam.getHeight();
             }
-            GlStateManager.enableFog();
-            GlStateManager.popMatrix();
         }
     }
 

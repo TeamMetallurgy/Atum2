@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -20,6 +21,7 @@ public class ShusBreathItem extends BaseBowItem {
 
     public ShusBreathItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
+        this.setRepairItem(Items.DIAMOND);
     }
 
     @Override

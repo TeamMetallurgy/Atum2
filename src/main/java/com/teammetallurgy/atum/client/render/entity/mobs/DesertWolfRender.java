@@ -1,12 +1,14 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.texture.LayeredTexture;
@@ -36,18 +38,20 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     }
 
     @Override
-    public void doRender(@Nonnull DesertWolfEntity desertWolf, double x, double y, double z, float entityYaw, float partialTicks) {
+    public void render(@Nonnull DesertWolfEntity desertWolf, float entityYaw, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int i) {
         if (desertWolf.isWolfWet()) {
-            GlStateManager.pushMatrix();
             float f = desertWolf.getBrightness() * desertWolf.getShadingWhileWet(partialTicks);
-            GlStateManager.color3f(f, f, f);
-            GlStateManager.popMatrix();
+            this.entityModel.func_228253_a_(f, f, f);
         }
-        super.doRender(desertWolf, x, y, z, entityYaw, partialTicks);
+        super.render(desertWolf, entityYaw, partialTicks, matrixStack, buffer, i);
+        if (desertWolf.isWolfWet()) {
+            this.entityModel.func_228253_a_(1.0F, 1.0F, 1.0F);
+        }
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull DesertWolfEntity desertWolf) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(@Nonnull DesertWolfEntity desertWolf) {
         String textureName = desertWolf.getTexture();
 
         ResourceLocation location = CACHE.get(textureName);
@@ -72,7 +76,7 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     }
 
     @Override
-    protected void preRenderCallback(DesertWolfEntity desertWolf, float partialTickTime) {
+    protected void preRenderCallback(DesertWolfEntity desertWolf, MatrixStack matrixStack, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
             GlStateManager.scalef(scale, scale, scale);

@@ -1,34 +1,50 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
+import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class TefnutsCallEntity extends CustomArrow { //TODO
-    private ItemStack stack = ItemStack.EMPTY;
+public class TefnutsCallEntity extends TridentEntity { //TODO
 
     public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, World world) {
         super(entityType, world);
+        this.thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
     }
 
-    public TefnutsCallEntity(World world, LivingEntity shooter) {
-        super(world, shooter);
+    public TefnutsCallEntity(World world, LivingEntity shooter, @Nonnull ItemStack stack) {
+        this(AtumEntities.TEFNUTS_CALL, world);
+        this.setPosition(shooter.getPosX(), shooter.getPosYEye() - (double) 0.1F, shooter.getPosZ());
+        this.thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
+        this.thrownStack = stack.copy();
+        this.setShooter(shooter);
+        if (shooter instanceof PlayerEntity) {
+            this.pickupStatus = AbstractArrowEntity.PickupStatus.ALLOWED;
+        }
+        this.dataManager.set(LOYALTY_LEVEL, (byte) EnchantmentHelper.getLoyaltyModifier(stack));
+        this.dataManager.set(field_226571_aq_, stack.hasEffect());
     }
 
-    public void setStack(@Nonnull ItemStack stack) {
-        this.stack = stack;
+    @OnlyIn(Dist.CLIENT)
+    public TefnutsCallEntity(World world, double x, double y, double z) {
+        this(AtumEntities.TEFNUTS_CALL, world);
+        this.setPosition(x, y, z);
+        this.thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
     }
 
     @Override
-    @Nonnull
-    protected ItemStack getArrowStack() {
-        return stack;
+    public boolean isImmuneToExplosions() {
+        return true;
     }
 
     /*@Override
@@ -90,18 +106,5 @@ public class TefnutsCallEntity extends CustomArrow { //TODO
     @OnlyIn(Dist.CLIENT)
     public boolean canRenderOnFire() {
         return false;
-    }
-
-    @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        CompoundNBT stackTag = new CompoundNBT();
-        stack.write(stackTag);
-        compound.put("stack", stackTag);
-    }
-
-    @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        CompoundNBT stackTag = compound.getCompound("stack");
-        stack = ItemStack.read(stackTag);
     }
 }

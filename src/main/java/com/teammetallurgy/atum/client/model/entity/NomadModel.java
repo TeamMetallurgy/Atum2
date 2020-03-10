@@ -25,9 +25,9 @@ public class NomadModel<T extends NomadEntity> extends PlayerModel<T> {
     public void setLivingAnimations(T nomad, float limbSwing, float limbSwingAmount, float partialTickTime) {
         this.rightArmPose = BipedModel.ArmPose.EMPTY;
         this.leftArmPose = BipedModel.ArmPose.EMPTY;
-        ItemStack itemstack = nomad.getHeldItem(Hand.MAIN_HAND);
+        ItemStack heldStack = nomad.getHeldItem(Hand.MAIN_HAND);
 
-        if (itemstack.getItem() instanceof BowItem && nomad.isAggressive()) {
+        if (heldStack.getItem() instanceof BowItem && nomad.isAggressive()) {
             if (nomad.getPrimaryHand() == HandSide.RIGHT) {
                 this.rightArmPose = BipedModel.ArmPose.BOW_AND_ARROW;
             } else {

@@ -6,34 +6,39 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+
+import javax.annotation.Nonnull;
 
 public class RenderUtils {
 
-    public static void renderItem(TileEntity tileEntity, ItemStack stack, double x, double y, double z, float rotation, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
             RenderSystem.pushMatrix();
             RenderHelper.disableStandardItemLighting();
-
-            RenderSystem.translated(x + 0.5F, y + 1.225F, z + 0.5F);
             RenderSystem.disableLighting();
 
-            RenderSystem.rotatef(rotation, 0.0F, 1.0F, 0.0F);
-            RenderSystem.scalef(0.25F, 0.25F, 0.25F);
-            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);
+            matrixStack.push();
+            matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
 
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+            matrixStack.scale(0.25F, 0.25F, 0.25F);
+            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);
+            matrixStack.pop();
+
+            RenderSystem.enableLighting();
             RenderHelper.enableStandardItemLighting();
             RenderSystem.popMatrix();
 
             if (drawStackSize) {
-                RenderSystem.pushMatrix();
                 String stackSize = String.valueOf(stack.getCount());
-                drawString(tileEntity, stackSize, x + 0.5F, y + 1.475D, z + 0.5F, 0.003F);
-                RenderSystem.popMatrix();
+                drawString(tileEntity, stackSize, 0.5F, 1.475D, 0.5F, 0.003F);
             }
         }
     }
@@ -50,7 +55,8 @@ public class RenderUtils {
             FontRenderer font = rendererDispatcher.getFontRenderer();
             RenderSystem.pushMatrix();
 
-            RenderSystem.translated(x, y, z);
+            BlockPos pos = te.getPos();
+            RenderSystem.translated(pos.getX() + x, pos.getY() + y, pos.getZ() + z);
             RenderSystem.normal3f(0.0F, 1.0F, 0.0F);
 
             RenderSystem.rotatef(-yaw, 0.0F, 1.0F, 0.0F);

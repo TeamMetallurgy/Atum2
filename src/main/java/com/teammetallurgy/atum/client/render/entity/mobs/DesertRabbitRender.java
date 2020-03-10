@@ -8,7 +8,6 @@ import net.minecraft.client.renderer.entity.model.RabbitModel;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class DesertRabbitRender extends MobRenderer<DesertRabbitEntity, RabbitModel<DesertRabbitEntity>> {
     private static final ResourceLocation PALE = new ResourceLocation(Constants.MOD_ID, "textures/entity/rabbit_pale.png");
@@ -24,8 +23,8 @@ public class DesertRabbitRender extends MobRenderer<DesertRabbitEntity, RabbitMo
     }
 
     @Override
-    @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull DesertRabbitEntity rabbit) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(@Nonnull DesertRabbitEntity rabbit) {
         ResourceLocation location;
         switch (rabbit.getRabbitType()) {
             case 0:

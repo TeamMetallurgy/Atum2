@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
@@ -23,8 +24,8 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
     }
 
     @Override
-    protected void applyRotations(StonewardenEntity stonewarden, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.applyRotations(stonewarden, ageInTicks, rotationYaw, partialTicks);
+    protected void applyRotations(StonewardenEntity stonewarden, @Nonnull MatrixStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.applyRotations(stonewarden, matrixStack, ageInTicks, rotationYaw, partialTicks);
         if ((double) stonewarden.limbSwingAmount >= 0.01D) {
             float swingValue = stonewarden.limbSwing - stonewarden.limbSwingAmount * (1.0F - partialTicks) + 6.0F;
             float swing = (Math.abs(swingValue % 13.0F - 6.5F) - 3.25F) / 3.25F;
@@ -33,7 +34,8 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
     }
 
     @Override
-    protected ResourceLocation getEntityTexture(@Nonnull StonewardenEntity stonewarden) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(@Nonnull StonewardenEntity stonewarden) {
         ResourceLocation location = CACHE.get(stonewarden.getVariant());
 
         if (location == null) {

@@ -10,7 +10,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 @OnlyIn(Dist.CLIENT)
 public class ScarabRender extends MobRenderer<ScarabEntity, EndermiteModel<ScarabEntity>> {
@@ -27,8 +26,8 @@ public class ScarabRender extends MobRenderer<ScarabEntity, EndermiteModel<Scara
     }
 
     @Override
-    @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull ScarabEntity entity) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(@Nonnull ScarabEntity entity) {
         if (entity.getVariant() == 1) {
             return SCARAB_GOLDEN_TEXTURE;
         } else {

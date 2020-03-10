@@ -1,13 +1,16 @@
 package com.teammetallurgy.atum.client.model.entity;
 
+import com.google.common.collect.ImmutableList;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
-import net.minecraft.client.renderer.entity.model.EntityModel;
+import net.minecraft.client.renderer.entity.model.SegmentedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
-public class StonewardenModel<T extends StonewardenEntity> extends EntityModel<T> { //Copied from IronGolemModel, with a few changes
+public class StonewardenModel<T extends StonewardenEntity> extends SegmentedModel<T> { //Copied from IronGolemModel, with a few changes
     private final ModelRenderer stonewardenHead;
     private final ModelRenderer stonewardenBody;
     public final ModelRenderer stonewardenRightArm;
@@ -16,11 +19,7 @@ public class StonewardenModel<T extends StonewardenEntity> extends EntityModel<T
     private final ModelRenderer stonewardenRightLeg;
 
     public StonewardenModel() {
-        this(0.0F);
-    }
-
-    public StonewardenModel(float yOffset) {
-        this(yOffset, -7.0F);
+        this(0.0F, -7.0F);
     }
 
     public StonewardenModel(float yOffset, float yRotation) {
@@ -48,18 +47,13 @@ public class StonewardenModel<T extends StonewardenEntity> extends EntityModel<T
     }
 
     @Override
-    public void render(T stonewarden, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
-        this.setRotationAngles(stonewarden, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-        this.stonewardenHead.render(scale);
-        this.stonewardenBody.render(scale);
-        this.stonewardenLeftLeg.render(scale);
-        this.stonewardenRightLeg.render(scale);
-        this.stonewardenRightArm.render(scale);
-        this.stonewardenLeftArm.render(scale);
+    @Nonnull
+    public Iterable<ModelRenderer> getParts() {
+        return ImmutableList.of(this.stonewardenHead, this.stonewardenBody, this.stonewardenLeftLeg, this.stonewardenRightLeg, this.stonewardenRightArm, this.stonewardenLeftArm);
     }
 
     @Override
-    public void setRotationAngles(T stonewarden, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void setRotationAngles(@Nonnull T stonewarden, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.stonewardenHead.rotateAngleY = netHeadYaw * 0.017453292F;
         this.stonewardenHead.rotateAngleX = headPitch * 0.017453292F;
         this.stonewardenLeftLeg.rotateAngleX = -1.5F * this.triangleWave(limbSwing, 13.0F) * limbSwingAmount;

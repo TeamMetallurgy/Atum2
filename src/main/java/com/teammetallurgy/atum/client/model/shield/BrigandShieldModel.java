@@ -1,12 +1,16 @@
 package com.teammetallurgy.atum.client.model.shield;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
+
 @OnlyIn(Dist.CLIENT)
-public class BrigandShieldModel extends ShieldModel {
+public class BrigandShieldModel extends AbstractShieldModel {
     private ModelRenderer shieldCore;
     private ModelRenderer handleCore;
     private ModelRenderer shieldTop1;
@@ -72,12 +76,22 @@ public class BrigandShieldModel extends ShieldModel {
     }
 
     @Override
-    public void render() {
-        GlStateManager.pushMatrix();
-        GlStateManager.scaled(1.0D / 0.78D, -1.0D / 0.78D, -1.0D / 0.78D);
-        GlStateManager.translatef(0.0F, 0.0F, -0.025F);
-        this.handleCore.render(0.0625F);
-        this.shieldCore.render(0.0625F);
-        GlStateManager.popMatrix();
+    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IVertexBuilder vertexBuilder, int i, int i1, float v, float v1, float v2, float v3) {
+        RenderSystem.pushMatrix();
+        RenderSystem.scaled(1.0D / 0.78D, -1.0D / 0.78D, -1.0D / 0.78D);
+        RenderSystem.translatef(0.0F, 0.0F, -0.025F);
+        this.handleCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
+        this.shieldCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
+        RenderSystem.popMatrix(); 
+    }
+
+    @Override
+    public ModelRenderer getPlate() {
+        return this.shieldCore;
+    }
+
+    @Override
+    public ModelRenderer getHandle() {
+        return this.handleCore;
     }
 }

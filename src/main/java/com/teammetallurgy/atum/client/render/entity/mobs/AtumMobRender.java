@@ -10,7 +10,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -22,8 +22,8 @@ public class AtumMobRender<T extends MobEntity & ITexture, M extends EntityModel
     }
 
     @Override
-    @Nullable
-    protected ResourceLocation getEntityTexture(T entity) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(T entity) {
         String texture = entity.getTexture();
         ResourceLocation location = CACHE.get(texture);
 

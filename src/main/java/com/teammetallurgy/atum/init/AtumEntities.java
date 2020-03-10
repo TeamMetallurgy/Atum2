@@ -71,7 +71,10 @@ public class AtumEntities {
     public static final EntityType<ArrowRainEntity> RAIN_ARROW = registerArrow("arrow_rain", ArrowRainEntity::new);
     public static final EntityType<ArrowSlownessEntity> SLOWNESS_ARROW = registerArrow("arrow_slowness", ArrowSlownessEntity::new);
     public static final EntityType<ArrowStraightEntity> STRAIGHT_ARROW = registerArrow("arrow_straight", ArrowStraightEntity::new);
-    public static final EntityType<TefnutsCallEntity> TEFNUTS_CALL = registerArrow("tefnuts_call", TefnutsCallEntity::new); //TODO Do not register as arrow
+    public static final EntityType<TefnutsCallEntity> TEFNUTS_CALL = registerEntity("tefnuts_call", Builder.<TefnutsCallEntity>create(TefnutsCallEntity::new, EntityClassification.MISC).size(0.5F, 0.5F)
+            .setTrackingRange(4)
+            .setUpdateInterval(20)
+            .immuneToFire());
 
     public static void registerSpawnPlacement() {
         EntitySpawnPlacementRegistry.register(ASSASSIN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);

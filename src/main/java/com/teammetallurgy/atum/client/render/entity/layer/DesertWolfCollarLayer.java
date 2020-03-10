@@ -1,8 +1,9 @@
 package com.teammetallurgy.atum.client.render.entity.layer;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.IEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -20,19 +21,10 @@ public class DesertWolfCollarLayer extends LayerRenderer<DesertWolfEntity, Deser
     }
 
     @Override
-    public void render(@Nonnull DesertWolfEntity desertWolf, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale) {
+    public void render(@Nonnull MatrixStack matrixStack, IRenderTypeBuffer buffer, int p_225628_3_, DesertWolfEntity desertWolf, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
         if (desertWolf.isTamed() && !desertWolf.isInvisible()) {
-            GlStateManager.pushMatrix();
-            this.bindTexture(COLLAR_TEXTURE);
-            float[] afloat = desertWolf.getCollarColor().getColorComponentValues();
-            GlStateManager.color3f(afloat[0], afloat[1], afloat[2]);
-            this.getEntityModel().render(desertWolf, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
-            GlStateManager.popMatrix();
+            float[] color = desertWolf.getCollarColor().getColorComponentValues();
+            renderCutoutModel(this.getEntityModel(), COLLAR_TEXTURE, matrixStack, buffer, p_225628_3_, desertWolf, color[0], color[1], color[2]);
         }
-    }
-
-    @Override
-    public boolean shouldCombineTextures() {
-        return true;
     }
 }

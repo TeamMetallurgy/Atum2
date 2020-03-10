@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
+import javax.annotation.Nonnull;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -25,12 +25,12 @@ public class AtumBipedRender<T extends MobEntity & ITexture, M extends BipedMode
 
     public AtumBipedRender(EntityRendererManager renderManager, M model, M modelArmorHalf, M modelArmorFull) {
         super(renderManager, model, 0.5F);
-        this.addLayer(new BipedArmorLayer(this, modelArmorHalf, modelArmorFull));
+        this.addLayer(new BipedArmorLayer<>(this, modelArmorHalf, modelArmorFull));
     }
 
     @Override
-    @Nullable
-    protected ResourceLocation getEntityTexture(T entity) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(T entity) {
         String texture = entity.getTexture();
         ResourceLocation location = CACHE.get(texture);
 

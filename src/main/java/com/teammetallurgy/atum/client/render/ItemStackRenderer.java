@@ -1,19 +1,19 @@
 package com.teammetallurgy.atum.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
 import com.teammetallurgy.atum.client.model.shield.AtumsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
-import com.teammetallurgy.atum.client.model.shield.ShieldModel;
 import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsProtectionItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.model.Material;
+import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -39,29 +39,25 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
 
         } else {
             if (item instanceof AtumsProtectionItem) {
-                renderShield(stack, ATUMS_PROTECTION, ATUMS_PROTECTION_TEXTURE);
+                renderShield(stack, ATUMS_PROTECTION, ATUMS_PROTECTION_TEXTURE, matrixStack, buffer, i, i1);
             } else if (item == AtumItems.BRIGAND_SHIELD) {
-                renderShield(stack, BRIGAND_SHIELD, BRIGAND_SHIELD_TEXTURE);
+                renderShield(stack, BRIGAND_SHIELD, BRIGAND_SHIELD_TEXTURE, matrixStack, buffer, i, i);
             } else if (item == AtumItems.STONEGUARD_SHIELD) {
-                renderShield(stack, STONEGUARD_SHIELD, STONEGUARD_SHIELD_TEXTURE);
+                renderShield(stack, STONEGUARD_SHIELD, STONEGUARD_SHIELD_TEXTURE, matrixStack, buffer, i, i);
             }
         }
     }
 
-    private void renderShield(@Nonnull ItemStack stack, ShieldModel shieldModel, ResourceLocation texture) {
-        RenderSystem.pushMatrix();
-        TextureManager textureManager = Minecraft.getInstance().getTextureManager();
-        textureManager.bindTexture(texture);
-        shieldModel.render();
-        if (stack.hasEffect()) {
-            this.renderEffect(textureManager, shieldModel::render);
+    private void renderShield(@Nonnull ItemStack stack, AbstractShieldModel shieldModel, ResourceLocation texture, MatrixStack matrixStack, IRenderTypeBuffer buffer, int i, int i1) {
+        matrixStack.push();
+        matrixStack.scale(1.0F, -1.0F, -1.0F);
+        Material material = ModelBakery.LOCATION_SHIELD_NO_PATTERN;
+        IVertexBuilder builder = material.getSprite().wrapBuffer(ItemRenderer.getBuffer(buffer, shieldModel.getRenderType(material.getAtlasLocation()), false, stack.hasEffect()));
+        shieldModel.getHandle().render(matrixStack, builder, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
+        shieldModel.getPlate().render(matrixStack, builder, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
+        if (shieldModel.getOptional() != null) {
+            shieldModel.getOptional().render(matrixStack, builder, i, i1, 1.0F, 1.0F, 1.0F, 1.0F);
         }
-        RenderSystem.popMatrix();
-    }
-
-    private void renderEffect(TextureManager textureManager, Runnable runnable) {
-        RenderSystem.color3f(0.5019608F, 0.2509804F, 0.8F);
-        textureManager.bindTexture(ItemRenderer.RES_ITEM_GLINT);
-        ItemRenderer.renderEffect(Minecraft.getInstance().getTextureManager(), runnable, 1);
+        matrixStack.pop();
     }
 }

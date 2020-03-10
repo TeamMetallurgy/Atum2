@@ -15,7 +15,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
@@ -24,12 +23,12 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
     private static final ResourceLocation GIRAFI = new ResourceLocation(Constants.MOD_ID, "textures/entity/camel_girafi.png");
 
     public CamelRender(EntityRendererManager renderManager) {
-        super(renderManager, new CamelModel(0.0F), 0.7F);
+        super(renderManager, new CamelModel<>(), 0.7F);
     }
 
     @Override
-    @Nullable
-    protected ResourceLocation getEntityTexture(@Nonnull CamelEntity camel) {
+    @Nonnull
+    public ResourceLocation getEntityTexture(@Nonnull CamelEntity camel) {
         String textureName = camel.getTexture();
 
         ResourceLocation location = CACHE.get(textureName);

@@ -1,35 +1,42 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import net.minecraft.client.renderer.entity.model.QuadrupedModel;
+import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 
-public class CamelModel<T extends CamelEntity> extends QuadrupedModel<T> {
-    private ModelRenderer neckheadModellower;
+public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
+    private ModelRenderer headModel;
+    private ModelRenderer body;
+    private ModelRenderer legBackRight;
+    private ModelRenderer legBackLeft;
+    private ModelRenderer legFrontRight;
+    private ModelRenderer legFrontLeft;
+    private ModelRenderer neckheadModelLower;
     private ModelRenderer snout;
-    private ModelRenderer ear_r;
-    private ModelRenderer ear_l;
+    private ModelRenderer earRight;
+    private ModelRenderer earLeft;
     private ModelRenderer hump1;
     private ModelRenderer hump2;
     private ModelRenderer tail;
-    private ModelRenderer chest_right;
-    private ModelRenderer chest_left;
+    private ModelRenderer chestRight;
+    private ModelRenderer chestLeft;
     public ModelRenderer saddle1;
     public ModelRenderer saddle2;
 
-    public CamelModel(float textureOffset) {
-        super(14, textureOffset);
+    public CamelModel() {
         this.textureWidth = 128;
         this.textureHeight = 64;
-        this.chest_left = new ModelRenderer(this, 45, 41);
-        this.chest_left.setRotationPoint(5.5F, 3.0F, 3.0F);
-        this.chest_left.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, 0.0F);
-        this.setRotateAngle(chest_left, 0.0F, 1.5707963267948966F, 0.0F);
+        this.chestLeft = new ModelRenderer(this, 45, 41);
+        this.chestLeft.setRotationPoint(5.5F, 3.0F, 3.0F);
+        this.chestLeft.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, 0.0F);
+        this.setRotateAngle(chestLeft, 0.0F, 1.5707963267948966F, 0.0F);
         this.tail = new ModelRenderer(this, 94, 9);
         this.tail.setRotationPoint(0.0F, 2.0F, 10.0F);
         this.tail.addBox(-1.5F, -1.0F, 0.0F, 3, 1, 14, 0.0F);
@@ -47,21 +54,21 @@ public class CamelModel<T extends CamelEntity> extends QuadrupedModel<T> {
         this.headModel = new ModelRenderer(this, 0, 14);
         this.headModel.setRotationPoint(0.0F, 7.0F, -8.0F);
         this.headModel.addBox(-3.0F, -16.0F, -8.0F, 6, 14, 6, 0.0F);
-        this.ear_r = new ModelRenderer(this, 30, 0);
-        this.ear_r.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.ear_r.addBox(-4.0F, -16.0F, -6.0F, 1, 3, 2, 0.0F);
-        this.setRotateAngle(ear_r, -0.08726646259971647F, 0.0F, 0.0F);
-        this.ear_l = new ModelRenderer(this, 30, 5);
-        this.ear_l.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.ear_l.addBox(3.0F, -16.0F, -6.0F, 1, 3, 2, 0.0F);
-        this.setRotateAngle(ear_l, -0.08726646259971647F, 0.0F, 0.0F);
-        this.chest_right = new ModelRenderer(this, 45, 28);
-        this.chest_right.setRotationPoint(-8.5F, 3.0F, 3.0F);
-        this.chest_right.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, 0.0F);
-        this.setRotateAngle(chest_right, 0.0F, 1.5707963267948966F, 0.0F);
-        this.neckheadModellower = new ModelRenderer(this, 68, 30);
-        this.neckheadModellower.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.neckheadModellower.addBox(-4.0F, -4.0F, -5.0F, 8, 6, 6, 0.0F);
+        this.earRight = new ModelRenderer(this, 30, 0);
+        this.earRight.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.earRight.addBox(-4.0F, -16.0F, -6.0F, 1, 3, 2, 0.0F);
+        this.setRotateAngle(earRight, -0.08726646259971647F, 0.0F, 0.0F);
+        this.earLeft = new ModelRenderer(this, 30, 5);
+        this.earLeft.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.earLeft.addBox(3.0F, -16.0F, -6.0F, 1, 3, 2, 0.0F);
+        this.setRotateAngle(earLeft, -0.08726646259971647F, 0.0F, 0.0F);
+        this.chestRight = new ModelRenderer(this, 45, 28);
+        this.chestRight.setRotationPoint(-8.5F, 3.0F, 3.0F);
+        this.chestRight.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, 0.0F);
+        this.setRotateAngle(chestRight, 0.0F, 1.5707963267948966F, 0.0F);
+        this.neckheadModelLower = new ModelRenderer(this, 68, 30);
+        this.neckheadModelLower.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.neckheadModelLower.addBox(-4.0F, -4.0F, -5.0F, 8, 6, 6, 0.0F);
         this.hump1 = new ModelRenderer(this, 74, 0);
         this.hump1.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.hump1.addBox(-4.0F, -6.0F, 3.0F, 8, 12, 3, 0.0F);
@@ -86,75 +93,43 @@ public class CamelModel<T extends CamelEntity> extends QuadrupedModel<T> {
         this.saddle2.addBox(-5.0F, 2.0F, 8.0F, 10, 4, 4, 0.0F);
         this.setRotateAngle(saddle2, 1.5707963267948966F, 0.0F, 0.0F);
         this.headModel.addChild(this.snout);
-        this.headModel.addChild(this.ear_r);
-        this.headModel.addChild(this.ear_l);
-        this.headModel.addChild(this.neckheadModellower);
+        this.headModel.addChild(this.earRight);
+        this.headModel.addChild(this.earLeft);
+        this.headModel.addChild(this.neckheadModelLower);
         this.body.addChild(this.hump1);
         this.body.addChild(this.hump2);
     }
 
     @Override
-    public void render(@Nonnull T camel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch, float scale) {
-        this.setRotationAngles(camel, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
-        boolean isChild = camel.isChild();
-        boolean isSaddled = !isChild && camel.isHorseSaddled();
-
-        if (isChild) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translatef(0.0F, this.childYOffset * scale, this.childZOffset * scale);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            GlStateManager.scalef(0.71428573F, 0.64935064F, 0.7936508F);
-            GlStateManager.translatef(0.0F, 22.0F * scale, 0.26F);
-            this.headModel.render(scale);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            GlStateManager.scalef(0.625F, 0.45454544F, 0.45454544F);
-            GlStateManager.translatef(0.0F, 33.0F * scale, 0.0F);
-            this.body.render(scale);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            GlStateManager.scalef(0.45454544F, 0.41322312F, 0.45454544F);
-            GlStateManager.translatef(0.0F, 33.0F * scale, 0.0F);
-            this.legBackRight.render(scale);
-            this.legBackLeft.render(scale);
-            this.legFrontRight.render(scale);
-            this.legFrontLeft.render(scale);
-            GlStateManager.popMatrix();
-            GlStateManager.pushMatrix();
-            GlStateManager.scalef(0.45454544F, 0.41322312F, 0.45454544F);
-            GlStateManager.translatef(0.0F, 37.0F * scale, 0.0F);
-            this.tail.render(scale);
-            GlStateManager.popMatrix();
+    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IVertexBuilder vertexBuilder, int limbSwing, int limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch, float scale) {
+        if (this.isChild) {
+            matrixStack.push();
+            matrixStack.scale(0.71428573F, 0.64935064F, 0.7936508F);
+            matrixStack.translate(0.0D, 1.3125D, 0.2199999988079071D);
+            this.headModel.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+            matrixStack.pop();
+            matrixStack.push();
+            matrixStack.scale(0.625F, 0.45454544F, 0.45454544F);
+            matrixStack.translate(0.0D, 2.0625D, 0.0D);
+            this.body.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+            matrixStack.pop();
+            matrixStack.push();
+            matrixStack.scale(0.45454544F, 0.41322312F, 0.45454544F);
+            matrixStack.translate(0.0D, 2.0625D, 0.0D);
+            ImmutableList.of(this.legBackRight, this.legBackLeft, this.legFrontRight, this.legFrontLeft, this.chestLeft, this.chestRight, this.saddle1, this.saddle2).forEach((model) -> {
+                model.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+            });
+            matrixStack.pop();
         } else {
-            this.headModel.render(scale);
-            this.body.render(scale);
-            this.tail.render(scale);
-            this.legBackRight.render(scale);
-            this.legBackLeft.render(scale);
-            this.legFrontRight.render(scale);
-            this.legFrontLeft.render(scale);
-
-            if (isSaddled) {
-                this.saddle1.render(scale);
-                this.saddle2.render(scale);
-            }
-
-            if (camel.hasLeftCrate()) {
-                this.chest_left.render(scale);
-            }
-            if (camel.hasRightCrate()) {
-                this.chest_right.render(scale);
-            }
-
+            ImmutableList.of(this.headModel, this.body, this.legBackRight, this.legBackLeft, this.legFrontRight, this.legFrontLeft, this.chestLeft, this.chestRight, this.saddle1, this.saddle2).forEach((model) -> {
+                model.render(matrixStack, vertexBuilder, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scale);
+            });
         }
     }
 
     @Override
-    public void setRotationAngles(T camel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch, float scaleFactor) {
+    public void setRotationAngles(@Nonnull T camel, float limbSwing, float limbSwingAmount, float ageInTicks, float netheadModelYaw, float headModelPitch) {
         limbSwingAmount *= CamelEntity.CAMEL_RIDING_SPEED_AMOUNT;
-        super.setRotationAngles(camel, limbSwing, limbSwingAmount, ageInTicks, netheadModelYaw, headModelPitch, scaleFactor);
-
         if (camel.isBeingRidden()) {
             this.headModel.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.025F * limbSwingAmount;
             Vec3d motion = camel.getMotion();
@@ -163,6 +138,13 @@ public class CamelModel<T extends CamelEntity> extends QuadrupedModel<T> {
             this.tail.rotateAngleX = -45.5F;
         }
         this.tail.rotateAngleZ = MathHelper.cos(limbSwing * 0.6662F) * 0.1F * limbSwingAmount;
+
+        boolean isChild = camel.isChild();
+        boolean isSaddled = !isChild && camel.isHorseSaddled();
+        this.saddle1.showModel = isSaddled;
+        this.saddle2.showModel = isSaddled;
+        this.chestLeft.showModel = camel.hasLeftCrate();
+        this.chestRight.showModel = camel.hasRightCrate();
     }
 
     private void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {

@@ -34,7 +34,7 @@ public class AtumBiome extends Biome {
 
     protected void addDefaultSpawns() {
         //Animals
-        addSpawn(AtumEntities.RABBIT, 5, 2, 3, EntityClassification.CREATURE);
+        addSpawn(AtumEntities.DESERT_RABBIT, 5, 2, 3, EntityClassification.CREATURE);
         addSpawn(EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
 
         //Bandits
