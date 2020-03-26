@@ -25,11 +25,13 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
+import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
 
@@ -41,7 +43,7 @@ import static net.minecraft.block.Block.Properties.from;
 @ObjectHolder(value = Constants.MOD_ID)
 public class AtumBlocks {
     public static final PortalBlock PORTAL = (PortalBlock) registerBlock(new PortalBlock(), null, "portal");
-    public static final Block CHEST_SPAWNER = registerBlock(new ChestSpawnerBlock(), null, "chest_spawner");
+    public static final Block CHEST_SPAWNER = registerBlock(new ChestSpawnerBlock(), () -> ItemStackRenderer::new, null, "chest_spawner");
     public static final Block SAND = registerBlock(new StrangeSandBlock(), "sand");
     public static final Block SAND_LAYERED = registerBlock(new SandLayersBlock(), "sand_layer");
     public static final Block DATE_BLOCK = registerBlock(new DateBlock(), null, "date_block");
@@ -65,8 +67,8 @@ public class AtumBlocks {
     public static final Block TAR_TRAP = registerBlock(new TarTrapBlock(), "tar_trap");
     public static final Block SMOKE_TRAP = registerBlock(new SmokeTrapBlock(), "smoke_trap");
     public static final Block ARROW_TRAP = registerBlock(new ArrowTrapBlock(), "arrow_trap");
-    public static final Block SARCOPHAGUS = registerBlock(new SarcophagusBlock(), "sarcophagus");
-    public static final Block LIMESTONE_CHEST = registerBlock(new LimestoneChestBlock(), "limestone_chest");
+    public static final Block SARCOPHAGUS = registerBlock(new SarcophagusBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "sarcophagus");
+    public static final Block LIMESTONE_CHEST = registerBlock(new LimestoneChestBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "limestone_chest");
     public static final Block GOLD_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "gold_ore");
     public static final Block IRON_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "iron_ore");
     public static final Block COAL_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "coal_ore");

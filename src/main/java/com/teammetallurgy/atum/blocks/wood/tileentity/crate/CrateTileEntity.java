@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.inventory.container.block.CrateContainer;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -37,7 +38,6 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
         int x = this.pos.getX();
         int y = this.pos.getY();
         int z = this.pos.getZ();
-        if (world != null) {
             ++this.ticksSinceSync;
             this.numPlayersUsing = calculatePlayersUsingSync(this.world, this, this.ticksSinceSync, x, y, z, this.numPlayersUsing);
             this.prevLidAngle = this.lidAngle;
@@ -66,7 +66,6 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
                     this.lidAngle = 0.0F;
                 }
             }
-        }
     }
 
     public static int calculatePlayersUsingSync(World world, LockableTileEntity te, int ticksSinceSync, int x, int y, int z, int numPlayersUsing) {
@@ -90,6 +89,16 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
+    public boolean receiveClientEvent(int id, int type) {
+        if (id == 1) {
+            this.numPlayersUsing = type;
+            return true;
+        } else {
+            return super.receiveClientEvent(id, type);
+        }
+    }
+
+    @Override
     public void openInventory(@Nonnull PlayerEntity player) {
         if (!player.isSpectator()) {
             if (this.numPlayersUsing < 0) {
@@ -97,23 +106,30 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
             }
 
             ++this.numPlayersUsing;
-            this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockState().getBlock());
+            this.onOpenOrClose();
         }
     }
 
     @Override
     public void closeInventory(@Nonnull PlayerEntity player) {
-        if (!player.isSpectator() && this.getBlockState().getBlock() instanceof CrateBlock) {
+        if (!player.isSpectator()) {
             --this.numPlayersUsing;
-            this.world.addBlockEvent(this.pos, this.getBlockState().getBlock(), 1, this.numPlayersUsing);
-            this.world.notifyNeighborsOfStateChange(this.pos, this.getBlockState().getBlock());
+            this.onOpenOrClose();
+        }
+    }
+
+    protected void onOpenOrClose() {
+        Block block = this.getBlockState().getBlock();
+        if (block instanceof CrateBlock) {
+            this.world.addBlockEvent(this.pos, block, 1, this.numPlayersUsing);
+            this.world.notifyNeighborsOfStateChange(this.pos, block);
         }
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public float getLidAngle(float partialTicks) {
+        //System.out.println(MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle));
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 

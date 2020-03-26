@@ -2,11 +2,15 @@ package com.teammetallurgy.atum.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
 import com.teammetallurgy.atum.client.model.shield.AtumsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
 import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsProtectionItem;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
@@ -15,6 +19,7 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.model.ModelBakery;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,6 +42,11 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
         if (item instanceof BlockItem) {
             Block block = ((BlockItem) item).getBlock();
 
+            if (block instanceof LimestoneChestBlock || block instanceof ChestSpawnerBlock) {
+                TileEntityRendererDispatcher.instance.renderItem(AtumTileEntities.LIMESTONE_CHEST.create(), matrixStack, buffer, i, i1);
+            } else if (block instanceof SarcophagusBlock) {
+                TileEntityRendererDispatcher.instance.renderItem(AtumTileEntities.SARCOPHAGUS.create(), matrixStack, buffer, i, i1);
+            }
         } else {
             if (item instanceof AtumsProtectionItem) {
                 renderShield(stack, ATUMS_PROTECTION, ATUMS_PROTECTION_TEXTURE, matrixStack, buffer, i, i1);

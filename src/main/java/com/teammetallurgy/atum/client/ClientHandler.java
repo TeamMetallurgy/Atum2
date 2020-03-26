@@ -18,6 +18,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.color.BlockColors;
 import net.minecraft.client.renderer.color.ItemColors;
@@ -26,7 +27,6 @@ import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.renderer.entity.TridentRenderer;
 import net.minecraft.client.renderer.entity.model.ZombieModel;
-import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.ResourceLocation;
@@ -34,15 +34,19 @@ import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
+import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
+    private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
 
     public static void init() {
         //Screens
@@ -78,9 +82,9 @@ public class ClientHandler {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         System.out.println("IS  THIS BEING CALLED?");
-        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CHEST_SPAWNER, ChestTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CHEST_SPAWNER, TileChestRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.LIMESTONE_CHEST, TileChestRender::new);
-        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, TileChestRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, SarcophagusRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CRATE, CrateRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.HEART_OF_RA, HeartOfRaBaseRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.RADIANT_BEACON, RadiantBeaconRender::new);
@@ -117,5 +121,20 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TEFNUTS_CALL, TridentRenderer::new); //TODO
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.HEART_OF_RA, HeartOfRaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL_SPIT, LlamaSpitRenderer::new);
+    }
+
+    public static void addToChestAtlas(ResourceLocation location) {
+        if (!CHEST_ATLAS_TEXTURES.contains(location)) {
+            CHEST_ATLAS_TEXTURES.add(location);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onTextureStitch(TextureStitchEvent.Pre event) {
+        if (event.getMap().getTextureLocation().equals(Atlases.CHEST_ATLAS)) {
+            for (ResourceLocation location : CHEST_ATLAS_TEXTURES) {
+                event.addSprite(location);
+            }
+        }
     }
 }

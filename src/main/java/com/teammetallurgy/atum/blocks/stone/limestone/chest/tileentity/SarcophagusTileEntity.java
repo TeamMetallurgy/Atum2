@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.utils.AtumUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
@@ -34,7 +35,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public boolean isOpenable = false;
 
     public SarcophagusTileEntity() {
-        super(false, true, AtumBlocks.SARCOPHAGUS);
+        super(AtumTileEntities.SARCOPHAGUS, false, true, AtumBlocks.SARCOPHAGUS);
     }
 
     @Nullable

@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
@@ -72,7 +73,7 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     private boolean isRuinChest;
 
     public ChestSpawnerTileEntity() {
-        super(true, false, AtumBlocks.CHEST_SPAWNER);
+        super(AtumTileEntities.CHEST_SPAWNER, true, false, AtumBlocks.CHEST_SPAWNER);
         if (this.isRuinChest) {
             spawnPool = MathHelper.nextInt(new Random(), 0, 2);
         }

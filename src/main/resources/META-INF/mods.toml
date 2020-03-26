@@ -18,6 +18,6 @@ loaderVersion="[28,)"
 [[dependencies.atum]]
     modId="forge"
     mandatory=true
-    versionRange="[28.1.24,)"
+    versionRange="[31.1,)"
     ordering="AFTER"
     side="BOTH"

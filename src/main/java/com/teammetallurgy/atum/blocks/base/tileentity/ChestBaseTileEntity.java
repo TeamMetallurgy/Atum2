@@ -4,22 +4,39 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.storage.loot.LootTableManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ChestBaseTileEntity extends ChestTileEntity {
+    private TileEntityType<?> type;
     public boolean canBeSingle;
     public boolean canBeDouble;
     private Block chestBlock;
 
-    public ChestBaseTileEntity(boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
+    public ChestBaseTileEntity(TileEntityType<?> type, boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
         this.canBeSingle = canBeSingle;
         this.canBeDouble = canBeDouble;
         this.chestBlock = chestBlock;
+        this.type = type;
+    }
+
+    @Override
+    @Nonnull
+    public TileEntityType<?> getType() {
+        return this.type;
+    }
+
+    @Override
+    @Nonnull
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
     }
 
     private boolean isChestAt(BlockPos pos) {

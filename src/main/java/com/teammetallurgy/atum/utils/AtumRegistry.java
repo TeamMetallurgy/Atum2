@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -32,6 +33,8 @@ import net.minecraftforge.registries.RegistryBuilder;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRegistry {
@@ -107,6 +110,16 @@ public class AtumRegistry {
      */
     public static Block registerBlock(@Nonnull Block block, @Nonnull String name) {
         return registerBlock(block, new Item.Properties(), name);
+    }
+
+    /**
+     * Same as {@link AtumRegistry#registerBlock(Block, Item.Properties, String)} and have an easy way to set a ISTER
+     *
+     * @param properties BlockItem properties, can be set to null to not have any ItemGroup
+     */
+    public static Block registerBlock(@Nonnull Block block, Supplier<Callable<ItemStackTileEntityRenderer>> ister, @Nullable Item.Properties properties, @Nonnull String name) {
+        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties().setISTER(ister) : properties.setISTER(ister).group(Atum.GROUP));
+        return registerBlockWithItem(block, blockItem, name);
     }
 
     /**

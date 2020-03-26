@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "block/chest" }
+        "": { "model": "atum:block/limestone_chest" }
     }
 }
