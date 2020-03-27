@@ -99,28 +99,6 @@ public class WorldProviderAtum extends Dimension {
     }
 
     @Override
-    @Nonnull
-    @OnlyIn(Dist.CLIENT)
-    public Vec3d getFogColor(float par1, float par2) {
-        float f = MathHelper.cos(par1 * 3.1415927F * 2.0F) * 2.0F + 0.5F;
-        if (f < 0.2F) {
-            f = 0.2F;
-        }
-
-        if (f > 1.0F) {
-            f = 1.0F;
-        }
-
-        // Darken fog as sandstorm builds
-        // f *= (1 - this.stormStrength) * 0.8 + 0.2;
-
-        float f1 = 0.9F * f;
-        float f2 = 0.75F * f;
-        float f3 = 0.6F * f;
-        return new Vec3d((double) f1, (double) f2, (double) f3);
-    }
-
-    @Override
     public void onWorldSave() {
         CompoundNBT tagCompound = new CompoundNBT();
         tagCompound.putBoolean("HasStartStructureSpawned", hasStartStructureSpawned);

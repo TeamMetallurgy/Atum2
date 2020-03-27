@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum;
 
+import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
@@ -35,6 +36,7 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.initModIntegration();
+        KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         /*StructureAtumMineshaftPieces.registerMineshaft(); //TODO
         PyramidPieces.registerPyramid();
