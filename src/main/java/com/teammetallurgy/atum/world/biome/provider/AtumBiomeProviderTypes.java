@@ -1,18 +1,18 @@
-package com.teammetallurgy.atum.world.gen;
+package com.teammetallurgy.atum.world.biome.provider;
 
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.ChunkGeneratorType;
+import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus= Mod.EventBusSubscriber.Bus.MOD)
-public class AtumChunkGeneratorType {
-    public static final ChunkGeneratorType<AtumGenSettings, AtumChunkGenerator> ATUM = new ChunkGeneratorType<>(AtumChunkGenerator::new, true, AtumGenSettings::new);
+public class AtumBiomeProviderTypes {
+    public static final BiomeProviderType<AtumBiomeProviderSettings, AtumBiomeProvider> ATUM = new BiomeProviderType<>(AtumBiomeProvider::new, AtumBiomeProviderSettings::new);
 
     @SubscribeEvent
-    public static void registerChunkGeneratorType(RegistryEvent.Register<ChunkGeneratorType<?, ?>> event) {
+    public static void registerBiomeProviderType(RegistryEvent.Register<BiomeProviderType<?, ?>> event) {
         ATUM.setRegistryName(new ResourceLocation(Constants.MOD_ID, "atum"));
         event.getRegistry().register(ATUM);
     }

@@ -8,11 +8,11 @@ import net.minecraft.world.gen.layer.IntCache;
 
 import javax.annotation.Nonnull;
 
-public class GenLayerAtumRiverMix extends GenLayer {
+public class LayerAtumRiverMix extends GenLayer {
     private GenLayer biomePatternGeneratorChain;
     private GenLayer riverPatternGeneratorChain;
 
-    public GenLayerAtumRiverMix(long scale, GenLayer biomeChain, GenLayer riverChain) {
+    public LayerAtumRiverMix(long scale, GenLayer biomeChain, GenLayer riverChain) {
         super(scale);
         this.biomePatternGeneratorChain = biomeChain;
         this.riverPatternGeneratorChain = riverChain;

@@ -9,9 +9,9 @@ import net.minecraft.world.gen.layer.IntCache;
 
 import javax.annotation.Nonnull;
 
-public class GenLayerOasis extends GenLayer {
+public class LayerOasis extends GenLayer {
 
-    public GenLayerOasis(long scale, GenLayer parent) {
+    public LayerOasis(long scale, GenLayer parent) {
         super(scale);
         super.parent = parent;
     }

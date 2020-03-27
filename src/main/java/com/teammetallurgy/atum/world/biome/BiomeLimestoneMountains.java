@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityClassification;
 
 public class BiomeLimestoneMountains extends AtumBiome {
 
-    public BiomeLimestoneMountains(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeLimestoneMountains() {
+        super(new Builder("Limestone Mountains", 5).setBaseHeight(1.5F).setHeightVariation(0.6F));
 
         //this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
 

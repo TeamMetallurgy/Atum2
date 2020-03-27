@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityClassification;
 
 public class BiomeSandHills extends AtumBiome {
 
-    public BiomeSandHills(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeSandHills() {
+        super(new Builder("Sand Hills", 10).setBaseHeight(0.3F).setHeightVariation(0.3F));
 
         this.addDefaultSpawns();
 

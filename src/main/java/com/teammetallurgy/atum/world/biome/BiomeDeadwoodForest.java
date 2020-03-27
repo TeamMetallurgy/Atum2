@@ -3,8 +3,8 @@ package com.teammetallurgy.atum.world.biome;
 public class BiomeDeadwoodForest extends AtumBiome {
     //private WorldGenerator anputsFingersGen = new WorldGenBush(AtumBlocks.ANPUTS_FINGERS);
 
-    public BiomeDeadwoodForest(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeDeadwoodForest() {
+        super(new Builder("Deadwood Forest", 10));
 
         this.deadwoodRarity = 1.0D;
         //this.decorator.grassPerChunk = 1;

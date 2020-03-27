@@ -6,8 +6,8 @@ import net.minecraft.entity.EntityClassification;
 public class BiomeLimestoneCrags extends AtumBiome {
     //private WorldGenerator genSpikes;
 
-    public BiomeLimestoneCrags(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeLimestoneCrags() {
+        super(new Builder("Limestone Crags", 3).setBaseHeight(0.225F).setHeightVariation(0.45000002F));
 
         //this.genSpikes = new WorldGenLimestoneSpike();
 

@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityClassification;
 
 public class BiomeOasis extends AtumBiome {
 
-    public BiomeOasis(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeOasis() {
+        super(new Builder("Oasis", 0).setHeightVariation(0.0F));
         //this.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
 
         //this.decorator.deadBushPerChunk = 0;

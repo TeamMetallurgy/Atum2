@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityClassification;
 
 public class BiomeSandPlains extends AtumBiome {
 
-    public BiomeSandPlains(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeSandPlains() {
+        super(new Builder("Sand Plains", 30));
 
         this.deadwoodRarity = 0.01D;
 

@@ -1,6 +1,11 @@
 package com.teammetallurgy.atum.world.dimension;
 
+import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProvider;
+import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProviderSettings;
+import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProviderTypes;
+import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
 import com.teammetallurgy.atum.world.gen.AtumChunkGeneratorType;
+import com.teammetallurgy.atum.world.gen.AtumGenSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
@@ -9,6 +14,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
@@ -28,25 +34,24 @@ public class AtumDimension extends Dimension {
     @Override
     @Nonnull
     public ChunkGenerator<?> createChunkGenerator() {
-        BiomeProviderType<AtumBiomeProviderSettings , AtumBiomeProvider> biomeType = AtumBiomeProviderTypes.ATUM;
-        ChunkGeneratorType<AtumGenSettings, AtumChunkGenerato> chunkType = AtumChunkGeneratorType.ATUM;
-        AtumGenSettings genSettings = (AtumGenSettings) chunkType.createSettings();
-        AtumBiomeProviderSettings  biomeSettings = biomeType.createSettings().setWorldInfo(this.world.getWorldInfo()).setGeneratorSettings(genSettings);
+        BiomeProviderType<AtumBiomeProviderSettings, AtumBiomeProvider> biomeType = AtumBiomeProviderTypes.ATUM;
+        ChunkGeneratorType<AtumGenSettings, AtumChunkGenerator> chunkType = AtumChunkGeneratorType.ATUM;
+        AtumGenSettings genSettings = chunkType.createSettings();
+        AtumBiomeProviderSettings biomeSettings = biomeType.func_226840_a_(this.world.getWorldInfo()).setGeneratorSettings(genSettings);
         return chunkType.create(this.world, biomeType.create(biomeSettings), genSettings);
     }
 
     @Override
     @Nullable
     public BlockPos findSpawn(@Nonnull ChunkPos chunkPos, boolean checkValid) { //Copied from OverworldDimension
-        for(int i = chunkPos.getXStart(); i <= chunkPos.getXEnd(); ++i) {
-            for(int j = chunkPos.getZStart(); j <= chunkPos.getZEnd(); ++j) {
-                BlockPos blockpos = this.findSpawn(i, j, checkValid);
-                if (blockpos != null) {
-                    return blockpos;
+        for(int x = chunkPos.getXStart(); x <= chunkPos.getXEnd(); ++x) {
+            for(int z = chunkPos.getZStart(); z <= chunkPos.getZEnd(); ++z) {
+                BlockPos pos = this.findSpawn(x, z, checkValid);
+                if (pos != null) {
+                    return pos;
                 }
             }
         }
-
         return null;
     }
 
@@ -60,12 +65,12 @@ public class AtumDimension extends Dimension {
             return null;
         } else {
             Chunk chunk = this.world.getChunk(posX >> 4, posZ >> 4);
-            int i = chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING, posX & 15, posZ & 15);
-            if (i < 0) {
+            int x = chunk.getTopBlockY(Heightmap.Type.MOTION_BLOCKING, posX & 15, posZ & 15);
+            if (x < 0) {
                 return null;
             } else {
-                for (int j = i + 1; j >= 0; --j) {
-                    mutablePos.setPos(posX, j, posZ);
+                for (int z = x + 1; z >= 0; --z) {
+                    mutablePos.setPos(posX, z, posZ);
                     BlockState stateMutable = this.world.getBlockState(mutablePos);
                     if (!stateMutable.getFluidState().isEmpty()) {
                         break;

@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityClassification;
 
 public class BiomeDeadOasis extends AtumBiome {
 
-    public BiomeDeadOasis(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeDeadOasis() {
+        super(new Builder("Dead Oasis", 0).setHeightVariation(0.0F));
 
         //this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
         //this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();

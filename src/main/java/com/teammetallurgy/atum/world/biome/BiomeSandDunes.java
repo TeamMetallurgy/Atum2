@@ -5,8 +5,8 @@ import net.minecraft.entity.EntityClassification;
 
 public class BiomeSandDunes extends AtumBiome {
 
-    public BiomeSandDunes(AtumBiomeProperties properties) {
-        super(properties);
+    public BiomeSandDunes() {
+        super(new Builder("Sand Dunes", 15).setBaseHeight(0.175F).setHeightVariation(0.2F));
 
         //this.fillerBlock = AtumBlocks.SAND.getDefaultState();
 

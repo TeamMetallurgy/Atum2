@@ -22,6 +22,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -310,14 +311,14 @@ public class AtumRegistry {
         }
     }
 
-    /*@SubscribeEvent
-    public static void registerBiomes(RegistryEvent.Register<Biome> event) { //TODO
+    @SubscribeEvent
+    public static void registerBiomes(RegistryEvent.Register<Biome> event) {
         new AtumBiomes();
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
         AtumBiomes.addBiomeTags();
-    }*/
+    }
 
     @SubscribeEvent
     public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {

@@ -1,0 +1,107 @@
+package com.teammetallurgy.atum.world.gen;
+
+import net.minecraft.util.Util;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.gen.NoiseChunkGenerator;
+import net.minecraft.world.gen.OctavesNoiseGenerator;
+
+import javax.annotation.Nonnull;
+
+public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
+    private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (weights) -> { //Copied from OverworldChunkGenerator
+        for (int x = -2; x <= 2; ++x) {
+            for (int z = -2; z <= 2; ++z) {
+                float weight = 10.0F / MathHelper.sqrt((float) (x * x + z * z) + 0.2F);
+                weights[x + 2 + (z + 2) * 5] = weight;
+            }
+        }
+    });
+    private final OctavesNoiseGenerator depthNoise;
+
+    public AtumChunkGenerator(IWorld world, BiomeProvider biomeProvider, AtumGenSettings settings) {
+        super(world, biomeProvider, 4, 8, 256, settings, true);
+        this.depthNoise = new OctavesNoiseGenerator(this.randomSeed, 15, 0);
+    }
+
+    @Override
+    @Nonnull
+    protected double[] getBiomeNoiseColumn(int noiseX, int noiseZ) { //Copied from OverworldChunkGenerator
+        double[] lvt_3_1_ = new double[2];
+        float lvt_4_1_ = 0.0F;
+        float lvt_5_1_ = 0.0F;
+        float lvt_6_1_ = 0.0F;
+        int seaLevel = this.getSeaLevel();
+        float lvt_9_1_ = this.biomeProvider.getNoiseBiome(noiseX, seaLevel, noiseZ).getDepth();
+
+        for (int lvt_10_1_ = -2; lvt_10_1_ <= 2; ++lvt_10_1_) {
+            for (int lvt_11_1_ = -2; lvt_11_1_ <= 2; ++lvt_11_1_) {
+                Biome lvt_12_1_ = this.biomeProvider.getNoiseBiome(noiseX + lvt_10_1_, seaLevel, noiseZ + lvt_11_1_);
+                float lvt_13_1_ = lvt_12_1_.getDepth();
+                float lvt_14_1_ = lvt_12_1_.getScale();
+
+                float lvt_15_1_ = BIOME_WEIGHTS[lvt_10_1_ + 2 + (lvt_11_1_ + 2) * 5] / (lvt_13_1_ + 2.0F);
+                if (lvt_12_1_.getDepth() > lvt_9_1_) {
+                    lvt_15_1_ /= 2.0F;
+                }
+
+                lvt_4_1_ += lvt_14_1_ * lvt_15_1_;
+                lvt_5_1_ += lvt_13_1_ * lvt_15_1_;
+                lvt_6_1_ += lvt_15_1_;
+            }
+        }
+
+        lvt_4_1_ /= lvt_6_1_;
+        lvt_5_1_ /= lvt_6_1_;
+        lvt_4_1_ = lvt_4_1_ * 0.9F + 0.1F;
+        lvt_5_1_ = (lvt_5_1_ * 4.0F - 1.0F) / 8.0F;
+        lvt_3_1_[0] = (double) lvt_5_1_ + this.getNoiseDepthAt(noiseX, noiseZ);
+        lvt_3_1_[1] = lvt_4_1_;
+        return lvt_3_1_;
+    }
+
+    private double getNoiseDepthAt(int x, int z) { //Copied from OverworldChunkGenerator
+        double depth = this.depthNoise.getValue(x * 200, 10.0D, z * 200, 1.0D, 0.0D, true) * 65535.0D / 8000.0D;
+        if (depth < 0.0D) {
+            depth = -depth * 0.3D;
+        }
+
+        depth = depth * 3.0D - 2.0D;
+        if (depth < 0.0D) {
+            depth /= 28.0D;
+        } else {
+            if (depth > 1.0D) {
+                depth = 1.0D;
+            }
+            depth /= 40.0D;
+        }
+        return depth;
+    }
+
+    @Override
+    protected double func_222545_a(double depth, double scale, int yy) { //Y Offset
+        double baseSize = 8.5D;
+        double yOffset = ((double) yy - (baseSize + depth * baseSize / 8.0D * 4.0D)) * 12.0D * 128.0D / 256.0D / scale;
+        if (yOffset < 0.0D) {
+            yOffset *= 4.0D;
+        }
+        return yOffset;
+    }
+
+    @Override
+    protected void fillNoiseColumn(@Nonnull double[] noiseColumn, int noiseX, int noiseZ) {
+        double xzScale = 684.4119873046875D;
+        double yScale = 684.4119873046875D;
+        double xzOtherScale = 8.555149841308594D;
+        double yOtherScale = 4.277574920654297D;
+
+        this.calcNoiseColumn(noiseColumn, noiseX, noiseZ, xzScale, yScale, xzOtherScale, yOtherScale, 3, -10);
+    }
+
+    @Override
+    public int getGroundHeight() { //Spawn Height
+        return 64;
+    }
+}

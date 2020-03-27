@@ -68,19 +68,4 @@ public class AtumBiomeProvider extends BiomeProvider {
         layerVoronoi.initWorldGenSeed(seed);
         return new GenLayer[]{layerRiverMix, layerVoronoi, layerRiverMix};
     }
-
-    private GenLayer getBiomeLayer(WorldType worldType, long worldSeed, ChunkGeneratorSettings chunkSettings) {
-        GenLayer ret = new GenLayerAtumBiome(worldSeed */
-/*200L*//*
-, chunkSettings);
-        ret = GenLayerZoom.magnify(1000L, ret, 2);
-        ret = new GenLayerBiomeEdge(1000L, ret);
-        return ret;
-    }
-
-    @Override
-    @Nonnull
-    public List<Biome> getBiomesToSpawnIn() {
-        return Lists.newArrayList(AtumBiomes.DEAD_OASIS, AtumBiomes.DEADWOOD_FOREST, AtumBiomes.OASIS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_PLAINS);
-    }
 }*/

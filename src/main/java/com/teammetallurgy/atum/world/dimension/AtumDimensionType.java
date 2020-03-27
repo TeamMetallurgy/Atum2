@@ -20,7 +20,6 @@ import java.util.function.BiFunction;
 public class AtumDimensionType {
     public static DimensionType ATUM;
 
-
     @SubscribeEvent
     public static void registerDimension(RegisterDimensionsEvent event) {
         ATUM = DimensionManager.registerDimension(new ResourceLocation(Constants.MOD_ID, "atum"), AtumModDimension.ATUM, new PacketBuffer(Unpooled.buffer()), true);

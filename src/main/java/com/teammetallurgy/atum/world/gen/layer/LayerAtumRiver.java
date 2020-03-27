@@ -8,9 +8,9 @@ import net.minecraft.world.gen.layer.IntCache;
 
 import javax.annotation.Nonnull;
 
-public class GenLayerAtumRiver extends GenLayer {
+public class LayerAtumRiver extends GenLayer {
 
-    public GenLayerAtumRiver(long scale, GenLayer parent) {
+    public LayerAtumRiver(long scale, GenLayer parent) {
         super(scale);
         super.parent = parent;
     }
