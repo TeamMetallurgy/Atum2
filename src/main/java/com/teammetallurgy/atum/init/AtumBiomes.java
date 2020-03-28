@@ -10,15 +10,15 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 
 @ObjectHolder(value = Constants.MOD_ID)
 public class AtumBiomes { //TODO
-    public static final AtumBiome DEAD_OASIS = registerBiome(new BiomeDeadOasis(), "dead_oasis");
-    public static final AtumBiome DEADWOOD_FOREST = registerBiome(new BiomeDeadwoodForest(), "deadwood_forest");
-    public static final AtumBiome DRIED_RIVER = registerBiome(new BiomeDriedRiver(), "dried_river");
-    public static final AtumBiome LIMESTONE_CRAGS = registerBiome(new BiomeLimestoneCrags(), "limestone_crags");
-    public static final AtumBiome LIMESTONE_MOUNTAINS = registerBiome(new BiomeLimestoneMountains(), "limestone_mountains");
-    public static final AtumBiome OASIS = registerBiome(new BiomeOasis(), "oasis");
-    public static final AtumBiome SAND_DUNES = registerBiome(new BiomeSandDunes(), "sand_dunes");
-    public static final AtumBiome SAND_HILLS = registerBiome(new BiomeSandHills(), "sand_hills");
-    public static final AtumBiome SAND_PLAINS = registerBiome(new BiomeSandPlains(), "sand_plains");
+    public static final AtumBiome DEAD_OASIS = registerBiome(new DeadOasisBiome(), "dead_oasis");
+    public static final AtumBiome DEADWOOD_FOREST = registerBiome(new DeadwoodForestBiome(), "deadwood_forest");
+    public static final AtumBiome DRIED_RIVER = registerBiome(new DriedRiverBiome(), "dried_river");
+    public static final AtumBiome LIMESTONE_CRAGS = registerBiome(new LimestoneCragsBiome(), "limestone_crags");
+    public static final AtumBiome LIMESTONE_MOUNTAINS = registerBiome(new LimestoneMountainsBiome(), "limestone_mountains");
+    public static final AtumBiome OASIS = registerBiome(new OasisBiome(), "oasis");
+    public static final AtumBiome SAND_DUNES = registerBiome(new SandDunesBiome(), "sand_dunes");
+    public static final AtumBiome SAND_HILLS = registerBiome(new SandHillsBiome(), "sand_hills");
+    public static final AtumBiome SAND_PLAINS = registerBiome(new SandPlainsBiome(), "sand_plains");
 
     public static void addBiomeTags() {
         for (AtumBiome biome : AtumRegistry.BIOMES) {

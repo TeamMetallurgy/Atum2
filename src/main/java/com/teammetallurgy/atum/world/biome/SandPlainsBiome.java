@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.world.biome;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
 
-public class BiomeSandPlains extends AtumBiome {
+public class SandPlainsBiome extends AtumBiome {
 
-    public BiomeSandPlains() {
+    public SandPlainsBiome() {
         super(new Builder("Sand Plains", 30));
 
         this.deadwoodRarity = 0.01D;

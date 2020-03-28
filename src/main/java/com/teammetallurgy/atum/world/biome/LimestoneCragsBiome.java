@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.world.biome;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
 
-public class BiomeLimestoneCrags extends AtumBiome {
+public class LimestoneCragsBiome extends AtumBiome {
     //private WorldGenerator genSpikes;
 
-    public BiomeLimestoneCrags() {
+    public LimestoneCragsBiome() {
         super(new Builder("Limestone Crags", 3).setBaseHeight(0.225F).setHeightVariation(0.45000002F));
 
         //this.genSpikes = new WorldGenLimestoneSpike();

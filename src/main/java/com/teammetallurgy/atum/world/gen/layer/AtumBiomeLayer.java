@@ -12,10 +12,10 @@ import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class LayerAtumBiome implements IC0Transformer {
+public class AtumBiomeLayer implements IC0Transformer {
     private List<BiomeEntry> biomes = Lists.newArrayList();
 
-    public LayerAtumBiome() {
+    public AtumBiomeLayer() {
         for (AtumBiome biome : AtumRegistry.BIOMES) {
             final BiomeEntry entry = new BiomeEntry(biome, biome.getWeight());
             if (biome.getWeight() > 0) {

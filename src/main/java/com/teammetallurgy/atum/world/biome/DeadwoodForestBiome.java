@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.world.biome;
 
-public class BiomeDeadwoodForest extends AtumBiome {
+public class DeadwoodForestBiome extends AtumBiome {
     //private WorldGenerator anputsFingersGen = new WorldGenBush(AtumBlocks.ANPUTS_FINGERS);
 
-    public BiomeDeadwoodForest() {
+    public DeadwoodForestBiome() {
         super(new Builder("Deadwood Forest", 10));
 
         this.deadwoodRarity = 1.0D;

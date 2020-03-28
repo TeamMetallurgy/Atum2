@@ -1,11 +1,13 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
+import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 
 import javax.annotation.Nonnull;
 
@@ -110,54 +112,6 @@ public class AtumBiome extends Biome {
     }
 
     @Override
-    public void genTerrainBlocks(World world, Random random, @Nonnull ChunkPrimer chunkPrimer, int x, int z, double stoneNoise) {
-        int height = 63;
-        BlockState stateTop = this.topBlock;
-        BlockState stateFiller = this.fillerBlock;
-        int flag = -1;
-        int elevation = (int) (stoneNoise / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-        int xx = x & 15;
-        int zz = z & 15;
-
-        for (int yy = 255; yy >= 0; --yy) {
-            if (yy <= random.nextInt(5)) {
-                chunkPrimer.setBlockState(zz, yy, xx, Blocks.BEDROCK.getDefaultState());
-            } else {
-                BlockState existingState = chunkPrimer.getBlockState(zz, yy, xx);
-
-                if (existingState.getMaterial() == Material.AIR) {
-                    flag = -1;
-                } else if (existingState.getBlock() == AtumBlocks.LIMESTONE || existingState.getBlock() == Blocks.STONE) {
-                    if (flag == -1) {
-                        if (elevation <= 0) {
-                            stateTop = Blocks.AIR.getDefaultState();
-                            stateFiller = AtumBlocks.LIMESTONE.getDefaultState();
-                        } else if (yy >= height - 4 && yy <= height + 1) {
-                            stateTop = this.topBlock;
-                            stateFiller = this.fillerBlock;
-                        }
-
-                        flag = elevation;
-                        if (yy >= height - 1) {
-                            chunkPrimer.setBlockState(zz, yy, xx, stateTop);
-                        } else {
-                            chunkPrimer.setBlockState(zz, yy, xx, stateFiller);
-                        }
-                    } else if (flag > 0) {
-                        --flag;
-                        chunkPrimer.setBlockState(zz, yy, xx, stateFiller);
-
-                        if (flag == 0 && stateFiller.getBlock() == AtumBlocks.SAND && elevation > 1) {
-                            flag = random.nextInt(4) + Math.max(0, zz - height);
-                            stateFiller = AtumBlocks.LIMESTONE.getDefaultState();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    @Override
     public int getModdedBiomeGrassColor(int original) {
         return 12889745;
     }
@@ -166,6 +120,12 @@ public class AtumBiome extends Biome {
     public int getModdedBiomeFoliageColor(int original) {
         return 12889745;
     }*/
+
+    @Override
+    @Nonnull
+    public Biome getRiver() {
+        return AtumBiomes.DRIED_RIVER;
+    }
 
     public static class Builder extends Biome.Builder {
         private int weight;
@@ -187,15 +147,18 @@ public class AtumBiome extends Biome {
             AtumConfig.config.save();*/
         }
 
-        @Nonnull
         public Builder setBaseHeight(float height) {
             this.depth(height);
             return this;
         }
 
-        @Nonnull
         public Builder setHeightVariation(float variation) {
             this.scale(variation);
+            return this;
+        }
+
+        public Builder setBiomeBlocks(SurfaceBuilderConfig builderConfig) {
+            this.surfaceBuilder(SurfaceBuilder.DEFAULT, builderConfig);
             return this;
         }
     }

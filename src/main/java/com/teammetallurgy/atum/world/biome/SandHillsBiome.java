@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.world.biome;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
 
-public class BiomeSandHills extends AtumBiome {
+public class SandHillsBiome extends AtumBiome {
 
-    public BiomeSandHills() {
+    public SandHillsBiome() {
         super(new Builder("Sand Hills", 10).setBaseHeight(0.3F).setHeightVariation(0.3F));
 
         this.addDefaultSpawns();

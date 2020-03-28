@@ -3,12 +3,10 @@ package com.teammetallurgy.atum.world.biome;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.entity.EntityClassification;
 
-public class BiomeSandDunes extends AtumBiome {
+public class SandDunesBiome extends AtumBiome {
 
-    public BiomeSandDunes() {
+    public SandDunesBiome() {
         super(new Builder("Sand Dunes", 15).setBaseHeight(0.175F).setHeightVariation(0.2F));
-
-        //this.fillerBlock = AtumBlocks.SAND.getDefaultState();
 
         this.deadwoodRarity = 0.01D;
 

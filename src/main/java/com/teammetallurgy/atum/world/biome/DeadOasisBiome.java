@@ -1,15 +1,13 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import net.minecraft.entity.EntityClassification;
 
-public class BiomeDeadOasis extends AtumBiome {
+public class DeadOasisBiome extends AtumBiome {
 
-    public BiomeDeadOasis() {
-        super(new Builder("Dead Oasis", 0).setHeightVariation(0.0F));
-
-        //this.topBlock = AtumBlocks.LIMESTONE_GRAVEL.getDefaultState();
-        //this.fillerBlock = AtumBlocks.LIMESTONE_CRACKED.getDefaultState();
+    public DeadOasisBiome() {
+        super(new Builder("Dead Oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.GRAVEL_CRACKED));
 
         this.deadwoodRarity = 0.0D;
         //this.decorator.grassPerChunk = 2;

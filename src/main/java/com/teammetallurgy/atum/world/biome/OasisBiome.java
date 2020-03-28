@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import net.minecraft.entity.EntityClassification;
 
-public class BiomeOasis extends AtumBiome {
+public class OasisBiome extends AtumBiome {
 
-    public BiomeOasis() {
-        super(new Builder("Oasis", 0).setHeightVariation(0.0F));
-        //this.topBlock = AtumBlocks.FERTILE_SOIL.getDefaultState();
+    public OasisBiome() {
+        super(new Builder("Oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.OASIS));
 
         //this.decorator.deadBushPerChunk = 0;
         //this.atumDecorator.shrubChance = 0;

@@ -22,7 +22,7 @@ public class AtumDimensionType {
 
     @SubscribeEvent
     public static void registerDimension(RegisterDimensionsEvent event) {
-        ATUM = DimensionManager.registerDimension(new ResourceLocation(Constants.MOD_ID, "atum"), AtumModDimension.ATUM, new PacketBuffer(Unpooled.buffer()), true);
+        ATUM = DimensionManager.registerOrGetDimension(new ResourceLocation(Constants.MOD_ID, "atum"), AtumModDimension.ATUM, new PacketBuffer(Unpooled.buffer()), true);
         DimensionManager.keepLoaded(ATUM, false); //Don't keep in memory when all chunks are unloaded
     }
 
@@ -33,7 +33,7 @@ public class AtumDimensionType {
             public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
                 return AtumDimension::new;
             }
-        }.setRegistryName(new ResourceLocation(Constants.MOD_ID));
+        }.setRegistryName(new ResourceLocation(Constants.MOD_ID, "atum"));
 
         @SubscribeEvent
         public static void registerModDimension(RegistryEvent.Register<ModDimension> event) {
