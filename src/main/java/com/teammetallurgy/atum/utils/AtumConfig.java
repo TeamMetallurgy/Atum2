@@ -1,6 +1,10 @@
 package com.teammetallurgy.atum.utils;
 
+import com.electronwill.nightconfig.core.file.FileConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.fml.loading.FMLPaths;
+
+import java.io.File;
 
 public class AtumConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -17,9 +21,9 @@ public class AtumConfig {
 
     public static class General {
         public static final String GENERAL = "general";
-        public ForgeConfigSpec.BooleanValue allowCreation;
-        public ForgeConfigSpec.BooleanValue fogEnabled;
-        //public static boolean RECIPE_OVERRIDING; //TODO Figure out if there is another way in 1.14
+        public final ForgeConfigSpec.BooleanValue allowCreation;
+        public final ForgeConfigSpec.BooleanValue fogEnabled;
+        //public static boolean RECIPE_OVERRIDING; //TODO Figure out if there is another way in 1.15
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push(GENERAL);
@@ -41,7 +45,7 @@ public class AtumConfig {
         public ForgeConfigSpec.ConfigValue<String> atumStartStructure;
         public ForgeConfigSpec.BooleanValue startInAtumPortal;
 
-        public AtumStart(ForgeConfigSpec.Builder builder) {
+        AtumStart(ForgeConfigSpec.Builder builder) {
             builder.push(ATUM_START);
             startInAtum = builder.comment("New players should start in Atum?")
                     .translation("atum.config.atum_start")
@@ -58,13 +62,13 @@ public class AtumConfig {
 
     public static class Sandstorm {
         public static final String SANDSTORM = "sandstorm";
-        public ForgeConfigSpec.IntValue sandstormFog;
-        public ForgeConfigSpec.IntValue sandDarkness;
-        public ForgeConfigSpec.IntValue sandAlpha;
-        public ForgeConfigSpec.IntValue sandEyesAlpha;
-        public ForgeConfigSpec.IntValue sandstormTransitionTime;
+        public final ForgeConfigSpec.IntValue sandstormFog;
+        public final ForgeConfigSpec.IntValue sandDarkness;
+        public final ForgeConfigSpec.IntValue sandAlpha;
+        public final ForgeConfigSpec.IntValue sandEyesAlpha;
+        public final ForgeConfigSpec.IntValue sandstormTransitionTime;
 
-        public Sandstorm(ForgeConfigSpec.Builder builder) {
+        Sandstorm(ForgeConfigSpec.Builder builder) {
             builder.push(SANDSTORM);
             sandstormFog = builder.comment("Multiplier to fog during sandstorms")
                     .translation("atum.config.sandstormfog")
@@ -87,10 +91,10 @@ public class AtumConfig {
 
     public static class WorldGen {
         public static final String WORLDGEN = "world gen";
-        public ForgeConfigSpec.BooleanValue pyramidEnabled;
-        public ForgeConfigSpec.IntValue waterLevel;
+        public final ForgeConfigSpec.BooleanValue pyramidEnabled;
+        public final ForgeConfigSpec.IntValue waterLevel;
 
-        public WorldGen(ForgeConfigSpec.Builder builder) {
+        WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
             pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
                     .translation("atum.config.pyramid_enabled")
@@ -106,18 +110,43 @@ public class AtumConfig {
         public static final String BIOME = "biome";
         public ForgeConfigSpec.IntValue subBiomeChance;
         public ForgeConfigSpec.IntValue oasisChance;
+        public ForgeConfigSpec.IntValue weight;
 
-        public Biome(ForgeConfigSpec.Builder builder) {
+        Biome(ForgeConfigSpec.Builder builder) {
             builder.push(BIOME);
-            subBiomeChance = builder.comment("By default 1 in 30 Sand Plains or Sand Dunes biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.")
+            this.subBiomeChance = builder.comment("By default 1 in 30 Sand Plains or Sand Dunes biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.")
                     .translation("atum.config.oaseschances")
                     .defineInRange("Oases chance", 30, 0, 10000);
-            oasisChance = builder.comment("Sets the percentage chance for oases to generate as an Oasis. The remaining oases will generate as an Dead Oasis. Set to 0 to only get Dead Oasis or to 100 to only get Oasis")
+            this.oasisChance = builder.comment("Sets the percentage chance for oases to generate as an Oasis. The remaining oases will generate as an Dead Oasis. Set to 0 to only get Dead Oasis or to 100 to only get Oasis")
                     .translation("atum.config.oasispercentage")
                     .defineInRange("Oasis percentage", 50, 0, 10000);
             builder.pop();
         }
+
+        public Biome(ForgeConfigSpec.Builder builder, String biomeName, int weight) {
+            builder.push(BIOME);
+            builder.push(biomeName);
+            this.weight = builder.defineInRange("weight", weight, -1, 1000);
+            builder.pop(2);
+        }
     }
 
     public static ForgeConfigSpec spec = BUILDER.build();
+
+    public static class Helper {
+        private static final FileConfig CONFIG_FILE = FileConfig.of(new File(FMLPaths.CONFIGDIR.get().toFile(), "atum-common.toml"));
+
+        public static <T> T get(String category, String subCategory, String value) {
+            return get(category + "." + subCategory, value);
+        }
+
+        public static <T> T get(String category, String value) {
+            CONFIG_FILE.load();
+            return CONFIG_FILE.get(category + "." + value);
+        }
+
+        public static String getSubConfig(String category, String subCategory) {
+            return category + "." + subCategory;
+        }
+    }
 }

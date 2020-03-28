@@ -9,7 +9,7 @@ import net.minecraftforge.registries.ObjectHolder;
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 
 @ObjectHolder(value = Constants.MOD_ID)
-public class AtumBiomes { //TODO
+public class AtumBiomes {
     public static final AtumBiome DEAD_OASIS = registerBiome(new DeadOasisBiome(), "dead_oasis");
     public static final AtumBiome DEADWOOD_FOREST = registerBiome(new DeadwoodForestBiome(), "deadwood_forest");
     public static final AtumBiome DRIED_RIVER = registerBiome(new DriedRiverBiome(), "dried_river");
@@ -22,8 +22,9 @@ public class AtumBiomes { //TODO
 
     public static void addBiomeTags() {
         for (AtumBiome biome : AtumRegistry.BIOMES) {
+            BiomeDictionary.addTypes(biome, BiomeTags.ATUM);
             if (biome != AtumBiomes.OASIS) {
-                BiomeDictionary.addTypes(biome, BiomeTags.ATUM, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.DRY);
+                BiomeDictionary.addTypes(biome, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.DRY);
             }
         }
         BiomeDictionary.addTypes(DEAD_OASIS, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.RARE);

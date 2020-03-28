@@ -1,44 +1,5 @@
 /*package com.teammetallurgy.atum.world;
 
-import com.teammetallurgy.atum.blocks.BlockSandLayers;
-import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenAtumDungeons;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenLava;
-import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
-import com.teammetallurgy.atum.world.gen.structure.girafitomb.MapGenGirafiTomb;
-import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
-import com.teammetallurgy.atum.world.gen.structure.lighthouse.MapGenLighthouse;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.MapGenAtumMineshaft;
-import com.teammetallurgy.atum.world.gen.structure.pyramid.MapGenPyramid;
-import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
-import com.teammetallurgy.atum.world.gen.structure.ruins.MapGenRuin;
-import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
-import com.teammetallurgy.atum.world.gen.structure.tomb.MapGenTomb;
-import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
-import net.minecraft.block.BlockFalling;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
-import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
-import net.minecraftforge.event.terraingen.PopulateChunkEvent;
-import net.minecraftforge.event.terraingen.TerrainGen;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.List;
-import java.util.Random;
-
 public class ChunkGeneratorAtum implements IChunkGenerator {
     private static final BlockState LIMESTONE = AtumBlocks.LIMESTONE.getDefaultState();
     private final Random rand;

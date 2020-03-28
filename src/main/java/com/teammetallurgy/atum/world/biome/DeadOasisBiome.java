@@ -7,18 +7,15 @@ import net.minecraft.entity.EntityClassification;
 public class DeadOasisBiome extends AtumBiome {
 
     public DeadOasisBiome() {
-        super(new Builder("Dead Oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.GRAVEL_CRACKED));
-
+        super(new Builder("dead_oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.GRAVEL_CRACKED));
         this.deadwoodRarity = 0.0D;
         //this.decorator.grassPerChunk = 2;
-
         this.addDefaultSpawns();
     }
 
     @Override
     protected void addDefaultSpawns() {
         super.addDefaultSpawns();
-
         addSpawn(AtumEntities.CAMEL, 6, 2, 6, EntityClassification.CREATURE);
     }
 

@@ -1,8 +1,10 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.google.common.collect.Lists;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumRegistry;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.INoiseRandom;
@@ -17,9 +19,13 @@ public class AtumBiomeLayer implements IC0Transformer {
 
     public AtumBiomeLayer() {
         for (AtumBiome biome : AtumRegistry.BIOMES) {
-            final BiomeEntry entry = new BiomeEntry(biome, biome.getWeight());
-            if (biome.getWeight() > 0) {
-                this.biomes.add(entry);
+            ResourceLocation location = biome.getRegistryName();
+            if (biome.getDefaultWeight() > 0 && location != null) {
+                int weight = AtumConfig.Helper.get(AtumConfig.Helper.getSubConfig(AtumConfig.Biome.BIOME, location.getPath()), "weight");
+                final BiomeEntry entry = new BiomeEntry(biome, weight);
+                if (weight > 0) {
+                    this.biomes.add(entry);
+                }
             }
         }
     }

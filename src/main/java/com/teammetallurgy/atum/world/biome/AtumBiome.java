@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
@@ -15,12 +16,12 @@ public class AtumBiome extends Biome {
     private static EntityClassification UNDERGROUND; //TODO Revisit in 1.13
     private static EntityClassification SURFACE; //TODO Revisit in 1.13
     //protected BiomeDecoratorAtum atumDecorator;
-    private int weight;
     protected double deadwoodRarity = 0.1D;
+    private int defaultWeight;
 
     public AtumBiome(Builder builder) {
         super(builder);
-        this.weight = builder.weight;
+        this.defaultWeight = builder.defaultWeight;
         //this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
 
         //this.spawnableMonsterList.clear();
@@ -30,10 +31,6 @@ public class AtumBiome extends Biome {
 
         //this.topBlock = AtumBlocks.SAND.getDefaultState();
         //this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
-    }
-
-    public int getWeight() {
-        return weight;
     }
 
     protected void addDefaultSpawns() {
@@ -70,6 +67,10 @@ public class AtumBiome extends Biome {
     public static void initCreatureTypes() { //TODO Revisit in 1.13
        /* UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("UNDERGROUND", IUnderground.class, 20, Material.AIR, false, false));
         SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("SURFACE", IMob.class, 45, Material.AIR, false, false));*/
+    }
+
+    public int getDefaultWeight() {
+        return this.defaultWeight;
     }
 
     /*@Override
@@ -128,23 +129,25 @@ public class AtumBiome extends Biome {
     }
 
     public static class Builder extends Biome.Builder {
-        private int weight;
+        private String biomeName;
+        private int defaultWeight;
 
         public Builder(String biomeName, int weight) {
-            this.weight = weight;
             this.precipitation(RainType.NONE);
             this.downfall(0.0F);
             this.temperature(2.0F);
-            this.waterColor(16421912);
+            this.waterColor(4159204);
             this.waterFogColor(329011); //TODO Figure out what this is. Value copied from vanilla
             this.setBaseHeight(0.135F);
             this.setHeightVariation(0.05F);
             this.parent(null);
-            this.category(Category.NONE); //TODO Figure out what setting Biome Category actually does
-            this.surfaceBuilder(SurfaceBuilder.DEFAULT, AtumSurfaceBuilders.SANDY); //TODO add custom SurfaceBuilder
-            /*this.weight = weight != 0 ? AtumConfig.config.get(AtumConfig.BIOME + Configuration.CATEGORY_SPLITTER + biomeName, "weight", weight).getInt() : 0;
-
-            AtumConfig.config.save();*/
+            this.category(Category.DESERT);
+            this.surfaceBuilder(SurfaceBuilder.DEFAULT, AtumSurfaceBuilders.SANDY);
+            this.biomeName = biomeName;
+            this.defaultWeight = weight;
+            if (weight > 0) {
+                new AtumConfig.Biome(AtumConfig.BUILDER, biomeName, weight); //Write config
+            }
         }
 
         public Builder setBaseHeight(float height) {

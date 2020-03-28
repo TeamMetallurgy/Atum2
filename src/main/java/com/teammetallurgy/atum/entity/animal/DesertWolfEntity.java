@@ -524,7 +524,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                 DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();
                 if (player.getUniqueID() == player.getUniqueID()) {
                     if (desertWolf.isAlpha() && desertWolf.isBeingRidden()) {
-                        NetworkHandler.CHANNEL.sendToServer(new OpenWolfGuiPacket(desertWolf.getEntityId()));
+                        NetworkHandler.sendToServer(new OpenWolfGuiPacket(desertWolf.getEntityId()));
                         event.setCanceled(true);
                     }
                 }

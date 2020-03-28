@@ -4,11 +4,9 @@ public class DeadwoodForestBiome extends AtumBiome {
     //private WorldGenerator anputsFingersGen = new WorldGenBush(AtumBlocks.ANPUTS_FINGERS);
 
     public DeadwoodForestBiome() {
-        super(new Builder("Deadwood Forest", 10));
-
+        super(new Builder("deadwood_forest", 10));
         this.deadwoodRarity = 1.0D;
         //this.decorator.grassPerChunk = 1;
-
         this.addDefaultSpawns();
     }
 

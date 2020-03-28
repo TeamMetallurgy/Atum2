@@ -14,5 +14,4 @@ public class AtumSurfaceBuilders {
     public static final SurfaceBuilderConfig SANDY_LIMESTONE = new SurfaceBuilderConfig(SAND, LIMESTONE, SAND);
     public static final SurfaceBuilderConfig GRAVEL_CRACKED = new SurfaceBuilderConfig(GRAVEL, CRACKED_LIMESTONE, GRAVEL);
     public static final SurfaceBuilderConfig OASIS = new SurfaceBuilderConfig(FERTILE_SOIL, LIMESTONE, FERTILE_SOIL);
-
 }
