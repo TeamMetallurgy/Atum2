@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumItemGroup;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -45,6 +46,7 @@ public class Atum {
         TombPieces.registerTomb();
         GirafiTombPieces.registerGirafiTomb();
         LighthousePieces.registerLighthouse();*/
+        AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiome::initMobSpawns);
         IntegrationHandler.INSTANCE.setup();
     }
 

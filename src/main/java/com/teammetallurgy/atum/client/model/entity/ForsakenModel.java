@@ -1,18 +1,18 @@
 package com.teammetallurgy.atum.client.model.entity;
 
-import net.minecraft.client.renderer.entity.model.ZombieModel;
+import com.teammetallurgy.atum.entity.undead.ForsakenEntity;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class DustySkeletonModel extends ZombieModel {
+public class ForsakenModel extends MonsterModel<ForsakenEntity> {
 
-    public DustySkeletonModel() {
+    public ForsakenModel() {
         this(0.0F);
     }
 
-    public DustySkeletonModel(float modelSize) {
+    public ForsakenModel(float modelSize) {
         super(modelSize, true);
         this.bipedRightArm = new ModelRenderer(this, 40, 16);
         this.bipedRightArm.addBox(-1.0F, -2.0F, -1.0F, 2, 12, 2, modelSize);

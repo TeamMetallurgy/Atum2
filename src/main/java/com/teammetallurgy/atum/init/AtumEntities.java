@@ -21,6 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.Random;
@@ -29,6 +30,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.*;
 import static net.minecraft.entity.EntityType.Builder;
 
 @ObjectHolder(value = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD) //Needed to load field earlier
 public class AtumEntities {
     //Mobs
     public static final EntityType<AssassinEntity> ASSASSIN = registerMob("assassin", 0x433731, 0xd99220, Builder.create(AssassinEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));

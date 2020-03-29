@@ -29,27 +29,27 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     @Override
     @Nonnull
     protected double[] getBiomeNoiseColumn(int noiseX, int noiseZ) { //Copied from OverworldChunkGenerator
-        double[] lvt_3_1_ = new double[2];
+        double[] noise = new double[2];
         float lvt_4_1_ = 0.0F;
         float lvt_5_1_ = 0.0F;
         float lvt_6_1_ = 0.0F;
         int seaLevel = this.getSeaLevel();
         float lvt_9_1_ = this.biomeProvider.getNoiseBiome(noiseX, seaLevel, noiseZ).getDepth();
 
-        for (int lvt_10_1_ = -2; lvt_10_1_ <= 2; ++lvt_10_1_) {
-            for (int lvt_11_1_ = -2; lvt_11_1_ <= 2; ++lvt_11_1_) {
-                Biome lvt_12_1_ = this.biomeProvider.getNoiseBiome(noiseX + lvt_10_1_, seaLevel, noiseZ + lvt_11_1_);
-                float lvt_13_1_ = lvt_12_1_.getDepth();
-                float lvt_14_1_ = lvt_12_1_.getScale();
+        for (int x = -2; x <= 2; ++x) {
+            for (int z = -2; z <= 2; ++z) {
+                Biome biome = this.biomeProvider.getNoiseBiome(noiseX + x, seaLevel, noiseZ + z);
+                float depth = biome.getDepth();
+                float scale = biome.getScale();
 
-                float lvt_15_1_ = BIOME_WEIGHTS[lvt_10_1_ + 2 + (lvt_11_1_ + 2) * 5] / (lvt_13_1_ + 2.0F);
-                if (lvt_12_1_.getDepth() > lvt_9_1_) {
-                    lvt_15_1_ /= 2.0F;
+                float weight = BIOME_WEIGHTS[x + 2 + (z + 2) * 5] / (depth + 2.0F);
+                if (biome.getDepth() > lvt_9_1_) {
+                    weight /= 2.0F;
                 }
 
-                lvt_4_1_ += lvt_14_1_ * lvt_15_1_;
-                lvt_5_1_ += lvt_13_1_ * lvt_15_1_;
-                lvt_6_1_ += lvt_15_1_;
+                lvt_4_1_ += scale * weight;
+                lvt_5_1_ += depth * weight;
+                lvt_6_1_ += weight;
             }
         }
 
@@ -57,9 +57,9 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
         lvt_5_1_ /= lvt_6_1_;
         lvt_4_1_ = lvt_4_1_ * 0.9F + 0.1F;
         lvt_5_1_ = (lvt_5_1_ * 4.0F - 1.0F) / 8.0F;
-        lvt_3_1_[0] = (double) lvt_5_1_ + this.getNoiseDepthAt(noiseX, noiseZ);
-        lvt_3_1_[1] = lvt_4_1_;
-        return lvt_3_1_;
+        noise[0] = (double) lvt_5_1_ + this.getNoiseDepthAt(noiseX, noiseZ);
+        noise[1] = lvt_4_1_;
+        return noise;
     }
 
     private double getNoiseDepthAt(int x, int z) { //Copied from OverworldChunkGenerator

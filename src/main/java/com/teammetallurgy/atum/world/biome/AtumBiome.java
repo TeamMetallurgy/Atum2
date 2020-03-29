@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
@@ -15,7 +16,6 @@ import javax.annotation.Nonnull;
 public class AtumBiome extends Biome {
     private static EntityClassification UNDERGROUND; //TODO Revisit in 1.13
     private static EntityClassification SURFACE; //TODO Revisit in 1.13
-    //protected BiomeDecoratorAtum atumDecorator;
     protected double deadwoodRarity = 0.1D;
     private int defaultWeight;
 
@@ -23,45 +23,57 @@ public class AtumBiome extends Biome {
         super(builder);
         this.defaultWeight = builder.defaultWeight;
         //this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
-
-        //this.spawnableMonsterList.clear();
-        //this.spawnableCreatureList.clear();
-        //this.spawnableWaterCreatureList.clear();
-        //this.spawnableCaveCreatureList.clear();
-
-        //this.topBlock = AtumBlocks.SAND.getDefaultState();
-        //this.fillerBlock = AtumBlocks.LIMESTONE.getDefaultState();
     }
 
-    protected void addDefaultSpawns() {
+    protected void addDefaultSpawns(Biome biome) {
         //Animals
-        addSpawn(AtumEntities.DESERT_RABBIT, 5, 2, 3, EntityClassification.CREATURE);
-        addSpawn(EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
+        addSpawn(biome, AtumEntities.DESERT_RABBIT, 5, 2, 3, EntityClassification.CREATURE);
+        addSpawn(biome, EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
 
         //Bandits
-        addSpawn(AtumEntities.ASSASSIN, 1, 1, 1, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.BARBARIAN, 8, 1, 2, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.BRIGAND, 30, 2, 3, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.NOMAD, 22, 1, 4, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.ASSASSIN, 1, 1, 1, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.BARBARIAN, 8, 1, 2, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.BRIGAND, 30, 2, 3, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.NOMAD, 22, 1, 4, EntityClassification.MONSTER);
 
         //Undead
-        addSpawn(AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.FORSAKEN, 22, 1, 4, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.MUMMY, 30, 1, 3, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.WRAITH, 10, 1, 2, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.FORSAKEN, 22, 1, 4, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.MUMMY, 30, 1, 3, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.WRAITH, 10, 1, 2, EntityClassification.MONSTER);
 
         //Underground
-        addSpawn(AtumEntities.STONEGUARD, 34, 1, 2, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.STONEWARDEN, 1, 1, 1, EntityClassification.MONSTER);
-        addSpawn(AtumEntities.TARANTULA, 20, 1, 3, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.STONEGUARD, 34, 1, 2, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.STONEWARDEN, 1, 1, 1, EntityClassification.MONSTER);
+        addSpawn(biome, AtumEntities.TARANTULA, 20, 1, 3, EntityClassification.MONSTER);
     }
 
-    protected void addSpawn(EntityType<?> entityType, int weight, int min, int max, EntityClassification type) {
-       /* String category = AtumConfig.MOBS + Configuration.CATEGORY_SPLITTER + AtumUtils.toRegistryName(entityClass.getSimpleName()).replace("entity_", "").replace("_", " ");
-        weight = AtumConfig.config.get(category, "weight", weight).getInt();
-        min = AtumConfig.config.get(category, "min", min).getInt();
-        max = AtumConfig.config.get(category, "max", max).getInt();*/
-        this.getSpawns(type).add(new SpawnListEntry(entityType, weight, min, max));
+    protected void addSpawn(Biome biome, EntityType<?> entityType, int weight, int min, int max, EntityClassification classification) {
+        ResourceLocation location = entityType.getRegistryName();
+        if (location != null) {
+            new AtumConfig.Mobs(AtumConfig.BUILDER, location.getPath(), min, max, weight, entityType, classification, biome); //Write config
+            super.addSpawn(classification, new SpawnListEntry(entityType, weight, min, max));
+        }
+    }
+
+    protected void addCamelSpawning(Biome biome) {
+        this.addSpawn(biome, AtumEntities.CAMEL, 6, 2, 6, EntityClassification.CREATURE);
+    }
+
+    protected void addDesertWolfSpawning(Biome biome) {
+        this.addSpawn(biome, AtumEntities.DESERT_WOLF, 5, 2, 4, EntityClassification.CREATURE);
+    }
+
+    public static void initMobSpawns(Biome biome, EntityType<?> entityType) {
+        String baseCategory = AtumConfig.Mobs.MOBS;
+        EntityClassification classification = AtumConfig.Mobs.ENTITY_CLASSIFICATION.get(entityType);
+        if (entityType != null && entityType.getRegistryName() != null) {
+            String mobName = entityType.getRegistryName().getPath();
+            int weight = AtumConfig.Helper.get(baseCategory, mobName, "weight");
+            int min = AtumConfig.Helper.get(baseCategory, mobName, "min");
+            int max = AtumConfig.Helper.get(baseCategory, mobName, "max");
+            biome.getSpawns(classification).add(new SpawnListEntry(entityType, weight, min, max));
+        }
     }
 
     public static void initCreatureTypes() { //TODO Revisit in 1.13
@@ -111,16 +123,17 @@ public class AtumBiome extends Biome {
         }
         super.decorate(world, random, pos);
     }
+    */
 
     @Override
-    public int getModdedBiomeGrassColor(int original) {
+    public int getFoliageColor() {
         return 12889745;
     }
 
     @Override
-    public int getModdedBiomeFoliageColor(int original) {
+    public int getGrassColor(double x, double z) {
         return 12889745;
-    }*/
+    }
 
     @Override
     @Nonnull

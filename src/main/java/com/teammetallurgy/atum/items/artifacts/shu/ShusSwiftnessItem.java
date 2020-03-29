@@ -88,6 +88,6 @@ public class ShusSwiftnessItem extends AmuletItem {
         super.addInformation(stack, world, tooltip, tooltipType);
         double remaining = ((double) (stack.getMaxDamage() - stack.getDamage()) / 12) / 100.0D;
         DecimalFormat format = new DecimalFormat("#.##");
-        tooltip.add(new TranslationTextComponent("atum.tooltip.minutesRemaining", format.format(remaining)));
+        tooltip.add(new TranslationTextComponent("atum.tooltip.minutes_remaining", format.format(remaining)));
     }
 }

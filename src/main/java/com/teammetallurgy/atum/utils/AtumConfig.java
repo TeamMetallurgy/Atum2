@@ -1,10 +1,14 @@
 package com.teammetallurgy.atum.utils;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
+import com.google.common.collect.HashMultimap;
+import net.minecraft.entity.EntityClassification;
+import net.minecraft.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
+import java.util.HashMap;
 
 public class AtumConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -129,11 +133,15 @@ public class AtumConfig {
 
     public static class Mobs {
         public static final String MOBS = "mobs";
+        public static HashMap<EntityType<?>, EntityClassification> ENTITY_CLASSIFICATION = new HashMap<>();
+        public static HashMultimap<net.minecraft.world.biome.Biome, EntityType<?>> ENTITY_TYPE = HashMultimap.create();
         public ForgeConfigSpec.IntValue min;
         public ForgeConfigSpec.IntValue max;
         public ForgeConfigSpec.IntValue weight;
 
-        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight) {
+        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, EntityClassification classification, net.minecraft.world.biome.Biome biome) {
+            ENTITY_CLASSIFICATION.put(entityType, classification);
+            ENTITY_TYPE.put(biome, entityType);
             builder.push(MOBS);
             builder.push(mobName);
             this.min = builder.defineInRange("min", min, -1, 64);

@@ -29,7 +29,7 @@ public class AtumsBountyItem extends FishingRodItem {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
         int remaining = stack.getMaxDamage() - stack.getDamage();
-        tooltip.add(new TranslationTextComponent("atum.tooltip.usesRemaining", remaining));
+        tooltip.add(new TranslationTextComponent("atum.tooltip.uses_remaining", remaining));
     }
 
     @Override

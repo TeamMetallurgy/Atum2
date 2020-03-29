@@ -7,7 +7,7 @@ public class DeadwoodForestBiome extends AtumBiome {
         super(new Builder("deadwood_forest", 10));
         this.deadwoodRarity = 1.0D;
         //this.decorator.grassPerChunk = 1;
-        this.addDefaultSpawns();
+        super.addDefaultSpawns(this);
     }
 
     /*@Override

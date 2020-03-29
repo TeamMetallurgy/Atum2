@@ -128,7 +128,8 @@ public class PharaohEntity extends UndeadBaseEntity {
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        ScepterItem scepter = AtumItems.SCEPTERS.getScepter(God.getGod(getVariant()));
+        ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
+        System.out.println(scepter);
         if (scepter != null) {
             this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(scepter));
         }
@@ -143,7 +144,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh_" + God.getGod(this.getVariant())) + ".png";
+            this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/pharaoh_" + God.getGod(this.getVariant()).getName()) + ".png";
         }
         return this.texturePath;
     }
@@ -242,7 +243,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         int p = this.dataManager.get(PREFIX);
         int s = this.dataManager.get(SUFFIX);
         int n = this.dataManager.get(NUMERAL);
-        return super.getName().appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + prefixArray[p])).appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH))).appendText(" " + numeralArray[n]);
+        return new TranslationTextComponent(this.getType().getTranslationKey()).appendText(" ").appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + prefixArray[p])).appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH))).appendText(" " + numeralArray[n]);
     }
 
     @Override

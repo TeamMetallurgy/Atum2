@@ -11,7 +11,7 @@ import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 
-public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
+public class CamelModel<T extends CamelEntity> extends EntityModel<T> { //TODO Fix model movement
     private ModelRenderer headModel;
     private ModelRenderer body;
     private ModelRenderer legBackRight;

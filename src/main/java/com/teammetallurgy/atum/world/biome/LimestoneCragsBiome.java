@@ -1,8 +1,5 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.entity.EntityClassification;
-
 public class LimestoneCragsBiome extends AtumBiome {
     //private WorldGenerator genSpikes;
 
@@ -10,13 +7,8 @@ public class LimestoneCragsBiome extends AtumBiome {
         super(new Builder("limestone_crags", 3).setBaseHeight(0.225F).setHeightVariation(0.45000002F));
         //this.genSpikes = new WorldGenLimestoneSpike();
         this.deadwoodRarity = 0.12D;
-        this.addDefaultSpawns();
-    }
-
-    @Override
-    protected void addDefaultSpawns() {
-        super.addDefaultSpawns();
-        addSpawn(AtumEntities.DESERT_WOLF, 5, 2, 4, EntityClassification.CREATURE);
+        super.addDefaultSpawns(this);
+        super.addDesertWolfSpawning(this);
     }
 
   /*  @Override

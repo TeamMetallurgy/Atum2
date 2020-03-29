@@ -6,8 +6,10 @@ import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.LootItem;
+import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
@@ -15,7 +17,10 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.SpawnEggItem;
+import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tileentity.TileEntity;
@@ -56,7 +61,7 @@ public class AtumRegistry {
      * @return The Item that was registered
      */
     public static Item registerItem(@Nonnull Item item, @Nonnull String name) {
-        item.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
+        item.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
         ITEMS.add(item);
         return item;
     }
@@ -78,6 +83,12 @@ public class AtumRegistry {
         registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.EMERALD, type));
         registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.DIAMOND, type));
         return dirty;
+    }
+
+    public static Item registerScepter(PharaohEntity.God god) {
+        ScepterItem scepter = new ScepterItem();
+        ScepterItem.SCEPTERS.put(god, scepter);
+        return AtumRegistry.registerItem(scepter, "scepter_" + god.getName());
     }
 
     private static String getLootName(@Nonnull LootItem.Quality quality, @Nonnull LootItem.Type type) {
@@ -137,7 +148,7 @@ public class AtumRegistry {
      * Same as {@link AtumRegistry#registerBaseBlock(Block, String)}, but allows for registering an BlockItem at the same time
      */
     public static Block registerBlockWithItem(@Nonnull Block block, BlockItem blockItem, @Nonnull String name) {
-        registerItem(blockItem, AtumUtils.toRegistryName(name));
+        registerItem(blockItem, name);
         return registerBaseBlock(block, name);
     }
 
@@ -149,7 +160,7 @@ public class AtumRegistry {
      * @return The Block that was registered
      */
     public static Block registerBaseBlock(@Nonnull Block block, @Nonnull String name) {
-        block.setRegistryName(new ResourceLocation(Constants.MOD_ID, AtumUtils.toRegistryName(name)));
+        block.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
         BLOCKS.add(block);
 
         return block;
@@ -180,7 +191,7 @@ public class AtumRegistry {
      */
     public static <T extends Entity> EntityType<T> registerMob(String name, int eggPrimary, int eggSecondary, EntityType.Builder<T> builder) {
         EntityType<T> entityType = registerEntity(name, builder);
-        Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).group(ItemGroup.MISC));
+        Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).group(Atum.GROUP));
         registerItem(spawnEgg, name + "_spawn_egg");
         return entityType;
     }

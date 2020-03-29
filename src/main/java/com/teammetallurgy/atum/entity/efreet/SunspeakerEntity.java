@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.LootItem;
+import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -63,7 +64,7 @@ public class SunspeakerEntity extends EfreetBaseEntity /*implements IMerchant*/ 
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SCEPTERS.getScepter(PharaohEntity.God.RA)));
+        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(PharaohEntity.God.RA)));
     }
 
     /*@Override
