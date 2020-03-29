@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.integration;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.ModList;
 
@@ -14,19 +15,18 @@ public class IntegrationHandler {
     public static final IntegrationHandler INSTANCE = new IntegrationHandler();
     private final NonNullList<IModIntegration> integratedMods = NonNullList.create();
     private HashMap<String, Class<? extends IModIntegration>> mods = new HashMap<>();
-    private static HashMap<String, Boolean> defaultConfig = new HashMap<>();
 
-    public void initModIntegration() {
+    public void addSupport() {
         //addSupport(Thaumcraft.THAUMCRAFT_ID, Thaumcraft.class, true);
         addSupport(TOPSupport.THE_ONE_PROBE, TOPSupport.class, true);
         addSupport(ChampionsHelper.CHAMPION_ID, ChampionsHelper.class, false);
+    }
 
+    public void init() {
         List<String> enabledModSupport = mods.keySet().stream().filter(IntegrationHandler::getConfigValue).collect(Collectors.toList());
-        //AtumConfig.config.save(); //TODO
-
-        mods.entrySet().stream().filter(entry -> enabledModSupport.contains(entry.getKey()) && ModList.get().isLoaded(entry.getKey())).forEach(entry -> {
+        this.mods.entrySet().stream().filter(entry -> enabledModSupport.contains(entry.getKey()) && ModList.get().isLoaded(entry.getKey())).forEach(entry -> {
             try {
-                integratedMods.add(entry.getValue().newInstance());
+                this.integratedMods.add(entry.getValue().newInstance());
             } catch (Exception e) {
                 Atum.LOG.error("Failed to load mod integration handler");
                 e.printStackTrace();
@@ -34,18 +34,17 @@ public class IntegrationHandler {
         });
     }
 
-    private void addSupport(String modID, Class<? extends IModIntegration> modClass, boolean configValue) {
-        mods.put(modID, modClass);
-        defaultConfig.put(modID, configValue);
+    private void addSupport(String modID, Class<? extends IModIntegration> modClass, boolean defaultValue) {
+        this.mods.put(modID, modClass);
+        new AtumConfig.ModIntegration(AtumConfig.BUILDER, modID, defaultValue); //Write config
     }
 
     public static boolean getConfigValue(String modID) {
-        return true;
-        //return AtumConfig.config.get(AtumConfig.MOD_INTEGRATION, modID, defaultConfig.get(modID)).getBoolean(); //TODO
+        return AtumConfig.Helper.get(AtumConfig.ModIntegration.MOD_INTEGRATION, modID);
     }
 
     public void setup() {
-        for (IModIntegration modSupport : integratedMods) {
+        for (IModIntegration modSupport : this.integratedMods) {
             try {
                 modSupport.setup();
             } catch (Exception e) {
@@ -56,11 +55,11 @@ public class IntegrationHandler {
     }
 
     public void clientSide() {
-        for (IModIntegration modSupport : integratedMods) {
+        for (IModIntegration modSupport : this.integratedMods) {
             try {
                 modSupport.clientSide();
             } catch (Exception e) {
-                Atum.LOG.error("Failed to load mod integration from " + modSupport.getClass() + " on the client.");
+                Atum.LOG.error("Failed to load mod integration from " + modSupport.getClass() + " on client-side.");
                 e.printStackTrace();
             }
         }

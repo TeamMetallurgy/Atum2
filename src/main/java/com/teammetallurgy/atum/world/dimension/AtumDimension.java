@@ -47,7 +47,7 @@ public class AtumDimension extends Dimension {
 
     public AtumDimension(World world, DimensionType dimensionType) {
         super(world, dimensionType, 0.0F /*Brightness. Look into?*/);
-        init();
+        //init(); //TODO
     }
 
     @SubscribeEvent
@@ -174,10 +174,10 @@ public class AtumDimension extends Dimension {
 
     @Override
     public void onWorldSave() {
-        CompoundNBT tagCompound = new CompoundNBT();
+        /*CompoundNBT tagCompound = new CompoundNBT(); //TODO
         tagCompound.putBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
         tagCompound.putBoolean("IsStorming", isStorming);
-        world.getWorldInfo().setDimensionData(this.world.dimension.getType(), tagCompound);
+        world.getWorldInfo().setDimensionData(this.world.dimension.getType(), tagCompound);*/
     }
 
     protected void init() {

@@ -14,7 +14,7 @@ public class CrunchyScarabItem extends Item {
     }
 
     @Override
-    public boolean hasEffect(ItemStack stack) {
+    public boolean hasEffect(@Nonnull ItemStack stack) {
         if (stack.getItem() == AtumItems.CRUNCHY_GOLD_SCARAB) {
             return true;
         }

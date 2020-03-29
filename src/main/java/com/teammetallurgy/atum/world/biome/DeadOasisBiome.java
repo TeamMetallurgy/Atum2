@@ -35,14 +35,15 @@ public class DeadOasisBiome extends AtumBiome {
 
         super.decorate(world, random, pos);
     }
+    */
 
     @Override
-    public int getModdedBiomeFoliageColor(int original) {
+    public int getFoliageColor() {
         return 10189386;
     }
 
     @Override
-    public int getModdedBiomeGrassColor(int original) {
+    public int getGrassColor(double x, double z) {
         return 10189386;
-    }*/
+    }
 }

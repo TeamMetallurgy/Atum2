@@ -163,7 +163,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
+    public boolean canInsertItem(int index, @Nonnull ItemStack stack, Direction facing) {
         return false;
     }
 

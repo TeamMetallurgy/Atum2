@@ -16,7 +16,7 @@ public class TOPSupport implements IModIntegration, Function<ITheOneProbe, Void>
 
     @Override
     public void setup() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::sendIMC); //TODO Test
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::sendIMC);
     }
 
     public void sendIMC(InterModEnqueueEvent event) {

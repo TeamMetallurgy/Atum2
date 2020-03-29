@@ -147,9 +147,4 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(MOISTURE, BLESSED);
     }
-
-    /*@Override
-    public Property[] getNonRenderingProperties() { //TODO
-        return new Property[]{BLESSED};
-    }*/
 }

@@ -82,7 +82,7 @@ public class BrigandShieldModel extends AbstractShieldModel {
         RenderSystem.translatef(0.0F, 0.0F, -0.025F);
         this.handleCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
         this.shieldCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
-        RenderSystem.popMatrix(); 
+        RenderSystem.popMatrix();
     }
 
     @Override

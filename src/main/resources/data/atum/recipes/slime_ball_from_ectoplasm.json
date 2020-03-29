@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "atum:ectoplasm"
+  },
+  "result": "minecraft:slime_ball",
+  "experience": 0.1,
+  "cookingtime": 350
+}

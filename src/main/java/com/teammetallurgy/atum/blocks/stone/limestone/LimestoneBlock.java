@@ -38,9 +38,4 @@ public class LimestoneBlock extends Block {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(HAS_SCARAB);
     }
-
-    /*@Override
-    public Property[] getNonRenderingProperties() { //TODO
-        return new Property[]{HAS_SCARAB};
-    }*/
 }

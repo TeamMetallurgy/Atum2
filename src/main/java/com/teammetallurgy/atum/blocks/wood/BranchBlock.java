@@ -27,7 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class BranchBlock extends Block { //Maybe use SixWayBlock. Looks at ChorusPlantBlock
+public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at ChorusPlantBlock
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class);
     private static final BooleanProperty NORTH = BooleanProperty.create("north");
     private static final BooleanProperty EAST = BooleanProperty.create("east");

@@ -125,7 +125,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
         if (this.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100) {
             this.setVariant(1);
@@ -430,7 +430,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                         return true;
                     }
                 } else if (heldStack.getItem() instanceof DyeItem) {
-                    DyeColor color = ((DyeItem)item).getDyeColor();
+                    DyeColor color = ((DyeItem) item).getDyeColor();
 
                     if (color != this.getCollarColor()) {
                         this.setCollarColor(color);
@@ -520,7 +520,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     public static void openInventoryOverride(GuiOpenEvent event) {
         if (event.getGui() instanceof ContainerScreen) {
             PlayerEntity player = Minecraft.getInstance().player;
-            if (player.getRidingEntity() instanceof DesertWolfEntity) {
+            if (player != null && player.getRidingEntity() instanceof DesertWolfEntity) {
                 DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();
                 if (player.getUniqueID() == player.getUniqueID()) {
                     if (desertWolf.isAlpha() && desertWolf.isBeingRidden()) {
@@ -686,10 +686,10 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
             }
             if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
-            } else if (target instanceof AbstractHorseEntity && ((AbstractHorseEntity)target).isTame()) {
+            } else if (target instanceof AbstractHorseEntity && ((AbstractHorseEntity) target).isTame()) {
                 return false;
             } else {
-                return !(target instanceof CatEntity) || !((CatEntity)target).isTamed();
+                return !(target instanceof CatEntity) || !((CatEntity) target).isTamed();
             }
         } else {
             return false;

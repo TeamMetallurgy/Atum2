@@ -45,9 +45,4 @@ public class DeadwoodBlock extends LogBlock {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(AXIS, HAS_SCARAB);
     }
-
-    /*@Override
-    public Property[] getNonRenderingProperties() {
-        return new Property[]{HAS_SCARAB}; //TODO
-    }*/
 }

@@ -21,7 +21,7 @@ import net.minecraftforge.common.ToolType;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class ChestBaseBlock extends ChestBlock { //TODO
+public class ChestBaseBlock extends ChestBlock {
 
     protected ChestBaseBlock(Supplier<TileEntityType<? extends ChestTileEntity>> tileEntitySupplier) {
         super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0), tileEntitySupplier);

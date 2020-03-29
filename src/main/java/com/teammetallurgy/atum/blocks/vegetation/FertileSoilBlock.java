@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -33,9 +34,9 @@ public class FertileSoilBlock extends Block implements IGrowable {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-               /* if (world.getBiome(pos) != AtumBiomes.OASIS) { //TODO
+                if (world.getBiome(pos) != AtumBiomes.OASIS) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
-                }*/
+                }
             } else if (Block.doesSideFillSquare(world.getBlockState(pos.up()).getCollisionShape(world, pos), Direction.DOWN)) {
                 if (world.rand.nextDouble() >= 0.5D) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);

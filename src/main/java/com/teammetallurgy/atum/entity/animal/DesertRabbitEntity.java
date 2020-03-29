@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.world.biome.*;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -43,27 +44,27 @@ public class DesertRabbitEntity extends RabbitEntity {
         Biome biome = world.getBiome(new BlockPos(this));
         int i = this.rand.nextInt(100);
 
-        /*if (biome instanceof BiomeSandPlains) { //TODO
+        if (biome instanceof SandPlainsBiome) {
             return i <= 80 ? 0 : 1;
-        } else if (biome instanceof BiomeSandDunes) {
+        } else if (biome instanceof SandDunesBiome) {
             return i <= 60 ? 1 : 2;
-        } else if (biome instanceof BiomeSandHills) {
+        } else if (biome instanceof SandHillsBiome) {
             return i <= 30 ? 1 : 2;
-        } else if (biome instanceof BiomeLimestoneMountains) {
+        } else if (biome instanceof LimestoneMountainsBiome) {
             return i <= 30 ? 2 : 3;
-        } else if (biome instanceof BiomeLimestoneCrags) {
+        } else if (biome instanceof LimestoneCragsBiome) {
             return i <= 30 ? 3 : 4;
-        } else if (biome instanceof BiomeDeadwoodForest) {
+        } else if (biome instanceof DeadwoodForestBiome) {
             return i <= 50 ? 2 : 3;
-        } else if (biome instanceof BiomeOasis) {
+        } else if (biome instanceof OasisBiome) {
             return i <= 50 ? 2 : 3;
-        } else if (biome instanceof BiomeDeadOasis) {
+        } else if (biome instanceof DeadOasisBiome) {
             return i <= 33 ? 2 : (i <= 66 ? 3 : 4);
-        } else if (biome instanceof BiomeDriedRiver) {
+        } else if (biome instanceof DriedRiverBiome) {
             return i <= 50 ? 1 : 2;
-        } else {*/
+        } else {
             return 0;
-        //}
+        }
     }
 
     @Override
@@ -77,14 +78,16 @@ public class DesertRabbitEntity extends RabbitEntity {
         DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.create(this.world);
         int type = this.getRandomRabbitType(this.world);
 
-        if (this.rand.nextInt(20) != 0) {
-            if (ageable instanceof DesertRabbitEntity && this.rand.nextBoolean()) {
-                type = ((DesertRabbitEntity) ageable).getRabbitType();
-            } else {
-                type = this.getRabbitType();
+        if (rabbit != null) {
+            if (this.rand.nextInt(20) != 0) {
+                if (ageable instanceof DesertRabbitEntity && this.rand.nextBoolean()) {
+                    type = ((DesertRabbitEntity) ageable).getRabbitType();
+                } else {
+                    type = this.getRabbitType();
+                }
             }
+            rabbit.setRabbitType(type);
         }
-        rabbit.setRabbitType(type);
         return rabbit;
     }
 }

@@ -28,9 +28,4 @@ public class PalmSaplingBlock extends SaplingBlock implements IGrowable {
     protected boolean isValidGround(BlockState state, IBlockReader reader, BlockPos pos) {
         return state.getBlock() == AtumBlocks.FERTILE_SOIL || super.isValidGround(state, reader, pos);
     }
-
-    /*@Override
-    public Property[] getNonRenderingProperties() { //TODO
-        return new Property[]{STAGE};
-    }*/
 }

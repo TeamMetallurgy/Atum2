@@ -32,10 +32,11 @@ public class Atum {
         modBus.addListener(this::setupClient);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
+        IntegrationHandler.INSTANCE.addSupport();
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {
-        IntegrationHandler.INSTANCE.initModIntegration();
+        IntegrationHandler.INSTANCE.init();
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         /*StructureAtumMineshaftPieces.registerMineshaft(); //TODO

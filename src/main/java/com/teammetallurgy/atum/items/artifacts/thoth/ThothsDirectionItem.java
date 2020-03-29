@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemFrameEntity;
@@ -52,7 +53,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                     }
                     double angle = 0.0D;
 
-                    /*if (world.getDimension().getType() == AtumDimensionRegistration.ATUM) { //TODO
+                    if (world.getDimension().getType() == AtumDimensionType.ATUM) {
                         if (isSearching) {
                             angle = this.spin(world);
                         } else {
@@ -63,7 +64,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                         }
                     } else {
                         angle = Math.random();
-                    }*/
+                    }
                     if (livingNotNull) {
                         angle = this.wobble(world, angle);
                     }

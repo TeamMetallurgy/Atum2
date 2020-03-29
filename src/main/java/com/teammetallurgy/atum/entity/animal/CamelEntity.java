@@ -8,6 +8,11 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.biome.DeadOasisBiome;
+import com.teammetallurgy.atum.world.biome.OasisBiome;
+import com.teammetallurgy.atum.world.biome.SandDunesBiome;
+import com.teammetallurgy.atum.world.biome.SandPlainsBiome;
+import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -90,7 +95,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nullable DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         final int variant = this.getCamelVariantBiome();
@@ -187,21 +192,21 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         Biome biome = this.world.getBiome(new BlockPos(this));
         int chance = this.rand.nextInt(100);
 
-        /*if (this.world.dimension.getType() == AtumDimensionRegistration.ATUM) { //TODO
-            if (biome instanceof BiomeSandPlains) {
+        if (this.world.dimension.getType() == AtumDimensionType.ATUM) {
+            if (biome instanceof SandPlainsBiome) {
                 return chance <= 50 ? 0 : 5;
-            } else if (biome instanceof BiomeSandDunes) {
+            } else if (biome instanceof SandDunesBiome) {
                 return chance <= 50 ? 0 : 2;
-            } else if (biome instanceof BiomeOasis) {
+            } else if (biome instanceof OasisBiome) {
                 return chance <= 50 ? 0 : 1;
-            } else if (biome instanceof BiomeDeadOasis) {
+            } else if (biome instanceof DeadOasisBiome) {
                 return chance <= 50 ? 3 : 4;
             } else {
                 return 0;
             }
-        } else {*/
+        } else {
             return MathHelper.nextInt(rand, 0, 5);
-        //}
+        }
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -659,7 +664,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     static class DefendDesertWolfGoal extends NearestAttackableTargetGoal<DesertWolfEntity> {
         DefendDesertWolfGoal(CamelEntity camel) {
-            super(camel, DesertWolfEntity.class, 16, false, true, (entity) -> !((DesertWolfEntity)entity).isTamed());
+            super(camel, DesertWolfEntity.class, 16, false, true, (entity) -> !((DesertWolfEntity) entity).isTamed());
         }
 
         @Override
@@ -670,7 +675,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     static class DefendWolfGoal extends NearestAttackableTargetGoal<WolfEntity> {
         public DefendWolfGoal(CamelEntity camel) {
-            super(camel, WolfEntity.class, 16, false, true, (entity) -> !((WolfEntity)entity).isTamed());
+            super(camel, WolfEntity.class, 16, false, true, (entity) -> !((WolfEntity) entity).isTamed());
         }
 
         @Override

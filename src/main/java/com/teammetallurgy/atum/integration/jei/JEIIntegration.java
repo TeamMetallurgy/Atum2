@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.integration.jei;
 
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.integration.jei.categories.KilnRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.categories.QuernRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.categories.SpinningWheelRecipeCategory;
@@ -9,6 +10,7 @@ import com.teammetallurgy.atum.utils.Constants;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
+import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
@@ -30,14 +32,6 @@ public class JEIIntegration implements IModPlugin {
         return new ResourceLocation(Constants.MOD_ID);
     }
 
-        /*IIngredientBlacklist blacklist = registry.getJeiHelpers().getIngredientBlacklist();
-        for (ItemStack stack : AtumRegistry.HIDE_LIST) {
-            blacklist.addIngredientToBlacklist(stack);
-        }*/ //TODO
-        //Quern
-        //addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry); //TODO
-
-
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registry) {
         registry.addRecipeCatalyst(new ItemStack(AtumBlocks.QUERN), QUERN);
@@ -51,6 +45,7 @@ public class JEIIntegration implements IModPlugin {
         registry.addRecipes(RecipeHandlers.quernRecipes.getValues(), QUERN);
         registry.addRecipes(RecipeHandlers.spinningWheelRecipes.getValues(), SPINNING_WHEEL);
         registry.addRecipes(RecipeHandlers.kilnRecipes.getValues(), KILN);
+        addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
     }
 
     @Override
@@ -61,7 +56,7 @@ public class JEIIntegration implements IModPlugin {
         registry.addRecipeCategories(new KilnRecipeCategory(guiHelper));
     }
 
-    /*private void addInfo(ItemStack stack, IModRegistry registry) { //TODO
+    private void addInfo(ItemStack stack, IRecipeRegistration registry) {
         registry.addIngredientInfo(stack, VanillaTypes.ITEM, "jei." + stack.getItem().getTranslationKey());
-    }*/
+    }
 }

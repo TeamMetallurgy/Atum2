@@ -14,11 +14,6 @@ public class AtumConfig {
     public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
     public static final Biome BIOME = new Biome(BUILDER);
 
-    //Categories
-    //public static final String OREGEN = AtumConfig.WORLDGEN + Configuration.CATEGORY_SPLITTER + "ore gen";
-    public static final String MOBS = "mobs";
-    public static final String MOD_INTEGRATION = "mod integration";
-
     public static class General {
         public static final String GENERAL = "general";
         public final ForgeConfigSpec.BooleanValue allowCreation;
@@ -91,6 +86,7 @@ public class AtumConfig {
 
     public static class WorldGen {
         public static final String WORLDGEN = "world gen";
+        public static final String OREGEN = WORLDGEN + "." + "ore gen";
         public final ForgeConfigSpec.BooleanValue pyramidEnabled;
         public final ForgeConfigSpec.IntValue waterLevel;
 
@@ -128,6 +124,32 @@ public class AtumConfig {
             builder.push(biomeName);
             this.weight = builder.defineInRange("weight", weight, -1, 1000);
             builder.pop(2);
+        }
+    }
+
+    public static class Mobs {
+        public static final String MOBS = "mobs";
+        public ForgeConfigSpec.IntValue min;
+        public ForgeConfigSpec.IntValue max;
+        public ForgeConfigSpec.IntValue weight;
+
+        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight) {
+            builder.push(MOBS);
+            builder.push(mobName);
+            this.min = builder.defineInRange("min", min, -1, 64);
+            this.max = builder.defineInRange("max", max, 1, 64);
+            this.weight = builder.defineInRange("weight", weight, -1, 100);
+            builder.pop(2);
+        }
+    }
+
+    public static class ModIntegration {
+        public static final String MOD_INTEGRATION = "mod integration";
+
+        public ModIntegration(ForgeConfigSpec.Builder builder, String modName, boolean defaultValue) {
+            builder.push(MOD_INTEGRATION);
+            builder.define(modName, defaultValue);
+            builder.pop();
         }
     }
 

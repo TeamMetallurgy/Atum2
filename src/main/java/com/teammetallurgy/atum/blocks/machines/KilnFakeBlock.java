@@ -88,9 +88,4 @@ public class KilnFakeBlock extends ContainerBlock {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(UP);
     }
-
-    /*@Override
-    public Property[] getNonRenderingProperties() { //TODO
-        return new Property[]{UP};
-    }*/
 }

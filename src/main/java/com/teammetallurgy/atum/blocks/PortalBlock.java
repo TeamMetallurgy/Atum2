@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -78,8 +79,8 @@ public class PortalBlock extends BreakableBlock {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!entity.isOnePlayerRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
-            /*final DimensionType dimension = player.dimension == AtumDimensionRegistration.ATUM ? DimensionType.OVERWORLD : AtumDimensionRegistration.ATUM; //TODO
-            changeDimension(world, (ServerPlayerEntity) entity, dimension, new AtumTeleporter(player.server.getWorld(dimension)));*/
+            final DimensionType dimension = player.dimension == AtumDimensionType.ATUM ? DimensionType.OVERWORLD : AtumDimensionType.ATUM;
+            //changeDimension(world, (ServerPlayerEntity) entity, dimension, new AtumTeleporter(player.server.getWorld(dimension))); //TODO
         }
     }
 
@@ -87,12 +88,12 @@ public class PortalBlock extends BreakableBlock {
         if (!world.isRemote) {
             player.changeDimension(dimension);
             player.timeUntilPortal = 300;
-            /*if (player.dimension == AtumDimensionRegistration.ATUM) { //TODO
+            if (player.dimension == AtumDimensionType.ATUM) {
                 BlockPos playerPos = new BlockPos(player);
-                if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSideSolid(world, playerPos, Direction.UP)) {
-                    player.setSpawnChunk(playerPos, true, AtumDimensionRegistration.ATUM);
+                if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSolidSide(world, playerPos, Direction.UP)) {
+                    player.setSpawnPoint(playerPos, true, false, AtumDimensionType.ATUM);
                 }
-            }*/
+            }
         }
     }
 

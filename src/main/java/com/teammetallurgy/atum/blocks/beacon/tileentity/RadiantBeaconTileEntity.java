@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.beacon.tileentity;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.beacon.RadiantBeaconBlock;
+import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.BedrockBlock;
@@ -9,6 +10,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IBeaconBeamColorProvider;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.BeaconTileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,8 +21,14 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.List;
 
-public class RadiantBeaconTileEntity extends BeaconTileEntity { //TODO Test
+public class RadiantBeaconTileEntity extends BeaconTileEntity {
     private List<BeamSegment> beamSegments = Lists.newArrayList();
+
+    @Override
+    @Nonnull
+    public TileEntityType<?> getType() {
+        return AtumTileEntities.RADIANT_BEACON;
+    }
 
     @Override
     @Nonnull
@@ -31,10 +39,8 @@ public class RadiantBeaconTileEntity extends BeaconTileEntity { //TODO Test
     @Override
     public void tick() {
         World world = this.world;
-        if (world != null && world.getGameTime() % 80L == 0L) {
-            if (!this.beamSegments.isEmpty()) {
-                this.updateSegmentColors(world);
-            }
+        if (world != null) {
+            this.updateSegmentColors(world);
         }
     }
 

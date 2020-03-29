@@ -80,7 +80,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
+    public boolean canInsertItem(int index, @Nonnull ItemStack stack, Direction facing) {
         int spool = world.getBlockState(pos).get(SpinningWheelBlock.SPOOL);
         if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
                 && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(ItemStack.read(this.input), stack))) {

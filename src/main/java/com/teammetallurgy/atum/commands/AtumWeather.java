@@ -7,9 +7,9 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class AtumWeather { //TODO
 
-	public static void register (CommandDispatcher<CommandSource> dispatcher) {
+	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		dispatcher.register(Commands.literal("atumweather").requires((p) -> p.hasPermissionLevel(2))
-				.executes((c) ->  sendUsage(c.getSource()))
+						.executes((c) -> sendUsage(c.getSource()))
 				/*.then(Commands.argument())*/);
 
 	}

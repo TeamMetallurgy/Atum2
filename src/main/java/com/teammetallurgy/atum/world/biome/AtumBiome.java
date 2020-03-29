@@ -129,7 +129,6 @@ public class AtumBiome extends Biome {
     }
 
     public static class Builder extends Biome.Builder {
-        private String biomeName;
         private int defaultWeight;
 
         public Builder(String biomeName, int weight) {
@@ -143,7 +142,6 @@ public class AtumBiome extends Biome {
             this.parent(null);
             this.category(Category.DESERT);
             this.surfaceBuilder(SurfaceBuilder.DEFAULT, AtumSurfaceBuilders.SANDY);
-            this.biomeName = biomeName;
             this.defaultWeight = weight;
             if (weight > 0) {
                 new AtumConfig.Biome(AtumConfig.BUILDER, biomeName, weight); //Write config

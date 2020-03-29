@@ -21,7 +21,7 @@ public class DesertWolfCollarLayer extends LayerRenderer<DesertWolfEntity, Deser
     }
 
     @Override
-    public void render(@Nonnull MatrixStack matrixStack, IRenderTypeBuffer buffer, int p_225628_3_, DesertWolfEntity desertWolf, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
+    public void render(@Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int p_225628_3_, DesertWolfEntity desertWolf, float p_225628_5_, float p_225628_6_, float p_225628_7_, float p_225628_8_, float p_225628_9_, float p_225628_10_) {
         if (desertWolf.isTamed() && !desertWolf.isInvisible()) {
             float[] color = desertWolf.getCollarColor().getColorComponentValues();
             renderCutoutModel(this.getEntityModel(), COLLAR_TEXTURE, matrixStack, buffer, p_225628_3_, desertWolf, color[0], color[1], color[2]);

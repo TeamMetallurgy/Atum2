@@ -2,22 +2,34 @@ package com.teammetallurgy.atum.utils.event;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.world.dimension.AtumDimension;
+import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -27,71 +39,74 @@ public class ClientEvents {
     private static final ResourceLocation SAND_BLUR_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
     private static float intensity = 1;
 
-    /*@SubscribeEvent
-    public static void renderlast(RenderWorldLastEvent event) { //TODO
-        if (Minecraft.getInstance().player.dimension == AtumDimensionRegistration.ATUM) {
+    @SubscribeEvent
+    public static void renderlast(RenderWorldLastEvent event) {
+        ClientPlayerEntity player = Minecraft.getInstance().player;
+        if (player != null && player.dimension == AtumDimensionType.ATUM) {
             if (Minecraft.getInstance().gameSettings.hideGUI) {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             } else {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             }
         }
-    }*/
+    }
 
     /*@SubscribeEvent
     public static void renderSand(RenderGameOverlayEvent.Pre event) {
-        if (event.getType() != ElementType.ALL) return;
+        ClientPlayerEntity player = Minecraft.getInstance().player;
+        if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || player == null) return;
 
-        if (Minecraft.getInstance().player.dimension == AtumDimensionRegistration.ATUM) {
+        if (player.dimension == AtumDimensionType.ATUM) {
             //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
         }
     }*/
 
-    /*private static void renderSand(float partialTicks, int... layers) { //TODO
+    private static void renderSand(float partialTicks, int... layers) { //TODO
         float baseDarkness = AtumConfig.SANDSTORM.sandDarkness.get() / 100.0F;
         float baseAlpha = AtumConfig.SANDSTORM.sandAlpha.get() / 100.0F;
         float eyesOfAtumAlpha = AtumConfig.SANDSTORM.sandEyesAlpha.get() / 100.0F;
         Minecraft mc = Minecraft.getInstance();
-        Dimension dimension = mc.player.world.getDimension();
+        ClientPlayerEntity player = mc.player;
+        if (player == null) return;
+        Dimension dimension = player.world.getDimension();
 
-        if (dimension instanceof WorldProviderAtum && mc.player.dimension == AtumDimensionRegistration.ATUM) {
-            WorldProviderAtum atum = (WorldProviderAtum) dimension;
+        if (dimension instanceof AtumDimension && player.dimension == AtumDimensionType.ATUM) {
+            AtumDimension atum = (AtumDimension) dimension;
             float stormStrength = atum.stormStrength;
 
             if (stormStrength < 0.0001F) {
                 return;
             }
 
-            float light = mc.player.world.getSunBrightness(partialTicks);
+            float light = getSunBrightness(dimension, mc.world, partialTicks);
 
-            GlStateManager.pushMatrix();
-            GlStateManager.pushTextureAttributes();
+            RenderSystem.pushMatrix();
+            RenderSystem.pushTextureAttributes();
 
             //mc.entityRenderer.setupOverlayRendering();
 
-            //GlStateManager.clear(256);
-            GlStateManager.matrixMode(5889);
-            GlStateManager.pushMatrix();
-            GlStateManager.loadIdentity();
-            GlStateManager.ortho(0.0D, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
-            GlStateManager.matrixMode(5888);
-            GlStateManager.pushMatrix();
-            GlStateManager.loadIdentity();
-            GlStateManager.translatef(0.0F, 0.0F, -2000.0F);
+            //RenderSystem.clear(256);
+            RenderSystem.matrixMode(5889);
+            RenderSystem.pushMatrix();
+            RenderSystem.loadIdentity();
+            RenderSystem.ortho(0.0D, mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 0.0D, 1000.0D, 3000.0D);
+            RenderSystem.matrixMode(5888);
+            RenderSystem.pushMatrix();
+            RenderSystem.loadIdentity();
+            RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
 
-            GlStateManager.enableBlend();
-            GlStateManager.disableDepthTest();
-            GlStateManager.depthMask(false);
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            GlStateManager.disableAlphaTest();
+            RenderSystem.enableBlend();
+            RenderSystem.disableDepthTest();
+            RenderSystem.depthMask(false);
+            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            RenderSystem.disableAlphaTest();
             mc.getTextureManager().bindTexture(SAND_BLUR_TEXTURE);
 
-            ClientPlayerEntity player = mc.player;
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuffer();
             bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
 
-            BlockPos playerPos = new BlockPos(player.posX, player.posY, player.posZ);
+            BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
             boolean sky = player.world.canBlockSeeSky(playerPos);
             if (!sky || player.world.getBiome(playerPos) == AtumBiomes.OASIS) {
                 intensity -= 0.001f * partialTicks;
@@ -111,45 +126,58 @@ public class ClientEvents {
                     alpha *= eyesOfAtumAlpha;
                 }
 
-                GlStateManager.color4f(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
+                RenderSystem.color4f(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
                 double scaleX = 0.01f * mc.getMainWindow().getScaledHeight() * scale * mc.getMainWindow().getGuiScaleFactor();
                 double scaleY = 0.01f * mc.getMainWindow().getScaledWidth() * scale * mc.getMainWindow().getGuiScaleFactor();
                 float speed = 500f - i * 15;
                 float movement = -(System.currentTimeMillis() % (int) speed) / speed;
-                float yaw = 0.25f * (mc.player.rotationYaw % 360 / 360f) / scale;
-                float pitch = 0.5f * (mc.player.rotationPitch % 360 / 360f) / scale;
+                float yaw = 0.25f * (player.rotationYaw % 360 / 360f) / scale;
+                float pitch = 0.5f * (player.rotationPitch % 360 / 360f) / scale;
 
-                bufferbuilder.pos(0.0D, (double) mc.getMainWindow().getScaledHeight(), 90.0D).tex(movement + yaw, 1.0D / scaleY + pitch).endVertex();
-                bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 90.0D).tex(1.0D / scaleX + movement + yaw, 1.0D / scaleY + pitch).endVertex();
-                bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), 0.0D, 90.0D).tex(1.0D / scaleX + movement + yaw, 0.0D + pitch).endVertex();
-                bufferbuilder.pos(0.0D, 0.0D, 90.0D).tex(movement + yaw, 0.0D + pitch).endVertex();
+                bufferbuilder.pos(0.0D, mc.getMainWindow().getScaledHeight(), 90.0D).tex(movement + yaw, (float) (1.0D / scaleY + pitch)).endVertex();
+                bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 90.0D).tex((float) (1.0D / scaleX + movement + yaw), (float) (1.0D / scaleY + pitch)).endVertex();
+                bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), 0.0D, 90.0D).tex((float) (1.0D / scaleX + movement + yaw), 0.0F + pitch).endVertex();
+                bufferbuilder.pos(0.0D, 0.0D, 90.0D).tex(movement + yaw, 0.0F + pitch).endVertex();
             }
             tessellator.draw();
 
-            GlStateManager.disableBlend();
-            GlStateManager.depthMask(true);
-            GlStateManager.enableDepthTest();
-            GlStateManager.enableAlphaTest();
-            GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.disableBlend();
+            RenderSystem.depthMask(true);
+            RenderSystem.enableDepthTest();
+            RenderSystem.enableAlphaTest();
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
-            GlStateManager.matrixMode(5889);
-            GlStateManager.popMatrix();
-            GlStateManager.matrixMode(5888);
-            GlStateManager.popMatrix();
+            RenderSystem.matrixMode(5889);
+            RenderSystem.popMatrix();
+            RenderSystem.matrixMode(5888);
+            RenderSystem.popMatrix();
 
-            GlStateManager.popAttributes();
-            GlStateManager.popMatrix();
+            RenderSystem.popAttributes();
+            RenderSystem.popMatrix();
         }
-    }*/
+    }
 
-    /*@SubscribeEvent
-    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) { //TODO
+    public static float getSunBrightness(Dimension dimension, World world, float partialTicks) {
+        float f = dimension.calculateCelestialAngle(world.getDayTime(), partialTicks);
+        float f1 = 1.0F - (MathHelper.cos(f * ((float) Math.PI * 2F)) * 2.0F + 0.2F);
+        f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
+        f1 = 1.0F - f1;
+        f1 = (float) ((double) f1 * (1.0D - (double) (world.getRainStrength(partialTicks) * 5.0F) / 16.0D));
+        f1 = (float) ((double) f1 * (1.0D - (double) (world.getThunderStrength(partialTicks) * 5.0F) / 16.0D));
+        return f1 * 0.8F + 0.2F;
+    }
+
+    @SubscribeEvent
+    public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
-        Dimension dimension = Minecraft.getInstance().player.world.dimension;
+        ClientPlayerEntity clientPlayer = Minecraft.getInstance().player;
+        if (clientPlayer == null) return;
+        ;
+        Dimension dimension = clientPlayer.world.dimension;
         Entity entity = event.getInfo().getRenderViewEntity();
 
-        if (dimension instanceof WorldProviderAtum && entity.dimension == AtumDimensionRegistration.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
-            GlStateManager.fogMode(GlStateManager.FogMode.EXP);
+        if (dimension instanceof AtumDimension && entity.dimension == AtumDimensionType.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
+            RenderSystem.fogMode(GlStateManager.FogMode.EXP.param);
             float fogDensity = 0.08F;
 
             if (entity instanceof PlayerEntity) {
@@ -164,14 +192,14 @@ public class ClientEvents {
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_GOLD || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
-                if (player.posY >= player.world.getSeaLevel() - 8) {
-                    WorldProviderAtum providerAtum = (WorldProviderAtum) dimension;
+                if (player.getPosY() >= player.world.getSeaLevel() - 8) {
+                    AtumDimension providerAtum = (AtumDimension) dimension;
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * providerAtum.stormStrength);
                 }
-                GlStateManager.fogDensity(fogDensity);
+                RenderSystem.fogDensity(fogDensity);
             }
         }
-    }*/
+    }
 
     @SubscribeEvent
     public static void onRender(RenderPlayerEvent.Pre event) {

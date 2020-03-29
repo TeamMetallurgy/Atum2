@@ -63,7 +63,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.hasSpawned = compound.getBoolean("spawned");
         this.isOpenable = compound.getBoolean("openable");

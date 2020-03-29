@@ -42,7 +42,6 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
                     texturePath[0] = GIRAFI.toString();
                 }
             }
-
             ItemStack armor = camel.getArmor();
             if (!armor.isEmpty()) {
                 CamelEntity.ArmorType armorType = CamelEntity.ArmorType.getByItemStack(armor);
@@ -56,7 +55,6 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
             Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
             CACHE.put(textureName, location);
         }
-
         return location;
     }
 }

@@ -38,34 +38,34 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
         int x = this.pos.getX();
         int y = this.pos.getY();
         int z = this.pos.getZ();
-            ++this.ticksSinceSync;
-            this.numPlayersUsing = calculatePlayersUsingSync(this.world, this, this.ticksSinceSync, x, y, z, this.numPlayersUsing);
-            this.prevLidAngle = this.lidAngle;
+        ++this.ticksSinceSync;
+        this.numPlayersUsing = calculatePlayersUsingSync(this.world, this, this.ticksSinceSync, x, y, z, this.numPlayersUsing);
+        this.prevLidAngle = this.lidAngle;
 
-            if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
-                this.world.playSound(null, (double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        if (this.numPlayersUsing > 0 && this.lidAngle == 0.0F) {
+            this.world.playSound(null, (double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D, SoundEvents.BLOCK_WOODEN_TRAPDOOR_OPEN, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
+        }
+
+        if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
+            float lidAngleCached = this.lidAngle;
+
+            if (this.numPlayersUsing > 0) {
+                this.lidAngle += 0.1F;
+            } else {
+                this.lidAngle -= 0.1F;
+            }
+            if (this.lidAngle > 1.0F) {
+                this.lidAngle = 1.0F;
             }
 
-            if (this.numPlayersUsing == 0 && this.lidAngle > 0.0F || this.numPlayersUsing > 0 && this.lidAngle < 1.0F) {
-                float lidAngleCached = this.lidAngle;
-
-                if (this.numPlayersUsing > 0) {
-                    this.lidAngle += 0.1F;
-                } else {
-                    this.lidAngle -= 0.1F;
-                }
-                if (this.lidAngle > 1.0F) {
-                    this.lidAngle = 1.0F;
-                }
-
-                if (this.lidAngle < 0.5F && lidAngleCached >= 0.5F) {
-                    this.world.playSound(null, (double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
-                }
-
-                if (this.lidAngle < 0.0F) {
-                    this.lidAngle = 0.0F;
-                }
+            if (this.lidAngle < 0.5F && lidAngleCached >= 0.5F) {
+                this.world.playSound(null, (double) x + 0.5D, (double) y + 0.5D, (double) z + 0.5D, SoundEvents.BLOCK_WOODEN_TRAPDOOR_CLOSE, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.1F + 0.9F);
             }
+
+            if (this.lidAngle < 0.0F) {
+                this.lidAngle = 0.0F;
+            }
+        }
     }
 
     public static int calculatePlayersUsingSync(World world, LockableTileEntity te, int ticksSinceSync, int x, int y, int z, int numPlayersUsing) {

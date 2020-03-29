@@ -62,9 +62,4 @@ public class LimestoneBrickBlock extends Block {
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(UNBREAKABLE);
     }
-
-    /*@Override
-    public Property[] getNonRenderingProperties() { //TODO
-        return new Property[]{UNBREAKABLE};
-    }*/
 }

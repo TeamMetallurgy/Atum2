@@ -198,7 +198,7 @@ public class StoneBaseEntity extends MonsterEntity {
         this.playSound(SoundEvents.BLOCK_STONE_STEP, 0.15F, 1.0F);
     }
 
-    public static boolean isValidLightLevel(IWorld world, BlockPos pos, Random random) {
+    public static boolean isValidLightLevel(IWorld world, @Nonnull BlockPos pos, Random random) {
         return world.getLightFor(LightType.SKY, pos) == 0 && world.getLight(pos) <= random.nextInt(10);
     }
 

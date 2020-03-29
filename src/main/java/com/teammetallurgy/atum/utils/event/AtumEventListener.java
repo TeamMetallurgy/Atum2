@@ -230,7 +230,6 @@ public class AtumEventListener {
 
         if (result) {
             event.setResult(Event.Result.ALLOW);
-
             world.playSound(null, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }

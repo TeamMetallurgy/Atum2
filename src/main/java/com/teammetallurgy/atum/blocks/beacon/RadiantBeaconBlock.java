@@ -31,7 +31,7 @@ public class RadiantBeaconBlock extends BeaconBlock {
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
     public RadiantBeaconBlock() {
-        super(Block.Properties.create(Material.GLASS));
+        super(Block.Properties.create(Material.GLASS).hardnessAndResistance(3.0F).lightValue(15).notSolid());
         this.setDefaultState(this.stateContainer.getBaseState().with(COLOR, DyeColor.WHITE));
     }
 
