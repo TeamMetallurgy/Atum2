@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.bandit.NomadEntity;
+import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.item.BowItem;
@@ -25,7 +26,8 @@ public class NomadModel<T extends NomadEntity> extends PlayerModel<T> {
     public void setLivingAnimations(T nomad, float limbSwing, float limbSwingAmount, float partialTickTime) {
         this.rightArmPose = BipedModel.ArmPose.EMPTY;
         this.leftArmPose = BipedModel.ArmPose.EMPTY;
-        ItemStack heldStack = nomad.getHeldItem(Hand.MAIN_HAND);
+        Hand hand = StackHelper.getUsedHand(nomad.getHeldItemMainhand(), BowItem.class);
+        ItemStack heldStack = nomad.getHeldItem(hand);
 
         if (heldStack.getItem() instanceof BowItem && nomad.isAggressive()) {
             if (nomad.getPrimaryHand() == HandSide.RIGHT) {

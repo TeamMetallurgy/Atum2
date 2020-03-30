@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.utils.Constants;
+import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -29,7 +29,7 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
         if ((double) stonewarden.limbSwingAmount >= 0.01D) {
             float swingValue = stonewarden.limbSwing - stonewarden.limbSwingAmount * (1.0F - partialTicks) + 6.0F;
             float swing = (Math.abs(swingValue % 13.0F - 6.5F) - 3.25F) / 3.25F;
-            GlStateManager.rotatef(6.5F * swing, 0.0F, 0.0F, 1.0F);
+            matrixStack.rotate(Vector3f.ZP.rotationDegrees(6.5F * swing));
         }
     }
 

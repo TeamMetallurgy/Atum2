@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.gui.block;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.inventory.container.block.TrapContainer;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -36,7 +36,7 @@ public class TrapScreen extends ContainerScreen<TrapContainer> {
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.getMinecraft().getTextureManager().bindTexture(TRAP_GUI);
         int width = (this.width - this.xSize) / 2;
         int height = (this.height - this.ySize) / 2;

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -28,7 +27,7 @@ public class TarantulaRender<T extends TarantulaEntity> extends MobRenderer<T, S
 
     @Override
     protected void preRenderCallback(T tarantula, MatrixStack matrixStack, float partialTickTime) {
-        GlStateManager.scalef(0.6F, 0.6F, 0.6F);
+        matrixStack.scale(0.6F, 0.6F, 0.6F);
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
@@ -79,7 +78,7 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     protected void preRenderCallback(DesertWolfEntity desertWolf, MatrixStack matrixStack, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
-            GlStateManager.scalef(scale, scale, scale);
+            matrixStack.scale(scale, scale, scale);
         }
     }
 }

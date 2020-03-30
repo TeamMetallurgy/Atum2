@@ -90,10 +90,6 @@ public class StoneBaseEntity extends MonsterEntity {
         return this.dataManager.get(VARIANT);
     }
 
-    protected int getVariantAmount() {
-        return 1;
-    }
-
     @Override
     public void tick() {
         super.tick();

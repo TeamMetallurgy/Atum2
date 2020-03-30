@@ -4,6 +4,7 @@ import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
@@ -96,5 +97,9 @@ public class StackHelper {
         } else {
             return (stackA.getTag() == null || stackA.getTag().equals(stackB.getTag())) && stackA.areCapsCompatible(stackB);
         }
+    }
+
+    public static Hand getUsedHand(@Nonnull ItemStack stackMainHand, Class<? extends Item> clazz) {
+        return clazz.isAssignableFrom(stackMainHand.getItem().getClass()) ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
 }

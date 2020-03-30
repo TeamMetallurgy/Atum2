@@ -28,7 +28,6 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class StoneguardEntity extends StoneBaseEntity implements ITexture {
-    private static final ResourceLocation STONEGUARD_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard.png");
     private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_derp.png");
     private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, AttributeModifier.Operation.ADDITION);
 
@@ -110,11 +109,13 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
+            System.out.println("Is Not play created");
             this.setEquipmentBasedOnDifficulty(difficulty);
 
             final int variant = MathHelper.nextInt(rand, 0, 7);
             this.setVariant(variant);
         } else {
+            System.out.println("Variant 8. Player created");
             this.setVariant(8);
         }
         return livingdata;
@@ -141,13 +142,12 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
 
     @Override
     public String getTexture() {
-        ResourceLocation location = STONEGUARD_TEXTURE;
         if (this.hasCustomName() && this.getCustomName() != null) {
             String customName = this.getCustomName().getFormattedText();
             if (customName.equalsIgnoreCase("iron") || customName.equalsIgnoreCase("nutz") || customName.equalsIgnoreCase("vequinox")) {
-                location = STONEGUARD_IRON_TEXTURE;
+                return STONEGUARD_IRON_TEXTURE.toString();
             }
         }
-        return location.toString();
+        return new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_" + this.getVariant() + ".png").toString();
     }
 }

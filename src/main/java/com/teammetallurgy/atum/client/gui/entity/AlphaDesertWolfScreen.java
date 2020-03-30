@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.inventory.container.entity.AlphaDesertWolfContainer;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -29,7 +29,7 @@ public class AlphaDesertWolfScreen extends ContainerScreen<AlphaDesertWolfContai
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.getMinecraft().getTextureManager().bindTexture(CAMEL_GUI_TEXTURE);
         int width = (this.width - this.xSize) / 2;
         int height = (this.height - this.ySize) / 2;

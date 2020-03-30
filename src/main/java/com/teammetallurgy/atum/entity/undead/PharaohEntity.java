@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.utils.Constants;
@@ -167,11 +166,6 @@ public class PharaohEntity extends UndeadBaseEntity {
 
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setEnchantmentBasedOnDifficulty(difficulty);
-    }
-
-    @Override
-    protected void dropInventory() {
-        super.dropInventory();
     }
 
     private BlockPos getSarcophagusPos() {
