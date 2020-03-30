@@ -60,7 +60,7 @@ public class KhnumiteFaceBlock extends HorizontalBlock implements IKhnumite {
             }
 
             BlockPos stonewardenPos = patternHelper.translateOffset(1, 2, 0).getPos();
-            StonewardenEntity stonewarden = AtumEntities.STONEWARDEN.create(world);
+            StonewardenEntity stonewarden = AtumEntities.STONEWARDEN_FRIENDLY.create(world);
             if (stonewarden != null) {
                 stonewarden.setPlayerCreated(true);
                 stonewarden.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.MOB_SUMMONED, null, null);
@@ -90,7 +90,7 @@ public class KhnumiteFaceBlock extends HorizontalBlock implements IKhnumite {
                         }
                     }
                 }
-                StoneguardEntity stoneguard = AtumEntities.STONEGUARD.create(world);
+                StoneguardEntity stoneguard = AtumEntities.STONEGUARD_FRIENDLY.create(world);
                 if (stoneguard != null) {
                     stoneguard.setPlayerCreated(true);
                     stoneguard.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.MOB_SUMMONED, null, null);

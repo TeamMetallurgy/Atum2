@@ -759,6 +759,8 @@
   "entity.atum.stoneguard": "Stoneguard",
   "entity.atum.stonewarden": "Stonewarden",
   "entity.atum.sunspeaker": "Sunspeaker",
+  "entity.atum.stoneguard_friendly": "Stoneguard",
+  "entity.atum.stonewarden_friendly": "Stonewarden",
   "entity.atum.tarantula": "Tarantula",
   "entity.atum.bandit_warlord": "Warlord",
   "entity.atum.wraith": "Wraith",

@@ -128,7 +128,6 @@ public class PharaohEntity extends UndeadBaseEntity {
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
         ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
-        System.out.println(scepter);
         if (scepter != null) {
             this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(scepter));
         }

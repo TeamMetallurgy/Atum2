@@ -31,7 +31,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_derp.png");
     private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, AttributeModifier.Operation.ADDITION);
 
-    public StoneguardEntity(EntityType<? extends StoneBaseEntity> entityType, World world) {
+    public StoneguardEntity(EntityType<? extends StoneguardEntity> entityType, World world) {
         super(entityType, world);
         this.experienceValue = 8;
         this.setCanPickUpLoot(true);
@@ -109,13 +109,10 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
-            System.out.println("Is Not play created");
             this.setEquipmentBasedOnDifficulty(difficulty);
-
             final int variant = MathHelper.nextInt(rand, 0, 7);
             this.setVariant(variant);
         } else {
-            System.out.println("Variant 8. Player created");
             this.setVariant(8);
         }
         return livingdata;

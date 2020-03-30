@@ -48,6 +48,8 @@ public class AtumEntities {
     public static final EntityType<ScarabEntity> SCARAB = registerMob("scarab", 0x61412C, 0x2F1D10, Builder.create(ScarabEntity::new, EntityClassification.MONSTER).size(0.4F, 0.3F));
     public static final EntityType<StoneguardEntity> STONEGUARD = registerMob("stoneguard", 0x918354, 0x695D37, Builder.create(StoneguardEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire());
     public static final EntityType<StonewardenEntity> STONEWARDEN = registerMob("stonewarden", 0x918354, 0x695D37, Builder.create(StonewardenEntity::new, EntityClassification.MONSTER).size(1.4F, 2.7F).immuneToFire());
+    public static final EntityType<StoneguardEntity> STONEGUARD_FRIENDLY = registerEntity("stoneguard_friendly", Builder.create(StoneguardEntity::new, EntityClassification.MISC).size(0.6F, 1.8F).immuneToFire());
+    public static final EntityType<StonewardenEntity> STONEWARDEN_FRIENDLY = registerEntity("stonewarden_friendly", Builder.create(StonewardenEntity::new, EntityClassification.MISC).size(1.4F, 2.7F).immuneToFire());
     public static final EntityType<SunspeakerEntity> SUNSPEAKER = registerMob("sunspeaker", 0x464646, 0xCC5654, Builder.create(SunspeakerEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire());
     public static final EntityType<TarantulaEntity> TARANTULA = registerMob("tarantula", 0x745c47, 0xd2b193, Builder.create(TarantulaEntity::new, EntityClassification.MONSTER).size(0.85F, 0.55F));
     public static final EntityType<WraithEntity> WRAITH = registerMob("wraith", 0x544d34, 0x3e3927, Builder.create(WraithEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));

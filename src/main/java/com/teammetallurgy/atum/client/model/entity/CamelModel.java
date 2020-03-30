@@ -146,7 +146,7 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> { //TODO F
         this.legBackLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
         this.legFrontRight.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 3.1415927F) * 1.4F * limbSwingAmount;
         this.legFrontLeft.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
-        
+
         boolean isChild = camel.isChild();
         boolean isSaddled = !isChild && camel.isHorseSaddled();
         this.saddle1.showModel = isSaddled;

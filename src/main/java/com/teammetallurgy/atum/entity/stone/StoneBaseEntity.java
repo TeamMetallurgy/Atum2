@@ -31,7 +31,7 @@ public class StoneBaseEntity extends MonsterEntity {
     private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(StoneBaseEntity.class, DataSerializers.BYTE);
     private int homeCheckTimer;
 
-    StoneBaseEntity(EntityType<? extends StoneBaseEntity> entityType, World world) {
+    public StoneBaseEntity(EntityType<? extends StoneBaseEntity> entityType, World world) {
         super(entityType, world);
     }
 
