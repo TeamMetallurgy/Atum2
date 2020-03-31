@@ -10,6 +10,7 @@ import net.minecraft.item.ItemTier;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -50,10 +51,11 @@ public class HorusAscensionItem extends GauntletItem {
                     target.setMotion(motion.x, 0.9D, motion.z);
                 }
             }
-            double x = MathHelper.nextDouble(random, 0.0001D, 0.04D);
-            double z = MathHelper.nextDouble(random, 0.0001D, 0.04D);
-            for (int amount = 0; amount < 50; ++amount) {
-                target.world.addParticle(AtumParticles.HORUS, target.getPosX(), target.getPosY() + 0.3D, target.getPosZ(), x, 0.01D + random.nextDouble() * 0.4D, -z);
+            if (target.world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) target.world;
+                double x = MathHelper.nextDouble(random, 0.0001D, 0.04D);
+                double z = MathHelper.nextDouble(random, 0.0001D, 0.04D);
+                serverWorld.spawnParticle(AtumParticles.HORUS, target.getPosX(), target.getPosY() + 0.9D, target.getPosZ(), 65, x, 0.9D, -z, 0.005D);
             }
         }
     }

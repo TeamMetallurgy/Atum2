@@ -20,7 +20,7 @@ import javax.annotation.Nonnull;
 public class BodyOfRaItem extends TexturedArmorItem {
 
     public BodyOfRaItem() {
-        super(ArmorMaterial.DIAMOND, "ra_armor_1", EquipmentSlotType.CHEST, new Item.Properties().rarity(Rarity.RARE));
+        super(ArmorMaterial.DIAMOND, "ra_armor", EquipmentSlotType.CHEST, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -48,10 +49,11 @@ public class IsisHealingItem extends AmuletItem {
 
     private void doEffect(World world, PlayerEntity player, @Nonnull ItemStack stack, Hand hand) {
         if (player.getHealth() < player.getMaxHealth() && duration == 0) {
-            double x = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
-            double z = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
-            for (int l = 0; l < 24; ++l) {
-                player.world.addParticle(AtumParticles.ISIS, player.getPosX() + (world.rand.nextDouble() - 0.25D) * (double) player.getWidth(), player.getPosY() + world.rand.nextDouble() * (double) player.getHeight(), player.getPosZ() + (world.rand.nextDouble() - 0.25D) * (double) player.getWidth(), x, 0.0D, -z);
+            if (world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                double x = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
+                double z = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
+                serverWorld.spawnParticle(AtumParticles.ISIS, player.getPosX(), player.getPosY() + 1.2D, player.getPosZ(), 24, x, 0.0D, -z, 0.02D);
             }
             if (!world.isRemote) {
                 player.heal(1.0F);

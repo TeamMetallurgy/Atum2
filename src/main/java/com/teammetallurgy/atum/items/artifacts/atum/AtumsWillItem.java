@@ -11,6 +11,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -59,8 +60,9 @@ public class AtumsWillItem extends SwordItem {
             if (cooldown.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 event.setAmount(event.getAmount() * 2);
-                for (int l = 0; l < 16; ++l) {
-                    target.world.addParticle(AtumParticles.LIGHT_SPARKLE, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + random.nextDouble() * (double) target.getHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
+                if (target.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) target.world;
+                    serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + (target.getHeight() / 2), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
                 }
             }
             cooldown.removeFloat(trueSource);

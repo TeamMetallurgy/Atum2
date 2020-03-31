@@ -7,6 +7,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ArrowRainEntity extends CustomArrow {
     private float velocity;
@@ -30,7 +31,10 @@ public class ArrowRainEntity extends CustomArrow {
     @Override
     public void tick() {
         if (world.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
-            world.addParticle(AtumParticles.TEFNUT_DROP, getPosX(), getPosY() - 0.05D, getPosZ(), 0.0D, 0.0D, 0.0D);
+            if (world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                serverWorld.spawnParticle(AtumParticles.TEFNUT_DROP, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            }
         }
         if (velocity == 1.0F && this.getShooter() instanceof LivingEntity) {
             if (this.ticksInAir == 12) {

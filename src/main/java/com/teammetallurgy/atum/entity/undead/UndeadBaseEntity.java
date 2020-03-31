@@ -142,10 +142,10 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
 
     @Override
     public void livingTick() {
-        super.livingTick();
-        if (this.world.isDaytime() && this.world.canBlockSeeSky(this.getPosition()) && !this.world.isRemote && !this.isImmuneToFire() && this.shouldBurnInDay()) {
+        if (this.isAlive() && this.shouldBurnInDay() && this.isInDaylight()) {
             this.setFire(8);
         }
+        super.livingTick();
     }
 
     @Override

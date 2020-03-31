@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.ActiveRenderInfo;
 import net.minecraft.particles.BasicParticleType;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -108,7 +109,8 @@ public class SwirlParticle extends SpriteTexturedParticle {
         @Override
         public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-            particle.scale = 0.8F;
+            particle.scale = MathHelper.nextFloat(world.rand, 0.05F, 0.18F);
+            particle.canCollide = true;
             return particle;
         }
     }
@@ -152,7 +154,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         @Override
         public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-            particle.scale = 0.6F;
+            particle.scale = MathHelper.nextFloat(world.rand, 0.05F, 0.15F);
             return particle;
         }
     }

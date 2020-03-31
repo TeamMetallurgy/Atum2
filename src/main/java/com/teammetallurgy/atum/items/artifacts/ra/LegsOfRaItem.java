@@ -14,6 +14,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.TickEvent;
@@ -28,7 +29,7 @@ public class LegsOfRaItem extends TexturedArmorItem {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2140f663-2112-497b-a5d7-36c40abb7a76"), "Legs of Ra speed boost", 0.02D, AttributeModifier.Operation.ADDITION);
 
     public LegsOfRaItem() {
-        super(ArmorMaterial.DIAMOND, "ra_armor_2", EquipmentSlotType.LEGS, new Item.Properties().rarity(Rarity.RARE));
+        super(ArmorMaterial.DIAMOND, "ra_armor", EquipmentSlotType.LEGS, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -44,7 +45,10 @@ public class LegsOfRaItem extends TexturedArmorItem {
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_RA) {
             if (player.isSprinting()) {
-                player.world.addParticle(AtumParticles.RA_FIRE, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 0.15D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
+                if (player.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) player.world;
+                    serverWorld.spawnParticle(AtumParticles.RA_FIRE, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 0.15D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+                }
                 if (!attribute.hasModifier(SPEED_BOOST)) {
                     attribute.applyModifier(SPEED_BOOST);
                 } else {

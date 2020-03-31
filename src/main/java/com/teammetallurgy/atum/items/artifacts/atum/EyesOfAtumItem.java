@@ -26,7 +26,7 @@ public class EyesOfAtumItem extends TexturedArmorItem {
     private static EffectInstance savedNightVision;
 
     public EyesOfAtumItem() {
-        super(ArmorMaterial.DIAMOND, "atum_armor_1", EquipmentSlotType.HEAD, new Item.Properties().rarity(Rarity.RARE));
+        super(ArmorMaterial.DIAMOND, "atum_armor", EquipmentSlotType.HEAD, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

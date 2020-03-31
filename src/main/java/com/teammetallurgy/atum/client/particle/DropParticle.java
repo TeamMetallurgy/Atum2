@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.particles.BasicParticleType;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,7 +73,7 @@ public class DropParticle extends SpriteTexturedParticle {
         @Override
         public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
-            particle.particleScale = 1.1F;
+            particle.particleScale = 0.05F;
             particle.dropGravity = 8.0F;
             particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;
@@ -90,7 +91,7 @@ public class DropParticle extends SpriteTexturedParticle {
         @Override
         public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
-            particle.particleScale = 0.5F;
+            particle.particleScale = 0.05F;
             particle.dropGravity = 8.0F;
             particle.setMaxAge((int) (64.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;
@@ -108,7 +109,7 @@ public class DropParticle extends SpriteTexturedParticle {
         @Override
         public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
-            particle.particleScale = 1.6F;
+            particle.particleScale = 0.15F;
             particle.dropGravity = 4.0F;
             particle.setMaxAge((int) (16.0D / (Math.random() * 0.8D + 0.2D)));
             return particle;

@@ -18,6 +18,7 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -69,11 +70,12 @@ public class MontusStrikeItem extends BattleAxeItem {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 12.0D) {
                         entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), MathHelper.sin(player.rotationYaw * 0.017453292F), -MathHelper.cos(player.rotationYaw * 0.017453292F));
                         entity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage);
-                        for (int amount = 0; amount < 20; amount++) {
+                        if (entity.world instanceof ServerWorld) {
+                            ServerWorld serverWorld = (ServerWorld) entity.world;
                             double d0 = -MathHelper.sin(player.rotationYaw * 0.017453292F);
                             double d1 = MathHelper.cos(player.rotationYaw * 0.017453292F);
-                            target.world.addParticle(AtumParticles.MONTU, target.getPosX() + d0, target.getPosY() + 1.1D, target.getPosZ() + d1, 0.0D, 0.0D, 0.0D);
-                            entity.world.addParticle(AtumParticles.MONTU, entity.getPosX() + d0, entity.getPosY() + 1.1D, entity.getPosZ() + d1, 0.0D, 0.0D, 0.0D);
+                            serverWorld.spawnParticle(AtumParticles.MONTU, target.getPosX() + d0, target.getPosY() + 1.1D, target.getPosZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
+                            serverWorld.spawnParticle(AtumParticles.MONTU, entity.getPosX() + d0, entity.getPosY() + 1.1D, entity.getPosZ() + d1, 20, 0.0D, 0.0D, 0.0D, 0.0D);
                         }
                         world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
                     }

@@ -4,17 +4,15 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.DyeableArmorItem;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nonnull;
 
-public class TexturedArmorItem extends DyeableArmorItem {
+public class TexturedArmorItem extends ArmorItem {
     private final String armorPieceName;
-    private boolean isDyeable;
     private int damageModifier;
 
     public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot) {
@@ -24,11 +22,6 @@ public class TexturedArmorItem extends DyeableArmorItem {
     public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot, Item.Properties properties) {
         super(material, slot, properties.group(Atum.GROUP));
         this.armorPieceName = name;
-    }
-
-    public TexturedArmorItem setDyeable() {
-        this.isDyeable = true;
-        return this;
     }
 
     public TexturedArmorItem setDamageModifier(int percentage) {
@@ -43,39 +36,6 @@ public class TexturedArmorItem extends DyeableArmorItem {
 
     @Override
     public String getArmorTexture(@Nonnull ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-        String armorModel = Constants.MOD_ID + ":" + "textures/armor/";
-        return type == null ? armorModel + armorPieceName + ".png" : armorModel + armorPieceName + "_overlay" + ".png";
-    }
-
-    public boolean isDyeable() {
-        return this.isDyeable;
-    }
-
-    @Override
-    public boolean hasColor(@Nonnull ItemStack stack) {
-        return this.isDyeable() && super.hasColor(stack);
-    }
-
-    @Override
-    public int getColor(@Nonnull ItemStack stack) {
-        if (this.isDyeable()) {
-            CompoundNBT tag = stack.getChildTag("display");
-            return tag != null && tag.contains("color", 99) ? tag.getInt("color") : -1;
-        }
-        return -1;
-    }
-
-    @Override
-    public void removeColor(@Nonnull ItemStack stack) {
-        if (this.isDyeable()) {
-            super.removeColor(stack);
-        }
-    }
-
-    @Override
-    public void setColor(@Nonnull ItemStack stack, int color) {
-        if (this.isDyeable()) {
-            super.setColor(stack, color);
-        }
+        return String.format("%s:textures/models/armor/%s_%d%s.png", Constants.MOD_ID, armorPieceName, (slot == EquipmentSlotType.LEGS ? 2 : 1), type == null ? "" : "_overlay");
     }
 }

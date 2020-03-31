@@ -53,16 +53,16 @@ public class HammerItem extends SwordItem {
 
     @SubscribeEvent
     public void livingTick(LivingEvent.LivingUpdateEvent event) {
-        if (stun.isEmpty() || !stun.containsKey(event.getEntityLiving())) return;
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) event.getEntityLiving().getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        LivingEntity entity = event.getEntityLiving();
+        if (stun.isEmpty()) return;
+        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
         if (attribute.hasModifier(STUN)) {
-            LivingEntity entity = event.getEntityLiving();
             int stunTime = stun.getInt(entity);
             if (stunTime <= 1) {
-                stun.removeInt(entity);
                 attribute.removeModifier(STUN);
+                stun.remove(entity, stunTime);
             } else {
-                stun.put(entity, stunTime - 1);
+                stun.replace(entity, stunTime - 1);
             }
         }
     }

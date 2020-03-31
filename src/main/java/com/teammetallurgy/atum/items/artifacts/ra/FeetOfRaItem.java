@@ -30,7 +30,7 @@ public class FeetOfRaItem extends TexturedArmorItem {
     private BlockPos prevBlockpos;
 
     public FeetOfRaItem() {
-        super(ArmorMaterial.DIAMOND, "ra_armor_1", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
+        super(ArmorMaterial.DIAMOND, "ra_armor", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

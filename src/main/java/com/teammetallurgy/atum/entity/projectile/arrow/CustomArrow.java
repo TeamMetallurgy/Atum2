@@ -31,6 +31,6 @@ public class CustomArrow extends ArrowEntity {
     }
 
     public ResourceLocation getTexture() {
-        return new ResourceLocation("minecraft", "arrow");
+        return new ResourceLocation("arrow");
     }
 }

@@ -69,12 +69,10 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
         if (state.get(BLESSED) && !world.getBlockState(pos.up()).isNormalCube(world, pos.up())) {
             if (rand.nextDouble() <= 0.15D) {
-                for (int amount = 0; amount < 3; ++amount) {
-                    double d0 = rand.nextGaussian() * 0.01D;
-                    double d1 = rand.nextGaussian() * 0.005D;
-                    double d2 = rand.nextGaussian() * 0.01D;
-                    world.addParticle(AtumParticles.TEFNUT, (float) pos.getX() + rand.nextFloat(), (double) pos.getY() + 1.05D, (float) pos.getZ() + rand.nextFloat(), d0, d1, d2);
-                }
+                double d0 = rand.nextGaussian() * 0.01D;
+                double d1 = rand.nextGaussian() * 0.005D;
+                double d2 = rand.nextGaussian() * 0.01D;
+                world.addParticle(AtumParticles.TEFNUT, (float) pos.getX() + rand.nextFloat(), (double) pos.getY() + 1.05D, (float) pos.getZ() + rand.nextFloat(), d0, d1, d2);
             }
         }
     }

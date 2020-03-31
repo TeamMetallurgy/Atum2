@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
@@ -55,10 +56,11 @@ public class ShusExileItem extends BattleAxeItem {
             if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && cooldown.getFloat(attacker) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 event.setStrength(event.getStrength() * 3F);
-                double x = MathHelper.nextDouble(random, 0.0001D, 0.02D);
-                double z = MathHelper.nextDouble(random, 0.0001D, 0.02D);
-                for (int l = 0; l < 12; ++l) {
-                    target.world.addParticle(AtumParticles.SHU, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + target.getEyeHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), x, 0.04D, -z);
+                if (target.world instanceof ServerWorld) {
+                    double x = MathHelper.nextDouble(random, 0.001D, 0.02D);
+                    double z = MathHelper.nextDouble(random, 0.001D, 0.02D);
+                    ServerWorld serverWorld = (ServerWorld) target.world;
+                    serverWorld.spawnParticle(AtumParticles.SHU, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + target.getEyeHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }
             cooldown.removeFloat(attacker);

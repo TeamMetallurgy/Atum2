@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 public class FeetOfAtumItem extends TexturedArmorItem {
 
     public FeetOfAtumItem() {
-        super(ArmorMaterial.DIAMOND, "atum_armor_1", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
+        super(ArmorMaterial.DIAMOND, "atum_armor", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

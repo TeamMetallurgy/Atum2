@@ -6,6 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ArrowDoubleShotBlackEntity extends CustomArrow {
 
@@ -22,8 +23,9 @@ public class ArrowDoubleShotBlackEntity extends CustomArrow {
         super.tick();
 
         if (this.getIsCritical()) {
-            for (int l = 0; l < 8; ++l) {
-                world.addParticle(AtumParticles.NUIT_BLACK, this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
+            if (world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                serverWorld.spawnParticle(AtumParticles.NUIT_BLACK, this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

@@ -32,9 +32,9 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class TrapTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity {
-    int burnTime;
-    int currentItemBurnTime;
-    boolean isDisabled = false;
+    protected int burnTime;
+    protected int currentItemBurnTime;
+    protected boolean isDisabled = false;
     public boolean isInsidePyramid = true;
     public final IIntArray trapData = new IIntArray() {
         @Override

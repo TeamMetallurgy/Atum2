@@ -33,6 +33,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -109,9 +110,10 @@ public class AnubisWrathItem extends SwordItem {
             if (cooldown.getFloat(trueSource) == 1.0F) {
                 event.setAmount(event.getAmount() * 2);
                 LivingEntity entity = event.getEntityLiving();
-                double y = MathHelper.nextDouble(random, 0.02D, 0.13D);
-                for (int l = 0; l < 5; ++l) {
-                    entity.world.addParticle(AtumParticles.ANUBIS, entity.getPosX() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, y, 0.0D);
+                double y = MathHelper.nextDouble(random, 0.02D, 0.1D);
+                if (entity.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) entity.world;
+                    serverWorld.spawnParticle(AtumParticles.ANUBIS, entity.getPosX() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 5, 0.0D, y, 0.0D, 0.04D);
                 }
             }
             cooldown.removeFloat(trueSource);

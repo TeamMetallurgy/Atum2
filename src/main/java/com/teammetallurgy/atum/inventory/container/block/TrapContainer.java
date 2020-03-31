@@ -2,23 +2,27 @@ package com.teammetallurgy.atum.inventory.container.block;
 
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import com.teammetallurgy.atum.init.AtumGuis;
+import com.teammetallurgy.atum.inventory.container.slot.FuelSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.AbstractFurnaceContainer;
-import net.minecraft.inventory.container.FurnaceFuelSlot;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.util.IIntArray;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class TrapContainer extends AbstractFurnaceContainer {
+public class TrapContainer extends Container {
     private final TrapTileEntity trapInventory;
+    private final IIntArray trapData;
 
     public TrapContainer(int windowID, PlayerInventory playerInventory, TrapTileEntity trapInventory) {
-        super(AtumGuis.TRAP, IRecipeType.SMELTING, windowID, playerInventory, trapInventory, trapInventory.trapData);
+        super(AtumGuis.TRAP, windowID);
         this.trapInventory = trapInventory;
-        this.addSlot(new FurnaceFuelSlot(this, this.trapInventory, 0, 80, 20));
+        this.trapData = trapInventory.trapData;
+        this.addSlot(new FuelSlot(this.trapInventory, 0, 80, 20));
 
         for (int rows = 0; rows < 3; ++rows) {
             for (int slots = 0; slots < 9; ++slots) {
@@ -55,5 +59,24 @@ public class TrapContainer extends AbstractFurnaceContainer {
             }
         }
         return stack;
+    }
+
+    @Override
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+        return this.trapInventory.isUsableByPlayer(player);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public int getBurnLeftScaled() {
+        int currentItemBurnTime = this.trapData.get(1);
+        if (currentItemBurnTime == 0) {
+            currentItemBurnTime = 200;
+        }
+        return this.trapData.get(0) * 13 / currentItemBurnTime;
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public boolean isBurning() {
+        return this.trapData.get(0) > 0;
     }
 }

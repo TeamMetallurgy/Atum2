@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -48,13 +49,14 @@ public class AtumsProtectionItem extends AtumShieldItem {
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
-        Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof LivingEntity && isBlocking && ((LivingEntity) trueSource).getCreatureAttribute() == CreatureAttribute.UNDEAD && random.nextFloat() <= 0.50F) {
+        Entity source = event.getSource().getImmediateSource();
+        if (source instanceof LivingEntity && isBlocking && ((LivingEntity) source).getCreatureAttribute() == CreatureAttribute.UNDEAD /*&& random.nextFloat() <= 0.50F*/) {
             LivingEntity entity = event.getEntityLiving();
-            trueSource.setFire(8);
-            trueSource.attackEntityFrom(DamageSource.GENERIC, 2.0F);
-            for (int l = 0; l < 26; ++l) {
-                entity.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + random.nextDouble() * (double) entity.getHeight(), entity.getPosZ() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, 0.0D, 0.0D);
+            source.setFire(8);
+            source.attackEntityFrom(DamageSource.GENERIC, 2.0F);
+            if (entity.world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) entity.world;
+                serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX(), entity.getPosY() + 1.0D, entity.getPosZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
             }
             isBlocking = false;
         }

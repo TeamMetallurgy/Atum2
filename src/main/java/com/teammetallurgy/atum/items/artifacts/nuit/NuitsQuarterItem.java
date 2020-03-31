@@ -15,6 +15,7 @@ import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
@@ -99,12 +100,13 @@ public class NuitsQuarterItem extends KhopeshItem {
         }
     }
 
-    private static void applyWeakness(LivingEntity attacker, LivingEntity target, boolean isNuitsIreHeld) {
+    private static void applyWeakness(LivingEntity target, LivingEntity attacker, boolean isNuitsIreHeld) {
         if (attacker != target) {
-            for (int l = 0; l < 8; ++l) {
-                target.world.addParticle(AtumParticles.NUIT_BLACK, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + random.nextDouble() * (double) target.getHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 0.0D, 0.0D);
+            if (target.world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) target.world;
+                serverWorld.spawnParticle(AtumParticles.NUIT_BLACK, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + (target.getHeight() / 1.5D), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
             }
-            attacker.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
+            target.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 60, isNuitsIreHeld ? 2 : 1));
         }
     }
 }

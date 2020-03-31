@@ -11,6 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -32,19 +33,5 @@ public class RasFuryItem extends BaseBowItem {
     @Override
     protected CustomArrow setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
         return new ArrowFireEntity(world, player);
-    }
-
-    @Override
-    protected void onVelocity(World world, PlayerEntity player, float velocity) {
-        if (velocity == 1.0F) {
-            for (int amount = 0; amount < 20; ++amount) {
-                float timesRandom = world.rand.nextFloat() * 4.0F;
-                float cosRandom = world.rand.nextFloat() * ((float) Math.PI * 2F);
-                double x = (double) (MathHelper.cos(cosRandom) * timesRandom) * 0.1D;
-                double y = 0.01D + world.rand.nextDouble() * 0.1D;
-                double z = (double) (MathHelper.sin(cosRandom) * timesRandom) * 0.1D;
-                player.world.addParticle(AtumParticles.RA_FIRE, player.getPosX(), player.getPosY() + 0.7D, player.getPosZ() + z * 0.1D, x / 10, y, z / 10);
-            }
-        }
     }
 }

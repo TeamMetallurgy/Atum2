@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ArrowPoisonEntity extends CustomArrow {
 
@@ -26,8 +27,21 @@ public class ArrowPoisonEntity extends CustomArrow {
     @Override
     public void tick() {
         super.tick();
-        if (this.getShooter() instanceof PlayerEntity && world.getGameTime() % 4L == 0L) {
-            world.addParticle(AtumParticles.SETH, getPosX(), getPosY() - 0.05D, getPosZ(), 0.0D, 0.0D, 0.0D);
+
+        //Particle while arrow is in air
+        if (this.getIsCritical()) {
+            if (world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                serverWorld.spawnParticle(AtumParticles.SETH, this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            }
+        }
+
+        //Particle after hit
+        if (this.getShooter() instanceof PlayerEntity && world.getGameTime() % 8L == 0L) {
+            if (world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                serverWorld.spawnParticle(AtumParticles.SETH, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+            }
         }
     }
 

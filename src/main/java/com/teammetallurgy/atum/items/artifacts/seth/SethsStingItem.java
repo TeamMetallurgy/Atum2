@@ -15,6 +15,7 @@ import net.minecraft.item.ItemTier;
 import net.minecraft.item.Rarity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
@@ -57,8 +58,9 @@ public class SethsStingItem extends DaggerItem {
             if (cooldown.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 target.addPotionEffect(new EffectInstance(Effects.POISON, 80, 2));
-                for (int l = 0; l < 14; ++l) {
-                    trueSource.world.addParticle(AtumParticles.SETH, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + random.nextDouble() * (double) target.getHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 0.0D, 10.0D, 0.0D);
+                if (trueSource.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) trueSource.world;
+                    serverWorld.spawnParticle(AtumParticles.SETH, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
                 }
             }
             cooldown.removeFloat(trueSource);

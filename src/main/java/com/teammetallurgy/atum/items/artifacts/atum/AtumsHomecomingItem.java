@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -78,16 +79,14 @@ public class AtumsHomecomingItem extends AmuletItem {
     }
 
     private static void onTeleport(World world, Entity entity) {
-        for (int amount = 0; amount < 250; ++amount) {
+        if (world instanceof ServerWorld) {
             float timesRandom = world.rand.nextFloat() * 4.0F;
             float cosRandom = world.rand.nextFloat() * ((float) Math.PI * 2F);
             double x = MathHelper.cos(cosRandom) * timesRandom;
-            double y = 0.01D + world.rand.nextDouble() * 0.5D;
+            double y = 0.01D + (world.rand.nextDouble() * 0.5D);
             double z = MathHelper.sin(cosRandom) * timesRandom;
-            if (entity instanceof ServerPlayerEntity) {
-                ServerPlayerEntity playerMP = (ServerPlayerEntity) entity;
-                playerMP.world.addParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + x * 0.1D, entity.getPosY() + 0.3D, entity.getPosZ() + z * 0.1D, x, y, z);
-            }
+            ServerWorld serverWorld = (ServerWorld) world;
+            serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + x * 0.1D, entity.getPosY() + 0.3D, entity.getPosZ() + z * 0.1D, 250, 0.25D, y, 0.25D, 0.005D);
         }
         world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_SHULKER_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
     }

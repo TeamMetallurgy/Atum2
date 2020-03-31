@@ -11,6 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 public class ArrowSlownessEntity extends CustomArrow {
     private float velocity;
@@ -36,8 +37,9 @@ public class ArrowSlownessEntity extends CustomArrow {
                 }
                 if (rand.nextFloat() <= chance) {
                     livingBase.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 60, 1, false, true));
-                    for (int amount = 0; amount < 25; ++amount) {
-                        world.addParticle(AtumParticles.GEB, entity.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), this.getPosY(), entity.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 0.0D, -0.06D, 0.0D);
+                    if (world instanceof ServerWorld) {
+                        ServerWorld serverWorld = (ServerWorld) world;
+                        serverWorld.spawnParticle(AtumParticles.GEB, entity.getPosX(), this.getPosY(), entity.getPosZ(), 15, 0.0D, -0.06D, 0.0D, 0.025D);
                     }
                 }
             }

@@ -19,6 +19,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -80,12 +81,13 @@ public class AnubisMercyItem extends AmuletItem {
                     player.inventory.offHandInventory.clear();
                 }
 
-                double y = MathHelper.nextDouble(random, 0.01D, 0.1D);
-                for (int l = 0; l < 22; ++l) {
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.04D, y, 0.0D);
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, 0.04D);
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), -0.04D, y, 0.0D);
-                    player.world.addParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, y, -0.04D);
+                if (player.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) player.world;
+                    double y = MathHelper.nextDouble(random, 0.01D, 0.1D);
+                    serverWorld.spawnParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 22, 0.04D, y, 0.0D, 0.075D);
+                    serverWorld.spawnParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 22, 0.0D, y, 0.04D, 0.075D);
+                    serverWorld.spawnParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 22, -0.04D, y, 0.0D, 0.075D);
+                    serverWorld.spawnParticle(AtumParticles.ANUBIS_SKULL, player.getPosX() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 1.0D, player.getPosZ() + (random.nextDouble() - 0.5D) * (double) player.getWidth(), 22, 0.0D, y, -0.04D, 0.075D);
                 }
                 player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_GHAST_DEATH, SoundCategory.PLAYERS, 1.0F, 1.0F);
             }

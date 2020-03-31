@@ -42,7 +42,7 @@ public class TrapScreen extends ContainerScreen<TrapContainer> {
         int height = (this.height - this.ySize) / 2;
         this.blit(width, height, 0, 0, this.xSize, this.ySize);
 
-        if (this.container.func_217061_l()) {
+        if (this.container.isBurning()) {
             int burnLeft = this.container.getBurnLeftScaled();
             this.blit(width + 80, height + 15 - burnLeft, 176, 12 - burnLeft, 14, burnLeft + 1);
         }
