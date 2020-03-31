@@ -349,12 +349,13 @@ public class AtumRegistry {
         }
     }
 
-    /*@SubscribeEvent
-    public static void registerParticle(RegistryEvent.Register<ParticleType<?>> event) { //TODO
+    @SubscribeEvent
+    public static void registerParticle(RegistryEvent.Register<ParticleType<?>> event) {
+        new AtumParticles();
         for (ParticleType<?> particleType : PARTICLES) {
             event.getRegistry().register(particleType);
         }
-    }*/
+    }
 
     @SubscribeEvent
     public static void data(GatherDataEvent event) {
