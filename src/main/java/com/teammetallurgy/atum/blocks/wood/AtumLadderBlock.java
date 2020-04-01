@@ -8,6 +8,6 @@ import net.minecraft.block.material.Material;
 public class AtumLadderBlock extends LadderBlock {
 
     public AtumLadderBlock() {
-        super(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.4F).sound(SoundType.LADDER));
+        super(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.4F).sound(SoundType.LADDER).notSolid());
     }
 }

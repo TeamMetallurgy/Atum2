@@ -113,6 +113,10 @@ public class AtumRegistry {
 
         AtumTorchUnlitBlock.UNLIT.put(torch, unlitTorch);
         AtumTorchUnlitBlock.LIT.put(unlitTorch, torch);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(unlitTorch);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
 
         return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
     }

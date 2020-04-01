@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.*;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;

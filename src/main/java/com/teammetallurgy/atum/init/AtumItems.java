@@ -44,7 +44,6 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.*;
@@ -202,8 +201,6 @@ public class AtumItems {
         //OreDictHelper.add(EMMER_DOUGH, "foodDough"); //TODO
         //OreDictHelper.add(new ItemStack(EMMER_BREAD), "foodBread", "bread"); //TODO
         //OreDictHelper.add(EMMER_FLOUR, "foodFlour");
-
-        MinecraftForge.EVENT_BUS.register(GEBS_MIGHT);
     }
 
     public static class AtumFoods {

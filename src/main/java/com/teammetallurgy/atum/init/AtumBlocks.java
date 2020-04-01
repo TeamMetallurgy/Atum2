@@ -252,7 +252,7 @@ public class AtumBlocks {
     public static final Block CERAMIC_BLACK_WALL = registerBlock(new WallBlock(from(CERAMIC_BLACK)), "ceramic_wall_black");
     public static final Block RADIANT_BEACON = registerBlock(new RadiantBeaconBlock(), "radiant_beacon");
     public static final Block RADIANT_BEACON_FRAMED = registerBlock(new FramedRadiantBeaconBlock(), null, "radiant_beacon_framed");
-    public static final Block CRYSTAL_GLASS = registerBlock(new GlassBlock(create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)), "crystal_glass");
+    public static final Block CRYSTAL_GLASS = registerBlock(new GlassBlock(create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()), "crystal_glass");
     public static final Block CRYSTAL_WHITE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.WHITE, from(CRYSTAL_GLASS)), "crystal_white_stained_glass");
     public static final Block CRYSTAL_ORANGE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.ORANGE, from(CRYSTAL_GLASS)), "crystal_orange_stained_glass");
     public static final Block CRYSTAL_MAGENTA_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.MAGENTA, from(CRYSTAL_GLASS)), "crystal_magenta_stained_glass");
@@ -286,7 +286,7 @@ public class AtumBlocks {
     public static final Block THIN_CRYSTAL_GREEN_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.GREEN, from(THIN_CRYSTAL_GLASS)), "thin_crystal_green_stained_glass");
     public static final Block THIN_CRYSTAL_RED_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.RED, from(THIN_CRYSTAL_GLASS)), "thin_crystal_red_stained_glass");
     public static final Block THIN_CRYSTAL_BLACK_STAINED_GLASS = registerBlock(new StainedGlassPaneBlock(DyeColor.BLACK, from(THIN_CRYSTAL_GLASS)), "thin_crystal_black_stained_glass");
-    public static final Block FRAMED_GLASS = registerBlock(new GlassBlock(create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS)), "framed_glass");
+    public static final Block FRAMED_GLASS = registerBlock(new GlassBlock(create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid()), "framed_glass");
     public static final Block FRAMED_WHITE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.WHITE, from(FRAMED_GLASS)), "framed_white_stained_glass");
     public static final Block FRAMED_ORANGE_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.ORANGE, from(FRAMED_GLASS)), "framed_orange_stained_glass");
     public static final Block FRAMED_MAGENTA_STAINED_GLASS = registerBlock(new StainedGlassBlock(DyeColor.MAGENTA, from(FRAMED_GLASS)), "framed_magenta_stained_glass");
@@ -369,7 +369,7 @@ public class AtumBlocks {
     public static final Block DEADWOOD_SLAB = registerBlock(new SlabBlock(from(DEADWOOD_PLANKS)), "deadwood_slab");
     public static final Block PALM_SAPLING = registerBlock(new PalmSaplingBlock(), "palm_sapling");
     public static final Block PALM_LEAVES = registerBlock(new PalmLeavesBlock(), "palm_leaves");
-    public static final Block DEADWOOD_LEAVES = registerBlock(new LeavesAtumBlock(create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT)), null, "deadwood_leaves");
+    public static final Block DEADWOOD_LEAVES = registerBlock(new LeavesAtumBlock(), null, "deadwood_leaves");
     public static final Block PALM_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "palm_crate");
     public static final Block DEADWOOD_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "deadwood_crate");
     public static final Block PALM_LADDER = registerBlock(new AtumLadderBlock(), "palm_ladder");
@@ -378,8 +378,8 @@ public class AtumBlocks {
     public static final Block DEADWOOD_FENCE = registerBlock(new FenceBlock(from(DEADWOOD_PLANKS)), "deadwood_fence");
     public static final Block PALM_FENCE_GATE = registerBlock(new FenceGateBlock(from(PALM_PLANKS)), "palm_fence_gate");
     public static final Block DEADWOOD_FENCE_GATE = registerBlock(new FenceGateBlock(from(DEADWOOD_PLANKS)), "deadwood_fence_gate");
-    public static final Block PALM_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(3.0F).sound(SoundType.WOOD)), "palm_hatch");
-    public static final Block DEADWOOD_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(3.0F).sound(SoundType.WOOD)), "deadwood_hatch");
+    public static final Block PALM_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(3.0F).sound(SoundType.WOOD).notSolid()), "palm_hatch");
+    public static final Block DEADWOOD_HATCH = registerBlock(new AtumTrapDoorBlock(Block.Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(3.0F).sound(SoundType.WOOD).notSolid()), "deadwood_hatch");
     public static final Block PALM_DOOR = registerBlock(new DoorAtumBlock(from(PALM_PLANKS)), "palm_door");
     public static final Block DEADWOOD_DOOR = registerBlock(new DoorAtumBlock(from(DEADWOOD_PLANKS)), "deadwood_door");
     public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;

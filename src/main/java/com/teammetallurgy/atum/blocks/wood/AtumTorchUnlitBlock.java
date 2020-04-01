@@ -22,11 +22,14 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
+    public static final List<Block> ALL_TORCHES = new ArrayList<>();
     public static final Map<Block, Block> UNLIT = Maps.newHashMap();
     public static final Map<Block, Block> LIT = Maps.newHashMap();
 

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -19,9 +20,11 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.UUID;
 
+@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
 public class HammerItem extends SwordItem {
     private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("b4ebf092-fe62-4250-b945-7dc45b2f1036"), "Hammer stun", -1000.0D, AttributeModifier.Operation.ADDITION);
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
@@ -32,15 +35,19 @@ public class HammerItem extends SwordItem {
     }
 
     @SubscribeEvent
-    public void onHurt(LivingHurtEvent event) {
+    public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
         if (trueSource instanceof PlayerEntity && cooldown.containsKey(trueSource)) {
             if (cooldown.getFloat(trueSource) == 1.0F) {
-                LivingEntity target = event.getEntityLiving();
-                ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) target.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-                if (!attribute.hasModifier(STUN)) {
-                    attribute.applyModifier(STUN);
-                    this.onStun(target);
+                Item heldItem = ((PlayerEntity)trueSource).getHeldItemMainhand().getItem();
+                if (heldItem instanceof HammerItem) {
+                    HammerItem hammerItem = (HammerItem) heldItem;
+                    LivingEntity target = event.getEntityLiving();
+                    ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) target.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+                    if (!attribute.hasModifier(STUN)) {
+                        attribute.applyModifier(STUN);
+                        hammerItem.onStun(target);
+                    }
                 }
             }
             cooldown.removeFloat(trueSource);
@@ -52,7 +59,7 @@ public class HammerItem extends SwordItem {
     }
 
     @SubscribeEvent
-    public void livingTick(LivingEvent.LivingUpdateEvent event) {
+    public static void livingTick(LivingEvent.LivingUpdateEvent event) {
         LivingEntity entity = event.getEntityLiving();
         if (stun.isEmpty()) return;
         ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
@@ -68,7 +75,7 @@ public class HammerItem extends SwordItem {
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void onAttack(AttackEntityEvent event) {
+    public static void onAttack(AttackEntityEvent event) {
         PlayerEntity player = event.getPlayer();
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && player.getHeldItemMainhand().getItem() instanceof HammerItem) {
