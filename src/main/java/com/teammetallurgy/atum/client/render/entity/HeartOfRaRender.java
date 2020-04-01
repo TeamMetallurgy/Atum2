@@ -47,7 +47,7 @@ public class HeartOfRaRender extends EntityRenderer<HeartOfRaEntity> {
         IVertexBuilder vertextBuilder = buffer.getBuffer(RENDER_TYPE);
         matrixStack.push();
         matrixStack.scale(2.0F, 2.0F, 2.0F);
-        matrixStack.translate(0.0D, -0.5D, 0.0D);
+        matrixStack.translate(0.0D, -0.1D, 0.0D);
         int overlay = OverlayTexture.NO_OVERLAY;
         this.base.render(matrixStack, vertextBuilder, i, overlay);
 

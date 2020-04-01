@@ -7,6 +7,7 @@ import net.minecraft.block.VineBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.state.BooleanProperty;
@@ -30,7 +31,14 @@ public class OphidianTongueBlock extends VineBlock {
     public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
         if (!world.isRemote && state.get(HAS_FLOWERS) && entity instanceof LivingEntity) {
             LivingEntity livingBase = (LivingEntity) entity;
-            livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 35));
+            if (livingBase instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) livingBase;
+                if (!player.isCreative()) {
+                    player.addPotionEffect(new EffectInstance(Effects.POISON, 35));
+                }
+            } else {
+                livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 35));
+            }
         }
     }
 

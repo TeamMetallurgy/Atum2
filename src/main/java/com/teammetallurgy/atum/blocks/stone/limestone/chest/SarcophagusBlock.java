@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -129,7 +130,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     @SubscribeEvent
-    public static void onPlaced(BlockEvent.EntityPlaceEvent event) { //Prevent placement, if right side of Sarcophagus would be next to another Sarcophagi block
+    public static void onPlaced(BlockEvent.EntityPlaceEvent event) { //Prevent placement, 1 block left of another block
         BlockState placedState = event.getPlacedBlock();
         if (placedState.getBlock() instanceof SarcophagusBlock) {
             if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.get(FACING))) {
@@ -139,10 +140,12 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     private static boolean canPlaceRightSac(IWorld world, BlockPos pos, Direction facing) {
-        boolean right2 = world.getBlockState(pos.offset(facing.rotateYCCW(), 2)).getBlock() instanceof SarcophagusBlock;
-        boolean up = world.getBlockState(pos.offset(facing.rotateYCCW()).offset(facing)).getBlock() instanceof SarcophagusBlock;
-        boolean down = world.getBlockState(pos.offset(facing.rotateYCCW()).offset(facing.getOpposite())).getBlock() instanceof SarcophagusBlock;
-        return !right2 && !up && !down;
+        BlockPos posOffset = pos.offset(facing.rotateYCCW());
+        BlockState offsetState = world.getBlockState(posOffset);
+        if (offsetState.getBlock() instanceof SarcophagusBlock) {
+            return offsetState.get(SarcophagusBlock.TYPE) == ChestType.LEFT && offsetState.get(SarcophagusBlock.FACING) == facing;
+        }
+        return false;
     }
 
     @Nonnull

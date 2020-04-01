@@ -129,7 +129,6 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
     @Override
     @OnlyIn(Dist.CLIENT)
     public float getLidAngle(float partialTicks) {
-        //System.out.println(MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle));
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }
 

@@ -13,11 +13,8 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
-import net.minecraft.tileentity.ChestTileEntity;
-import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -47,20 +44,21 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
     public void render(@Nonnull CrateTileEntity crate, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         BlockState state = crate.getWorld() != null ? crate.getBlockState() : AtumBlocks.PALM_CRATE.getDefaultState().with(CrateBlock.FACING, Direction.SOUTH);
         Block block = state.getBlock();
-        matrixStack.push();
-        float facingAngle = state.get(CrateBlock.FACING).getHorizontalAngle();
-        matrixStack.translate(0.5D, 0.5D, 0.5D);
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(-facingAngle));
-        matrixStack.translate(-0.5D, -0.5D, -0.5D);
-        TileEntityMerger.ICallbackWrapper<? extends ChestTileEntity> callbackWrapper = TileEntityMerger.ICallback::func_225537_b_;
-        float lidAngle = crate.getLidAngle(partialTicks);
-        lidAngle = 1.0F - lidAngle;
-        lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
-        int light = callbackWrapper.apply(new DualBrightnessCallback<>()).applyAsInt(combinedLight);
-        IVertexBuilder vertexBuilder = getBuilder(crate, buffer);
-        this.renderCrate(matrixStack, vertexBuilder, this.crateCore, this.crateLid, lidAngle, light, combinedOverlay);
-
-        matrixStack.pop();
+        if (block instanceof CrateBlock) {
+            matrixStack.push();
+            float facingAngle = state.get(CrateBlock.FACING).getHorizontalAngle();
+            matrixStack.translate(0.5D, 0.5D, 0.5D);
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(-facingAngle));
+            matrixStack.translate(-0.5D, -0.5D, -0.5D);
+            float lidAngle = crate.getLidAngle(partialTicks);
+            lidAngle = 1.0F - lidAngle;
+            lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
+            IVertexBuilder vertexBuilder = getBuilder(crate, buffer);
+            matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
+            matrixStack.translate(-0.5D, -1.5D, 0.5D);
+            this.renderCrate(matrixStack, vertexBuilder, this.crateCore, this.crateLid, lidAngle, 15728640, combinedOverlay);
+            matrixStack.pop();
+        }
     }
 
     private void renderCrate(MatrixStack matrixStack, IVertexBuilder vertexBuilder, ModelRenderer core, ModelRenderer lid, float lidAngle, int light, int combinedOverlay) {

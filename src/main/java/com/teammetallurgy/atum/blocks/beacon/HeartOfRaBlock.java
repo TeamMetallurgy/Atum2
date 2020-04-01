@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
 import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.MaterialColor;
@@ -22,7 +23,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class HeartOfRaBlock extends ContainerBlock {
-    private static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D);
+    private static final VoxelShape SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D);
 
     public HeartOfRaBlock() {
         super(Properties.create(AtumMats.HEART_OF_RA, MaterialColor.GOLD));
@@ -32,6 +33,12 @@ public class HeartOfRaBlock extends ContainerBlock {
     @Nullable
     public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new HeartOfRaTileEntity();
+    }
+
+    @Override
+    @Nonnull
+    public BlockRenderType getRenderType(BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override

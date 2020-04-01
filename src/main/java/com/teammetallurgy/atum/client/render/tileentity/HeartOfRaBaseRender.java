@@ -29,7 +29,7 @@ public class HeartOfRaBaseRender extends TileEntityRenderer<HeartOfRaTileEntity>
 
     private void renderBeam(HeartOfRaTileEntity heartOfRa, float partialTicks, MatrixStack matrixStack, IRenderTypeBuffer buffer) {
         if (heartOfRa.getWorld() != null) {
-            //RenderSystem.translated(0, 2.07D, 0);
+            matrixStack.translate(0, 1.83D, 0);
             int height = 0;
             for (int j = 0; j < DyeColor.values().length - 1; ++j) {
                 BeaconTileEntity.BeamSegment beam = new BeaconTileEntity.BeamSegment(DyeColor.RED.getColorComponentValues());

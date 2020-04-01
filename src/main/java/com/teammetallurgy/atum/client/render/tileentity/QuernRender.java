@@ -75,7 +75,7 @@ public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
 
         if (block instanceof QuernBlock) {
             matrixStack.push();
-            matrixStack.translate(0.5D, 0.5D, 0.5D);
+            matrixStack.translate(0.5D, 1.5D, 0.5D);
             matrixStack.scale(0.95F, 1.0F, 0.95F);
             matrixStack.rotate(Vector3f.ZP.rotationDegrees(-180));
             float angle = state.get(QuernBlock.FACING).getHorizontalAngle();

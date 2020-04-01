@@ -43,17 +43,17 @@ public class CrateBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTrace) {
+    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTrace) {
         if (world.isRemote) {
-            return ActionResultType.PASS;
-        }
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof CrateTileEntity) {
-            player.openContainer((CrateTileEntity) tileEntity);
-            player.addStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
+            return ActionResultType.SUCCESS;
+        } else {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof CrateTileEntity) {
+                player.openContainer((CrateTileEntity) tileEntity);
+                player.addStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
+            }
             return ActionResultType.SUCCESS;
         }
-        return ActionResultType.PASS;
     }
 
     @Nullable
@@ -63,7 +63,7 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         if (stack.hasDisplayName()) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
