@@ -48,17 +48,12 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(13.0D);
         this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
         this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
         this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
     }
 
     @Override
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
-        EquipmentSlotType hand = EquipmentSlotType.MAINHAND;
-        if (this.rand.nextInt() <= 0.05F) {
-            hand = EquipmentSlotType.OFFHAND;
-        }
-        this.setItemStackToSlot(hand, new ItemStack(AtumItems.SHORT_BOW));
+        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
     }
 
     @Override

@@ -9,7 +9,6 @@ import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -22,7 +21,6 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -36,7 +34,6 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
-import net.minecraft.world.raid.Raid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -58,15 +55,13 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(4, new BanditPatrolGoal<>(this, 0.7D, 0.595D)); //Only applies if spawned in a patrol
         this.goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new RandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(7, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 6.0F, 1.0D, 1.2D));
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.applyEntityAI();
-        if (this.canPatrol()) {
-            super.registerGoals();
-        }
     }
 
     protected void applyEntityAI() {
@@ -74,6 +69,13 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, true));
+    }
+
+    @Override
+    protected void registerAttributes() {
+        super.registerAttributes();
+        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
     }
 
     @Override
@@ -106,7 +108,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
             this.func_226541_s_(true);
         }
 
-        if (hasSkinVariants()) {
+        if (this.hasSkinVariants()) {
             final int variant = MathHelper.nextInt(this.rand, 0, getVariantAmount());
             this.setVariant(variant);
         }
@@ -115,7 +117,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
     public ILivingEntityData mobInitialSpawn(@Nullable ILivingEntityData spawnData) {
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (this.rand.nextFloat() < 0.05F) {
+        if (this.rand.nextFloat() < 0.5F) {
             this.setLeftHanded(true);
         } else {
             this.setLeftHanded(false);
@@ -123,7 +125,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         return spawnData;
     }
 
-    public static ItemStack createBanditBanner() { //TODO Make proper banner
+    public static ItemStack createBanditBanner() {
         ItemStack banner = new ItemStack(Items.WHITE_BANNER);
         CompoundNBT nbt = banner.getOrCreateChildTag("BlockEntityTag");
         ListNBT nbtList = new BannerPattern.Builder().func_222477_a(BannerPattern.BASE, DyeColor.WHITE).func_222477_a(BannerPattern.STRIPE_DOWNLEFT, DyeColor.GRAY)
@@ -134,6 +136,11 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         nbt.put("Patterns", nbtList);
         banner.setDisplayName(new TranslationTextComponent("block.atum.bandit_banner").applyTextStyle(TextFormatting.GOLD));
         return banner;
+    }
+
+    @Override
+    public boolean canBeLeader() {
+        return false;
     }
 
     @Override
@@ -225,6 +232,11 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     }
 
     @Override
+    public boolean canDespawn(double distanceToPlayer) {
+        return !this.canPatrol() || super.canDespawn(distanceToPlayer);
+    }
+
+    @Override
     public void writeAdditional(CompoundNBT compound) {
         super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
@@ -240,5 +252,19 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
             this.setVariant(compound.getInt("Variant"));
         }
         this.canPatrol = compound.getBoolean("CanPatrol");
+    }
+
+    public static class BanditPatrolGoal<T extends BanditBaseEntity> extends PatrollerEntity.PatrolGoal<T> {
+        private final T owner;
+
+        public BanditPatrolGoal(T bandit, double d, double d1) {
+            super(bandit, d, d1);
+            this.owner = bandit;
+        }
+
+        @Override
+        public boolean shouldExecute() {
+            return this.owner.canPatrol() && super.shouldExecute();
+        }
     }
 }

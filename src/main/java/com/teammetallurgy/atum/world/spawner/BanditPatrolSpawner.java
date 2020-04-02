@@ -32,14 +32,12 @@ public class BanditPatrolSpawner {
             if (this.timer > 0) {
                 return 0;
             } else {
-                System.out.println("Chance to do the thing!");
+                System.out.println("Chance to spawn patrol");
                 this.timer += rand.nextInt(250);
                 if (serverWorld.isDaytime()) {
                     if (rand.nextInt(4) != 0) {
                         return 0;
-                    } else {
-                        System.out.println("Actually do the thing");
-                        int playerAmount = serverWorld.getPlayers().size();
+                    } else { int playerAmount = serverWorld.getPlayers().size();
                         if (playerAmount < 1) {
                             return 0;
                         } else {
@@ -49,6 +47,7 @@ public class BanditPatrolSpawner {
                             } else if (serverWorld.isVillage(player.getPosition())) {
                                 return 0;
                             } else {
+                                System.out.println("Successfully spawned patrol");
                                 int x = (24 + rand.nextInt(24)) * (rand.nextBoolean() ? -1 : 1);
                                 int z = (24 + rand.nextInt(24)) * (rand.nextBoolean() ? -1 : 1);
                                 BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player)).move(x, 0, z);
@@ -60,14 +59,14 @@ public class BanditPatrolSpawner {
                                         return 0;
                                     } else {
                                         int amount = 0;
-                                        int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty()) + (rand.nextDouble() >= 0.5F ? 1 : 0);
+                                        int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty());
                                         System.out.println("POS: " + mutablePos);
                                         for (int size = 0; size < difficulty; ++size) {
                                             EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
                                             ++amount;
                                             mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
                                             if (size == 0) {
-                                                if (!this.spawnPatroller(entityType, serverWorld, mutablePos, rand, true)) {
+                                                if (!this.spawnPatroller(AtumEntities.SERGEANT, serverWorld, mutablePos, rand, true)) {
                                                     break;
                                                 }
                                             } else {

@@ -31,11 +31,7 @@ public class AtumBiome extends Biome {
         addSpawn(biome, EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
 
         //Bandits
-        addSpawn(biome, AtumEntities.ASSASSIN, 1, 1, 1, EntityClassification.MONSTER);
-        //addSpawn(biome, AtumEntities.BARBARIAN, 8, 1, 2, EntityClassification.MONSTER); 4 13.335%
-        //addSpawn(biome, AtumEntities.BRIGAND, 30, 2, 3, EntityClassification.MONSTER); 15 50%
-        //addSpawn(biome, AtumEntities.NOMAD, 22, 1, 4, EntityClassification.MONSTER); 11 36,665%
-        //                                                                      Total: 30
+        addSpawn(biome, AtumEntities.ASSASSIN, 1, 1, 1, EntityClassification.MONSTER); //TODO
 
         //Undead
         addSpawn(biome, AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
