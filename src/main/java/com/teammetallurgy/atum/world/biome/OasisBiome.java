@@ -1,61 +1,35 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
+import com.teammetallurgy.atum.world.gen.feature.AtumFeatures;
+import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
+import net.minecraft.block.Blocks;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.ChanceConfig;
+import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.Placement;
 
 public class OasisBiome extends AtumBiome {
 
     public OasisBiome() {
         super(new Builder("oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.OASIS));
-        //this.decorator.deadBushPerChunk = 0;
-        //this.atumDecorator.shrubChance = 0;
-        //this.decorator.grassPerChunk = 3;
         //this.decorator.waterlilyPerChunk = 100;
         this.deadwoodRarity = 0.0D;
         super.addCamelSpawning(this);
+        this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.WATER.getDefaultState(), AtumBlocks.FERTILE_SOIL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(3))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(250))));
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.LILY_PAD_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(5))));
     }
 
     /*@Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
-        int x = random.nextInt(16) + 8;
-        int z = random.nextInt(16) + 8;
-        BlockPos height = world.getHeight(pos.add(x, 0, z));
-        ChunkPos chunkPos = new ChunkPos(pos);
-
-        new WorldGenOasisPond().generate(world, random, height);
-
         if (random.nextFloat() <= 0.98F) {
             new WorldGenPalm(true, random.nextInt(4) + 5, true).generate(world, random, height);
         }
-
-        if (TerrainGen.decorate(world, random, chunkPos, DecorateBiomeEvent.Decorate.EventType.REED)) {
-            int reedsPerChunk = 50;
-            for (int reeds = 0; reeds < reedsPerChunk; ++reeds) {
-                int y = height.getY() * 2;
-
-                if (y > 0) {
-                    int randomY = random.nextInt(y);
-                    new WorldGenPapyrus().generate(world, random, pos.add(x, randomY, z));
-                }
-            }
-        }
-        if (TerrainGen.decorate(world, random, chunkPos, DecorateBiomeEvent.Decorate.EventType.LILYPAD)) {
-            for (int amount = 0; amount < 2; ++amount) {
-                int y = world.getHeight(pos.add(x, 0, z)).getY() * 2;
-                if (y > 0) {
-                    int randomY = random.nextInt(y);
-                    BlockPos lilyPos;
-                    BlockPos waterPos;
-                    for (lilyPos = pos.add(x, randomY, z); lilyPos.getY() > 0; lilyPos = waterPos) {
-                        waterPos = lilyPos.down();
-                        if (!world.isAirBlock(waterPos)) {
-                            break;
-                        }
-                    }
-                    new WorldGenWaterlily().generate(world, random, lilyPos);
-                }
-            }
-        }
-        super.decorate(world, random, pos);
     }
     */
 

@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items;
 
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CauldronBlock;
 import net.minecraft.entity.item.ItemEntity;
@@ -25,7 +24,7 @@ public class LootItem extends Item {
     }
 
     public Item getLootItem(Type type, Quality quality) {
-        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Constants.MOD_ID, "loot_" + quality.getName() + "_" + type.getName()));
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "loot_" + quality.getName() + "_" + type.getName()));
     }
 
     public static Type getType(Item item) {

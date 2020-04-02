@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
@@ -32,6 +32,6 @@ public class ArrowDoubleShotBlackEntity extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_double_black.png");
+        return new ResourceLocation(Atum.MOD_ID, "textures/arrow/arrow_double_black.png");
     }
 }

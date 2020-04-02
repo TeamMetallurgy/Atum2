@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.integration.theoneprobe;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
-import com.teammetallurgy.atum.utils.Constants;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
 
     @Override
     public String getID() {
-        return Constants.MOD_ID;
+        return Atum.MOD_ID;
     }
 
     @Override
@@ -55,7 +56,7 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
                             .item(door)
                             .vertical()
                             .itemLabel(door)
-                            .text(MODNAME + Constants.MOD_NAME);
+                            .text(MODNAME + StringUtils.capitalize(Atum.MOD_ID));
                     return true;
                 }
             }

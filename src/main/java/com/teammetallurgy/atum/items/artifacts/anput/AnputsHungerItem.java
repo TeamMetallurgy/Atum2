@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.anput;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.DaggerItem;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AnputsHungerItem extends DaggerItem {
     private static int hungerTimer = 80;
 

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
@@ -36,6 +35,6 @@ public class TexturedArmorItem extends ArmorItem {
 
     @Override
     public String getArmorTexture(@Nonnull ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-        return String.format("%s:textures/models/armor/%s_%d%s.png", Constants.MOD_ID, armorPieceName, (slot == EquipmentSlotType.LEGS ? 2 : 1), type == null ? "" : "_overlay");
+        return String.format("%s:textures/models/armor/%s_%d%s.png", Atum.MOD_ID, armorPieceName, (slot == EquipmentSlotType.LEGS ? 2 : 1), type == null ? "" : "_overlay");
     }
 }

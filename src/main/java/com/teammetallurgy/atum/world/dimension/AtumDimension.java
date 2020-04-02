@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.dimension;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -7,7 +8,6 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProvider;
 import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProviderSettings;
 import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProviderTypes;
@@ -40,7 +40,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumDimension extends Dimension {
     private static BlockPos usePos;
     public boolean hasStartStructureSpawned;

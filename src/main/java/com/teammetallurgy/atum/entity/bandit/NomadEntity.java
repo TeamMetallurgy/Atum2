@@ -43,6 +43,11 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     }
 
     @Override
+    protected int getVariantAmount() {
+        return 6;
+    }
+
+    @Override
     protected void registerAttributes() {
         super.registerAttributes();
         this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(13.0D);

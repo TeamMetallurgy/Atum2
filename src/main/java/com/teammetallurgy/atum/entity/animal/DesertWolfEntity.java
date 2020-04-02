@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.animal;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ai.goal.BegGoal;
 import com.teammetallurgy.atum.entity.ai.goal.FollowOwnerWithoutSaddleGoal;
 import com.teammetallurgy.atum.entity.ai.goal.SitWithCheckGoal;
@@ -10,7 +11,6 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.inventory.container.entity.AlphaDesertWolfContainer;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -66,7 +66,7 @@ import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DesertWolfEntity extends TameableEntity implements IJumpingMount, IInventoryChangedListener, INamedContainerProvider {
     private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
@@ -1024,7 +1024,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entity/armor/desert_wolf_armor_" + typeName + ".png").toString();
+            this.textureName = new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/desert_wolf_armor_" + typeName + ".png").toString();
         }
 
         public int getProtection() {

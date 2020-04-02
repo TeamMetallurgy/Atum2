@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.client.render.entity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.HeartOfRaEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.Quaternion;
 import net.minecraft.client.renderer.RenderType;
@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class HeartOfRaRender extends EntityRenderer<HeartOfRaEntity> {
-    private static final ResourceLocation HEART_OF_RA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/heart_of_ra.png");
+    private static final ResourceLocation HEART_OF_RA_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/heart_of_ra.png");
     private static final RenderType RENDER_TYPE = RenderType.getEntityCutoutNoCull(HEART_OF_RA_TEXTURE);
     private static final float CONSTANT = (float) Math.sin(0.7853981633974483D);
     private final ModelRenderer cube;

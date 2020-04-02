@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.entity.efreet;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.*;
@@ -93,9 +93,9 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         if (this.texturePath == null) {
             String entityName = Objects.requireNonNull(this.getType().getRegistryName()).getPath();
             if (this.hasSkinVariants()) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+                this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
             } else {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png";
+                this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName) + ".png";
             }
         }
         return this.texturePath;

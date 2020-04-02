@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.AtumOresBlock;
 import com.teammetallurgy.atum.blocks.PortalBlock;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
@@ -26,7 +27,6 @@ import com.teammetallurgy.atum.blocks.trap.*;
 import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
@@ -40,7 +40,7 @@ import static com.teammetallurgy.atum.utils.AtumRegistry.registerTorch;
 import static net.minecraft.block.Block.Properties.create;
 import static net.minecraft.block.Block.Properties.from;
 
-@ObjectHolder(value = Constants.MOD_ID)
+@ObjectHolder(value = Atum.MOD_ID)
 public class AtumBlocks {
     public static final PortalBlock PORTAL = (PortalBlock) registerBlock(new PortalBlock(), null, "portal");
     public static final Block CHEST_SPAWNER = registerBlock(new ChestSpawnerBlock(), () -> ItemStackRenderer::new, null, "chest_spawner");

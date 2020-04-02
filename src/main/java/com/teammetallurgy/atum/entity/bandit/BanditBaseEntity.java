@@ -1,11 +1,11 @@
 package com.teammetallurgy.atum.entity.bandit;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.goal.*;
@@ -148,10 +148,6 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         //Don't use for now, might do something with it later
     }
 
-    int getVariantAmount() {
-        return 6;
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -164,6 +160,10 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
     boolean hasSkinVariants() {
         return true;
+    }
+
+    protected int getVariantAmount() {
+        return 7;
     }
 
     private void setVariant(int variant) {
@@ -198,9 +198,9 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
             }
 
             if (this.hasSkinVariants()) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+                this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
             } else {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png";
+                this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName) + ".png";
             }
         }
         return this.texturePath;

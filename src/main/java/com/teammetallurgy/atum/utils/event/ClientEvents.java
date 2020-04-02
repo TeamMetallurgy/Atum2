@@ -2,12 +2,12 @@ package com.teammetallurgy.atum.utils.event;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.dimension.AtumDimension;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.client.Minecraft;
@@ -33,10 +33,10 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
-    private static final ResourceLocation MUMMY_BLUR_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/hud/mummyblur.png");
-    private static final ResourceLocation SAND_BLUR_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/hud/sandstormwip.png");
+    private static final ResourceLocation MUMMY_BLUR_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/hud/mummyblur.png");
+    private static final ResourceLocation SAND_BLUR_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/hud/sandstormwip.png");
     private static float intensity = 1;
 
     @SubscribeEvent

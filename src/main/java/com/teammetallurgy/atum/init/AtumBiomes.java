@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.*;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
 
-@ObjectHolder(value = Constants.MOD_ID)
+@ObjectHolder(value = Atum.MOD_ID)
 public class AtumBiomes {
     public static final AtumBiome DEAD_OASIS = registerBiome(new DeadOasisBiome(), "dead_oasis");
     public static final AtumBiome DEADWOOD_FOREST = registerBiome(new DeadwoodForestBiome(), "deadwood_forest");

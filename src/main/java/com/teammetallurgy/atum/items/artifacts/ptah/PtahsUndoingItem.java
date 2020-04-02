@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.Enchantment;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class PtahsUndoingItem extends PickaxeItem {
 
     public PtahsUndoingItem() {

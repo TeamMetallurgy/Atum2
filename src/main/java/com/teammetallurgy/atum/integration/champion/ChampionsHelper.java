@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.integration.champion;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.IModIntegration;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureSprite;
 import net.minecraft.client.renderer.texture.SimpleTexture;
@@ -34,7 +34,7 @@ public class ChampionsHelper implements IModIntegration {
     public static ResourceLocation getTexture(Entity entity, String entityName) {
         int tier = ChampionsHelper.getTier(entity);
         if (tier > 0) {
-            ResourceLocation textureResourceLocation = new ResourceLocation(Constants.MOD_ID, "textures/entity/variants/" + entityName + "_champion_" + tier + ".png");
+            ResourceLocation textureResourceLocation = new ResourceLocation(Atum.MOD_ID, "textures/entity/variants/" + entityName + "_champion_" + tier + ".png");
             TextureManager textureManager = Minecraft.getInstance().getTextureManager();
             Texture texture = textureManager.getTexture(textureResourceLocation);
 

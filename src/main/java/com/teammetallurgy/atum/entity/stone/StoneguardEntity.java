@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.entity.stone;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
@@ -28,7 +28,7 @@ import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class StoneguardEntity extends StoneBaseEntity implements ITexture {
-    private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_derp.png");
+    private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/stoneguard_derp.png");
     private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, AttributeModifier.Operation.ADDITION);
 
     public StoneguardEntity(EntityType<? extends StoneguardEntity> entityType, World world) {
@@ -145,6 +145,6 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
                 return STONEGUARD_IRON_TEXTURE.toString();
             }
         }
-        return new ResourceLocation(Constants.MOD_ID, "textures/entity/stoneguard_" + this.getVariant() + ".png").toString();
+        return new ResourceLocation(Atum.MOD_ID, "textures/entity/stoneguard_" + this.getVariant() + ".png").toString();
     }
 }

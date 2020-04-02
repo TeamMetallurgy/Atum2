@@ -1,25 +1,34 @@
-/*
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
+import com.mojang.datafixers.Dynamic;
+import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
+import net.minecraft.world.gen.feature.Feature;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
+import java.util.function.Function;
 
-public class WorldGenOasisPond  extends WorldGenerator {
+public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
+    private static final BlockState AIR = Blocks.CAVE_AIR.getDefaultState();
+
+    public OasisPondFeature(Function<Dynamic<?>, ? extends DoubleBlockStateFeatureConfig> configFactory) {
+        super(configFactory);
+    }
 
     @Override
-    public boolean generate(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos) {
+    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull DoubleBlockStateFeatureConfig config) {
         for (pos = pos.add(-8, 0, -8); pos.getY() > 60 && world.isAirBlock(pos); pos = pos.down()) {
             //Do the checks
         }
 
-        if (pos.getY() < 60) {
+        if (pos.getY() <= 60) {
             return false;
         } else {
             pos = pos.down(3);
@@ -57,12 +66,10 @@ public class WorldGenOasisPond  extends WorldGenerator {
 
                         if (flag) {
                             Material material = world.getBlockState(pos.add(k1, k, l2)).getMaterial();
-
                             if (k >= 4 && material.isLiquid()) {
                                 return false;
                             }
-
-                            if (k < 4 && !material.isSolid() && world.getBlockState(pos.add(k1, k, l2)).getBlock() != Blocks.WATER) {
+                            if (k < 4 && !material.isSolid() && world.getBlockState(pos.add(k1, k, l2)) != config.field_227270_a_) {
                                 return false;
                             }
                         }
@@ -74,7 +81,7 @@ public class WorldGenOasisPond  extends WorldGenerator {
                 for (int i3 = 0; i3 < 16; ++i3) {
                     for (int i4 = 0; i4 < 8; ++i4) {
                         if (aboolean[(l1 * 16 + i3) * 8 + i4]) {
-                            world.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? Blocks.AIR.getDefaultState() : Blocks.WATER.getDefaultState(), 2);
+                            world.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? AIR : config.field_227270_a_, 2);
                         }
                     }
                 }
@@ -86,7 +93,7 @@ public class WorldGenOasisPond  extends WorldGenerator {
                         boolean flag1 = !aboolean[(j2 * 16 + k3) * 8 + k4] && (j2 < 15 && aboolean[((j2 + 1) * 16 + k3) * 8 + k4] || j2 > 0 && aboolean[((j2 - 1) * 16 + k3) * 8 + k4] || k3 < 15 && aboolean[(j2 * 16 + k3 + 1) * 8 + k4] || k3 > 0 && aboolean[(j2 * 16 + (k3 - 1)) * 8 + k4] || k4 < 7 && aboolean[(j2 * 16 + k3) * 8 + k4 + 1] || k4 > 0 && aboolean[(j2 * 16 + k3) * 8 + (k4 - 1)]);
                         BlockPos fertilePos = pos.add(j2, k4, k3);
                         if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && world.getBlockState(fertilePos).getMaterial().isSolid() && !world.getBlockState(fertilePos.up()).getMaterial().isSolid()) {
-                            world.setBlockState(fertilePos, AtumBlocks.FERTILE_SOIL.getDefaultState(), 2);
+                            world.setBlockState(fertilePos, config.state2, 2);
                         }
                     }
                 }
@@ -94,4 +101,4 @@ public class WorldGenOasisPond  extends WorldGenerator {
             return true;
         }
     }
-}*/
+}

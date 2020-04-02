@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
@@ -22,9 +22,9 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfModel<DesertWolfEntity>> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
-    private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_tame.png");
-    private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_angry.png");
-    private static final ResourceLocation SADDLE_DESERT_WOLF_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/desert_wolf_saddle.png");
+    private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_tame.png");
+    private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_angry.png");
+    private static final ResourceLocation SADDLE_DESERT_WOLF_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_saddle.png");
 
     public DesertWolfRender(EntityRendererManager renderManager) {
         super(renderManager, new DesertWolfModel<>(), 0.5F);

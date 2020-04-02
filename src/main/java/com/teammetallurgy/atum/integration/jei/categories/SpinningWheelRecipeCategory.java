@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
 import com.teammetallurgy.atum.utils.AtumUtils;
-import com.teammetallurgy.atum.utils.Constants;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 
 public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWheelRecipe> {
-    public static final ResourceLocation SPINNING_WHEEL_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/spinning_wheel.png");
+    public static final ResourceLocation SPINNING_WHEEL_GUI = new ResourceLocation(Atum.MOD_ID, "textures/gui/spinning_wheel.png");
     private final IDrawableStatic background;
     private final IDrawable icon;
 
@@ -47,7 +47,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format(Constants.MOD_ID + "." + getUid().getPath());
+        return AtumUtils.format(Atum.MOD_ID + "." + getUid().getPath());
     }
 
     @Override

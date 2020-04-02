@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.SpiderModel;
@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class TarantulaRender<T extends TarantulaEntity> extends MobRenderer<T, SpiderModel<T>> {
-    private static final ResourceLocation TARANTULA_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/tarantula.png");
+    private static final ResourceLocation TARANTULA_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/tarantula.png");
 
     public TarantulaRender(EntityRendererManager manager) {
         super(manager, new SpiderModel<>(), 0.6F);

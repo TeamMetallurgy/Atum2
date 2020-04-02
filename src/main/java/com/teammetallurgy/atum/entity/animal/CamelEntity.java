@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.animal;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
@@ -7,7 +8,6 @@ import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.DeadOasisBiome;
 import com.teammetallurgy.atum.world.biome.OasisBiome;
 import com.teammetallurgy.atum.world.biome.SandDunesBiome;
@@ -721,7 +721,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Constants.MOD_ID, "textures/entity/armor/camel_armor_" + typeName) + ".png";
+            this.textureName = new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_" + typeName) + ".png";
         }
 
         public int getProtection() {

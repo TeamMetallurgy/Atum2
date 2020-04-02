@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.entity.Entity;
@@ -18,7 +17,7 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class ClubItem extends SwordItem {
     private static final Object2FloatMap<LivingEntity> cooldown = new Object2FloatOpenHashMap<>();
 

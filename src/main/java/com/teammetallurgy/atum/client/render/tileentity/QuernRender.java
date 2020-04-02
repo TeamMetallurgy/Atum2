@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.RenderUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.block.Block;
@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
-    private static final ResourceLocation QUERN_STONE = new ResourceLocation(Constants.MOD_ID, "textures/block/quern_stone.png");
+    private static final ResourceLocation QUERN_STONE = new ResourceLocation(Atum.MOD_ID, "textures/block/quern_stone.png");
     private static final RenderType QUERN_RENDER = RenderType.getEntityCutout(QUERN_STONE);
     public ModelRenderer core;
     private ModelRenderer coreLeft;

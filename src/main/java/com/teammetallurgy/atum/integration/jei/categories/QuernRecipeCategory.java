@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
 import com.teammetallurgy.atum.utils.AtumUtils;
-import com.teammetallurgy.atum.utils.Constants;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -23,7 +23,7 @@ import javax.annotation.Nonnull;
 import java.awt.*;
 
 public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
-    private static final ResourceLocation QUERN_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/quern.png");
+    private static final ResourceLocation QUERN_GUI = new ResourceLocation(Atum.MOD_ID, "textures/gui/quern.png");
     private final IDrawableStatic background;
     private final IDrawable icon;
 
@@ -47,7 +47,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format(Constants.MOD_ID + getUid().getPath());
+        return AtumUtils.format(Atum.MOD_ID + getUid().getPath());
     }
 
     @Override

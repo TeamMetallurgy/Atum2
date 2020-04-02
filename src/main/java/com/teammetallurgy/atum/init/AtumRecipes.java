@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
@@ -10,7 +11,6 @@ import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -33,7 +33,7 @@ import net.minecraftforge.registries.IForgeRegistryModifiable;
 import static com.teammetallurgy.atum.utils.recipe.RecipeHelper.*;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRecipes {
 
     @SubscribeEvent
@@ -146,7 +146,7 @@ public class AtumRecipes {
                     ItemStack output = furnaceRecipe.getRecipeOutput();
                     if (input != null && !output.isEmpty()) {
                         if (!KilnTileEntity.canKilnNotSmelt(input) && !KilnTileEntity.canKilnNotSmelt(output)) {
-                            ResourceLocation id = new ResourceLocation(Constants.MOD_ID, furnaceRecipe.getId().getPath());
+                            ResourceLocation id = new ResourceLocation(Atum.MOD_ID, furnaceRecipe.getId().getPath());
                             RecipeHandlers.kilnRecipes.register(new KilnRecipe(input, output, furnaceRecipe.getExperience()).setRegistryName(id));
                         }
                     }

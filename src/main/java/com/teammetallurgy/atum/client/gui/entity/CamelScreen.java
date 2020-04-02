@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.screen.inventory.InventoryScreen;
 import net.minecraft.entity.player.PlayerInventory;
@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class CamelScreen extends ContainerScreen<CamelContainer> {
-    private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/gui/camel.png");
+    private static final ResourceLocation CAMEL_GUI_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/gui/camel.png");
     private final PlayerInventory playerInventory;
     private float mousePosX;
     private float mousePosY;

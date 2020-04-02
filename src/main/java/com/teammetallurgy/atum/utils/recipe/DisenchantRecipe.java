@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.utils.recipe;
 
 import com.google.common.collect.Lists;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
@@ -18,10 +18,10 @@ import net.minecraftforge.registries.ObjectHolder;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(value = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@ObjectHolder(value = Atum.MOD_ID)
 public class DisenchantRecipe extends SpecialRecipe { //Statically loaded by EventBusSubscriber
-    private static final SpecialRecipeSerializer<DisenchantRecipe> DISENCHANT_SERIALIZER = IRecipeSerializer.register(Constants.MOD_ID + ":crafting_special_disenchant", new SpecialRecipeSerializer<>(DisenchantRecipe::new));
+    private static final SpecialRecipeSerializer<DisenchantRecipe> DISENCHANT_SERIALIZER = IRecipeSerializer.register(Atum.MOD_ID + ":crafting_special_disenchant", new SpecialRecipeSerializer<>(DisenchantRecipe::new));
 
     private DisenchantRecipe(ResourceLocation location) {
         super(location);
@@ -30,7 +30,7 @@ public class DisenchantRecipe extends SpecialRecipe { //Statically loaded by Eve
     @Override
     @Nonnull
     public ResourceLocation getId() {
-        return new ResourceLocation(Constants.MOD_ID, "disenchant");
+        return new ResourceLocation(Atum.MOD_ID, "disenchant");
     }
 
     @Override

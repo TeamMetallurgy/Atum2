@@ -768,6 +768,17 @@
   "entity.atum.bandit_warlord": "Warlord",
   "entity.atum.wraith": "Wraith",
 
+  "_comment": "Biomes",
+  "biome.atum.dead_oasis": "Dead Oasis",
+  "biome.atum.deadwood_forest": "Deadwood Forest",
+  "biome.atum.dried_river": "Dried River",
+  "biome.atum.limestone_crags": "Limestone Crags",
+  "biome.atum.limestone_mountains": "Limestone Mountains",
+  "biome.atum.oasis": "Oasis",
+  "biome.atum.sand_dunes": "Sand Dunes",
+  "biome.atum.sand_hills": "Sand Hills",
+  "biome.atum.sand_plains": "Sand Plains",
+
   "_comment": "Death Messages",
   "death.attack.assassinated": "%1$s was assassinated",
 

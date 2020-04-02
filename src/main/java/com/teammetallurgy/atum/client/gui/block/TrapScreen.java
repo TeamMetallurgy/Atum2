@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.client.gui.block;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.inventory.container.block.TrapContainer;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class TrapScreen extends ContainerScreen<TrapContainer> {
-    private static final ResourceLocation TRAP_GUI = new ResourceLocation(Constants.MOD_ID, "textures/gui/trap.png");
+    private static final ResourceLocation TRAP_GUI = new ResourceLocation(Atum.MOD_ID, "textures/gui/trap.png");
     private final PlayerInventory playerInventory;
 
     public TrapScreen(TrapContainer trap, PlayerInventory playerInventory, ITextComponent title) {

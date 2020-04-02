@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -24,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.UUID;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class HammerItem extends SwordItem {
     private static final AttributeModifier STUN = new AttributeModifier(UUID.fromString("b4ebf092-fe62-4250-b945-7dc45b2f1036"), "Hammer stun", -1000.0D, AttributeModifier.Operation.ADDITION);
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();

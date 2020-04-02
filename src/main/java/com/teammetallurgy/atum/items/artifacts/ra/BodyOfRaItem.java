@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.Item;
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class BodyOfRaItem extends TexturedArmorItem {
 
     public BodyOfRaItem() {

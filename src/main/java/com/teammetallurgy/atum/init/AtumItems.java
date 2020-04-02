@@ -38,7 +38,6 @@ import com.teammetallurgy.atum.items.food.EmmerFlourItem;
 import com.teammetallurgy.atum.items.food.FishItem;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -48,7 +47,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.*;
 
-@ObjectHolder(value = Constants.MOD_ID)
+@ObjectHolder(value = Atum.MOD_ID)
 public class AtumItems {
     public static final Item PALM_STICK = registerItem(new SimpleItem(), "palm_stick");
     public static final Item DEADWOOD_STICK = registerItem(new SimpleItem(), "deadwood_stick");

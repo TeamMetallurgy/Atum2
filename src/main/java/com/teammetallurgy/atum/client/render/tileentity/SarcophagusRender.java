@@ -2,10 +2,10 @@ package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -25,7 +25,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 
 public class SarcophagusRender extends TileEntityRenderer<SarcophagusTileEntity> {
-    private static final ResourceLocation SARCOPHAGUS = new ResourceLocation(Constants.MOD_ID, "textures/entity/chest/sarcophagus.png");
+    private static final ResourceLocation SARCOPHAGUS = new ResourceLocation(Atum.MOD_ID, "textures/entity/chest/sarcophagus.png");
     private static final RenderType SARCOPHAGUS_RENDER = RenderType.getEntityCutout(SARCOPHAGUS);
     public ModelRenderer sarcophagusBase;
     public ModelRenderer sarcophagusLid;

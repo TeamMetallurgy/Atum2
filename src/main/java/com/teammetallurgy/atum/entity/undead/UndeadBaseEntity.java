@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.undead;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
@@ -7,7 +8,6 @@ import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.efreet.EfreetBaseEntity;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
@@ -205,9 +205,9 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
             }
 
             if (this.hasSkinVariants()) {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
+                this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
             } else {
-                this.texturePath = new ResourceLocation(Constants.MOD_ID, "textures/entity/" + entityName) + ".png";
+                this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName) + ".png";
             }
         }
         return this.texturePath;

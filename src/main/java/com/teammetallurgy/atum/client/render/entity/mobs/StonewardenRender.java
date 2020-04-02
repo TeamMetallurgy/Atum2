@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -39,7 +39,7 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
         ResourceLocation location = CACHE.get(stonewarden.getVariant());
 
         if (location == null) {
-            location = new ResourceLocation(Constants.MOD_ID, "textures/entity/stonewarden_" + stonewarden.getVariant() + ".png");
+            location = new ResourceLocation(Atum.MOD_ID, "textures/entity/stonewarden_" + stonewarden.getVariant() + ".png");
             CACHE.put(stonewarden.getVariant(), location);
         }
         return location;

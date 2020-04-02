@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.utils.AtumItemGroup;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
@@ -19,12 +18,14 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@Mod(value = Constants.MOD_ID)
+@Mod(value = Atum.MOD_ID)
 public class Atum {
-    public static final Logger LOG = LogManager.getLogger(Constants.MOD_NAME);
+    public static final String MOD_ID = "atum";
+    public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final ItemGroup GROUP = new AtumItemGroup();
 
     public Atum() {

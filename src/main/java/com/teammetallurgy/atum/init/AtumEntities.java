@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
@@ -11,7 +12,6 @@ import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.entity.undead.*;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
@@ -29,8 +29,8 @@ import java.util.Random;
 import static com.teammetallurgy.atum.utils.AtumRegistry.*;
 import static net.minecraft.entity.EntityType.Builder;
 
-@ObjectHolder(value = Constants.MOD_ID)
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD) //Needed to load field earlier
+@ObjectHolder(value = Atum.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD) //Needed to load field earlier
 public class AtumEntities {
     //Mobs
     public static final EntityType<AssassinEntity> ASSASSIN = registerMob("assassin", 0x433731, 0xd99220, Builder.create(AssassinEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));

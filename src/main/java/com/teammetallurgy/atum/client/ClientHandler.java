@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
@@ -16,7 +17,6 @@ import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
 import com.teammetallurgy.atum.utils.AtumRegistry;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
@@ -48,7 +48,7 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
     private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
 
@@ -170,6 +170,9 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_LADDER, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_HATCH, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_DOOR, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PAPYRUS, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.FLAX, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.EMMER_WHEAT, cutoutMipped);
         for (Block torch : AtumTorchUnlitBlock.ALL_TORCHES) {
             RenderTypeLookup.setRenderLayer(torch, cutoutMipped);
         }

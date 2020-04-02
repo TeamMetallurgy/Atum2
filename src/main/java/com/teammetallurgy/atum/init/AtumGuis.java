@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.Lists;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import com.teammetallurgy.atum.inventory.container.block.TrapContainer;
 import com.teammetallurgy.atum.inventory.container.entity.AlphaDesertWolfContainer;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.ResourceLocation;
@@ -20,8 +20,8 @@ import net.minecraftforge.registries.ObjectHolder;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@ObjectHolder(Atum.MOD_ID)
 public class AtumGuis {
     public static List<ContainerType<?>> CONTAINERS = Lists.newArrayList();
     public static final ContainerType<AlphaDesertWolfContainer> ALPHA_DESERT_WOLF = register(IForgeContainerType.create((windowID, inv, data) -> {
@@ -43,7 +43,7 @@ public class AtumGuis {
 
 
     private static <T extends Container> ContainerType<T> register(@Nonnull ContainerType<T> container, @Nonnull String name) {
-        container.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        container.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         CONTAINERS.add(container);
         return container;
     }

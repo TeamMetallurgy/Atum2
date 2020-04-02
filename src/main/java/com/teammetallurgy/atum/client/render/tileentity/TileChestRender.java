@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.client.render.tileentity;
 
 import com.google.common.collect.Maps;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.client.ClientHandler;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.tileentity.ChestTileEntityRenderer;
@@ -49,7 +49,7 @@ public class TileChestRender extends ChestTileEntityRenderer<ChestBaseTileEntity
     public static Material getChestMaterial(String fileName) { //Copied from Atlases
         ResourceLocation chestTexture = CACHE.get(fileName);
         if (chestTexture == null) {
-            chestTexture = new ResourceLocation(Constants.MOD_ID, "entity/chest/" + fileName);
+            chestTexture = new ResourceLocation(Atum.MOD_ID, "entity/chest/" + fileName);
             CACHE.put(fileName, chestTexture);
         }
 

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.utils.recipe;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
@@ -21,10 +21,10 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(value = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@ObjectHolder(value = Atum.MOD_ID)
 public class MapExtendingScrollRecipe extends ShapedRecipe { //Statically loaded by EventBusSubscriber
-    private static final SpecialRecipeSerializer<MapExtendingScrollRecipe> MAP_EXTENDING_SCROLL_SERIALIZER = IRecipeSerializer.register(Constants.MOD_ID + ":crafting_special_map_extending_scroll", new SpecialRecipeSerializer<>(MapExtendingScrollRecipe::new));
+    private static final SpecialRecipeSerializer<MapExtendingScrollRecipe> MAP_EXTENDING_SCROLL_SERIALIZER = IRecipeSerializer.register(Atum.MOD_ID + ":crafting_special_map_extending_scroll", new SpecialRecipeSerializer<>(MapExtendingScrollRecipe::new));
 
     public MapExtendingScrollRecipe(ResourceLocation location) {
         super(location, "", 3, 3, NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(Items.FILLED_MAP), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL)), new ItemStack(Items.MAP));
@@ -33,7 +33,7 @@ public class MapExtendingScrollRecipe extends ShapedRecipe { //Statically loaded
     @Override
     @Nonnull
     public ResourceLocation getId() {
-        return new ResourceLocation(Constants.MOD_ID, "map_extending_scroll");
+        return new ResourceLocation(Atum.MOD_ID, "map_extending_scroll");
     }
 
     @Override

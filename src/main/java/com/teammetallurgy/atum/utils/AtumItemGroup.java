@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.utils;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -9,7 +10,7 @@ import javax.annotation.Nonnull;
 public class AtumItemGroup extends ItemGroup {
 
     public AtumItemGroup() {
-        super(Constants.MOD_ID);
+        super(Atum.MOD_ID);
         this.setBackgroundImageName("item_search.png");
     }
 

@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.seth;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.DaggerItem;
-import com.teammetallurgy.atum.utils.Constants;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.entity.Entity;
@@ -26,7 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class SethsStingItem extends DaggerItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 

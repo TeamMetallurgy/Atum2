@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRegistry {
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
@@ -61,7 +61,7 @@ public class AtumRegistry {
      * @return The Item that was registered
      */
     public static Item registerItem(@Nonnull Item item, @Nonnull String name) {
-        item.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        item.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         ITEMS.add(item);
         return item;
     }
@@ -164,7 +164,7 @@ public class AtumRegistry {
      * @return The Block that was registered
      */
     public static Block registerBaseBlock(@Nonnull Block block, @Nonnull String name) {
-        block.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        block.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         BLOCKS.add(block);
 
         return block;
@@ -179,7 +179,7 @@ public class AtumRegistry {
      */
     public static <T extends TileEntity> TileEntityType<T> registerTileEntity(@Nonnull String name, @Nonnull TileEntityType.Builder<T> builder) {
         TileEntityType<T> tileEntityType = builder.build(null);
-        tileEntityType.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        tileEntityType.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         TILE_ENTITIES.add(tileEntityType);
         return tileEntityType;
     }
@@ -208,7 +208,7 @@ public class AtumRegistry {
      * @return The EntityType that was registered
      */
     public static <T extends Entity> EntityType<T> registerEntity(String name, EntityType.Builder<T> builder) {
-        ResourceLocation location = new ResourceLocation(Constants.MOD_ID, name);
+        ResourceLocation location = new ResourceLocation(Atum.MOD_ID, name);
         EntityType<T> entityType = builder.build(location.toString());
         entityType.setRegistryName(location);
         ENTITIES.add(entityType);
@@ -239,7 +239,7 @@ public class AtumRegistry {
      * @return The Biome that was registered
      */
     public static AtumBiome registerBiome(AtumBiome biome, String name) {
-        biome.setRegistryName(new ResourceLocation(Constants.MOD_ID, name));
+        biome.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         BIOMES.add(biome);
         return biome;
     }
@@ -251,7 +251,7 @@ public class AtumRegistry {
      * @return The Sound that was registered
      */
     public static SoundEvent registerSound(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(Constants.MOD_ID, name);
+        ResourceLocation resourceLocation = new ResourceLocation(Atum.MOD_ID, name);
         SoundEvent sound = new SoundEvent(resourceLocation);
         sound.setRegistryName(resourceLocation);
         SOUNDS.add(sound);
@@ -265,7 +265,7 @@ public class AtumRegistry {
      * @return The Sound that was registered
      */
     public static BasicParticleType registerParticle(String name) {
-        ResourceLocation resourceLocation = new ResourceLocation(Constants.MOD_ID, name);
+        ResourceLocation resourceLocation = new ResourceLocation(Atum.MOD_ID, name);
         BasicParticleType particleType = new BasicParticleType(false);
         particleType.setRegistryName(resourceLocation);
         PARTICLES.add(particleType);
@@ -280,7 +280,7 @@ public class AtumRegistry {
      * @param event        the RegistryEvent.Register event
      */
     public static <T extends IForgeRegistryEntry<T>> T registerRecipe(String registryName, T entry, RegistryEvent.Register<T> event) {
-        entry.setRegistryName(new ResourceLocation(Constants.MOD_ID, registryName));
+        entry.setRegistryName(new ResourceLocation(Atum.MOD_ID, registryName));
         event.getRegistry().register(entry);
         return entry;
     }
@@ -293,7 +293,7 @@ public class AtumRegistry {
      * @return a new registry
      */
     public static <T extends IForgeRegistryEntry<T>> IForgeRegistry<T> makeRegistry(String registryName, Class<T> type) {
-        return new RegistryBuilder<T>().setName(new ResourceLocation(Constants.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).allowModification().create();
+        return new RegistryBuilder<T>().setName(new ResourceLocation(Atum.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).allowModification().create();
     }
 
     /*

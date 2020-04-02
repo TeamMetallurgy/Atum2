@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.api;
 
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.Atum;
 import net.minecraft.item.Item;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
@@ -36,8 +36,8 @@ public class AtumAPI {
         public static final Tag<Item> DUSTS_BLAZE = tag("forge", "dusts/blaze");
         public static final Tag<Item> SUGAR_CANE = tag("forge", "sugar_cane");
 
-        public static final Tag<Item> RELIC = tag(Constants.MOD_ID, "relic");
-        public static final Tag<Item> TOOLTIP = tag(Constants.MOD_ID, "tooltip");
+        public static final Tag<Item> RELIC = tag(Atum.MOD_ID, "relic");
+        public static final Tag<Item> TOOLTIP = tag(Atum.MOD_ID, "tooltip");
 
         public static Tag<Item> tag(String modID, String name) {
             return new ItemTags.Wrapper(new ResourceLocation(modID, name));

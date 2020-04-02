@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.utils;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
@@ -12,7 +13,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 public class BlockStatesGenerator extends BlockStateProvider {
 
     public BlockStatesGenerator(DataGenerator gen, ExistingFileHelper exFileHelper) {
-        super(gen, Constants.MOD_ID, exFileHelper);
+        super(gen, Atum.MOD_ID, exFileHelper);
     }
 
     @Override
@@ -27,9 +28,9 @@ public class BlockStatesGenerator extends BlockStateProvider {
 
     private void generateTorch(Block torch) {
         String torchName = torch.getRegistryName().getPath();
-        simpleBlock(torch, models().torch(torchName, new ResourceLocation(Constants.MOD_ID, "block/" + torchName)));
-        simpleBlock(AtumTorchUnlitBlock.UNLIT.get(torch), models().torch(torchName + "_unlit", new ResourceLocation(Constants.MOD_ID, "block/" + torchName + "_unlit")));
-        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Constants.MOD_ID, "wall_" + torchName)), models().torchWall("wall_" + torchName, new ResourceLocation(Constants.MOD_ID, "block/" + torchName)), 90);
-        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Constants.MOD_ID, "wall_" + torchName + "_unlit")), models().torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Constants.MOD_ID, "block/" + torchName + "_unlit")), 90);
+        simpleBlock(torch, models().torch(torchName, new ResourceLocation(Atum.MOD_ID, "block/" + torchName)));
+        simpleBlock(AtumTorchUnlitBlock.UNLIT.get(torch), models().torch(torchName + "_unlit", new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit")));
+        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName)), models().torchWall("wall_" + torchName, new ResourceLocation(Atum.MOD_ID, "block/" + torchName)), 90);
+        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName + "_unlit")), models().torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit")), 90);
     }
 }

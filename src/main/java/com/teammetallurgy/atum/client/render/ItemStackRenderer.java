@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
@@ -12,7 +13,6 @@ import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsProtectionItem;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -28,9 +28,9 @@ import net.minecraft.util.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class ItemStackRenderer extends ItemStackTileEntityRenderer {
-    private static final ResourceLocation ATUMS_PROTECTION_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/shield/atums_protection.png");
-    private static final ResourceLocation BRIGAND_SHIELD_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/shield/brigand_shield.png");
-    private static final ResourceLocation STONEGUARD_SHIELD_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/shield/stoneguard_shield.png");
+    private static final ResourceLocation ATUMS_PROTECTION_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/shield/atums_protection.png");
+    private static final ResourceLocation BRIGAND_SHIELD_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/shield/brigand_shield.png");
+    private static final ResourceLocation STONEGUARD_SHIELD_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/shield/stoneguard_shield.png");
     private static final AtumsProtectionModel ATUMS_PROTECTION = new AtumsProtectionModel();
     private static final BrigandShieldModel BRIGAND_SHIELD = new BrigandShieldModel();
     private static final StoneguardShieldModel STONEGUARD_SHIELD = new StoneguardShieldModel();

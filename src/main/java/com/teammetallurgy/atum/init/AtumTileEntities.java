@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
@@ -11,13 +12,12 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.Sarcophag
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnaceTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerTileEntity;
 
-@ObjectHolder(value = Constants.MOD_ID)
+@ObjectHolder(value = Atum.MOD_ID)
 public class AtumTileEntities {
     //Chests
     public static final TileEntityType<LimestoneChestTileEntity> LIMESTONE_CHEST = registerTileEntity("limestone_chest", TileEntityType.Builder.create(LimestoneChestTileEntity::new, AtumBlocks.LIMESTONE_CHEST));

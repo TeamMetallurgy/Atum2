@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.google.common.collect.Maps;
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
     public static final List<Block> ALL_TORCHES = new ArrayList<>();
     public static final Map<Block, Block> UNLIT = Maps.newHashMap();

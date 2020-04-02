@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.integration.jei;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.integration.jei.categories.KilnRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.categories.QuernRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.categories.SpinningWheelRecipeCategory;
-import com.teammetallurgy.atum.utils.Constants;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -22,14 +22,14 @@ import javax.annotation.Nonnull;
 
 @JeiPlugin
 public class JEIIntegration implements IModPlugin {
-    public static final ResourceLocation QUERN = new ResourceLocation(Constants.MOD_ID, "quern");
-    public static final ResourceLocation SPINNING_WHEEL = new ResourceLocation(Constants.MOD_ID, "spinningwheel");
-    public static final ResourceLocation KILN = new ResourceLocation(Constants.MOD_ID, "kiln");
+    public static final ResourceLocation QUERN = new ResourceLocation(Atum.MOD_ID, "quern");
+    public static final ResourceLocation SPINNING_WHEEL = new ResourceLocation(Atum.MOD_ID, "spinningwheel");
+    public static final ResourceLocation KILN = new ResourceLocation(Atum.MOD_ID, "kiln");
 
     @Override
     @Nonnull
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(Constants.MOD_ID);
+        return new ResourceLocation(Atum.MOD_ID);
     }
 
     @Override

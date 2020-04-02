@@ -35,12 +35,11 @@ public class PapyrusBlock extends SugarCaneBlock {
     public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
         BlockState soil = world.getBlockState(pos.down());
         Block block = soil.getBlock();
-        if (block.canSustainPlant(soil, world, pos.down(), Direction.UP, this)) return true;
 
         if (block == this) {
             return true;
         } else {
-            if (block != AtumBlocks.FERTILE_SOIL && block != AtumBlocks.FERTILE_SOIL_TILLED && block != AtumBlocks.SAND) {
+            if (block == AtumBlocks.FERTILE_SOIL || block == AtumBlocks.FERTILE_SOIL_TILLED || block == AtumBlocks.SAND) {
                 BlockPos powDown = pos.down();
 
                 for (Direction direction : Direction.Plane.HORIZONTAL) {

@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -21,7 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class EyesOfAtumItem extends TexturedArmorItem {
     private static EffectInstance savedNightVision;
 

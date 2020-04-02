@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.client.render.tileentity;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -72,7 +72,7 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
         ResourceLocation crateTexture = CACHE.get(name);
 
         if (crateTexture == null) {
-            crateTexture = new ResourceLocation(Constants.MOD_ID, "textures/entity/chest/" + name + ".png");
+            crateTexture = new ResourceLocation(Atum.MOD_ID, "textures/entity/chest/" + name + ".png");
             CACHE.put(name, crateTexture);
         }
         return buffer.getBuffer(RenderType.getEntityCutout(crateTexture));

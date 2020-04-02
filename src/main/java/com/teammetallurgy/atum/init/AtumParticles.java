@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.init;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.particle.*;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleManager;
 import net.minecraft.particles.BasicParticleType;
@@ -15,8 +15,8 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.utils.AtumRegistry.registerParticle;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(value = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@ObjectHolder(value = Atum.MOD_ID)
 public class AtumParticles {
     public static final BasicParticleType ANUBIS = registerParticle("anubis");
     public static final BasicParticleType ANUBIS_SKULL = registerParticle("anubis_skull");

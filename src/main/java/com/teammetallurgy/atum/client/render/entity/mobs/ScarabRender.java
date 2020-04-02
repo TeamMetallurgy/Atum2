@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.model.EndermiteModel;
@@ -13,8 +13,8 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class ScarabRender extends MobRenderer<ScarabEntity, EndermiteModel<ScarabEntity>> {
-    private static final ResourceLocation SCARAB_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab.png");
-    private static final ResourceLocation SCARAB_GOLDEN_TEXTURE = new ResourceLocation(Constants.MOD_ID, "textures/entity/scarab_golden.png");
+    private static final ResourceLocation SCARAB_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/scarab.png");
+    private static final ResourceLocation SCARAB_GOLDEN_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/scarab_golden.png");
 
     public ScarabRender(EntityRendererManager manager) {
         super(manager, new EndermiteModel<>(), 0.3F);

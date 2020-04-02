@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.thoth;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -123,7 +123,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
     @Override
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
-        player.sendStatusMessage(new TranslationTextComponent(Constants.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".searching").applyTextStyle(TextFormatting.YELLOW), true);
+        player.sendStatusMessage(new TranslationTextComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".searching").applyTextStyle(TextFormatting.YELLOW), true);
         this.searchTime = 60;
         return super.onItemRightClick(world, player, hand);
     }

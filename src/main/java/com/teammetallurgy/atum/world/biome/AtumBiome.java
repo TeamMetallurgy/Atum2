@@ -22,7 +22,6 @@ public class AtumBiome extends Biome {
     public AtumBiome(Builder builder) {
         super(builder);
         this.defaultWeight = builder.defaultWeight;
-        //this.atumDecorator = (BiomeDecoratorAtum) this.createBiomeDecorator();
     }
 
     protected void addDefaultSpawns(Biome biome) {
@@ -82,18 +81,7 @@ public class AtumBiome extends Biome {
         return this.defaultWeight;
     }
 
-    /*@Override
-    @Nonnull
-    public BiomeDecorator getModdedBiomeDecorator(@Nonnull BiomeDecorator original) {
-        final BiomeDecorator dec = new BiomeDecoratorAtum();
-        dec.deadBushPerChunk = 5;
-        dec.reedsPerChunk = 0;
-        dec.cactiPerChunk = 0;
-        dec.grassPerChunk = 0;
-
-        return dec;
-    }
-
+    /*
     @Override
     @Nonnull
     public WorldGenerator getRandomWorldGenForGrass(Random rand) {

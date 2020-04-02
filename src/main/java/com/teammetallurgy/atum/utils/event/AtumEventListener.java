@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.utils.event;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
@@ -12,7 +13,6 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
 import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -60,7 +60,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumEventListener {
     private static final String TAG_ATUM_START = "atum_start";
 

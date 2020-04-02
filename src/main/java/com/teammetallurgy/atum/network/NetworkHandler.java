@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.network;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
 import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +15,7 @@ import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class NetworkHandler {
     private static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
-            .named(new ResourceLocation(Constants.MOD_ID, "atum_channel"))
+            .named(new ResourceLocation(Atum.MOD_ID, "atum_channel"))
             .clientAcceptedVersions(v -> true)
             .serverAcceptedVersions(v -> true)
             .networkProtocolVersion(() -> "ATUM1")

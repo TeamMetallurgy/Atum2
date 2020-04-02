@@ -23,11 +23,6 @@ public class WarlordEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected int getVariantAmount() {
-        return 7;
-    }
-
-    @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));

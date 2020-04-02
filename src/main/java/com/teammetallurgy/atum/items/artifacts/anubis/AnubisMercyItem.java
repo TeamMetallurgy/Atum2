@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.anubis;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -32,7 +32,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AnubisMercyItem extends AmuletItem {
 
     public AnubisMercyItem() {
@@ -132,6 +132,6 @@ public class AnubisMercyItem extends AmuletItem {
         int remaining = (stack.getMaxDamage() - stack.getDamage()) / 332;
         tooltip.add(new TranslationTextComponent("atum.tooltip.uses_remaining", remaining));
 
-        tooltip.add(new TranslationTextComponent(Constants.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".disenchantment_curse").applyTextStyle(TextFormatting.DARK_RED));
+        tooltip.add(new TranslationTextComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".disenchantment_curse").applyTextStyle(TextFormatting.DARK_RED));
     }
 }

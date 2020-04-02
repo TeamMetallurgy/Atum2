@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.utils.Constants;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -59,6 +59,6 @@ public class ArrowPoisonEntity extends CustomArrow {
 
     @Override
     public ResourceLocation getTexture() {
-        return new ResourceLocation(Constants.MOD_ID, "textures/arrow/arrow_poison.png");
+        return new ResourceLocation(Atum.MOD_ID, "textures/arrow/arrow_poison.png");
     }
 }

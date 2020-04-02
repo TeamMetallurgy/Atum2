@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.utils.Constants;
 import com.teammetallurgy.atum.utils.StackHelper;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
@@ -49,7 +48,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-@Mod.EventBusSubscriber(modid = Constants.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AnubisWrathItem extends SwordItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
     private final float attackDamage;
@@ -197,7 +196,7 @@ public class AnubisWrathItem extends SwordItem {
             tooltip.add(new TranslationTextComponent(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
         } else {
             tooltip.add(new TranslationTextComponent(itemIdentifier + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker"))
-                    .appendText(" ").appendSibling(new TranslationTextComponent(Constants.MOD_ID + ".tooltip.shift").applyTextStyle(TextFormatting.DARK_GRAY)));
+                    .appendText(" ").appendSibling(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").applyTextStyle(TextFormatting.DARK_GRAY)));
         }
         if (tooltipType.isAdvanced()) {
             tooltip.add(new TranslationTextComponent(itemIdentifier + ".kills", getSouls(stack)).applyTextStyle(TextFormatting.DARK_RED));
