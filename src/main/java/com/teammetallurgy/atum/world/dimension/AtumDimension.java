@@ -114,8 +114,8 @@ public class AtumDimension extends Dimension {
             if (x < 0) {
                 return null;
             } else {
-                for (int z = x + 1; z >= 0; --z) {
-                    mutablePos.setPos(posX, z, posZ);
+                for (int y = x + 1; y >= 0; --y) {
+                    mutablePos.setPos(posX, y, posZ);
                     BlockState stateMutable = this.world.getBlockState(mutablePos);
                     if (!stateMutable.getFluidState().isEmpty()) {
                         break;
@@ -160,6 +160,11 @@ public class AtumDimension extends Dimension {
         float f2 = 0.75F * f;
         float f3 = 0.6F * f;
         return new Vec3d(f1, f2, f3);
+    }
+
+    @Override
+    public boolean isDaytime() {
+        return this.getWorld().getSkylightSubtracted() < 4;
     }
 
     @Override

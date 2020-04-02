@@ -19,6 +19,7 @@ public class WarlordEntity extends BanditBaseEntity {
     public WarlordEntity(EntityType<? extends WarlordEntity> entityType, World world) {
         super(entityType, world);
         this.experienceValue = 16;
+        this.setCanPatrol(false);
     }
 
     @Override

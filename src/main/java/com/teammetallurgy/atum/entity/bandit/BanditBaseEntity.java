@@ -6,29 +6,37 @@ import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.DyeColor;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraft.world.raid.Raid;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -37,9 +45,10 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 import java.util.Random;
 
-public class BanditBaseEntity extends MonsterEntity implements ITexture {
+public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(BanditBaseEntity.class, DataSerializers.VARINT);
     private String texturePath;
+    private boolean canPatrol;
 
     BanditBaseEntity(EntityType<? extends BanditBaseEntity> entityType, World world) {
         super(entityType, world);
@@ -55,6 +64,9 @@ public class BanditBaseEntity extends MonsterEntity implements ITexture {
         this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
         this.applyEntityAI();
+        if (this.canPatrol()) {
+            super.registerGoals();
+        }
     }
 
     protected void applyEntityAI() {
@@ -78,25 +90,50 @@ public class BanditBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    @Nonnull
-    protected PathNavigator createNavigator(@Nonnull World world) {
-        return new GroundPathNavigator(this, world);
-    }
-
-    @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
-        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
-
+    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT nbt) {
+        spawnData = mobInitialSpawn(spawnData);
         this.setEnchantmentBasedOnDifficulty(difficulty);
         this.setEquipmentBasedOnDifficulty(difficulty);
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
+
+        if (this.isLeader()) {
+            this.setItemStackToSlot(EquipmentSlotType.HEAD, createBanditBanner());
+            this.setDropChance(EquipmentSlotType.HEAD, 1.5F);
+        }
+
+        if (spawnReason == SpawnReason.PATROL) {
+            this.func_226541_s_(true);
+        }
 
         if (hasSkinVariants()) {
             final int variant = MathHelper.nextInt(this.rand, 0, getVariantAmount());
             this.setVariant(variant);
         }
-        return livingdata;
+        return spawnData;
+    }
+
+    public ILivingEntityData mobInitialSpawn(@Nullable ILivingEntityData spawnData) {
+        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+        if (this.rand.nextFloat() < 0.05F) {
+            this.setLeftHanded(true);
+        } else {
+            this.setLeftHanded(false);
+        }
+        return spawnData;
+    }
+
+    public static ItemStack createBanditBanner() { //TODO Make proper banner
+        ItemStack banner = new ItemStack(Items.WHITE_BANNER);
+        CompoundNBT nbt = banner.getOrCreateChildTag("BlockEntityTag");
+        ListNBT nbtList = new BannerPattern.Builder().func_222477_a(BannerPattern.BASE, DyeColor.WHITE).func_222477_a(BannerPattern.STRIPE_DOWNLEFT, DyeColor.GRAY)
+                .func_222477_a(BannerPattern.STRIPE_DOWNRIGHT, DyeColor.GRAY).func_222477_a(BannerPattern.CROSS, DyeColor.RED)
+                .func_222477_a(BannerPattern.FLOWER, DyeColor.BLACK).func_222477_a(BannerPattern.FLOWER, DyeColor.ORANGE)
+                .func_222477_a(BannerPattern.CIRCLE_MIDDLE, DyeColor.BLACK).func_222477_a(BannerPattern.CIRCLE_MIDDLE, DyeColor.YELLOW)
+                .func_222477_a(BannerPattern.SKULL, DyeColor.BLACK).func_222477_a(BannerPattern.SKULL, DyeColor.WHITE).func_222476_a();
+        nbt.put("Patterns", nbtList);
+        banner.setDisplayName(new TranslationTextComponent("block.atum.bandit_banner").applyTextStyle(TextFormatting.GOLD));
+        return banner;
     }
 
     @Override
@@ -129,6 +166,14 @@ public class BanditBaseEntity extends MonsterEntity implements ITexture {
 
     private int getVariant() {
         return this.dataManager.get(VARIANT);
+    }
+
+    protected boolean canPatrol() {
+        return this.canPatrol;
+    }
+
+    public void setCanPatrol(boolean canPatrol) {
+        this.canPatrol = canPatrol;
     }
 
     @Override
@@ -185,6 +230,7 @@ public class BanditBaseEntity extends MonsterEntity implements ITexture {
         if (this.hasSkinVariants()) {
             compound.putInt("Variant", this.getVariant());
         }
+        compound.putBoolean("CanPatrol", this.canPatrol);
     }
 
     @Override
@@ -193,5 +239,6 @@ public class BanditBaseEntity extends MonsterEntity implements ITexture {
         if (this.hasSkinVariants()) {
             this.setVariant(compound.getInt("Variant"));
         }
+        this.canPatrol = compound.getBoolean("CanPatrol");
     }
 }

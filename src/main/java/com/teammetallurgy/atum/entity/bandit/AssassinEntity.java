@@ -34,6 +34,7 @@ public class AssassinEntity extends BanditBaseEntity {
         super(entityType, world);
         this.experienceValue = 12;
         (new ClimberPathNavigator(this, world)).setBreakDoors(true);
+        this.setCanPatrol(false);
     }
 
     @Override

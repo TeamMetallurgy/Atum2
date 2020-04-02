@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.gen;
 
+import com.teammetallurgy.atum.world.spawner.BanditPatrolSpawner;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
@@ -7,6 +8,7 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -20,6 +22,7 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
         }
     });
     private final OctavesNoiseGenerator depthNoise;
+    private final BanditPatrolSpawner banditSpawner = new BanditPatrolSpawner();
 
     public AtumChunkGenerator(IWorld world, BiomeProvider biomeProvider, AtumGenSettings settings) {
         super(world, biomeProvider, 4, 8, 256, settings, true);
@@ -103,5 +106,10 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     @Override
     public int getGroundHeight() { //Spawn Height
         return 64;
+    }
+
+    @Override
+    public void spawnMobs(ServerWorld serverWorld, boolean spawnHostileMobs, boolean spawnPeacefulMobs) {
+        this.banditSpawner.tick(serverWorld, spawnHostileMobs);
     }
 }

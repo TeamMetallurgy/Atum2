@@ -361,6 +361,7 @@
   "block.atum.thin_framed_magenta_stained_glass": "Magenta Stained Thin Framed Glass",
   "block.atum.thin_framed_orange_stained_glass": "Orange Stained Thin Framed Glass",
   "block.atum.thin_framed_white_stained_glass": "White Stained Thin Framed Glass",
+  "block.atum.bandit_banner": "Bandit Banner",
 
   "_comment": "Containers",
   "container.trap.arrow": "Arrow Trap",
