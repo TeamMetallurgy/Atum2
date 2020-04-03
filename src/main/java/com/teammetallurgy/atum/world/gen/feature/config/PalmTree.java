@@ -11,6 +11,6 @@ public class PalmTree extends PalmTreeBase {
     @Nullable
     @Override
     protected ConfiguredFeature<PalmConfig, ?> getPalmFeature(Random random, boolean b) {
-        return AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG);
+        return AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG_SAPLING);
     }
 }

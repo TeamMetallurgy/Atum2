@@ -1,0 +1,20 @@
+{
+    "textures": {
+        "particle": "#stem"
+    },
+    "elements": [
+        {
+            "name": "stem",
+            "from": [ 7.0, 10.0, 7.0 ], 
+            "to": [ 9.0, 16.0, 9.0 ], 
+            "faces": {
+                "north": { "texture": "#stem", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "east": { "texture": "#stem", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "south": { "texture": "#stem", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "west": { "texture": "#stem", "uv": [ 6.0, 6.0, 8.0, 12.0 ] },
+                "up": { "texture": "#stem", "uv": [ 6.0, 0.0, 8.0, 2.0 ] },
+                "down": { "texture": "#stem", "uv": [ 6.0, 0.0, 8.0, 2.0 ] }
+            }
+        }
+    ]
+}

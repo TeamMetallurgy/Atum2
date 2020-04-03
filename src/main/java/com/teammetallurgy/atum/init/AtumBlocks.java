@@ -358,10 +358,10 @@ public class AtumBlocks {
     public static final Block STRIPPED_PALM_LOG = registerBlock(new LogBlock(MaterialColor.WOOD, from(PALM_LOG)), "stripped_palm_log");
     public static final Block PALM_WOOD = registerBlock(new LogBlock(MaterialColor.WOOD, from(PALM_LOG)), "palm_wood");
     public static final Block STRIPPED_PALM_WOOD = registerBlock(new LogBlock(MaterialColor.WOOD, from(PALM_LOG)), "stripped_palm_wood");
-    public static final Block DEADWOOD_LOG = registerBlock(new DeadwoodBlock(), "deadwood_log");
-    public static final Block STRIPPED_DEADWOOD_LOG = registerBlock(new DeadwoodBlock(), "stripped_deadwood_log");
-    public static final Block DEADWOOD_WOOD = registerBlock(new DeadwoodBlock(), "deadwood_wood");
-    public static final Block STRIPPED_DEADWOOD_WOOD = registerBlock(new DeadwoodBlock(), "stripped_deadwood_wood");
+    public static final Block DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock(), "deadwood_log");
+    public static final Block STRIPPED_DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock(), "stripped_deadwood_log");
+    public static final Block DEADWOOD_WOOD = registerBlock(new DeadwoodLogBlock(), "deadwood_wood");
+    public static final Block STRIPPED_DEADWOOD_WOOD = registerBlock(new DeadwoodLogBlock(), "stripped_deadwood_wood");
     public static final Block DEADWOOD_BRANCH = registerBlock(new BranchBlock(), null, "deadwood_branch");
     public static final Block PALM_STAIRS = registerBlock(new StairsBlock(PALM_PLANKS::getDefaultState, from(PALM_PLANKS)), "palm_stairs");
     public static final Block DEADWOOD_STAIRS = registerBlock(new StairsBlock(DEADWOOD_PLANKS::getDefaultState, from(DEADWOOD_PLANKS)), "deadwood_stairs");

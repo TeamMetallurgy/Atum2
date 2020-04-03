@@ -28,11 +28,11 @@ import java.util.Random;
 
 public class DateBlock extends BushBlock implements IGrowable {
     public static final IntegerProperty AGE = BlockStateProperties.AGE_0_7;
-    private static final VoxelShape STEM = Block.makeCuboidShape(0.4125D, 0.625D, 0.4125D, 0.6D, 1.0D, 0.6D);
-    private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(0.3125D, 0.125D, 0.3125D, 0.6875D, 1.0D, 0.6875D);
+    private static final VoxelShape STEM = Block.makeCuboidShape(7.0D, 10.0D, 7.0D, 9.0D, 16.0D, 9.0D);
+    private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(5.0D, 2.0D, 5.0D, 11.0D, 16.0D, 11.0D);
 
     public DateBlock() {
-        super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).tickRandomly());
+        super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).notSolid().tickRandomly());
         this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
     }
 
