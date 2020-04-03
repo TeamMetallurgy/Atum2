@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum.world.biome;
 
 public class LimestoneCragsBiome extends AtumBiome {
-    //private WorldGenerator genSpikes;
 
     public LimestoneCragsBiome() {
         super(new Builder("limestone_crags", 3).setBaseHeight(0.225F).setHeightVariation(0.45000002F));
-        //this.genSpikes = new WorldGenLimestoneSpike();
         this.deadwoodRarity = 0.12D;
         super.addDefaultSpawns(this);
         super.addDesertWolfSpawning(this);

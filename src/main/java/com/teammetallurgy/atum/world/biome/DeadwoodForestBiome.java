@@ -1,13 +1,19 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.world.gen.feature.AtumFeatures;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.placement.FrequencyConfig;
+import net.minecraft.world.gen.placement.Placement;
+
 public class DeadwoodForestBiome extends AtumBiome {
     //private WorldGenerator anputsFingersGen = new WorldGenBush(AtumBlocks.ANPUTS_FINGERS);
 
     public DeadwoodForestBiome() {
         super(new Builder("deadwood_forest", 10));
         this.deadwoodRarity = 1.0D;
-        //this.decorator.grassPerChunk = 1;
         super.addDefaultSpawns(this);
+        this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DEAD_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(1))));
     }
 
     /*@Override

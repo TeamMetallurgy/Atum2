@@ -1,9 +1,10 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.gen.feature.config.PalmTree;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.trees.AcaciaTree;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
@@ -14,8 +15,8 @@ import javax.annotation.Nonnull;
 public class PalmSaplingBlock extends SaplingBlock implements IGrowable {
     private static final VoxelShape PALM_SAPLING_AABB = Block.makeCuboidShape(10.0D, 0.0D, 10.0D, 6.0D, 7.0D, 6.0D);
 
-    public PalmSaplingBlock() { //TODO
-        super(new AcaciaTree() /*new PalmTree()*/, Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT));
+    public PalmSaplingBlock() {
+        super(new PalmTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT));
     }
 
     @Override
