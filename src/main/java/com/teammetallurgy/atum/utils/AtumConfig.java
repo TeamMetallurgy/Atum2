@@ -30,6 +30,8 @@ public class AtumConfig {
     public static int DIMENSION_ID;
     public static boolean RECIPE_OVERRIDING;
 
+    public static boolean SANDSTORM_ENABLED;
+    public static int SANDSTORM_SAND_RARITY;
     public static float SANDSTORM_FOG;
     public static float SAND_DARKNESS;
     public static float SAND_ALPHA;
@@ -96,6 +98,18 @@ public class AtumConfig {
         propOrder.add(prop.getName());
 
         RECIPE_OVERRIDING = config.getBoolean("Enable Atum recipe overriding?", CATEGORY_GENERAL, true, "Atum is removing and adding some vanilla recipes, in order for certain recipes to get priority. It should not break anything. This is a fail safe if it does.");
+
+        prop = config.get(SANDSTORM, "Sandstorm Enabled", true);
+        prop.setComment("Enable/disables all functionality of sandstorms");
+        prop.setLanguageKey("atum.configGui.sandstormenabled");
+        SANDSTORM_ENABLED = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = config.get(SANDSTORM, "Sandstorm Sand Layer", 40);
+        prop.setComment("Chance for sandstorms to generate sand layers. The higher the value, the more rare it is. Set to 0 to disable.");
+        prop.setLanguageKey("atum.configGui.sandstormsandrarity");
+        SANDSTORM_SAND_RARITY = prop.getInt();
+        propOrder.add(prop.getName());
 
         prop = config.get(SANDSTORM, "Sandstorm Fog", 2);
         prop.setComment("Multiplier to fog during sandstorms");
