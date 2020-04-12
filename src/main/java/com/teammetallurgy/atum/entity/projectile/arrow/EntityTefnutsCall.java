@@ -24,10 +24,12 @@ public class EntityTefnutsCall extends CustomArrow {
 
     public EntityTefnutsCall(World world) {
         super(world);
+        this.isImmuneToFire = true;
     }
 
     public EntityTefnutsCall(World world, EntityLivingBase shooter) {
         super(world, shooter);
+        this.isImmuneToFire = true;
     }
 
     public void setStack(@Nonnull ItemStack stack) {
@@ -38,6 +40,11 @@ public class EntityTefnutsCall extends CustomArrow {
     @Nonnull
     protected ItemStack getArrowStack() {
         return stack;
+    }
+
+    @Override
+    public boolean isImmuneToExplosions() {
+        return true;
     }
 
     @Override

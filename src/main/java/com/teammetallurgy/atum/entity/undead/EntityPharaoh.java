@@ -172,6 +172,11 @@ public class EntityPharaoh extends EntityUndeadBase {
     }
 
     @Override
+    public boolean canPickUpLoot() {
+        return false;
+    }
+
+    @Override
     protected void dropEquipment(boolean wasRecentlyHit, int lootingModifier) { //Don't drop Pharaoh Scepters
     }
 

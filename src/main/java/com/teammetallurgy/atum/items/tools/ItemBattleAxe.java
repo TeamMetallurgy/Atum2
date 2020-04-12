@@ -12,8 +12,8 @@ import javax.annotation.Nonnull;
 
 public class ItemBattleAxe extends ItemAxe {
 
-    protected ItemBattleAxe() {
-        super(ToolMaterial.DIAMOND);
+    public ItemBattleAxe(ToolMaterial material) {
+        super(material);
     }
 
     @Override

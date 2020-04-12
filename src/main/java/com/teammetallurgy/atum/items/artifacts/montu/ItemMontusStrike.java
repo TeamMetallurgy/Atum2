@@ -35,6 +35,10 @@ import java.util.List;
 public class ItemMontusStrike extends ItemBattleAxe {
     private static final TObjectFloatMap<EntityPlayer> cooldown = new TObjectFloatHashMap<>();
 
+    public ItemMontusStrike() {
+        super(ToolMaterial.DIAMOND);
+    }
+
     @Override
     public int getMaxItemUseDuration(@Nonnull ItemStack stack) {
         return 7200;
