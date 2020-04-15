@@ -61,6 +61,8 @@ public class AtumConfig {
 
     public static class Sandstorm {
         public static final String SANDSTORM = "sandstorm";
+        public final ForgeConfigSpec.BooleanValue sandstormEnabled;
+        public final ForgeConfigSpec.IntValue sandstormSandLayerChance;
         public final ForgeConfigSpec.IntValue sandstormFog;
         public final ForgeConfigSpec.IntValue sandDarkness;
         public final ForgeConfigSpec.IntValue sandAlpha;
@@ -69,6 +71,12 @@ public class AtumConfig {
 
         Sandstorm(ForgeConfigSpec.Builder builder) {
             builder.push(SANDSTORM);
+            sandstormEnabled = builder.comment("Enable/disables all functionality of sandstorms")
+                    .translation("atum.configGui.sandstormenabled")
+                    .define("Sandstorm Enabled", true);
+            sandstormSandLayerChance = builder.comment("Chance for sandstorms to generate sand layers. The higher the value, the more rare it is. Set to 0 to disable.")
+                    .translation("atum.configGui.sandstormsandrarity")
+                    .defineInRange("Sandstorm Sand Layer", 40, 0, 10000);
             sandstormFog = builder.comment("Multiplier to fog during sandstorms")
                     .translation("atum.config.sandstormfog")
                     .defineInRange("Sandstorm Fog", 2, 0, 100);

@@ -69,7 +69,7 @@ public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
                             if (k >= 4 && material.isLiquid()) {
                                 return false;
                             }
-                            if (k < 4 && !material.isSolid() && world.getBlockState(pos.add(k1, k, l2)) != config.field_227270_a_) {
+                            if (k < 4 && !material.isSolid() && world.getBlockState(pos.add(k1, k, l2)) != config.state) {
                                 return false;
                             }
                         }
@@ -81,7 +81,7 @@ public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
                 for (int i3 = 0; i3 < 16; ++i3) {
                     for (int i4 = 0; i4 < 8; ++i4) {
                         if (aboolean[(l1 * 16 + i3) * 8 + i4]) {
-                            world.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? AIR : config.field_227270_a_, 2);
+                            world.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? AIR : config.state, 2);
                         }
                     }
                 }

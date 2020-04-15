@@ -872,6 +872,8 @@
   "atum.config.atum_start_structure": "Atum start structure",
   "atum.config.fog": "Atum Fog",
   "atum.config.portal_creation": "Atum Portal",
+  "atum.config.sandstormenabled": "Sandstorm Enabled",
+  "atum.configGui.sandstormsandrarity": "Sandstorm Sand Layer Rarity",
   "atum.config.sandstormfog": "Sandstorm Fog",
   "atum.config.sandbrightness": "Sandstorm Brightness",
   "atum.config.sandalpha": "Sandstorm Transparency",

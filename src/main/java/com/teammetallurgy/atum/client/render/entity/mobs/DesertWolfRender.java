@@ -40,11 +40,11 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     public void render(@Nonnull DesertWolfEntity desertWolf, float entityYaw, float partialTicks, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int i) {
         if (desertWolf.isWolfWet()) {
             float f = desertWolf.getBrightness() * desertWolf.getShadingWhileWet(partialTicks);
-            this.entityModel.func_228253_a_(f, f, f);
+            this.entityModel.setTint(f, f, f);
         }
         super.render(desertWolf, entityYaw, partialTicks, matrixStack, buffer, i);
         if (desertWolf.isWolfWet()) {
-            this.entityModel.func_228253_a_(1.0F, 1.0F, 1.0F);
+            this.entityModel.setTint(1.0F, 1.0F, 1.0F);
         }
     }
 

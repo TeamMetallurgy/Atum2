@@ -105,7 +105,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         }
 
         if (spawnReason == SpawnReason.PATROL) {
-            this.func_226541_s_(true);
+            this.setPatrolling(true);
         }
 
         if (this.hasSkinVariants()) {
@@ -128,11 +128,11 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     public static ItemStack createBanditBanner() {
         ItemStack banner = new ItemStack(Items.WHITE_BANNER);
         CompoundNBT nbt = banner.getOrCreateChildTag("BlockEntityTag");
-        ListNBT nbtList = new BannerPattern.Builder().func_222477_a(BannerPattern.BASE, DyeColor.WHITE).func_222477_a(BannerPattern.STRIPE_DOWNLEFT, DyeColor.GRAY)
-                .func_222477_a(BannerPattern.STRIPE_DOWNRIGHT, DyeColor.GRAY).func_222477_a(BannerPattern.CROSS, DyeColor.RED)
-                .func_222477_a(BannerPattern.FLOWER, DyeColor.BLACK).func_222477_a(BannerPattern.FLOWER, DyeColor.ORANGE)
-                .func_222477_a(BannerPattern.CIRCLE_MIDDLE, DyeColor.BLACK).func_222477_a(BannerPattern.CIRCLE_MIDDLE, DyeColor.YELLOW)
-                .func_222477_a(BannerPattern.SKULL, DyeColor.BLACK).func_222477_a(BannerPattern.SKULL, DyeColor.WHITE).func_222476_a();
+        ListNBT nbtList = new BannerPattern.Builder().setPatternWithColor(BannerPattern.BASE, DyeColor.WHITE).setPatternWithColor(BannerPattern.STRIPE_DOWNLEFT, DyeColor.GRAY)
+                .setPatternWithColor(BannerPattern.STRIPE_DOWNRIGHT, DyeColor.GRAY).setPatternWithColor(BannerPattern.CROSS, DyeColor.RED)
+                .setPatternWithColor(BannerPattern.FLOWER, DyeColor.BLACK).setPatternWithColor(BannerPattern.FLOWER, DyeColor.ORANGE)
+                .setPatternWithColor(BannerPattern.CIRCLE_MIDDLE, DyeColor.BLACK).setPatternWithColor(BannerPattern.CIRCLE_MIDDLE, DyeColor.YELLOW)
+                .setPatternWithColor(BannerPattern.SKULL, DyeColor.BLACK).setPatternWithColor(BannerPattern.SKULL, DyeColor.WHITE).func_222476_a();
         nbt.put("Patterns", nbtList);
         banner.setDisplayName(new TranslationTextComponent("block.atum.bandit_banner").applyTextStyle(TextFormatting.GOLD));
         return banner;

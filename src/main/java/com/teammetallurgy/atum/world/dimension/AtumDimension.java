@@ -82,7 +82,7 @@ public class AtumDimension extends Dimension {
         BiomeProviderType<AtumBiomeProviderSettings, AtumBiomeProvider> biomeType = AtumBiomeProviderTypes.ATUM;
         ChunkGeneratorType<AtumGenSettings, AtumChunkGenerator> chunkType = AtumChunkGeneratorType.ATUM;
         AtumGenSettings genSettings = chunkType.createSettings();
-        AtumBiomeProviderSettings biomeSettings = biomeType.func_226840_a_(this.world.getWorldInfo()).setGeneratorSettings(genSettings);
+        AtumBiomeProviderSettings biomeSettings = biomeType.createSettings(this.world.getWorldInfo()).setGeneratorSettings(genSettings);
         return chunkType.create(this.world, biomeType.create(biomeSettings), genSettings);
     }
 
@@ -223,70 +223,72 @@ public class AtumDimension extends Dimension {
 
     @Override
     public void updateWeather(Runnable defaultLogic) {
-        if (!world.isRemote) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            int cleanWeatherTime = serverWorld.getWorldInfo().getClearWeatherTime();
+        if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
+            if (!world.isRemote) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                int cleanWeatherTime = serverWorld.getWorldInfo().getClearWeatherTime();
 
-            if (cleanWeatherTime > 0) {
-                --cleanWeatherTime;
-                serverWorld.getWorldInfo().setClearWeatherTime(cleanWeatherTime);
-                this.stormTime = isStorming ? 1 : 2;
-            }
-
-            if (stormTime <= 0) {
-                if (isStorming) {
-                    stormTime = this.world.rand.nextInt(6000) + 6000;
-                } else {
-                    stormTime = this.world.rand.nextInt(168000) + 12000;
+                if (cleanWeatherTime > 0) {
+                    --cleanWeatherTime;
+                    serverWorld.getWorldInfo().setClearWeatherTime(cleanWeatherTime);
+                    this.stormTime = isStorming ? 1 : 2;
                 }
-                NetworkHandler.sendToDimension(new WeatherPacket(isStorming, stormTime), serverWorld, this.getType());
-            } else {
-                stormTime--;
+
                 if (stormTime <= 0) {
-                    isStorming = !isStorming;
+                    if (isStorming) {
+                        stormTime = this.world.rand.nextInt(6000) + 6000;
+                    } else {
+                        stormTime = this.world.rand.nextInt(168000) + 12000;
+                    }
+                    NetworkHandler.sendToDimension(new WeatherPacket(isStorming, stormTime), serverWorld, this.getType());
+                } else {
+                    stormTime--;
+                    if (stormTime <= 0) {
+                        isStorming = !isStorming;
+                    }
                 }
-            }
 
-            prevStormStrength = stormStrength;
-            if (isStorming) {
-                stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
-            } else {
-                stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
-            }
-            stormStrength = MathHelper.clamp(stormStrength, 0, 1);
+                prevStormStrength = stormStrength;
+                if (isStorming) {
+                    stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
+                } else {
+                    stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
+                }
+                stormStrength = MathHelper.clamp(stormStrength, 0, 1);
 
-            if (stormStrength != prevStormStrength || lastUpdateTime < System.currentTimeMillis() - 1000) {
-                NetworkHandler.sendToDimension(new StormStrengthPacket(stormStrength), serverWorld, this.getType());
-                lastUpdateTime = System.currentTimeMillis();
-            }
+                if (stormStrength != prevStormStrength || lastUpdateTime < System.currentTimeMillis() - 1000) {
+                    NetworkHandler.sendToDimension(new StormStrengthPacket(stormStrength), serverWorld, this.getType());
+                    lastUpdateTime = System.currentTimeMillis();
+                }
 
             /*Iterator<Chunk> iterator = world.getPersistentChunkIterable(((ServerWorld) world).getPlayerChunkMap().getChunkIterator()); //TODO
             while (iterator.hasNext()) {
                 Chunk chunk = iterator.next();*/
-            //int x = chunk.x * 16;
-            //int z = chunk.z * 16;
+                //int x = chunk.x * 16;
+                //int z = chunk.z * 16;
 
-            if (world.rand.nextInt(40) == 0) {
-                this.updateLCG = this.updateLCG * 3 + 1013904223;
-                int j2 = this.updateLCG >> 2;
-                BlockPos pos = BlockPos.ZERO /*world.getPrecipitationHeight(new BlockPos(x + (j2 & 15), 0, z + (j2 >> 8 & 15)))*/; //TODO
-                BlockPos posDown = pos.down();
+                if (AtumConfig.SANDSTORM.sandstormSandLayerChance.get() > 0 && world.rand.nextInt(AtumConfig.SANDSTORM.sandstormSandLayerChance.get()) == 0) {
+                    this.updateLCG = this.updateLCG * 3 + 1013904223;
+                    int j2 = this.updateLCG >> 2;
+                    BlockPos pos = BlockPos.ZERO /*world.getPrecipitationHeight(new BlockPos(x + (j2 & 15), 0, z + (j2 >> 8 & 15)))*/; //TODO
+                    BlockPos posDown = pos.down();
 
-                if (world.isAreaLoaded(posDown, 1)) {// Forge: check area to avoid loading neighbors in unloaded chunks
-                    BlockState sandState = world.getBlockState(pos);
-                    if (stormStrength > 0.9f) {
-                        if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
-                            int layers = sandState.get(SandLayersBlock.LAYERS);
-                            if (layers < 3) {
-                                world.setBlockState(pos, sandState.with(SandLayersBlock.LAYERS, ++layers));
+                    if (world.isAreaLoaded(posDown, 1)) {// Forge: check area to avoid loading neighbors in unloaded chunks
+                        BlockState sandState = world.getBlockState(pos);
+                        if (stormStrength > 0.9f) {
+                            if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
+                                int layers = sandState.get(SandLayersBlock.LAYERS);
+                                if (layers < 3) {
+                                    world.setBlockState(pos, sandState.with(SandLayersBlock.LAYERS, ++layers));
+                                }
+                            } else if (canPlaceSandAt(pos, world.getBiome(pos))) {
+                                world.setBlockState(pos, AtumBlocks.SAND_LAYERED.getDefaultState());
                             }
-                        } else if (canPlaceSandAt(pos, world.getBiome(pos))) {
-                            world.setBlockState(pos, AtumBlocks.SAND_LAYERED.getDefaultState());
                         }
                     }
                 }
+                //}
             }
-            //}
         }
     }
 }

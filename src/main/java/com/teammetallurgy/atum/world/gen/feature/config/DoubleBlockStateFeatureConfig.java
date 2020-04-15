@@ -19,8 +19,8 @@ public class DoubleBlockStateFeatureConfig extends BlockStateFeatureConfig {
 
     @Override
     @Nonnull
-    public <T> Dynamic<T> serialize(DynamicOps<T> d) {
-        return new Dynamic<>(d, d.createMap(ImmutableMap.of(d.createString("state"), BlockState.serialize(d, this.field_227270_a_).getValue(), d.createString("state2"), BlockState.serialize(d, this.state2).getValue())));
+    public <T> Dynamic<T> serialize(@Nonnull DynamicOps<T> d) {
+        return new Dynamic<>(d, d.createMap(ImmutableMap.of(d.createString("state"), BlockState.serialize(d, this.state).getValue(), d.createString("state2"), BlockState.serialize(d, this.state2).getValue())));
     }
 
     public static <T> DoubleBlockStateFeatureConfig deserializeDouble(Dynamic<T> d) {
