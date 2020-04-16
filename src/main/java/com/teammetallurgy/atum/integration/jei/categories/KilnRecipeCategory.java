@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
-import com.teammetallurgy.atum.misc.AtumUtils;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -20,6 +19,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -53,7 +53,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format(Atum.MOD_ID + "." + getUid().getPath());
+        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getFormattedText();
     }
 
     @Override
@@ -86,7 +86,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
             if (slotIndex >= 5) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(TextFormatting.DARK_GRAY + AtumUtils.format("jei.tooltip.recipe.id", recipe.getRegistryName()));
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getRegistryName()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
                 }
             }
         });
@@ -99,7 +99,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
         float experience = recipe.getExperience();
         if (experience > 0) {
-            String experienceString = AtumUtils.format("gui.jei.category.smelting.experience", experience);
+            String experienceString = new TranslationTextComponent("gui.jei.category.smelting.experience", experience).getFormattedText();
             Minecraft.getInstance().fontRenderer.drawString(experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }

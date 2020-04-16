@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
-import com.teammetallurgy.atum.misc.AtumUtils;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -18,6 +17,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -47,7 +47,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format(Atum.MOD_ID + "." + getUid().getPath());
+        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getFormattedText();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
             if (slotIndex == 1) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(TextFormatting.DARK_GRAY + AtumUtils.format("jei.tooltip.recipe.id", recipe.getRegistryName()));
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getRegistryName()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
                 }
             }
         });
@@ -88,7 +88,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
 
     @Override
     public void draw(QuernRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString(AtumUtils.format("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
+        Minecraft.getInstance().fontRenderer.drawString(new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()).getFormattedText(), 32, 0, Color.gray.getRGB());
         this.icon.draw(29, 8);
     }
 }

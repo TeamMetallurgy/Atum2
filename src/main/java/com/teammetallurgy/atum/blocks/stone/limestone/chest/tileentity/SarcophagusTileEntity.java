@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import com.teammetallurgy.atum.misc.AtumUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
@@ -106,7 +105,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             if (this.world instanceof ServerWorld) {
                 ServerWorld serverWorld = (ServerWorld) this.world;
                 for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
-                    playerMP.sendMessage(new StringTextComponent(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName().getFormattedText() + " " + AtumUtils.format("chat.atum.summonPharaoh") + " " + player.getGameProfile().getName()));
+                    playerMP.sendMessage(new StringTextComponent(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName().getFormattedText()).appendText(" ").appendSibling(new TranslationTextComponent("chat.atum.summonPharaoh")).appendText(" " + player.getGameProfile().getName()));
                 }
             }
         }

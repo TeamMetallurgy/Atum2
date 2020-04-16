@@ -181,34 +181,4 @@ public class AtumRecipes {
     public static void registerRecipes(RegistryEvent.Register<IRecipeSerializer<?>> event) {
         AtumRecipes.addBrewingRecipes();
     }
-
-    /*private static void fixOreDictEntries(IForgeRegistry<IRecipeSerializer<?>> registry) {
-        IForgeRegistryModifiable<IRecipeSerializer<IRecipeSerializer<?>>> recipes = (IForgeRegistryModifiable<IRecipeSerializer<?>>) registry;
-
-        ////Cracked Limestone
-        final ResourceLocation sword = new ResourceLocation("stone_sword");
-        final ResourceLocation shovel = new ResourceLocation("stone_shovel");
-        final ResourceLocation pickaxe = new ResourceLocation("stone_pickaxe");
-        final ResourceLocation furnace = new ResourceLocation("furnace");
-
-        Ingredient cobblestone = new BlacklistTagIngredient(Tags.Items.COBBLESTONE, stack -> stack.getItem() == AtumBlocks.LIMESTONE_CRACKED.asItem());
-        Ingredient stick = Ingredient.fromTag(Tags.Items.RODS_WOODEN);
-
-        //TODO Following Not working
-        //Sword
-        recipes.remove(sword);
-        registry.register(new ShapedRecipe(sword, "", 1, 3, NonNullList.from(cobblestone, cobblestone, stick, cobblestone).S, new ItemStack(Items.STONE_SWORD)));
-
-        //Shovel
-        recipes.remove(shovel);
-        registry.register(new ShapedRecipe(shovel, "", 1, 3, NonNullList.from(cobblestone, stick, stick, cobblestone), new ItemStack(Items.STONE_SHOVEL)));
-
-        //Pickaxe
-        recipes.remove(pickaxe);
-        registry.register(new ShapedRecipe(pickaxe, "", 3, 3, NonNullList.from(cobblestone, cobblestone, cobblestone, Ingredient.EMPTY, stick, Ingredient.EMPTY, Ingredient.EMPTY, stick, Ingredient.EMPTY), new ItemStack(Items.STONE_PICKAXE)));
-
-        //Furnace
-        recipes.remove(furnace);
-        registry.register(new ShapedRecipe(furnace, "", 3, 3, NonNullList.from(cobblestone, cobblestone, cobblestone, cobblestone, Ingredient.EMPTY, cobblestone, cobblestone, cobblestone, cobblestone), new ItemStack(Blocks.FURNACE)));
-    }*/
 }

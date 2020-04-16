@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
-import com.teammetallurgy.atum.misc.AtumUtils;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -18,6 +17,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -47,7 +47,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format(Atum.MOD_ID + "." + getUid().getPath());
+        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getFormattedText();
     }
 
     @Override
@@ -80,7 +80,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
             if (slotIndex == 1) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(TextFormatting.DARK_GRAY + AtumUtils.format("jei.tooltip.recipe.id", recipe.getRegistryName()));
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getRegistryName()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
                 }
             }
         });
@@ -89,7 +89,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     public void draw(SpinningWheelRecipe recipe, double mouseX, double mouseY) {
         Minecraft mc = Minecraft.getInstance();
-        mc.fontRenderer.drawString(AtumUtils.format("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
-        mc.fontRenderer.drawString(AtumUtils.format("gui.atum.rotations", 3), 4, 0, Color.gray.getRGB());
+        mc.fontRenderer.drawString(new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()).getFormattedText(), 25, 0, Color.gray.getRGB());
+        mc.fontRenderer.drawString(new TranslationTextComponent("gui.atum.rotations", 3).getFormattedText(), 4, 0, Color.gray.getRGB());
     }
 }
