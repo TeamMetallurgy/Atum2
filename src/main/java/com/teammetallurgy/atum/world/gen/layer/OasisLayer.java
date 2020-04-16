@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.layer.traits.IC1Transformer;

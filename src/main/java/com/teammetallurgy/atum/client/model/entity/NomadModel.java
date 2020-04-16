@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client.model.entity;
 
 import com.teammetallurgy.atum.entity.bandit.NomadEntity;
-import com.teammetallurgy.atum.utils.StackHelper;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.item.BowItem;

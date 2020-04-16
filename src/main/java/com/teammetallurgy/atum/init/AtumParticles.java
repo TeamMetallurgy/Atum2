@@ -13,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ObjectHolder;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerParticle;
+import static com.teammetallurgy.atum.misc.AtumRegistry.registerParticle;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 @ObjectHolder(value = Atum.MOD_ID)

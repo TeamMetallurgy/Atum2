@@ -10,8 +10,10 @@ import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
-import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.misc.AtumRegistry;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Blocks;
+import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.FurnaceRecipe;
@@ -28,9 +30,11 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistry;
 import net.minecraftforge.registries.IForgeRegistryModifiable;
+import net.minecraftforge.registries.RegistryManager;
 
-import static com.teammetallurgy.atum.utils.recipe.RecipeHelper.*;
+import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.*;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -41,10 +45,6 @@ public class AtumRecipes {
         RecipeHandlers.quernRecipes = (IForgeRegistryModifiable<IQuernRecipe>) AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
         RecipeHandlers.spinningWheelRecipes = (IForgeRegistryModifiable<ISpinningWheelRecipe>) AtumRegistry.makeRegistry("spinning_wheel_recipes", ISpinningWheelRecipe.class);
         RecipeHandlers.kilnRecipes = (IForgeRegistryModifiable<IKilnRecipe>) AtumRegistry.makeRegistry("kiln_recipes", IKilnRecipe.class);
-    }
-
-    private static void register() {
-        addBrewingRecipes();
     }
 
     private static void addBrewingRecipes() {
@@ -141,142 +141,74 @@ public class AtumRecipes {
         //Add valid vanilla & modded recipes based on Furnace recipes
         ServerWorld world = DimensionManager.getWorld(server, DimensionType.OVERWORLD, true, true);
         if (world != null) {
+            ForgeRegistry<?> kilnRegistry = RegistryManager.ACTIVE.getRegistry(RecipeHandlers.kilnRecipes.getRegistryName());
+            kilnRegistry.unfreeze();
             for (FurnaceRecipe furnaceRecipe : getRecipes(world.getRecipeManager(), IRecipeType.SMELTING)) {
                 for (Ingredient input : furnaceRecipe.getIngredients()) {
                     ItemStack output = furnaceRecipe.getRecipeOutput();
                     if (input != null && !output.isEmpty()) {
                         if (!KilnTileEntity.canKilnNotSmelt(input) && !KilnTileEntity.canKilnNotSmelt(output)) {
-                            ResourceLocation id = new ResourceLocation(Atum.MOD_ID, furnaceRecipe.getId().getPath());
+                            ResourceLocation id = new ResourceLocation("atum.kiln_" + furnaceRecipe.getId().getPath()); //Will be registered with "minecraft" as prefix, to prevent log spam
                             RecipeHandlers.kilnRecipes.register(new KilnRecipe(input, output, furnaceRecipe.getExperience()).setRegistryName(id));
                         }
                     }
                 }
             }
+            kilnRegistry.freeze();
+        }
+    }
+
+    public static void kilnMissingMappings(RegistryEvent.MissingMappings<IKilnRecipe> event) {
+        //Ignore missing mappings for kiln recipes, as they're first registered on world load. So will always be missing, until the world is fully loaded
+        for (RegistryEvent.MissingMappings.Mapping<IKilnRecipe> mapping : event.getAllMappings()) {
+            mapping.ignore();
         }
     }
 
     @SubscribeEvent
-    public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) {
+    public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) { //TODO Rework spinning wheel recipes, to require different amount of input items
         AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumAPI.Tags.CROPS_FLAX, new ItemStack(AtumItems.LINEN_THREAD, 3), 4), event);
+        AtumRegistry.registerRecipe("linen_thread", new SpinningWheelRecipe(AtumItems.LINEN_THREAD, new ItemStack(Items.STRING), 1), event);
         AtumRegistry.registerRecipe("wolf_pelt", new SpinningWheelRecipe(AtumItems.WOLF_PELT, new ItemStack(Items.STRING, 2), 5), event);
         AtumRegistry.registerRecipe("cloth_scrap", new SpinningWheelRecipe(AtumItems.SCRAP, new ItemStack(AtumItems.LINEN_THREAD), 2), event);
+        for (DyeColor color : DyeColor.values()) { //TODO Add new tag when moving to json recipes
+            String colorName = color.getName();
+            AtumRegistry.registerRecipe(colorName + "_linen_to_string", new SpinningWheelRecipe(StackHelper.getBlockFromName("linen_" + colorName), new ItemStack(Items.STRING, 4), 4), event);
+        }
     }
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipeSerializer<?>> event) {
-        AtumRecipes.register();
+        AtumRecipes.addBrewingRecipes();
     }
 
-
-    /*@SubscribeEvent
-    public static void registerRecipes(RegistryEvent.Register<IRecipe> event) { //TODO Move to json
-        IForgeRegistry<IRecipe> registry = event.getRegistry();
-        final ResourceLocation crystal = new ResourceLocation(Constants.MOD_ID, "crystal_glass");
-        final ResourceLocation framed = new ResourceLocation(Constants.MOD_ID, "framed_glass");
-        final ResourceLocation linen = new ResourceLocation(Constants.MOD_ID, "linen");
-        final ResourceLocation ceramic = new ResourceLocation(Constants.MOD_ID, "ceramic");
-        final ResourceLocation concretePowder = new ResourceLocation(Constants.MOD_ID, "concrete_powder");
-
-        for (DyeColor color : DyeColor.values()) {
-            String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
-            AtumRegistry.registerRecipe("crystal_" + colorName, new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.CRYSTAL_GLASS, 'D', "dye" + colorName), event);
-            AtumRegistry.registerRecipe("framed_" + colorName, new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), 8), "GGG", "GDG", "GGG", 'G', AtumBlocks.FRAMED_GLASS, 'D', "dye" + colorName), event);
-            AtumRegistry.registerRecipe("crystal_to_framed_" + colorName, new ShapedOreRecipe(framed, BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color), " S ", "SGS", " S ", 'S', "stickWood", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)), event);
-            AtumRegistry.registerRecipe("thin_crystal_" + colorName, new ShapedOreRecipe(crystal, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.CRYSTAL_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.CRYSTAL_GLASS, color)), event);
-            AtumRegistry.registerRecipe("thin_framed_" + colorName, new ShapedOreRecipe(framed, new ItemStack(BlockAtumStainedGlassPane.getGlass(AtumBlocks.FRAMED_GLASS, color), 16), "GGG", "GGG", 'G', BlockAtumStainedGlass.getGlass(AtumBlocks.FRAMED_GLASS, color)), event);
-            if (color != DyeColor.WHITE) {
-                AtumRegistry.registerRecipe("linen_" + colorName, new ShapelessOreRecipe(linen, new ItemStack(BlockLinen.getLinen(color)), "dye" + colorName, BlockLinen.getLinen(DyeColor.WHITE)), event);
-                AtumRegistry.registerRecipe("ceramic_" + colorName, new ShapelessOreRecipe(ceramic, new ItemStack(BlockCeramic.getCeramicBlocks(color)), "dye" + colorName, BlockCeramic.getCeramicBlocks(DyeColor.WHITE)), event);
-            }
-            AtumRegistry.registerRecipe("ceramic_tile_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicTile.getTile(color), 3), "CC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
-            AtumRegistry.registerRecipe("ceramic_slab_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicSlab.getSlab(color), 6), "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
-            AtumRegistry.registerRecipe("ceramic_stairs_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockAtumStairs.getCeramicStairs(color), 4), "C  ", "CC ", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)).setMirrored(true), event);
-            AtumRegistry.registerRecipe("ceramic_wall_" + colorName, new ShapedOreRecipe(ceramic, new ItemStack(BlockCeramicWall.getWall(color), 6), "CCC", "CCC", 'C', BlockCeramic.getCeramicBlocks(color)), event);
-            AtumRegistry.registerRecipe("linen_carpet_" + colorName, new ShapedOreRecipe(linen, new ItemStack(BlockLinenCarpet.getLinenBlock(color), 5), "LLL", 'L', BlockLinen.getLinen(color)), event);
-            //Concrete Powder //TODO Check if Forge have this now
-            AtumRegistry.registerRecipe("concrete_powder" + colorName, new ShapelessOreRecipe(concretePowder, new ItemStack(Blocks.CONCRETE_POWDER, 8, color.getMetadata()), "dye" + colorName, "sand", "sand", "sand", "sand", "gravel", "gravel", "gravel", "gravel"), event);
-        }
-        if (AtumConfig.RECIPE_OVERRIDING) { //TODO Check if is needed
-            fixOreDictEntries(registry);
-        }
-    }*/
-
-    /*private static void fixOreDictEntries(IForgeRegistry<IRecipe> registry) {
-        IForgeRegistryModifiable<IRecipe> recipes = (IForgeRegistryModifiable<IRecipe>) registry;
-        final ResourceLocation stick = new ResourceLocation("stick");
-        final ResourceLocation torch = new ResourceLocation("torch");
-        final ResourceLocation ladder = new ResourceLocation("ladder");
-        final ResourceLocation chest = new ResourceLocation("chest");
-        final ResourceLocation trapdoor = new ResourceLocation("trapdoor");
-
-        //Stick
-        recipes.remove(stick);
-        registry.register(new ShapedOreRecipe(stick, new ItemStack(Items.STICK, 4), "P", "P", 'P', "plankWood").setRegistryName(new ResourceLocation(Constants.MOD_ID, "stick"))); //Modded planks
-        registry.register(new ShapedOreRecipe(stick, new ItemStack(Items.STICK, 4), "P", "P", 'P', new ItemStack(Blocks.PLANKS, 1, OreDictionary.WILDCARD_VALUE)).setRegistryName(stick));
-
-        //Torch
-        recipes.remove(torch);
-        registry.register(new ShapedOreRecipe(torch, new ItemStack(Blocks.TORCH, 4), "C", "S", 'C', new ItemStack(Items.COAL, 1, OreDictionary.WILDCARD_VALUE), 'S', Items.STICK).setRegistryName(torch));
-
-        //Ladder
-        recipes.remove(ladder);
-        registry.register(new ShapedOreRecipe(ladder, new ItemStack(Blocks.LADDER, 3), "S S", "SSS", "S S", 'S', "stickWood").setRegistryName(ladder));
-
-        //Chest
-        if (!Constants.IS_QUARK_LOADED || !ForgeRegistries.BLOCKS.containsKey(new ResourceLocation("quark", "custom_chest"))) { //Check if Quark Varied Chests is enabled
-            recipes.remove(chest);
-            registry.register(new ShapedOreRecipe(chest, new ItemStack(Blocks.CHEST), "PPP", "P P", "PPP", 'P', "plankWood").setRegistryName(chest));
-        }
-
-        //Trapdoor
-        recipes.remove(trapdoor);
-        registry.register(new ShapedOreRecipe(trapdoor, new ItemStack(Blocks.TRAPDOOR, 2), "PPP", "PPP", 'P', "plankWood").setRegistryName(trapdoor));
-
-
-        if (ForgeVersion.getBuildVersion() >= 2831) {
-            //Wool
-            for (DyeColor color : DyeColor.values()) {
-                if (color != DyeColor.WHITE) {
-                    ResourceLocation location = new ResourceLocation(color.getName().replace("silver", "light_gray") + "_wool");
-                    recipes.remove(location);
-                    String colorName = StringUtils.capitalize(color.getTranslationKey().replace("silver", "lightGray"));
-                    registry.register(new ShapelessOreRecipe(location, new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, color.getMetadata()), "dye" + colorName, "woolWhite").setRegistryName(location));
-                }
-            }
-        }
+    /*private static void fixOreDictEntries(IForgeRegistry<IRecipeSerializer<?>> registry) {
+        IForgeRegistryModifiable<IRecipeSerializer<IRecipeSerializer<?>>> recipes = (IForgeRegistryModifiable<IRecipeSerializer<?>>) registry;
 
         ////Cracked Limestone
         final ResourceLocation sword = new ResourceLocation("stone_sword");
         final ResourceLocation shovel = new ResourceLocation("stone_shovel");
         final ResourceLocation pickaxe = new ResourceLocation("stone_pickaxe");
-        final ResourceLocation hoe = new ResourceLocation("stone_hoe");
-        final ResourceLocation axe = new ResourceLocation("stone_axe");
         final ResourceLocation furnace = new ResourceLocation("furnace");
 
-        Ingredient cobblestone = new BlacklistOreIngredient("cobblestone", stack -> stack.getItem() == Item.getItemFromBlock(AtumBlocks.LIMESTONE_CRACKED));
+        Ingredient cobblestone = new BlacklistTagIngredient(Tags.Items.COBBLESTONE, stack -> stack.getItem() == AtumBlocks.LIMESTONE_CRACKED.asItem());
+        Ingredient stick = Ingredient.fromTag(Tags.Items.RODS_WOODEN);
 
+        //TODO Following Not working
         //Sword
         recipes.remove(sword);
-        registry.register(new ShapedOreRecipe(sword, Items.STONE_SWORD, "C", "C", "S", 'C', cobblestone, 'S', "stickWood").setRegistryName(sword));
+        registry.register(new ShapedRecipe(sword, "", 1, 3, NonNullList.from(cobblestone, cobblestone, stick, cobblestone).S, new ItemStack(Items.STONE_SWORD)));
 
         //Shovel
         recipes.remove(shovel);
-        registry.register(new ShapedOreRecipe(shovel, Items.STONE_SHOVEL, "C", "S", "S", 'C', cobblestone, 'S', "stickWood").setRegistryName(shovel));
+        registry.register(new ShapedRecipe(shovel, "", 1, 3, NonNullList.from(cobblestone, stick, stick, cobblestone), new ItemStack(Items.STONE_SHOVEL)));
 
         //Pickaxe
         recipes.remove(pickaxe);
-        registry.register(new ShapedOreRecipe(pickaxe, Items.STONE_PICKAXE, "CCC", " S ", " S ", 'C', cobblestone, 'S', "stickWood").setRegistryName(pickaxe));
-
-        //Hoe
-        recipes.remove(hoe);
-        registry.register(new ShapedOreRecipe(hoe, Items.STONE_HOE, "CC", " S", " S", 'C', cobblestone, 'S', "stickWood").setRegistryName(hoe));
-
-        //Axe
-        recipes.remove(axe);
-        registry.register(new ShapedOreRecipe(axe, Items.STONE_AXE, "CC", "CS", " S", 'C', cobblestone, 'S', "stickWood").setRegistryName(axe));
+        registry.register(new ShapedRecipe(pickaxe, "", 3, 3, NonNullList.from(cobblestone, cobblestone, cobblestone, Ingredient.EMPTY, stick, Ingredient.EMPTY, Ingredient.EMPTY, stick, Ingredient.EMPTY), new ItemStack(Items.STONE_PICKAXE)));
 
         //Furnace
         recipes.remove(furnace);
-        registry.register(new ShapedOreRecipe(furnace, Blocks.FURNACE, "CCC", "C C", "CCC", 'C', cobblestone).setRegistryName(furnace));
+        registry.register(new ShapedRecipe(furnace, "", 3, 3, NonNullList.from(cobblestone, cobblestone, cobblestone, cobblestone, Ingredient.EMPTY, cobblestone, cobblestone, cobblestone, cobblestone), new ItemStack(Blocks.FURNACE)));
     }*/
 }

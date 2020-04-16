@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.thoth;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;

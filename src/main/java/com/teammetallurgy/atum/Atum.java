@@ -1,11 +1,13 @@
 package com.teammetallurgy.atum;
 
+import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
+import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
+import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.AtumItemGroup;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.item.ItemGroup;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +36,7 @@ public class Atum {
         modBus.addListener(this::setupClient);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
+        MinecraftForge.EVENT_BUS.addGenericListener(IKilnRecipe.class, AtumRecipes::kilnMissingMappings);
         IntegrationHandler.INSTANCE.addSupport();
     }
 
@@ -41,12 +44,6 @@ public class Atum {
         IntegrationHandler.INSTANCE.init();
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
-        /*StructureAtumMineshaftPieces.registerMineshaft(); //TODO
-        PyramidPieces.registerPyramid();
-        RuinPieces.registerRuins();
-        TombPieces.registerTomb();
-        GirafiTombPieces.registerGirafiTomb();
-        LighthousePieces.registerLighthouse();*/
         AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiome::initMobSpawns);
         IntegrationHandler.INSTANCE.setup();
     }
@@ -58,8 +55,7 @@ public class Atum {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        //AtumRecipes.addKilnRecipes(event.getServer()); //TODO
-        //MinecraftForge.EVENT_BUS.register(new AtumDimensionRegistration()); //TODO
-        //AtumWeather.register(event.getCommandDispatcher());
+        AtumRecipes.addKilnRecipes(event.getServer());
+        //AtumWeather.register(event.getCommandDispatcher()); //TODO
     }
 }

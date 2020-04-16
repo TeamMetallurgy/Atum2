@@ -4,7 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
-import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.misc.AtumUtils;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -47,7 +47,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format(Atum.MOD_ID + getUid().getPath());
+        return AtumUtils.format(Atum.MOD_ID + "." + getUid().getPath());
     }
 
     @Override

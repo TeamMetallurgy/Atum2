@@ -16,7 +16,7 @@ import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
-import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;

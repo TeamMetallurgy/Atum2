@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wool",
+  "ingredients": [
+    {
+      "item": "minecraft:light_gray_dye"
+    },
+    {
+      "item": "atum:linen_white"
+    }
+  ],
+  "result": {
+    "item": "atum:linen_light_gray"
+  }
+}

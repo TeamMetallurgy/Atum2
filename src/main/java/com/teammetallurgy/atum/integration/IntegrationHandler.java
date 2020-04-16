@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.integration;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
-import com.teammetallurgy.atum.utils.AtumConfig;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fml.ModList;
 

@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.world.biome.*;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.registries.ObjectHolder;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerBiome;
+import static com.teammetallurgy.atum.misc.AtumRegistry.registerBiome;
 
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumBiomes {

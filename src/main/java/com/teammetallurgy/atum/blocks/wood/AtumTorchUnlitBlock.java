@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.utils.StackHelper;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;

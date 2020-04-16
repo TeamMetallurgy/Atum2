@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.entity.stone;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.utils.StackHelper;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;

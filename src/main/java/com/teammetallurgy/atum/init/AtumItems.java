@@ -37,7 +37,7 @@ import com.teammetallurgy.atum.items.food.CrunchyScarabItem;
 import com.teammetallurgy.atum.items.food.EmmerFlourItem;
 import com.teammetallurgy.atum.items.food.FishItem;
 import com.teammetallurgy.atum.items.tools.*;
-import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
@@ -45,7 +45,7 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraftforge.registries.ObjectHolder;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.*;
+import static com.teammetallurgy.atum.misc.AtumRegistry.*;
 
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumItems {

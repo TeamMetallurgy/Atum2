@@ -15,7 +15,7 @@ import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.registries.ObjectHolder;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.registerTileEntity;
+import static com.teammetallurgy.atum.misc.AtumRegistry.registerTileEntity;
 
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumTileEntities {

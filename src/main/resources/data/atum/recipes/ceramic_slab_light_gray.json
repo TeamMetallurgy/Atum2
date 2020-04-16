@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:ceramic_light_gray"
+    }
+  },
+  "result": {
+    "item": "atum:ceramic_slab_light_gray",
+    "count": 6
+  }
+}

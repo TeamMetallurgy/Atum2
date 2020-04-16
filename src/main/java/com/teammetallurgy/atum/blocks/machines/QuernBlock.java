@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
-import com.teammetallurgy.atum.utils.StackHelper;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;

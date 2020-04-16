@@ -1,10 +1,11 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
-import com.teammetallurgy.atum.utils.AtumUtils;
+import com.teammetallurgy.atum.misc.AtumUtils;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -52,7 +53,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return AtumUtils.format("atum." + getUid().getPath());
+        return AtumUtils.format(Atum.MOD_ID + "." + getUid().getPath());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.api.recipe.spinningwheel;
 
-import com.teammetallurgy.atum.utils.StackHelper;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

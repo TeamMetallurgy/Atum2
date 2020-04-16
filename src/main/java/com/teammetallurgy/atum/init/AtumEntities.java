@@ -26,7 +26,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 import java.util.Random;
 
-import static com.teammetallurgy.atum.utils.AtumRegistry.*;
+import static com.teammetallurgy.atum.misc.AtumRegistry.*;
 import static net.minecraft.entity.EntityType.Builder;
 
 @ObjectHolder(value = Atum.MOD_ID)

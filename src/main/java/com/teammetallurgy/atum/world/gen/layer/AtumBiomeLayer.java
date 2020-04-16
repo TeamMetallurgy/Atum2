@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandom;

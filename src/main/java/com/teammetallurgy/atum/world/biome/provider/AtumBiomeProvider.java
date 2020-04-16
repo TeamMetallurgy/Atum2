@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.world.biome.provider;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.utils.AtumRegistry;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.world.gen.layer.AtumLayerUtil;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
