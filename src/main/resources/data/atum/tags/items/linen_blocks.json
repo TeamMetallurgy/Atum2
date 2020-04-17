@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "atum:linen_white",
+    "atum:linen_orange",
+    "atum:linen_magenta",
+    "atum:linen_light_blue",
+    "atum:linen_yellow",
+    "atum:linen_lime",
+    "atum:linen_pink",
+    "atum:linen_gray",
+    "atum:linen_light_gray",
+    "atum:linen_cyan",
+    "atum:linen_purple",
+    "atum:linen_blue",
+    "atum:linen_brown",
+    "atum:linen_green",
+    "atum:linen_red",
+    "atum:linen_black"
+  ]
+}

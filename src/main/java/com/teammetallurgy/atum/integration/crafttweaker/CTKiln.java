@@ -5,6 +5,7 @@ import com.blamejared.crafttweaker.api.actions.IAction;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import net.minecraft.item.ItemStack;
@@ -35,7 +36,7 @@ public class CTKiln {
 
     private static class Add implements IAction {
         private ItemStack input, output;
-        private float experience;
+        private final float experience;
 
         Add(@Nonnull ItemStack input, @Nonnull ItemStack output, float experience) {
             this.input = input;
@@ -56,7 +57,7 @@ public class CTKiln {
     }
 
     private static class Remove implements IAction {
-        private String id;
+        private final String id;
 
         Remove(String id) {
             this.id = id;
@@ -79,7 +80,7 @@ public class CTKiln {
     }
 
     private static class Blacklist implements IAction {
-        private String id;
+        private final String id;
 
         Blacklist(String id) {
             this.id = id;
@@ -88,8 +89,8 @@ public class CTKiln {
         @Override
         public void apply() {
             final ResourceLocation location = new ResourceLocation(this.id);
-            if (!RecipeHandlers.kilnBlacklist.contains(location)) {
-                RecipeHandlers.kilnBlacklist.add(location);
+            if (!IAtumRecipeType.kilnBlacklist.contains(location)) {
+                IAtumRecipeType.kilnBlacklist.add(location);
             }
         }
 

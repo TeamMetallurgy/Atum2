@@ -961,7 +961,7 @@
 
   "_comment": "JEI",
   "atum.quern": "Moulin",
-  "atum.spinningwheel": "Rouet",
+  "atum.spinning_wheel": "Rouet",
   "atum.kiln": "Four",
   "gui.atum.rotations": "x%s",
   "jei.item.atum.emmer_dough": "Fabriqué en combinant de la farine d'amidonnier et de l'eau",

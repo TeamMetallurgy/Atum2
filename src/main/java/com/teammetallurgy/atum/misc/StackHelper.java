@@ -8,6 +8,7 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
@@ -101,8 +102,17 @@ public class StackHelper {
         }
     }
 
+    public static boolean areIngredientsEqualIgnoreSize(@Nonnull Ingredient ingredientA, @Nonnull ItemStack stackB) {
+        for (ItemStack stack : ingredientA.getMatchingStacks()) {
+            if (areStacksEqualIgnoreSize(stack, stackB)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean areStacksEqualIgnoreSize(@Nonnull ItemStack stackA, @Nonnull ItemStack stackB) {
-        if (stackA.isEmpty() && stackB.isEmpty()) {
+        if (stackA.isEmpty() || stackB.isEmpty()) {
             return false;
         } else if (stackA.getItem() != stackB.getItem()) {
             return false;

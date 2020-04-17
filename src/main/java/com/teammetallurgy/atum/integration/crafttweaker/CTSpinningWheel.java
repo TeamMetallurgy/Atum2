@@ -4,9 +4,6 @@ import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.actions.IAction;
 import com.blamejared.crafttweaker.api.annotations.ZenRegister;
 import com.blamejared.crafttweaker.api.item.IItemStack;
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -17,7 +14,7 @@ import java.util.Objects;
 
 @ZenRegister
 @ZenCodeType.Name("mods.atum.SpinningWheel")
-public class CTSpinningWheel {
+public class CTSpinningWheel { //TODO Move to new CraftTweaker system, when implemented properly in CraftTweaker. ActionAddRecipe , IRecipeManager - for reference
 
     @ZenCodeType.Method
     public static void addRecipe(IItemStack input, IItemStack output, int rotations) {
@@ -47,7 +44,7 @@ public class CTSpinningWheel {
         @Override
         public void apply() {
             ResourceLocation registryName = new ResourceLocation("crafttweaker", Objects.requireNonNull(this.input.getItem().getRegistryName()).getPath());
-            RecipeHandlers.spinningWheelRecipes.register(new SpinningWheelRecipe(this.input, this.output, this.rotations).setRegistryName(registryName));
+            //RecipeHandlers.spinningWheelRecipes.register(new SpinningWheelRecipe(this.input, this.output, this.rotations).setRegistryName(registryName)); //TODO
         }
 
         @Override
@@ -66,11 +63,11 @@ public class CTSpinningWheel {
         @Override
         public void apply() {
             final ResourceLocation location = new ResourceLocation(id);
-            if (!RecipeHandlers.spinningWheelRecipes.containsKey(location)) {
+            /*if (!RecipeHandlers.spinningWheelRecipes.containsKey(location)) { //TODO
                 Atum.LOG.error("No Spinning Wheel recipe exists called: " + this.id);
             } else {
                 RecipeHandlers.spinningWheelRecipes.remove(location);
-            }
+            }*/
         }
 
         @Override

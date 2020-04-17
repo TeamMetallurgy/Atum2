@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
@@ -221,7 +222,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
         Item item = stack.getItem();
         Block block = Block.getBlockFromItem(stack.getItem());
 
-        return RecipeHandlers.kilnBlacklist.contains(item.getRegistryName()) || RecipeHandlers.kilnBlacklist.contains(block.getRegistryName()) ||
+        return IAtumRecipeType.kilnBlacklist.contains(item.getRegistryName()) || IAtumRecipeType.kilnBlacklist.contains(block.getRegistryName()) ||
                 item.isFood() || block instanceof OreBlock || item.isIn(ItemTags.COALS) || item.isIn(ORES_COAL) || item.isIn(STORAGE_BLOCKS_COAL) ||
                 item.isIn(ItemTags.PLANKS) || item.isIn(ItemTags.LOGS) || item.isIn(RODS_WOODEN) || item.isIn(ItemTags.SMALL_FLOWERS) ||
                 item.isIn(ORES) || item.isIn(INGOTS) && !item.isIn(INGOTS_BRICK) || item.isIn(NUGGETS) || item.isIn(GEMS) || item.isIn(DUSTS) ||

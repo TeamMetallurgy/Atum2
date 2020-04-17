@@ -1,42 +1,30 @@
 package com.teammetallurgy.atum.misc.recipe;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.SpecialRecipe;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(value = Atum.MOD_ID)
-public class DisenchantRecipe extends SpecialRecipe { //Statically loaded by EventBusSubscriber
-    private static final SpecialRecipeSerializer<DisenchantRecipe> DISENCHANT_SERIALIZER = IRecipeSerializer.register(Atum.MOD_ID + ":crafting_special_disenchant", new SpecialRecipeSerializer<>(DisenchantRecipe::new));
+public class DisenchantRecipe extends SpecialRecipe {
 
-    private DisenchantRecipe(ResourceLocation location) {
+    public DisenchantRecipe(ResourceLocation location) {
         super(location);
     }
 
     @Override
     @Nonnull
-    public ResourceLocation getId() {
-        return new ResourceLocation(Atum.MOD_ID, "disenchant");
-    }
-
-    @Override
-    @Nonnull
     public IRecipeSerializer<?> getSerializer() {
-        return DISENCHANT_SERIALIZER;
+        return AtumRecipeSerializers.DISENCHANT_SERIALIZER;
     }
 
     @Override
@@ -95,7 +83,7 @@ public class DisenchantRecipe extends SpecialRecipe { //Statically loaded by Eve
         } else {
             CompoundNBT tag = stack.getTag();
             if (tag != null) {
-                tag.remove("ench");
+                tag.remove("Enchantments");
                 return stack;
             }
             return ItemStack.EMPTY;

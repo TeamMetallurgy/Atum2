@@ -961,7 +961,7 @@
 
   "_comment": "JEI",
   "atum.quern": "手推石磨",
-  "atum.spinningwheel": "纺车",
+  "atum.spinning_wheel": "纺车",
   "atum.kiln": "窑",
   "gui.atum.rotations": "x%s",
   "jei.item.atum.emmer_dough": "将小麦面粉与水均匀搅拌以合成",

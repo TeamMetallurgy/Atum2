@@ -1,0 +1,12 @@
+{
+  "type": "atum:spinning_wheel",
+  "ingredient": {
+    "item": "atum:wolf_pelt",
+    "count": 3
+  },
+  "result": {
+    "item": "minecraft:string",
+    "count": 2
+  },
+  "rotations": 5
+}

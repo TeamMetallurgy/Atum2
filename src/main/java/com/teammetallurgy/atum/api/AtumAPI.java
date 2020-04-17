@@ -34,6 +34,8 @@ public class AtumAPI {
 
         public static final Tag<Item> RELIC = tag(Atum.MOD_ID, "relic");
         public static final Tag<Item> TOOLTIP = tag(Atum.MOD_ID, "tooltip");
+        public static final Tag<Item> LINEN_BLOCKS = tag(Atum.MOD_ID, "linen_blocks");
+        public static final Tag<Item> THREADED_BLOCKS = tag(Atum.MOD_ID, "threaded_blocks");
 
         public static Tag<Item> tag(String modID, String name) {
             return new ItemTags.Wrapper(new ResourceLocation(modID, name));

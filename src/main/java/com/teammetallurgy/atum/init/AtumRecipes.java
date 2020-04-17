@@ -7,13 +7,9 @@ import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
 import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.ISpinningWheelRecipe;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.misc.AtumRegistry;
-import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Blocks;
-import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.FurnaceRecipe;
@@ -43,7 +39,6 @@ public class AtumRecipes {
     @SubscribeEvent
     public static void registerRegistries(RegistryEvent.NewRegistry event) {
         RecipeHandlers.quernRecipes = (IForgeRegistryModifiable<IQuernRecipe>) AtumRegistry.makeRegistry("quern_recipes", IQuernRecipe.class);
-        RecipeHandlers.spinningWheelRecipes = (IForgeRegistryModifiable<ISpinningWheelRecipe>) AtumRegistry.makeRegistry("spinning_wheel_recipes", ISpinningWheelRecipe.class);
         RecipeHandlers.kilnRecipes = (IForgeRegistryModifiable<IKilnRecipe>) AtumRegistry.makeRegistry("kiln_recipes", IKilnRecipe.class);
     }
 
@@ -162,18 +157,6 @@ public class AtumRecipes {
         //Ignore missing mappings for kiln recipes, as they're first registered on world load. So will always be missing, until the world is fully loaded
         for (RegistryEvent.MissingMappings.Mapping<IKilnRecipe> mapping : event.getAllMappings()) {
             mapping.ignore();
-        }
-    }
-
-    @SubscribeEvent
-    public static void registerSpinningwheelRecipes(RegistryEvent.Register<ISpinningWheelRecipe> event) { //TODO Rework spinning wheel recipes, to require different amount of input items
-        AtumRegistry.registerRecipe("flax", new SpinningWheelRecipe(AtumAPI.Tags.CROPS_FLAX, new ItemStack(AtumItems.LINEN_THREAD, 3), 4), event);
-        AtumRegistry.registerRecipe("linen_thread", new SpinningWheelRecipe(AtumItems.LINEN_THREAD, new ItemStack(Items.STRING), 1), event);
-        AtumRegistry.registerRecipe("wolf_pelt", new SpinningWheelRecipe(AtumItems.WOLF_PELT, new ItemStack(Items.STRING, 2), 5), event);
-        AtumRegistry.registerRecipe("cloth_scrap", new SpinningWheelRecipe(AtumItems.SCRAP, new ItemStack(AtumItems.LINEN_THREAD), 2), event);
-        for (DyeColor color : DyeColor.values()) { //TODO Add new tag when moving to json recipes
-            String colorName = color.getName();
-            AtumRegistry.registerRecipe(colorName + "_linen_to_string", new SpinningWheelRecipe(StackHelper.getBlockFromName("linen_" + colorName), new ItemStack(Items.STRING, 4), 4), event);
         }
     }
 

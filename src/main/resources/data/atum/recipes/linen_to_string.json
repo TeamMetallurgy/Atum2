@@ -1,0 +1,11 @@
+{
+  "type": "atum:spinning_wheel",
+  "ingredient": {
+    "tag": "atum:threaded_blocks"
+  },
+  "result": {
+    "item": "minecraft:string",
+    "count": 4
+  },
+  "rotations": 4
+}

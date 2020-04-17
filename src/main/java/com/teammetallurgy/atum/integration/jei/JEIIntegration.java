@@ -1,12 +1,14 @@
 package com.teammetallurgy.atum.integration.jei;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.integration.jei.categories.KilnRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.categories.QuernRecipeCategory;
 import com.teammetallurgy.atum.integration.jei.categories.SpinningWheelRecipeCategory;
+import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaRecipeCategoryUid;
@@ -15,7 +17,10 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
@@ -23,7 +28,7 @@ import javax.annotation.Nonnull;
 @JeiPlugin
 public class JEIIntegration implements IModPlugin {
     public static final ResourceLocation QUERN = new ResourceLocation(Atum.MOD_ID, "quern");
-    public static final ResourceLocation SPINNING_WHEEL = new ResourceLocation(Atum.MOD_ID, "spinningwheel");
+    public static final ResourceLocation SPINNING_WHEEL = new ResourceLocation(Atum.MOD_ID, "spinning_wheel");
     public static final ResourceLocation KILN = new ResourceLocation(Atum.MOD_ID, "kiln");
 
     @Override
@@ -41,10 +46,14 @@ public class JEIIntegration implements IModPlugin {
     }
 
     @Override
-    public void registerRecipes(IRecipeRegistration registry) {
-        registry.addRecipes(RecipeHandlers.quernRecipes.getValues(), QUERN);
-        registry.addRecipes(RecipeHandlers.spinningWheelRecipes.getValues(), SPINNING_WHEEL);
-        registry.addRecipes(RecipeHandlers.kilnRecipes.getValues(), KILN);
+    public void registerRecipes(@Nonnull IRecipeRegistration registry) {
+        ClientWorld world = Minecraft.getInstance().world;
+        if (world != null) {
+            RecipeManager recipeManager = world.getRecipeManager();
+            registry.addRecipes(RecipeHandlers.kilnRecipes.getValues(), KILN);
+            registry.addRecipes(RecipeHandlers.quernRecipes.getValues(), QUERN);
+            registry.addRecipes(RecipeHelper.getRecipes(recipeManager, IAtumRecipeType.SPINNING_WHEEL), SPINNING_WHEEL);
+        }
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
     }
 

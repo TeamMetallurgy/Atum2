@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.misc.recipe;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.FilledMapItem;
 import net.minecraft.item.ItemStack;
@@ -9,22 +9,16 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.item.crafting.SpecialRecipeSerializer;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.MapData;
 import net.minecraft.world.storage.MapDecoration;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ObjectHolder;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-@ObjectHolder(value = Atum.MOD_ID)
-public class MapExtendingScrollRecipe extends ShapedRecipe { //Statically loaded by EventBusSubscriber
-    private static final SpecialRecipeSerializer<MapExtendingScrollRecipe> MAP_EXTENDING_SCROLL_SERIALIZER = IRecipeSerializer.register(Atum.MOD_ID + ":crafting_special_map_extending_scroll", new SpecialRecipeSerializer<>(MapExtendingScrollRecipe::new));
+public class MapExtendingScrollRecipe extends ShapedRecipe {
 
     public MapExtendingScrollRecipe(ResourceLocation location) {
         super(location, "", 3, 3, NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(Items.FILLED_MAP), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL)), new ItemStack(Items.MAP));
@@ -32,18 +26,12 @@ public class MapExtendingScrollRecipe extends ShapedRecipe { //Statically loaded
 
     @Override
     @Nonnull
-    public ResourceLocation getId() {
-        return new ResourceLocation(Atum.MOD_ID, "map_extending_scroll");
-    }
-
-    @Override
-    @Nonnull
     public IRecipeSerializer<?> getSerializer() {
-        return MAP_EXTENDING_SCROLL_SERIALIZER;
+        return AtumRecipeSerializers.MAP_EXTENDING_SCROLL_SERIALIZER;
     }
 
     @Override
-    public boolean matches(CraftingInventory inv, World world) {
+    public boolean matches(@Nonnull CraftingInventory inv, @Nonnull World world) {
         if (!super.matches(inv, world)) {
             return false;
         } else {

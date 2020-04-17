@@ -36,7 +36,8 @@ public class BanditPatrolSpawner {
                 if (serverWorld.isDaytime()) {
                     if (rand.nextInt(4) != 0) {
                         return 0;
-                    } else { int playerAmount = serverWorld.getPlayers().size();
+                    } else {
+                        int playerAmount = serverWorld.getPlayers().size();
                         if (playerAmount < 1) {
                             return 0;
                         } else {

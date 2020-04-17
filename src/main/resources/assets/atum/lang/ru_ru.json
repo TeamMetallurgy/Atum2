@@ -957,7 +957,7 @@
 
   "_comment": "JEI",
   "atum.quern": "Ручная мельница",
-  "atum.spinningwheel": "Прялка",
+  "atum.spinning_wheel": "Прялка",
   "atum.kiln": "Печь для обжига",
   "gui.atum.rotations": "x%s",
   "jei.item.atum.emmer_dough": "Получение путем совмещения муки двузерновой пшеницы с водой",

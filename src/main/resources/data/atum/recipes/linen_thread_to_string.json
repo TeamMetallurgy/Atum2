@@ -1,0 +1,8 @@
+{
+  "type": "atum:spinning_wheel",
+  "ingredient": {
+    "item": "atum:linen_thread"
+  },
+  "result": "minecraft:string",
+  "rotations": 1
+}

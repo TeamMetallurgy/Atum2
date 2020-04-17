@@ -1022,7 +1022,7 @@
 
   "_comment": "JEI",
   "atum.quern": "Quern",
-  "atum.spinningwheel": "Spinning Wheel",
+  "atum.spinning_wheel": "Spinning Wheel",
   "atum.kiln": "Kiln",
   "gui.atum.rotations": "x%s",
   "jei.item.atum.emmer_dough": "Crafted by combining Emmer Flour with water",

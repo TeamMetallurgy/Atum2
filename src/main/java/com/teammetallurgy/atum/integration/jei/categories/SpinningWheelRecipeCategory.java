@@ -64,8 +64,8 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
 
     @Override
     public void setIngredients(@Nonnull SpinningWheelRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInputs(VanillaTypes.ITEM, recipe.getInput());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getOutput());
+        ingredients.setInputIngredients(recipe.getIngredients());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
             if (slotIndex == 1) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getRegistryName()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getId()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
                 }
             }
         });
@@ -90,6 +90,5 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     public void draw(SpinningWheelRecipe recipe, double mouseX, double mouseY) {
         Minecraft mc = Minecraft.getInstance();
         mc.fontRenderer.drawString(new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()).getFormattedText(), 25, 0, Color.gray.getRGB());
-        mc.fontRenderer.drawString(new TranslationTextComponent("gui.atum.rotations", 3).getFormattedText(), 4, 0, Color.gray.getRGB());
     }
 }
