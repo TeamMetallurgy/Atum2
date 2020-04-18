@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;

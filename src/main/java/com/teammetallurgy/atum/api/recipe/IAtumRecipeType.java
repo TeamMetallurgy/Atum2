@@ -1,8 +1,9 @@
 package com.teammetallurgy.atum.api.recipe;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.integration.crafttweaker.CTKiln;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IAtumRecipeType<T extends IRecipe<?>> extends IRecipeType<T> {
-    //IRecipeType<KilnRecipe> KILN = register("kiln");
+    IRecipeType<KilnRecipe> KILN = register("kiln");
     IRecipeType<QuernRecipe> QUERN = register("quern");
     IRecipeType<SpinningWheelRecipe> SPINNING_WHEEL = register("spinning_wheel");
     /**

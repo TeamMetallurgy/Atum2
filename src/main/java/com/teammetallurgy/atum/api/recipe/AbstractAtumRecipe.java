@@ -67,6 +67,7 @@ public abstract class AbstractAtumRecipe<C extends IInventory> implements IRecip
     }
 
     @Override
+    @Nonnull
     public IRecipeType<?> getType() {
         return this.type;
     }

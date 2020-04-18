@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
 import mezz.jei.api.constants.VanillaTypes;

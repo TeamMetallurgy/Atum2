@@ -2,7 +2,8 @@ package com.teammetallurgy.atum.integration.jei;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.integration.jei.categories.KilnRecipeCategory;
@@ -21,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
@@ -29,6 +31,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @JeiPlugin
@@ -55,7 +58,19 @@ public class JEIIntegration implements IModPlugin {
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
         ClientWorld world = Minecraft.getInstance().world;
         if (world != null) {
-            registry.addRecipes(RecipeHandlers.kilnRecipes.getValues(), KILN);
+            addRecipes(registry, world, IAtumRecipeType.KILN, KILN);
+            Collection<KilnRecipe> furnaceRecipesSorted = new ArrayList<>();
+            for (FurnaceRecipe furnaceRecipe : RecipeHelper.getRecipes(world.getRecipeManager(), IRecipeType.SMELTING)) {
+                for (Ingredient input : furnaceRecipe.getIngredients()) {
+                    ItemStack output = furnaceRecipe.getRecipeOutput();
+                    if (input != null && !output.isEmpty()) {
+                        if (!KilnTileEntity.canKilnNotSmelt(input) && !KilnTileEntity.canKilnNotSmelt(output)) {
+                            furnaceRecipesSorted.add(new KilnRecipe(input, output, furnaceRecipe.getExperience(), furnaceRecipe.getCookTime()));
+                        }
+                    }
+                }
+            }
+            registry.addRecipes(furnaceRecipesSorted, KILN);
             addRecipes(registry, world, IAtumRecipeType.QUERN, QUERN);
             addRecipes(registry, world, IAtumRecipeType.SPINNING_WHEEL, SPINNING_WHEEL);
         }

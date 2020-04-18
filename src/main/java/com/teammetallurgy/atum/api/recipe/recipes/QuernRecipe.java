@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.api.recipe.quern;
+package com.teammetallurgy.atum.api.recipe.recipes;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;

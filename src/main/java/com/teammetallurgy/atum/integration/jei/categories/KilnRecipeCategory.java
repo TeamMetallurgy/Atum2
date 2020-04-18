@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.integration.jei.JEIIntegration;
@@ -70,8 +70,8 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
     @Override
     public void setIngredients(@Nonnull KilnRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInputs(VanillaTypes.ITEM, recipe.getInput());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getOutput());
+        ingredients.setInputIngredients(recipe.getIngredients());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
     }
 
     @Override
@@ -86,7 +86,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
             if (slotIndex >= 5) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getRegistryName()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getId()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
                 }
             }
         });

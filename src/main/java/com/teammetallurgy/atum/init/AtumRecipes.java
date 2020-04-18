@@ -2,41 +2,22 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
-import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
-import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
-import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.FurnaceRecipe;
 import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.Potions;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistry;
-import net.minecraftforge.registries.IForgeRegistryModifiable;
-import net.minecraftforge.registries.RegistryManager;
 
-import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.*;
+import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.addBrewingRecipeWithSubPotions;
+import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.addRecipe;
 import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRecipes {
-
-    @SubscribeEvent
-    public static void registerRegistries(RegistryEvent.NewRegistry event) {
-        RecipeHandlers.kilnRecipes = (IForgeRegistryModifiable<IKilnRecipe>) AtumRegistry.makeRegistry("kiln_recipes", IKilnRecipe.class);
-    }
 
     @SubscribeEvent
     public static void registerRecipes(RegistryEvent.Register<IRecipeSerializer<?>> event) {
@@ -70,12 +51,7 @@ public class AtumRecipes {
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRENGTH), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_STRENGTH));
     }
 
-    @SubscribeEvent
-    public static void registerKilnRecipes(RegistryEvent.Register<IKilnRecipe> event) {
-        AtumRegistry.registerRecipe("marl", new KilnRecipe(AtumBlocks.MARL, new ItemStack(AtumBlocks.CERAMIC_WHITE), 0.1F), event);
-    }
-
-    public static void addKilnRecipes(MinecraftServer server) {
+    /*public static void addKilnRecipes(MinecraftServer server) { //TODO
         //Add valid vanilla & modded recipes based on Furnace recipes
         ServerWorld world = DimensionManager.getWorld(server, DimensionType.OVERWORLD, true, true);
         if (world != null) {
@@ -94,12 +70,12 @@ public class AtumRecipes {
             }
             kilnRegistry.freeze();
         }
-    }
+    }*/
 
-    public static void kilnMissingMappings(RegistryEvent.MissingMappings<IKilnRecipe> event) {
+    /*public static void kilnMissingMappings(RegistryEvent.MissingMappings<IKilnRecipe> event) {
         //Ignore missing mappings for kiln recipes, as they're first registered on world load. So will always be missing, until the world is fully loaded
         for (RegistryEvent.MissingMappings.Mapping<IKilnRecipe> mapping : event.getAllMappings()) {
             mapping.ignore();
         }
-    }
+    }*/
 }

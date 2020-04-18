@@ -8,7 +8,7 @@ import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutput;
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutputInput;
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import org.openzen.zencode.java.ZenCodeType;
 

@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.misc.StackHelper;

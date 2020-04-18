@@ -1,16 +1,19 @@
 package com.teammetallurgy.atum.inventory.container.slot;
 
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.misc.StackHelper;
+import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
+import java.util.Collection;
 
 public class KilnOutputSlot extends Slot {
     private final PlayerEntity player;
@@ -37,9 +40,9 @@ public class KilnOutputSlot extends Slot {
 
     @Override
     @Nonnull
-    public ItemStack onTake(PlayerEntity thePlayer, @Nonnull ItemStack stack) {
+    public ItemStack onTake(@Nonnull PlayerEntity player, @Nonnull ItemStack stack) {
         this.onCrafting(stack);
-        super.onTake(thePlayer, stack);
+        super.onTake(player, stack);
         return stack;
     }
 
@@ -76,9 +79,13 @@ public class KilnOutputSlot extends Slot {
     }
 
     private float getExperience(@Nonnull ItemStack stack) { //TODO Needs testing
-        for (IKilnRecipe kilnRecipe : RecipeHandlers.kilnRecipes) {
-            if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getOutput())) {
-                return kilnRecipe.getExperience();
+        if (this.player.world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) this.player.world;
+            Collection<KilnRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN);
+            for (KilnRecipe kilnRecipe : recipes) {
+                if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getRecipeOutput())) {
+                    return kilnRecipe.getExperience();
+                }
             }
         }
         return 0.0F;

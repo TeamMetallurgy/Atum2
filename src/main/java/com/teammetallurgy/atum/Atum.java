@@ -1,9 +1,7 @@
 package com.teammetallurgy.atum;
 
-import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
-import com.teammetallurgy.atum.init.AtumRecipes;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
@@ -36,7 +34,6 @@ public class Atum {
         modBus.addListener(this::setupClient);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
-        MinecraftForge.EVENT_BUS.addGenericListener(IKilnRecipe.class, AtumRecipes::kilnMissingMappings);
         IntegrationHandler.INSTANCE.addSupport();
     }
 
@@ -55,7 +52,6 @@ public class Atum {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        AtumRecipes.addKilnRecipes(event.getServer());
         //AtumWeather.register(event.getCommandDispatcher()); //TODO
     }
 }

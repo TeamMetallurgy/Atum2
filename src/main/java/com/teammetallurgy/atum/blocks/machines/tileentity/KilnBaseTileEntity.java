@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.blocks.base.tileentity.FurnaceBaseTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -20,7 +20,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
     private BlockPos primaryPos;
 
     KilnBaseTileEntity() {
-        super(AtumTileEntities.KILN, IRecipeType.SMELTING, 9);
+        super(AtumTileEntities.KILN, IAtumRecipeType.SMELTING, 9);
     }
 
     public boolean isPrimary() {
@@ -131,7 +131,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         boolean hasPrimary = compound.getBoolean("has_primary");
         if (hasPrimary) {
@@ -144,7 +144,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         if (primaryPos != null) {
             compound.putBoolean("has_primary", true);

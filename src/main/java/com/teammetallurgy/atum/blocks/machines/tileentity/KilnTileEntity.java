@@ -1,10 +1,11 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.kiln.IKilnRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.misc.StackHelper;
+import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
@@ -15,10 +16,12 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static net.minecraftforge.common.Tags.Items.*;
@@ -185,7 +188,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
             ItemStack output = this.items.get(outputSlot);
 
             if (output.isEmpty()) {
-                this.items.set(outputSlot, result.copy());
+                this.items.set(outputSlot, result);
             } else if (output.getItem() == result.getItem()) {
                 output.grow(result.getCount());
             }
@@ -195,16 +198,18 @@ public class KilnTileEntity extends KilnBaseTileEntity {
 
     @Nonnull
     private ItemStack getSmeltingResult(@Nonnull ItemStack input) {
-        for (IKilnRecipe kilnRecipe : RecipeHandlers.kilnRecipes) {
-            if (compareItemStacks(kilnRecipe.getInput().get(0), input)) {
-                return kilnRecipe.getOutput();
+        if (this.world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            Collection<KilnRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN);
+            for (KilnRecipe kilnRecipe : recipes) {
+                for (Ingredient ingredient : kilnRecipe.getIngredients()) {
+                    if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, input)) {
+                        return kilnRecipe.getCraftingResult(this);
+                    }
+                }
             }
         }
         return ItemStack.EMPTY;
-    }
-
-    private boolean compareItemStacks(@Nonnull ItemStack stack1, @Nonnull ItemStack stack2) {
-        return stack2.getItem() == stack1.getItem();
     }
 
     private List<ItemStack> getInputs() {

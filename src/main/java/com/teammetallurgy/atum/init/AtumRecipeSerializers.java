@@ -2,8 +2,9 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.RotationRecipe;
-import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
+import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
 import com.teammetallurgy.atum.misc.recipe.DisenchantRecipe;
 import com.teammetallurgy.atum.misc.recipe.MapExtendingScrollRecipe;
 import net.minecraft.item.crafting.IRecipe;
@@ -24,6 +25,7 @@ public class AtumRecipeSerializers {
     private static final List<IRecipeSerializer<?>> SERIALIZERS = new ArrayList<>();
     public static final SpecialRecipeSerializer<MapExtendingScrollRecipe> MAP_EXTENDING_SCROLL = register("map_extending_scroll", new SpecialRecipeSerializer<>(MapExtendingScrollRecipe::new));
     public static final SpecialRecipeSerializer<DisenchantRecipe> DISENCHANT = register("disenchant", new SpecialRecipeSerializer<>(DisenchantRecipe::new));
+    public static final KilnRecipe.Serializer<KilnRecipe> KILN = register("kiln", new KilnRecipe.Serializer<>(KilnRecipe::new, 75));
     public static final RotationRecipe.Serializer<QuernRecipe> QUERN = register("quern", new RotationRecipe.Serializer<>(QuernRecipe::new, false));
     public static final RotationRecipe.Serializer<SpinningWheelRecipe> SPINNING_WHEEL = register("spinning_wheel", new RotationRecipe.Serializer<>(SpinningWheelRecipe::new, true));
 
