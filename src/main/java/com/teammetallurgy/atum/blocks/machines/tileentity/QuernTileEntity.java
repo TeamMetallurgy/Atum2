@@ -1,16 +1,18 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.StackHelper;
+import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -22,6 +24,7 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -30,6 +33,7 @@ import net.minecraftforge.items.ItemHandlerHelper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
 
 public class QuernTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity, ISidedInventory {
     private int currentRotation;
@@ -52,13 +56,17 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
             }
 
             if (this.quernRotations > 0) {
-                for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes) {
-                    for (ItemStack input : quernRecipe.getInput()) {
-                        if (StackHelper.areStacksEqualIgnoreSize(input, this.getStackInSlot(0)) && quernRecipe.getRotations() == this.quernRotations) {
-                            this.decrStackSize(0, 1);
-                            this.outputItems(quernRecipe.getOutput().copy(), this.world, this.getPos());
-                            this.quernRotations = 0;
-                            this.markDirty();
+                if (this.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) world;
+                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.QUERN);
+                    for (QuernRecipe quernRecipe : recipes) {
+                        for (Ingredient ingredient : quernRecipe.getIngredients()) {
+                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, this.getStackInSlot(0)) && quernRecipe.getRotations() == this.quernRotations) {
+                                this.decrStackSize(0, 1);
+                                this.outputItems(quernRecipe.getCraftingResult(this), this.world, this.getPos());
+                                this.quernRotations = 0;
+                                this.markDirty();
+                            }
                         }
                     }
                 }
@@ -92,14 +100,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        for (IQuernRecipe quernRecipe : RecipeHandlers.quernRecipes.getValues()) {
-            for (ItemStack input : quernRecipe.getInput()) {
-                if (ItemStack.areItemsEqual(input, stack)) {
-                    return quernRecipe.isValidInput(stack);
-                }
-            }
-        }
-        return false;
+        return RecipeHelper.isItemValidForSlot(this.world, stack, IAtumRecipeType.QUERN);
     }
 
     public int getRotations() {
@@ -111,7 +112,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.currentRotation = compound.getInt("currentRotation");
         this.quernRotations = compound.getInt("quernRotations");
@@ -119,7 +120,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putInt("currentRotation", this.currentRotation);
         compound.putInt("quernRotations", this.quernRotations);

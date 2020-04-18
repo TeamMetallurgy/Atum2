@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:flowers/lime"
+  },
+  "result": {
+    "item": "minecraft:lime_dye",
+    "count": 2
+  },
+  "rotations": 1
+}

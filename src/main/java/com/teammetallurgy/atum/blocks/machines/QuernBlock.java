@@ -37,7 +37,7 @@ public class QuernBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SHAPE;
     }
 
@@ -48,7 +48,7 @@ public class QuernBlock extends ContainerBlock {
     }
 
     @Override
-    public void onBlockClicked(BlockState state, World world, BlockPos pos, PlayerEntity player) {
+    public void onBlockClicked(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof QuernTileEntity) {
             QuernTileEntity quern = (QuernTileEntity) tileEntity;
@@ -69,7 +69,7 @@ public class QuernBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
         if (player == null || player instanceof FakePlayer) return ActionResultType.PASS;
         ItemStack heldStack = player.getHeldItem(hand);
         TileEntity tileEntity = world.getTileEntity(pos);
@@ -87,24 +87,28 @@ public class QuernBlock extends ContainerBlock {
                     heldStack.shrink(1);
                 }
             } else {
-                quern.setRotations(quern.getRotations() + 24);
+                System.out.println("Else");
                 if (world.isRemote) {
                     world.playSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
+                } else {
+                    quern.setRotations(quern.getRotations() + 24);
                 }
             }
             quern.markDirty();
-            return ActionResultType.SUCCESS;
+            return ActionResultType.PASS;
         }
         return ActionResultType.PASS;
     }
 
     @Override
-    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof QuernTileEntity) {
-            InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if (newState.getBlock() != state.getBlock()) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof QuernTileEntity) {
+                InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+            }
+            world.removeTileEntity(pos);
         }
-        super.onReplaced(state, world, pos, newState, isMoving);
     }
 
     @Override
@@ -130,7 +134,7 @@ public class QuernBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nonnull BlockState state) {
         return BlockRenderType.MODEL;
     }
 }

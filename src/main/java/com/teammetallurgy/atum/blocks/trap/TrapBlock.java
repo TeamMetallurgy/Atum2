@@ -8,6 +8,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BlockItemUseContext;
@@ -39,7 +40,7 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) {
+    public float getBlockHardness(@Nonnull BlockState state, IBlockReader world, @Nonnull BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? -1.0F : super.getBlockHardness(state, world, pos);
     }
@@ -52,7 +53,7 @@ public abstract class TrapBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
         if (world.isRemote) {
             return ActionResultType.PASS;
         } else {
@@ -75,7 +76,7 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
@@ -89,7 +90,7 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         if (!world.isRemote) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
@@ -108,7 +109,7 @@ public abstract class TrapBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nonnull BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -118,7 +119,7 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         TileEntity tileentity = world.getTileEntity(pos);
         if (tileentity instanceof TrapTileEntity) {
             ((TrapTileEntity) tileentity).isInsidePyramid = false;
@@ -129,27 +130,29 @@ public abstract class TrapBlock extends ContainerBlock {
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        TileEntity tileentity = world.getTileEntity(pos);
-        if (tileentity instanceof TrapTileEntity) {
-            InventoryHelper.dropInventoryItems(world, pos, (TrapTileEntity) tileentity);
-            world.updateComparatorOutputLevel(pos, this);
+    public void onReplaced(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        if (newState.getBlock() != state.getBlock()) {
+            TileEntity tileEntity = world.getTileEntity(pos);
+            if (tileEntity instanceof TrapTileEntity) {
+                InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+                world.updateComparatorOutputLevel(pos, this);
+            }
+            world.removeTileEntity(pos);
         }
-        super.onReplaced(state, world, pos, newState, isMoving);
     }
 
     @Override
-    public boolean canProvidePower(BlockState state) {
+    public boolean canProvidePower(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState state) {
+    public boolean hasComparatorInputOverride(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
+    public int getComparatorInputOverride(@Nonnull BlockState blockState, World world, @Nonnull BlockPos pos) {
         return Container.calcRedstone(world.getTileEntity(pos));
     }
 

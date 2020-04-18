@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.api.recipe;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.recipe.quern.QuernRecipe;
 import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.integration.crafttweaker.CTKiln;
 import net.minecraft.item.crafting.IRecipe;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public interface IAtumRecipeType<T extends IRecipe<?>> extends IRecipeType<T> {
     //IRecipeType<KilnRecipe> KILN = register("kiln");
-    //IRecipeType<QuernRecipe> QUERN = register("quern");
+    IRecipeType<QuernRecipe> QUERN = register("quern");
     IRecipeType<SpinningWheelRecipe> SPINNING_WHEEL = register("spinning_wheel");
     /**
      * Instance for the Kiln recipe blacklist.

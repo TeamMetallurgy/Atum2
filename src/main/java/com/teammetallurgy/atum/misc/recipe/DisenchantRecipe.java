@@ -24,7 +24,7 @@ public class DisenchantRecipe extends SpecialRecipe {
     @Override
     @Nonnull
     public IRecipeSerializer<?> getSerializer() {
-        return AtumRecipeSerializers.DISENCHANT_SERIALIZER;
+        return AtumRecipeSerializers.DISENCHANT;
     }
 
     @Override

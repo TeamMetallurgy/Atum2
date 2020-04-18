@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:rods/blaze"
+  },
+  "result": {
+    "item": "minecraft:blaze_powder",
+    "count": 3
+  },
+  "rotations": 4
+}

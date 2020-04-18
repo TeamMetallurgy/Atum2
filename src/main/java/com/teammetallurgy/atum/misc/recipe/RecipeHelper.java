@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.misc.recipe;
 
-import com.teammetallurgy.atum.api.recipe.quern.IQuernRecipe;
-import com.teammetallurgy.atum.misc.AtumRegistry;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,8 +13,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
-import net.minecraftforge.event.RegistryEvent;
 
 import javax.annotation.Nonnull;
 import java.util.Collection;
@@ -51,14 +51,23 @@ public class RecipeHelper {
         return BrewingRecipeRegistry.addRecipe(new BrewingNBT(Ingredient.fromStacks(input), ingredient, output));
     }
 
-    public static void addQuernRecipe(String registryName, IQuernRecipe quernRecipe, RegistryEvent.Register<IQuernRecipe> event) {
-        if (!quernRecipe.getInput().isEmpty()) {
-            AtumRegistry.registerRecipe(registryName, quernRecipe, event);
-        }
-    }
-
     public static <C extends IInventory, T extends IRecipe<C>> Collection<T> getRecipes(RecipeManager recipeManager, IRecipeType<T> recipeType) {
         Map<ResourceLocation, IRecipe<C>> recipesMap = recipeManager.getRecipes(recipeType);
         return (Collection<T>) recipesMap.values();
+    }
+
+    public static <C extends IInventory, T extends IRecipe<C>> boolean isItemValidForSlot(World world, @Nonnull ItemStack stack, IRecipeType<T> recipeType) {
+        if (world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            Collection<T> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), recipeType);
+            for (IRecipe<C> recipe : recipes) {
+                for (Ingredient ingredient : recipe.getIngredients()) {
+                    if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, stack)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

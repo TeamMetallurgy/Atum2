@@ -41,7 +41,7 @@ public class ChestBaseBlock extends ChestBlock {
     }
 
     @Override
-    public void onBlockHarvested(World world, @Nonnull BlockPos pos, BlockState state, @Nonnull PlayerEntity player) {
+    public void onBlockHarvested(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull PlayerEntity player) {
         super.onBlockHarvested(world, pos, state, player);
 
         TileEntity tileEntity = world.getTileEntity(pos);

@@ -64,8 +64,8 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
 
     @Override
     public void setIngredients(@Nonnull QuernRecipe recipe, @Nonnull IIngredients ingredients) {
-        ingredients.setInputs(VanillaTypes.ITEM, recipe.getInput());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getOutput());
+        ingredients.setInputIngredients(recipe.getIngredients());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
             if (slotIndex == 1) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getRegistryName()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getId()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
                 }
             }
         });

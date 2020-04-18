@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
@@ -11,13 +10,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -26,7 +22,6 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Collection;
 
 public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements ISidedInventory {
     public CompoundNBT input = new CompoundNBT();
@@ -38,19 +33,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        World world = this.getWorld();
-        if (world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            Collection<SpinningWheelRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.SPINNING_WHEEL);
-            for (SpinningWheelRecipe recipe : recipes) {
-                for (Ingredient ingredient : recipe.getIngredients()) {
-                    if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, stack)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return RecipeHelper.isItemValidForSlot(this.world, stack, IAtumRecipeType.SPINNING_WHEEL);
     }
 
     @Override
@@ -130,7 +113,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.rotations = compound.getInt("rotations");
         this.input = compound.getCompound("input");
@@ -138,7 +121,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Nonnull
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putInt("rotations", this.rotations);
         if (this.input != null) {

@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "item": "minecraft:sunflower"
+  },
+  "result": {
+    "item": "minecraft:yellow_dye",
+    "count": 4
+  },
+  "rotations": 2
+}

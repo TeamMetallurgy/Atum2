@@ -1,72 +1,34 @@
 package com.teammetallurgy.atum.api.recipe.quern;
 
-import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.RotationRecipe;
+import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
+import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
-import net.minecraft.util.NonNullList;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
 
-public class QuernRecipe extends ForgeRegistryEntry<IQuernRecipe> implements IQuernRecipe {
-    private final NonNullList<ItemStack> inputs;
-    private final ItemStack output;
-    private final int rotations;
-
-
-    public QuernRecipe(Block input, @Nonnull ItemStack output, int rotations) {
-        this(new ItemStack(input), output, rotations);
-    }
-
-    public QuernRecipe(Item input, @Nonnull ItemStack output, int rotations) {
-        this(new ItemStack(input), output, rotations);
-    }
+public class QuernRecipe extends RotationRecipe<QuernTileEntity> {
 
     public QuernRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
-        this(NonNullList.withSize(1, input), output, rotations);
-    }
-
-    public QuernRecipe(Tag<Item> input, @Nonnull ItemStack output, int rotations) {
-        this(Ingredient.fromTag(input), output, rotations);
+        this(Ingredient.fromStacks(input), output, rotations);
     }
 
     public QuernRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
-        this(NonNullList.from(ItemStack.EMPTY, input.getMatchingStacks()), output, rotations);
+        this(new ResourceLocation(Atum.MOD_ID, "spinning_wheel"), input, output, rotations);
     }
 
-    private QuernRecipe(NonNullList<ItemStack> input, @Nonnull ItemStack output, int rotations) {
-        this.inputs = input;
-        this.output = output;
-        this.rotations = rotations;
-    }
-
-    @Override
-    @Nonnull
-    public NonNullList<ItemStack> getInput() {
-        return this.inputs;
-    }
-
-    @Override
-    public boolean isValidInput(@Nonnull ItemStack stack) {
-        for (final ItemStack validInput : this.inputs) {
-            if (StackHelper.areStacksEqualIgnoreSize(stack, validInput)) {
-                return true;
-            }
-        }
-        return false;
+    public QuernRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {
+        super(IAtumRecipeType.QUERN, id, input, output, rotations);
     }
 
     @Override
     @Nonnull
-    public ItemStack getOutput() {
-        return this.output;
-    }
-
-    @Override
-    public int getRotations() {
-        return this.rotations;
+    public IRecipeSerializer<?> getSerializer() {
+        return AtumRecipeSerializers.QUERN;
     }
 }

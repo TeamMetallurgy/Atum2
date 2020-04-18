@@ -19,11 +19,17 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @JeiPlugin
 public class JEIIntegration implements IModPlugin {
@@ -49,12 +55,15 @@ public class JEIIntegration implements IModPlugin {
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
         ClientWorld world = Minecraft.getInstance().world;
         if (world != null) {
-            RecipeManager recipeManager = world.getRecipeManager();
             registry.addRecipes(RecipeHandlers.kilnRecipes.getValues(), KILN);
-            registry.addRecipes(RecipeHandlers.quernRecipes.getValues(), QUERN);
-            registry.addRecipes(RecipeHelper.getRecipes(recipeManager, IAtumRecipeType.SPINNING_WHEEL), SPINNING_WHEEL);
+            addRecipes(registry, world, IAtumRecipeType.QUERN, QUERN);
+            addRecipes(registry, world, IAtumRecipeType.SPINNING_WHEEL, SPINNING_WHEEL);
         }
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
+    }
+
+    private <C extends IInventory, T extends IRecipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, World world, IRecipeType<T> recipeType, ResourceLocation name) {
+        registry.addRecipes(RecipeHelper.getRecipes(world.getRecipeManager(), recipeType).stream().filter(r -> r.getIngredients().stream().noneMatch(Ingredient::hasNoMatchingItems)).collect(Collectors.toCollection(ArrayList::new)), name);
     }
 
     @Override

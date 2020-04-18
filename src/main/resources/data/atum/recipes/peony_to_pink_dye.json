@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "item": "minecraft:peony"
+  },
+  "result": {
+    "item": "minecraft:pink_dye",
+    "count": 4
+  },
+  "rotations": 2
+}

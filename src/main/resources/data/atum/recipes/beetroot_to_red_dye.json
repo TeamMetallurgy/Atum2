@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "item": "minecraft:beetroot"
+  },
+  "result": {
+    "item": "minecraft:red_dye",
+    "count": 2
+  },
+  "rotations": 2
+}

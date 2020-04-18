@@ -1,0 +1,10 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:crops/emmer"
+  },
+  "result": {
+    "item": "atum:emmer_flour"
+  },
+  "rotations": 2
+}
