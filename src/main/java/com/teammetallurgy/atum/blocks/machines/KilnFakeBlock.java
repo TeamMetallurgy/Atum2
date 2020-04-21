@@ -7,6 +7,8 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -19,6 +21,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
@@ -37,23 +40,23 @@ public class KilnFakeBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
         if (world.isRemote) {
             return ActionResultType.PASS;
         }
         BlockPos tepos = getPrimaryKilnBlock(world, pos);
         if (tepos != null) {
-            TileEntity tileEntity = world.getTileEntity(tepos);
-            if (tileEntity instanceof KilnTileEntity) {
-                //player.openGui(Atum.instance, 5, world, tepos.getX(), tepos.getY(), tepos.getZ()); //TODO
+            INamedContainerProvider container = this.getContainer(world.getBlockState(tepos), world, tepos);
+            if (container != null && player instanceof ServerPlayerEntity) {
+                NetworkHooks.openGui((ServerPlayerEntity) player, container, tepos);
                 return ActionResultType.SUCCESS;
             }
         }
-        return super.onBlockActivated(state, world, pos, player, handIn, rayTraceResult);
+        return super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
     }
 
     @Override
-    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) { //TODO Test if work the same as breakBlock
+    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) { //TODO Test if work the same as breakBlock
         BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos);
         if (primaryPos != null) {
             BlockState primaryState = world.getBlockState(primaryPos);
@@ -80,7 +83,7 @@ public class KilnFakeBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nonnull BlockState state) {
         return BlockRenderType.MODEL;
     }
 

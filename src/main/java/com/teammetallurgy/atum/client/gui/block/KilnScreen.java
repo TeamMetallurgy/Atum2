@@ -43,7 +43,7 @@ public class KilnScreen extends ContainerScreen<KilnContainer> {
         int height = (this.height - this.ySize) / 2;
         this.blit(width, height, 0, 0, this.xSize, this.ySize);
 
-        if (this.container.func_217061_l()) {
+        if (this.container.isBurning()) {
             int burn = this.container.getBurnLeftScaled();
             this.blit(width + 37, height + 32 + 12 - burn, 176, 12 - burn, 14, burn + 1);
         }

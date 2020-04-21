@@ -33,6 +33,7 @@ public class TrapContainer extends Container {
         for (int slot = 0; slot < 9; ++slot) {
             this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 109));
         }
+        this.trackIntArray(trapInventory.trapData);
     }
 
     @Override

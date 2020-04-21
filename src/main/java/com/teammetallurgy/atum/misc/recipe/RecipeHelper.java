@@ -1,14 +1,13 @@
 package com.teammetallurgy.atum.misc.recipe;
 
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
+import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.item.crafting.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
 import net.minecraft.tags.Tag;
@@ -18,6 +17,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
@@ -69,5 +69,31 @@ public class RecipeHelper {
             }
         }
         return false;
+    }
+
+    public static  <C extends IInventory, T extends IRecipe<C>> Boolean isValidRecipeInput(Collection<T> recipes, @Nonnull ItemStack input) {
+        for (IRecipe<C> recipe : recipes) {
+            for (Ingredient ingredient : recipe.getIngredients()) {
+                if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, input)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public static Collection<KilnRecipe> getKilnRecipesFromFurnace(RecipeManager recipeManager) {
+        Collection<KilnRecipe> kilnRecipes = new ArrayList<>();
+        for (FurnaceRecipe furnaceRecipe : RecipeHelper.getRecipes(recipeManager, IRecipeType.SMELTING)) {
+            for (Ingredient input : furnaceRecipe.getIngredients()) {
+                ItemStack output = furnaceRecipe.getRecipeOutput();
+                if (input != null && !output.isEmpty()) {
+                    if (!KilnTileEntity.canKilnNotSmelt(input) && !KilnTileEntity.canKilnNotSmelt(output)) {
+                        kilnRecipes.add(new KilnRecipe(input, output, furnaceRecipe.getExperience(), furnaceRecipe.getCookTime()));
+                    }
+                }
+            }
+        }
+        return kilnRecipes;
     }
 }

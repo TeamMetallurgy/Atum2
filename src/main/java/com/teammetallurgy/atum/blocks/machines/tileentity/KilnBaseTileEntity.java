@@ -1,26 +1,38 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
-import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
-import com.teammetallurgy.atum.blocks.base.tileentity.FurnaceBaseTileEntity;
-import com.teammetallurgy.atum.init.AtumTileEntities;
-import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
+import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 
 import javax.annotation.Nonnull;
 
-public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
+public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISidedInventory {
     private BlockPos primaryPos;
 
-    KilnBaseTileEntity() {
-        super(AtumTileEntities.KILN, IAtumRecipeType.SMELTING, 9);
+    KilnBaseTileEntity(TileEntityType<?> tileType) {
+        super(tileType, 9);
+    }
+
+    @Override
+    @Nonnull
+    public TileEntityType<?> getType() {
+        if (!isPrimary()) {
+            KilnBaseTileEntity primary = getPrimary();
+            if (primary != null) {
+                return primary.getType();
+            }
+        }
+        return super.getType();
     }
 
     public boolean isPrimary() {
@@ -61,7 +73,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
         if (index >= 5 && index <= 9) {
             return false;
         } else if (index == 4) {
-            return isFuel(stack);
+            return AbstractFurnaceTileEntity.isFuel(stack);
         } else {
             return true;
         }
@@ -76,7 +88,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
                 return primary.getSlotsForFace(side);
             }
         }
-        return super.getSlotsForFace(side);
+        return new int[0];
     }
 
     @Override
@@ -158,7 +170,6 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
     }
 
     @Override
-    @Nonnull
     protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
@@ -166,7 +177,7 @@ public class KilnBaseTileEntity extends FurnaceBaseTileEntity {
                 return primary.createMenu(windowID, playerInventory);
             }
         }
-        return new KilnContainer(windowID, playerInventory, this);
+        return null;
     }
 
     @Override

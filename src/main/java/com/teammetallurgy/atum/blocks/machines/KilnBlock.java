@@ -13,8 +13,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -22,6 +20,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.network.NetworkHooks;
@@ -48,28 +47,34 @@ public class KilnBlock extends AbstractFurnaceBlock {
 
     @Override
     protected void interactWith(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player) {
-        INamedContainerProvider container = this.getContainer(world.getBlockState(pos), world, pos);
-        if (container != null && player instanceof ServerPlayerEntity) {
-            NetworkHooks.openGui((ServerPlayerEntity) player, container, pos);
-        }
-    }
-
-    @Override
-    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, BlockState newState, boolean isMoving) { //TODO Test if works same as breakBlock did
-        if (state.get(MULTIBLOCK_PRIMARY)) {
-            this.destroyMultiblock(world, pos, state.get(FACING));
-        } else {
-            BlockPos primaryPos = pos.offset(state.get(FACING).rotateYCCW());
-            BlockState primaryState = world.getBlockState(primaryPos);
-            if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.get(MULTIBLOCK_PRIMARY)) {
-                this.destroyMultiblock(world, primaryPos, primaryState.get(FACING));
+        BlockPos tepos = getPrimaryKilnBlock(world, pos);
+        if (tepos != null) {
+            TileEntity tileEntity = world.getTileEntity(tepos);
+            if (tileEntity instanceof KilnTileEntity && player instanceof ServerPlayerEntity) {
+                KilnTileEntity kiln = (KilnTileEntity) tileEntity;
+                NetworkHooks.openGui((ServerPlayerEntity) player, kiln, tepos);
             }
         }
-        super.onReplaced(state, world, pos, newState, isMoving);
     }
 
     @Override
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) { //TODO Test if works same as breakBlock did'
+        if (newState.getBlock() != state.getBlock()) {
+            if (state.get(MULTIBLOCK_PRIMARY)) {
+                this.destroyMultiblock(world, pos, state.get(FACING));
+            } else {
+                BlockPos primaryPos = pos.offset(state.get(FACING).rotateYCCW());
+                BlockState primaryState = world.getBlockState(primaryPos);
+                if (primaryState.getBlock() == AtumBlocks.KILN && primaryState.get(MULTIBLOCK_PRIMARY)) {
+                    this.destroyMultiblock(world, primaryPos, primaryState.get(FACING));
+                }
+            }
+            world.removeTileEntity(pos);
+        }
+    }
+
+    @Override
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         tryMakeMultiblock(world, pos, world.getBlockState(pos));
     }
@@ -154,6 +159,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
         }
         for (BlockPos brickPos : brickPositions) {
             if (world.getBlockState(brickPos).getBlock() == AtumBlocks.KILN_FAKE) {
+                world.removeTileEntity(brickPos);
                 world.setBlockState(brickPos, AtumBlocks.LIMESTONE_BRICK_SMALL.getDefaultState());
             } else {
                 dropPos = brickPos;
@@ -207,18 +213,16 @@ public class KilnBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        BlockState superState = super.getStateForPlacement(context);
-        World world = context.getWorld();
-        BlockPos pos = context.getPos();
-        TileEntity tileEntity = world.getTileEntity(pos);
+    @Nonnull
+    public BlockState updatePostPlacement(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        TileEntity tileEntity = world.getTileEntity(currentPos);
         if (tileEntity instanceof KilnTileEntity) {
             KilnTileEntity kiln = (KilnTileEntity) tileEntity;
-            if (this.getPrimaryKilnBlock(kiln.getWorld(), pos) != null && superState != null) {
-                return superState.with(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
+            if (this.getPrimaryKilnBlock(kiln.getWorld(), currentPos) != null) {
+                return state.with(MULTIBLOCK_SECONDARY, !kiln.isPrimary());
             }
         }
-        return superState;
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
     }
 
     @Override

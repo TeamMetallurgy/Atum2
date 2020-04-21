@@ -36,5 +36,5 @@ public class AtumTileEntities {
     public static final TileEntityType<LimestoneFurnaceTileEntity> LIMESTONE_FURNACE = registerTileEntity("limestone_furnace", TileEntityType.Builder.create(LimestoneFurnaceTileEntity::new, AtumBlocks.LIMESTONE_FURNACE));
     public static final TileEntityType<QuernTileEntity> QUERN = registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));
     public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = registerTileEntity("spinning_wheel", TileEntityType.Builder.create(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));
-    public static final TileEntityType<KilnTileEntity> KILN = registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN));
+    public static final TileEntityType<KilnTileEntity> KILN = registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));
 }

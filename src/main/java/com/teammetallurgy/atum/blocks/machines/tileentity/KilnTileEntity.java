@@ -4,29 +4,86 @@ import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumTileEntities;
+import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.OreBlock;
 import net.minecraft.block.SpongeBlock;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import static net.minecraftforge.common.Tags.Items.*;
 
-public class KilnTileEntity extends KilnBaseTileEntity {
+public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileEntity {
+    public int burnTime;
+    public int recipesUsed;
+    public int cookTime;
+    public int cookTimeTotal;
+    public final IIntArray kilnData = new IIntArray() {
+        @Override
+        public int get(int index) {
+            switch (index) {
+                case 0:
+                    return KilnTileEntity.this.burnTime;
+                case 1:
+                    return KilnTileEntity.this.recipesUsed;
+                case 2:
+                    return KilnTileEntity.this.cookTime;
+                case 3:
+                    return KilnTileEntity.this.cookTimeTotal;
+                default:
+                    return 0;
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 0:
+                    KilnTileEntity.this.burnTime = value;
+                    break;
+                case 1:
+                    KilnTileEntity.this.recipesUsed = value;
+                    break;
+                case 2:
+                    KilnTileEntity.this.cookTime = value;
+                    break;
+                case 3:
+                    KilnTileEntity.this.cookTimeTotal = value;
+            }
+
+        }
+
+        @Override
+        public int size() {
+            return 4;
+        }
+    };
+
+    public KilnTileEntity() {
+        super(AtumTileEntities.KILN);
+    }
 
     @Override
     public void tick() {
@@ -34,16 +91,18 @@ public class KilnTileEntity extends KilnBaseTileEntity {
             return;
         }
 
+        //System.out.println("COOK TIME: " + this.cookTime);
+        //.println("COOK TIME TOTAL: " + cookTimeTotal);
+
         boolean isBurning = this.isBurning();
         boolean markDirty = false;
 
         if (this.isBurning()) {
-            int burnTime = this.furnaceData.get(0);
-            this.furnaceData.set(--burnTime, 0);
+            --this.burnTime;
         }
 
-        if (!this.world.isRemote) {
-            ItemStack fuelStack = this.items.get(4);
+        if (this.world != null && !this.world.isRemote) {
+            ItemStack fuelStack = this.inventory.get(4);
 
             if (this.isBurning() || !fuelStack.isEmpty() && !this.getInputs().isEmpty()) {
                 boolean canSmeltAny = false;
@@ -52,8 +111,8 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                 }
 
                 if (!this.isBurning() && canSmeltAny) {
-                    this.furnaceData.set(ForgeHooks.getBurnTime(fuelStack), 0);
-                    this.furnaceData.set(this.furnaceData.get(0), 1);
+                    this.burnTime = ForgeHooks.getBurnTime(fuelStack);
+                    this.recipesUsed = burnTime;
 
                     if (this.isBurning()) {
                         markDirty = true;
@@ -63,20 +122,19 @@ public class KilnTileEntity extends KilnBaseTileEntity {
 
                             if (fuelStack.isEmpty()) {
                                 ItemStack containerStack = fuelItemCached.getContainerItem(fuelStack);
-                                this.items.set(4, containerStack);
+                                this.inventory.set(4, containerStack);
                             }
                         }
                     }
                 }
 
                 if (this.isBurning() && canSmeltAny) {
-                    int cookTime = this.furnaceData.get(2);
-                    this.furnaceData.set(++cookTime, 2);
-                    if (this.furnaceData.get(2) == this.furnaceData.get(3)) { //cookTime == cookTimeTotal
-                        this.furnaceData.set(0, 2); //cookTime
-                        this.furnaceData.set(0, 3); //cookTimeTotal
+                    ++this.cookTime;
+                    if (this.cookTime == this.cookTimeTotal) {
+                        this.cookTime = 0;
+                        this.cookTimeTotal = 0;
                         if (!this.isInputEmpty()) {
-                            this.furnaceData.set(this.getCookTime(), 3); //Set cookTimeTotal to getCookTime
+                            this.cookTimeTotal = this.getCookTime();
                         }
                         for (int i = 0; i <= 4; i++) {
                             this.smeltItem(i, 5, 8);
@@ -84,10 +142,10 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                         markDirty = true;
                     }
                 } else {
-                    this.furnaceData.set(0, 2); //cookTime
+                    this.cookTime = 0;
                 }
-            } else if ((!this.isBurning() && this.furnaceData.get(2) > 0) || this.isInputEmpty()) {
-                this.furnaceData.set(MathHelper.clamp(this.furnaceData.get(2) - 2, 0, this.furnaceData.get(3)), 2);
+            } else if ((!this.isBurning() && this.cookTime > 0) || this.isInputEmpty()) {
+                this.cookTime = MathHelper.clamp(this.cookTime - 2, 0, this.cookTimeTotal);
             }
 
             if (isBurning != this.isBurning()) {
@@ -110,7 +168,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
 
     private boolean isInputEmpty() {
         for (int i = 0; i <= 4; i++) {
-            if (!this.items.get(i).isEmpty()) {
+            if (!this.inventory.get(i).isEmpty()) {
                 return false;
             }
         }
@@ -118,7 +176,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     }
 
     @Override
-    public void setInventorySlotContents(int index, ItemStack stack) {
+    public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
@@ -127,17 +185,17 @@ public class KilnTileEntity extends KilnBaseTileEntity {
             return;
         }
 
-        ItemStack slotStack = this.items.get(index);
+        ItemStack slotStack = this.inventory.get(index);
         boolean isValid = !stack.isEmpty() && stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack);
 
-        this.items.set(index, stack);
+        this.inventory.set(index, stack);
 
         if (stack.getCount() > this.getInventoryStackLimit()) {
             stack.setCount(this.getInventoryStackLimit());
         }
 
         if (index <= 3 && !isValid) {
-            this.furnaceData.set(this.getCookTime(), 3); //cookTimeTotal
+            this.cookTimeTotal = this.getCookTime();
             this.markDirty();
         }
     }
@@ -149,20 +207,20 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                 return ((KilnTileEntity) primary).isBurning();
             }
         }
-        return this.furnaceData.get(0) > 0; //burnTime
+        return this.burnTime > 0;
     }
 
     private int canSmelt(int inputSlot, int outputSlotStart, int outputSlotEnd) {
-        if (this.items.get(inputSlot).isEmpty()) {
+        if (this.inventory.get(inputSlot).isEmpty()) {
             return -1;
         } else {
-            ItemStack result = this.getSmeltingResult(this.items.get(inputSlot));
+            ItemStack result = this.getSmeltingResult(this.inventory.get(inputSlot));
 
             if (result.isEmpty()) {
                 return -1;
             } else {
                 for (int outputSlot = outputSlotStart; outputSlot <= outputSlotEnd; outputSlot++) {
-                    ItemStack output = this.items.get(outputSlot);
+                    ItemStack output = this.inventory.get(outputSlot);
 
                     if (output.isEmpty()) {
                         return outputSlot;
@@ -183,12 +241,12 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     private void smeltItem(int inputSlot, int outputSlotStart, int outputSlotEnd) {
         int outputSlot = this.canSmelt(inputSlot, outputSlotStart, outputSlotEnd);
         if (outputSlot != -1) {
-            ItemStack input = this.items.get(inputSlot);
+            ItemStack input = this.inventory.get(inputSlot);
             ItemStack result = this.getSmeltingResult(input);
-            ItemStack output = this.items.get(outputSlot);
+            ItemStack output = this.inventory.get(outputSlot);
 
             if (output.isEmpty()) {
-                this.items.set(outputSlot, result);
+                this.inventory.set(outputSlot, result);
             } else if (output.getItem() == result.getItem()) {
                 output.grow(result.getCount());
             }
@@ -200,7 +258,9 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     private ItemStack getSmeltingResult(@Nonnull ItemStack input) {
         if (this.world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) world;
-            Collection<KilnRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN);
+            RecipeManager recipeManager = serverWorld.getRecipeManager();
+            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(recipeManager, IAtumRecipeType.KILN));
+            recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(recipeManager));
             for (KilnRecipe kilnRecipe : recipes) {
                 for (Ingredient ingredient : kilnRecipe.getIngredients()) {
                     if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, input)) {
@@ -213,7 +273,16 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     }
 
     private List<ItemStack> getInputs() {
-        return Arrays.asList(this.items.get(0), this.items.get(1), this.items.get(2), this.items.get(3));
+        return Arrays.asList(this.inventory.get(0), this.inventory.get(1), this.inventory.get(2), this.inventory.get(3));
+    }
+
+    protected int getCookTime() {
+        return this.world.getRecipeManager().getRecipe((IRecipeType<? extends KilnRecipe>) IAtumRecipeType.KILN, this, this.world).map(KilnRecipe::getCookTime).orElse(200);
+    }
+
+    @Override
+    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
+        return new KilnContainer(windowID, playerInventory, this.pos);
     }
 
     public static boolean canKilnNotSmelt(Ingredient ingredient) {
@@ -232,5 +301,24 @@ public class KilnTileEntity extends KilnBaseTileEntity {
                 item.isIn(ItemTags.PLANKS) || item.isIn(ItemTags.LOGS) || item.isIn(RODS_WOODEN) || item.isIn(ItemTags.SMALL_FLOWERS) ||
                 item.isIn(ORES) || item.isIn(INGOTS) && !item.isIn(INGOTS_BRICK) || item.isIn(NUGGETS) || item.isIn(GEMS) || item.isIn(DUSTS) ||
                 item.isIn(DYES) || item.isIn(SLIMEBALLS) || item.isIn(LEATHER) || block instanceof SpongeBlock;
+    }
+
+    @Override
+    public void read(@Nonnull CompoundNBT compound) {
+        super.read(compound);
+        this.burnTime = compound.getInt("BurnTime");
+        this.cookTime = compound.getInt("CookTime");
+        this.cookTimeTotal = compound.getInt("CookTimeTotal");
+        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4));
+    }
+
+    @Override
+    @Nonnull
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
+        super.write(compound);
+        compound.putInt("BurnTime", this.burnTime);
+        compound.putInt("CookTime", this.cookTime);
+        compound.putInt("CookTimeTotal", this.cookTimeTotal);
+        return compound;
     }
 }

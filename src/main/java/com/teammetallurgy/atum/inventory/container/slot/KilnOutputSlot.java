@@ -13,7 +13,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
-import java.util.Collection;
+import java.util.ArrayList;
+import java.util.List;
 
 public class KilnOutputSlot extends Slot {
     private final PlayerEntity player;
@@ -81,7 +82,8 @@ public class KilnOutputSlot extends Slot {
     private float getExperience(@Nonnull ItemStack stack) { //TODO Needs testing
         if (this.player.world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) this.player.world;
-            Collection<KilnRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN);
+            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN));
+            recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverWorld.getRecipeManager()));
             for (KilnRecipe kilnRecipe : recipes) {
                 if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getRecipeOutput())) {
                     return kilnRecipe.getExperience();

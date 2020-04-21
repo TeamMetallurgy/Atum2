@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import com.teammetallurgy.atum.inventory.container.block.TrapContainer;
@@ -32,10 +31,7 @@ public class AtumGuis {
         int entityID = data.readInt();
         return new CamelContainer(windowID, inv, entityID);
     }), "camel");
-    public static final ContainerType<KilnContainer> KILN = register(IForgeContainerType.create((windowID, inv, data) -> {
-        KilnTileEntity kiln = (KilnTileEntity) inv.player.world.getTileEntity(data.readBlockPos());
-        return new KilnContainer(windowID, inv, kiln);
-    }), "kiln");
+    public static final ContainerType<KilnContainer> KILN = register(IForgeContainerType.create((windowID, inv, data) -> new KilnContainer(windowID, inv, data.readBlockPos())), "kiln");
     public static final ContainerType<TrapContainer> TRAP = register(IForgeContainerType.create((windowID, inv, data) -> {
         TrapTileEntity trap = (TrapTileEntity) inv.player.world.getTileEntity(data.readBlockPos());
         return new TrapContainer(windowID, inv, trap);
