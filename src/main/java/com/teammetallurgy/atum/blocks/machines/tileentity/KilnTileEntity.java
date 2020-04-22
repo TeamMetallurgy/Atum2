@@ -91,9 +91,6 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileE
             return;
         }
 
-        //System.out.println("COOK TIME: " + this.cookTime);
-        //.println("COOK TIME TOTAL: " + cookTimeTotal);
-
         boolean isBurning = this.isBurning();
         boolean markDirty = false;
 

@@ -87,7 +87,6 @@ public class QuernBlock extends ContainerBlock {
                     heldStack.shrink(1);
                 }
             } else {
-                System.out.println("Else");
                 if (world.isRemote) {
                     world.playSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_STONE_BREAK, SoundCategory.BLOCKS, 1.1F, 0.4F, true);
                 } else {

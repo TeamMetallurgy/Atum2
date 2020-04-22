@@ -31,7 +31,6 @@ public class BanditPatrolSpawner {
             if (this.timer > 0) {
                 return 0;
             } else {
-                System.out.println("Chance to spawn patrol");
                 this.timer += rand.nextInt(250);
                 if (serverWorld.isDaytime()) {
                     if (rand.nextInt(4) != 0) {

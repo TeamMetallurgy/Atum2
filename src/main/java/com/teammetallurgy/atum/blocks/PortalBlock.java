@@ -1,15 +1,19 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
+import com.google.common.cache.LoadingCache;
+import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
+import com.teammetallurgy.atum.world.teleporter.TeleporterAtum;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.CachedBlockInfo;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -19,9 +23,11 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 
@@ -34,13 +40,13 @@ public class PortalBlock extends BreakableBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return PORTAL_AABB;
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return VoxelShapes.empty();
     }
 
@@ -65,9 +71,8 @@ public class PortalBlock extends BreakableBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block neighborBlock, BlockPos neighborPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
         Size size = new Size(world, pos);
-
         if (neighborBlock == this || size.isSandBlock(neighborBlock.getDefaultState())) {
             if (!size.isValid()) {
                 world.setBlockState(pos, Blocks.AIR.getDefaultState());
@@ -76,17 +81,17 @@ public class PortalBlock extends BreakableBlock {
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+    public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, Entity entity) {
         if (!entity.isOnePlayerRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
             final DimensionType dimension = player.dimension == AtumDimensionType.ATUM ? DimensionType.OVERWORLD : AtumDimensionType.ATUM;
-            //changeDimension(world, (ServerPlayerEntity) entity, dimension, new AtumTeleporter(player.server.getWorld(dimension))); //TODO
+            changeDimension(world, (ServerPlayerEntity) entity, dimension, new TeleporterAtum(player.server.getWorld(dimension)));
         }
     }
 
-    public static void changeDimension(World world, ServerPlayerEntity player, DimensionType dimension) {
+    public static void changeDimension(World world, ServerPlayerEntity player, DimensionType dimension, ITeleporter teleporter) {
         if (!world.isRemote) {
-            player.changeDimension(dimension);
+            player.changeDimension(dimension, teleporter);
             player.timeUntilPortal = 300;
             if (player.dimension == AtumDimensionType.ATUM) {
                 BlockPos playerPos = new BlockPos(player);
@@ -102,16 +107,32 @@ public class PortalBlock extends BreakableBlock {
         return ItemStack.EMPTY;
     }
 
+    public static BlockPattern.PatternHelper createPatternHelper(IWorld world, BlockPos pos) {
+        Size size = new Size(world, pos);
+        LoadingCache<BlockPos, CachedBlockInfo> cache = BlockPattern.createLoadingCache(world, true);
+        if (!size.isValid()) {
+            size = new Size(world, pos);
+        }
+
+        if (!size.isValid()) {
+            return new BlockPattern.PatternHelper(pos, Direction.NORTH, Direction.SOUTH, cache, 1, 1, 1);
+        } else {
+            return new BlockPattern.PatternHelper(pos, Direction.NORTH, Direction.EAST, cache, size.width, 4, size.length);
+        }
+    }
+
     public static class Size {
         private static final int MAX_SIZE = 9;
         private static final int MIN_SIZE = 3;
 
-        private final World world;
+        private final IWorld world;
         private boolean valid = false;
         private BlockPos nw;
         private BlockPos se;
+        private int width;
+        private int length;
 
-        public Size(World world, BlockPos pos) {
+        public Size(IWorld world, BlockPos pos) {
             this.world = world;
 
             int east = getDistanceUntilEdge(pos, Direction.EAST);
@@ -138,6 +159,8 @@ public class PortalBlock extends BreakableBlock {
             this.se = seCorner.add(-1, 0, -1);
             int wallWidth = width + 2;
             int wallLength = length + 2;
+            this.width = wallWidth;
+            this.length = wallLength;
 
             for (int y = 0; y <= 1; y++) {
                 for (int x = 0; x < wallWidth; x++) {
@@ -188,7 +211,7 @@ public class PortalBlock extends BreakableBlock {
         }
 
         boolean isSandBlock(BlockState state) {
-            return state.getBlock().isIn(Tags.Blocks.SANDSTONE) || state.getBlock() instanceof LimestoneBrickBlock;
+            return state.getBlock().isIn(Tags.Blocks.SANDSTONE) || state.getBlock().isIn(AtumAPI.Tags.LIMESTONE_BRICKS);
         }
 
         boolean isValid() {

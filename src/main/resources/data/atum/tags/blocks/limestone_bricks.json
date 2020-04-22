@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "atum:limestone_brick_small",
+    "atum:limestone_brick_large",
+    "atum:limestone_brick_cracked_brick",
+    "atum:limestone_brick_chiseled",
+    "atum:limestone_brick_carved"
+  ]
+}

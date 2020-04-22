@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.api;
 
 import com.teammetallurgy.atum.Atum;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
@@ -34,11 +36,16 @@ public class AtumAPI {
 
         public static final Tag<Item> RELIC = tag(Atum.MOD_ID, "relic");
         public static final Tag<Item> TOOLTIP = tag(Atum.MOD_ID, "tooltip");
-        public static final Tag<Item> LINEN_BLOCKS = tag(Atum.MOD_ID, "linen_blocks");
-        public static final Tag<Item> THREADED_BLOCKS = tag(Atum.MOD_ID, "threaded_blocks");
+        public static final Tag<Block> LINEN_BLOCKS = blockTag(Atum.MOD_ID, "linen_blocks");
+        public static final Tag<Block> THREADED_BLOCKS = blockTag(Atum.MOD_ID, "threaded_blocks");
+        public static final Tag<Block> LIMESTONE_BRICKS = blockTag(Atum.MOD_ID, "limestone_bricks");
 
         public static Tag<Item> tag(String modID, String name) {
             return new ItemTags.Wrapper(new ResourceLocation(modID, name));
+        }
+
+        public static Tag<Block> blockTag(String modID, String name) {
+            return new BlockTags.Wrapper(new ResourceLocation(modID, name));
         }
     }
 }
