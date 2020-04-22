@@ -30,28 +30,23 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class TeleporterAtum implements ITeleporter {
-    protected final ServerWorld world;
-
-    public TeleporterAtum(ServerWorld world) {
-        this.world = world;
-    }
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-        if (!this.placeInPortal(entity, yaw)) {
-            this.makePortal(entity);
-            this.placeInPortal(entity, yaw);
+        if (!placeInPortal(destWorld, entity, yaw)) {
+            makePortal(destWorld, entity);
+            placeInPortal(destWorld, entity, yaw);
             return repositionEntity.apply(false);
         } else {
-            this.placeInPortal(entity, yaw);
+            placeInPortal(destWorld, entity, yaw);
             return repositionEntity.apply(false);
         }
     }
 
-    public boolean placeInPortal(Entity entity, float yaw) {
+    public static boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {
         Vec3d lastPortalVec = entity.getLastPortalVec();
         Direction direction = entity.getTeleportDirection();
-        BlockPattern.PortalInfo portalInfo = this.placeInExistingPortal(new BlockPos(entity), entity.getMotion(), direction, lastPortalVec.x, lastPortalVec.y, entity instanceof PlayerEntity);
+        BlockPattern.PortalInfo portalInfo = placeInExistingPortal(world, new BlockPos(entity), entity.getMotion(), direction, lastPortalVec.x, lastPortalVec.y, entity instanceof PlayerEntity);
         if (portalInfo == null) {
             return false;
         } else {
@@ -65,24 +60,24 @@ public class TeleporterAtum implements ITeleporter {
     }
 
     @Nullable
-    public BlockPattern.PortalInfo placeInExistingPortal(@Nonnull BlockPos pos, @Nonnull Vec3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
-        PointOfInterestManager poiManager = this.world.getPointOfInterestManager();
-        poiManager.func_226347_a_(this.world, pos, 128);
+    public static BlockPattern.PortalInfo placeInExistingPortal(ServerWorld world, @Nonnull BlockPos pos, @Nonnull Vec3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
+        PointOfInterestManager poiManager = world.getPointOfInterestManager();
+        poiManager.func_226347_a_(world, pos, 128);
         List<PointOfInterest> list = poiManager.getInSquare((poi) -> poi == AtumPointsOfInterest.PORTAL, pos, 128, PointOfInterestManager.Status.ANY).collect(Collectors.toList());
         Optional<PointOfInterest> optional = list.stream().min(Comparator.<PointOfInterest>comparingDouble((poi) -> poi.getPos().distanceSq(pos)).thenComparingInt((poi) -> poi.getPos().getY()));
         return optional.map((poi) -> {
             BlockPos posPos = poi.getPos();
-            this.world.getChunkProvider().registerTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
-            BlockPattern.PatternHelper patternHelper = PortalBlock.createPatternHelper(this.world, posPos);
+            world.getChunkProvider().registerTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
+            BlockPattern.PatternHelper patternHelper = PortalBlock.createPatternHelper(world, posPos);
             return patternHelper.getPortalInfo(direction, posPos, d1, portalPos, d);
         }).orElse(null);
     }
 
-    public void makePortal(@Nonnull Entity entity) {
-        createPortal(this.world, new BlockPos(MathHelper.floor(entity.getPosX()), MathHelper.floor(entity.getPosY()), MathHelper.floor(entity.getPosZ())), entity);
+    public static void makePortal(ServerWorld world, @Nonnull Entity entity) {
+        createPortal(world, new BlockPos(MathHelper.floor(entity.getPosX()), MathHelper.floor(entity.getPosY()), MathHelper.floor(entity.getPosZ())), entity);
     }
 
-    public void createPortal(World world, BlockPos pos, @Nullable Entity entity) {
+    public static void createPortal(World world, BlockPos pos, @Nullable Entity entity) {
         BlockState portalState = AtumBlocks.PORTAL.getDefaultState();
         BlockState sandState;
 

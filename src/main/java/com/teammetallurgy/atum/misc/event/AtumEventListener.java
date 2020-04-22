@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.misc.event;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.PortalBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
@@ -13,7 +14,9 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.dimension.AtumDimension;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
+import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CauldronBlock;
@@ -76,7 +79,7 @@ public class AtumEventListener {
         if (shouldStartInAtum && event.getPlayer() instanceof ServerPlayerEntity && event.getPlayer().world instanceof ServerWorld) {
             ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
             ServerWorld world = (ServerWorld) player.world;
-            //BlockPortal.changeDimension(world, player, AtumDimensionRegistration.ATUM, new AtumStartTeleporter()); //TODO
+            PortalBlock.changeDimension(world, player, AtumDimensionType.ATUM, new TeleporterAtumStart());
         }
     }
 

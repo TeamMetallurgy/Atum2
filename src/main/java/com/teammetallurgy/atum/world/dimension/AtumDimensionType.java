@@ -28,7 +28,7 @@ public class AtumDimensionType {
 
     @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class AtumModDimension {
-        private static ModDimension ATUM = new ModDimension() {
+        private static final ModDimension ATUM = new ModDimension() {
             @Override
             public BiFunction<World, DimensionType, ? extends Dimension> getFactory() {
                 return AtumDimension::new;

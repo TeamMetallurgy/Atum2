@@ -47,7 +47,12 @@ public class AtumDimension extends Dimension {
 
     public AtumDimension(World world, DimensionType dimensionType) {
         super(world, dimensionType, 0.0F /*Brightness. Look into?*/);
-        //init(); //TODO
+
+        CompoundNBT tagCompound = world.getWorldInfo().getDimensionData(dimensionType);
+        if (tagCompound != null) {
+            this.hasStartStructureSpawned = world instanceof ServerWorld && tagCompound.getBoolean("HasStartStructureSpawned");
+            this.isStorming = world instanceof ServerWorld && tagCompound.getBoolean("IsStorming");
+        }
     }
 
     @SubscribeEvent
@@ -179,16 +184,12 @@ public class AtumDimension extends Dimension {
 
     @Override
     public void onWorldSave() {
-        /*CompoundNBT tagCompound = new CompoundNBT(); //TODO
-        tagCompound.putBoolean("HasStartStructureSpawned", hasStartStructureSpawned);
-        tagCompound.putBoolean("IsStorming", isStorming);
-        world.getWorldInfo().setDimensionData(this.world.dimension.getType(), tagCompound);*/
-    }
-
-    protected void init() {
-        CompoundNBT tagCompound = this.world.getWorldInfo().getDimensionData(this.getType());
-        this.hasStartStructureSpawned = this.world instanceof ServerWorld && tagCompound.getBoolean("HasStartStructureSpawned");
-        this.isStorming = this.world instanceof ServerWorld && tagCompound.getBoolean("IsStorming");
+        CompoundNBT tagCompound = new CompoundNBT();
+        tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
+        tagCompound.putBoolean("IsStorming", this.isStorming);
+        System.out.println("TYPE: " + this.world.getDimension().getType());
+        System.out.println("WORLD INFO: " + this.world.getWorldInfo());
+        this.world.getWorldInfo().setDimensionData(this.world.getDimension().getType(), tagCompound);
     }
 
     //Sandstorm

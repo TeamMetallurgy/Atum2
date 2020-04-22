@@ -85,7 +85,7 @@ public class PortalBlock extends BreakableBlock {
         if (!entity.isOnePlayerRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
             final DimensionType dimension = player.dimension == AtumDimensionType.ATUM ? DimensionType.OVERWORLD : AtumDimensionType.ATUM;
-            changeDimension(world, (ServerPlayerEntity) entity, dimension, new TeleporterAtum(player.server.getWorld(dimension)));
+            changeDimension(world, (ServerPlayerEntity) entity, dimension, new TeleporterAtum());
         }
     }
 
