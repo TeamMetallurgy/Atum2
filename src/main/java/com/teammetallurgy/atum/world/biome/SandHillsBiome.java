@@ -1,5 +1,8 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.init.AtumFeatures;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+
 public class SandHillsBiome extends AtumBiome {
 
     public SandHillsBiome() {
@@ -7,5 +10,7 @@ public class SandHillsBiome extends AtumBiome {
         this.deadwoodRarity = 0.08D;
         super.addDefaultSpawns(this);
         super.addDesertWolfSpawning(this);
+        AtumFeatures.Default.addCarvers(this);
+        AtumFeatures.Default.addSprings(this);
     }
 }

@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
 
 public class LimestoneMountainsBiome extends AtumBiome {
 
@@ -8,5 +10,7 @@ public class LimestoneMountainsBiome extends AtumBiome {
         super(new Builder("limestone_mountains", 5).setBaseHeight(1.5F).setHeightVariation(0.6F).setBiomeBlocks(AtumSurfaceBuilders.SANDY_LIMESTONE));
         super.addDefaultSpawns(this);
         super.addDesertWolfSpawning(this);
+        AtumFeatures.Default.addCarvers(this);
+        AtumFeatures.Default.addSprings(this);
     }
 }

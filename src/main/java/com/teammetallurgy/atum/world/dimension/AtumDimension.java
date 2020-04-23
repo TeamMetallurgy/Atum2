@@ -49,10 +49,8 @@ public class AtumDimension extends Dimension {
         super(world, dimensionType, 0.0F /*Brightness. Look into?*/);
 
         CompoundNBT tagCompound = world.getWorldInfo().getDimensionData(dimensionType);
-        if (tagCompound != null) {
-            this.hasStartStructureSpawned = world instanceof ServerWorld && tagCompound.getBoolean("HasStartStructureSpawned");
-            this.isStorming = world instanceof ServerWorld && tagCompound.getBoolean("IsStorming");
-        }
+        this.hasStartStructureSpawned = world instanceof ServerWorld && tagCompound.getBoolean("HasStartStructureSpawned");
+        this.isStorming = world instanceof ServerWorld && tagCompound.getBoolean("IsStorming");
     }
 
     @SubscribeEvent
@@ -185,10 +183,8 @@ public class AtumDimension extends Dimension {
     @Override
     public void onWorldSave() {
         CompoundNBT tagCompound = new CompoundNBT();
-        tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
-        tagCompound.putBoolean("IsStorming", this.isStorming);
-        System.out.println("TYPE: " + this.world.getDimension().getType());
-        System.out.println("WORLD INFO: " + this.world.getWorldInfo());
+        //tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned); //TODO. Writing anything to NBT crashes when the world gets re-reloaded (Requires game restart)
+        //tagCompound.putBoolean("IsStorming", this.isStorming);
         this.world.getWorldInfo().setDimensionData(this.world.getDimension().getType(), tagCompound);
     }
 

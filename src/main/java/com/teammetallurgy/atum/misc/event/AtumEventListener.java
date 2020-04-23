@@ -14,7 +14,6 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.dimension.AtumDimension;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.BlockState;

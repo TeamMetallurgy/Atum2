@@ -14,10 +14,8 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import javax.annotation.Nonnull;
 
 public class AtumBiome extends Biome {
-    private static EntityClassification UNDERGROUND; //TODO Revisit in 1.13
-    private static EntityClassification SURFACE; //TODO Revisit in 1.13
     protected double deadwoodRarity = 0.1D;
-    private int defaultWeight;
+    private final int defaultWeight;
 
     public AtumBiome(Builder builder) {
         super(builder);
@@ -72,31 +70,13 @@ public class AtumBiome extends Biome {
         }
     }
 
-    public static void initCreatureTypes() { //TODO Revisit in 1.13
-       /* UNDERGROUND = Objects.requireNonNull(EnumHelper.addCreatureType("UNDERGROUND", IUnderground.class, 20, Material.AIR, false, false));
-        SURFACE = Objects.requireNonNull(EnumHelper.addCreatureType("SURFACE", IMob.class, 45, Material.AIR, false, false));*/
-    }
-
     public int getDefaultWeight() {
         return this.defaultWeight;
     }
 
     /*
     @Override
-    @Nonnull
-    public WorldGenerator getRandomWorldGenForGrass(Random rand) {
-        if (this == AtumBiomes.OASIS) {
-            return new WorldGenOasisGrass(AtumBlocks.OASIS_GRASS);
-        } else {
-            return new WorldGenOasisGrass(AtumBlocks.DEAD_GRASS);
-        }
-    }
-
-    @Override
     public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
-        int x = random.nextInt(16) + 8;
-        int z = random.nextInt(16) + 8;
-
         BlockPos height = world.getHeight(pos.add(x, 0, z));
         if (this.deadwoodRarity > 0 && random.nextDouble() <= this.deadwoodRarity) {
             new WorldGenDeadwood(false).generate(world, random, height);
@@ -106,7 +86,6 @@ public class AtumBiome extends Biome {
                 (new WorldGenFossil()).generate(world, random, pos);
             }
         }
-        super.decorate(world, random, pos);
     }
     */
 
@@ -127,7 +106,7 @@ public class AtumBiome extends Biome {
     }
 
     public static class Builder extends Biome.Builder {
-        private int defaultWeight;
+        private final int defaultWeight;
 
         public Builder(String biomeName, int weight) {
             this.precipitation(RainType.NONE);

@@ -1,33 +1,6 @@
 /*
 package com.teammetallurgy.atum.world.biome.base;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestone;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.AtumConfig;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenShrub;
-import com.teammetallurgy.atum.world.gen.feature.WorldGenSpring;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.state.pattern.BlockMatcher;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeDecorator;
-import net.minecraft.world.gen.feature.WorldGenMinable;
-import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
-import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType;
-import net.minecraftforge.event.terraingen.OreGenEvent;
-import net.minecraftforge.event.terraingen.OreGenEvent.Post;
-import net.minecraftforge.event.terraingen.OreGenEvent.Pre;
-import net.minecraftforge.event.terraingen.TerrainGen;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
-import java.util.Random;
-
 public class BiomeDecoratorAtum extends BiomeDecorator {
     private WorldGenerator emeraldGen;
     private WorldGenerator boneGen;
@@ -62,9 +35,7 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         this.gravelGen = generateMineable(AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32);
         this.clayGen = generateMineable(AtumBlocks.MARL.getDefaultState(), 12);
 
-        this.treesPerChunk = 0;
         this.shrubChance = 0.3F;
-        this.generateFalls = false;
     }
 
     private WorldGenMinable generateMineable(BlockState state, int size) {
@@ -75,17 +46,6 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
             return new WorldGenMinable(state, size, BlockMatcher.forBlock(AtumBlocks.LIMESTONE));
         } else {
             return null;
-        }
-    }
-
-    @Override
-    public void decorate(World world, @Nonnull Random random, @Nonnull Biome biomeGenBase, @Nonnull BlockPos pos) {
-        if (this.decorating) {
-            throw new RuntimeException("Already decorating!!");
-        } else {
-            this.chunkPos = pos;
-            this.genDecorations(biomeGenBase, world, random);
-            this.decorating = false;
         }
     }
 
@@ -160,14 +120,6 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
 
     @Override
     protected void genDecorations(@Nonnull Biome biomeGenBase, @Nonnull World world, Random random) {
-        ChunkPos chunkPosition = new ChunkPos(chunkPos);
-        MinecraftForge.EVENT_BUS.post(new Pre(world, random, this.chunkPos));
-        this.generateOres(world, random);
-        boolean doGen = TerrainGen.decorate(world, random, chunkPosition, EventType.SAND_PASS2);
-
-        int i;
-        int j;
-        int k;
         for (i = 0; doGen && i < this.sandPatchesPerChunk; ++i) {
             j = random.nextInt(16) + 8;
             k = random.nextInt(16) + 8;
@@ -177,17 +129,6 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
         i = this.treesPerChunk;
         if (random.nextInt(10) == 0) {
             ++i;
-        }
-
-        for (j = 0; TerrainGen.decorate(world, random, chunkPosition, EventType.GRASS) && j < this.grassPerChunk; ++j) {
-            int j7 = random.nextInt(16) + 8;
-            int i11 = random.nextInt(16) + 8;
-            int k14 = world.getHeight(this.chunkPos.add(j7, 0, i11)).getY() * 2;
-
-            if (k14 > 0) {
-                int l17 = random.nextInt(k14);
-                biomeGenBase.getRandomWorldGenForGrass(random).generate(world, random, this.chunkPos.add(j7, l17, i11));
-            }
         }
 
         if (random.nextFloat() < this.shrubChance) {
@@ -211,21 +152,5 @@ public class BiomeDecoratorAtum extends BiomeDecorator {
                 (new WorldGenShrub(AtumBlocks.WEED, 8)).generate(world, random, this.chunkPos.add(k7, i18, j11));
             }
         }
-
-        if (TerrainGen.decorate(world, random, chunkPosition, DecorateBiomeEvent.Decorate.EventType.LAKE_WATER)) {
-            for (int k5 = 0; k5 < 50; ++k5) {
-                int x = random.nextInt(16) + 8;
-                int z = random.nextInt(16) + 8;
-                int y = random.nextInt(248) + 8;
-
-                if (y > 0) {
-                    int randomY = random.nextInt(y);
-                    BlockPos pos = this.chunkPos.add(x, randomY, z);
-                    (new WorldGenSpring(Blocks.FLOWING_WATER)).generate(world, random, pos);
-                }
-            }
-        }
-        MinecraftForge.EVENT_BUS.post(new Post(world, random, chunkPos));
     }
-}
-*/
+}*/

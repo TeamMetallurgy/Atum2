@@ -46,7 +46,6 @@ public class BanditPatrolSpawner {
                             } else if (serverWorld.isVillage(player.getPosition())) {
                                 return 0;
                             } else {
-                                System.out.println("Successfully spawned patrol");
                                 int x = (24 + rand.nextInt(24)) * (rand.nextBoolean() ? -1 : 1);
                                 int z = (24 + rand.nextInt(24)) * (rand.nextBoolean() ? -1 : 1);
                                 BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player)).move(x, 0, z);
@@ -59,7 +58,7 @@ public class BanditPatrolSpawner {
                                     } else {
                                         int amount = 0;
                                         int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty());
-                                        System.out.println("POS: " + mutablePos);
+                                        System.out.println("Successfully spawned patrol at POS: " + mutablePos);
                                         for (int size = 0; size < difficulty; ++size) {
                                             EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
                                             ++amount;

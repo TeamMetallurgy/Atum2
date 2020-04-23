@@ -1,5 +1,8 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.init.AtumFeatures;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+
 public class SandPlainsBiome extends AtumBiome {
 
     public SandPlainsBiome() {
@@ -7,5 +10,7 @@ public class SandPlainsBiome extends AtumBiome {
         this.deadwoodRarity = 0.01D;
         super.addDefaultSpawns(this);
         super.addCamelSpawning(this);
+        AtumFeatures.Default.addCarvers(this);
+        AtumFeatures.Default.addSprings(this);
     }
 }

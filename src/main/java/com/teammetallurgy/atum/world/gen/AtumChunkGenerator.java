@@ -33,11 +33,11 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     @Nonnull
     protected double[] getBiomeNoiseColumn(int noiseX, int noiseZ) { //Copied from OverworldChunkGenerator
         double[] noise = new double[2];
-        float lvt_4_1_ = 0.0F;
-        float lvt_5_1_ = 0.0F;
-        float lvt_6_1_ = 0.0F;
+        float f = 0.0F;
+        float f1 = 0.0F;
+        float f2 = 0.0F;
         int seaLevel = this.getSeaLevel();
-        float lvt_9_1_ = this.biomeProvider.getNoiseBiome(noiseX, seaLevel, noiseZ).getDepth();
+        float biomeNoise = this.biomeProvider.getNoiseBiome(noiseX, seaLevel, noiseZ).getDepth();
 
         for (int x = -2; x <= 2; ++x) {
             for (int z = -2; z <= 2; ++z) {
@@ -46,22 +46,20 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
                 float scale = biome.getScale();
 
                 float weight = BIOME_WEIGHTS[x + 2 + (z + 2) * 5] / (depth + 2.0F);
-                if (biome.getDepth() > lvt_9_1_) {
+                if (biome.getDepth() > biomeNoise) {
                     weight /= 2.0F;
                 }
-
-                lvt_4_1_ += scale * weight;
-                lvt_5_1_ += depth * weight;
-                lvt_6_1_ += weight;
+                f += scale * weight;
+                f1 += depth * weight;
+                f2 += weight;
             }
         }
-
-        lvt_4_1_ /= lvt_6_1_;
-        lvt_5_1_ /= lvt_6_1_;
-        lvt_4_1_ = lvt_4_1_ * 0.9F + 0.1F;
-        lvt_5_1_ = (lvt_5_1_ * 4.0F - 1.0F) / 8.0F;
-        noise[0] = (double) lvt_5_1_ + this.getNoiseDepthAt(noiseX, noiseZ);
-        noise[1] = lvt_4_1_;
+        f /= f2;
+        f1 /= f2;
+        f = f * 0.9F + 0.1F;
+        f1 = (f1 * 4.0F - 1.0F) / 8.0F;
+        noise[0] = (double) f1 + this.getNoiseDepthAt(noiseX, noiseZ);
+        noise[1] = f;
         return noise;
     }
 
@@ -109,7 +107,7 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     }
 
     @Override
-    public void spawnMobs(ServerWorld serverWorld, boolean spawnHostileMobs, boolean spawnPeacefulMobs) {
+    public void spawnMobs(@Nonnull ServerWorld serverWorld, boolean spawnHostileMobs, boolean spawnPeacefulMobs) {
         this.banditSpawner.tick(serverWorld, spawnHostileMobs);
     }
 }

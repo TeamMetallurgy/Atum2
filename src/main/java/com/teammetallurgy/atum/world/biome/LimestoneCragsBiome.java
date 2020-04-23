@@ -1,5 +1,8 @@
 package com.teammetallurgy.atum.world.biome;
 
+import com.teammetallurgy.atum.init.AtumFeatures;
+import net.minecraft.world.biome.DefaultBiomeFeatures;
+
 public class LimestoneCragsBiome extends AtumBiome {
 
     public LimestoneCragsBiome() {
@@ -7,6 +10,8 @@ public class LimestoneCragsBiome extends AtumBiome {
         this.deadwoodRarity = 0.12D;
         super.addDefaultSpawns(this);
         super.addDesertWolfSpawning(this);
+        AtumFeatures.Default.addCarvers(this);
+        AtumFeatures.Default.addSprings(this);
     }
 
   /*  @Override

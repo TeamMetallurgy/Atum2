@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature.config;
 
-import com.teammetallurgy.atum.world.gen.feature.AtumFeatures;
+import com.teammetallurgy.atum.init.AtumFeatures;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 import javax.annotation.Nullable;
