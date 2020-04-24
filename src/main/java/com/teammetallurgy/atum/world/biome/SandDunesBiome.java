@@ -12,5 +12,11 @@ public class SandDunesBiome extends AtumBiome {
         super.addCamelSpawning(this);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
+        AtumFeatures.Default.addLavaLakes(this);
+        AtumFeatures.Default.addMaterialPockets(this);
+        AtumFeatures.Default.addStoneVariants(this);
+        AtumFeatures.Default.addOres(this);
+        AtumFeatures.Default.addInfestedLimestone(this);
+        AtumFeatures.Default.addShrubs(this);
     }
 }

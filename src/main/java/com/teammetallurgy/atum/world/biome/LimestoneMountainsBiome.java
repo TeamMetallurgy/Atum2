@@ -12,5 +12,10 @@ public class LimestoneMountainsBiome extends AtumBiome {
         super.addDesertWolfSpawning(this);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
+        AtumFeatures.Default.addMaterialPockets(this);
+        AtumFeatures.Default.addStoneVariants(this);
+        AtumFeatures.Default.addOres(this);
+        AtumFeatures.Default.addEmeraldOre(this);
+        AtumFeatures.Default.addInfestedLimestone(this);
     }
 }

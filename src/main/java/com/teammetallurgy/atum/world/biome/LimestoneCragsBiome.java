@@ -12,6 +12,11 @@ public class LimestoneCragsBiome extends AtumBiome {
         super.addDesertWolfSpawning(this);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
+        AtumFeatures.Default.addMaterialPockets(this);
+        AtumFeatures.Default.addStoneVariants(this);
+        AtumFeatures.Default.addOres(this);
+        AtumFeatures.Default.addEmeraldOre(this);
+        AtumFeatures.Default.addInfestedLimestone(this);
     }
 
   /*  @Override
@@ -27,7 +32,7 @@ public class LimestoneCragsBiome extends AtumBiome {
     *//**
      * Adapted from {@link net.minecraft.world.gen.feature.WorldGenIceSpike}
      *//*
-    public class WorldGenLimestoneSpike extends WorldGenerator {
+    public class WorldGenLimestoneSpike extends WorldGenerator { //TODO
         private final Block spikeBlock = AtumBlocks.LIMESTONE;
         private final Block groundBlock = AtumBlocks.SAND;
 

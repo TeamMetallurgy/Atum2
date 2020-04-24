@@ -30,6 +30,12 @@ public class OasisBiome extends AtumBiome {
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(DefaultBiomeFeatures.LILY_PAD_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(5))));
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).func_227227_a_(0.98F)), AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         this.addCarver(GenerationStage.Carving.AIR, createCarver(AtumCarvers.CAVE, new ProbabilityConfig(0.14285715F)));
+        AtumFeatures.Default.addCarvers(this);
+        AtumFeatures.Default.addMaterialPockets(this);
+        AtumFeatures.Default.addStoneVariants(this);
+        AtumFeatures.Default.addOres(this);
+        AtumFeatures.Default.addEmeraldOre(this);
+        AtumFeatures.Default.addInfestedLimestone(this);
     }
 
     @Override

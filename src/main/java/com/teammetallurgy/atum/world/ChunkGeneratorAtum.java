@@ -294,15 +294,6 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             this.lighthouse.generateStructure(this.world, this.rand, chunkpos);
         }
 
-        if (this.rand.nextInt(this.settings.lavaLakeChance / 10) == 0 && this.settings.useLavaLakes) {
-            int i2 = this.rand.nextInt(16) + 8;
-            int l2 = this.rand.nextInt(this.rand.nextInt(248) + 8);
-            int k3 = this.rand.nextInt(16) + 8;
-
-            if (l2 < this.world.getSeaLevel() || this.rand.nextInt(this.settings.lavaLakeChance / 8) == 0) {
-                (new WorldGenLava(Blocks.LAVA)).generate(this.world, this.rand, blockpos.add(i2, l2, k3));
-            }
-        }
         if (this.settings.useDungeons) {
             for (int j2 = 0; j2 < this.settings.dungeonChance; ++j2) {
                 int i3 = this.rand.nextInt(16) + 8;

@@ -23,7 +23,7 @@ public abstract class AtumCarver<C extends ICarverConfig> extends WorldCarver<C>
 
     public AtumCarver(Function<Dynamic<?>, ? extends C> config, int maxHeight) {
         super(config, maxHeight);
-        this.carvableBlocks = ImmutableSet.of(AtumBlocks.LIMESTONE, AtumBlocks.FERTILE_SOIL);
+        this.carvableBlocks = ImmutableSet.of(AtumBlocks.LIMESTONE, AtumBlocks.SAND, AtumBlocks.FERTILE_SOIL, AtumBlocks.LIMESTONE_GRAVEL);
     }
 
     @Override

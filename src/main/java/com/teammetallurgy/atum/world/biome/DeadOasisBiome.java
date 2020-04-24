@@ -27,6 +27,11 @@ public class DeadOasisBiome extends AtumBiome {
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_SELECTOR.withConfiguration(new MultipleRandomFeatureConfig(ImmutableList.of(AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.DEAD_PALM_TREE_CONFIG).func_227227_a_(0.4F)), AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.DEAD_PALM_TREE_CONFIG))).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
+        AtumFeatures.Default.addMaterialPockets(this);
+        AtumFeatures.Default.addStoneVariants(this);
+        AtumFeatures.Default.addOres(this);
+        AtumFeatures.Default.addInfestedLimestone(this);
+        AtumFeatures.Default.addShrubs(this);
     }
 
     @Override

@@ -17,6 +17,12 @@ public class DeadwoodForestBiome extends AtumBiome {
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DEAD_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(1))));
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
+        AtumFeatures.Default.addLavaLakes(this);
+        AtumFeatures.Default.addMaterialPockets(this);
+        AtumFeatures.Default.addStoneVariants(this);
+        AtumFeatures.Default.addOres(this);
+        AtumFeatures.Default.addInfestedLimestone(this);
+        AtumFeatures.Default.addShrubs(this);
     }
 
     /*@Override
@@ -29,7 +35,7 @@ public class DeadwoodForestBiome extends AtumBiome {
                     int x = random.nextInt(16) + 8;
                     int z = random.nextInt(16) + 8;
                     BlockPos genPos = world.getHeight(pos.add(x, 0, z));
-                    this.anputsFingersGen.generate(world, random, genPos);
+                    this.anputsFingersGen.generate(world, random, genPos); //TODO
                 }
             }
         }
