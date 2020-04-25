@@ -68,17 +68,18 @@ public class AtumEventListener {
 
     @SubscribeEvent
     public static void onPlayerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-        CompoundNBT tag = event.getPlayer().getPersistentData();
+        PlayerEntity player = event.getPlayer();
+        CompoundNBT tag = player.getPersistentData();
         CompoundNBT persistedTag = tag.getCompound(PlayerEntity.PERSISTED_NBT_TAG);
         boolean shouldStartInAtum = AtumConfig.ATUM_START.startInAtum.get() && !persistedTag.getBoolean(TAG_ATUM_START);
 
         persistedTag.putBoolean(TAG_ATUM_START, true);
         tag.put(PlayerEntity.PERSISTED_NBT_TAG, persistedTag);
 
-        if (shouldStartInAtum && event.getPlayer() instanceof ServerPlayerEntity && event.getPlayer().world instanceof ServerWorld) {
-            ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-            ServerWorld world = (ServerWorld) player.world;
-            PortalBlock.changeDimension(world, player, AtumDimensionType.ATUM, new TeleporterAtumStart());
+        if (shouldStartInAtum && player instanceof ServerPlayerEntity && player.world instanceof ServerWorld) {
+            ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+            ServerWorld world = (ServerWorld) serverPlayer.world;
+            PortalBlock.changeDimension(world, serverPlayer, AtumDimensionType.ATUM, new TeleporterAtumStart());
         }
     }
 

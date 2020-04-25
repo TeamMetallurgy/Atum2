@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
 
 public class SandDunesBiome extends AtumBiome {
 

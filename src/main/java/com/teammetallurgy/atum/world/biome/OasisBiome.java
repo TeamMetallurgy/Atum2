@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import net.minecraft.block.Blocks;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;

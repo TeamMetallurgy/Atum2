@@ -183,8 +183,8 @@ public class AtumDimension extends Dimension {
     @Override
     public void onWorldSave() {
         CompoundNBT tagCompound = new CompoundNBT();
-        //tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned); //TODO. Writing anything to NBT crashes when the world gets re-reloaded (Requires game restart)
-        //tagCompound.putBoolean("IsStorming", this.isStorming);
+        tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
+        tagCompound.putBoolean("IsStorming", this.isStorming);
         this.world.getWorldInfo().setDimensionData(this.world.getDimension().getType(), tagCompound);
     }
 

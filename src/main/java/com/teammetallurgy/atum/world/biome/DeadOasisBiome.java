@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import net.minecraft.block.Blocks;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.MultipleRandomFeatureConfig;

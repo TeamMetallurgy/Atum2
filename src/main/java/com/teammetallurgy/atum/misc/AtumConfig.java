@@ -52,7 +52,7 @@ public class AtumConfig {
             atumStartStructure = builder.comment("Structure that will generate next to the player when starting in Atum (Requires 'Start in Atum' to be enabled). Leave empty for no structure.")
                     .translation("atum.config.atum_start_structure")
                     .define("Atum starting structure", "atum:tent_small");
-            startInAtum = builder.comment("Should a portal back to the Overworld generate, when starting in Atum?")
+            startInAtumPortal = builder.comment("Should a portal back to the Overworld generate, when starting in Atum?")
                     .translation("atum.config.atum_start_portal")
                     .define("Create Atum Portal", false);
             builder.pop();

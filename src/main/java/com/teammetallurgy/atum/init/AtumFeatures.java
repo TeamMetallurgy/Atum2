@@ -5,9 +5,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
-import com.teammetallurgy.atum.world.gen.feature.LakeFeature;
-import com.teammetallurgy.atum.world.gen.feature.OasisPondFeature;
-import com.teammetallurgy.atum.world.gen.feature.PalmFeature;
+import com.teammetallurgy.atum.world.gen.feature.*;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import net.minecraft.block.Blocks;
@@ -39,6 +37,8 @@ public class AtumFeatures {
     public static final Feature<DoubleBlockStateFeatureConfig> OASIS_POND = register("oasis_pond", new OasisPondFeature(DoubleBlockStateFeatureConfig::deserializeDouble));
     public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig::deserialize));
     public static final Feature<PalmConfig> PALM_TREE = register("palm_tree", new PalmFeature(PalmConfig::deserializePalm));
+    public static final BonusCrateFeature BONUS_CRATE = register("bonus_crate", new BonusCrateFeature(NoFeatureConfig::deserialize));
+    public static final StartStructureFeature START_STRUCTURE = register("start_structure", new StartStructureFeature(NoFeatureConfig::deserialize));
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();

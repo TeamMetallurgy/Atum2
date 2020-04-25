@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
-import net.minecraft.world.biome.DefaultBiomeFeatures;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.FrequencyConfig;
