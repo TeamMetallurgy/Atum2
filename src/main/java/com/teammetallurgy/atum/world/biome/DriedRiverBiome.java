@@ -14,5 +14,7 @@ public class DriedRiverBiome extends AtumBiome {
         AtumFeatures.Default.addMaterialPockets(this);
         AtumFeatures.Default.addInfestedLimestone(this);
         AtumFeatures.Default.addShrubs(this);
+        AtumFeatures.Default.addFossils(this);
+        AtumFeatures.Default.addDungeon(this);
     }
 }

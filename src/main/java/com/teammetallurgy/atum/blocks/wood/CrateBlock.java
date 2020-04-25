@@ -37,13 +37,13 @@ public class CrateBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nonnull BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTrace) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTrace) {
         if (world.isRemote) {
             return ActionResultType.SUCCESS;
         } else {
@@ -63,7 +63,7 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         if (stack.hasDisplayName()) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
@@ -73,7 +73,7 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
         TileEntity tileEntity = world.getTileEntity(pos);
 
@@ -83,7 +83,7 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public void onReplaced(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onReplaced(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         TileEntity tileEntity = world.getTileEntity(pos);
 
         if (tileEntity instanceof CrateTileEntity) {
@@ -93,7 +93,7 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public void harvestBlock(@Nonnull World world, PlayerEntity player, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
+    public void harvestBlock(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
         if (tileEntity instanceof CrateTileEntity) {
             InventoryHelper.dropInventoryItems(world, pos, (CrateTileEntity) tileEntity);
             world.updateComparatorOutputLevel(pos, this);
@@ -102,12 +102,12 @@ public class CrateBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean hasComparatorInputOverride(BlockState state) {
+    public boolean hasComparatorInputOverride(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World world, BlockPos pos) {
+    public int getComparatorInputOverride(@Nonnull BlockState blockState, World world, @Nonnull BlockPos pos) {
         return Container.calcRedstoneFromInventory((CrateTileEntity) world.getTileEntity(pos));
     }
 

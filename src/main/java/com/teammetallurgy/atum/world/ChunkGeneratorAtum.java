@@ -294,15 +294,6 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
             this.lighthouse.generateStructure(this.world, this.rand, chunkpos);
         }
 
-        if (this.settings.useDungeons) {
-            for (int j2 = 0; j2 < this.settings.dungeonChance; ++j2) {
-                int i3 = this.rand.nextInt(16) + 8;
-                int l3 = this.rand.nextInt(256);
-                int l1 = this.rand.nextInt(16) + 8;
-                (new WorldGenAtumDungeons()).generate(this.world, this.rand, blockpos.add(i3, l3, l1));
-            }
-        }
-
         biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
         blockpos = blockpos.add(8, 0, 8);
 

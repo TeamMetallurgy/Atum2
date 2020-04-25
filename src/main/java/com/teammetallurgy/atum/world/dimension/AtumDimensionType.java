@@ -18,6 +18,7 @@ public class AtumDimensionType {
 
     @SubscribeEvent
     public static void registerDimension(RegisterDimensionsEvent event) {
+        ATUM = DimensionManager.registerOrGetDimension(new ResourceLocation(Atum.MOD_ID, "atum"), AtumModDimension.ATUM, new PacketBuffer(Unpooled.buffer()), true);
         DimensionManager.keepLoaded(ATUM, false); //Don't keep in memory when all chunks are unloaded
     }
 

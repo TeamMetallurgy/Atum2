@@ -14,6 +14,7 @@ public class DeadwoodForestBiome extends AtumBiome {
         this.deadwoodRarity = 1.0D;
         super.addDefaultSpawns(this);
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DEAD_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(1))));
+        AtumFeatures.Default.addDeadwoodTrees(this, 100, 40, 25); //TODO
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addLavaLakes(this);
@@ -22,6 +23,8 @@ public class DeadwoodForestBiome extends AtumBiome {
         AtumFeatures.Default.addOres(this);
         AtumFeatures.Default.addInfestedLimestone(this);
         AtumFeatures.Default.addShrubs(this);
+        AtumFeatures.Default.addFossils(this);
+        AtumFeatures.Default.addDungeon(this);
     }
 
     /*@Override

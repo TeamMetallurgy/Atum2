@@ -16,6 +16,8 @@ public class LimestoneCragsBiome extends AtumBiome {
         AtumFeatures.Default.addOres(this);
         AtumFeatures.Default.addEmeraldOre(this);
         AtumFeatures.Default.addInfestedLimestone(this);
+        AtumFeatures.Default.addFossils(this);
+        AtumFeatures.Default.addDungeon(this);
     }
 
   /*  @Override

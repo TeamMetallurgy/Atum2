@@ -2,10 +2,7 @@ package com.teammetallurgy.atum.blocks.base;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ChestBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
@@ -93,7 +90,7 @@ public class ChestBaseBlock extends ChestBlock {
 
     @Override
     @Nonnull
-    public BlockState updatePostPlacement(BlockState state, @Nonnull Direction facing, BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+    public BlockState updatePostPlacement(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         TileEntity tileEntity = world.getTileEntity(currentPos);
         if (tileEntity instanceof ChestBaseTileEntity) {
             ChestBaseTileEntity chest = (ChestBaseTileEntity) tileEntity;
@@ -119,7 +116,7 @@ public class ChestBaseBlock extends ChestBlock {
     }
 
     @Override
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         if (placer instanceof PlayerEntity) {
             TileEntity tileEntity = world.getTileEntity(pos);
@@ -136,6 +133,48 @@ public class ChestBaseBlock extends ChestBlock {
                     }
                 }
             }
+        }
+    }
+
+    public static BlockState correctFacing(IBlockReader world, BlockPos pos, BlockState state, Block checkBlock) {
+        Direction direction = null;
+
+        for (Direction horizontal : Direction.Plane.HORIZONTAL) {
+            BlockPos horizontalPos = pos.offset(horizontal);
+            BlockState horizontalState = world.getBlockState(horizontalPos);
+            if (horizontalState.getBlock() == checkBlock) {
+                return state;
+            }
+
+            if (horizontalState.isOpaqueCube(world, horizontalPos)) {
+                if (direction != null) {
+                    direction = null;
+                    break;
+                }
+                direction = horizontal;
+            }
+        }
+
+        if (direction != null) {
+            return state.with(HorizontalBlock.HORIZONTAL_FACING, direction.getOpposite());
+        } else {
+            Direction facing = state.get(HorizontalBlock.HORIZONTAL_FACING);
+            BlockPos facingPos = pos.offset(facing);
+            if (world.getBlockState(facingPos).isOpaqueCube(world, facingPos)) {
+                facing = facing.getOpposite();
+                facingPos = pos.offset(facing);
+            }
+
+            if (world.getBlockState(facingPos).isOpaqueCube(world, facingPos)) {
+                facing = facing.rotateY();
+                facingPos = pos.offset(facing);
+            }
+
+            if (world.getBlockState(facingPos).isOpaqueCube(world, facingPos)) {
+                facing = facing.getOpposite();
+                pos.offset(facing);
+            }
+            return state.with(HorizontalBlock.HORIZONTAL_FACING, facing);
         }
     }
 }

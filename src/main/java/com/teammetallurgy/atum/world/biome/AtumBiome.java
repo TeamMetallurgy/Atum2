@@ -81,11 +81,6 @@ public class AtumBiome extends Biome {
         if (this.deadwoodRarity > 0 && random.nextDouble() <= this.deadwoodRarity) {
             new WorldGenDeadwood(false).generate(world, random, height);
         }
-        if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.FOSSIL)) {
-            if (random.nextInt(64) == 0) {
-                (new WorldGenFossil()).generate(world, random, pos);
-            }
-        }
     }
     */
 
