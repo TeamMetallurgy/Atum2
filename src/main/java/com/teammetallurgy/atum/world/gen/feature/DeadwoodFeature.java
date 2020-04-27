@@ -52,7 +52,7 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
                     for (int x = pos.getX() - k; x <= pos.getX() + k && doNotGenerate; ++x) {
                         for (int z = pos.getZ() - k; z <= pos.getZ() + k && doNotGenerate; ++z) {
                             if (y >= 0 && y < world.getHeight()) {
-                                if (!func_214587_a(world, mutable.setPos(x, y, z))) {
+                                if (!canBeReplacedByLogs(world, mutable.setPos(x, y, z))) {
                                     doNotGenerate = false;
                                 }
                             } else {

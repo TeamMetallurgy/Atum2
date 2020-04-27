@@ -62,6 +62,6 @@ public abstract class AtumCarver<C extends ICarverConfig> extends WorldCarver<C>
     @Override
     protected boolean canCarveBlock(BlockState state, @Nonnull BlockState aboveState) {
         Block block = state.getBlock();
-        return this.func_222706_a(state) || (block == AtumBlocks.FERTILE_SOIL || block == AtumBlocks.LIMESTONE_GRAVEL) && !aboveState.getFluidState().isTagged(FluidTags.WATER);
+        return this.isCarvable(state) || (block == AtumBlocks.FERTILE_SOIL || block == AtumBlocks.LIMESTONE_GRAVEL) && !aboveState.getFluidState().isTagged(FluidTags.WATER);
     }
 }

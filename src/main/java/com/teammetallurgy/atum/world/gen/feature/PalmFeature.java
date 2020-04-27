@@ -151,7 +151,7 @@ public class PalmFeature extends AbstractSmallTreeFeature<PalmConfig> { //Based 
                     while(l <= j1) {
                         if (i1 + blockpos.getY() >= 0 && i1 + blockpos.getY() < genReader.getMaxHeight()) {
                             blockpos$mutable.setPos(k + blockpos.getX(), i1 + blockpos.getY(), l + blockpos.getZ());
-                            if (func_214587_a(genReader, blockpos$mutable) && (config.ignoreVines || !func_227222_d_(genReader, blockpos$mutable))) {
+                            if (canBeReplacedByLogs(genReader, blockpos$mutable) && (config.ignoreVines || !isVine(genReader, blockpos$mutable))) {
                                 ++l;
                                 continue;
                             }

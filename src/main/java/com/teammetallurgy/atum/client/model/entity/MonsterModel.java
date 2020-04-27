@@ -16,7 +16,7 @@ public class MonsterModel<T extends MonsterEntity> extends AbstractZombieModel<T
     }
 
     @Override
-    public boolean func_212850_a_(@Nonnull T entity) {
+    public boolean isAggressive(@Nonnull T entity) {
         return entity.isAggressive();
     }
 }
