@@ -74,16 +74,6 @@ public class AtumBiome extends Biome {
         return this.defaultWeight;
     }
 
-    /*
-    @Override
-    public void decorate(@Nonnull World world, @Nonnull Random random, @Nonnull BlockPos pos) {
-        BlockPos height = world.getHeight(pos.add(x, 0, z));
-        if (this.deadwoodRarity > 0 && random.nextDouble() <= this.deadwoodRarity) {
-            new WorldGenDeadwood(false).generate(world, random, height);
-        }
-    }
-    */
-
     @Override
     public int getFoliageColor() {
         return 12889745;

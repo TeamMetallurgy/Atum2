@@ -153,7 +153,8 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
                 if (random.nextFloat() < probability) {
                     BlockPos nextPos = pos.add(facing.getDirectionVec());
                     if (world.isAirBlock(nextPos)) {
-                        this.setBlockState(genReader, nextPos, BRANCH.with(BranchBlock.FACING, facing.getOpposite()));
+                        BranchBlock branch = (BranchBlock) BRANCH.getBlock();
+                        this.setBlockState(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
 
                         // Add this branch onto the queue to spawn new branches from
                         queue.add(new ImmutablePair<>(nextPos, branchLength + 1));

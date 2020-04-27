@@ -17,6 +17,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
@@ -29,22 +30,22 @@ import java.util.Random;
 
 public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at ChorusPlantBlock
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class);
-    private static final BooleanProperty NORTH = BooleanProperty.create("north");
-    private static final BooleanProperty EAST = BooleanProperty.create("east");
-    private static final BooleanProperty SOUTH = BooleanProperty.create("south");
-    private static final BooleanProperty WEST = BooleanProperty.create("west");
-    private static final BooleanProperty UP = BooleanProperty.create("up");
-    private static final BooleanProperty DOWN = BooleanProperty.create("down");
+    public static final BooleanProperty NORTH = BooleanProperty.create("north");
+    public static final BooleanProperty EAST = BooleanProperty.create("east");
+    public static final BooleanProperty SOUTH = BooleanProperty.create("south");
+    public static final BooleanProperty WEST = BooleanProperty.create("west");
+    public static final BooleanProperty UP = BooleanProperty.create("up");
+    public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
     private static final Map<Direction, VoxelShape> bounds;
     private static final Map<Direction, VoxelShape> connectedBounds;
 
-    private static final VoxelShape EAST_AABB = Block.makeCuboidShape(5 / 16D, 5 / 16D, 5 / 16D, 1.0D, 11 / 16D, 11 / 16D);
-    private static final VoxelShape WEST_AABB = Block.makeCuboidShape(0.0D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
-    private static final VoxelShape NORTH_AABB = Block.makeCuboidShape(5 / 16D, 5 / 16D, 0.0D, 11 / 16D, 11 / 16D, 11 / 16D);
-    private static final VoxelShape SOUTH_AABB = Block.makeCuboidShape(5 / 16D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 1.0D);
-    private static final VoxelShape UP_AABB = Block.makeCuboidShape(5 / 16D, 5 / 16D, 5 / 16D, 11 / 16D, 1.0D, 11 / 16D);
-    private static final VoxelShape DOWN_AABB = Block.makeCuboidShape(5 / 16D, 0.0D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
+    private static final VoxelShape EAST_AABB = Block.makeCuboidShape(5, 5, 5, 1.0D, 11, 11);
+    private static final VoxelShape WEST_AABB = Block.makeCuboidShape(0.0D, 5, 5, 11, 11, 11);
+    private static final VoxelShape NORTH_AABB = Block.makeCuboidShape(5, 5, 0.0D, 11, 11, 11);
+    private static final VoxelShape SOUTH_AABB = Block.makeCuboidShape(5, 5, 5, 11, 11, 1.0D);
+    private static final VoxelShape UP_AABB = Block.makeCuboidShape(5, 5, 5, 11, 1.0D, 11);
+    private static final VoxelShape DOWN_AABB = Block.makeCuboidShape(5, 0.0D, 5, 11, 11, 11);
 
     static {
         bounds = new HashMap<>();
@@ -65,23 +66,26 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
     }
 
     public BranchBlock() {
-        super(Properties.create(Material.WOOD).hardnessAndResistance(0.8F, 5.0F).sound(SoundType.WOOD).harvestTool(ToolType.AXE).harvestLevel(0));
+        super(Properties.create(Material.WOOD).hardnessAndResistance(0.8F, 5.0F).sound(SoundType.WOOD).tickRandomly().harvestTool(ToolType.AXE).harvestLevel(0));
+        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false));
     }
 
     @Override
-    public int getOpacity(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public int getOpacity(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
         return 1;
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+        this.makeConnections(world, pos, state.get(FACING));
         if (!this.canSurviveAt(world, pos)) {
             world.destroyBlock(pos, true);
         }
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        this.makeConnections(world, pos, state.get(FACING));
         if (!this.canSurviveAt(world, pos)) {
             world.getPendingBlockTicks().scheduleTick(pos, this, 1);
         }
@@ -91,29 +95,28 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
         BlockState state = world.getBlockState(pos);
         Direction facing = state.get(FACING);
         BlockState neighbor = world.getBlockState(pos.add(facing.getDirectionVec()));
-
         return neighbor.getMaterial() == Material.WOOD;
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, @Nonnull ISelectionContext context) {
         Direction facing = state.get(FACING);
 
         BlockState neighbor = reader.getBlockState(pos.add(facing.getDirectionVec()));
-        if (neighbor.getBlock() == this) {
+        /*if (neighbor.getBlock() == this) {
             AxisAlignedBB box = connectedBounds.get(facing).getBoundingBox();
-            box.expand(5 / 16D * facing.getXOffset(), 5 / 16D * facing.getYOffset(), 5 / 16D * facing.getZOffset());
+            box.expand(5 * facing.getXOffset(), 5 * facing.getYOffset(), 5 * facing.getZOffset());
             return Block.makeCuboidShape(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-        } else {
+        } else {*/
             return bounds.get(facing);
-        }
+        //}
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getFace().getOpposite());
+    public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
+        return this.makeConnections(context.getWorld(), context.getPos(), context.getFace());
     }
 
     @Override
@@ -121,19 +124,17 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
         container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
     }
 
-    /*@Override
-    @Nonnull
-    public BlockState getActualState(@Nonnull BlockState state, IBlockReader world, BlockPos pos) { //TODO
-        Direction Direction = state.get(FACING);
-        return state.with(NORTH, Direction != Direction.NORTH && shouldConnect(Direction.NORTH, world, pos))
-                .with(EAST, Direction != Direction.EAST && shouldConnect(Direction.EAST, world, pos))
-                .with(SOUTH, Direction != Direction.SOUTH && shouldConnect(Direction.SOUTH, world, pos))
-                .with(WEST, Direction != Direction.WEST && shouldConnect(Direction.WEST, world, pos))
-                .with(UP, Direction != Direction.UP && shouldConnect(Direction.UP, world, pos))
-                .with(DOWN, Direction != Direction.DOWN && shouldConnect(Direction.DOWN, world, pos));
-    }*/
+    public BlockState makeConnections(IWorldReader world, BlockPos pos, Direction direction) {
+        return this.getDefaultState().with(FACING, direction.getOpposite())
+                .with(NORTH, direction != Direction.NORTH && shouldConnect(world, pos, Direction.NORTH))
+                .with(EAST, direction != Direction.EAST && shouldConnect(world, pos, Direction.EAST))
+                .with(SOUTH, direction != Direction.SOUTH && shouldConnect(world, pos, Direction.SOUTH))
+                .with(WEST, direction != Direction.WEST && shouldConnect(world, pos, Direction.WEST))
+                .with(UP, direction != Direction.UP && shouldConnect(world, pos, Direction.UP))
+                .with(DOWN, direction != Direction.DOWN && shouldConnect(world, pos, Direction.DOWN));
+    }
 
-    private boolean shouldConnect(Direction direction, IBlockReader world, BlockPos pos) {
+    public boolean shouldConnect(IWorldReader world, BlockPos pos, Direction direction) {
         BlockState neighborState = world.getBlockState(pos.add(direction.getDirectionVec()));
         if (neighborState.getBlock() == this) {
             return neighborState.get(FACING) == direction.getOpposite();
