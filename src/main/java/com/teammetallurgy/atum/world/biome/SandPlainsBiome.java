@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 
 public class SandPlainsBiome extends AtumBiome {
 
@@ -9,6 +10,7 @@ public class SandPlainsBiome extends AtumBiome {
         this.deadwoodRarity = 0.01D;
         super.addDefaultSpawns(this);
         super.addCamelSpawning(this);
+        this.addStructure(AtumFeatures.GIRAFI_TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addLavaLakes(this);
