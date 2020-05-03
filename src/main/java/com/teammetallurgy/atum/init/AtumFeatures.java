@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.world.gen.feature.*;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
+import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.fluid.Fluids;
@@ -45,7 +46,10 @@ public class AtumFeatures {
     public static final LimestoneDungeonsFeature LIMESTONE_DUNGEONS = register("limestone_dungeon", new LimestoneDungeonsFeature(NoFeatureConfig::deserialize));
     public static final DeadwoodFeature DEADWOOD_FEATURE = register("deadwood_tree", new DeadwoodFeature(TreeFeatureConfig::func_227338_a_));
     public static final Feature<NoFeatureConfig> LIMESTONE_SPIKE = register("limestone_spike", new LimestoneSpikeFeature(NoFeatureConfig::deserialize));
+
+    //Structures
     public static final Structure<NoFeatureConfig> GIRAFI_TOMB = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig::deserialize));
+    public static final Structure<NoFeatureConfig> LIGHTHOUSE = register("lighthouse", new LighthouseStructure(NoFeatureConfig::deserialize));
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();

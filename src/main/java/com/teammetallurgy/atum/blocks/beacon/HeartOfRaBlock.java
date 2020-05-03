@@ -11,6 +11,7 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
+import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -37,13 +38,13 @@ public class HeartOfRaBlock extends ContainerBlock {
 
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderType(@Nonnull BlockState state) {
         return BlockRenderType.MODEL;
     }
 
     @Override
-    public boolean canEntitySpawn(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, EntityType<?> entityType) {
-        return entityType == AtumEntities.HEART_OF_RA;
+    public boolean canEntitySpawn(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull EntityType<?> type) {
+        return type == AtumEntities.HEART_OF_RA;
     }
 
     @Override
@@ -52,22 +53,22 @@ public class HeartOfRaBlock extends ContainerBlock {
     }
 
     @Override
-    public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean isMoving) {
-        super.onBlockAdded(state, world, pos, oldState, isMoving);
-
+    public void onBlockAdded(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
         HeartOfRaEntity heartOfRa = new HeartOfRaEntity(world, (float) pos.getX() + 0.5F, pos.getY(), (float) pos.getZ() + 0.5F);
         world.addEntity(heartOfRa);
+        System.out.println("HEART OF RA ADDED");
+        super.onBlockAdded(state, world, pos, oldState, isMoving);
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SHAPE;
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return VoxelShapes.empty();
     }
 }

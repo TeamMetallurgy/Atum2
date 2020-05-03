@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
+import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 
 public class LimestoneMountainsBiome extends AtumBiome {
 
@@ -9,6 +11,8 @@ public class LimestoneMountainsBiome extends AtumBiome {
         super(new Builder("limestone_mountains", 5).setBaseHeight(1.5F).setHeightVariation(0.6F).setBiomeBlocks(AtumSurfaceBuilders.SANDY_LIMESTONE));
         super.addDefaultSpawns(this);
         super.addDesertWolfSpawning(this);
+        this.addStructure(AtumFeatures.LIGHTHOUSE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+        this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, AtumFeatures.LIGHTHOUSE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addMaterialPockets(this);

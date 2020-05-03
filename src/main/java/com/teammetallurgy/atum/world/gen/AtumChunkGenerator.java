@@ -1,16 +1,21 @@
 package com.teammetallurgy.atum.world.gen;
 
+import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.spawner.BanditPatrolSpawner;
+import net.minecraft.entity.EntityClassification;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraft.world.gen.OctavesNoiseGenerator;
+import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (weights) -> { //Copied from OverworldChunkGenerator
@@ -104,6 +109,17 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     @Override
     public int getGroundHeight() { //Spawn Height
         return 64;
+    }
+
+    @Override
+    @Nonnull
+    public List<Biome.SpawnListEntry> getPossibleCreatures(@Nonnull EntityClassification type, @Nonnull BlockPos pos) {
+        if (AtumFeatures.LIGHTHOUSE.isPositionInStructure(this.world, pos)) {
+            if (type == EntityClassification.AMBIENT) {
+                return AtumFeatures.LIGHTHOUSE.getSpawnList();
+            }
+        }
+        return super.getPossibleCreatures(type, pos);
     }
 
     @Override

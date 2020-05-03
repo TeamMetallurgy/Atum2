@@ -40,7 +40,7 @@ public class HeartOfRaBaseRender extends TileEntityRenderer<HeartOfRaTileEntity>
     }
 
     @Override
-    public boolean isGlobalRenderer(HeartOfRaTileEntity heartOfRa) {
+    public boolean isGlobalRenderer(@Nonnull HeartOfRaTileEntity heartOfRa) {
         return true;
     }
 }

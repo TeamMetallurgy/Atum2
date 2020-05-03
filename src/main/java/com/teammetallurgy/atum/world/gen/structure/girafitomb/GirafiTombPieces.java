@@ -59,7 +59,7 @@ public class GirafiTombPieces {
 
         @Override
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
-            /*if (function.equals("Crate")) {
+            if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
                         world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
@@ -80,7 +80,6 @@ public class GirafiTombPieces {
                         ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
                     }
                 }
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
@@ -89,8 +88,7 @@ public class GirafiTombPieces {
                         ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
                 }
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-            }*/
+            }
         }
 
         @Override
