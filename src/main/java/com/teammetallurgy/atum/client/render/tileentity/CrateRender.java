@@ -7,16 +7,20 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -27,8 +31,8 @@ import java.util.Objects;
 @OnlyIn(Dist.CLIENT)
 public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
-    private ModelRenderer crateCore;
-    private ModelRenderer crateLid;
+    private final ModelRenderer crateCore;
+    private final ModelRenderer crateLid;
 
     public CrateRender(TileEntityRendererDispatcher dispatcher) {
         super(dispatcher);
@@ -56,7 +60,10 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
             IVertexBuilder vertexBuilder = getBuilder(crate, buffer);
             matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
             matrixStack.translate(-0.5D, -1.5D, 0.5D);
-            this.renderCrate(matrixStack, vertexBuilder, this.crateCore, this.crateLid, lidAngle, 15728640, combinedOverlay);
+
+            TileEntityMerger.ICallbackWrapper<?> callbackWrapper = TileEntityMerger.ICallback::func_225537_b_;
+            int brightness = ((Int2IntFunction) callbackWrapper.apply(new DualBrightnessCallback())).applyAsInt(combinedLight);
+            this.renderCrate(matrixStack, vertexBuilder, this.crateCore, this.crateLid, lidAngle, brightness, combinedOverlay);
             matrixStack.pop();
         }
     }

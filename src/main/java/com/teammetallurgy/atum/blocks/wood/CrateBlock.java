@@ -26,7 +26,7 @@ public class CrateBlock extends ContainerBlock {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
 
     public CrateBlock(Properties properties) {
-        super(properties);
+        super(properties.notSolid());
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
     }
 

@@ -116,8 +116,8 @@ public class GirafiTombStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void func_225565_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.func_225565_a_(world, generator, rand, box, chunkPos);
+        public void generateStructure(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+            super.generateStructure(world, generator, rand, box, chunkPos);
             int y = this.bounds.minY;
 
             for (int x = box.minX; x <= box.maxX; ++x) {

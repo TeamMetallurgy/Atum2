@@ -27,7 +27,7 @@ public abstract class PalmTreeBase extends Tree {
     protected abstract ConfiguredFeature<PalmConfig, ?> getPalmFeature(Random random, boolean b);
 
     @Override
-    public boolean func_225545_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> chunkGenerator, BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
+    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> chunkGenerator, BlockPos pos, @Nonnull BlockState state, @Nonnull Random rand) {
         ConfiguredFeature<PalmConfig, ?> configFeature = this.getPalmFeature(rand, this.findPos(world, pos));
         if (configFeature == null) {
             return false;

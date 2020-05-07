@@ -90,7 +90,6 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
     }
 
     public static class Start extends StructureStart {
-        private boolean isValid;
 
         public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
@@ -127,8 +126,8 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void func_225565_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.func_225565_a_(world, generator, rand, box, chunkPos);
+        public void generateStructure(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+            super.generateStructure(world, generator, rand, box, chunkPos);
             int y = this.bounds.minY;
 
             for (int x = box.minX; x <= box.maxX; ++x) {
