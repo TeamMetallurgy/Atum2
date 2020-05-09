@@ -11,7 +11,6 @@ import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -56,8 +55,6 @@ public class HeartOfRaBlock extends ContainerBlock {
     public void onBlockAdded(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState oldState, boolean isMoving) {
         HeartOfRaEntity heartOfRa = new HeartOfRaEntity(world, (float) pos.getX() + 0.5F, pos.getY(), (float) pos.getZ() + 0.5F);
         world.addEntity(heartOfRa);
-        System.out.println("HEART OF RA ADDED");
-        super.onBlockAdded(state, world, pos, oldState, isMoving);
     }
 
     @Override

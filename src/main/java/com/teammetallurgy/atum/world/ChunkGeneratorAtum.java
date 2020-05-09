@@ -23,9 +23,6 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 this.pyramidGenerator.generateStructure(this.world, this.rand, chunkpos);
             }
             this.ruinGenerator.generateStructure(this.world, this.rand, chunkpos);
-            this.tombGenerator.generateStructure(this.world, this.rand, chunkpos);
-            this.girafiTomb.generateStructure(this.world, this.rand, chunkpos);
-            this.lighthouse.generateStructure(this.world, this.rand, chunkpos);
         }
 
         biome.decorate(this.world, this.rand, new BlockPos(i, 0, j));
@@ -70,9 +67,6 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
                 this.pyramidGenerator.generate(this.world, x, z, null);
             }
             this.ruinGenerator.generate(this.world, x, z, null);
-            this.tombGenerator.generate(this.world, x, z, null);
-            this.girafiTomb.generate(this.world, x, z, null);
-            this.lighthouse.generate(this.world, x, z, null);
         }
     }
 }*/

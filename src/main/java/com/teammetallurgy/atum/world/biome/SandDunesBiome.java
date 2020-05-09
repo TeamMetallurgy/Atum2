@@ -19,5 +19,6 @@ public class SandDunesBiome extends AtumBiome {
         AtumFeatures.Default.addShrubs(this);
         AtumFeatures.Default.addFossils(this);
         AtumFeatures.Default.addDungeon(this);
+        AtumFeatures.Default.addTomb(this);
     }
 }

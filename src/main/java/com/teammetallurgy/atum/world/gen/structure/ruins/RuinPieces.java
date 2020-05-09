@@ -1,29 +1,29 @@
-/*
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockCrate;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.init.AtumStructurePieces;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.MapGenStructureIO;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponentTemplate;
-import net.minecraft.world.gen.structure.template.PlacementSettings;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
-import net.minecraftforge.fml.common.registry.EntityEntry;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -31,90 +31,72 @@ import java.util.List;
 import java.util.Random;
 
 public class RuinPieces {
-    public static final ResourceLocation RUIN = new ResourceLocation(Constants.MOD_ID, "ruin");
 
-    public static void registerRuins() {
-        MapGenStructureIO.registerStructure(MapGenRuin.Start.class, String.valueOf(RUIN));
-        MapGenStructureIO.registerStructureComponent(RuinTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "ruin_template")));
-    }
+    public static class RuinTemplate extends TemplateStructurePiece {
+        private static final List<EntityType<?>> BANDITS = Arrays.asList(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
+        public static final List<EntityType<?>> UNDEAD = Arrays.asList(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
+        private final int ruinType;
+        private final Rotation rotation;
 
-    public static class RuinTemplate extends StructureComponentTemplate {
-        private static final List<EntityEntry> BANDITS = Arrays.asList(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
-        public static final List<EntityEntry> UNDEAD = Arrays.asList(AtumEntities.BONESTORM, AtumEntities.FORSAKEN, AtumEntities.MUMMY, AtumEntities.WRAITH);
-        private int ruinType;
-        private Rotation rotation;
-        private Mirror mirror;
-
-        public RuinTemplate() { //Needs empty constructor
-        }
-
-        RuinTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation) {
-            this(manager, pos, random, rotation, Mirror.NONE);
-        }
-
-        private RuinTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation, Mirror mirror) {
-            super(0);
+        public RuinTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation) {
+            super(AtumStructurePieces.RUIN, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.mirror = mirror;
-            this.ruinType = MathHelper.getInt(random, 1, 19);
+            this.ruinType = MathHelper.nextInt(random, 1, 19);
+            this.loadTemplate(manager);
+        }
+
+        public RuinTemplate(TemplateManager manager, CompoundNBT nbt) {
+            super(AtumStructurePieces.RUIN, nbt);
+            this.rotation = Rotation.valueOf(nbt.getString("Rot"));
+            this.ruinType = nbt.getInt("Type");
             this.loadTemplate(manager);
         }
 
         private void loadTemplate(TemplateManager manager) {
-            Template template = manager.getTemplate(null, new ResourceLocation(Constants.MOD_ID, "ruins/ruin" + this.ruinType));
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror);
+            Template template = manager.getTemplate(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("Spawner")) {
                 if (box.isVecInside(pos)) {
-                    world.setBlockState(pos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
+                    world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
 
                     TileEntity tileEntity = world.getTileEntity(pos);
-                    if (tileEntity instanceof TileEntityMobSpawner) {
-                        ResourceLocation location;
+                    if (tileEntity instanceof MobSpawnerTileEntity) {
+                        EntityType<?> type;
                         if (rand.nextDouble() < 0.5D) {
-                            location = BANDITS.get(rand.nextInt(BANDITS.size())).getRegistryName();
+                            type = BANDITS.get(rand.nextInt(BANDITS.size()));
                         } else {
-                            location = UNDEAD.get(rand.nextInt(UNDEAD.size())).getRegistryName();
+                            type = UNDEAD.get(rand.nextInt(UNDEAD.size()));
                         }
-                        ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(location);
+                        ((MobSpawnerTileEntity) tileEntity).getSpawnerBaseLogic().setEntityType(type);
                     }
                 }
             } else if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
+                        world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof CrateTileEntity) {
                             ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
-                        world.setBlockToAir(pos);
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
                 }
             }
         }
 
         @Override
-        protected void writeStructureToNBT(CompoundNBT compound) {
-            super.writeStructureToNBT(compound);
+        protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
+            super.readAdditional(compound);
             compound.putString("Rot", this.placeSettings.getRotation().name());
-            compound.putString("Mi", this.placeSettings.getMirror().name());
             compound.putInt("Type", this.ruinType);
         }
-
-        @Override
-        protected void readStructureFromNBT(CompoundNBT compound, TemplateManager manager) {
-            super.readStructureFromNBT(compound, manager);
-            this.rotation = Rotation.valueOf(compound.getString("Rot"));
-            this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.ruinType = compound.getInt("Type");
-            this.loadTemplate(manager);
-        }
     }
-}*/
+}

@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
-import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
@@ -21,6 +20,7 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
 import net.minecraft.world.gen.feature.template.Template;
 import net.minecraft.world.gen.feature.template.TemplateManager;
@@ -32,33 +32,26 @@ public class LighthousePieces {
     public static final ResourceLocation LIGHTHOUSE = new ResourceLocation(Atum.MOD_ID, "lighthouse");
 
     public static class LighthouseTemplate extends TemplateStructurePiece {
-        private Rotation rotation;
-        private Mirror mirror;
+        private final Rotation rotation;
         private int sunspeakerSpawned;
 
         public LighthouseTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
-            this(manager, pos, rotation, Mirror.NONE);
-        }
-
-        public LighthouseTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
-            super(AtumStructurePieces.LIGHTHOUSE_PIECE, 0);
+            super(AtumStructurePieces.LIGHTHOUSE, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.mirror = mirror;
             this.loadTemplate(manager);
         }
 
         public LighthouseTemplate(TemplateManager manager, CompoundNBT nbt) {
-            super(AtumStructurePieces.LIGHTHOUSE_PIECE, nbt);
+            super(AtumStructurePieces.LIGHTHOUSE, nbt);
             this.rotation = Rotation.valueOf(nbt.getString("Rot"));
-            this.mirror = Mirror.valueOf(nbt.getString("Mi"));
             this.sunspeakerSpawned = nbt.getInt("SunspeakerCount");
             this.loadTemplate(manager);
         }
 
         private void loadTemplate(TemplateManager manager) {
             Template template = manager.getTemplate(LIGHTHOUSE);
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror);
+            PlacementSettings placementsettings = (new PlacementSettings()).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
@@ -117,23 +110,16 @@ public class LighthousePieces {
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("PalmCrate")) {
                 if (box.isVecInside(pos)) {
-                    System.out.println("PALM CRATE");
-                    //if (rand.nextDouble() <= 0.15D) {
-                    world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.PALM_CRATE.getDefaultState(), AtumBlocks.PALM_CRATE), 2);
+                    if (rand.nextDouble() <= 0.20D) {
+                        world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.PALM_CRATE.getDefaultState(), AtumBlocks.PALM_CRATE), 2);
 
-                    TileEntity tileEntity = world.getTileEntity(pos);
-                    if (tileEntity instanceof CrateTileEntity) {
-                        System.out.println("Set loot");
-                        ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.LIGHTHOUSE, rand.nextLong());
+                        TileEntity tileEntity = world.getTileEntity(pos);
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.LIGHTHOUSE, rand.nextLong());
+                        }
+                    } else {
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
-                    //} else {
-                    //    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-                    //}
-                }
-            } else if (function.equals("HeartOfRa")) {
-                System.out.println("HeartOfRa");
-                if (box.isVecInside(pos)) {
-                    world.setBlockState(pos, AtumBlocks.HEART_OF_RA.getDefaultState(), 2);
                 }
             } else if (function.equals("Sunspeaker")) {
                 spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 2, 6);
@@ -144,7 +130,6 @@ public class LighthousePieces {
         protected void readAdditional(@Nonnull CompoundNBT compound) {
             super.readAdditional(compound);
             compound.putString("Rot", this.placeSettings.getRotation().name());
-            compound.putString("Mi", this.placeSettings.getMirror().name());
             compound.putInt("SunspeakerCount", this.sunspeakerSpawned);
         }
     }

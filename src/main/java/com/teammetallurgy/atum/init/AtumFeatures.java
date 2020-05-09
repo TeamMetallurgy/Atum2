@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureC
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
+import com.teammetallurgy.atum.world.gen.structure.tomb.TombStructure;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.fluid.Fluids;
@@ -50,6 +51,7 @@ public class AtumFeatures {
     //Structures
     public static final Structure<NoFeatureConfig> GIRAFI_TOMB = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig::deserialize));
     public static final Structure<NoFeatureConfig> LIGHTHOUSE = register("lighthouse", new LighthouseStructure(NoFeatureConfig::deserialize));
+    public static final Structure<NoFeatureConfig> TOMB = register("tomb", new TombStructure(NoFeatureConfig::deserialize));
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();
@@ -143,7 +145,12 @@ public class AtumFeatures {
         }
 
         public static void addDeadwoodTrees(Biome biome, int count, float extraChance, int extraCount) {
-            biome.addFeature(VEGETAL_DECORATION, DEADWOOD_FEATURE.withConfiguration((new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true)), new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_BRANCH.getDefaultState()))).build()).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
+            biome.addFeature(VEGETAL_DECORATION, DEADWOOD_FEATURE.withConfiguration((new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true)), new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_BRANCH.getDefaultState()))).build()).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(count, extraChance, extraCount))));
+        }
+
+        public static void addTomb(Biome biome) {
+            biome.addStructure(AtumFeatures.TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+            biome.addFeature(UNDERGROUND_STRUCTURES, AtumFeatures.TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         }
     }
 }

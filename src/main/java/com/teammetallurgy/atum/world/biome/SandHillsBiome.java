@@ -18,5 +18,6 @@ public class SandHillsBiome extends AtumBiome {
         AtumFeatures.Default.addInfestedLimestone(this);
         AtumFeatures.Default.addFossils(this);
         AtumFeatures.Default.addDungeon(this);
+        AtumFeatures.Default.addTomb(this);
     }
 }

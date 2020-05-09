@@ -1,88 +1,79 @@
-/*
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockCrate;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.init.AtumStructurePieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.MapGenStructureIO;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponentTemplate;
-import net.minecraft.world.gen.structure.template.PlacementSettings;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class TombPieces {
-    public static final ResourceLocation TOMB = new ResourceLocation(Constants.MOD_ID, "tomb");
+    public static final ResourceLocation TOMB = new ResourceLocation(Atum.MOD_ID, "tomb");
 
-    public static void registerTomb() {
-        MapGenStructureIO.registerStructure(MapGenTomb.Start.class, String.valueOf(TOMB));
-        MapGenStructureIO.registerStructureComponent(TombPieces.TombTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "tomb_template")));
-    }
+    public static class TombTemplate extends TemplateStructurePiece {
+        private final Rotation rotation;
 
-    public static class TombTemplate extends StructureComponentTemplate {
-        private Rotation rotation;
-        private Mirror mirror;
-
-        public TombTemplate() { //Needs empty constructor
-        }
-
-        TombTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation) {
-            this(manager, pos, random, rotation, Mirror.NONE);
-        }
-
-        private TombTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation, Mirror mirror) {
-            super(0);
+        public TombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
+            super(AtumStructurePieces.TOMB, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.mirror = mirror;
+            this.loadTemplate(manager);
+        }
+
+        public TombTemplate(TemplateManager manager, CompoundNBT nbt) {
+            super(AtumStructurePieces.TOMB, nbt);
+            this.rotation = Rotation.valueOf(nbt.getString("Rot"));
             this.loadTemplate(manager);
         }
 
         private void loadTemplate(TemplateManager manager) {
-            Template template = manager.getTemplate(null, new ResourceLocation(Constants.MOD_ID, "tomb"));
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror);
+            Template template = manager.getTemplate(TOMB);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("SpawnerUndead")) {
                 if (box.isVecInside(pos)) {
-                    world.setBlockState(pos, Blocks.MOB_SPAWNER.getDefaultState(), 2);
+                    world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
 
                     TileEntity tileEntity = world.getTileEntity(pos);
-                    if (tileEntity instanceof TileEntityMobSpawner) {
-                        ((TileEntityMobSpawner) tileEntity).getSpawnerBaseLogic().setEntityId(RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())).getRegistryName());
+                    if (tileEntity instanceof MobSpawnerTileEntity) {
+                        ((MobSpawnerTileEntity) tileEntity).getSpawnerBaseLogic().setEntityType(RuinPieces.RuinTemplate.UNDEAD.get(rand.nextInt(RuinPieces.RuinTemplate.UNDEAD.size())));
                     }
                 }
             } else if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
-                    if (rand.nextDouble() <= 0.15D) {
-                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
+                    //if (rand.nextDouble() < 0.2D) {
+                        world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof CrateTileEntity) {
                             ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
-                    } else {
-                        world.setBlockToAir(pos);
-                    }
+                    /*} else {
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+                    }*/
                 }
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.down();
@@ -92,23 +83,14 @@ public class TombPieces {
                         ((LimestoneChestTileEntity) tileentity).setLootTable(AtumLootTables.TOMB_CHEST, rand.nextLong());
                     }
                 }
-                world.setBlockToAir(pos);
+                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
             }
         }
 
         @Override
-        protected void writeStructureToNBT(CompoundNBT compound) {
-            super.writeStructureToNBT(compound);
+        protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
+            super.readAdditional(compound);
             compound.putString("Rot", this.placeSettings.getRotation().name());
-            compound.putString("Mi", this.placeSettings.getMirror().name());
-        }
-
-        @Override
-        protected void readStructureFromNBT(CompoundNBT compound, TemplateManager manager) {
-            super.readStructureFromNBT(compound, manager);
-            this.rotation = Rotation.valueOf(compound.getString("Rot"));
-            this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.loadTemplate(manager);
         }
     }
-}*/
+}

@@ -30,30 +30,23 @@ public class GirafiTombPieces {
 
     public static class GirafiTombTemplate extends TemplateStructurePiece {
         private final Rotation rotation;
-        private final Mirror mirror;
 
         public GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
-            this(manager, pos, rotation, Mirror.NONE);
-        }
-
-        public GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
-            super(AtumStructurePieces.GIRAFI_TOMB_PIECE, 0);
+            super(AtumStructurePieces.GIRAFI_TOMB, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.mirror = mirror;
             this.loadTemplate(manager);
         }
 
         public GirafiTombTemplate(TemplateManager manager, CompoundNBT nbt) {
-            super(AtumStructurePieces.GIRAFI_TOMB_PIECE, nbt);
+            super(AtumStructurePieces.GIRAFI_TOMB, nbt);
             this.rotation = Rotation.valueOf(nbt.getString("Rot"));
-            this.mirror = Mirror.valueOf(nbt.getString("Mi"));
             this.loadTemplate(manager);
         }
 
         private void loadTemplate(TemplateManager manager) {
             Template template = manager.getTemplate(GIRAFI_TOMB);
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
@@ -79,6 +72,7 @@ public class GirafiTombPieces {
                     if (tileentity instanceof SarcophagusTileEntity) {
                         ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
                     }
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.down();
@@ -87,6 +81,7 @@ public class GirafiTombPieces {
                     if (tileentity instanceof SarcophagusTileEntity) {
                         ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
             }
         }
@@ -95,7 +90,6 @@ public class GirafiTombPieces {
         protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
             super.readAdditional(compound);
             compound.putString("Rot", this.placeSettings.getRotation().name());
-            compound.putString("Mi", this.placeSettings.getMirror().name());
         }
     }
 }
