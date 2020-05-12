@@ -52,7 +52,7 @@ public class TombStructure extends Structure<NoFeatureConfig> {
             if (!generator.hasStructure(biome, this)) {
                 return false;
             } else {
-                return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) < 60;
+                return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) <= 55;
             }
         } else {
             return false;

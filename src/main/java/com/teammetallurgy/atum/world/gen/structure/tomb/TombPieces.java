@@ -55,6 +55,7 @@ public class TombPieces {
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("SpawnerUndead")) {
                 if (box.isVecInside(pos)) {
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2); //Set structure block to air, to remove its TE
                     world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
 
                     TileEntity tileEntity = world.getTileEntity(pos);
@@ -64,16 +65,16 @@ public class TombPieces {
                 }
             } else if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
-                    //if (rand.nextDouble() < 0.2D) {
+                    if (rand.nextDouble() < 0.2D) {
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2); //Set structure block to air, to remove its TE
                         world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
-
                         TileEntity tileEntity = world.getTileEntity(pos);
                         if (tileEntity instanceof CrateTileEntity) {
                             ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
-                    /*} else {
+                    } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-                    }*/
+                    }
                 }
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.down();

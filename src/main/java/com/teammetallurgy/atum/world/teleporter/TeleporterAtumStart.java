@@ -43,6 +43,9 @@ public class TeleporterAtumStart implements ITeleporter {
                 entity.rotationYaw = yaw;
                 entity.moveForced(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
             }
+            if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
+                spawnPos = spawnPos.add(8, 0, 8);
+            }
             if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
                 ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
                 startStructure.place(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
