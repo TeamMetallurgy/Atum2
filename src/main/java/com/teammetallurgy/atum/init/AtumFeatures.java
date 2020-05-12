@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
 import com.teammetallurgy.atum.world.gen.feature.*;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
@@ -151,6 +152,13 @@ public class AtumFeatures {
         public static void addTomb(Biome biome) {
             biome.addStructure(AtumFeatures.TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
             biome.addFeature(UNDERGROUND_STRUCTURES, AtumFeatures.TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+        }
+
+        public static void addPyramid(Biome biome) {
+            if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
+                //biome.addStructure(AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+                //biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+            }
         }
     }
 }
