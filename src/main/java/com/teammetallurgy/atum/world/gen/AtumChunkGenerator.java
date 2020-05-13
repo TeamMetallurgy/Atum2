@@ -33,6 +33,10 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
         this.depthNoise = new OctavesNoiseGenerator(this.randomSeed, 15, 0);
     }
 
+    public IWorld getWorld() {
+        return this.world;
+    }
+
     @Override
     @Nonnull
     protected double[] getBiomeNoiseColumn(int noiseX, int noiseZ) { //Copied from OverworldChunkGenerator

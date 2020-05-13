@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombPieces;
 import net.minecraft.util.ResourceLocation;
@@ -16,6 +17,8 @@ public class AtumStructurePieces {
     public static final IStructurePieceType LIGHTHOUSE = register(LighthousePieces.LighthouseTemplate::new, "lighthouse_template");
     public static final IStructurePieceType TOMB = register(TombPieces.TombTemplate::new, "tomb_template");
     public static final IStructurePieceType RUIN = register(RuinPieces.RuinTemplate::new, "ruin_template");
+    public static final IStructurePieceType PYRAMID = register(PyramidPieces.PyramidTemplate::new, "pyramid_template");
+    public static final IStructurePieceType PYRAMID_MAZE = register(PyramidPieces.Maze::new, "maze");
 
     private static IStructurePieceType register(IStructurePieceType type, String name) {
         return Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(Atum.MOD_ID, name), type);

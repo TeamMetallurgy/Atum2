@@ -97,7 +97,7 @@ public class SpinningWheelBlock extends ContainerBlock {
                             canInsert = true;
                         } else if (!inputStack.isEmpty()) {
                             if (world.isRemote) {
-                                player.sendStatusMessage(new TranslationTextComponent("chat.atum.spinningWheel.recipeInProgress", inputStack.getDisplayName()).setStyle(new Style().setColor(TextFormatting.RED)), true);
+                                player.sendStatusMessage(new TranslationTextComponent("chat.atum.spinning_wheel_recipe_in_progress", inputStack.getDisplayName()).setStyle(new Style().setColor(TextFormatting.RED)), true);
                                 world.playSound(player, new BlockPos(player), SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.BLOCKS, 0.8F, 1.0F);
                             }
                         }

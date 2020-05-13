@@ -813,8 +813,8 @@
   "chat.atum.summon_pharaoh": "被你惊动了！",
   "chat.atum.kill_pharaoh": "被你消灭了！",
   "chat.atum.cannot_spawn_pharaoh": "法老在他们的石棺里翻了个身。",
-  "chat.atum.water.evaporated": "容器中的水蒸发了",
-  "chat.atum.spinning_wheel.recipe_in_progress": "这台纺车已经有东西输入了（%s）",
+  "chat.atum.water_evaporated": "容器中的水蒸发了",
+  "chat.atum.spinning_wheel_recipe_in_progress": "这台纺车已经有东西输入了（%s）",
 
   "_comment": "GUI",
   "atum.config.atum_start": "在阿图姆中开始",

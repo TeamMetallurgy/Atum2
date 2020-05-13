@@ -863,8 +863,8 @@
   "chat.atum.summon_pharaoh": "was summoned by",
   "chat.atum.kill_pharaoh": "was slain by",
   "chat.atum.cannot_spawn_pharaoh": "The pharaoh turns over in their sarcophagus",
-  "chat.atum.water.evaporated": "Water in your container evaporated",
-  "chat.atum.spinning_wheel.recipe_in_progress": "The Spinning Wheel already contains an input (%s)",
+  "chat.atum.water_evaporated": "Water in your container evaporated",
+  "chat.atum.spinning_wheel_recipe_in_progress": "The Spinning Wheel already contains an input (%s)",
 
   "_comment": "GUI",
   "atum.config.atum_start": "Start in Atum",

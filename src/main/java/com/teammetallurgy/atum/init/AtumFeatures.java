@@ -11,6 +11,8 @@ import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureC
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
+import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidStructure;
+import com.teammetallurgy.atum.world.gen.structure.ruins.RuinStructure;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombStructure;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
@@ -53,6 +55,8 @@ public class AtumFeatures {
     public static final Structure<NoFeatureConfig> GIRAFI_TOMB = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig::deserialize));
     public static final Structure<NoFeatureConfig> LIGHTHOUSE = register("lighthouse", new LighthouseStructure(NoFeatureConfig::deserialize));
     public static final Structure<NoFeatureConfig> TOMB = register("tomb", new TombStructure(NoFeatureConfig::deserialize));
+    public static final Structure<NoFeatureConfig> RUIN = register("ruin", new RuinStructure(NoFeatureConfig::deserialize));
+    public static final Structure<NoFeatureConfig> PYRAMID = register("pyramid", new PyramidStructure(NoFeatureConfig::deserialize));
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();
@@ -156,8 +160,8 @@ public class AtumFeatures {
 
         public static void addPyramid(Biome biome) {
             if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
-                //biome.addStructure(AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
-                //biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+                biome.addStructure(AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+                biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
             }
         }
     }

@@ -813,8 +813,8 @@
   "chat.atum.summon_pharaoh": "был призван",
   "chat.atum.kill_pharaoh": "был убит",
   "chat.atum.cannot_spawn_pharaoh": "Фараон переворачивается в своем саркофаге",
-  "chat.atum.water.evaporated": "Вода в вашей ёмкости испаряется",
-  "chat.atum.spinning_wheel.recipe_in_progress": "Прялка уже содержит вход (%s)",
+  "chat.atum.water_evaporated": "Вода в вашей ёмкости испаряется",
+  "chat.atum.spinning_wheel_recipe_in_progress": "Прялка уже содержит вход (%s)",
 
   "_comment": "GUI",
   "atum.config.atum_start": "Старт в Атуме",

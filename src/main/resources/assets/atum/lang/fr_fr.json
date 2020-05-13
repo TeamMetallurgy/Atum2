@@ -813,8 +813,8 @@
   "chat.atum.summon_pharaoh": "a été invoqué par",
   "chat.atum.kill_pharaoh": "a été tué par",
   "chat.atum.cannot_spawn_pharaoh": "Le pharaon est retourné dans son sarcophage",
-  "chat.atum.water.evaporated": "L'eau de votre récipient s'est évaporée",
-  "chat.atum.spinning_wheel.recipe_in_progress": "Le rouet contient déjà quelque chose (%s)",
+  "chat.atum.water_evaporated": "L'eau de votre récipient s'est évaporée",
+  "chat.atum.spinning_wheel_recipe_in_progress": "Le rouet contient déjà quelque chose (%s)",
 
   "_comment": "GUI",
   "atum.config.atum_start": "Commencer dans Atum",

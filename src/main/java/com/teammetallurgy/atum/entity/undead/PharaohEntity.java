@@ -210,7 +210,7 @@ public class PharaohEntity extends UndeadBaseEntity {
             if (!world.isRemote && slayer != null) {
                 List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
                 for (PlayerEntity player : players) {
-                    player.sendMessage(this.getName().appendText(" ").appendSibling(new TranslationTextComponent("chat.atum.killPharaoh")).appendText(" " + slayer.getGameProfile().getName()).applyTextStyles(God.getGod(this.getVariant()).getColor()));
+                    player.sendMessage(this.getName().appendText(" ").appendSibling(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendText(" " + slayer.getGameProfile().getName()).applyTextStyles(God.getGod(this.getVariant()).getColor()));
                 }
             }
         }

@@ -35,12 +35,12 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(IBlockReader reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new SarcophagusTileEntity();
     }
 
     @Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) {
+    public float getBlockHardness(@Nonnull BlockState state, IBlockReader world, @Nonnull BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
             return -1.0F;
@@ -61,7 +61,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
         TileEntity tileEntity = world.getTileEntity(pos);
         Direction facing = state.get(FACING);
 
@@ -90,7 +90,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
                     sarcophagus.hasSpawned = true;
                     return ActionResultType.PASS;
                 } else if (!sarcophagus.isOpenable) {
-                    player.sendStatusMessage(new TranslationTextComponent("chat.atum.cannotSpawnPharaoh").setStyle(new Style().setColor(TextFormatting.RED)), true);
+                    player.sendStatusMessage(new TranslationTextComponent("chat.atum.cannot_spawn_pharaoh").setStyle(new Style().setColor(TextFormatting.RED)), true);
                     world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_INFECT, SoundCategory.HOSTILE, 0.7F, 0.4F, false);
                     return ActionResultType.PASS;
                 }
@@ -108,7 +108,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     @Override
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nonnull LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
         TileEntity tileEntity = world.getTileEntity(pos);
 
