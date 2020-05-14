@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.structure.ruins;
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.ResourceLocation;

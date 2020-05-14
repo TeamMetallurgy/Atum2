@@ -111,6 +111,7 @@ public class AtumRegistry {
         registerBlockWithItem(unlitTorch, new WallOrFloorItem(unlitTorch, wallTorchUnlit, new Item.Properties()), name + "_unlit");
 
         AtumTorchUnlitBlock.UNLIT.put(torch, unlitTorch);
+        AtumWallTorchUnlitBlock.UNLIT.put(torch, wallTorchUnlit);
         AtumTorchUnlitBlock.LIT.put(unlitTorch, torch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(unlitTorch);

@@ -26,5 +26,6 @@ public class SandPlainsBiome extends AtumBiome {
         AtumFeatures.Default.addTomb(this);
         AtumFeatures.Default.addPyramid(this);
         AtumFeatures.Default.addRuins(this);
+        AtumFeatures.Default.addMineshaft(this, false);
     }
 }

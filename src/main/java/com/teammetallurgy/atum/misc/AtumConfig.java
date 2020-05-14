@@ -97,6 +97,7 @@ public class AtumConfig {
     public static class WorldGen {
         public static final String WORLDGEN = "world gen";
         public static final String OREGEN = WORLDGEN + "." + "ore gen";
+        public final ForgeConfigSpec.BooleanValue mineshaftEnabled;
         public final ForgeConfigSpec.BooleanValue pyramidEnabled;
         public final ForgeConfigSpec.BooleanValue ruinsEnabled;
         public final ForgeConfigSpec.IntValue ruinsAmount;
@@ -104,6 +105,9 @@ public class AtumConfig {
 
         WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
+            this.mineshaftEnabled = builder.comment("Should Mineshafts generate in Atum?")
+                    .translation("atum.config.mineshaft_enabled")
+                    .define("Enable Mineshafts", true);
             this.pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
                     .translation("atum.config.pyramid_enabled")
                     .define("Enable Pyramids", true);

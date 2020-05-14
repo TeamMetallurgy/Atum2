@@ -24,5 +24,6 @@ public class LimestoneMountainsBiome extends AtumBiome {
         AtumFeatures.Default.addDungeon(this);
         AtumFeatures.Default.addTomb(this);
         AtumFeatures.Default.addRuins(this);
+        AtumFeatures.Default.addMineshaft(this, true);
     }
 }

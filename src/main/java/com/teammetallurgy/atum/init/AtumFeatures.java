@@ -11,6 +11,8 @@ import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureC
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
+import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftConfig;
+import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStructure;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidStructure;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinStructure;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombStructure;
@@ -34,6 +36,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
@@ -57,6 +60,7 @@ public class AtumFeatures {
     public static final Structure<NoFeatureConfig> TOMB = register("tomb", new TombStructure(NoFeatureConfig::deserialize));
     public static final Structure<NoFeatureConfig> RUIN = register("ruin", new RuinStructure(NoFeatureConfig::deserialize));
     public static final Structure<NoFeatureConfig> PYRAMID = register("pyramid", new PyramidStructure(NoFeatureConfig::deserialize));
+    public static final Structure<AtumMineshaftConfig> MINESHAFT = register("mineshaft", new AtumMineshaftStructure(AtumMineshaftConfig::deserialize));
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();
@@ -169,6 +173,21 @@ public class AtumFeatures {
             if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
                 biome.addStructure(AtumFeatures.RUIN.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
                 biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.RUIN.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+            }
+        }
+
+        public static void addMineshaft(Biome biome, boolean isSurface) {
+            if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
+                int chance = new Random().nextInt(100);
+                AtumMineshaftStructure.Type type;
+                if (chance > 50) {
+                    type = isSurface ? AtumMineshaftStructure.Type.LIMESTONE_SURFACE : AtumMineshaftStructure.Type.LIMESTONE;
+                } else {
+                    type = isSurface ? AtumMineshaftStructure.Type.DEADWOOD_SURFACE : AtumMineshaftStructure.Type.DEADWOOD;
+                }
+                AtumMineshaftConfig config = new AtumMineshaftConfig(0.008D, type);
+                biome.addStructure(AtumFeatures.MINESHAFT.withConfiguration(config));
+                biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.MINESHAFT.withConfiguration(config));
             }
         }
     }

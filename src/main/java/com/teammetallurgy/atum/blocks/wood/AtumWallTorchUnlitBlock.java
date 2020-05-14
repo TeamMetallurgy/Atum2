@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.wood;
 
+import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,10 +17,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 import java.util.Random;
 
 public class AtumWallTorchUnlitBlock extends AtumWallTorch {
     protected final Block litWallBlock;
+    public static final Map<Block, Block> UNLIT = Maps.newHashMap();
 
     public AtumWallTorchUnlitBlock(Block litWallBlock, Properties properties) {
         super(properties);
@@ -28,7 +31,7 @@ public class AtumWallTorchUnlitBlock extends AtumWallTorch {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) { //Copied from AtumTorchUnlitBlock
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) { //Copied from AtumTorchUnlitBlock
         ItemStack heldStack = player.getHeldItem(hand);
         Block block = Block.getBlockFromItem(heldStack.getItem());
         if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightValue(block.getDefaultState(), world, pos) > 0)) {
@@ -44,6 +47,6 @@ public class AtumWallTorchUnlitBlock extends AtumWallTorch {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, World world, BlockPos pos, Random rand) {
+    public void animateTick(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Random rand) {
     }
 }

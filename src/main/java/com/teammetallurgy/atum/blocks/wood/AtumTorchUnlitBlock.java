@@ -39,7 +39,7 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
         ItemStack heldStack = player.getHeldItem(hand);
         Block block = Block.getBlockFromItem(heldStack.getItem());
         if ((heldStack.getItem() instanceof FlintAndSteelItem || block.getLightValue(block.getDefaultState(), world, pos) > 0)) {
@@ -68,6 +68,6 @@ public class AtumTorchUnlitBlock extends AtumTorchBlock {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(BlockState state, World world, BlockPos pos, Random random) {
+    public void animateTick(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Random random) {
     }
 }

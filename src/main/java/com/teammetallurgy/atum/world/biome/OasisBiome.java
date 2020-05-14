@@ -34,6 +34,7 @@ public class OasisBiome extends AtumBiome {
         AtumFeatures.Default.addEmeraldOre(this);
         AtumFeatures.Default.addInfestedLimestone(this);
         AtumFeatures.Default.addFossils(this);
+        AtumFeatures.Default.addMineshaft(this, false);
     }
 
     @Override
