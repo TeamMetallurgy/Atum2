@@ -19,7 +19,6 @@ public class OasisBiome extends AtumBiome {
 
     public OasisBiome() {
         super(new Builder("oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.OASIS));
-        this.deadwoodRarity = 0.0D;
         super.addCamelSpawning(this);
         this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.WATER.getDefaultState(), AtumBlocks.FERTILE_SOIL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
         this.addFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(7))));

@@ -6,9 +6,9 @@ public class SandDunesBiome extends AtumBiome {
 
     public SandDunesBiome() {
         super(new Builder("sand_dunes", 15).setBaseHeight(0.175F).setHeightVariation(0.2F));
-        this.deadwoodRarity = 0.01D;
         super.addDefaultSpawns(this);
         super.addCamelSpawning(this);
+        AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.05F, 1);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addLavaLakes(this);

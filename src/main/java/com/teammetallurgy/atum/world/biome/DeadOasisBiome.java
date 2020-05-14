@@ -18,7 +18,6 @@ public class DeadOasisBiome extends AtumBiome {
 
     public DeadOasisBiome() {
         super(new Builder("dead_oasis", 0).setHeightVariation(0.0F).setBiomeBlocks(AtumSurfaceBuilders.GRAVEL_CRACKED));
-        this.deadwoodRarity = 0.0D;
         super.addDefaultSpawns(this);
         super.addCamelSpawning(this);
         this.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.AIR.getDefaultState(), AtumBlocks.LIMESTONE_GRAVEL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));

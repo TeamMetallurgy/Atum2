@@ -28,7 +28,6 @@ import net.minecraft.world.gen.surfacebuilders.SurfaceBuilderConfig;
 import javax.annotation.Nonnull;
 
 public class AtumBiome extends Biome {
-    protected double deadwoodRarity = 0.1D;
     private final int defaultWeight;
 
     public AtumBiome(Builder builder) {

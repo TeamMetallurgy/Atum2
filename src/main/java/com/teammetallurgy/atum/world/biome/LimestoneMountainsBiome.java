@@ -13,6 +13,7 @@ public class LimestoneMountainsBiome extends AtumBiome {
         super.addDesertWolfSpawning(this);
         this.addStructure(AtumFeatures.LIGHTHOUSE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, AtumFeatures.LIGHTHOUSE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+        AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.4F, 1);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addMaterialPockets(this);
