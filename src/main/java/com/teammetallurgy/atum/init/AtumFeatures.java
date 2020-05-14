@@ -164,5 +164,12 @@ public class AtumFeatures {
                 biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.PYRAMID.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
             }
         }
+
+        public static void addRuins(Biome biome) {
+            if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
+                biome.addStructure(AtumFeatures.RUIN.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+                biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.RUIN.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+            }
+        }
     }
 }

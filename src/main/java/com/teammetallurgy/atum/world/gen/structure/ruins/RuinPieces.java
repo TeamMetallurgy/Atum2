@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -42,7 +43,7 @@ public class RuinPieces {
             super(AtumStructurePieces.RUIN, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.ruinType = MathHelper.nextInt(random, 1, 19);
+            this.ruinType = MathHelper.nextInt(random, 1, AtumConfig.WORLD_GEN.ruinsAmount.get());
             this.loadTemplate(manager);
         }
 

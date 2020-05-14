@@ -35,6 +35,7 @@ public class DeadOasisBiome extends AtumBiome {
         AtumFeatures.Default.addDungeon(this);
         AtumFeatures.Default.addTomb(this);
         AtumFeatures.Default.addPyramid(this);
+        AtumFeatures.Default.addRuins(this);
     }
 
     @Override

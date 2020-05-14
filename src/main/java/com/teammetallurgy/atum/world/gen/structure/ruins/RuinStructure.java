@@ -27,7 +27,6 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class RuinStructure extends Structure<NoFeatureConfig> {
-    //private static final List<Biome> ALLOWED_BIOMES = Arrays.asList(AtumBiomes.DEADWOOD_FOREST, AtumBiomes.LIMESTONE_MOUNTAINS, AtumBiomes.SAND_DUNES, AtumBiomes.SAND_HILLS, AtumBiomes.SAND_PLAINS);
 
     public RuinStructure(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
         super(config);
@@ -56,13 +55,16 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
     public boolean func_225558_a_(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
         ChunkPos chunkpos = this.getStartPositionForPosition(generator, rand, chunkX, chunkZ, 0, 0);
         if (chunkX == chunkpos.x && chunkZ == chunkpos.z) {
-            if (!generator.hasStructure(biome, this)) {
-                return false;
-            } else if (generator instanceof AtumChunkGenerator) { //TODO Test
-                IWorld world = ((AtumChunkGenerator) generator).getWorld();
-                boolean collidesWithStructure = StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.GIRAFI_TOMB) || StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.PYRAMID);
-                int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null);
-                return !collidesWithStructure && y > 60 && y < 85;
+            if (generator instanceof AtumChunkGenerator) {
+                if (!generator.hasStructure(biome, this)) {
+                    return false;
+                } else {
+                    IWorld world = ((AtumChunkGenerator) generator).getWorld();
+                    //TODO Fix isStructureInChunk, causes the world to freeze on creation
+                    //boolean collidesWithStructure = StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.GIRAFI_TOMB) || StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.PYRAMID);
+                    int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null);
+                    return /*!collidesWithStructure &&*/ y > 60 && y < 85;
+                }
             } else {
                 return false;
             }

@@ -22,19 +22,17 @@ public class AtumConfig {
         public static final String GENERAL = "general";
         public final ForgeConfigSpec.BooleanValue allowCreation;
         public final ForgeConfigSpec.BooleanValue fogEnabled;
-        //public static boolean RECIPE_OVERRIDING; //TODO Figure out if there is another way in 1.15
 
         public General(ForgeConfigSpec.Builder builder) {
             builder.push(GENERAL);
-            allowCreation = builder.comment("Can a non-creative user create a portal using the scarab?")
+            this.allowCreation = builder.comment("Can a non-creative user create a portal using the scarab?")
                     .translation("atum.config.portal_creation")
                     .define("Atum Portal", true);
-            fogEnabled = builder.comment("Should clientside fog be rendered?")
+            this.fogEnabled = builder.comment("Should clientside fog be rendered?")
                     .translation("atum.config.fog")
                     .worldRestart()
                     .define("Atum Fog", true);
             builder.pop();
-            //RECIPE_OVERRIDING = config.getBoolean("Enable Atum recipe overriding?", CATEGORY_GENERAL, true, "Atum is removing and adding some vanilla recipes, in order for certain recipes to get priority. It should not break anything. This is a fail safe if it does.");
         }
     }
 
@@ -46,13 +44,13 @@ public class AtumConfig {
 
         AtumStart(ForgeConfigSpec.Builder builder) {
             builder.push(ATUM_START);
-            startInAtum = builder.comment("New players should start in Atum?")
+            this.startInAtum = builder.comment("New players should start in Atum?")
                     .translation("atum.config.atum_start")
                     .define("Start in Atum", false);
-            atumStartStructure = builder.comment("Structure that will generate next to the player when starting in Atum (Requires 'Start in Atum' to be enabled). Leave empty for no structure.")
+            this.atumStartStructure = builder.comment("Structure that will generate next to the player when starting in Atum (Requires 'Start in Atum' to be enabled). Leave empty for no structure.")
                     .translation("atum.config.atum_start_structure")
                     .define("Atum starting structure", "atum:tent_small");
-            startInAtumPortal = builder.comment("Should a portal back to the Overworld generate, when starting in Atum?")
+            this.startInAtumPortal = builder.comment("Should a portal back to the Overworld generate, when starting in Atum?")
                     .translation("atum.config.atum_start_portal")
                     .define("Create Atum Portal", false);
             builder.pop();
@@ -71,25 +69,25 @@ public class AtumConfig {
 
         Sandstorm(ForgeConfigSpec.Builder builder) {
             builder.push(SANDSTORM);
-            sandstormEnabled = builder.comment("Enable/disables all functionality of sandstorms")
+            this.sandstormEnabled = builder.comment("Enable/disables all functionality of sandstorms")
                     .translation("atum.configGui.sandstormenabled")
                     .define("Sandstorm Enabled", true);
-            sandstormSandLayerChance = builder.comment("Chance for sandstorms to generate sand layers. The higher the value, the more rare it is. Set to 0 to disable.")
+            this.sandstormSandLayerChance = builder.comment("Chance for sandstorms to generate sand layers. The higher the value, the more rare it is. Set to 0 to disable.")
                     .translation("atum.configGui.sandstormsandrarity")
                     .defineInRange("Sandstorm Sand Layer", 40, 0, 10000);
-            sandstormFog = builder.comment("Multiplier to fog during sandstorms")
+            this.sandstormFog = builder.comment("Multiplier to fog during sandstorms")
                     .translation("atum.config.sandstormfog")
                     .defineInRange("Sandstorm Fog", 2, 0, 100);
-            sandDarkness = builder.comment("How light the sand particles are")
+            this.sandDarkness = builder.comment("How light the sand particles are")
                     .translation("atum.config.sandbrightness")
                     .defineInRange("Sandstorm Brightness", 75, 0, 100);
-            sandAlpha = builder.comment("Base transparency for sand particles")
+            this.sandAlpha = builder.comment("Base transparency for sand particles")
                     .translation("atum.config.sandalpha")
                     .defineInRange("Sandstorm Base Transparency", 10, 0, 100);
-            sandEyesAlpha = builder.comment("Sand particle transparency while wearing Sandstorm reducing helmets")
+            this.sandEyesAlpha = builder.comment("Sand particle transparency while wearing Sandstorm reducing helmets")
                     .translation("atum.config.sandalpha")
                     .defineInRange("Sandstorm Helmet Transparency", 40, 0, 100);
-            sandstormTransitionTime = builder.comment("Seconds it takes to transition from clear to sandstorm")
+            this.sandstormTransitionTime = builder.comment("Seconds it takes to transition from clear to sandstorm")
                     .translation("atum.config.sandstormtransition")
                     .defineInRange("Sandstorm Transition Time", 25, 0, 100);
             builder.pop();
@@ -100,14 +98,22 @@ public class AtumConfig {
         public static final String WORLDGEN = "world gen";
         public static final String OREGEN = WORLDGEN + "." + "ore gen";
         public final ForgeConfigSpec.BooleanValue pyramidEnabled;
+        public final ForgeConfigSpec.BooleanValue ruinsEnabled;
+        public final ForgeConfigSpec.IntValue ruinsAmount;
         public final ForgeConfigSpec.IntValue waterLevel;
 
         WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
-            pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
+            this.pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
                     .translation("atum.config.pyramid_enabled")
                     .define("Enable Pyramids", true);
-            waterLevel = builder.comment("Sets above what Y-level water will vaporize at (Except Oasis). Set to 0 to disable")
+            this.ruinsEnabled = builder.comment("Should Ruins generate in Atum?")
+                    .translation("atum.config.ruins_enabled")
+                    .define("Enable Ruins", true);
+            this.ruinsAmount = builder.comment("Specify the amount of ruin variants structures/ruins. Allows for additional ruin structures with a resourcepack")
+                    .translation("atum.config.ruins_amount")
+                    .defineInRange("Ruins Amount", 19, 1, 999);
+            this.waterLevel = builder.comment("Sets above what Y-level water will vaporize at (Except Oasis). Set to 0 to disable")
                     .translation("atum.config.water_level")
                     .defineInRange("Water Level", 50, 0, 255);
             builder.pop();
