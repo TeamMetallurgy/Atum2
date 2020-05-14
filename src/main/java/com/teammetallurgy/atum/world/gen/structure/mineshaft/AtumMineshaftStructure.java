@@ -28,7 +28,7 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
     }
 
     @Override
-    public boolean func_225558_a_(@Nonnull BiomeManager biomeManager, ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
+    public boolean canBeGenerated(@Nonnull BiomeManager biomeManager, ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
         ((SharedSeedRandom) rand).setLargeFeatureSeed(generator.getSeed(), chunkX, chunkZ);
         if (generator.hasStructure(biome, this)) {
             AtumMineshaftConfig config = generator.getStructureConfig(biome, this);

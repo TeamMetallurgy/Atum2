@@ -128,7 +128,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
-    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) { //TODO Check if this is okay. Doesn't need a container, since no GUI.
+    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
         return null;
     }
 

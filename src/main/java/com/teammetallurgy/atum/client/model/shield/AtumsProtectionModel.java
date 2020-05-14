@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.client.model.shield;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -11,19 +10,19 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class AtumsProtectionModel extends AbstractShieldModel {
-    private ModelRenderer shieldCore;
-    private ModelRenderer handleCore;
-    private ModelRenderer gemStone;
-    private ModelRenderer shieldTop1;
-    private ModelRenderer shieldTop2;
-    private ModelRenderer shieldTop3;
-    private ModelRenderer shieldTop4;
-    private ModelRenderer shieldBottom1;
-    private ModelRenderer shieldBottom2;
-    private ModelRenderer shieldBottom3;
-    private ModelRenderer shieldBottom4;
-    private ModelRenderer handleSide1;
-    private ModelRenderer handleSide2;
+    private final ModelRenderer shieldCore;
+    private final ModelRenderer handleCore;
+    private final ModelRenderer gemStone;
+    private final ModelRenderer shieldTop1;
+    private final ModelRenderer shieldTop2;
+    private final ModelRenderer shieldTop3;
+    private final ModelRenderer shieldTop4;
+    private final ModelRenderer shieldBottom1;
+    private final ModelRenderer shieldBottom2;
+    private final ModelRenderer shieldBottom3;
+    private final ModelRenderer shieldBottom4;
+    private final ModelRenderer handleSide1;
+    private final ModelRenderer handleSide2;
 
     public AtumsProtectionModel() {
         this.textureWidth = 32;
@@ -81,27 +80,12 @@ public class AtumsProtectionModel extends AbstractShieldModel {
 
     @Override
     public void render(@Nonnull MatrixStack matrixStack, @Nonnull IVertexBuilder vertexBuilder, int i, int i1, float v, float v1, float v2, float v3) {
-        RenderSystem.pushMatrix();
-        RenderSystem.scaled(1.0D / 0.75D, -1.0D / 0.75D, -1.0D / 0.75D);
-        RenderSystem.translatef(0.0F, 0.0F, -0.03F);
+        matrixStack.push();
+        matrixStack.scale(1.0F / 0.75F, -1.0F / 0.75F, -1.0F / 0.75F);
+        matrixStack.translate(0.0F, 0.0F, -0.03F);
         this.handleCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
         this.shieldCore.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
         this.gemStone.render(matrixStack, vertexBuilder, i, i1, v, v1, v2, v3);
-        RenderSystem.popMatrix();
-    }
-
-    @Override
-    public ModelRenderer getPlate() {
-        return this.shieldCore;
-    }
-
-    @Override
-    public ModelRenderer getHandle() {
-        return this.handleCore;
-    }
-
-    @Override
-    public ModelRenderer getOptional() {
-        return this.gemStone;
+        matrixStack.pop();
     }
 }

@@ -51,6 +51,7 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientHandler {
     private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
+    private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
 
     public static void init() {
         //Screens
@@ -227,10 +228,21 @@ public class ClientHandler {
         }
     }
 
+    public static void addToShieldAtlas(ResourceLocation location) {
+        if (!SHIELD_ATLAS_TEXTURES.contains(location)) {
+            SHIELD_ATLAS_TEXTURES.add(location);
+        }
+    }
+
     @SubscribeEvent
     public static void onTextureStitch(TextureStitchEvent.Pre event) {
         if (event.getMap().getTextureLocation().equals(Atlases.CHEST_ATLAS)) {
             for (ResourceLocation location : CHEST_ATLAS_TEXTURES) {
+                event.addSprite(location);
+            }
+        }
+        if (event.getMap().getTextureLocation().equals(Atlases.SHIELD_ATLAS)) {
+            for (ResourceLocation location : SHIELD_ATLAS_TEXTURES) {
                 event.addSprite(location);
             }
         }

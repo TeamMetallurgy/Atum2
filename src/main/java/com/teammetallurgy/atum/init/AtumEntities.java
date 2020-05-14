@@ -59,14 +59,16 @@ public class AtumEntities {
     public static final EntityType<CamelSpitEntity> CAMEL_SPIT = registerEntity("camel_spit", Builder.<CamelSpitEntity>create(CamelSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F)
             .setTrackingRange(4)
             .setUpdateInterval(10)
-            .setShouldReceiveVelocityUpdates(false));
+            .setShouldReceiveVelocityUpdates(false)
+            .setCustomClientFactory(CamelSpitEntity::new));
     public static final EntityType<HeartOfRaEntity> HEART_OF_RA = registerEntity("heart_of_ra", Builder.<HeartOfRaEntity>create(HeartOfRaEntity::new, EntityClassification.MISC).size(1.0F, 2.8F)
             .setTrackingRange(16)
             .setUpdateInterval(Integer.MAX_VALUE)
             .setShouldReceiveVelocityUpdates(false));
     public static final EntityType<SmallBoneEntity> SMALL_BONE = registerEntity("small_bone", Builder.<SmallBoneEntity>create(SmallBoneEntity::new, EntityClassification.MISC).size(0.3125F, 0.3125F)
             .setTrackingRange(4)
-            .setUpdateInterval(10));
+            .setUpdateInterval(10)
+            .setCustomClientFactory(SmallBoneEntity::new));
     public static final EntityType<ArrowDoubleShotBlackEntity> DOUBLE_SHOT_BLACK = registerArrow("arrow_double_shot_black", ArrowDoubleShotBlackEntity::new);
     public static final EntityType<ArrowDoubleShotWhiteEntity> DOUBLE_SHOT_WHITE = registerArrow("arrow_double_shot_white", ArrowDoubleShotWhiteEntity::new);
     public static final EntityType<ArrowExplosiveEntity> EXPLOSIVE_ARROW = registerArrow("arrow_explosive", ArrowExplosiveEntity::new);

@@ -11,24 +11,24 @@ import net.minecraft.util.math.Vec3d;
 
 import javax.annotation.Nonnull;
 
-public class CamelModel<T extends CamelEntity> extends EntityModel<T> { //TODO Fix model movement
-    private ModelRenderer headModel;
-    private ModelRenderer body;
-    private ModelRenderer legBackRight;
-    private ModelRenderer legBackLeft;
-    private ModelRenderer legFrontRight;
-    private ModelRenderer legFrontLeft;
-    private ModelRenderer neckheadModelLower;
-    private ModelRenderer snout;
-    private ModelRenderer earRight;
-    private ModelRenderer earLeft;
-    private ModelRenderer hump1;
-    private ModelRenderer hump2;
-    private ModelRenderer tail;
-    private ModelRenderer chestRight;
-    private ModelRenderer chestLeft;
-    public ModelRenderer saddle1;
-    public ModelRenderer saddle2;
+public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
+    private final ModelRenderer headModel;
+    private final ModelRenderer body;
+    private final ModelRenderer legBackRight;
+    private final ModelRenderer legBackLeft;
+    private final ModelRenderer legFrontRight;
+    private final ModelRenderer legFrontLeft;
+    private final ModelRenderer neckheadModelLower;
+    private final ModelRenderer snout;
+    private final ModelRenderer earRight;
+    private final ModelRenderer earLeft;
+    private final ModelRenderer hump1;
+    private final ModelRenderer hump2;
+    private final ModelRenderer tail;
+    private final ModelRenderer chestRight;
+    private final ModelRenderer chestLeft;
+    public final ModelRenderer saddle1;
+    public final ModelRenderer saddle2;
 
     public CamelModel() {
         this.textureWidth = 128;

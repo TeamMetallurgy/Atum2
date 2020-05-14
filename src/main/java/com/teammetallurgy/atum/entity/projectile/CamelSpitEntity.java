@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.projectile.LlamaSpitEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.*;
@@ -14,6 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -21,6 +24,10 @@ import java.util.UUID;
 public class CamelSpitEntity extends LlamaSpitEntity {
     private CamelEntity owner;
     private CompoundNBT ownerNbt;
+
+    public CamelSpitEntity(FMLPlayMessages.SpawnEntity spawnPacket, World world) {
+        this(AtumEntities.CAMEL_SPIT, world);
+    }
 
     public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, World world) {
         super(entityType, world);
@@ -41,6 +48,12 @@ public class CamelSpitEntity extends LlamaSpitEntity {
             world.addParticle(ParticleTypes.SPIT, x, y, z, xSpeed * d0, ySpeed, zSpeed * d0);
         }
         this.setMotion(xSpeed, ySpeed, zSpeed);
+    }
+
+    @Override
+    @Nonnull
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override

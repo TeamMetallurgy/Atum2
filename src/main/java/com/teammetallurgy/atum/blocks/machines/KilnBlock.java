@@ -58,7 +58,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) { //TODO Test if works same as breakBlock did'
+    public void onReplaced(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (newState.getBlock() != state.getBlock()) {
             if (state.get(MULTIBLOCK_PRIMARY)) {
                 this.destroyMultiblock(world, pos, state.get(FACING));

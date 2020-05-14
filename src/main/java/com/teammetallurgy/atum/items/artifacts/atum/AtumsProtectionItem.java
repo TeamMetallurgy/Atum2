@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.atum;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AtumShieldItem;
@@ -29,7 +28,7 @@ public class AtumsProtectionItem extends AtumShieldItem {
     private static boolean isBlocking = false;
 
     public AtumsProtectionItem() {
-        super(500, new Item.Properties().rarity(Rarity.RARE).setISTER(() -> ItemStackRenderer::new));
+        super(500, new Item.Properties().rarity(Rarity.RARE));
         this.setRepairItem(Items.DIAMOND);
     }
 

@@ -282,7 +282,6 @@ public class AtumRegistry {
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
         }
-        AtumItems.setItemInfo();
     }
 
     @SubscribeEvent
@@ -318,7 +317,6 @@ public class AtumRegistry {
             event.getRegistry().register(entityType);
         }
         AtumEntities.registerSpawnPlacement();
-        //EntityRegistry.instance().lookupModSpawn(EntityCamelSpit.class, true).setCustomSpawning(null, true); //TODO Check if this is needed
     }
 
     @SubscribeEvent

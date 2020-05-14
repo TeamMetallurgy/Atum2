@@ -30,7 +30,7 @@ public class TileChestRender extends ChestTileEntityRenderer<ChestBaseTileEntity
 
     @Override
     @Nonnull
-    protected Material getMaterial(ChestBaseTileEntity chest, @Nonnull ChestType chestType) {
+    protected Material getMaterial(@Nonnull ChestBaseTileEntity chest, @Nonnull ChestType chestType) {
         return getChestMaterial(chestType, LIMESTONE_CHEST, LIMESTONE_CHEST_LEFT, LIMESTONE_CHEST_RIGHT);
     }
 

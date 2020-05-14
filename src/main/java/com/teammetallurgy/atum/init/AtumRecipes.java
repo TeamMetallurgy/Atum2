@@ -35,7 +35,7 @@ public class AtumRecipes {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.WOLF_PELT), Potions.SWIFTNESS);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.OPHIDIAN_TONGUE_FLOWER), Potions.POISON);
 
-        //Anput's Fingers //TODO Check if this is needed anymore, due to it being Tagged by Forge now
+        //Anput's Fingers
         Ingredient cropNetherWart = Ingredient.fromTag(Tags.Items.CROPS_NETHER_WART);
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER), cropNetherWart, addPotionToItemStack(new ItemStack(Items.POTION), Potions.AWKWARD));
         addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.WATER), cropNetherWart, addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.AWKWARD));

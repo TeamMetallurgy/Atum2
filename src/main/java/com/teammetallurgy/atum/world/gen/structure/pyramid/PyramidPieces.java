@@ -281,7 +281,7 @@ public class PyramidPieces {
         }
 
         @Override
-        public boolean func_225577_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random random, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random random, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
             this.addMaze(world, random, box);
             return true;
         }

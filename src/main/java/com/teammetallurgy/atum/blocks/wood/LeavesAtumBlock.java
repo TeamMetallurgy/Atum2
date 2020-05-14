@@ -18,7 +18,7 @@ public class LeavesAtumBlock extends LeavesBlock {
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, Random random) { //TODO Check if leaves stays when they should
+    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
         if (!state.get(PERSISTENT) && state.get(DISTANCE) >= 3) {
             spawnDrops(state, world, pos);
             world.removeBlock(pos, false);

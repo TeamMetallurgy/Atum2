@@ -56,7 +56,7 @@ public class KilnFakeBlock extends ContainerBlock {
     }
 
     @Override
-    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) { //TODO Test if work the same as breakBlock
+    public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         BlockPos primaryPos = this.getPrimaryKilnBlock(world, pos);
         if (primaryPos != null) {
             BlockState primaryState = world.getBlockState(primaryPos);

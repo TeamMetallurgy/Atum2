@@ -61,7 +61,7 @@ public class AnubisWrathItem extends SwordItem {
                 return (float) getTier(stack);
             }
         });
-        int tier = getTier(new ItemStack(this)); //TODO test
+        int tier = getTier(new ItemStack(this));
         this.attackDamage = tier == 3 ? 9.0F : tier + 5.0F;
     }
 

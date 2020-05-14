@@ -34,6 +34,7 @@ public class AtumParticles {
     public static final BasicParticleType TAR = registerParticle("tar");
     public static final BasicParticleType TEFNUT = registerParticle("tefnut");
     public static final BasicParticleType TEFNUT_DROP = registerParticle("tefnut_drop");
+    public static final BasicParticleType EMPTY = registerParticle("empty");
 
     @SubscribeEvent
     public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {

@@ -5,7 +5,11 @@ import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import net.minecraft.block.*;
+import com.teammetallurgy.atum.init.AtumStructurePieces;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.RailBlock;
+import net.minecraft.block.WallTorchBlock;
 import net.minecraft.entity.item.minecart.ChestMinecartEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -76,7 +80,7 @@ public class AtumMineshaftPieces {
         private final int sectionCount;
 
         public Corridor(TemplateManager manager, CompoundNBT nbt) {
-            super(IStructurePieceType.MSCORRIDOR, nbt);
+            super(AtumStructurePieces.MINESHAFT_CORRIDOR, nbt);
             this.hasRails = nbt.getBoolean("hr");
             this.hasTarantula = nbt.getBoolean("sc");
             this.spawnerPlaced = nbt.getBoolean("hps");
@@ -93,7 +97,7 @@ public class AtumMineshaftPieces {
         }
 
         public Corridor(int componentType, Random rand, MutableBoundingBox box, Direction direction, AtumMineshaftStructure.Type type) {
-            super(IStructurePieceType.MSCORRIDOR, componentType, type);
+            super(AtumStructurePieces.MINESHAFT_CORRIDOR, componentType, type);
             this.setCoordBaseMode(direction);
             this.boundingBox = box;
             this.hasRails = rand.nextInt(3) == 0;
@@ -136,7 +140,7 @@ public class AtumMineshaftPieces {
             }
             return i > 0 ? box : null;
         }
-        
+
         @Override
         public void buildComponent(@Nonnull StructurePiece component, @Nonnull List<StructurePiece> list, Random rand) {
             int i = this.getComponentType();
@@ -223,7 +227,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean func_225577_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {
@@ -291,12 +295,12 @@ public class AtumMineshaftPieces {
                 }
 
                 if (this.hasRails) {
-                    BlockState fenceState = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.NORTH_SOUTH);
+                    BlockState railState = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, RailShape.NORTH_SOUTH);
                     for (int j3 = 0; j3 <= i1; ++j3) {
                         BlockState blockstate2 = this.getBlockStateFromPos(world, 1, -1, j3, box);
                         if (!blockstate2.isAir() && blockstate2.isOpaqueCube(world, new BlockPos(this.getXWithOffset(1, j3), this.getYWithOffset(-1), this.getZWithOffset(1, j3)))) {
                             float f = this.getSkyBrightness(world, 1, 0, j3, box) ? 0.7F : 0.9F;
-                            this.randomlyPlaceBlock(world, box, rand, f, 1, 0, j3, fenceState);
+                            this.randomlyPlaceBlock(world, box, rand, f, 1, 0, j3, railState);
                         }
                     }
                 }
@@ -309,8 +313,8 @@ public class AtumMineshaftPieces {
                 BlockState plankState = this.getPlanksBlock();
                 BlockState fenceState = this.getFenceBlock();
                 BlockState torchState = this.getTorchBlock();
-                this.fillWithBlocks(world, box, x, yMin, zMin, x, yMax - 1, zMin, fenceState.with(FenceBlock.WEST, true), CAVE_AIR, false);
-                this.fillWithBlocks(world, box, zMax, yMin, zMin, zMax, yMax - 1, zMin, fenceState.with(FenceBlock.EAST, true), CAVE_AIR, false);
+                this.fillWithBlocks(world, box, x, yMin, zMin, x, yMax - 1, zMin, fenceState, CAVE_AIR, false);
+                this.fillWithBlocks(world, box, zMax, yMin, zMin, zMax, yMax - 1, zMin, fenceState, CAVE_AIR, false);
                 if (rand.nextInt(4) == 0) {
                     this.fillWithBlocks(world, box, x, yMax, zMin, x, yMax, zMin, plankState, CAVE_AIR, false);
                     this.fillWithBlocks(world, box, zMax, yMax, zMin, zMax, yMax, zMin, plankState, CAVE_AIR, false);
@@ -334,7 +338,7 @@ public class AtumMineshaftPieces {
         private final boolean isMultipleFloors;
 
         public Cross(TemplateManager manager, CompoundNBT nbt) {
-            super(IStructurePieceType.MSCROSSING, nbt);
+            super(AtumStructurePieces.MINESHAFT_CROSSING, nbt);
             this.isMultipleFloors = nbt.getBoolean("tf");
             this.corridorDirection = Direction.byHorizontalIndex(nbt.getInt("D"));
         }
@@ -347,7 +351,7 @@ public class AtumMineshaftPieces {
         }
 
         public Cross(int componentType, MutableBoundingBox box, @Nullable Direction direction, AtumMineshaftStructure.Type type) {
-            super(IStructurePieceType.MSCROSSING, componentType, type);
+            super(AtumStructurePieces.MINESHAFT_CROSSING, componentType, type);
             this.corridorDirection = direction;
             this.boundingBox = box;
             this.isMultipleFloors = box.getYSize() > 3;
@@ -431,7 +435,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean func_225577_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {
@@ -538,13 +542,13 @@ public class AtumMineshaftPieces {
         private final List<MutableBoundingBox> connectedRooms = Lists.newLinkedList();
 
         public Room(int componentType, Random rand, int x, int z, AtumMineshaftStructure.Type type) {
-            super(IStructurePieceType.MSROOM, componentType, type);
+            super(AtumStructurePieces.MINESHAFT_ROOM, componentType, type);
             this.mineShaftType = type;
             this.boundingBox = new MutableBoundingBox(x, 50, z, x + 7 + rand.nextInt(6), 54 + rand.nextInt(6), z + 7 + rand.nextInt(6));
         }
 
         public Room(TemplateManager manager, CompoundNBT nbt) {
-            super(IStructurePieceType.MSROOM, nbt);
+            super(AtumStructurePieces.MINESHAFT_ROOM, nbt);
             ListNBT listnbt = nbt.getList("Entrances", 11);
 
             for (int i = 0; i < listnbt.size(); ++i) {
@@ -616,7 +620,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean func_225577_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {
@@ -656,14 +660,14 @@ public class AtumMineshaftPieces {
 
     public static class Stairs extends Piece {
 
-        public Stairs(int p_i50449_1_, MutableBoundingBox box, Direction direction, AtumMineshaftStructure.Type type) {
-            super(IStructurePieceType.MSSTAIRS, p_i50449_1_, type);
+        public Stairs(int componentType, MutableBoundingBox box, Direction direction, AtumMineshaftStructure.Type type) {
+            super(AtumStructurePieces.MINESHAFT_STAIRS, componentType, type);
             this.setCoordBaseMode(direction);
             this.boundingBox = box;
         }
 
         public Stairs(TemplateManager manager, CompoundNBT nbt) {
-            super(IStructurePieceType.MSSTAIRS, nbt);
+            super(AtumStructurePieces.MINESHAFT_STAIRS, nbt);
         }
 
         public static MutableBoundingBox findStairs(List<StructurePiece> list, Random rand, int x, int y, int z, Direction facing) {
@@ -713,7 +717,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean func_225577_a_(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {

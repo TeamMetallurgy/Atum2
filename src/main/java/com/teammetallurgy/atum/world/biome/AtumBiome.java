@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
@@ -129,6 +130,7 @@ public class AtumBiome extends Biome {
         return this != AtumBiomes.OASIS
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
                 && stateDown.isSolidSide(world, pos, Direction.UP)
+                && stateDown.getBlock().isIn(BlockTags.LEAVES)
                 && !(stateDown.getBlock() instanceof SandLayersBlock)
                 && !(world.getBlockState(pos).getBlock() instanceof SandLayersBlock);
     }

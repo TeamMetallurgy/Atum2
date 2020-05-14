@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +25,7 @@ public class AtumShieldItem extends Item {
     }
 
     public AtumShieldItem(int maxDamage, Item.Properties properties) {
-        super(properties.defaultMaxDamage(maxDamage).group(Atum.GROUP));
+        super(properties.defaultMaxDamage(maxDamage).group(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
         this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
             @OnlyIn(Dist.CLIENT)
             public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
@@ -52,7 +53,7 @@ public class AtumShieldItem extends Item {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         player.setActiveHand(hand);
         return new ActionResult<>(ActionResultType.SUCCESS, heldStack);

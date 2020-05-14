@@ -30,7 +30,7 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
     }
 
     @Override
-    protected boolean func_225557_a_(@Nonnull IWorldGenerationReader genReader, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull Set<BlockPos> leaves, @Nonnull MutableBoundingBox mutableBox, @Nonnull BaseTreeFeatureConfig config) {
+    protected boolean place(@Nonnull IWorldGenerationReader genReader, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull Set<BlockPos> leaves, @Nonnull MutableBoundingBox mutableBox, @Nonnull BaseTreeFeatureConfig config) {
         if (genReader instanceof WorldGenRegion) {
             WorldGenRegion world = (WorldGenRegion) genReader;
             int baseHeight = rand.nextInt(3) + 5;

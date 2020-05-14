@@ -62,7 +62,7 @@ public class TeleporterAtum implements ITeleporter {
     @Nullable
     public static BlockPattern.PortalInfo placeInExistingPortal(ServerWorld world, @Nonnull BlockPos pos, @Nonnull Vec3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
         PointOfInterestManager poiManager = world.getPointOfInterestManager();
-        poiManager.func_226347_a_(world, pos, 128);
+        poiManager.ensureLoadedAndValid(world, pos, 128);
         List<PointOfInterest> list = poiManager.getInSquare((poi) -> poi == AtumPointsOfInterest.PORTAL, pos, 128, PointOfInterestManager.Status.ANY).collect(Collectors.toList());
         Optional<PointOfInterest> optional = list.stream().min(Comparator.<PointOfInterest>comparingDouble((poi) -> poi.getPos().distanceSq(pos)).thenComparingInt((poi) -> poi.getPos().getY()));
         return optional.map((poi) -> {

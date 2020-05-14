@@ -36,7 +36,7 @@ public class PalmFeature extends AbstractSmallTreeFeature<PalmConfig> { //Based 
     }
 
     @Override
-    protected boolean func_225557_a_(@Nonnull IWorldGenerationReader genReader, Random rand, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull Set<BlockPos> leaves, @Nonnull MutableBoundingBox mutableBox, PalmConfig config) {
+    protected boolean place(@Nonnull IWorldGenerationReader genReader, Random rand, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull Set<BlockPos> leaves, @Nonnull MutableBoundingBox mutableBox, PalmConfig config) {
         int baseHeight = config.baseHeight + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
         int trunkHeight = config.trunkHeight >= 0 ? config.trunkHeight + rand.nextInt(config.trunkHeightRandom + 1) : baseHeight - (config.foliageHeight + rand.nextInt(config.foliageHeightRandom + 1));
         int foliagePlacer = config.foliagePlacer.func_225573_a_(rand, trunkHeight, baseHeight, config);

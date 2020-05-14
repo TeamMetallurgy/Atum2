@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.blocks.beacon.HeartOfRaBlock;
-import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anput.AnputsHungerItem;
@@ -80,8 +79,8 @@ public class AtumItems {
     public static final Item STONEGUARD_GREATSWORD = registerItem(new GreatswordItem(AtumMats.KHNUMITE), "stoneguard_greatsword");
     public static final Item STONEGUARD_CLUB = registerItem(new ClubItem(AtumMats.KHNUMITE), "stoneguard_club");
     public static final Item STONEGUARD_KHOPESH = registerItem(new KhopeshItem(AtumMats.KHNUMITE), "stoneguard_khopesh");
-    public static final Item STONEGUARD_SHIELD = registerItem(new AtumShieldItem(90, new Item.Properties().setISTER(() -> ItemStackRenderer::new)).setRepairItem(KHNUMITE), "stoneguard_shield");
-    public static final Item BRIGAND_SHIELD = registerItem(new AtumShieldItem(150, new Item.Properties().setISTER(() -> ItemStackRenderer::new)), "brigand_shield");
+    public static final Item STONEGUARD_SHIELD = registerItem(new AtumShieldItem(90).setRepairItem(KHNUMITE), "stoneguard_shield");
+    public static final Item BRIGAND_SHIELD = registerItem(new AtumShieldItem(150), "brigand_shield");
     public static final Item SCEPTER_ANPUT = registerScepter(PharaohEntity.God.ANPUT);
     public static final Item SCEPTER_ANUBIS = registerScepter(PharaohEntity.God.ANUBIS);
     public static final Item SCEPTER_ATUM = registerScepter(PharaohEntity.God.ATUM);
@@ -167,7 +166,7 @@ public class AtumItems {
     public static final Item LINEN_BANDAGE = registerItem(new LinenBandageItem(), "linen_bandage");
     public static final Item LINEN_THREAD = registerItem(new SimpleItem(), "linen_thread");
     public static final Item LINEN_CLOTH = registerItem(new SimpleItem(), "linen_cloth");
-    public static final Item PAPYRUS_PLANT = registerItem(new BlockItem(AtumBlocks.PAPYRUS, new Item.Properties().group(Atum.GROUP)), "papyrus_plant"); //TODO Check if stuff works properly
+    public static final Item PAPYRUS_PLANT = registerItem(new BlockItem(AtumBlocks.PAPYRUS, new Item.Properties().group(Atum.GROUP)), "papyrus_plant");
     public static final Item FLAX_SEEDS = registerItem(new BlockNamedItem(AtumBlocks.FLAX, new Item.Properties().group(Atum.GROUP)), "flax_seeds");
     public static final Item FLAX = registerItem(new SimpleItem(), "flax");
     public static final Item OPHIDIAN_TONGUE_FLOWER = registerItem(new SimpleItem(), "ophidian_tongue_flower");
@@ -196,10 +195,9 @@ public class AtumItems {
     public static final Item CRUNCHY_GOLD_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_GOLD_SCARAB)), "crunchy_golden_scarab");
 
     public static void setItemInfo() {
-        //OreDictHelper.add(SCROLL, "paper"); //TODO
         //OreDictHelper.add(EMMER_DOUGH, "foodDough"); //TODO
         //OreDictHelper.add(new ItemStack(EMMER_BREAD), "foodBread", "bread"); //TODO
-        //OreDictHelper.add(EMMER_FLOUR, "foodFlour");
+        //OreDictHelper.add(EMMER_FLOUR, "foodFlour"); //TODO
     }
 
     public static class AtumFoods {

@@ -58,7 +58,7 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_225558_a_(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
+    public boolean canBeGenerated(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
         ChunkPos chunkpos = this.getStartPositionForPosition(generator, rand, chunkX, chunkZ, 0, 0);
         if (chunkX == chunkpos.x && chunkZ == chunkpos.z) {
             if (!generator.hasStructure(biome, this)) {
