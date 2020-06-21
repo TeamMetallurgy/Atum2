@@ -80,7 +80,7 @@ public class SarcophagusRender extends TileEntityRenderer<SarcophagusTileEntity>
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
             TileEntityMerger.ICallbackWrapper<? extends ChestTileEntity> callbackWrapper;
             if (worldNotNull) {
-                callbackWrapper = sarcophagusBlock.func_225536_a_(state, world, sarcophagus.getPos(), true);
+                callbackWrapper = sarcophagusBlock.combine(state, world, sarcophagus.getPos(), true);
             } else {
                 callbackWrapper = TileEntityMerger.ICallback::func_225537_b_;
             }

@@ -21,7 +21,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
-    private CustomRangedBowAttackGoal<NomadEntity> aiArrowAttack = new CustomRangedBowAttackGoal<>(this, 0.75D, 35, 12.0F);
+    private final CustomRangedBowAttackGoal<NomadEntity> aiArrowAttack = new CustomRangedBowAttackGoal<>(this, 0.75D, 35, 12.0F);
     private final MeleeAttackGoal aiAttackOnCollide = new MeleeAttackGoal(this, 1.0D, false) {
         @Override
         public void resetTask() {

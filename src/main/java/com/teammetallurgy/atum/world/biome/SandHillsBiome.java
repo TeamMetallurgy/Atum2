@@ -8,7 +8,7 @@ public class SandHillsBiome extends AtumBiome {
         super(new Builder("sand_hills", 10).setBaseHeight(0.3F).setHeightVariation(0.3F));
         super.addDefaultSpawns(this);
         super.addDesertWolfSpawning(this);
-        AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.6F, 1);
+        AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.08F, 1);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addMaterialPockets(this);

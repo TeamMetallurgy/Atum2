@@ -77,7 +77,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
     @Override
     public int getSize() {
-        return 4;
+        return 9;
     }
 
     /*@SubscribeEvent

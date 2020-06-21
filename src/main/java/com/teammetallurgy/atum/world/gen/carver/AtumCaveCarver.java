@@ -24,7 +24,7 @@ public class AtumCaveCarver extends AtumCarver<ProbabilityConfig> { //Copied fro
     }
 
     @Override
-    public boolean func_225555_a_(@Nonnull IChunk chunk, @Nonnull Function<BlockPos, Biome> biomePos, Random rand, int i2, int i3, int i4, int i5, int i6, @Nonnull BitSet bitset, @Nonnull ProbabilityConfig config) {
+    public boolean carveRegion(@Nonnull IChunk chunk, @Nonnull Function<BlockPos, Biome> biomePos, Random rand, int i2, int i3, int i4, int i5, int i6, @Nonnull BitSet bitset, @Nonnull ProbabilityConfig config) {
         int i = (this.func_222704_c() * 2 - 1) * 16;
         int j = rand.nextInt(rand.nextInt(rand.nextInt(this.func_222724_a()) + 1) + 1);
 

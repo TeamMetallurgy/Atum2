@@ -12,7 +12,7 @@ public class SandPlainsBiome extends AtumBiome {
         super.addCamelSpawning(this);
         this.addStructure(AtumFeatures.GIRAFI_TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
         this.addFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, AtumFeatures.GIRAFI_TOMB.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
-        AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.05F, 1);
+        AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.025F, 1);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
         AtumFeatures.Default.addLavaLakes(this);

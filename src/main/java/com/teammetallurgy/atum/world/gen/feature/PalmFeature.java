@@ -58,7 +58,7 @@ public class PalmFeature extends AbstractSmallTreeFeature<PalmConfig> { //Based 
                 if (h >= height && i1 > 0) {
                     --i1;
                 }
-                if (this.func_227216_a_(genReader, rand, mutablePos.setPos(x, treeHeight, z), logs, mutableBox, config)) {
+                if (this.setLog(genReader, rand, mutablePos.setPos(x, treeHeight, z), logs, mutableBox, config)) {
                     y = treeHeight;
                 }
             }

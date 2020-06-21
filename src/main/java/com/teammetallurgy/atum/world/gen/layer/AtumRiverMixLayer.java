@@ -16,8 +16,8 @@ public enum AtumRiverMixLayer implements IAreaTransformer2, IDimOffset0Transform
 
     @Override
     public int apply(@Nonnull INoiseRandom noiseRandom, IArea areaX, IArea areaY, int areaWidth, int areaHeight) {
-        int i = areaX.getValue(this.func_215721_a(areaWidth), this.func_215722_b(areaHeight));
-        int j = areaY.getValue(this.func_215721_a(areaWidth), this.func_215722_b(areaHeight));
+        int i = areaX.getValue(this.getOffsetX(areaWidth), this.getOffsetZ(areaHeight));
+        int j = areaY.getValue(this.getOffsetX(areaWidth), this.getOffsetZ(areaHeight));
         if (j == DRIED_RIVER) {
             return Registry.BIOME.getId(Registry.BIOME.getByValue(i).getRiver());
         } else {
