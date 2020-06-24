@@ -81,7 +81,8 @@ public class AtumEntities {
     public static final EntityType<TefnutsCallEntity> TEFNUTS_CALL = registerEntity("tefnuts_call", Builder.<TefnutsCallEntity>create(TefnutsCallEntity::new, EntityClassification.MISC).size(0.5F, 0.5F)
             .setTrackingRange(4)
             .setUpdateInterval(20)
-            .immuneToFire());
+            .immuneToFire()
+            .setCustomClientFactory(TefnutsCallEntity::new));
 
     public static void registerSpawnPlacement() {
         EntitySpawnPlacementRegistry.register(ASSASSIN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);

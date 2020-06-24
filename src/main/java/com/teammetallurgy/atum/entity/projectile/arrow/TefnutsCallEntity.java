@@ -3,43 +3,62 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.LightningBoltEntity;
+import net.minecraft.entity.monster.EndermanEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
-public class TefnutsCallEntity extends TridentEntity { //TODO
+public class TefnutsCallEntity extends AbstractArrowEntity {
+    protected ItemStack thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
+    private boolean dealtDamage;
+    public int returningTicks;
+
+    public TefnutsCallEntity(FMLPlayMessages.SpawnEntity spawnPacket, World world) {
+        this(AtumEntities.TEFNUTS_CALL, world);
+    }
 
     public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, World world) {
         super(entityType, world);
-        this.thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
     }
 
     public TefnutsCallEntity(World world, LivingEntity shooter, @Nonnull ItemStack stack) {
-        this(AtumEntities.TEFNUTS_CALL, world);
-        this.setPosition(shooter.getPosX(), shooter.getPosYEye() - (double) 0.1F, shooter.getPosZ());
-        this.thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
+        super(AtumEntities.TEFNUTS_CALL, shooter, world);
         this.thrownStack = stack.copy();
-        this.setShooter(shooter);
-        if (shooter instanceof PlayerEntity) {
-            this.pickupStatus = AbstractArrowEntity.PickupStatus.ALLOWED;
-        }
-        this.dataManager.set(LOYALTY_LEVEL, (byte) EnchantmentHelper.getLoyaltyModifier(stack));
-        this.dataManager.set(field_226571_aq_, stack.hasEffect());
     }
 
     @OnlyIn(Dist.CLIENT)
     public TefnutsCallEntity(World world, double x, double y, double z) {
-        this(AtumEntities.TEFNUTS_CALL, world);
-        this.setPosition(x, y, z);
-        this.thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
+        super(AtumEntities.TEFNUTS_CALL, x, y, z, world);
+    }
+
+    @Override
+    @Nonnull
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
@@ -47,19 +66,68 @@ public class TefnutsCallEntity extends TridentEntity { //TODO
         return true;
     }
 
-    /*@Override
-    protected void onHit(RayTraceResult raytraceResult) {
-        Entity entity = raytraceResult.entityHit;
-        if (raytraceResult != null && raytraceResult.entityHit instanceof PlayerEntity) {
-            PlayerEntity entityplayer = (PlayerEntity) raytraceResult.entityHit;
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean canRenderOnFire() {
+        return false;
+    }
 
-            if (this.shootingEntity instanceof PlayerEntity && !((PlayerEntity) this.shootingEntity).canAttackPlayer(entityplayer)) {
-                raytraceResult = null;
-            }
+    @Override
+    @Nonnull
+    protected ItemStack getArrowStack() {
+        return this.thrownStack.copy();
+    }
+
+    @Override
+    @Nullable
+    protected EntityRayTraceResult rayTraceEntities(@Nonnull Vec3d startVec, @Nonnull Vec3d endVec) {
+        return this.dealtDamage ? null : super.rayTraceEntities(startVec, endVec);
+    }
+
+    private boolean shouldReturnToThrower() {
+        Entity entity = this.getShooter();
+        if (entity != null && entity.isAlive()) {
+            return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void tick() {
+        if (this.timeInGround > 4) {
+            this.dealtDamage = true;
         }
 
-        if (raytraceResult != null && entity != null && raytraceResult.getType() == RayTraceResult.Type.ENTITY) {
-            float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
+        Entity entity = this.getShooter();
+        if ((this.dealtDamage || this.getNoClip()) && entity != null) {
+            if (this.shouldReturnToThrower()) {//Always return to valid thrower
+                this.setNoClip(true);
+                Vec3d vec3d = new Vec3d(entity.getPosX() - this.getPosX(), entity.getPosYEye() - this.getPosY(), entity.getPosZ() - this.getPosZ());
+                this.setRawPosition(this.getPosX(), this.getPosY() + vec3d.y * 0.015D, this.getPosZ());
+                if (this.world.isRemote) {
+                    this.lastTickPosY = this.getPosY();
+                }
+
+                double d0 = 0.05D;
+                this.setMotion(this.getMotion().scale(0.95D).add(vec3d.normalize().scale(d0)));
+                if (this.returningTicks == 0) {
+                    this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 10.0F, 1.0F);
+                }
+                ++this.returningTicks;
+            }
+        }
+        super.tick();
+    }
+
+    @Override
+    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
+        Entity entity = rayTraceResult.getEntity();
+        Entity shooter = this.getShooter();
+
+        if (shooter != entity) {
+            Vec3d motion = this.getMotion();
+            float f = MathHelper.sqrt(motion.x * motion.x + motion.y * motion.y + motion.z * motion.z);
             int i = MathHelper.ceil((double) f * this.getDamage());
             if (this.getIsCritical()) {
                 i += this.rand.nextInt(i / 2 + 2);
@@ -67,44 +135,84 @@ public class TefnutsCallEntity extends TridentEntity { //TODO
 
             DamageSource damagesource;
 
-            if (this.shootingEntity == null) {
+            if (shooter == null) {
                 damagesource = DamageSource.causeArrowDamage(this, this);
             } else {
-                damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
+                damagesource = DamageSource.causeArrowDamage(this, shooter);
             }
 
-            if (this.isBurning() && !(entity instanceof EntityEnderman)) {
+            if (this.isBurning() && !(entity instanceof EndermanEntity)) {
                 entity.setFire(5);
             }
 
             if (entity.attackEntityFrom(damagesource, (float) i)) {
                 if (entity instanceof LivingEntity) {
-                    LivingEntity entitylivingbase = (LivingEntity) entity;
+                    LivingEntity livingEntity = (LivingEntity) entity;
 
-                    if (!this.world.isRemote) {
-                        entitylivingbase.setArrowCountInEntity(entitylivingbase.getArrowCountInEntity() + 1);
+                    if (shooter instanceof LivingEntity) {
+                        EnchantmentHelper.applyThornEnchantments(livingEntity, shooter);
+                        EnchantmentHelper.applyArthropodEnchantments((LivingEntity) shooter, livingEntity);
                     }
 
-                    if (this.shootingEntity instanceof LivingEntity) {
-                        EnchantmentHelper.applyThornEnchantments(entitylivingbase, this.shootingEntity);
-                        EnchantmentHelper.applyArthropodEnchantments((LivingEntity) this.shootingEntity, entitylivingbase);
-                    }
+                    this.arrowHit(livingEntity);
 
-                    this.arrowHit(entitylivingbase);
-
-                    if (this.shootingEntity != null && entitylivingbase != this.shootingEntity && entitylivingbase instanceof PlayerEntity && this.shootingEntity instanceof ServerPlayerEntity) {
-                        ((ServerPlayerEntity) this.shootingEntity).connection.sendPacket(new SPacketChangeGameState(6, 0.0F));
+                    if (livingEntity != shooter && livingEntity instanceof PlayerEntity && shooter instanceof ServerPlayerEntity) {
+                        ((ServerPlayerEntity) shooter).connection.sendPacket(new SChangeGameStatePacket(6, 0.0F));
                     }
                 }
-                this.world.addWeatherEffect(new EntityLightningBolt(world, getPosX(), getPosY(), getPosZ(), false));
+                if (this.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) this.world;
+                    BlockPos entityPos = this.getPosition();
+                    if (this.world.canSeeSky(entityPos)) {
+                        LightningBoltEntity lightningBolt = new LightningBoltEntity(this.world, (double) entityPos.getX() + 0.5D, entityPos.getY(), (double) entityPos.getZ() + 0.5D, false);
+                        lightningBolt.setCaster(shooter instanceof ServerPlayerEntity ? (ServerPlayerEntity) shooter : null);
+                        serverWorld.addLightningBolt(lightningBolt);
+                    }
+                }
+                this.playSound(SoundEvents.ITEM_TRIDENT_THUNDER, 4.0F, 1.0F);
             }
         }
-        super.onHit(raytraceResult);
-    }*/
+    }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean canRenderOnFire() {
-        return false;
+    @Nonnull
+    protected SoundEvent getHitEntitySound() {
+        return SoundEvents.ITEM_TRIDENT_HIT_GROUND;
+    }
+
+    @Override
+    public void onCollideWithPlayer(@Nonnull PlayerEntity player) {
+        Entity entity = this.getShooter();
+        if (entity == null || entity.getUniqueID() == player.getUniqueID()) {
+            super.onCollideWithPlayer(player);
+        }
+    }
+
+    @Override
+    public void readAdditional(@Nonnull CompoundNBT compound) {
+        super.readAdditional(compound);
+        if (compound.contains("TefnutsCall", 10)) {
+            this.thrownStack = ItemStack.read(compound.getCompound("TefnutsCall"));
+        }
+        this.dealtDamage = compound.getBoolean("DealtDamage");
+    }
+
+    @Override
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.put("TefnutsCall", this.thrownStack.write(new CompoundNBT()));
+        compound.putBoolean("DealtDamage", this.dealtDamage);
+    }
+
+    @Override
+    public void func_225516_i_() {
+        if (this.pickupStatus != AbstractArrowEntity.PickupStatus.ALLOWED) {
+            super.func_225516_i_();
+        }
+    }
+
+    @Override
+    public boolean isInRangeToRender3d(double x, double y, double z) {
+        return true;
     }
 }

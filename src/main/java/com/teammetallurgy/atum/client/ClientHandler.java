@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.client.model.entity.ForsakenModel;
 import com.teammetallurgy.atum.client.model.entity.MonsterModel;
 import com.teammetallurgy.atum.client.model.entity.NomadModel;
 import com.teammetallurgy.atum.client.render.entity.HeartOfRaRender;
+import com.teammetallurgy.atum.client.render.entity.TefnutsCallRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
@@ -30,7 +31,6 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.client.renderer.entity.TridentRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.util.ResourceLocation;
@@ -217,7 +217,7 @@ public class ClientHandler {
         }
         ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SMALL_BONE, manager -> new SpriteRenderer<>(manager, itemRenderer, 0.35F, true));
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TEFNUTS_CALL, TridentRenderer::new); //TODO
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TEFNUTS_CALL, TefnutsCallRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.HEART_OF_RA, HeartOfRaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL_SPIT, LlamaSpitRenderer::new);
     }
