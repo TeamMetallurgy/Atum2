@@ -38,7 +38,7 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
     private static final AtumsProtectionModel ATUMS_PROTECTION = new AtumsProtectionModel();
     private static final BrigandShieldModel BRIGAND_SHIELD = new BrigandShieldModel();
     private static final StoneguardShieldModel STONEGUARD_SHIELD = new StoneguardShieldModel();
-    private static final TridentModel trident = new TridentModel();
+    private final TridentModel trident = new TridentModel();
 
     @Override
     public void render(@Nonnull ItemStack stack, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {

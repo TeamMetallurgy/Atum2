@@ -59,7 +59,7 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
                     return false;
                 } else {
                     IWorld world = ((AtumChunkGenerator) generator).getWorld();
-                    //TODO Fix isStructureInChunk, causes the world to freeze on creation
+                    //TODO Fix isStructureInChunk, causes the world ot freeze on creation
                     //boolean collidesWithStructure = StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.GIRAFI_TOMB) || StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.PYRAMID);
                     int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null);
                     return /*!collidesWithStructure &&*/ y > 60 && y < 85;

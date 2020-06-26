@@ -1,0 +1,7 @@
+{
+  "parent": "forge:item/default",
+  "loader": "forge:item-layers",
+  "textures": {
+    "layer0": "atum:item/tefnuts_call"
+  }
+}

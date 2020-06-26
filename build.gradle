@@ -38,7 +38,7 @@ archivesBaseName = "Atum"
 
 minecraft {
     mappings channel: 'snapshot', version: project.mappings
-	accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
@@ -88,8 +88,8 @@ jar {
 }
 
 task apiJar(type: Jar) {
-	from sourceSets.main.allSource
-	from sourceSets.main.output
+    from sourceSets.main.allSource
+    from sourceSets.main.output
     include 'com/teammetallurgy/atum/api/**/*'
     classifier = 'api'
 }
@@ -100,7 +100,7 @@ publishing {
         mavenJava(MavenPublication) {
             artifactId "atum2_${minecraft_version}"
             artifact jar
-			artifact apiJar
+            artifact apiJar
         }
     }
     repositories {

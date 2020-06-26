@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
 import com.teammetallurgy.atum.client.gui.entity.CamelScreen;
+import com.teammetallurgy.atum.client.model.SeparatePerspectiveModel;
 import com.teammetallurgy.atum.client.model.entity.BonestormModel;
 import com.teammetallurgy.atum.client.model.entity.ForsakenModel;
 import com.teammetallurgy.atum.client.model.entity.MonsterModel;
@@ -39,6 +40,7 @@ import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -54,6 +56,7 @@ public class ClientHandler {
     private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
 
     public static void init() {
+        ModelLoaderRegistry.registerLoader(new ResourceLocation(Atum.MOD_ID, "separate_perspective"), SeparatePerspectiveModel.Loader.INSTANCE);
         //Screens
         ScreenManager.registerFactory(AtumGuis.ALPHA_DESERT_WOLF, AlphaDesertWolfScreen::new);
         ScreenManager.registerFactory(AtumGuis.CAMEL, CamelScreen::new);

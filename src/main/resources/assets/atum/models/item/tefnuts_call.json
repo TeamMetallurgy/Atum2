@@ -1,6 +1,18 @@
 {
   "parent": "item/generated",
-  "textures": {
-    "layer0": "atum:item/tefnuts_call"
+  "loader":"atum:separate_perspective",
+  "base": {
+    "parent": "atum:item/tefnuts_call_in_hand"
+  },
+  "perspectives": {
+    "gui": {
+      "parent": "atum:item/tefnuts_call_gui"
+    },
+    "ground": {
+      "parent": "atum:item/tefnuts_call_gui"
+    },
+    "fixed": {
+      "parent": "atum:item/tefnuts_call_gui"
+    }
   }
 }
