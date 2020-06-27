@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.gen.structure.ruins;
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.ResourceLocation;
@@ -58,11 +59,8 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
                 if (!generator.hasStructure(biome, this)) {
                     return false;
                 } else {
-                    IWorld world = ((AtumChunkGenerator) generator).getWorld();
-                    //TODO Fix isStructureInChunk, causes the world ot freeze on creation
-                    //boolean collidesWithStructure = StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.GIRAFI_TOMB) || StructureHelper.isStructureInChunk(world, chunkX, chunkZ, AtumFeatures.PYRAMID);
                     int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null);
-                    return /*!collidesWithStructure &&*/ y > 60 && y < 85;
+                    return y > 60 && y < 85;
                 }
             } else {
                 return false;
@@ -110,31 +108,35 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void generateStructure(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.generateStructure(world, generator, rand, box, chunkPos);
-            int y = this.bounds.minY;
+            boolean doesChunkHaveStructure = StructureHelper.doesChunkHaveStructure(world, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID) || StructureHelper.doesChunkHaveStructure(world, chunkPos.x, chunkPos.z, AtumFeatures.GIRAFI_TOMB);
 
-            for (int x = box.minX; x <= box.maxX; ++x) {
-                for (int z = box.minZ; z <= box.maxZ; ++z) {
-                    BlockPos pos = new BlockPos(x, y, z);
+            if (!doesChunkHaveStructure) {
+                super.generateStructure(world, generator, rand, box, chunkPos);
+                int y = this.bounds.minY;
 
-                    if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
-                        boolean isVecInside = false;
+                for (int x = box.minX; x <= box.maxX; ++x) {
+                    for (int z = box.minZ; z <= box.maxZ; ++z) {
+                        BlockPos pos = new BlockPos(x, y, z);
 
-                        for (StructurePiece piece : this.components) {
-                            if (piece.getBoundingBox().isVecInside(pos)) {
-                                isVecInside = true;
-                                break;
-                            }
-                        }
+                        if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                            boolean isVecInside = false;
 
-                        if (isVecInside) {
-                            for (int ruinY = y - 1; ruinY > 1; --ruinY) {
-                                BlockPos tombPos = new BlockPos(x, ruinY, z);
-
-                                if (!world.isAirBlock(tombPos) && !world.getBlockState(tombPos).getMaterial().isLiquid()) {
+                            for (StructurePiece piece : this.components) {
+                                if (piece.getBoundingBox().isVecInside(pos)) {
+                                    isVecInside = true;
                                     break;
                                 }
-                                world.setBlockState(tombPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                            }
+
+                            if (isVecInside) {
+                                for (int ruinY = y - 1; ruinY > 1; --ruinY) {
+                                    BlockPos tombPos = new BlockPos(x, ruinY, z);
+
+                                    if (!world.isAirBlock(tombPos) && !world.getBlockState(tombPos).getMaterial().isLiquid()) {
+                                        break;
+                                    }
+                                    world.setBlockState(tombPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                                }
                             }
                         }
                     }

@@ -53,8 +53,6 @@ public class SeparatePerspectiveModel implements IModelGeometry<SeparatePerspect
         for (BlockModel model : this.perspectives.values()) {
             textures.addAll(model.getTextures(modelGetter, missingTextureErrors));
         }
-        //textures.remove(new Material(PlayerContainer.LOCATION_BLOCKS_TEXTURE, new ResourceLocation("missingno")));
-        //System.out.println("all textures : " + textures);
         return textures;
     }
 

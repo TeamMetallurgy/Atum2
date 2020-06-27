@@ -44,7 +44,7 @@ public class TeleporterAtumStart implements ITeleporter {
                 entity.moveForced(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
             }
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
-                spawnPos = spawnPos.add(8, 0, 8);
+                spawnPos = spawnPos.add(4, 0, 4);
             }
             if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
                 ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
