@@ -20,7 +20,7 @@ repositories {
   }
   maven {
     name = "Hwyla"
-    url = "https://tehnut.info/maven"
+    url = "https://maven.tehnut.info"
   }
   maven { 
     name = "CraftTweaker2"
