@@ -57,13 +57,13 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
         this.setCombatTask();
 
@@ -105,13 +105,13 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         this.setCombatTask();
     }
 
     @Override
-    public void setItemStackToSlot(EquipmentSlotType slot, @Nonnull ItemStack stack) {
+    public void setItemStackToSlot(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
         super.setItemStackToSlot(slot, stack);
         if (!this.world.isRemote) {
             this.setCombatTask();

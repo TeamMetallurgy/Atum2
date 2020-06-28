@@ -64,7 +64,7 @@ public class RuinPieces {
         protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("Spawner")) {
                 if (box.isVecInside(pos)) {
-                    world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
+                    world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2); //TODO Fix not spawning
 
                     TileEntity tileEntity = world.getTileEntity(pos);
                     if (tileEntity instanceof MobSpawnerTileEntity) {

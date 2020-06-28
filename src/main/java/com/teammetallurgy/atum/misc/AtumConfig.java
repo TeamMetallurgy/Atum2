@@ -17,6 +17,7 @@ public class AtumConfig {
     public static final Sandstorm SANDSTORM = new Sandstorm(BUILDER);
     public static final WorldGen WORLD_GEN = new WorldGen(BUILDER);
     public static final Biome BIOME = new Biome(BUILDER);
+    public static final Mobs MOBS = new Mobs(BUILDER);
 
     public static class General {
         public static final String GENERAL = "general";
@@ -161,14 +162,22 @@ public class AtumConfig {
         public ForgeConfigSpec.IntValue max;
         public ForgeConfigSpec.IntValue weight;
 
+        public ForgeConfigSpec.IntValue banditPatrolFrequency;
+
+        public Mobs(ForgeConfigSpec.Builder builder) {
+            builder.push(MOBS);
+            this.banditPatrolFrequency = builder.comment("How frequent Bandit patrols are. The higher the number, the less patrols will spawn").defineInRange("banditPatrolFrequency", 300, -1, 10000);
+            builder.pop();
+        }
+
         public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, EntityClassification classification, net.minecraft.world.biome.Biome biome) {
             ENTITY_CLASSIFICATION.put(entityType, classification);
             ENTITY_TYPE.put(biome, entityType);
             builder.push(MOBS);
             builder.push(mobName);
-            this.min = builder.defineInRange("min", min, -1, 64);
+            this.min = builder.defineInRange("min", min, -1, 63);
             this.max = builder.defineInRange("max", max, 1, 64);
-            this.weight = builder.defineInRange("weight", weight, -1, 100);
+            this.weight = builder.defineInRange("weight", weight, -1, 1000);
             builder.pop(2);
         }
     }

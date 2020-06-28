@@ -104,7 +104,7 @@ public class AssassinEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
     }
 
     @Override
@@ -113,12 +113,12 @@ public class AssassinEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER));
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {

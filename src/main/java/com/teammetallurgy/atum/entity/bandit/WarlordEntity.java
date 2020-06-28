@@ -13,6 +13,8 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
 
+import javax.annotation.Nonnull;
+
 public class WarlordEntity extends BanditBaseEntity {
     private final ServerBossInfo bossInfo = (new ServerBossInfo(this.getDisplayName(), BossInfo.Color.RED, BossInfo.Overlay.PROGRESS));
 
@@ -39,7 +41,7 @@ public class WarlordEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
     }
 
@@ -61,13 +63,13 @@ public class WarlordEntity extends BanditBaseEntity {
     }
 
     @Override
-    public void addTrackingPlayer(ServerPlayerEntity player) {
+    public void addTrackingPlayer(@Nonnull ServerPlayerEntity player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(ServerPlayerEntity player) {
+    public void removeTrackingPlayer(@Nonnull ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }

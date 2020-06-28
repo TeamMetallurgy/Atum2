@@ -14,6 +14,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class BrigandEntity extends BanditBaseEntity {
 
     public BrigandEntity(EntityType<? extends BrigandEntity> entityType, World world) {
@@ -36,13 +38,13 @@ public class BrigandEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
         this.setItemStackToSlot(EquipmentSlotType.OFFHAND, new ItemStack(AtumItems.BRIGAND_SHIELD));
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {

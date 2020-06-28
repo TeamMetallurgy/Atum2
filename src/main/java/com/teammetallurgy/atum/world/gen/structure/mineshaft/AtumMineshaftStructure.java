@@ -3,12 +3,17 @@ package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumFeatures;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
@@ -40,6 +45,16 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
             }
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull AtumMineshaftConfig config) {
+        ChunkPos chunkPos = new ChunkPos(pos);
+        if (StructureHelper.doesChunkHaveStructure(world, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID)) {
+            return false;
+        } else {
+            return super.place(world, generator, rand, pos, config);
         }
     }
 

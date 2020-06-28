@@ -9,6 +9,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class BarbarianEntity extends BanditBaseEntity {
 
     public BarbarianEntity(EntityType<? extends BarbarianEntity> entityType, World world) {
@@ -31,7 +33,7 @@ public class BarbarianEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.GREATSWORD_IRON));
     }
 }

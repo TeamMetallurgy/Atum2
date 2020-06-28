@@ -27,7 +27,7 @@ import java.util.function.Function;
  * Full credit to Gigaherz for this class
  *
  */
-public class SeparatePerspectiveModel implements IModelGeometry<SeparatePerspectiveModel> {
+public class SeparatePerspectiveModel implements IModelGeometry<SeparatePerspectiveModel> { //TODO Remove in 1.16, as Forge have implemented the system
     private final BlockModel baseModel;
     private final ImmutableMap<ItemCameraTransforms.TransformType, BlockModel> perspectives;
 

@@ -10,6 +10,8 @@ import net.minecraft.item.Items;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class SergeantEntity extends BanditBaseEntity {
 
     public SergeantEntity(EntityType<? extends BanditBaseEntity> entityType, World world) {
@@ -42,7 +44,7 @@ public class SergeantEntity extends BanditBaseEntity {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
         this.setItemStackToSlot(EquipmentSlotType.OFFHAND, new ItemStack(Items.SHIELD));
     }

@@ -3,12 +3,14 @@ package com.teammetallurgy.atum.world.spawner;
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumFeatures;
+import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
@@ -23,7 +25,7 @@ public class BanditPatrolSpawner {
     public int tick(ServerWorld serverWorld, boolean spawnHostileMobs) {
         if (!spawnHostileMobs) {
             return 0;
-        } else if (!serverWorld.getGameRules().getBoolean(GameRules.field_230127_D_)) {
+        } else if (AtumConfig.MOBS.banditPatrolFrequency.get() < 1) {
             return 0;
         } else {
             Random rand = serverWorld.rand;
@@ -31,50 +33,43 @@ public class BanditPatrolSpawner {
             if (this.timer > 0) {
                 return 0;
             } else {
-                this.timer += rand.nextInt(250);
+                this.timer += rand.nextInt(AtumConfig.MOBS.banditPatrolFrequency.get());
                 if (serverWorld.isDaytime()) {
-                    if (rand.nextInt(4) != 0) {
+                    int playerAmount = serverWorld.getPlayers().size();
+                    if (playerAmount < 1) {
                         return 0;
                     } else {
-                        int playerAmount = serverWorld.getPlayers().size();
-                        if (playerAmount < 1) {
+                        PlayerEntity player = serverWorld.getPlayers().get(rand.nextInt(playerAmount));
+                        if (player.isSpectator()) {
                             return 0;
                         } else {
-                            PlayerEntity player = serverWorld.getPlayers().get(rand.nextInt(playerAmount));
-                            if (player.isSpectator()) {
-                                return 0;
-                            } else if (serverWorld.isVillage(player.getPosition())) {
+                            int x = (14 + rand.nextInt(14)) * (rand.nextBoolean() ? -1 : 1);
+                            int z = (14 + rand.nextInt(14)) * (rand.nextBoolean() ? -1 : 1);
+                            BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player)).move(x, 0, z);
+                            if (!serverWorld.isAreaLoaded(mutablePos, 6) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos.getX(), mutablePos.getZ(), AtumFeatures.PYRAMID)) {
                                 return 0;
                             } else {
-                                int x = (24 + rand.nextInt(24)) * (rand.nextBoolean() ? -1 : 1);
-                                int z = (24 + rand.nextInt(24)) * (rand.nextBoolean() ? -1 : 1);
-                                BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player)).move(x, 0, z);
-                                if (!serverWorld.isAreaLoaded(mutablePos.getX() - 10, mutablePos.getY() - 10, mutablePos.getZ() - 10, mutablePos.getX() + 10, mutablePos.getY() + 10, mutablePos.getZ() + 10)) {
+                                Biome biome = serverWorld.getBiome(mutablePos);
+                                if (biome == AtumBiomes.DRIED_RIVER || biome == AtumBiomes.OASIS) {
                                     return 0;
                                 } else {
-                                    Biome biome = serverWorld.getBiome(mutablePos);
-                                    if (biome == AtumBiomes.DRIED_RIVER || biome == AtumBiomes.OASIS) {
-                                        return 0;
-                                    } else {
-                                        int amount = 0;
-                                        int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty());
-                                        System.out.println("Successfully spawned patrol at POS: " + mutablePos);
-                                        for (int size = 0; size < difficulty; ++size) {
-                                            EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
-                                            ++amount;
-                                            mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
-                                            if (size == 0) {
-                                                if (!this.spawnPatroller(AtumEntities.SERGEANT, serverWorld, mutablePos, rand, true)) {
-                                                    break;
-                                                }
-                                            } else {
-                                                this.spawnPatroller(entityType, serverWorld, mutablePos, rand, false);
+                                    int amount = 0;
+                                    int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty());
+                                    for (int size = 0; size < difficulty; ++size) {
+                                        EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
+                                        ++amount;
+                                        mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
+                                        if (size == 0) {
+                                            if (!this.spawnPatroller(AtumEntities.SERGEANT, serverWorld, mutablePos, rand, true)) {
+                                                break;
                                             }
-                                            mutablePos.setX(mutablePos.getX() + rand.nextInt(5) - rand.nextInt(5));
-                                            mutablePos.setZ(mutablePos.getZ() + rand.nextInt(5) - rand.nextInt(5));
+                                        } else {
+                                            this.spawnPatroller(entityType, serverWorld, mutablePos, rand, false);
                                         }
-                                        return amount;
+                                        mutablePos.setX(mutablePos.getX() + rand.nextInt(5) - rand.nextInt(5));
+                                        mutablePos.setZ(mutablePos.getZ() + rand.nextInt(5) - rand.nextInt(5));
                                     }
+                                    return amount;
                                 }
                             }
                         }
@@ -119,6 +114,5 @@ public class BanditPatrolSpawner {
         } else {
             return AtumEntities.BARBARIAN;
         }
-        //return chance > 0.86D ? AtumEntities.BARBARIAN: chance > 0.5D ? AtumEntities.NOMAD : AtumEntities.BRIGAND;
     }
 }
