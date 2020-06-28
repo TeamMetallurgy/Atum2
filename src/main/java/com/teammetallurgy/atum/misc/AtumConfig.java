@@ -74,7 +74,7 @@ public class AtumConfig {
                     .define("Sandstorm Enabled", true);
             this.sandstormSandLayerChance = builder.comment("Chance for sandstorms to generate sand layers. The higher the value, the more rare it is. Set to 0 to disable.")
                     .translation("atum.configGui.sandstormsandrarity")
-                    .defineInRange("Sandstorm Sand Layer", 40, 0, 10000);
+                    .defineInRange("Sandstorm Sand Layer", 60, 0, 10000);
             this.sandstormFog = builder.comment("Multiplier to fog during sandstorms")
                     .translation("atum.config.sandstormfog")
                     .defineInRange("Sandstorm Fog", 2, 0, 100);
@@ -102,6 +102,7 @@ public class AtumConfig {
         public final ForgeConfigSpec.BooleanValue ruinsEnabled;
         public final ForgeConfigSpec.IntValue ruinsAmount;
         public final ForgeConfigSpec.IntValue waterLevel;
+        public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
         WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
@@ -120,6 +121,9 @@ public class AtumConfig {
             this.waterLevel = builder.comment("Sets above what Y-level water will vaporize at (Except Oasis). Set to 0 to disable")
                     .translation("atum.config.water_level")
                     .defineInRange("Water Level", 50, 0, 255);
+            this.sandLayerEdge = builder.comment("Should Sand Layers generate along all edges?")
+                    .translation("atum.config.sand_layer_enabled")
+                    .define("Enable Sand Layer along edges", true);
             builder.pop();
         }
     }

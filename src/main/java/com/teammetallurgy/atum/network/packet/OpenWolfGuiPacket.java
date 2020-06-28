@@ -11,7 +11,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import java.util.function.Supplier;
 
 public class OpenWolfGuiPacket {
-	private int wolfID;
+	private final int wolfID;
 
 	public OpenWolfGuiPacket(int wolfID) {
 		this.wolfID = wolfID;

@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
+import com.teammetallurgy.atum.client.model.TefnutsCallModel;
 import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
 import com.teammetallurgy.atum.client.model.shield.AtumsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
@@ -18,7 +19,6 @@ import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.ItemRenderer;
-import net.minecraft.client.renderer.entity.model.TridentModel;
 import net.minecraft.client.renderer.model.Material;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
@@ -38,7 +38,7 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
     private static final AtumsProtectionModel ATUMS_PROTECTION = new AtumsProtectionModel();
     private static final BrigandShieldModel BRIGAND_SHIELD = new BrigandShieldModel();
     private static final StoneguardShieldModel STONEGUARD_SHIELD = new StoneguardShieldModel();
-    private final TridentModel trident = new TridentModel();
+    private final TefnutsCallModel tefnutsCall = new TefnutsCallModel();
 
     @Override
     public void render(@Nonnull ItemStack stack, @Nonnull MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
@@ -62,8 +62,8 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
             } else if (item == AtumItems.TEFNUTS_CALL) {
                 matrixStack.push();
                 matrixStack.scale(1.0F, -1.0F, -1.0F);
-                IVertexBuilder vertexBuilder = ItemRenderer.getBuffer(buffer, this.trident.getRenderType(TridentModel.TEXTURE_LOCATION), false, stack.hasEffect());
-                this.trident.render(matrixStack, vertexBuilder, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
+                IVertexBuilder vertexBuilder = ItemRenderer.getBuffer(buffer, this.tefnutsCall.getRenderType(TefnutsCallModel.TEFNUTS_CALL_TEXTURE), false, stack.hasEffect());
+                this.tefnutsCall.render(matrixStack, vertexBuilder, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
                 matrixStack.pop();
             }
         }

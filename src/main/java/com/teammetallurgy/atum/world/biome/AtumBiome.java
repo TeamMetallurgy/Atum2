@@ -6,10 +6,10 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
@@ -107,16 +107,18 @@ public class AtumBiome extends Biome {
     public void decorate(@Nonnull GenerationStage.Decoration stage, @Nonnull ChunkGenerator<? extends GenerationSettings> chunkGenerator, @Nonnull IWorld world, long seed, @Nonnull SharedSeedRandom random, @Nonnull BlockPos pos) {
         super.decorate(stage, chunkGenerator, world, seed, random, pos);
 
-        for (int x = 0; x < 16; ++x) {
-            for (int z = 0; z < 16; ++z) {
-                BlockPos blockpos1 = world.getHeight(Heightmap.Type.MOTION_BLOCKING, pos.add(x, 0, z));
+        if (AtumConfig.WORLD_GEN.sandLayerEdge.get()) {
+            for (int x = 0; x < 16; ++x) {
+                for (int z = 0; z < 16; ++z) {
+                    BlockPos height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, pos.add(x, 0, z));
 
-                if (canPlaceSandLayer(world, blockpos1) && world.isAirBlock(blockpos1)) {
-                    for (Direction facing : Direction.Plane.HORIZONTAL) {
-                        BlockPos posOffset = blockpos1.offset(facing);
-                        if (world.getBlockState(posOffset).isSolidSide(world, posOffset, Direction.UP)) {
-                            int layers = MathHelper.nextInt(random, 1, 3);
-                            world.setBlockState(blockpos1, AtumBlocks.SAND_LAYERED.getDefaultState().with(SandLayersBlock.LAYERS, layers), 2);
+                    if (canPlaceSandLayer(world, height)) {
+                        for (Direction facing : Direction.Plane.HORIZONTAL) {
+                            BlockPos posOffset = height.offset(facing);
+                            if (world.getBlockState(posOffset).isSolidSide(world, posOffset, Direction.UP)) {
+                                int layers = MathHelper.nextInt(random, 1, 3);
+                                world.setBlockState(height, AtumBlocks.SAND_LAYERED.getDefaultState().with(SandLayersBlock.LAYERS, layers), 2);
+                            }
                         }
                     }
                 }
@@ -125,13 +127,14 @@ public class AtumBiome extends Biome {
     }
 
     public boolean canPlaceSandLayer(IWorldReader world, BlockPos pos) {
+        BlockState state = world.getBlockState(pos);
         BlockState stateDown = world.getBlockState(pos.down());
         return this != AtumBiomes.OASIS
+                && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
-                && stateDown.isSolidSide(world, pos, Direction.UP)
-                && stateDown.getBlock().isIn(BlockTags.LEAVES)
+                && Block.hasSolidSideOnTop(world, pos.down())
                 && !(stateDown.getBlock() instanceof SandLayersBlock)
-                && !(world.getBlockState(pos).getBlock() instanceof SandLayersBlock);
+                && !(state.getBlock() instanceof SandLayersBlock);
     }
 
     public static class Builder extends Biome.Builder {

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum;
 
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
+import com.teammetallurgy.atum.commands.AtumWeather;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
@@ -52,6 +53,6 @@ public class Atum {
 
     @SubscribeEvent
     public void onServerStarting(FMLServerStartingEvent event) {
-        //AtumWeather.register(event.getCommandDispatcher()); //TODO
+        AtumWeather.register(event.getCommandDispatcher());
     }
 }

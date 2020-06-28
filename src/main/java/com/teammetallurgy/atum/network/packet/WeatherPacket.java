@@ -9,8 +9,8 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class WeatherPacket {
-	private boolean isStorming;
-	private int stormTime;
+	private final boolean isStorming;
+	private final int stormTime;
 
 	public WeatherPacket(boolean isStorming, int stormTime) {
 		this.isStorming = isStorming;

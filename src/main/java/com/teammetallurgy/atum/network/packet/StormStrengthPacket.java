@@ -9,7 +9,7 @@ import net.minecraftforge.fml.network.NetworkEvent;
 import java.util.function.Supplier;
 
 public class StormStrengthPacket {
-	private float stormStrength;
+	private final float stormStrength;
 
 	public StormStrengthPacket(float stormStrength) {
 		this.stormStrength = stormStrength;

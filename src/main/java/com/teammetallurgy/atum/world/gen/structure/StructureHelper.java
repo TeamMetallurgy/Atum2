@@ -1,17 +1,10 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
-import com.teammetallurgy.atum.init.AtumFeatures;
 import net.minecraft.util.Rotation;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.palette.UpgradeData;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.structure.Structure;
 
 import javax.annotation.Nullable;
