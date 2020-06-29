@@ -79,7 +79,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     }
 
     @Override
-    public boolean canAttack(EntityType<?> type) {
+    public boolean canAttack(@Nonnull EntityType<?> type) {
         return type != this.getType() && super.canAttack(type);
     }
 
@@ -117,11 +117,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
     public ILivingEntityData mobInitialSpawn(@Nullable ILivingEntityData spawnData) {
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
-        if (this.rand.nextFloat() < 0.5F) {
-            this.setLeftHanded(true);
-        } else {
-            this.setLeftHanded(false);
-        }
+        this.setLeftHanded(this.rand.nextFloat() < 0.5F);
         return spawnData;
     }
 
@@ -144,7 +140,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         //Don't use for now, might do something with it later
     }
 
@@ -218,7 +214,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_PILLAGER_HURT;
     }
 
@@ -227,17 +223,17 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         return SoundEvents.ENTITY_PILLAGER_DEATH;
     }
 
+    @Override
+    public boolean canSpawn(@Nonnull IWorld world, @Nonnull SpawnReason spawnReason) {
+        return super.canSpawn(world, spawnReason);
+    }
+
     public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > 62 && world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 && canMonsterSpawn(banditBase, world, spawnReason, pos, random);
+        return (spawnReason == SpawnReason.SPAWNER || pos.getY() > 62 && world.canBlockSeeSky(pos)) && world.getLightFor(LightType.BLOCK, pos) <= 8 && canMonsterSpawn(banditBase, world, spawnReason, pos, random);
     }
 
     @Override
-    public boolean canDespawn(double distanceToPlayer) {
-        return !this.canPatrol() || super.canDespawn(distanceToPlayer);
-    }
-
-    @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
             compound.putInt("Variant", this.getVariant());
@@ -246,7 +242,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         if (this.hasSkinVariants()) {
             this.setVariant(compound.getInt("Variant"));

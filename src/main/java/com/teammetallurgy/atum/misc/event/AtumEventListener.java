@@ -105,7 +105,7 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onPlace(BlockEvent.EntityPlaceEvent event) {
         BlockState state = event.getPlacedBlock();
-        if (event.getEntity() != null && event.getEntity().world.dimension.getType() == AtumDimensionType.ATUM) {
+        if (event.getWorld().getDimension().getType() == AtumDimensionType.ATUM) {
             if (((state.getMaterial() == Material.EARTH || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED)) {
                 event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState(), 3);
             }

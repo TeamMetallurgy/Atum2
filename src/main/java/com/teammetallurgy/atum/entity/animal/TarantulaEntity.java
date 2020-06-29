@@ -54,8 +54,13 @@ public class TarantulaEntity extends MonsterEntity {
         this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
     }
 
+    @Override
+    public boolean canSpawn(@Nonnull IWorld world, @Nonnull SpawnReason spawnReason) {
+        return spawnReason == SpawnReason.SPAWNER || super.canSpawn(world, spawnReason);
+    }
+
     public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() >= 40 && pos.getY() <= 62 && world.canBlockSeeSky(pos) && !world.canBlockSeeSky(pos.down()) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random);
+        return (spawnReason == SpawnReason.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canBlockSeeSky(pos.down())) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random);
     }
 
     @Override
@@ -89,7 +94,7 @@ public class TarantulaEntity extends MonsterEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_SPIDER_HURT;
     }
 
@@ -99,7 +104,7 @@ public class TarantulaEntity extends MonsterEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
     }
 
@@ -115,7 +120,7 @@ public class TarantulaEntity extends MonsterEntity {
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
         if (super.attackEntityAsMob(entity)) {
             if (entity instanceof LivingEntity) {
                 int i = 0;

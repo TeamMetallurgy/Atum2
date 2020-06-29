@@ -74,7 +74,7 @@ public class DesertRabbitEntity extends RabbitEntity {
     }
 
     @Override
-    public DesertRabbitEntity createChild(AgeableEntity ageable) {
+    public DesertRabbitEntity createChild(@Nonnull AgeableEntity ageable) {
         DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.create(this.world);
         int type = this.getRandomRabbitType(this.world);
 

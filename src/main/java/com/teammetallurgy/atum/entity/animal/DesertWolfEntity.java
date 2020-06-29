@@ -184,7 +184,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
 
@@ -200,7 +200,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_WOLF_HURT;
     }
 
@@ -366,7 +366,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     @Override
-    protected float getStandingEyeHeight(Pose pose, EntitySize size) {
+    protected float getStandingEyeHeight(@Nonnull Pose pose, EntitySize size) {
         return size.height * 0.8F;
     }
 
@@ -676,7 +676,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     @Override
-    public boolean shouldAttackEntity(LivingEntity target, LivingEntity owner) {
+    public boolean shouldAttackEntity(@Nonnull LivingEntity target, @Nonnull LivingEntity owner) {
         if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if (target instanceof DesertWolfEntity) {
                 DesertWolfEntity desertWolf = (DesertWolfEntity) target;
@@ -706,7 +706,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     @Override
-    public boolean canBeLeashedTo(PlayerEntity player) {
+    public boolean canBeLeashedTo(@Nonnull PlayerEntity player) {
         return !this.isAngry() && super.canBeLeashedTo(player);
     }
 

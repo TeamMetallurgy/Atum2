@@ -14,6 +14,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nonnull;
 import java.util.EnumSet;
 
 public class BonestormEntity extends UndeadBaseEntity implements ITexture {
@@ -55,7 +56,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_SKELETON_HORSE_HURT;
     }
 
@@ -114,7 +115,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     }
 
     private static class AIBoneAttack extends Goal {
-        private BonestormEntity bonestorm;
+        private final BonestormEntity bonestorm;
         private int attackStep;
         private int attackTime;
 

@@ -40,7 +40,7 @@ public class ForsakenEntity extends UndeadBaseEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_SKELETON_HURT;
     }
 
@@ -50,7 +50,7 @@ public class ForsakenEntity extends UndeadBaseEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.ENTITY_SKELETON_STEP, 0.15F, 1.0F);
     }
 

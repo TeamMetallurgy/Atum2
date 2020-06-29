@@ -67,7 +67,7 @@ public class ScarabEntity extends MonsterEntity {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
         if (rand.nextDouble() <= 0.002D) {
             this.setVariant(1);
@@ -101,7 +101,7 @@ public class ScarabEntity extends MonsterEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_ENDERMITE_HURT;
     }
 
@@ -111,12 +111,12 @@ public class ScarabEntity extends MonsterEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.ENTITY_ENDERMITE_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    protected int getExperiencePoints(PlayerEntity player) {
+    protected int getExperiencePoints(@Nonnull PlayerEntity player) {
         return this.getVariant() == 1 ? 30 : 3;
     }
 
@@ -166,13 +166,13 @@ public class ScarabEntity extends MonsterEntity {
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("Variant", this.getVariant());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         this.setVariant(compound.getInt("Variant"));
     }

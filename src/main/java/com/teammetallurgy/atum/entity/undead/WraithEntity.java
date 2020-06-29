@@ -26,7 +26,7 @@ import javax.annotation.Nonnull;
 public class WraithEntity extends UndeadBaseEntity {
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(WraithEntity.class, DataSerializers.BYTE);
     private int cycleHeight;
-    private int cycleTime;
+    private final int cycleTime;
 
     public WraithEntity(EntityType<? extends WraithEntity> entityType, World world) {
         super(entityType, world);
@@ -75,7 +75,7 @@ public class WraithEntity extends UndeadBaseEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_HUSK_HURT;
     }
 
@@ -85,7 +85,7 @@ public class WraithEntity extends UndeadBaseEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
     }
 
     @Override
@@ -130,7 +130,7 @@ public class WraithEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {

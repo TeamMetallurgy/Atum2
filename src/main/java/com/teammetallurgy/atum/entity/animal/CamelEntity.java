@@ -126,7 +126,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_LLAMA_HURT;
     }
 
@@ -136,7 +136,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.ENTITY_HORSE_STEP, 0.15F, 1.0F);
     }
 
@@ -151,7 +151,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public boolean canMateWith(AnimalEntity otherAnimal) {
+    public boolean canMateWith(@Nonnull AnimalEntity otherAnimal) {
         return otherAnimal != this && otherAnimal instanceof CamelEntity && this.canMate() && ((CamelEntity) otherAnimal).canMate();
     }
 
@@ -402,7 +402,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("Variant", this.getVariant());
 
@@ -435,7 +435,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         this.setVariant(compound.getInt("Variant"));
 
@@ -472,7 +472,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public void onInventoryChanged(IInventory invBasic) {
+    public void onInventoryChanged(@Nonnull IInventory invBasic) {
         this.updateHorseSlots();
     }
 

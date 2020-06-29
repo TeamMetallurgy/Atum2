@@ -78,7 +78,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    public boolean canAttack(EntityType<?> type) {
+    public boolean canAttack(@Nonnull EntityType<?> type) {
         return type != this.getType() && super.canAttack(type);
     }
 
@@ -91,8 +91,8 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
-        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingData, @Nullable CompoundNBT nbt) {
+        livingData = super.onInitialSpawn(world, difficulty, spawnReason, livingData, nbt);
 
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
@@ -101,7 +101,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
             this.setVariant(variant);
             this.setVariantAbilities(difficulty, variant);
         }
-        return livingdata;
+        return livingData;
     }
 
     int getVariantAmount() {
@@ -122,7 +122,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_ZOMBIE_HURT;
     }
 
@@ -177,8 +177,13 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
         return CreatureAttribute.UNDEAD;
     }
 
+    @Override
+    public boolean canSpawn(@Nonnull IWorld world, @Nonnull SpawnReason spawnReason) {
+        return spawnReason == SpawnReason.SPAWNER || super.canSpawn(world, spawnReason);
+    }
+
     public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > 62 && canMonsterSpawnInLight(undeadBase, world, spawnReason, pos, random);
+        return (spawnReason == SpawnReason.SPAWNER || pos.getY() > 62) && canMonsterSpawnInLight(undeadBase, world, spawnReason, pos, random);
     }
 
     void setVariant(int variant) {
@@ -214,7 +219,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
             compound.putInt("Variant", this.getVariant());
@@ -222,7 +227,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         if (this.hasSkinVariants()) {
             this.setVariant(compound.getInt("Variant"));

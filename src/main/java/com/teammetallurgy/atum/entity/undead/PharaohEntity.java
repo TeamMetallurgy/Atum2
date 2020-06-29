@@ -46,9 +46,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public class PharaohEntity extends UndeadBaseEntity {
-    private static String[] prefixArray = {"Ama", "Ata", "Ato", "Bak", "Cal", "Djet", "Eje", "For", "Gol", "Gut", "Hop", "Hor", "Huni", "Iam", "Jor", "Kal", "Khas", "Khor", "Lat", "Mal", "Not", "Oap", "Pra", "Qo", "Ras", "Shas", "Thoth", "Tui", "Uld", "Ver", "Wot", "Xo", "Yat", "Zyt", "Khep"};
-    private static String[] suffixArray = {"Ahat", "Amesh", "Amon", "Anut", "Baroom", "Chanta", "Erant", "Funam", "Daresh", "Djer", "Hotesh", "Khaden", "Kron", "Gorkum", "Ialenter", "Ma'at", "Narmer", "Radeem", "Jaloom", "Lepsha", "Quor", "Oleshet", "Peput", "Talat", "Ulam", "Veresh", "Ranesh", "Snef", "Wollolo", "Hathor", "Intef", "Neferk", "Khatne", "Tepy", "Moret"};
-    private static String[] numeralArray = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"};
+    private static final String[] PREFIXES = {"Ama", "Ata", "Ato", "Bak", "Cal", "Djet", "Eje", "For", "Gol", "Gut", "Hop", "Hor", "Huni", "Iam", "Jor", "Kal", "Khas", "Khor", "Lat", "Mal", "Not", "Oap", "Pra", "Qo", "Ras", "Shas", "Thoth", "Tui", "Uld", "Ver", "Wot", "Xo", "Yat", "Zyt", "Khep"};
+    private static final String[] SUFFIXES = {"Ahat", "Amesh", "Amon", "Anut", "Baroom", "Chanta", "Erant", "Funam", "Daresh", "Djer", "Hotesh", "Khaden", "Kron", "Gorkum", "Ialenter", "Ma'at", "Narmer", "Radeem", "Jaloom", "Lepsha", "Quor", "Oleshet", "Peput", "Talat", "Ulam", "Veresh", "Ranesh", "Snef", "Wollolo", "Hathor", "Intef", "Neferk", "Khatne", "Tepy", "Moret"};
+    private static final String[] NUMERALS = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"};
     private static final DataParameter<Integer> PREFIX = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> SUFFIX = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> NUMERAL = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
@@ -125,7 +125,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
             this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(scepter));
@@ -156,9 +156,9 @@ public class PharaohEntity extends UndeadBaseEntity {
     protected void setVariantAbilities(DifficultyInstance difficulty, int variant) {
         super.setVariantAbilities(difficulty, variant);
 
-        prefixID = rand.nextInt(prefixArray.length);
-        suffixID = rand.nextInt(suffixArray.length);
-        numID = rand.nextInt(numeralArray.length);
+        prefixID = rand.nextInt(PREFIXES.length);
+        suffixID = rand.nextInt(SUFFIXES.length);
+        numID = rand.nextInt(NUMERALS.length);
 
         this.setPharaohName(this.prefixID, this.suffixID, this.numID);
 
@@ -218,13 +218,13 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public void addTrackingPlayer(ServerPlayerEntity player) {
+    public void addTrackingPlayer(@Nonnull ServerPlayerEntity player) {
         super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void removeTrackingPlayer(ServerPlayerEntity player) {
+    public void removeTrackingPlayer(@Nonnull ServerPlayerEntity player) {
         super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }
@@ -235,7 +235,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         int p = this.dataManager.get(PREFIX);
         int s = this.dataManager.get(SUFFIX);
         int n = this.dataManager.get(NUMERAL);
-        return new TranslationTextComponent(this.getType().getTranslationKey()).appendText(" ").appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + prefixArray[p])).appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH))).appendText(" " + numeralArray[n]);
+        return new TranslationTextComponent(this.getType().getTranslationKey()).appendText(" ").appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + PREFIXES[p])).appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ENGLISH))).appendText(" " + NUMERALS[n]);
     }
 
     @Override
@@ -265,11 +265,11 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (entity instanceof LivingEntity && !world.isRemote) {
+            if (entity instanceof LivingEntity && !this.world.isRemote) {
                 LivingEntity entityLiving = (LivingEntity) entity;
                 switch (God.getGod(this.getVariant())) {
                     case ANPUT:
@@ -326,13 +326,13 @@ public class PharaohEntity extends UndeadBaseEntity {
     public void tick() {
         super.tick();
 
-        if (!world.isRemote) {
+        if (!this.world.isRemote) {
             this.setBossInfo(this.getVariant());
         }
 
         if (this.world.getDifficulty().getId() == 0) {
             if (this.getSarcophagusPos() != null) {
-                TileEntity te = world.getTileEntity(this.getSarcophagusPos());
+                TileEntity te = this.world.getTileEntity(this.getSarcophagusPos());
                 if (te instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) te).hasSpawned = false;
                 }
@@ -364,7 +364,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("prefix", prefixID);
         compound.putInt("suffix", suffixID);
@@ -378,7 +378,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         prefixID = compound.getInt("prefix");
         suffixID = compound.getInt("suffix");

@@ -43,7 +43,7 @@ public class MummyEntity extends UndeadBaseEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);
     }
 
@@ -77,7 +77,7 @@ public class MummyEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public boolean attackEntityAsMob(Entity entity) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
         boolean attackEntity = super.attackEntityAsMob(entity);
 
         if (attackEntity) {
