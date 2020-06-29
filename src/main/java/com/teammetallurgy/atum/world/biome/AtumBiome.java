@@ -58,7 +58,6 @@ public class AtumBiome extends Biome {
         ResourceLocation location = entityType.getRegistryName();
         if (location != null) {
             new AtumConfig.Mobs(AtumConfig.BUILDER, location.getPath(), min, max, weight, entityType, classification, biome); //Write config
-            super.addSpawn(classification, new SpawnListEntry(entityType, weight, min, max));
         }
     }
 
