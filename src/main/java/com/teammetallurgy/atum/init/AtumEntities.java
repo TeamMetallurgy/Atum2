@@ -88,6 +88,7 @@ public class AtumEntities {
         EntitySpawnPlacementRegistry.register(ASSASSIN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(BANDIT_WARLORD, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(BARBARIAN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
+        EntitySpawnPlacementRegistry.register(BONESTORM, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(BRIGAND, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(CAMEL, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
         EntitySpawnPlacementRegistry.register(DESERT_WOLF, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, DesertWolfEntity::canSpawn);
@@ -97,8 +98,11 @@ public class AtumEntities {
         EntitySpawnPlacementRegistry.register(PHARAOH, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(DESERT_RABBIT, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, AtumEntities::canAnimalSpawn);
         EntitySpawnPlacementRegistry.register(SCARAB, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, ScarabEntity::canSpawn);
+        EntitySpawnPlacementRegistry.register(SERGEANT, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, BanditBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(STONEGUARD, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(STONEWARDEN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
+        EntitySpawnPlacementRegistry.register(STONEGUARD_FRIENDLY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
+        EntitySpawnPlacementRegistry.register(STONEWARDEN_FRIENDLY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(SUNSPEAKER, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
         EntitySpawnPlacementRegistry.register(TARANTULA, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, TarantulaEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(WRAITH, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);

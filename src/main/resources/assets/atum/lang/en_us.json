@@ -779,6 +779,9 @@
   "biome.atum.sand_hills": "Sand Hills",
   "biome.atum.sand_plains": "Sand Plains",
 
+  "_comment": "Effects",
+  "effect.atum.marked_for_death": "Marked",
+
   "_comment": "Death Messages",
   "death.attack.assassinated": "%1$s was assassinated",
 

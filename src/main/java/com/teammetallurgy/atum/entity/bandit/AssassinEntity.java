@@ -3,10 +3,7 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -22,9 +19,12 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class AssassinEntity extends BanditBaseEntity {
     private final DamageSource ASSASSINATED = new EntityDamageSource("assassinated", this);
@@ -128,5 +128,9 @@ public class AssassinEntity extends BanditBaseEntity {
             }
             return true;
         }
+    }
+
+    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        return spawnReason == SpawnReason.EVENT ? world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 && canMonsterSpawn(banditBase, world, spawnReason, pos, random) : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
     }
 }

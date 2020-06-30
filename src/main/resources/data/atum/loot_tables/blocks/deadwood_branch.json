@@ -11,7 +11,7 @@
               "conditions": [
                 {
                   "condition": "random_chance",
-                  "chance": 0.015
+                  "chance": 0.01
                 }
               ]
             }
