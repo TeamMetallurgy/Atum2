@@ -195,12 +195,10 @@ public class PharaohEntity extends UndeadBaseEntity {
                 TileEntity tileEntity = this.world.getTileEntity(sarcophagusPos);
                 if (tileEntity instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) tileEntity).setOpenable();
-                    for (int i = 0; i < 4; i++) {
-                        for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-                            TileEntity tileEntityOffset = this.world.getTileEntity(sarcophagusPos.offset(horizontal));
-                            if (tileEntityOffset instanceof SarcophagusTileEntity) {
-                                ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
-                            }
+                    for (Direction horizontal : Direction.Plane.HORIZONTAL) {
+                        TileEntity tileEntityOffset = this.world.getTileEntity(sarcophagusPos.offset(horizontal));
+                        if (tileEntityOffset instanceof SarcophagusTileEntity) {
+                            ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
                         }
                     }
                 } else {
@@ -220,7 +218,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         }
         Entity killer = source.getTrueSource();
         if (killer instanceof PlayerEntity) {
-            ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 1000, 2, false, false, true));
+            ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 3100, 0, false, false, true)); //TODO Test
         }
         super.onDeath(source);
     }
@@ -439,7 +437,8 @@ public class PharaohEntity extends UndeadBaseEntity {
             if (offset == facing.getOpposite()) continue;
 
             BlockPos newPos = base.offset(offset);
-            if (!this.world.getBlockState(newPos).isSolid() && !this.world.getBlockState(newPos.offset(Direction.UP)).isSolid()) {
+            state = this.world.getBlockState(newPos);
+            if (WorldEntitySpawner.isSpawnableSpace(this.world, base, state, state.getFluidState())) {
                 MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
                 if (mummy != null) {
                     mummy.onInitialSpawn(this.world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
