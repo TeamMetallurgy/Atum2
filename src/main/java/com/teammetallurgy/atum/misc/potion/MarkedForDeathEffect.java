@@ -29,10 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MarkedForDeath extends Effect { //When on easy difficult & level 1 Marked For Death, make sure to have it at least at 31 seconds
+public class MarkedForDeathEffect extends Effect { //When on easy difficult & level 1 Marked For Death, make sure to have it at least at 31 seconds
     private static final Object2IntMap<LivingEntity> NEXT_SPAWN = new Object2IntOpenHashMap<>();
 
-    public MarkedForDeath() {
+    public MarkedForDeathEffect() {
         super(EffectType.NEUTRAL, 12624973);
     }
 
@@ -59,8 +59,9 @@ public class MarkedForDeath extends Effect { //When on easy difficult & level 1 
                     BlockPos.Mutable mutablePos = (new BlockPos.Mutable(livingEntity)).move(x, 0, z);
                     DifficultyInstance difficulty = serverWorld.getDifficultyForLocation(mutablePos);
                     if (difficulty.getDifficulty() != Difficulty.PEACEFUL) {
-                        int multiplier = amplifier + (int) Math.ceil(difficulty.getAdditionalDifficulty());
-                        int value = 600 / multiplier;
+                        double multiplier = Math.max(1, (amplifier + Math.ceil(difficulty.getAdditionalDifficulty())) / 1.5D);
+                        //System.out.println("MULTIPLIER: " + multiplier);
+                        int value = (int) (600 / multiplier);
                         if (!NEXT_SPAWN.containsKey(livingEntity)) {
                             NEXT_SPAWN.put(livingEntity, value);
                         } else {
@@ -70,13 +71,11 @@ public class MarkedForDeath extends Effect { //When on easy difficult & level 1 
                         }
                         if (serverWorld.isAreaLoaded(mutablePos, 10)) {
                             //Level 0 to 9 = I to X
-                            //System.out.println("LEVEL: " + level);
                             //Easy = 1, Normal = 2, Hard = 3
-                            //System.out.println("Difficulty: " + (int) Math.ceil(difficulty.getAdditionalDifficulty()));
                             if (NEXT_SPAWN.getInt(livingEntity) <= 0) {
                                 System.out.println("TIMER DONE");
                                 mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
-                                this.spawnAssassin(serverWorld, mutablePos, random);
+                                this.spawnAssassin(serverWorld, mutablePos, random, livingEntity);
                                 NEXT_SPAWN.removeInt(livingEntity);
                                 NEXT_SPAWN.put(livingEntity, value);
                             }
@@ -91,7 +90,7 @@ public class MarkedForDeath extends Effect { //When on easy difficult & level 1 
     public void onEffectExpired(PotionEvent.PotionExpiryEvent event) {
         EffectInstance effectInstance = event.getPotionEffect();
         if (effectInstance != null && effectInstance.getPotion() == AtumEffects.MARKED_FOR_DEATH) {
-            System.out.println("ENTITY EXPIRED: " + event.getEntityLiving().getDisplayName().getFormattedText());
+            System.out.println("EFFECT EXPIRED: " + event.getEntityLiving().getDisplayName().getFormattedText());
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
     }
@@ -100,24 +99,21 @@ public class MarkedForDeath extends Effect { //When on easy difficult & level 1 
     public void onEffectRemoval(PotionEvent.PotionRemoveEvent event) {
         EffectInstance effectInstance = event.getPotionEffect();
         if (effectInstance != null && effectInstance.getPotion() == AtumEffects.MARKED_FOR_DEATH) {
-            System.out.println("ENTITY REMOVAL: " + event.getEntityLiving().getDisplayName().getFormattedText());
+            System.out.println("EFFECT REMOVAL: " + event.getEntityLiving().getDisplayName().getFormattedText());
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
     }
 
-    private void spawnAssassin(World world, BlockPos pos, Random rand) {
+    private void spawnAssassin(World world, BlockPos pos, Random rand, LivingEntity markedTarget) {
         EntityType<? extends AssassinEntity> entityType = AtumEntities.ASSASSIN;
         BlockState state = world.getBlockState(pos);
-        System.out.println("SPAWN ASSASSIN METHOD");
-        if (!WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState()) || !AssassinEntity.canSpawn(entityType, world, SpawnReason.EVENT, pos, rand)) {
-            System.out.println("SPAWNABLE SPACE: " + WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState()) + " CAN SPAWN: " + !AssassinEntity.canSpawn(entityType, world, SpawnReason.EVENT, pos, rand));
-        }
         if (WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState()) && AssassinEntity.canSpawn(entityType, world, SpawnReason.EVENT, pos, rand)) {
             AssassinEntity assassin = entityType.create(world);
             if (assassin != null) {
                 assassin.setPosition(pos.getX() + rand.nextInt(5) - rand.nextInt(5), pos.getY(), pos.getZ() + rand.nextInt(5) - rand.nextInt(5));
                 System.out.println("ASSASSIN: " + assassin.getPosition());
                 assassin.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.EVENT, null, null);
+                assassin.setMarkedTarget(markedTarget);
                 world.addEntity(assassin);
             }
         }

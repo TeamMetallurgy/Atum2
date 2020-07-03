@@ -4,9 +4,11 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
+import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
@@ -32,6 +34,7 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -186,17 +189,18 @@ public class PharaohEntity extends UndeadBaseEntity {
 
     @Override
     public void onDeath(@Nonnull DamageSource source) {
-        if (!world.isRemote) {
+        if (!this.world.isRemote) {
             BlockPos sarcophagusPos = getSarcophagusPos();
             if (sarcophagusPos != null) {
-                TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
+                TileEntity tileEntity = this.world.getTileEntity(sarcophagusPos);
                 if (tileEntity instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) tileEntity).setOpenable();
                     for (int i = 0; i < 4; i++) {
-                        Direction horizontal = Direction.byHorizontalIndex((5 - i) % 4); //[W, S, E, N]
-                        TileEntity tileEntityOffset = world.getTileEntity(sarcophagusPos.offset(horizontal));
-                        if (tileEntityOffset instanceof SarcophagusTileEntity) {
-                            ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
+                        for (Direction horizontal : Direction.Plane.HORIZONTAL) {
+                            TileEntity tileEntityOffset = this.world.getTileEntity(sarcophagusPos.offset(horizontal));
+                            if (tileEntityOffset instanceof SarcophagusTileEntity) {
+                                ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
+                            }
                         }
                     }
                 } else {
@@ -207,12 +211,16 @@ public class PharaohEntity extends UndeadBaseEntity {
 
         if (source.damageType.equals("player")) {
             PlayerEntity slayer = (PlayerEntity) source.getTrueSource();
-            if (!world.isRemote && slayer != null) {
+            if (!this.world.isRemote && slayer != null) {
                 List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
                 for (PlayerEntity player : players) {
                     player.sendMessage(this.getName().appendText(" ").appendSibling(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendText(" " + slayer.getGameProfile().getName()).applyTextStyles(God.getGod(this.getVariant()).getColor()));
                 }
             }
+        }
+        Entity killer = source.getTrueSource();
+        if (killer instanceof PlayerEntity) {
+            ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 1000, 2, false, false, true));
         }
         super.onDeath(source);
     }
@@ -409,8 +417,10 @@ public class PharaohEntity extends UndeadBaseEntity {
     private void trySpawnMummy(BlockPos pos, Direction facing) {
         BlockPos base = pos.offset(facing, 1);
 
-        if (!this.world.getBlockState(base).isSolid() && !this.world.getBlockState(base.offset(Direction.UP)).isSolid()) {
+        BlockState state = world.getBlockState(pos);
+        if (WorldEntitySpawner.isSpawnableSpace(this.world, base, state, state.getFluidState())) {
             MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
+
             if (mummy != null) {
                 mummy.onInitialSpawn(this.world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
                 mummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);

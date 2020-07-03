@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.misc.potion.MarkedForDeath;
+import com.teammetallurgy.atum.misc.potion.MarkedForDeathEffect;
 import net.minecraft.potion.Effect;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
@@ -17,7 +17,7 @@ import java.util.List;
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumEffects {
     private static final List<Effect> EFFECTS = new ArrayList<>();
-    public static final Effect MARKED_FOR_DEATH = register("marked_for_death", new MarkedForDeath());
+    public static final Effect MARKED_FOR_DEATH = register("marked_for_death", new MarkedForDeathEffect());
 
     public static Effect register(String name, Effect effect) {
         effect.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));

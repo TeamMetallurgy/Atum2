@@ -1,15 +1,13 @@
 package com.teammetallurgy.atum.entity.efreet;
 
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
+import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -17,6 +15,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -63,8 +63,25 @@ public class SunspeakerEntity extends EfreetBaseEntity /*implements IMerchant*/ 
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(PharaohEntity.God.RA)));
+    }
+
+    @Override
+    protected void dropSpecialItems(@Nonnull DamageSource source, int looting, boolean recentlyHit) {
+
+    }
+
+    @Override
+    public void onDeath(@Nonnull DamageSource cause) {
+        super.onDeath(cause);
+        Entity killer = cause.getTrueSource();
+        if (killer instanceof PlayerEntity) {
+            double chance = this.rand.nextDouble();
+            if (chance <= 0.5D) {
+                ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 1220, 0, false, false, true));
+            }
+        }
     }
 
     /*@Override

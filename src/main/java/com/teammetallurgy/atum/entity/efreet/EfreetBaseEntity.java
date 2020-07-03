@@ -113,7 +113,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.ENTITY_ILLUSIONER_HURT;
     }
 
@@ -138,7 +138,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         //Don't use for now, might do something with it later
     }
 
@@ -211,7 +211,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         if (this.hasSkinVariants()) {
             compound.putInt("Variant", this.getVariant());
@@ -225,7 +225,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         if (this.hasSkinVariants()) {
             this.setVariant(compound.getInt("Variant"));
@@ -276,7 +276,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         }
 
         @Override
-        protected void setAttackTarget(MobEntity entity, @Nonnull LivingEntity living) {
+        protected void setAttackTarget(@Nonnull MobEntity entity, @Nonnull LivingEntity living) {
             if (entity instanceof EfreetBaseEntity && this.goalOwner.canEntityBeSeen(living) && ((EfreetBaseEntity) entity).becomeAngryAt(living)) {
                 entity.setAttackTarget(living);
             }

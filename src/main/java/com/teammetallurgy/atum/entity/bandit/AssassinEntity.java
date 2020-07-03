@@ -5,8 +5,11 @@ import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.TargetGoal;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -24,11 +27,13 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class AssassinEntity extends BanditBaseEntity {
     private final DamageSource ASSASSINATED = new EntityDamageSource("assassinated", this);
     private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(AssassinEntity.class, DataSerializers.BYTE);
+    private LivingEntity markedTarget;
 
     public AssassinEntity(EntityType<? extends AssassinEntity> entityType, World world) {
         super(entityType, world);
@@ -45,8 +50,11 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new OpenAnyDoorGoal(this, false));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2D, true));
+        if (this.markedTarget != null) {
+            this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget)); //Set target, when read from NBT
+        }
+        this.goalSelector.addGoal(2, new OpenAnyDoorGoal(this, false));
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, true));
     }
 
     @Override
@@ -130,7 +138,94 @@ public class AssassinEntity extends BanditBaseEntity {
         }
     }
 
+    @Override
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
+        super.writeAdditional(compound);
+        System.out.println("WRITE: " + (this.markedTarget != null ? this.markedTarget.getDisplayName().getFormattedText() : "IS NULL"));
+        if (this.markedTarget instanceof PlayerEntity) {
+            compound.putUniqueId("MarkedForDeathTarget", this.markedTarget.getUniqueID());
+        }
+    }
+
+    @Override
+    public void readAdditional(@Nonnull CompoundNBT compound) {
+        super.readAdditional(compound);
+        PlayerEntity playerEntity = this.world.getPlayerByUuid(compound.getUniqueId("MarkedForDeathTarget"));
+        System.out.println("READ IS NULL: " + (playerEntity == null));
+        if (playerEntity != null) {
+            System.out.println("READ: " + playerEntity.getDisplayName().getFormattedText());
+            this.markedTarget = playerEntity;
+        }
+    }
+
     public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return spawnReason == SpawnReason.EVENT ? world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 && canMonsterSpawn(banditBase, world, spawnReason, pos, random) : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
+        return spawnReason == SpawnReason.EVENT ? world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
+    }
+
+    public void setMarkedTarget(LivingEntity livingEntity) {
+        System.out.println("SET MARKED TARGET: " + livingEntity.getDisplayName().getFormattedText());
+        this.markedTarget = livingEntity;
+        System.out.println("REGISTER MARKED FOR DEATH GOAL: " + livingEntity.getDisplayName().getFormattedText());
+        this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, livingEntity)); //Set goal initially
+    }
+
+    public static class MarkedForDeathGoal extends TargetGoal {
+        protected LivingEntity markedTarget;
+
+        public MarkedForDeathGoal(MobEntity mob, @Nullable LivingEntity markedTarget) {
+            super(mob, false);
+            this.markedTarget = markedTarget;
+            System.out.println("MARKED TARGET CONSTRUCTOR: " + (markedTarget != null));
+            if (markedTarget != null) {
+                System.out.println("MARKED TARGET ATTACK: " + markedTarget.getDisplayName().getFormattedText());
+            }
+        }
+
+        @Override
+        protected double getTargetDistance() {
+            return 128.0D;
+        }
+
+        @Override
+        public void startExecuting() {
+            super.startExecuting();
+            System.out.println("START EXECUTING: " + this.markedTarget.getDisplayName().getFormattedText());
+            this.goalOwner.setAttackTarget(this.markedTarget);
+        }
+
+        @Override
+        public boolean shouldContinueExecuting() {
+            LivingEntity target = this.goalOwner.getAttackTarget();
+            if (target == null) {
+                System.out.println("CURRENT ATTACK TARGET IS NULL, GOING BACK TO MARKED TARGET: " + this.markedTarget.getDisplayName().getFormattedText());
+                target = this.markedTarget;
+            }
+
+            if (target == null) {
+                return false;
+            } else if (!target.isAlive()) {
+                return false;
+            } else {
+                System.out.println("CURRENT TARGET: " + target.getDisplayName().getFormattedText());
+                double distance = this.getTargetDistance();
+                if (this.goalOwner.getDistanceSq(target) > distance * distance) {
+                    return false;
+                } else {
+                    if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
+                        return false;
+                    } else {
+                        System.out.println("SETTING TARGET TO: " + target.getDisplayName().getFormattedText());
+                        this.goalOwner.setAttackTarget(target);
+                        return true;
+                    }
+                }
+            }
+        }
+
+        @Override
+        public boolean shouldExecute() {
+            System.out.println("SHOULD EXECUTE: " + (this.markedTarget != null));
+            return this.markedTarget != null;
+        }
     }
 }
