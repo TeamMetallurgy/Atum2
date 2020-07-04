@@ -163,10 +163,12 @@ public class AtumConfig {
         public ForgeConfigSpec.IntValue weight;
 
         public ForgeConfigSpec.IntValue banditPatrolFrequency;
+        public ForgeConfigSpec.IntValue markedForDeathTimeBaseValue;
 
         public Mobs(ForgeConfigSpec.Builder builder) {
             builder.push(MOBS);
             this.banditPatrolFrequency = builder.comment("How frequent Bandit patrols are. The higher the number, the less patrols will spawn").defineInRange("banditPatrolFrequency", 330, -1, 10000);
+            this.markedForDeathTimeBaseValue = builder.comment("How long time is required for an Assassin to spawn").defineInRange("markedForDeathFrequency", 600, 1, 10000);
             builder.pop();
         }
 

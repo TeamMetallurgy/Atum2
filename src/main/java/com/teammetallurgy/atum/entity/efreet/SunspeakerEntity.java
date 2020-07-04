@@ -27,11 +27,10 @@ import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.IMerchant;
 import net.minecraft.entity.merchant.IReputationTracking;
 import net.minecraft.entity.merchant.IReputationType;
+import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.inventory.container.MerchantContainer;
-import net.minecraft.inventory.container.SimpleNamedContainerProvider;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
@@ -49,12 +48,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 import net.minecraft.village.GossipManager;
 import net.minecraft.village.GossipType;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.village.PointOfInterestType;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.World;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
@@ -97,10 +94,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         ((GroundPathNavigator) this.getNavigator()).setBreakDoors(true);
         this.getNavigator().setCanSwim(true);
         this.brain = this.createBrain(new Dynamic<>(NBTDynamicOps.INSTANCE, new CompoundNBT()));
-    }
-
-    @Override
-    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(PharaohEntity.God.RA)));
     }
 
@@ -131,7 +124,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     }
 
     private void initBrain(Brain<SunspeakerEntity> brain) {
-        float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue();
+        float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() + 0.75F; //Add additional speed, due to weird issue
 
         brain.registerActivity(Activity.CORE, SunspeakerTasks.core(speed));
         brain.registerActivity(Activity.MEET, SunspeakerTasks.meet(speed), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
@@ -153,8 +146,9 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     @Override
     protected void registerGoals() {
-        super.registerGoals();
-        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false)); //TODO Test if work. Might need to move to brain?
+        super.getSuperGoals();
+        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, false));
+        super.applyEntityAI();
     }
 
     @Override
@@ -191,6 +185,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     @Override
     public void tick() {
+        super.tick();
         this.tickGossip();
     }
 
@@ -283,30 +278,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         }
     }
 
-            /*@Override
-    @Override
-    public void useRecipe(@Nonnull MerchantRecipe recipe) {
-        recipe.incrementToolUses();
-        this.livingSoundTime = -this.getTalkInterval();
-        this.playSound(SoundEvents.ENTITY_VILLAGER_YES, this.getSoundVolume(), this.getSoundPitch());
-        int i = 3 + this.rand.nextInt(4);
-
-        if (recipe.getToolUses() == 1 || this.rand.nextInt(5) == 0) {
-            this.timeUntilReset = 40;
-            this.needsInitilization = true;
-            i += 5;
-        }
-
-        if (recipe.getItemToBuy().getItem() == AtumItems.GOLD_COIN) { //TODO reimplemnt this somehow. Rest of this method should be working in different ways across other new methods
-            this.wealth += recipe.getItemToBuy().getCount();
-        }
-
-        if (recipe.getRewardsExp()) {
-            this.world.addEntity(new ExperienceOrbEntity(this.world, this.posX, this.posY + 0.5D, this.posZ, i));
-        }
-    }
-    */
-
     @Override
     public void setRevengeTarget(@Nullable LivingEntity livingBase) {
         if (livingBase != null && this.world instanceof ServerWorld) {
@@ -374,7 +345,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     private boolean canLevelUp() {
         int level = this.getSunspeakerData().getLevel();
-        return SunspeakerData.checkC(level) && this.xp >= SunspeakerData.checkB(level);
+        return VillagerData.func_221128_d(level) && this.xp >= VillagerData.func_221127_c(level);
     }
 
     private void levelUp() {
@@ -428,7 +399,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     protected void populateTradeData() {
         SunspeakerData sunspeakerData = this.getSunspeakerData();
-        List<VillagerTrades.ITrade[]> trades = TRADES; //TODO Test, might not work
+        List<VillagerTrades.ITrade[]> trades = TRADES;
         if (trades != null && !trades.isEmpty()) {
             VillagerTrades.ITrade[] trade = trades.get(sunspeakerData.getLevel());
             if (trade != null) {
@@ -472,6 +443,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         boolean nameTag = heldStack.getItem() == Items.NAME_TAG;
+        boolean isAgressiveTowards = player.getUniqueID() == this.angerTargetUUID;
 
         if (nameTag) {
             heldStack.interactWithEntity(player, this, hand);
@@ -488,8 +460,19 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
                     }
                     player.addStat(Stats.TALKED_TO_VILLAGER);
                 }
-                if (noOffers) {
-                    return super.processInteract(player, hand);
+                if (noOffers || isAgressiveTowards) {
+                    if (isAgressiveTowards && heldStack.getItem() == AtumItems.GOLD_COIN) {
+                        this.angerTargetUUID = null;
+                        this.setRevengeTarget(null);
+                        this.setAttackTarget(null);
+                        this.attackingPlayer = null;
+                        this.recentlyHit = 0;
+                        this.angerLevel = 0;
+                        this.gossip.add(player.getUniqueID(), GossipType.MINOR_POSITIVE, 10);
+                        return true;
+                    } else {
+                        return super.processInteract(player, hand);
+                    }
                 } else {
                     if (!this.world.isRemote && !this.getOffers().isEmpty()) {
                         this.displayMerchantGui(player);
@@ -501,25 +484,37 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
             LootItem.Type type = LootItem.getType(heldStack.getItem());
             LootItem.Quality quality = LootItem.getQuality(heldStack.getItem());
 
-            if (quality != LootItem.Quality.DIRTY) {
-                double modifier = 1.0D;
-                if (type == LootItem.Type.NECKLACE) {
-                    modifier = 2.0D;
-                } else if (type == LootItem.Type.BROOCH) {
-                    modifier = 2.5D;
-                } else if (type == LootItem.Type.SCEPTER) {
-                    modifier = 3.0D;
-                } else if (type == LootItem.Type.IDOL) {
-                    modifier = 5.0D;
-                }
-                if (!player.isCreative()) {
-                    heldStack.shrink(1);
-                }
-                this.handleRelicTrade(player, hand, modifier, quality);
+            if (isAgressiveTowards) {
+                this.angerTargetUUID = null;
+                this.setRevengeTarget(null);
+                this.setAttackTarget(null);
+                this.attackingPlayer = null;
+                this.recentlyHit = 0;
+                this.angerLevel = 0;
+                this.gossip.add(player.getUniqueID(), GossipType.MINOR_POSITIVE, 10);
                 return true;
-
             } else {
-                return super.processInteract(player, hand);
+
+                if (quality != LootItem.Quality.DIRTY) {
+                    double modifier = 1.0D;
+                    if (type == LootItem.Type.NECKLACE) {
+                        modifier = 2.0D;
+                    } else if (type == LootItem.Type.BROOCH) {
+                        modifier = 2.5D;
+                    } else if (type == LootItem.Type.SCEPTER) {
+                        modifier = 3.0D;
+                    } else if (type == LootItem.Type.IDOL) {
+                        modifier = 5.0D;
+                    }
+                    if (!player.isCreative()) {
+                        heldStack.shrink(1);
+                    }
+                    this.handleRelicTrade(player, hand, modifier, quality);
+                    return true;
+
+                } else {
+                    return super.processInteract(player, hand);
+                }
             }
         } else {
             return super.processInteract(player, hand);
@@ -552,6 +547,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
             if (!this.world.isRemote) {
                 this.playSound(this.getYesSound(), this.getSoundVolume(), this.getSoundPitch());
                 StackHelper.giveItem(player, hand, new ItemStack(AtumItems.GOLD_COIN, amount));
+                this.updateReputation(IReputationType.TRADE, player);
             }
         }
     }
@@ -571,18 +567,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     private void resetAllSpecialPrices() {
         for (MerchantOffer merchantOffer : this.getOffers()) {
             merchantOffer.resetSpecialPrice();
-        }
-    }
-
-    @Override
-    public void openMerchantContainer(PlayerEntity player, @Nonnull ITextComponent name, int level) {
-        OptionalInt container = player.openContainer(new SimpleNamedContainerProvider((i, playerInventory, p) -> new MerchantContainer(i, playerInventory, this), name));
-        if (container.isPresent()) {
-            MerchantOffers merchantOffers = this.getOffers();
-            if (!merchantOffers.isEmpty()) {
-                player.openMerchantContainer(container.getAsInt(), merchantOffers, level, this.getXp(), this.func_213705_dZ(), this.func_223340_ej());
-                //TODO Add own container
-            }
         }
     }
 
@@ -742,7 +726,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
         this.lastRestock = compound.getLong("LastRestock");
         this.lastGossipDecay = compound.getLong("LastGossipDecay");
-        this.setCanPickUpLoot(true);
         if (this.world instanceof ServerWorld) {
             this.resetBrain((ServerWorld) this.world);
         }

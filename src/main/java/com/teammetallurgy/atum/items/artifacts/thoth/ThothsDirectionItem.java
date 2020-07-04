@@ -142,7 +142,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
                     if (entity instanceof PlayerEntity) {
                         PlayerEntity player = (PlayerEntity) entity;
                         ServerWorld worldServer = (ServerWorld) world;
-                        /*BlockPos pos = worldServer.getChunkProvider().getChunkGenerator().findNearestStructure(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), 5000, true); //TODO
+                        /*BlockPos pos = worldServer.getChunkProvider().getChunkGenerator().findNearestStructure(worldServer, String.valueOf(PyramidPieces.PYRAMID), player.getPosition(), 5000, true);
                         String translationKey = Constants.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath();
                         if (pos != null) {
                             player.sendStatusMessage(new TranslationTextComponent(translationKey + ".found", player.isCreative() ? "X=" + pos.getX() + " Y=" + pos.getY() + " Z=" + pos.getZ() : "").setStyle(new Style().setColor(TextFormatting.AQUA)), true);

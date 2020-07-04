@@ -31,8 +31,8 @@ import java.util.UUID;
 public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(EfreetBaseEntity.class, DataSerializers.VARINT);
     private String texturePath;
-    private int angerLevel;
-    private UUID angerTargetUUID;
+    protected int angerLevel;
+    protected UUID angerTargetUUID;
 
     public EfreetBaseEntity(EntityType<? extends EfreetBaseEntity> entityType, World world) {
         super(entityType, world);
@@ -48,6 +48,10 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
         this.applyEntityAI();
+    }
+
+    protected void getSuperGoals() {
+        super.registerGoals();
     }
 
     protected void applyEntityAI() {
@@ -145,7 +149,6 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     @Override
     public void tick() {
         super.tick();
-
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.texturePath = null;
@@ -155,7 +158,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean canRenderOnFire() {
-        return this.isAngry() && this.getFireTimer() > 0;
+        return this.isAngry();
     }
 
     @Override
@@ -165,13 +168,25 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
 
     @Override
     protected void updateAITasks() {
-        if (this.isAngry() && this.angerTargetUUID != null && this.getRevengeTarget() == null) {
-            PlayerEntity player = this.world.getPlayerByUuid(this.angerTargetUUID);
-            if (player != null) {
-                this.setRevengeTarget(player);
-                this.attackingPlayer = player;
-                this.recentlyHit = this.getRevengeTimer();
+        LivingEntity revengeTarget = this.getRevengeTarget();
+        if (this.isAngry()) {
+            --this.angerLevel;
+            LivingEntity livingEntity = revengeTarget != null ? revengeTarget : this.getAttackTarget();
+            if (!this.isAngry() && livingEntity != null) {
+                if (!this.canEntityBeSeen(livingEntity)) {
+                    this.setRevengeTarget(null);
+                    this.setAttackTarget(null);
+                } else {
+                    this.angerLevel = this.getAngryAmount();
+                }
             }
+        }
+
+        if (this.isAngry() && this.angerTargetUUID != null && revengeTarget == null) {
+            PlayerEntity player = this.world.getPlayerByUuid(this.angerTargetUUID);
+            this.setRevengeTarget(player);
+            this.attackingPlayer = player;
+            this.recentlyHit = this.getRevengeTimer();
         }
         super.updateAITasks();
     }
@@ -183,9 +198,8 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         } else {
             Entity entity = source.getTrueSource();
             if (entity instanceof PlayerEntity && !((PlayerEntity) entity).isCreative() && this.canEntityBeSeen(entity)) {
-                this.becomeAngryAt(entity);
+                this.becomeAngryAt((LivingEntity) entity);
             }
-            this.setFireTimer(1000);
             return super.attackEntityFrom(source, amount);
         }
     }
@@ -198,15 +212,17 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         }
     }
 
-    private boolean becomeAngryAt(Entity entity) {
-        this.angerLevel = 200 + this.rand.nextInt(400);
-        if (entity instanceof LivingEntity) {
-            this.setRevengeTarget((LivingEntity) entity);
-        }
+    private boolean becomeAngryAt(LivingEntity livingEntity) {
+        this.angerLevel = this.getAngryAmount();
+        this.setRevengeTarget(livingEntity);
         return true;
     }
 
-    private boolean isAngry() {
+    private int getAngryAmount() {
+        return 250 + this.rand.nextInt(400);
+    }
+
+    public boolean isAngry() {
         return this.angerLevel > 0;
     }
 
@@ -280,7 +296,12 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
             if (entity instanceof EfreetBaseEntity && this.goalOwner.canEntityBeSeen(living) && ((EfreetBaseEntity) entity).becomeAngryAt(living)) {
                 entity.setAttackTarget(living);
             }
+        }
 
+        @Override
+        public boolean shouldContinueExecuting() {
+            EfreetBaseEntity efreet = ((EfreetBaseEntity) this.goalOwner);
+            return efreet.isAngry() && super.shouldContinueExecuting();
         }
     }
 
@@ -291,7 +312,14 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
 
         @Override
         public boolean shouldExecute() {
-            return ((EfreetBaseEntity) this.goalOwner).isAngry() && super.shouldExecute();
+            EfreetBaseEntity efreet = ((EfreetBaseEntity) this.goalOwner);
+            return efreet.isAngry() && super.shouldExecute();
+        }
+
+        @Override
+        public boolean shouldContinueExecuting() {
+            EfreetBaseEntity efreet = ((EfreetBaseEntity) this.goalOwner);
+            return efreet.isAngry() && super.shouldContinueExecuting();
         }
     }
 }

@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.misc.potion;
 import com.teammetallurgy.atum.entity.bandit.AssassinEntity;
 import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
@@ -59,9 +60,11 @@ public class MarkedForDeathEffect extends Effect { //When on easy difficult & le
                     BlockPos.Mutable mutablePos = (new BlockPos.Mutable(livingEntity)).move(x, 0, z);
                     DifficultyInstance difficulty = serverWorld.getDifficultyForLocation(mutablePos);
                     if (difficulty.getDifficulty() != Difficulty.PEACEFUL) {
-                        double multiplier = Math.max(1, (amplifier + Math.ceil(difficulty.getAdditionalDifficulty())) / 1.5D);
-                        //System.out.println("MULTIPLIER: " + multiplier);
-                        int value = (int) (600 / multiplier);
+                        //Amplifier 0 to 9 = I to X
+                        //Easy = 1, Normal = 2, Hard = 3
+                        double multiplier = Math.max(1, (amplifier + Math.ceil(difficulty.getAdditionalDifficulty())) / 1.33D);
+                        System.out.println("Multiplier: " + multiplier);
+                        int value = (int) (AtumConfig.MOBS.markedForDeathTimeBaseValue.get() /*600*/ / multiplier);
                         if (!NEXT_SPAWN.containsKey(livingEntity)) {
                             NEXT_SPAWN.put(livingEntity, value);
                         } else {
@@ -70,8 +73,6 @@ public class MarkedForDeathEffect extends Effect { //When on easy difficult & le
                             NEXT_SPAWN.replace(livingEntity, currentTime - 1);
                         }
                         if (serverWorld.isAreaLoaded(mutablePos, 10)) {
-                            //Level 0 to 9 = I to X
-                            //Easy = 1, Normal = 2, Hard = 3
                             if (NEXT_SPAWN.getInt(livingEntity) <= 0) {
                                 System.out.println("TIMER DONE");
                                 mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());

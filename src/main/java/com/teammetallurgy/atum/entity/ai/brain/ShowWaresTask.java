@@ -63,7 +63,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
         if (!this.field_220560_b.isEmpty()) {
             this.func_220553_d(owner);
         } else {
-            owner.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+            owner.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
             this.field_220563_e = Math.min(this.field_220563_e, 40);
         }
 
@@ -74,7 +74,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
     public void resetTask(@Nonnull ServerWorld world, @Nonnull SunspeakerEntity sunspeaker, long gameTimeIn) {
         super.resetTask(world, sunspeaker, gameTimeIn);
         sunspeaker.getBrain().removeMemory(MemoryModuleType.INTERACTION_TARGET);
-        sunspeaker.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
+        sunspeaker.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
         this.field_220559_a = null;
     }
 
@@ -98,7 +98,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
     }
 
     private void func_220558_a(SunspeakerEntity p_220558_1_) {
-        p_220558_1_.setItemStackToSlot(EquipmentSlotType.MAINHAND, this.field_220560_b.get(0));
+        p_220558_1_.setItemStackToSlot(EquipmentSlotType.OFFHAND, this.field_220560_b.get(0));
     }
 
     private void func_220555_b(SunspeakerEntity p_220555_1_) {
@@ -129,7 +129,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
                 this.field_220562_d = 0;
             }
 
-            p_220553_1_.setItemStackToSlot(EquipmentSlotType.MAINHAND, this.field_220560_b.get(this.field_220562_d));
+            p_220553_1_.setItemStackToSlot(EquipmentSlotType.OFFHAND, this.field_220560_b.get(this.field_220562_d));
         }
 
     }

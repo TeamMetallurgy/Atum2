@@ -12,7 +12,7 @@ import java.util.Random;
 
 public class StructureHelper {
 
-    public static boolean doesChunkHaveStructure(IWorld world, int chunkX, int chunkZ, Structure<?> structure) { //TODO
+    public static boolean doesChunkHaveStructure(IWorld world, int chunkX, int chunkZ, Structure<?> structure) {
         return !world.getChunk(chunkX, chunkZ, ChunkStatus.STRUCTURE_REFERENCES).getStructureReferences(structure.getStructureName()).isEmpty();
     }
 

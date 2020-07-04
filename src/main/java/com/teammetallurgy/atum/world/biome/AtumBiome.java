@@ -40,9 +40,6 @@ public class AtumBiome extends Biome {
         addSpawn(biome, AtumEntities.DESERT_RABBIT, 5, 2, 3, EntityClassification.CREATURE);
         addSpawn(biome, EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
 
-        //Bandits
-        //addSpawn(biome, AtumEntities.ASSASSIN, 1, 1, 1, EntityClassification.MONSTER); //TODO
-
         //Undead
         addSpawn(biome, AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
         addSpawn(biome, AtumEntities.FORSAKEN, 22, 1, 4, EntityClassification.MONSTER);
