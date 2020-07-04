@@ -66,9 +66,9 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
     protected void applyEntityAI() {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, BanditBaseEntity.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, true));
     }
 
     @Override

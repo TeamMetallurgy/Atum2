@@ -59,10 +59,10 @@ public class SergeantEntity extends BanditBaseEntity {
         super.onDeath(cause);
         Entity killer = cause.getTrueSource();
         if (killer instanceof PlayerEntity) {
-            double chance = this.rand.nextDouble();
-            if (chance <= 0.1D) {
+            //double chance = this.rand.nextDouble();
+            //if (chance <= 0.1D) {
                 ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 610, 0, false, false, true));
-            }
+            //}
         }
     }
 }

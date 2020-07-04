@@ -53,8 +53,8 @@ public class AssassinEntity extends BanditBaseEntity {
         if (this.markedTarget != null) {
             this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget)); //Set target, when read from NBT
         }
-        this.goalSelector.addGoal(2, new OpenAnyDoorGoal(this, false));
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.2D, true));
+        this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.2D, true));
     }
 
     @Override
@@ -195,30 +195,34 @@ public class AssassinEntity extends BanditBaseEntity {
 
         @Override
         public boolean shouldContinueExecuting() {
-            LivingEntity target = this.goalOwner.getAttackTarget();
-            if (target == null) {
-                System.out.println("CURRENT ATTACK TARGET IS NULL, GOING BACK TO MARKED TARGET: " + this.markedTarget.getDisplayName().getFormattedText());
-                target = this.markedTarget;
-            }
+            if (this.goalOwner.getRevengeTarget() != null) {
+                LivingEntity target = this.goalOwner.getAttackTarget();
+                if (target == null) {
+                    System.out.println("CURRENT ATTACK TARGET IS NULL, GOING BACK TO MARKED TARGET: " + this.markedTarget.getDisplayName().getFormattedText());
+                    target = this.markedTarget;
+                }
 
-            if (target == null) {
-                return false;
-            } else if (!target.isAlive()) {
-                return false;
-            } else {
-                System.out.println("CURRENT TARGET: " + target.getDisplayName().getFormattedText());
-                double distance = this.getTargetDistance();
-                if (this.goalOwner.getDistanceSq(target) > distance * distance) {
+                if (target == null) {
+                    return false;
+                } else if (!target.isAlive()) {
                     return false;
                 } else {
-                    if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
+                    System.out.println("CURRENT TARGET: " + target.getDisplayName().getFormattedText());
+                    double distance = this.getTargetDistance();
+                    if (this.goalOwner.getDistanceSq(target) > distance * distance) {
                         return false;
                     } else {
-                        System.out.println("SETTING TARGET TO: " + target.getDisplayName().getFormattedText());
-                        this.goalOwner.setAttackTarget(target);
-                        return true;
+                        if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
+                            return false;
+                        } else {
+                            System.out.println("SETTING TARGET TO: " + target.getDisplayName().getFormattedText());
+                            this.goalOwner.setAttackTarget(target);
+                            return true;
+                        }
                     }
                 }
+            } else {
+                return false;
             }
         }
 
