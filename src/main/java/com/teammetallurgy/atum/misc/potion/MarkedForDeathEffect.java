@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MarkedForDeathEffect extends Effect { //When on easy difficult & level 1 Marked For Death, make sure to have it at least at 31 seconds
+public class MarkedForDeathEffect extends Effect { //When on Easy difficulty & level 1 Marked For Death, make sure to have it at least at 51 seconds
     private static final Object2IntMap<LivingEntity> NEXT_SPAWN = new Object2IntOpenHashMap<>();
 
     public MarkedForDeathEffect() {
@@ -64,7 +64,7 @@ public class MarkedForDeathEffect extends Effect { //When on easy difficult & le
                         //Easy = 1, Normal = 2, Hard = 3
                         double multiplier = Math.max(1, (amplifier + Math.ceil(difficulty.getAdditionalDifficulty())) / 1.33D);
                         System.out.println("Multiplier: " + multiplier);
-                        int value = (int) (AtumConfig.MOBS.markedForDeathTimeBaseValue.get() /*600*/ / multiplier);
+                        int value = (int) (AtumConfig.MOBS.markedForDeathTimeBaseValue.get() / multiplier);
                         if (!NEXT_SPAWN.containsKey(livingEntity)) {
                             NEXT_SPAWN.put(livingEntity, value);
                         } else {
@@ -91,7 +91,6 @@ public class MarkedForDeathEffect extends Effect { //When on easy difficult & le
     public void onEffectExpired(PotionEvent.PotionExpiryEvent event) {
         EffectInstance effectInstance = event.getPotionEffect();
         if (effectInstance != null && effectInstance.getPotion() == AtumEffects.MARKED_FOR_DEATH) {
-            System.out.println("EFFECT EXPIRED: " + event.getEntityLiving().getDisplayName().getFormattedText());
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
     }
@@ -100,7 +99,6 @@ public class MarkedForDeathEffect extends Effect { //When on easy difficult & le
     public void onEffectRemoval(PotionEvent.PotionRemoveEvent event) {
         EffectInstance effectInstance = event.getPotionEffect();
         if (effectInstance != null && effectInstance.getPotion() == AtumEffects.MARKED_FOR_DEATH) {
-            System.out.println("EFFECT REMOVAL: " + event.getEntityLiving().getDisplayName().getFormattedText());
             NEXT_SPAWN.removeInt(event.getEntityLiving());
         }
     }

@@ -195,34 +195,36 @@ public class AssassinEntity extends BanditBaseEntity {
 
         @Override
         public boolean shouldContinueExecuting() {
-            if (this.goalOwner.getRevengeTarget() != null) {
-                LivingEntity target = this.goalOwner.getAttackTarget();
+            LivingEntity target;
+            LivingEntity revenge = this.goalOwner.getRevengeTarget();
+            if (revenge != null) {
+                target = revenge;
+                System.out.println("SETTING REVENGE TARGET TO: " + target.getDisplayName().getFormattedText());
+            } else {
+                target = this.markedTarget;
                 if (target == null) {
-                    System.out.println("CURRENT ATTACK TARGET IS NULL, GOING BACK TO MARKED TARGET: " + this.markedTarget.getDisplayName().getFormattedText());
-                    target = this.markedTarget;
+                    target = this.goalOwner.getAttackTarget();
                 }
+            }
 
-                if (target == null) {
-                    return false;
-                } else if (!target.isAlive()) {
+            if (target == null) {
+                return false;
+            } else if (!target.isAlive()) {
+                return false;
+            } else {
+                System.out.println("CURRENT TARGET: " + target.getDisplayName().getFormattedText());
+                double distance = this.getTargetDistance();
+                if (this.goalOwner.getDistanceSq(target) > distance * distance) {
                     return false;
                 } else {
-                    System.out.println("CURRENT TARGET: " + target.getDisplayName().getFormattedText());
-                    double distance = this.getTargetDistance();
-                    if (this.goalOwner.getDistanceSq(target) > distance * distance) {
+                    if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
                         return false;
                     } else {
-                        if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
-                            return false;
-                        } else {
-                            System.out.println("SETTING TARGET TO: " + target.getDisplayName().getFormattedText());
-                            this.goalOwner.setAttackTarget(target);
-                            return true;
-                        }
+                        System.out.println("SETTING TARGET TO: " + target.getDisplayName().getFormattedText());
+                        this.goalOwner.setAttackTarget(target);
+                        return true;
                     }
                 }
-            } else {
-                return false;
             }
         }
 

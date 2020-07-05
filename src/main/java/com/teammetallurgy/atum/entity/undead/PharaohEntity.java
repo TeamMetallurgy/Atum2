@@ -218,7 +218,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         }
         Entity killer = source.getTrueSource();
         if (killer instanceof PlayerEntity) {
-            ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 2500, 0, false, false, true)); //TODO Test
+            ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 2400, 0, false, false, true));
         }
         super.onDeath(source);
     }

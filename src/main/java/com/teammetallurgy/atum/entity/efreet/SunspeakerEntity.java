@@ -307,7 +307,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         if (killer instanceof PlayerEntity) {
             double chance = this.rand.nextDouble();
             if (chance <= 0.5D) {
-                ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 1000, 1, false, false, true));
+                ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 1200, 1, false, false, true));
             }
         }
     }
