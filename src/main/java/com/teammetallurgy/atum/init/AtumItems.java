@@ -194,12 +194,6 @@ public class AtumItems {
     public static final Item CRUNCHY_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_SCARAB)), "crunchy_scarab");
     public static final Item CRUNCHY_GOLD_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_GOLD_SCARAB)), "crunchy_golden_scarab");
 
-    public static void setItemInfo() {
-        //OreDictHelper.add(EMMER_DOUGH, "foodDough"); //TODO
-        //OreDictHelper.add(new ItemStack(EMMER_BREAD), "foodBread", "bread"); //TODO
-        //OreDictHelper.add(EMMER_FLOUR, "foodFlour"); //TODO
-    }
-
     public static class AtumFoods {
         public static final Food EMMER_BREAD = new Food.Builder().hunger(4).saturation(0.9F).build();
         public static final Food CAMEL_RAW = new Food.Builder().hunger(3).saturation(0.2F).meat().build();

@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.undead;
 
+import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,7 +12,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -33,8 +33,8 @@ public class WraithEntity extends UndeadBaseEntity {
         this.experienceValue = 6;
         this.setCanPickUpLoot(false);
 
-        cycleTime = (int) ((Math.random() * 40) + 80);
-        cycleHeight = (int) (Math.random() * cycleTime);
+        this.cycleTime = (int) ((Math.random() * 40) + 80);
+        this. cycleHeight = (int) (Math.random() * this.cycleTime);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class WraithEntity extends UndeadBaseEntity {
     @Override
     @Nonnull
     protected PathNavigator createNavigator(@Nonnull World world) {
-        return new ClimberPathNavigator(this, world);
+        return new ClimberGroundPathNavigator(this, world);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class WraithEntity extends UndeadBaseEntity {
 
     @Override
     public void livingTick() {
-        cycleHeight = (cycleHeight + 1) % cycleTime;
+        this.cycleHeight = (this.cycleHeight + 1) % this.cycleTime;
 
         super.livingTick();
     }
@@ -134,7 +134,7 @@ public class WraithEntity extends UndeadBaseEntity {
         if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (rand.nextDouble() <= 0.175D) {
+            if (this.rand.nextDouble() <= 0.175D) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingBase = (LivingEntity) entity;
                     if (!livingBase.isPotionActive(Effects.SLOWNESS)) {

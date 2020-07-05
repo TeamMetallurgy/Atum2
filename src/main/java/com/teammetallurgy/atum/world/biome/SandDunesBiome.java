@@ -11,7 +11,6 @@ public class SandDunesBiome extends AtumBiome {
         AtumFeatures.Default.addDeadwoodTrees(this, 0, 0.01F, 1);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
-        AtumFeatures.Default.addLavaLakes(this);
         AtumFeatures.Default.addMaterialPockets(this);
         AtumFeatures.Default.addStoneVariants(this);
         AtumFeatures.Default.addOres(this);

@@ -18,7 +18,6 @@ public class DeadwoodForestBiome extends AtumBiome {
         AtumFeatures.Default.addDeadwoodTrees(this, 20, 0.25F, 3);
         AtumFeatures.Default.addCarvers(this);
         AtumFeatures.Default.addSprings(this);
-        AtumFeatures.Default.addLavaLakes(this);
         AtumFeatures.Default.addMaterialPockets(this);
         AtumFeatures.Default.addStoneVariants(this);
         AtumFeatures.Default.addOres(this);

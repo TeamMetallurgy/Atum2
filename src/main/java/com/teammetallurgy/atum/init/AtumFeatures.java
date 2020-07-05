@@ -16,7 +16,6 @@ import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStruct
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidStructure;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinStructure;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombStructure;
-import net.minecraft.block.Blocks;
 import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
@@ -100,10 +99,6 @@ public class AtumFeatures {
         public static void addSprings(Biome biome) {
             biome.addFeature(VEGETAL_DECORATION, Feature.SPRING_FEATURE.withConfiguration(WATER_SPRING_CONFIG).withPlacement(Placement.COUNT_BIASED_RANGE.configure(new CountRangeConfig(14, 8, 8, 50))));
             biome.addFeature(VEGETAL_DECORATION, Feature.SPRING_FEATURE.withConfiguration(LAVA_SPRING_CONFIG).withPlacement(Placement.COUNT_VERY_BIASED_RANGE.configure(new CountRangeConfig(8, 8, 16, 256))));
-        }
-
-        public static void addLavaLakes(Biome biome) { //TODO. Not working?
-            biome.addFeature(LOCAL_MODIFICATIONS, SURFACE_LAVA_LAKE.withConfiguration(new BlockStateFeatureConfig(Blocks.LAVA.getDefaultState())).withPlacement(Placement.LAVA_LAKE.configure(new ChanceConfig(80000))));
         }
 
         public static void addMaterialPockets(Biome biome) {

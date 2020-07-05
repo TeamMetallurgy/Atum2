@@ -1,10 +1,14 @@
 package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
+import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
+import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
 import net.minecraft.entity.ai.goal.TargetGoal;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -13,7 +17,6 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.ClimberPathNavigator;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -38,7 +41,7 @@ public class AssassinEntity extends BanditBaseEntity {
     public AssassinEntity(EntityType<? extends AssassinEntity> entityType, World world) {
         super(entityType, world);
         this.experienceValue = 12;
-        (new ClimberPathNavigator(this, world)).setBreakDoors(true);
+        (new ClimberGroundPathNavigator(this, world)).setBreakDoors(true);
         this.setCanPatrol(false);
     }
 
@@ -58,6 +61,12 @@ public class AssassinEntity extends BanditBaseEntity {
     }
 
     @Override
+    protected void applyEntityAI() {
+        this.targetSelector.addGoal(0, new HurtByTargetGoal(this, BanditBaseEntity.class));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
+    }
+
+    @Override
     protected void registerData() {
         super.registerData();
         this.dataManager.register(CLIMBING, (byte) 0);
@@ -74,7 +83,7 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     @Nonnull
     protected PathNavigator createNavigator(@Nonnull World world) {
-        return new ClimberPathNavigator(this, world);
+        return new ClimberGroundPathNavigator(this, world);
     }
 
     @Override
@@ -141,7 +150,6 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
-        System.out.println("WRITE: " + (this.markedTarget != null ? this.markedTarget.getDisplayName().getFormattedText() : "IS NULL"));
         if (this.markedTarget instanceof PlayerEntity) {
             compound.putUniqueId("MarkedForDeathTarget", this.markedTarget.getUniqueID());
         }
@@ -151,9 +159,7 @@ public class AssassinEntity extends BanditBaseEntity {
     public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         PlayerEntity playerEntity = this.world.getPlayerByUuid(compound.getUniqueId("MarkedForDeathTarget"));
-        System.out.println("READ IS NULL: " + (playerEntity == null));
         if (playerEntity != null) {
-            System.out.println("READ: " + playerEntity.getDisplayName().getFormattedText());
             this.markedTarget = playerEntity;
         }
     }
@@ -163,9 +169,7 @@ public class AssassinEntity extends BanditBaseEntity {
     }
 
     public void setMarkedTarget(LivingEntity livingEntity) {
-        System.out.println("SET MARKED TARGET: " + livingEntity.getDisplayName().getFormattedText());
         this.markedTarget = livingEntity;
-        System.out.println("REGISTER MARKED FOR DEATH GOAL: " + livingEntity.getDisplayName().getFormattedText());
         this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, livingEntity)); //Set goal initially
     }
 
@@ -175,10 +179,6 @@ public class AssassinEntity extends BanditBaseEntity {
         public MarkedForDeathGoal(MobEntity mob, @Nullable LivingEntity markedTarget) {
             super(mob, false);
             this.markedTarget = markedTarget;
-            System.out.println("MARKED TARGET CONSTRUCTOR: " + (markedTarget != null));
-            if (markedTarget != null) {
-                System.out.println("MARKED TARGET ATTACK: " + markedTarget.getDisplayName().getFormattedText());
-            }
         }
 
         @Override
@@ -187,19 +187,11 @@ public class AssassinEntity extends BanditBaseEntity {
         }
 
         @Override
-        public void startExecuting() {
-            super.startExecuting();
-            System.out.println("START EXECUTING: " + this.markedTarget.getDisplayName().getFormattedText());
-            this.goalOwner.setAttackTarget(this.markedTarget);
-        }
-
-        @Override
         public boolean shouldContinueExecuting() {
             LivingEntity target;
             LivingEntity revenge = this.goalOwner.getRevengeTarget();
             if (revenge != null) {
                 target = revenge;
-                System.out.println("SETTING REVENGE TARGET TO: " + target.getDisplayName().getFormattedText());
             } else {
                 target = this.markedTarget;
                 if (target == null) {
@@ -212,7 +204,6 @@ public class AssassinEntity extends BanditBaseEntity {
             } else if (!target.isAlive()) {
                 return false;
             } else {
-                System.out.println("CURRENT TARGET: " + target.getDisplayName().getFormattedText());
                 double distance = this.getTargetDistance();
                 if (this.goalOwner.getDistanceSq(target) > distance * distance) {
                     return false;
@@ -220,7 +211,6 @@ public class AssassinEntity extends BanditBaseEntity {
                     if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
                         return false;
                     } else {
-                        System.out.println("SETTING TARGET TO: " + target.getDisplayName().getFormattedText());
                         this.goalOwner.setAttackTarget(target);
                         return true;
                     }
@@ -230,8 +220,14 @@ public class AssassinEntity extends BanditBaseEntity {
 
         @Override
         public boolean shouldExecute() {
-            System.out.println("SHOULD EXECUTE: " + (this.markedTarget != null));
             return this.markedTarget != null;
+        }
+
+        @Override
+        public void resetTask() {
+            super.resetTask();
+            this.markedTarget = null;
+            ((AssassinEntity) this.goalOwner).markedTarget = null;
         }
     }
 }

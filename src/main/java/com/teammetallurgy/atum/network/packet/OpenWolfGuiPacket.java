@@ -32,7 +32,6 @@ public class OpenWolfGuiPacket {
 				Entity entity = playerMP.world.getEntityByID(message.wolfID);
 				if (entity instanceof DesertWolfEntity) {
 					DesertWolfEntity wolf = (DesertWolfEntity) entity;
-					//wolf.getInventory().setCustomName(wolf.getName()); //TODO?
 					NetworkHooks.openGui(playerMP, wolf, buf -> buf.writeInt(wolf.getEntityId()));
 				}
 				ctx.get().setPacketHandled(true);

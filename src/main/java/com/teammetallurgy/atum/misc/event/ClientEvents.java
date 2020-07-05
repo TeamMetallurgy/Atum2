@@ -52,12 +52,12 @@ public class ClientEvents {
     }
 
     /*@SubscribeEvent
-    public static void renderSand(RenderGameOverlayEvent.Pre event) {
+    public static void renderSand(RenderGameOverlayEvent.Pre event) { //Keithy. Minor for later
         ClientPlayerEntity player = Minecraft.getInstance().player;
         if (event.getType() != RenderGameOverlayEvent.ElementType.ALL || player == null) return;
 
         if (player.dimension == AtumDimensionType.ATUM) {
-            //renderSand(event.getPartialTicks(), 1); //TODO Keithy. Minor for later
+            //renderSand(event.getPartialTicks(), 1);
         }
     }*/
 

@@ -10,6 +10,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
@@ -56,40 +57,39 @@ public class KilnOutputSlot extends Slot {
     @Override
     protected void onCrafting(@Nonnull ItemStack stack) {
         stack.onCrafting(this.player.world, this.player, this.removeCount);
+        World world = player.world;
 
-        if (!this.player.world.isRemote) {
-            int count = this.removeCount;
-            float exp = this.getExperience(stack);
-
-            if (exp == 0.0F) {
-                count = 0;
-            } else if (exp < 1.0F) {
-                int expCount = MathHelper.floor((float) count * exp);
-                if (expCount < MathHelper.ceil((float) count * exp) && Math.random() < (double) ((float) count * exp - (float) expCount)) {
-                    ++expCount;
-                }
-                count = expCount;
-            }
-            while (count > 0) {
-                int k = ExperienceOrbEntity.getXPSplit(count);
-                count -= k;
-                this.player.world.addEntity(new ExperienceOrbEntity(this.player.world, this.player.getPosX(), this.player.getPosY() + 0.5D, this.player.getPosZ() + 0.5D, k));
-            }
+        if (!world.isRemote() && world instanceof ServerWorld) {
+            this.spawnAllOrbs((ServerWorld) world, stack, this.removeCount);
         }
         this.removeCount = 0;
     }
 
-    private float getExperience(@Nonnull ItemStack stack) { //TODO Needs testing
-        if (this.player.world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) this.player.world;
-            List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN));
-            recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverWorld.getRecipeManager()));
-            for (KilnRecipe kilnRecipe : recipes) {
-                if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getRecipeOutput())) {
-                    return kilnRecipe.getExperience();
-                }
+    private void spawnAllOrbs(ServerWorld serverWorld, @Nonnull ItemStack stack, int removeCount) {
+        List<KilnRecipe> recipes = new ArrayList<>(RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.KILN));
+        recipes.addAll(RecipeHelper.getKilnRecipesFromFurnace(serverWorld.getRecipeManager()));
+        for (KilnRecipe kilnRecipe : recipes) {
+            if (StackHelper.areStacksEqualIgnoreSize(stack, kilnRecipe.getRecipeOutput())) {
+                this.spawnExpOrbs(player, removeCount, kilnRecipe.getExperience());
             }
         }
-        return 0.0F;
+    }
+
+    private void spawnExpOrbs(PlayerEntity player, int count, float experience) {
+        if (experience == 0.0F) {
+            count = 0;
+        } else if (experience < 1.0F) {
+            int expCount = MathHelper.floor((float) count * experience);
+            if (expCount < MathHelper.ceil((float) count * experience) && Math.random() < (double) ((float) count * experience - (float) expCount)) {
+                ++expCount;
+            }
+
+            count = expCount;
+        }
+        while (count > 0) {
+            int xpSplit = ExperienceOrbEntity.getXPSplit(count);
+            count -= xpSplit;
+            player.world.addEntity(new ExperienceOrbEntity(player.world, player.getPosX(), player.getPosY() + 0.5D, player.getPosZ() + 0.5D, xpSplit));
+        }
     }
 }

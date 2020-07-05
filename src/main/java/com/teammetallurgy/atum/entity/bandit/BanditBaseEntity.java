@@ -20,7 +20,6 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -49,7 +48,6 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
     BanditBaseEntity(EntityType<? extends BanditBaseEntity> entityType, World world) {
         super(entityType, world);
-        new GroundPathNavigator(this, world).getEnterDoors();
     }
 
     @Override

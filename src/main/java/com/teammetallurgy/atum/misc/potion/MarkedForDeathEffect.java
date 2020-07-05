@@ -63,18 +63,15 @@ public class MarkedForDeathEffect extends Effect { //When on Easy difficulty & l
                         //Amplifier 0 to 9 = I to X
                         //Easy = 1, Normal = 2, Hard = 3
                         double multiplier = Math.max(1, (amplifier + Math.ceil(difficulty.getAdditionalDifficulty())) / 1.33D);
-                        System.out.println("Multiplier: " + multiplier);
                         int value = (int) (AtumConfig.MOBS.markedForDeathTimeBaseValue.get() / multiplier);
                         if (!NEXT_SPAWN.containsKey(livingEntity)) {
                             NEXT_SPAWN.put(livingEntity, value);
                         } else {
                             int currentTime = NEXT_SPAWN.getInt(livingEntity);
-                            System.out.println("NEXT SPAWN: " + (currentTime - 1));
                             NEXT_SPAWN.replace(livingEntity, currentTime - 1);
                         }
                         if (serverWorld.isAreaLoaded(mutablePos, 10)) {
                             if (NEXT_SPAWN.getInt(livingEntity) <= 0) {
-                                System.out.println("TIMER DONE");
                                 mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
                                 this.spawnAssassin(serverWorld, mutablePos, random, livingEntity);
                                 NEXT_SPAWN.removeInt(livingEntity);
@@ -110,7 +107,6 @@ public class MarkedForDeathEffect extends Effect { //When on Easy difficulty & l
             AssassinEntity assassin = entityType.create(world);
             if (assassin != null) {
                 assassin.setPosition(pos.getX() + rand.nextInt(5) - rand.nextInt(5), pos.getY(), pos.getZ() + rand.nextInt(5) - rand.nextInt(5));
-                System.out.println("ASSASSIN: " + assassin.getPosition());
                 assassin.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.EVENT, null, null);
                 assassin.setMarkedTarget(markedTarget);
                 world.addEntity(assassin);

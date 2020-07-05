@@ -140,7 +140,7 @@ public class AtumBiome extends Biome {
             this.downfall(0.0F);
             this.temperature(2.0F);
             this.waterColor(4159204);
-            this.waterFogColor(329011); //TODO Figure out what this is. Value copied from vanilla
+            this.waterFogColor(329011);
             this.setBaseHeight(0.135F);
             this.setHeightVariation(0.05F);
             this.parent(null);

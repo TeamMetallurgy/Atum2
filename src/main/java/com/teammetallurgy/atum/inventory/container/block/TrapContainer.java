@@ -38,7 +38,7 @@ public class TrapContainer extends Container {
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) { //TODO Might not be needed?
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
 
