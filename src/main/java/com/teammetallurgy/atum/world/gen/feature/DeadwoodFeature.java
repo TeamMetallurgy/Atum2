@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.datafixers.Dynamic;
-import com.teammetallurgy.atum.blocks.wood.BranchBlock;
+import com.teammetallurgy.atum.blocks.wood.DeadwoodBranchBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
@@ -126,9 +126,9 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
 
                 // Prevent branches 3 blocks in the same direction
                 BlockState curr = world.getBlockState(pos);
-                if (curr.getBlock() == BRANCH.getBlock() && curr.get(BranchBlock.FACING) == facing.getOpposite()) {
+                if (curr.getBlock() == BRANCH.getBlock() && curr.get(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
                     BlockState prev = world.getBlockState(pos.add(facing.getOpposite().getDirectionVec()));
-                    if (prev.getBlock() == BRANCH.getBlock() && prev.get(BranchBlock.FACING) == facing.getOpposite()) {
+                    if (prev.getBlock() == BRANCH.getBlock() && prev.get(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
                         continue;
                     }
                 }
@@ -154,7 +154,7 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
                 if (random.nextFloat() < probability) {
                     BlockPos nextPos = pos.add(facing.getDirectionVec());
                     if (world.isAirBlock(nextPos)) {
-                        BranchBlock branch = (BranchBlock) BRANCH.getBlock();
+                        DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
                         this.setBlockState(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
                         placedBranches.add(nextPos);
 
@@ -180,7 +180,7 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
             }
 
             for (BlockPos placedLocation: placedBranches) {
-                BranchBlock branch = (BranchBlock) BRANCH.getBlock();
+                DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
                 this.setBlockState(genReader, placedLocation, branch.makeConnections(world, placedLocation));
             }
 

@@ -15,6 +15,7 @@ import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
@@ -28,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at ChorusPlantBlock
+public class DeadwoodBranchBlock extends Block {
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class);
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
     public static final BooleanProperty EAST = BooleanProperty.create("east");
@@ -40,12 +41,12 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
     private static final Map<Direction, VoxelShape> bounds;
     private static final Map<Direction, VoxelShape> connectedBounds;
 
-    private static final VoxelShape EAST_AABB = Block.makeCuboidShape(5, 5, 5, 1.0D, 11, 11);
-    private static final VoxelShape WEST_AABB = Block.makeCuboidShape(0.0D, 5, 5, 11, 11, 11);
-    private static final VoxelShape NORTH_AABB = Block.makeCuboidShape(5, 5, 0.0D, 11, 11, 11);
-    private static final VoxelShape SOUTH_AABB = Block.makeCuboidShape(5, 5, 5, 11, 11, 1.0D);
-    private static final VoxelShape UP_AABB = Block.makeCuboidShape(5, 5, 5, 11, 1.0D, 11);
-    private static final VoxelShape DOWN_AABB = Block.makeCuboidShape(5, 0.0D, 5, 11, 11, 11);
+    private static final VoxelShape EAST_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 5 / 16D, 1.0D, 11 / 16D, 11 / 16D);
+    private static final VoxelShape WEST_AABB = VoxelShapes.create(0.0D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
+    private static final VoxelShape NORTH_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 0.0D, 11 / 16D, 11 / 16D, 11 / 16D);
+    private static final VoxelShape SOUTH_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 1.0D);
+    private static final VoxelShape UP_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 5 / 16D, 11 / 16D, 1.0D, 11 / 16D);
+    private static final VoxelShape DOWN_AABB = VoxelShapes.create(5 / 16D, 0.0D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
 
     static {
         bounds = new HashMap<>();
@@ -59,13 +60,13 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
 
         for (Direction facing : Direction.values()) {
             AxisAlignedBB box = bounds.get(facing).getBoundingBox();
-            box.expand(5 * facing.getXOffset(), 5 * facing.getYOffset(), 5 * facing.getZOffset());
-            VoxelShape expandedBox = Block.makeCuboidShape(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-            connectedBounds.put(facing, expandedBox);
+            AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
+            expandedBox.expand(5 * facing.getXOffset(), 5 * facing.getYOffset(), 5 * facing.getZOffset());
+            connectedBounds.put(facing, VoxelShapes.create(expandedBox));
         }
     }
 
-    public BranchBlock() {
+    public DeadwoodBranchBlock() {
         super(Properties.create(Material.WOOD).hardnessAndResistance(0.8F, 5.0F).sound(SoundType.WOOD).tickRandomly().harvestTool(ToolType.AXE).harvestLevel(0));
         this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false));
     }
@@ -102,13 +103,13 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
         Direction facing = state.get(FACING);
 
         BlockState neighbor = reader.getBlockState(pos.add(facing.getDirectionVec()));
-        /*if (neighbor.getBlock() == this) {
+        if (neighbor.getBlock() == this) {
             AxisAlignedBB box = connectedBounds.get(facing).getBoundingBox();
-            box.expand(5 * facing.getXOffset(), 5 * facing.getYOffset(), 5 * facing.getZOffset());
-            return Block.makeCuboidShape(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-        } else {*/
+            AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
+            return VoxelShapes.create(expandedBox.expand(5 / 16D * facing.getXOffset(), 5 / 16D * facing.getYOffset(), 5 / 16D * facing.getZOffset()));
+        } else {
             return bounds.get(facing);
-        //}
+        }
     }
 
     @Nullable
