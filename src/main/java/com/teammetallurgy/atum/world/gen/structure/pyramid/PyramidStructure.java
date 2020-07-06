@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.network.packet.SyncStackPacket;
+import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
@@ -99,7 +99,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                 event.setCanceled(true);
                 ItemStack placedStack = new ItemStack(placedBlock);
                 Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
-                NetworkHandler.sendTo(player, new SyncStackPacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+                NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
             }
         }
     }
