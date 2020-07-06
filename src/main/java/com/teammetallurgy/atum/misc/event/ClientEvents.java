@@ -30,6 +30,7 @@ import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -42,7 +43,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void renderlast(RenderWorldLastEvent event) {
         ClientPlayerEntity player = Minecraft.getInstance().player;
-        if (player != null && player.dimension == AtumDimensionType.ATUM) {
+        if (player != null && player.dimension.getId() == AtumDimensionType.ATUM.getId()) {
             if (Minecraft.getInstance().gameSettings.hideGUI) {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             } else {
@@ -61,7 +62,7 @@ public class ClientEvents {
         }
     }*/
 
-    private static void renderSand(float partialTicks, int... layers) { //TODO
+    private static void renderSand(float partialTicks, int... layers) {
         float baseDarkness = AtumConfig.SANDSTORM.sandDarkness.get() / 100.0F;
         float baseAlpha = AtumConfig.SANDSTORM.sandAlpha.get() / 100.0F;
         float eyesOfAtumAlpha = AtumConfig.SANDSTORM.sandEyesAlpha.get() / 100.0F;
@@ -70,15 +71,16 @@ public class ClientEvents {
         if (player == null) return;
         Dimension dimension = player.world.getDimension();
 
-        if (dimension instanceof AtumDimension && player.dimension == AtumDimensionType.ATUM) {
+        if (dimension instanceof AtumDimension && player.dimension.getId() == AtumDimensionType.ATUM.getId() && mc.world != null) {
             AtumDimension atum = (AtumDimension) dimension;
+            World world = mc.world;
             float stormStrength = atum.stormStrength;
 
             if (stormStrength < 0.0001F) {
                 return;
             }
 
-            float light = getSunBrightness(dimension, mc.world, partialTicks);
+            float light = getSunBrightness(dimension, world, partialTicks);
 
             RenderSystem.pushMatrix();
             RenderSystem.pushTextureAttributes();
@@ -109,15 +111,15 @@ public class ClientEvents {
             BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
             boolean sky = player.world.canBlockSeeSky(playerPos);
             if (!sky || player.world.getBiome(playerPos) == AtumBiomes.OASIS) {
-                intensity -= 0.001f * partialTicks;
+                intensity -= 0.001F * partialTicks;
                 intensity = Math.max(0, intensity);
             } else {
-                intensity += 0.01f * partialTicks;
+                intensity += 0.01F * partialTicks;
                 intensity = Math.min(stormStrength, intensity);
             }
 
             for (int i : layers) {
-                float scale = 0.2f / (float) i;
+                float scale = 0.2F / (float) i;
                 float alpha = (float) Math.pow(intensity - baseAlpha, i) * intensity;
 
                 // Make it easier to see
@@ -127,12 +129,12 @@ public class ClientEvents {
                 }
 
                 RenderSystem.color4f(baseDarkness * light, baseDarkness * light, baseDarkness * light, alpha);
-                double scaleX = 0.01f * mc.getMainWindow().getScaledHeight() * scale * mc.getMainWindow().getGuiScaleFactor();
-                double scaleY = 0.01f * mc.getMainWindow().getScaledWidth() * scale * mc.getMainWindow().getGuiScaleFactor();
+                double scaleX = 0.01F * mc.getMainWindow().getScaledHeight() * scale * mc.getMainWindow().getGuiScaleFactor();
+                double scaleY = 0.01F * mc.getMainWindow().getScaledWidth() * scale * mc.getMainWindow().getGuiScaleFactor();
                 float speed = 500f - i * 15;
                 float movement = -(System.currentTimeMillis() % (int) speed) / speed;
-                float yaw = 0.25f * (player.rotationYaw % 360 / 360f) / scale;
-                float pitch = 0.5f * (player.rotationPitch % 360 / 360f) / scale;
+                float yaw = 0.25F * (player.rotationYaw % 360 / 360F) / scale;
+                float pitch = 0.5F * (player.rotationPitch % 360 / 360F) / scale;
 
                 bufferbuilder.pos(0.0D, mc.getMainWindow().getScaledHeight(), 90.0D).tex(movement + yaw, (float) (1.0D / scaleY + pitch)).endVertex();
                 bufferbuilder.pos(mc.getMainWindow().getScaledWidth(), mc.getMainWindow().getScaledHeight(), 90.0D).tex((float) (1.0D / scaleX + movement + yaw), (float) (1.0D / scaleY + pitch)).endVertex();
@@ -158,8 +160,8 @@ public class ClientEvents {
     }
 
     public static float getSunBrightness(Dimension dimension, World world, float partialTicks) {
-        float f = dimension.calculateCelestialAngle(world.getDayTime(), partialTicks);
-        float f1 = 1.0F - (MathHelper.cos(f * ((float) Math.PI * 2F)) * 2.0F + 0.2F);
+        float celestialAngle = dimension.calculateCelestialAngle(world.getDayTime(), partialTicks);
+        float f1 = 1.0F - (MathHelper.cos(celestialAngle * ((float) Math.PI * 2F)) * 2.0F + 0.2F);
         f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
         f1 = 1.0F - f1;
         f1 = (float) ((double) f1 * (1.0D - (double) (world.getRainStrength(partialTicks) * 5.0F) / 16.0D));
@@ -172,12 +174,11 @@ public class ClientEvents {
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
         ClientPlayerEntity clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
-        ;
         Dimension dimension = clientPlayer.world.dimension;
         Entity entity = event.getInfo().getRenderViewEntity();
 
-        if (dimension instanceof AtumDimension && entity.dimension == AtumDimensionType.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
-            RenderSystem.fogMode(GlStateManager.FogMode.EXP.param);
+        if (dimension instanceof AtumDimension && entity.dimension.getId() == AtumDimensionType.ATUM.getId() && AtumConfig.GENERAL.fogEnabled.get()) {
+            RenderSystem.fogMode(GlStateManager.FogMode.EXP);
             float fogDensity = 0.08F;
 
             if (entity instanceof PlayerEntity) {
@@ -197,6 +198,7 @@ public class ClientEvents {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * providerAtum.stormStrength);
                 }
                 RenderSystem.fogDensity(fogDensity);
+                event.setResult(Event.Result.ALLOW);
             }
         }
     }

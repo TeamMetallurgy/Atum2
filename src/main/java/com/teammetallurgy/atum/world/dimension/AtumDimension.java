@@ -181,7 +181,7 @@ public class AtumDimension extends Dimension {
 
     @Override
     public boolean doesXZShowFog(int x, int z) {
-        return true; //TODO Test
+        return false; //Fog handled elsewhere
     }
 
     @Override
