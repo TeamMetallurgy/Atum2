@@ -94,6 +94,7 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
     public void buildBranches(IWorldReader world, IWorldGenerationReader genReader, Set<BlockPos> logs, Random random) {
         // Keep track of branches to be generated using a Queue
         Queue<Pair<BlockPos, Integer>> queue = new LinkedList<>();
+        List<BlockPos> placedBranches = new ArrayList<>();
 
         for (BlockPos pos : logs) {
             queue.add(new ImmutablePair<>(pos, 0));
@@ -155,6 +156,7 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
                     if (world.isAirBlock(nextPos)) {
                         BranchBlock branch = (BranchBlock) BRANCH.getBlock();
                         this.setBlockState(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
+                        placedBranches.add(nextPos);
 
                         // Add this branch onto the queue to spawn new branches from
                         queue.add(new ImmutablePair<>(nextPos, branchLength + 1));
@@ -175,6 +177,11 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
                         }
                     }
                 }
+            }
+
+            for (BlockPos placedLocation: placedBranches) {
+                BranchBlock branch = (BranchBlock) BRANCH.getBlock();
+                this.setBlockState(genReader, placedLocation, branch.makeConnections(world, placedLocation));
             }
 
             // Failsafe, if the stack has gotten this large, something has probably gone wrong.

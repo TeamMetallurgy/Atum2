@@ -77,7 +77,6 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
 
     @Override
     public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
-        this.makeConnections(world, pos, state.get(FACING));
         if (!this.canSurviveAt(world, pos)) {
             world.destroyBlock(pos, true);
         }
@@ -85,7 +84,6 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
 
     @Override
     public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
-        this.makeConnections(world, pos, state.get(FACING));
         if (!this.canSurviveAt(world, pos)) {
             world.getPendingBlockTicks().scheduleTick(pos, this, 1);
         }
@@ -124,14 +122,25 @@ public class BranchBlock extends Block { //Maybe use SixWayBlock. Look at Chorus
         container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
     }
 
+    public BlockState makeConnections(IWorldReader world, BlockPos pos) {
+        return makeConnections(world, pos, world.getBlockState(pos).get(FACING).getOpposite());
+    }
+
     public BlockState makeConnections(IWorldReader world, BlockPos pos, Direction direction) {
         return this.getDefaultState().with(FACING, direction.getOpposite())
-                .with(NORTH, direction != Direction.NORTH && shouldConnect(world, pos, Direction.NORTH))
-                .with(EAST, direction != Direction.EAST && shouldConnect(world, pos, Direction.EAST))
-                .with(SOUTH, direction != Direction.SOUTH && shouldConnect(world, pos, Direction.SOUTH))
-                .with(WEST, direction != Direction.WEST && shouldConnect(world, pos, Direction.WEST))
-                .with(UP, direction != Direction.UP && shouldConnect(world, pos, Direction.UP))
-                .with(DOWN, direction != Direction.DOWN && shouldConnect(world, pos, Direction.DOWN));
+                .with(NORTH, shouldCheckDirection(world, pos, direction, Direction.NORTH))
+                .with(EAST, shouldCheckDirection(world, pos, direction, Direction.EAST))
+                .with(SOUTH, shouldCheckDirection(world, pos, direction, Direction.SOUTH))
+                .with(WEST, shouldCheckDirection(world, pos, direction, Direction.WEST))
+                .with(UP, shouldCheckDirection(world, pos, direction, Direction.UP))
+                .with(DOWN, shouldCheckDirection(world, pos, direction, Direction.DOWN));
+    }
+
+    private boolean shouldCheckDirection(IWorldReader world, BlockPos pos, Direction direction, Direction directionToCheck) {
+        if (direction != directionToCheck) return shouldConnect(world, pos, directionToCheck);
+        if (direction != directionToCheck.getOpposite()) return shouldConnect(world, pos, directionToCheck);
+
+        return false;
     }
 
     public boolean shouldConnect(IWorldReader world, BlockPos pos, Direction direction) {
