@@ -3,6 +3,7 @@ package com.teammetallurgy.atum;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
+import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
@@ -40,6 +41,7 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.init();
+        MinecraftForge.EVENT_BUS.register(AtumFeatures.PYRAMID);
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiome::initMobSpawns);

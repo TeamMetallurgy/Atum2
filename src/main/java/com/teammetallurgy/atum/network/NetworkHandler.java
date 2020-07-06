@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.network;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
 import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
+import com.teammetallurgy.atum.network.packet.SyncStackPacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.server.management.PlayerList;
@@ -25,6 +26,7 @@ public class NetworkHandler {
         CHANNEL.registerMessage(0, OpenWolfGuiPacket.class, OpenWolfGuiPacket::encode, OpenWolfGuiPacket::decode, OpenWolfGuiPacket.Handler::handle);
         CHANNEL.registerMessage(1, WeatherPacket.class, WeatherPacket::encode, WeatherPacket::decode, WeatherPacket.Handler::handle);
         CHANNEL.registerMessage(2, StormStrengthPacket.class, StormStrengthPacket::encode, StormStrengthPacket::decode, StormStrengthPacket.Handler::handle);
+        CHANNEL.registerMessage(3, SyncStackPacket.class, SyncStackPacket::encode, SyncStackPacket::decode, SyncStackPacket.Handler::handle);
     }
 
     public static void sendTo(ServerPlayerEntity playerMP, Object toSend) {

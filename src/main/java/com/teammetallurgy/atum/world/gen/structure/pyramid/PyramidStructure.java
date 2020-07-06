@@ -2,7 +2,14 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.network.packet.SyncStackPacket;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
+import net.minecraft.block.Block;
+import net.minecraft.block.TorchBlock;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +25,8 @@ import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -80,18 +89,20 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
         return 9;
     }
 
-    /*@SubscribeEvent
-    public static void onBlockPlaced(PlayerInteractEvent.RightClickBlock event) {
-        if (!event.getWorld().isRemote) {
-            WorldServer world = (WorldServer) event.getWorld();
-            if (world.getChunkProvider().chunkGenerator.isInsideStructure(world, String.valueOf(PyramidPieces.PYRAMID), new BlockPos(event.getHitVec()))) {
-                if (!event.getEntityPlayer().isCreative() && !(Block.getBlockFromItem(event.getItemStack().getItem()) instanceof BlockTorch)) {
-                    event.setCanceled(true);
-                }
+    @SubscribeEvent
+    public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
+        IWorld world = event.getWorld();
+        if (event.getEntity() instanceof ServerPlayerEntity && this.isPositionInsideStructure(world, event.getPos())) {
+            ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+            Block placedBlock = event.getPlacedBlock().getBlock();
+            if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
+                event.setCanceled(true);
+                ItemStack placedStack = new ItemStack(placedBlock);
+                Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+                NetworkHandler.sendTo(player, new SyncStackPacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
             }
         }
-    }*/
-
+    }
 
     public static class Start extends StructureStart {
 
