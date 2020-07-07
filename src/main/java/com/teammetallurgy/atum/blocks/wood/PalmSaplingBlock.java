@@ -12,7 +12,7 @@ import net.minecraft.world.IBlockReader;
 import javax.annotation.Nonnull;
 
 public class PalmSaplingBlock extends SaplingBlock implements IGrowable {
-    private static final VoxelShape PALM_SAPLING_AABB = Block.makeCuboidShape(0.4125D, 0.0D, 0.4125D, 0.6D, 0.5D, 0.6D);
+    private static final VoxelShape PALM_SAPLING_AABB = Block.makeCuboidShape(10.0D, 0.0D, 10.0D, 6.0D, 7.0D, 6.0D);
 
     public PalmSaplingBlock() {
         super(new PalmTree(), Block.Properties.create(Material.PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.0F).sound(SoundType.PLANT));

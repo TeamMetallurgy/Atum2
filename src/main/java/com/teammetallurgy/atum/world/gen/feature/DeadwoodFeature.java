@@ -179,9 +179,11 @@ public class DeadwoodFeature extends AbstractTreeFeature<BaseTreeFeatureConfig> 
                 }
             }
 
-            for (BlockPos placedLocation: placedBranches) {
-                DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
-                this.setBlockState(genReader, placedLocation, branch.makeConnections(world, placedLocation));
+            for (BlockPos placedLocation : placedBranches) {
+                if (!isAir(genReader, placedLocation)) {
+                    DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
+                    this.setBlockState(genReader, placedLocation, branch.makeConnections(world, placedLocation));
+                }
             }
 
             // Failsafe, if the stack has gotten this large, something has probably gone wrong.

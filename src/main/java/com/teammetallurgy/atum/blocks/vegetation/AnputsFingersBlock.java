@@ -18,6 +18,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.LightType;
@@ -32,16 +33,16 @@ import java.util.UUID;
 
 public class AnputsFingersBlock extends CropsBlock {
     private static final IntegerProperty ANPUTS_FINGERS_AGE = BlockStateProperties.AGE_0_3;
-    private static final VoxelShape[] SHAPE = new VoxelShape[]{Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
-    private HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
+    private static final VoxelShape[] SHAPE = new VoxelShape[]{VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.3125D, 1.0D), VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.5D, 1.0D), VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.6875D, 1.0D), VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D)};
+    private final HashMap<UUID, Integer> lastTouchedTick = new HashMap<>();
 
     public AnputsFingersBlock() {
-        super(Properties.create(Material.PLANTS, MaterialColor.GRAY));
+        super(Properties.create(Material.PLANTS, MaterialColor.GRAY).tickRandomly().doesNotBlockMovement().notSolid());
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SHAPE[this.getAge(state)];
     }
 
@@ -63,18 +64,19 @@ public class AnputsFingersBlock extends CropsBlock {
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, IBlockReader world, BlockPos pos) {
+    protected boolean isValidGround(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return state.getBlock() == AtumBlocks.SAND;
     }
 
     @Override
     public boolean isValidPosition(@Nonnull BlockState state, IWorldReader world, @Nonnull BlockPos pos) {
         BlockState stateDown = world.getBlockState(pos.down());
-        return super.isValidPosition(state, world, pos) && world.getLightFor(LightType.SKY, pos) < 15 && stateDown.getBlock().canSustainPlant(stateDown, world, pos.down(), Direction.UP, this);
+        //System.out.println("LIGHT: " + (world.getLightFor(LightType.SKY, pos)));
+        return this.isValidGround(stateDown, world, pos.down()) && world.getLightFor(LightType.SKY, pos) < 14;
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         int age = this.getAge(state);
         if (age < this.getMaxAge() && ForgeHooks.onCropsGrowPre(world, pos, state, rand.nextInt(8) == 0)) {
             BlockState newState = state.with(this.getAgeProperty(), age + 1);
@@ -100,12 +102,12 @@ public class AnputsFingersBlock extends CropsBlock {
     }
 
     @Override
-    public boolean canGrow(IBlockReader world, BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean canGrow(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return false;
     }
 
     @Override
-    public boolean canUseBonemeal(World world, Random rand, BlockPos pos, BlockState state) {
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return false;
     }
 

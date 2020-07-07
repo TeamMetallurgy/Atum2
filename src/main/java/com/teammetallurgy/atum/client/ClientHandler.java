@@ -91,6 +91,7 @@ public class ClientHandler {
     public static void registerModels(ModelRegistryEvent event) {
         RenderType cutoutMipped = RenderType.getCutoutMipped();
         RenderType translucent = RenderType.getTranslucent();
+        RenderTypeLookup.setRenderLayer(AtumBlocks.ANPUTS_FINGERS, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.OASIS_GRASS, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.DEAD_GRASS, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.SHRUB, cutoutMipped);

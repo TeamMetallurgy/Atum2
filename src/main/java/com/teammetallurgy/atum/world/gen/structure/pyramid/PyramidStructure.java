@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.datafixers.Dynamic;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
@@ -126,31 +127,33 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void generateStructure(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.generateStructure(world, generator, rand, box, chunkPos);
-            int y = this.bounds.minY;
+            if (world.getBiome(chunkPos.asBlockPos()) != AtumBiomes.DRIED_RIVER) {
+                super.generateStructure(world, generator, rand, box, chunkPos);
+                int y = this.bounds.minY;
 
-            for (int x = box.minX; x <= box.maxX; ++x) {
-                for (int z = box.minZ; z <= box.maxZ; ++z) {
-                    BlockPos pos = new BlockPos(x, y, z);
+                for (int x = box.minX; x <= box.maxX; ++x) {
+                    for (int z = box.minZ; z <= box.maxZ; ++z) {
+                        BlockPos pos = new BlockPos(x, y, z);
 
-                    if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
-                        boolean isVecInside = false;
+                        if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                            boolean isVecInside = false;
 
-                        for (StructurePiece component : this.components) {
-                            if (component.getBoundingBox().isVecInside(pos)) {
-                                isVecInside = true;
-                                break;
-                            }
-                        }
-
-                        if (isVecInside) {
-                            for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
-                                BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
-
-                                if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
+                            for (StructurePiece component : this.components) {
+                                if (component.getBoundingBox().isVecInside(pos)) {
+                                    isVecInside = true;
                                     break;
                                 }
-                                world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                            }
+
+                            if (isVecInside) {
+                                for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
+                                    BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
+
+                                    if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
+                                        break;
+                                    }
+                                    world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                                }
                             }
                         }
                     }
