@@ -18,29 +18,7 @@ import static mcjty.theoneprobe.api.IProbeConfig.ConfigMode.EXTENDED;
 import static mcjty.theoneprobe.api.IProbeConfig.ConfigMode.NORMAL;
 import static mcjty.theoneprobe.api.TextStyleClass.*;
 
-public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayOverride {
-
-    @Override
-    public String getID() {
-        return Atum.MOD_ID;
-    }
-
-    @Override
-    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
-        IProbeConfig config = TOPSupport.getProbeConfig();
-
-        if (this.show(mode, config.getShowCropPercentage())) {
-            if (blockState.getBlock() instanceof DateBlock) {
-                int age = blockState.get(DateBlock.AGE);
-                int maxAge = 7;
-                if (age == maxAge) {
-                    probeInfo.text(OK + "Fully grown");
-                } else {
-                    probeInfo.text(LABEL + "Growth: " + WARNING + (age * 100) / maxAge + "%");
-                }
-            }
-        }
-    }
+public class AtumProbeInfoProvider implements IBlockDisplayOverride {
 
     @Override
     public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {

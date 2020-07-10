@@ -20,14 +20,13 @@ public class TOPSupport implements IModIntegration, Function<ITheOneProbe, Void>
     }
 
     public void sendIMC(InterModEnqueueEvent event) {
-        InterModComms.sendTo(THE_ONE_PROBE, "getTheOneProbe", () -> "com.teammetallurgy.atum.integration.theoneprobe.TOPSupport");
+        InterModComms.sendTo(THE_ONE_PROBE, "getTheOneProbe", TOPSupport::new);
     }
 
     @Override
     public Void apply(ITheOneProbe theOneProbe) {
         TOPSupport.theOneProbe = theOneProbe;
         AtumProbeInfoProvider atumProbeInfoProvider = new AtumProbeInfoProvider();
-        theOneProbe.registerProvider(atumProbeInfoProvider);
         theOneProbe.registerBlockDisplayOverride(atumProbeInfoProvider);
         return null;
     }
