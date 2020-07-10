@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "K",
+    "K",
+    "S"
+  ],
+  "key": {
+    "K": {
+      "tag": "forge:ingots/khnumite"
+    },
+    "S": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "atum:stoneguard_sword",
+    "count": 1
+  }
+}

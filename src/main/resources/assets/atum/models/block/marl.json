@@ -1,0 +1,6 @@
+{
+  "parent": "block/clay",
+  "textures": {
+    "all": "atum:block/marl"
+  }
+}

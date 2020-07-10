@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ender_pearls"
+    },
+    {
+      "tag": "forge:dusts/blaze"
+    }
+  ],
+  "result": {
+    "item": "minecraft:ender_eye"
+  }
+}

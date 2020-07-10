@@ -1,0 +1,21 @@
+{
+  "replace": false,
+  "values": [
+    "atum:linen_carpet_white",
+    "atum:linen_carpet_orange",
+    "atum:linen_carpet_magenta",
+    "atum:linen_carpet_light_blue",
+    "atum:linen_carpet_yellow",
+    "atum:linen_carpet_lime",
+    "atum:linen_carpet_pink",
+    "atum:linen_carpet_gray",
+    "atum:linen_carpet_light_gray",
+    "atum:linen_carpet_cyan",
+    "atum:linen_carpet_purple",
+    "atum:linen_carpet_blue",
+    "atum:linen_carpet_brown",
+    "atum:linen_carpet_green",
+    "atum:linen_carpet_red",
+    "atum:linen_carpet_black"
+  ]
+}

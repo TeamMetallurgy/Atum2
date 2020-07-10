@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:coals"
+    },
+    "#": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "result": {
+    "item": "atum:pharaoh_torch",
+    "count": 4
+  }
+}

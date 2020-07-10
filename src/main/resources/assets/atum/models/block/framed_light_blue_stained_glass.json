@@ -1,0 +1,6 @@
+{
+    "parent": "block/cube_all",
+    "textures": {
+        "all": "atum:block/framed_glass_light_blue"
+    }
+}

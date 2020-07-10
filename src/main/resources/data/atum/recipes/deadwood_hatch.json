@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:planks/deadwood"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_hatch",
+    "count": 2
+  }
+}

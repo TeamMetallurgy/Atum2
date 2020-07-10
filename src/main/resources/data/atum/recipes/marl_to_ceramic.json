@@ -1,0 +1,10 @@
+{
+  "type": "atum:kiln",
+  "ingredient": {
+    "item": "atum:marl"
+  },
+  "result": {
+    "item": "atum:ceramic_white"
+  },
+  "experience": 0.1
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L",
+    "S",
+    "S"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "L": {
+      "item": "atum:limestone_cracked"
+    }
+  },
+  "result": {
+    "item": "atum:limestone_shovel"
+  }
+}

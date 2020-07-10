@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PPP",
+    "P P",
+    "PPP"
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:planks/palm"
+    }
+  },
+  "result": {
+    "item": "atum:palm_crate"
+  }
+}

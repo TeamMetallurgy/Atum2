@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:coals"
+    },
+    "#": {
+      "tag": "forge:stone/limestone"
+    }
+  },
+  "result": {
+    "item": "atum:limestone_torch",
+    "count": 4
+  }
+}

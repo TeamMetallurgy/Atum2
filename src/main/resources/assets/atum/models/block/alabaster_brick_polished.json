@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "atum:block/alabaster_brick_polished"
+  }
+}

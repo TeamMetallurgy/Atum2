@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:palm_logs"
+    }
+  },
+  "result": {
+    "item": "atum:palm_wood",
+    "count": 3
+  }
+}

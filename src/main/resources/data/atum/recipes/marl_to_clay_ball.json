@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "item": "atum:marl"
+  },
+  "result": {
+    "item": "minecraft:clay_ball",
+    "count": 3
+  },
+  "rotations": 2
+}

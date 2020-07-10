@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "bark",
+  "pattern": [
+    "##",
+    "##"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:deadwood_logs"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_wood",
+    "count": 3
+  }
+}

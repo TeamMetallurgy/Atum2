@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " K ",
+    "KKK",
+    " K "
+  ],
+  "key": {
+    "K": {
+      "tag": "forge:ingots/khnumite"
+    }
+  },
+  "result": {
+    "item": "atum:stoneguard_shield",
+    "count": 1
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:gravel"
+  },
+  "result": {
+    "item": "minecraft:flint",
+    "count": 3
+  },
+  "rotations": 3
+}

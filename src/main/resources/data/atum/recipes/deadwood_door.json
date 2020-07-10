@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP ",
+    "PP ",
+    "PP "
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:planks/deadwood"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_door",
+    "count": 3
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GCG",
+    "LLL"
+  ],
+  "key": {
+    "G": [
+      {
+        "tag": "forge:glass"
+      },
+      {
+        "tag": "forge:glass_panes"
+      }
+    ],
+    "L": {
+      "item": "atum:limestone_brick_large"
+    },
+    "C": {
+      "item": "atum:heart_of_ra"
+    }
+  },
+  "result": {
+    "item": "atum:radiant_beacon"
+  }
+}

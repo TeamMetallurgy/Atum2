@@ -1,0 +1,8 @@
+{
+    "parent": "block/inner_stairs",
+    "textures": {
+        "bottom": "atum:block/alabaster_brick_carved",
+        "top": "atum:block/alabaster_brick_carved",
+        "side": "atum:block/alabaster_brick_carved"
+    }
+}

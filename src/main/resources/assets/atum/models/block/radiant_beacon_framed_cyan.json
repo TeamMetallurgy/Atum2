@@ -1,0 +1,6 @@
+{   "parent": "atum:block/radiant_beacon",
+    "textures": {
+        "glass": "atum:block/framed_glass_cyan",
+        "particle": "atum:block/framed_glass_cyan"
+    }
+}

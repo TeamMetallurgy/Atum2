@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP ",
+    "PP ",
+    "PP "
+  ],
+  "key": {
+    "P": {
+      "tag": "forge:planks/palm"
+    }
+  },
+  "result": {
+    "item": "atum:palm_door",
+    "count": 3
+  }
+}

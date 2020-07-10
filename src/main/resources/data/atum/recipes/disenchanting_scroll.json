@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " E ",
+    "ESE",
+    " E "
+  ],
+  "key": {
+    "E": {
+      "item": "atum:ectoplasm"
+    },
+    "S": {
+      "item": "atum:scroll"
+    }
+  },
+  "result": {
+    "item": "atum:disenchanting_scroll"
+  }
+}

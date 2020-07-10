@@ -1,0 +1,8 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "atum:block/limestone",
+    "top": "atum:block/limestone",
+    "side": "atum:block/limestone"
+  }
+}

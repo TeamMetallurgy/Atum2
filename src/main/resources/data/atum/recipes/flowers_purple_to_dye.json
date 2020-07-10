@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:flowers/purple"
+  },
+  "result": {
+    "item": "minecraft:purple_dye",
+    "count": 2
+  },
+  "rotations": 1
+}

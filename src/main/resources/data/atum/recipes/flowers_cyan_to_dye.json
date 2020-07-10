@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:flowers/cyan"
+  },
+  "result": {
+    "item": "minecraft:cyan_dye",
+    "count": 2
+  },
+  "rotations": 1
+}

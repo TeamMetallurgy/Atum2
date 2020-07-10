@@ -1,0 +1,12 @@
+{
+  "type": "atum:spinning_wheel",
+  "ingredient": {
+    "tag": "forge:crops/flax",
+    "count": 2
+  },
+  "result": {
+    "item": "atum:linen_thread",
+    "count": 4
+  },
+  "rotations": 3
+}

@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "atum:block/palm_log",
+        "side": "atum:block/palm_log"
+    }
+}

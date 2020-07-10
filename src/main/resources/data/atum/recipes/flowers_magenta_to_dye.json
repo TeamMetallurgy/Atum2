@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:flowers/magenta"
+  },
+  "result": {
+    "item": "minecraft:magenta_dye",
+    "count": 2
+  },
+  "rotations": 1
+}

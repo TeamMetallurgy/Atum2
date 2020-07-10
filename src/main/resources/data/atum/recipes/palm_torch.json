@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:coals"
+    },
+    "#": {
+      "item": "atum:palm_stick"
+    }
+  },
+  "result": {
+    "item": "atum:palm_torch",
+    "count": 4
+  }
+}

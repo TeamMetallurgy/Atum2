@@ -1,0 +1,11 @@
+{
+  "type": "atum:spinning_wheel",
+  "ingredient": {
+    "item": "atum:cloth_scrap",
+    "count": 3
+  },
+  "result": {
+    "item": "atum:linen_thread"
+  },
+  "rotations": 2
+}

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LSL",
+    "SRS",
+    "LSL"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:slimeballs"
+    },
+    "L": {
+      "item": "atum:limestone_brick_carved"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    }
+  },
+  "result": {
+    "item": "atum:tar_trap"
+  }
+}

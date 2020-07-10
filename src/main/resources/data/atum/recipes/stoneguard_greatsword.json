@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "KK",
+    "SK"
+  ],
+  "key": {
+    "K": {
+      "tag": "forge:ingots/khnumite"
+    },
+    "S": {
+      "item": "atum:stoneguard_sword"
+    }
+  },
+  "result": {
+    "item": "atum:stoneguard_greatsword",
+    "count": 1
+  }
+}

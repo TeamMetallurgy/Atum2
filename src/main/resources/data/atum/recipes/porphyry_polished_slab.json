@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "atum:porphyry_brick_polished"
+    }
+  },
+  "result": {
+    "item": "atum:porphyry_polished_slab",
+    "count": 6
+  }
+}

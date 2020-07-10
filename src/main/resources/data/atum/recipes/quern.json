@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WLL",
+    "LLL",
+    "SSS"
+  ],
+  "key": {
+    "W": {
+      "tag": "forge:rods/wooden"
+    },
+    "L": {
+      "tag": "forge:stone/limestone"
+    },
+    "S": {
+      "item": "atum:limestone_smooth_slab"
+    }
+  },
+  "result": {
+    "item": "atum:quern"
+  }
+}

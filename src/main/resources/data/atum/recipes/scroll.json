@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "SXS",
+    "XXX"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "X": {
+      "item": "atum:papyrus_plant"
+    }
+  },
+  "result": {
+    "item": "atum:scroll"
+  }
+}

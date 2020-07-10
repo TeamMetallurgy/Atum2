@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "KKK",
+    "KKK",
+    "KKK"
+  ],
+  "key": {
+    "K": {
+      "tag": "forge:ingots/khnumite"
+    }
+  },
+  "result": {
+    "item": "atum:khnumite_block",
+    "count": 1
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:campfire_cooking",
+  "ingredient": {
+    "item": "atum:camel_raw"
+  },
+  "result": "atum:camel_cooked",
+  "experience": 0.35,
+  "cookingtime": 600
+}

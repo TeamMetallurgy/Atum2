@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X  ",
+    "XX ",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "tag": "forge:stone/limestone"
+    }
+  },
+  "result": {
+    "item": "atum:smooth_stairs",
+    "count": 4
+  }
+}

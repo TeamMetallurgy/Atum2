@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "LLL",
+    "L L",
+    "LLL"
+  ],
+  "key": {
+    "L": {
+      "tag": "forge:stone/limestone"
+    }
+  },
+  "result": {
+    "item": "atum:limestone_chest"
+  }
+}

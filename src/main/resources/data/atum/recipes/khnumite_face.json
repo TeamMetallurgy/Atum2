@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "KDK",
+    "KKK",
+    "KKK"
+  ],
+  "key": {
+    "K": {
+      "tag": "forge:ingots/khnumite"
+    },
+    "D": {
+      "tag": "forge:gems/diamond"
+    }
+  },
+  "result": {
+    "item": "atum:khnumite_face",
+    "count": 1
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "A  ",
+    "AA ",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "atum:alabaster_brick_pillar"
+    }
+  },
+  "result": {
+    "item": "atum:alabaster_pillar_stairs",
+    "count": 4
+  }
+}

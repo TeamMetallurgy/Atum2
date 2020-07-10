@@ -1,0 +1,8 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "atum:block/ceramic_tile_cyan",
+    "top": "atum:block/ceramic_tile_cyan",
+    "side": "atum:block/ceramic_tile_cyan"
+  }
+}

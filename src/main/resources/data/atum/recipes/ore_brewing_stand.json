@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "CCC"
+  ],
+  "key": {
+    "B": {
+      "tag": "forge:rods/blaze"
+    },
+    "C": {
+      "tag": "forge:cobblestone"
+    }
+  },
+  "result": {
+    "item": "minecraft:brewing_stand"
+  }
+}

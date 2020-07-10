@@ -1,0 +1,8 @@
+{
+  "parent": "block/slab_top",
+  "textures": {
+    "bottom": "atum:block/alabaster_brick_polished",
+    "top": "atum:block/alabaster_brick_polished",
+    "side": "atum:block/alabaster_brick_polished"
+  }
+}

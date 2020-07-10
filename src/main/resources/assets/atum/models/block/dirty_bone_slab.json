@@ -1,0 +1,8 @@
+{
+  "parent": "block/slab",
+  "textures": {
+    "bottom": "atum:block/dirty_bone_block",
+    "top": "atum:block/dirty_bone_block",
+    "side": "atum:block/dirty_bone_block_side"
+  }
+}

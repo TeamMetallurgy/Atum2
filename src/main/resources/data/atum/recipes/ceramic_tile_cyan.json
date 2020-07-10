@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:ceramic_cyan"
+    }
+  },
+  "result": {
+    "item": "atum:ceramic_tile_cyan",
+    "count": 3
+  }
+}

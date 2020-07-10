@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    "GDG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:nuggets/gold"
+    },
+    "D": {
+      "item": "atum:date"
+    }
+  },
+  "result": {
+    "item": "atum:glistering_date"
+  }
+}

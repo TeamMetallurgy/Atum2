@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "atum:emmer_dough"
+  },
+  "result": "atum:emmer_bread",
+  "experience": 0.1,
+  "cookingtime": 150
+}

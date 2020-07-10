@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "PSP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "tag": "forge:planks/deadwood"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_fence",
+    "count": 3
+  }
+}

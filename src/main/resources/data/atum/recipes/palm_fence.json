@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PSP",
+    "PSP"
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "P": {
+      "tag": "forge:planks/palm"
+    }
+  },
+  "result": {
+    "item": "atum:palm_fence",
+    "count": 3
+  }
+}

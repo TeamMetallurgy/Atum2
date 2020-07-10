@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AA",
+    "AA"
+  ],
+  "key": {
+    "A": {
+      "item": "atum:alabaster_brick_tiled"
+    }
+  },
+  "result": {
+    "item": "atum:alabaster_brick_pillar",
+    "count": 4
+  }
+}

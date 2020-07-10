@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:coals"
+    },
+    "#": {
+      "item": "atum:dusty_bone_stick"
+    }
+  },
+  "result": {
+    "item": "atum:bone_torch",
+    "count": 4
+  }
+}

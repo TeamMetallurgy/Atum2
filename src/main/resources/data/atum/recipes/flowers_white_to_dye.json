@@ -1,0 +1,11 @@
+{
+  "type": "atum:quern",
+  "ingredient": {
+    "tag": "forge:flowers/white"
+  },
+  "result": {
+    "item": "minecraft:white_dye",
+    "count": 2
+  },
+  "rotations": 1
+}

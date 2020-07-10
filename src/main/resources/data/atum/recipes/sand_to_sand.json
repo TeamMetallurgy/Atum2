@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:sand"
+    }
+  ],
+  "result": {
+    "item": "minecraft:sand"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:fish_skeletal"
+    }
+  },
+  "result": {
+    "item": "atum:dusty_bone"
+  }
+}

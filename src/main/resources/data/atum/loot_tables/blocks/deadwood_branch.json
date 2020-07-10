@@ -1,0 +1,25 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "functions": [
+            {
+              "function": "set_count",
+              "count": 1,
+              "conditions": [
+                {
+                  "condition": "random_chance",
+                  "chance": 0.01
+                }
+              ]
+            }
+          ],
+          "type": "minecraft:item",
+          "name": "atum:deadwood_stick"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "atum:block/flax_stage_4"
+    }
+}

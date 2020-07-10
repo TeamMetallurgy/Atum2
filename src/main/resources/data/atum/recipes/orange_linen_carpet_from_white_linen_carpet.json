@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "carpet",
+  "pattern": [
+    "###",
+    "#$#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:linen_white"
+    },
+    "$": {
+      "item": "minecraft:orange_dye"
+    }
+  },
+  "result": {
+    "item": "atum:linen_carpet_orange",
+    "count": 8
+  }
+}

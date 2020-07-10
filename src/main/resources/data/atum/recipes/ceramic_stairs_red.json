@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#  ",
+    "## ",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:ceramic_red"
+    }
+  },
+  "result": {
+    "item": "atum:ceramic_stairs_red",
+    "count": 4
+  }
+}

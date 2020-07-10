@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GBG",
+    " G "
+  ],
+  "key": {
+    "B": {
+      "item": "atum:crunchy_scarab"
+    },
+    "G": {
+      "tag": "forge:ingots/gold"
+    }
+  },
+  "result": {
+    "item": "atum:scarab"
+  }
+}

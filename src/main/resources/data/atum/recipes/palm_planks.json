@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:palm_logs"
+    }
+  ],
+  "result": {
+    "item": "atum:palm_planks",
+    "count": 4
+  }
+}

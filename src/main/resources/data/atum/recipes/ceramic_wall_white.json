@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:ceramic_white"
+    }
+  },
+  "result": {
+    "item": "atum:ceramic_wall_white",
+    "count": 6
+  }
+}

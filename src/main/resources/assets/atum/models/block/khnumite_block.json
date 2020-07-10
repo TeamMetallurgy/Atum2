@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "atum:block/khnumite_block_top",
+        "side": "atum:block/khnumite_block_side"
+    }
+}

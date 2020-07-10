@@ -1,0 +1,74 @@
+{
+  "pools": [
+    {
+      "name": "atum:relic_ore",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "atum:coin_dirty",
+          "entryName": "coin_dirty",
+          "functions": [
+            {
+              "function": "set_count",
+              "count": {
+                "min": 1,
+                "max": 3
+              }
+            }
+          ],
+          "weight": 250
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_ring",
+          "entryName": "loot_dirty_ring",
+          "weight": 100
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_necklace",
+          "entryName": "loot_dirty_necklace",
+          "weight": 50
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_broach",
+          "entryName": "loot_dirty_broach",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_scepter",
+          "entryName": "loot_dirty_scepter",
+          "weight": 30
+        },
+        {
+          "type": "item",
+          "name": "atum:loot_dirty_idol",
+          "entryName": "loot_dirty_idol",
+          "weight": 20
+        }
+      ]
+    },
+    {
+      "name": "atum:relic_ore_artifact",
+      "rolls": {
+        "min": 0,
+        "max": 1
+      },
+      "entries": [
+        {
+          "type": "loot_table",
+          "name": "atum:artifacts",
+          "weight": 1,
+          "quality": 2
+        },
+        {
+          "type": "empty",
+          "weight": 225
+        }
+      ]
+    }
+  ]
+}
