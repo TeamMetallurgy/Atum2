@@ -32,7 +32,7 @@ repositories {
   }
 }
 
-version = "${minecraft_version}-${mod_version}" + getBuildNumber()
+version = "${minecraft_version}-${mod_version}"
 group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
@@ -114,8 +114,4 @@ publishing {
 
 artifacts {
     archives apiJar
-}
-
-String getBuildNumber() {
-    return System.getenv('BUILD_NUMBER') ? ".alpha" + System.getenv('BUILD_NUMBER') : "";
 }
