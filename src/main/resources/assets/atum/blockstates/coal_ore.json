@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:coal_ore" }
+    "": { "model": "atum:block/coal_ore" }
   }
 }

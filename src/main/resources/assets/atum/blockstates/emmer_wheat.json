@@ -1,18 +1,12 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "crop"
-  },
   "variants": {
-    "age": {
-      "0": { "textures": { "crop": "atum:blocks/emmer_wheat_0" }},
-      "1": { "textures": { "crop": "atum:blocks/emmer_wheat_1" }},
-      "2": { "textures": { "crop": "atum:blocks/emmer_wheat_2" }},
-      "3": { "textures": { "crop": "atum:blocks/emmer_wheat_3" }},
-      "4": { "textures": { "crop": "atum:blocks/emmer_wheat_4" }},
-      "5": { "textures": { "crop": "atum:blocks/emmer_wheat_5" }},
-      "6": { "textures": { "crop": "atum:blocks/emmer_wheat_6" }},
-      "7": { "textures": { "crop": "atum:blocks/emmer_wheat_7" }}
-    }
+      "age=0": { "model": "atum:block/emmer_wheat_stage0" },
+      "age=1": { "model": "atum:block/emmer_wheat_stage1" },
+      "age=2": { "model": "atum:block/emmer_wheat_stage2" },
+      "age=3": { "model": "atum:block/emmer_wheat_stage3" },
+      "age=4": { "model": "atum:block/emmer_wheat_stage4" },
+      "age=5": { "model": "atum:block/emmer_wheat_stage5" },
+      "age=6": { "model": "atum:block/emmer_wheat_stage6" },
+      "age=7": { "model": "atum:block/emmer_wheat_stage7" }
   }
 }

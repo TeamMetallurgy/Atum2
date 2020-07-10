@@ -1,6 +1,6 @@
 {
   "parent": "atum:item/tefnuts_rain",
   "textures": {
-    "layer0": "atum:items/tefnuts_rain_pulling_2"
+    "layer0": "atum:item/tefnuts_rain_pulling_2"
   }
 }

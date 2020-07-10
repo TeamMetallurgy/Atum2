@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/silver_necklace"
+    "layer0": "atum:item/silver_necklace"
   }
 }

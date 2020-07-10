@@ -1,18 +1,7 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {"all": "atum:blocks/palm_crate"},
-        "model": "cube_all",
-        "uvlock": true
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}],
-        "facing":{
-            "north":{},
-            "east":{},
-            "south":{},
-            "west":{}
+        "": {
+            "model": "atum:block/palm_crate", "uvlock": true
         }
     }
 }

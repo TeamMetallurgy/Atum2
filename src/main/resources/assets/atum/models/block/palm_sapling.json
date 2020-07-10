@@ -1,6 +1,6 @@
 {
   "parent": "block/cross",
   "textures": {
-    "cross": "atum:blocks/palm_sapling"
+    "cross": "atum:block/palm_sapling"
   }
 }

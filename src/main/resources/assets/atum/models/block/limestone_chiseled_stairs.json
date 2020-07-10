@@ -1,8 +1,8 @@
 {
   "parent": "block/stairs",
   "textures": {
-    "bottom": "atum:blocks/limestone_brick_chiseled",
-    "top": "atum:blocks/limestone_brick_chiseled",
-    "side": "atum:blocks/limestone_brick_chiseled"
+    "bottom": "atum:block/limestone_brick_chiseled",
+    "top": "atum:block/limestone_brick_chiseled",
+    "side": "atum:block/limestone_brick_chiseled"
   }
 }

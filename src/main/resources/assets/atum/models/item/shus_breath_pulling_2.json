@@ -1,6 +1,6 @@
 {
   "parent": "item/bow_pulling_2",
   "textures": {
-    "layer0": "atum:items/shus_breath_pulling_2"
+    "layer0": "atum:item/shus_breath_pulling_2"
   }
 }

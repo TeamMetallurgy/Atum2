@@ -1,18 +1,12 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "atum:date"
-  },
   "variants": {
-    "age": {
-      "0": { "textures": { "date": "atum:blocks/date_stage_0" }},
-      "1": { "textures": { "date": "atum:blocks/date_stage_1" }},
-      "2": { "textures": { "date": "atum:blocks/date_stage_1" }},
-      "3": { "textures": { "date": "atum:blocks/date_stage_2" }},
-      "4": { "textures": { "date": "atum:blocks/date_stage_3" }},
-      "5": { "textures": { "date": "atum:blocks/date_stage_3" }},
-      "6": { "textures": { "date": "atum:blocks/date_stage_4" }},
-      "7": { "textures": { "date": "atum:blocks/date_stage_5" }}
+      "age=0": { "model": "atum:block/date_stage0" },
+      "age=1": { "model": "atum:block/date_stage1" },
+      "age=2": { "model": "atum:block/date_stage1" },
+      "age=3": { "model": "atum:block/date_stage2" },
+      "age=4": { "model": "atum:block/date_stage3" },
+      "age=5": { "model": "atum:block/date_stage3" },
+      "age=6": { "model": "atum:block/date_stage4" },
+      "age=7": { "model": "atum:block/date_stage5" }
     }
-  }
 }

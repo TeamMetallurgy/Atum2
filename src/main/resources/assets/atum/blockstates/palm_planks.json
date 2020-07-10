@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:palm_planks" }
+    "": { "model": "atum:block/palm_planks" }
   }
 }

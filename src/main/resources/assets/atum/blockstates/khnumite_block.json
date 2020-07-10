@@ -1,16 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "cube_column",
-    "textures": {
-      "end": "atum:blocks/khnumite_block_top",
-      "side": "atum:blocks/khnumite_block_side"
-    }
-  },
   "variants": {
-    "inventory": [{"model": "cube_column"}],
-    "axis=y": { "model": "cube_column" },
-    "axis=z": { "model": "cube_column", "x": 90 },
-    "axis=x": { "model": "cube_column", "x": 90, "y": 90 }
+    "axis=y": { "model": "atum:block/khnumite_block" },
+    "axis=z": { "model": "atum:block/khnumite_block", "x": 90 },
+    "axis=x": { "model": "atum:block/khnumite_block", "x": 90, "y": 90 }
   }
 }

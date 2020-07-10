@@ -1,15 +1,16 @@
 package com.teammetallurgy.atum.integration.theoneprobe;
 
-import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
-import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
-import com.teammetallurgy.atum.utils.Constants;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
+import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
 import mcjty.theoneprobe.api.*;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
+import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
@@ -21,16 +22,16 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
 
     @Override
     public String getID() {
-        return Constants.MOD_ID;
+        return Atum.MOD_ID;
     }
 
     @Override
-    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+    public void addProbeInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
         IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (this.show(mode, config.getShowCropPercentage())) {
-            if (blockState.getBlock() instanceof BlockDate) {
-                int age = blockState.getValue(BlockDate.AGE);
+            if (blockState.getBlock() instanceof DateBlock) {
+                int age = blockState.get(DateBlock.AGE);
                 int maxAge = 7;
                 if (age == maxAge) {
                     probeInfo.text(OK + "Fully grown");
@@ -42,20 +43,20 @@ public class AtumProbeInfoProvider implements IProbeInfoProvider, IBlockDisplayO
     }
 
     @Override
-    public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, EntityPlayer player, World world, IBlockState blockState, IProbeHitData data) {
+    public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
         IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (mode != ProbeMode.DEBUG && !this.show(mode, config.getShowSilverfish())) {
-            if (blockState.getBlock() instanceof BlockAtumDoor) {
+            if (blockState.getBlock() instanceof DoorAtumBlock) {
                 ResourceLocation location = Objects.requireNonNull(blockState.getBlock().getRegistryName());
                 if (location.toString().contains("limestone")) {
                     location = new ResourceLocation(location.toString().replace("_door", ""));
-                    ItemStack door = new ItemStack(Objects.requireNonNull(Item.REGISTRY.getObject(location)));
+                    ItemStack door = new ItemStack(ForgeRegistries.ITEMS.getValue(location));
                     probeInfo.horizontal()
                             .item(door)
                             .vertical()
                             .itemLabel(door)
-                            .text(MODNAME + Constants.MOD_NAME.replace("2", " 2")); //Lazy way to get it to show properly
+                            .text(MODNAME + StringUtils.capitalize(Atum.MOD_ID));
                     return true;
                 }
             }

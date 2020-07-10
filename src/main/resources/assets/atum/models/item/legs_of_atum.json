@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/legs_of_atum"
+    "layer0": "atum:item/legs_of_atum"
   }
 }

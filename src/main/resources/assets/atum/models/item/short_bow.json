@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/short_bow"
+    "layer0": "atum:item/short_bow"
   },
   "overrides": [
     {

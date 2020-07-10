@@ -1,6 +1,6 @@
 {
-    "parent": "block/wall_gate_closed",
+    "parent": "block/template_fence_gate",
     "textures": {
-        "texture": "atum:blocks/deadwood_planks"
+        "texture": "atum:block/deadwood_planks"
     }
 }

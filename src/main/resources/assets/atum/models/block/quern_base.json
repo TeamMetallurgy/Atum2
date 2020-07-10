@@ -1,8 +1,8 @@
 {
-    "parent": "minecraft:block/block",
+    "parent": "block/block",
     "ambientocclusion": false,
     "textures": {
-        "particle": "atum:blocks/quern_base"
+        "particle": "atum:block/quern_base"
     },
     "elements": [
         {   "__comment": "outputRight",

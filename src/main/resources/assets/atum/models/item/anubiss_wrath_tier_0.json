@@ -1,6 +1,6 @@
 {
   "parent": "atum:item/anubiss_wrath",
   "textures": {
-    "layer0": "atum:items/anubiss_wrath"
+    "layer0": "atum:item/anubiss_wrath"
   }
 }

@@ -1,6 +1,7 @@
 {
     "textures": {
-        "particle": "#texture"
+        "texture": "atum:block/deadwood_log",
+        "particle": "atum:block/deadwood_log"
     },
     "elements": [
         {   "from": [ 5, 0, 5 ],
@@ -12,8 +13,7 @@
                 "south": { "uv": [ 5, 0, 11, 5 ], "texture": "#texture" },
                 "west":  { "uv": [ 5, 0, 11, 5 ], "texture": "#texture" },
                 "east":  { "uv": [ 5, 0, 11, 5 ], "texture": "#texture" }
-            },
-            "__comment": "Center post"
+            }
         }
     ]
 }

@@ -1,16 +1,51 @@
 package com.teammetallurgy.atum.api;
 
-import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.init.SoundEvents;
+import com.teammetallurgy.atum.Atum;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemArmor;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.EnumHelper;
-
-import java.util.Objects;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.ResourceLocation;
 
 public class AtumAPI {
-    public static final ItemArmor.ArmorMaterial MUMMY_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("MUMMY", "mummy", 5, new int[]{1, 2, 2, 1}, 12, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
-    public static final ItemArmor.ArmorMaterial WANDERER_ARMOR_MATERIAL = EnumHelper.addArmorMaterial("WANDERER", "wanderer", 10, new int[]{1, 2, 3, 1}, 14, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F);
-    public static final Item.ToolMaterial KHNUMITE = Objects.requireNonNull(EnumHelper.addToolMaterial("khnumite", 1, 160, 3.6F, 1.1F, 10)).setRepairItem(new ItemStack(AtumItems.KHNUMITE));
+
+    public static class Tags {
+        //Flowers
+        public static final Tag<Item> FLOWERS_WHITE = tag("forge", "flowers/white");
+        public static final Tag<Item> FLOWERS_ORANGE = tag("forge", "flowers/orange");
+        public static final Tag<Item> FLOWERS_MAGENTA = tag("forge", "flowers/magenta");
+        public static final Tag<Item> FLOWERS_LIGHT_BLUE = tag("forge", "flowers/light_blue");
+        public static final Tag<Item> FLOWERS_YELLOW = tag("forge", "flowers/yellow");
+        public static final Tag<Item> FLOWERS_LIME = tag("forge", "flowers/lime");
+        public static final Tag<Item> FLOWERS_PINK = tag("forge", "flowers/pink");
+        public static final Tag<Item> FLOWERS_GRAY = tag("forge", "flowers/gray");
+        public static final Tag<Item> FLOWERS_LIGHT_GRAY = tag("forge", "flowers/light_gray");
+        public static final Tag<Item> FLOWERS_CYAN = tag("forge", "flowers/cyan");
+        public static final Tag<Item> FLOWERS_PURPLE = tag("forge", "flowers/purple");
+        public static final Tag<Item> FLOWERS_BLUE = tag("forge", "flowers/blue");
+        public static final Tag<Item> FLOWERS_BROWN = tag("forge", "flowers/brown");
+        public static final Tag<Item> FLOWERS_GREEN = tag("forge", "flowers/green");
+        public static final Tag<Item> FLOWERS_RED = tag("forge", "flowers/red");
+        public static final Tag<Item> FLOWERS_BLACK = tag("forge", "flowers/black");
+
+        public static final Tag<Item> CROPS_EMMER = tag("forge", "crops/emmer");
+        public static final Tag<Item> CROPS_FLAX = tag("forge", "crops/flax");
+        public static final Tag<Item> DUSTS_BLAZE = tag("forge", "dusts/blaze");
+        public static final Tag<Item> SUGAR_CANE = tag("forge", "sugar_cane");
+
+        public static final Tag<Item> RELIC = tag(Atum.MOD_ID, "relic");
+        public static final Tag<Item> TOOLTIP = tag(Atum.MOD_ID, "tooltip");
+        public static final Tag<Block> LINEN_BLOCKS = blockTag(Atum.MOD_ID, "linen_blocks");
+        public static final Tag<Block> THREADED_BLOCKS = blockTag(Atum.MOD_ID, "threaded_blocks");
+        public static final Tag<Block> LIMESTONE_BRICKS = blockTag(Atum.MOD_ID, "limestone_bricks");
+
+        public static Tag<Item> tag(String modID, String name) {
+            return new ItemTags.Wrapper(new ResourceLocation(modID, name));
+        }
+
+        public static Tag<Block> blockTag(String modID, String name) {
+            return new BlockTags.Wrapper(new ResourceLocation(modID, name));
+        }
+    }
 }

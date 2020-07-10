@@ -1,6 +1,6 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "atum:items/thoths_direction_25"
+        "layer0": "atum:item/thoths_direction_25"
     }
 }

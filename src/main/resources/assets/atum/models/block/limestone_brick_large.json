@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "atum:blocks/limestone_brick_large"
+    "all": "atum:block/limestone_brick_large"
   }
 }

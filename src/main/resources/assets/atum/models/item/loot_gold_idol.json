@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/gold_idol"
+    "layer0": "atum:item/gold_idol"
   }
 }

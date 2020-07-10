@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/dagger_poison"
+    "layer0": "atum:item/dagger_poison"
   }
 }

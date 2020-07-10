@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/wanderer_chest"
+    "layer0": "atum:item/wanderer_chest"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/scimitar_iron"
+    "layer0": "atum:item/scimitar_iron"
   }
 }

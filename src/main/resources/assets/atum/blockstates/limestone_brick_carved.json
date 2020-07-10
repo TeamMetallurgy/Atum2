@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:limestone_brick_carved" }
+    "": { "model": "atum:block/limestone_brick_carved" }
   }
 }

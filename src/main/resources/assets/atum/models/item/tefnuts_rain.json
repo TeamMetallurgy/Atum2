@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/tefnuts_rain"
+    "layer0": "atum:item/tefnuts_rain"
   },
   "overrides": [
     {

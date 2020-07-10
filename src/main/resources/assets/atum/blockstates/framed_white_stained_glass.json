@@ -1,14 +1,7 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "atum:blocks/framed_glass_white"
-        },
-        "model": "cube_all",
-        "uvlock": true
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+        "": {
+            "model": "atum:block/framed_white_stained_glass"
+        }
     }
 }

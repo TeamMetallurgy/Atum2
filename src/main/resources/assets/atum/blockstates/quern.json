@@ -1,13 +1,8 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "model": "atum:quern_base"
-    },
     "variants": {
-        "inventory": [ { "model": "atum:quern_base", "submodel": "atum:quern_stone" } ],
-        "facing=north": { "model": "atum:quern_base", "y": 180 },
-        "facing=south": { "model": "atum:quern_base" },
-        "facing=west":  { "model": "atum:quern_base", "y": 90 },
-        "facing=east":  { "model": "atum:quern_base", "y": -90 }
+        "facing=north": { "model": "atum:block/quern_base", "y": 180 },
+        "facing=south": { "model": "atum:block/quern_base" },
+        "facing=west":  { "model": "atum:block/quern_base", "y": 90 },
+        "facing=east":  { "model": "atum:block/quern_base", "y": -90 }
     }
 }

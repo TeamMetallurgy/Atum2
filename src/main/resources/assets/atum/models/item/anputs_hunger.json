@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/anputs_hunger"
+    "layer0": "atum:item/anputs_hunger"
   }
 }

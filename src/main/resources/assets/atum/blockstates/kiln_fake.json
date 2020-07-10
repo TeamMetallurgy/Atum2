@@ -1,13 +1,5 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "atum:blocks/limestone_brick_small"
-        },
-        "model": "cube_all"
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+        "": { "model": "atum:block/limestone_brick_small" }
     }
 }

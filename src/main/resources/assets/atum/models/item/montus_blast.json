@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/montus_blast"
+    "layer0": "atum:item/montus_blast"
   },
   "overrides": [
     {

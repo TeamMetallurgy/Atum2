@@ -1,14 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "top": "atum:blocks/heart_of_ra_top",
-      "bottom": "atum:blocks/heart_of_ra_bottom",
-      "side": "atum:blocks/heart_of_ra_side"
-    },
-    "model": "half_slab"
-  },
   "variants": {
-    "normal": [{}]
+    "": {
+      "model": "atum:block/heart_of_ra"
+    }
   }
 }

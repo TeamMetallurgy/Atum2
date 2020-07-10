@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:blocks/pharaoh_torch_unlit"
+    "layer0": "atum:block/pharaoh_torch_unlit"
   }
 }

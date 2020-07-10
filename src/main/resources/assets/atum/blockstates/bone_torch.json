@@ -1,16 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "block/torch",
-    "textures": {
-      "torch": "atum:blocks/bone_torch"
-    }
-  },
   "variants": {
-    "facing=up": { "model": "normal_torch" },
-    "facing=east": { "model": "normal_torch_wall" },
-    "facing=south": { "model": "normal_torch_wall", "y": 90 },
-    "facing=west": { "model": "normal_torch_wall", "y": 180 },
-    "facing=north": { "model": "normal_torch_wall", "y": 270 }
+    "": {
+      "model": "atum:block/bone_torch"
+    }
   }
 }

@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:limestone_gravel" }
+    "": { "model": "atum:block/limestone_gravel" }
   }
 }

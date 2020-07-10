@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/anubiss_wrath"
+    "layer0": "atum:item/anubiss_wrath"
   },
   "overrides": [
     {

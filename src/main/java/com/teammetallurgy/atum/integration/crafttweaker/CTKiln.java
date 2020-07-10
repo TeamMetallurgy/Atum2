@@ -1,87 +1,55 @@
 package com.teammetallurgy.atum.integration.crafttweaker;
 
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.kiln.KilnRecipe;
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
-import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
-import net.minecraft.item.ItemStack;
+import com.blamejared.crafttweaker.api.CraftTweakerAPI;
+import com.blamejared.crafttweaker.api.actions.IAction;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.item.IItemStack;
+import com.blamejared.crafttweaker.api.managers.IRecipeManager;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutput;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutputInput;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
+import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
+import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
-@ZenClass("mods.atum.Kiln")
-public class CTKiln {
+@ZenCodeType.Name("mods.atum.Kiln")
+public class CTKiln implements IRecipeManager {
 
-    @ZenMethod
-    public static void addRecipe(IItemStack input, IItemStack output, double experience) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), CraftTweakerMC.getItemStack(output), (float) experience));
+    @ZenCodeType.Method
+    public void addRecipe(IItemStack input, IItemStack output, float experience) {
+        this.addRecipe(input, output, experience, 75);
     }
 
-    @ZenMethod
-    public static void removeRecipe(String id) {
-        CraftTweakerAPI.apply(new Remove(id));
+    @ZenCodeType.Method
+    public void addRecipe(IItemStack input, IItemStack output, float experience, int cookTime) {
+        CraftTweakerAPI.apply(new ActionAddRecipe(this, new KilnRecipe(input.getInternal(), output.getInternal(), experience, cookTime), "kiln"));
     }
 
-    @ZenMethod
+    @ZenCodeType.Method
+    public void removeRecipeByOutput(IItemStack output) {
+        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutput(this, output));
+    }
+
+    @ZenCodeType.Method
+    public void removeRecipeByOutputInput(IItemStack output, IItemStack input) {
+        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutputInput(this, output, input));
+    }
+
+    @ZenCodeType.Method
     public static void blacklist(String id) {
         CraftTweakerAPI.apply(new Blacklist(id));
     }
 
-    private static class Add implements IAction {
-        private ItemStack input, output;
-        private float experience;
-
-        Add(@Nonnull ItemStack input, @Nonnull ItemStack output, float experience) {
-            this.input = input;
-            this.output = output;
-            this.experience = experience;
-        }
-
-        @Override
-        public void apply() {
-            ResourceLocation registryName = new ResourceLocation("crafttweaker", Objects.requireNonNull(this.input.getItem().getRegistryName()).getPath());
-            RecipeHandlers.kilnRecipes.register(new KilnRecipe(this.input, this.output, this.experience).setRegistryName(registryName));
-        }
-
-        @Override
-        public String describe() {
-            return "Added new Kiln recipe. Input: " + input.getDisplayName() + " Output: " + output.getDisplayName();
-        }
-    }
-
-    private static class Remove implements IAction {
-        private String id;
-
-        Remove(String id) {
-            this.id = id;
-        }
-
-        @Override
-        public void apply() {
-            final ResourceLocation location = new ResourceLocation(id);
-            if (!RecipeHandlers.kilnRecipes.containsKey(location)) {
-                Atum.LOG.error("No Kiln recipe exists called: " + this.id);
-            } else {
-                RecipeHandlers.kilnRecipes.remove(location);
-            }
-        }
-
-        @Override
-        public String describe() {
-            return "Removed Kiln recipe: " + this.id;
-        }
+    @Override
+    public IRecipeType<KilnRecipe> getRecipeType() {
+        return IAtumRecipeType.KILN;
     }
 
     private static class Blacklist implements IAction {
-        private String id;
+        private final String id;
 
         Blacklist(String id) {
             this.id = id;
@@ -90,8 +58,8 @@ public class CTKiln {
         @Override
         public void apply() {
             final ResourceLocation location = new ResourceLocation(this.id);
-            if (!RecipeHandlers.kilnBlacklist.contains(location)) {
-                RecipeHandlers.kilnBlacklist.add(location);
+            if (!IAtumRecipeType.kilnBlacklist.contains(location)) {
+                IAtumRecipeType.kilnBlacklist.add(location);
             }
         }
 

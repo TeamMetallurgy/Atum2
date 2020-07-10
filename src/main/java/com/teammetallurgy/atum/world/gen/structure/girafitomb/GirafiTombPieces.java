@@ -1,110 +1,95 @@
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.TileEntitySarcophagus;
-import com.teammetallurgy.atum.blocks.wood.BlockAtumPlank;
-import com.teammetallurgy.atum.blocks.wood.BlockCrate;
-import com.teammetallurgy.atum.blocks.wood.tileentity.crate.TileEntityCrate;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.utils.Constants;
-import net.minecraft.nbt.NBTTagCompound;
+import com.teammetallurgy.atum.init.AtumStructurePieces;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.gen.structure.MapGenStructureIO;
-import net.minecraft.world.gen.structure.StructureBoundingBox;
-import net.minecraft.world.gen.structure.StructureComponentTemplate;
-import net.minecraft.world.gen.structure.template.PlacementSettings;
-import net.minecraft.world.gen.structure.template.Template;
-import net.minecraft.world.gen.structure.template.TemplateManager;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class GirafiTombPieces {
-    public static final ResourceLocation GIRAFI_TOMB = new ResourceLocation(Constants.MOD_ID, "girafi_tomb");
+    public static final ResourceLocation GIRAFI_TOMB = new ResourceLocation(Atum.MOD_ID, "girafi_tomb");
 
-    public static void registerGirafiTomb() {
-        MapGenStructureIO.registerStructure(MapGenGirafiTomb.Start.class, String.valueOf(GIRAFI_TOMB));
-        MapGenStructureIO.registerStructureComponent(GirafiTombPieces.GirafiTombTemplate.class, String.valueOf(new ResourceLocation(Constants.MOD_ID, "girafi_tomb_template")));
-    }
+    public static class GirafiTombTemplate extends TemplateStructurePiece {
+        private final Rotation rotation;
 
-    public static class GirafiTombTemplate extends StructureComponentTemplate {
-        private Rotation rotation;
-        private Mirror mirror;
-
-        public GirafiTombTemplate() { //Needs empty constructor
-        }
-
-        GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
-            this(manager, pos, rotation, Mirror.NONE);
-        }
-
-        private GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation, Mirror mirror) {
-            super(0);
+        public GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
+            super(AtumStructurePieces.GIRAFI_TOMB, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.mirror = mirror;
+            this.loadTemplate(manager);
+        }
+
+        public GirafiTombTemplate(TemplateManager manager, CompoundNBT nbt) {
+            super(AtumStructurePieces.GIRAFI_TOMB, nbt);
+            this.rotation = Rotation.valueOf(nbt.getString("Rot"));
             this.loadTemplate(manager);
         }
 
         private void loadTemplate(TemplateManager manager) {
-            Template template = manager.getTemplate(null, GIRAFI_TOMB);
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(this.mirror);
+            Template template = manager.getTemplate(GIRAFI_TOMB);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull World world, @Nonnull Random rand, @Nonnull StructureBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("Crate")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlockState(pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).correctFacing(world, pos, BlockCrate.getCrate(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState()), 2);
+                        world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
 
                         TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof TileEntityCrate) {
-                            ((TileEntityCrate) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
+                        if (tileEntity instanceof CrateTileEntity) {
+                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
                         }
                     } else {
-                        world.setBlockToAir(pos);
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
                 }
             } else if (function.equals("GirafiSarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
+                    if (tileentity instanceof SarcophagusTileEntity) {
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
                     }
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
-                world.setBlockToAir(pos);
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof TileEntitySarcophagus) {
-                        ((TileEntitySarcophagus) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
+                    if (tileentity instanceof SarcophagusTileEntity) {
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
-                world.setBlockToAir(pos);
             }
         }
 
         @Override
-        protected void writeStructureToNBT(NBTTagCompound compound) {
-            super.writeStructureToNBT(compound);
-            compound.setString("Rot", this.placeSettings.getRotation().name());
-            compound.setString("Mi", this.placeSettings.getMirror().name());
-        }
-
-        @Override
-        protected void readStructureFromNBT(NBTTagCompound compound, TemplateManager manager) {
-            super.readStructureFromNBT(compound, manager);
-            this.rotation = Rotation.valueOf(compound.getString("Rot"));
-            this.mirror = Mirror.valueOf(compound.getString("Mi"));
-            this.loadTemplate(manager);
+        protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
+            super.readAdditional(compound);
+            compound.putString("Rot", this.placeSettings.getRotation().name());
         }
     }
 }

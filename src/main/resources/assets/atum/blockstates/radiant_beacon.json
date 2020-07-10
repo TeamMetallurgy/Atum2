@@ -1,33 +1,20 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "particle": "#glass",
-      "obsidian": "atum:blocks/limestone_brick_large",
-      "beacon": "atum:blocks/radiant_beacon"
-    },
-    "model": "beacon",
-    "uvlock": true
-  },
   "variants": {
-    "inventory": [{ "textures": { "glass": "atum:blocks/crystal_glass" }}],
-    "color": {
-      "white": { "textures": { "glass": "atum:blocks/crystal_glass" }},
-      "orange": { "textures": { "glass": "atum:blocks/crystal_glass_orange" }},
-      "magenta": { "textures": { "glass": "atum:blocks/crystal_glass_magenta" }},
-      "light_blue": { "textures": { "glass": "atum:blocks/crystal_glass_lightBlue" }},
-      "yellow": { "textures": { "glass": "blocks/glass_yellow" }},
-      "lime": { "textures": { "glass": "atum:blocks/crystal_glass_lime" }},
-      "pink": { "textures": { "glass": "atum:blocks/crystal_glass_pink" }},
-      "gray": { "textures": { "glass": "atum:blocks/crystal_glass_gray" }},
-      "silver": { "textures": { "glass": "atum:blocks/crystal_glass_silver" }},
-      "cyan": { "textures": { "glass": "atum:blocks/crystal_glass_cyan" }},
-      "purple": { "textures": { "glass": "atum:blocks/crystal_glass_purple" }},
-      "blue": { "textures": { "glass": "atum:blocks/crystal_glass_blue" }},
-      "brown": { "textures": { "glass": "atum:blocks/crystal_glass_brown" }},
-      "green": { "textures": { "glass": "atum:blocks/crystal_glass_green" }},
-      "red": { "textures": { "glass": "atum:blocks/crystal_glass_red" }},
-      "black": { "textures": { "glass": "atum:blocks/crystal_glass_black" }}
-    }
+    "color=white": { "model": "atum:block/radiant_beacon" },
+    "color=orange": { "model": "atum:block/radiant_beacon_orange" },
+    "color=magenta": { "model": "atum:block/radiant_beacon_magenta" },
+    "color=light_blue": { "model": "atum:block/radiant_beacon_light_blue" },
+    "color=yellow": { "model": "atum:block/radiant_beacon_yellow" },
+    "color=lime": { "model": "atum:block/radiant_beacon_lime" },
+    "color=pink": { "model": "atum:block/radiant_beacon_pink" },
+    "color=gray": { "model": "atum:block/radiant_beacon_gray" },
+    "color=light_gray": { "model": "atum:block/radiant_beacon_light_gray" },
+    "color=cyan": { "model": "atum:block/radiant_beacon_cyan" },
+    "color=purple": { "model": "atum:block/radiant_beacon_purple" },
+    "color=blue": { "model": "atum:block/radiant_beacon_blue" },
+    "color=brown": { "model": "atum:block/radiant_beacon_brown" },
+    "color=green": { "model": "atum:block/radiant_beacon_green" },
+    "color=red": { "model": "atum:block/radiant_beacon_red" },
+    "color=black": { "model": "atum:block/radiant_beacon_black" }
   }
 }

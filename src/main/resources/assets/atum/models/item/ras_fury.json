@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:items/ras_fury"
+    "layer0": "atum:item/ras_fury"
   },
   "overrides": [
     {

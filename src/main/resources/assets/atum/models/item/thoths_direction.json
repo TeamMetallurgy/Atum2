@@ -1,7 +1,7 @@
 {
     "parent": "item/generated",
     "textures": {
-        "layer0": "atum:items/thoths_direction_16"
+        "layer0": "atum:item/thoths_direction_16"
     },
     "overrides": [
         { "predicate": { "angle": 0.000000 }, "model": "atum:item/thoths_direction" },

@@ -1,13 +1,7 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "all": "atum:blocks/palm_leaves"
-        },
-        "model": "leaves"
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+        "": {
+            "model": "atum:block/palm_leaves"
+        }
     }
 }

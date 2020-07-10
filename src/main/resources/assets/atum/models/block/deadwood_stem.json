@@ -1,6 +1,7 @@
 {
     "textures": {
-        "particle": "#texture"
+        "texture": "atum:block/deadwood_log",
+        "particle": "atum:block/deadwood_log"
     },
     "elements": [
         {   "from": [ 5, 0, 5 ],

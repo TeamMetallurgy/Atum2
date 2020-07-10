@@ -1,46 +1,50 @@
 package com.teammetallurgy.atum.integration.waila;
 
-import com.teammetallurgy.atum.blocks.base.BlockAtumDoor;
-import com.teammetallurgy.atum.blocks.vegetation.BlockDate;
-import com.teammetallurgy.atum.utils.AtumUtils;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import net.minecraft.item.Item;
+import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
+import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import java.util.List;
-import java.util.Objects;
 
-public class WailaHUDHandler implements IWailaDataProvider {
+public class WailaHUDHandler implements IComponentProvider {
+    static final WailaHUDHandler INSTANCE = new WailaHUDHandler();
+
     @Override
     @Nonnull
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if (accessor.getBlock() instanceof BlockAtumDoor && config.getConfig("vanilla.silverfish")) {
-            ResourceLocation location = Objects.requireNonNull(accessor.getBlock().getRegistryName());
-            if (location.toString().contains("limestone")) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
+        if (accessor.getBlock() instanceof DoorAtumBlock && config.get(new ResourceLocation("hide_infestations"))) {
+            ResourceLocation location = accessor.getBlock().getRegistryName();
+            if (location != null && location.toString().contains("limestone")) {
                 location = new ResourceLocation(location.toString().replace("_door", ""));
-                return new ItemStack(Objects.requireNonNull(Item.REGISTRY.getObject(location)));
+                return new ItemStack(ForgeRegistries.ITEMS.getValue(location));
             }
         }
         return accessor.getStack();
     }
 
-    @Nonnull
     @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if (accessor.getBlock() instanceof BlockDate) {
-            if (config.getConfig("general.showcrop")) {
-                float growthValue = ((float) accessor.getMetadata() / 7.0F) * 100.0F;
-                if (growthValue < 100.0F) {
-                    tooltip.add(AtumUtils.format("hud.msg.growth") + " : " + AtumUtils.format("hud.msg.growth.value", (int) growthValue));
-                } else {
-                    tooltip.add(AtumUtils.format("hud.msg.growth") + " : " + AtumUtils.format("hud.msg.mature"));
-                }
+    public void appendBody(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
+        if (accessor.getBlock() instanceof DateBlock) {
+            if (config.get(new ResourceLocation("crop_progress"))) {
+                addMaturityTooltip(tooltip, accessor.getBlockState().get((DateBlock.AGE)) / 7.0F);
             }
         }
-        return tooltip;
+    }
+
+    private static void addMaturityTooltip(List<ITextComponent> tooltip, float growthValue) {
+        growthValue *= 100.0F;
+        if (growthValue < 100.0F) {
+            tooltip.add(new TranslationTextComponent("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
+        } else {
+            tooltip.add(new TranslationTextComponent("tooltip.waila.crop_growth", new TranslationTextComponent("tooltip.waila.crop_mature")));
+        }
     }
 }

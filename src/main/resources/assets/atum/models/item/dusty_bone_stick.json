@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/dusty_bone_stick"
+    "layer0": "atum:item/dusty_bone_stick"
   }
 }

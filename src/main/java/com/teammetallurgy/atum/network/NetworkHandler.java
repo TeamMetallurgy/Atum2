@@ -1,32 +1,49 @@
 package com.teammetallurgy.atum.network;
 
-import com.teammetallurgy.atum.network.packet.PacketOpenWolfGui;
-import com.teammetallurgy.atum.network.packet.PacketParticle;
-import com.teammetallurgy.atum.network.packet.PacketStormStrength;
-import com.teammetallurgy.atum.network.packet.PacketWeather;
-import com.teammetallurgy.atum.utils.Constants;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
-import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
-import net.minecraftforge.fml.relauncher.Side;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
+import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
+import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
+import com.teammetallurgy.atum.network.packet.WeatherPacket;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.NetworkDirection;
+import net.minecraftforge.fml.network.NetworkRegistry;
+import net.minecraftforge.fml.network.simple.SimpleChannel;
 
 public class NetworkHandler {
-    public static SimpleNetworkWrapper WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(Constants.MOD_ID);
-    private static int lastDiscriminator = 0;
+    private static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
+            .named(new ResourceLocation(Atum.MOD_ID, "atum_channel"))
+            .clientAcceptedVersions(v -> true)
+            .serverAcceptedVersions(v -> true)
+            .networkProtocolVersion(() -> "ATUM1")
+            .simpleChannel();
 
-    private NetworkHandler(String modId) {
-        WRAPPER = NetworkRegistry.INSTANCE.newSimpleChannel(modId);
+    public static void initialize() {
+        CHANNEL.registerMessage(0, OpenWolfGuiPacket.class, OpenWolfGuiPacket::encode, OpenWolfGuiPacket::decode, OpenWolfGuiPacket.Handler::handle);
+        CHANNEL.registerMessage(1, WeatherPacket.class, WeatherPacket::encode, WeatherPacket::decode, WeatherPacket.Handler::handle);
+        CHANNEL.registerMessage(2, StormStrengthPacket.class, StormStrengthPacket::encode, StormStrengthPacket::decode, StormStrengthPacket.Handler::handle);
+        CHANNEL.registerMessage(3, SyncHandStackSizePacket.class, SyncHandStackSizePacket::encode, SyncHandStackSizePacket::decode, SyncHandStackSizePacket.Handler::handle);
     }
 
-    public static void register() {
-        lastDiscriminator++;
-        registerPacket(PacketParticle.class, Side.CLIENT);
-        registerPacket(PacketOpenWolfGui.class, Side.SERVER);
-        registerPacket(PacketWeather.class, Side.CLIENT);
-        registerPacket(PacketStormStrength.class, Side.CLIENT);
+    public static void sendTo(ServerPlayerEntity playerMP, Object toSend) {
+        CHANNEL.sendTo(toSend, playerMP.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
     }
 
-    @SuppressWarnings("all")
-    private static void registerPacket(Class packetType, Side side) {
-        WRAPPER.registerMessage(packetType, packetType, lastDiscriminator++, side);
+    public static void sendToServer(Object msg) {
+        CHANNEL.sendToServer(msg);
+    }
+
+    public static void sendToDimension(Object packet, ServerWorld serverWorld, DimensionType dimensionType) {
+        PlayerList playerList = serverWorld.getServer().getPlayerList();
+        for (int i = 0; i < playerList.getCurrentPlayerCount(); ++i) {
+            ServerPlayerEntity serverPlayer = playerList.getPlayers().get(i);
+            if (serverPlayer.dimension == dimensionType) {
+                sendTo(serverPlayer, packet);
+            }
+        }
     }
 }

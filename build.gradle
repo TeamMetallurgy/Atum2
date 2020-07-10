@@ -1,95 +1,95 @@
 buildscript {
     repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
         jcenter()
-        maven { url = "http://files.minecraftforge.net/maven" }
+        mavenCentral()
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
+
+sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 repositories {
   maven {
-    name 'JEI'
-    url "https://dvs1.progwml6.com/files/maven"
+    name = "JEI"
+    url = "https://dvs1.progwml6.com/files/maven/"
   }
   maven {
-    name 'Hwyla'
-    url "https://tehnut.info/maven"
+    name = "Hwyla"
+    url = "https://maven.tehnut.info"
   }
   maven { 
-    name 'CraftTweaker2'
-    url "https://maven.blamejared.com" 
+    name = "CraftTweaker2"
+    url = "https://maven.blamejared.com" 
   }
   maven {
-    name 'Baubles'
-    url = "http://maven.thiakil.com"
-  }
-  maven {
-    name 'TheOneProbe'
-    url "https://maven.tterrag.com/"
+    name = "TheOneProbe"
+    url = "https://maven.tterrag.com"
   }
 }
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
 
 version = "${minecraft_version}-${mod_version}" + getBuildNumber()
 group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    mappings = "${mappings_version}"
-    runDir = "run"
-	
-    replace "@VERSION@", project.mod_version
-    replaceIn "Constants.java"
-	
-    replace "@API_VERSION@", "${api_version}"
-    replaceIn "package-info.java"
+    mappings channel: 'snapshot', version: project.mappings
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            mods {
+                atum {
+                    source sourceSets.main
+                }
+            }
+        }
+        server {
+            workingDirectory project.file('run')
+            mods {
+                atum {
+                    source sourceSets.main
+                }
+            }
+        }
+        data {
+            workingDirectory project.file('run')
+            args '--mod', 'atum', '--all', '--output', file("src/generated/resources/"), '--existing', file("src/main/resources/")
+            mods {
+                atum {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 dependencies {
-    deobfProvided "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
-    runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
-    deobfProvided "mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}"
-    deobfProvided "CraftTweaker2:CraftTweaker2-MC1120-Main:${ct_version}"
-	deobfProvided "com.azanor.baubles:Baubles:${baubles_version}:api"
-	deobfProvided "mcjty.theoneprobe:TheOneProbe-1.12:${top_version}:api"
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
+    compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
+    compile "mcjty.theoneprobe:TheOneProbe-1.15:${top_version}:api"
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-	rename '(.+_at.cfg)', 'META-INF/$1'
-}
 
 jar {
-	manifest {	
-	    attributes 'FMLAT': 'atum_at.cfg'
-	}
-}
-
-task sourcesJar(type: Jar) {
-	from sourceSets.main.allJava
-	classifier = 'sources'
+    manifest {
+        attributes([
+            "Implementation-Version": "${version}"
+        ])
+    }
 }
 
 task apiJar(type: Jar) {
-	from sourceSets.main.allSource
-	from sourceSets.main.output
+    from sourceSets.main.allSource
+    from sourceSets.main.output
     include 'com/teammetallurgy/atum/api/**/*'
     classifier = 'api'
 }
@@ -100,8 +100,7 @@ publishing {
         mavenJava(MavenPublication) {
             artifactId "atum2_${minecraft_version}"
             artifact jar
-			artifact sourcesJar
-			artifact apiJar
+            artifact apiJar
         }
     }
     repositories {
@@ -114,10 +113,9 @@ publishing {
 }
 
 artifacts {
-    archives sourcesJar
     archives apiJar
 }
 
 String getBuildNumber() {
-    return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
+    return System.getenv('BUILD_NUMBER') ? ".alpha" + System.getenv('BUILD_NUMBER') : "";
 }

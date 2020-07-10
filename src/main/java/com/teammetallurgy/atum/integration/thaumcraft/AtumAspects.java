@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.thaumcraft;
+/*package com.teammetallurgy.atum.integration.thaumcraft;
 
 import com.teammetallurgy.atum.blocks.stone.alabaster.BlockAlabasterBricks;
 import com.teammetallurgy.atum.blocks.stone.limestone.BlockLimestoneBricks;
@@ -8,7 +8,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.ItemLoot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.AspectRegistryEvent;
@@ -94,4 +94,4 @@ public class AtumAspects {
             }
         }
     }
-}
+}*/

@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "atum:blocks/relic_ore"
+    "all": "atum:block/relic_ore"
   }
 }

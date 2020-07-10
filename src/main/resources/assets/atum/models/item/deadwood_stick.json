@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/deadwood_stick"
+    "layer0": "atum:item/deadwood_stick"
   }
 }

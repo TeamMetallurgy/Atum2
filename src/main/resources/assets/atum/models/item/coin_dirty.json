@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/coin_dirty"
+    "layer0": "atum:item/coin_dirty"
   }
 }

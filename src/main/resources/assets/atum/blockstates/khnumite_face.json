@@ -1,8 +1,8 @@
 {
   "variants": {
-    "facing=north": { "model": "atum:khnumite_face" },
-    "facing=south": { "model": "atum:khnumite_face", "y": 180 },
-    "facing=west":  { "model": "atum:khnumite_face", "y": 270 },
-    "facing=east":  { "model": "atum:khnumite_face", "y": 90 }
+    "facing=north": { "model": "atum:block/khnumite_face" },
+    "facing=south": { "model": "atum:block/khnumite_face", "y": 180 },
+    "facing=west":  { "model": "atum:block/khnumite_face", "y": 270 },
+    "facing=east":  { "model": "atum:block/khnumite_face", "y": 90 }
   }
 }

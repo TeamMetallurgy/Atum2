@@ -1,16 +1,7 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "textures": {
-      "top": "atum:blocks/alabaster_brick_carved",
-      "bottom": "#top",
-      "side": "#top"
-    }
-  },
   "variants": {
-    "inventory": [{"model": "half_slab"}],
-    "type=bottom": { "model": "half_slab" },
-    "type=top": { "model": "upper_slab" },
-    "type=double": { "model": "cube_all", "textures": {"all": "atum:blocks/alabaster_brick_carved"} }
+    "type=bottom": { "model": "atum:block/alabaster_carved_slab" },
+    "type=top": { "model": "atum:block/alabaster_carved_slab_top" },
+    "type=double": { "model": "atum:block/alabaster_brick_carved" }
   }
 }

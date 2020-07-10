@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:lapis_ore" }
+    "": { "model": "atum:block/lapis_ore" }
   }
 }

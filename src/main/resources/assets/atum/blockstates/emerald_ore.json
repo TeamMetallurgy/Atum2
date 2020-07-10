@@ -1,5 +1,5 @@
 {
   "variants": {
-    "normal": { "model": "atum:emerald_ore" }
+    "": { "model": "atum:block/emerald_ore" }
   }
 }

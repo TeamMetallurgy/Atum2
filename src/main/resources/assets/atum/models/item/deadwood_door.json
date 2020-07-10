@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:items/deadwood_door"
+    "layer0": "atum:item/deadwood_door"
   }
 }

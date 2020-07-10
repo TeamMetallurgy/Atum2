@@ -137,7 +137,6 @@ publish/
 *.pubxml
 
 # NuGet Packages Directory
-## TODO: If you have NuGet Package Restore enabled, uncomment the next line
 #packages/
 
 # Windows Azure Build Output
@@ -226,6 +225,7 @@ pip-log.txt
 ## ForgeGradle
 #############
 .gradle/
+src/generated/
 build/
 run/
 eclipse/

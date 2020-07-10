@@ -1,83 +1,38 @@
 package com.teammetallurgy.atum.integration.crafttweaker;
 
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.recipe.RecipeHandlers;
-import com.teammetallurgy.atum.api.recipe.spinningwheel.SpinningWheelRecipe;
-import com.teammetallurgy.atum.init.AtumItems;
-import crafttweaker.CraftTweakerAPI;
-import crafttweaker.IAction;
-import crafttweaker.annotations.ZenRegister;
-import crafttweaker.api.item.IItemStack;
-import crafttweaker.api.minecraft.CraftTweakerMC;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import stanhebben.zenscript.annotations.ZenClass;
-import stanhebben.zenscript.annotations.ZenMethod;
-
-import javax.annotation.Nonnull;
-import java.util.Objects;
+import com.blamejared.crafttweaker.api.CraftTweakerAPI;
+import com.blamejared.crafttweaker.api.annotations.ZenRegister;
+import com.blamejared.crafttweaker.api.item.IItemStack;
+import com.blamejared.crafttweaker.api.managers.IRecipeManager;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionAddRecipe;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutput;
+import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutputInput;
+import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
+import com.teammetallurgy.atum.api.recipe.recipes.SpinningWheelRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
-@ZenClass("mods.atum.SpinningWheel")
-public class CTSpinningWheel {
+@ZenCodeType.Name("mods.atum.SpinningWheel")
+public class CTSpinningWheel implements IRecipeManager {
 
-    @ZenMethod
-    public static void addRecipe(IItemStack input, IItemStack output, int rotations) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), CraftTweakerMC.getItemStack(output), rotations));
+    @ZenCodeType.Method
+    public void addRecipe(IItemStack input, IItemStack output, int rotations) {
+        CraftTweakerAPI.apply(new ActionAddRecipe(this, new SpinningWheelRecipe(input.getInternal(), output.getInternal(), rotations), "spinning wheel"));
     }
 
-    @ZenMethod
-    public static void addInput(IItemStack input, int rotations) {
-        CraftTweakerAPI.apply(new Add(CraftTweakerMC.getItemStack(input), new ItemStack(AtumItems.LINEN_THREAD), rotations));
+    @ZenCodeType.Method
+    public void removeRecipeByOutput(IItemStack output) {
+        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutput(this, output));
     }
 
-    @ZenMethod
-    public static void removeRecipe(String id) {
-        CraftTweakerAPI.apply(new Remove(id));
+    @ZenCodeType.Method
+    public void removeRecipeByOutputInput(IItemStack output, IItemStack input) {
+        CraftTweakerAPI.apply(new ActionRemoveRecipeByOutputInput(this, output, input));
     }
 
-    private static class Add implements IAction {
-        private ItemStack input, output;
-        private int rotations;
-
-        Add(@Nonnull ItemStack input, @Nonnull ItemStack output, int rotations) {
-            this.input = input;
-            this.output = output;
-            this.rotations = rotations;
-        }
-
-        @Override
-        public void apply() {
-            ResourceLocation registryName = new ResourceLocation("crafttweaker", Objects.requireNonNull(this.input.getItem().getRegistryName()).getPath());
-            RecipeHandlers.spinningWheelRecipes.register(new SpinningWheelRecipe(this.input, this.output, this.rotations).setRegistryName(registryName));
-        }
-
-        @Override
-        public String describe() {
-            return "Added new Spinning Wheel recipe. Input: " + input.getDisplayName() + " Output: " + output.getDisplayName();
-        }
-    }
-
-    private static class Remove implements IAction {
-        private String id;
-
-        Remove(String id) {
-            this.id = id;
-        }
-
-        @Override
-        public void apply() {
-            final ResourceLocation location = new ResourceLocation(id);
-            if (!RecipeHandlers.spinningWheelRecipes.containsKey(location)) {
-                Atum.LOG.error("No Spinning Wheel recipe exists called: " + this.id);
-            } else {
-                RecipeHandlers.spinningWheelRecipes.remove(location);
-            }
-        }
-
-        @Override
-        public String describe() {
-            return "Removed Spinning Wheel recipe: " + this.id;
-        }
+    @Override
+    public IRecipeType<SpinningWheelRecipe> getRecipeType() {
+        return IAtumRecipeType.SPINNING_WHEEL;
     }
 }

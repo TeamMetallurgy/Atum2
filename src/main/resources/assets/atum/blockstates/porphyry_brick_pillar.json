@@ -1,15 +1,7 @@
 {
-    "forge_marker": 1,
-    "defaults": {
-        "textures": {
-            "bottom": "atum:blocks/porphyry_brick_carved",
-            "top": "atum:blocks/porphyry_brick_carved",
-            "side": "atum:blocks/porphyry_brick_pillar"
-        },
-        "model": "cube_bottom_top"
-    },
     "variants": {
-        "normal": [{}],
-        "inventory": [{}]
+        "": {
+            "model": "atum:block/porphyry_brick_pillar"
+        }
     }
 }

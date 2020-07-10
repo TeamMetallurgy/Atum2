@@ -1,7 +1,7 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:items/nuits_ire"
+    "layer0": "atum:item/nuits_ire"
   },
   "overrides": [
     {

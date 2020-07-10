@@ -1,28 +1,18 @@
 {
   "parent": "item/generated",
-  "textures": {
-    "layer0": "atum:items/tefnuts_call"
+  "loader":"atum:separate_perspective",
+  "base": {
+    "parent": "atum:item/tefnuts_call_in_hand"
   },
-  "display": {
-    "thirdperson_righthand": {
-      "rotation": [ -80, 260, -40 ],
-      "translation": [ -1, 3, 2.5 ],
-      "scale": [ 0.9, 0.9, 0.9 ]
+  "perspectives": {
+    "gui": {
+      "parent": "atum:item/tefnuts_call_gui"
     },
-    "thirdperson_lefthand": {
-      "rotation": [ -80, -280, 40 ],
-      "translation": [ -1, 3, 2.5 ],
-      "scale": [ 0.9, 0.9, 0.9 ]
+    "ground": {
+      "parent": "atum:item/tefnuts_call_gui"
     },
-    "firstperson_righthand": {
-      "rotation": [ 0, 90, 25 ],
-      "translation": [ 1.13, 3.2, 1.13],
-      "scale": [ 0.68, 0.68, 0.68 ]
-    },
-    "firstperson_lefthand": {
-      "rotation": [ 0, -90, -25 ],
-      "translation": [ 1.13, 3.2, 1.13],
-      "scale": [ 0.68, 0.68, 0.68 ]
+    "fixed": {
+      "parent": "atum:item/tefnuts_call_gui"
     }
   }
 }
