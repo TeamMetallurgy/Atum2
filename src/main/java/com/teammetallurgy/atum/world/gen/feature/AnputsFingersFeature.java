@@ -38,7 +38,6 @@ public class AnputsFingersFeature extends RandomPatchFeature {
             BlockPos.Mutable mutablePos = new BlockPos.Mutable();
             mutablePos.setPos(placePos);
             if (world.isAirBlock(mutablePos) && world.getBlockState(mutablePos.down()).getBlock() == AtumBlocks.SAND) {
-                System.out.println("PLACE: " + mutablePos);
                 config.blockPlacer.func_225567_a_(world, mutablePos, state, rand);
                 return true;
             }

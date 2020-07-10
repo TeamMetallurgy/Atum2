@@ -20,6 +20,7 @@ import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.tileentity.BannerPattern;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
@@ -27,24 +28,26 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.LightType;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.Random;
+import java.util.*;
 
 public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(BanditBaseEntity.class, DataSerializers.VARINT);
     private String texturePath;
     private boolean canPatrol;
+    private UUID leadingEntity;
 
     BanditBaseEntity(EntityType<? extends BanditBaseEntity> entityType, World world) {
         super(entityType, world);
@@ -177,6 +180,15 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         this.canPatrol = canPatrol;
     }
 
+    public void setLeadingEntity(BanditBaseEntity leadingEntity) {
+        this.leadingEntity = leadingEntity.getUniqueID();
+    }
+
+    @Nullable
+    public UUID getLeadingEntity() {
+        return this.leadingEntity;
+    }
+
     @Override
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
@@ -237,6 +249,9 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
             compound.putInt("Variant", this.getVariant());
         }
         compound.putBoolean("CanPatrol", this.canPatrol);
+        if (this.leadingEntity != null) {
+            compound.putUniqueId("LeadingEntity", this.leadingEntity);
+        }
     }
 
     @Override
@@ -246,19 +261,71 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
             this.setVariant(compound.getInt("Variant"));
         }
         this.canPatrol = compound.getBoolean("CanPatrol");
+        this.leadingEntity = compound.getUniqueId("LeadingEntity");
     }
 
-    public static class BanditPatrolGoal<T extends BanditBaseEntity> extends PatrollerEntity.PatrolGoal<T> {
+    public static class BanditPatrolGoal<T extends BanditBaseEntity> extends Goal {
         private final T owner;
+        private final double patrollerSpeed;
+        private final double leaderSpeed;
+        private long time;
 
-        public BanditPatrolGoal(T bandit, double d, double d1) {
-            super(bandit, d, d1);
+        public BanditPatrolGoal(T bandit, double patrollerSpeed, double leaderSpeed) {
             this.owner = bandit;
+            this.patrollerSpeed = patrollerSpeed;
+            this.leaderSpeed = leaderSpeed;
+            this.time = -1L;
+            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+        }
+
+        public boolean shouldExecute() {
+            boolean flag = this.owner.world.getGameTime() < this.time;
+            return this.owner.canPatrol() && this.owner.isPatrolling() && this.owner.getAttackTarget() == null && !this.owner.isBeingRidden() && this.owner.hasPatrolTarget() && !flag;
         }
 
         @Override
-        public boolean shouldExecute() {
-            return this.owner.canPatrol() && super.shouldExecute();
+        public void tick() {
+            boolean isLeader = this.owner.isLeader();
+            PathNavigator navigator = this.owner.getNavigator();
+            if (navigator.noPath()) {
+                List<BanditBaseEntity> patrollers = this.getPatrollers();
+                if (this.owner.isPatrolling() && patrollers.isEmpty()) {
+                    this.owner.setPatrolling(false);
+                } else if (isLeader && this.owner.getPatrolTarget().withinDistance(this.owner.getPositionVec(), 10.0D)) {
+                    this.owner.resetPatrolTarget();
+                } else {
+                    Vec3d vec3d = new Vec3d(this.owner.getPatrolTarget());
+                    Vec3d vec3d1 = this.owner.getPositionVec();
+                    Vec3d vec3d2 = vec3d1.subtract(vec3d);
+                    vec3d = vec3d2.rotateYaw(90.0F).scale(0.4D).add(vec3d);
+                    Vec3d vec3d3 = vec3d.subtract(vec3d1).normalize().scale(10.0D).add(vec3d1);
+                    BlockPos pos = new BlockPos(vec3d3);
+                    pos = this.owner.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
+                    if (!navigator.tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ(), isLeader ? this.leaderSpeed : this.patrollerSpeed)) {
+                        this.tryMoveTo();
+                        this.time = this.owner.world.getGameTime() + 200L;
+                    } else if (isLeader) {
+                        BanditBaseEntity leader = this.owner;
+                        for (BanditBaseEntity patroller : this.getPatrollers(leader)) {
+                            patroller.setPatrolTarget(pos);
+                        }
+                    }
+                }
+            }
+        }
+
+        private List<BanditBaseEntity> getPatrollers() {
+            return this.owner.world.getEntitiesWithinAABB(BanditBaseEntity.class, this.owner.getBoundingBox().grow(24.0D), (e) -> e.func_213634_ed() && !e.isEntityEqual(this.owner));
+        }
+
+        private List<BanditBaseEntity> getPatrollers(BanditBaseEntity leader) {
+            return this.owner.world.getEntitiesWithinAABB(BanditBaseEntity.class, this.owner.getBoundingBox().grow(24.0D), (e) -> e.func_213634_ed() && !e.isEntityEqual(this.owner) && e.leadingEntity == leader.getUniqueID());
+        }
+
+        private boolean tryMoveTo() {
+            Random random = this.owner.getRNG();
+            BlockPos pos = this.owner.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (new BlockPos(this.owner)).add(-8 + random.nextInt(16), 0, -8 + random.nextInt(16)));
+            return this.owner.getNavigator().tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ(), this.patrollerSpeed);
         }
     }
 }

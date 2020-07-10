@@ -13,7 +13,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.state.IntegerProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -71,7 +70,6 @@ public class AnputsFingersBlock extends CropsBlock {
     @Override
     public boolean isValidPosition(@Nonnull BlockState state, IWorldReader world, @Nonnull BlockPos pos) {
         BlockState stateDown = world.getBlockState(pos.down());
-        //System.out.println("LIGHT: " + (world.getLightFor(LightType.SKY, pos)));
         return this.isValidGround(stateDown, world, pos.down()) && world.getLightFor(LightType.SKY, pos) < 14;
     }
 

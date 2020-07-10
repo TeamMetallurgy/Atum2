@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.spawner;
 
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
+import com.teammetallurgy.atum.entity.bandit.SergeantEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumFeatures;
@@ -17,6 +18,7 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.spawner.WorldEntitySpawner;
 
+import javax.annotation.Nullable;
 import java.util.Random;
 
 public class BanditPatrolSpawner {
@@ -55,16 +57,24 @@ public class BanditPatrolSpawner {
                                 } else {
                                     int amount = 0;
                                     int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty());
+                                    BanditBaseEntity leadingEntity = null;
                                     for (int size = 0; size < difficulty; ++size) {
                                         EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
                                         ++amount;
                                         mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
                                         if (size == 0) {
-                                            if (!this.spawnPatroller(AtumEntities.SERGEANT, serverWorld, mutablePos, rand, true)) {
+                                            SergeantEntity leader = AtumEntities.SERGEANT.create(serverWorld);
+                                            if (leader != null) {
+                                                if (this.spawnLeader(leader, serverWorld, mutablePos, rand)) {
+                                                    leadingEntity = leader;
+                                                } else {
+                                                    break;
+                                                }
+                                            } else {
                                                 break;
                                             }
                                         } else {
-                                            this.spawnPatroller(entityType, serverWorld, mutablePos, rand, false);
+                                            this.spawnPatroller(entityType, serverWorld, mutablePos, rand, leadingEntity);
                                         }
                                         mutablePos.setX(mutablePos.getX() + rand.nextInt(5) - rand.nextInt(5));
                                         mutablePos.setZ(mutablePos.getZ() + rand.nextInt(5) - rand.nextInt(5));
@@ -81,7 +91,7 @@ public class BanditPatrolSpawner {
         }
     }
 
-    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, World world, BlockPos pos, Random rand, boolean isLeader) {
+    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, World world, BlockPos pos, Random rand, @Nullable BanditBaseEntity leadingEntity) {
         BlockState state = world.getBlockState(pos);
         if (!WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState())) {
             return false;
@@ -90,11 +100,10 @@ public class BanditPatrolSpawner {
         } else {
             BanditBaseEntity bandit = entityType.create(world);
             if (bandit != null) {
-                if (isLeader) {
-                    bandit.setLeader(true);
-                    bandit.resetPatrolTarget();
-                }
                 bandit.setCanPatrol(true);
+                if (leadingEntity != null) {
+                    bandit.setLeadingEntity(leadingEntity);
+                }
                 bandit.setPosition(pos.getX(), pos.getY(), pos.getZ());
                 bandit.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.PATROL, null, null);
                 world.addEntity(bandit);
@@ -102,6 +111,23 @@ public class BanditPatrolSpawner {
             } else {
                 return false;
             }
+        }
+    }
+
+    private boolean spawnLeader(BanditBaseEntity leader, World world, BlockPos pos, Random rand) {
+        BlockState state = world.getBlockState(pos);
+        if (!WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState())) {
+            return false;
+        } else if (!BanditBaseEntity.canSpawn((EntityType<? extends BanditBaseEntity>) leader.getType(), world, SpawnReason.PATROL, pos, rand)) {
+            return false;
+        } else {
+            leader.setLeader(true);
+            leader.resetPatrolTarget();
+            leader.setCanPatrol(true);
+            leader.setPosition(pos.getX(), pos.getY(), pos.getZ());
+            leader.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.PATROL, null, null);
+            world.addEntity(leader);
+            return true;
         }
     }
 
