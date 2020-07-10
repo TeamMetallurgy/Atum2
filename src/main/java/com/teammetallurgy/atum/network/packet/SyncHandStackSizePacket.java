@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.network.packet;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
@@ -31,7 +31,7 @@ public class SyncHandStackSizePacket {
 
     public static class Handler {
         public static void handle(SyncHandStackSizePacket message, Supplier<NetworkEvent.Context> ctx) {
-            PlayerEntity player = Minecraft.getInstance().player;
+            ClientPlayerEntity player = Minecraft.getInstance().player;
             if (player != null) {
                 Hand hand = message.hand == 1 ? Hand.MAIN_HAND : Hand.OFF_HAND;
                 EquipmentSlotType handType = hand == Hand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND;
