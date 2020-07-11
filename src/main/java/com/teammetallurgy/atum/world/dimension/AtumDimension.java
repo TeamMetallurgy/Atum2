@@ -170,11 +170,6 @@ public class AtumDimension extends Dimension {
     }
 
     @Override
-    public boolean isDaytime() {
-        return this.getWorld().getSkylightSubtracted() < 4;
-    }
-
-    @Override
     public boolean canRespawnHere() {
         return true;
     }

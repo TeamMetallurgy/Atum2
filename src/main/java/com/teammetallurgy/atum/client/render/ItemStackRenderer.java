@@ -7,6 +7,8 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.TefnutsCallModel;
 import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
@@ -14,7 +16,6 @@ import com.teammetallurgy.atum.client.model.shield.AtumsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
 import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -48,9 +49,9 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
             Block block = ((BlockItem) item).getBlock();
 
             if (block instanceof LimestoneChestBlock || block instanceof ChestSpawnerBlock) {
-                TileEntityRendererDispatcher.instance.renderItem(AtumTileEntities.LIMESTONE_CHEST.create(), matrixStack, buffer, combinedLight, combinedOverlay);
+                TileEntityRendererDispatcher.instance.renderItem(new LimestoneChestTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (block instanceof SarcophagusBlock) {
-                TileEntityRendererDispatcher.instance.renderItem(AtumTileEntities.SARCOPHAGUS.create(), matrixStack, buffer, combinedLight, combinedOverlay);
+                TileEntityRendererDispatcher.instance.renderItem(new SarcophagusTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             }
         } else {
             if (item == AtumItems.BRIGAND_SHIELD) {
