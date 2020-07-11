@@ -102,14 +102,16 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
-        if (facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (facing == Direction.DOWN) {
-                return handlers[0].cast();
-            } else if (facing != Direction.UP) {
-                return handlers[1].cast();
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (facing != null) {
+                if (facing == Direction.DOWN) {
+                    return handlers[0].cast();
+                } else if (facing != Direction.UP) {
+                    return handlers[1].cast();
+                }
             }
         }
-        return LazyOptional.empty();
+        return super.getCapability(capability, facing);
     }
 
     @Override

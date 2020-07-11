@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.integration.theoneprobe;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
-import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
 import mcjty.theoneprobe.api.*;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,7 +15,7 @@ import java.util.Objects;
 
 import static mcjty.theoneprobe.api.IProbeConfig.ConfigMode.EXTENDED;
 import static mcjty.theoneprobe.api.IProbeConfig.ConfigMode.NORMAL;
-import static mcjty.theoneprobe.api.TextStyleClass.*;
+import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 
 public class AtumProbeInfoProvider implements IBlockDisplayOverride {
 
