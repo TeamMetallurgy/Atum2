@@ -25,8 +25,6 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.world.biome.Biome;
@@ -45,7 +43,6 @@ import java.util.function.Supplier;
 public class AtumRegistry {
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
-    private static final List<TileEntityType<?>> TILE_ENTITIES = Lists.newArrayList();
     public static final List<AtumBiome> BIOMES = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
@@ -171,20 +168,6 @@ public class AtumRegistry {
     }
 
     /**
-     * Registers a TileEntityType
-     *
-     * @param name    The name to register the TileEntity with
-     * @param builder The TileEntityType builder
-     * @return The TileEntity that was registered
-     */
-    public static <T extends TileEntity> TileEntityType<T> registerTileEntity(@Nonnull String name, @Nonnull TileEntityType.Builder<T> builder) {
-        TileEntityType<T> tileEntityType = builder.build(null);
-        tileEntityType.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
-        TILE_ENTITIES.add(tileEntityType);
-        return tileEntityType;
-    }
-
-    /**
      * Registers any mob, that will have a spawn egg.
      *
      * @param name         String to register the entity as
@@ -291,14 +274,6 @@ public class AtumRegistry {
             event.getRegistry().register(block);
         }
         AtumBlocks.setBlockInfo();
-    }
-
-    @SubscribeEvent
-    public static void registerTileEntity(RegistryEvent.Register<TileEntityType<?>> event) {
-        new AtumTileEntities();
-        for (TileEntityType<?> tileEntityType : TILE_ENTITIES) {
-            event.getRegistry().register(tileEntityType);
-        }
     }
 
     @SubscribeEvent

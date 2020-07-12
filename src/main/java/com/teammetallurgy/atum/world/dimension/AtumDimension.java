@@ -180,6 +180,11 @@ public class AtumDimension extends Dimension {
     }
 
     @Override
+    public boolean isDaytime() {
+        return this.getWorld().getSkylightSubtracted() < 4;
+    }
+
+    @Override
     public void onWorldSave() {
         CompoundNBT tagCompound = new CompoundNBT();
         tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);

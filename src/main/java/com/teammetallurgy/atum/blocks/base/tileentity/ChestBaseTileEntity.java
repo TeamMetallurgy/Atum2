@@ -15,22 +15,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class ChestBaseTileEntity extends ChestTileEntity {
-    private TileEntityType<?> type;
     public boolean canBeSingle;
     public boolean canBeDouble;
-    private Block chestBlock;
+    private final Block chestBlock;
 
     public ChestBaseTileEntity(TileEntityType<?> type, boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
+        super(type);
         this.canBeSingle = canBeSingle;
         this.canBeDouble = canBeDouble;
         this.chestBlock = chestBlock;
-        this.type = type;
-    }
-
-    @Override
-    @Nonnull
-    public TileEntityType<?> getType() {
-        return this.type;
     }
 
     @Override
