@@ -176,6 +176,10 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     @Nullable
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
-        return LazyOptional.empty();
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return LazyOptional.empty();
+        } else {
+            return super.getCapability(capability, direction);
+        }
     }
 }

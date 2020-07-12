@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProviderType;
@@ -37,6 +38,7 @@ import net.minecraft.world.server.ChunkManager;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -75,12 +77,14 @@ public class AtumDimension extends Dimension {
         }
     }
 
-    @Override
-    public void setWorldTime(long time) {
-        if (time == 24000L && this.world.getWorldInfo() instanceof DerivedWorldInfo) {
-            ((DerivedWorldInfo) this.world.getWorldInfo()).delegate.setDayTime(time); //Workaround for making sleeping work in Atum
+    @SubscribeEvent
+    public static void onSleepFinished(SleepFinishedTimeEvent event) {
+        IWorld world = event.getWorld();
+        if (world.getDimension() instanceof AtumDimension) {
+            if (world.getWorldInfo() instanceof DerivedWorldInfo) {
+                ((DerivedWorldInfo) world.getWorldInfo()).delegate.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
+            }
         }
-        super.setWorldTime(time);
     }
 
     @Override
@@ -170,11 +174,6 @@ public class AtumDimension extends Dimension {
     }
 
     @Override
-    public boolean isDaytime() {
-        return this.getWorld().getSkylightSubtracted() < 4;
-    }
-
-    @Override
     public boolean canRespawnHere() {
         return true;
     }
@@ -182,6 +181,11 @@ public class AtumDimension extends Dimension {
     @Override
     public boolean doesXZShowFog(int x, int z) {
         return false; //Fog handled elsewhere
+    }
+
+    @Override
+    public boolean isDaytime() {
+        return this.getWorld().getSkylightSubtracted() < 4;
     }
 
     @Override

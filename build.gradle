@@ -30,6 +30,7 @@ repositories {
     name = "TheOneProbe"
     url = "https://maven.tterrag.com"
   }
+  flatDir { dirs 'deps' }
 }
 
 version = "${minecraft_version}-${mod_version}"
@@ -76,6 +77,7 @@ dependencies {
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
     compile "mcjty.theoneprobe:TheOneProbe-1.15:${top_version}:api"
+	runtimeOnly fg.deobf("flatdir:champions:1.15.2-2.0-beta4")
 }
 
 

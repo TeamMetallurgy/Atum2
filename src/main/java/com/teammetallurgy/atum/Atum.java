@@ -25,7 +25,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 @Mod(value = Atum.MOD_ID)
-public class Atum {
+public class Atum { //TODO 1.16 Move all registering to fully rely on ObjectHolder. See AtumTileEntities
     public static final String MOD_ID = "atum";
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final ItemGroup GROUP = new AtumItemGroup();

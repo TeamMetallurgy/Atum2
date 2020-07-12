@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.integration.champion;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.integration.IModIntegration;
-import com.teammetallurgy.atum.integration.IntegrationHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.MissingTextureSprite;
 import net.minecraft.client.renderer.texture.SimpleTexture;
@@ -19,14 +18,14 @@ public class ChampionsHelper implements IModIntegration {
 
     @OnlyIn(Dist.CLIENT)
     public static boolean isChampion(Entity entity) {
-        if (IntegrationHandler.getConfigValue(CHAMPION_ID)) {
+        /*if (IntegrationHandler.getConfigValue(CHAMPION_ID)) {
             CompoundNBT compound = new CompoundNBT();
-            entity.deserializeNBT(compound);
+            entity.deserializeNBT(compound); //TODO, breaks entities currently
             if (compound.contains("ForgeCaps")) {
                 CompoundNBT forgeCaps = compound.getCompound("ForgeCaps");
-                return forgeCaps.contains("champions:championship");
+                return forgeCaps.contains("champions:champion");
             }
-        }
+        }*/
         return false;
     }
 

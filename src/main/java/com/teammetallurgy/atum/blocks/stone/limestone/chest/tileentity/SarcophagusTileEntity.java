@@ -24,6 +24,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -113,7 +114,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public boolean isItemValidForSlot(int index, ItemStack stack) {
+    public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         return this.isOpenable && super.isItemValidForSlot(index, stack);
     }
 
@@ -125,6 +126,10 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
 
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
-        return this.isOpenable ? super.getCapability(capability, direction) : LazyOptional.empty();
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return this.isOpenable ? super.getCapability(capability, direction) : LazyOptional.empty();
+        } else {
+            return super.getCapability(capability, direction);
+        }
     }
 }
