@@ -97,7 +97,7 @@ public class AssassinEntity extends BanditBaseEntity {
 
     @Override
     public boolean isOnLadder() {
-        return this.isBesideClimbableBlock() && this.isSuppressingSlidingDownLadder();
+        return this.isBesideClimbableBlock();
     }
 
     private boolean isBesideClimbableBlock() {
