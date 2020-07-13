@@ -19,7 +19,7 @@ public class OpenAnyDoorGoal extends OpenDoorGoal {
 
     @Override
     public boolean shouldExecute() {
-        if (!this.entity.collidedHorizontally) {
+        if (!this.entity.collidedHorizontally && !this.entity.isOnLadder()) {
             return false;
         } else {
             GroundPathNavigator navigator = (GroundPathNavigator) this.entity.getNavigator();

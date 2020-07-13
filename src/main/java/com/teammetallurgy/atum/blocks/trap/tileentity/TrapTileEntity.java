@@ -73,8 +73,10 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
 
     public void setDisabledStatus(boolean isDisabled) {
         this.isDisabled = isDisabled;
-        BlockState state = world.getBlockState(pos);
-        world.notifyBlockUpdate(pos, state, state, 3);
+        if (this.world != null) {
+            BlockState state = this.world.getBlockState(this.pos);
+            this.world.notifyBlockUpdate(this.pos, state, state, 3);
+        }
     }
 
     AxisAlignedBB getFacingBoxWithRange(Direction facing, int range) {
@@ -92,14 +94,14 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
         if (world == null) return;
 
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(pos).get(TrapBlock.FACING);
+            Direction facing = world.getBlockState(this.pos).get(TrapBlock.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
             } else {
                 entity = LivingEntity.class;
             }
-            List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1));
+            List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1).shrink(0.05D));
             for (LivingEntity livingBase : entities) {
                 if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() : livingBase != null) {
                     canDamageEntity = true;
@@ -150,13 +152,13 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
 
     @Override
     public boolean isUsableByPlayer(@Nonnull PlayerEntity player) {
-        return super.isUsableByPlayer(player) && !isInsidePyramid;
+        return super.isUsableByPlayer(player) && !this.isInsidePyramid;
     }
 
     @Override
     public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         ItemStack fuel = this.inventory.get(0);
-        return !isInsidePyramid && (FurnaceTileEntity.isFuel(stack) || FurnaceFuelSlot.isBucket(stack) && fuel.getItem() != Items.BUCKET);
+        return !this.isInsidePyramid && (FurnaceTileEntity.isFuel(stack) || FurnaceFuelSlot.isBucket(stack) && fuel.getItem() != Items.BUCKET);
     }
 
     @Override
@@ -177,7 +179,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.burnTime = compound.getInt("BurnTime");
         this.isDisabled = compound.getBoolean("Disabled");
@@ -186,7 +188,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putInt("BurnTime", (short) this.burnTime);
         compound.putBoolean("Disabled", this.isDisabled);

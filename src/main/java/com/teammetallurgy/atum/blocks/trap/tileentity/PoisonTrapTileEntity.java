@@ -28,16 +28,16 @@ public class PoisonTrapTileEntity extends TrapTileEntity {
             if (!world.isRemote) {
                 livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 80, 3, false, false));
             }
-            world.playSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            world.playSound((double) this.pos.getX() + 0.5D, this.pos.getY(), (double) this.pos.getZ() + 0.5D, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }
         if (world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) world;
             switch (facing) {
                 case DOWN:
-                    serverWorld.spawnParticle(AtumParticles.GAS, x - randomPos, (double) pos.getY() - 0.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+                    serverWorld.spawnParticle(AtumParticles.GAS, x - randomPos, (double) this.pos.getY() - 0.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
                     break;
                 case UP:
-                    serverWorld.spawnParticle(AtumParticles.GAS, x - randomPos, (double) pos.getY() + 1.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
+                    serverWorld.spawnParticle(AtumParticles.GAS, x - randomPos, (double) this.pos.getY() + 1.1D, z - 0.2 + (world.rand.nextDouble() * 0.4D), 10, 0.0D, 0.0025D, 0.0D, 0.005D);
                     break;
                 case WEST:
                     serverWorld.spawnParticle(AtumParticles.GAS, x - 0.52D, y, z + randomPos, 10, 0.0D, 0.0025D, 0.0D, 0.005D);

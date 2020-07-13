@@ -18,16 +18,16 @@ public class SmokeTrapTileEntity extends TrapTileEntity {
 
     @Override
     protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
-        double x = (double) pos.getX() + 0.5D;
-        double y = (double) pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
-        double z = (double) pos.getZ() + 0.5D;
+        double x = (double) this.pos.getX() + 0.5D;
+        double y = (double) this.pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
+        double z = (double) this.pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         if (!livingBase.isPotionActive(Effects.BLINDNESS)) {
             if (!world.isRemote) {
                 livingBase.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 120));
             }
-            world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ENTITY_CAT_HISS, SoundCategory.BLOCKS, 0.3F, 0.8F, false);
+            world.playSound((double) this.pos.getX() + 0.5D, this.pos.getY(), (double) this.pos.getZ() + 0.5D, SoundEvents.ENTITY_CAT_HISS, SoundCategory.BLOCKS, 0.3F, 0.8F, false);
         }
 
         switch (facing) {

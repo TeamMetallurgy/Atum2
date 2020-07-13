@@ -18,9 +18,9 @@ public class TarTrapTileEntity extends TrapTileEntity {
 
     @Override
     protected void triggerTrap(World world, Direction facing, LivingEntity entity) {
-        double x = (double) pos.getX() + 0.5D;
-        double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
-        double z = (double) pos.getZ() + 0.5D;
+        double x = (double) this.pos.getX() + 0.5D;
+        double y = (double) this.pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
+        double z = (double) this.pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         if (!entity.isPotionActive(Effects.SLOWNESS)) {

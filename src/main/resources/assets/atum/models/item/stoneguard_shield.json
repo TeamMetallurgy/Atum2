@@ -1,6 +1,6 @@
 {
   "parent": "atum:item/atum_shield",
   "textures": {
-    "particle": "atum:block/khnumite_block"
+    "particle": "atum:block/khnumite_block_top"
   }
 }
