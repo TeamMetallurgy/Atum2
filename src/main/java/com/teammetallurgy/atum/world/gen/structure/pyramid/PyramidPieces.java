@@ -71,8 +71,8 @@ public class PyramidPieces {
         int depth = MAZE_SIZE_Z;
         int xOffset = 2;
         int zOffset = 5;
+
         if (rotation == Rotation.CLOCKWISE_90) {
-            xOffset = 3;
             zOffset = 2;
             width = MAZE_SIZE_Z;
             depth = MAZE_SIZE_X;
@@ -82,8 +82,8 @@ public class PyramidPieces {
             width = MAZE_SIZE_Z;
             depth = MAZE_SIZE_X;
         } else if (rotation == Rotation.CLOCKWISE_180) {
-            xOffset = 4;
-            zOffset = 3;
+            xOffset = 3;
+            zOffset = 6;
         }
 
         return MutableBoundingBox.createProper(
@@ -316,6 +316,14 @@ public class PyramidPieces {
                         this.setBlockState(world, AtumBlocks.SAND_LAYERED.getDefaultState().with(SandLayersBlock.LAYERS, layers), x, 0, z, validBounds);
                     }
                 }
+            }
+        }
+
+        @Override
+        protected void setBlockState(@Nonnull IWorld world, @Nonnull BlockState state, int x, int y, int z, @Nonnull MutableBoundingBox box) {
+            BlockPos pos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
+            if (box.isVecInside(pos) && !(world.getBlockState(pos).getBlock() instanceof LadderBlock)) { //Make sure ladder blocks don't get replaced
+                super.setBlockState(world, state, x, y, z, box);
             }
         }
 

@@ -33,9 +33,9 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
         World world = this.world;
         if (world == null) return;
 
-        if (timer > 0) timer--;
+        if (this.timer > 0) this.timer--;
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(pos).get(TrapBlock.FACING);
+            Direction facing = world.getBlockState(this.pos).get(TrapBlock.FACING);
             Class<? extends LivingEntity> entity;
             if (this.isInsidePyramid) {
                 entity = PlayerEntity.class;
@@ -50,8 +50,8 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
                 if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() && !cantSeeEntity : !cantSeeEntity) {
                     if (canSee(facing, world, livingBase)) {
                         canDamageEntity = true;
-                        if (timer == 0) {
-                            timer = 80;
+                        if (this.timer == 0) {
+                            this.timer = 80;
                             this.triggerTrap(world, facing, livingBase);
                         }
                     } else {
@@ -97,7 +97,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
 
     private boolean canSee(Direction facing, World world, LivingEntity living) {
         Vec3i dir = facing.getDirectionVec();
-        Vec3d posDir = new Vec3d(pos.getX() + dir.getX(), pos.getY(), pos.getZ() + dir.getZ());
+        Vec3d posDir = new Vec3d(this.pos.getX() + dir.getX(), this.pos.getY(), this.pos.getZ() + dir.getZ());
         Vec3d livingPos = new Vec3d(living.getPosX(), living.getPosY() + (double) living.getEyeHeight(), living.getPosZ());
         return world.rayTraceBlocks(new RayTraceContext(posDir, livingPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, living)).getType() == RayTraceResult.Type.MISS;
     }
@@ -117,9 +117,9 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
 
     @Override
     protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
-        double x = (double) pos.getX() + 0.5D;
-        double y = (double) pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
-        double z = (double) pos.getZ() + 0.5D;
+        double x = (double) this.pos.getX() + 0.5D;
+        double y = (double) this.pos.getY() + world.rand.nextDouble() * 12.0D / 16.0D;
+        double z = (double) this.pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         world.playSound(x, pos.getY(), z, SoundEvents.BLOCK_DISPENSER_LAUNCH, SoundCategory.BLOCKS, 1.0F, 1.2F, false);
@@ -161,14 +161,14 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(@Nonnull CompoundNBT compound) {
         super.read(compound);
         this.timer = compound.getInt("Timer");
     }
 
     @Override
     @Nonnull
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
         super.write(compound);
         compound.putInt("Timer", this.timer);
         return compound;

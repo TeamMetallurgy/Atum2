@@ -16,9 +16,9 @@ public class BurningTrapTileEntity extends TrapTileEntity {
 
     @Override
     protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
-        double x = (double) pos.getX() + 0.5D;
-        double y = (double) pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
-        double z = (double) pos.getZ() + 0.5D;
+        double x = (double) this.pos.getX() + 0.5D;
+        double y = (double) this.pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
+        double z = (double) this.pos.getZ() + 0.5D;
         double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
         if (!world.isRemote) {
@@ -26,7 +26,7 @@ public class BurningTrapTileEntity extends TrapTileEntity {
         }
 
         if (world.rand.nextDouble() < 0.2D) {
-            world.playSound((double) pos.getX() + 0.5D, (double) pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+            world.playSound((double) this.pos.getX() + 0.5D, this.pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
         }
         switch (facing) {
             case DOWN:

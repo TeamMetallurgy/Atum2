@@ -152,7 +152,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                                     if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                         break;
                                     }
-                                    world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                                    world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
                                 }
                             }
                         }
