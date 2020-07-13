@@ -18,7 +18,6 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
@@ -57,6 +56,7 @@ public class LighthousePieces {
 
         private void spawnSunspeakers(IWorld world, MutableBoundingBox box, int x, int y, int z, int min, int max) {
             if (this.sunspeakerSpawned > 0) {
+                System.out.println("Return");
                 return;
             }
             world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2);
@@ -76,6 +76,7 @@ public class LighthousePieces {
 
             int tries = 0;
             while (this.sunspeakerSpawned < numToSpawn) {
+                System.out.println("While");
                 int sw = 2;
                 int j = x + rand.nextInt(2 * sw + 1) - sw;
                 int k = ylevels.get(sunspeakerSpawned);
@@ -90,10 +91,10 @@ public class LighthousePieces {
                 if (box.isVecInside(pos) && world.isAirBlock(pos)) {
                     ++this.sunspeakerSpawned;
 
-                    if (world instanceof World) {
-                        World worldWorld = (World) world;
-                        SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(worldWorld);
+                    SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(world.getWorld());
+                    if (sunspeaker != null) {
                         sunspeaker.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
+                        System.out.println("add sunspeaker");
                         sunspeaker.onInitialSpawn(world, world.getDifficultyForLocation(new BlockPos(sunspeaker)), SpawnReason.STRUCTURE, null, null);
                         world.addEntity(sunspeaker);
                     }
@@ -122,7 +123,7 @@ public class LighthousePieces {
                     }
                 }
             } else if (function.equals("Sunspeaker")) {
-                spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 2, 6);
+                spawnSunspeakers(world, box, pos.getX(), pos.getY(), pos.getZ(), 2, 5);
             }
         }
 
