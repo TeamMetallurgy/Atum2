@@ -26,7 +26,7 @@ public class AtumDataSerializer {
         @Override
         @Nonnull
         public SunspeakerData read(@Nonnull PacketBuffer buf) {
-            return new SunspeakerData(buf.readInt());
+            return new SunspeakerData(buf.readVarInt());
         }
 
         @Override

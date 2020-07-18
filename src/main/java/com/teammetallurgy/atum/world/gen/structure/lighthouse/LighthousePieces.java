@@ -56,7 +56,6 @@ public class LighthousePieces {
 
         private void spawnSunspeakers(IWorld world, MutableBoundingBox box, int x, int y, int z, int min, int max) {
             if (this.sunspeakerSpawned > 0) {
-                System.out.println("Return");
                 return;
             }
             world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2);
@@ -76,7 +75,6 @@ public class LighthousePieces {
 
             int tries = 0;
             while (this.sunspeakerSpawned < numToSpawn) {
-                System.out.println("While");
                 int sw = 2;
                 int j = x + rand.nextInt(2 * sw + 1) - sw;
                 int k = ylevels.get(sunspeakerSpawned);
@@ -94,7 +92,6 @@ public class LighthousePieces {
                     SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(world.getWorld());
                     if (sunspeaker != null) {
                         sunspeaker.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
-                        System.out.println("add sunspeaker");
                         sunspeaker.onInitialSpawn(world, world.getDifficultyForLocation(new BlockPos(sunspeaker)), SpawnReason.STRUCTURE, null, null);
                         world.addEntity(sunspeaker);
                     }

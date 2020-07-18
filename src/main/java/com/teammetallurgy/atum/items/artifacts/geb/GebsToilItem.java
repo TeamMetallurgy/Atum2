@@ -16,7 +16,7 @@ import javax.annotation.Nonnull;
 public class GebsToilItem extends ShovelItem {
 
     public GebsToilItem() {
-        super(ItemTier.DIAMOND, 1.5F, -4.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
+        super(ItemTier.DIAMOND, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override
@@ -26,13 +26,14 @@ public class GebsToilItem extends ShovelItem {
     }
 
     @Override
-    public boolean onBlockDestroyed(@Nonnull ItemStack stack, World world, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
+    public boolean onBlockDestroyed(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
+        super.onBlockDestroyed(stack, world, state, pos, entityLiving);
         if (entityLiving instanceof PlayerEntity && !world.isRemote) {
             ((PlayerEntity) entityLiving).getFoodStats().addExhaustion(-0.005F);
             if (random.nextFloat() <= 0.10F) {
                 world.addEntity(new ExperienceOrbEntity(world, pos.getX(), pos.getY(), pos.getZ(), 1));
             }
         }
-        return false;
+        return true;
     }
 }

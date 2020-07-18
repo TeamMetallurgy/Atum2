@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.entity.efreet;
 
+import com.google.common.collect.ImmutableMap;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.types.DynamicOps;
 
@@ -23,6 +24,6 @@ public class SunspeakerData {
     }
 
     public <T> T serialize(DynamicOps<T> dynamicOps) {
-        return dynamicOps.createInt(this.level);
+        return dynamicOps.createMap(ImmutableMap.of(dynamicOps.createString("level"), dynamicOps.createInt(this.level)));
     }
 }

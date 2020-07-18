@@ -12,10 +12,12 @@ public class ArrowDoubleShotWhiteEntity extends CustomArrow {
 
     public ArrowDoubleShotWhiteEntity(EntityType<? extends ArrowDoubleShotWhiteEntity> entityType, World world) {
         super(entityType, world);
+        this.pickupStatus = PickupStatus.DISALLOWED;
     }
 
     public ArrowDoubleShotWhiteEntity(World world, LivingEntity shooter) {
         super(world, shooter);
+        this.pickupStatus = PickupStatus.DISALLOWED;
     }
 
     @Override

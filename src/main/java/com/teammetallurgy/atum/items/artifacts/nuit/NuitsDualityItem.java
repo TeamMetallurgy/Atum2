@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 public class NuitsDualityItem extends BaseBowItem {
 
     public NuitsDualityItem() {
-        super(new Item.Properties().rarity(Rarity.RARE));
+        super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(Items.DIAMOND);
     }
 

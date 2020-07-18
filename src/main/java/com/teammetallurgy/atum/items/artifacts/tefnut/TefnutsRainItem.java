@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 public class TefnutsRainItem extends BaseBowItem {
 
     public TefnutsRainItem() {
-        super(new Item.Properties().maxDamage(650).rarity(Rarity.RARE));
+        super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(Items.DIAMOND);
     }
 
