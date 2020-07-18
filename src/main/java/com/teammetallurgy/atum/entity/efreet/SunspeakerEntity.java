@@ -232,6 +232,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     protected void resetCustomer() {
         this.setCustomer(null);
+        this.resetAllSpecialPrices();
     }
 
     @Override
@@ -345,7 +346,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     private boolean canLevelUp() {
         int level = this.getSunspeakerData().getLevel();
-        return VillagerData.func_221128_d(level) && this.xp >= VillagerData.func_221127_c(level);
+        return level < 4 && VillagerData.func_221128_d(level) && this.xp >= VillagerData.func_221127_c(level);
     }
 
     private void levelUp() {
@@ -401,7 +402,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         SunspeakerData sunspeakerData = this.getSunspeakerData();
         List<VillagerTrades.ITrade[]> trades = TRADES;
         if (trades != null && !trades.isEmpty()) {
-            VillagerTrades.ITrade[] trade = trades.get(sunspeakerData.getLevel());
+            VillagerTrades.ITrade[] trade = trades.get(sunspeakerData.getLevel() - 1);
             if (trade != null) {
                 MerchantOffers merchantoffers = this.getOffers();
                 this.addTrades(merchantoffers, trade, 2);
