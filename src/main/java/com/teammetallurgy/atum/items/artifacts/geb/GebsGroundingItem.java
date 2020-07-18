@@ -17,7 +17,7 @@ import javax.annotation.Nonnull;
 public class GebsGroundingItem extends BaseBowItem {
 
     public GebsGroundingItem() {
-        super(new Item.Properties().maxDamage(650).rarity(Rarity.RARE));
+        super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(Items.DIAMOND);
     }
 
