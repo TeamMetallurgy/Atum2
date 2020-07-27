@@ -8,16 +8,14 @@
     },
     "description": {
       "translate": "advancement.atum.journeyintothesands.desc"
-    },
-    "show_toast": false,
-    "announce_to_chat": false
+    }
   },
   "parent": "atum:core/root",
   "criteria": {
     "entered_atum": {
       "trigger": "minecraft:changed_dimension",
       "conditions": {
-        "to": "atum"
+        "to": "atum:atum"
       }
     }
   }
