@@ -12,6 +12,7 @@ import net.minecraft.entity.passive.RabbitEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -37,6 +38,12 @@ public class DesertRabbitEntity extends RabbitEntity {
         super.registerGoals();
         this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.fromTag(AtumAPI.Tags.CROPS_FLAX), false));
         this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 16.0F, 2.2D, 2.6D));
+    }
+
+    @Override
+    @Nonnull
+    protected ResourceLocation getLootTable() {
+        return EntityType.RABBIT.getLootTable();
     }
 
     @Override
