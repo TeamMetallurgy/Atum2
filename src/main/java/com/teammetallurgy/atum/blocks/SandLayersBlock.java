@@ -76,20 +76,6 @@ public class SandLayersBlock extends FallingBlock {
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, BlockItemUseContext context) {
-        int layer = state.get(LAYERS);
-        if (context.getItem().getItem() == this.asItem() && layer < 8) {
-            if (context.replacingClickedOnBlock()) {
-                return context.getFace() == Direction.UP;
-            } else {
-                return true;
-            }
-        } else {
-            return layer == 1;
-        }
-    }
-
-    @Override
     @Nullable
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         BlockState state = context.getWorld().getBlockState(context.getPos());
