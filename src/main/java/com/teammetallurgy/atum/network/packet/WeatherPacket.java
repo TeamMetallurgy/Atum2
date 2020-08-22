@@ -31,7 +31,7 @@ public class WeatherPacket {
 			Dimension dimension = Minecraft.getInstance().player.world.dimension;
 			if (dimension instanceof AtumDimension) {
 				AtumDimension providerAtum = (AtumDimension) dimension;
-				providerAtum.isStorming = message.isStorming;
+				AtumDimension.DATA.setStorming(message.isStorming);
 				providerAtum.stormTime = message.stormTime;
 			}
 			ctx.get().setPacketHandled(true);

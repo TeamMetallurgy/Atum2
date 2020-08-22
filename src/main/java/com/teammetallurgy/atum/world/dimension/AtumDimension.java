@@ -17,7 +17,6 @@ import com.teammetallurgy.atum.world.gen.AtumChunkGeneratorType;
 import com.teammetallurgy.atum.world.gen.AtumGenSettings;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -49,14 +48,10 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumDimension extends Dimension {
     private static BlockPos usePos;
-    public boolean hasStartStructureSpawned;
+    public static final AtumDimensionData DATA = new AtumDimensionData();
 
     public AtumDimension(World world, DimensionType dimensionType) {
         super(world, dimensionType, 0.0F /*Brightness. Look into?*/);
-
-        CompoundNBT tagCompound = world.getWorldInfo().getDimensionData(dimensionType);
-        this.hasStartStructureSpawned = world instanceof ServerWorld && tagCompound.getBoolean("HasStartStructureSpawned");
-        this.isStorming = world instanceof ServerWorld && tagCompound.getBoolean("IsStorming");
     }
 
     @SubscribeEvent
@@ -190,14 +185,13 @@ public class AtumDimension extends Dimension {
 
     @Override
     public void onWorldSave() {
-        CompoundNBT tagCompound = new CompoundNBT();
-        tagCompound.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
-        tagCompound.putBoolean("IsStorming", this.isStorming);
-        this.world.getWorldInfo().setDimensionData(this.world.getDimension().getType(), tagCompound);
+        super.onWorldSave();
+        if (this.world instanceof ServerWorld) {
+            ((ServerWorld) this.world).getSavedData().getOrCreate(() -> AtumDimension.DATA, AtumDimension.DATA.getName());
+        }
     }
 
     //Sandstorm
-    public boolean isStorming;
     public int stormTime;
     public float prevStormStrength;
     public float stormStrength;
@@ -206,7 +200,7 @@ public class AtumDimension extends Dimension {
     @Override
     public void calculateInitialWeather() {
         super.calculateInitialWeather();
-        if (this.isStorming) {
+        if (DATA.isStorming()) {
             this.stormStrength = 1;
         }
     }
@@ -226,25 +220,25 @@ public class AtumDimension extends Dimension {
                 if (cleanWeatherTime > 0) {
                     --cleanWeatherTime;
                     serverWorld.getWorldInfo().setClearWeatherTime(cleanWeatherTime);
-                    this.stormTime = isStorming ? 1 : 2;
+                    this.stormTime = DATA.isStorming() ? 1 : 2;
                 }
 
                 if (this.stormTime <= 0) {
-                    if (this.isStorming) {
+                    if (DATA.isStorming()) {
                         this.stormTime = this.world.rand.nextInt(6000) + 6000;
                     } else {
                         this.stormTime = this.world.rand.nextInt(168000) + 12000;
                     }
-                    NetworkHandler.sendToDimension(new WeatherPacket(this.isStorming, this.stormTime), serverWorld, this.getType());
+                    NetworkHandler.sendToDimension(new WeatherPacket(DATA.isStorming(), this.stormTime), serverWorld, this.getType());
                 } else {
                     this.stormTime--;
                     if (this.stormTime <= 0) {
-                        this.isStorming = !this.isStorming;
+                        DATA.setStorming(!DATA.isStorming());
                     }
                 }
 
                 this.prevStormStrength = this.stormStrength;
-                if (this.isStorming) {
+                if (DATA.isStorming()) {
                     this.stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
                 } else {
                     this.stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
