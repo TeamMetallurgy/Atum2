@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
@@ -41,8 +42,8 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
     @Override
     @Nonnull
     protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
-        int spacing = 10;
-        int separation = 4;
+        int spacing = AtumConfig.WORLD_GEN.lighthouseSpacing.get();
+        int separation = AtumConfig.WORLD_GEN.lighthouseSeparation.get();
         int k = x + spacing * spacingOffsetsX;
         int l = z + spacing * spacingOffsetsZ;
         int i1 = k < 0 ? k - spacing + 1 : k;

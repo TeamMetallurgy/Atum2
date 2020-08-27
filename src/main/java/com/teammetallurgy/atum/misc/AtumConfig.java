@@ -98,27 +98,55 @@ public class AtumConfig {
     public static class WorldGen {
         public static final String WORLDGEN = "world gen";
         public static final String OREGEN = WORLDGEN + "." + "ore gen";
-        public final ForgeConfigSpec.BooleanValue mineshaftEnabled;
+        public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.BooleanValue pyramidEnabled;
+        public final ForgeConfigSpec.IntValue pyramidSpacing;
+        public final ForgeConfigSpec.IntValue pyramidSeparation;
         public final ForgeConfigSpec.BooleanValue ruinsEnabled;
+        public final ForgeConfigSpec.IntValue ruinsSpacing;
+        public final ForgeConfigSpec.IntValue ruinsSeparation;
         public final ForgeConfigSpec.IntValue ruinsAmount;
+        public final ForgeConfigSpec.BooleanValue lighthouseEnabled;
+        public final ForgeConfigSpec.IntValue lighthouseSpacing;
+        public final ForgeConfigSpec.IntValue lighthouseSeparation;
         public final ForgeConfigSpec.IntValue waterLevel;
         public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
         WorldGen(ForgeConfigSpec.Builder builder) {
             builder.push(WORLDGEN);
-            this.mineshaftEnabled = builder.comment("Should Mineshafts generate in Atum?")
-                    .translation("atum.config.mineshaft_enabled")
-                    .define("Enable Mineshafts", true);
+            this.mineshaftProbability = builder.comment("Probability of mineshafts generating. Set to 0 to disable. Default value same as vanilla overworld")
+                    .translation("atum.config.mineshaft_probability")
+                    .defineInRange("Minecraft probability", 0.008D, 0.0D, 1.0D);
             this.pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
                     .translation("atum.config.pyramid_enabled")
                     .define("Enable Pyramids", true);
+            this.pyramidSpacing = builder
+                    .translation("atum.config.pyramid_spacing")
+                    .defineInRange("Pyramid spacing", 18, 1, 256);
+            this.pyramidSeparation = builder
+                    .translation("atum.config.pyramid_separation")
+                    .defineInRange("Pyramid separation", 8, 1, 256);
             this.ruinsEnabled = builder.comment("Should Ruins generate in Atum?")
                     .translation("atum.config.ruins_enabled")
                     .define("Enable Ruins", true);
+            this.ruinsSpacing = builder
+                    .translation("atum.config.ruins_spacing")
+                    .defineInRange("Ruins spacing", 5, 1, 256);
+            this.ruinsSeparation = builder
+                    .translation("atum.config.ruins_separation")
+                    .defineInRange("Ruins separation", 3, 1, 256);
             this.ruinsAmount = builder.comment("Specify the amount of ruin variants structures/ruins. Allows for additional ruin structures with a resourcepack")
                     .translation("atum.config.ruins_amount")
                     .defineInRange("Ruins Amount", 19, 1, 999);
+            this.lighthouseEnabled = builder.comment("Should Lighthouses generate in Atum?")
+                    .translation("atum.config.lighthouse_enabled")
+                    .define("Enable Lighthouse", true);
+            this.lighthouseSpacing = builder
+                    .translation("atum.config.lighthouse_spacing")
+                    .defineInRange("Lighthouse spacing", 10, 1, 256);
+            this.lighthouseSeparation = builder
+                    .translation("atum.config.lighthouse_separation")
+                    .defineInRange("Lighthouse separation", 4, 1, 256);
             this.waterLevel = builder.comment("Sets above what Y-level water will vaporize at (Except Oasis). Set to 0 to disable")
                     .translation("atum.config.water_level")
                     .defineInRange("Water Level", 50, 0, 255);

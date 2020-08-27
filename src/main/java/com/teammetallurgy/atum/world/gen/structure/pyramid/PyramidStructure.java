@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
@@ -43,8 +44,8 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
     @Override
     @Nonnull
     protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
-        int spacing = 18;
-        int separation = 8;
+        int spacing = AtumConfig.WORLD_GEN.pyramidSpacing.get();
+        int separation = AtumConfig.WORLD_GEN.pyramidSeparation.get();
         int k = x + spacing * spacingOffsetsX;
         int l = z + spacing * spacingOffsetsZ;
         int i1 = k < 0 ? k - spacing + 1 : k;

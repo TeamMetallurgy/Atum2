@@ -173,7 +173,7 @@ public class AtumFeatures {
         }
 
         public static void addMineshaft(Biome biome, boolean isSurface) {
-            if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
+            if (AtumConfig.WORLD_GEN.mineshaftProbability.get() > 0.0D) {
                 int chance = new Random().nextInt(100);
                 AtumMineshaftStructure.Type type;
                 if (chance > 50) {
@@ -181,7 +181,7 @@ public class AtumFeatures {
                 } else {
                     type = isSurface ? AtumMineshaftStructure.Type.DEADWOOD_SURFACE : AtumMineshaftStructure.Type.DEADWOOD;
                 }
-                AtumMineshaftConfig config = new AtumMineshaftConfig(0.008D, type);
+                AtumMineshaftConfig config = new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get(), type);
                 biome.addStructure(AtumFeatures.MINESHAFT.withConfiguration(config));
                 biome.addFeature(SURFACE_STRUCTURES, AtumFeatures.MINESHAFT.withConfiguration(config));
             }
