@@ -103,33 +103,63 @@ public class AtumFeatures {
         }
 
         public static void addMaterialPockets(Biome biome) {
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.SAND.getDefaultState(), 28)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(14, 0, 0, 256))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), 32)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 256))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.MARL.getDefaultState(), 14)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(8, 0, 0, 50))));
+            if (AtumConfig.WORLD_GEN.sandCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.SAND.getDefaultState(), AtumConfig.WORLD_GEN.sandVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.sandCount.get(), AtumConfig.WORLD_GEN.sandBottomOffset.get(), AtumConfig.WORLD_GEN.sandTopOffset.get(), AtumConfig.WORLD_GEN.sandMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.limestoneGravelCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.LIMESTONE_GRAVEL.getDefaultState(), AtumConfig.WORLD_GEN.limestoneGravelVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.limestoneGravelCount.get(), AtumConfig.WORLD_GEN.limestoneGravelBottomOffset.get(), AtumConfig.WORLD_GEN.limestoneGravelTopOffset.get(), AtumConfig.WORLD_GEN.limestoneGravelMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.marlCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.MARL.getDefaultState(), AtumConfig.WORLD_GEN.marlVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.marlCount.get(), AtumConfig.WORLD_GEN.marlBottomOffset.get(), AtumConfig.WORLD_GEN.marlTopOffset.get(), AtumConfig.WORLD_GEN.marlMaxHeight.get()))));
+            }
         }
 
         public static void addStoneVariants(Biome biome) {
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.ALABASTER.getDefaultState(), 30)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 60))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.PORPHYRY.getDefaultState(), 30)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(10, 0, 0, 60))));
+            if (AtumConfig.WORLD_GEN.alabasterCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.ALABASTER.getDefaultState(), AtumConfig.WORLD_GEN.alabasterVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.alabasterCount.get(), AtumConfig.WORLD_GEN.alabasterBottomOffset.get(), AtumConfig.WORLD_GEN.alabasterTopOffset.get(), AtumConfig.WORLD_GEN.alabasterMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.porphyryCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.PORPHYRY.getDefaultState(), AtumConfig.WORLD_GEN.porphyryVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.porphyryCount.get(), AtumConfig.WORLD_GEN.porphyryBottomOffset.get(), AtumConfig.WORLD_GEN.porphyryTopOffset.get(), AtumConfig.WORLD_GEN.porphyryMaxHeight.get()))));
+            }
         }
 
         public static void addOres(Biome biome) {
             //Vanilla based ores
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.COAL_ORE.getDefaultState(), 17)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(20, 0, 0, 128))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.IRON_ORE.getDefaultState(), 9)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(20, 0, 0, 64))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.GOLD_ORE.getDefaultState(), 9)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(2, 0, 0, 32))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.REDSTONE_ORE.getDefaultState(), 8)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(8, 0, 0, 16))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.DIAMOND_ORE.getDefaultState(), 8)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(1, 0, 0, 16))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.LAPIS_ORE.getDefaultState(), 7)).withPlacement(Placement.COUNT_DEPTH_AVERAGE.configure(new DepthAverageConfig(1, 16, 16))));
+            if (AtumConfig.WORLD_GEN.coalCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.COAL_ORE.getDefaultState(), AtumConfig.WORLD_GEN.coalVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.coalCount.get(), AtumConfig.WORLD_GEN.coalBottomOffset.get(), AtumConfig.WORLD_GEN.coalTopOffset.get(), AtumConfig.WORLD_GEN.coalMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.ironCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.IRON_ORE.getDefaultState(), AtumConfig.WORLD_GEN.ironVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.ironCount.get(), AtumConfig.WORLD_GEN.ironBottomOffset.get(), AtumConfig.WORLD_GEN.ironTopOffset.get(), AtumConfig.WORLD_GEN.ironMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.goldCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.GOLD_ORE.getDefaultState(), AtumConfig.WORLD_GEN.goldVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.goldCount.get(), AtumConfig.WORLD_GEN.goldBottomOffset.get(), AtumConfig.WORLD_GEN.goldTopOffset.get(), AtumConfig.WORLD_GEN.goldMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.redstoneCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.REDSTONE_ORE.getDefaultState(), AtumConfig.WORLD_GEN.redstoneVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.redstoneCount.get(), AtumConfig.WORLD_GEN.redstoneBottomOffset.get(), AtumConfig.WORLD_GEN.redstoneTopOffset.get(), AtumConfig.WORLD_GEN.redstoneMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.diamondCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.DIAMOND_ORE.getDefaultState(), AtumConfig.WORLD_GEN.diamondVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.diamondCount.get(), AtumConfig.WORLD_GEN.diamondBottomOffset.get(), AtumConfig.WORLD_GEN.diamondTopOffset.get(), AtumConfig.WORLD_GEN.diamondMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.lapisCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.LAPIS_ORE.getDefaultState(), AtumConfig.WORLD_GEN.lapisVeinSize.get())).withPlacement(Placement.COUNT_DEPTH_AVERAGE.configure(new DepthAverageConfig(AtumConfig.WORLD_GEN.lapisCount.get(), AtumConfig.WORLD_GEN.lapisBaseline.get(), AtumConfig.WORLD_GEN.lapisSpread.get()))));
+            }
 
             //Atum ores
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.KHNUMITE_RAW.getDefaultState(), 6)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(4, 0, 0, 20))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.BONE_ORE.getDefaultState(), 9)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(12, 0, 0, 128))));
-            biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.RELIC_ORE.getDefaultState(), 5)).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(4, 0, 0, 64))));
+            if (AtumConfig.WORLD_GEN.khnumiteCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.KHNUMITE_RAW.getDefaultState(), AtumConfig.WORLD_GEN.khnumiteVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.khnumiteCount.get(), AtumConfig.WORLD_GEN.khnumiteBottomOffset.get(), AtumConfig.WORLD_GEN.khnumiteTopOffset.get(), AtumConfig.WORLD_GEN.khnumiteMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.boneOreCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.BONE_ORE.getDefaultState(), AtumConfig.WORLD_GEN.boneOreVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.boneOreCount.get(), AtumConfig.WORLD_GEN.boneOreBottomOffset.get(), AtumConfig.WORLD_GEN.boneOreTopOffset.get(), AtumConfig.WORLD_GEN.boneOreMaxHeight.get()))));
+            }
+            if (AtumConfig.WORLD_GEN.relicOreCount.get() > 0) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.RELIC_ORE.getDefaultState(), AtumConfig.WORLD_GEN.relicOreVeinSize.get())).withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(AtumConfig.WORLD_GEN.relicOreCount.get(), AtumConfig.WORLD_GEN.relicOreBottomOffset.get(), AtumConfig.WORLD_GEN.relicOreTopOffset.get(), AtumConfig.WORLD_GEN.relicOreMaxHeight.get()))));
+            }
         }
 
         public static void addEmeraldOre(Biome biome) {
-            biome.addFeature(UNDERGROUND_ORES, Feature.EMERALD_ORE.withConfiguration(new ReplaceBlockConfig(AtumBlocks.LIMESTONE.getDefaultState(), AtumBlocks.EMERALD_ORE.getDefaultState())).withPlacement(Placement.EMERALD_ORE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+            if (AtumConfig.WORLD_GEN.emeraldEnabled.get()) {
+                biome.addFeature(UNDERGROUND_ORES, Feature.EMERALD_ORE.withConfiguration(new ReplaceBlockConfig(AtumBlocks.LIMESTONE.getDefaultState(), AtumBlocks.EMERALD_ORE.getDefaultState())).withPlacement(Placement.EMERALD_ORE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)));
+            }
         }
 
         public static void addInfestedLimestone(Biome biome) {
@@ -137,16 +167,22 @@ public class AtumFeatures {
         }
 
         public static void addShrubs(Biome biome) {
-            biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(SHRUB_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
-            biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(WEED_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(1))));
+            if (AtumConfig.WORLD_GEN.shrubFrequency.get() > 0) {
+                biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(SHRUB_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(AtumConfig.WORLD_GEN.shrubFrequency.get()))));
+                biome.addFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(WEED_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(AtumConfig.WORLD_GEN.shrubFrequency.get()))));
+            }
         }
 
         public static void addFossils(Biome biome) {
-            biome.addFeature(UNDERGROUND_DECORATION, DIRTY_BONE_FOSSILS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_PASSTHROUGH.configure(new ChanceConfig(64))));
+            if (AtumConfig.WORLD_GEN.fossilsChance.get() > 0) {
+                biome.addFeature(UNDERGROUND_DECORATION, DIRTY_BONE_FOSSILS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.CHANCE_PASSTHROUGH.configure(new ChanceConfig(AtumConfig.WORLD_GEN.fossilsChance.get()))));
+            }
         }
 
         public static void addDungeon(Biome biome) {
-            biome.addFeature(UNDERGROUND_STRUCTURES, LIMESTONE_DUNGEONS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.DUNGEONS.configure(new ChanceConfig(8))));
+            if (AtumConfig.WORLD_GEN.dungeonChance.get() > 0) {
+                biome.addFeature(UNDERGROUND_STRUCTURES, LIMESTONE_DUNGEONS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.DUNGEONS.configure(new ChanceConfig(AtumConfig.WORLD_GEN.dungeonChance.get()))));
+            }
         }
 
         public static void addDeadwoodTrees(Biome biome, int count, float extraChance, int extraCount) {
