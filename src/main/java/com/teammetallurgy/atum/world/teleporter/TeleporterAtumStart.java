@@ -24,10 +24,9 @@ public class TeleporterAtumStart implements ITeleporter {
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-        AtumDimension atum = (AtumDimension) destWorld.dimension;
-        if (!atum.hasStartStructureSpawned) {
+        if (!AtumDimension.DATA.hasStartStructureSpawned()) {
             this.onAtumJoining(destWorld, entity, yaw);
-            atum.hasStartStructureSpawned = true;
+            AtumDimension.DATA.setHasStartStructureSpawned(true);
             return repositionEntity.apply(false);
         }
         return entity;

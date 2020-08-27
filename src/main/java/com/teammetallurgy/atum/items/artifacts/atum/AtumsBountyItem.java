@@ -16,7 +16,7 @@ import java.util.List;
 public class AtumsBountyItem extends FishingRodItem {
 
     public AtumsBountyItem() {
-        super(new Item.Properties().maxStackSize(1).rarity(Rarity.RARE).group(Atum.GROUP));
+        super(new Item.Properties().maxDamage(100).rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override

@@ -53,11 +53,9 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        if (this.markedTarget != null) {
-            this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget)); //Set target, when read from NBT
-        }
+        this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget));
         this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false));
-        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.2D, true));
+        this.goalSelector.addGoal(4, new AssassinMeleeAttackGoal(this, 1.2D, true));
     }
 
     @Override
@@ -228,6 +226,18 @@ public class AssassinEntity extends BanditBaseEntity {
             super.resetTask();
             this.markedTarget = null;
             ((AssassinEntity) this.goalOwner).markedTarget = null;
+        }
+    }
+
+    public static class AssassinMeleeAttackGoal extends MeleeAttackGoal {
+
+        public AssassinMeleeAttackGoal(CreatureEntity creature, double speedIn, boolean useLongMemory) {
+            super(creature, speedIn, useLongMemory);
+        }
+
+        @Override
+        public boolean shouldExecute() {
+            return this.attacker != null && super.shouldExecute();
         }
     }
 }

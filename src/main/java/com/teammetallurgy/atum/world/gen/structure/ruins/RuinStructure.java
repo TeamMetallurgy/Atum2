@@ -4,6 +4,7 @@ import com.mojang.datafixers.Dynamic;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumFeatures;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.ResourceLocation;
@@ -35,8 +36,8 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
     @Override
     @Nonnull
     protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
-        int spacing = 5;
-        int separation = 3;
+        int spacing = AtumConfig.WORLD_GEN.ruinsSpacing.get();
+        int separation = AtumConfig.WORLD_GEN.ruinsSeparation.get();
         int k = x + spacing * spacingOffsetsX;
         int l = z + spacing * spacingOffsetsZ;
         int i1 = k < 0 ? k - spacing + 1 : k;
