@@ -180,7 +180,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > 62 && !world.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.canBlockSeeSky(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
+        return pos.getY() > 62 && world.getWorld().getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.canBlockSeeSky(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
     }
 
     @Override
