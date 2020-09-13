@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
+import com.teammetallurgy.atum.misc.RenderUtils;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.entity.player.PlayerInventory;
@@ -14,6 +15,7 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.HopperTileEntity;
@@ -152,8 +154,9 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     @Override
     public void markDirty() {
         super.markDirty();
-        if (this.world != null) {
-            this.world.notifyBlockUpdate(pos, this.world.getBlockState(pos), world.getBlockState(pos), 3);
+        if (this.world instanceof ServerWorld) {
+            final IPacket<?> packet = this.getUpdatePacket();
+            RenderUtils.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
         }
     }
 

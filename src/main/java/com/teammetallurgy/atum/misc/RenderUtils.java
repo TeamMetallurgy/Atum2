@@ -9,7 +9,11 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.IPacket;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -51,5 +55,9 @@ public class RenderUtils {
             font.renderString(str, -font.getStringWidth(str) / 2, 0, 1, false, matrixStack.getLast().getMatrix(), buffer, false, 0, 0);
             matrixStack.pop();
         }
+    }
+
+    public static void sendToTracking(ServerWorld world, BlockPos blockPos, IPacket<?> packet, boolean boundaryOnly) {
+        world.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.sendPacket(packet));
     }
 }
