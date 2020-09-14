@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.RenderUtils;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
+import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -156,7 +157,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
         super.markDirty();
         if (this.world instanceof ServerWorld) {
             final IPacket<?> packet = this.getUpdatePacket();
-            RenderUtils.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
+            NetworkHandler.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
         }
     }
 

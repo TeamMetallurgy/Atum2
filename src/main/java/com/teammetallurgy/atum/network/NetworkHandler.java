@@ -6,8 +6,11 @@ import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.network.IPacket;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -45,5 +48,12 @@ public class NetworkHandler {
                 sendTo(serverPlayer, packet);
             }
         }
+    }
+
+    /*
+     * Used to update TESRs
+     */
+    public static void sendToTracking(ServerWorld world, BlockPos blockPos, IPacket<?> packet, boolean boundaryOnly) {
+        world.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.sendPacket(packet));
     }
 }

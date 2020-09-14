@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.RenderUtils;
+import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -89,7 +90,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         this.markDirty();
         if (this.world instanceof ServerWorld) {
             final IPacket<?> packet = this.getUpdatePacket();
-            RenderUtils.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
+            NetworkHandler.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
         }
     }
 

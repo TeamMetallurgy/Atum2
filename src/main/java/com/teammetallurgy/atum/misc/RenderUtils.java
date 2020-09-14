@@ -56,8 +56,4 @@ public class RenderUtils {
             matrixStack.pop();
         }
     }
-
-    public static void sendToTracking(ServerWorld world, BlockPos blockPos, IPacket<?> packet, boolean boundaryOnly) {
-        world.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.sendPacket(packet));
-    }
 }
