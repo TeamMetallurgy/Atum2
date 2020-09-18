@@ -10,8 +10,11 @@ import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.gen.feature.WorldGenLakes;
+import net.minecraftforge.event.terraingen.DecorateBiomeEvent;
+import net.minecraftforge.event.terraingen.TerrainGen;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -47,7 +50,7 @@ public class BiomeDeadOasis extends AtumBiome {
         int k1 = random.nextInt(16) + 8;
         (new WorldGenLakes(Blocks.AIR)).generate(world, random, pos.add(i1, j1, k1));
 
-        if (random.nextFloat() <= 0.70F) {
+        if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.TREE) && random.nextFloat() <= 0.70F) {
             new WorldGenPalm(true, 5, AtumBlocks.DEADWOOD_LOG.getDefaultState().withProperty(BlockDeadwood.HAS_SCARAB, true), BlockLeave.getLeave(BlockAtumPlank.WoodType.DEADWOOD).getDefaultState().withProperty(BlockLeave.CHECK_DECAY, false), false).generate(world, random, world.getHeight(pos.add(x, 0, z)));
         }
 

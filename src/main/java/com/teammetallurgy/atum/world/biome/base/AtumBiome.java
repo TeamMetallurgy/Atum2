@@ -128,7 +128,7 @@ public class AtumBiome extends Biome {
         int z = random.nextInt(16) + 8;
 
         BlockPos height = world.getHeight(pos.add(x, 0, z));
-        if (this.deadwoodRarity > 0 && random.nextDouble() <= this.deadwoodRarity) {
+        if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.TREE) && this.deadwoodRarity > 0 && random.nextDouble() <= this.deadwoodRarity) {
             new WorldGenDeadwood(false).generate(world, random, height);
         }
         if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.FOSSIL)) {
