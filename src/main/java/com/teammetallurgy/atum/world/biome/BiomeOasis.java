@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisPond;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
@@ -41,7 +42,7 @@ public class BiomeOasis extends AtumBiome {
 
         new WorldGenOasisPond().generate(world, random, height);
 
-        if (random.nextFloat() <= 0.98F) {
+        if (TerrainGen.decorate(world, random, new ChunkPos(pos), DecorateBiomeEvent.Decorate.EventType.TREE) &&  random.nextFloat() <= 0.98F) {
             new WorldGenPalm(true, random.nextInt(4) + 5, true).generate(world, random, height);
         }
 
