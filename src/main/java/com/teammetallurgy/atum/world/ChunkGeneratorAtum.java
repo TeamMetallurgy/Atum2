@@ -31,7 +31,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.*;
-import net.minecraft.world.gen.structure.MapGenStructure;
 import net.minecraftforge.event.terraingen.InitMapGenEvent;
 import net.minecraftforge.event.terraingen.InitNoiseGensEvent;
 import net.minecraftforge.event.terraingen.PopulateChunkEvent;
@@ -59,7 +58,7 @@ public class ChunkGeneratorAtum implements IChunkGenerator {
     private ChunkGeneratorSettings settings;
     private double[] depthBuffer = new double[256];
     private MapGenBase caveGenerator = TerrainGen.getModdedMapGen(new MapGenCaves(), InitMapGenEvent.EventType.CAVE);
-    private MapGenStructure mineshaftGenerator = TerrainGen.getModdedMapGen(new MapGenAtumMineshaft(), InitMapGenEvent.EventType.MINESHAFT);
+    private MapGenBase mineshaftGenerator = TerrainGen.getModdedMapGen(new MapGenAtumMineshaft(), InitMapGenEvent.EventType.MINESHAFT);
     private MapGenBase ravineGenerator = TerrainGen.getModdedMapGen(new MapGenRavine(), InitMapGenEvent.EventType.RAVINE);
     public MapGenPyramid pyramidGenerator = new MapGenPyramid(this);
     private MapGenRuin ruinGenerator = new MapGenRuin(this);
