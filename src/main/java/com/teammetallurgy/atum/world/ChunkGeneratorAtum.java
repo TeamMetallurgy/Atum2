@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.MapGenGirafiTomb;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.MapGenLighthouse;
+import com.teammetallurgy.atum.world.gen.structure.mineshaft.MapGenAtumMineshaft;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.MapGenPyramid;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.MapGenRuin;
