@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.entity.animal.EntityCamel;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.utils.AtumConfig;
 import com.teammetallurgy.atum.world.biome.base.AtumBiome;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenOasisPond;
 import com.teammetallurgy.atum.world.gen.feature.WorldGenPalm;
