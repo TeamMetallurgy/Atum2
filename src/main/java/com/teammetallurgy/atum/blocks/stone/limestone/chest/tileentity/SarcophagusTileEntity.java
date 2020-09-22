@@ -7,12 +7,14 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import net.minecraft.block.BlockState;
+import com.teammetallurgy.atum.misc.RenderUtils;
+import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
@@ -86,8 +88,10 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public void setOpenable() {
         this.isOpenable = true;
         this.markDirty();
-        BlockState state = world.getBlockState(pos);
-        world.notifyBlockUpdate(pos, state, state, 3);
+        if (this.world instanceof ServerWorld) {
+            final IPacket<?> packet = this.getUpdatePacket();
+            NetworkHandler.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
+        }
     }
 
     public void spawn(PlayerEntity player, DifficultyInstance difficulty) {

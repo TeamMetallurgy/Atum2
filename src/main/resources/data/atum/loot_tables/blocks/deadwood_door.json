@@ -6,6 +6,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "atum:deadwood_door",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ],
           "name": "atum:deadwood_door"
         }
       ],
