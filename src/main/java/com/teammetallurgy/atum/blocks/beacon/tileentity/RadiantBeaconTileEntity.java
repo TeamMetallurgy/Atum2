@@ -22,7 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class RadiantBeaconTileEntity extends BeaconTileEntity {
-    private List<BeamSegment> beamSegments = Lists.newArrayList();
+    private List<BeaconTileEntity.BeamSegment> beamSegments = Lists.newArrayList();
 
     @Override
     @Nonnull
@@ -50,7 +50,7 @@ public class RadiantBeaconTileEntity extends BeaconTileEntity {
         int z = this.pos.getZ();
         this.beamSegments.clear();
         float[] defaultColor = world.getBlockState(this.getPos()).get(RadiantBeaconBlock.COLOR).getColorComponentValues();
-        BeaconTileEntity.BeamSegment beamSegment = new BeaconTileEntity.BeamSegment(defaultColor);
+        BeamSegment beamSegment = new BeamSegment(defaultColor);
         this.beamSegments.add(beamSegment);
         boolean flag = true;
         BlockPos.Mutable pos = new BlockPos.Mutable();
@@ -86,15 +86,14 @@ public class RadiantBeaconTileEntity extends BeaconTileEntity {
             if (Arrays.equals(color, beamSegment.getColors())) {
                 beamSegment.incrementHeight();
             } else {
-                beamSegment = new BeaconTileEntity.BeamSegment(color);
+                beamSegment = new BeamSegment(color);
                 this.beamSegments.add(beamSegment);
             }
             flag = false;
         }
 
         if (!world.isRemote) {
-            for (ServerPlayerEntity ServerPlayerEntity : world.getEntitiesWithinAABB(ServerPlayerEntity.class, (new AxisAlignedBB((double) x, y, z, x, y - 4,
-                    z)).grow(10.0D, 5.0D, 10.0D))) {
+            for (ServerPlayerEntity ServerPlayerEntity : world.getEntitiesWithinAABB(ServerPlayerEntity.class, (new AxisAlignedBB(x, y, z, x, y - 4, z)).grow(10.0D, 5.0D, 10.0D))) {
                 CriteriaTriggers.CONSTRUCT_BEACON.trigger(ServerPlayerEntity, this);
             }
         }
@@ -105,5 +104,20 @@ public class RadiantBeaconTileEntity extends BeaconTileEntity {
     @OnlyIn(Dist.CLIENT)
     public List<BeaconTileEntity.BeamSegment> getBeamSegments() {
         return this.beamSegments;
+    }
+
+    public static class BeamSegment extends BeaconTileEntity.BeamSegment {
+        private final float[] colors;
+
+        public BeamSegment(float[] colors) {
+            super(colors);
+            this.colors = colors;
+        }
+
+        @Override
+        @Nonnull
+        public float[] getColors() {
+            return this.colors;
+        }
     }
 }

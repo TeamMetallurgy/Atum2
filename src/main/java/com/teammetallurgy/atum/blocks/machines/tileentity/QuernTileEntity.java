@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import com.teammetallurgy.atum.misc.RenderUtils;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import com.teammetallurgy.atum.network.NetworkHandler;
