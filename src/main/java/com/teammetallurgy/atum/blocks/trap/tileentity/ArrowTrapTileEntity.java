@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -12,6 +13,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -96,15 +99,15 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     }
 
     private boolean canSee(Direction facing, World world, LivingEntity living) {
-        Vec3i dir = facing.getDirectionVec();
-        Vec3d posDir = new Vec3d(this.pos.getX() + dir.getX(), this.pos.getY(), this.pos.getZ() + dir.getZ());
-        Vec3d livingPos = new Vec3d(living.getPosX(), living.getPosY() + (double) living.getEyeHeight(), living.getPosZ());
+        Vector3i dir = facing.getDirectionVec();
+        Vector3d posDir = new Vector3d(this.pos.getX() + dir.getX(), this.pos.getY(), this.pos.getZ() + dir.getZ());
+        Vector3d livingPos = new Vector3d(living.getPosX(), living.getPosY() + (double) living.getEyeHeight(), living.getPosZ());
         return world.rayTraceBlocks(new RayTraceContext(posDir, livingPos, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, living)).getType() == RayTraceResult.Type.MISS;
     }
 
     private BlockRayTraceResult rayTraceMinMax(World world, AxisAlignedBB box, LivingEntity living) {
-        final Vec3d min = new Vec3d(box.minX, box.minY, box.minZ);
-        final Vec3d max = new Vec3d(box.maxX, box.maxY + 0.05D, box.maxZ);
+        final Vector3d min = new Vector3d(box.minX, box.minY, box.minZ);
+        final Vector3d max = new Vector3d(box.maxX, box.maxY + 0.05D, box.maxZ);
         return world.rayTraceBlocks(new RayTraceContext(max, min, RayTraceContext.BlockMode.COLLIDER, RayTraceContext.FluidMode.ANY, living));
     }
 
@@ -161,8 +164,8 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.timer = compound.getInt("Timer");
     }
 

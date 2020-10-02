@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumFeatures;
@@ -25,11 +25,10 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class RuinStructure extends Structure<NoFeatureConfig> {
 
-    public RuinStructure(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public RuinStructure(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

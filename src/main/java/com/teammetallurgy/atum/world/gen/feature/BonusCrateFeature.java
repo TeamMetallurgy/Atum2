@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.BlockState;
@@ -19,13 +19,12 @@ import javax.annotation.Nonnull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class BonusCrateFeature extends Feature<NoFeatureConfig> {
 
-    public BonusCrateFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public BonusCrateFeature(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

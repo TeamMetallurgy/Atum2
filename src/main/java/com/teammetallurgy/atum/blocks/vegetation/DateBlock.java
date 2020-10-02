@@ -36,17 +36,17 @@ public class DateBlock extends BushBlock implements IGrowable {
         this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
     }
 
-    @Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) {
+    /*@Override
+    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) { //TODO
         if (state.get(AGE) != 3) {
             return 0.25F;
         }
         return 0.35F;
-    }
+    }*/
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         if (state.get(AGE) == 0) {
             return STEM;
         }
@@ -54,13 +54,13 @@ public class DateBlock extends BushBlock implements IGrowable {
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random rand) {
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         if (!world.isRemote) {
             super.tick(state, world, pos, rand);
             if (!world.isAreaLoaded(pos, 1)) return;
             if (state.get(AGE) != 7) {
                 if (ForgeHooks.onCropsGrowPre(world, pos, state, world.rand.nextDouble() <= 0.12F)) {
-                    world.setBlockState(pos, state.cycle(AGE), 2);
+                    world.setBlockState(pos, state.func_235896_a_(AGE), 2);
                     ForgeHooks.onCropsGrowPost(world, pos, state);
                 }
             }
@@ -68,7 +68,7 @@ public class DateBlock extends BushBlock implements IGrowable {
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
+    public boolean isValidPosition(BlockState state, @Nonnull IWorldReader world, @Nonnull BlockPos pos) {
         if (state.getBlock() == this) {
             BlockState stateUp = world.getBlockState(pos.up());
             return stateUp.getBlock().isIn(BlockTags.LEAVES);
@@ -78,7 +78,7 @@ public class DateBlock extends BushBlock implements IGrowable {
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
         if (state.get(AGE) == 7) {
             spawnDrops(state, world, pos);
             return world.setBlockState(pos, this.getDefaultState()) ? ActionResultType.SUCCESS : ActionResultType.PASS;

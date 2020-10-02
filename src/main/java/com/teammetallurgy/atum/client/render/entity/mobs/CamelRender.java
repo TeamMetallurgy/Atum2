@@ -6,8 +6,8 @@ import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.HorseRenderer;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.texture.LayeredTexture;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -37,7 +37,7 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
             String[] texturePath = new String[3];
             texturePath[0] = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_" + camel.getVariant()) + ".png";
             if (camel.hasCustomName() && camel.getCustomName() != null) {
-                String customName = camel.getCustomName().getFormattedText();
+                String customName = camel.getCustomName().getString();
                 if (customName.equalsIgnoreCase("girafi")) {
                     texturePath[0] = GIRAFI.toString();
                 }
@@ -50,9 +50,9 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
 
             DyeColor color = camel.getColor();
             if (color != null) {
-                texturePath[2] = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getName()) + ".png";
+                texturePath[2] = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getString()) + ".png";
             }
-            Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
+            //Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath)); //TODO Test if z-fighting is present without this
             CACHE.put(textureName, location);
         }
         return location;

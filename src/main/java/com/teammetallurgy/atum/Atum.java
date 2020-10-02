@@ -10,7 +10,12 @@ import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -18,7 +23,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -29,6 +33,7 @@ public class Atum {
     public static final String MOD_ID = "atum";
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final ItemGroup GROUP = new AtumItemGroup();
+    public static final RegistryKey<World> ATUM = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(Atum.MOD_ID, "atum"));
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -54,7 +59,7 @@ public class Atum {
     }
 
     @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-        AtumWeather.register(event.getCommandDispatcher());
+    public void onServerStarting(CommandEvent event) {
+        AtumWeather.register(event.getParseResults().getContext().getDispatcher()); //TODO Test
     }
 }

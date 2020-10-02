@@ -5,7 +5,11 @@ import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumTileEntities;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -31,7 +35,7 @@ import javax.annotation.Nullable;
 public class SarcophagusBlock extends ChestBaseBlock {
 
     public SarcophagusBlock() {
-        super(() -> AtumTileEntities.SARCOPHAGUS);
+        super(() -> AtumTileEntities.SARCOPHAGUS, AbstractBlock.Properties.create(Material.ROCK, MaterialColor.SAND));
     }
 
     @Override
@@ -39,23 +43,23 @@ public class SarcophagusBlock extends ChestBaseBlock {
         return new SarcophagusTileEntity();
     }
 
-    @Override
-    public float getBlockHardness(@Nonnull BlockState state, IBlockReader world, @Nonnull BlockPos pos) {
+    /*@Override
+    public float getBlockHardness(@Nonnull BlockState state, IBlockReader world, @Nonnull BlockPos pos) { //TODO
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
             return -1.0F;
         } else {
             return 4.0F;
         }
-    }
+    }*/
 
     @Override
-    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
+    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
             return 6000000.0F;
         } else {
-            return super.getExplosionResistance(state, world, pos, exploder, explosion);
+            return super.getExplosionResistance(state, world, pos, explosion);
         }
     }
 
@@ -90,7 +94,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
                     sarcophagus.hasSpawned = true;
                     return ActionResultType.PASS;
                 } else if (!sarcophagus.isOpenable) {
-                    player.sendStatusMessage(new TranslationTextComponent("chat.atum.cannot_spawn_pharaoh").setStyle(new Style().setColor(TextFormatting.RED)), true);
+                    player.sendStatusMessage(new TranslationTextComponent("chat.atum.cannot_spawn_pharaoh").mergeStyle(TextFormatting.RED), true);
                     world.playSound(pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_ZOMBIE_INFECT, SoundCategory.HOSTILE, 0.7F, 0.4F, false);
                     return ActionResultType.PASS;
                 }

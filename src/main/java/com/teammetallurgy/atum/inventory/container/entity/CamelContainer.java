@@ -58,7 +58,7 @@ public class CamelContainer extends Container {
             @Override
             @OnlyIn(Dist.CLIENT)
             public boolean isEnabled() {
-                return camel.wearsArmor();
+                return camel.func_230276_fq_();
             }
         });
         //Carpet slot

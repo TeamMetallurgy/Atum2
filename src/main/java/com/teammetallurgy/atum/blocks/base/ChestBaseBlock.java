@@ -17,7 +17,11 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
-import net.minecraft.util.math.*;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -29,7 +33,11 @@ import java.util.function.Supplier;
 public class ChestBaseBlock extends ChestBlock {
 
     protected ChestBaseBlock(Supplier<TileEntityType<? extends ChestTileEntity>> tileEntitySupplier) {
-        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0), tileEntitySupplier);
+        this(tileEntitySupplier, AbstractBlock.Properties.create(Material.ROCK, MaterialColor.SAND));
+    }
+
+    protected ChestBaseBlock(Supplier<TileEntityType<? extends ChestTileEntity>> tileEntitySupplier, AbstractBlock.Properties properties) {
+        super(properties.hardnessAndResistance(3.0F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0), tileEntitySupplier);
     }
 
     @Override
@@ -106,7 +114,7 @@ public class ChestBaseBlock extends ChestBlock {
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
         Block block = Block.getBlockFromItem(context.getItem().getItem());
-        if (block instanceof ChestBaseBlock && block.hasTileEntity()) {
+        if (block instanceof ChestBaseBlock && block.hasTileEntity(block.getDefaultState())) {
             TileEntity tileEntity = this.createNewTileEntity(context.getWorld());
             if (tileEntity instanceof ChestBaseTileEntity && !((ChestBaseTileEntity) tileEntity).canBeDouble) {
                 return super.getStateForPlacement(context).with(TYPE, ChestType.SINGLE);
@@ -126,7 +134,7 @@ public class ChestBaseBlock extends ChestBlock {
                     Direction direction = Direction.byHorizontalIndex(MathHelper.floor(placer.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
                     BlockPos posRight = pos.offset(direction.rotateY().getOpposite());
                     BlockState rightState = world.getBlockState(posRight);
-                    BlockRayTraceResult rayTrace = new BlockRayTraceResult(new Vec3d(posRight.getX(), posRight.getY(), posRight.getZ()), direction, pos, false);
+                    BlockRayTraceResult rayTrace = new BlockRayTraceResult(new Vector3d(posRight.getX(), posRight.getY(), posRight.getZ()), direction, pos, false);
                     BlockItemUseContext context = new BlockItemUseContext(new ItemUseContext((PlayerEntity) placer, Hand.MAIN_HAND, rayTrace));
                     if (rightState.isAir(world, posRight) || rightState.isReplaceable(context)) {
                         placer.world.setBlockState(posRight, state.with(TYPE, ChestType.LEFT)); //Left and right is reversed? o.O

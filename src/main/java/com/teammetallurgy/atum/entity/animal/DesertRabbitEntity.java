@@ -5,7 +5,9 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.world.biome.*;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.entity.ai.goal.TemptGoal;
 import net.minecraft.entity.passive.RabbitEntity;
@@ -13,10 +15,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -26,11 +28,8 @@ public class DesertRabbitEntity extends RabbitEntity {
         super(entityType, world);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(5.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.32D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 5.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D);
     }
 
     @Override
@@ -47,8 +46,8 @@ public class DesertRabbitEntity extends RabbitEntity {
     }
 
     @Override
-    protected int getRandomRabbitType(IWorld world) {
-        Biome biome = world.getBiome(new BlockPos(this));
+    protected int getRandomRabbitType(IWorld world) { //TODO
+        Biome biome = world.getBiome(this.getPosition());
         int i = this.rand.nextInt(100);
 
         if (biome instanceof SandPlainsBiome) {
@@ -81,7 +80,7 @@ public class DesertRabbitEntity extends RabbitEntity {
     }
 
     @Override
-    public DesertRabbitEntity createChild(@Nonnull AgeableEntity ageable) {
+    public DesertRabbitEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
         DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.create(this.world);
         int type = this.getRandomRabbitType(this.world);
 

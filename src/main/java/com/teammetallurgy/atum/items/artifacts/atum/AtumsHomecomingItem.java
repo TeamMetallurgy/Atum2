@@ -12,7 +12,7 @@ import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -72,8 +72,8 @@ public class AtumsHomecomingItem extends AmuletItem {
         }
 
         if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isElytraFlying()) {
-            Vec3d motion = entity.getMotion();
-            entity.setMotion(new Vec3d(motion.x, 0.0D, motion.z));
+            Vector3d motion = entity.getMotion();
+            entity.setMotion(new Vector3d(motion.x, 0.0D, motion.z));
             entity.onGround = true;
         }
     }

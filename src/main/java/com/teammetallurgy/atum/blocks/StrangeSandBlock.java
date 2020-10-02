@@ -31,13 +31,12 @@ public class StrangeSandBlock extends FallingBlock {
             return true;
         }
 
-        switch (plantType) {
-            case Desert:
-                return true;
-            case Beach:
-                return hasWater;
-            default:
-                return super.canSustainPlant(state, world, pos, direction, plantable);
+        if (plantType.equals(PlantType.DESERT)) {
+            return true;
+        } else if (plantType.equals(PlantType.BEACH)) {
+            return hasWater;
+        } else {
+            return super.canSustainPlant(state, world, pos, direction, plantable);
         }
     }
 }

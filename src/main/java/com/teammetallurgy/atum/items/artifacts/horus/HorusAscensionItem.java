@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vector3d;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -46,7 +46,7 @@ public class HorusAscensionItem extends GauntletItem {
                 dx /= magnitude;
                 dz /= magnitude;
                 target.addVelocity(dx / 2.0D, 1.5D, dz / 2.0D);
-                Vec3d motion = target.getMotion();
+                Vector3d motion = target.getMotion();
                 if (motion.y > 0.9D) {
                     target.setMotion(motion.x, 0.9D, motion.z);
                 }

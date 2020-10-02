@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.particle;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -15,11 +16,11 @@ import javax.annotation.Nonnull;
 public class MontuParticle extends SpriteTexturedParticle {
     float scale;
 
-    public MontuParticle(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
+    public MontuParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         this(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, 1.0F, spriteSet);
     }
 
-    public MontuParticle(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, float scale, IAnimatedSprite spriteSet) {
+    public MontuParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, float scale, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.motionX *= 0.10000000149011612D;
         this.motionY *= 0.10000000149011612D;
@@ -88,7 +89,7 @@ public class MontuParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new MontuParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

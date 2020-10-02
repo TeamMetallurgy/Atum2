@@ -37,7 +37,7 @@ public class AnputsHungerItem extends DaggerItem {
     }
 
     @Override
-    public void inventoryTick(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+    public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
             if (player.getHeldItem(Hand.MAIN_HAND).getItem() == AtumItems.ANPUTS_HUNGER) {

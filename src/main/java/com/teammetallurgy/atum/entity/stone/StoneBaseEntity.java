@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -15,10 +17,7 @@ import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 
@@ -54,16 +53,12 @@ public class StoneBaseEntity extends MonsterEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof StoneBaseEntity) && input.getCreatureAttribute() == CreatureAttribute.UNDEAD));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.15D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(16.0D);
+    public static AttributeModifierMap.MutableAttribute getBaseAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D).createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D);
     }
 
     void setFriendlyAttributes() {
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(24.0D);
+        this.getAttribute(Attributes.FOLLOW_RANGE).setBaseValue(24.0D);
     }
 
     @Override
@@ -75,7 +70,7 @@ public class StoneBaseEntity extends MonsterEntity {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         if (this.isPlayerCreated()) {
             this.setFriendlyAttributes();
         }
@@ -114,14 +109,15 @@ public class StoneBaseEntity extends MonsterEntity {
             this.homeCheckTimer = 70 + this.rand.nextInt(50);
 
             if (!this.detachHome()) {
-                this.setHomePosAndDistance(new BlockPos(this), 16);
+                this.setHomePosAndDistance(this.getPosition(), 16);
             }
         }
         super.updateAITasks();
     }
 
     @Override
-    protected boolean processInteract(PlayerEntity player, Hand hand) {
+    @Nonnull
+    protected ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
 
         if (heldStack.getItem() == AtumItems.KHNUMITE) {
@@ -132,9 +128,9 @@ public class StoneBaseEntity extends MonsterEntity {
             if (!this.world.isRemote) {
                 this.heal(5.0F);
             }
-            return true;
+            return ActionResultType.SUCCESS;
         } else {
-            return super.processInteract(player, hand);
+            return super.func_230254_b_(player, hand);
         }
     }
 
@@ -144,7 +140,7 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    public void knockBack(@Nonnull Entity entity, float strength, double xRatio, double zRatio) {
+    public void applyKnockback(float strength, double xRatio, double zRatio) {
         //Immune to knockback
     }
 
@@ -164,7 +160,7 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource damageSource) {
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
         return SoundEvents.BLOCK_STONE_HIT;
     }
 
@@ -190,7 +186,7 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    protected void playStepSound(@Nonnull BlockPos pos, BlockState state) {
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         this.playSound(SoundEvents.BLOCK_STONE_STEP, 0.15F, 1.0F);
     }
 
@@ -217,14 +213,14 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    public void writeAdditional(CompoundNBT compound) {
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
         super.writeAdditional(compound);
         compound.putInt("Variant", this.getVariant());
         compound.putBoolean("PlayerCreated", this.isPlayerCreated());
     }
 
     @Override
-    public void readAdditional(CompoundNBT compound) {
+    public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
         this.setVariant(compound.getInt("Variant"));
         this.setPlayerCreated(compound.getBoolean("PlayerCreated"));

@@ -11,7 +11,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -24,7 +24,7 @@ public class LimestoneBlock extends Block {
     }
 
     @Override
-    public void spawnAdditionalDrops(BlockState state, World world, BlockPos pos, @Nonnull ItemStack stack) {
+    public void spawnAdditionalDrops(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
         if (!world.isRemote && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.90D) {
             ScarabEntity scarab = AtumEntities.SCARAB.create(world);
             scarab.setLocationAndAngles((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, 0.0F, 0.0F);

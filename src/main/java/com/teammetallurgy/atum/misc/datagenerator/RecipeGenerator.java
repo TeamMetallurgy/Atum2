@@ -27,7 +27,7 @@ public class RecipeGenerator extends RecipeProvider {
     @Override
     protected void registerRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
         for (DyeColor color : DyeColor.values()) {
-            String colorName = color.getName();
+            String colorName = color.getString();
             Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(colorName + "_dye"));
             if (dye != null) {
                 ShapedRecipeBuilder.shapedRecipe(getBlockFromName("crystal_" + colorName + "_stained_glass"), 8).key('#', AtumBlocks.CRYSTAL_GLASS).key('X', dye).patternLine("###").patternLine("#X#").patternLine("###").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer);

@@ -65,7 +65,7 @@ public class NuitsQuarterItem extends KhopeshItem {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
         if (hand == Hand.OFF_HAND) {
             player.setActiveHand(Hand.OFF_HAND);
             this.isOffhand = true;
@@ -76,7 +76,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         if (random.nextFloat() <= 0.25F) {
             applyWeakness(target, attacker, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_IRE);
         }

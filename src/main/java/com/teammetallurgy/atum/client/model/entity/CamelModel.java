@@ -7,7 +7,7 @@ import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.client.renderer.entity.model.EntityModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 
 import javax.annotation.Nonnull;
 
@@ -132,7 +132,7 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
         limbSwingAmount *= CamelEntity.CAMEL_RIDING_SPEED_AMOUNT;
         if (camel.isBeingRidden()) {
             this.headModel.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 0.025F * limbSwingAmount;
-            Vec3d motion = camel.getMotion();
+            Vector3d motion = camel.getMotion();
             this.tail.rotateAngleX = -45.5F + (MathHelper.sqrt(Math.pow(motion.x, 2) + Math.pow(motion.z, 2)));
         } else {
             this.tail.rotateAngleX = -45.5F;

@@ -21,13 +21,13 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vector3d;
+import net.minecraft.world.Dimension;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProviderType;
 import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.ChunkGeneratorType;
@@ -51,7 +51,7 @@ public class AtumDimension extends Dimension {
     public static final AtumDimensionData DATA = new AtumDimensionData();
 
     public AtumDimension(World world, DimensionType dimensionType) {
-        super(world, dimensionType, 0.0F /*Brightness. Look into?*/);
+        super(world, dimensionType, 0.0F);
     }
 
     @SubscribeEvent
@@ -149,7 +149,7 @@ public class AtumDimension extends Dimension {
 
     @Override
     @Nonnull
-    public Vec3d getFogColor(float celestialAngle, float partialTicks) {
+    public Vector3d getFogColor(float celestialAngle, float partialTicks) {
         float f = MathHelper.cos((float) (celestialAngle * Math.PI * 2.0F)) * 2.0F + 0.5F;
         if (f < 0.2F) {
             f = 0.2F;
@@ -165,7 +165,7 @@ public class AtumDimension extends Dimension {
         float f1 = 0.9F * f;
         float f2 = 0.75F * f;
         float f3 = 0.6F * f;
-        return new Vec3d(f1, f2, f3);
+        return new Vector3d(f1, f2, f3);
     }
 
     @Override

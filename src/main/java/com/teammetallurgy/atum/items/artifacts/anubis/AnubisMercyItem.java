@@ -132,6 +132,6 @@ public class AnubisMercyItem extends AmuletItem {
         int remaining = (stack.getMaxDamage() - stack.getDamage()) / 332;
         tooltip.add(new TranslationTextComponent("atum.tooltip.uses_remaining", remaining));
 
-        tooltip.add(new TranslationTextComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".disenchantment_curse").applyTextStyle(TextFormatting.DARK_RED));
+        tooltip.add(new TranslationTextComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".disenchantment_curse").mergeStyle(TextFormatting.DARK_RED));
     }
 }

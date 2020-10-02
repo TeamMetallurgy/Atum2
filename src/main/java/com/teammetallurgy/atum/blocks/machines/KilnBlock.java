@@ -35,7 +35,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
     private static final BooleanProperty MULTIBLOCK_SECONDARY = BooleanProperty.create("multiblock_secondary");
 
     public KilnBlock() {
-        super(Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(3.5F).lightValue(13).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        super(Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(3.5F).setLightLevel((state) -> 13).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0));
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(LIT, false).with(MULTIBLOCK_PRIMARY, false).with(MULTIBLOCK_SECONDARY, false));
     }
 

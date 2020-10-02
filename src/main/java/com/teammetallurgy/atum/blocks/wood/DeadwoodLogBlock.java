@@ -2,10 +2,7 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LogBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.ItemStack;
@@ -14,20 +11,20 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
-public class DeadwoodLogBlock extends LogBlock {
+public class DeadwoodLogBlock extends RotatedPillarBlock {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("has_scarab");
 
     public DeadwoodLogBlock() {
-        super(MaterialColor.OBSIDIAN, Block.Properties.create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(1.0F).sound(SoundType.WOOD));
+        super(AbstractBlock.Properties.create(Material.WOOD, (state) -> state.get(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.OBSIDIAN : MaterialColor.BROWN).hardnessAndResistance(1.0F).sound(SoundType.WOOD));
         this.setDefaultState(this.stateContainer.getBaseState().with(AXIS, Direction.Axis.Y).with(HAS_SCARAB, false));
     }
 
     @Override
-    public void spawnAdditionalDrops(BlockState state, World world, BlockPos pos, @Nonnull ItemStack stack) {
+    public void spawnAdditionalDrops(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
         super.spawnAdditionalDrops(state, world, pos, stack);
         if (!world.isRemote && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
             ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB, world);

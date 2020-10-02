@@ -20,33 +20,23 @@ public class CeramicTileBlock extends CeramicBlock {
     private static final VoxelShape TILE_SHAPE = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 1.0D, 16.0D);
 
     public CeramicTileBlock(Properties properties) {
-        super(properties);
-    }
-
-    @Override
-    public float getBlockHardness(BlockState state, IBlockReader reader, BlockPos pos) {
-        return 0.5F;
-    }
-
-    @Override
-    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-        return 0.5F;
+        super(properties.hardnessAndResistance(0.5F));
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, ISelectionContext selectionContext) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext selectionContext) {
         return TILE_SHAPE;
     }
 
     @Override
     @Nonnull
-    public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState facingState, IWorld world, BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updatePostPlacement(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         return !state.isValidPosition(world, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(state, direction, facingState, world, currentPos, facingPos);
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
+    public boolean isValidPosition(@Nonnull BlockState state, IWorldReader reader, BlockPos pos) {
         return !reader.isAirBlock(pos.down());
     }
 }

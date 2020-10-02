@@ -6,11 +6,9 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.texture.LayeredTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -57,7 +55,7 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
         if (location == null) {
             location = new ResourceLocation(textureName);
             String[] texturePath = new String[3];
-            texturePath[0] = desertWolf.isAngry() ? ANGRY_DESERT_WOLF_TEXTURES.toString() : TAMED_DESERT_WOLF_TEXTURES.toString();
+            texturePath[0] = desertWolf.func_233678_J__() ? ANGRY_DESERT_WOLF_TEXTURES.toString() : TAMED_DESERT_WOLF_TEXTURES.toString();
 
             ItemStack armor = desertWolf.getArmor();
             if (!armor.isEmpty()) {
@@ -68,14 +66,14 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
             if (desertWolf.isSaddled()) {
                 texturePath[2] = SADDLE_DESERT_WOLF_TEXTURE.toString();
             }
-            Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
+            //Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath)); // //TODO Test if z-fighting is present without this
             CACHE.put(textureName, location);
         }
         return location;
     }
 
     @Override
-    protected void preRenderCallback(DesertWolfEntity desertWolf, MatrixStack matrixStack, float partialTickTime) {
+    protected void preRenderCallback(DesertWolfEntity desertWolf, @Nonnull MatrixStack matrixStack, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
             matrixStack.scale(scale, scale, scale);

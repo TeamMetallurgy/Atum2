@@ -21,7 +21,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3i;
+import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
@@ -81,7 +81,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
 
     AxisAlignedBB getFacingBoxWithRange(Direction facing, int range) {
         BlockPos pos = getPos();
-        Vec3i dir = facing.getDirectionVec();
+        Vector3i dir = facing.getDirectionVec();
         return new AxisAlignedBB(pos).expand(dir.getX() * range, dir.getY() * range, dir.getZ() * range);
     }
 
@@ -169,7 +169,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(packet.getNbtCompound());
+        this.read(this.getBlockState(), packet.getNbtCompound());
     }
 
     @Override
@@ -179,8 +179,8 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.burnTime = compound.getInt("BurnTime");
         this.isDisabled = compound.getBoolean("Disabled");
         this.isInsidePyramid = compound.getBoolean("InPyramid");

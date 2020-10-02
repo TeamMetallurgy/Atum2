@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
@@ -44,7 +45,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(packet.getNbtCompound());
+        this.read(this.getBlockState(), packet.getNbtCompound());
         this.markDirty();
     }
 
@@ -115,8 +116,8 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.rotations = compound.getInt("rotations");
         this.input = compound.getCompound("input");
     }

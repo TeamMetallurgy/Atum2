@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.particle;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -13,9 +14,9 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class LightSparkleParticle extends SpriteTexturedParticle {
-    private float particleScaleOverTime;
+    private final float particleScaleOverTime;
 
-    public LightSparkleParticle(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
+    public LightSparkleParticle(ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         super(world, x, y, z, xSpeed, ySpeed, zSpeed);
         this.motionX *= 0.009999999776482582D;
         this.motionY *= 0.009999999776482582D;
@@ -28,7 +29,7 @@ public class LightSparkleParticle extends SpriteTexturedParticle {
     }
 
     @Override
-    public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, float partialTicks) {
+    public void renderParticle(@Nonnull IVertexBuilder builder, @Nonnull ActiveRenderInfo renderInfo, float partialTicks) {
         float f = ((float) this.age + partialTicks) / (float) this.maxAge * 32.0F;
         f = MathHelper.clamp(f, 0.0F, 1.0F);
         this.particleScale = this.particleScaleOverTime * f;
@@ -77,7 +78,7 @@ public class LightSparkleParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new LightSparkleParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

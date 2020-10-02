@@ -68,7 +68,7 @@ public class AtumItems {
     public static final Item LIMESTONE_PICKAXE = registerItem(new PickaxeItem(AtumMats.LIMESTONE, 1, -2.8F, new Item.Properties().group(Atum.GROUP)), "limestone_pickaxe");
     public static final Item LIMESTONE_AXE = registerItem(new AxeItem(AtumMats.LIMESTONE, 7.0F, -3.2F, new Item.Properties().group(Atum.GROUP)), "limestone_axe");
     public static final Item LIMESTONE_SWORD = registerItem(new SwordItem(AtumMats.LIMESTONE, 3, -2.4F, new Item.Properties().group(Atum.GROUP)), "limestone_sword");
-    public static final Item LIMESTONE_HOE = registerItem(new HoeItem(AtumMats.LIMESTONE, -1.8F, new Item.Properties().group(Atum.GROUP)), "limestone_hoe");
+    public static final Item LIMESTONE_HOE = registerItem(new HoeItem(AtumMats.LIMESTONE, -1, -1.8F, new Item.Properties().group(Atum.GROUP)), "limestone_hoe");
     public static final Item DAGGER_IRON = registerItem(new DaggerItem(ItemTier.IRON), "iron_dagger");
     public static final Item POISON_DAGGER = registerItem(new PoisonDaggerItem(), "dagger_poison");
     public static final Item SCIMITAR_IRON = registerItem(new SwordItem(ItemTier.IRON, 3, -2.4F, new Item.Properties().group(Atum.GROUP)), "iron_scimitar");

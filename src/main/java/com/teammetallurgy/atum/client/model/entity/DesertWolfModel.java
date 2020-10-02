@@ -66,7 +66,7 @@ public class DesertWolfModel<T extends DesertWolfEntity> extends TintedAgeableMo
 
     @Override
     public void setLivingAnimations(T desertWolf, float limbSwing, float limbSwingAmount, float partialTickTime) {
-        if (desertWolf.isAngry()) {
+        if (desertWolf.func_233678_J__()) {
             this.tail.rotateAngleY = 0.0F;
         } else {
             float tailAmount = desertWolf.isBeingRidden() ? 0.5F : 1.4F;

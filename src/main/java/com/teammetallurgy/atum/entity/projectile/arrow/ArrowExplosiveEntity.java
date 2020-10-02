@@ -10,6 +10,8 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+
 public class ArrowExplosiveEntity extends CustomArrow {
     private float velocity;
 
@@ -24,15 +26,15 @@ public class ArrowExplosiveEntity extends CustomArrow {
 
     @Override
     public void tick() {
-        if (ticksInAir > 0 && velocity == 1.0F && !inGround && world.getGameTime() % 2L == 0L) {
+        if (this.timeInGround == 0 && velocity == 1.0F && !this.inGround && world.getGameTime() % 2L == 0L) { //TODO Test if timeinGround works, instead of ticksInAir
             world.playSound(null, getPosition(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
         super.tick();
     }
 
     @Override
-    protected void onHit(RayTraceResult rayTraceResult) {
-        super.onHit(rayTraceResult);
+    protected void onImpact(@Nonnull RayTraceResult result) {
+        super.onImpact(result);
 
         if (velocity == 1.0F) {
             if (!world.isRemote) {

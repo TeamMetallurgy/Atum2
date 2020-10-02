@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -19,12 +19,11 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
     private static final int FOSSIL_AMOUNT = 16;
 
-    public DirtyBoneFossilsFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public DirtyBoneFossilsFeature(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

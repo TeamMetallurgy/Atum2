@@ -29,29 +29,28 @@ public class RaStoneBlock extends BreakableBlock {
     }
 
     @Override
-    public int getOpacity(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+    public int getOpacity(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return 3;
     }
 
     @Override
     @Nonnull
-    public PushReaction getPushReaction(BlockState state) {
+    public PushReaction getPushReaction(@Nonnull BlockState state) {
         return PushReaction.NORMAL;
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, Random random) {
         if ((random.nextInt(3) == 0 || this.shouldDisappear(world, pos, 4)) && world.getLight(pos) > 11 - state.get(AGE) - state.getOpacity(world, pos) && this.slightlyRemove(state, world, pos)) {
-            try (BlockPos.PooledMutable mutablePos = BlockPos.PooledMutable.retain()) {
-                for (Direction direction : Direction.values()) {
-                    mutablePos.setPos(pos).move(direction);
-                    BlockState stateDirection = world.getBlockState(mutablePos);
-                    if (stateDirection.getBlock() == this && !this.slightlyRemove(stateDirection, world, mutablePos)) {
-                        world.getPendingBlockTicks().scheduleTick(mutablePos, this, MathHelper.nextInt(random, 20, 40));
-                    }
+            BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+
+            for (Direction direction : Direction.values()) {
+                mutablePos.setPos(pos).move(direction);
+                BlockState stateDirection = world.getBlockState(mutablePos);
+                if (stateDirection.isIn(this) && !this.slightlyRemove(stateDirection, world, mutablePos)) {
+                    world.getPendingBlockTicks().scheduleTick(mutablePos, this, MathHelper.nextInt(random, 20, 40));
                 }
             }
-
         } else {
             world.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.nextInt(random, 20, 40));
         }
@@ -69,7 +68,7 @@ public class RaStoneBlock extends BreakableBlock {
     }
 
     @Override
-    public void neighborChanged(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         if (block == this && this.shouldDisappear(world, pos, 2)) {
             this.turnIntoLava(world, pos);
         }
@@ -78,18 +77,17 @@ public class RaStoneBlock extends BreakableBlock {
 
     private boolean shouldDisappear(IBlockReader world, BlockPos pos, int neighborsRequired) {
         int i = 0;
-        try (BlockPos.PooledMutable mutablePos = BlockPos.PooledMutable.retain()) {
-            for (Direction direction : Direction.values()) {
-                mutablePos.setPos(pos).move(direction);
-                if (world.getBlockState(mutablePos).getBlock() == this) {
-                    ++i;
-                    if (i >= neighborsRequired) {
-                        return false;
-                    }
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+        for (Direction direction : Direction.values()) {
+            mutablePos.setPos(pos).move(direction);
+            if (world.getBlockState(mutablePos).getBlock() == this) {
+                ++i;
+                if (i >= neighborsRequired) {
+                    return false;
                 }
             }
-            return true;
         }
+        return true;
     }
 
     private void turnIntoLava(World world, BlockPos pos) {

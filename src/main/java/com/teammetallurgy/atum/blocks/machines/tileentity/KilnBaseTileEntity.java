@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.container.Container;
@@ -143,8 +144,8 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         boolean hasPrimary = compound.getBoolean("has_primary");
         if (hasPrimary) {
             int x = compound.getInt("px");
@@ -188,7 +189,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(packet.getNbtCompound());
+        this.read(this.getBlockState(), packet.getNbtCompound());
     }
 
     @Override

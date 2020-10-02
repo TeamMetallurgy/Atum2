@@ -8,7 +8,6 @@ import net.minecraft.item.Rarity;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -31,9 +30,9 @@ public class IdolOfLaborItem extends Item {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
         if (world.isRemote) {
-            player.sendStatusMessage(new TranslationTextComponent(this.getTranslationKey() + "." + MathHelper.nextInt(random, 1, 65)).setStyle(new Style().setColor(TextFormatting.YELLOW)), true);
+            player.sendStatusMessage(new TranslationTextComponent(this.getTranslationKey() + "." + MathHelper.nextInt(random, 1, 65)).mergeStyle(TextFormatting.YELLOW), true);
         }
         return super.onItemRightClick(world, player, hand);
     }

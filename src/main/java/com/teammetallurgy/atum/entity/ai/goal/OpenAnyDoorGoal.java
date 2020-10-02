@@ -35,7 +35,7 @@ public class OpenAnyDoorGoal extends OpenDoorGoal {
                         }
                     }
                 }
-                this.doorPosition = (new BlockPos(this.entity)).up();
+                this.doorPosition = this.entity.getPosition().up();
                 this.doorInteract = canOpen(this.entity.world, this.doorPosition);
                 return this.doorInteract;
             } else {

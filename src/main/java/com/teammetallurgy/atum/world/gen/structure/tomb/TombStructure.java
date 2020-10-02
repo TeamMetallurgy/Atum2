@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
@@ -18,11 +18,10 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class TombStructure extends Structure<NoFeatureConfig> {
 
-    public TombStructure(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public TombStructure(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

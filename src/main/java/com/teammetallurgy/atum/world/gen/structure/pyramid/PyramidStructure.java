@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -33,11 +33,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 
 public class PyramidStructure extends Structure<NoFeatureConfig> {
 
-    public PyramidStructure(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public PyramidStructure(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

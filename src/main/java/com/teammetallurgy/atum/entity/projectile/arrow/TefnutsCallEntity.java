@@ -21,7 +21,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -80,7 +80,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
 
     @Override
     @Nullable
-    protected EntityRayTraceResult rayTraceEntities(@Nonnull Vec3d startVec, @Nonnull Vec3d endVec) {
+    protected EntityRayTraceResult rayTraceEntities(@Nonnull Vector3d startVec, @Nonnull Vector3d endVec) {
         return this.dealtDamage ? null : super.rayTraceEntities(startVec, endVec);
     }
 
@@ -103,7 +103,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
         if ((this.dealtDamage || this.getNoClip()) && entity != null) {
             if (this.shouldReturnToThrower()) {//Always return to valid thrower
                 this.setNoClip(true);
-                Vec3d vec3d = new Vec3d(entity.getPosX() - this.getPosX(), entity.getPosYEye() - this.getPosY(), entity.getPosZ() - this.getPosZ());
+                Vector3d vec3d = new Vector3d(entity.getPosX() - this.getPosX(), entity.getPosYEye() - this.getPosY(), entity.getPosZ() - this.getPosZ());
                 this.setRawPosition(this.getPosX(), this.getPosY() + vec3d.y * 0.015D, this.getPosZ());
                 if (this.world.isRemote) {
                     this.lastTickPosY = this.getPosY();
@@ -126,7 +126,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
         Entity shooter = this.getShooter();
 
         if (shooter != entity) {
-            Vec3d motion = this.getMotion();
+            Vector3d motion = this.getMotion();
             float f = MathHelper.sqrt(motion.x * motion.x + motion.y * motion.y + motion.z * motion.z);
             int i = MathHelper.ceil((double) f * this.getDamage());
             if (this.getIsCritical()) {

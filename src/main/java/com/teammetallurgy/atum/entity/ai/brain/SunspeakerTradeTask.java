@@ -55,11 +55,8 @@ public class SunspeakerTradeTask extends Task<SunspeakerEntity> {
     }
 
     private void walkAndLookCustomer(SunspeakerEntity owner) {
-        if (owner.getCustomer() != null) {
-            EntityPosWrapper entityposwrapper = new EntityPosWrapper(owner.getCustomer());
-            Brain<?> brain = owner.getBrain();
-            brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(entityposwrapper, this.speed, 2));
-            brain.setMemory(MemoryModuleType.LOOK_TARGET, entityposwrapper);
-        }
+        Brain<?> brain = owner.getBrain();
+        brain.setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(new EntityPosWrapper(owner.getCustomer(), false), this.speed, 2));
+        brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(owner.getCustomer(), true));
     }
 }

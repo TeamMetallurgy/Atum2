@@ -12,9 +12,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+
+import javax.annotation.Nonnull;
 
 public class ArrowFireEntity extends CustomArrow {
 
@@ -27,22 +28,22 @@ public class ArrowFireEntity extends CustomArrow {
     }
 
     @Override
-    protected void onHit(RayTraceResult rayTrace) {
-        super.onHit(rayTrace);
-        if (!world.isRemote) {
-            if (rayTrace.getType() == RayTraceResult.Type.ENTITY) {
-                EntityRayTraceResult rayTraceEntity = (EntityRayTraceResult) rayTrace;
-                Entity hitEnity = rayTraceEntity.getEntity();
-                if (hitEnity instanceof LivingEntity) {
-                    hitEnity.setFire(5);
-                }
-            } else if (rayTrace.getType() == RayTraceResult.Type.BLOCK && this.getShooter() instanceof PlayerEntity) {
-                BlockRayTraceResult rayTraceBlock = (BlockRayTraceResult) rayTrace;
-                BlockPos pos = rayTraceBlock.getPos().offset(rayTraceBlock.getFace());
-                PlayerEntity player = (PlayerEntity) this.getShooter();
-                if (player.canPlayerEdit(pos, rayTraceBlock.getFace(), player.getHeldItem(player.getActiveHand())) && world.getBlockState(pos).getMaterial() == Material.AIR) {
-                    world.setBlockState(pos, Blocks.FIRE.getDefaultState());
-                }
+    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
+        super.onEntityHit(rayTraceResult);
+        Entity hitEnity = rayTraceResult.getEntity();
+        if (hitEnity instanceof LivingEntity) {
+            hitEnity.setFire(5);
+        }
+    }
+
+    @Override
+    protected void func_230299_a_(@Nonnull BlockRayTraceResult rayTraceResult) {
+        super.func_230299_a_(rayTraceResult);
+        if (this.getShooter() instanceof PlayerEntity) {
+            BlockPos pos = rayTraceResult.getPos().offset(rayTraceResult.getFace());
+            PlayerEntity player = (PlayerEntity) this.getShooter();
+            if (player.canPlayerEdit(pos, rayTraceResult.getFace(), player.getHeldItem(player.getActiveHand())) && world.getBlockState(pos).getMaterial() == Material.AIR) {
+                world.setBlockState(pos, Blocks.FIRE.getDefaultState());
             }
         }
     }

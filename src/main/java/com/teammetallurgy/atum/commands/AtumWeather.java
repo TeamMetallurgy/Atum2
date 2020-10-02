@@ -2,14 +2,9 @@ package com.teammetallurgy.atum.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
-import com.teammetallurgy.atum.world.dimension.AtumDimension;
-import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-
-import java.util.Random;
 
 public class AtumWeather {
 
@@ -25,9 +20,9 @@ public class AtumWeather {
 	}
 
 	private static int execute(CommandSource source, boolean isSandstorm, int time) {
-		World world = source.getWorld();
-		if (world.getDimension().getType() == AtumDimensionType.ATUM) {
-			AtumDimension atum = (AtumDimension) world.getDimension();
+		/*World world = source.getWorld();
+		if (world.getDimensionKey() == Atum.ATUM) {
+			AtumDimension atum = (AtumDimension) world.getDimensionTypeKey(); //TODO
 			AtumDimension.DATA.setStorming(isSandstorm);
 			atum.stormTime = time == -1 ? 1500 : time != 0 ? Math.min(time, 1000000) * 20 : (300 + (new Random()).nextInt(600)) * 20;
 			if (isSandstorm) {
@@ -36,7 +31,7 @@ public class AtumWeather {
 				source.sendFeedback(new TranslationTextComponent("commands.weather.set.clear"), true);
 			}
 			return 0;
-		}
+		}*/
 		return 0;
 	}
 }

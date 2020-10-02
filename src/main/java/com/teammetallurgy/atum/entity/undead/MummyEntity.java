@@ -1,11 +1,10 @@
 package com.teammetallurgy.atum.entity.undead;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.potion.EffectInstance;
@@ -32,14 +31,9 @@ public class MummyEntity extends UndeadBaseEntity {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(22.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.2D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 22.0F).createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2D)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 30.0D).createMutableAttribute(Attributes.ARMOR, 2.0F);
     }
 
     @Override
@@ -51,9 +45,9 @@ public class MummyEntity extends UndeadBaseEntity {
     public void livingTick() {
         super.livingTick();
 
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
         if (this.isBurning() && !attribute.hasModifier(SPEED_BOOST_BURNING)) {
-            attribute.applyModifier(SPEED_BOOST_BURNING);
+            attribute.applyNonPersistentModifier(SPEED_BOOST_BURNING);
         } else {
             attribute.removeModifier(SPEED_BOOST_BURNING);
         }

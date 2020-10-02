@@ -56,6 +56,11 @@ public class AtumMats {
         public float getToughness() {
             return 0.0F;
         }
+
+        @Override
+        public float getKnockbackResistance() {
+            return 0.0F;
+        }
     };
     public static final IArmorMaterial WANDERER_ARMOR = new IArmorMaterial() {
         private final int[] MAX_DAMAGE_ARRAY = new int[]{14, 15, 16, 7};
@@ -98,6 +103,11 @@ public class AtumMats {
 
         @Override
         public float getToughness() {
+            return 0.0F;
+        }
+
+        @Override
+        public float getKnockbackResistance() {
             return 0.0F;
         }
     };

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -16,7 +17,6 @@ import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStruct
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidStructure;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinStructure;
 import com.teammetallurgy.atum.world.gen.structure.tomb.TombStructure;
-import net.minecraft.block.pattern.BlockMatcher;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
@@ -26,6 +26,8 @@ import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
 import net.minecraft.world.gen.placement.*;
 import net.minecraftforge.common.IPlantable;
@@ -42,25 +44,26 @@ import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumFeatures {
     private static final List<Feature<?>> FEATURES = new ArrayList<>();
+    private static final List<Structure<?>> STRUCTURES = new ArrayList<>();
     //Features
-    public static final Feature<DoubleBlockStateFeatureConfig> OASIS_POND = register("oasis_pond", new OasisPondFeature(DoubleBlockStateFeatureConfig::deserializeDouble));
-    public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig::deserialize));
-    public static final Feature<PalmConfig> PALM_TREE = register("palm_tree", new PalmFeature(PalmConfig::deserializePalm));
-    public static final BonusCrateFeature BONUS_CRATE = register("bonus_crate", new BonusCrateFeature(NoFeatureConfig::deserialize));
-    public static final StartStructureFeature START_STRUCTURE = register("start_structure", new StartStructureFeature(NoFeatureConfig::deserialize));
-    public static final DirtyBoneFossilsFeature DIRTY_BONE_FOSSILS = register("dirty_bone_fossil", new DirtyBoneFossilsFeature(NoFeatureConfig::deserialize));
-    public static final LimestoneDungeonsFeature LIMESTONE_DUNGEONS = register("limestone_dungeon", new LimestoneDungeonsFeature(NoFeatureConfig::deserialize));
+    public static final Feature<DoubleBlockStateFeatureConfig> OASIS_POND = register("oasis_pond", new OasisPondFeature(DoubleBlockStateFeatureConfig.DOUBLE_CODEC));
+    public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig.field_236455_a_));
+    public static final Feature<PalmConfig> PALM_TREE = register("palm_tree", new PalmFeature(PalmConfig.PALM_CODEC));
+    public static final BonusCrateFeature BONUS_CRATE = register("bonus_crate", new BonusCrateFeature(NoFeatureConfig.field_236558_a_));
+    public static final StartStructureFeature START_STRUCTURE = register("start_structure", new StartStructureFeature(NoFeatureConfig.field_236558_a_));
+    public static final DirtyBoneFossilsFeature DIRTY_BONE_FOSSILS = register("dirty_bone_fossil", new DirtyBoneFossilsFeature(NoFeatureConfig.field_236558_a_));
+    public static final LimestoneDungeonsFeature LIMESTONE_DUNGEONS = register("limestone_dungeon", new LimestoneDungeonsFeature(NoFeatureConfig.field_236558_a_));
     public static final DeadwoodFeature DEADWOOD_FEATURE = register("deadwood_tree", new DeadwoodFeature(TreeFeatureConfig::deserializeFoliage));
-    public static final Feature<NoFeatureConfig> LIMESTONE_SPIKE = register("limestone_spike", new LimestoneSpikeFeature(NoFeatureConfig::deserialize));
-    public static final Feature<BlockClusterFeatureConfig> ANPUTS_FINGERS = register("anputs_fingers", new AnputsFingersFeature(BlockClusterFeatureConfig::deserialize));
+    public static final Feature<NoFeatureConfig> LIMESTONE_SPIKE = register("limestone_spike", new LimestoneSpikeFeature(NoFeatureConfig.field_236558_a_));
+    public static final Feature<BlockClusterFeatureConfig> ANPUTS_FINGERS = register("anputs_fingers", new AnputsFingersFeature(BlockClusterFeatureConfig.field_236587_a_));
 
     //Structures
-    public static final Structure<NoFeatureConfig> GIRAFI_TOMB = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig::deserialize));
-    public static final Structure<NoFeatureConfig> LIGHTHOUSE = register("lighthouse", new LighthouseStructure(NoFeatureConfig::deserialize));
-    public static final Structure<NoFeatureConfig> TOMB = register("tomb", new TombStructure(NoFeatureConfig::deserialize));
-    public static final Structure<NoFeatureConfig> RUIN = register("ruin", new RuinStructure(NoFeatureConfig::deserialize));
-    public static final Structure<NoFeatureConfig> PYRAMID = register("pyramid", new PyramidStructure(NoFeatureConfig::deserialize));
-    public static final Structure<AtumMineshaftConfig> MINESHAFT = register("mineshaft", new AtumMineshaftStructure(AtumMineshaftConfig::deserialize));
+    public static final Structure<NoFeatureConfig> GIRAFI_TOMB = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig.field_236558_a_));
+    public static final Structure<NoFeatureConfig> LIGHTHOUSE = register("lighthouse", new LighthouseStructure(NoFeatureConfig.field_236558_a_));
+    public static final Structure<NoFeatureConfig> TOMB = register("tomb", new TombStructure(NoFeatureConfig.field_236558_a_));
+    public static final Structure<NoFeatureConfig> RUIN = register("ruin", new RuinStructure(NoFeatureConfig.field_236558_a_));
+    public static final Structure<NoFeatureConfig> PYRAMID = register("pyramid", new PyramidStructure(NoFeatureConfig.field_236558_a_));
+    public static final Structure<AtumMineshaftConfig> MINESHAFT = register("mineshaft", new AtumMineshaftStructure(AtumMineshaftConfig.CODEC));
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();
@@ -81,16 +84,28 @@ public class AtumFeatures {
         return feature;
     }
 
+    private static <F extends Structure<?>> F register(String name, F structure) {
+        structure.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
+        STRUCTURES.add(structure);
+        return structure;
+    }
+
     @SubscribeEvent
     public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
         for (Feature<?> feature : FEATURES) {
             event.getRegistry().register(feature);
         }
+    }
 
+    @SubscribeEvent
+    public static void registerStructure(RegistryEvent.Register<Structure<?>> event) {
+        for (Structure<?> feature : STRUCTURES) {
+            event.getRegistry().register(feature);
+        }
     }
 
     public static class Default {
-        public static final OreFeatureConfig.FillerBlockType NATURAL_STONE = OreFeatureConfig.FillerBlockType.create("ATUM_NATURAL_STONE", "atum_natural_stone", new BlockMatcher(AtumBlocks.LIMESTONE));
+        public static final RuleTest NATURAL_STONE = new TagMatchRuleTest(AtumAPI.Tags.BASE_STONE_ATUM);
 
         public static void addCarvers(Biome biome) {
             biome.addCarver(GenerationStage.Carving.AIR, Biome.createCarver(AtumCarvers.CAVE, new ProbabilityConfig(0.14285715F)));

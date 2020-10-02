@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -19,11 +19,10 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class StartStructureFeature extends Feature<NoFeatureConfig> {
 
-    public StartStructureFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public StartStructureFeature(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

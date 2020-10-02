@@ -6,7 +6,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.Dynamic;
 import com.mojang.datafixers.util.Pair;
-import com.teammetallurgy.atum.entity.ai.brain.ShowWaresTask;
+import com.teammetallurgy.atum.entity.ai.brain.SunspeakerShowWaresTask;
 import com.teammetallurgy.atum.entity.ai.brain.SunspeakerTradeTask;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
@@ -15,6 +15,8 @@ import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -44,7 +46,10 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.*;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.GlobalPos;
 import net.minecraft.util.math.MathHelper;
@@ -124,7 +129,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     }
 
     private void initBrain(Brain<SunspeakerEntity> brain) {
-        float speed = (float) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).getValue() + 0.75F; //Add additional speed, due to weird issue
+        float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) + 0.75F; //Add additional speed, due to weird issue
 
         brain.registerActivity(Activity.CORE, SunspeakerTasks.core(speed));
         brain.registerActivity(Activity.MEET, SunspeakerTasks.meet(speed), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
@@ -151,12 +156,8 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         super.applyEntityAI();
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(20.0D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 20.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D).createMutableAttribute(Attributes.ARMOR, 4.0F);
     }
 
     @Override
@@ -198,7 +199,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     @Override
     @Nullable
-    public AgeableEntity createChild(@Nonnull AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(@Nonnull AgeableEntity ageable) {
         SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(this.world);
         sunspeaker.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(sunspeaker)), SpawnReason.BREEDING, null, null);
         return sunspeaker;
@@ -441,7 +442,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         boolean nameTag = heldStack.getItem() == Items.NAME_TAG;
         boolean isAgressiveTowards = player.getUniqueID() == this.angerTargetUUID;
@@ -739,7 +740,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         }
 
         public static ImmutableList<Pair<Integer, ? extends Task<? super SunspeakerEntity>>> meet(float speed) {
-            return ImmutableList.of(Pair.of(2, new FirstShuffledTask<>(ImmutableList.of(Pair.of(new WorkTask(MemoryModuleType.MEETING_POINT, 40), 2), Pair.of(new CongregateTask(), 2)))), Pair.of(10, new ShowWaresTask(400, 1600)), Pair.of(10, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new ExpirePOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)), lookAtMany(), Pair.of(99, new UpdateActivityTask()));
+            return ImmutableList.of(Pair.of(2, new FirstShuffledTask<>(ImmutableList.of(Pair.of(new WorkTask(MemoryModuleType.MEETING_POINT, 40), 2), Pair.of(new CongregateTask(), 2)))), Pair.of(10, new SunspeakerShowWaresTask(400, 1600)), Pair.of(10, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new ExpirePOITask(PointOfInterestType.MEETING, MemoryModuleType.MEETING_POINT)), lookAtMany(), Pair.of(99, new UpdateActivityTask()));
         }
 
         public static ImmutableList<Pair<Integer, ? extends Task<? super SunspeakerEntity>>> rest(float speed) {
@@ -747,7 +748,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         }
 
         public static ImmutableList<Pair<Integer, ? extends Task<? super SunspeakerEntity>>> idle(float p_220641_1_) {
-            return ImmutableList.of(Pair.of(2, new FirstShuffledTask<>(ImmutableList.of(Pair.of(InteractWithEntityTask.func_220445_a(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 2), Pair.of(new FindWalkTargetTask(p_220641_1_), 1), Pair.of(new WalkTowardsLookTargetTask(p_220641_1_, 2), 1), Pair.of(new JumpOnBedTask(p_220641_1_), 1), Pair.of(new DummyTask(30, 60), 1)))), Pair.of(3, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new ShowWaresTask(400, 1600)), lookAtMany(), Pair.of(99, new UpdateActivityTask()));
+            return ImmutableList.of(Pair.of(2, new FirstShuffledTask<>(ImmutableList.of(Pair.of(InteractWithEntityTask.func_220445_a(EntityType.VILLAGER, 8, MemoryModuleType.INTERACTION_TARGET, p_220641_1_, 2), 2), Pair.of(new FindWalkTargetTask(p_220641_1_), 1), Pair.of(new WalkTowardsLookTargetTask(p_220641_1_, 2), 1), Pair.of(new JumpOnBedTask(p_220641_1_), 1), Pair.of(new DummyTask(30, 60), 1)))), Pair.of(3, new FindInteractionAndLookTargetTask(EntityType.PLAYER, 4)), Pair.of(3, new SunspeakerShowWaresTask(400, 1600)), lookAtMany(), Pair.of(99, new UpdateActivityTask()));
         }
 
         private static Pair<Integer, Task<LivingEntity>> lookAtMany() {

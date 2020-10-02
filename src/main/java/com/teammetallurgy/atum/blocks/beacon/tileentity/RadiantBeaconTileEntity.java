@@ -5,8 +5,8 @@ import com.teammetallurgy.atum.blocks.beacon.RadiantBeaconBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.AirBlock;
-import net.minecraft.block.BedrockBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.IBeaconBeamColorProvider;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.BeaconTileEntity;
@@ -65,7 +65,7 @@ public class RadiantBeaconTileEntity extends BeaconTileEntity {
                 if (state.getBlock() instanceof AirBlock) {
                     break;
                 } else {
-                    if (state.getOpacity(world, pos) >= 15 && !(state.getBlock() instanceof BedrockBlock)) {
+                    if (state.getOpacity(world, pos) >= 15 && !(state.getBlock() == Blocks.BEDROCK)) {
                         this.beamSegments.clear();
                         break;
                     }

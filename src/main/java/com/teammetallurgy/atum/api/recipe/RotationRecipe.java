@@ -10,12 +10,12 @@ import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -50,7 +50,7 @@ public abstract class RotationRecipe<C extends IInventory> extends AbstractAtumR
             Ingredient input;
             if (inputObject.has("tag")) { //Only read as Ingredient directly, when it's a tag
                 ResourceLocation tagLocation = new ResourceLocation(JSONUtils.getString(inputObject, "tag"));
-                Tag<Item> tag = ItemTags.getCollection().get(tagLocation);
+                ITag<Item> tag = ItemTags.getCollection().get(tagLocation);
                 if (tag != null && !tag.getAllElements().isEmpty()) { //Support empty tags, for mod support
                     Ingredient ingredient = CraftingHelper.getIngredient(inputObject);
                     if (this.inputCanHaveCount && inputObject.has("count")) {
@@ -81,7 +81,7 @@ public abstract class RotationRecipe<C extends IInventory> extends AbstractAtumR
             } else {
                 String result = JSONUtils.getString(json, "result");
                 ResourceLocation resultID = new ResourceLocation(result);
-                output = new ItemStack(Registry.ITEM.getValue(resultID).orElseThrow(() -> new IllegalStateException("Item: " + result + " does not exist")));
+                output = new ItemStack(ForgeRegistries.ITEMS.getValue(resultID));
             }
             int rotations = JSONUtils.getInt(json, "rotations", 0);
             return this.factory.create(id, input, output, rotations);

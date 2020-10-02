@@ -10,6 +10,8 @@ import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.player.PlayerEntity;
@@ -27,13 +29,14 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -98,14 +101,9 @@ public class PharaohEntity extends UndeadBaseEntity {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(300.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(8.0D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 300.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 8.0D)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.ARMOR, 10.0F);
     }
 
     @Override
@@ -212,7 +210,7 @@ public class PharaohEntity extends UndeadBaseEntity {
             if (!this.world.isRemote && slayer != null) {
                 List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
                 for (PlayerEntity player : players) {
-                    player.sendMessage(this.getName().appendText(" ").appendSibling(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendText(" " + slayer.getGameProfile().getName()).applyTextStyles(God.getGod(this.getVariant()).getColor()));
+                    player.sendMessage(this.getName().copyRaw().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).mergeStyle(God.getGod(this.getVariant()).getColor()), Util.DUMMY_UUID);
                 }
             }
         }
@@ -241,14 +239,14 @@ public class PharaohEntity extends UndeadBaseEntity {
         int p = this.dataManager.get(PREFIX);
         int s = this.dataManager.get(SUFFIX);
         int n = this.dataManager.get(NUMERAL);
-        return new TranslationTextComponent(this.getType().getTranslationKey()).appendText(" ").appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + PREFIXES[p])).appendSibling(new TranslationTextComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ENGLISH))).appendText(" " + NUMERALS[n]);
+        return new TranslationTextComponent(this.getType().getTranslationKey()).appendString(" ").append(new TranslationTextComponent("entity.atum.pharaoh." + PREFIXES[p])).append(new TranslationTextComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ENGLISH))).appendString(" " + NUMERALS[n]);
     }
 
     @Override
-    public void knockBack(@Nonnull Entity entity, float strength, double xRatio, double zRatio) {
+    public void applyKnockback(float strength, double xRatio, double zRatio) {
         if (God.getGod(this.getVariant()) != God.PTAH) {
             strength *= 0.20F;
-            super.knockBack(entity, strength, xRatio, zRatio);
+            super.applyKnockback(strength, xRatio, zRatio);
         }
     }
 
@@ -416,15 +414,17 @@ public class PharaohEntity extends UndeadBaseEntity {
         BlockPos base = pos.offset(facing, 1);
 
         BlockState state = world.getBlockState(pos);
-        if (WorldEntitySpawner.isSpawnableSpace(this.world, base, state, state.getFluidState())) {
+        if (WorldEntitySpawner.func_234968_a_(this.world, base, state, state.getFluidState(), AtumEntities.MUMMY)) {
             MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
 
             if (mummy != null) {
-                mummy.onInitialSpawn(this.world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
-                mummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);
+                if (this.world instanceof ServerWorld) {
+                    mummy.onInitialSpawn((IServerWorld) world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
+                    mummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);
 
-                if (!world.isRemote) {
-                    this.world.addEntity(mummy);
+                    if (!world.isRemote) {
+                        this.world.addEntity(mummy);
+                    }
                 }
                 mummy.spawnExplosionParticle();
                 return;
@@ -438,14 +438,16 @@ public class PharaohEntity extends UndeadBaseEntity {
 
             BlockPos newPos = base.offset(offset);
             state = this.world.getBlockState(newPos);
-            if (WorldEntitySpawner.isSpawnableSpace(this.world, base, state, state.getFluidState())) {
+            if (WorldEntitySpawner.func_234968_a_(this.world, base, state, state.getFluidState(), AtumEntities.MUMMY)) {
                 MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
                 if (mummy != null) {
-                    mummy.onInitialSpawn(this.world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
-                    mummy.setLocationAndAngles(newPos.getX(), newPos.getY(), newPos.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);
+                    if (this.world instanceof ServerWorld) {
+                        mummy.onInitialSpawn((IServerWorld) world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
+                        mummy.setLocationAndAngles(newPos.getX(), newPos.getY(), newPos.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);
 
-                    if (!this.world.isRemote) {
-                        this.world.addEntity(mummy);
+                        if (!this.world.isRemote) {
+                            this.world.addEntity(mummy);
+                        }
                     }
                     mummy.spawnExplosionParticle();
                     return;
@@ -455,7 +457,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     private void setBossInfo(int variant) {
-        this.bossInfo.setName(this.getDisplayName().setStyle(new Style().setColor(God.getGod(variant).getColor())));
+        this.bossInfo.setName(this.getDisplayName().copyRaw().mergeStyle(God.getGod(variant).getColor()));
     }
 
     public enum God {

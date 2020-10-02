@@ -12,13 +12,15 @@ import com.teammetallurgy.atum.world.biome.DeadOasisBiome;
 import com.teammetallurgy.atum.world.biome.OasisBiome;
 import com.teammetallurgy.atum.world.biome.SandDunesBiome;
 import com.teammetallurgy.atum.world.biome.SandPlainsBiome;
-import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CarpetBlock;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
@@ -42,9 +44,10 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
@@ -85,17 +88,21 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
-        this.getAttribute(JUMP_STRENGTH).setBaseValue(0.0D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, 0.0D);
+    }
+
+    private float getCamelMaxHealth() {
+        if (this.isTame()) {
+            return 40.0F;
+        } else {
+            return 20.0F;
+        }
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         final int variant = this.getCamelVariantBiome();
@@ -156,18 +163,10 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public CamelEntity createChild(@Nonnull AgeableEntity ageable) {
+    public AgeableEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
         CamelEntity camel = new CamelEntity(AtumEntities.CAMEL, this.world);
-        camel.onInitialSpawn(this.world, this.world.getDifficultyForLocation(new BlockPos(ageable)), SpawnReason.BREEDING, null, null);
+        camel.onInitialSpawn(world, this.world.getDifficultyForLocation(ageable.getPosition()), SpawnReason.BREEDING, null, null);
         return camel;
-    }
-
-    private float getCamelMaxHealth() {
-        if (this.isTame()) {
-            return 40.0F;
-        } else {
-            return 20.0F;
-        }
     }
 
     @Override
@@ -189,10 +188,10 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     private int getCamelVariantBiome() {
-        Biome biome = this.world.getBiome(new BlockPos(this));
+        Biome biome = this.world.getBiome(this.getPosition());
         int chance = this.rand.nextInt(100);
 
-        if (this.world.dimension.getType() == AtumDimensionType.ATUM) {
+        /*if (this.world.dimension.getType() == AtumDimensionType.ATUM) { //TODO
             if (biome instanceof SandPlainsBiome) {
                 return chance <= 50 ? 0 : 5;
             } else if (biome instanceof SandDunesBiome) {
@@ -204,9 +203,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             } else {
                 return 0;
             }
-        } else {
+        } else {*/
             return MathHelper.nextInt(rand, 0, 5);
-        }
+        //}
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -214,7 +213,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         if (this.textureName == null) {
             this.textureName = String.valueOf(this.getVariant());
             if (this.hasCustomName() && this.getCustomName() != null) {
-                String customName = this.getCustomName().getFormattedText();
+                String customName = this.getCustomName().getUnformattedComponentText();
                 if (customName.equalsIgnoreCase("girafi")) {
                     this.textureName = "girafi";
                 }
@@ -228,7 +227,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
             DyeColor color = this.getColor();
             if (color != null) {
-                this.textureName += "_" + color.getName();
+                this.textureName += "_" + color.getString();
             }
         }
         return this.textureName;
@@ -340,9 +339,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    protected void updateHorseSlots() {
+    protected void func_230275_fc_() {
         if (!this.world.isRemote) {
-            super.updateHorseSlots();
+            super.func_230275_fc_();
             this.setColor(getCarpetColor(this.horseChest.getStackInSlot(2)));
         }
         this.setArmorStack(this.horseChest.getStackInSlot(1));
@@ -355,10 +354,13 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         this.dataManager.set(ARMOR_STACK, stack);
 
         if (!this.world.isRemote) {
-            this.getAttribute(SharedMonsterAttributes.ARMOR).removeModifier(ARMOR_MODIFIER_UUID);
-            int protection = armorType.getProtection();
-            if (protection != 0) {
-                this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", protection, AttributeModifier.Operation.ADDITION)).setSaved(false));
+            ModifiableAttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+            if (armor != null) {
+                armor.removeModifier(ARMOR_MODIFIER_UUID);
+                int protection = armorType.getProtection();
+                if (protection != 0) {
+                    armor.applyNonPersistentModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", protection, AttributeModifier.Operation.ADDITION)));
+                }
             }
         }
     }
@@ -384,7 +386,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public boolean wearsArmor() {
+    public boolean func_230276_fq_() {
         return true;
     }
 
@@ -439,7 +441,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         super.readAdditional(compound);
         this.setVariant(compound.getInt("Variant"));
 
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
 
         if (compound.contains("Carpet", 10)) {
             this.horseChest.setInventorySlotContents(2, ItemStack.read(compound.getCompound("Carpet")));
@@ -468,12 +470,12 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
                 }
             }
         }
-        this.updateHorseSlots();
+        this.func_230275_fc_();
     }
 
     @Override
     public void onInventoryChanged(@Nonnull IInventory invBasic) {
-        this.updateHorseSlots();
+        this.func_230275_fc_();
     }
 
     @Override
@@ -498,38 +500,39 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public boolean processInteract(PlayerEntity player, @Nonnull Hand hand) {
+    @Nonnull
+    public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
 
         if (heldStack.getItem() instanceof SpawnEggItem) {
-            return super.processInteract(player, hand);
+            return super.func_230254_b_(player, hand);
         } else {
             if (!heldStack.isEmpty()) {
                 boolean eating = this.handleEating(player, heldStack);
 
                 if (!eating && !this.isTame()) {
-                    if (heldStack.interactWithEntity(player, this, hand)) {
-                        return true;
+                    if (heldStack.interactWithEntity(player, this, hand).isSuccessOrConsume()) {
+                        return ActionResultType.SUCCESS;
                     }
                     this.makeMad();
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
 
                 if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof CrateBlock) {
                     this.openGUI(player);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
                 if (!eating && this.getArmor().isEmpty() && this.isArmor(heldStack)) {
                     this.openGUI(player);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
                 if (!eating && this.horseChest.getStackInSlot(2).isEmpty() && this.isValidCarpet(heldStack)) {
                     this.openGUI(player);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
                 if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() instanceof SaddleItem) {
                     this.openGUI(player);
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
                 if (!eating && heldStack.getItem() == Items.BUCKET && !this.isChild() && this.isTame()) {
                     heldStack.shrink(1);
@@ -539,34 +542,38 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
                     } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET))) {
                         player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
                     }
-                    return true;
+                    return ActionResultType.SUCCESS;
+                }
+
+                ActionResultType actionresulttype = heldStack.interactWithEntity(player, this, hand);
+                if (actionresulttype.isSuccessOrConsume()) {
+                    return actionresulttype;
                 }
 
                 if (eating) {
                     if (!player.abilities.isCreativeMode) {
                         heldStack.shrink(1);
                     }
-                    return true;
+                    return ActionResultType.SUCCESS;
                 }
             }
 
             if (!this.isChild()) {
-                if (this.isTame() && player.isCrouching()) {
+                if (this.isTame() && player.isSecondaryUseActive()) {
                     this.openGUI(player);
-                    return true;
+                    return ActionResultType.func_233537_a_(this.world.isRemote);
                 }
+
                 if (this.isBeingRidden()) {
-                    return super.processInteract(player, hand);
+                    return super.func_230254_b_(player, hand);
                 }
             }
 
             if (this.isChild()) {
-                return super.processInteract(player, hand);
-            } else if (heldStack.interactWithEntity(player, this, hand)) {
-                return true;
+                return super.func_230254_b_(player, hand);
             } else {
                 this.mountTo(player);
-                return true;
+                return ActionResultType.func_233537_a_(this.world.isRemote);
             }
         }
     }
@@ -652,7 +659,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     @Override
     public void setHorseTamed(boolean tamed) {
         super.setHorseTamed(tamed);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
+        this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
         this.heal(this.getCamelMaxHealth());
     }
 

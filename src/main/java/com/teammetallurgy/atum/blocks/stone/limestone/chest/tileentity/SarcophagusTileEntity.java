@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -18,10 +19,12 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -54,7 +57,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(packet.getNbtCompound());
+        this.read(this.getBlockState(), packet.getNbtCompound());
     }
 
     @Override
@@ -64,8 +67,8 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.hasSpawned = compound.getBoolean("spawned");
         this.isOpenable = compound.getBoolean("openable");
     }
@@ -94,9 +97,9 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     public void spawn(PlayerEntity player, DifficultyInstance difficulty) {
-        if (!world.isRemote) {
+        if (this.world != null && !this.world.isRemote) {
             PharaohEntity pharaoh = AtumEntities.PHARAOH.create(this.world);
-            pharaoh.onInitialSpawn(this.world, difficulty, SpawnReason.TRIGGERED, null, null);
+            pharaoh.onInitialSpawn((IServerWorld) this.world, difficulty, SpawnReason.TRIGGERED, null, null);
             Direction blockFacing = world.getBlockState(pos).get(SarcophagusBlock.FACING);
             pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
             pharaoh.rotationYawHead = blockFacing.getHorizontalAngle() + 90;
@@ -109,7 +112,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             if (this.world instanceof ServerWorld) {
                 ServerWorld serverWorld = (ServerWorld) this.world;
                 for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
-                    playerMP.sendMessage(new StringTextComponent(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor() + pharaoh.getName().getFormattedText()).appendText(" ").appendSibling(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendText(" " + player.getGameProfile().getName()));
+                    playerMP.sendMessage(pharaoh.getName().copyRaw().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).mergeStyle(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor()), Util.DUMMY_UUID);
                 }
             }
         }

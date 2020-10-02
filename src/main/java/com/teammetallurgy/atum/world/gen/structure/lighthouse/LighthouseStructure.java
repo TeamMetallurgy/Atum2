@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
 import com.google.common.collect.Lists;
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -14,6 +14,7 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -24,18 +25,17 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
-import java.util.function.Function;
 
 public class LighthouseStructure extends Structure<NoFeatureConfig> {
-    private static final List<Biome.SpawnListEntry> SUNSPEAKERS = Lists.newArrayList(new Biome.SpawnListEntry(AtumEntities.SUNSPEAKER, 1, 1, 1));
+    private static final List<MobSpawnInfo.Spawners> SUNSPEAKERS = Lists.newArrayList(new MobSpawnInfo.Spawners(AtumEntities.SUNSPEAKER, 1, 1, 1));
 
-    public LighthouseStructure(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public LighthouseStructure(Codec<NoFeatureConfig> config) {
         super(config);
     }
 
     @Override
     @Nonnull
-    public List<Biome.SpawnListEntry> getSpawnList() {
+    public List<MobSpawnInfo.Spawners> getSpawnList() {
         return SUNSPEAKERS;
     }
 

@@ -8,7 +8,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.SugarCaneBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.IFluidState;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -43,7 +43,7 @@ public class PapyrusBlock extends SugarCaneBlock {
                 BlockPos powDown = pos.down();
 
                 for (Direction direction : Direction.Plane.HORIZONTAL) {
-                    IFluidState fluidState = world.getFluidState(powDown.offset(direction));
+                    FluidState fluidState = world.getFluidState(powDown.offset(direction));
                     if (fluidState.isTagged(FluidTags.WATER)) {
                         return true;
                     }

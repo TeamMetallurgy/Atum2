@@ -7,23 +7,26 @@ import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.GroundPathNavigator;
+import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.UUID;
 
@@ -38,24 +41,20 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
         new GroundPathNavigator(this, world).getNodeProcessor().setCanEnterDoors(true);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D).createMutableAttribute(Attributes.ARMOR, 10.0F);
     }
 
     @Override
     protected void setFriendlyAttributes() {
         super.setFriendlyAttributes();
         final AttributeModifier FRIENDLY_HEALTH = new AttributeModifier(UUID.fromString("41d44fff-f8a8-47c5-a753-d7eb9f715d40"), "Friendly Stoneguard health", 30.0D, AttributeModifier.Operation.ADDITION);
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(FRIENDLY_HEALTH);
+        this.getAttribute(Attributes.MAX_HEALTH).applyPersistentModifier(FRIENDLY_HEALTH);
         this.heal(30);
     }
 
     @Override
-    protected void dropSpecialItems(DamageSource source, int lootingModifier, boolean wasRecentlyHit) {
+    protected void dropSpecialItems(@Nonnull DamageSource source, int lootingModifier, boolean wasRecentlyHit) {
         if (this.isPlayerCreated()) {
             for (EquipmentSlotType slot : EquipmentSlotType.values()) {
                 ItemStack stack = this.getItemStackFromSlot(slot);
@@ -69,7 +68,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         int randomWeapon = MathHelper.nextInt(this.rand, 0, 3);
         this.setStoneguardEquipment(randomWeapon);
     }
@@ -79,10 +78,10 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
             this.setItemStackToSlot(EquipmentSlotType.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
 
             if (!this.world.isRemote) {
-                ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+                ModifiableAttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
 
-                if (!attribute.hasModifier(SHIELD_ARMOR)) {
-                    this.getAttribute(SharedMonsterAttributes.ARMOR).applyModifier(SHIELD_ARMOR);
+                if (attribute != null && !attribute.hasModifier(SHIELD_ARMOR)) {
+                    this.getAttribute(Attributes.ARMOR).applyPersistentModifier(SHIELD_ARMOR);
                 }
             }
         }
@@ -105,7 +104,7 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(IWorld world, DifficultyInstance difficulty, SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
@@ -119,28 +118,29 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     }
 
     @Override
-    public boolean isPreventingPlayerRest(PlayerEntity player) {
+    public boolean func_230292_f_(@Nonnull PlayerEntity player) { //isPreventingPlayerRest
         return this.getVariant() != 8;
     }
 
     @Override
-    protected boolean processInteract(PlayerEntity player, Hand hand) {
+    @Nonnull
+    protected ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
         if (this.isPlayerCreated() && player.isCrouching() && player.getHeldItem(hand).isEmpty()) {
             if (!world.isRemote) {
                 for (ItemStack held : this.getHeldEquipment()) {
                     StackHelper.giveItem(player, hand, held);
                 }
             }
-            return true;
+            return ActionResultType.SUCCESS;
         } else {
-            return super.processInteract(player, hand);
+            return super.func_230254_b_(player, hand);
         }
     }
 
     @Override
     public String getTexture() {
         if (this.hasCustomName() && this.getCustomName() != null) {
-            String customName = this.getCustomName().getFormattedText();
+            String customName = this.getCustomName().getString();
             if (customName.equalsIgnoreCase("iron") || customName.equalsIgnoreCase("nutz") || customName.equalsIgnoreCase("vequinox")) {
                 return STONEGUARD_IRON_TEXTURE.toString();
             }

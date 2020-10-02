@@ -100,10 +100,10 @@ public class MarkedForDeathEffect extends Effect { //When on Easy difficulty & l
         }
     }
 
-    private void spawnAssassin(World world, BlockPos pos, Random rand, LivingEntity markedTarget) {
+    private void spawnAssassin(ServerWorld world, BlockPos pos, Random rand, LivingEntity markedTarget) {
         EntityType<? extends AssassinEntity> entityType = AtumEntities.ASSASSIN;
         BlockState state = world.getBlockState(pos);
-        if (WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState()) && AssassinEntity.canSpawn(entityType, world, SpawnReason.EVENT, pos, rand)) {
+        if (WorldEntitySpawner.func_234968_a_(world, pos, state, state.getFluidState(), entityType) && AssassinEntity.canSpawn(entityType, world, SpawnReason.EVENT, pos, rand)) {
             AssassinEntity assassin = entityType.create(world);
             if (assassin != null) {
                 assassin.setPosition(pos.getX() + rand.nextInt(5) - rand.nextInt(5), pos.getY(), pos.getZ() + rand.nextInt(5) - rand.nextInt(5));

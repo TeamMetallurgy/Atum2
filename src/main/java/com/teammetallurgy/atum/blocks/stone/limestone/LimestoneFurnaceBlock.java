@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 public class LimestoneFurnaceBlock extends FurnaceBlock {
 
     public LimestoneFurnaceBlock() {
-        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).lightValue(13));
+        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).setLightLevel(s -> 13));
     }
 
     @Nullable

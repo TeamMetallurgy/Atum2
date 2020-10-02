@@ -74,10 +74,9 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
-    compile "mcjty.theoneprobe:TheOneProbe-1.15:${top_version}:api"
-	runtimeOnly fg.deobf("flatdir:champions:1.15.2-2.0-beta4")
+    compile "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
 }
 
 

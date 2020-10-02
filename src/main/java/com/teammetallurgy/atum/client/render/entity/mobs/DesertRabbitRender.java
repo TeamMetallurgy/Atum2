@@ -45,7 +45,7 @@ public class DesertRabbitRender extends MobRenderer<DesertRabbitEntity, RabbitMo
         }
 
         if (rabbit.hasCustomName() && rabbit.getCustomName() != null) {
-            String customName = rabbit.getCustomName().getFormattedText();
+            String customName = rabbit.getCustomName().getString();
             if (customName.equalsIgnoreCase("iron") || customName.equalsIgnoreCase("nutz") || customName.equalsIgnoreCase("vequinox")) {
                 location = IRON;
             }

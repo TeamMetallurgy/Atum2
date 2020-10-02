@@ -24,7 +24,7 @@ public class LootItem extends Item {
     }
 
     public Item getLootItem(Type type, Quality quality) {
-        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "loot_" + quality.getName() + "_" + type.getName()));
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "loot_" + quality.getString() + "_" + type.getString()));
     }
 
     public static Type getType(Item item) {
@@ -33,7 +33,7 @@ public class LootItem extends Item {
         } else {
             for (Quality quality : Quality.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Type type = Type.byString(item.getRegistryName().getPath().replace("loot_", "").replace(quality.getName(), "").replace("_", ""));
+                Type type = Type.byString(item.getRegistryName().getPath().replace("loot_", "").replace(quality.getString(), "").replace("_", ""));
                 if (type != null) {
                     return type;
                 }
@@ -48,7 +48,7 @@ public class LootItem extends Item {
         } else {
             for (Type type : Type.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("loot_", "").replace(type.getName(), "").replace("_", ""));
+                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("loot_", "").replace(type.getString(), "").replace("_", ""));
                 if (quality != null) {
                     return quality;
                 }
@@ -94,7 +94,7 @@ public class LootItem extends Item {
 
         public static Type byString(String name) {
             for (Type type : Type.values()) {
-                if (type.getName().equals(name)) {
+                if (type.getString().equals(name)) {
                     return type;
                 }
             }
@@ -103,8 +103,8 @@ public class LootItem extends Item {
 
         @Override
         @Nonnull
-        public String getName() {
-            return unlocalizedName;
+        public String getString() {
+            return this.unlocalizedName;
         }
     }
 
@@ -127,7 +127,7 @@ public class LootItem extends Item {
 
         public static Quality byString(String name) {
             for (Quality quality : Quality.values()) {
-                if (quality.getName().equals(name)) {
+                if (quality.getString().equals(name)) {
                     return quality;
                 }
             }
@@ -135,13 +135,13 @@ public class LootItem extends Item {
         }
 
         public int getWeight() {
-            return weight;
+            return this.weight;
         }
 
         @Override
         @Nonnull
-        public String getName() {
-            return unlocalizedName;
+        public String getString() {
+            return this.unlocalizedName;
         }
     }
 

@@ -97,8 +97,8 @@ public class SpinningWheelBlock extends ContainerBlock {
                             canInsert = true;
                         } else if (!inputStack.isEmpty()) {
                             if (world.isRemote) {
-                                player.sendStatusMessage(new TranslationTextComponent("chat.atum.spinning_wheel_recipe_in_progress", inputStack.getDisplayName()).setStyle(new Style().setColor(TextFormatting.RED)), true);
-                                world.playSound(player, new BlockPos(player), SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.BLOCKS, 0.8F, 1.0F);
+                                player.sendStatusMessage(new TranslationTextComponent("chat.atum.spinning_wheel_recipe_in_progress", inputStack.getDisplayName()).mergeStyle(TextFormatting.RED), true);
+                                world.playSound(player, player.getPosition(), SoundEvents.ENTITY_HORSE_SADDLE, SoundCategory.BLOCKS, 0.8F, 1.0F);
                             }
                         }
 
@@ -119,7 +119,7 @@ public class SpinningWheelBlock extends ContainerBlock {
                                         boolean isSpoolFull = false;
                                         if (!spinningWheel.isEmpty()) {
                                             //Spin wheel
-                                            world.setBlockState(pos, state.cycle(WHEEL), 2);
+                                            world.setBlockState(pos, state.func_235896_a_(WHEEL), 2);
 
                                             if (state.get(SPOOL) < 3) {
                                                 if (spinningWheelRecipe.getRotations() == spinningWheel.rotations) {
@@ -166,7 +166,7 @@ public class SpinningWheelBlock extends ContainerBlock {
                 spinningWheel.decrStackSize(1, spinningWheel.getInventoryStackLimit());
             }
             spinningWheel.input = new CompoundNBT();
-            world.setBlockState(pos, state.cycle(SPOOL).with(WHEEL, false), 2);
+            world.setBlockState(pos, state.func_235896_a_(SPOOL).with(WHEEL, false), 2);
             spinningWheel.markDirty();
         }
     }

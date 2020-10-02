@@ -7,6 +7,8 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +19,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -45,18 +48,8 @@ public class ScarabEntity extends MonsterEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-
-        if (this.getVariant() == 1) {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(24.0D);
-            this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-        } else {
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-            this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-        }
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
     @Override
@@ -67,17 +60,17 @@ public class ScarabEntity extends MonsterEntity {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
-        if (rand.nextDouble() <= 0.002D) {
+        if (rand.nextDouble() <= 0.002D) { //TODO Test golden scarab is working, and values is correct
             this.setVariant(1);
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(24.0D);
-            this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
+            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(3.0D);
             this.heal(16); //Make sure Golden scarab have have full health on initial spawn
         } else {
             this.setVariant(0);
-            this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(8.0D);
-            this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
+            this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(8.0D);
+            this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(2.0D);
         }
         return livingdata;
     }
@@ -196,7 +189,7 @@ public class ScarabEntity extends MonsterEntity {
                 Random random = this.creature.getRNG();
 
                 if (ForgeEventFactory.getMobGriefingEvent(this.creature.world, this.creature) && random.nextInt(10) == 0) {
-                    this.facing = Direction.random(random);
+                    this.facing = Direction.getRandomDirection(random);
                     BlockPos pos = (new BlockPos(this.creature.getPosX(), this.creature.getPosY() + 0.5D, this.creature.getPosZ())).offset(this.facing);
                     BlockState state = this.creature.world.getBlockState(pos);
 

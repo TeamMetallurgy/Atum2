@@ -1,18 +1,15 @@
 package com.teammetallurgy.atum.entity.efreet;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 public class SunspeakerData {
+    public static final Codec<SunspeakerData> CODEC = RecordCodecBuilder.create((dataInstance) -> dataInstance.group(Codec.INT.fieldOf("level").orElse(1).forGetter((data) -> data.level))
+            .apply(dataInstance, SunspeakerData::new));
     private final int level;
 
     public SunspeakerData(int level) {
         this.level = Math.max(1, level);
-    }
-
-    public SunspeakerData(Dynamic<?> dynamic) {
-        this(dynamic.get("level").asInt(1));
     }
 
     public int getLevel() {
@@ -21,9 +18,5 @@ public class SunspeakerData {
 
     public SunspeakerData withLevel(int level) {
         return new SunspeakerData(level);
-    }
-
-    public <T> T serialize(DynamicOps<T> dynamicOps) {
-        return dynamicOps.createMap(ImmutableMap.of(dynamicOps.createString("level"), dynamicOps.createInt(this.level)));
     }
 }

@@ -13,6 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Util;
 import net.minecraft.util.WeightedSpawnerEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
@@ -115,8 +116,8 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.spawnerLogic.read(compound);
         spawnPool = compound.getInt("spawnPool");
     }
@@ -137,7 +138,7 @@ public class ChestSpawnerTileEntity extends ChestBaseTileEntity {
         List<MonsterEntity> list = super.world.getEntitiesWithinAABB(MonsterEntity.class, new AxisAlignedBB((double) super.pos.getX() - d0, (double) super.pos.getY() - d1, (double) super.pos.getZ() - d0, (double) super.pos.getX() + d0, (double) super.pos.getY() + d1, (double) super.pos.getZ() + d0));
         if (!list.isEmpty()) {
             if (!super.world.isRemote) {
-                player.sendMessage(new TranslationTextComponent("chat.atum.enemies"));
+                player.sendMessage(new TranslationTextComponent("chat.atum.enemies"), Util.DUMMY_UUID);
             }
             return false;
         } else {

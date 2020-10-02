@@ -7,12 +7,14 @@ import net.minecraft.block.DeadBushBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,13 +25,13 @@ public class ShrubBlock extends DeadBushBlock {
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, IBlockReader world, BlockPos pos) {
+    protected boolean isValidGround(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return state.getBlock() == AtumBlocks.SAND;
     }
 
     @Override
     @Nonnull
-    public List<ItemStack> onSheared(@Nonnull ItemStack stack, IWorld world, BlockPos pos, int fortune) {
+    public List<ItemStack> onSheared(@Nullable PlayerEntity player, @Nonnull ItemStack stack, World world, BlockPos pos, int fortune) {
         return Collections.singletonList(new ItemStack(this));
     }
 }

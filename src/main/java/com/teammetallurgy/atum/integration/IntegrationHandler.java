@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.integration;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import com.teammetallurgy.atum.integration.theoneprobe.TOPSupport;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.util.NonNullList;
@@ -19,7 +18,6 @@ public class IntegrationHandler {
     public void addSupport() {
         //addSupport(Thaumcraft.THAUMCRAFT_ID, Thaumcraft.class, true);
         addSupport(TOPSupport.THE_ONE_PROBE, TOPSupport.class, true);
-        addSupport(ChampionsHelper.CHAMPION_ID, ChampionsHelper.class, false);
     }
 
     public void init() {

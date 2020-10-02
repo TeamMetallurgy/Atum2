@@ -29,7 +29,7 @@ public class LimestoneBrickBlock extends Block {
     }
 
     @Override
-    public void onBlockPlacedBy(World world, BlockPos pos, BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
         super.onBlockPlacedBy(world, pos, state, placer, stack);
 
         if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_SMALL) {
@@ -48,14 +48,14 @@ public class LimestoneBrickBlock extends Block {
         }
     }
 
-    @Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) {
+    /*@Override
+    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) { //TODO
         return state.get(UNBREAKABLE) ? -1.0F : super.getBlockHardness(state, world, pos);
-    }
+    }*/
 
     @Override
-    public float getExplosionResistance(BlockState state, IWorldReader world, BlockPos pos, @Nullable Entity exploder, Explosion explosion) {
-        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, exploder, explosion);
+    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
     }
 
     @Override

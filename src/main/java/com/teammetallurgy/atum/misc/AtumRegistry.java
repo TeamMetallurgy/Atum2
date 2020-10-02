@@ -89,7 +89,7 @@ public class AtumRegistry {
 
     private static String getLootName(@Nonnull LootItem.Quality quality, @Nonnull LootItem.Type type) {
         LootItem.LOOT_ENTRIES.add(new LootItem.LootEntry(quality, quality.getWeight()));
-        return "loot_" + quality.getName() + "_" + type.getName();
+        return "loot_" + quality.getString() + "_" + type.getString();
     }
 
     /**
@@ -282,7 +282,6 @@ public class AtumRegistry {
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
-        AtumBiomes.addBiomeTags();
     }
 
     @SubscribeEvent

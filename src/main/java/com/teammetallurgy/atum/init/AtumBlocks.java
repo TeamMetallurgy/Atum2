@@ -32,13 +32,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.util.Direction;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.misc.AtumRegistry.registerBlock;
 import static com.teammetallurgy.atum.misc.AtumRegistry.registerTorch;
-import static net.minecraft.block.Block.Properties.create;
-import static net.minecraft.block.Block.Properties.from;
+import static net.minecraft.block.AbstractBlock.Properties.create;
+import static net.minecraft.block.AbstractBlock.Properties.from;
 
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumBlocks {
@@ -75,7 +76,7 @@ public class AtumBlocks {
     public static final Block LAPIS_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "lapis_ore");
     public static final Block DIAMOND_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "diamond_ore");
     public static final Block EMERALD_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "emerald_ore");
-    public static final Block REDSTONE_ORE = registerBlock(new RedstoneOreBlock(create(Material.ROCK).tickRandomly().lightValue(9).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "redstone_ore");
+    public static final Block REDSTONE_ORE = registerBlock(new RedstoneOreBlock(create(Material.ROCK).tickRandomly().setLightLevel(s -> 9).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "redstone_ore");
     public static final Block BONE_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "bone_ore");
     public static final Block RELIC_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "relic_ore");
     public static final Block KHNUMITE_RAW = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "khnumite_raw");
@@ -354,10 +355,10 @@ public class AtumBlocks {
     public static final Block LINEN_CARPET_BLACK = registerBlock(new LinenCarpetBlock(DyeColor.BLACK), "linen_carpet_black");
     public static final Block PALM_PLANKS = registerBlock(new Block(create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), "palm_planks");
     public static final Block DEADWOOD_PLANKS = registerBlock(new Block(create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), "deadwood_planks");
-    public static final Block PALM_LOG = registerBlock(new LogBlock(MaterialColor.WOOD, Block.Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)), "palm_log");
-    public static final Block STRIPPED_PALM_LOG = registerBlock(new LogBlock(MaterialColor.WOOD, from(PALM_LOG)), "stripped_palm_log");
-    public static final Block PALM_WOOD = registerBlock(new LogBlock(MaterialColor.WOOD, from(PALM_LOG)), "palm_wood");
-    public static final Block STRIPPED_PALM_WOOD = registerBlock(new LogBlock(MaterialColor.WOOD, from(PALM_LOG)), "stripped_palm_wood");
+    public static final Block PALM_LOG = registerBlock(new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD, (state) -> state.get(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.WOOD : MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)), "palm_log");
+    public static final Block STRIPPED_PALM_LOG = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "stripped_palm_log");
+    public static final Block PALM_WOOD = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "palm_wood");
+    public static final Block STRIPPED_PALM_WOOD = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "stripped_palm_wood");
     public static final Block DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock(), "deadwood_log");
     public static final Block STRIPPED_DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock(), "stripped_deadwood_log");
     public static final Block DEADWOOD_WOOD = registerBlock(new DeadwoodLogBlock(), "deadwood_wood");

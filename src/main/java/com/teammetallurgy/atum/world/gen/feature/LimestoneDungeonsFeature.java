@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -24,13 +24,12 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class LimestoneDungeonsFeature extends Feature<NoFeatureConfig> {
     private static final EntityType<?>[] SPAWNERTYPES = new EntityType[]{EntityType.SKELETON, EntityType.ZOMBIE, EntityType.ZOMBIE, EntityType.SPIDER};
     private static final BlockState CAVE_AIR = Blocks.CAVE_AIR.getDefaultState();
 
-    public LimestoneDungeonsFeature(Function<Dynamic<?>, ? extends NoFeatureConfig> config) {
+    public LimestoneDungeonsFeature(Codec<NoFeatureConfig> config) {
         super(config);
     }
 

@@ -25,6 +25,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 
@@ -274,7 +275,8 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileE
     }
 
     protected int getCookTime() {
-        return this.world.getRecipeManager().getRecipe((IRecipeType<? extends KilnRecipe>) IAtumRecipeType.KILN, this, this.world).map(KilnRecipe::getCookTime).orElse(200);
+        World world = this.world;
+        return world != null ? world.getRecipeManager().getRecipe((IRecipeType<? extends KilnRecipe>) IAtumRecipeType.KILN, this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
     }
 
     @Override
@@ -301,8 +303,8 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileE
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.burnTime = compound.getInt("BurnTime");
         this.cookTime = compound.getInt("CookTime");
         this.cookTimeTotal = compound.getInt("CookTimeTotal");

@@ -12,7 +12,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vector3d;
 import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.world.World;
@@ -44,14 +44,14 @@ public class TeleporterAtum implements ITeleporter {
     }
 
     public static boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {
-        Vec3d lastPortalVec = entity.getLastPortalVec();
+        Vector3d lastPortalVec = entity.getLastPortalVec();
         Direction direction = entity.getTeleportDirection();
         BlockPattern.PortalInfo portalInfo = placeInExistingPortal(world, new BlockPos(entity), entity.getMotion(), direction, lastPortalVec.x, lastPortalVec.y, entity instanceof PlayerEntity);
         if (portalInfo == null) {
             return false;
         } else {
-            Vec3d vec3d1 = portalInfo.pos;
-            Vec3d vec3d2 = portalInfo.motion;
+            Vector3d vec3d1 = portalInfo.pos;
+            Vector3d vec3d2 = portalInfo.motion;
             entity.setMotion(vec3d2);
             entity.rotationYaw = yaw + (float) portalInfo.rotation;
             entity.moveForced(vec3d1.x, vec3d1.y, vec3d1.z);
@@ -60,7 +60,7 @@ public class TeleporterAtum implements ITeleporter {
     }
 
     @Nullable
-    public static BlockPattern.PortalInfo placeInExistingPortal(ServerWorld world, @Nonnull BlockPos pos, @Nonnull Vec3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
+    public static BlockPattern.PortalInfo placeInExistingPortal(ServerWorld world, @Nonnull BlockPos pos, @Nonnull Vector3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
         PointOfInterestManager poiManager = world.getPointOfInterestManager();
         poiManager.ensureLoadedAndValid(world, pos, 128);
         List<PointOfInterest> list = poiManager.getInSquare((poi) -> poi == AtumPointsOfInterest.PORTAL, pos, 128, PointOfInterestManager.Status.ANY).collect(Collectors.toList());

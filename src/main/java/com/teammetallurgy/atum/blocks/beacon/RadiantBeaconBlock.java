@@ -2,12 +2,8 @@ package com.teammetallurgy.atum.blocks.beacon;
 
 import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BeaconBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IBeaconBeamColorProvider;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.ItemStack;
@@ -31,25 +27,19 @@ public class RadiantBeaconBlock extends BeaconBlock {
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
     public RadiantBeaconBlock() {
-        super(Block.Properties.create(Material.GLASS).hardnessAndResistance(3.0F).lightValue(15).notSolid());
+        super(AbstractBlock.Properties.create(Material.GLASS, state -> state.get(COLOR).getMapColor()).hardnessAndResistance(3.0F).setLightLevel((state) -> 15).notSolid());
         this.setDefaultState(this.stateContainer.getBaseState().with(COLOR, DyeColor.WHITE));
     }
 
     @Override
     @Nullable
-    public TileEntity createNewTileEntity(IBlockReader reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new RadiantBeaconTileEntity();
     }
 
     @Override
     @Nonnull
-    public MaterialColor getMaterialColor(BlockState state, IBlockReader world, BlockPos pos) {
-        return state.get(COLOR).getMapColor();
-    }
-
-    @Override
-    @Nonnull
-    public ActionResultType onBlockActivated(BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, Hand hand, BlockRayTraceResult rayTraceResult) {
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
         ItemStack heldStack = player.getHeldItem(hand);
         if (heldStack.isEmpty()) {
             return ActionResultType.FAIL;

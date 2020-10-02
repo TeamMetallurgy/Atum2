@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.Direction;
@@ -14,11 +14,10 @@ import net.minecraft.world.gen.feature.RandomPatchFeature;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class AnputsFingersFeature extends RandomPatchFeature {
 
-    public AnputsFingersFeature(Function<Dynamic<?>, ? extends BlockClusterFeatureConfig> config) {
+    public AnputsFingersFeature(Codec<BlockClusterFeatureConfig> config) {
         super(config);
     }
 

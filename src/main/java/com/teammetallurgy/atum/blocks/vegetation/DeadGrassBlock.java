@@ -11,6 +11,6 @@ public class DeadGrassBlock extends OasisGrassBlock {
     @Override
     @Nonnull
     public PlantType getPlantType(IBlockReader world, BlockPos pos) {
-        return PlantType.Desert;
+        return PlantType.DESERT;
     }
 }

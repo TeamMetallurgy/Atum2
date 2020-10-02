@@ -123,7 +123,7 @@ public class ThothsDirectionItem extends CompassItem { //Revisit later
     @Override
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
-        player.sendStatusMessage(new TranslationTextComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".searching").applyTextStyle(TextFormatting.YELLOW), true);
+        player.sendStatusMessage(new TranslationTextComponent(Atum.MOD_ID + "." + Objects.requireNonNull(this.getRegistryName()).getPath() + ".searching").mergeStyle(TextFormatting.YELLOW), true);
         this.searchTime = 60;
         return super.onItemRightClick(world, player, hand);
     }

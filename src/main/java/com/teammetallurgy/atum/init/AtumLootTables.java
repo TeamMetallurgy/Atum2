@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
+import net.minecraft.loot.LootTables;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.loot.LootTables;
 
 public class AtumLootTables {
     //Entities

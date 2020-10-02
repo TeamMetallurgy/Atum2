@@ -5,9 +5,10 @@ import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
-import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.PatrollerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,13 +29,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.LightType;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -72,11 +70,8 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+    public static AttributeModifierMap.MutableAttribute getBaseAttributes() {
+        return LivingEntity.registerAttributes().createMutableAttribute(Attributes.FOLLOW_RANGE, 30.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D).createMutableAttribute(Attributes.ATTACK_KNOCKBACK);
     }
 
     @Override
@@ -94,7 +89,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT nbt) {
         spawnData = mobInitialSpawn(spawnData);
         this.setEnchantmentBasedOnDifficulty(difficulty);
         this.setEquipmentBasedOnDifficulty(difficulty);
@@ -117,7 +112,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     }
 
     public ILivingEntityData mobInitialSpawn(@Nullable ILivingEntityData spawnData) {
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).applyModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
+        this.getAttribute(Attributes.FOLLOW_RANGE).applyPersistentModifier(new AttributeModifier("Random spawn bonus", this.rand.nextGaussian() * 0.05D, AttributeModifier.Operation.MULTIPLY_BASE));
         this.setLeftHanded(this.rand.nextFloat() < 0.5F);
         return spawnData;
     }
@@ -129,9 +124,9 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
                 .setPatternWithColor(BannerPattern.STRIPE_DOWNRIGHT, DyeColor.GRAY).setPatternWithColor(BannerPattern.CROSS, DyeColor.RED)
                 .setPatternWithColor(BannerPattern.FLOWER, DyeColor.BLACK).setPatternWithColor(BannerPattern.FLOWER, DyeColor.ORANGE)
                 .setPatternWithColor(BannerPattern.CIRCLE_MIDDLE, DyeColor.BLACK).setPatternWithColor(BannerPattern.CIRCLE_MIDDLE, DyeColor.YELLOW)
-                .setPatternWithColor(BannerPattern.SKULL, DyeColor.BLACK).setPatternWithColor(BannerPattern.SKULL, DyeColor.WHITE).func_222476_a();
+                .setPatternWithColor(BannerPattern.SKULL, DyeColor.BLACK).setPatternWithColor(BannerPattern.SKULL, DyeColor.WHITE).buildNBT();
         nbt.put("Patterns", nbtList);
-        banner.setDisplayName(new TranslationTextComponent("block.atum.bandit_banner").applyTextStyle(TextFormatting.GOLD));
+        banner.setDisplayName(new TranslationTextComponent("block.atum.bandit_banner").mergeStyle(TextFormatting.GOLD));
         return banner;
     }
 
@@ -194,14 +189,6 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
     public String getTexture() {
         if (this.texturePath == null) {
             String entityName = Objects.requireNonNull(this.getType().getRegistryName()).getPath();
-
-            if (ChampionsHelper.isChampion(this)) {
-                ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
-                if (texture != null) {
-                    this.texturePath = texture.toString();
-                    return this.texturePath;
-                }
-            }
 
             if (this.hasSkinVariants()) {
                 this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";
@@ -294,11 +281,12 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
                 } else if (isLeader && this.owner.getPatrolTarget().withinDistance(this.owner.getPositionVec(), 10.0D)) {
                     this.owner.resetPatrolTarget();
                 } else {
-                    Vec3d vec3d = new Vec3d(this.owner.getPatrolTarget());
-                    Vec3d vec3d1 = this.owner.getPositionVec();
-                    Vec3d vec3d2 = vec3d1.subtract(vec3d);
+                    BlockPos patrolTargetPos = this.owner.getPatrolTarget();
+                    Vector3d vec3d = new Vector3d(patrolTargetPos.getX(), patrolTargetPos.getY(), patrolTargetPos.getZ());
+                    Vector3d vec3d1 = this.owner.getPositionVec();
+                    Vector3d vec3d2 = vec3d1.subtract(vec3d);
                     vec3d = vec3d2.rotateYaw(90.0F).scale(0.4D).add(vec3d);
-                    Vec3d vec3d3 = vec3d.subtract(vec3d1).normalize().scale(10.0D).add(vec3d1);
+                    Vector3d vec3d3 = vec3d.subtract(vec3d1).normalize().scale(10.0D).add(vec3d1);
                     BlockPos pos = new BlockPos(vec3d3);
                     pos = this.owner.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, pos);
                     if (!navigator.tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ(), isLeader ? this.leaderSpeed : this.patrollerSpeed)) {
@@ -315,16 +303,16 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
         }
 
         private List<BanditBaseEntity> getPatrollers() {
-            return this.owner.world.getEntitiesWithinAABB(BanditBaseEntity.class, this.owner.getBoundingBox().grow(24.0D), (e) -> e.func_213634_ed() && !e.isEntityEqual(this.owner));
+            return this.owner.world.getEntitiesWithinAABB(BanditBaseEntity.class, this.owner.getBoundingBox().grow(24.0D), (e) -> e.notInRaid() && !e.isEntityEqual(this.owner));
         }
 
         private List<BanditBaseEntity> getPatrollers(BanditBaseEntity leader) {
-            return this.owner.world.getEntitiesWithinAABB(BanditBaseEntity.class, this.owner.getBoundingBox().grow(24.0D), (e) -> e.func_213634_ed() && !e.isEntityEqual(this.owner) && e.leadingEntity == leader.getUniqueID());
+            return this.owner.world.getEntitiesWithinAABB(BanditBaseEntity.class, this.owner.getBoundingBox().grow(24.0D), (e) -> e.notInRaid() && !e.isEntityEqual(this.owner) && e.leadingEntity == leader.getUniqueID());
         }
 
         private boolean tryMoveTo() {
             Random random = this.owner.getRNG();
-            BlockPos pos = this.owner.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (new BlockPos(this.owner)).add(-8 + random.nextInt(16), 0, -8 + random.nextInt(16)));
+            BlockPos pos = this.owner.world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, (this.owner.getPosition()).add(-8 + random.nextInt(16), 0, -8 + random.nextInt(16)));
             return this.owner.getNavigator().tryMoveToXYZ(pos.getX(), pos.getY(), pos.getZ(), this.patrollerSpeed);
         }
     }

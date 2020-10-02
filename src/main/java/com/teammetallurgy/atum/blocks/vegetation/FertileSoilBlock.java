@@ -24,12 +24,12 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     @Override
-    public int getOpacity(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public int getOpacity(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
         return 255;
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
@@ -80,15 +80,14 @@ public class FertileSoilBlock extends Block implements IGrowable {
                 world.getBlockState(pos.north()).getMaterial() == Material.WATER ||
                 world.getBlockState(pos.south()).getMaterial() == Material.WATER);
 
-        switch (plantType) {
-            case Plains:
-                return true;
-            case Beach:
-                return hasWater;
-            case Crop:
-                return plant.getBlock() instanceof StemBlock;
-            default:
-                return super.canSustainPlant(state, world, pos, direction, plantable);
+        if (plantType.equals(PlantType.PLAINS)) {
+            return true;
+        } else if (plantType.equals(PlantType.BEACH)) {
+            return hasWater;
+        } else if (plantType.equals(PlantType.CROP)) {
+            return plant.getBlock() instanceof StemBlock;
+        } else {
+            return super.canSustainPlant(state, world, pos, direction, plantable);
         }
     }
 

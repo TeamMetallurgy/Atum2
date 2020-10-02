@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ShowWaresTask extends Task<SunspeakerEntity> {
+public class SunspeakerShowWaresTask extends Task<SunspeakerEntity> {
     @Nullable
     private ItemStack field_220559_a;
     private final List<ItemStack> field_220560_b = Lists.newArrayList();
@@ -27,7 +27,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
     private int field_220562_d;
     private int field_220563_e;
 
-    public ShowWaresTask(int durationMin, int durationMax) {
+    public SunspeakerShowWaresTask(int durationMin, int durationMax) {
         super(ImmutableMap.of(MemoryModuleType.INTERACTION_TARGET, MemoryModuleStatus.VALUE_PRESENT), durationMin, durationMax);
     }
 
@@ -48,8 +48,8 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
     }
 
     @Override
-    public void startExecuting(@Nonnull ServerWorld world, @Nonnull SunspeakerEntity sunspeaker, long gameTimeIn) {
-        super.startExecuting(world, sunspeaker, gameTimeIn);
+    public void startExecuting(@Nonnull ServerWorld world, @Nonnull SunspeakerEntity sunspeaker, long gameTime) {
+        super.startExecuting(world, sunspeaker, gameTime);
         this.func_220557_c(sunspeaker);
         this.field_220561_c = 0;
         this.field_220562_d = 0;
@@ -63,7 +63,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
         if (!this.field_220560_b.isEmpty()) {
             this.func_220553_d(owner);
         } else {
-            owner.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
+            owner.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
             this.field_220563_e = Math.min(this.field_220563_e, 40);
         }
 
@@ -71,38 +71,38 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
     }
 
     @Override
-    public void resetTask(@Nonnull ServerWorld world, @Nonnull SunspeakerEntity sunspeaker, long gameTimeIn) {
-        super.resetTask(world, sunspeaker, gameTimeIn);
+    public void resetTask(@Nonnull ServerWorld world, @Nonnull SunspeakerEntity sunspeaker, long gameTime) {
+        super.resetTask(world, sunspeaker, gameTime);
         sunspeaker.getBrain().removeMemory(MemoryModuleType.INTERACTION_TARGET);
-        sunspeaker.setItemStackToSlot(EquipmentSlotType.OFFHAND, ItemStack.EMPTY);
+        sunspeaker.setItemStackToSlot(EquipmentSlotType.MAINHAND, ItemStack.EMPTY);
         this.field_220559_a = null;
     }
 
-    private void func_220556_a(LivingEntity p_220556_1_, SunspeakerEntity p_220556_2_) {
+    private void func_220556_a(LivingEntity entity, SunspeakerEntity sunspeaker) {
         boolean flag = false;
-        ItemStack itemstack = p_220556_1_.getHeldItemMainhand();
-        if (this.field_220559_a == null || !ItemStack.areItemsEqual(this.field_220559_a, itemstack)) {
-            this.field_220559_a = itemstack;
+        ItemStack heldStack = entity.getHeldItemMainhand();
+        if (this.field_220559_a == null || !ItemStack.areItemsEqual(this.field_220559_a, heldStack)) {
+            this.field_220559_a = heldStack;
             flag = true;
             this.field_220560_b.clear();
         }
 
         if (flag && !this.field_220559_a.isEmpty()) {
-            this.func_220555_b(p_220556_2_);
+            this.func_220555_b(sunspeaker);
             if (!this.field_220560_b.isEmpty()) {
                 this.field_220563_e = 900;
-                this.func_220558_a(p_220556_2_);
+                this.func_220558_a(sunspeaker);
             }
         }
 
     }
 
-    private void func_220558_a(SunspeakerEntity p_220558_1_) {
-        p_220558_1_.setItemStackToSlot(EquipmentSlotType.OFFHAND, this.field_220560_b.get(0));
+    private void func_220558_a(SunspeakerEntity sunspeaker) {
+        sunspeaker.setItemStackToSlot(EquipmentSlotType.MAINHAND, this.field_220560_b.get(0));
     }
 
-    private void func_220555_b(SunspeakerEntity p_220555_1_) {
-        for (MerchantOffer merchantoffer : p_220555_1_.getOffers()) {
+    private void func_220555_b(SunspeakerEntity sunspeaker) {
+        for (MerchantOffer merchantoffer : sunspeaker.getOffers()) {
             if (!merchantoffer.hasNoUsesLeft() && this.func_220554_a(merchantoffer)) {
                 this.field_220560_b.add(merchantoffer.getSellingStack());
             }
@@ -110,18 +110,18 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
 
     }
 
-    private boolean func_220554_a(MerchantOffer p_220554_1_) {
-        return ItemStack.areItemsEqual(this.field_220559_a, p_220554_1_.func_222205_b()) || ItemStack.areItemsEqual(this.field_220559_a, p_220554_1_.getBuyingStackSecond());
+    private boolean func_220554_a(MerchantOffer offer) {
+        return ItemStack.areItemsEqual(this.field_220559_a, offer.getDiscountedBuyingStackFirst()) || ItemStack.areItemsEqual(this.field_220559_a, offer.getBuyingStackSecond());
     }
 
-    private LivingEntity func_220557_c(SunspeakerEntity p_220557_1_) {
-        Brain<?> brain = p_220557_1_.getBrain();
+    private LivingEntity func_220557_c(SunspeakerEntity sunspeaker) {
+        Brain<?> brain = sunspeaker.getBrain();
         LivingEntity livingentity = brain.getMemory(MemoryModuleType.INTERACTION_TARGET).get();
-        brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(livingentity));
+        brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityPosWrapper(livingentity, true));
         return livingentity;
     }
 
-    private void func_220553_d(SunspeakerEntity p_220553_1_) {
+    private void func_220553_d(SunspeakerEntity sunspeaker) {
         if (this.field_220560_b.size() >= 2 && ++this.field_220561_c >= 40) {
             ++this.field_220562_d;
             this.field_220561_c = 0;
@@ -129,8 +129,7 @@ public class ShowWaresTask extends Task<SunspeakerEntity> {
                 this.field_220562_d = 0;
             }
 
-            p_220553_1_.setItemStackToSlot(EquipmentSlotType.OFFHAND, this.field_220560_b.get(this.field_220562_d));
+            sunspeaker.setItemStackToSlot(EquipmentSlotType.MAINHAND, this.field_220560_b.get(this.field_220562_d));
         }
-
     }
 }

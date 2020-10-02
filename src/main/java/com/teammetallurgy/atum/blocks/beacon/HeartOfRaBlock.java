@@ -42,13 +42,8 @@ public class HeartOfRaBlock extends ContainerBlock {
     }
 
     @Override
-    public boolean canEntitySpawn(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull EntityType<?> type) {
-        return type == AtumEntities.HEART_OF_RA;
-    }
-
-    @Override
     public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType) {
-        return false;
+        return entityType == AtumEntities.HEART_OF_RA;
     }
 
     @Override

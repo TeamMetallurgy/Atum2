@@ -15,6 +15,7 @@ import com.teammetallurgy.atum.entity.undead.*;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
@@ -106,6 +107,28 @@ public class AtumEntities {
         EntitySpawnPlacementRegistry.register(SUNSPEAKER, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
         EntitySpawnPlacementRegistry.register(TARANTULA, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, TarantulaEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(WRAITH, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
+
+        GlobalEntityTypeAttributes.put(ASSASSIN, AssassinEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(BANDIT_WARLORD, WarlordEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(BARBARIAN, BarbarianEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(BONESTORM, BonestormEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(BRIGAND, BrigandEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(CAMEL, CamelEntity.getAttributes().create());
+        //GlobalEntityTypeAttributes.put(DESERT_WOLF, DesertWolfEntity.getAttributes().create()); //TODO Look into
+        GlobalEntityTypeAttributes.put(FORSAKEN, ForsakenEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(MUMMY, MummyEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(NOMAD, NomadEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(PHARAOH, PharaohEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(DESERT_RABBIT, DesertRabbitEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(SCARAB, ScarabEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(SERGEANT, SergeantEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(STONEGUARD, StoneguardEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(STONEWARDEN, StonewardenEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(STONEGUARD_FRIENDLY, StoneguardEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(STONEWARDEN_FRIENDLY, StoneguardEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(SUNSPEAKER, SunspeakerEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(TARANTULA, TarantulaEntity.getAttributes().create());
+        GlobalEntityTypeAttributes.put(WRAITH, WraithEntity.getAttributes().create());
     }
 
     public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {

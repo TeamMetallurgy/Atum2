@@ -1,9 +1,10 @@
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
+import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -23,12 +24,11 @@ import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
 
-    public AtumMineshaftStructure(Function<Dynamic<?>, ? extends AtumMineshaftConfig> config) {
+    public AtumMineshaftStructure(Codec<AtumMineshaftConfig> config) {
         super(config);
     }
 
@@ -97,19 +97,20 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
                         structurepiece.offset(0, y, 0);
                     }
                 } else {
-                    this.func_214628_a(generator.getSeaLevel(), this.rand, 10);
+                    this.func_214628_a(generator.getGroundHeight(), this.rand, 10);
                 }
             }
         }
     }
 
-    public static enum Type {
+    public static enum Type implements IStringSerializable {
         DEADWOOD("deadwood", false),
         LIMESTONE("limestone", false),
         DEADWOOD_SURFACE("deadwood_surface", true),
         LIMESTONE_SURFACE("limestone_surface", true);
 
-        private static final Map<String, Type> BY_NAME = Arrays.stream(values()).collect(Collectors.toMap(Type::getName, (type) -> type));
+        public static final Codec<Type> CODEC = IStringSerializable.createEnumCodec(Type::values, Type::byName);
+        private static final Map<String, Type> BY_NAME = Arrays.stream(values()).collect(Collectors.toMap(Type::getName, (p_214716_0_) -> p_214716_0_));
         private final String name;
         private final boolean isSurface;
 
@@ -132,6 +133,12 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
 
         public static Type byId(int id) {
             return id >= 0 && id < values().length ? values()[id] : DEADWOOD;
+        }
+
+        @Override
+        @Nonnull
+        public String getString() {
+            return this.name;
         }
     }
 }

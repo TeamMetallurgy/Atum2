@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.blocks;
 import com.google.common.cache.LoadingCache;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtum;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -22,10 +21,10 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.ITeleporter;
 
@@ -35,7 +34,7 @@ public class PortalBlock extends BreakableBlock {
     private static final VoxelShape PORTAL_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public PortalBlock() {
-        super(Properties.create(Material.PORTAL, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(-1.0F).sound(SoundType.GLASS).lightValue(10).tickRandomly());
+        super(Properties.create(Material.PORTAL, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> 10).tickRandomly());
     }
 
     @Override
@@ -82,23 +81,23 @@ public class PortalBlock extends BreakableBlock {
 
     @Override
     public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, Entity entity) {
-        if (!entity.isOnePlayerRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) {
+        /*if (!entity.isOnePlayerRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) { //TODO
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
-            final DimensionType dimension = player.dimension == AtumDimensionType.ATUM ? DimensionType.OVERWORLD : AtumDimensionType.ATUM;
+            final DimensionType dimension = player.getServerWorld().func_230315_m_() == AtumDimensionType.ATUM ? DimensionType.OVERWORLD : AtumDimensionType.ATUM;
             changeDimension(world, (ServerPlayerEntity) entity, dimension, new TeleporterAtum());
-        }
+        }*/
     }
 
     public static void changeDimension(World world, ServerPlayerEntity player, DimensionType dimension, ITeleporter teleporter) {
         if (!world.isRemote) {
-            player.changeDimension(dimension, teleporter);
+            /*player.changeDimension(dimension, teleporter); //TODO
             player.timeUntilPortal = 300;
             if (player.dimension == AtumDimensionType.ATUM) {
                 BlockPos playerPos = new BlockPos(player);
                 if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSolidSide(world, playerPos, Direction.UP)) {
                     player.setSpawnPoint(playerPos, true, false, AtumDimensionType.ATUM);
                 }
-            }
+            }*/
         }
     }
 

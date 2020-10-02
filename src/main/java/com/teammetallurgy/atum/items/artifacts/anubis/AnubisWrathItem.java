@@ -192,14 +192,14 @@ public class AnubisWrathItem extends SwordItem {
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
         String itemIdentifier = "atum." + Objects.requireNonNull(stack.getItem().getRegistryName()).getPath() + ".tooltip";
         if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-            tooltip.add(new TranslationTextComponent(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
-            tooltip.add(new TranslationTextComponent(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).applyTextStyle(TextFormatting.DARK_PURPLE));
+            tooltip.add(new TranslationTextComponent(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).mergeStyle(TextFormatting.DARK_PURPLE));
+            tooltip.add(new TranslationTextComponent(itemIdentifier + ".line2" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).mergeStyle(TextFormatting.DARK_PURPLE));
         } else {
             tooltip.add(new TranslationTextComponent(itemIdentifier + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker"))
-                    .appendText(" ").appendSibling(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").applyTextStyle(TextFormatting.DARK_GRAY)));
+                    .appendString(" ").append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").mergeStyle(TextFormatting.DARK_GRAY)));
         }
         if (tooltipType.isAdvanced()) {
-            tooltip.add(new TranslationTextComponent(itemIdentifier + ".kills", getSouls(stack)).applyTextStyle(TextFormatting.DARK_RED));
+            tooltip.add(new TranslationTextComponent(itemIdentifier + ".kills", getSouls(stack)).mergeStyle(TextFormatting.DARK_RED));
         }
     }
 }

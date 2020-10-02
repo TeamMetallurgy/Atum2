@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,7 +20,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -59,11 +61,8 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         this.targetSelector.addGoal(2, new EfreetBaseEntity.AITargetAggressor(this));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttributes().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.25D);
+    public static AttributeModifierMap.MutableAttribute getBaseAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D).createMutableAttribute(Attributes.ATTACK_DAMAGE);
     }
 
     @Override
@@ -128,7 +127,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         this.setEquipmentBasedOnDifficulty(difficulty);
@@ -262,8 +261,8 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
 
     @Override
     public boolean attackEntityAsMob(@Nonnull Entity entity) { //Copied from MobEntity, to allow Efreet to attack
-        float attackDamage = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
-        float knockback = (float) this.getAttribute(SharedMonsterAttributes.ATTACK_KNOCKBACK).getValue();
+        float attackDamage = (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE);
+        float knockback = (float) this.getAttributeValue(Attributes.ATTACK_KNOCKBACK);
         if (entity instanceof LivingEntity) {
             attackDamage += EnchantmentHelper.getModifierForCreature(this.getHeldItemMainhand(), ((LivingEntity) entity).getCreatureAttribute());
             knockback += (float) EnchantmentHelper.getKnockbackModifier(this);
@@ -277,7 +276,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
         boolean attackEntity = entity.attackEntityFrom(DamageSource.causeMobDamage(this), attackDamage);
         if (attackEntity) {
             if (knockback > 0.0F && entity instanceof LivingEntity) {
-                ((LivingEntity) entity).knockBack(this, knockback * 0.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
+                ((LivingEntity) entity).applyKnockback(knockback * 0.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
                 this.setMotion(this.getMotion().mul(0.6D, 1.0D, 0.6D));
             }
             this.applyEnchantments(this, entity);

@@ -7,8 +7,8 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
@@ -42,9 +42,9 @@ public class HammerItem extends SwordItem {
                 if (heldItem instanceof HammerItem) {
                     HammerItem hammerItem = (HammerItem) heldItem;
                     LivingEntity target = event.getEntityLiving();
-                    ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) target.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-                    if (!attribute.hasModifier(STUN)) {
-                        attribute.applyModifier(STUN);
+                    ModifiableAttributeInstance attribute = target.getAttribute(Attributes.MOVEMENT_SPEED);
+                    if (attribute != null && !attribute.hasModifier(STUN)) {
+                        attribute.applyNonPersistentModifier(STUN);
                         hammerItem.onStun(target);
                     }
                 }
@@ -61,8 +61,8 @@ public class HammerItem extends SwordItem {
     public static void livingTick(LivingEvent.LivingUpdateEvent event) {
         LivingEntity entity = event.getEntityLiving();
         if (stun.isEmpty()) return;
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) entity.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-        if (attribute.hasModifier(STUN)) {
+        ModifiableAttributeInstance attribute = entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (attribute != null && attribute.hasModifier(STUN)) {
             int stunTime = stun.getInt(entity);
             if (stunTime <= 1) {
                 attribute.removeModifier(STUN);
