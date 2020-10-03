@@ -1,14 +1,15 @@
 package com.teammetallurgy.atum.items.artifacts.tefnut;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -26,7 +27,6 @@ public class TefnutsCallItem extends Item {
 
     public TefnutsCallItem() {
         super(new Item.Properties().maxDamage(650).rarity(Rarity.RARE).group(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
-        this.addPropertyOverride(new ResourceLocation("throwing"), (stack, world, player) -> player != null && player.isHandActive() && player.getActiveItemStack() == stack ? 1.0F : 0.0F);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TefnutsCallItem extends Item {
                 });
 
                 TefnutsCallEntity spear = new TefnutsCallEntity(world, player, stack);
-                spear.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
+                spear.shoot(player.rotationPitch, player.rotationYaw, 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
                 spear.setDamage(spear.getDamage() * 2.0D);
                 if (player.abilities.isCreativeMode) {
                     spear.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
@@ -119,12 +119,12 @@ public class TefnutsCallItem extends Item {
 
     @Override
     @Nonnull
-    public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
-        Multimap<String, AttributeModifier> map = HashMultimap.create();
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         if (slot == EquipmentSlotType.MAINHAND) {
-            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 3.0D, AttributeModifier.Operation.ADDITION));
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.6D, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", 3.0D, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", -2.6D, AttributeModifier.Operation.ADDITION));
         }
-        return map;
+        return builder.build();
     }
 }

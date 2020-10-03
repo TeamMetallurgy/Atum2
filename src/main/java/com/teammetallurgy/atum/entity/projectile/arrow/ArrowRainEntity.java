@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumParticles;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
@@ -36,8 +37,8 @@ public class ArrowRainEntity extends CustomArrow {
                 serverWorld.spawnParticle(AtumParticles.TEFNUT_DROP, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
-        if (velocity == 1.0F && this.getShooter() instanceof LivingEntity) {
-            if (this.ticksInAir == 12) {
+        if (velocity == 1.0F && this.func_234616_v_() instanceof LivingEntity) {
+            if (this.ticksExisted == 12) { //TODO Test
                 this.remove();
                 if (!isSmallArrow) {
                     ArrowRainEntity arrow1 = new ArrowRainEntity(world, this.getPosX() + 0.5D, this.getPosY(), this.getPosZ());

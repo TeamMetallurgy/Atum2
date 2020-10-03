@@ -5,14 +5,14 @@ import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.UseAction;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,12 +26,6 @@ public class AtumShieldItem extends Item {
 
     public AtumShieldItem(int maxDamage, Item.Properties properties) {
         super(properties.defaultMaxDamage(maxDamage).group(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
-        this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
-            @OnlyIn(Dist.CLIENT)
-            public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
-                return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
-            }
-        });
         DispenserBlock.registerDispenseBehavior(this, ArmorItem.DISPENSER_BEHAVIOR);
     }
 

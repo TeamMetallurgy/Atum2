@@ -23,7 +23,9 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.CachedBlockInfo;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
@@ -63,9 +65,11 @@ public class KhnumiteFaceBlock extends HorizontalBlock implements IKhnumite {
             StonewardenEntity stonewarden = AtumEntities.STONEWARDEN_FRIENDLY.create(world);
             if (stonewarden != null) {
                 stonewarden.setPlayerCreated(true);
-                stonewarden.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.MOB_SUMMONED, null, null);
-                stonewarden.setLocationAndAngles((double) stonewardenPos.getX() + 0.5D, (double) stonewardenPos.getY() + 0.05D, (double) stonewardenPos.getZ() + 0.5D, 0.0F, 0.0F);
-                world.addEntity(stonewarden);
+                if (world instanceof ServerWorld) {
+                    stonewarden.onInitialSpawn((IServerWorld) world, world.getDifficultyForLocation(pos), SpawnReason.MOB_SUMMONED, null, null);
+                    stonewarden.setLocationAndAngles((double) stonewardenPos.getX() + 0.5D, (double) stonewardenPos.getY() + 0.05D, (double) stonewardenPos.getZ() + 0.5D, 0.0F, 0.0F);
+                    world.addEntity(stonewarden);
+                }
 
                 for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stonewarden.getBoundingBox().grow(5.0D))) {
                     CriteriaTriggers.SUMMONED_ENTITY.trigger(playerMP, stonewarden);
@@ -93,10 +97,12 @@ public class KhnumiteFaceBlock extends HorizontalBlock implements IKhnumite {
                 StoneguardEntity stoneguard = AtumEntities.STONEGUARD_FRIENDLY.create(world);
                 if (stoneguard != null) {
                     stoneguard.setPlayerCreated(true);
-                    stoneguard.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.MOB_SUMMONED, null, null);
-                    BlockPos stoneguardPos = patternHelper.translateOffset(0, 2, 0).getPos();
-                    stoneguard.setLocationAndAngles((double) stoneguardPos.getX() + 0.5D, (double) stoneguardPos.getY() + 0.05D, (double) stoneguardPos.getZ() + 0.5D, 0.0F, 0.0F);
-                    world.addEntity(stoneguard);
+                    if (world instanceof ServerWorld) {
+                        stoneguard.onInitialSpawn((IServerWorld) world, world.getDifficultyForLocation(pos), SpawnReason.MOB_SUMMONED, null, null);
+                        BlockPos stoneguardPos = patternHelper.translateOffset(0, 2, 0).getPos();
+                        stoneguard.setLocationAndAngles((double) stoneguardPos.getX() + 0.5D, (double) stoneguardPos.getY() + 0.05D, (double) stoneguardPos.getZ() + 0.5D, 0.0F, 0.0F);
+                        world.addEntity(stoneguard);
+                    }
 
                     for (ServerPlayerEntity playerMP : world.getEntitiesWithinAABB(ServerPlayerEntity.class, stoneguard.getBoundingBox().grow(5.0D))) {
                         CriteriaTriggers.SUMMONED_ENTITY.trigger(playerMP, stoneguard);

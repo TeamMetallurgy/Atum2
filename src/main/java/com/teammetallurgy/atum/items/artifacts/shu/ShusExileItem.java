@@ -50,7 +50,7 @@ public class ShusExileItem extends BattleAxeItem {
 
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
-        Entity attacker = event.getAttacker();
+        Entity attacker = event.getEntityLiving();
         if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
             PlayerEntity player = (PlayerEntity) attacker;
             if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && cooldown.getFloat(attacker) == 1.0F) {

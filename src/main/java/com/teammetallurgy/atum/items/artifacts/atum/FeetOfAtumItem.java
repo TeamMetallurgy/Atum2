@@ -33,7 +33,7 @@ public class FeetOfAtumItem extends TexturedArmorItem {
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        if (entity.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATUM && entity.onGround) {
+        if (entity.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATUM && entity.isOnGround()) {
             event.setStrength(0);
         }
     }

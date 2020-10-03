@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.anubis;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
@@ -15,20 +15,19 @@ import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -44,7 +43,6 @@ import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
@@ -55,12 +53,6 @@ public class AnubisWrathItem extends SwordItem {
 
     public AnubisWrathItem() {
         super(ItemTier.DIAMOND, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
-        this.addPropertyOverride(new ResourceLocation("tier"), new IItemPropertyGetter() {
-            @OnlyIn(Dist.CLIENT)
-            public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
-                return (float) getTier(stack);
-            }
-        });
         int tier = getTier(new ItemStack(this));
         this.attackDamage = tier == 3 ? 9.0F : tier + 5.0F;
     }
@@ -129,7 +121,7 @@ public class AnubisWrathItem extends SwordItem {
             if (getSouls(heldStack) == 50 || getSouls(heldStack) == 150 || getSouls(heldStack) == 500) {
                 source.world.playSound(null, source.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0F, 0.0F);
                 if (source instanceof PlayerEntity) {
-                    ((PlayerEntity) source).sendStatusMessage(new TranslationTextComponent(heldStack.getTranslationKey() + ".levelup").setStyle(new Style().setColor(TextFormatting.DARK_PURPLE)), true);
+                    ((PlayerEntity) source).sendStatusMessage(new TranslationTextComponent(heldStack.getTranslationKey() + ".levelup").copyRaw().mergeStyle(TextFormatting.DARK_PURPLE), true);
                 }
             }
         }
@@ -163,22 +155,22 @@ public class AnubisWrathItem extends SwordItem {
 
     @Override
     @Nonnull
-    public Multimap<String, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
-        Multimap<String, AttributeModifier> map = HashMultimap.create();
+    public Multimap<Attribute, AttributeModifier> getAttributeModifiers(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
+        ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         if (slot == EquipmentSlotType.MAINHAND) {
             int tier = getTier(stack);
-            map.put(SharedMonsterAttributes.ATTACK_DAMAGE.getName(), new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
             double speed = tier == 0 ? 0.6D : tier == 1 ? 0.7D : tier == 2 ? 0.8D : tier == 3 ? 1.0D : 0;
-            map.put(SharedMonsterAttributes.ATTACK_SPEED.getName(), new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", speed - 3.0D, AttributeModifier.Operation.ADDITION));
+            builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", speed - 3.0D, AttributeModifier.Operation.ADDITION));
         }
-        return map;
+        return builder.build();
     }
 
-    private static int getSouls(@Nonnull ItemStack stack) {
+    public static int getSouls(@Nonnull ItemStack stack) {
         return StackHelper.hasKey(stack, "souls") && stack.getTag() != null ? stack.getTag().getInt("souls") : 0;
     }
 
-    private static int getTier(@Nonnull ItemStack stack) {
+    public static int getTier(@Nonnull ItemStack stack) {
         int souls = getSouls(stack);
         return souls < 50 ? 0 : souls < 150 ? 1 : souls < 500 ? 2 : 3;
     }
@@ -189,7 +181,7 @@ public class AnubisWrathItem extends SwordItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
+    public void addInformation(@Nonnull ItemStack stack, World world, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag tooltipType) {
         String itemIdentifier = "atum." + Objects.requireNonNull(stack.getItem().getRegistryName()).getPath() + ".tooltip";
         if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
             tooltip.add(new TranslationTextComponent(itemIdentifier + ".line1" + (getTier(stack) == 3 ? ".soul_unraveler" : ".soul_drinker")).mergeStyle(TextFormatting.DARK_PURPLE));

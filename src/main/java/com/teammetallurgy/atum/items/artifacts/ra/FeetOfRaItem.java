@@ -43,7 +43,7 @@ public class FeetOfRaItem extends TexturedArmorItem {
     public void onArmorTick(@Nonnull ItemStack stack, World world, PlayerEntity player) {
         super.onArmorTick(stack, world, player);
         if (player.isAlive() && !world.isRemote) {
-            BlockPos pos = new BlockPos(player);
+            BlockPos pos = player.getPosition();
 
             if (!Objects.equal(this.prevBlockpos, pos)) {
                 this.prevBlockpos = pos;
@@ -53,7 +53,7 @@ public class FeetOfRaItem extends TexturedArmorItem {
     }
 
     private void lavaWalk(LivingEntity living, World world, BlockPos pos) {
-        if (living.onGround) {
+        if (living.isOnGround()) {
             BlockState raStone = AtumBlocks.RA_STONE.getDefaultState();
             float area = (float) Math.min(16, 2);
             BlockPos.Mutable mutablePos = new BlockPos.Mutable();
@@ -65,7 +65,7 @@ public class FeetOfRaItem extends TexturedArmorItem {
                     if (state.isAir(world, mutablePos)) {
                         BlockState checkState = world.getBlockState(posBox);
                         boolean isFull = checkState.getFluidState().isTagged(FluidTags.LAVA) && checkState.get(FlowingFluidBlock.LEVEL) == 0;
-                        if (checkState.getMaterial() == Material.LAVA && isFull && raStone.isValidPosition(world, posBox) && world.func_226663_a_(raStone, posBox, ISelectionContext.dummy()) && !ForgeEventFactory.onBlockPlace(living, new BlockSnapshot(world, posBox, checkState), Direction.UP)) {
+                        if (checkState.getMaterial() == Material.LAVA && isFull && raStone.isValidPosition(world, posBox) && world.placedBlockCollides(raStone, posBox, ISelectionContext.dummy()) && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.getDimensionKey(), world, posBox), Direction.UP)) {
                             world.setBlockState(posBox, raStone);
                             world.getPendingBlockTicks().scheduleTick(posBox, raStone.getBlock(), MathHelper.nextInt(living.getRNG(), 60, 120));
                         }

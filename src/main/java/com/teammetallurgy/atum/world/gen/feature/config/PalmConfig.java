@@ -18,7 +18,7 @@ import net.minecraftforge.common.IPlantable;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class PalmConfig extends TreeFeatureConfig {
+public class PalmConfig extends BaseTreeFeatureConfig {
     public final double dateChance;
     public final double ophidianTongueChance;
 
@@ -54,7 +54,7 @@ public class PalmConfig extends TreeFeatureConfig {
         return deserialize(data).setSapling((IPlantable) AtumBlocks.PALM_SAPLING);
     }
 
-    public static class Builder extends TreeFeatureConfig.Builder { //Based on TreeFeatureConfig.Builder
+    public static class Builder extends BaseTreeFeatureConfig.Builder {
         private double dateChance;
         private double ophidianTongueChance;
         private final FoliagePlacer foliagePlacer;

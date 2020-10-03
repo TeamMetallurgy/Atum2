@@ -21,7 +21,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vector3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -85,7 +85,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
     }
 
     private boolean shouldReturnToThrower() {
-        Entity entity = this.getShooter();
+        Entity entity = this.func_234616_v_();
         if (entity != null && entity.isAlive()) {
             return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
         } else {
@@ -99,7 +99,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
             this.dealtDamage = true;
         }
 
-        Entity entity = this.getShooter();
+        Entity entity = this.func_234616_v_();
         if ((this.dealtDamage || this.getNoClip()) && entity != null) {
             if (this.shouldReturnToThrower()) {//Always return to valid thrower
                 this.setNoClip(true);
@@ -123,7 +123,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
     @Override
     protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
         Entity entity = rayTraceResult.getEntity();
-        Entity shooter = this.getShooter();
+        Entity shooter = this.func_234616_v_();
 
         if (shooter != entity) {
             Vector3d motion = this.getMotion();
@@ -155,18 +155,15 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
                     }
 
                     this.arrowHit(livingEntity);
-
-                    if (livingEntity != shooter && livingEntity instanceof PlayerEntity && shooter instanceof ServerPlayerEntity) {
-                        ((ServerPlayerEntity) shooter).connection.sendPacket(new SChangeGameStatePacket(6, 0.0F));
-                    }
                 }
                 if (this.world instanceof ServerWorld) {
                     ServerWorld serverWorld = (ServerWorld) this.world;
                     BlockPos entityPos = this.getPosition();
                     if (this.world.canSeeSky(entityPos)) {
-                        LightningBoltEntity lightningBolt = new LightningBoltEntity(this.world, (double) entityPos.getX() + 0.5D, entityPos.getY(), (double) entityPos.getZ() + 0.5D, false);
-                        lightningBolt.setCaster(shooter instanceof ServerPlayerEntity ? (ServerPlayerEntity) shooter : null);
-                        serverWorld.addLightningBolt(lightningBolt);
+                        LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.world);
+                        lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(entityPos));
+                        lightningboltentity.setCaster(shooter instanceof ServerPlayerEntity ? (ServerPlayerEntity) shooter : null);
+                        serverWorld.addEntity(lightningboltentity);
                     }
                 }
                 this.playSound(SoundEvents.ITEM_TRIDENT_THUNDER, 4.0F, 1.0F);
@@ -182,7 +179,7 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
 
     @Override
     public void onCollideWithPlayer(@Nonnull PlayerEntity player) {
-        Entity entity = this.getShooter();
+        Entity entity = this.func_234616_v_();
         if (entity == null || entity.getUniqueID() == player.getUniqueID()) {
             super.onCollideWithPlayer(player);
         }

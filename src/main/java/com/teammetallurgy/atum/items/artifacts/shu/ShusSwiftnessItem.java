@@ -4,8 +4,8 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -47,11 +47,11 @@ public class ShusSwiftnessItem extends AmuletItem {
     }*/
 
     @Override
-    public void inventoryTick(@Nonnull ItemStack stack, World world, Entity entity, int itemSlot, boolean isSelected) {
+    public void inventoryTick(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull Entity entity, int itemSlot, boolean isSelected) {
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;
-            ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
-            if (player.onGround) {
+            ModifiableAttributeInstance attribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
+            if (player.isOnGround()) {
                 if (player.getHeldItem(Hand.OFF_HAND).getItem() == this) {
                     this.doEffect(world, player, stack);
                 } else if (player.getHeldItem(Hand.MAIN_HAND).getItem() == this) {
@@ -64,7 +64,7 @@ public class ShusSwiftnessItem extends AmuletItem {
     }
 
     private void doEffect(World world, PlayerEntity player, @Nonnull ItemStack heldStack) {
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance attribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
         if (player.moveForward != 0.0F) {
             for (int l = 0; l < 2; ++l) {
                 player.world.addParticle(AtumParticles.SHU, player.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), player.getPosY() + 0.2D, player.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) player.getWidth(), 0.0D, 0.0D, 0.0D);
@@ -72,7 +72,7 @@ public class ShusSwiftnessItem extends AmuletItem {
         }
         if (!world.isRemote) {
             if (!attribute.hasModifier(SPEED_BOOST)) {
-                attribute.applyModifier(SPEED_BOOST);
+                attribute.applyNonPersistentModifier(SPEED_BOOST);
             }
             if (!player.abilities.isCreativeMode) {
                 heldStack.damageItem(1, player, (p_213622_1_) -> {
@@ -84,7 +84,7 @@ public class ShusSwiftnessItem extends AmuletItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag tooltipType) {
+    public void addInformation(@Nonnull ItemStack stack, @Nullable World world, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag tooltipType) {
         super.addInformation(stack, world, tooltip, tooltipType);
         double remaining = ((double) (stack.getMaxDamage() - stack.getDamage()) / 12) / 100.0D;
         DecimalFormat format = new DecimalFormat("#.##");

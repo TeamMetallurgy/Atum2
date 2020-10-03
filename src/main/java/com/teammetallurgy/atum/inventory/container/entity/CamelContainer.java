@@ -34,13 +34,7 @@ public class CamelContainer extends Container {
         this.addSlot(new Slot(camelInventory, 0, 62, 64) {
             @Override
             public boolean isItemValid(ItemStack stack) {
-                return stack.getItem() instanceof SaddleItem && !this.getHasStack() && camel.canBeSaddled();
-            }
-
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public boolean isEnabled() {
-                return camel.canBeSaddled();
+                return stack.getItem() instanceof SaddleItem && !this.getHasStack();
             }
         });
         //Armor slot

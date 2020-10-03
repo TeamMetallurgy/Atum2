@@ -39,9 +39,10 @@ public class ArrowFireEntity extends CustomArrow {
     @Override
     protected void func_230299_a_(@Nonnull BlockRayTraceResult rayTraceResult) {
         super.func_230299_a_(rayTraceResult);
-        if (this.getShooter() instanceof PlayerEntity) {
+        Entity shooter = this.func_234616_v_();
+        if (shooter instanceof PlayerEntity) {
             BlockPos pos = rayTraceResult.getPos().offset(rayTraceResult.getFace());
-            PlayerEntity player = (PlayerEntity) this.getShooter();
+            PlayerEntity player = (PlayerEntity) shooter;
             if (player.canPlayerEdit(pos, rayTraceResult.getFace(), player.getHeldItem(player.getActiveHand())) && world.getBlockState(pos).getMaterial() == Material.AIR) {
                 world.setBlockState(pos, Blocks.FIRE.getDefaultState());
             }

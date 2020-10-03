@@ -32,7 +32,7 @@ public class ArrowStraightEntity extends CustomArrow {
                 this.remove();
             }
 
-            if (this.getShooter() instanceof LivingEntity && !inGround && velocity == 1.0F && this.isAlive()) {
+            if (this.func_234616_v_() instanceof LivingEntity && !inGround && velocity == 1.0F && this.isAlive()) {
                 if (world instanceof ServerWorld) {
                     ServerWorld serverWorld = (ServerWorld) world;
                     serverWorld.spawnParticle(AtumParticles.HORUS, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);

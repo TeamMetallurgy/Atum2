@@ -35,7 +35,7 @@ public class FishItem extends Item {
 
         @Override
         @Nonnull
-        public String getName() {
+        public String getString() {
             return this.unlocalizedName;
         }
     }

@@ -17,6 +17,8 @@ import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
+import com.teammetallurgy.atum.items.artifacts.anubis.AnubisWrathItem;
+import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -33,6 +35,8 @@ import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.FoliageColors;
 import net.minecraft.world.biome.BiomeColors;
@@ -82,6 +86,22 @@ public class ClientHandler {
                 return 12889745;
             }
         }, AtumBlocks.DEAD_GRASS);
+        ItemModelsProperties.registerProperty(AtumItems.ANUBIS_WRATH, new ResourceLocation("tier"), (stack, world, entity) -> AnubisWrathItem.getTier(stack));
+        ItemModelsProperties.registerProperty(AtumItems.TEFNUTS_CALL, new ResourceLocation("throwing"), (stack, world, entity) -> entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F);
+        registerBowModelProperties(AtumItems.SHORT_BOW);
+        registerBowModelProperties(AtumItems.GEBS_GROUNDING);
+        registerBowModelProperties(AtumItems.HORUSS_SOARING);
+        registerBowModelProperties(AtumItems.MONTUS_BLAST);
+        registerBowModelProperties(AtumItems.NUITS_DUALITY);
+        registerBowModelProperties(AtumItems.RAS_FURY);
+        registerBowModelProperties(AtumItems.SETHS_VENOM);
+        registerBowModelProperties(AtumItems.SHUS_BREATH);
+        registerBowModelProperties(AtumItems.TEFNUTS_RAIN);
+        registerShieldModelProperties(AtumItems.NUITS_IRE);
+        registerShieldModelProperties(AtumItems.NUITS_QUARTER);
+        registerShieldModelProperties(AtumItems.BRIGAND_SHIELD);
+        registerShieldModelProperties(AtumItems.STONEGUARD_SHIELD);
+        registerShieldModelProperties(AtumItems.ATUMS_PROTECTION);
     }
 
     @SubscribeEvent
@@ -221,6 +241,21 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TEFNUTS_CALL, TefnutsCallRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.HEART_OF_RA, HeartOfRaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL_SPIT, LlamaSpitRenderer::new);
+    }
+
+    public static void registerBowModelProperties(BaseBowItem bow) {
+        ItemModelsProperties.registerProperty(bow, new ResourceLocation("pull"), (stack, world, entity) -> {
+            if (entity == null) {
+                return 0.0F;
+            } else {
+                return entity.getActiveItemStack() != stack ? 0.0F : bow.getDrawbackSpeed(stack, entity);
+            }
+        });
+        ItemModelsProperties.registerProperty(bow, new ResourceLocation("pulling"), (stack, world, entity) -> entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F);
+    }
+
+    public static void registerShieldModelProperties(Item shield) {
+        ItemModelsProperties.registerProperty(shield, new ResourceLocation("blocking"), (stack, world, entity) -> entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F);
     }
 
     public static void addToChestAtlas(ResourceLocation location) {

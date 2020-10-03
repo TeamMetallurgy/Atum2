@@ -35,7 +35,7 @@ public class NuitsDualityItem extends BaseBowItem {
     }
 
     @Override
-    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, LivingEntity entityLiving, int timeLeft) {
+    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
             boolean infinity = player.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
@@ -57,9 +57,9 @@ public class NuitsDualityItem extends BaseBowItem {
 
                     if (!world.isRemote) {
                         ArrowDoubleShotBlackEntity doubleShotLower = new ArrowDoubleShotBlackEntity(world, player);
-                        doubleShotLower.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
+                        doubleShotLower.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         ArrowDoubleShotWhiteEntity doubleShotHigher = new ArrowDoubleShotWhiteEntity(world, player);
-                        doubleShotHigher.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
+                        doubleShotHigher.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         doubleShotLower.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.0F, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
                         doubleShotHigher.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.2D, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
 

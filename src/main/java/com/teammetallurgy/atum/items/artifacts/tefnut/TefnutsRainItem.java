@@ -35,6 +35,6 @@ public class TefnutsRainItem extends BaseBowItem {
 
     @Override
     protected void onShoot(ArrowEntity arrow, PlayerEntity player, float velocity) {
-        arrow.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.5F, 0.0F);
+        arrow.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.5F, 0.0F);
     }
 }

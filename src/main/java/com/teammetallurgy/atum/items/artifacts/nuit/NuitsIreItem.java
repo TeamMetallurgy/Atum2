@@ -33,12 +33,6 @@ public class NuitsIreItem extends KhopeshItem {
 
     public NuitsIreItem() {
         super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
-        this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
-            @OnlyIn(Dist.CLIENT)
-            public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
-                return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
-            }
-        });
     }
 
     @Override

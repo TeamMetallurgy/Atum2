@@ -10,7 +10,7 @@ import javax.annotation.Nonnull;
 public class TefnutsBlessingItem extends HoeItem {
 
     public TefnutsBlessingItem() {
-        super(ItemTier.DIAMOND, -3.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
+        super(ItemTier.DIAMOND, -3, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override

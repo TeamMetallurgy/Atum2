@@ -10,12 +10,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.*;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
@@ -25,29 +22,10 @@ public class BaseBowItem extends BowItem {
 
     public BaseBowItem(Item.Properties properties) {
         super(properties.group(Atum.GROUP));
-        this.addPropertyOverride(new ResourceLocation("pull"), new IItemPropertyGetter() {
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float call(@Nonnull ItemStack stack, World world, LivingEntity entity) {
-                if (entity == null) {
-                    return 0.0F;
-                } else {
-                    ItemStack activeStack = entity.getActiveItemStack();
-                    return !(activeStack.getItem() instanceof BaseBowItem) ? 0.0F : getDrawbackSpeed(stack, entity);
-                }
-            }
-        });
-        this.addPropertyOverride(new ResourceLocation("pulling"), new IItemPropertyGetter() {
-            @Override
-            @OnlyIn(Dist.CLIENT)
-            public float call(@Nonnull ItemStack stack, World world, LivingEntity entity) {
-                return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
-            }
-        });
     }
 
     @Override
-    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, LivingEntity entityLiving, int timeLeft) {
+    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull LivingEntity entityLiving, int timeLeft) {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
             boolean infinity = player.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
@@ -124,7 +102,7 @@ public class BaseBowItem extends BowItem {
         arrow.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
     }
 
-    protected float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
+    public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
         return (float) (stack.getUseDuration() - entity.getItemInUseCount()) / 20.0F;
     }
 

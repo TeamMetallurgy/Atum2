@@ -12,15 +12,16 @@ import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vector3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
+import java.util.Optional;
 import java.util.Set;
 
-public class AtumsHomecomingItem extends AmuletItem {
+public class AtumsHomecomingItem extends AmuletItem { //TODO Test if works
 
     public AtumsHomecomingItem() {
         super(new Item.Properties().maxDamage(20));
@@ -28,26 +29,36 @@ public class AtumsHomecomingItem extends AmuletItem {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
-        BlockPos pos = player.getBedLocation(player.dimension);
-        if (pos == null) {
-            BlockPos spawnPointPos = player.world.getSpawnPoint();
-            while (spawnPointPos.getY() > 1 && world.isAirBlock(spawnPointPos)) {
-                spawnPointPos = spawnPointPos.down();
+        BlockPos pos = null;
+        if (world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            if (player instanceof ServerPlayerEntity) {
+                ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
+                Optional<Vector3d> optional = PlayerEntity.func_242374_a(serverWorld, serverPlayer.func_241140_K_(), serverPlayer.func_242109_L(), serverPlayer.func_241142_M_(), false);
+                pos = optional.isPresent() ? new BlockPos(optional.get()) : null;
+                if (pos == null) {
+                    BlockPos spawnPointPos = serverWorld.getSpawnPoint();
+                    while (spawnPointPos.getY() > 1 && world.isAirBlock(spawnPointPos)) {
+                        spawnPointPos = spawnPointPos.down();
+                    }
+                    while (!world.canBlockSeeSky(spawnPointPos)) {
+                        spawnPointPos = spawnPointPos.up();
+                    }
+                    pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
+                }
             }
-            while (!world.canBlockSeeSky(spawnPointPos)) {
-                spawnPointPos = spawnPointPos.up();
+        }
+        if (pos != null) {
+            teleport(world, player, hand, pos.getX(), pos.getY(), pos.getZ());
+            if (!player.isCreative()) {
+                heldStack.damageItem(1, player, (e) -> {
+                    e.sendBreakAnimation(hand);
+                });
             }
-            pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
+            onTeleport(world, player);
         }
-        teleport(world, player, hand, pos.getX(), pos.getY(), pos.getZ());
-        if (!player.isCreative()) {
-            heldStack.damageItem(1, player, (e) -> {
-                e.sendBreakAnimation(hand);
-            });
-        }
-        onTeleport(world, player);
         return new ActionResult<>(ActionResultType.PASS, heldStack);
     }
 
@@ -74,7 +85,7 @@ public class AtumsHomecomingItem extends AmuletItem {
         if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isElytraFlying()) {
             Vector3d motion = entity.getMotion();
             entity.setMotion(new Vector3d(motion.x, 0.0D, motion.z));
-            entity.onGround = true;
+            entity.setOnGround(true);
         }
     }
 

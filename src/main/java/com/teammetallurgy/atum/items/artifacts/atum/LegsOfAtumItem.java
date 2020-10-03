@@ -3,8 +3,8 @@ package com.teammetallurgy.atum.items.artifacts.atum;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -38,10 +38,10 @@ public class LegsOfAtumItem extends TexturedArmorItem {
     @SubscribeEvent
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         PlayerEntity player = event.player;
-        ModifiableAttributeInstance attribute = (ModifiableAttributeInstance) player.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED);
+        ModifiableAttributeInstance attribute = player.getAttribute(Attributes.MOVEMENT_SPEED);
         if (player.isAlive() && player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_ATUM) {
             if (!attribute.hasModifier(SPEED_BOOST)) {
-                attribute.applyModifier(SPEED_BOOST);
+                attribute.applyNonPersistentModifier(SPEED_BOOST);
             }
         } else if (attribute.hasModifier(SPEED_BOOST)) {
             attribute.removeModifier(SPEED_BOOST);
