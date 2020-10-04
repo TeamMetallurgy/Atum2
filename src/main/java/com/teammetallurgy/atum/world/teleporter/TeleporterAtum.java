@@ -1,34 +1,18 @@
 package com.teammetallurgy.atum.world.teleporter;
 
-import com.teammetallurgy.atum.blocks.PortalBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumPointsOfInterest;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vector3d;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.village.PointOfInterest;
-import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.server.TicketType;
 import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class TeleporterAtum implements ITeleporter {
 
@@ -45,7 +29,8 @@ public class TeleporterAtum implements ITeleporter {
     }
 
     public static boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {
-        Vector3d lastPortalVec = entity.getLastPortalVec();
+        return false;
+        /*Vector3d lastPortalVec = entity.getLastPortalVec(); //TODO
         Direction direction = entity.getTeleportDirection();
         BlockPattern.PortalInfo portalInfo = placeInExistingPortal(world, new BlockPos(entity), entity.getMotion(), direction, lastPortalVec.x, lastPortalVec.y, entity instanceof PlayerEntity);
         if (portalInfo == null) {
@@ -57,10 +42,10 @@ public class TeleporterAtum implements ITeleporter {
             entity.rotationYaw = yaw + (float) portalInfo.rotation;
             entity.moveForced(vec3d1.x, vec3d1.y, vec3d1.z);
             return true;
-        }
+        }*/
     }
 
-    @Nullable
+    /*@Nullable
     public static BlockPattern.PortalInfo placeInExistingPortal(ServerWorld world, @Nonnull BlockPos pos, @Nonnull Vector3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
         PointOfInterestManager poiManager = world.getPointOfInterestManager();
         poiManager.ensureLoadedAndValid(world, pos, 128);
@@ -72,7 +57,7 @@ public class TeleporterAtum implements ITeleporter {
             BlockPattern.PatternHelper patternHelper = PortalBlock.createPatternHelper(world, posPos);
             return patternHelper.getPortalInfo(direction, posPos, d1, portalPos, d);
         }).orElse(null);
-    }
+    }*/
 
     public static void makePortal(ServerWorld world, @Nonnull Entity entity) {
         createPortal(world, new BlockPos(MathHelper.floor(entity.getPosX()), MathHelper.floor(entity.getPosY()), MathHelper.floor(entity.getPosZ())), entity);
@@ -90,7 +75,7 @@ public class TeleporterAtum implements ITeleporter {
             pos = pos.up();
         }
 
-        if (entity != null && entity.dimension == DimensionType.OVERWORLD) {
+        if (world.getDimensionKey() == World.OVERWORLD) {
             sandState = Blocks.SANDSTONE.getDefaultState();
         } else {
             sandState = AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState();

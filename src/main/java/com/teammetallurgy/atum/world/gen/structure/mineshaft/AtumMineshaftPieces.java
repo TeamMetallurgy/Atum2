@@ -22,9 +22,10 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.structure.IStructurePieceType;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
@@ -212,7 +213,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        protected boolean generateChest(@Nonnull IWorld world, MutableBoundingBox box, @Nonnull Random rand, int x, int y, int z, @Nonnull ResourceLocation loot) {
+        protected boolean generateChest(@Nonnull ISeedReader world, MutableBoundingBox box, @Nonnull Random rand, int x, int y, int z, @Nonnull ResourceLocation loot) {
             BlockPos blockpos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
             if (box.isVecInside(blockpos) && world.getBlockState(blockpos).isAir(world, blockpos) && !world.getBlockState(blockpos.down()).isAir(world, blockpos.down())) {
                 BlockState plankState = Blocks.RAIL.getDefaultState().with(RailBlock.SHAPE, rand.nextBoolean() ? RailShape.NORTH_SOUTH : RailShape.EAST_WEST);
@@ -227,7 +228,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean func_230383_a_(@Nonnull ISeedReader world, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {
@@ -308,7 +309,7 @@ public class AtumMineshaftPieces {
             }
         }
 
-        private void placeSupport(IWorld world, MutableBoundingBox box, int x, int yMin, int zMin, int yMax, int zMax, Random rand) {
+        private void placeSupport(ISeedReader world, MutableBoundingBox box, int x, int yMin, int zMin, int yMax, int zMax, Random rand) {
             if (this.isSupportingBox(world, box, x, zMax, yMax, zMin)) {
                 BlockState plankState = this.getPlanksBlock();
                 BlockState fenceState = this.getFenceBlock();
@@ -326,7 +327,7 @@ public class AtumMineshaftPieces {
             }
         }
 
-        private void placeCobWeb(IWorld world, MutableBoundingBox box, Random rand, float chance, int x, int y, int z) {
+        private void placeCobWeb(ISeedReader world, MutableBoundingBox box, Random rand, float chance, int x, int y, int z) {
             if (this.getSkyBrightness(world, x, y, z, box)) {
                 this.randomlyPlaceBlock(world, box, rand, chance, x, y, z, Blocks.COBWEB.getDefaultState());
             }
@@ -435,7 +436,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean func_230383_a_(@Nonnull ISeedReader world, StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {
@@ -467,7 +468,7 @@ public class AtumMineshaftPieces {
             }
         }
 
-        private void placeSupportPillar(IWorld world, MutableBoundingBox box, int x, int y, int z, int yMax) {
+        private void placeSupportPillar(ISeedReader world, MutableBoundingBox box, int x, int y, int z, int yMax) {
             if (!this.getBlockStateFromPos(world, x, yMax + 1, z, box).isAir()) {
                 this.fillWithBlocks(world, box, x, y, z, x, yMax, z, this.getPlanksBlock(), CAVE_AIR, false);
             }
@@ -620,7 +621,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean func_230383_a_(@Nonnull ISeedReader world, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {
@@ -717,7 +718,7 @@ public class AtumMineshaftPieces {
         }
 
         @Override
-        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean func_230383_a_(@Nonnull ISeedReader world, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
             if (this.isLiquidInStructureBoundingBox(world, box)) {
                 return false;
             } else {

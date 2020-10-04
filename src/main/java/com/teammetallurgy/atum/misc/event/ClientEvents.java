@@ -8,8 +8,6 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.dimension.AtumDimension;
-import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -20,11 +18,13 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.Dimension;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -33,6 +33,8 @@ import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
@@ -43,7 +45,7 @@ public class ClientEvents {
     @SubscribeEvent
     public static void renderlast(RenderWorldLastEvent event) {
         ClientPlayerEntity player = Minecraft.getInstance().player;
-        if (player != null && player.dimension.getId() == AtumDimensionType.ATUM.getId()) {
+        if (player != null && player.world.getDimensionKey() == Atum.ATUM) {
             if (Minecraft.getInstance().gameSettings.hideGUI) {
                 renderSand(event.getPartialTicks(), 1, 2, 3, 4, 5, 6);
             } else {
@@ -69,18 +71,18 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
         ClientPlayerEntity player = mc.player;
         if (player == null) return;
-        Dimension dimension = player.world.getDimension();
+        //Dimension dimension = player.world.getDimension();
 
-        if (dimension instanceof AtumDimension && player.dimension.getId() == AtumDimensionType.ATUM.getId() && mc.world != null) {
-            AtumDimension atum = (AtumDimension) dimension;
+        if (/*dimension instanceof AtumDimension &&*/ mc.world != null && mc.world.getDimensionKey() == Atum.ATUM) {
+            //AtumDimension atum = (AtumDimension) dimension;
             World world = mc.world;
-            float stormStrength = atum.stormStrength;
+            float stormStrength = 0.0F /*atum.stormStrength*/; //TODO
 
             if (stormStrength < 0.0001F) {
                 return;
             }
 
-            float light = getSunBrightness(dimension, world, partialTicks);
+            float light = getSunBrightness(world, partialTicks);
 
             RenderSystem.pushMatrix();
             RenderSystem.pushTextureAttributes();
@@ -110,7 +112,8 @@ public class ClientEvents {
 
             BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
             boolean sky = player.world.canBlockSeeSky(playerPos);
-            if (!sky || player.world.getBiome(playerPos) == AtumBiomes.OASIS) {
+            Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(player.world.getBiome(playerPos));
+            if (!sky || biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS) { //TODO Test
                 intensity -= 0.001F * partialTicks;
                 intensity = Math.max(0, intensity);
             } else {
@@ -159,9 +162,9 @@ public class ClientEvents {
         }
     }
 
-    public static float getSunBrightness(Dimension dimension, World world, float partialTicks) {
-        float celestialAngle = dimension.calculateCelestialAngle(world.getDayTime(), partialTicks);
-        float f1 = 1.0F - (MathHelper.cos(celestialAngle * ((float) Math.PI * 2F)) * 2.0F + 0.2F);
+    public static float getSunBrightness(World world, float partialTicks) {
+        float celestialAngle = world.getCelestialAngleRadians(partialTicks);
+        float f1 = 1.0F - (celestialAngle) * 2.0F + 0.2F;
         f1 = MathHelper.clamp(f1, 0.0F, 1.0F);
         f1 = 1.0F - f1;
         f1 = (float) ((double) f1 * (1.0D - (double) (world.getRainStrength(partialTicks) * 5.0F) / 16.0D));
@@ -174,10 +177,10 @@ public class ClientEvents {
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
         ClientPlayerEntity clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
-        Dimension dimension = clientPlayer.world.dimension;
+        //Dimension dimension = clientPlayer.world.dimension;
         Entity entity = event.getInfo().getRenderViewEntity();
 
-        if (dimension instanceof AtumDimension && entity.dimension.getId() == AtumDimensionType.ATUM.getId() && AtumConfig.GENERAL.fogEnabled.get()) {
+        if (/*dimension instanceof AtumDimension &&*/ entity.world.getDimensionKey() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
             RenderSystem.fogMode(GlStateManager.FogMode.EXP);
             float fogDensity = 0.08F;
 
@@ -194,8 +197,8 @@ public class ClientEvents {
                     fogDensity = fogDensity / 1.5F;
                 }
                 if (player.getPosY() >= player.world.getSeaLevel() - 8) {
-                    AtumDimension providerAtum = (AtumDimension) dimension;
-                    fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * providerAtum.stormStrength);
+                    /*AtumDimension providerAtum = (AtumDimension) dimension;
+                    fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * providerAtum.stormStrength);*/ //TODO
                 }
                 RenderSystem.fogDensity(fogDensity);
                 event.setResult(Event.Result.ALLOW);
@@ -223,7 +226,7 @@ public class ClientEvents {
         ClientPlayerEntity player = Minecraft.getInstance().player;
         Minecraft mc = Minecraft.getInstance();
 
-        if (player != null && mc.gameSettings.thirdPersonView == 0 && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
+        if (player != null && mc.gameSettings.getPointOfView().func_243192_a() && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
             int width = mc.getMainWindow().getScaledWidth();
             int height = mc.getMainWindow().getScaledHeight();
 

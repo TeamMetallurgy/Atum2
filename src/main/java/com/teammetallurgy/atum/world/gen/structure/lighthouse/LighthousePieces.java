@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
@@ -54,12 +54,12 @@ public class LighthousePieces {
             this.setup(template, this.templatePosition, placementsettings);
         }
 
-        private void spawnSunspeakers(IWorld world, MutableBoundingBox box, int x, int y, int z, int min, int max) {
+        private void spawnSunspeakers(IServerWorld world, MutableBoundingBox box, int x, int y, int z, int min, int max) {
             if (this.sunspeakerSpawned > 0) {
                 return;
             }
             world.setBlockState(new BlockPos(x, y, z), Blocks.AIR.getDefaultState(), 2);
-            Random rand = new Random(world.getSeed() ^ x ^ (z << 16));
+            Random rand = new Random(world.getWorld().getSeed() ^ x ^ (z << 16));
 
             int numToSpawn = rand.nextInt(1 + max - min) + min;
 
@@ -92,7 +92,7 @@ public class LighthousePieces {
                     SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(world.getWorld());
                     if (sunspeaker != null) {
                         sunspeaker.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
-                        sunspeaker.onInitialSpawn(world, world.getDifficultyForLocation(new BlockPos(sunspeaker)), SpawnReason.STRUCTURE, null, null);
+                        sunspeaker.onInitialSpawn(world, world.getDifficultyForLocation(sunspeaker.getPosition()), SpawnReason.STRUCTURE, null, null);
                         world.addEntity(sunspeaker);
                     }
                 }
@@ -105,7 +105,7 @@ public class LighthousePieces {
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IServerWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("PalmCrate")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.20D) {

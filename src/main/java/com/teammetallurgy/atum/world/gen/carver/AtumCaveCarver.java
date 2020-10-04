@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.carver;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
@@ -14,7 +14,7 @@ import java.util.function.Function;
 
 public class AtumCaveCarver extends AtumCarver<ProbabilityConfig> { //Copied from CaveWorldCarver
 
-    public AtumCaveCarver(Function<Dynamic<?>, ? extends ProbabilityConfig> config, int maxHeight) {
+    public AtumCaveCarver(Codec<ProbabilityConfig> config, int maxHeight) {
         super(config, maxHeight);
     }
 

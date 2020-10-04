@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.dimension;
+/*package com.teammetallurgy.atum.world.dimension;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
@@ -9,9 +9,9 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
 import com.teammetallurgy.atum.world.biome.AtumBiome;
-import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProvider;
-import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProviderSettings;
-import com.teammetallurgy.atum.world.biome.provider.AtumBiomeProviderTypes;
+import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
+import com.teammetallurgy.atum.world.biome.AtumBiomeProviderSettings;
+import com.teammetallurgy.atum.world.biome.AtumBiomeProviderTypes;
 import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
 import com.teammetallurgy.atum.world.gen.AtumChunkGeneratorType;
 import com.teammetallurgy.atum.world.gen.AtumGenSettings;
@@ -46,7 +46,7 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtumDimension extends Dimension {
+public class AtumDimension extends Dimension { //TODO????
     private static BlockPos usePos;
     public static final AtumDimensionData DATA = new AtumDimensionData();
 
@@ -301,4 +301,4 @@ public class AtumDimension extends Dimension {
         long i = chunkPos.asLong();
         return !chunkManager.getTicketManager().isOutsideSpawningRadius(i) || chunkManager.playerGenerationTracker.getGeneratingPlayers(i).noneMatch((p) -> !p.isSpectator() && getDistanceSquaredToChunk(chunkPos, p) < 16384.0D);
     }
-}
+}*/

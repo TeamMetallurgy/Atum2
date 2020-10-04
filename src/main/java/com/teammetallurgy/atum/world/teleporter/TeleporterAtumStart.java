@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.teleporter;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.dimension.AtumDimension;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -19,11 +18,11 @@ public class TeleporterAtumStart implements ITeleporter {
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-        if (!AtumDimension.DATA.hasStartStructureSpawned()) {
+        /*if (!AtumDimension.DATA.hasStartStructureSpawned()) { //TODO
             this.onAtumJoining(destWorld, entity, yaw);
             AtumDimension.DATA.setHasStartStructureSpawned(true);
             return repositionEntity.apply(false);
-        }
+        }*/
         return entity;
     }
 
@@ -42,12 +41,12 @@ public class TeleporterAtumStart implements ITeleporter {
             }
             if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
                 ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-                startStructure.place(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
+                startStructure.func_242765_a(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
 
             }
             if (world.getServer().func_240793_aU_().getDimensionGeneratorSettings().hasBonusChest()) {
                 ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-                bonusCrate.place(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
+                bonusCrate.func_242765_a(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
             }
         }
     }

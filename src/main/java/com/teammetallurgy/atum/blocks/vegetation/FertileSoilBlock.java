@@ -6,15 +6,19 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 import java.util.Random;
 
 public class FertileSoilBlock extends Block implements IGrowable {
@@ -34,7 +38,8 @@ public class FertileSoilBlock extends Block implements IGrowable {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-                if (world.getBiome(pos) != AtumBiomes.OASIS) {
+                Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(world.getBiome(pos));
+                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) { //TODO Test
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
             } else if (Block.doesSideFillSquare(world.getBlockState(pos.up()).getCollisionShape(world, pos), Direction.DOWN)) {

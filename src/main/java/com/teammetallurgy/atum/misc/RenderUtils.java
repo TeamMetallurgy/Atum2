@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
 import javax.annotation.Nonnull;
@@ -35,7 +37,8 @@ public class RenderUtils {
     public static void drawString(TileEntity te, String str, double xOffset, double yOffset, double zOffset, float scaleModifier, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         TileEntityRendererDispatcher rendererDispatcher = TileEntityRendererDispatcher.instance;
         Entity entity = rendererDispatcher.renderInfo.getRenderViewEntity();
-        double distance = te.getDistanceSq(entity.getPosX(), entity.getPosY(), entity.getPosZ());
+        BlockPos tePos = te.getPos();
+        double distance = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ()).squareDistanceTo(tePos.getX(), tePos.getY(), tePos.getZ()); //TODO Test
 
         if (distance <= (double) (14 * 14)) {
             float yaw = rendererDispatcher.renderInfo.getYaw();

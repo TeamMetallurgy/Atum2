@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.misc.event;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.PortalBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
@@ -14,8 +13,6 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
-import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CauldronBlock;
@@ -31,6 +28,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.loot.LootContext;
 import net.minecraft.loot.LootParameterSets;
+import net.minecraft.loot.LootParameters;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
@@ -41,9 +39,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.loot.LootParameters;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
@@ -79,7 +75,7 @@ public class AtumEventListener {
         if (shouldStartInAtum && player instanceof ServerPlayerEntity && player.world instanceof ServerWorld) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             ServerWorld world = (ServerWorld) serverPlayer.world;
-            PortalBlock.changeDimension(world, serverPlayer, AtumDimensionType.ATUM, new TeleporterAtumStart());
+            //PortalBlock.changeDimension(world, serverPlayer, AtumDimensionType.ATUM, new TeleporterAtumStart()); //TODO
         }
     }
 
@@ -88,7 +84,7 @@ public class AtumEventListener {
         PlayerEntity player = event.player;
         World world = player.world;
         if (!world.isRemote && AtumConfig.GENERAL.allowCreation.get() && event.phase == TickEvent.Phase.END && player.ticksExisted % 20 == 0) {
-            if (world.dimension.getDimension().getType() == DimensionType.OVERWORLD || world.dimension.getType() == AtumDimensionType.ATUM) {
+            if (world.getDimensionKey() == World.OVERWORLD || world.getDimensionKey() == Atum.ATUM) {
                 for (ItemEntity entityItem : world.getEntitiesWithinAABB(ItemEntity.class, player.getBoundingBox().grow(10.0F, 1.0F, 10.0F))) {
                     BlockState state = world.getBlockState(entityItem.getPosition());
                     if (entityItem.getItem().getItem() == AtumItems.SCARAB && (state.getBlock() == Blocks.WATER || state == AtumBlocks.PORTAL.getDefaultState())) {
@@ -105,7 +101,7 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void onPlace(BlockEvent.EntityPlaceEvent event) {
         BlockState state = event.getPlacedBlock();
-        if (event.getWorld().getDimension().getType() == AtumDimensionType.ATUM) {
+        if (event.getEntity() != null && event.getEntity().world.getDimensionKey() == Atum.ATUM) {
             if (((state.getMaterial() == Material.EARTH || state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.MYCELIUM) && state.getBlock() != AtumBlocks.FERTILE_SOIL_TILLED)) {
                 event.getWorld().setBlockState(event.getPos(), AtumBlocks.SAND.getDefaultState(), 3);
             }
@@ -160,7 +156,7 @@ public class AtumEventListener {
     public static void onSeedUse(PlayerInteractEvent.RightClickBlock event) {
         PlayerEntity player = event.getPlayer();
         World world = event.getWorld();
-        if (player.world.dimension.getType() == AtumDimensionType.ATUM) {
+        if (player.world.getDimensionKey() == Atum.ATUM) {
             if (player.getHeldItem(event.getHand()).getItem() == Items.WHEAT_SEEDS && world.getBlockState(event.getPos()).getBlock() instanceof FarmlandBlock) {
                 event.setCanceled(true);
             }
@@ -186,12 +182,12 @@ public class AtumEventListener {
     public static void onFishLoot(ItemFishedEvent event) {
         World world = event.getPlayer().world;
         FishingBobberEntity bobber = event.getHookEntity();
-        PlayerEntity angler = bobber.getAngler();
+        PlayerEntity angler = bobber.func_234606_i_();
         if (angler != null) {
             ItemStack heldStack = angler.getHeldItem(angler.getActiveHand());
             LootContext.Builder builder = new LootContext.Builder((ServerWorld) world);
             builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withParameter(LootParameters.KILLER_ENTITY, angler).withParameter(LootParameters.THIS_ENTITY, bobber);
-            if (world.dimension.getType() == AtumDimensionType.ATUM) {
+            if (world.getDimensionKey() == Atum.ATUM) {
                 event.setCanceled(true); //We don't want vanillas loot table
                 if (heldStack.getItem() instanceof AtumsBountyItem) {
                     catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.ATUMS_BOUNTY);

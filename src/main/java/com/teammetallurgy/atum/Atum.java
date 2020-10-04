@@ -8,7 +8,7 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -46,10 +46,10 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.init();
-        MinecraftForge.EVENT_BUS.register(AtumFeatures.PYRAMID);
+        MinecraftForge.EVENT_BUS.register(AtumFeatures.PYRAMID_STRUCTURE);
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
-        AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiome::initMobSpawns);
+        AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiomeMaker::initMobSpawns);
         IntegrationHandler.INSTANCE.setup();
     }
 

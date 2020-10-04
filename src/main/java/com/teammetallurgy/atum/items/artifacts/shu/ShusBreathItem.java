@@ -34,7 +34,7 @@ public class ShusBreathItem extends BaseBowItem {
     }
 
     @Override
-    protected float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
+    public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
         return (float) (stack.getUseDuration() - entity.getItemInUseCount()) / 10.0F;
     }
 }

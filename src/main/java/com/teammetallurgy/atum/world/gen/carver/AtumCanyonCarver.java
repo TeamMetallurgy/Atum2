@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.world.gen.carver;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.biome.Biome;
@@ -15,8 +15,8 @@ import java.util.function.Function;
 public class AtumCanyonCarver extends AtumCarver<ProbabilityConfig> { //Copied from CanyonWorldCarver
     private final float[] size = new float[1024];
 
-    public AtumCanyonCarver(Function<Dynamic<?>, ? extends ProbabilityConfig> config) {
-        super(config, 256);
+    public AtumCanyonCarver(Codec<ProbabilityConfig> codec) {
+        super(codec, 256);
     }
 
     @Override

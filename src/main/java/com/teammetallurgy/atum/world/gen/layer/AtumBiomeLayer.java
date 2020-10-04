@@ -3,10 +3,11 @@ package com.teammetallurgy.atum.world.gen.layer;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumRegistry;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.layer.traits.IC0Transformer;
 import net.minecraftforge.common.BiomeManager.BiomeEntry;
@@ -15,15 +16,15 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class AtumBiomeLayer implements IC0Transformer {
-    private List<BiomeEntry> biomes = Lists.newArrayList();
+    private final List<BiomeEntry> biomes = Lists.newArrayList();
 
     public AtumBiomeLayer() {
-        for (AtumBiome biome : AtumRegistry.BIOMES) {
-            ResourceLocation location = biome.getRegistryName();
-            if (biome.getDefaultWeight() > 0 && location != null) {
+        for (RegistryKey<Biome> biomeKey : AtumRegistry.BIOME_KEYS) {
+            ResourceLocation location = biomeKey.getLocation();
+            if (location != null) {
                 int weight = AtumConfig.Helper.get(AtumConfig.Helper.getSubConfig(AtumConfig.Biome.BIOME, location.getPath()), "weight");
-                final BiomeEntry entry = new BiomeEntry(biome, weight);
                 if (weight > 0) {
+                    final BiomeEntry entry = new BiomeEntry(biomeKey, weight);
                     this.biomes.add(entry);
                 }
             }
@@ -35,6 +36,6 @@ public class AtumBiomeLayer implements IC0Transformer {
         List<BiomeEntry> biomeList = this.biomes;
         int totalWeight = WeightedRandom.getTotalWeight(biomeList);
         int weight = noiseRandom.random(totalWeight);
-        return Registry.BIOME.getId(WeightedRandom.getRandomItem(biomeList, weight).biome);
+        return WorldGenRegistries.BIOME.getId(WorldGenRegistries.BIOME.getValueForKey(WeightedRandom.getRandomItem(biomeList, weight).getKey()));
     }
 }

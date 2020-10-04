@@ -1,9 +1,6 @@
 package com.teammetallurgy.atum.network.packet;
 
-import com.teammetallurgy.atum.world.dimension.AtumDimension;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.world.dimension.Dimension;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -28,12 +25,12 @@ public class WeatherPacket {
 
 	public static class Handler {
 		public static void handle(WeatherPacket message, Supplier<NetworkEvent.Context> ctx) {
-			Dimension dimension = Minecraft.getInstance().player.world.dimension;
+			/*Dimension dimension = Minecraft.getInstance().player.world.dimension; //TODO
 			if (dimension instanceof AtumDimension) {
 				AtumDimension providerAtum = (AtumDimension) dimension;
 				AtumDimension.DATA.setStorming(message.isStorming);
 				providerAtum.stormTime = message.stormTime;
-			}
+			}*/
 			ctx.get().setPacketHandled(true);
 		}
 	}

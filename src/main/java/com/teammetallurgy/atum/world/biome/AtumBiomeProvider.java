@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.biome.provider;
+package com.teammetallurgy.atum.world.biome;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;

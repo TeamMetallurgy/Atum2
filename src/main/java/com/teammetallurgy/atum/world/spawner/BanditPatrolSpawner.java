@@ -11,14 +11,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.spawner.WorldEntitySpawner;
 
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.Random;
 
 public class BanditPatrolSpawner {
@@ -47,12 +50,13 @@ public class BanditPatrolSpawner {
                         } else {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
-                            BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player)).move(x, 0, z);
-                            if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos.getX(), mutablePos.getZ(), AtumFeatures.PYRAMID)) {
+                            BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player.getPosX(), player.getPosY(), player.getPosZ())).move(x, 0, z);
+                            if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos.getX(), mutablePos.getZ(), AtumFeatures.PYRAMID_STRUCTURE)) {
                                 return 0;
                             } else {
                                 Biome biome = serverWorld.getBiome(mutablePos);
-                                if (biome == AtumBiomes.DRIED_RIVER || biome == AtumBiomes.OASIS) {
+                                Optional<RegistryKey<Biome>> biomeKey = serverWorld.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
+                                if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) { //TODO test
                                     return 0;
                                 } else {
                                     int amount = 0;
@@ -91,9 +95,9 @@ public class BanditPatrolSpawner {
         }
     }
 
-    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, World world, BlockPos pos, Random rand, @Nullable BanditBaseEntity leadingEntity) {
+    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerWorld world, BlockPos pos, Random rand, @Nullable BanditBaseEntity leadingEntity) {
         BlockState state = world.getBlockState(pos);
-        if (!WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState())) {
+        if (!WorldEntitySpawner.func_234968_a_(world, pos, state, state.getFluidState(), entityType)) {
             return false;
         } else if (!BanditBaseEntity.canSpawn(entityType, world, SpawnReason.PATROL, pos, rand)) {
             return false;
@@ -114,11 +118,12 @@ public class BanditPatrolSpawner {
         }
     }
 
-    private boolean spawnLeader(BanditBaseEntity leader, World world, BlockPos pos, Random rand) {
+    private boolean spawnLeader(BanditBaseEntity leader, ServerWorld world, BlockPos pos, Random rand) {
         BlockState state = world.getBlockState(pos);
-        if (!WorldEntitySpawner.isSpawnableSpace(world, pos, state, state.getFluidState())) {
+        EntityType<? extends BanditBaseEntity> type = (EntityType<? extends BanditBaseEntity>) leader.getType();
+        if (!WorldEntitySpawner.func_234968_a_(world, pos, state, state.getFluidState(), type)) {
             return false;
-        } else if (!BanditBaseEntity.canSpawn((EntityType<? extends BanditBaseEntity>) leader.getType(), world, SpawnReason.PATROL, pos, rand)) {
+        } else if (!BanditBaseEntity.canSpawn(type, world, SpawnReason.PATROL, pos, rand)) {
             return false;
         } else {
             leader.setLeader(true);

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.biome.provider;
+package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.util.ResourceLocation;

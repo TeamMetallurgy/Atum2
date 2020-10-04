@@ -12,7 +12,6 @@ import com.teammetallurgy.atum.items.LootItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.data.DataGenerator;
@@ -25,8 +24,10 @@ import net.minecraft.item.SpawnEggItem;
 import net.minecraft.item.WallOrFloorItem;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,7 +44,8 @@ import java.util.function.Supplier;
 public class AtumRegistry {
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
-    public static final List<AtumBiome> BIOMES = Lists.newArrayList();
+    public static final List<Biome> BIOMES = Lists.newArrayList();
+    public static final List<RegistryKey<Biome>> BIOME_KEYS = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
@@ -221,10 +223,22 @@ public class AtumRegistry {
      * @param name  The name to register the biome with
      * @return The Biome that was registered
      */
-    public static AtumBiome registerBiome(AtumBiome biome, String name) {
+    public static Biome registerBiome(Biome biome, String name) {
         biome.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         BIOMES.add(biome);
         return biome;
+    }
+
+    /**
+     * Registers a biome key
+     *
+     * @param biomeName  The name to register the biome key with
+     * @return The Biome key that was registered
+     */
+    public static RegistryKey<Biome> registerBiomeKey(String biomeName) {
+        RegistryKey<Biome> biomeKey = RegistryKey.getOrCreateKey(Registry.BIOME_KEY, new ResourceLocation(biomeName));
+        BIOME_KEYS.add(biomeKey);
+        return biomeKey;
     }
 
     /**

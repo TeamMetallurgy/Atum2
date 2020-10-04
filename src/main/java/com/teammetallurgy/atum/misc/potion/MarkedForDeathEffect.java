@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.misc.potion;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.bandit.AssassinEntity;
 import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.dimension.AtumDimensionType;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.block.BlockState;
@@ -53,11 +53,11 @@ public class MarkedForDeathEffect extends Effect { //When on Easy difficulty & l
         if (!world.isRemote()) {
             if (world instanceof ServerWorld) {
                 ServerWorld serverWorld = (ServerWorld) world;
-                if (serverWorld.getDimension().getType() == AtumDimensionType.ATUM && !livingEntity.isSpectator()) {
+                if (serverWorld.getDimensionKey() == Atum.ATUM && !livingEntity.isSpectator()) {
                     Random random = serverWorld.rand;
                     int x = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
                     int z = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);
-                    BlockPos.Mutable mutablePos = (new BlockPos.Mutable(livingEntity)).move(x, 0, z);
+                    BlockPos.Mutable mutablePos = (new BlockPos.Mutable(livingEntity.getPosX(), livingEntity.getPosY(), livingEntity.getPosZ())).move(x, 0, z);
                     DifficultyInstance difficulty = serverWorld.getDifficultyForLocation(mutablePos);
                     if (difficulty.getDifficulty() != Difficulty.PEACEFUL) {
                         //Amplifier 0 to 9 = I to X

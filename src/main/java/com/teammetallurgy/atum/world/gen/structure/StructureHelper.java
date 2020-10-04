@@ -12,11 +12,11 @@ import java.util.Random;
 
 public class StructureHelper {
 
-    public static boolean doesChunkHaveStructure(IWorld world, int chunkX, int chunkZ, Structure<?> structure) {
-        return !world.getChunk(chunkX, chunkZ, ChunkStatus.STRUCTURE_REFERENCES).getStructureReferences(structure.getStructureName()).isEmpty();
+    public static boolean doesChunkHaveStructure(IWorld world, int chunkX, int chunkZ, Structure<?> structure) { //TODO Test
+        return !world.getChunk(chunkX, chunkZ, ChunkStatus.STRUCTURE_REFERENCES).getStructureReferences().get(structure).isEmpty();
     }
 
-    public static int getYPosForStructure(int chunkX, int chunkZ, ChunkGenerator<?> generator, @Nullable Rotation rotation) {
+    public static int getYPosForStructure(int chunkX, int chunkZ, ChunkGenerator generator, @Nullable Rotation rotation) {
         if (rotation == null) {
             Random rand = new Random();
             rotation = Rotation.values()[rand.nextInt(Rotation.values().length)];
@@ -34,10 +34,10 @@ public class StructureHelper {
 
         int k = (chunkX << 4) + 7;
         int l = (chunkZ << 4) + 7;
-        int i1 = generator.func_222531_c(k, l, Heightmap.Type.WORLD_SURFACE_WG);
-        int j1 = generator.func_222531_c(k, l + z, Heightmap.Type.WORLD_SURFACE_WG);
-        int k1 = generator.func_222531_c(k + x, l, Heightmap.Type.WORLD_SURFACE_WG);
-        int l1 = generator.func_222531_c(k + x, l + z, Heightmap.Type.WORLD_SURFACE_WG);
+        int i1 = generator.getNoiseHeightMinusOne(k, l, Heightmap.Type.WORLD_SURFACE_WG);
+        int j1 = generator.getNoiseHeightMinusOne(k, l + z, Heightmap.Type.WORLD_SURFACE_WG);
+        int k1 = generator.getNoiseHeightMinusOne(k + x, l, Heightmap.Type.WORLD_SURFACE_WG);
+        int l1 = generator.getNoiseHeightMinusOne(k + x, l + z, Heightmap.Type.WORLD_SURFACE_WG);
         return Math.min(Math.min(i1, j1), Math.min(k1, l1));
     }
 }

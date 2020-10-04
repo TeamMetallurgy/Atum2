@@ -31,7 +31,7 @@ public class MontusBlastItem extends BaseBowItem {
     }
 
     @Override
-    protected float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
+    public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
         return super.getDrawbackSpeed(stack, entity) / 2.0F;
     }
 }

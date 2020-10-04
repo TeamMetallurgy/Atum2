@@ -30,8 +30,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
@@ -121,7 +124,7 @@ public class PyramidPieces {
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IServerWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
                 BlockState arrowTrap = AtumBlocks.ARROW_TRAP.getDefaultState();
@@ -281,12 +284,12 @@ public class PyramidPieces {
         }
 
         @Override
-        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random random, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean func_230383_a_(@Nonnull ISeedReader world, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random random, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
             this.addMaze(world, random, box);
             return true;
         }
 
-        private void addMaze(IWorld world, Random random, MutableBoundingBox validBounds) {
+        private void addMaze(ISeedReader world, Random random, MutableBoundingBox validBounds) {
             if (this.maze == null) {
                 this.maze = this.generateMaze(new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), this.boundingBox.getXSize(), this.boundingBox.getZSize());
             }
@@ -320,14 +323,14 @@ public class PyramidPieces {
         }
 
         @Override
-        protected void setBlockState(@Nonnull IWorld world, @Nonnull BlockState state, int x, int y, int z, @Nonnull MutableBoundingBox box) {
+        protected void setBlockState(@Nonnull ISeedReader world, @Nonnull BlockState state, int x, int y, int z, @Nonnull MutableBoundingBox box) {
             BlockPos pos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
             if (box.isVecInside(pos) && !(world.getBlockState(pos).getBlock() instanceof LadderBlock)) { //Make sure ladder blocks don't get replaced
                 super.setBlockState(world, state, x, y, z, box);
             }
         }
 
-        private void placeTrap(IWorld world, boolean[][] maze, int x, int z, Random random, MutableBoundingBox validBounds) {
+        private void placeTrap(ISeedReader world, boolean[][] maze, int x, int z, Random random, MutableBoundingBox validBounds) {
             BlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
             List<Direction> validDirections = new ArrayList<>();
