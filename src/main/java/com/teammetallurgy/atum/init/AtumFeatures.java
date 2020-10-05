@@ -47,7 +47,7 @@ public class AtumFeatures {
     private static final List<Feature<?>> FEATURES = new ArrayList<>();
     private static final List<Structure<?>> STRUCTURES = new ArrayList<>();
     //Features
-    public static final Feature<DoubleBlockStateFeatureConfig> OASIS_POND = register("oasis_pond", new OasisPondFeature(DoubleBlockStateFeatureConfig.DOUBLE_CODEC));
+    public static final Feature<DoubleBlockStateFeatureConfig> OASIS_POND = register("oasis_pond", new OasisPondFeature(DoubleBlockStateFeatureConfig.DOUBLE_STATE_CODEC));
     public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig.field_236455_a_));
     public static final Feature<PalmConfig> PALM_TREE = register("palm_tree", new PalmFeature(PalmConfig.PALM_CODEC));
     public static final BonusCrateFeature BONUS_CRATE = register("bonus_crate", new BonusCrateFeature(NoFeatureConfig.field_236558_a_));

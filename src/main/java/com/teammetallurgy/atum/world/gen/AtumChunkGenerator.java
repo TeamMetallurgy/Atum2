@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen;
+/*package com.teammetallurgy.atum.world.gen;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.world.spawner.BanditPatrolSpawner;
@@ -16,7 +16,7 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
+public class AtumChunkGenerator extends NoiseChunkGenerator { //TODO Figure out what to do about this, since NoiseChunkGenerator is final now
     private static final float[] BIOME_WEIGHTS = Util.make(new float[25], (weights) -> { //Copied from OverworldChunkGenerator
         for (int x = -2; x <= 2; ++x) {
             for (int z = -2; z <= 2; ++z) {
@@ -129,4 +129,4 @@ public class AtumChunkGenerator extends NoiseChunkGenerator<AtumGenSettings> {
     public void spawnMobs(@Nonnull ServerWorld serverWorld, boolean spawnHostileMobs, boolean spawnPeacefulMobs) {
         this.banditSpawner.tick(serverWorld, spawnHostileMobs);
     }
-}
+}*/

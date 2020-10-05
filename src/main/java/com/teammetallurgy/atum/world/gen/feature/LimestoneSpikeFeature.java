@@ -6,9 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 
@@ -22,12 +21,12 @@ public class LimestoneSpikeFeature extends Feature<NoFeatureConfig> { //Based on
     }
 
     @Override
-    public boolean place(IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
-        while (world.isAirBlock(pos) && pos.getY() > 2) {
+    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+        while (seedReader.isAirBlock(pos) && pos.getY() > 2) {
             pos = pos.down();
         }
 
-        if (world.getBlockState(pos).getBlock() != AtumBlocks.SAND) {
+        if (seedReader.getBlockState(pos).getBlock() != AtumBlocks.SAND) {
             return false;
         } else {
             pos = pos.up(rand.nextInt(4));
@@ -44,17 +43,17 @@ public class LimestoneSpikeFeature extends Feature<NoFeatureConfig> { //Based on
                     for (int j1 = -l; j1 <= l; ++j1) {
                         float f2 = (float) MathHelper.abs(j1) - 0.25F;
                         if ((i1 == 0 && j1 == 0 || !(f1 * f1 + f2 * f2 > f * f)) && (i1 != -l && i1 != l && j1 != -l && j1 != l || !(rand.nextFloat() > 0.75F))) {
-                            BlockState blockstate = world.getBlockState(pos.add(i1, k, j1));
+                            BlockState blockstate = seedReader.getBlockState(pos.add(i1, k, j1));
                             Block block = blockstate.getBlock();
-                            if (blockstate.isAir(world, pos.add(i1, k, j1)) || block == AtumBlocks.SAND) {
-                                this.setBlockState(world, pos.add(i1, k, j1), AtumBlocks.LIMESTONE.getDefaultState());
+                            if (blockstate.isAir(seedReader, pos.add(i1, k, j1)) || block == AtumBlocks.SAND) {
+                                this.setBlockState(seedReader, pos.add(i1, k, j1), AtumBlocks.LIMESTONE.getDefaultState());
                             }
 
                             if (k != 0 && l > 1) {
-                                blockstate = world.getBlockState(pos.add(i1, -k, j1));
+                                blockstate = seedReader.getBlockState(pos.add(i1, -k, j1));
                                 block = blockstate.getBlock();
-                                if (blockstate.isAir(world, pos.add(i1, -k, j1)) || block == AtumBlocks.SAND) {
-                                    this.setBlockState(world, pos.add(i1, -k, j1), AtumBlocks.LIMESTONE.getDefaultState());
+                                if (blockstate.isAir(seedReader, pos.add(i1, -k, j1)) || block == AtumBlocks.SAND) {
+                                    this.setBlockState(seedReader, pos.add(i1, -k, j1), AtumBlocks.LIMESTONE.getDefaultState());
                                 }
                             }
                         }
@@ -78,13 +77,13 @@ public class LimestoneSpikeFeature extends Feature<NoFeatureConfig> { //Based on
                     }
 
                     while (blockpos.getY() > 50) {
-                        BlockState blockstate1 = world.getBlockState(blockpos);
+                        BlockState blockstate1 = seedReader.getBlockState(blockpos);
                         Block block1 = blockstate1.getBlock();
-                        if (!blockstate1.isAir(world, blockpos) && block1 != AtumBlocks.SAND) {
+                        if (!blockstate1.isAir(seedReader, blockpos) && block1 != AtumBlocks.SAND) {
                             break;
                         }
 
-                        this.setBlockState(world, blockpos, AtumBlocks.LIMESTONE.getDefaultState());
+                        this.setBlockState(seedReader, blockpos, AtumBlocks.LIMESTONE.getDefaultState());
                         blockpos = blockpos.down();
                         --j2;
                         if (j2 <= 0) {

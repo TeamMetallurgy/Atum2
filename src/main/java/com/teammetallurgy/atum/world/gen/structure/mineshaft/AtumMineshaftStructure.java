@@ -2,19 +2,15 @@ package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.init.AtumFeatures;
-import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
@@ -23,7 +19,6 @@ import net.minecraft.world.gen.feature.template.TemplateManager;
 import javax.annotation.Nonnull;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
@@ -33,30 +28,21 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
     }
 
     @Override
-    public boolean canBeGenerated(@Nonnull BiomeManager biomeManager, ChunkGenerator generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
-        ((SharedSeedRandom) rand).setLargeFeatureSeed(generator.getSeed(), chunkX, chunkZ);
-        if (generator.hasStructure(biome, this)) {
-            AtumMineshaftConfig config = generator.getStructureConfig(biome, this);
-            if (config != null) {
-                double probability = config.probability;
-                return rand.nextDouble() < probability;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
+    protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, AtumMineshaftConfig config) {
+        seedRandom.setLargeFeatureSeed(seed, chunkX, chunkZ);
+        double probability = config.probability;
+        return seedRandom.nextDouble() < probability;
     }
 
-    @Override
-    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull AtumMineshaftConfig config) {
+    /*@Override
+    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull AtumMineshaftConfig config) { //TODO. Maybe DimensionGeneratorSettings
         ChunkPos chunkPos = new ChunkPos(pos);
         if (StructureHelper.doesChunkHaveStructure(world, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID)) {
             return false;
         } else {
             return super.place(world, generator, rand, pos, config);
         }
-    }
+    }*/
 
     @Override
     @Nonnull
@@ -70,40 +56,32 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
         return String.valueOf(new ResourceLocation(Atum.MOD_ID, "mineshaft"));
     }
 
-    @Override
-    public int getSize() {
-        return 8;
-    }
+    public static class Start extends StructureStart<AtumMineshaftConfig> {
 
-    public static class Start extends StructureStart {
-
-        public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(Structure<AtumMineshaftConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
         }
 
         @Override
-        public void init(ChunkGenerator<?> generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome) {
-            AtumMineshaftConfig config = generator.getStructureConfig(biome, AtumFeatures.MINESHAFT);
-            if (config != null) {
-                AtumMineshaftPieces.Room room = new AtumMineshaftPieces.Room(0, this.rand, (chunkX << 4) + 2, (chunkZ << 4) + 2, config.type);
-                this.components.add(room);
-                room.buildComponent(room, this.components, this.rand);
-                this.recalculateStructureSize();
-                if (config.type.isSurface()) {
-                    int y = generator.getSeaLevel() - this.bounds.maxY + this.bounds.getYSize() / 2 - -5;
-                    this.bounds.offset(0, y, 0);
+        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull AtumMineshaftConfig config) {
+            AtumMineshaftPieces.Room room = new AtumMineshaftPieces.Room(0, this.rand, (chunkX << 4) + 2, (chunkZ << 4) + 2, config.type);
+            this.components.add(room);
+            room.buildComponent(room, this.components, this.rand);
+            this.recalculateStructureSize();
+            if (config.type.isSurface()) {
+                int y = generator.getGroundHeight() - this.bounds.maxY + this.bounds.getYSize() / 2 - -5;
+                this.bounds.offset(0, y, 0);
 
-                    for (StructurePiece structurepiece : this.components) {
-                        structurepiece.offset(0, y, 0);
-                    }
-                } else {
-                    this.func_214628_a(generator.getGroundHeight(), this.rand, 10);
+                for (StructurePiece structurepiece : this.components) {
+                    structurepiece.offset(0, y, 0);
                 }
+            } else {
+                this.func_214628_a(generator.getGroundHeight(), this.rand, 10);
             }
         }
     }
 
-    public static enum Type implements IStringSerializable {
+    public enum Type implements IStringSerializable {
         DEADWOOD("deadwood", false),
         LIMESTONE("limestone", false),
         DEADWOOD_SURFACE("deadwood_surface", true),
@@ -114,7 +92,7 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
         private final String name;
         private final boolean isSurface;
 
-        private Type(String name, boolean isSurface) {
+        Type(String name, boolean isSurface) {
             this.name = name;
             this.isSurface = isSurface;
         }

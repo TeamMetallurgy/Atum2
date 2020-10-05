@@ -1,30 +1,28 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.mojang.datafixers.Dynamic;
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-import java.util.function.Function;
 
 public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
     private static final BlockState AIR = Blocks.CAVE_AIR.getDefaultState();
 
-    public OasisPondFeature(Function<Dynamic<?>, ? extends DoubleBlockStateFeatureConfig> configFactory) {
-        super(configFactory);
+    public OasisPondFeature(Codec<DoubleBlockStateFeatureConfig> config) {
+        super(config);
     }
 
     @Override
-    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull DoubleBlockStateFeatureConfig config) {
-        for (pos = pos.add(-8, 0, -8); pos.getY() > 60 && world.isAirBlock(pos); pos = pos.down()) {
+    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull DoubleBlockStateFeatureConfig config) {
+        for (pos = pos.add(-8, 0, -8); pos.getY() > 60 && seedReader.isAirBlock(pos); pos = pos.down()) {
             //Do the checks
         }
 
@@ -65,11 +63,11 @@ public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
                         boolean flag = !aboolean[(k1 * 16 + l2) * 8 + k] && (k1 < 15 && aboolean[((k1 + 1) * 16 + l2) * 8 + k] || k1 > 0 && aboolean[((k1 - 1) * 16 + l2) * 8 + k] || l2 < 15 && aboolean[(k1 * 16 + l2 + 1) * 8 + k] || l2 > 0 && aboolean[(k1 * 16 + (l2 - 1)) * 8 + k] || k < 7 && aboolean[(k1 * 16 + l2) * 8 + k + 1] || k > 0 && aboolean[(k1 * 16 + l2) * 8 + (k - 1)]);
 
                         if (flag) {
-                            Material material = world.getBlockState(pos.add(k1, k, l2)).getMaterial();
+                            Material material = seedReader.getBlockState(pos.add(k1, k, l2)).getMaterial();
                             if (k >= 4 && material.isLiquid()) {
                                 return false;
                             }
-                            if (k < 4 && !material.isSolid() && world.getBlockState(pos.add(k1, k, l2)) != config.state) {
+                            if (k < 4 && !material.isSolid() && seedReader.getBlockState(pos.add(k1, k, l2)) != config.state) {
                                 return false;
                             }
                         }
@@ -81,7 +79,7 @@ public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
                 for (int i3 = 0; i3 < 16; ++i3) {
                     for (int i4 = 0; i4 < 8; ++i4) {
                         if (aboolean[(l1 * 16 + i3) * 8 + i4]) {
-                            world.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? AIR : config.state, 2);
+                            seedReader.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? AIR : config.state, 2);
                         }
                     }
                 }
@@ -92,8 +90,8 @@ public class OasisPondFeature extends Feature<DoubleBlockStateFeatureConfig> {
                     for (int k4 = 0; k4 < 8; ++k4) {
                         boolean flag1 = !aboolean[(j2 * 16 + k3) * 8 + k4] && (j2 < 15 && aboolean[((j2 + 1) * 16 + k3) * 8 + k4] || j2 > 0 && aboolean[((j2 - 1) * 16 + k3) * 8 + k4] || k3 < 15 && aboolean[(j2 * 16 + k3 + 1) * 8 + k4] || k3 > 0 && aboolean[(j2 * 16 + (k3 - 1)) * 8 + k4] || k4 < 7 && aboolean[(j2 * 16 + k3) * 8 + k4 + 1] || k4 > 0 && aboolean[(j2 * 16 + k3) * 8 + (k4 - 1)]);
                         BlockPos fertilePos = pos.add(j2, k4, k3);
-                        if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && world.getBlockState(fertilePos).getMaterial().isSolid() && !world.getBlockState(fertilePos.up()).getMaterial().isSolid()) {
-                            world.setBlockState(fertilePos, config.state2, 2);
+                        if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && seedReader.getBlockState(fertilePos).getMaterial().isSolid() && !seedReader.getBlockState(fertilePos.up()).getMaterial().isSolid()) {
+                            seedReader.setBlockState(fertilePos, config.state2, 2);
                         }
                     }
                 }

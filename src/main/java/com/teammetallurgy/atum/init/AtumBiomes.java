@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumRegistry;
-import com.teammetallurgy.atum.world.biome.*;
+import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.registries.ObjectHolder;

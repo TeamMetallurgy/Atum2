@@ -8,9 +8,8 @@ import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -28,11 +27,11 @@ public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         Rotation[] rotations = Rotation.values();
         Rotation rotation = rotations[rand.nextInt(rotations.length)];
         int size = rand.nextInt(FOSSIL_AMOUNT);
-        TemplateManager manager = ((ServerWorld) world.getWorld()).getSaveHandler().getStructureTemplateManager();
+        TemplateManager manager = ((ServerWorld) seedReader).getStructureTemplateManager();
         Template template = manager.getTemplateDefaulted(new ResourceLocation(Atum.MOD_ID, "fossils/fossil_" + size));
         ChunkPos chunkPos = new ChunkPos(pos);
         MutableBoundingBox box = new MutableBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), 256, chunkPos.getZEnd());
@@ -44,7 +43,7 @@ public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
 
         for (int x1 = 0; x1 < transformedPos.getX(); ++x1) {
             for (int z2 = 0; z2 < transformedPos.getZ(); ++z2) {
-                height = Math.min(height, world.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, pos.getX() + x1 + x, pos.getZ() + z2 + z));
+                height = Math.min(height, seedReader.getHeight(Heightmap.Type.OCEAN_FLOOR_WG, pos.getX() + x1 + x, pos.getZ() + z2 + z));
             }
         }
 
@@ -52,7 +51,7 @@ public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
         BlockPos genPos = template.getZeroPositionWithTransform(pos.add(x, y, z), Mirror.NONE, rotation);
         IntegrityProcessor integrity = new IntegrityProcessor(0.8F);
         settings.clearProcessors().addProcessor(integrity);
-        template.addBlocksToWorld(world, genPos, settings, 4);
+        template.func_237146_a_(seedReader, genPos, genPos, settings, rand, 4);
         return true;
     }
 }

@@ -4,20 +4,21 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
 import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
@@ -39,9 +40,9 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
         return SUNSPEAKERS;
     }
 
-    @Override
+    /*@Override
     @Nonnull
-    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
+    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) { //TODO. Look into StructureSeparationSettings
         int spacing = AtumConfig.WORLD_GEN.lighthouseSpacing.get();
         int separation = AtumConfig.WORLD_GEN.lighthouseSeparation.get();
         int k = x + spacing * spacingOffsetsX;
@@ -56,25 +57,23 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
         k1 = k1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         l1 = l1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         return new ChunkPos(k1, l1);
-    }
+    }*/
 
     @Override
-    public boolean canBeGenerated(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
-        ChunkPos chunkpos = this.getStartPositionForPosition(generator, rand, chunkX, chunkZ, 0, 0);
-        if (chunkX == chunkpos.x && chunkZ == chunkpos.z) {
-            if (!generator.hasStructure(biome, this)) {
+    protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
+        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.func_230356_f_(), chunkZ * 16 + 9, 32)) {
+            if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
             } else {
                 return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) >= 90;
             }
-        } else {
-            return false;
         }
+        return true;
     }
 
     @Override
     @Nonnull
-    public IStartFactory getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
     }
 
@@ -84,19 +83,14 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
         return String.valueOf(LighthousePieces.LIGHTHOUSE);
     }
 
-    @Override
-    public int getSize() {
-        return 1;
-    }
+    public static class Start extends StructureStart<NoFeatureConfig> {
 
-    public static class Start extends StructureStart {
-
-        public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
         }
 
         @Override
-        public void init(@Nonnull ChunkGenerator<?> generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome) {
+        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
             Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
             int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, rotation);
 
@@ -109,15 +103,15 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void generateStructure(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.generateStructure(world, generator, rand, box, chunkPos);
+        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+            super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
             int y = this.bounds.minY;
 
             for (int x = box.minX; x <= box.maxX; ++x) {
                 for (int z = box.minZ; z <= box.maxZ; ++z) {
                     BlockPos pos = new BlockPos(x, y, z);
 
-                    if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                    if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
                         boolean isVecInside = false;
 
                         for (StructurePiece piece : this.components) {
@@ -131,10 +125,10 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
                             for (int lighthouseY = y - 1; lighthouseY > 1; --lighthouseY) {
                                 BlockPos lighthousePos = new BlockPos(x, lighthouseY, z);
 
-                                if (!world.isAirBlock(lighthousePos) && !world.getBlockState(lighthousePos).getMaterial().isLiquid()) {
+                                if (!seedReader.isAirBlock(lighthousePos) && !seedReader.getBlockState(lighthousePos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                                world.setBlockState(lighthousePos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                                seedReader.setBlockState(lighthousePos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
                             }
                         }
                     }

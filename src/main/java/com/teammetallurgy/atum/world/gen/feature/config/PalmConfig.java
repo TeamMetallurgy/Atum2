@@ -1,78 +1,70 @@
 package com.teammetallurgy.atum.world.gen.feature.config;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.blockstateprovider.BlockStateProvider;
+import net.minecraft.world.gen.feature.AbstractFeatureSizeType;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
 import net.minecraft.world.gen.treedecorator.TreeDecorator;
-import net.minecraftforge.common.IPlantable;
+import net.minecraft.world.gen.trunkplacer.AbstractTrunkPlacer;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
 public class PalmConfig extends BaseTreeFeatureConfig {
+    public static final Codec<PalmConfig> PALM_CODEC = RecordCodecBuilder.create((palmConfigInstance) -> {
+        return palmConfigInstance.group(BlockStateProvider.CODEC.fieldOf("trunk_provider").forGetter((c) -> {
+            return c.trunkProvider;
+        }), BlockStateProvider.CODEC.fieldOf("leaves_provider").forGetter((c) -> {
+            return c.leavesProvider;
+        }), FoliagePlacer.field_236749_d_.fieldOf("foliage_placer").forGetter((c) -> {
+            return c.field_236677_f_;
+        }), AbstractTrunkPlacer.field_236905_c_.fieldOf("trunk_placer").forGetter((c) -> {
+            return c.field_236678_g_;
+        }), AbstractFeatureSizeType.field_236704_a_.fieldOf("minimum_size").forGetter((c) -> {
+            return c.field_236679_h_;
+        }), TreeDecorator.field_236874_c_.listOf().fieldOf("decorators").forGetter((c) -> {
+            return c.decorators;
+        }), Codec.INT.fieldOf("max_water_depth").orElse(0).forGetter((c) -> {
+            return c.field_236680_i_;
+        }), Codec.BOOL.fieldOf("ignore_vines").orElse(false).forGetter((c) -> {
+            return c.field_236681_j_;
+        }), Heightmap.Type.field_236078_g_.fieldOf("heightmap").forGetter((c) -> {
+            return c.field_236682_l_;
+        }), Codec.DOUBLE.fieldOf("date_chance").orElse(0.0D).forGetter((c) -> {
+            return c.dateChance;
+        }), Codec.DOUBLE.fieldOf("ophidian_tongue_chance").orElse(0.0D).forGetter((c) -> {
+            return c.ophidianTongueChance;
+        })).apply(palmConfigInstance, PalmConfig::new);
+    });
     public final double dateChance;
     public final double ophidianTongueChance;
 
-    public PalmConfig(BlockStateProvider trunkProvider, BlockStateProvider leavesProvider, FoliagePlacer foliagePlacer, List<TreeDecorator> decorators, int baseHeight, int heightRandA, int heightRandB, int trunkHeight, int trunkHeightRandom, int trunkTopOffset, int trunkTopOffsetRandom, int foliageHeight, int foliageHeightRandom, int maxWaterDepth, boolean ignoreVines, double dateChance, double ophidianTongueChance) {
-        super(trunkProvider, leavesProvider, foliagePlacer, decorators, baseHeight, heightRandA, heightRandB, trunkHeight, trunkHeightRandom, trunkTopOffset, trunkTopOffsetRandom, foliageHeight, foliageHeightRandom, maxWaterDepth, ignoreVines);
+    public PalmConfig(BlockStateProvider trunkProvider, BlockStateProvider leavesProvider, FoliagePlacer foliagePlacer, AbstractTrunkPlacer trunkPlacer, AbstractFeatureSizeType featureSizeType, List<TreeDecorator> decorators, int maxWaterDepth, boolean ignoreVines, Heightmap.Type heightmap, double dateChance, double ophidianTongueChance) {
+        super(trunkProvider, leavesProvider, foliagePlacer, trunkPlacer, featureSizeType, decorators, maxWaterDepth, ignoreVines, heightmap);
         this.dateChance = dateChance;
         this.ophidianTongueChance = ophidianTongueChance;
-    }
-
-    @Override
-    @Nonnull
-    protected PalmConfig setSapling(@Nonnull IPlantable plantable) {
-        super.setSapling(plantable);
-        return this;
-    }
-
-    @Override
-    @Nonnull
-    public <T> Dynamic<T> serialize(DynamicOps<T> ops) {
-        ImmutableMap.Builder<T, T> builder = ImmutableMap.builder();
-        builder.put(ops.createString("date_chance"), ops.createDouble(this.dateChance)).put(ops.createString("ophidian_tongue_chance"), ops.createDouble(this.ophidianTongueChance));
-        Dynamic<T> dynamic = new Dynamic<>(ops, ops.createMap(builder.build()));
-        return dynamic.merge(super.serialize(ops));
-    }
-
-    public static <T> PalmConfig deserialize(Dynamic<T> dynamic) {
-        BaseTreeFeatureConfig treeConfig = BaseTreeFeatureConfig.deserialize(dynamic);
-        FoliagePlacerType<?> foliagePlacerType = Registry.FOLIAGE_PLACER_TYPE.getOrDefault(new ResourceLocation(dynamic.get("foliage_placer").get("type").asString().orElseThrow(RuntimeException::new)));
-        return new PalmConfig(treeConfig.trunkProvider, treeConfig.leavesProvider, foliagePlacerType.func_227391_a_(dynamic.get("foliage_placer").orElseEmptyMap()), treeConfig.decorators, treeConfig.baseHeight, dynamic.get("height_rand_a").asInt(0), dynamic.get("height_rand_b").asInt(0), dynamic.get("trunk_height").asInt(-1), dynamic.get("trunk_height_random").asInt(0), dynamic.get("trunk_top_offset").asInt(0), dynamic.get("trunk_top_offset_random").asInt(0), dynamic.get("foliage_height").asInt(-1), dynamic.get("foliage_height_random").asInt(0), dynamic.get("max_water_depth").asInt(0), dynamic.get("ignore_vines").asBoolean(false), dynamic.get("date_chance").asDouble(0.0D), dynamic.get("ophidian_tongue_chance").asDouble(0.0D));
-    }
-
-    public static <T> PalmConfig deserializePalm(Dynamic<T> data) {
-        return deserialize(data).setSapling((IPlantable) AtumBlocks.PALM_SAPLING);
     }
 
     public static class Builder extends BaseTreeFeatureConfig.Builder {
         private double dateChance;
         private double ophidianTongueChance;
         private final FoliagePlacer foliagePlacer;
+        private final AbstractTrunkPlacer trunkPlacer;
+        private final AbstractFeatureSizeType featureSizeType;
         private List<TreeDecorator> decorators = ImmutableList.of();
-        private int baseHeight;
-        private int heightRandA;
-        private int heightRandB;
-        private int trunkHeight = -1;
-        private int trunkHeightRandom;
-        private int trunkTopOffset;
-        private int trunkTopOffsetRandom;
-        private int foliageHeight = -1;
-        private int foliageHeightRandom;
         private int maxWaterDepth;
         private boolean ignoreVines;
+        private Heightmap.Type heightmap = Heightmap.Type.OCEAN_FLOOR;
 
-        public Builder(BlockStateProvider trunkProvider, BlockStateProvider leavesProvider, FoliagePlacer foliagePlacer) {
-            super(trunkProvider, leavesProvider, foliagePlacer);
+        public Builder(BlockStateProvider trunkProvider, BlockStateProvider leavesProvider, FoliagePlacer foliagePlacer, AbstractTrunkPlacer trunkPlacer, AbstractFeatureSizeType featureSizeType) {
+            super(trunkProvider, leavesProvider, foliagePlacer, trunkPlacer, featureSizeType);
             this.foliagePlacer = foliagePlacer;
+            this.trunkPlacer = trunkPlacer;
+            this.featureSizeType = featureSizeType;
         }
 
         public Builder date(double dateChance) {
@@ -87,98 +79,36 @@ public class PalmConfig extends BaseTreeFeatureConfig {
 
         @Override
         @Nonnull
-        public Builder decorators(@Nonnull List<TreeDecorator> decorators) {
+        public Builder func_236703_a_(@Nonnull List<TreeDecorator> decorators) {
             this.decorators = decorators;
             return this;
         }
 
         @Override
         @Nonnull
-        public Builder baseHeight(int baseHeight) {
-            this.baseHeight = baseHeight;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder heightRandA(int heightRandA) {
-            this.heightRandA = heightRandA;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder heightRandB(int heightRandB) {
-            this.heightRandB = heightRandB;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder trunkHeight(int trunkHeight) {
-            this.trunkHeight = trunkHeight;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder trunkHeightRandom(int trunkHeightRandom) {
-            this.trunkHeightRandom = trunkHeightRandom;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder trunkTopOffset(int trunkTopOffset) {
-            this.trunkTopOffset = trunkTopOffset;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder trunkTopOffsetRandom(int trunkTopOffsetRandom) {
-            this.trunkTopOffsetRandom = trunkTopOffsetRandom;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder foliageHeight(int foliageHeight) {
-            this.foliageHeight = foliageHeight;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder foliageHeightRandom(int foliageHeightRandom) {
-            this.foliageHeightRandom = foliageHeightRandom;
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder maxWaterDepth(int maxWaterDepth) {
+        public Builder func_236701_a_(int maxWaterDepth) {
             this.maxWaterDepth = maxWaterDepth;
             return this;
         }
 
         @Override
         @Nonnull
-        public Builder ignoreVines() {
+        public Builder setIgnoreVines() {
             this.ignoreVines = true;
             return this;
         }
 
         @Override
         @Nonnull
-        public Builder setSapling(@Nonnull IPlantable plantable) {
-            return (Builder) super.setSapling(plantable);
+        public Builder func_236702_a_(@Nonnull Heightmap.Type heightmap) {
+            this.heightmap = heightmap;
+            return this;
         }
 
         @Override
         @Nonnull
         public PalmConfig build() {
-            return new PalmConfig(this.trunkProvider, this.leavesProvider, this.foliagePlacer, this.decorators, this.baseHeight, this.heightRandA, this.heightRandB, this.trunkHeight, this.trunkHeightRandom, this.trunkTopOffset, this.trunkTopOffsetRandom, this.foliageHeight, this.foliageHeightRandom, this.maxWaterDepth, this.ignoreVines, this.dateChance, this.ophidianTongueChance).setSapling(this.sapling);
+            return new PalmConfig(this.trunkProvider, this.leavesProvider, this.foliagePlacer, this.trunkPlacer, this.featureSizeType, this.decorators, this.maxWaterDepth, this.ignoreVines, this.heightmap, this.dateChance, this.ophidianTongueChance);
         }
     }
 }

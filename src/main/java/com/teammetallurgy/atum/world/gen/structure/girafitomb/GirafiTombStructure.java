@@ -8,12 +8,14 @@ import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IServerWorld;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
@@ -27,9 +29,9 @@ public class GirafiTombStructure extends Structure<NoFeatureConfig> {
         super(config);
     }
 
-    @Override
+    /*@Override
     @Nonnull
-    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
+    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) { //TODO. Look into StructureSeparationSettings
         int spacing = 160;
         int separation = 40;
         int k = x + spacing * spacingOffsetsX;
@@ -44,25 +46,23 @@ public class GirafiTombStructure extends Structure<NoFeatureConfig> {
         k1 = k1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         l1 = l1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         return new ChunkPos(k1, l1);
-    }
+    }*/
 
     @Override
-    public boolean canBeGenerated(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
-        ChunkPos chunkpos = this.getStartPositionForPosition(generator, rand, chunkX, chunkZ, 0, 0);
-        if (chunkX == chunkpos.x && chunkZ == chunkpos.z) {
-            if (!generator.hasStructure(biome, this)) {
+    protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
+        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.func_230356_f_(), chunkZ * 16 + 9, 32)) {
+            if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
             } else {
                 return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) >= 60;
             }
-        } else {
-            return false;
         }
+        return false;
     }
 
     @Override
     @Nonnull
-    public IStartFactory getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
     }
 
@@ -72,19 +72,14 @@ public class GirafiTombStructure extends Structure<NoFeatureConfig> {
         return String.valueOf(GirafiTombPieces.GIRAFI_TOMB);
     }
 
-    @Override
-    public int getSize() {
-        return 1;
-    }
+    public static class Start extends StructureStart<NoFeatureConfig> {
 
-    public static class Start extends StructureStart {
-
-        public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
         }
 
         @Override
-        public void init(@Nonnull ChunkGenerator<?> generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome) {
+        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
             Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
             int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, rotation);
             if (y >= 60) {
@@ -96,15 +91,15 @@ public class GirafiTombStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void generateStructure(@Nonnull IServerWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.generateStructure(world, generator, rand, box, chunkPos);
+        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+            super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
             int y = this.bounds.minY;
 
             for (int x = box.minX; x <= box.maxX; ++x) {
                 for (int z = box.minZ; z <= box.maxZ; ++z) {
                     BlockPos pos = new BlockPos(x, y, z);
 
-                    if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                    if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
                         boolean isVecInside = false;
 
                         for (StructurePiece piece : this.components) {
@@ -118,10 +113,10 @@ public class GirafiTombStructure extends Structure<NoFeatureConfig> {
                             for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
                                 BlockPos tombPos = new BlockPos(x, pyramidY, z);
 
-                                if (!world.isAirBlock(tombPos) && !world.getBlockState(tombPos).getMaterial().isLiquid()) {
+                                if (!seedReader.isAirBlock(tombPos) && !seedReader.getBlockState(tombPos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                                world.setBlockState(tombPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
+                                seedReader.setBlockState(tombPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
                             }
                         }
                     }

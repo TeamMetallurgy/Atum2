@@ -1,31 +1,22 @@
 package com.teammetallurgy.atum.world.gen.feature.config;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.datafixers.Dynamic;
-import com.mojang.datafixers.types.DynamicOps;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
 
-import javax.annotation.Nonnull;
-
 public class DoubleBlockStateFeatureConfig extends BlockStateFeatureConfig {
+    public static final Codec<DoubleBlockStateFeatureConfig> DOUBLE_STATE_CODEC = RecordCodecBuilder.create((p_236683_0_) -> {
+        return p_236683_0_.group(BlockState.CODEC.fieldOf("state").forGetter((p_236693_0_) -> {
+            return p_236693_0_.state;
+        }), BlockState.CODEC.fieldOf("state2").forGetter((p_236692_0_) -> {
+            return p_236692_0_.state2;
+        })).apply(p_236683_0_, DoubleBlockStateFeatureConfig::new);
+    });
     public final BlockState state2;
 
     public DoubleBlockStateFeatureConfig(BlockState state1, BlockState state2) {
         super(state1);
         this.state2 = state2;
-    }
-
-    @Override
-    @Nonnull
-    public <T> Dynamic<T> serialize(@Nonnull DynamicOps<T> d) {
-        return new Dynamic<>(d, d.createMap(ImmutableMap.of(d.createString("state"), BlockState.serialize(d, this.state).getValue(), d.createString("state2"), BlockState.serialize(d, this.state2).getValue())));
-    }
-
-    public static <T> DoubleBlockStateFeatureConfig deserializeDouble(Dynamic<T> d) {
-        BlockState state = d.get("state").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        BlockState state2 = d.get("state2").map(BlockState::deserialize).orElse(Blocks.AIR.getDefaultState());
-        return new DoubleBlockStateFeatureConfig(state, state2);
     }
 }

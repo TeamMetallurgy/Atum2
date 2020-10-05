@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
 import net.minecraft.util.Rotation;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.chunk.ChunkStatus;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.Heightmap;
@@ -12,8 +12,8 @@ import java.util.Random;
 
 public class StructureHelper {
 
-    public static boolean doesChunkHaveStructure(IWorld world, int chunkX, int chunkZ, Structure<?> structure) { //TODO Test
-        return !world.getChunk(chunkX, chunkZ, ChunkStatus.STRUCTURE_REFERENCES).getStructureReferences().get(structure).isEmpty();
+    public static boolean doesChunkHaveStructure(ISeedReader seedReader, int chunkX, int chunkZ, Structure<?> structure) { //TODO Test
+        return !seedReader.getChunk(chunkX, chunkZ, ChunkStatus.STRUCTURE_REFERENCES).getStructureReferences().get(structure).isEmpty();
     }
 
     public static int getYPosForStructure(int chunkX, int chunkZ, ChunkGenerator generator, @Nullable Rotation rotation) {

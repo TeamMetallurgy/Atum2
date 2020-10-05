@@ -8,8 +8,9 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
@@ -17,7 +18,6 @@ import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 
 public class TombStructure extends Structure<NoFeatureConfig> {
 
@@ -25,9 +25,9 @@ public class TombStructure extends Structure<NoFeatureConfig> {
         super(config);
     }
 
-    @Override
+    /*@Override
     @Nonnull
-    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
+    protected ChunkPos getStartPositionForPosition(ChunkGenerator chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) { //TODO. Look into StructureSeparationSettings
         int spacing = 13;
         int separation = 11;
         int k = x + spacing * spacingOffsetsX;
@@ -42,25 +42,23 @@ public class TombStructure extends Structure<NoFeatureConfig> {
         k1 = k1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         l1 = l1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         return new ChunkPos(k1, l1);
-    }
+    }*/
 
     @Override
-    public boolean canBeGenerated(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
-        ChunkPos chunkpos = this.getStartPositionForPosition(generator, rand, chunkX, chunkZ, 0, 0);
-        if (chunkX == chunkpos.x && chunkZ == chunkpos.z) {
-            if (!generator.hasStructure(biome, this)) {
+    protected boolean func_230363_a_(ChunkGenerator generator, BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
+        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.func_230356_f_(), chunkZ * 16 + 9, 32)) {
+            if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
             } else {
                 return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) <= 55;
             }
-        } else {
-            return false;
         }
+        return true;
     }
 
     @Override
     @Nonnull
-    public IStartFactory getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
     }
 
@@ -70,19 +68,14 @@ public class TombStructure extends Structure<NoFeatureConfig> {
         return String.valueOf(TombPieces.TOMB);
     }
 
-    @Override
-    public int getSize() {
-        return 1;
-    }
+    public static class Start extends StructureStart<NoFeatureConfig> {
 
-    public static class Start extends StructureStart {
-
-        public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
         }
 
         @Override
-        public void init(@Nonnull ChunkGenerator<?> generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome) {
+        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
             Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
 
             int y = MathHelper.nextInt(this.rand, 6, 55);

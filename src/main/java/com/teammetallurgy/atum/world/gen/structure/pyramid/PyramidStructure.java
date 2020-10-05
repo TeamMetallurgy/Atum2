@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
@@ -12,26 +12,33 @@ import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.registry.DynamicRegistries;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeManager;
+import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.structure.Structure;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class PyramidStructure extends Structure<NoFeatureConfig> {
@@ -41,8 +48,13 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
     }
 
     @Override
+    protected boolean func_230365_b_() {
+        return false;
+    }
+
+    /*@Override
     @Nonnull
-    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) {
+    protected ChunkPos getStartPositionForPosition(ChunkGenerator<?> chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) { //TODO. Look into StructureSeparationSettings
         int spacing = AtumConfig.WORLD_GEN.pyramidSpacing.get();
         int separation = AtumConfig.WORLD_GEN.pyramidSeparation.get();
         int k = x + spacing * spacingOffsetsX;
@@ -57,20 +69,18 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
         k1 = k1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         l1 = l1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
         return new ChunkPos(k1, l1);
-    }
+    }*/
 
     @Override
-    public boolean canBeGenerated(@Nonnull BiomeManager manager, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, int chunkX, int chunkZ, @Nonnull Biome biome) {
-        ChunkPos chunkpos = this.getStartPositionForPosition(generator, rand, chunkX, chunkZ, 0, 0);
-        if (chunkX == chunkpos.x && chunkZ == chunkpos.z) {
-            if (!generator.hasStructure(biome, this)) {
+    protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
+        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.func_230356_f_(), chunkZ * 16 + 9, 32)) {
+            if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
             } else {
                 return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) > 55;
             }
-        } else {
-            return false;
         }
+        return true;
     }
 
     @Override
@@ -81,38 +91,35 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
     @Override
     @Nonnull
-    public IStartFactory getStartFactory() {
+    public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
-    }
-
-    @Override
-    public int getSize() {
-        return 9;
     }
 
     @SubscribeEvent
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
-        IWorld world = event.getWorld();
-        if (event.getEntity() instanceof ServerPlayerEntity && this.isPositionInsideStructure(world, event.getPos())) {
-            ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
-            Block placedBlock = event.getPlacedBlock().getBlock();
-            if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
-                event.setCanceled(true);
-                ItemStack placedStack = new ItemStack(placedBlock);
-                Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
-                NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+        if (event.getEntity() instanceof ServerPlayerEntity) {
+            IWorld world = event.getEntity().world;
+            if (world instanceof ServerWorld && ((ServerWorld) world).func_241112_a_().func_235010_a_(event.getPos(), true, AtumFeatures.PYRAMID_STRUCTURE).isValid()) { //TODO Test
+                ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+                Block placedBlock = event.getPlacedBlock().getBlock();
+                if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
+                    event.setCanceled(true);
+                    ItemStack placedStack = new ItemStack(placedBlock);
+                    Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+                    NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+                }
             }
         }
     }
 
-    public static class Start extends StructureStart {
+    public static class Start extends StructureStart<NoFeatureConfig> {
 
-        public Start(Structure<?> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
         }
 
         @Override
-        public void init(@Nonnull ChunkGenerator<?> generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome) {
+        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
             Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
             int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, rotation);
 
@@ -126,16 +133,17 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void generateStructure(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            if (world.getBiome(chunkPos.asBlockPos()) != AtumBiomes.DRIED_RIVER) {
-                super.generateStructure(world, generator, rand, box, chunkPos);
+        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+            Optional<RegistryKey<Biome>> optional = seedReader.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(seedReader.getBiome(this.getPos())); //TODO Test
+            if (optional.isPresent() && optional.get() != AtumBiomes.DRIED_RIVER) {
+                super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
                 int y = this.bounds.minY;
 
                 for (int x = box.minX; x <= box.maxX; ++x) {
                     for (int z = box.minZ; z <= box.maxZ; ++z) {
                         BlockPos pos = new BlockPos(x, y, z);
 
-                        if (!world.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                        if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
                             boolean isVecInside = false;
 
                             for (StructurePiece component : this.components) {
@@ -149,10 +157,10 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                                 for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
                                     BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
 
-                                    if (!world.isAirBlock(pyramidPos) && !world.getBlockState(pyramidPos).getMaterial().isLiquid()) {
+                                    if (!seedReader.isAirBlock(pyramidPos) && !seedReader.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                         break;
                                     }
-                                    world.setBlockState(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
+                                    seedReader.setBlockState(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
                                 }
                             }
                         }

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.biome;
+/*package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.util.ResourceLocation;
@@ -8,7 +8,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus= Mod.EventBusSubscriber.Bus.MOD)
-public class AtumBiomeProviderTypes {
+public class AtumBiomeProviderTypes { //TODO Is this needed still?
     public static final BiomeProviderType<AtumBiomeProviderSettings, AtumBiomeProvider> ATUM = new BiomeProviderType<>(AtumBiomeProvider::new, AtumBiomeProviderSettings::new);
 
     @SubscribeEvent
@@ -16,4 +16,4 @@ public class AtumBiomeProviderTypes {
         ATUM.setRegistryName(new ResourceLocation(Atum.MOD_ID, "atum"));
         event.getRegistry().register(ATUM);
     }
-}
+}*/

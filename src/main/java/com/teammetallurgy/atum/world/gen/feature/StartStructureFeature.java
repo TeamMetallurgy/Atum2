@@ -7,9 +7,8 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.GenerationSettings;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
@@ -27,10 +26,10 @@ public class StartStructureFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
-        if (world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            TemplateManager manager = serverWorld.getSaveHandler().getStructureTemplateManager();
+    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+        if (seedReader instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) seedReader;
+            TemplateManager manager = serverWorld.getStructureTemplateManager();
             Template template = manager.getTemplate(new ResourceLocation(AtumConfig.ATUM_START.atumStartStructure.get()));
 
             if (template != null) {
@@ -42,13 +41,13 @@ public class StartStructureFeature extends Feature<NoFeatureConfig> {
                 int z = rand.nextInt(rotatedPos.getZ()) + template.getSize().getZ();
                 BlockPos posOffset = pos.add(x, 0, z);
 
-                while (posOffset.getY() > 1 && world.isAirBlock(posOffset.down())) {
+                while (posOffset.getY() > 1 && serverWorld.isAirBlock(posOffset.down())) {
                     posOffset = posOffset.down();
                 }
-                while (!world.isAirBlock(posOffset.up()) && (world.getBlockState(posOffset.down()).getBlock() != AtumBlocks.SAND || world.getBlockState(posOffset.down()).getBlock() != AtumBlocks.SAND_LAYERED) || posOffset.getY() < 60) {
+                while (!serverWorld.isAirBlock(posOffset.up()) && (serverWorld.getBlockState(posOffset.down()).getBlock() != AtumBlocks.SAND || serverWorld.getBlockState(posOffset.down()).getBlock() != AtumBlocks.SAND_LAYERED) || posOffset.getY() < 60) {
                     posOffset = posOffset.up();
                 }
-                template.addBlocksToWorld(world, posOffset, settings, 20);
+                template.func_237146_a_(serverWorld, posOffset, posOffset, settings, rand, 20);
                 return true;
             } else {
                 Atum.LOG.error(AtumConfig.ATUM_START.atumStartStructure.get() + " is not a valid structure");
