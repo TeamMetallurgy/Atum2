@@ -292,7 +292,7 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        new AtumBiomes();
+        //new AtumBiomes();
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }

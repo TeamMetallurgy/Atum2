@@ -1,43 +1,39 @@
 package com.teammetallurgy.atum.world.gen.feature;
 
-import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
-import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FarmlandBlock;
-import net.minecraft.block.VineBlock;
 import net.minecraft.state.BooleanProperty;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldWriter;
 import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.IWorldGenerationBaseReader;
 import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.TreeFeature;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 
 import javax.annotation.Nonnull;
-import java.util.List;
-import java.util.OptionalInt;
 import java.util.Random;
 import java.util.Set;
 
-public class PalmFeature extends Feature<PalmConfig> {
+public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just straight up use TreeFeature
 
     public PalmFeature(Codec<PalmConfig> config) {
         super(config);
     }
 
     @Override
+    public boolean func_241855_a(ISeedReader p_241855_1_, ChunkGenerator p_241855_2_, Random p_241855_3_, BlockPos p_241855_4_, PalmConfig p_241855_5_) {
+        return false;
+    }
+
+    /*@Override
     public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull PalmConfig config) {
         int baseHeight = config.baseHeight + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
         Set<BlockPos> logs = Sets.newHashSet();
@@ -170,7 +166,7 @@ public class PalmFeature extends Feature<PalmConfig> {
         } else {
             return false;
         }
-    }
+    }*/
 
     protected static boolean isSoilOrFarm(IWorldGenerationBaseReader reader, @Nonnull BlockPos pos) {
         return isDirtOrFarmlandAt(reader, pos) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL));

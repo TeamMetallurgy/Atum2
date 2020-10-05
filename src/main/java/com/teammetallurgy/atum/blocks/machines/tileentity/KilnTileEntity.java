@@ -16,7 +16,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.nbt.CompoundNBT;
@@ -276,7 +275,7 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileE
 
     protected int getCookTime() {
         World world = this.world;
-        return world != null ? world.getRecipeManager().getRecipe((IRecipeType<? extends KilnRecipe>) IAtumRecipeType.KILN, this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
+        return world != null ? world.getRecipeManager().getRecipe(IAtumRecipeType.KILN, this, world).map(KilnRecipe::getCookTime).orElse(200) : 200;
     }
 
     @Override

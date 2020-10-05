@@ -16,10 +16,10 @@ public class AtumCarvers {
     public static final AtumCarver<ProbabilityConfig> CAVE = new AtumCaveCarver(ProbabilityConfig.field_236576_b_, 256);
     public static final AtumCarver<ProbabilityConfig> CANYON = new AtumCanyonCarver(ProbabilityConfig.field_236576_b_);
     public static final ConfiguredCarver<ProbabilityConfig> CAVE_CONFIGURED = register("cave", CAVE.func_242761_a(new ProbabilityConfig(0.14285715F)));
-    public static final ConfiguredCarver<ProbabilityConfig> CANYON_CONFIGURED = register("CANYON", CAVE.func_242761_a(new ProbabilityConfig(0.02F)));
+    public static final ConfiguredCarver<ProbabilityConfig> CANYON_CONFIGURED = register("canyon", CAVE.func_242761_a(new ProbabilityConfig(0.02F)));
 
     private static <WC extends ICarverConfig> ConfiguredCarver<WC> register(String name, ConfiguredCarver<WC> carver) {
-        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_CARVER, name, carver);
+        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_CARVER, new ResourceLocation(Atum.MOD_ID, name), carver);
     }
 
     @SubscribeEvent

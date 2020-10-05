@@ -1,14 +1,11 @@
 package com.teammetallurgy.atum.init;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.world.biome.Biome;
-import net.minecraftforge.registries.ObjectHolder;
 
-@ObjectHolder(value = Atum.MOD_ID)
 public class AtumBiomes {
     public static final RegistryKey<Biome> DEAD_OASIS = registerBiome(AtumBiomeMaker.makeDeadOasis(), "dead_oasis");
     public static final RegistryKey<Biome> DEADWOOD_FOREST = registerBiome(AtumBiomeMaker.makeDeadwoodForest(), "deadwood_forest", 10);

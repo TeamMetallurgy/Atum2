@@ -31,6 +31,7 @@ import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
+import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
 
 import javax.annotation.Nonnull;
@@ -59,13 +60,12 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumFeatures.Default.addRuins(builder);
         AtumFeatures.Default.addMineshaft(builder, false);
 
-        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(new BiomeAmbience.Builder().withFoliageColor(10189386).withGrassColor(10189386).build()),builder).build();
+        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(new BiomeAmbience.Builder().withFoliageColor(10189386).withGrassColor(10189386).build()), builder).build();
     }
 
     public static Biome makeDeadwoodForest() {
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder());
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DEAD_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(10))));
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.ANPUTS_FINGERS.withConfiguration(AtumFeatures.ANPUTS_FINGERS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_32.configure(new FrequencyConfig(100))));
+        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.ANPUTS_FINGERS.withConfiguration(AtumFeatures.ANPUTS_FINGERS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.field_242906_k.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)).func_242731_b(100)); //TODO TEST
         AtumFeatures.Default.addDeadwoodTrees(builder, 20, 0.25F, 3);
         AtumFeatures.Default.addCarvers(builder);
         AtumFeatures.Default.addSprings(builder);
@@ -101,7 +101,7 @@ public class AtumBiomeMaker { //TODO Clean this up
 
     public static Biome makeLimestoneCrags() {
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder());
-        builder.withFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(3))));
+        builder.withFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(3));
         AtumFeatures.Default.addDeadwoodTrees(builder, 0, 0.2F, 1);
         addDesertWolfSpawning(new MobSpawnInfo.Builder()); //TODO Test
         AtumFeatures.Default.addCarvers(builder);
@@ -141,12 +141,12 @@ public class AtumBiomeMaker { //TODO Clean this up
     }
 
     public static Biome makeOasis() {
-        BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.OASIS)));
+        BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.OASIS));
         builder.withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.WATER.getDefaultState(), AtumBlocks.FERTILE_SOIL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP.configure(new FrequencyConfig(7))));
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Placement.COUNT_HEIGHTMAP_DOUBLE.configure(new FrequencyConfig(250))));
+        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(7));
+        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(250));
         builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.LILY_PAD.getDefaultState()), SimpleBlockPlacer.PLACER)).tries(11).build()).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(5));
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Placement.COUNT_EXTRA_HEIGHTMAP.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
+        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         builder.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);
         addCamelSpawning(new MobSpawnInfo.Builder()); //TODO Test
         AtumFeatures.Default.addCarvers(builder);
@@ -157,7 +157,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumFeatures.Default.addInfestedLimestone(builder);
         AtumFeatures.Default.addFossils(builder);
         AtumFeatures.Default.addMineshaft(builder, false);
-        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(new BiomeAmbience.Builder().withFoliageColor(11987573).withGrassColor(11987573).build()),builder).build();
+        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(new BiomeAmbience.Builder().withFoliageColor(11987573).withGrassColor(11987573).build()), builder).build();
     }
 
     public static Biome makeSandDunes() {
