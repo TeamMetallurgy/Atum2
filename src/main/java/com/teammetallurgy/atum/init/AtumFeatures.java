@@ -114,7 +114,7 @@ public class AtumFeatures {
     @SubscribeEvent
     public static void registerStructure(RegistryEvent.Register<Structure<?>> event) {
         for (Structure<?> feature : STRUCTURES) {
-            event.getRegistry().register(feature);
+            //event.getRegistry().register(feature); //TODO Fix Crash when pressing singleplayer
         }
     }
 
@@ -221,18 +221,18 @@ public class AtumFeatures {
         }
 
         public static void addTomb(BiomeGenerationSettings.Builder builder) {
-            builder.withStructure(AtumFeatures.TOMB_FEATURE);
+            //builder.withStructure(AtumFeatures.TOMB_FEATURE); //TODO
         }
 
         public static void addPyramid(BiomeGenerationSettings.Builder builder) {
             if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
-                builder.withStructure(AtumFeatures.PYRAMID_FEATURE);
+                //builder.withStructure(AtumFeatures.PYRAMID_FEATURE); //TODO
             }
         }
 
         public static void addRuins(BiomeGenerationSettings.Builder builder) {
             if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
-                builder.withStructure(AtumFeatures.RUIN_FEATURE);
+                //builder.withStructure(AtumFeatures.RUIN_FEATURE); //TODO
             }
         }
 
@@ -246,7 +246,7 @@ public class AtumFeatures {
                     type = isSurface ? AtumMineshaftStructure.Type.DEADWOOD_SURFACE : AtumMineshaftStructure.Type.DEADWOOD;
                 }
                 AtumMineshaftConfig config = new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), type);
-                builder.withStructure(AtumFeatures.MINESHAFT_FEATURE.field_236268_b_.func_236391_a_(config));  //TODO Test
+                //builder.withStructure(AtumFeatures.MINESHAFT_FEATURE.field_236268_b_.func_236391_a_(config));  //TODO Test
             }
         }
     }

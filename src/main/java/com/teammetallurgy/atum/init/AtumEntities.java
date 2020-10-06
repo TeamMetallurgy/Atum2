@@ -114,7 +114,7 @@ public class AtumEntities {
         GlobalEntityTypeAttributes.put(BONESTORM, BonestormEntity.getAttributes().create());
         GlobalEntityTypeAttributes.put(BRIGAND, BrigandEntity.getAttributes().create());
         GlobalEntityTypeAttributes.put(CAMEL, CamelEntity.getAttributes().create());
-        //GlobalEntityTypeAttributes.put(DESERT_WOLF, DesertWolfEntity.getAttributes().create()); //TODO Look into
+        GlobalEntityTypeAttributes.put(DESERT_WOLF, DesertWolfEntity.getAttributes().create());
         GlobalEntityTypeAttributes.put(FORSAKEN, ForsakenEntity.getAttributes().create());
         GlobalEntityTypeAttributes.put(MUMMY, MummyEntity.getAttributes().create());
         GlobalEntityTypeAttributes.put(NOMAD, NomadEntity.getAttributes().create());

@@ -127,8 +127,6 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     @Nullable
     public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
-        this.getAttributeManager().createInstanceIfAbsent(JUMP_STRENGTH);
-        this.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.4D);
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttributeManager().createInstanceIfAbsent(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
 
@@ -144,6 +142,10 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
             this.setVariant(0);
         }
         return livingdata;
+    }
+
+    public static AttributeModifierMap.MutableAttribute getAttributes() { //TODO, needs fixing
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 8.0D).createMutableAttribute(JUMP_STRENGTH);
     }
 
     @Override
