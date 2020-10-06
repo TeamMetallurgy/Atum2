@@ -1,6 +1,6 @@
 {
-    "parent": "block/template_wall_post",
-    "textures": {
-        "wall": "atum:block/ceramic_tile_light_blue"
-    }
+  "parent": "minecraft:block/template_wall_post",
+  "textures": {
+    "wall": "atum:block/ceramic_light_blue"
+  }
 }

@@ -1,6 +1,6 @@
 {
     "parent": "block/wall_inventory",
     "textures": {
-        "wall": "atum:block/ceramic_tile_green"
+        "wall": "atum:block/ceramic_green"
     }
 }

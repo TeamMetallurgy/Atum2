@@ -1,8 +1,8 @@
 {
   "parent": "block/slab",
   "textures": {
-    "bottom": "atum:block/ceramic_tile_purple",
-    "top": "atum:block/ceramic_tile_purple",
-    "side": "atum:block/ceramic_tile_purple"
+    "bottom": "atum:block/ceramic_purple",
+    "top": "atum:block/ceramic_purple",
+    "side": "atum:block/ceramic_purple"
   }
 }

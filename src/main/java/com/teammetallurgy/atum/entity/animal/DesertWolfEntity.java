@@ -72,7 +72,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.ITEMSTACK);
-    private static final DataParameter<Integer> ANGER = EntityDataManager.createKey(WolfEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> ANGER = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
     private String texturePath;
     private Inventory desertWolfInventory;

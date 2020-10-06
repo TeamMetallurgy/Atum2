@@ -17,11 +17,9 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeAmbience;
-import net.minecraft.world.biome.BiomeGenerationSettings;
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -60,7 +58,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumFeatures.Default.addRuins(builder);
         AtumFeatures.Default.addMineshaft(builder, false);
 
-        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(new BiomeAmbience.Builder().withFoliageColor(10189386).withGrassColor(10189386).build()), builder).build();
+        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()), builder).build();
     }
 
     public static Biome makeDeadwoodForest() {
@@ -157,7 +155,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumFeatures.Default.addInfestedLimestone(builder);
         AtumFeatures.Default.addFossils(builder);
         AtumFeatures.Default.addMineshaft(builder, false);
-        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(new BiomeAmbience.Builder().withFoliageColor(11987573).withGrassColor(11987573).build()), builder).build();
+        return makeBaseAtumBiome(new Builder().setHeightVariation(0.0F).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()), builder).build();
     }
 
     public static Biome makeSandDunes() {
@@ -305,6 +303,12 @@ public class AtumBiomeMaker { //TODO Clean this up
                 && !(state.getBlock() instanceof SandLayersBlock);
     }
 
+    public static int getSkyColorWithTemperatureModifier(float temperature) {
+        float lvt_1_1_ = temperature / 3.0F;
+        lvt_1_1_ = MathHelper.clamp(lvt_1_1_, -1.0F, 1.0F);
+        return MathHelper.hsvToRGB(0.62222224F - lvt_1_1_ * 0.05F, 0.5F + lvt_1_1_ * 0.1F, 1.0F);
+    }
+
     public static class Builder extends Biome.Builder {
 
         public Builder() {
@@ -318,7 +322,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         }
 
         public static BiomeAmbience.Builder getBaseEffects() {
-            return new BiomeAmbience.Builder().withGrassColor(12889745).withFoliageColor(12889745).setWaterColor(4159204).setWaterFogColor(329011);
+            return new BiomeAmbience.Builder().setWaterColor(4159204).setWaterFogColor(329011).setFogColor(12638463).withSkyColor(AtumBiomeMaker.getSkyColorWithTemperatureModifier(2.0F)).withGrassColor(12889745).withFoliageColor(12889745);
         }
 
         public Builder setBaseHeight(float height) {
