@@ -22,11 +22,11 @@ public class AtumBiomeLayer implements IC0Transformer {
         for (RegistryKey<Biome> biomeKey : AtumRegistry.BIOME_KEYS) {
             ResourceLocation location = biomeKey.getLocation();
             if (location != null) {
-                int weight = AtumConfig.Helper.get(AtumConfig.Helper.getSubConfig(AtumConfig.Biome.BIOME, location.getPath()), "weight");
-                if (weight > 0) {
-                    final BiomeEntry entry = new BiomeEntry(biomeKey, weight);
+                //int weight = AtumConfig.Helper.get(AtumConfig.Helper.getSubConfig(AtumConfig.Biome.BIOME, location.getPath()), "weight"); //TODO
+                //if (weight > 0) {
+                    final BiomeEntry entry = new BiomeEntry(biomeKey, 1); //TODO Weight
                     this.biomes.add(entry);
-                }
+                //}
             }
         }
     }

@@ -12,6 +12,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +20,7 @@ public class LimestoneBlock extends Block {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("contains_scarab");
 
     public LimestoneBlock() {
-        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.8F, 6.0F));
+        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.8F, 6.0F).setRequiresTool().harvestTool(ToolType.PICKAXE).harvestLevel(0));
         this.setDefaultState(this.stateContainer.getBaseState().with(HAS_SCARAB, false));
     }
 

@@ -119,7 +119,7 @@ public class AtumBiomeMaker { //TODO Clean this up
     public static Biome makeLimestoneMountain() {
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY_LIMESTONE));
         if (AtumConfig.WORLD_GEN.lighthouseEnabled.get()) {
-            builder.withStructure(AtumFeatures.LIGHTHOUSE_FEATURE);
+            //builder.withStructure(AtumFeatures.LIGHTHOUSE_FEATURE); //TODO Uncomment
         }
         AtumFeatures.Default.addDeadwoodTrees(builder, 0, 0.1F, 1);
         addDesertWolfSpawning(new MobSpawnInfo.Builder()); //TODO Test
@@ -199,7 +199,7 @@ public class AtumBiomeMaker { //TODO Clean this up
 
     public static Biome makeSandPlains() {
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder());
-        builder.withStructure(AtumFeatures.GIRAFI_TOMB_FEATURE);
+        //builder.withStructure(AtumFeatures.GIRAFI_TOMB_FEATURE); //TODO Uncomment
         AtumFeatures.Default.addDeadwoodTrees(builder, 0, 0.025F, 1);
         addCamelSpawning(new MobSpawnInfo.Builder()); //TODO Test
         AtumFeatures.Default.addCarvers(builder);

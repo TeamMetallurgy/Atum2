@@ -1,31 +1,29 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.google.common.cache.LoadingCache;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.CachedBlockInfo;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.DimensionType;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 
@@ -46,6 +44,11 @@ public class PortalBlock extends BreakableBlock {
     @Nonnull
     public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return VoxelShapes.empty();
+    }
+
+    @Override
+    public boolean isReplaceable(@Nonnull BlockState state, @Nonnull Fluid fluid) {
+        return false;
     }
 
     public boolean trySpawnPortal(World world, BlockPos pos) {
@@ -79,24 +82,16 @@ public class PortalBlock extends BreakableBlock {
     }
 
     @Override
-    public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, Entity entity) {
-        /*if (!entity.isOnePlayerRiding() && !entity.isBeingRidden() && entity instanceof ServerPlayerEntity && entity.timeUntilPortal <= 0) { //TODO
-            ServerPlayerEntity player = (ServerPlayerEntity) entity;
-            final DimensionType dimension = player.getServerWorld().func_230315_m_() == AtumDimensionType.ATUM ? DimensionType.OVERWORLD : AtumDimensionType.ATUM;
-            changeDimension(world, (ServerPlayerEntity) entity, dimension, new TeleporterAtum());
-        }*/
-    }
-
-    public static void changeDimension(World world, ServerPlayerEntity player, DimensionType dimension, ITeleporter teleporter) {
-        if (!world.isRemote) {
-            /*player.changeDimension(dimension, teleporter); //TODO
-            player.timeUntilPortal = 300;
-            if (player.dimension == AtumDimensionType.ATUM) {
-                BlockPos playerPos = new BlockPos(player);
-                if (world.isAirBlock(playerPos) && world.getBlockState(playerPos).isSolidSide(world, playerPos, Direction.UP)) {
-                    player.setSpawnPoint(playerPos, true, false, AtumDimensionType.ATUM);
-                }
-            }*/
+    public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
+        if (world instanceof ServerWorld && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && entity instanceof PlayerEntity) {
+            PlayerEntity player = (PlayerEntity) entity;
+            RegistryKey<World> key = world.getDimensionKey() == Atum.ATUM ? World.OVERWORLD : Atum.ATUM;
+            ServerWorld destWorld = ((ServerWorld) world).getServer().getWorld(key);
+            if (destWorld == null) {
+                return;
+            }
+            //player.timeUntilPortal = 300; //TODO???
+            player.changeDimension(destWorld, new TeleporterAtumStart()); //TODO Use correct Teleporter
         }
     }
 

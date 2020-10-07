@@ -36,10 +36,12 @@ public class AtumAPI {
 
         public static final IOptionalNamedTag<Item> RELIC = tag(Atum.MOD_ID, "relic");
         public static final IOptionalNamedTag<Item> TOOLTIP = tag(Atum.MOD_ID, "tooltip");
-        public static final IOptionalNamedTag<Block> LINEN_BLOCKS = blockTag(Atum.MOD_ID, "linen_blocks");
-        public static final IOptionalNamedTag<Block> THREADED_BLOCKS = blockTag(Atum.MOD_ID, "threaded_blocks");
-        public static final IOptionalNamedTag<Block> LIMESTONE_BRICKS = blockTag(Atum.MOD_ID, "limestone_bricks");
         public static final IOptionalNamedTag<Block> BASE_STONE_ATUM = blockTag(Atum.MOD_ID, "base_stone_atum");
+        public static final IOptionalNamedTag<Block> INFINIBURN = blockTag(Atum.MOD_ID, "infiniburn");
+        public static final IOptionalNamedTag<Block> LIMESTONE_BRICKS = blockTag(Atum.MOD_ID, "limestone_bricks");
+        public static final IOptionalNamedTag<Block> LINEN_BLOCKS = blockTag(Atum.MOD_ID, "linen_blocks");
+        public static final IOptionalNamedTag<Block> SHRUB = blockTag(Atum.MOD_ID, "shrub");
+        public static final IOptionalNamedTag<Block> THREADED_BLOCKS = blockTag(Atum.MOD_ID, "threaded_blocks");
 
         public static IOptionalNamedTag<Item> tag(String modID, String name) {
             return ItemTags.createOptional(new ResourceLocation(modID, name));

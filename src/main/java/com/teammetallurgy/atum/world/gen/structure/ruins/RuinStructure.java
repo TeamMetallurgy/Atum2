@@ -97,7 +97,7 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, ChunkPos chunkPos) {
-            boolean doesChunkHaveStructure = StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.GIRAFI_TOMB_STRUCTURE);
+            boolean doesChunkHaveStructure = false/*StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.GIRAFI_TOMB_STRUCTURE)*/; //TODO Uncomment
 
             if (!doesChunkHaveStructure) {
                 super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);

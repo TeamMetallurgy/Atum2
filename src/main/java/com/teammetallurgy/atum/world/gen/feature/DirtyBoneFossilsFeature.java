@@ -14,7 +14,6 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.template.*;
-import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -31,7 +30,7 @@ public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
         Rotation[] rotations = Rotation.values();
         Rotation rotation = rotations[rand.nextInt(rotations.length)];
         int size = rand.nextInt(FOSSIL_AMOUNT);
-        TemplateManager manager = ((ServerWorld) seedReader).getStructureTemplateManager();
+        TemplateManager manager = seedReader.getWorld().getStructureTemplateManager();
         Template template = manager.getTemplateDefaulted(new ResourceLocation(Atum.MOD_ID, "fossils/fossil_" + size));
         ChunkPos chunkPos = new ChunkPos(pos);
         MutableBoundingBox box = new MutableBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), 256, chunkPos.getZEnd());

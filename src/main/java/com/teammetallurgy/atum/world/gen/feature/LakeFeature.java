@@ -35,7 +35,7 @@ public class LakeFeature extends Feature<BlockStateFeatureConfig> { //Copied fro
         } else {
             pos = pos.down(4);
             ChunkPos chunkPos = new ChunkPos(pos);
-            if (StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID_STRUCTURE)) {
+            if (false/*StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID_STRUCTURE)*/) {//TODO Uncomment
                 return false;
             } else {
                 boolean[] aboolean = new boolean[2048];

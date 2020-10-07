@@ -1,14 +1,15 @@
 package com.teammetallurgy.atum;
 
+import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
-import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
+import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -34,6 +35,7 @@ public class Atum {
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final ItemGroup GROUP = new AtumItemGroup();
     public static final RegistryKey<World> ATUM = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(Atum.MOD_ID, "atum"));
+    public static final Codec<AtumBiomeProvider> ATUM_LAYERD = Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(MOD_ID, "atum_layered"), AtumBiomeProvider.CODEC);
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -46,7 +48,7 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.init();
-        MinecraftForge.EVENT_BUS.register(AtumFeatures.PYRAMID_STRUCTURE);
+        //MinecraftForge.EVENT_BUS.register(AtumFeatures.PYRAMID_STRUCTURE); //TODO Uncomment
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiomeMaker::initMobSpawns);

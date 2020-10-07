@@ -50,7 +50,7 @@ public class BanditPatrolSpawner {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player.getPosX(), player.getPosY(), player.getPosZ())).move(x, 0, z);
-                            if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos.getX(), mutablePos.getZ(), AtumFeatures.PYRAMID_STRUCTURE)) {
+                            if (!serverWorld.isAreaLoaded(mutablePos, 8) /*|| StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos.getX(), mutablePos.getZ(), AtumFeatures.PYRAMID_STRUCTURE)*/) { //TODO Uncomment
                                 return 0;
                             } else {
                                 Biome biome = serverWorld.getBiome(mutablePos);

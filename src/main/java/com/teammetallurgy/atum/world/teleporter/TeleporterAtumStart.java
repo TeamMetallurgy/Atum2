@@ -13,7 +13,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.function.Function;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class TeleporterAtumStart implements ITeleporter {
 
     @Override
@@ -23,7 +22,8 @@ public class TeleporterAtumStart implements ITeleporter {
             AtumDimension.DATA.setHasStartStructureSpawned(true);
             return repositionEntity.apply(false);
         }*/
-        return entity;
+        this.onAtumJoining(destWorld, entity, yaw);
+        return repositionEntity.apply(false);
     }
 
     private void onAtumJoining(ServerWorld world, Entity entity, float yaw) {
