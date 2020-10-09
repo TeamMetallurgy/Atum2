@@ -1,9 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.world.gen.layer.AtumLayerUtil;
 import net.minecraft.util.RegistryKey;
@@ -17,7 +15,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class AtumBiomeProvider extends BiomeProvider {

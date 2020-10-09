@@ -11,9 +11,6 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import static com.teammetallurgy.atum.misc.AtumRegistry.registerBlock;
-import static net.minecraft.block.AbstractBlock.Properties.from;
-
 public class BlockStatesGenerator extends BlockStateProvider {
 
     public BlockStatesGenerator(DataGenerator gen, ExistingFileHelper exFileHelper) {

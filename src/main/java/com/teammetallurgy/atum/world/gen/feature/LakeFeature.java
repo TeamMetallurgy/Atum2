@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumFeatures;
+import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -35,7 +35,7 @@ public class LakeFeature extends Feature<BlockStateFeatureConfig> { //Copied fro
         } else {
             pos = pos.down(4);
             ChunkPos chunkPos = new ChunkPos(pos);
-            if (false/*StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID_STRUCTURE)*/) {//TODO Uncomment
+            if (StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumStructures.PYRAMID_STRUCTURE)) {//TODO
                 return false;
             } else {
                 boolean[] aboolean = new boolean[2048];

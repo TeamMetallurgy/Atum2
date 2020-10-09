@@ -9,7 +9,6 @@ import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.ITeleporter;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.function.Function;
 

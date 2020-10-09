@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.world.gen.structure.ruins;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumFeatures;
+import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
@@ -96,8 +96,8 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
         }
 
         @Override
-        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, ChunkPos chunkPos) {
-            boolean doesChunkHaveStructure = false/*StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumFeatures.GIRAFI_TOMB_STRUCTURE)*/; //TODO Uncomment
+        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+            boolean doesChunkHaveStructure = StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumStructures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, chunkPos.x, chunkPos.z, AtumStructures.GIRAFI_TOMB_STRUCTURE); //TODO Test
 
             if (!doesChunkHaveStructure) {
                 super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);

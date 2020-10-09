@@ -9,7 +9,6 @@ import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.ModList;
 
 import javax.annotation.Nonnull;
 

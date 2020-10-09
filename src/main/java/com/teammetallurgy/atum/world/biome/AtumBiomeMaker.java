@@ -1,10 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.init.AtumFeatures;
+import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
@@ -19,7 +16,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.IWorldReader;
-import net.minecraft.world.biome.*;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeAmbience;
+import net.minecraft.world.biome.BiomeGenerationSettings;
+import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -119,7 +119,7 @@ public class AtumBiomeMaker { //TODO Clean this up
     public static Biome makeLimestoneMountain() {
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY_LIMESTONE));
         if (AtumConfig.WORLD_GEN.lighthouseEnabled.get()) {
-            //builder.withStructure(AtumFeatures.LIGHTHOUSE_FEATURE); //TODO Uncomment
+            builder.withStructure(AtumStructures.LIGHTHOUSE_FEATURE);
         }
         AtumFeatures.Default.addDeadwoodTrees(builder, 0, 0.1F, 1);
         addDesertWolfSpawning(new MobSpawnInfo.Builder()); //TODO Test
@@ -142,7 +142,8 @@ public class AtumBiomeMaker { //TODO Clean this up
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.OASIS));
         builder.withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.WATER.getDefaultState(), AtumBlocks.FERTILE_SOIL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
         builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(7));
-        builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(250));
+        //TODO Fix Papyrus feature. Breaks Oasis when enabled
+        //builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(250));
         builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.LILY_PAD.getDefaultState()), SimpleBlockPlacer.PLACER)).tries(11).build()).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(5));
         builder.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         builder.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);
@@ -199,7 +200,7 @@ public class AtumBiomeMaker { //TODO Clean this up
 
     public static Biome makeSandPlains() {
         BiomeGenerationSettings.Builder builder = (new BiomeGenerationSettings.Builder());
-        //builder.withStructure(AtumFeatures.GIRAFI_TOMB_FEATURE); //TODO Uncomment
+        builder.withStructure(AtumStructures.GIRAFI_TOMB_FEATURE);
         AtumFeatures.Default.addDeadwoodTrees(builder, 0, 0.025F, 1);
         addCamelSpawning(new MobSpawnInfo.Builder()); //TODO Test
         AtumFeatures.Default.addCarvers(builder);

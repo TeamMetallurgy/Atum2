@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
@@ -39,6 +40,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -51,6 +53,7 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Optional;
 import java.util.UUID;
 
 public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob, INamedContainerProvider {
@@ -187,21 +190,24 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         Biome biome = this.world.getBiome(this.getPosition());
         int chance = this.rand.nextInt(100);
 
-        /*if (this.world.dimension.getType() == AtumDimensionType.ATUM) { //TODO
-            if (biome instanceof SandPlainsBiome) {
+        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome); //TODO Test
+
+        if (optional.isPresent()) {
+            RegistryKey<Biome> biomeKey = optional.get();
+            if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return chance <= 50 ? 0 : 5;
-            } else if (biome instanceof SandDunesBiome) {
+            } else if (biomeKey.equals(AtumBiomes.SAND_DUNES)) {
                 return chance <= 50 ? 0 : 2;
-            } else if (biome instanceof OasisBiome) {
+            } else if (biomeKey.equals(AtumBiomes.OASIS)) {
                 return chance <= 50 ? 0 : 1;
-            } else if (biome instanceof DeadOasisBiome) {
+            } else if (biomeKey.equals(AtumBiomes.DEAD_OASIS)) {
                 return chance <= 50 ? 3 : 4;
             } else {
                 return 0;
             }
-        } else {*/
+        } else {
             return MathHelper.nextInt(rand, 0, 5);
-        //}
+        }
     }
 
     @OnlyIn(Dist.CLIENT)

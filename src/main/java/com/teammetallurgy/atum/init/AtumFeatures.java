@@ -10,23 +10,16 @@ import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
 import com.teammetallurgy.atum.world.gen.feature.*;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
-import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
-import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftConfig;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStructure;
-import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidStructure;
-import com.teammetallurgy.atum.world.gen.structure.ruins.RuinStructure;
-import com.teammetallurgy.atum.world.gen.structure.tomb.TombStructure;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.ColumnBlockPlacer;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
@@ -46,7 +39,6 @@ import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumFeatures {
     private static final List<Feature<?>> FEATURES = new ArrayList<>();
-    private static final List<Structure<?>> STRUCTURES = new ArrayList<>();
     //Features
     public static final Feature<DoubleBlockStateFeatureConfig> OASIS_POND = register("oasis_pond", new OasisPondFeature(DoubleBlockStateFeatureConfig.DOUBLE_STATE_CODEC));
     public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig.field_236455_a_));
@@ -58,22 +50,6 @@ public class AtumFeatures {
     public static final DeadwoodFeature DEADWOOD_FEATURE = register("deadwood_tree", new DeadwoodFeature(BaseTreeFeatureConfig.CODEC));
     public static final Feature<NoFeatureConfig> LIMESTONE_SPIKE = register("limestone_spike", new LimestoneSpikeFeature(NoFeatureConfig.field_236558_a_));
     public static final Feature<BlockClusterFeatureConfig> ANPUTS_FINGERS = register("anputs_fingers", new AnputsFingersFeature(BlockClusterFeatureConfig.field_236587_a_));
-
-    //Structures
-    //public static final Structure<NoFeatureConfig> GIRAFI_TOMB_STRUCTURE = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig.field_236558_a_));
-    //public static final Structure<NoFeatureConfig> LIGHTHOUSE_STRUCTURE = register("lighthouse", new LighthouseStructure(NoFeatureConfig.field_236558_a_));
-    //public static final Structure<NoFeatureConfig> TOMB_STRUCTURE = register("tomb", new TombStructure(NoFeatureConfig.field_236558_a_));
-    //public static final Structure<NoFeatureConfig> RUIN_STRUCTURE = register("ruin", new RuinStructure(NoFeatureConfig.field_236558_a_));
-    //public static final Structure<NoFeatureConfig> PYRAMID_STRUCTURE = register("pyramid", new PyramidStructure(NoFeatureConfig.field_236558_a_));
-    //public static final Structure<AtumMineshaftConfig> MINESHAFT_STRUCTURE = register("mineshaft", new AtumMineshaftStructure(AtumMineshaftConfig.CODEC));
-
-    //Structure Features
-    //public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> GIRAFI_TOMB_FEATURE = register(GIRAFI_TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    //public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> LIGHTHOUSE_FEATURE = register(LIGHTHOUSE_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    //public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> TOMB_FEATURE = register(TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    //public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> RUIN_FEATURE = register(RUIN_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    //public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> PYRAMID_FEATURE = register(PYRAMID_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    //public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_FEATURE = register(MINESHAFT_STRUCTURE, new AtumMineshaftConfig(0.0F, AtumMineshaftStructure.Type.LIMESTONE)); //TODO Doing the config like this, is probably a problem
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();
@@ -94,27 +70,10 @@ public class AtumFeatures {
         return feature;
     }
 
-    private static <F extends Structure<?>> F register(String name, F structure) {
-        structure.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
-        STRUCTURES.add(structure);
-        return structure;
-    }
-
-    private static <FC extends IFeatureConfig, F extends Structure<FC>> StructureFeature<FC, ?> register(F structure, FC fc) {
-        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, structure.getStructureName(), structure.func_236391_a_(fc));
-    }
-
     @SubscribeEvent
     public static void registerFeature(RegistryEvent.Register<Feature<?>> event) {
         for (Feature<?> feature : FEATURES) {
             event.getRegistry().register(feature);
-        }
-    }
-
-    @SubscribeEvent
-    public static void registerStructure(RegistryEvent.Register<Structure<?>> event) {
-        for (Structure<?> feature : STRUCTURES) {
-            //event.getRegistry().register(feature); //TODO Fix Crash when pressing singleplayer
         }
     }
 
@@ -221,18 +180,18 @@ public class AtumFeatures {
         }
 
         public static void addTomb(BiomeGenerationSettings.Builder builder) {
-            //builder.withStructure(AtumFeatures.TOMB_FEATURE); //TODO
+            builder.withStructure(AtumStructures.TOMB_FEATURE);
         }
 
         public static void addPyramid(BiomeGenerationSettings.Builder builder) {
             if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
-                //builder.withStructure(AtumFeatures.PYRAMID_FEATURE); //TODO
+                builder.withStructure(AtumStructures.PYRAMID_FEATURE);
             }
         }
 
         public static void addRuins(BiomeGenerationSettings.Builder builder) {
             if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
-                //builder.withStructure(AtumFeatures.RUIN_FEATURE); //TODO
+                builder.withStructure(AtumStructures.RUIN_FEATURE);
             }
         }
 
@@ -246,7 +205,7 @@ public class AtumFeatures {
                     type = isSurface ? AtumMineshaftStructure.Type.DEADWOOD_SURFACE : AtumMineshaftStructure.Type.DEADWOOD;
                 }
                 AtumMineshaftConfig config = new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), type);
-                //builder.withStructure(AtumFeatures.MINESHAFT_FEATURE.field_236268_b_.func_236391_a_(config));  //TODO Test
+                builder.withStructure(AtumStructures.MINESHAFT_FEATURE.field_236268_b_.func_236391_a_(config));  //TODO Test
             }
         }
     }

@@ -11,6 +11,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.*;
@@ -83,8 +84,8 @@ public class PortalBlock extends BreakableBlock {
 
     @Override
     public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (world instanceof ServerWorld && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && entity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entity;
+        if (world instanceof ServerWorld && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && entity instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) entity;
             RegistryKey<World> key = world.getDimensionKey() == Atum.ATUM ? World.OVERWORLD : Atum.ATUM;
             ServerWorld destWorld = ((ServerWorld) world).getServer().getWorld(key);
             if (destWorld == null) {

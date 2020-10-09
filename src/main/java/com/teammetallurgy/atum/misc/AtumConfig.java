@@ -333,8 +333,12 @@ public class AtumConfig {
         }
 
         public static <T> T get(String category, String value) {
+            return get(category + "." + value);
+        }
+
+        public static <T> T get(String category) {
             CONFIG_FILE.load();
-            return CONFIG_FILE.get(category + "." + value);
+            return CONFIG_FILE.get(category);
         }
 
         public static String getSubConfig(String category, String subCategory) {
