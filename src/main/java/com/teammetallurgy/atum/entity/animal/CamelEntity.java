@@ -88,7 +88,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, 0.0D);
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.225F).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, 0.0D);
     }
 
     private float getCamelMaxHealth() {
@@ -117,6 +117,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
         this.goalSelector.addGoal(3, new PanicGoal(this, 1.2D));
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
         this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
@@ -190,7 +191,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         Biome biome = this.world.getBiome(this.getPosition());
         int chance = this.rand.nextInt(100);
 
-        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome); //TODO Test
+        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
 
         if (optional.isPresent()) {
             RegistryKey<Biome> biomeKey = optional.get();
@@ -219,17 +220,6 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
                 if (customName.equalsIgnoreCase("girafi")) {
                     this.textureName = "girafi";
                 }
-            }
-
-            ItemStack armor = this.getArmor();
-            if (!armor.isEmpty()) {
-                CamelEntity.ArmorType armorType = CamelEntity.ArmorType.getByItemStack(armor);
-                this.textureName += "_" + armorType.getName();
-            }
-
-            DyeColor color = this.getColor();
-            if (color != null) {
-                this.textureName += "_" + color.getString();
             }
         }
         return this.textureName;
@@ -717,7 +707,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         GOLD(7, "gold"),
         DIAMOND(11, "diamond");
 
-        private final String textureName;
+        private final ResourceLocation textureName;
         private final String typeName;
         private final int protection;
 
@@ -730,7 +720,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_" + typeName) + ".png";
+            this.textureName = new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_" + typeName + ".png");
         }
 
         public int getProtection() {
@@ -741,7 +731,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             return typeName;
         }
 
-        public String getTextureName() {
+        public ResourceLocation getTexture() {
             return textureName;
         }
 

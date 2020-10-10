@@ -17,16 +17,19 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.spawner.ISpecialSpawner;
 import net.minecraft.world.spawner.WorldEntitySpawner;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.Random;
 
-public class BanditPatrolSpawner {
+public class BanditPatrolSpawner implements ISpecialSpawner {
     private int timer;
 
-    public int tick(ServerWorld serverWorld, boolean spawnHostileMobs) {
+    @Override
+    public int func_230253_a_(@Nonnull ServerWorld serverWorld, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
         if (!spawnHostileMobs) {
             return 0;
         } else if (AtumConfig.MOBS.banditPatrolFrequency.get() < 1) {
@@ -50,12 +53,12 @@ public class BanditPatrolSpawner {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player.getPosX(), player.getPosY(), player.getPosZ())).move(x, 0, z);
-                            if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos.getX(), mutablePos.getZ(), AtumStructures.PYRAMID_STRUCTURE)) { //TODO Test
+                            if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos, AtumStructures.PYRAMID_STRUCTURE)) { //TODO Test
                                 return 0;
                             } else {
                                 Biome biome = serverWorld.getBiome(mutablePos);
                                 Optional<RegistryKey<Biome>> biomeKey = serverWorld.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
-                                if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) { //TODO test
+                                if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) {
                                     return 0;
                                 } else {
                                     int amount = 0;

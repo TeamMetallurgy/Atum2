@@ -1,50 +1,5 @@
 /*package com.teammetallurgy.atum.world.dimension;
 
-import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
-import com.teammetallurgy.atum.network.packet.WeatherPacket;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
-import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
-import com.teammetallurgy.atum.world.biome.AtumBiomeProviderSettings;
-import com.teammetallurgy.atum.world.biome.AtumBiomeProviderTypes;
-import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
-import com.teammetallurgy.atum.world.gen.AtumChunkGeneratorType;
-import com.teammetallurgy.atum.world.gen.AtumGenSettings;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vector3d;
-import net.minecraft.world.Dimension;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProviderType;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.dimension.DimensionType;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.ChunkGeneratorType;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.server.ChunkHolder;
-import net.minecraft.world.server.ChunkManager;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.DerivedWorldInfo;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.SleepFinishedTimeEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import java.util.Optional;
-
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumDimension extends Dimension { //TODO????
     private static BlockPos usePos;
@@ -70,23 +25,6 @@ public class AtumDimension extends Dimension { //TODO????
         } else {
             return false;
         }
-    }
-
-    @SubscribeEvent
-    public static void onSleepFinished(SleepFinishedTimeEvent event) {
-        IWorld world = event.getWorld();
-        if (world.getDimension() instanceof AtumDimension) {
-            if (world.getWorldInfo() instanceof DerivedWorldInfo) {
-                ((DerivedWorldInfo) world.getWorldInfo()).delegate.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
-            }
-        }
-    }
-
-    @Override
-    public float calculateCelestialAngle(long worldTime, float partialTicks) { //Copied from OverworldDimension
-        double d0 = MathHelper.frac((double) worldTime / 24000.0D - 0.25D);
-        double d1 = 0.5D - Math.cos(d0 * Math.PI) / 2.0D;
-        return (float) (d0 * 2.0D + d1) / 3.0F;
     }
 
     @Override

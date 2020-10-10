@@ -9,7 +9,6 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
 import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.RegistryKey;
@@ -52,7 +51,6 @@ public class Atum {
         MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE);
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
-        AtumConfig.Mobs.ENTITY_TYPE.forEach(AtumBiomeMaker::initMobSpawns);
         IntegrationHandler.INSTANCE.setup();
     }
 

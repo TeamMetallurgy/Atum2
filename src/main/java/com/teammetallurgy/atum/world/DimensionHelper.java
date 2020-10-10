@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -8,14 +9,34 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.DerivedWorldInfo;
+import net.minecraftforge.event.world.SleepFinishedTimeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistry;
 
 import javax.annotation.Nonnull;
 
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
+
+    @SubscribeEvent
+    public static void onSleepFinished(SleepFinishedTimeEvent event) {
+        IWorld world = event.getWorld();
+        if (world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            if (serverWorld.getDimensionKey() == Atum.ATUM) {
+                if (world.getWorldInfo() instanceof DerivedWorldInfo) {
+                    ((DerivedWorldInfo) world.getWorldInfo()).delegate.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
+                }
+            }
+        }
+    }
 
     public static int getSkyColorWithTemperatureModifier(float temperature) {
         float f = temperature / 3.0F;

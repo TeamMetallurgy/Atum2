@@ -49,11 +49,11 @@ public class DesertRabbitEntity extends RabbitEntity {
     }
 
     @Override
-    protected int getRandomRabbitType(IWorld world) { //TODO
+    protected int getRandomRabbitType(IWorld world) {
         Biome biome = world.getBiome(this.getPosition());
         int i = this.rand.nextInt(100);
 
-        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome); //TODO Test
+        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
 
         if (optional.isPresent()) {
             RegistryKey<Biome> biomeKey = optional.get();

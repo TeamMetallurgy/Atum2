@@ -4,6 +4,7 @@ import com.electronwill.nightconfig.core.file.FileConfig;
 import com.google.common.collect.HashMultimap;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -284,7 +285,7 @@ public class AtumConfig {
     public static class Mobs {
         public static final String MOBS = "mobs";
         public static HashMap<EntityType<?>, EntityClassification> ENTITY_CLASSIFICATION = new HashMap<>();
-        public static HashMultimap<MobSpawnInfo.Builder, EntityType<?>> ENTITY_TYPE = HashMultimap.create();
+        public static HashMultimap<ResourceLocation, EntityType<?>> ENTITY_TYPE = HashMultimap.create();
         public ForgeConfigSpec.IntValue min;
         public ForgeConfigSpec.IntValue max;
         public ForgeConfigSpec.IntValue weight;
@@ -301,9 +302,9 @@ public class AtumConfig {
             builder.pop();
         }
 
-        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, EntityClassification classification, MobSpawnInfo.Builder spawnInfoBuilder) {
+        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, EntityClassification classification, ResourceLocation biomeName) {
             ENTITY_CLASSIFICATION.put(entityType, classification);
-            ENTITY_TYPE.put(spawnInfoBuilder, entityType);
+            ENTITY_TYPE.put(biomeName, entityType);
             builder.push(MOBS);
             builder.push(mobName);
             this.min = builder.defineInRange("min", min, -1, 63);

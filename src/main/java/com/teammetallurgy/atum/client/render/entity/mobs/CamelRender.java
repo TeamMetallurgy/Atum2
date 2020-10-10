@@ -3,11 +3,11 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.CamelModel;
+import com.teammetallurgy.atum.client.render.entity.layer.CamelArmorLayer;
+import com.teammetallurgy.atum.client.render.entity.layer.CamelDecorLayer;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -18,10 +18,11 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity>> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
-    private static final ResourceLocation GIRAFI = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_girafi.png");
 
     public CamelRender(EntityRendererManager renderManager) {
-        super(renderManager, new CamelModel<>(), 0.7F);
+        super(renderManager, new CamelModel<>(0.0F), 0.7F);
+        this.addLayer(new CamelDecorLayer(this));
+        this.addLayer(new CamelArmorLayer(this));
     }
 
     @Override
@@ -31,27 +32,16 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
 
         ResourceLocation location = CACHE.get(textureName);
         if (location == null) {
-            location = new ResourceLocation(textureName);
-            String[] texturePath = new String[3];
-            texturePath[0] = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_" + camel.getVariant()) + ".png";
-            if (camel.hasCustomName() && camel.getCustomName() != null) {
-                String customName = camel.getCustomName().getString();
-                if (customName.equalsIgnoreCase("girafi")) {
-                    texturePath[0] = GIRAFI.toString();
-                }
-            }
+            location = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_" + textureName + ".png");
+
+            /*String[] texturePath = new String[3];
             ItemStack armor = camel.getArmor();
             if (!armor.isEmpty()) {
                 CamelEntity.ArmorType armorType = CamelEntity.ArmorType.getByItemStack(armor);
                 texturePath[1] = armorType.getTextureName();
-            }
-
-            DyeColor color = camel.getColor();
-            if (color != null) {
-                texturePath[2] = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_carpet/camel_carpet_" + color.getString()) + ".png";
-            }
-            //Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath)); //TODO Test if z-fighting is present without this
+            }*/
             CACHE.put(textureName, location);
+            System.out.println(location);
         }
         return location;
     }

@@ -248,7 +248,9 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
             this.setVariant(compound.getInt("Variant"));
         }
         this.canPatrol = compound.getBoolean("CanPatrol");
-        this.leadingEntity = compound.getUniqueId("LeadingEntity");
+        if (compound.hasUniqueId("LeadingEntity")) {
+            this.leadingEntity = compound.getUniqueId("LeadingEntity");
+        }
     }
 
     public static class BanditPatrolGoal<T extends BanditBaseEntity> extends Goal {

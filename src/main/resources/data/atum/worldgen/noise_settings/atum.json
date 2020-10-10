@@ -4,42 +4,7 @@
   "sea_level": 63,
   "disable_mob_generation": false,
   "structures": {
-    "stronghold": {
-      "distance": 32,
-      "spread": 3,
-      "count": 128
-    },
     "structures": {
-      "minecraft:buried_treasure": {
-        "spacing": 1,
-        "separation": 0,
-        "salt": 0
-      },
-      "minecraft:mansion": {
-        "spacing": 80,
-        "separation": 20,
-        "salt": 10387319
-      },
-      "minecraft:nether_fossil": {
-        "spacing": 2,
-        "separation": 1,
-        "salt": 14357921
-      },
-      "minecraft:mineshaft": {
-        "spacing": 1,
-        "separation": 0,
-        "salt": 0
-      },
-      "minecraft:desert_pyramid": {
-        "spacing": 32,
-        "separation": 8,
-        "salt": 14357617
-      },
-      "minecraft:jungle_pyramid": {
-        "spacing": 32,
-        "separation": 8,
-        "salt": 14357619
-      }
     }
   },
   "noise": {
