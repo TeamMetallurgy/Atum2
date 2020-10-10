@@ -28,7 +28,7 @@ public class AtumsHomecomingItem extends AmuletItem {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         BlockPos pos = player.getBedLocation(player.dimension);
         if (pos == null) {
