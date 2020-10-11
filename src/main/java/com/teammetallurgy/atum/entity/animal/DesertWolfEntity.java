@@ -276,7 +276,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
             if (this.isInWaterRainOrBubbleColumn()) {
                 this.isWet = true;
                 if (this.isShaking && !this.world.isRemote) {
-                    this.world.setEntityState(this, (byte)56);
+                    this.world.setEntityState(this, (byte) 56);
                     this.isShaking = false;
                     this.timeWolfIsShaking = 0.0F;
                     this.prevTimeWolfIsShaking = 0.0F;
@@ -296,14 +296,14 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                 }
 
                 if (this.timeWolfIsShaking > 0.4F) {
-                    float f = (float)this.getPosY();
-                    int i = (int)(MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float)Math.PI) * 7.0F);
+                    float f = (float) this.getPosY();
+                    int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
                     Vector3d vector3d = this.getMotion();
 
-                    for(int j = 0; j < i; ++j) {
+                    for (int j = 0; j < i; ++j) {
                         float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
                         float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
-                        this.world.addParticle(ParticleTypes.SPLASH, this.getPosX() + (double)f1, (double)(f + 0.8F), this.getPosZ() + (double)f2, vector3d.x, vector3d.y, vector3d.z);
+                        this.world.addParticle(ParticleTypes.SPLASH, this.getPosX() + (double) f1, (double) (f + 0.8F), this.getPosZ() + (double) f2, vector3d.x, vector3d.y, vector3d.z);
                     }
                 }
             }
@@ -314,16 +314,6 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     public String getTexture() {
         if (this.texturePath == null) {
             this.texturePath = func_233678_J__() ? "angry" : "tamed";
-
-            ItemStack armor = this.getArmor();
-            if (!armor.isEmpty()) {
-                DesertWolfEntity.ArmorType armorType = DesertWolfEntity.ArmorType.getByItemStack(armor);
-                this.texturePath += "_" + armorType.getName();
-            }
-
-            if (isSaddled()) {
-                this.texturePath += "_saddled";
-            }
         }
         return this.texturePath;
     }
@@ -407,8 +397,10 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         Item item = heldStack.getItem();
+        boolean tameItem = item.isIn(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
         if (this.world.isRemote()) {
-            boolean flag = this.isOwner(player) || this.isTamed() || item == Items.BONE && !this.isTamed() && !this.func_233678_J__();
+            System.out.println("isRemote");
+            boolean flag = this.isOwner(player) || this.isTamed() || tameItem && !this.isTamed() && !this.func_233678_J__();
             return flag ? ActionResultType.CONSUME : ActionResultType.PASS;
         } else {
             if (this.isTamed()) {
@@ -476,7 +468,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                         return ActionResultType.SUCCESS;
                     }
                 }
-            } else if (!this.func_233678_J__() && ((heldStack.getItem().isIn(Tags.Items.BONES) || heldStack.getItem() == Items.RABBIT) || heldStack.getItem() == Items.COOKED_RABBIT)) {
+            } else if (tameItem) {
                 if (!player.abilities.isCreativeMode) {
                     heldStack.shrink(1);
                 }
@@ -1021,20 +1013,17 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         GOLD(7, "gold"),
         DIAMOND(11, "diamond");
 
-        private final String textureName;
         private final String typeName;
         private final int protection;
 
         ArmorType(int armorStrength) {
             this.protection = armorStrength;
             this.typeName = null;
-            this.textureName = null;
         }
 
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/desert_wolf_armor_" + typeName + ".png").toString();
         }
 
         public int getProtection() {
@@ -1042,11 +1031,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         }
 
         public String getName() {
-            return typeName;
-        }
-
-        public String getTextureName() {
-            return textureName;
+            return this.typeName;
         }
 
         public static ArmorType getByItemStack(@Nonnull ItemStack stack) {

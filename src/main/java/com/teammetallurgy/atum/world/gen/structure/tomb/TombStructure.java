@@ -25,25 +25,6 @@ public class TombStructure extends Structure<NoFeatureConfig> {
         super(config);
     }
 
-    /*@Override
-    @Nonnull
-    protected ChunkPos getStartPositionForPosition(ChunkGenerator chunkGenerator, Random random, int x, int z, int spacingOffsetsX, int spacingOffsetsZ) { //TODO. Look into StructureSeparationSettings
-        int spacing = 13;
-        int separation = 11;
-        int k = x + spacing * spacingOffsetsX;
-        int l = z + spacing * spacingOffsetsZ;
-        int i1 = k < 0 ? k - spacing + 1 : k;
-        int j1 = l < 0 ? l - spacing + 1 : l;
-        int k1 = i1 / spacing;
-        int l1 = j1 / spacing;
-        ((SharedSeedRandom) random).setLargeFeatureSeed(chunkGenerator.getSeed(), k1, l1);
-        k1 = k1 * spacing;
-        l1 = l1 * spacing;
-        k1 = k1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
-        l1 = l1 + (random.nextInt(spacing - separation) + random.nextInt(spacing - separation)) / 2;
-        return new ChunkPos(k1, l1);
-    }*/
-
     @Override
     protected boolean func_230363_a_(ChunkGenerator generator, BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
         for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.func_230356_f_(), chunkZ * 16 + 9, 32)) {

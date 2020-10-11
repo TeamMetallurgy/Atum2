@@ -5,7 +5,6 @@ import com.google.common.collect.HashMultimap;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -102,15 +101,9 @@ public class AtumConfig {
         public static final String OREGEN = "ore gen";
         public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.BooleanValue pyramidEnabled;
-        public final ForgeConfigSpec.IntValue pyramidSpacing;
-        public final ForgeConfigSpec.IntValue pyramidSeparation;
         public final ForgeConfigSpec.BooleanValue ruinsEnabled;
-        public final ForgeConfigSpec.IntValue ruinsSpacing;
-        public final ForgeConfigSpec.IntValue ruinsSeparation;
         public final ForgeConfigSpec.IntValue ruinsAmount;
         public final ForgeConfigSpec.BooleanValue lighthouseEnabled;
-        public final ForgeConfigSpec.IntValue lighthouseSpacing;
-        public final ForgeConfigSpec.IntValue lighthouseSeparation;
         public final ForgeConfigSpec.IntValue shrubFrequency;
         public final ForgeConfigSpec.IntValue fossilsChance;
         public final ForgeConfigSpec.IntValue dungeonChance;
@@ -170,33 +163,15 @@ public class AtumConfig {
             this.pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
                     .translation("atum.config.pyramid_enabled")
                     .define("Enable Pyramids", true);
-            this.pyramidSpacing = builder
-                    .translation("atum.config.pyramid_spacing")
-                    .defineInRange("Pyramid spacing", 18, 1, 256);
-            this.pyramidSeparation = builder
-                    .translation("atum.config.pyramid_separation")
-                    .defineInRange("Pyramid separation", 8, 1, 256);
             this.ruinsEnabled = builder.comment("Should Ruins generate in Atum?")
                     .translation("atum.config.ruins_enabled")
                     .define("Enable Ruins", true);
-            this.ruinsSpacing = builder
-                    .translation("atum.config.ruins_spacing")
-                    .defineInRange("Ruins spacing", 5, 1, 256);
-            this.ruinsSeparation = builder
-                    .translation("atum.config.ruins_separation")
-                    .defineInRange("Ruins separation", 3, 1, 256);
             this.ruinsAmount = builder.comment("Specify the amount of ruin variants structures/ruins. Allows for additional ruin structures with a resourcepack")
                     .translation("atum.config.ruins_amount")
                     .defineInRange("Ruins Amount", 19, 1, 999);
             this.lighthouseEnabled = builder.comment("Should Lighthouses generate in Atum?")
                     .translation("atum.config.lighthouse_enabled")
                     .define("Enable Lighthouse", true);
-            this.lighthouseSpacing = builder
-                    .translation("atum.config.lighthouse_spacing")
-                    .defineInRange("Lighthouse spacing", 10, 1, 256);
-            this.lighthouseSeparation = builder
-                    .translation("atum.config.lighthouse_separation")
-                    .defineInRange("Lighthouse separation", 4, 1, 256);
             this.shrubFrequency = builder.defineInRange("Shrub frequency, set to 0 to disable", 1, 0, 64);
             this.fossilsChance = builder.defineInRange("Fossils chance, set to 0 to disable", 64, 0, 255);
             this.dungeonChance = builder.defineInRange("Dungeon chance, set to 0 to disable", 8, 0, 255);

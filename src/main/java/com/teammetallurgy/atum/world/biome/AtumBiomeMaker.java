@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
+import com.teammetallurgy.atum.world.gen.AtumDefaultFeatures;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
@@ -43,19 +44,19 @@ public class AtumBiomeMaker { //TODO Clean this up
         biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.DEAD_PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addShrubs(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addPyramid(biomeGen);
-        AtumFeatures.Default.addRuins(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addShrubs(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addPyramid(biomeGen);
+        AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
 
         return new Builder().setHeightVariation(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
     }
@@ -64,56 +65,56 @@ public class AtumBiomeMaker { //TODO Clean this up
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
         biomeGen.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.ANPUTS_FINGERS.withConfiguration(AtumFeatures.ANPUTS_FINGERS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.field_242906_k.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)).func_242731_b(100)); //TODO TEST
         addDefaultSpawns(biomeName);
-        AtumFeatures.Default.addDeadwoodTrees(biomeGen, 20, 0.25F, 3);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addShrubs(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addPyramid(biomeGen);
-        AtumFeatures.Default.addRuins(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 20, 0.25F, 3);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addShrubs(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addPyramid(biomeGen);
+        AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).build();
     }
 
     public static Biome makeDriedRiver(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addShrubs(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addShrubs(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(-0.5F).setHeightVariation(0.0F).build();
     }
 
     public static Biome makeLimestoneCrags(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
         biomeGen.withFeature(GenerationStage.Decoration.SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(3));
-        AtumFeatures.Default.addDeadwoodTrees(biomeGen, 0, 0.2F, 1);
+        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.2F, 1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addEmeraldOre(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addEmeraldOre(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(0.225F).setHeightVariation(0.45F).build();
     }
 
@@ -122,21 +123,21 @@ public class AtumBiomeMaker { //TODO Clean this up
         if (AtumConfig.WORLD_GEN.lighthouseEnabled.get()) {
             biomeGen.withStructure(AtumStructures.LIGHTHOUSE_FEATURE);
         }
-        AtumFeatures.Default.addDeadwoodTrees(biomeGen, 0, 0.1F, 1);
+        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.1F, 1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName); //TODO Test
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addEmeraldOre(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addRuins(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, true);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addEmeraldOre(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, true);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(1.5F).setHeightVariation(0.6F).build();
     }
 
@@ -150,77 +151,77 @@ public class AtumBiomeMaker { //TODO Clean this up
         biomeGen.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         biomeGen.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);
         addCamelSpawning(biomeName);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addEmeraldOre(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addEmeraldOre(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().setHeightVariation(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
     }
 
     public static Biome makeSandDunes(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        AtumFeatures.Default.addDeadwoodTrees(biomeGen, 0, 0.01F, 1);
+        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.01F, 1);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addShrubs(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addPyramid(biomeGen);
-        AtumFeatures.Default.addRuins(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addShrubs(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addPyramid(biomeGen);
+        AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(0.175F).setHeightVariation(0.2F).build();
     }
 
     public static Biome makeSandHills(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        AtumFeatures.Default.addDeadwoodTrees(biomeGen, 0, 0.08F, 1);
+        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.08F, 1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addEmeraldOre(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addRuins(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addEmeraldOre(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(0.3F).setHeightVariation(0.3F).build();
     }
 
     public static Biome makeSandPlains(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
         biomeGen.withStructure(AtumStructures.GIRAFI_TOMB_FEATURE);
-        AtumFeatures.Default.addDeadwoodTrees(biomeGen, 0, 0.025F, 1);
+        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.025F, 1);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
-        AtumFeatures.Default.addCarvers(biomeGen);
-        AtumFeatures.Default.addSprings(biomeGen);
-        AtumFeatures.Default.addMaterialPockets(biomeGen);
-        AtumFeatures.Default.addStoneVariants(biomeGen);
-        AtumFeatures.Default.addOres(biomeGen);
-        AtumFeatures.Default.addInfestedLimestone(biomeGen);
-        AtumFeatures.Default.addShrubs(biomeGen);
-        AtumFeatures.Default.addFossils(biomeGen);
-        AtumFeatures.Default.addDungeon(biomeGen);
-        AtumFeatures.Default.addTomb(biomeGen);
-        AtumFeatures.Default.addPyramid(biomeGen);
-        AtumFeatures.Default.addRuins(biomeGen);
-        AtumFeatures.Default.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addMaterialPockets(biomeGen);
+        AtumDefaultFeatures.addStoneVariants(biomeGen);
+        AtumDefaultFeatures.addOres(biomeGen);
+        AtumDefaultFeatures.addInfestedLimestone(biomeGen);
+        AtumDefaultFeatures.addShrubs(biomeGen);
+        AtumDefaultFeatures.addFossils(biomeGen);
+        AtumDefaultFeatures.addDungeon(biomeGen);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addPyramid(biomeGen);
+        AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).build();
     }
 

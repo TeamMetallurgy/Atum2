@@ -707,20 +707,17 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         GOLD(7, "gold"),
         DIAMOND(11, "diamond");
 
-        private final ResourceLocation textureName;
         private final String typeName;
         private final int protection;
 
         ArmorType(int armorStrength) {
             this.protection = armorStrength;
             this.typeName = null;
-            this.textureName = null;
         }
 
         ArmorType(int armorStrength, String typeName) {
             this.protection = armorStrength;
             this.typeName = typeName;
-            this.textureName = new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_" + typeName + ".png");
         }
 
         public int getProtection() {
@@ -728,11 +725,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         }
 
         public String getName() {
-            return typeName;
-        }
-
-        public ResourceLocation getTexture() {
-            return textureName;
+            return this.typeName;
         }
 
         public static ArmorType getByItemStack(@Nonnull ItemStack stack) {

@@ -33,13 +33,13 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
+    public void randomTick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
                 Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(world.getBiome(pos));
-                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) { //TODO Test
+                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
             } else if (Block.doesSideFillSquare(world.getBlockState(pos.up()).getCollisionShape(world, pos), Direction.DOWN)) {

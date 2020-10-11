@@ -33,15 +33,7 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
         ResourceLocation location = CACHE.get(textureName);
         if (location == null) {
             location = new ResourceLocation(Atum.MOD_ID, "textures/entity/camel_" + textureName + ".png");
-
-            /*String[] texturePath = new String[3];
-            ItemStack armor = camel.getArmor();
-            if (!armor.isEmpty()) {
-                CamelEntity.ArmorType armorType = CamelEntity.ArmorType.getByItemStack(armor);
-                texturePath[1] = armorType.getTextureName();
-            }*/
             CACHE.put(textureName, location);
-            System.out.println(location);
         }
         return location;
     }

@@ -39,7 +39,14 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, @Nonnull Random rand) {
+    public void tick(BlockState state, @Nonnull ServerWorld serverWorld, @Nonnull BlockPos pos, @Nonnull Random rand) {
+        if (!state.isValidPosition(serverWorld, pos)) {
+            turnToSoil(serverWorld, pos, AtumBlocks.FERTILE_SOIL);
+        }
+    }
+
+    @Override
+    public void randomTick(BlockState state, ServerWorld world, BlockPos pos, @Nonnull Random rand) {
         int moisture = state.get(MOISTURE);
 
         Block blockUp = world.getBlockState(pos.up()).getBlock();
@@ -51,7 +58,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
             if (moisture > 0) {
                 world.setBlockState(pos, state.with(MOISTURE, moisture - 1), 2);
             } else if (!this.hasCrops(world, pos)) {
-                turnToSoil(world, pos);
+                turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL);
             }
         } else if (moisture < 7) {
             world.setBlockState(pos, state.with(MOISTURE, 7), 2);
@@ -79,13 +86,13 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     @Override
     public void onFallenUpon(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Entity entity, float fallDistance) {
         if (!world.isRemote && entity.canTrample(this.getDefaultState(), pos, fallDistance)) {
-            turnToSoil(world, pos);
+            turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL);
         }
         entity.onLivingFall(fallDistance, 1.0F);
     }
 
-    private static void turnToSoil(World world, BlockPos pos) {
-        world.setBlockState(pos, nudgeEntitiesWithNewState(world.getBlockState(pos), AtumBlocks.FERTILE_SOIL.getDefaultState(), world, pos));
+    private static void turnToSoil(World world, BlockPos pos, Block block) {
+        world.setBlockState(pos, nudgeEntitiesWithNewState(world.getBlockState(pos), block.getDefaultState(), world, pos));
     }
 
     private boolean hasCrops(World world, BlockPos pos) {
@@ -107,7 +114,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
-            turnToSoil(world, pos);
+            turnToSoil(world, pos, AtumBlocks.SAND);
         }
     }
 
@@ -124,7 +131,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
         super.onBlockAdded(state, world, pos, oldState, isMoving);
 
         if (world.getBlockState(pos.up()).getMaterial().isSolid()) {
-            turnToSoil(world, pos);
+            turnToSoil(world, pos, AtumBlocks.SAND);
         }
     }
 

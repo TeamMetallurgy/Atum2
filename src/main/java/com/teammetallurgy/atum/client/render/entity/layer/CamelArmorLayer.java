@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.render.entity.layer;
 
+import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.teammetallurgy.atum.Atum;
@@ -12,10 +13,18 @@ import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Util;
 
 import javax.annotation.Nonnull;
+import java.util.Map;
 
 public class CamelArmorLayer extends LayerRenderer<CamelEntity, CamelModel<CamelEntity>> {
+    private static final Map<CamelEntity.ArmorType, ResourceLocation> CACHE = Util.make(Maps.newEnumMap(CamelEntity.ArmorType.class), (m) -> {
+        m.put(CamelEntity.ArmorType.NONE, null);
+        m.put(CamelEntity.ArmorType.IRON, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_iron.png"));
+        m.put(CamelEntity.ArmorType.GOLD, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_gold.png"));
+        m.put(CamelEntity.ArmorType.DIAMOND, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_diamond.png"));
+    });
     private final CamelModel<CamelEntity> model = new CamelModel<>(0.1F);
 
     public CamelArmorLayer(IEntityRenderer<CamelEntity, CamelModel<CamelEntity>> entityRenderer) {
@@ -30,7 +39,7 @@ public class CamelArmorLayer extends LayerRenderer<CamelEntity, CamelModel<Camel
             this.getEntityModel().copyModelAttributesTo(this.model);
             this.model.setLivingAnimations(camel, limbSwing, limbSwingAmount, partialTicks);
             this.model.setRotationAngles(camel, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
-            IVertexBuilder ivertexbuilder = buffer.getBuffer(RenderType.getEntityCutoutNoCull(armorType.getTexture()));
+            IVertexBuilder ivertexbuilder = buffer.getBuffer(RenderType.getEntityCutoutNoCull(CACHE.get(armorType)));
             this.model.render(matrixStack, ivertexbuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }

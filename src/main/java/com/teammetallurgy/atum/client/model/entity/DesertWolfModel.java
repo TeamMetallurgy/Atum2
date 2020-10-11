@@ -12,43 +12,43 @@ import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class DesertWolfModel<T extends DesertWolfEntity> extends TintedAgeableModel<T> {
-    private ModelRenderer head;
-    private ModelRenderer body;
-    private ModelRenderer wolfLeg1;
-    private ModelRenderer wolfLeg2;
-    private ModelRenderer wolfLeg3;
-    private ModelRenderer wolfLeg4;
-    private ModelRenderer tail;
-    private ModelRenderer mane;
+    private final ModelRenderer head;
+    private final ModelRenderer body;
+    private final ModelRenderer wolfLeg1;
+    private final ModelRenderer wolfLeg2;
+    private final ModelRenderer wolfLeg3;
+    private final ModelRenderer wolfLeg4;
+    private final ModelRenderer tail;
+    private final ModelRenderer mane;
 
-    public DesertWolfModel() {
+    public DesertWolfModel(float size) {
         this.head = new ModelRenderer(this, 0, 0);
-        this.head.addBox(-2.0F, -3.0F, -2.0F, 6, 6, 4, 0.0F);
+        this.head.addBox(-2.0F, -3.0F, -2.0F, 6, 6, 4, size);
         this.head.setRotationPoint(-1.0F, 13.5F, -7.0F);
         this.body = new ModelRenderer(this, 18, 14);
-        this.body.addBox(-3.0F, -2.0F, -3.0F, 6, 9, 6, 0.0F);
+        this.body.addBox(-3.0F, -2.0F, -3.0F, 6, 9, 6, size);
         this.body.setRotationPoint(0.0F, 14.0F, 2.0F);
         this.mane = new ModelRenderer(this, 21, 0);
-        this.mane.addBox(-3.0F, -3.0F, -3.0F, 8, 6, 7, 0.0F);
+        this.mane.addBox(-3.0F, -3.0F, -3.0F, 8, 6, 7, size);
         this.mane.setRotationPoint(-1.0F, 14.0F, 2.0F);
         this.wolfLeg1 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg1.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
+        this.wolfLeg1.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
         this.wolfLeg1.setRotationPoint(-2.5F, 16.0F, 7.0F);
         this.wolfLeg2 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg2.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
+        this.wolfLeg2.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
         this.wolfLeg2.setRotationPoint(0.5F, 16.0F, 7.0F);
         this.wolfLeg3 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg3.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
+        this.wolfLeg3.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
         this.wolfLeg3.setRotationPoint(-2.5F, 16.0F, -4.0F);
         this.wolfLeg4 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg4.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
+        this.wolfLeg4.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
         this.wolfLeg4.setRotationPoint(0.5F, 16.0F, -4.0F);
         this.tail = new ModelRenderer(this, 9, 18);
-        this.tail.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, 0.0F);
+        this.tail.addBox(0.0F, 0.0F, -1.0F, 2, 8, 2, size);
         this.tail.setRotationPoint(-1.0F, 12.0F, 8.0F);
-        this.head.setTextureOffset(16, 14).addBox(-2.0F, -5.0F, 0.0F, 2, 2, 1, 0.0F);
-        this.head.setTextureOffset(16, 14).addBox(2.0F, -5.0F, 0.0F, 2, 2, 1, 0.0F);
-        this.head.setTextureOffset(0, 10).addBox(-0.5F, 0.0F, -5.0F, 3, 3, 4, 0.0F);
+        this.head.setTextureOffset(16, 14).addBox(-2.0F, -5.0F, 0.0F, 2, 2, 1, size);
+        this.head.setTextureOffset(16, 14).addBox(2.0F, -5.0F, 0.0F, 2, 2, 1, size);
+        this.head.setTextureOffset(0, 10).addBox(-0.5F, 0.0F, -5.0F, 3, 3, 4, size);
     }
 
     @Override
