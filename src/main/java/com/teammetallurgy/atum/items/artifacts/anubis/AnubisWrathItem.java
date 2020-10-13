@@ -121,7 +121,7 @@ public class AnubisWrathItem extends SwordItem {
             if (getSouls(heldStack) == 50 || getSouls(heldStack) == 150 || getSouls(heldStack) == 500) {
                 source.world.playSound(null, source.getPosition(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, SoundCategory.PLAYERS, 1.0F, 0.0F);
                 if (source instanceof PlayerEntity) {
-                    ((PlayerEntity) source).sendStatusMessage(new TranslationTextComponent(heldStack.getTranslationKey() + ".levelup").copyRaw().mergeStyle(TextFormatting.DARK_PURPLE), true);
+                    ((PlayerEntity) source).sendStatusMessage(new TranslationTextComponent(heldStack.getTranslationKey() + ".levelup").deepCopy().mergeStyle(TextFormatting.DARK_PURPLE), true);
                 }
             }
         }

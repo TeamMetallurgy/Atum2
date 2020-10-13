@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
@@ -21,9 +21,9 @@ import java.util.EnumSet;
 import java.util.Optional;
 import java.util.Set;
 
-public class AtumsHomecomingItem extends AmuletItem { //TODO Test if works
+public class AtemsHomecomingItem extends AmuletItem { //TODO Test if works
 
-    public AtumsHomecomingItem() {
+    public AtemsHomecomingItem() {
         super(new Item.Properties().maxDamage(20));
     }
 

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "atum:atums_homecoming"
+      "item": "atum:atems_homecoming"
     },
     "title": {
       "translate": "advancement.atum.thefullmuseum"
@@ -26,12 +26,12 @@
         ]
       }
     },
-    "atums_homecoming": {
+    "atems_homecoming": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:atums_homecoming"
+            "item": "atum:atems_homecoming"
           }
         ]
       }
@@ -56,12 +56,12 @@
         ]
       }
     },
-    "atums_bounty": {
+    "atems_bounty": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:atums_bounty"
+            "item": "atum:atems_bounty"
           }
         ]
       }
@@ -126,12 +126,12 @@
         ]
       }
     },
-    "feet_of_atum": {
+    "feet_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_atum"
+            "item": "atum:feet_of_atem"
           }
         ]
       }
@@ -226,12 +226,12 @@
         ]
       }
     },
-    "legs_of_atum": {
+    "legs_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_atum"
+            "item": "atum:legs_of_atem"
           }
         ]
       }
@@ -246,12 +246,12 @@
         ]
       }
     },
-    "atums_will": {
+    "atems_will": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:atums_will"
+            "item": "atum:atems_will"
           }
         ]
       }
@@ -276,22 +276,22 @@
         ]
       }
     },
-    "eyes_of_atum": {
+    "eyes_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:eyes_of_atum"
+            "item": "atum:eyes_of_atem"
           }
         ]
       }
     },
-    "body_of_atum": {
+    "body_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_atum"
+            "item": "atum:body_of_atem"
           }
         ]
       }

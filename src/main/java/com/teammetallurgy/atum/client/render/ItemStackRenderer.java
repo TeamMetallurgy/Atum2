@@ -34,7 +34,7 @@ import java.util.Map;
 
 public class ItemStackRenderer extends ItemStackTileEntityRenderer {
     private static final Map<String, ResourceLocation> SHIELD_CACHE = Maps.newHashMap();
-    private static final RenderMaterial ATUMS_PROTECTION_MATERIAL = getShieldMaterial("atums_protection");
+    private static final RenderMaterial ATUMS_PROTECTION_MATERIAL = getShieldMaterial("atems_protection");
     private static final RenderMaterial BRIGAND_SHIELD_MATERIAL = getShieldMaterial("brigand_shield");
     private static final RenderMaterial STONEGUARD_SHIELD_MATERIAL = getShieldMaterial("stoneguard_shield");
     private static final AtumsProtectionModel ATUMS_PROTECTION = new AtumsProtectionModel();
@@ -59,7 +59,7 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
                 renderShield(stack, BRIGAND_SHIELD, BRIGAND_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.STONEGUARD_SHIELD) {
                 renderShield(stack, STONEGUARD_SHIELD, STONEGUARD_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (item == AtumItems.ATUMS_PROTECTION) {
+            } else if (item == AtumItems.ATEMS_PROTECTION) {
                 renderShield(stack, ATUMS_PROTECTION, ATUMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.TEFNUTS_CALL) {
                 matrixStack.push();

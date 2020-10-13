@@ -12,7 +12,7 @@ public class AtumLootTables {
     public static final ResourceLocation SCARAB_GOLDEN = register("entities/scarab_golden");
 
     //Fishing
-    public static final ResourceLocation ATUMS_BOUNTY = register("gameplay/fishing/atums_bounty_fish");
+    public static final ResourceLocation ATEMS_BOUNTY = register("gameplay/fishing/atems_bounty_fish");
     public static final ResourceLocation FISHING = register("gameplay/fishing");
 
     //Container Loot

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -18,10 +18,10 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class FeetOfAtumItem extends TexturedArmorItem {
+public class FeetOfAtemItem extends TexturedArmorItem {
 
-    public FeetOfAtumItem() {
-        super(ArmorMaterial.DIAMOND, "atum_armor", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
+    public FeetOfAtemItem() {
+        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class FeetOfAtumItem extends TexturedArmorItem {
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        if (entity.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATUM && entity.isOnGround()) {
+        if (entity.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATEM && entity.isOnGround()) {
             event.setStrength(0);
         }
     }

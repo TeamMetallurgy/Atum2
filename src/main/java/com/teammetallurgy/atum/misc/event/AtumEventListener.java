@@ -11,7 +11,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
-import com.teammetallurgy.atum.items.artifacts.atum.AtumsBountyItem;
+import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -189,8 +189,8 @@ public class AtumEventListener {
             builder.withLuck((float) EnchantmentHelper.getFishingLuckBonus(heldStack) + angler.getLuck()).withParameter(LootParameters.KILLER_ENTITY, angler).withParameter(LootParameters.THIS_ENTITY, bobber);
             if (world.getDimensionKey() == Atum.ATUM) {
                 event.setCanceled(true); //We don't want vanillas loot table
-                if (heldStack.getItem() instanceof AtumsBountyItem) {
-                    catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.ATUMS_BOUNTY);
+                if (heldStack.getItem() instanceof AtemsBountyItem) {
+                    catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.ATEMS_BOUNTY);
                     angler.world.addEntity(new ExperienceOrbEntity(angler.world, angler.getPosX(), angler.getPosY() + 0.5D, angler.getPosZ() + 0.5D, world.rand.nextInt(6) + 1));
                 } else {
                     catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.FISHING);

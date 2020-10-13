@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.artifacts.atum.EyesOfAtumItem;
+import com.teammetallurgy.atum.items.artifacts.atem.EyesOfAtemItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.client.Minecraft;
@@ -127,7 +127,7 @@ public class ClientEvents {
 
                 // Make it easier to see
                 ItemStack helmet = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-                if (helmet.getItem() instanceof EyesOfAtumItem) {
+                if (helmet.getItem() instanceof EyesOfAtemItem) {
                     alpha *= eyesOfAtumAlpha;
                 }
 
@@ -190,7 +190,7 @@ public class ClientEvents {
                 if (player.getPosition().getY() <= 60) {
                     fogDensity += (float) (62 - player.getPosition().getY()) * 0.005F;
                 }
-                if (helmet.getItem() instanceof EyesOfAtumItem) {
+                if (helmet.getItem() instanceof EyesOfAtemItem) {
                     fogDensity = fogDensity / 3;
                 }
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_GOLD || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {

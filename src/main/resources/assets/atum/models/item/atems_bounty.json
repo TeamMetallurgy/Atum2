@@ -1,14 +1,14 @@
 {
   "parent": "item/handheld_rod",
   "textures": {
-    "layer0": "atum:item/atums_bounty_uncast"
+    "layer0": "atum:item/atems_bounty_uncast"
   },
   "overrides": [
     {
       "predicate": {
         "cast": 1
       },
-      "model": "atum:item/atums_bounty_cast"
+      "model": "atum:item/atems_bounty_cast"
     }
   ]
 }

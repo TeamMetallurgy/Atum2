@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -22,10 +22,10 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtumsWillItem extends SwordItem {
+public class AtemsWillItem extends SwordItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
-    public AtumsWillItem() {
+    public AtemsWillItem() {
         super(ItemTier.DIAMOND, 3, -2.4F, new Item.Properties().group(Atum.GROUP));
     }
 
@@ -46,7 +46,7 @@ public class AtumsWillItem extends SwordItem {
         PlayerEntity player = event.getPlayer();
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
-            if (player.getHeldItemMainhand().getItem() == AtumItems.ATUMS_WILL) {
+            if (player.getHeldItemMainhand().getItem() == AtumItems.ATEMS_WILL) {
                 cooldown.put(player, player.getCooledAttackStrength(0.5F));
             }
         }

@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "atum:body_of_atum"
+      "item": "atum:body_of_atem"
     },
     "title": {
       "translate": "advancement.atum.atumed"
@@ -13,42 +13,42 @@
   },
   "parent": "atum:core/itbelongsinamuseum",
   "criteria": {
-    "eyes_of_atum": {
+    "eyes_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:eyes_of_atum"
+            "item": "atum:eyes_of_atem"
           }
         ]
       }
     },
-    "body_of_atum": {
+    "body_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_atum"
+            "item": "atum:body_of_atem"
           }
         ]
       }
     },
-    "legs_of_atum": {
+    "legs_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_atum"
+            "item": "atum:legs_of_atem"
           }
         ]
       }
     },
-    "feet_of_atum": {
+    "feet_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_atum"
+            "item": "atum:feet_of_atem"
           }
         ]
       }

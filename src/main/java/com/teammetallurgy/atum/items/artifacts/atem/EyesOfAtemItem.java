@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -22,11 +22,11 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
-public class EyesOfAtumItem extends TexturedArmorItem {
+public class EyesOfAtemItem extends TexturedArmorItem {
     private static EffectInstance savedNightVision;
 
-    public EyesOfAtumItem() {
-        super(ArmorMaterial.DIAMOND, "atum_armor", EquipmentSlotType.HEAD, new Item.Properties().rarity(Rarity.RARE));
+    public EyesOfAtemItem() {
+        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.HEAD, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -39,7 +39,7 @@ public class EyesOfAtumItem extends TexturedArmorItem {
     @OnlyIn(Dist.CLIENT)
     public static void render(DrawScreenEvent.Pre event) {
         PlayerEntity player = Minecraft.getInstance().player;
-        if (player != null && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATUM) {
+        if (player != null && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
             if (savedNightVision != null && savedNightVision.getDuration() == 0) {
                 savedNightVision = null;
             }
@@ -54,15 +54,15 @@ public class EyesOfAtumItem extends TexturedArmorItem {
     @OnlyIn(Dist.CLIENT)
     public static void nightVision(TickEvent.RenderTickEvent event) {
         PlayerEntity player = Minecraft.getInstance().player;
-        if (player != null && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATUM) {
+        if (player != null && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
             if (event.phase == TickEvent.Phase.START) {
                 EffectInstance temp = player.getActivePotionEffect(Effects.NIGHT_VISION);
-                if (temp != null && !temp.isCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM))) {
+                if (temp != null && !temp.isCurativeItem(new ItemStack(AtumItems.EYES_OF_ATEM))) {
                     savedNightVision = temp;
                 }
                 player.removePotionEffect(Effects.NIGHT_VISION);
                 EffectInstance eyes = new EffectInstance(Effects.NIGHT_VISION, 1200, 0, false, false);
-                eyes.addCurativeItem(new ItemStack(AtumItems.EYES_OF_ATUM));
+                eyes.addCurativeItem(new ItemStack(AtumItems.EYES_OF_ATEM));
                 player.addPotionEffect(eyes);
             }
         }

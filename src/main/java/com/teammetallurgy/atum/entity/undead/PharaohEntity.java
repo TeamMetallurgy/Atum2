@@ -210,7 +210,7 @@ public class PharaohEntity extends UndeadBaseEntity {
             if (!this.world.isRemote && slayer != null) {
                 List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
                 for (PlayerEntity player : players) {
-                    player.sendMessage(this.getName().copyRaw().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).mergeStyle(God.getGod(this.getVariant()).getColor()), Util.DUMMY_UUID);
+                    player.sendMessage(this.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).mergeStyle(God.getGod(this.getVariant()).getColor()), Util.DUMMY_UUID);
                 }
             }
         }
@@ -457,13 +457,13 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     private void setBossInfo(int variant) {
-        this.bossInfo.setName(this.getDisplayName().copyRaw().mergeStyle(God.getGod(variant).getColor()));
+        this.bossInfo.setName(this.getDisplayName().deepCopy().mergeStyle(God.getGod(variant).getColor()));
     }
 
     public enum God {
         ANPUT("anput", TextFormatting.BLACK),
         ANUBIS("anubis", TextFormatting.DARK_PURPLE),
-        ATUM("atum", TextFormatting.DARK_AQUA),
+        ATEM("atem", TextFormatting.DARK_AQUA),
         GEB("geb", TextFormatting.GOLD),
         HORUS("horus", TextFormatting.AQUA),
         ISIS("isis", TextFormatting.LIGHT_PURPLE),

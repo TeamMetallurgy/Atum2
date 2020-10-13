@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -23,10 +23,10 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class BodyOfAtumItem extends TexturedArmorItem {
+public class BodyOfAtemItem extends TexturedArmorItem {
 
-    public BodyOfAtumItem() {
-        super(ArmorMaterial.DIAMOND, "atum_armor", EquipmentSlotType.CHEST, new Item.Properties().rarity(Rarity.RARE));
+    public BodyOfAtemItem() {
+        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.CHEST, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BodyOfAtumItem extends TexturedArmorItem {
         Entity target = event.getSource().getTrueSource();
         World world = entity.world;
 
-        if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATUM && target instanceof LivingEntity && ((LivingEntity) target).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
+        if (event.getEntityLiving().getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATEM && target instanceof LivingEntity && ((LivingEntity) target).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
             if (entity.world instanceof ServerWorld) {
                 ServerWorld serverWorld = (ServerWorld) entity.world;
                 serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + world.rand.nextDouble() * (double) entity.getHeight(), entity.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) entity.getWidth(), 16, 0.0D, 0.0D, 0.0D, 0.01D);

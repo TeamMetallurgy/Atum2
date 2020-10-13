@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -24,10 +24,10 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtumsProtectionItem extends AtumShieldItem {
+public class AtemsProtectionItem extends AtumShieldItem {
     private static boolean isBlocking = false;
 
-    public AtumsProtectionItem() {
+    public AtemsProtectionItem() {
         super(500, new Item.Properties().rarity(Rarity.RARE));
         this.setRepairItem(Items.DIAMOND);
     }
@@ -41,7 +41,7 @@ public class AtumsProtectionItem extends AtumShieldItem {
     @SubscribeEvent
     public static void onUse(LivingEntityUseItemEvent.Tick event) {
         LivingEntity entity = event.getEntityLiving();
-        if (entity instanceof PlayerEntity && entity.getHeldItem(entity.getActiveHand()).getItem() == AtumItems.ATUMS_PROTECTION) {
+        if (entity instanceof PlayerEntity && entity.getHeldItem(entity.getActiveHand()).getItem() == AtumItems.ATEMS_PROTECTION) {
             isBlocking = true;
         }
     }

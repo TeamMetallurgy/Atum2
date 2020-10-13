@@ -101,7 +101,7 @@ public class ClientHandler {
         registerShieldModelProperties(AtumItems.NUITS_QUARTER);
         registerShieldModelProperties(AtumItems.BRIGAND_SHIELD);
         registerShieldModelProperties(AtumItems.STONEGUARD_SHIELD);
-        registerShieldModelProperties(AtumItems.ATUMS_PROTECTION);
+        registerShieldModelProperties(AtumItems.ATEMS_PROTECTION);
     }
 
     @SubscribeEvent

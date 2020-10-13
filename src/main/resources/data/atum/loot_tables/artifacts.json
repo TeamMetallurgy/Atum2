@@ -12,8 +12,8 @@
         },
         {
           "type": "item",
-          "name": "atum:atums_homecoming",
-          "entryName": "atums_homecoming",
+          "name": "atum:atems_homecoming",
+          "entryName": "atems_homecoming",
           "weight": 1
         },
         {
@@ -30,8 +30,8 @@
         },
         {
           "type": "item",
-          "name": "atum:atums_bounty",
-          "entryName": "atums_bounty",
+          "name": "atum:atems_bounty",
+          "entryName": "atems_bounty",
           "weight": 1
         },
         {
@@ -66,8 +66,8 @@
         },
         {
           "type": "item",
-          "name": "atum:feet_of_atum",
-          "entryName": "feet_of_atum",
+          "name": "atum:feet_of_atem",
+          "entryName": "feet_of_atem",
           "weight": 1
         },
         {
@@ -132,8 +132,8 @@
         },
         {
           "type": "item",
-          "name": "atum:legs_of_atum",
-          "entryName": "legs_of_atum",
+          "name": "atum:legs_of_atem",
+          "entryName": "legs_of_atem",
           "weight": 1
         },
         {
@@ -144,8 +144,8 @@
         },
         {
           "type": "item",
-          "name": "atum:atums_will",
-          "entryName": "atums_will",
+          "name": "atum:atems_will",
+          "entryName": "atems_will",
           "weight": 1
         },
         {
@@ -162,14 +162,14 @@
         },
         {
           "type": "item",
-          "name": "atum:eyes_of_atum",
-          "entryName": "eyes_of_atum",
+          "name": "atum:eyes_of_atem",
+          "entryName": "eyes_of_atem",
           "weight": 1
         },
         {
           "type": "item",
-          "name": "atum:body_of_atum",
-          "entryName": "body_of_atum",
+          "name": "atum:body_of_atem",
+          "entryName": "body_of_atem",
           "weight": 1
         },
         {

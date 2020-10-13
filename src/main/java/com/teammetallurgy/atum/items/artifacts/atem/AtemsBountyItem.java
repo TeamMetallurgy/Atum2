@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.atum;
+package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.client.util.ITooltipFlag;
@@ -13,9 +13,9 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class AtumsBountyItem extends FishingRodItem {
+public class AtemsBountyItem extends FishingRodItem {
 
-    public AtumsBountyItem() {
+    public AtemsBountyItem() {
         super(new Item.Properties().maxDamage(100).rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
