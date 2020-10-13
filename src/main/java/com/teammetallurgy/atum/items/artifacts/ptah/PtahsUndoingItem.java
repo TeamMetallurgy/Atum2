@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 public class PtahsUndoingItem extends PickaxeItem {
 
     public PtahsUndoingItem() {
-        super(ItemTier.DIAMOND, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0));
+        super(ItemTier.DIAMOND, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0).group(Atum.GROUP));
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.entity.animal;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;

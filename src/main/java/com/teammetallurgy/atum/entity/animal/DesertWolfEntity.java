@@ -399,7 +399,6 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         Item item = heldStack.getItem();
         boolean tameItem = item.isIn(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
         if (this.world.isRemote()) {
-            System.out.println("isRemote");
             boolean flag = this.isOwner(player) || this.isTamed() || tameItem && !this.isTamed() && !this.func_233678_J__();
             return flag ? ActionResultType.CONSUME : ActionResultType.PASS;
         } else {

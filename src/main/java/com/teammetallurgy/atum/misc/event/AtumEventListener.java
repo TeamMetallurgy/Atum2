@@ -76,6 +76,7 @@ public class AtumEventListener {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             ServerWorld world = (ServerWorld) serverPlayer.world;
             //PortalBlock.changeDimension(world, serverPlayer, AtumDimensionType.ATUM, new TeleporterAtumStart()); //TODO
+            //TODO Set spawn point in Atum, when starting in Atum
         }
     }
 

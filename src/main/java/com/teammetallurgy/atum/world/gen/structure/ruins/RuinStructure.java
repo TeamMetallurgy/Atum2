@@ -1,11 +1,9 @@
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.mojang.serialization.Codec;
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;

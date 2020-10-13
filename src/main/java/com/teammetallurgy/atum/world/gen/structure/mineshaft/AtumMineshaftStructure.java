@@ -1,9 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.mojang.serialization.Codec;
-import com.teammetallurgy.atum.Atum;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MutableBoundingBox;

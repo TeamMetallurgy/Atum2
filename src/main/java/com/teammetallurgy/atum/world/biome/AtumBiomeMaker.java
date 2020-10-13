@@ -30,7 +30,7 @@ import net.minecraft.world.gen.placement.Placement;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION;
 
-public class AtumBiomeMaker { //TODO Clean this up
+public class AtumBiomeMaker {
 
     public static Biome makeDeadOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));

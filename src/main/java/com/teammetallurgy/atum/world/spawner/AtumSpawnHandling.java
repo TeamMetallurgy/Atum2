@@ -23,11 +23,10 @@ import java.util.List;
 public class AtumSpawnHandling {
     public static List<ISpecialSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner());
 
-    /*@SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent event) { //TODO, probably remove. At least if we go full biome json
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onBiomeLoad(BiomeLoadingEvent event) {
         ResourceLocation name = event.getName();
         if (AtumConfig.Mobs.ENTITY_TYPE.containsKey(name)) {
-            System.out.println("ATUM BIOME: " + name.getPath());
             for (EntityType<?> entityType : AtumConfig.Mobs.ENTITY_TYPE.get(name)) {
                 String baseCategory = AtumConfig.Mobs.MOBS;
                 EntityClassification classification = AtumConfig.Mobs.ENTITY_CLASSIFICATION.get(entityType);
@@ -36,11 +35,11 @@ public class AtumSpawnHandling {
                     int weight = AtumConfig.Helper.get(baseCategory, mobName, "weight");
                     int min = AtumConfig.Helper.get(baseCategory, mobName, "min");
                     int max = AtumConfig.Helper.get(baseCategory, mobName, "max");
-                    event.getSpawns().getSpawner(classification).add(new MobSpawnInfo.Spawners(entityType, weight, min, max)); //TODO Test
+                    event.getSpawns().getSpawner(classification).add(new MobSpawnInfo.Spawners(entityType, weight, min, max));
                 }
             }
         }
-    }*/
+    }
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {

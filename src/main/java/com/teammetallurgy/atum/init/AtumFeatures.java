@@ -2,29 +2,17 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.ImmutableSet;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumAPI;
-import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
-import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
 import com.teammetallurgy.atum.world.gen.feature.*;
 import com.teammetallurgy.atum.world.gen.feature.config.DoubleBlockStateFeatureConfig;
 import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftConfig;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStructure;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.BiomeGenerationSettings;
-import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.ColumnBlockPlacer;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.template.RuleTest;
-import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
-import net.minecraft.world.gen.placement.*;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,9 +20,6 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumFeatures {
