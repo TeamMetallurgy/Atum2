@@ -5,6 +5,36 @@
   "disable_mob_generation": false,
   "structures": {
     "structures": {
+      "atum:girafi_tomb": {
+        "spacing": 160,
+        "separation": 40,
+        "salt": 0
+      },
+      "atum:lighthouse": {
+        "spacing": 10,
+        "separation": 4,
+        "salt": 0
+      },
+      "atum:mineshaft": {
+        "spacing": 1,
+        "separation": 0,
+        "salt": 0
+      },
+      "atum:pyramid": {
+        "spacing": 18,
+        "separation": 8,
+        "salt": 0
+      },
+      "atum:ruin": {
+        "spacing": 5,
+        "separation": 3,
+        "salt": 0
+      },
+      "atum:tomb": {
+        "spacing": 13,
+        "separation": 11,
+        "salt": 0
+      }
     }
   },
   "noise": {

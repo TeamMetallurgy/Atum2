@@ -23,13 +23,10 @@ import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
 import net.minecraft.world.gen.placement.Placement;
-
-import javax.annotation.Nonnull;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION;
 
@@ -82,7 +79,6 @@ public class AtumBiomeMaker { //TODO Clean this up
 
     public static Biome makeDriedRiver(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
-        biomeGen.withStructure(AtumStructures.PYRAMID_FEATURE); //TODO Remove. Just for testing
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -92,8 +88,8 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addShrubs(biomeGen);
         AtumDefaultFeatures.addFossils(biomeGen);
         AtumDefaultFeatures.addDungeon(biomeGen);
-        //AtumDefaultFeatures.addTomb(biomeGen); //TODO Re-enable
-        //AtumDefaultFeatures.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addTomb(biomeGen);
+        AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(-0.5F).scale(0.0F).build();
     }
 
@@ -124,7 +120,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         }
         AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.1F, 1);
         addDefaultSpawns(biomeName);
-        addDesertWolfSpawning(biomeName); //TODO Test
+        addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);

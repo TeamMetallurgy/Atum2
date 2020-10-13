@@ -47,12 +47,6 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
 
     @Override
     @Nonnull
-    public String getStructureName() {
-        return String.valueOf(new ResourceLocation(Atum.MOD_ID, "ruin"));
-    }
-
-    @Override
-    @Nonnull
     public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
     }

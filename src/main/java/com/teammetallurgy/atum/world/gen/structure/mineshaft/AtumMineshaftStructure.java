@@ -50,12 +50,6 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
         return Start::new;
     }
 
-    @Override
-    @Nonnull
-    public String getStructureName() {
-        return String.valueOf(new ResourceLocation(Atum.MOD_ID, "mineshaft"));
-    }
-
     public static class Start extends StructureStart<AtumMineshaftConfig> {
 
         public Start(Structure<AtumMineshaftConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {

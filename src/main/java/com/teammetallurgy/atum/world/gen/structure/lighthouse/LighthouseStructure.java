@@ -58,12 +58,6 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
         return Start::new;
     }
 
-    @Override
-    @Nonnull
-    public String getStructureName() {
-        return String.valueOf(LighthousePieces.LIGHTHOUSE);
-    }
-
     public static class Start extends StructureStart<NoFeatureConfig> {
 
         public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {

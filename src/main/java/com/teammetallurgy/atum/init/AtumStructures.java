@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftConfig;
@@ -35,12 +36,15 @@ public class AtumStructures {
     public static final Structure<AtumMineshaftConfig> MINESHAFT_STRUCTURE = register("mineshaft", new AtumMineshaftStructure(AtumMineshaftConfig.CODEC), GenerationStage.Decoration.UNDERGROUND_STRUCTURES);
 
     //Structure Features
-    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> GIRAFI_TOMB_FEATURE = register(GIRAFI_TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> LIGHTHOUSE_FEATURE = register(LIGHTHOUSE_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> TOMB_FEATURE = register(TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> RUIN_FEATURE = register(RUIN_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> PYRAMID_FEATURE = register(PYRAMID_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_FEATURE = register(MINESHAFT_STRUCTURE, new AtumMineshaftConfig(0.1F, AtumMineshaftStructure.Type.LIMESTONE)); //TODO Doing the config like this, is probably a problem
+    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> GIRAFI_TOMB_FEATURE = register("girafi_tomb", GIRAFI_TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
+    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> LIGHTHOUSE_FEATURE = register("lighthouse", LIGHTHOUSE_STRUCTURE, NoFeatureConfig.field_236559_b_);
+    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> TOMB_FEATURE = register("tomb", TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
+    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> RUIN_FEATURE = register("ruin", RUIN_STRUCTURE, NoFeatureConfig.field_236559_b_);
+    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> PYRAMID_FEATURE = register("pyramid", PYRAMID_STRUCTURE, NoFeatureConfig.field_236559_b_);
+    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_DEADWOOD_FEATURE = register("mineshaft_deadwood", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.DEADWOOD));
+    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_LIMESTONE_FEATURE = register("mineshaft_limestone", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.LIMESTONE));
+    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_DEADWOOD_SURFACE_FEATURE = register("mineshaft_deadwood_surface", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.DEADWOOD_SURFACE));
+    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_LIMESTONE_SURFACE_FEATURE = register("mineshaft_limestone_surface", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.LIMESTONE_SURFACE));
 
     private static <F extends Structure<?>> F register(String name, F structure, GenerationStage.Decoration generationStage) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
@@ -51,8 +55,8 @@ public class AtumStructures {
         return structure;
     }
 
-    private static <FC extends IFeatureConfig, F extends Structure<FC>> StructureFeature<FC, ?> register(F structure, FC fc) {
-        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, structure.getStructureName(), structure.func_236391_a_(fc));
+    private static <FC extends IFeatureConfig, F extends Structure<FC>> StructureFeature<FC, ?> register(String name, F structure, FC fc) {
+        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, new ResourceLocation(Atum.MOD_ID, name), structure.func_236391_a_(fc));
     }
 
     @SubscribeEvent

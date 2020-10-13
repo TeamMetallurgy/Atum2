@@ -8,8 +8,6 @@ import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftConfig;
-import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStructure;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -19,8 +17,6 @@ import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.placement.*;
 import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
-
-import java.util.Random;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
@@ -144,15 +140,13 @@ public class AtumDefaultFeatures {
 
     public static void addMineshaft(BiomeGenerationSettings.Builder builder, boolean isSurface) {
         if (AtumConfig.WORLD_GEN.mineshaftProbability.get() > 0.0D) {
-            int chance = new Random().nextInt(100);
-            AtumMineshaftStructure.Type type;
-            if (chance > 50) {
-                type = isSurface ? AtumMineshaftStructure.Type.LIMESTONE_SURFACE : AtumMineshaftStructure.Type.LIMESTONE;
+            if (isSurface) {
+                builder.withStructure(AtumStructures.MINESHAFT_DEADWOOD_SURFACE_FEATURE);
+                builder.withStructure(AtumStructures.MINESHAFT_LIMESTONE_SURFACE_FEATURE);
             } else {
-                type = isSurface ? AtumMineshaftStructure.Type.DEADWOOD_SURFACE : AtumMineshaftStructure.Type.DEADWOOD;
+                builder.withStructure(AtumStructures.MINESHAFT_DEADWOOD_FEATURE);
+                builder.withStructure(AtumStructures.MINESHAFT_LIMESTONE_FEATURE);
             }
-            AtumMineshaftConfig config = new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), type);
-            builder.withStructure(AtumStructures.MINESHAFT_FEATURE.field_236268_b_.func_236391_a_(config));  //TODO Test
         }
     }
 }

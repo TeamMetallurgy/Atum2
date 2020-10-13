@@ -66,12 +66,6 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
     @Override
     @Nonnull
-    public String getStructureName() {
-        return String.valueOf(PyramidPieces.PYRAMID);
-    }
-
-    @Override
-    @Nonnull
     public IStartFactory<NoFeatureConfig> getStartFactory() {
         return Start::new;
     }
