@@ -14,6 +14,7 @@ import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.data.BiomeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
@@ -333,6 +334,10 @@ public class AtumRegistry {
 
         if (event.includeServer()) {
             gen.addProvider(new RecipeGenerator(gen));
+        }
+
+        if (event.includeReports()) {
+            gen.addProvider(new BiomeProvider(gen));
         }
     }
 }

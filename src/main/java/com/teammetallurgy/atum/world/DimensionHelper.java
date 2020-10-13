@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.biome.Biome;
@@ -17,10 +18,6 @@ import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.world.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistry;
-
-import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
@@ -56,18 +53,10 @@ public class DimensionHelper {
     }
 
     public static Biome getBiome(RegistryKey<Biome> key) {
-        Biome biome = ForgeRegistries.BIOMES.getValue(key.getLocation());
-        if (biome == null) {
-            throw new RuntimeException("Attempted to get unregistered biome " + key);
-        }
-        return biome;
-    }
-
-    public static int getBiomeID(@Nonnull Biome biome) {
-        return ((ForgeRegistry<Biome>) ForgeRegistries.BIOMES).getID(biome);
+        return WorldGenRegistries.BIOME.getValueForKey(key);
     }
 
     public static int getBiomeID(RegistryKey<Biome> key) {
-        return getBiomeID(getBiome(key));
+        return WorldGenRegistries.BIOME.getId(getBiome(key));
     }
 }

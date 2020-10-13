@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumStructures {
@@ -39,11 +40,13 @@ public class AtumStructures {
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> TOMB_FEATURE = register(TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> RUIN_FEATURE = register(RUIN_STRUCTURE, NoFeatureConfig.field_236559_b_);
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> PYRAMID_FEATURE = register(PYRAMID_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_FEATURE = register(MINESHAFT_STRUCTURE, new AtumMineshaftConfig(0.0F, AtumMineshaftStructure.Type.LIMESTONE)); //TODO Doing the config like this, is probably a problem
+    public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_FEATURE = register(MINESHAFT_STRUCTURE, new AtumMineshaftConfig(0.1F, AtumMineshaftStructure.Type.LIMESTONE)); //TODO Doing the config like this, is probably a problem
 
     private static <F extends Structure<?>> F register(String name, F structure, GenerationStage.Decoration generationStage) {
-        structure.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
+        ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
+        structure.setRegistryName(id);
         STRUCTURES.add(structure);
+        Structure.field_236365_a_.put(id.toString().toLowerCase(Locale.ROOT), structure);
         Structure.field_236385_u_.put(structure, generationStage);
         return structure;
     }

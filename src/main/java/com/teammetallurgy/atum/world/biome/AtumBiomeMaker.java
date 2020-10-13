@@ -15,10 +15,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.BiomeAmbience;
-import net.minecraft.world.biome.BiomeGenerationSettings;
-import net.minecraft.world.biome.MobSpawnInfo;
+import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
@@ -26,6 +23,7 @@ import net.minecraft.world.gen.feature.BlockClusterFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.Features;
 import net.minecraft.world.gen.feature.IFeatureConfig;
+import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
@@ -58,7 +56,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
 
-        return new Builder().setHeightVariation(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
+        return new Builder().scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
     }
 
     public static Biome makeDeadwoodForest(String biomeName) {
@@ -79,11 +77,12 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).build();
     }
 
     public static Biome makeDriedRiver(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
+        biomeGen.withStructure(AtumStructures.PYRAMID_FEATURE); //TODO Remove. Just for testing
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -93,9 +92,9 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addShrubs(biomeGen);
         AtumDefaultFeatures.addFossils(biomeGen);
         AtumDefaultFeatures.addDungeon(biomeGen);
-        AtumDefaultFeatures.addTomb(biomeGen);
-        AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(-0.5F).setHeightVariation(0.0F).build();
+        //AtumDefaultFeatures.addTomb(biomeGen); //TODO Re-enable
+        //AtumDefaultFeatures.addMineshaft(biomeGen, false);
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(-0.5F).scale(0.0F).build();
     }
 
     public static Biome makeLimestoneCrags(String biomeName) {
@@ -115,7 +114,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addDungeon(biomeGen);
         AtumDefaultFeatures.addTomb(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(0.225F).setHeightVariation(0.45F).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(0.225F).scale(0.45F).build();
     }
 
     public static Biome makeLimestoneMountain(String biomeName) {
@@ -138,7 +137,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addTomb(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, true);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(1.5F).setHeightVariation(0.6F).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(1.5F).scale(0.6F).build();
     }
 
     public static Biome makeOasis(String biomeName) {
@@ -159,7 +158,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addInfestedLimestone(biomeGen);
         AtumDefaultFeatures.addFossils(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().setHeightVariation(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
+        return new Builder().scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
     }
 
     public static Biome makeSandDunes(String biomeName) {
@@ -180,7 +179,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(0.175F).setHeightVariation(0.2F).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(0.175F).scale(0.2F).build();
     }
 
     public static Biome makeSandHills(String biomeName) {
@@ -200,7 +199,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addTomb(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).setBaseHeight(0.3F).setHeightVariation(0.3F).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(0.3F).scale(0.3F).build();
     }
 
     public static Biome makeSandPlains(String biomeName) {
@@ -222,7 +221,7 @@ public class AtumBiomeMaker { //TODO Clean this up
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().copy()).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).build();
     }
 
     public static void addDefaultSpawns(String biomeName) {
@@ -289,43 +288,12 @@ public class AtumBiomeMaker { //TODO Clean this up
             this.temperature(2.0F);
             this.downfall(0.0F);
             this.setEffects(getBaseEffects().build());
-            this.setBaseHeight(0.135F);
-            this.setHeightVariation(0.05F);
+            this.depth(0.135F);
+            this.scale(0.05F);
         }
 
         public static BiomeAmbience.Builder getBaseEffects() {
-            return new BiomeAmbience.Builder().setFogColor(13876389).setWaterColor(4159204).setWaterFogColor(329011).withSkyColor(DimensionHelper.getSkyColorWithTemperatureModifier(2.0F)).withGrassColor(12889745).withFoliageColor(12889745);
-        }
-
-        public Builder setBaseHeight(float height) {
-            this.depth(height);
-            return this;
-        }
-
-        public Builder setHeightVariation(float variation) {
-            this.scale(variation);
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder setEffects(@Nonnull BiomeAmbience effects) {
-            super.setEffects(effects);
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder withGenerationSettings(@Nonnull BiomeGenerationSettings biomeGen) {
-            super.withGenerationSettings(biomeGen);
-            return this;
-        }
-
-        @Override
-        @Nonnull
-        public Builder withMobSpawnSettings(@Nonnull MobSpawnInfo spawnInfo) {
-            super.withMobSpawnSettings(spawnInfo);
-            return this;
+            return new BiomeAmbience.Builder().setFogColor(13876389).setWaterColor(4159204).setWaterFogColor(329011).withSkyColor(DimensionHelper.getSkyColorWithTemperatureModifier(2.0F)).withGrassColor(12889745).withFoliageColor(12889745).setMoodSound(MoodSoundAmbience.DEFAULT_CAVE);
         }
     }
 }

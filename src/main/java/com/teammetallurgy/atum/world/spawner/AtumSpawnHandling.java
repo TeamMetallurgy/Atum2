@@ -23,8 +23,8 @@ import java.util.List;
 public class AtumSpawnHandling {
     public static List<ISpecialSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner());
 
-    @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent event) {
+    /*@SubscribeEvent(priority = EventPriority.HIGH)
+    public static void onBiomeLoad(BiomeLoadingEvent event) { //TODO, probably remove. At least if we go full biome json
         ResourceLocation name = event.getName();
         if (AtumConfig.Mobs.ENTITY_TYPE.containsKey(name)) {
             System.out.println("ATUM BIOME: " + name.getPath());
@@ -40,7 +40,7 @@ public class AtumSpawnHandling {
                 }
             }
         }
-    }
+    }*/
 
     @SubscribeEvent
     public static void onWorldTick(TickEvent.WorldTickEvent event) {
