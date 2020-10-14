@@ -28,6 +28,10 @@ public class AtumDefaultFeatures {
         builder.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CANYON_CONFIGURED);
     }
 
+    public static void addSandLayer(BiomeGenerationSettings.Builder builder) { //TODO Figure out why it's not working
+        builder.withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, AtumFeatures.SAND_LAYER.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+    }
+
     public static void addSprings(BiomeGenerationSettings.Builder builder) {
         builder.withFeature(VEGETAL_DECORATION, Feature.SPRING_FEATURE.withConfiguration(AtumFeatures.WATER_SPRING_CONFIG).withPlacement(Placement.field_242908_m.configure(new TopSolidRangeConfig(8, 8, 50)).func_242728_a().func_242731_b(14)));
         builder.withFeature(VEGETAL_DECORATION, Feature.SPRING_FEATURE.withConfiguration(AtumFeatures.LAVA_SPRING_CONFIG).withPlacement(Placement.field_242909_n.configure(new TopSolidRangeConfig(8, 16, 256)).func_242728_a().func_242731_b(8)));

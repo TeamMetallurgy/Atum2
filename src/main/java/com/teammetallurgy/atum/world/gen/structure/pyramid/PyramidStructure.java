@@ -61,7 +61,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                 return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) > 55;
             }
         }
-        return true;
+        return false;
     }
 
     @Override

@@ -36,7 +36,11 @@ public class AtumLayerUtil {
         zoomLayer = LayerUtil.repeat(1000L, ZoomLayer.NORMAL, zoomLayer, riverSize, context);
         zoomLayer = AtumRiverLayer.INSTANCE.apply(context.apply(1L), zoomLayer);
         zoomLayer = SmoothLayer.INSTANCE.apply(context.apply(1000L), zoomLayer);
-        biomeLayer = OasisLayer.INSTANCE.apply(context.apply(1001L), biomeLayer);
+        int oasisLayerSize = 3;
+
+        for (int size = 0; size < oasisLayerSize; ++size) {
+            biomeLayer = OasisLayer.INSTANCE.apply(context.apply(1001L + size), biomeLayer);
+        }
 
         for (int size = 0; size < biomeSize; ++size) {
             biomeLayer = ZoomLayer.NORMAL.apply(context.apply(1000 + size), biomeLayer);

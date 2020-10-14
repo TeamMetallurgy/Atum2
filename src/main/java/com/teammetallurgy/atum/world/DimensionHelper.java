@@ -10,6 +10,7 @@ import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.biome.Biome;
@@ -41,11 +42,10 @@ public class DimensionHelper {
         return MathHelper.hsvToRGB(0.62222224F - f * 0.05F, 0.5F + f * 0.1F, 1.0F);
     }
 
-    public static boolean canPlaceSandLayer(RegistryKey<Biome> biome, IWorldReader world, BlockPos pos) {
+    public static boolean canPlaceSandLayer(ISeedReader world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
         BlockState stateDown = world.getBlockState(pos.down());
-        return biome != AtumBiomes.OASIS
-                && state.getMaterial().isReplaceable()
+        return state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
                 && Block.hasSolidSideOnTop(world, pos.down())
                 && !(stateDown.getBlock() instanceof SandLayersBlock)

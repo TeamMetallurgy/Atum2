@@ -34,12 +34,12 @@ public class AtumBiomeMaker {
 
     public static Biome makeDeadOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
-        biomeGen.withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.AIR.getDefaultState(), AtumBlocks.LIMESTONE_GRAVEL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
         biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DEAD_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(5));
         biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.PALM_TREE.withConfiguration(AtumFeatures.DEAD_PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -53,7 +53,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
 
-        return new Builder().scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
+        return new Builder().depth(-0.18F).scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
     }
 
     public static Biome makeDeadwoodForest(String biomeName) {
@@ -62,6 +62,7 @@ public class AtumBiomeMaker {
         addDefaultSpawns(biomeName);
         AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 20, 0.25F, 3);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -80,6 +81,7 @@ public class AtumBiomeMaker {
     public static Biome makeDriedRiver(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);
@@ -100,6 +102,7 @@ public class AtumBiomeMaker {
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -122,6 +125,7 @@ public class AtumBiomeMaker {
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -138,7 +142,7 @@ public class AtumBiomeMaker {
 
     public static Biome makeOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.OASIS));
-        biomeGen.withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.WATER.getDefaultState(), AtumBlocks.FERTILE_SOIL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
+        //biomeGen.withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, AtumFeatures.OASIS_POND.withConfiguration(new DoubleBlockStateFeatureConfig(Blocks.WATER.getDefaultState(), AtumBlocks.FERTILE_SOIL.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(1))));
         biomeGen.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(7));
         //TODO Fix Papyrus feature. Breaks Oasis when enabled
         //biomeGen.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(250));
@@ -154,7 +158,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addInfestedLimestone(biomeGen);
         AtumDefaultFeatures.addFossils(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
+        return new Builder().depth(-0.18F).scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
     }
 
     public static Biome makeSandDunes(String biomeName) {
@@ -163,6 +167,7 @@ public class AtumBiomeMaker {
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -184,6 +189,7 @@ public class AtumBiomeMaker {
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -205,6 +211,7 @@ public class AtumBiomeMaker {
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
+        AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -250,31 +257,6 @@ public class AtumBiomeMaker {
     public static void addDesertWolfSpawning(String biomeName) {
         addSpawn(biomeName, AtumEntities.DESERT_WOLF, 6, 2, 4, EntityClassification.CREATURE);
     }
-
-    //TODO Make sure all this is reimplmented correctly
-    /*
-    @Override
-    public void decorate(@Nonnull GenerationStage.Decoration stage, @Nonnull ChunkGenerator<? extends GenerationSettings> chunkGenerator, @Nonnull IWorld world, long seed, @Nonnull SharedSeedRandom random, @Nonnull BlockPos pos) {
-        super.decorate(stage, chunkGenerator, world, seed, random, pos);
-
-        if (AtumConfig.WORLD_GEN.sandLayerEdge.get()) {
-            for (int x = 0; x < 16; ++x) {
-                for (int z = 0; z < 16; ++z) {
-                    BlockPos height = world.getHeight(Heightmap.Type.MOTION_BLOCKING, pos.add(x, 0, z));
-
-                    if (canPlaceSandLayer(world, height)) {
-                        for (Direction facing : Direction.Plane.HORIZONTAL) {
-                            BlockPos posOffset = height.offset(facing);
-                            if (world.getBlockState(posOffset).isSolidSide(world, posOffset, Direction.UP)) {
-                                int layers = MathHelper.nextInt(random, 1, 3);
-                                world.setBlockState(height, AtumBlocks.SAND_LAYERED.getDefaultState().with(SandLayersBlock.LAYERS, layers), 2);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 
     public static class Builder extends Biome.Builder {
 

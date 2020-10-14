@@ -37,7 +37,7 @@ public class AtumBiomeProvider extends BiomeProvider {
         this.seed = seed;
         this.largeBiomes = largeBiomes;
         this.lookupRegistry = lookupRegistry;
-        this.genBiomes = AtumLayerUtil.getNoiseLayer(seed, largeBiomes ? 6 : 4, 4);
+        this.genBiomes = AtumLayerUtil.getNoiseLayer(seed, largeBiomes ? 6 : 4, 8);
     }
 
     public static Biome getBiome(RegistryKey<Biome> key) {
