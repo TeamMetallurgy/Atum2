@@ -32,17 +32,9 @@ public class DateBlock extends BushBlock implements IGrowable {
     private static final VoxelShape BOUNDING_BOX = Block.makeCuboidShape(5.0D, 2.0D, 5.0D, 11.0D, 16.0D, 11.0D);
 
     public DateBlock() {
-        super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).notSolid().tickRandomly());
+        super(Properties.create(Material.PLANTS).sound(SoundType.PLANT).hardnessAndResistance(0.35F).notSolid().tickRandomly());
         this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
     }
-
-    /*@Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) { //TODO
-        if (state.get(AGE) != 3) {
-            return 0.25F;
-        }
-        return 0.35F;
-    }*/
 
     @Override
     @Nonnull

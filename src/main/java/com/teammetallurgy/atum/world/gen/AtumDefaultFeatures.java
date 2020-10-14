@@ -94,7 +94,6 @@ public class AtumDefaultFeatures {
     }
 
     public static void addInfestedLimestone(BiomeGenerationSettings.Builder builder) {
-
         builder.withFeature(UNDERGROUND_DECORATION, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.LIMESTONE.getDefaultState().with(LimestoneBlock.HAS_SCARAB, true), 10)).withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(0, 11, 80)).func_242728_a().func_242731_b(8)));
     }
 
@@ -107,7 +106,6 @@ public class AtumDefaultFeatures {
 
     public static void addFossils(BiomeGenerationSettings.Builder builder) {
         if (AtumConfig.WORLD_GEN.fossilsChance.get() > 0) {
-
             builder.withFeature(UNDERGROUND_DECORATION, AtumFeatures.DIRTY_BONE_FOSSILS.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).func_242729_a(AtumConfig.WORLD_GEN.fossilsChance.get()));
         }
     }
@@ -134,7 +132,7 @@ public class AtumDefaultFeatures {
 
     public static void addRuins(BiomeGenerationSettings.Builder builder) {
         if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
-            builder.withStructure(AtumStructures.RUIN_FEATURE);
+            //builder.withStructure(AtumStructures.RUIN_FEATURE); //TODO Some ruins seems to make the world freeze
         }
     }
 

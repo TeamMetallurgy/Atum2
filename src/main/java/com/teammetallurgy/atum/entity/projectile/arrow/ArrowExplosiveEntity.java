@@ -26,7 +26,7 @@ public class ArrowExplosiveEntity extends CustomArrow {
 
     @Override
     public void tick() {
-        if (this.timeInGround == 0 && velocity == 1.0F && !this.inGround && world.getGameTime() % 2L == 0L) { //TODO Test if timeinGround works, instead of ticksInAir
+        if (this.timeInGround == 20 && velocity == 1.0F && !this.inGround && world.getGameTime() % 2L == 0L) {
             world.playSound(null, getPosition(), SoundEvents.ENTITY_TNT_PRIMED, SoundCategory.PLAYERS, 1.0F, 1.0F);
         }
         super.tick();

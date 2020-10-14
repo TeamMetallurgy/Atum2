@@ -176,7 +176,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         this.dataManager.register(ANGER, 0);
     }
 
-    public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) { //TODO test
+    public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
         return pos.getY() > 62 && ((ServerWorld) world.getChunkProvider().getWorld()).getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.canBlockSeeSky(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
     }
 

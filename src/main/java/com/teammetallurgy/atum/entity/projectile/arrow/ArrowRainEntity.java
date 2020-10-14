@@ -37,7 +37,7 @@ public class ArrowRainEntity extends CustomArrow {
             }
         }
         if (velocity == 1.0F && this.func_234616_v_() instanceof LivingEntity) {
-            if (this.ticksExisted == 12) { //TODO Test
+            if (this.ticksExisted == 12) {
                 this.remove();
                 if (!isSmallArrow) {
                     ArrowRainEntity arrow1 = new ArrowRainEntity(world, this.getPosX() + 0.5D, this.getPosY(), this.getPosZ());

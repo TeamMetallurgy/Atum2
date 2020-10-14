@@ -99,7 +99,7 @@ public class BaseBowItem extends BowItem {
     }
 
     protected void onShoot(ArrowEntity arrow, PlayerEntity player, float velocity) {
-        arrow.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
+        arrow.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
     }
 
     public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {

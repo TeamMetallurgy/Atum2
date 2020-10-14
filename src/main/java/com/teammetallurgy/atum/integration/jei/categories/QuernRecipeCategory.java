@@ -89,7 +89,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
 
     @Override
     public void draw(QuernRecipe recipe, @Nonnull MatrixStack matrixStack, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.func_243246_a(matrixStack, new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
+        Minecraft.getInstance().fontRenderer.func_243248_b(matrixStack, new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
         this.icon.draw(matrixStack, 29, 8);
     }
 }

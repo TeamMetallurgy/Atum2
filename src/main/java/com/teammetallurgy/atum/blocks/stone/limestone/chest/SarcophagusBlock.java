@@ -34,7 +34,7 @@ import javax.annotation.Nonnull;
 public class SarcophagusBlock extends ChestBaseBlock {
 
     public SarcophagusBlock() {
-        super(() -> AtumTileEntities.SARCOPHAGUS, AbstractBlock.Properties.create(Material.ROCK, MaterialColor.SAND));
+        super(() -> AtumTileEntities.SARCOPHAGUS, AbstractBlock.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(4.0F));
     }
 
     @Override
@@ -42,15 +42,16 @@ public class SarcophagusBlock extends ChestBaseBlock {
         return new SarcophagusTileEntity();
     }
 
-    /*@Override
-    public float getBlockHardness(@Nonnull BlockState state, IBlockReader world, @Nonnull BlockPos pos) { //TODO
-        TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
-            return -1.0F;
-        } else {
-            return 4.0F;
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        BlockState state = event.getState();
+        if (state.getBlock() instanceof SarcophagusBlock) {
+            TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
+            if (tileEntity instanceof SarcophagusTileEntity && !((SarcophagusTileEntity) tileEntity).isOpenable) {
+                event.setCanceled(true);
+            }
         }
-    }*/
+    }
 
     @Override
     public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {

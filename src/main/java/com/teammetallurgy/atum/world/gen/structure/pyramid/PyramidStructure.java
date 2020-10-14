@@ -109,7 +109,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            Optional<RegistryKey<Biome>> optional = seedReader.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(seedReader.getBiome(this.getPos())); //TODO Test
+            Optional<RegistryKey<Biome>> optional = seedReader.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(seedReader.getBiome(this.getPos()));
             if (optional.isPresent() && optional.get() != AtumBiomes.DRIED_RIVER) {
                 super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
                 int y = this.bounds.minY;

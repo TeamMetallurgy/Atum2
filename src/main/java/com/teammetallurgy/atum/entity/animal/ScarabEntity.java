@@ -62,7 +62,7 @@ public class ScarabEntity extends MonsterEntity {
     @Nullable
     public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
-        if (rand.nextDouble() <= 0.002D) { //TODO Test golden scarab is working, and values is correct
+        if (rand.nextDouble() <= 0.002D) {
             this.setVariant(1);
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
             this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(3.0D);

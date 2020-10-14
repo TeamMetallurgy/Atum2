@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
@@ -14,9 +15,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class LimestoneBrickBlock extends Block {
     public static final BooleanProperty UNBREAKABLE = BooleanProperty.create("unbreakable");
 
@@ -45,10 +50,13 @@ public class LimestoneBrickBlock extends Block {
         }
     }
 
-    /*@Override
-    public float getBlockHardness(BlockState state, IBlockReader world, BlockPos pos) { //TODO
-        return state.get(UNBREAKABLE) ? -1.0F : super.getBlockHardness(state, world, pos);
-    }*/
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        BlockState state = event.getState();
+        if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE)) {
+            event.setCanceled(true);
+        }
+    }
 
     @Override
     public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {

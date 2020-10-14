@@ -54,7 +54,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).toString(); //TODO Test
+        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getString();
     }
 
     @Override

@@ -18,10 +18,9 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
-import java.util.Optional;
 import java.util.Set;
 
-public class AtemsHomecomingItem extends AmuletItem { //TODO Test if works
+public class AtemsHomecomingItem extends AmuletItem {
 
     public AtemsHomecomingItem() {
         super(new Item.Properties().maxDamage(20));
@@ -36,8 +35,7 @@ public class AtemsHomecomingItem extends AmuletItem { //TODO Test if works
             ServerWorld serverWorld = (ServerWorld) world;
             if (player instanceof ServerPlayerEntity) {
                 ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-                Optional<Vector3d> optional = PlayerEntity.func_242374_a(serverWorld, serverPlayer.func_241140_K_(), serverPlayer.func_242109_L(), serverPlayer.func_241142_M_(), false);
-                pos = optional.isPresent() ? new BlockPos(optional.get()) : null;
+                pos = serverPlayer.func_241140_K_(); //Bed pos
                 if (pos == null) {
                     BlockPos spawnPointPos = serverWorld.getSpawnPoint();
                     while (spawnPointPos.getY() > 1 && world.isAirBlock(spawnPointPos)) {

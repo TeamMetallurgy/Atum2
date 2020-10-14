@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Random;
 
 public class LighthouseStructure extends Structure<NoFeatureConfig> {
-    private static final List<MobSpawnInfo.Spawners> SUNSPEAKERS = Lists.newArrayList(new MobSpawnInfo.Spawners(AtumEntities.SUNSPEAKER, 1, 1, 1));
+    private static final List<MobSpawnInfo.Spawners> SUNSPEAKERS = Lists.newArrayList(new MobSpawnInfo.Spawners(AtumEntities.SUNSPEAKER, 2, 1, 1));
 
     public LighthouseStructure(Codec<NoFeatureConfig> config) {
         super(config);
@@ -36,8 +36,13 @@ public class LighthouseStructure extends Structure<NoFeatureConfig> {
 
     @Override
     @Nonnull
-    public List<MobSpawnInfo.Spawners> getSpawnList() {
+    public List<MobSpawnInfo.Spawners> getDefaultSpawnList() {
         return SUNSPEAKERS;
+    }
+
+    @Override
+    public boolean getDefaultRestrictsSpawnsToInside() {
+        return true;
     }
 
     @Override

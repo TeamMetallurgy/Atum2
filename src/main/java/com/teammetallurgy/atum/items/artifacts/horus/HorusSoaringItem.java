@@ -31,6 +31,6 @@ public class HorusSoaringItem extends BaseBowItem {
 
     @Override
     protected void onShoot(ArrowEntity arrow, PlayerEntity player, float velocity) {
-        arrow.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 0.0F);
+        arrow.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 0.0F);
     }
 }

@@ -223,7 +223,7 @@ public class AtumBiomeMaker {
     public static void addDefaultSpawns(String biomeName) {
         //Animals
         addSpawn(biomeName, AtumEntities.DESERT_RABBIT, 5, 2, 3, EntityClassification.CREATURE);
-        addSpawn(biomeName, EntityType.BAT, 5, 8, 8, EntityClassification.AMBIENT);
+        addSpawn(biomeName, EntityType.BAT, 4, 4, 8, EntityClassification.AMBIENT);
 
         //Undead
         addSpawn(biomeName, AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
@@ -248,7 +248,7 @@ public class AtumBiomeMaker {
     }
 
     public static void addDesertWolfSpawning(String biomeName) {
-        addSpawn(biomeName, AtumEntities.DESERT_WOLF, 5, 2, 4, EntityClassification.CREATURE);
+        addSpawn(biomeName, AtumEntities.DESERT_WOLF, 6, 2, 4, EntityClassification.CREATURE);
     }
 
     //TODO Make sure all this is reimplmented correctly

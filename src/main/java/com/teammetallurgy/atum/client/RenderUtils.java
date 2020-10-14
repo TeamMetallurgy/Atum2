@@ -1,6 +1,7 @@
-package com.teammetallurgy.atum.misc;
+package com.teammetallurgy.atum.client;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
@@ -8,7 +9,9 @@ import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
@@ -23,8 +26,15 @@ public class RenderUtils {
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
 
             matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+            BlockState state = tileEntity.getBlockState();
+            if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
+                Direction facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
+                if (facing == Direction.EAST || facing == Direction.WEST) {
+                    matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
+                }
+            }
             matrixStack.scale(0.25F, 0.25F, 0.25F);
-            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLight, combinedOverlay, matrixStack, buffer);
+            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrixStack, buffer);
             matrixStack.pop();
 
             if (drawStackSize) {
@@ -38,7 +48,7 @@ public class RenderUtils {
         TileEntityRendererDispatcher rendererDispatcher = TileEntityRendererDispatcher.instance;
         Entity entity = rendererDispatcher.renderInfo.getRenderViewEntity();
         BlockPos tePos = te.getPos();
-        double distance = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ()).squareDistanceTo(tePos.getX(), tePos.getY(), tePos.getZ()); //TODO Test
+        double distance = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ()).squareDistanceTo(tePos.getX(), tePos.getY(), tePos.getZ());
 
         if (distance <= (double) (14 * 14)) {
             float yaw = rendererDispatcher.renderInfo.getYaw();

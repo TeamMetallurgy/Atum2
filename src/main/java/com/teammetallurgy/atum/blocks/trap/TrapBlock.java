@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.trap;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -26,11 +27,15 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public abstract class TrapBlock extends ContainerBlock {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
@@ -40,11 +45,16 @@ public abstract class TrapBlock extends ContainerBlock {
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(DISABLED, Boolean.FALSE));
     }
 
-    /*@Override
-    public float getBlockHardness(@Nonnull BlockState state, IBlockReader world, @Nonnull BlockPos pos) { //TODO
-        TileEntity tileEntity = world.getTileEntity(pos);
-        return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? -1.0F : super.getBlockHardness(state, world, pos);
-    }*/
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        BlockState state = event.getState();
+        if (state.getBlock() instanceof TrapBlock) {
+            TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
+            if (tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid) {
+                event.setCanceled(true);
+            }
+        }
+    }
 
     @Override
     public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {

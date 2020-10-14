@@ -50,5 +50,8 @@ public class AtumAPI {
         public static IOptionalNamedTag<Block> blockTag(String modID, String name) {
             return BlockTags.createOptional(new ResourceLocation(modID, name));
         }
+
+        public static void init() {
+        }
     }
 }

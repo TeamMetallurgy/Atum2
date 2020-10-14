@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum;
 
 import com.mojang.serialization.Codec;
+import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
@@ -44,6 +45,7 @@ public class Atum {
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
+        AtumAPI.Tags.init();
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {

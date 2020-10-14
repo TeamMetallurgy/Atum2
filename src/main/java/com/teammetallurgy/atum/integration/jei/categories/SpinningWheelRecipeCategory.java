@@ -90,6 +90,6 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
     @Override
     public void draw(SpinningWheelRecipe recipe, @Nonnull MatrixStack matrixStack, double mouseX, double mouseY) {
         Minecraft mc = Minecraft.getInstance();
-        mc.fontRenderer.func_243246_a(matrixStack, new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
+        mc.fontRenderer.func_243248_b(matrixStack, new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()), 25, 0, Color.gray.getRGB());
     }
 }

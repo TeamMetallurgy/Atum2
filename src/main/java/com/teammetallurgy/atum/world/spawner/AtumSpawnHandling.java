@@ -24,7 +24,7 @@ public class AtumSpawnHandling {
     public static List<ISpecialSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner());
 
     @SubscribeEvent(priority = EventPriority.HIGH)
-    public static void onBiomeLoad(BiomeLoadingEvent event) {
+    public static void onBiomeLoad(BiomeLoadingEvent event) { //Passive spawns handling
         ResourceLocation name = event.getName();
         if (AtumConfig.Mobs.ENTITY_TYPE.containsKey(name)) {
             for (EntityType<?> entityType : AtumConfig.Mobs.ENTITY_TYPE.get(name)) {
@@ -42,7 +42,7 @@ public class AtumSpawnHandling {
     }
 
     @SubscribeEvent
-    public static void onWorldTick(TickEvent.WorldTickEvent event) {
+    public static void onWorldTick(TickEvent.WorldTickEvent event) { //Bandit spawn handling
         if (event.world.getDimensionKey() == Atum.ATUM && event.world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) event.world;
             boolean doMobSpawning = serverWorld.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING);

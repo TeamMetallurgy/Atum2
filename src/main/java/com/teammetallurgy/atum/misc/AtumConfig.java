@@ -159,7 +159,7 @@ public class AtumConfig {
             builder.push(WORLDGEN);
             this.mineshaftProbability = builder.comment("Probability of mineshafts generating. Set to 0 to disable. Default value same as vanilla overworld")
                     .translation("atum.config.mineshaft_probability")
-                    .defineInRange("Minecraft probability", 0.008D, 0.0D, 1.0D);
+                    .defineInRange("Minecraft probability", 0.007D, 0.0D, 1.0D);
             this.pyramidEnabled = builder.comment("Should Pyramids generate in Atum?")
                     .translation("atum.config.pyramid_enabled")
                     .define("Enable Pyramids", true);
@@ -271,7 +271,7 @@ public class AtumConfig {
         public Mobs(ForgeConfigSpec.Builder builder) {
             builder.push(MOBS);
             this.banditPatrolFrequency = builder.comment("How frequent Bandit patrols are. The higher the number, the less patrols will spawn")
-                    .defineInRange("banditPatrolFrequency", 330, -1, 10000);
+                    .defineInRange("banditPatrolFrequency", 1000, -1, 10000);
             this.markedForDeathTimeBaseValue = builder.comment("How long time is required for an Assassin to spawn. The higher the number, the less frequent Assassin will spawn")
                     .defineInRange("markedForDeathFrequency", 1000, 1, 10000);
             builder.pop();
