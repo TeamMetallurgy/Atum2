@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -12,16 +11,17 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.world.SleepFinishedTimeEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
+    public static final AtumDimensionData DATA = new AtumDimensionData();
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {
@@ -33,6 +33,14 @@ public class DimensionHelper {
                     ((DerivedWorldInfo) world.getWorldInfo()).delegate.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
                 }
             }
+        }
+    }
+
+    @SubscribeEvent
+    public static void onWorldSave(WorldEvent.Save event) { //TODO Test
+        if (event.getWorld() instanceof ServerWorld) {
+            System.out.println("SAVE");
+            ((ServerWorld) event.getWorld()).getSavedData().getOrCreate(() -> DimensionHelper.DATA, DimensionHelper.DATA.getName());
         }
     }
 

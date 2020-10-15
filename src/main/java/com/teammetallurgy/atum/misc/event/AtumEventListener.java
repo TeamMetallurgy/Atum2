@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.misc.event;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.PortalBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilBlock;
 import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
@@ -13,6 +14,7 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.DyeableTexturedArmor;
 import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CauldronBlock;
@@ -74,9 +76,7 @@ public class AtumEventListener {
 
         if (shouldStartInAtum && player instanceof ServerPlayerEntity && player.world instanceof ServerWorld) {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-            ServerWorld world = (ServerWorld) serverPlayer.world;
-            //PortalBlock.changeDimension(world, serverPlayer, AtumDimensionType.ATUM, new TeleporterAtumStart()); //TODO
-            //TODO Set spawn point in Atum, when starting in Atum
+            PortalBlock.changeDimension((ServerWorld) serverPlayer.world, serverPlayer, new TeleporterAtumStart());
         }
     }
 

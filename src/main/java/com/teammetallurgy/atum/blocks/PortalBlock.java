@@ -4,6 +4,7 @@ import com.google.common.cache.LoadingCache;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.teleporter.TeleporterAtum;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -25,6 +26,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 
@@ -84,15 +86,21 @@ public class PortalBlock extends BreakableBlock {
 
     @Override
     public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (world instanceof ServerWorld && !entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && entity instanceof ServerPlayerEntity) {
+        if (world instanceof ServerWorld) {
+           changeDimension((ServerWorld) world, entity, new TeleporterAtum());
+        }
+    }
+
+    public static void changeDimension(ServerWorld serverWorld, Entity entity, ITeleporter teleporter) {
+        if (!entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && entity instanceof ServerPlayerEntity) {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
-            RegistryKey<World> key = world.getDimensionKey() == Atum.ATUM ? World.OVERWORLD : Atum.ATUM;
-            ServerWorld destWorld = ((ServerWorld) world).getServer().getWorld(key);
+            RegistryKey<World> key = serverWorld.getDimensionKey() == Atum.ATUM ? World.OVERWORLD : Atum.ATUM;
+            ServerWorld destWorld = serverWorld.getServer().getWorld(key);
             if (destWorld == null) {
                 return;
             }
             //player.timeUntilPortal = 300; //TODO???
-            player.changeDimension(destWorld, new TeleporterAtumStart()); //TODO Use correct Teleporter
+            player.changeDimension(destWorld, teleporter);
         }
     }
 

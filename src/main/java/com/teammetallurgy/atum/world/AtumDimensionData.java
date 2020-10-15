@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.dimension;
+package com.teammetallurgy.atum.world;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.nbt.CompoundNBT;

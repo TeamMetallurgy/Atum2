@@ -12,9 +12,7 @@ import net.minecraft.world.gen.layer.*;
 import java.util.function.LongFunction;
 
 public class AtumLayerUtil {
-
     public static final int SAND_PLAINS = DimensionHelper.getBiomeID(AtumBiomes.SAND_PLAINS);
-    public static final int SAND_DUNES = DimensionHelper.getBiomeID(AtumBiomes.SAND_DUNES);
     public static final int OASIS = DimensionHelper.getBiomeID(AtumBiomes.OASIS);
     public static final int DEAD_OASIS = DimensionHelper.getBiomeID(AtumBiomes.DEAD_OASIS);
     public static final int DRIED_RIVER_ID = DimensionHelper.getBiomeID(AtumBiomes.DRIED_RIVER);

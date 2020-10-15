@@ -107,7 +107,6 @@ public class AtumConfig {
         public final ForgeConfigSpec.IntValue shrubFrequency;
         public final ForgeConfigSpec.IntValue fossilsChance;
         public final ForgeConfigSpec.IntValue dungeonChance;
-        public final ForgeConfigSpec.IntValue waterLevel;
         public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
         //Oregen options
@@ -175,9 +174,6 @@ public class AtumConfig {
             this.shrubFrequency = builder.defineInRange("Shrub frequency, set to 0 to disable", 1, 0, 64);
             this.fossilsChance = builder.defineInRange("Fossils chance, set to 0 to disable", 64, 0, 255);
             this.dungeonChance = builder.defineInRange("Dungeon chance, set to 0 to disable", 8, 0, 255);
-            this.waterLevel = builder.comment("Sets above what Y-level water will vaporize at (Except Oasis). Set to 0 to disable")
-                    .translation("atum.config.water_level")
-                    .defineInRange("Water Level", 50, 0, 255);
             this.sandLayerEdge = builder.comment("Should Sand Layers generate along all edges?")
                     .translation("atum.config.sand_layer_enabled")
                     .define("Enable Sand Layer along edges", true);
@@ -240,7 +236,7 @@ public class AtumConfig {
 
         Biome(ForgeConfigSpec.Builder builder) {
             builder.push(BIOME);
-            this.subBiomeChance = builder.comment("By default 1 in 30 Sand Plains or Sand Dunes biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.")
+            this.subBiomeChance = builder.comment("By default 1 in 30 Sand Plains biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.")
                     .translation("atum.config.oaseschances")
                     .defineInRange("Oases chance", 30, 0, 10000);
             this.oasisChance = builder.comment("Sets the percentage chance for oases to generate as an Oasis. The remaining oases will generate as an Dead Oasis. Set to 0 to only get Dead Oasis or to 100 to only get Oasis")

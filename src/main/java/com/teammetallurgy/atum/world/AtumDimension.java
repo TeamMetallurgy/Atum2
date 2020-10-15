@@ -1,50 +1,8 @@
 /*package com.teammetallurgy.atum.world.dimension;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtumDimension extends Dimension { //TODO????
-    private static BlockPos usePos;
-    public static final AtumDimensionData DATA = new AtumDimensionData();
+public class AtumDimension {
 
-    public AtumDimension(World world, DimensionType dimensionType) {
-        super(world, dimensionType, 0.0F);
-    }
-
-    @SubscribeEvent
-    public static void onUseBucket(PlayerInteractEvent.RightClickBlock event) {
-        if (AtumConfig.WORLD_GEN.waterLevel.get() > 0) {
-            usePos = event.getPos();
-        } else {
-            usePos = null;
-        }
-    }
-
-    @Override
-    public boolean doesWaterVaporize() {
-        if (usePos != null) {
-            return world.getBiome(usePos) != AtumBiomes.OASIS && usePos.getY() >= AtumConfig.WORLD_GEN.waterLevel.get();
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean canRespawnHere() {
-        return true;
-    }
-
-    @Override
-    public boolean isDaytime() {
-        return this.getWorld().getSkylightSubtracted() < 4;
-    }
-
-    @Override
-    public void onWorldSave() {
-        super.onWorldSave();
-        if (this.world instanceof ServerWorld) {
-            ((ServerWorld) this.world).getSavedData().getOrCreate(() -> AtumDimension.DATA, AtumDimension.DATA.getName());
-        }
-    }
-
+    //TODO Reimplement sandstorm somehow
     //Sandstorm
     public int stormTime;
     public float prevStormStrength;

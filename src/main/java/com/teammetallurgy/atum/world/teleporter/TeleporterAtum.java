@@ -18,14 +18,19 @@ public class TeleporterAtum implements ITeleporter {
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-        if (!placeInPortal(destWorld, entity, yaw)) {
+        //Temporary shit
+        BlockPos spawnPos = new BlockPos(destWorld.getWorldInfo().getSpawnX(), destWorld.getWorldInfo().getSpawnY(), destWorld.getWorldInfo().getSpawnZ());
+        entity.rotationYaw = yaw;
+        entity.moveForced(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
+        return repositionEntity.apply(false);
+        /*if (!placeInPortal(destWorld, entity, yaw)) { //TODO
             makePortal(destWorld, entity);
             placeInPortal(destWorld, entity, yaw);
             return repositionEntity.apply(false);
         } else {
             placeInPortal(destWorld, entity, yaw);
             return repositionEntity.apply(false);
-        }
+        }*/
     }
 
     public static boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {

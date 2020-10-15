@@ -12,7 +12,7 @@ public enum OasisLayer implements IC1Transformer {
     @Override
     public int apply(@Nonnull INoiseRandom noiseRandom, int value) {
         if (AtumConfig.BIOME.subBiomeChance.get() > 0 && noiseRandom.random(AtumConfig.BIOME.subBiomeChance.get()) == 0) {
-            if (value == AtumLayerUtil.SAND_PLAINS || value == AtumLayerUtil.SAND_DUNES) {
+            if (value == AtumLayerUtil.SAND_PLAINS) {
                 if (noiseRandom.random(100) < AtumConfig.BIOME.oasisChance.get()) {
                     value = AtumLayerUtil.OASIS;
                 } else {
