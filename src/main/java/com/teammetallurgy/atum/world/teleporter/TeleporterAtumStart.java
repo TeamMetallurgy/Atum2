@@ -31,8 +31,9 @@ public class TeleporterAtumStart implements ITeleporter {
         if (world.getDimensionKey() == Atum.ATUM) {
             BlockPos spawnPos = new BlockPos(world.getWorldInfo().getSpawnX(), world.getWorldInfo().getSpawnY(), world.getWorldInfo().getSpawnZ());
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
-                TeleporterAtum.makePortal(world, entity);
-                TeleporterAtum.placeInPortal(world, entity, yaw);
+                TeleporterAtum teleporterAtum = TeleporterAtum.INSTANCE;
+                teleporterAtum.makePortal(world, entity);
+                teleporterAtum.placeInPortal(world, entity, yaw);
             } else {
                 entity.rotationYaw = yaw;
                 entity.moveForced(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());

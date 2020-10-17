@@ -297,6 +297,7 @@ public class AtumRegistry {
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
+        AtumBiomes.addBiomeTags();
     }
 
     @SubscribeEvent
