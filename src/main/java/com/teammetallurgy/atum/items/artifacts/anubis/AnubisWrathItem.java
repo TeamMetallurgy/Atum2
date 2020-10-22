@@ -48,13 +48,12 @@ import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AnubisWrathItem extends SwordItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
-    private final float attackDamage;
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
+    private float attackDamage = 5.0F;
 
     public AnubisWrathItem() {
         super(ItemTier.DIAMOND, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
         int tier = getTier(new ItemStack(this));
-        this.attackDamage = tier == 3 ? 9.0F : tier + 5.0F;
     }
 
     @Override
@@ -89,7 +88,7 @@ public class AnubisWrathItem extends SwordItem {
         if (player.world.isRemote) return;
         if (player.getHeldItemMainhand().getItem() == AtumItems.ANUBIS_WRATH && getTier(player.getHeldItemMainhand()) == 3) {
             if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getCreatureAttribute() != CreatureAttribute.UNDEAD && !(event.getTarget() instanceof StoneBaseEntity)) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
@@ -97,8 +96,8 @@ public class AnubisWrathItem extends SwordItem {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof PlayerEntity && cooldown.containsKey(trueSource)) {
-            if (cooldown.getFloat(trueSource) == 1.0F) {
+        if (trueSource instanceof PlayerEntity && COOLDOWN.containsKey(trueSource)) {
+            if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 event.setAmount(event.getAmount() * 2);
                 LivingEntity entity = event.getEntityLiving();
                 double y = MathHelper.nextDouble(random, 0.02D, 0.1D);
@@ -107,7 +106,7 @@ public class AnubisWrathItem extends SwordItem {
                     serverWorld.spawnParticle(AtumParticles.ANUBIS, entity.getPosX() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), entity.getPosY() + entity.getEyeHeight(), entity.getPosZ() + (random.nextDouble() - 0.5D) * (double) entity.getWidth(), 5, 0.0D, y, 0.0D, 0.04D);
                 }
             }
-            cooldown.removeFloat(trueSource);
+            COOLDOWN.removeFloat(trueSource);
         }
     }
 
@@ -159,7 +158,8 @@ public class AnubisWrathItem extends SwordItem {
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         if (slot == EquipmentSlotType.MAINHAND) {
             int tier = getTier(stack);
-            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.attackDamage, AttributeModifier.Operation.ADDITION));
+            this.attackDamage = tier == 3 ? 9.0F : tier + 5.0F;
+            builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier", this.getAttackDamage(), AttributeModifier.Operation.ADDITION));
             double speed = tier == 0 ? 0.6D : tier == 1 ? 0.7D : tier == 2 ? 0.8D : tier == 3 ? 1.0D : 0;
             builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier", speed - 3.0D, AttributeModifier.Operation.ADDITION));
         }
