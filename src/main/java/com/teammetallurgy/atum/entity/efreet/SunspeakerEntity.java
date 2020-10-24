@@ -166,7 +166,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
 
     @Override
     protected void updateAITasks() {
-        this.world.getProfiler().startSection("brain");
+        this.world.getProfiler().startSection("villagerBrain");
         this.getBrain().tick((ServerWorld) this.world, this);
         this.world.getProfiler().endSection();
         if (!this.hasCustomer() && this.timeUntilReset > 0) {
