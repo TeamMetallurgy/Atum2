@@ -48,7 +48,6 @@ public class AtumStructures {
     public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_LIMESTONE_FEATURE = register("mineshaft_limestone", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.LIMESTONE));
     public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_DEADWOOD_SURFACE_FEATURE = register("mineshaft_deadwood_surface", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.DEADWOOD_SURFACE));
     public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_LIMESTONE_SURFACE_FEATURE = register("mineshaft_limestone_surface", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.LIMESTONE_SURFACE));
-    public static final StructureFeature<VillageConfig, ? extends Structure<VillageConfig>> VILLAGE = register("village", Structure.field_236381_q_, new VillageConfig(() -> AtumVillagePools.PATTERN, 6));
 
     private static <F extends Structure<?>> F register(String name, F structure, GenerationStage.Decoration generationStage) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
