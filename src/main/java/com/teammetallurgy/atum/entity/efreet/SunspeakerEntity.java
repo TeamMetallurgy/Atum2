@@ -204,7 +204,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     @Override
     @Nullable
     public AgeableEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
-        SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(world);
+        SunspeakerEntity sunspeaker = new SunspeakerEntity(AtumEntities.SUNSPEAKER, world);
         sunspeaker.onInitialSpawn(world, this.world.getDifficultyForLocation(sunspeaker.getPosition()), SpawnReason.BREEDING, null, null);
         return sunspeaker;
     }
