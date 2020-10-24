@@ -210,7 +210,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.025F, 1);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
-        biomeGen.withStructure(StructureFeatures.field_244155_u);
+        biomeGen.withStructure(AtumStructures.VILLAGE);
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
