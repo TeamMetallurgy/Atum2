@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.gen.feature.pool.AtumJigsaw;
 import com.teammetallurgy.atum.world.gen.feature.pool.AtumVillagePools;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
@@ -67,5 +68,6 @@ public class AtumStructures {
         for (Structure<?> feature : STRUCTURES) {
             event.getRegistry().register(feature);
         }
+        AtumJigsaw.registerJigsaws();
     }
 }
