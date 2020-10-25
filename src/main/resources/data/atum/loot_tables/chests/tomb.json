@@ -282,31 +282,31 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_ring",
+          "name": "atum:relic_dirty_ring",
           "entryName": "loot_dirty_ring",
           "weight": 40
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_necklace",
+          "name": "atum:relic_dirty_necklace",
           "entryName": "loot_dirty_necklace",
           "weight": 30
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_broach",
-          "entryName": "loot_dirty_broach",
+          "name": "atum:relic_dirty_brooch",
+          "entryName": "loot_dirty_brooch",
           "weight": 20
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_scepter",
+          "name": "atum:relic_dirty_scepter",
           "entryName": "loot_dirty_scepter",
           "weight": 10
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_idol",
+          "name": "atum:relic_dirty_idol",
           "entryName": "loot_dirty_idol",
           "weight": 4
         },

@@ -8,7 +8,7 @@ import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
-import com.teammetallurgy.atum.items.LootItem;
+import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
@@ -71,16 +71,16 @@ public class AtumRegistry {
      * @param type The relic type
      * @return The dirty relic item that was registered
      */
-    public static LootItem registerRelic(@Nonnull LootItem.Type type) {
+    public static RelicItem registerRelic(@Nonnull RelicItem.Type type) {
         Item.Properties nonDirty = new Item.Properties().maxStackSize(16);
-        LootItem dirty = new LootItem(new Item.Properties().maxStackSize(64));
-        registerItem(dirty, getLootName(LootItem.Quality.DIRTY, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.SILVER, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.GOLD, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.SAPPHIRE, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.RUBY, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.EMERALD, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.DIAMOND, type));
+        RelicItem dirty = new RelicItem(new Item.Properties().maxStackSize(64));
+        registerItem(dirty, getRelicName(RelicItem.Quality.DIRTY, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.SILVER, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.GOLD, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.SAPPHIRE, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.RUBY, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.EMERALD, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.DIAMOND, type));
         return dirty;
     }
 
@@ -90,9 +90,9 @@ public class AtumRegistry {
         return AtumRegistry.registerItem(scepter, "scepter_" + god.getName());
     }
 
-    private static String getLootName(@Nonnull LootItem.Quality quality, @Nonnull LootItem.Type type) {
-        LootItem.LOOT_ENTRIES.add(new LootItem.LootEntry(quality, quality.getWeight()));
-        return "loot_" + quality.getString() + "_" + type.getString();
+    private static String getRelicName(@Nonnull RelicItem.Quality quality, @Nonnull RelicItem.Type type) {
+        RelicItem.RELIC_ENTRIES.add(new RelicItem.RelicEntry(quality, quality.getWeight()));
+        return "relic_" + quality.getString() + "_" + type.getString();
     }
 
     /**

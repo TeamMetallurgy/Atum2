@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "atum:loot_diamond_ring"
+      "item": "atum:relic_diamond_ring"
     },
     "title": {
       "translate": "advancement.atum.powerwasher"
@@ -20,7 +20,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_ring"
+            "item": "atum:relic_silver_ring"
           }
         ]
       }
@@ -30,7 +30,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_gold_ring"
+            "item": "atum:relic_gold_ring"
           }
         ]
       }
@@ -40,7 +40,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_sapphire_ring"
+            "item": "atum:relic_sapphire_ring"
           }
         ]
       }
@@ -50,7 +50,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_emerald_ring"
+            "item": "atum:relic_emerald_ring"
           }
         ]
       }
@@ -60,7 +60,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_ruby_ring"
+            "item": "atum:relic_ruby_ring"
           }
         ]
       }
@@ -70,7 +70,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_diamond_ring"
+            "item": "atum:relic_diamond_ring"
           }
         ]
       }
@@ -80,7 +80,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_necklace"
+            "item": "atum:relic_silver_necklace"
           }
         ]
       }
@@ -90,7 +90,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_gold_necklace"
+            "item": "atum:relic_gold_necklace"
           }
         ]
       }
@@ -100,7 +100,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_sapphire_necklace"
+            "item": "atum:relic_sapphire_necklace"
           }
         ]
       }
@@ -110,7 +110,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_emerald_necklace"
+            "item": "atum:relic_emerald_necklace"
           }
         ]
       }
@@ -120,7 +120,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_ruby_necklace"
+            "item": "atum:relic_ruby_necklace"
           }
         ]
       }
@@ -130,7 +130,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_diamond_necklace"
+            "item": "atum:relic_diamond_necklace"
           }
         ]
       }
@@ -140,7 +140,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_scepter"
+            "item": "atum:relic_silver_scepter"
           }
         ]
       }
@@ -150,7 +150,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_gold_scepter"
+            "item": "atum:relic_gold_scepter"
           }
         ]
       }
@@ -160,7 +160,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_sapphire_scepter"
+            "item": "atum:relic_sapphire_scepter"
           }
         ]
       }
@@ -170,7 +170,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_emerald_scepter"
+            "item": "atum:relic_emerald_scepter"
           }
         ]
       }
@@ -180,7 +180,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_ruby_scepter"
+            "item": "atum:relic_ruby_scepter"
           }
         ]
       }
@@ -190,7 +190,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_diamond_scepter"
+            "item": "atum:relic_diamond_scepter"
           }
         ]
       }
@@ -200,7 +200,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_idol"
+            "item": "atum:relic_silver_idol"
           }
         ]
       }
@@ -210,7 +210,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_gold_idol"
+            "item": "atum:relic_gold_idol"
           }
         ]
       }
@@ -220,7 +220,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_sapphire_idol"
+            "item": "atum:relic_sapphire_idol"
           }
         ]
       }
@@ -230,7 +230,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_emerald_idol"
+            "item": "atum:relic_emerald_idol"
           }
         ]
       }
@@ -240,7 +240,7 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_ruby_idol"
+            "item": "atum:relic_ruby_idol"
           }
         ]
       }
@@ -250,67 +250,67 @@
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_diamond_idol"
+            "item": "atum:relic_diamond_idol"
           }
         ]
       }
     },
-    "silver_broach": {
+    "silver_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_silver_broach"
+            "item": "atum:relic_silver_brooch"
           }
         ]
       }
     },
-    "gold_broach": {
+    "gold_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_gold_broach"
+            "item": "atum:relic_gold_brooch"
           }
         ]
       }
     },
-    "sapphire_broach": {
+    "sapphire_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_sapphire_broach"
+            "item": "atum:relic_sapphire_brooch"
           }
         ]
       }
     },
-    "emerald_broach": {
+    "emerald_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_emerald_broach"
+            "item": "atum:relic_emerald_brooch"
           }
         ]
       }
     },
-    "ruby_broach": {
+    "ruby_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_ruby_broach"
+            "item": "atum:relic_ruby_brooch"
           }
         ]
       }
     },
-    "diamond_broach": {
+    "diamond_brooch": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:loot_diamond_broach"
+            "item": "atum:relic_diamond_brooch"
           }
         ]
       }

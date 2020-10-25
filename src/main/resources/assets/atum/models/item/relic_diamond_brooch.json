@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "atum:item/dirty_broach"
+    "layer0": "atum:item/diamond_brooch"
   }
 }

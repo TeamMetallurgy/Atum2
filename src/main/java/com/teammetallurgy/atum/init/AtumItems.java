@@ -54,11 +54,11 @@ public class AtumItems {
     public static final Item KHNUMITE = registerItem(new SimpleItem(), "khnumite");
     public static final Item DIRTY_COIN = registerItem(new CoinItem(), "coin_dirty");
     public static final Item GOLD_COIN = registerItem(new CoinItem(), "coin_gold");
-    public static final LootItem IDOL_RELICS = registerRelic(LootItem.Type.IDOL);
-    public static final LootItem IDOL_NECKLACES = registerRelic(LootItem.Type.NECKLACE);
-    public static final LootItem IDOL_RINGS = registerRelic(LootItem.Type.RING);
-    public static final LootItem IDOL_BROOCHES = registerRelic(LootItem.Type.BROOCH);
-    public static final LootItem IDOL_SCEPTERS = registerRelic(LootItem.Type.SCEPTER);
+    public static final RelicItem IDOL_RELICS = registerRelic(RelicItem.Type.IDOL);
+    public static final RelicItem IDOL_NECKLACES = registerRelic(RelicItem.Type.NECKLACE);
+    public static final RelicItem IDOL_RINGS = registerRelic(RelicItem.Type.RING);
+    public static final RelicItem IDOL_BROOCHES = registerRelic(RelicItem.Type.BROOCH);
+    public static final RelicItem IDOL_SCEPTERS = registerRelic(RelicItem.Type.SCEPTER);
     public static final Item EFREET_HEART = registerItem(new SimpleItem(), "efreet_heart");
     public static final Item SCARAB = registerItem(new ScarabItem(), "scarab");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");

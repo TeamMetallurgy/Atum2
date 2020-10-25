@@ -16,24 +16,24 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 
-public class LootItem extends Item {
-    public static final NonNullList<LootEntry> LOOT_ENTRIES = NonNullList.create();
+public class RelicItem extends Item {
+    public static final NonNullList<RelicEntry> RELIC_ENTRIES = NonNullList.create();
 
-    public LootItem(Item.Properties properties) {
+    public RelicItem(Item.Properties properties) {
         super(properties.group(Atum.GROUP));
     }
 
-    public Item getLootItem(Type type, Quality quality) {
-        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "loot_" + quality.getString() + "_" + type.getString()));
+    public Item getRelic(Type type, Quality quality) {
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "relic_" + quality.getString() + "_" + type.getString()));
     }
 
     public static Type getType(Item item) {
-        if (!(item instanceof LootItem)) {
-            Atum.LOG.error("Item is not a loot artifact");
+        if (!(item instanceof RelicItem)) {
+            Atum.LOG.error("Item is not a relic");
         } else {
             for (Quality quality : Quality.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Type type = Type.byString(item.getRegistryName().getPath().replace("loot_", "").replace(quality.getString(), "").replace("_", ""));
+                Type type = Type.byString(item.getRegistryName().getPath().replace("relic_", "").replace(quality.getString(), "").replace("_", ""));
                 if (type != null) {
                     return type;
                 }
@@ -43,12 +43,12 @@ public class LootItem extends Item {
     }
 
     public static Quality getQuality(Item item) {
-        if (!(item instanceof LootItem)) {
-            Atum.LOG.error("Item is not a loot artifact");
+        if (!(item instanceof RelicItem)) {
+            Atum.LOG.error("Item is not a relic");
         } else {
             for (Type type : Type.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("loot_", "").replace(type.getString(), "").replace("_", ""));
+                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("relic_", "").replace(type.getString(), "").replace("_", ""));
                 if (quality != null) {
                     return quality;
                 }
@@ -62,9 +62,9 @@ public class LootItem extends Item {
         World world = entityItem.world;
         BlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.getPosX()), MathHelper.floor(entityItem.getPosY()), MathHelper.floor(entityItem.getPosZ())));
         if (state.getFluidState().isTagged(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.get(CauldronBlock.LEVEL) > 0) {
-            if (stack.getItem() instanceof LootItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
+            if (stack.getItem() instanceof RelicItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
                 while (stack.getCount() > 0) {
-                    Item item = getLootItem(getType(stack.getItem()), WeightedRandom.getRandomItem(random, LOOT_ENTRIES).quality);
+                    Item item = getRelic(getType(stack.getItem()), WeightedRandom.getRandomItem(random, RELIC_ENTRIES).quality);
                     if (random.nextFloat() <= 0.10F) {
                         stack.shrink(1);
                         world.playSound(null, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
@@ -83,7 +83,7 @@ public class LootItem extends Item {
         IDOL("idol"),
         NECKLACE("necklace"),
         RING("ring"),
-        BROOCH("broach"),
+        BROOCH("brooch"),
         SCEPTER("scepter");
 
         private final String unlocalizedName;
@@ -120,9 +120,9 @@ public class LootItem extends Item {
         private final String unlocalizedName;
         private final int weight;
 
-        Quality(String name, int lootWeight) {
+        Quality(String name, int weight) {
             this.unlocalizedName = name;
-            this.weight = lootWeight;
+            this.weight = weight;
         }
 
         public static Quality byString(String name) {
@@ -145,10 +145,10 @@ public class LootItem extends Item {
         }
     }
 
-    public static class LootEntry extends WeightedRandom.Item {
+    public static class RelicEntry extends WeightedRandom.Item {
         final Quality quality;
 
-        public LootEntry(Quality quality, int weight) {
+        public RelicEntry(Quality quality, int weight) {
             super(weight);
             this.quality = quality;
         }

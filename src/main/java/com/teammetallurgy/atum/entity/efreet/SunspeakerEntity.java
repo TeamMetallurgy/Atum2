@@ -11,7 +11,7 @@ import com.teammetallurgy.atum.entity.ai.brain.SunspeakerShowWaresTask;
 import com.teammetallurgy.atum.entity.ai.brain.SunspeakerTradeTask;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
-import com.teammetallurgy.atum.items.LootItem;
+import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Blocks;
@@ -455,7 +455,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         if (nameTag) {
             heldStack.interactWithEntity(player, this, hand);
             return ActionResultType.SUCCESS;
-        } else if (!(heldStack.getItem() instanceof LootItem) && !(heldStack.getItem() instanceof SpawnEggItem) && this.isAlive() && !this.hasCustomer() && !this.isSleeping() && !player.isSecondaryUseActive()) {
+        } else if (!(heldStack.getItem() instanceof RelicItem) && !(heldStack.getItem() instanceof SpawnEggItem) && this.isAlive() && !this.hasCustomer() && !this.isSleeping() && !player.isSecondaryUseActive()) {
             if (this.isChild()) {
                 this.shakeHead();
                 return ActionResultType.func_233537_a_(this.world.isRemote);
@@ -487,9 +487,9 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
                     return ActionResultType.SUCCESS;
                 }
             }
-        } else if (heldStack.getItem() instanceof LootItem) {
-            LootItem.Type type = LootItem.getType(heldStack.getItem());
-            LootItem.Quality quality = LootItem.getQuality(heldStack.getItem());
+        } else if (heldStack.getItem() instanceof RelicItem) {
+            RelicItem.Type type = RelicItem.getType(heldStack.getItem());
+            RelicItem.Quality quality = RelicItem.getQuality(heldStack.getItem());
 
             if (isAgressiveTowards) {
                 this.angerTargetUUID = null;
@@ -502,15 +502,15 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
                 return ActionResultType.SUCCESS;
             } else {
 
-                if (quality != LootItem.Quality.DIRTY) {
+                if (quality != RelicItem.Quality.DIRTY) {
                     double modifier = 1.0D;
-                    if (type == LootItem.Type.NECKLACE) {
+                    if (type == RelicItem.Type.NECKLACE) {
                         modifier = 2.0D;
-                    } else if (type == LootItem.Type.BROOCH) {
+                    } else if (type == RelicItem.Type.BROOCH) {
                         modifier = 2.5D;
-                    } else if (type == LootItem.Type.SCEPTER) {
+                    } else if (type == RelicItem.Type.SCEPTER) {
                         modifier = 3.0D;
-                    } else if (type == LootItem.Type.IDOL) {
+                    } else if (type == RelicItem.Type.IDOL) {
                         modifier = 5.0D;
                     }
                     if (!player.isCreative()) {
@@ -528,20 +528,20 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         }
     }
 
-    private void handleRelicTrade(PlayerEntity player, Hand hand, double modifier, LootItem.Quality quality) {
+    private void handleRelicTrade(PlayerEntity player, Hand hand, double modifier, RelicItem.Quality quality) {
         int amount = 0;
 
-        if (quality == LootItem.Quality.SILVER) {
+        if (quality == RelicItem.Quality.SILVER) {
             amount += modifier;
-        } else if (quality == LootItem.Quality.GOLD) {
+        } else if (quality == RelicItem.Quality.GOLD) {
             amount += modifier * 2;
-        } else if (quality == LootItem.Quality.SAPPHIRE) {
+        } else if (quality == RelicItem.Quality.SAPPHIRE) {
             amount += modifier * 3;
-        } else if (quality == LootItem.Quality.RUBY) {
+        } else if (quality == RelicItem.Quality.RUBY) {
             amount += modifier * 4;
-        } else if (quality == LootItem.Quality.EMERALD) {
+        } else if (quality == RelicItem.Quality.EMERALD) {
             amount += modifier * 5;
-        } else if (quality == LootItem.Quality.DIAMOND) {
+        } else if (quality == RelicItem.Quality.DIAMOND) {
             amount += modifier * 10;
         }
 
