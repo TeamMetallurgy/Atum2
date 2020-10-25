@@ -22,21 +22,21 @@ public class AlphaDesertWolfContainer extends Container {
         this.desertWolf = (DesertWolfEntity) player.world.getEntityByID(entityID);
         this.wolfInventory = this.desertWolf.getInventory();
         wolfInventory.openInventory(player);
-        this.addSlot(new Slot(wolfInventory, 0, 8, 18) {
+        this.addSlot(new Slot(AlphaDesertWolfContainer.this.wolfInventory, 0, 8, 18) {
             @Override
-            public boolean isItemValid(ItemStack stack) {
+            public boolean isItemValid(@Nonnull ItemStack stack) {
                 return stack.getItem() instanceof SaddleItem && !this.getHasStack();
             }
 
             @Override
             public boolean isEnabled() {
-                return desertWolf.isAlpha();
+                return AlphaDesertWolfContainer.this.desertWolf.isAlpha();
             }
         });
-        this.addSlot(new Slot(wolfInventory, 1, 8, 36) {
+        this.addSlot(new Slot(AlphaDesertWolfContainer.this.wolfInventory, 1, 8, 36) {
             @Override
-            public boolean isItemValid(ItemStack stack) {
-                return desertWolf.isArmor(stack);
+            public boolean isItemValid(@Nonnull ItemStack stack) {
+                return AlphaDesertWolfContainer.this.desertWolf.isArmor(stack);
             }
 
             @Override
@@ -61,7 +61,7 @@ public class AlphaDesertWolfContainer extends Container {
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
@@ -75,7 +75,7 @@ public class AlphaDesertWolfContainer extends Container {
                 if (!this.mergeItemStack(slotStack, 1, 2, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(0).isItemValid(slotStack)) {
+            } else if (AlphaDesertWolfContainer.this.desertWolf.isAlpha() && this.getSlot(0).isItemValid(slotStack)) {
                 if (!this.mergeItemStack(slotStack, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
@@ -92,7 +92,7 @@ public class AlphaDesertWolfContainer extends Container {
     }
 
     @Override
-    public void onContainerClosed(PlayerEntity player) {
+    public void onContainerClosed(@Nonnull PlayerEntity player) {
         super.onContainerClosed(player);
         this.wolfInventory.closeInventory(player);
     }

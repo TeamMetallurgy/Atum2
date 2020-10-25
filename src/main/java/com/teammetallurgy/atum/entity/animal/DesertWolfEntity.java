@@ -13,7 +13,7 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.*;
 import net.minecraft.entity.ai.goal.*;
@@ -52,7 +52,6 @@ import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -67,7 +66,6 @@ import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DesertWolfEntity extends TameableEntity implements IJumpingMount, IInventoryChangedListener, INamedContainerProvider, IAngerable {
-    private static final DataParameter<Float> DATA_HEALTH_ID = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.FLOAT);
     private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
@@ -92,8 +90,6 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     public DesertWolfEntity(EntityType<? extends DesertWolfEntity> entityType, World world) {
         super(entityType, world);
-        this.func_230258_H__();
-        this.setTamed(false);
         this.experienceValue = 6;
         this.stepHeight = 1.1F;
         this.initInventory();
@@ -137,37 +133,19 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
             this.setHealth(this.getWolfMaxHealth());
             this.experienceValue = 12;
             lastAlphaTime = System.currentTimeMillis();
-            this.func_233687_w_(false);
         } else {
             this.setVariant(0);
         }
         return livingdata;
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() { //TODO, needs fixing
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
         return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 8.0D).createMutableAttribute(JUMP_STRENGTH);
-    }
-
-    @Override
-    public void setAttackTarget(@Nullable LivingEntity livingBase) {
-        super.setAttackTarget(livingBase);
-
-        if (livingBase == null) {
-            this.setAngerTarget(null);
-        } else if (!this.isTamed()) {
-            this.setAngerTarget(livingBase.getUniqueID());
-        }
-    }
-
-    @Override
-    protected void updateAITasks() {
-        this.dataManager.set(DATA_HEALTH_ID, this.getHealth());
     }
 
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(DATA_HEALTH_ID, this.getHealth());
         this.dataManager.register(BEGGING, Boolean.FALSE);
         this.dataManager.register(COLLAR_COLOR, DyeColor.GREEN.getId());
         this.dataManager.register(VARIANT, 0);
@@ -190,7 +168,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         if (this.func_233678_J__()) {
             return SoundEvents.ENTITY_WOLF_GROWL;
         } else if (this.rand.nextInt(3) == 0) {
-            return this.isTamed() && this.dataManager.get(DATA_HEALTH_ID) < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
+            return this.isTamed() && this.getHealth() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
         } else {
             return SoundEvents.ENTITY_WOLF_AMBIENT;
         }
@@ -388,6 +366,9 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     @Override
     public void setTamed(boolean tamed) {
         super.setTamed(tamed);
+        if (tamed) {
+            this.setAngerTime(0);
+        }
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
     }
@@ -398,91 +379,77 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         ItemStack heldStack = player.getHeldItem(hand);
         Item item = heldStack.getItem();
         boolean tameItem = item.isIn(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
-        if (this.world.isRemote()) {
-            boolean flag = this.isOwner(player) || this.isTamed() || tameItem && !this.isTamed() && !this.func_233678_J__();
+        if (this.world.isRemote) {
+            boolean flag = this.isOwner(player) || this.isTamed() || tameItem && !this.isTamed();
             return flag ? ActionResultType.CONSUME : ActionResultType.PASS;
         } else {
             if (this.isTamed()) {
-                if (!heldStack.isEmpty()) {
-                    if (item.isFood()) {
-                        if (item.getFood() != null && item.getFood().isMeat() && this.dataManager.get(DATA_HEALTH_ID) < getMaxHealth()) {
-                            if (!player.abilities.isCreativeMode) {
-                                heldStack.shrink(1);
-                            }
-                            this.heal((float) item.getFood().getHealing());
-                            return ActionResultType.SUCCESS;
-                        }
-                    }
-                    boolean holdsArmor = ArmorType.isArmor(heldStack);
-                    boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() instanceof SaddleItem;
-
-                    if (holdsArmor || holdsSaddle) {
-                        this.openGUI(player);
-                        return ActionResultType.SUCCESS;
+                if (this.isBreedingItem(heldStack) && this.getHealth() < this.getMaxHealth()) {
+                    if (!player.abilities.isCreativeMode) {
+                        heldStack.shrink(1);
                     }
 
-                    if (!(item instanceof DyeItem)) {
-                        ActionResultType actionresulttype = super.func_230254_b_(player, hand);
-                        if ((!actionresulttype.isSuccessOrConsume() || this.isChild()) && this.isOwner(player)) {
-                            this.func_233687_w_(!this.isSitting());
-                            this.isJumping = false;
-                            this.navigator.clearPath();
-                            this.setAttackTarget(null);
-                            return ActionResultType.SUCCESS;
-                        }
-
-                        return actionresulttype;
-                    }
-                    DyeColor color = ((DyeItem) item).getDyeColor();
-
-                    if (color != this.getCollarColor()) {
-                        this.setCollarColor(color);
-
-                        if (!player.abilities.isCreativeMode) {
-                            heldStack.shrink(1);
-                        }
-                        return ActionResultType.SUCCESS;
-                    }
+                    this.heal((float) item.getFood().getHealing());
+                    return ActionResultType.SUCCESS;
                 }
 
-                if (!this.isChild()) {
-                    if (player.isCrouching()) {
-                        this.openGUI(player);
-                        return ActionResultType.SUCCESS;
-                    }
-                    if (this.isBeingRidden()) {
-                        return super.func_230254_b_(player, hand);
-                    }
+                boolean holdsArmor = ArmorType.isArmor(heldStack);
+                boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() instanceof SaddleItem;
+
+                if (holdsArmor || holdsSaddle) {
+                    this.openGUI(player);
+                    return ActionResultType.SUCCESS;
                 }
 
-                if (!this.isBreedingItem(heldStack) || this.getHealth() >= getMaxHealth()) {
+                if (!(item instanceof DyeItem)) {
+                    if (!this.isChild()) {
+                        if (player.isCrouching()) {
+                            this.openGUI(player);
+                            return ActionResultType.SUCCESS;
+                        }
+                        if (this.isBeingRidden()) {
+                            return super.func_230254_b_(player, hand);
+                        }
+                    }
+
+                    ActionResultType resultType = super.func_230254_b_(player, hand);
                     if (this.isAlpha() && !this.isBeingRidden()) {
                         this.mountTo(player);
                         return ActionResultType.SUCCESS;
-                    } else if (!this.isAlpha() && this.isOwner(player)) {
+                    } else if (!this.isAlpha() && (!resultType.isSuccessOrConsume() || this.isChild()) && this.isOwner(player)) { //Sit
                         this.func_233687_w_(!this.isSitting());
                         this.isJumping = false;
                         this.navigator.clearPath();
                         this.setAttackTarget(null);
                         return ActionResultType.SUCCESS;
                     }
+                    return resultType;
+                }
+
+                DyeColor color = ((DyeItem) item).getDyeColor();
+                if (color != this.getCollarColor()) {
+                    this.setCollarColor(color);
+                    if (!player.abilities.isCreativeMode) {
+                        heldStack.shrink(1);
+                    }
+                    return ActionResultType.SUCCESS;
                 }
             } else if (tameItem) {
                 if (!player.abilities.isCreativeMode) {
                     heldStack.shrink(1);
                 }
-                if (this.rand.nextInt(2) == 0 && !ForgeEventFactory.onAnimalTame(this, player)) {
+
+                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
                     this.setTamedBy(player);
                     this.navigator.clearPath();
                     this.setAttackTarget(null);
                     if (!this.isAlpha()) {
                         this.func_233687_w_(true);
                     }
+                    this.func_241356_K__();
                     this.setHealth(40.0F);
-                    this.playTameEffect(true);
                     this.world.setEntityState(this, (byte) 7);
                 } else {
-                    this.playTameEffect(false);
                     this.world.setEntityState(this, (byte) 6);
                 }
                 return ActionResultType.SUCCESS;
@@ -507,14 +474,14 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void openInventoryOverride(GuiOpenEvent event) {
-        if (event.getGui() instanceof ContainerScreen) {
+        if (event.getGui() instanceof DisplayEffectsScreen) {
             PlayerEntity player = Minecraft.getInstance().player;
             if (player != null && player.getRidingEntity() instanceof DesertWolfEntity) {
                 DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();
                 if (player.getUniqueID() == player.getUniqueID()) {
                     if (desertWolf.isAlpha() && desertWolf.isBeingRidden()) {
-                        NetworkHandler.sendToServer(new OpenWolfGuiPacket(desertWolf.getEntityId()));
                         event.setCanceled(true);
+                        NetworkHandler.sendToServer(new OpenWolfGuiPacket(desertWolf.getEntityId()));
                     }
                 }
             }
@@ -530,7 +497,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     }
 
     public Inventory getInventory() {
-        return desertWolfInventory;
+        return this.desertWolfInventory;
     }
 
     private void initInventory() {
@@ -568,7 +535,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
         if (this.func_233678_J__()) {
             return 1.5393804F;
         } else if (!this.isBeingRidden()) {
-            return this.isTamed() ? (0.55F - (this.getMaxHealth() - this.dataManager.get(DATA_HEALTH_ID)) * 0.02F) * (float) Math.PI : ((float) Math.PI / 5F);
+            return this.isTamed() ? (0.55F - (this.getMaxHealth() - this.getHealth()) * 0.02F) * (float) Math.PI : ((float) Math.PI / 5F);
         } else {
             return 1.5F;
         }
@@ -592,7 +559,9 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
 
     @Override
     public void setAngerTime(int time) {
-        this.dataManager.set(ANGER, time);
+        if (!this.isTamed()) {
+            this.dataManager.set(ANGER, time);
+        }
     }
 
     @Override
@@ -609,6 +578,11 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     @Override
     public void setAngerTarget(@Nullable UUID target) {
         this.angryAt = target;
+    }
+
+    @Override
+    public boolean func_233678_J__() {
+        return !this.isTamed() || this.getAngerTime() > 0;
     }
 
     public DyeColor getCollarColor() {
