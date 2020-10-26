@@ -50,7 +50,7 @@ public abstract class TrapBlock extends ContainerBlock {
         BlockState state = event.getState();
         if (state.getBlock() instanceof TrapBlock) {
             TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
-            if (tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid) {
+            if (tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid && !event.getPlayer().isCreative()) {
                 event.setCanceled(true);
             }
         }

@@ -53,7 +53,7 @@ public class LimestoneBrickBlock extends Block {
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         BlockState state = event.getState();
-        if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE)) {
+        if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE) && !event.getPlayer().isCreative()) {
             event.setCanceled(true);
         }
     }

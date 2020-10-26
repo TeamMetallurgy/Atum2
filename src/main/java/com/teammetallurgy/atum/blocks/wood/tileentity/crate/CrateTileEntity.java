@@ -23,7 +23,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class CrateTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity, IChestLid {
+public class CrateTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity {
     private int ticksSinceSync;
     private int numPlayersUsing;
     public float lidAngle;
@@ -126,8 +126,6 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
         }
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
     public float getLidAngle(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }

@@ -95,7 +95,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         super(entityType, world);
         ((GroundPathNavigator) this.getNavigator()).setBreakDoors(true);
         this.getNavigator().setCanSwim(true);
-        this.brain = this.createBrain(new Dynamic<>(NBTDynamicOps.INSTANCE, new CompoundNBT()));
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(PharaohEntity.God.RA)));
         this.setSunspeakerData(this.getSunspeakerData().withLevel(0));
     }
