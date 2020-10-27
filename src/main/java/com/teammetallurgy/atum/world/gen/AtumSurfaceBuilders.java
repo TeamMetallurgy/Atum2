@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumSurfaceBuilders {
     //Surface Builders
     private static final List<SurfaceBuilder<?>> SURFACE_BUILDERS = new ArrayList<>();
@@ -46,7 +46,6 @@ public class AtumSurfaceBuilders {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
         builder.setRegistryName(id);
         SURFACE_BUILDERS.add(builder);
-        Registry.register(Registry.SURFACE_BUILDER, id, builder);
         return builder;
     }
 
