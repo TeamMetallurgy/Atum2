@@ -12,10 +12,12 @@ import net.minecraft.util.math.vector.Vector3i;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.IWorldGenerationReader;
 import net.minecraft.world.gen.WorldGenRegion;
 import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeature;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -23,23 +25,23 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class DeadwoodFeature extends Feature<BaseTreeFeatureConfig> {
+public class DeadwoodFeature extends Feature<NoFeatureConfig> {
     private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true);
     private static final BlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
 
-    public DeadwoodFeature(Codec<BaseTreeFeatureConfig> config) {
+    public DeadwoodFeature(Codec<NoFeatureConfig> config) {
         super(config);
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BaseTreeFeatureConfig config) {
+    public boolean func_241855_a(@Nonnull ISeedReader genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         if (genReader instanceof WorldGenRegion) {
             WorldGenRegion world = (WorldGenRegion) genReader;
             Set<BlockPos> logs = Sets.newHashSet();
             int baseHeight = rand.nextInt(3) + 5;
-            boolean doNotGenerate = true;
+            boolean generate = true;
 
-            if (pos.getY() >= 1 && pos.getY() + baseHeight + 1 <= world.getHeight()) {
+            if (pos.getY() >= 0 && pos.getY() + baseHeight + 1 <= world.getHeight()) {
                 for (int y = pos.getY(); y <= pos.getY() + 1 + baseHeight; ++y) {
                     int k = 1;
 
@@ -52,32 +54,32 @@ public class DeadwoodFeature extends Feature<BaseTreeFeatureConfig> {
                     }
                     BlockPos.Mutable mutable = new BlockPos.Mutable();
 
-                    for (int x = pos.getX() - k; x <= pos.getX() + k && doNotGenerate; ++x) {
-                        for (int z = pos.getZ() - k; z <= pos.getZ() + k && doNotGenerate; ++z) {
+                    for (int x = pos.getX() - k; x <= pos.getX() + k && generate; ++x) {
+                        for (int z = pos.getZ() - k; z <= pos.getZ() + k && generate; ++z) {
                             if (y >= 0 && y < world.getHeight()) {
-                                if (!TreeFeature.func_236410_c_(world, mutable.setPos(x, y, z))) { //TODO Test
-                                    doNotGenerate = false;
+                                if (!TreeFeature.func_236410_c_(world, mutable.setPos(x, y, z))) {
+                                    generate = false;
                                 }
                             } else {
-                                doNotGenerate = false;
+                                generate = false;
                             }
                         }
                     }
                 }
 
-                if (!doNotGenerate) {
+                if (!generate) {
                     return false;
                 } else {
                     BlockPos down = pos.down();
                     BlockState state = world.getBlockState(down);
                     boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
-                    if (isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
+                    if (genReader.isAreaLoaded(pos, 2) && isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
                         for (int height = 0; height < baseHeight; ++height) {
                             BlockPos upN = pos.up(height);
 
                             if (TreeFeature.isAirOrLeavesAt(genReader, upN)) {
-                                this.setBlockState(genReader, pos.up(height), LOG);
+                                genReader.setBlockState(pos.up(height), LOG, 19);
                                 if (height > 1) {
                                     logs.add(pos.up(height));
                                 }

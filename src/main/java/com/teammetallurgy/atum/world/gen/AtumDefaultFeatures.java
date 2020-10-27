@@ -121,7 +121,7 @@ public class AtumDefaultFeatures {
     }
 
     public static void addDeadwoodTrees(BiomeGenerationSettings.Builder builder, int count, float extraChance, int extraCount) {
-        builder.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_FEATURE.withConfiguration((new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true)), new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_BRANCH.getDefaultState()), new BlobFoliagePlacer(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0), 0), new StraightTrunkPlacer(0, 0, 0), new TwoLayerFeature(0, 0, 0)).build())).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(count, extraChance, extraCount))));
+        builder.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_FEATURE.withConfiguration(NoFeatureConfig.field_236559_b_).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.field_242902_f.configure(new AtSurfaceWithExtraConfig(count, extraChance, extraCount))));
     }
 
     public static void addTomb(BiomeGenerationSettings.Builder builder) {
