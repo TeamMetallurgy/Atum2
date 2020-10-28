@@ -54,7 +54,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
     @Override
     protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
-        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.func_230356_f_(), chunkZ * 16 + 9, 32)) {
+        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.getSeaLevel(), chunkZ * 16 + 9, 32)) {
             if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
             } else {
@@ -74,7 +74,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
         if (event.getEntity() instanceof ServerPlayerEntity) {
             IWorld world = event.getEntity().world;
-            if (world instanceof ServerWorld && ((ServerWorld) world).func_241112_a_().func_235010_a_(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE).isValid()) { //TODO Test
+            if (world instanceof ServerWorld && ((ServerWorld) world).func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE).isValid()) { //TODO Test
                 ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
                 Block placedBlock = event.getPlacedBlock().getBlock();
                 if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {

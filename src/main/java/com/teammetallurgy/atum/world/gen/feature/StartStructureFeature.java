@@ -26,7 +26,7 @@ public class StartStructureFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         if (seedReader instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) seedReader;
             TemplateManager manager = serverWorld.getStructureTemplateManager();

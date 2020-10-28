@@ -23,7 +23,7 @@ public class SandLayerFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator chunkGenerator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (int i = 0; i < 16; ++i) {

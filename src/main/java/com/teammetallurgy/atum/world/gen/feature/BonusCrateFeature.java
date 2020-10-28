@@ -28,7 +28,7 @@ public class BonusCrateFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         ChunkPos chunkpos = new ChunkPos(pos);
         List<Integer> xPositions = IntStream.rangeClosed(chunkpos.getXStart(), chunkpos.getXEnd()).boxed().collect(Collectors.toList());
         Collections.shuffle(xPositions, rand);

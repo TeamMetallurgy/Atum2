@@ -13,8 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumCarvers {
-    public static final AtumCarver<ProbabilityConfig> CAVE = new AtumCaveCarver(ProbabilityConfig.field_236576_b_, 256);
-    public static final AtumCarver<ProbabilityConfig> CANYON = new AtumCanyonCarver(ProbabilityConfig.field_236576_b_);
+    public static final AtumCarver<ProbabilityConfig> CAVE = new AtumCaveCarver(ProbabilityConfig.CODEC, 256);
+    public static final AtumCarver<ProbabilityConfig> CANYON = new AtumCanyonCarver(ProbabilityConfig.CODEC);
     public static final ConfiguredCarver<ProbabilityConfig> CAVE_CONFIGURED = register("cave", CAVE.func_242761_a(new ProbabilityConfig(0.14285715F)));
     public static final ConfiguredCarver<ProbabilityConfig> CANYON_CONFIGURED = register("canyon", CAVE.func_242761_a(new ProbabilityConfig(0.02F)));
 

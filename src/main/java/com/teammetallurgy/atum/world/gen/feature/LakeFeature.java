@@ -24,7 +24,7 @@ public class LakeFeature extends Feature<BlockStateFeatureConfig> { //Copied fro
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockStateFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockStateFeatureConfig config) {
         while (pos.getY() > 5 && seedReader.isAirBlock(pos)) {
             pos = pos.down();
         }

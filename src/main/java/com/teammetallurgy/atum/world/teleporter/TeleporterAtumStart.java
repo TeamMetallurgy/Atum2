@@ -45,11 +45,11 @@ public class TeleporterAtumStart implements ITeleporter {
             }
             if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
                 ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-                startStructure.func_242765_a(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
+                startStructure.generate(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
             }
-            if (world.getServer().func_240793_aU_().getDimensionGeneratorSettings().hasBonusChest()) {
+            if (world.getServer().getServerConfiguration().getDimensionGeneratorSettings().hasBonusChest()) {
                 ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
-                bonusCrate.func_242765_a(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
+                bonusCrate.generate(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
             }
         }
     }

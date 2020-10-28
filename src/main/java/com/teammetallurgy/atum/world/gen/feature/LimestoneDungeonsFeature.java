@@ -33,7 +33,7 @@ public class LimestoneDungeonsFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         int j = rand.nextInt(2) + 2;
         int k = -j - 1;
         int l = j + 1;

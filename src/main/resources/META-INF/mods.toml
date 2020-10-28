@@ -19,6 +19,6 @@ license="All Rights Reserved"
 [[dependencies.atum]]
     modId="forge"
     mandatory=true
-    versionRange="[34.1.23,)"
+    versionRange="[34.1.33,)"
     ordering="AFTER"
     side="BOTH"

@@ -34,7 +34,7 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         if (genReader instanceof WorldGenRegion) {
             WorldGenRegion world = (WorldGenRegion) genReader;
             Set<BlockPos> logs = Sets.newHashSet();

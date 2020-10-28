@@ -21,7 +21,7 @@ public class AnputsFingersFeature extends RandomPatchFeature {
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockClusterFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockClusterFeatureConfig config) {
         BlockState state = config.stateProvider.getBlockState(rand, pos);
         BlockPos placePos = seedReader.getHeight(Heightmap.Type.WORLD_SURFACE_WG, pos);
 

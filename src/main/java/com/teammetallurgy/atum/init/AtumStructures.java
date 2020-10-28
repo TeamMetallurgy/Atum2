@@ -54,13 +54,13 @@ public class AtumStructures {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
         structure.setRegistryName(id);
         STRUCTURES.add(structure);
-        Structure.field_236365_a_.put(id.toString().toLowerCase(Locale.ROOT), structure);
-        Structure.field_236385_u_.put(structure, generationStage);
+        Structure.NAME_STRUCTURE_BIMAP.put(id.toString().toLowerCase(Locale.ROOT), structure);
+        Structure.STRUCTURE_DECORATION_STAGE_MAP.put(structure, generationStage);
         return structure;
     }
 
     private static <FC extends IFeatureConfig, F extends Structure<FC>> StructureFeature<FC, ?> register(String name, F structure, FC fc) {
-        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, new ResourceLocation(Atum.MOD_ID, name), structure.func_236391_a_(fc));
+        return WorldGenRegistries.register(WorldGenRegistries.CONFIGURED_STRUCTURE_FEATURE, new ResourceLocation(Atum.MOD_ID, name), structure.withConfiguration(fc));
     }
 
     @SubscribeEvent

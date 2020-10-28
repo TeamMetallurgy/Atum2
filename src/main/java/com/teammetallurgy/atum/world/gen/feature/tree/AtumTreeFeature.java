@@ -31,7 +31,7 @@ public class AtumTreeFeature extends TreeFeature { //TODO
     }
     
     /*@Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BaseTreeFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BaseTreeFeatureConfig config) {
         MutableBoundingBox box = MutableBoundingBox.getNewBoundingBox();
         Set<BlockPos> logs = Sets.newHashSet();
         Set<BlockPos> leaves = Sets.newHashSet();
@@ -93,15 +93,15 @@ public class AtumTreeFeature extends TreeFeature { //TODO
 
     @Override
     protected boolean place(@Nonnull IWorldGenerationReader genReader, Random rand, BlockPos pos, Set<BlockPos> logs, Set<BlockPos> leaves, MutableBoundingBox box, BaseTreeFeatureConfig config) { //Coped from TreeFeature, to add more soil support
-        int trunk = config.field_236678_g_.func_236917_a_(rand);
-        int foliage = config.field_236677_f_.func_230374_a_(rand, trunk, config);
+        int trunk = config.trunkPlacer.func_236917_a_(rand);
+        int foliage = config.foliagePlacer.func_230374_a_(rand, trunk, config);
         int k = trunk - foliage;
-        int l = config.field_236677_f_.func_230376_a_(rand, k);
+        int l = config.foliagePlacer.func_230376_a_(rand, k);
         BlockPos blockpos;
         if (!config.forcePlacement) {
             int i = genReader.getHeight(Heightmap.Type.OCEAN_FLOOR, pos).getY();
             int j = genReader.getHeight(Heightmap.Type.WORLD_SURFACE, pos).getY();
-            if (j - i > config.field_236680_i_) {
+            if (j - i > config.maxWaterDepth) {
                 return false;
             }
 
@@ -123,12 +123,12 @@ public class AtumTreeFeature extends TreeFeature { //TODO
             if (isSoilOrFarm(genReader, blockpos.down())) {
                 return false;
             } else {
-                OptionalInt optionalInt = config.field_236679_h_.func_236710_c_();
+                OptionalInt optionalInt = config.minimumSize.func_236710_c_();
                 int l1 = this.func_241521_a_(genReader, trunk, blockpos, config);
                 if (l1 >= trunk || optionalInt.isPresent() && l1 >= optionalInt.getAsInt()) {
-                    List<FoliagePlacer.Foliage> list = config.field_236678_g_.func_230382_a_(genReader, rand, l1, blockpos, logs, box, config);
+                    List<FoliagePlacer.Foliage> list = config.trunkPlacer.func_230382_a_(genReader, rand, l1, blockpos, logs, box, config);
                     list.forEach((p_236407_8_) -> {
-                        config.field_236677_f_.func_236752_a_(genReader, rand, config, l1, p_236407_8_, foliage, l, leaves, box);
+                        config.foliagePlacer.func_236752_a_(genReader, rand, config, l1, p_236407_8_, foliage, l, leaves, box);
                     });
                     return true;
                 } else {

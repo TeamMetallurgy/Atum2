@@ -21,7 +21,7 @@ public class LimestoneSpikeFeature extends Feature<NoFeatureConfig> { //Based on
     }
 
     @Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         while (seedReader.isAirBlock(pos) && pos.getY() > 2) {
             pos = pos.down();
         }
