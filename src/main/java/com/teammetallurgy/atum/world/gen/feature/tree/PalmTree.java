@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.wood.tree;
+package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.teammetallurgy.atum.init.AtumFeatures;
 import net.minecraft.block.trees.Tree;

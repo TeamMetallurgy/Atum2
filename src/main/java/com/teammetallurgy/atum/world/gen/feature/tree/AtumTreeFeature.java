@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.feature;
+package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -56,35 +56,6 @@ public class AtumTreeFeature extends TreeFeature { //TODO
                 }
                 if (setLog(seedReader, rand, mutablePos.setPos(x, treeHeight, z), logs, box, config)) {
                     y = treeHeight;
-                }
-            }
-
-            BlockPos leafPos = new BlockPos(x, y, z);
-            this.generateLeaf(seedReader, leafPos.up(), rand, config);
-            for (BlockPos baseLeafPos : BlockPos.Mutable.getAllInBoxMutable(leafPos.add(-1, 0, -1), leafPos.add(1, 0, 1))) {
-                this.generateLeaf(seedReader, baseLeafPos, rand, config);
-            }
-            this.generateLeaf(seedReader, leafPos.add(2, 0, 0), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(-2, 0, 0), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(0, 0, 2), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(0, 0, -2), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(0, -1, -2), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(0, -1, 2), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(2, -1, 0), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(-2, -1, 0), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(0, -1, -3), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(0, -1, 3), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(3, -1, 0), rand, config);
-            this.generateLeaf(seedReader, leafPos.add(-3, -1, 0), rand, config);
-
-            if (config.dateChance > 0.0D) { //TODO
-                BlockPos datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(rand));
-                if (rand.nextDouble() <= config.dateChance) {
-                    seedReader.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(DateBlock.AGE, MathHelper.nextInt(rand, 0, 7)), 2);
-                    if (rand.nextDouble() <= 0.25F) { //Chance for 2nd date
-                        datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(rand));
-                        seedReader.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(DateBlock.AGE, MathHelper.nextInt(rand, 0, 7)), 2);
-                    }
                 }
             }
 
@@ -201,12 +172,6 @@ public class AtumTreeFeature extends TreeFeature { //TODO
 
     public static boolean isAirAt(IWorldGenerationBaseReader reader, BlockPos pos) {
         return reader.hasBlockState(pos, (ab) -> ab.isAir());
-    }
-
-    private void generateLeaf(IWorldGenerationReader seedReader, BlockPos pos, Random rand, BaseTreeFeatureConfig config) {
-        if (TreeFeature.isAirOrLeavesAt(seedReader, pos)) {
-            seedReader.setBlockState(pos, config.leavesProvider.getBlockState(rand, pos), 19);
-        }
     }
 
     private void addOphidianTongueToTree(IWorldGenerationReader seedReader, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, MutableBoundingBox mutableBox) {
