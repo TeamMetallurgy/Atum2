@@ -2,59 +2,59 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.gen.feature.config.PalmConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.FarmlandBlock;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.IWorldWriter;
-import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.IWorldGenerationBaseReader;
 import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
 import net.minecraft.world.gen.feature.TreeFeature;
+import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
 
 import javax.annotation.Nonnull;
+import java.util.List;
+import java.util.OptionalInt;
 import java.util.Random;
 import java.util.Set;
 
-public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just straight up use TreeFeature
+public class AtumTreeFeature extends TreeFeature { //TODO
 
-    public PalmFeature(Codec<PalmConfig> config) {
+    public AtumTreeFeature(Codec<BaseTreeFeatureConfig> config) {
         super(config);
     }
-
-    @Override
-    public boolean func_241855_a(ISeedReader p_241855_1_, ChunkGenerator p_241855_2_, Random p_241855_3_, BlockPos p_241855_4_, PalmConfig p_241855_5_) {
-        return false;
-    }
-
+    
     /*@Override
-    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull PalmConfig config) {
-        int baseHeight = config.baseHeight + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
+    public boolean func_241855_a(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BaseTreeFeatureConfig config) {
+        MutableBoundingBox box = MutableBoundingBox.getNewBoundingBox();
         Set<BlockPos> logs = Sets.newHashSet();
-        MutableBoundingBox mutableBox = MutableBoundingBox.getNewBoundingBox();
-        boolean canPlace = this.place(seedReader, rand, pos, logs, Sets.newHashSet(), mutableBox, config);
-        if (mutableBox.minX <= mutableBox.maxX && canPlace && !logs.isEmpty()) {
-            BlockPos posOptional = optional.get();
-            this.setFertileSoilAt(seedReader, posOptional.down(), posOptional);
+        Set<BlockPos> leaves = Sets.newHashSet();
+        int baseHeight = 2 + rand.nextInt(3) + rand.nextInt(2);
+        //int baseHeight = config.field_236679_h_ + rand.nextInt(config.heightRandA + 1) + rand.nextInt(config.heightRandB + 1);
+        boolean place = this.place(seedReader, rand, pos, logs, leaves, box, config);
+        if (!place) {
+            return false;
+        } else { ;
+            this.setFertileSoilAt(seedReader, pos.down(), pos);
             int height = baseHeight - rand.nextInt(4) - 1;
             int i1 = 3 - rand.nextInt(3);
             BlockPos.Mutable mutablePos = new BlockPos.Mutable();
-            int x = posOptional.getX();
-            int z = posOptional.getZ();
+            int x = pos.getX();
+            int z = pos.getZ();
             int y = 0;
 
             for (int h = 0; h < baseHeight; ++h) {
-                int treeHeight = posOptional.getY() + h;
+                int treeHeight = pos.getY() + h;
                 if (h >= height && i1 > 0) {
                     --i1;
                 }
-                if (this.setLog(seedReader, rand, mutablePos.setPos(x, treeHeight, z), logs, mutableBox, config)) {
+                if (setLog(seedReader, rand, mutablePos.setPos(x, treeHeight, z), logs, box, config)) {
                     y = treeHeight;
                 }
             }
@@ -77,7 +77,7 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
             this.generateLeaf(seedReader, leafPos.add(3, -1, 0), rand, config);
             this.generateLeaf(seedReader, leafPos.add(-3, -1, 0), rand, config);
 
-            if (config.dateChance > 0.0D) {
+            if (config.dateChance > 0.0D) { //TODO
                 BlockPos datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(rand));
                 if (rand.nextDouble() <= config.dateChance) {
                     seedReader.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(DateBlock.AGE, MathHelper.nextInt(rand, 0, 7)), 2);
@@ -88,7 +88,7 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
                 }
             }
 
-            if (config.ophidianTongueChance > 0.0D && rand.nextDouble() <= config.ophidianTongueChance) {
+            if (config.ophidianTongueChance > 0.0D && rand.nextDouble() <= config.ophidianTongueChance) { //TODO
                 Set<BlockPos> set = Sets.newHashSet();
                 BlockPos genPos;
                 if (rand.nextInt(4) == 0) {
@@ -118,45 +118,46 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
             }
             return true;
         }
-    }
+    }*/
 
-    private boolean place(IWorldGenerationReader generationReader, Random rand, BlockPos positionIn, Set<BlockPos> p_225557_4_, Set<BlockPos> p_225557_5_, MutableBoundingBox box, PalmConfig config) { //Coped from TreeFeature, to add Limestone Gravel support
-        int i = config.field_236678_g_.func_236917_a_(rand);
-        int j = config.field_236677_f_.func_230374_a_(rand, i, config);
-        int k = i - j;
+    @Override
+    protected boolean place(@Nonnull IWorldGenerationReader genReader, Random rand, BlockPos pos, Set<BlockPos> logs, Set<BlockPos> leaves, MutableBoundingBox box, BaseTreeFeatureConfig config) { //Coped from TreeFeature, to add more soil support
+        int trunk = config.field_236678_g_.func_236917_a_(rand);
+        int foliage = config.field_236677_f_.func_230374_a_(rand, trunk, config);
+        int k = trunk - foliage;
         int l = config.field_236677_f_.func_230376_a_(rand, k);
         BlockPos blockpos;
         if (!config.forcePlacement) {
-            int i1 = generationReader.getHeight(Heightmap.Type.OCEAN_FLOOR, positionIn).getY();
-            int j1 = generationReader.getHeight(Heightmap.Type.WORLD_SURFACE, positionIn).getY();
-            if (j1 - i1 > config.field_236680_i_) {
+            int i = genReader.getHeight(Heightmap.Type.OCEAN_FLOOR, pos).getY();
+            int j = genReader.getHeight(Heightmap.Type.WORLD_SURFACE, pos).getY();
+            if (j - i > config.field_236680_i_) {
                 return false;
             }
 
             int k1;
             if (config.field_236682_l_ == Heightmap.Type.OCEAN_FLOOR) {
-                k1 = i1;
+                k1 = i;
             } else if (config.field_236682_l_ == Heightmap.Type.WORLD_SURFACE) {
-                k1 = j1;
+                k1 = j;
             } else {
-                k1 = generationReader.getHeight(config.field_236682_l_, positionIn).getY();
+                k1 = genReader.getHeight(config.field_236682_l_, pos).getY();
             }
 
-            blockpos = new BlockPos(positionIn.getX(), k1, positionIn.getZ());
+            blockpos = new BlockPos(pos.getX(), k1, pos.getZ());
         } else {
-            blockpos = positionIn;
+            blockpos = pos;
         }
 
-        if (blockpos.getY() >= 1 && blockpos.getY() + i + 1 <= 256) {
-            if (!isSoilOrFarm(generationReader, blockpos.down())) {
+        if (blockpos.getY() >= 1 && blockpos.getY() + trunk + 1 <= 256) {
+            if (isSoilOrFarm(genReader, blockpos.down())) {
                 return false;
             } else {
-                OptionalInt optionalint = config.field_236679_h_.func_236710_c_();
-                int l1 = this.func_241521_a_(generationReader, i, blockpos, config);
-                if (l1 >= i || optionalint.isPresent() && l1 >= optionalint.getAsInt()) {
-                    List<FoliagePlacer.Foliage> list = config.field_236678_g_.func_230382_a_(generationReader, rand, l1, blockpos, p_225557_4_, box, config);
+                OptionalInt optionalInt = config.field_236679_h_.func_236710_c_();
+                int l1 = this.func_241521_a_(genReader, trunk, blockpos, config);
+                if (l1 >= trunk || optionalInt.isPresent() && l1 >= optionalInt.getAsInt()) {
+                    List<FoliagePlacer.Foliage> list = config.field_236678_g_.func_230382_a_(genReader, rand, l1, blockpos, logs, box, config);
                     list.forEach((p_236407_8_) -> {
-                        config.field_236677_f_.func_236752_a_(generationReader, rand, config, l1, p_236407_8_, j, l, p_225557_5_, box);
+                        config.field_236677_f_.func_236752_a_(genReader, rand, config, l1, p_236407_8_, foliage, l, leaves, box);
                     });
                     return true;
                 } else {
@@ -166,7 +167,7 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
         } else {
             return false;
         }
-    }*/
+    }
 
     protected static boolean isSoilOrFarm(IWorldGenerationBaseReader reader, @Nonnull BlockPos pos) {
         return isDirtOrFarmlandAt(reader, pos) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL));
@@ -179,7 +180,8 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
         });
     }
 
-    protected void setFertileSoilAt(IWorldGenerationReader reader, BlockPos pos, BlockPos origin) {
+    //TODO Move all  these into Trunk or Foliage providers, if needed
+    /*protected void setFertileSoilAt(IWorldGenerationReader reader, BlockPos pos, BlockPos origin) {
         if (!(reader instanceof IWorld)) {
             this.setFertileSoil(reader, pos);
             return;
@@ -201,7 +203,7 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
         return reader.hasBlockState(pos, (ab) -> ab.isAir());
     }
 
-    private void generateLeaf(IWorldGenerationReader seedReader, BlockPos pos, Random rand, PalmConfig config) {
+    private void generateLeaf(IWorldGenerationReader seedReader, BlockPos pos, Random rand, BaseTreeFeatureConfig config) {
         if (TreeFeature.isAirOrLeavesAt(seedReader, pos)) {
             seedReader.setBlockState(pos, config.leavesProvider.getBlockState(rand, pos), 19);
         }
@@ -224,5 +226,5 @@ public class PalmFeature extends Feature<PalmConfig> { //TODO Possibly just stra
         worldWriter.setBlockState(pos, state, 19);
         positions.add(pos);
         mutableBox.expandTo(new MutableBoundingBox(pos, pos));
-    }
+    }*/
 }

@@ -74,19 +74,23 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
                     BlockState state = world.getBlockState(down);
                     boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
-                    if (genReader.isAreaLoaded(pos, 2) && isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
-                        for (int height = 0; height < baseHeight; ++height) {
-                            BlockPos upN = pos.up(height);
+                    if (genReader.isAreaLoaded(pos, 2)) {
+                        if (isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
+                            for (int height = 0; height < baseHeight; ++height) {
+                                BlockPos upN = pos.up(height);
 
-                            if (TreeFeature.isAirOrLeavesAt(genReader, upN)) {
-                                genReader.setBlockState(pos.up(height), LOG, 19);
-                                if (height > 1) {
-                                    logs.add(pos.up(height));
+                                if (TreeFeature.isAirOrLeavesAt(genReader, upN)) {
+                                    genReader.setBlockState(pos.up(height), LOG, 19);
+                                    if (height > 1) {
+                                        logs.add(pos.up(height));
+                                    }
                                 }
                             }
+                            buildBranches(world, genReader, logs, rand);
+                            return true;
+                        } else {
+                            return false;
                         }
-                        buildBranches(world, genReader, logs, rand);
-                        return true;
                     } else {
                         return false;
                     }
