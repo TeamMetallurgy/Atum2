@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtum;
-import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;

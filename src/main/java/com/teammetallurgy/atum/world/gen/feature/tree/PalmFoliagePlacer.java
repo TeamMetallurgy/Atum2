@@ -55,7 +55,7 @@ public class PalmFoliagePlacer extends FoliagePlacer {
         this.generateLeaf(genReader, leafPos.add(3, -1, 0), rand, config);
         this.generateLeaf(genReader, leafPos.add(-3, -1, 0), rand, config);
 
-        if (this.dateChance > 0.0D) {
+        if (this.dateChance > 0.0F) {
             BlockPos datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(rand));
             if (rand.nextDouble() <= this.dateChance) {
                 genReader.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(DateBlock.AGE, MathHelper.nextInt(rand, 0, 7)), 2);

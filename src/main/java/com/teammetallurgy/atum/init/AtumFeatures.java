@@ -6,14 +6,13 @@ import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.world.gen.feature.*;
 import com.teammetallurgy.atum.world.gen.feature.tree.AtumTreeFeature;
 import com.teammetallurgy.atum.world.gen.feature.tree.PalmFoliagePlacer;
+import com.teammetallurgy.atum.world.gen.feature.tree.PalmTrunkPlacer;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.blockplacer.ColumnBlockPlacer;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
-import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -41,9 +40,9 @@ public class AtumFeatures {
     public static final BlockClusterFeatureConfig DEAD_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEAD_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(2).build();
     public static final BlockClusterFeatureConfig ANPUTS_FINGERS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.ANPUTS_FINGERS.getDefaultState()), new SimpleBlockPlacer())).build();
     public static final BlockClusterFeatureConfig PAPYRUS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PAPYRUS.getDefaultState()), new ColumnBlockPlacer(1, 2))).tries(32).xSpread(2).ySpread(0).zSpread(2).func_227317_b_().requiresWater().build();
-    public static final BaseTreeFeatureConfig PALM_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PALM_LOG.getDefaultState()), new SimpleBlockStateProvider(AtumBlocks.PALM_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.1F), new StraightTrunkPlacer(5, 2, 1), new TwoLayerFeature(0, 0, 0))).setIgnoreVines()/*.ophidianTongue(0.6D)*/.build(); //TODO
-    public static final BaseTreeFeatureConfig PALM_TREE_CONFIG_SAPLING = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PALM_LOG.getDefaultState()), new SimpleBlockStateProvider(AtumBlocks.PALM_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.1F), new StraightTrunkPlacer(5, 2, 1), new TwoLayerFeature(0, 0, 0))).setIgnoreVines()/*.ophidianTongue(0.0D)*/.build(); //TODO
-    public static final BaseTreeFeatureConfig DEAD_PALM_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true)), new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.0F), new StraightTrunkPlacer(5, 2, 1), new TwoLayerFeature(0, 0, 0))).setIgnoreVines()/*.ophidianTongue(0.0D)*/.build(); //TODO
+    public static final BaseTreeFeatureConfig PALM_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PALM_LOG.getDefaultState()), new SimpleBlockStateProvider(AtumBlocks.PALM_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.1F), new PalmTrunkPlacer(5, 2, 1, 0.25F), new TwoLayerFeature(0, 0, 0))).setIgnoreVines().build();
+    public static final BaseTreeFeatureConfig PALM_TREE_CONFIG_SAPLING = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PALM_LOG.getDefaultState()), new SimpleBlockStateProvider(AtumBlocks.PALM_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.1F), new PalmTrunkPlacer(5, 2, 1, 0.0F), new TwoLayerFeature(0, 0, 0))).setIgnoreVines().build();
+    public static final BaseTreeFeatureConfig DEAD_PALM_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true)), new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.0F), new PalmTrunkPlacer(5, 2, 1, 0.0F), new TwoLayerFeature(0, 0, 0))).setIgnoreVines().build();
     public static final LiquidsConfig WATER_SPRING_CONFIG = new LiquidsConfig(Fluids.WATER.getDefaultState(), true, 4, 1, ImmutableSet.of(AtumBlocks.LIMESTONE));
     public static final LiquidsConfig LAVA_SPRING_CONFIG = new LiquidsConfig(Fluids.LAVA.getDefaultState(), true, 4, 1, ImmutableSet.of(AtumBlocks.LIMESTONE));
     public static final BlockClusterFeatureConfig SHRUB_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.SHRUB.getDefaultState()), new SimpleBlockPlacer())).tries(3).build();

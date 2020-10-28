@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.gen;
 
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
-import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.init.AtumStructures;
@@ -10,13 +9,10 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
-import net.minecraft.world.gen.foliageplacer.BlobFoliagePlacer;
 import net.minecraft.world.gen.placement.*;
-import net.minecraft.world.gen.trunkplacer.StraightTrunkPlacer;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
