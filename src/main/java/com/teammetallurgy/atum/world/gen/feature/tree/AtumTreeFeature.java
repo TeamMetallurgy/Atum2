@@ -54,7 +54,7 @@ public class AtumTreeFeature extends TreeFeature {
         }
 
         if (blockpos.getY() >= 1 && blockpos.getY() + trunk + 1 <= 256) {
-            if (isSoilOrFarm(genReader, blockpos.down())) {
+            if (!isSoilOrFarm(genReader, blockpos.down())) {
                 return false;
             } else {
                 OptionalInt optionalInt = config.minimumSize.func_236710_c_();
@@ -75,7 +75,7 @@ public class AtumTreeFeature extends TreeFeature {
     }
 
     protected static boolean isSoilOrFarm(IWorldGenerationBaseReader reader, @Nonnull BlockPos pos) {
-        return isDirtOrFarmlandAt(reader, pos) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL));
+        return isDirtOrFarmlandAt(reader, pos) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL)) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.FERTILE_SOIL));
     }
 
     private static boolean isDirtOrFarmlandAt(IWorldGenerationBaseReader reader, BlockPos pos) {

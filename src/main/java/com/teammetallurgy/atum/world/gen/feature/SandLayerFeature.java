@@ -16,7 +16,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class SandLayerFeature extends Feature<NoFeatureConfig> {
+public class SandLayerFeature extends Feature<NoFeatureConfig> { //TODO Fix
 
     public SandLayerFeature(Codec<NoFeatureConfig> config) {
         super(config);
@@ -33,13 +33,11 @@ public class SandLayerFeature extends Feature<NoFeatureConfig> {
                 int y = seedReader.getHeight(Heightmap.Type.MOTION_BLOCKING, x, z);
                 mutablePos.setPos(x, y, z);
 
-                if (DimensionHelper.canPlaceSandLayer(seedReader, pos)) {
-                    for (Direction facing : Direction.Plane.HORIZONTAL) {
-                        BlockPos posOffset = mutablePos.offset(facing);
-                        if (seedReader.getBlockState(posOffset).isSolidSide(seedReader, posOffset, Direction.UP)) {
-                            int layers = MathHelper.nextInt(rand, 1, 3);
-                            seedReader.setBlockState(pos, AtumBlocks.SAND_LAYERED.getDefaultState().with(SandLayersBlock.LAYERS, layers), 2);
-                        }
+                for (Direction facing : Direction.Plane.HORIZONTAL) {
+                    BlockPos posOffset = mutablePos.offset(facing);
+                    if (seedReader.getBlockState(posOffset).isSolidSide(seedReader, posOffset, Direction.UP) && DimensionHelper.canPlaceSandLayer(seedReader, mutablePos)) {
+                        int layers = MathHelper.nextInt(rand, 1, 3);
+                        seedReader.setBlockState(mutablePos, AtumBlocks.SAND_LAYERED.getDefaultState().with(SandLayersBlock.LAYERS, layers), 2);
                     }
                 }
             }

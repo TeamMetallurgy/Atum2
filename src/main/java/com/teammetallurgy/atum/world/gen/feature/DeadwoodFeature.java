@@ -72,7 +72,7 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
                     BlockState state = world.getBlockState(down);
                     boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
-                    if (genReader.isAreaLoaded(pos, 2)) {
+                    if (genReader.isAreaLoaded(pos, 10)) {
                         if (isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
                             for (int height = 0; height < baseHeight; ++height) {
                                 BlockPos upN = pos.up(height);

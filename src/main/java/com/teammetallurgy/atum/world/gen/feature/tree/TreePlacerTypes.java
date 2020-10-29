@@ -23,7 +23,7 @@ public class TreePlacerTypes {
 
     public static <P extends FoliagePlacer> FoliagePlacerType<P> registerFoliagePlaceType(String name, Codec<P> codec) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
-        FoliagePlacerType foliagePlacerType = new FoliagePlacerType(codec);
+        FoliagePlacerType foliagePlacerType = new FoliagePlacerType<>(codec);
         foliagePlacerType.setRegistryName(id);
         FOLIAGE_PLACER_TYPES.add(foliagePlacerType);
         return foliagePlacerType;
