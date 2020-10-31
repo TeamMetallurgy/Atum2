@@ -20,7 +20,7 @@ public class StructureHelper {
     public static int getYPosForStructure(int chunkX, int chunkZ, ChunkGenerator generator, @Nullable Rotation rotation) {
         if (rotation == null) {
             Random rand = new Random();
-            rotation = Rotation.values()[rand.nextInt(Rotation.values().length)];
+            rotation = Rotation.randomRotation(rand);
         }
         int x = 5;
         int z = 5;

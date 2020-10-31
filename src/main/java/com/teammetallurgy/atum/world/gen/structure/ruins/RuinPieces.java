@@ -13,7 +13,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +55,7 @@ public class RuinPieces {
 
         private void loadTemplate(TemplateManager manager) {
             Template template = manager.getTemplate(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
@@ -96,7 +95,7 @@ public class RuinPieces {
         @Override
         protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
             super.readAdditional(compound);
-            compound.putString("Rot", this.placeSettings.getRotation().name());
+            compound.putString("Rot", this.getRotation().name());
             compound.putInt("Type", this.ruinType);
         }
     }

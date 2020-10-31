@@ -19,12 +19,12 @@ public class TeleporterAtumStart implements ITeleporter {
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
         System.out.println("HAS START STRUCTURE SPAWNED: " + DimensionHelper.DATA.hasStartStructureSpawned());
-        if (!DimensionHelper.DATA.hasStartStructureSpawned()) { //TODO Test
+        if (!DimensionHelper.DATA.hasStartStructureSpawned()) { //TODO Test & fix in singleplayer (Remembers on new world, if you don't restart the client)
             this.onAtumJoining(destWorld, entity, yaw);
             DimensionHelper.DATA.setHasStartStructureSpawned(true);
             return repositionEntity.apply(false);
         }
-        return entity;
+        return repositionEntity.apply(false);
     }
 
     private void onAtumJoining(ServerWorld world, Entity entity, float yaw) {

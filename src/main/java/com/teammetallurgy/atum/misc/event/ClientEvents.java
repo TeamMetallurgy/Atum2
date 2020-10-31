@@ -71,10 +71,8 @@ public class ClientEvents {
         Minecraft mc = Minecraft.getInstance();
         ClientPlayerEntity player = mc.player;
         if (player == null) return;
-        //Dimension dimension = player.world.getDimension();
 
-        if (/*dimension instanceof AtumDimension &&*/ mc.world != null && mc.world.getDimensionKey() == Atum.ATUM) {
-            //AtumDimension atum = (AtumDimension) dimension;
+        if (mc.world != null && mc.world.getDimensionKey() == Atum.ATUM) {
             World world = mc.world;
             float stormStrength = 0.0F /*atum.stormStrength*/; //TODO
 
@@ -113,7 +111,7 @@ public class ClientEvents {
             BlockPos playerPos = new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ());
             boolean sky = player.world.canBlockSeeSky(playerPos);
             Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(player.world.getBiome(playerPos));
-            if (!sky || biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS) { //TODO Test
+            if (!sky || biomeKey.isPresent() && biomeKey.get() == AtumBiomes.OASIS) {
                 intensity -= 0.001F * partialTicks;
                 intensity = Math.max(0, intensity);
             } else {

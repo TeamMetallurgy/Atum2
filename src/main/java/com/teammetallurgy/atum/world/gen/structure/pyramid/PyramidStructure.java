@@ -95,7 +95,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
-            Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
+            Rotation rotation = Rotation.randomRotation(this.rand);
             int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, rotation);
 
             if (y > 55) {
@@ -121,8 +121,8 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                         if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
                             boolean isVecInside = false;
 
-                            for (StructurePiece component : this.components) {
-                                if (component.getBoundingBox().isVecInside(pos)) {
+                            for (StructurePiece piece : this.components) {
+                                if (piece.getBoundingBox().isVecInside(pos)) {
                                     isVecInside = true;
                                     break;
                                 }

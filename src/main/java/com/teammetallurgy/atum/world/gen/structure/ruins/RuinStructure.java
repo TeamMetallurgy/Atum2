@@ -35,12 +35,9 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
         for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.getSeaLevel(), chunkZ * 16 + 9, 17)) {
             if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
-            } else {
-                int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null);
-                return y > 60 && y < 85;
             }
         }
-        return false;
+        return true;
     }
 
     @Override
@@ -57,13 +54,12 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
-            Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
+            Rotation rotation = Rotation.randomRotation(this.rand);
             int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, rotation);
 
             if (y > 60 && y < 85) {
-                BlockPos pos = new BlockPos(chunkX * 16 + 8, y - 1, chunkZ * 16 + 8);
-                RuinPieces.RuinTemplate ruin = new RuinPieces.RuinTemplate(manager, pos, this.rand, rotation);
-                this.components.add(ruin);
+                BlockPos pos = new BlockPos(chunkX * 16, y, chunkZ * 16);
+                this.components.add(new RuinPieces.RuinTemplate(manager, pos, this.rand, rotation));
                 this.recalculateStructureSize();
             }
         }
@@ -71,9 +67,9 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
         @Override
         public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
             BlockPos checkPos = new BlockPos(chunkPos.x, this.bounds.minY + 1, chunkPos.z);
-            boolean doesChunkHaveStructure = StructureHelper.doesChunkHaveStructure(seedReader, checkPos, AtumStructures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, checkPos, AtumStructures.GIRAFI_TOMB_STRUCTURE); //TODO Test
+            //boolean doesChunkHaveStructure = StructureHelper.doesChunkHaveStructure(seedReader, checkPos, AtumStructures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, checkPos, AtumStructures.GIRAFI_TOMB_STRUCTURE); //TODO Fix world freeze when checking structure
 
-            if (!doesChunkHaveStructure) {
+            //if (!doesChunkHaveStructure) {
                 super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
                 int y = this.bounds.minY;
 
@@ -104,7 +100,7 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
                         }
                     }
                 }
-            }
+            //}
         }
     }
 }

@@ -132,7 +132,7 @@ public class AtumDefaultFeatures {
 
     public static void addRuins(BiomeGenerationSettings.Builder builder) {
         if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
-            //builder.withStructure(AtumStructures.RUIN_FEATURE); //TODO Some ruins seems to make the world freeze
+            builder.withStructure(AtumStructures.RUIN_FEATURE);
         }
     }
 

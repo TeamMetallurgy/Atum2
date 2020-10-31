@@ -16,7 +16,7 @@ import net.minecraft.world.gen.feature.NoFeatureConfig;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class SandLayerFeature extends Feature<NoFeatureConfig> { //TODO Fix
+public class SandLayerFeature extends Feature<NoFeatureConfig> {
 
     public SandLayerFeature(Codec<NoFeatureConfig> config) {
         super(config);
