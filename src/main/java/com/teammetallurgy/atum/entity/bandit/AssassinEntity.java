@@ -239,5 +239,12 @@ public class AssassinEntity extends BanditBaseEntity {
         public boolean shouldExecute() {
             return this.attacker != null && super.shouldExecute();
         }
+
+        @Override
+        public void tick() {
+            if (this.attacker != null && this.attacker.getLookController() != null) {
+                super.tick();
+            }
+        }
     }
 }
