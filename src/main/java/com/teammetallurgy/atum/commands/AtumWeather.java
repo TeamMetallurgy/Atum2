@@ -2,9 +2,15 @@ package com.teammetallurgy.atum.commands;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.world.DimensionHelper;
+import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.server.ServerWorld;
+
+import java.util.Random;
 
 public class AtumWeather {
 
@@ -20,18 +26,17 @@ public class AtumWeather {
 	}
 
 	private static int execute(CommandSource source, boolean isSandstorm, int time) {
-		/*World world = source.getWorld();
-		if (world.getDimensionKey() == Atum.ATUM) {
-			AtumDimension atum = (AtumDimension) world.getDimensionTypeKey(); //TODO
-			AtumDimension.DATA.setStorming(isSandstorm);
-			atum.stormTime = time == -1 ? 1500 : time != 0 ? Math.min(time, 1000000) * 20 : (300 + (new Random()).nextInt(600)) * 20;
+		ServerWorld serverWorld = source.getWorld();
+		if (serverWorld.getDimensionKey() == Atum.ATUM) {
+			DimensionHelper.DATA.setStorming(isSandstorm);
+			SandstormHandler.INSTANCE.stormTime = time == -1 ? 1500 : time != 0 ? Math.min(time, 1000000) * 20 : (300 + (new Random()).nextInt(600)) * 20;
 			if (isSandstorm) {
 				source.sendFeedback(new TranslationTextComponent("atum.commands.weather.sandstorm"), true);
 			} else {
 				source.sendFeedback(new TranslationTextComponent("commands.weather.set.clear"), true);
 			}
 			return 0;
-		}*/
+		}
 		return 0;
 	}
 }

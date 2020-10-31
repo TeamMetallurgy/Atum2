@@ -74,7 +74,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
         if (event.getEntity() instanceof ServerPlayerEntity) {
             IWorld world = event.getEntity().world;
-            if (world instanceof ServerWorld && ((ServerWorld) world).func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE).isValid()) { //TODO Test
+            if (world instanceof ServerWorld && ((ServerWorld) world).func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE).isValid()) {
                 ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
                 Block placedBlock = event.getPlacedBlock().getBlock();
                 if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {

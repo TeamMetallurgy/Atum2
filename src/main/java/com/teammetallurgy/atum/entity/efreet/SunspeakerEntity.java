@@ -66,7 +66,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiPredicate;
 
-public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTracking, IMerchant { //TODO consider changing Relics trading/buying to same system as Piglins
+public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTracking, IMerchant { //consider changing Relics trading/buying to same system as Piglins
     private static final DataParameter<SunspeakerData> SUNSPEAKER_DATA = EntityDataManager.createKey(SunspeakerEntity.class, AtumDataSerializer.SUNSPEAKER_DATA);
     @Nullable
     private PlayerEntity customer;

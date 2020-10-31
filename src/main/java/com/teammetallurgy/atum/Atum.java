@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.RegistryKey;
@@ -17,7 +18,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.CommandEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -42,7 +43,7 @@ public class Atum {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::setupCommon);
         modBus.addListener(this::setupClient);
-        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
+        MinecraftForge.EVENT_BUS.addListener(this::onCommandRegistering);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
         AtumAPI.Tags.init();
@@ -50,6 +51,9 @@ public class Atum {
 
     private void setupCommon(FMLCommonSetupEvent event) {
         IntegrationHandler.INSTANCE.init();
+        if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
+            MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
+        }
         MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE);
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
@@ -62,7 +66,7 @@ public class Atum {
     }
 
     @SubscribeEvent
-    public void onServerStarting(CommandEvent event) {
-        AtumWeather.register(event.getParseResults().getContext().getDispatcher()); //TODO Test
+    public void onCommandRegistering(RegisterCommandsEvent event) {
+        AtumWeather.register(event.getDispatcher());
     }
 }

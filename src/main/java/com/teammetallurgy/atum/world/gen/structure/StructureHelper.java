@@ -13,7 +13,7 @@ import java.util.Random;
 
 public class StructureHelper {
 
-    public static boolean doesChunkHaveStructure(ISeedReader seedReader, BlockPos pos, Structure<?> structure) { //TODO Test
+    public static boolean doesChunkHaveStructure(ISeedReader seedReader, BlockPos pos, Structure<?> structure) {
         return seedReader.func_241827_a(SectionPos.from(pos), structure).findAny().isPresent();
     }
 

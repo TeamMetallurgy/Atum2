@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.network.packet;
 
+import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -22,11 +23,7 @@ public class StormStrengthPacket {
 
 	public static class Handler {
 		public static void handle(StormStrengthPacket message, Supplier<NetworkEvent.Context> ctx) {
-			/*Dimension dimension = Minecraft.getInstance().player.world.dimension; //TODO
-			if (dimension instanceof AtumDimension) {
-				AtumDimension providerAtum = (AtumDimension) dimension;
-				providerAtum.stormStrength = message.stormStrength;
-			}*/
+			SandstormHandler.INSTANCE.stormStrength = message.stormStrength;
 			ctx.get().setPacketHandled(true);
 		}
 	}
