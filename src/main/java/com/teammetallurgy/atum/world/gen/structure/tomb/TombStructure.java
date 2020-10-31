@@ -51,7 +51,7 @@ public class TombStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
-            Rotation rotation = Rotation.values()[this.rand.nextInt(Rotation.values().length)];
+            Rotation rotation = Rotation.randomRotation(this.rand);
 
             int y = MathHelper.nextInt(this.rand, 6, 55);
             BlockPos pos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
