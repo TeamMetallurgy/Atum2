@@ -1,5 +1,5 @@
 {
     "variants": {
-        "": { "model": "atum:block/ceramic_yellow" }
+        "": { "model": "atum:block/ceramic_tile_yellow" }
     }
 }
