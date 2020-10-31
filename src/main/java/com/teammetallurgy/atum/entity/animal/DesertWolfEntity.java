@@ -13,7 +13,7 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -518,7 +518,7 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void openInventoryOverride(GuiOpenEvent event) {
-        if (event.getGui() instanceof ContainerScreen) {
+        if (event.getGui() instanceof DisplayEffectsScreen) {
             PlayerEntity player = Minecraft.getInstance().player;
             if (player != null && player.getRidingEntity() instanceof DesertWolfEntity) {
                 DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();
