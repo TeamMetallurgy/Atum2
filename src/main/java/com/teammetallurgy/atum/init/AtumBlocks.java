@@ -386,6 +386,10 @@ public class AtumBlocks {
     public static final Block LIMESTONE_BUTTON = registerBlock(new StoneButtonBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(0.5F)), "limestone_button");
     public static final Block PALM_BUTTON = registerBlock(new WoodButtonBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "palm_button");
     public static final Block DEADWOOD_BUTTON = registerBlock(new WoodButtonBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "deadwood_button");
+    public static final Block LIMESTONE_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties.create(Material.ROCK).setRequiresTool().doesNotBlockMovement().hardnessAndResistance(0.5F)), "limestone_pressure_plate");
+    public static final Block PALM_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, PALM_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "palm_pressure_plate");
+    public static final Block DEADWOOD_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, DEADWOOD_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "deadwood_pressure_plate");
+    public static final Block PALM_SIGN = registerBlock(new StandingSignBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, PALM_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "palm_sign");
     public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;
 
     public static void setBlockInfo() {

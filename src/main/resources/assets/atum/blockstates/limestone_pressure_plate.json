@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "powered=false": {
+      "model": "atum:block/limestone_pressure_plate"
+    },
+    "powered=true": {
+      "model": "atum:block/limestone_pressure_plate_down"
+    }
+  }
+}
