@@ -15,7 +15,6 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
-import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;

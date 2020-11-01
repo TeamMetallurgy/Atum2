@@ -40,6 +40,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addSurfaceLavaLake(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);
@@ -63,6 +64,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addSurfaceLavaLake(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);
@@ -82,6 +84,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addSurfaceLavaLake(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
@@ -103,6 +106,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addSurfaceLavaLake(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);
@@ -166,6 +170,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addSurfaceLavaLake(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);
@@ -211,6 +216,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
+        AtumDefaultFeatures.addSurfaceLavaLake(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
         AtumDefaultFeatures.addOres(biomeGen);

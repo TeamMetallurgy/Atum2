@@ -38,7 +38,6 @@ import com.teammetallurgy.atum.items.food.FishItem;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;

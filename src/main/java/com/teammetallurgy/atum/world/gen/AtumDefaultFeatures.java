@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
+import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
@@ -26,6 +27,10 @@ public class AtumDefaultFeatures {
 
     public static void addSandLayer(BiomeGenerationSettings.Builder builder) {
         builder.withFeature(GenerationStage.Decoration.TOP_LAYER_MODIFICATION, AtumFeatures.SAND_LAYER.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG));
+    }
+
+    public static void addSurfaceLavaLake(BiomeGenerationSettings.Builder builder) {
+        builder.withFeature(GenerationStage.Decoration.LAKES, AtumFeatures.SURFACE_LAVA_LAKE.withConfiguration(new BlockStateFeatureConfig(Blocks.LAVA.getDefaultState())).withPlacement(Placement.LAVA_LAKE.configure(new ChanceConfig(80)))); //TODO. Also chance chance most likely
     }
 
     public static void addSprings(BiomeGenerationSettings.Builder builder) {

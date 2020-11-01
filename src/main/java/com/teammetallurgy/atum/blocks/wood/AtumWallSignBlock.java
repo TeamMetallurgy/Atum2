@@ -8,9 +8,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockReader;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class AtumWallSignBlock extends WallSignBlock {
     public static final HashMap<Block, Block> WALL_SIGN_BLOCKS = new HashMap<>();

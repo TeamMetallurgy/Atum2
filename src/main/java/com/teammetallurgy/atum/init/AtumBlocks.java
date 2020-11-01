@@ -36,9 +36,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
 
-import static com.teammetallurgy.atum.misc.AtumRegistry.registerSign;
-import static com.teammetallurgy.atum.misc.AtumRegistry.registerBlock;
-import static com.teammetallurgy.atum.misc.AtumRegistry.registerTorch;
+import static com.teammetallurgy.atum.misc.AtumRegistry.*;
 import static net.minecraft.block.AbstractBlock.Properties.create;
 import static net.minecraft.block.AbstractBlock.Properties.from;
 

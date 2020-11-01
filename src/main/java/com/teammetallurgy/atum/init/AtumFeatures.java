@@ -24,7 +24,7 @@ import java.util.List;
 public class AtumFeatures {
     private static final List<Feature<?>> FEATURES = new ArrayList<>();
     //Features
-    public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig.field_236455_a_)); //TODO Try to generate again. Was not working in 1.15.2
+    public static final Feature<BlockStateFeatureConfig> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateFeatureConfig.field_236455_a_));
     public static final Feature<BaseTreeFeatureConfig> ATUM_TREE = register("atum_tree", new AtumTreeFeature(BaseTreeFeatureConfig.CODEC));
     public static final BonusCrateFeature BONUS_CRATE = register("bonus_crate", new BonusCrateFeature(NoFeatureConfig.field_236558_a_));
     public static final StartStructureFeature START_STRUCTURE = register("start_structure", new StartStructureFeature(NoFeatureConfig.field_236558_a_));

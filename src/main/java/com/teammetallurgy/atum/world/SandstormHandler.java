@@ -47,7 +47,7 @@ public class SandstormHandler {
 
     private boolean canPlaceSandAt(ServerWorld serverWorld, BlockPos pos) {
         BlockState state = serverWorld.getBlockState(pos.down());
-        return state.getBlock() != AtumBlocks.SAND && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL && DimensionHelper.canPlaceSandLayer(serverWorld, pos) || state.getBlock().isIn(BlockTags.LEAVES);
+        return ((state.getBlock() != AtumBlocks.SAND && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL) || state.getBlock().isIn(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverWorld, pos);
     }
 
     public void updateWeather(World world) {
