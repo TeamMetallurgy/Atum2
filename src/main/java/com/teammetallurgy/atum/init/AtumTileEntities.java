@@ -12,7 +12,10 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.Limestone
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnaceTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
+import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
+import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import net.minecraft.tileentity.SignTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -46,6 +49,7 @@ public class AtumTileEntities {
     public static final TileEntityType<QuernTileEntity> QUERN = null;
     public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = null;
     public static final TileEntityType<KilnTileEntity> KILN = null;
+    public static final TileEntityType<AtumSignTileEntity> SIGN = null;
 
 
     @SubscribeEvent
@@ -65,6 +69,7 @@ public class AtumTileEntities {
         registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));
         registerTileEntity("spinning_wheel", TileEntityType.Builder.create(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));
         registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));
+        registerTileEntity("sign", TileEntityType.Builder.create(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN, AtumBlocks.DEADWOOD_SIGN, AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN)));
 
         for (TileEntityType<?> tileEntityType : TILE_ENTITY_TYPES) {
             event.getRegistry().register(tileEntityType);

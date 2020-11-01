@@ -33,6 +33,7 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
+import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -206,6 +207,7 @@ public class ClientHandler {
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.HEART_OF_RA, HeartOfRaBaseRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.RADIANT_BEACON, RadiantBeaconRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.QUERN, QuernRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SIGN, SignTileEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TARANTULA, TarantulaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.ASSASSIN, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SERGEANT, AtumBipedRender::new);
@@ -281,6 +283,10 @@ public class ClientHandler {
             for (ResourceLocation location : SHIELD_ATLAS_TEXTURES) {
                 event.addSprite(location);
             }
+        }
+        if (event.getMap().getTextureLocation().equals(Atlases.SIGN_ATLAS)) {
+            event.addSprite(new ResourceLocation("entity/signs/atum_palm"));
+            event.addSprite(new ResourceLocation("entity/signs/atum_deadwood"));
         }
     }
 }

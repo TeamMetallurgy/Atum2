@@ -2,9 +2,7 @@ package com.teammetallurgy.atum.misc;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
@@ -12,17 +10,15 @@ import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
-import net.minecraft.block.Block;
+import net.minecraft.block.*;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
 import net.minecraft.data.BiomeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.WallOrFloorItem;
+import net.minecraft.item.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.util.RegistryKey;
@@ -166,8 +162,20 @@ public class AtumRegistry {
     public static Block registerBaseBlock(@Nonnull Block block, @Nonnull String name) {
         block.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         BLOCKS.add(block);
-
         return block;
+    }
+
+    /**
+     * Allows for easy registering of signs, that handles Ground Sign, Wall Sign and Item sign registration
+     */
+    public static Block registerSign(@Nonnull Block signBlock, @Nonnull WoodType woodType) {
+        String typeName = woodType.getName().replace("atum_", "");
+        Block wallSignBlock = new AtumWallSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(signBlock), woodType);
+        Item signItem = new SignItem((new Item.Properties()).maxStackSize(16).group(Atum.GROUP), signBlock, wallSignBlock);
+        AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlock, wallSignBlock);
+        registerItem(signItem, typeName + "_sign");
+        registerBaseBlock(wallSignBlock, typeName + "_wall_sign");
+        return registerBaseBlock(signBlock, typeName + "_sign");
     }
 
     /**

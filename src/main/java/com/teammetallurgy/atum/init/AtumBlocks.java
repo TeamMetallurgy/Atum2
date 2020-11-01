@@ -36,6 +36,7 @@ import net.minecraft.util.Direction;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
 
+import static com.teammetallurgy.atum.misc.AtumRegistry.registerSign;
 import static com.teammetallurgy.atum.misc.AtumRegistry.registerBlock;
 import static com.teammetallurgy.atum.misc.AtumRegistry.registerTorch;
 import static net.minecraft.block.AbstractBlock.Properties.create;
@@ -389,7 +390,8 @@ public class AtumBlocks {
     public static final Block LIMESTONE_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.MOBS, AbstractBlock.Properties.create(Material.ROCK).setRequiresTool().doesNotBlockMovement().hardnessAndResistance(0.5F)), "limestone_pressure_plate");
     public static final Block PALM_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, PALM_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "palm_pressure_plate");
     public static final Block DEADWOOD_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, DEADWOOD_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "deadwood_pressure_plate");
-    public static final Block PALM_SIGN = registerBlock(new StandingSignBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, PALM_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "palm_sign");
+    public static final Block PALM_SIGN = registerSign(new AtumStandingSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), AtumWoodTypes.PALM), AtumWoodTypes.PALM);
+    public static final Block DEADWOOD_SIGN = registerSign(new AtumStandingSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), AtumWoodTypes.DEADWOOD), AtumWoodTypes.DEADWOOD);
     public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;
 
     public static void setBlockInfo() {
