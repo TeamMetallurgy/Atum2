@@ -6,12 +6,16 @@ import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
@@ -26,13 +30,14 @@ import net.minecraftforge.common.util.FakePlayer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class QuernBlock extends ContainerBlock {
+public class QuernBlock extends ContainerBlock implements IWaterLoggable {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE = makeCuboidShape(0.12D * 16, 0.0D, 0.12D * 16, 0.88D * 16, 0.38D * 16, 0.88D * 16);
 
     public QuernBlock() {
         super(Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F));
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
     }
 
     @Override
@@ -101,18 +106,37 @@ public class QuernBlock extends ContainerBlock {
 
     @Override
     public void onReplaced(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        if (newState.getBlock() != state.getBlock()) {
-            TileEntity tileEntity = world.getTileEntity(pos);
-            if (tileEntity instanceof QuernTileEntity) {
-                InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+        if (!state.isIn(newState.getBlock())) {
+            if (newState.getBlock() != state.getBlock()) {
+                TileEntity tileEntity = world.getTileEntity(pos);
+                if (tileEntity instanceof QuernTileEntity) {
+                    InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+                }
+                world.removeTileEntity(pos);
             }
-            world.removeTileEntity(pos);
+            super.onReplaced(state, world, pos, newState, isMoving);
         }
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+        FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
+        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing()).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
+    }
+
+    @Override
+    @Nonnull
+    public BlockState updatePostPlacement(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        if (state.get(WATERLOGGED)) {
+            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+        return super.updatePostPlacement(state, facing, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
+    @Nonnull
+    public FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override
@@ -128,7 +152,7 @@ public class QuernBlock extends ContainerBlock {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
-        container.add(FACING);
+        container.add(FACING, WATERLOGGED);
     }
 
     @Override

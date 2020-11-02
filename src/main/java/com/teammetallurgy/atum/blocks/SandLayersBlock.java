@@ -23,29 +23,41 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SandLayersBlock extends FallingBlock {
-    private static final Material SAND_LAYER = new Material.Builder(MaterialColor.SAND).notSolid().pushDestroys().replaceable().build();
+    private static final Material SAND_LAYER = new Material.Builder(MaterialColor.SAND).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build();
     public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS_1_8;
     private static final VoxelShape[] SAND_SHAPE = new VoxelShape[]{VoxelShapes.empty(), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
     public SandLayersBlock() {
-        super(Block.Properties.create(SAND_LAYER).tickRandomly().hardnessAndResistance(0.1F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.create(SAND_LAYER).hardnessAndResistance(0.1F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
         this.setDefaultState(this.stateContainer.getBaseState().with(LAYERS, 1));
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SAND_SHAPE[state.get(LAYERS)];
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, ISelectionContext context) {
+    public VoxelShape getCollisionShape(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SAND_SHAPE[state.get(LAYERS) - 1];
     }
 
     @Override
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, PathType pathType) {
+    @Nonnull
+    public VoxelShape getCollisionShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+        return SAND_SHAPE[state.get(LAYERS)];
+    }
+
+    @Override
+    @Nonnull
+    public VoxelShape getRayTraceShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+        return SAND_SHAPE[state.get(LAYERS)];
+    }
+
+    @Override
+    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull PathType pathType) {
         if (pathType == PathType.LAND) {
             return state.get(LAYERS) < 5;
         } else {
@@ -54,16 +66,19 @@ public class SandLayersBlock extends FallingBlock {
     }
 
     @Override
-    public boolean isTransparent(BlockState state) {
+    public boolean isTransparent(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader reader, BlockPos pos) {
-        BlockState stateDown = reader.getBlockState(pos.down());
-        Block blockDown = stateDown.getBlock();
-        if (blockDown != Blocks.ICE && blockDown != Blocks.PACKED_ICE && blockDown != Blocks.BARRIER) {
-            return Block.doesSideFillSquare(stateDown.getCollisionShape(reader, pos.down()), Direction.UP) || blockDown == this && stateDown.get(LAYERS) == 8;
+    public boolean isValidPosition(@Nonnull BlockState state, @Nonnull IWorldReader world, BlockPos pos) {
+        BlockState stateDown = world.getBlockState(pos.down());
+        if (!stateDown.isIn(Blocks.ICE) && !stateDown.isIn(Blocks.PACKED_ICE) && !stateDown.isIn(Blocks.BARRIER)) {
+            if (!stateDown.isIn(Blocks.HONEY_BLOCK) && !stateDown.isIn(Blocks.SOUL_SAND)) {
+                return Block.doesSideFillSquare(stateDown.getCollisionShape(world, pos.down()), Direction.UP) || stateDown.getBlock() == this && stateDown.get(LAYERS) == 8;
+            } else {
+                return true;
+            }
         } else {
             return false;
         }
@@ -71,10 +86,24 @@ public class SandLayersBlock extends FallingBlock {
 
     @Override
     @Nonnull
-    public BlockState updatePostPlacement(BlockState state, Direction direction, BlockState facingState, IWorld world, @Nonnull BlockPos currentPos, BlockPos facingPos) {
+    public BlockState updatePostPlacement(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         return !state.isValidPosition(world, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(state, direction, facingState, world, currentPos, facingPos);
     }
 
+    @Override
+    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
+        int layers = state.get(LAYERS);
+        if (useContext.getItem().getItem() == this.asItem() && layers < 8) {
+            if (useContext.replacingClickedOnBlock()) {
+                return useContext.getFace() == Direction.UP;
+            } else {
+                return true;
+            }
+        } else {
+            return layers == 1;
+        }
+    }
+    
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockItemUseContext context) {

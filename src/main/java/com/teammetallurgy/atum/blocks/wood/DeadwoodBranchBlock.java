@@ -2,12 +2,16 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.Rotation;
@@ -29,8 +33,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class DeadwoodBranchBlock extends Block {
+public class DeadwoodBranchBlock extends Block implements IWaterLoggable {
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class);
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
     public static final BooleanProperty EAST = BooleanProperty.create("east");
     public static final BooleanProperty SOUTH = BooleanProperty.create("south");
@@ -38,8 +43,8 @@ public class DeadwoodBranchBlock extends Block {
     public static final BooleanProperty UP = BooleanProperty.create("up");
     public static final BooleanProperty DOWN = BooleanProperty.create("down");
 
-    private static final Map<Direction, VoxelShape> bounds;
-    private static final Map<Direction, VoxelShape> connectedBounds;
+    private static final Map<Direction, VoxelShape> BOUNDS;
+    private static final Map<Direction, VoxelShape> CONNECTED_BOUNDS;
 
     private static final VoxelShape EAST_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 5 / 16D, 1.0D, 11 / 16D, 11 / 16D);
     private static final VoxelShape WEST_AABB = VoxelShapes.create(0.0D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
@@ -49,26 +54,26 @@ public class DeadwoodBranchBlock extends Block {
     private static final VoxelShape DOWN_AABB = VoxelShapes.create(5 / 16D, 0.0D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
 
     static {
-        bounds = new HashMap<>();
-        connectedBounds = new HashMap<>();
-        bounds.put(Direction.EAST, EAST_AABB);
-        bounds.put(Direction.WEST, WEST_AABB);
-        bounds.put(Direction.NORTH, NORTH_AABB);
-        bounds.put(Direction.SOUTH, SOUTH_AABB);
-        bounds.put(Direction.UP, UP_AABB);
-        bounds.put(Direction.DOWN, DOWN_AABB);
+        BOUNDS = new HashMap<>();
+        CONNECTED_BOUNDS = new HashMap<>();
+        BOUNDS.put(Direction.EAST, EAST_AABB);
+        BOUNDS.put(Direction.WEST, WEST_AABB);
+        BOUNDS.put(Direction.NORTH, NORTH_AABB);
+        BOUNDS.put(Direction.SOUTH, SOUTH_AABB);
+        BOUNDS.put(Direction.UP, UP_AABB);
+        BOUNDS.put(Direction.DOWN, DOWN_AABB);
 
         for (Direction facing : Direction.values()) {
-            AxisAlignedBB box = bounds.get(facing).getBoundingBox();
+            AxisAlignedBB box = BOUNDS.get(facing).getBoundingBox();
             AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
             expandedBox.expand(5 * facing.getXOffset(), 5 * facing.getYOffset(), 5 * facing.getZOffset());
-            connectedBounds.put(facing, VoxelShapes.create(expandedBox));
+            CONNECTED_BOUNDS.put(facing, VoxelShapes.create(expandedBox));
         }
     }
 
     public DeadwoodBranchBlock() {
         super(Properties.create(Material.WOOD).hardnessAndResistance(0.8F, 5.0F).sound(SoundType.WOOD).tickRandomly().harvestTool(ToolType.AXE).harvestLevel(0).notSolid());
-        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false));
+        this.setDefaultState(this.getStateContainer().getBaseState().with(FACING, Direction.NORTH).with(NORTH, false).with(EAST, false).with(SOUTH, false).with(WEST, false).with(UP, false).with(DOWN, false).with(WATERLOGGED, false));
     }
 
     @Override
@@ -104,23 +109,39 @@ public class DeadwoodBranchBlock extends Block {
 
         BlockState neighbor = reader.getBlockState(pos.add(facing.getDirectionVec()));
         if (neighbor.getBlock() == this) {
-            AxisAlignedBB box = connectedBounds.get(facing).getBoundingBox();
+            AxisAlignedBB box = CONNECTED_BOUNDS.get(facing).getBoundingBox();
             AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
             return VoxelShapes.create(expandedBox.expand(5 / 16D * facing.getXOffset(), 5 / 16D * facing.getYOffset(), 5 / 16D * facing.getZOffset()));
         } else {
-            return bounds.get(facing);
+            return BOUNDS.get(facing);
         }
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(@Nonnull BlockItemUseContext context) {
-        return this.makeConnections(context.getWorld(), context.getPos(), context.getFace());
+        FluidState fluidstate = context.getWorld().getFluidState(context.getPos());
+        return this.makeConnections(context.getWorld(), context.getPos(), context.getFace()).with(WATERLOGGED, fluidstate.getFluid() == Fluids.WATER);
+    }
+
+    @Override
+    @Nonnull
+    public BlockState updatePostPlacement(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        if (state.get(WATERLOGGED)) {
+            world.getPendingFluidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+        }
+        return super.updatePostPlacement(state, direction, facingState, world, currentPos, facingPos);
+    }
+
+    @Override
+    @Nonnull
+    public FluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
-        container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN);
+        container.add(FACING, NORTH, SOUTH, EAST, WEST, UP, DOWN, WATERLOGGED);
     }
 
     public BlockState makeConnections(IWorldReader world, BlockPos pos) {
