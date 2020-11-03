@@ -24,6 +24,7 @@ import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
 import net.minecraft.world.gen.placement.IPlacementConfig;
+import net.minecraft.world.gen.placement.NoiseDependant;
 import net.minecraft.world.gen.placement.Placement;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.SURFACE_STRUCTURES;
@@ -53,7 +54,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
 
-        return new Builder().depth(-0.2F).scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
+        return new Builder().depth(-0.2F).scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
     }
 
     public static Biome makeDeadwoodForest(String biomeName) {
@@ -76,7 +77,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).build();
     }
 
     public static Biome makeDriedRiver(String biomeName) {
@@ -145,12 +146,14 @@ public class AtumBiomeMaker {
 
     public static Biome makeOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.OASIS));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(7));
+        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(16));
         biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(48));
         biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.LILY_PAD.getDefaultState()), SimpleBlockPlacer.PLACER)).tries(7).build()).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2));
-        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(9, 0.25F, 2))));
         biomeGen.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);
         addCamelSpawning(biomeName);
+        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(Features.Configs.GRASS_PATCH_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, 10))));
+        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(Features.Configs.TALL_GRASS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.FLOWER_TALL_GRASS_PLACEMENT).square().withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, 7))));
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -159,7 +162,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addInfestedLimestone(biomeGen);
         AtumDefaultFeatures.addFossils(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().depth(-0.3F).scale(0.0F).temperature(1.85F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
+        return new Builder().depth(-0.3F).scale(0.0F).temperature(1.85F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
     }
 
     public static Biome makeSandDunes(String biomeName) {
@@ -182,7 +185,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(0.175F).scale(0.2F).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).depth(0.175F).scale(0.2F).build();
     }
 
     public static Biome makeSandHills(String biomeName) {
@@ -228,7 +231,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).build();
     }
 
     public static void addDefaultSpawns(String biomeName) {
