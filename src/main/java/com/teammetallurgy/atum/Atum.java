@@ -12,11 +12,13 @@ import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
+import com.teammetallurgy.atum.world.gen.AtumChunkGenerator;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import net.minecraft.world.gen.NoiseChunkGenerator;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -38,6 +40,7 @@ public class Atum {
     public static final ItemGroup GROUP = new AtumItemGroup();
     public static final RegistryKey<World> ATUM = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(Atum.MOD_ID, "atum"));
     public static final Codec<AtumBiomeProvider> ATUM_LAYERD = Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(MOD_ID, "atum_layered"), AtumBiomeProvider.CODEC);
+    public static final Codec<AtumChunkGenerator> ATUM_NOISE = Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(Atum.MOD_ID, "noise"), AtumChunkGenerator.CODEC);
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

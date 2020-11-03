@@ -5,8 +5,7 @@
       "large_biomes": false,
       "type": "atum:atum_layered"
     },
-    "seed": 0,
     "settings": "atum:atum",
-    "type": "minecraft:noise"
+    "type": "atum:noise"
   }
 }
