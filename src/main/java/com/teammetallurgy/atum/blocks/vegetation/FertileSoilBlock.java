@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
@@ -67,8 +68,8 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos Mutable : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
-            if (world.getBlockState(Mutable).getMaterial() == Material.WATER) {
+        for (BlockPos mutablePos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
+            if (world.getBlockState(mutablePos).getFluidState().isTagged(FluidTags.WATER)) {
                 return true;
             }
         }
@@ -80,10 +81,10 @@ public class FertileSoilBlock extends Block implements IGrowable {
         BlockState plant = plantable.getPlant(world, pos.offset(direction));
         PlantType plantType = plantable.getPlantType(world, pos.up());
 
-        boolean hasWater = (world.getBlockState(pos.east()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.west()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.north()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.south()).getMaterial() == Material.WATER);
+        boolean hasWater = world.getBlockState(pos.east()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.west()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.north()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.south()).getFluidState().isTagged(FluidTags.WATER);
 
         if (plantType.equals(PlantType.PLAINS)) {
             return true;

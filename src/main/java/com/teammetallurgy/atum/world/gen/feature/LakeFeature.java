@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -89,7 +90,7 @@ public class LakeFeature extends Feature<BlockStateFeatureConfig> { //Copied fro
                     }
                 }
 
-                if (config.state.getMaterial() == Material.LAVA) {
+                if (config.state.getFluidState().isTagged(FluidTags.LAVA)) {
                     for (int j2 = 0; j2 < 16; ++j2) {
                         for (int k3 = 0; k3 < 16; ++k3) {
                             for (int k4 = 0; k4 < 8; ++k4) {

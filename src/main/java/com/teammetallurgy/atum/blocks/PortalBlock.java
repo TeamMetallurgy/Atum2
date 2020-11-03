@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
@@ -208,7 +209,7 @@ public class PortalBlock extends BreakableBlock {
         }
 
         boolean isEmptyBlock(BlockState state) {
-            return state.getMaterial() == Material.WATER;
+            return state.getFluidState().isTagged(FluidTags.WATER);
         }
 
         boolean isSandBlock(BlockState state) {

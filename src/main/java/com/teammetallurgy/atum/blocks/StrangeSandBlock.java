@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.blocks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
@@ -22,10 +23,10 @@ public class StrangeSandBlock extends FallingBlock {
     public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
         BlockState plant = plantable.getPlant(world, pos.offset(direction));
         PlantType plantType = plantable.getPlantType(world, pos.up());
-        boolean hasWater = (world.getBlockState(pos.east()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.west()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.north()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.south()).getMaterial() == Material.WATER);
+        boolean hasWater = (world.getBlockState(pos.east()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.west()).getFluidState().isTagged(FluidTags.WATER)||
+                world.getBlockState(pos.north()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.south()).getFluidState().isTagged(FluidTags.WATER));
 
         if (plant.getBlock() instanceof CactusBlock || plant.getBlock() == AtumBlocks.ANPUTS_FINGERS) {
             return true;

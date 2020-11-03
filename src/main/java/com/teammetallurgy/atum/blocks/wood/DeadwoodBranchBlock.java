@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class DeadwoodBranchBlock extends Block implements IWaterLoggable {
+    //States
     public static final EnumProperty<Direction> FACING = EnumProperty.create("facing", Direction.class);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final BooleanProperty NORTH = BooleanProperty.create("north");
@@ -42,10 +43,10 @@ public class DeadwoodBranchBlock extends Block implements IWaterLoggable {
     public static final BooleanProperty WEST = BooleanProperty.create("west");
     public static final BooleanProperty UP = BooleanProperty.create("up");
     public static final BooleanProperty DOWN = BooleanProperty.create("down");
-
+    //Bounds
     private static final Map<Direction, VoxelShape> BOUNDS;
     private static final Map<Direction, VoxelShape> CONNECTED_BOUNDS;
-
+    //Bounding box
     private static final VoxelShape EAST_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 5 / 16D, 1.0D, 11 / 16D, 11 / 16D);
     private static final VoxelShape WEST_AABB = VoxelShapes.create(0.0D, 5 / 16D, 5 / 16D, 11 / 16D, 11 / 16D, 11 / 16D);
     private static final VoxelShape NORTH_AABB = VoxelShapes.create(5 / 16D, 5 / 16D, 0.0D, 11 / 16D, 11 / 16D, 11 / 16D);

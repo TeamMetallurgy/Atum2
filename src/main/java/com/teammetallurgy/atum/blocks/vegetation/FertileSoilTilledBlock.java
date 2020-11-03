@@ -7,6 +7,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -101,8 +102,8 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos Mutable : BlockPos.getAllInBoxMutable(pos.add(-6, 0, -6), pos.add(6, 1, 6))) {
-            if (world.getBlockState(Mutable).getMaterial() == Material.WATER) {
+        for (BlockPos mutablePos : BlockPos.getAllInBoxMutable(pos.add(-6, 0, -6), pos.add(6, 1, 6))) {
+            if (world.getBlockState(mutablePos).getFluidState().isTagged(FluidTags.WATER)) {
                 return true;
             }
         }
