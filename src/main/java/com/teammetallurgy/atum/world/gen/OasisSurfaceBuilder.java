@@ -26,11 +26,12 @@ public class OasisSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
         int j = z & 15;
         int y = chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE_WG, x, z);
 
-        while (y <= seaLevel) {
+        while (y < seaLevel) {
             mutablePos.setPos(i, y, j);
             y++;
             if (chunk.getBlockState(mutablePos).isAir()) {
                 chunk.setBlockState(mutablePos, Blocks.WATER.getDefaultState(), true);
+                chunk.tic
             }
         }
 

@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.gen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
@@ -33,22 +34,24 @@ import net.minecraft.world.gen.settings.NoiseSettings;
 import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.world.StructureSpawnManager;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChunkGenerator, to make noise seed random.
-    public static final Codec<AtumChunkGenerator> CODEC = RecordCodecBuilder.create((p_236091_0_) -> {
-        return p_236091_0_.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((p_236096_0_) -> {
-            return p_236096_0_.biomeProvider;
-        }), DimensionSettings.field_236098_b_.fieldOf("settings").forGetter((p_236090_0_) -> {
-            return p_236090_0_.field_236080_h_;
-        })).apply(p_236091_0_, p_236091_0_.stable(AtumChunkGenerator::new));
+    public static final Codec<AtumChunkGenerator> CODEC = RecordCodecBuilder.create((c) -> {
+        return c.group(BiomeProvider.CODEC.fieldOf("biome_source").forGetter((chunkGenerator) -> {
+            return chunkGenerator.biomeProvider;
+        }), DimensionSettings.field_236098_b_.fieldOf("settings").forGetter((chunkGenerator) -> {
+            return chunkGenerator.dimensionSettings;
+        })).apply(c, c.stable(AtumChunkGenerator::new));
     });
     private static final float[] field_222561_h = Util.make(new float[13824], (p_236094_0_) -> {
         for (int i = 0; i < 24; ++i) {
@@ -85,21 +88,21 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     private final SimplexNoiseGenerator field_236083_v_;
     protected final BlockState defaultBlock;
     protected final BlockState defaultFluid;
-    private final long field_236084_w_;
-    protected final Supplier<DimensionSettings> field_236080_h_;
-    private final int field_236085_x_;
+    private final long seed;
+    protected final Supplier<DimensionSettings> dimensionSettings;
+    private final int worldHeight;
 
-    public AtumChunkGenerator(BiomeProvider p_i241975_1_, Supplier<DimensionSettings> p_i241975_4_) {
-        this(p_i241975_1_, p_i241975_1_, (new Random()).nextLong(), p_i241975_4_); //Set random seed
+    public AtumChunkGenerator(BiomeProvider biomeProvider, Supplier<DimensionSettings> dimensionSettings) {
+        this(biomeProvider, biomeProvider, (new Random()).nextLong(), dimensionSettings); //Set random seed
     }
 
-    private AtumChunkGenerator(BiomeProvider p_i241976_1_, BiomeProvider p_i241976_2_, long p_i241976_3_, Supplier<DimensionSettings> p_i241976_5_) {
-        super(p_i241976_1_, p_i241976_2_, p_i241976_5_.get().getStructures(), p_i241976_3_);
-        this.field_236084_w_ = p_i241976_3_;
-        DimensionSettings dimensionsettings = p_i241976_5_.get();
-        this.field_236080_h_ = p_i241976_5_;
+    private AtumChunkGenerator(BiomeProvider biomeProvider1, BiomeProvider biomeProvider2, long seed, Supplier<DimensionSettings> dimensionSettings) {
+        super(biomeProvider1, biomeProvider2, dimensionSettings.get().getStructures(), seed);
+        this.seed = seed;
+        DimensionSettings dimensionsettings = dimensionSettings.get();
+        this.dimensionSettings = dimensionSettings;
         NoiseSettings noisesettings = dimensionsettings.getNoise();
-        this.field_236085_x_ = noisesettings.func_236169_a_();
+        this.worldHeight = noisesettings.func_236169_a_();
         this.verticalNoiseGranularity = noisesettings.func_236175_f_() * 4;
         this.horizontalNoiseGranularity = noisesettings.func_236174_e_() * 4;
         this.defaultBlock = dimensionsettings.getDefaultBlock();
@@ -107,7 +110,7 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
         this.noiseSizeX = 16 / this.horizontalNoiseGranularity;
         this.noiseSizeY = noisesettings.func_236169_a_() / this.verticalNoiseGranularity;
         this.noiseSizeZ = 16 / this.horizontalNoiseGranularity;
-        this.randomSeed = new SharedSeedRandom(p_i241976_3_);
+        this.randomSeed = new SharedSeedRandom(seed);
         this.field_222568_o = new OctavesNoiseGenerator(this.randomSeed, IntStream.rangeClosed(-15, 0));
         this.field_222569_p = new OctavesNoiseGenerator(this.randomSeed, IntStream.rangeClosed(-15, 0));
         this.field_222570_q = new OctavesNoiseGenerator(this.randomSeed, IntStream.rangeClosed(-7, 0));
@@ -115,13 +118,12 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
         this.randomSeed.skip(2620);
         this.field_236082_u_ = new OctavesNoiseGenerator(this.randomSeed, IntStream.rangeClosed(-15, 0));
         if (noisesettings.func_236180_k_()) {
-            SharedSeedRandom sharedseedrandom = new SharedSeedRandom(p_i241976_3_);
+            SharedSeedRandom sharedseedrandom = new SharedSeedRandom(seed);
             sharedseedrandom.skip(17292);
             this.field_236083_v_ = new SimplexNoiseGenerator(sharedseedrandom);
         } else {
             this.field_236083_v_ = null;
         }
-
     }
 
     @Override
@@ -133,12 +135,12 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     @Override
     @OnlyIn(Dist.CLIENT)
     @Nonnull
-    public ChunkGenerator func_230349_a_(long p_230349_1_) {
-        return new AtumChunkGenerator(this.biomeProvider.getBiomeProvider(p_230349_1_), this.field_236080_h_);
+    public ChunkGenerator func_230349_a_(long seed) {
+        return new AtumChunkGenerator(this.biomeProvider.getBiomeProvider(seed), this.dimensionSettings);
     }
 
-    public boolean func_236088_a_(long p_236088_1_, RegistryKey<DimensionSettings> p_236088_3_) {
-        return this.field_236084_w_ == p_236088_1_ && this.field_236080_h_.get().func_242744_a(p_236088_3_);
+    public boolean func_236088_a_(long p_236088_1_, RegistryKey<DimensionSettings> dimensionSettings) {
+        return this.seed == p_236088_1_ && this.dimensionSettings.get().func_242744_a(dimensionSettings);
     }
 
     private double func_222552_a(int p_222552_1_, int p_222552_2_, int p_222552_3_, double p_222552_4_, double p_222552_6_, double p_222552_8_, double p_222552_10_) {
@@ -176,14 +178,14 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
         return MathHelper.clampedLerp(d0 / 512.0D, d1 / 512.0D, (d2 / 10.0D + 1.0D) / 2.0D);
     }
 
-    private double[] func_222547_b(int p_222547_1_, int p_222547_2_) {
-        double[] adouble = new double[this.noiseSizeY + 1];
-        this.fillNoiseColumn(adouble, p_222547_1_, p_222547_2_);
-        return adouble;
+    private double[] func_222547_b(int noiseX, int noiseZ) {
+        double[] noiseColumn = new double[this.noiseSizeY + 1];
+        this.fillNoiseColumn(noiseColumn, noiseX, noiseZ);
+        return noiseColumn;
     }
 
     private void fillNoiseColumn(double[] noiseColumn, int noiseX, int noiseZ) {
-        NoiseSettings noisesettings = this.field_236080_h_.get().getNoise();
+        NoiseSettings noisesettings = this.dimensionSettings.get().getNoise();
         double d0;
         double d1;
         if (this.field_236083_v_ != null) {
@@ -197,7 +199,6 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
             float f = 0.0F;
             float f1 = 0.0F;
             float f2 = 0.0F;
-            int i = 2;
             int j = this.getSeaLevel();
             float f3 = this.biomeProvider.getNoiseBiome(noiseX, j, noiseZ).getDepth();
 
@@ -266,14 +267,12 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
                 double d22 = ((double) i1 - d3) / d2;
                 d7 = MathHelper.clampedLerp(d21, d7, d22);
             }
-
             noiseColumn[i1] = d7;
         }
-
     }
 
     private double func_236095_c_(int p_236095_1_, int p_236095_2_) {
-        double d0 = this.field_236082_u_.getValue((double) (p_236095_1_ * 200), 10.0D, (double) (p_236095_2_ * 200), 1.0D, 0.0D, true);
+        double d0 = this.field_236082_u_.getValue((p_236095_1_ * 200), 10.0D, (p_236095_2_ * 200), 1.0D, 0.0D, true);
         double d1;
         if (d0 < 0.0D) {
             d1 = -d0 * 0.3D;
@@ -291,17 +290,18 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     }
 
     @Override
+    @Nonnull
     public IBlockReader func_230348_a_(int p_230348_1_, int p_230348_2_) {
-        BlockState[] ablockstate = new BlockState[this.noiseSizeY * this.verticalNoiseGranularity];
-        this.func_236087_a_(p_230348_1_, p_230348_2_, ablockstate, null);
-        return new Blockreader(ablockstate);
+        BlockState[] states = new BlockState[this.noiseSizeY * this.verticalNoiseGranularity];
+        this.func_236087_a_(p_230348_1_, p_230348_2_, states, null);
+        return new Blockreader(states);
     }
 
-    private int func_236087_a_(int p_236087_1_, int p_236087_2_, @Nullable BlockState[] p_236087_3_, @Nullable Predicate<BlockState> p_236087_4_) {
-        int i = Math.floorDiv(p_236087_1_, this.horizontalNoiseGranularity);
-        int j = Math.floorDiv(p_236087_2_, this.horizontalNoiseGranularity);
-        int k = Math.floorMod(p_236087_1_, this.horizontalNoiseGranularity);
-        int l = Math.floorMod(p_236087_2_, this.horizontalNoiseGranularity);
+    private int func_236087_a_(int noiseX, int noiseZ, @Nullable BlockState[] states, @Nullable Predicate<BlockState> predicate) {
+        int i = Math.floorDiv(noiseX, this.horizontalNoiseGranularity);
+        int j = Math.floorDiv(noiseZ, this.horizontalNoiseGranularity);
+        int k = Math.floorMod(noiseX, this.horizontalNoiseGranularity);
+        int l = Math.floorMod(noiseZ, this.horizontalNoiseGranularity);
         double d0 = (double) k / (double) this.horizontalNoiseGranularity;
         double d1 = (double) l / (double) this.horizontalNoiseGranularity;
         double[][] adouble = new double[][]{this.func_222547_b(i, j), this.func_222547_b(i, j + 1), this.func_222547_b(i + 1, j), this.func_222547_b(i + 1, j + 1)};
@@ -320,75 +320,76 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
                 double d10 = (double) j1 / (double) this.verticalNoiseGranularity;
                 double d11 = MathHelper.lerp3(d10, d0, d1, d2, d6, d4, d8, d3, d7, d5, d9);
                 int k1 = i1 * this.verticalNoiseGranularity + j1;
-                BlockState blockstate = this.func_236086_a_(d11, k1);
-                if (p_236087_3_ != null) {
-                    p_236087_3_[k1] = blockstate;
+                BlockState state = this.getDefaultBlockAndFluid(d11, k1);
+                if (states != null) {
+                    states[k1] = state;
                 }
 
-                if (p_236087_4_ != null && p_236087_4_.test(blockstate)) {
+                if (predicate != null && predicate.test(state)) {
                     return k1 + 1;
                 }
             }
         }
-
         return 0;
     }
 
-    protected BlockState func_236086_a_(double p_236086_1_, int p_236086_3_) {
-        BlockState blockstate;
-        if (p_236086_1_ > 0.0D) {
-            blockstate = this.defaultBlock;
-        } else if (p_236086_3_ < this.getSeaLevel()) {
-            blockstate = this.defaultFluid;
+    protected BlockState getDefaultBlockAndFluid(double horizontalNoise, int verticalNoise) {
+        BlockState state;
+        if (horizontalNoise > 0.0D) {
+            state = this.defaultBlock;
+        } else if (verticalNoise < this.getSeaLevel()) {
+            state = this.defaultFluid;
         } else {
-            blockstate = AIR;
+            state = AIR;
         }
-
-        return blockstate;
+        return state;
     }
 
     @Override
-    public void generateSurface(WorldGenRegion p_225551_1_, IChunk p_225551_2_) {
-        ChunkPos chunkpos = p_225551_2_.getPos();
-        int i = chunkpos.x;
-        int j = chunkpos.z;
-        SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
-        sharedseedrandom.setBaseChunkSeed(i, j);
-        ChunkPos chunkpos1 = p_225551_2_.getPos();
-        int k = chunkpos1.getXStart();
-        int l = chunkpos1.getZStart();
-        double d0 = 0.0625D;
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+    public void generateSurface(@Nonnull WorldGenRegion genRegion, IChunk chunk) {
+        ChunkPos chunkPos = chunk.getPos();
+        int x = chunkPos.x;
+        int j = chunkPos.z;
+        SharedSeedRandom seedRandom = new SharedSeedRandom();
+        seedRandom.setBaseChunkSeed(x, j);
+        ChunkPos chunkStartPos = chunk.getPos();
+        int xStart = chunkStartPos.getXStart();
+        int zStart = chunkStartPos.getZStart();
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (int i1 = 0; i1 < 16; ++i1) {
             for (int j1 = 0; j1 < 16; ++j1) {
-                int k1 = k + i1;
-                int l1 = l + j1;
-                int i2 = p_225551_2_.getTopBlockY(Heightmap.Type.WORLD_SURFACE_WG, i1, j1) + 1;
+                int k1 = xStart + i1;
+                int l1 = zStart + j1;
+                int i2 = chunk.getTopBlockY(Heightmap.Type.WORLD_SURFACE_WG, i1, j1) + 1;
                 double d1 = this.surfaceDepthNoise.noiseAt((double) k1 * 0.0625D, (double) l1 * 0.0625D, 0.0625D, (double) i1 * 0.0625D) * 15.0D;
-                p_225551_1_.getBiome(blockpos$mutable.setPos(k + i1, i2, l + j1)).buildSurface(sharedseedrandom, p_225551_2_, k1, l1, i2, d1, this.defaultBlock, this.defaultFluid, this.getSeaLevel(), p_225551_1_.getSeed());
+                BlockPos biomePos = mutablePos.setPos(xStart + i1, i2, zStart + j1);
+                genRegion.getBiome(biomePos).buildSurface(seedRandom, chunk, k1, l1, i2, d1, this.defaultBlock, this.defaultFluid, this.getSeaLevel(), genRegion.getSeed());
             }
         }
-
-        this.makeBedrock(p_225551_2_, sharedseedrandom);
+        this.makeBedrock(chunk, seedRandom);
     }
 
-    private void makeBedrock(IChunk chunkIn, Random rand) {
+    public static boolean canBiomeHaveWater (RegistryKey<Biome> biome) {
+        return biome == AtumBiomes.OASIS || biome == AtumBiomes.DRIED_RIVER; //TODO Change river to new river biome
+    }
+
+    private void makeBedrock(IChunk chunk, Random rand) {
         BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
-        int i = chunkIn.getPos().getXStart();
-        int j = chunkIn.getPos().getZStart();
-        DimensionSettings dimensionsettings = this.field_236080_h_.get();
+        int x = chunk.getPos().getXStart();
+        int j = chunk.getPos().getZStart();
+        DimensionSettings dimensionsettings = this.dimensionSettings.get();
         int k = dimensionsettings.func_236118_f_();
-        int l = this.field_236085_x_ - 1 - dimensionsettings.func_236117_e_();
+        int l = this.worldHeight - 1 - dimensionsettings.func_236117_e_();
         int i1 = 5;
-        boolean flag = l + 4 >= 0 && l < this.field_236085_x_;
-        boolean flag1 = k + 4 >= 0 && k < this.field_236085_x_;
+        boolean flag = l + 4 >= 0 && l < this.worldHeight;
+        boolean flag1 = k + 4 >= 0 && k < this.worldHeight;
         if (flag || flag1) {
-            for (BlockPos blockpos : BlockPos.getAllInBoxMutable(i, 0, j, i + 15, 0, j + 15)) {
+            for (BlockPos blockpos : BlockPos.getAllInBoxMutable(x, 0, j, x + 15, 0, j + 15)) {
                 if (flag) {
                     for (int j1 = 0; j1 < 5; ++j1) {
                         if (j1 <= rand.nextInt(5)) {
-                            chunkIn.setBlockState(blockpos$mutable.setPos(blockpos.getX(), l - j1, blockpos.getZ()), Blocks.BEDROCK.getDefaultState(), false);
+                            chunk.setBlockState(blockpos$mutable.setPos(blockpos.getX(), l - j1, blockpos.getZ()), Blocks.BEDROCK.getDefaultState(), false);
                         }
                     }
                 }
@@ -396,7 +397,7 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
                 if (flag1) {
                     for (int k1 = 4; k1 >= 0; --k1) {
                         if (k1 <= rand.nextInt(5)) {
-                            chunkIn.setBlockState(blockpos$mutable.setPos(blockpos.getX(), k + k1, blockpos.getZ()), Blocks.BEDROCK.getDefaultState(), false);
+                            chunk.setBlockState(blockpos$mutable.setPos(blockpos.getX(), k + k1, blockpos.getZ()), Blocks.BEDROCK.getDefaultState(), false);
                         }
                     }
                 }
@@ -406,17 +407,17 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     }
 
     @Override
-    public void func_230352_b_(IWorld p_230352_1_, StructureManager p_230352_2_, IChunk p_230352_3_) {
+    public void func_230352_b_(@Nonnull IWorld world, @Nonnull StructureManager manager, IChunk chunk) {
         ObjectList<StructurePiece> objectlist = new ObjectArrayList<>(10);
         ObjectList<JigsawJunction> objectlist1 = new ObjectArrayList<>(32);
-        ChunkPos chunkpos = p_230352_3_.getPos();
-        int i = chunkpos.x;
+        ChunkPos chunkpos = chunk.getPos();
+        int x = chunkpos.x;
         int j = chunkpos.z;
-        int k = i << 4;
+        int k = x << 4;
         int l = j << 4;
 
         for (Structure<?> structure : Structure.field_236384_t_) {
-            p_230352_2_.func_235011_a_(SectionPos.from(chunkpos, 0), structure).forEach((p_236089_5_) -> {
+            manager.func_235011_a_(SectionPos.from(chunkpos, 0), structure).forEach((p_236089_5_) -> {
                 for (StructurePiece structurepiece1 : p_236089_5_.getComponents()) {
                     if (structurepiece1.func_214810_a(chunkpos, 12)) {
                         if (structurepiece1 instanceof AbstractVillagePiece) {
@@ -446,20 +447,20 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
 
         for (int i5 = 0; i5 < this.noiseSizeZ + 1; ++i5) {
             adouble[0][i5] = new double[this.noiseSizeY + 1];
-            this.fillNoiseColumn(adouble[0][i5], i * this.noiseSizeX, j * this.noiseSizeZ + i5);
+            this.fillNoiseColumn(adouble[0][i5], x * this.noiseSizeX, j * this.noiseSizeZ + i5);
             adouble[1][i5] = new double[this.noiseSizeY + 1];
         }
 
-        ChunkPrimer chunkprimer = (ChunkPrimer) p_230352_3_;
+        ChunkPrimer chunkprimer = (ChunkPrimer) chunk;
         Heightmap heightmap = chunkprimer.getHeightmap(Heightmap.Type.OCEAN_FLOOR_WG);
         Heightmap heightmap1 = chunkprimer.getHeightmap(Heightmap.Type.WORLD_SURFACE_WG);
-        BlockPos.Mutable blockpos$mutable = new BlockPos.Mutable();
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
         ObjectListIterator<StructurePiece> objectlistiterator = objectlist.iterator();
         ObjectListIterator<JigsawJunction> objectlistiterator1 = objectlist1.iterator();
 
         for (int i1 = 0; i1 < this.noiseSizeX; ++i1) {
             for (int j1 = 0; j1 < this.noiseSizeZ + 1; ++j1) {
-                this.fillNoiseColumn(adouble[1][j1], i * this.noiseSizeX + i1 + 1, j * this.noiseSizeZ + j1);
+                this.fillNoiseColumn(adouble[1][j1], x * this.noiseSizeX + i1 + 1, j * this.noiseSizeZ + j1);
             }
 
             for (int j5 = 0; j5 < this.noiseSizeZ; ++j5) {
@@ -528,11 +529,11 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
                                 }
 
                                 objectlistiterator1.back(objectlist1.size());
-                                BlockState blockstate = this.func_236086_a_(d18, i2);
+                                BlockState blockstate = this.getDefaultBlockAndFluid(d18, i2);
                                 if (blockstate != AIR) {
-                                    blockpos$mutable.setPos(i3, i2, l3);
-                                    if (blockstate.getLightValue(chunkprimer, blockpos$mutable) != 0) {
-                                        chunkprimer.addLightPosition(blockpos$mutable);
+                                    mutablePos.setPos(i3, i2, l3);
+                                    if (blockstate.getLightValue(chunkprimer, mutablePos) != 0) {
+                                        chunkprimer.addLightPosition(mutablePos);
                                     }
 
                                     chunksection.setBlockState(j3, j2, i4, blockstate, false);
@@ -543,15 +544,12 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
                         }
                     }
                 }
-
                 chunksection.unlock();
             }
-
             double[][] adouble1 = adouble[0];
             adouble[0] = adouble[1];
             adouble[1] = adouble1;
         }
-
     }
 
     private static double func_222556_a(int p_222556_0_, int p_222556_1_, int p_222556_2_) {
@@ -570,7 +568,7 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     }
 
     private static double func_222554_b(int p_222554_0_, int p_222554_1_, int p_222554_2_) {
-        double d0 = (double) (p_222554_0_ * p_222554_0_ + p_222554_2_ * p_222554_2_);
+        double d0 = (p_222554_0_ * p_222554_0_ + p_222554_2_ * p_222554_2_);
         double d1 = (double) p_222554_1_ + 0.5D;
         double d2 = d1 * d1;
         double d3 = Math.pow(Math.E, -(d2 / 16.0D + d0 / 16.0D));
@@ -580,31 +578,31 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
 
     @Override
     public int getMaxBuildHeight() {
-        return this.field_236085_x_;
+        return this.worldHeight;
     }
 
     @Override
     public int getSeaLevel() {
-        return this.field_236080_h_.get().func_236119_g_();
+        return this.dimensionSettings.get().func_236119_g_();
     }
 
     @Override
     @Nonnull
-    public List<MobSpawnInfo.Spawners> func_230353_a_(Biome p_230353_1_, StructureManager p_230353_2_, EntityClassification p_230353_3_, BlockPos p_230353_4_) {
-        List<MobSpawnInfo.Spawners> spawns = net.minecraftforge.common.world.StructureSpawnManager.getStructureSpawns(p_230353_2_, p_230353_3_, p_230353_4_);
+    public List<MobSpawnInfo.Spawners> func_230353_a_(@Nonnull Biome biome, @Nonnull StructureManager manager, @Nonnull EntityClassification entityClassification, @Nonnull BlockPos pos) {
+        List<MobSpawnInfo.Spawners> spawns = StructureSpawnManager.getStructureSpawns(manager, entityClassification, pos);
         if (spawns != null) return spawns;
-        return super.func_230353_a_(p_230353_1_, p_230353_2_, p_230353_3_, p_230353_4_);
+        return super.func_230353_a_(biome, manager, entityClassification, pos);
     }
 
     @Override
-    public void func_230354_a_(WorldGenRegion p_230354_1_) {
-        //if (!this.field_236080_h_.get().func_236120_h_()) { //Method protected. Boolean only used to disable mob spawning, which we never need to do.
-        int i = p_230354_1_.getMainChunkX();
-        int j = p_230354_1_.getMainChunkZ();
-        Biome biome = p_230354_1_.getBiome((new ChunkPos(i, j)).asBlockPos());
-        SharedSeedRandom sharedseedrandom = new SharedSeedRandom();
-        sharedseedrandom.setDecorationSeed(p_230354_1_.getSeed(), i << 4, j << 4);
-        WorldEntitySpawner.performWorldGenSpawning(p_230354_1_, biome, i, j, sharedseedrandom);
+    public void func_230354_a_(WorldGenRegion genRegion) {
+        //if (!this.dimensionSettings.get().func_236120_h_()) { //Method protected. Boolean only used to disable mob spawning, which we never need to do.
+        int x = genRegion.getMainChunkX();
+        int z = genRegion.getMainChunkZ();
+        Biome biome = genRegion.getBiome((new ChunkPos(x, z)).asBlockPos());
+        SharedSeedRandom randomSeed = new SharedSeedRandom();
+        randomSeed.setDecorationSeed(genRegion.getSeed(), x << 4, z << 4);
+        WorldEntitySpawner.performWorldGenSpawning(genRegion, biome, x, z, randomSeed);
         //}
     }
 }

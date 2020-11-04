@@ -54,7 +54,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
 
-        return new Builder().depth(-0.2F).scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
+        return new Builder().depth(-0.18F).scale(0.0F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(10189386).withGrassColor(10189386).build()).build();
     }
 
     public static Biome makeDeadwoodForest(String biomeName) {
@@ -162,7 +162,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addInfestedLimestone(biomeGen);
         AtumDefaultFeatures.addFossils(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().depth(-0.3F).scale(0.0F).temperature(1.85F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
+        return new Builder().depth(-0.33F).scale(0.0F).temperature(1.85F).withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).setEffects(Builder.getBaseEffects().withFoliageColor(11987573).withGrassColor(11987573).build()).build();
     }
 
     public static Biome makeSandDunes(String biomeName) {
