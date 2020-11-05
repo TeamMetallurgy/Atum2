@@ -13,11 +13,20 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.wrapper.SidedInvWrapper;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISidedInventory {
     private BlockPos primaryPos;
+    private static final int[] SLOTS_TOP = new int[]{0, 1, 2, 3};
+    private static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
+    private static final int[] SLOTS_SIDES = new int[]{4};
 
     KilnBaseTileEntity(TileEntityType<?> tileType) {
         super(tileType, 9);
@@ -88,7 +97,11 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
                 return primary.getSlotsForFace(side);
             }
         }
-        return new int[0];
+        if (side == Direction.DOWN) {
+            return SLOTS_BOTTOM;
+        } else {
+            return side == Direction.UP ? SLOTS_TOP : SLOTS_SIDES;
+        }
     }
 
     @Override
@@ -195,5 +208,27 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
     @Nonnull
     public CompoundNBT getUpdateTag() {
         return this.write(new CompoundNBT());
+    }
+
+    private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.WEST);
+
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
+        if (!isPrimary()) {
+            KilnBaseTileEntity primary = getPrimary();
+            if (primary != null) {
+                return primary.getCapability(capability, facing);
+            }
+        }
+        if (!this.removed && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (facing == Direction.UP) {
+                return handlers[0].cast();
+            } else if (facing == Direction.DOWN) {
+                return handlers[1].cast();
+            } else {
+                return handlers[2].cast();
+            }
+        }
+        return super.getCapability(capability, facing);
     }
 }
