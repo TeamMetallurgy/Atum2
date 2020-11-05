@@ -31,7 +31,6 @@ public class OasisSurfaceBuilder extends SurfaceBuilder<SurfaceBuilderConfig> {
             y++;
             if (chunk.getBlockState(mutablePos).isAir()) {
                 chunk.setBlockState(mutablePos, Blocks.WATER.getDefaultState(), true);
-                chunk.tic
             }
         }
 

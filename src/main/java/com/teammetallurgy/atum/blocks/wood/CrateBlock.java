@@ -46,7 +46,7 @@ public class CrateBlock extends ContainerBlock {
     public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTrace) {
         if (world.isRemote) {
             return ActionResultType.SUCCESS;
-        } else {
+        } else if (!ChestBlock.isBlocked(world, pos)) {
             TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
                 player.openContainer((CrateTileEntity) tileEntity);
@@ -54,6 +54,7 @@ public class CrateBlock extends ContainerBlock {
             }
             return ActionResultType.SUCCESS;
         }
+        return super.onBlockActivated(state, world, pos, player, hand, rayTrace);
     }
 
     @Nullable

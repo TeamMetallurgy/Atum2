@@ -68,7 +68,7 @@ public class CrateRender extends TileEntityRenderer<CrateTileEntity> {
     }
 
     private void renderCrate(MatrixStack matrixStack, IVertexBuilder vertexBuilder, ModelRenderer core, ModelRenderer lid, float lidAngle, int light, int combinedOverlay) {
-        lid.rotateAngleY = (lidAngle * ((float) Math.PI / 3.5F));
+        lid.rotateAngleZ = (lidAngle * ((float) Math.PI / 10.0F));
         core.render(matrixStack, vertexBuilder, light, combinedOverlay);
         lid.render(matrixStack, vertexBuilder, light, combinedOverlay);
     }

@@ -9,6 +9,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.EntityRayTraceResult;
@@ -32,7 +33,13 @@ public class ArrowFireEntity extends CustomArrow {
         super.onEntityHit(rayTraceResult);
         Entity hitEnity = rayTraceResult.getEntity();
         if (hitEnity instanceof LivingEntity) {
-            hitEnity.setFire(5);
+            if (!hitEnity.isImmuneToFire()) {
+                if (hitEnity.getFireTimer() > 0) {
+                    this.setDamage(this.getDamage() * 1.5D);
+                    this.playSound(SoundEvents.ITEM_FIRECHARGE_USE, 1.0F, 1.0F);
+                }
+                hitEnity.setFire(5);
+            }
         }
     }
 
@@ -43,8 +50,8 @@ public class ArrowFireEntity extends CustomArrow {
         if (shooter instanceof PlayerEntity) {
             BlockPos pos = rayTraceResult.getPos().offset(rayTraceResult.getFace());
             PlayerEntity player = (PlayerEntity) shooter;
-            if (player.canPlayerEdit(pos, rayTraceResult.getFace(), player.getHeldItem(player.getActiveHand())) && world.getBlockState(pos).getMaterial() == Material.AIR) {
-                world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+            if (player.canPlayerEdit(pos, rayTraceResult.getFace(), player.getHeldItem(player.getActiveHand())) && this.world.getBlockState(pos).getMaterial() == Material.AIR) {
+                this.world.setBlockState(pos, Blocks.FIRE.getDefaultState());
             }
         }
     }
@@ -54,9 +61,9 @@ public class ArrowFireEntity extends CustomArrow {
         super.tick();
 
         if (this.getIsCritical()) {
-            if (world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) world;
-                serverWorld.spawnParticle(AtumParticles.RA_FIRE, this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+            if (this.world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) this.world;
+                serverWorld.spawnParticle(AtumParticles.RA_FIRE, this.getPosX() + (this.world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + this.world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (this.world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }
