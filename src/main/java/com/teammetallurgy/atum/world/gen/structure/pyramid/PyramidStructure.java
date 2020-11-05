@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
@@ -54,7 +55,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
     @Override
     protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
-        for (Biome b : provider.getBiomes(chunkX * 16 + 9, generator.getSeaLevel(), chunkZ * 16 + 9, 32)) {
+        for (Biome b : provider.getBiomes(chunkX * 16 + 9, DimensionHelper.GROUND_LEVEL, chunkZ * 16 + 9, 32)) {
             if (!b.getGenerationSettings().hasStructure(this)) {
                 return false;
             } else {

@@ -20,7 +20,7 @@ import java.util.List;
 public class AtumSurfaceBuilders {
     //Surface Builders
     private static final List<SurfaceBuilder<?>> SURFACE_BUILDERS = new ArrayList<>();
-    public static final SurfaceBuilder<SurfaceBuilderConfig> OASIS_SURFACE_BUILDER = registerBuilder("oasis", new OasisSurfaceBuilder(SurfaceBuilderConfig.field_237203_a_));
+    //public static final SurfaceBuilder<SurfaceBuilderConfig> OASIS_SURFACE_BUILDER = registerBuilder("oasis", new OasisSurfaceBuilder(SurfaceBuilderConfig.field_237203_a_));
 
     //States
     public static final BlockState SAND = AtumBlocks.SAND.getDefaultState();
@@ -39,7 +39,7 @@ public class AtumSurfaceBuilders {
     public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> SANDY = registerConfig("sandy", SurfaceBuilder.DEFAULT.func_242929_a(SANDY_CONFIG));
     public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> SANDY_LIMESTONE = registerConfig("sandy_limestone", SurfaceBuilder.DEFAULT.func_242929_a(SANDY_LIMESTONE_CONFIG));
     public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> GRAVEL_CRACKED = registerConfig("gravel_cracked", SurfaceBuilder.DEFAULT.func_242929_a(GRAVEL_CRACKED_CONFIG));
-    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> OASIS = registerConfig("oasis", OASIS_SURFACE_BUILDER.func_242929_a(OASIS_CONFIG));
+    public static final ConfiguredSurfaceBuilder<SurfaceBuilderConfig> OASIS = registerConfig("oasis", SurfaceBuilder.DEFAULT.func_242929_a(OASIS_CONFIG));
 
     private static <C extends ISurfaceBuilderConfig, F extends SurfaceBuilder<C>> F registerBuilder(String name, F builder) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);

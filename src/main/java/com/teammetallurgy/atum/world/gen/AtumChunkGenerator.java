@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.gen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.init.AtumBiomes;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
@@ -39,7 +40,6 @@ import net.minecraftforge.common.world.StructureSpawnManager;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -199,7 +199,7 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
             float f = 0.0F;
             float f1 = 0.0F;
             float f2 = 0.0F;
-            int j = this.getSeaLevel();
+            int j = DimensionHelper.GROUND_LEVEL;
             float f3 = this.biomeProvider.getNoiseBiome(noiseX, j, noiseZ).getDepth();
 
             for (int k = -2; k <= 2; ++k) {

@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atem.EyesOfAtemItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
@@ -54,7 +55,7 @@ public class ClientEvents {
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_GOLD || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
                     fogDensity = fogDensity / 1.5F;
                 }
-                if (player.getPosY() >= player.world.getSeaLevel() - 8) {
+                if (player.getPosY() >= DimensionHelper.GROUND_LEVEL - 8) {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * SandstormHandler.INSTANCE.stormStrength);
                 }
                 RenderSystem.fogDensity(fogDensity);

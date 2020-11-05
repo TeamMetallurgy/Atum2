@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -30,7 +31,7 @@ public class LakeFeature extends Feature<BlockStateFeatureConfig> { //Copied fro
             pos = pos.down();
         }
 
-        if (pos.getY() <= seedReader.getSeaLevel()) {
+        if (pos.getY() <= DimensionHelper.GROUND_LEVEL) {
             return false;
         } else {
             pos = pos.down(4);

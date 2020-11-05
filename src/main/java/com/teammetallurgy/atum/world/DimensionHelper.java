@@ -26,6 +26,7 @@ import java.util.Optional;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
     public static final AtumDimensionData DATA = new AtumDimensionData();
+    public static final int GROUND_LEVEL = 63;
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {

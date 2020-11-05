@@ -1,7 +1,7 @@
 {
   "bedrock_roof_position": -10,
   "bedrock_floor_position": 0,
-  "sea_level": 63,
+  "sea_level": 58,
   "disable_mob_generation": false,
   "structures": {
     "structures": {
@@ -74,6 +74,9 @@
     "Name": "atum:limestone"
   },
   "default_fluid": {
-    "Name": "minecraft:air"
+    "Properties": {
+      "level": "0"
+    },
+    "Name": "minecraft:water"
   }
 }
