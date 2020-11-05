@@ -50,7 +50,8 @@ public class AtumBlocks {
     public static final Block EMMER_WHEAT = registerBlock(new EmmerBlock(), null, "emmer_wheat");
     public static final Block ANPUTS_FINGERS = registerBlock(new AnputsFingersBlock(), null, "anputs_fingers");
     public static final Block OASIS_GRASS = registerBlock(new OasisGrassBlock(), "oasis_grass");
-    public static final Block DEAD_GRASS = registerBlock(new DeadGrassBlock(), "dead_grass");
+    public static final Block DRY_GRASS = registerBlock(new DryGrassBlock(), "dry_grass");
+    public static final Block TALL_DRY_GRASS = registerBlock(new TallDryGrass(), "tall_dry_grass");
     public static final Block SHRUB = registerBlock(new ShrubBlock(), "shrub");
     public static final Block WEED = registerBlock(new ShrubBlock(), "weed");
     public static final Block PAPYRUS = registerBlock(new PapyrusBlock(), null, "papyrus");

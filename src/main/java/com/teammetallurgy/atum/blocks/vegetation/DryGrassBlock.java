@@ -6,7 +6,7 @@ import net.minecraftforge.common.PlantType;
 
 import javax.annotation.Nonnull;
 
-public class DeadGrassBlock extends OasisGrassBlock {
+public class DryGrassBlock extends OasisGrassBlock {
 
     @Override
     @Nonnull

@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.world.gen.feature.tree.PalmTrunkPlacer;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.blockplacer.ColumnBlockPlacer;
+import net.minecraft.world.gen.blockplacer.DoublePlantBlockPlacer;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
@@ -37,9 +38,12 @@ public class AtumFeatures {
 
     //Feature Configs
     public static final BlockClusterFeatureConfig OASIS_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.OASIS_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(64).build();
-    public static final BlockClusterFeatureConfig DEAD_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEAD_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(2).build();
-    public static final BlockClusterFeatureConfig ANPUTS_FINGERS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.ANPUTS_FINGERS.getDefaultState()), new SimpleBlockPlacer())).build();
-    public static final BlockClusterFeatureConfig PAPYRUS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PAPYRUS.getDefaultState()), new ColumnBlockPlacer(1, 2))).tries(32).xSpread(2).ySpread(0).zSpread(2).func_227317_b_().requiresWater().build();
+    public static final BlockClusterFeatureConfig DENSE_DRY_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DRY_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(30).build();
+    public static final BlockClusterFeatureConfig SPARSE_DRY_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DRY_GRASS.getDefaultState()), new SimpleBlockPlacer())).tries(16).build();
+    public static final BlockClusterFeatureConfig DRY_TALL_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.TALL_DRY_GRASS.getDefaultState()), new DoublePlantBlockPlacer())).tries(20).build();
+    public static final BlockClusterFeatureConfig SPARSE_TALL_GRASS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.TALL_DRY_GRASS.getDefaultState()), new DoublePlantBlockPlacer())).tries(2).build();
+    public static final BlockClusterFeatureConfig ANPUTS_FINGERS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.ANPUTS_FINGERS.getDefaultState()), new SimpleBlockPlacer())).tries(10).build();
+    public static final BlockClusterFeatureConfig PAPYRUS_CONFIG = (new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PAPYRUS.getDefaultState()), new ColumnBlockPlacer(1, 2))).tries(8).xSpread(2).ySpread(0).zSpread(2).requiresWater().build();
     public static final BaseTreeFeatureConfig PALM_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PALM_LOG.getDefaultState()), new SimpleBlockStateProvider(AtumBlocks.PALM_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.1F), new PalmTrunkPlacer(4, 1, 5, 0.25F), new TwoLayerFeature(0, 0, 0))).setIgnoreVines().build();
     public static final BaseTreeFeatureConfig PALM_TREE_CONFIG_SAPLING = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.PALM_LOG.getDefaultState()), new SimpleBlockStateProvider(AtumBlocks.PALM_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.1F), new PalmTrunkPlacer(4, 1, 5, 0.0F), new TwoLayerFeature(0, 0, 0))).setIgnoreVines().build();
     public static final BaseTreeFeatureConfig DEAD_PALM_TREE_CONFIG = (new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true)), new SimpleBlockStateProvider(AtumBlocks.DEADWOOD_LEAVES.getDefaultState()), new PalmFoliagePlacer(0.0F), new PalmTrunkPlacer(4, 1, 5, 0.0F), new TwoLayerFeature(0, 0, 0))).setIgnoreVines().build();

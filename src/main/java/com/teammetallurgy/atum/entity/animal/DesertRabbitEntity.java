@@ -67,7 +67,7 @@ public class DesertRabbitEntity extends RabbitEntity {
                 return i <= 30 ? 2 : 3;
             } else if (biomeKey.equals(AtumBiomes.LIMESTONE_CRAGS)) {
                 return i <= 30 ? 3 : 4;
-            } else if (biomeKey.equals(AtumBiomes.DEADWOOD_FOREST)) {
+            } else if (biomeKey.equals(AtumBiomes.SPARSE_WOODS) || biomeKey.equals(AtumBiomes.DENSE_WOODS)) {
                 return i <= 50 ? 2 : 3;
             } else if (biomeKey.equals(AtumBiomes.OASIS)) {
                 return i <= 50 ? 2 : 3;

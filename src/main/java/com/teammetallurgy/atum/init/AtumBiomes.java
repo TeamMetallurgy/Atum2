@@ -13,7 +13,8 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumBiomes {
     public static final RegistryKey<Biome> DEAD_OASIS = registerBiome(AtumBiomeMaker.makeDeadOasis("dead_oasis"), "dead_oasis", BiomeRegion.STRANGE_SANDS);
-    public static final RegistryKey<Biome> DEADWOOD_FOREST = registerBiome(AtumBiomeMaker.makeDeadwoodForest("deadwood_forest"), "deadwood_forest", 10, BiomeRegion.DESSICATED_WOODS);
+    public static final RegistryKey<Biome> DENSE_WOODS = registerBiome(AtumBiomeMaker.makeDenseWoods("dense_woods"), "dense_woods", 10, BiomeRegion.DESSICATED_WOODS);
+    public static final RegistryKey<Biome> SPARSE_WOODS = registerBiome(AtumBiomeMaker.makeSparseWoods("sparse_woods"), "sparse_woods", 10, BiomeRegion.DESSICATED_WOODS);
     public static final RegistryKey<Biome> DRIED_RIVER = registerBiome(AtumBiomeMaker.makeDriedRiver("dried_river"), "dried_river", BiomeRegion.STRANGE_SANDS);
     public static final RegistryKey<Biome> LIMESTONE_CRAGS = registerBiome(AtumBiomeMaker.makeLimestoneCrags("limestone_crags"), "limestone_crags", 3, BiomeRegion.LIMESTONE_PEAKS);
     public static final RegistryKey<Biome> LIMESTONE_MOUNTAINS = registerBiome(AtumBiomeMaker.makeLimestoneMountain("limestone_mountains"), "limestone_mountains", 5, BiomeRegion.LIMESTONE_PEAKS);
@@ -42,7 +43,8 @@ public class AtumBiomes {
             }
         }
         BiomeDictionary.addTypes(DEAD_OASIS, BiomeTags.OASIS, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.RARE);
-        BiomeDictionary.addTypes(DEADWOOD_FOREST, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(DENSE_WOODS, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(SPARSE_WOODS, BiomeDictionary.Type.FOREST);
         BiomeDictionary.addTypes(DRIED_RIVER, BiomeDictionary.Type.RIVER);
         BiomeDictionary.addTypes(LIMESTONE_CRAGS, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.RARE);
         BiomeDictionary.addTypes(LIMESTONE_MOUNTAINS, BiomeDictionary.Type.MOUNTAIN);

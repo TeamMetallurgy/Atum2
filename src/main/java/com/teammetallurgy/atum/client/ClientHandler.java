@@ -77,16 +77,15 @@ public class ClientHandler {
         itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((DyeableTexturedArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
         //Dead Grass
         itemColor.register((stack, tintIndex) -> {
-            BlockState blockState = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
-            return blockColors.getColor(blockState, null, null, tintIndex);
-        }, AtumBlocks.DEAD_GRASS);
+            return 12889745;
+        }, AtumBlocks.DRY_GRASS, AtumBlocks.TALL_DRY_GRASS);
         blockColors.register((state, world, pos, tintIndex) -> {
             if (world != null && pos != null) {
                 return BiomeColors.getGrassColor(world, pos);
             } else {
                 return 12889745;
             }
-        }, AtumBlocks.DEAD_GRASS);
+        }, AtumBlocks.DRY_GRASS, AtumBlocks.TALL_DRY_GRASS);
         ItemModelsProperties.registerProperty(AtumItems.ANUBIS_WRATH, new ResourceLocation("tier"), (stack, world, entity) -> AnubisWrathItem.getTier(stack));
         ItemModelsProperties.registerProperty(AtumItems.TEFNUTS_CALL, new ResourceLocation("throwing"), (stack, world, entity) -> entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F);
         registerBowModelProperties(AtumItems.SHORT_BOW);
@@ -111,7 +110,8 @@ public class ClientHandler {
         RenderType translucent = RenderType.getTranslucent();
         RenderTypeLookup.setRenderLayer(AtumBlocks.ANPUTS_FINGERS, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.OASIS_GRASS, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DEAD_GRASS, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_GRASS, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.TALL_DRY_GRASS, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.SHRUB, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.WEED, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.OPHIDIAN_TONGUE, cutoutMipped);

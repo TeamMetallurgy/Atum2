@@ -86,7 +86,7 @@ public class FertileSoilBlock extends Block implements IGrowable {
                 world.getBlockState(pos.north()).getFluidState().isTagged(FluidTags.WATER) ||
                 world.getBlockState(pos.south()).getFluidState().isTagged(FluidTags.WATER);
 
-        if (plantType.equals(PlantType.PLAINS)) {
+        if (plantType.equals(PlantType.PLAINS) || plantType.equals(PlantType.DESERT)) {
             return true;
         } else if (plantType.equals(PlantType.BEACH)) {
             return hasWater;
