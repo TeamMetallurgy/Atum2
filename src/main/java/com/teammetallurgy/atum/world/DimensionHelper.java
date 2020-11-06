@@ -17,7 +17,6 @@ import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.world.SleepFinishedTimeEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -25,8 +24,11 @@ import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
-    public static final AtumDimensionData DATA = new AtumDimensionData();
     public static final int GROUND_LEVEL = 63;
+
+    public static AtumDimensionData getData(ServerWorld serverWorld) {
+        return serverWorld.getSavedData().getOrCreate(AtumDimensionData::new, Atum.MOD_ID);
+    }
 
     @SubscribeEvent
     public static void onSleepFinished(SleepFinishedTimeEvent event) {
@@ -38,13 +40,6 @@ public class DimensionHelper {
                     ((DerivedWorldInfo) world.getWorldInfo()).delegate.setDayTime(event.getNewTime()); //Workaround for making sleeping work in Atum
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onWorldSave(WorldEvent.Save event) {
-        if (event.getWorld() instanceof ServerWorld) {
-            ((ServerWorld) event.getWorld()).getSavedData().getOrCreate(() -> DimensionHelper.DATA, DimensionHelper.DATA.getName());
         }
     }
 

@@ -28,7 +28,7 @@ public class AtumWeather {
 	private static int execute(CommandSource source, boolean isSandstorm, int time) {
 		ServerWorld serverWorld = source.getWorld();
 		if (serverWorld.getDimensionKey() == Atum.ATUM) {
-			DimensionHelper.DATA.setStorming(isSandstorm);
+			DimensionHelper.getData(serverWorld).setStorming(isSandstorm);
 			SandstormHandler.INSTANCE.stormTime = time == -1 ? 1500 : time != 0 ? Math.min(time, 1000000) * 20 : (300 + (new Random()).nextInt(600)) * 20;
 			if (isSandstorm) {
 				source.sendFeedback(new TranslationTextComponent("atum.commands.weather.sandstorm"), true);

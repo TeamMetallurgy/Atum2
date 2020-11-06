@@ -20,6 +20,7 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
@@ -34,8 +35,9 @@ import javax.annotation.Nullable;
 
 public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public static final String SARCOPHAGUS_CONTAINER = "atum.container.sarcophagus";
-    public boolean hasSpawned = false;
-    public boolean isOpenable = false;
+    public boolean hasSpawned;
+    public boolean isOpenable;
+    private MutableBoundingBox pyramidBox;
 
     public SarcophagusTileEntity() {
         super(AtumTileEntities.SARCOPHAGUS, false, true, AtumBlocks.SARCOPHAGUS);
@@ -70,6 +72,9 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         super.read(state, compound);
         this.hasSpawned = compound.getBoolean("spawned");
         this.isOpenable = compound.getBoolean("openable");
+        if (compound.contains("PyramidMinX")) {
+            this.pyramidBox = new MutableBoundingBox(compound.getInt("PyramidMinX"), compound.getInt("PyramidMinY"), compound.getInt("PyramidMinZ"), compound.getInt("PyramidMaxX"), compound.getInt("PyramidMaxY"), compound.getInt("PyramidMaxZ"));
+        }
     }
 
     @Override
@@ -78,6 +83,14 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         super.write(compound);
         compound.putBoolean("spawned", this.hasSpawned);
         compound.putBoolean("openable", this.isOpenable);
+        if (this.pyramidBox != null) {
+            compound.putInt("PyramidMinX", this.pyramidBox.minX);
+            compound.putInt("PyramidMinY", this.pyramidBox.minY);
+            compound.putInt("PyramidMinZ", this.pyramidBox.minZ);
+            compound.putInt("PyramidMaxX", this.pyramidBox.maxX);
+            compound.putInt("PyramidMaxY", this.pyramidBox.maxY);
+            compound.putInt("PyramidMaxZ", this.pyramidBox.maxZ);
+        }
         return compound;
     }
 
@@ -93,6 +106,14 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             final IPacket<?> packet = this.getUpdatePacket();
             NetworkHandler.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
         }
+    }
+
+    public void setPyramidBox(MutableBoundingBox box) {
+        this.pyramidBox = box;
+    }
+
+    public MutableBoundingBox getPyramidBox() {
+        return pyramidBox;
     }
 
     public void spawn(PlayerEntity player, DifficultyInstance difficulty) {

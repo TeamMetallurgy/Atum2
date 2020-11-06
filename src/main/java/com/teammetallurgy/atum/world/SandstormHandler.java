@@ -21,6 +21,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.IServerWorldInfo;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
 import java.util.Optional;
@@ -32,17 +33,18 @@ public class SandstormHandler {
     public float stormStrength;
     private long lastUpdateTime;
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.LOW)
     public void onWorldLoad(WorldEvent.Load event) { // calculateInitialWeather
-        if (DimensionHelper.DATA.isStorming()) {
+        if (event.getWorld() instanceof ServerWorld && DimensionHelper.getData((ServerWorld) event.getWorld()).isStorming()) {
             this.stormStrength = 1.0F;
-            System.out.println("SET STORM STRENGTH, ON WORLD LOAD");
         }
     }
 
     @SubscribeEvent
     public void onPreServerTick(TickEvent.WorldTickEvent event) {
-        updateWeather(event.world);
+        if (event.world.getDimensionKey() == Atum.ATUM) {
+            updateWeather(event.world);
+        }
     }
 
     private boolean canPlaceSandAt(ServerWorld serverWorld, BlockPos pos) {
@@ -51,39 +53,40 @@ public class SandstormHandler {
     }
 
     public void updateWeather(World world) {
-        if (world instanceof ServerWorld) {
+        if (world instanceof ServerWorld && !world.isRemote) {
             ServerWorld serverWorld = (ServerWorld) world;
             IServerWorldInfo worldInfo = serverWorld.getServer().getServerConfiguration().getServerWorldInfo();
             int cleanWeatherTime = worldInfo.getClearWeatherTime();
 
             if (cleanWeatherTime > 0) {
-                System.out.println("Clear sandstorm");
                 --cleanWeatherTime;
-                worldInfo.setClearWeatherTime(cleanWeatherTime);
-                this.stormTime = DimensionHelper.DATA.isStorming() ? 1 : 2;
+                this.stormTime = DimensionHelper.getData(serverWorld).isStorming() ? 1 : 2;
             }
 
             if (this.stormTime <= 0) {
-                if (DimensionHelper.DATA.isStorming()) {
+                if (DimensionHelper.getData(serverWorld).isStorming()) {
                     this.stormTime = serverWorld.rand.nextInt(6000) + 6000;
                 } else {
                     this.stormTime = serverWorld.rand.nextInt(168000) + 12000;
                 }
-                NetworkHandler.sendToDimension(new WeatherPacket(DimensionHelper.DATA.isStorming(), this.stormTime), serverWorld, Atum.ATUM);
+                DimensionHelper.getData(serverWorld).setStorming(DimensionHelper.getData(serverWorld).isStorming());
+                NetworkHandler.sendToDimension(new WeatherPacket(this.stormTime), serverWorld, Atum.ATUM);
             } else {
                 this.stormTime--;
                 if (this.stormTime <= 0) {
-                    DimensionHelper.DATA.setStorming(!DimensionHelper.DATA.isStorming());
+                    DimensionHelper.getData(serverWorld).setStorming(!DimensionHelper.getData(serverWorld).isStorming());
                 }
             }
 
+            worldInfo.setClearWeatherTime(cleanWeatherTime);
+
             this.prevStormStrength = this.stormStrength;
-            if (DimensionHelper.DATA.isStorming()) {
-                this.stormStrength += 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
+            if (DimensionHelper.getData(serverWorld).isStorming()) {
+                this.stormStrength += 1.0F / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
             } else {
-                this.stormStrength -= 1 / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
+                this.stormStrength -= 1.0F / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
             }
-            this.stormStrength = MathHelper.clamp(this.stormStrength, 0, 1);
+            this.stormStrength = MathHelper.clamp(this.stormStrength, 0.0F, 1.0F);
 
             if (this.stormStrength != this.prevStormStrength || this.lastUpdateTime < System.currentTimeMillis() - 1000) {
                 NetworkHandler.sendToDimension(new StormStrengthPacket(this.stormStrength), serverWorld, Atum.ATUM);

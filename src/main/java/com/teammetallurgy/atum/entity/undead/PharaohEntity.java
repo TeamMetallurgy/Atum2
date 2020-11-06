@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.undead;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.event.AtumEvents;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.init.AtumEffects;
@@ -167,7 +168,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         this.setEnchantmentBasedOnDifficulty(difficulty);
     }
 
-    private BlockPos getSarcophagusPos() {
+    public BlockPos getSarcophagusPos() {
         return this.dataManager.get(SARCOPHAGUS_POS).orElse(null);
     }
 
@@ -199,6 +200,7 @@ public class PharaohEntity extends UndeadBaseEntity {
                             ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
                         }
                     }
+                    AtumEvents.onPharaohBeaten(this, source);
                 } else {
                     Atum.LOG.error("Unable to find sarcophagus coordinates for " + this.getName() + " on " + sarcophagusPos);
                 }

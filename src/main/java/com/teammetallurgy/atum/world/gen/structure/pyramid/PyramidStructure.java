@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.serialization.Codec;
+import com.teammetallurgy.atum.api.event.PharaohBeatenEvent;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
@@ -12,6 +14,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Rotation;
@@ -24,6 +27,7 @@ import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
@@ -75,20 +79,28 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
         if (event.getEntity() instanceof ServerPlayerEntity) {
             IWorld world = event.getEntity().world;
-            if (world instanceof ServerWorld && ((ServerWorld) world).func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE).isValid()) {
-                ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
-                Block placedBlock = event.getPlacedBlock().getBlock();
-                if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
-                    event.setCanceled(true);
-                    ItemStack placedStack = new ItemStack(placedBlock);
-                    Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
-                    NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+            if (world instanceof ServerWorld) {
+                StructureStart<?> structureStart = ((ServerWorld) world).func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
+                if (structureStart instanceof Start && structureStart.isValid()) {
+                    Start start = (Start) structureStart;
+                    System.out.println(start.isPyramidCompleted());
+                    if (!start.isPyramidCompleted()) {
+                        ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+                        Block placedBlock = event.getPlacedBlock().getBlock();
+                        if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
+                            event.setCanceled(true);
+                            ItemStack placedStack = new ItemStack(placedBlock);
+                            Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+                            NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+                        }
+                    }
                 }
             }
         }
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
+        private boolean isPyramidCompleted;
 
         public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
@@ -105,6 +117,26 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                 List<StructurePiece> components = PyramidPieces.getComponents(manager, pos, rotation);
                 this.components.addAll(components);
                 this.recalculateStructureSize();
+            }
+        }
+
+        public boolean isPyramidCompleted() {
+            return isPyramidCompleted;
+        }
+
+        @SubscribeEvent
+        public void onPharaohBeaten(PharaohBeatenEvent event) { //TODO Move
+            World world = event.getPharaoh().world;
+            BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
+            if (sarcophagusPos != null && world != null && !world.isRemote) {
+                TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
+                if (tileEntity instanceof SarcophagusTileEntity) {
+                    SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileEntity;
+                    if (this.getBoundingBox().isVecInside(sarcophagusPos)) {
+                        System.out.println("PYRAMID IS COMPLETED");
+                        this.isPyramidCompleted = true;
+                    }
+                }
             }
         }
 
