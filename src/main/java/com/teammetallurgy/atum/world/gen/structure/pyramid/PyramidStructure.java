@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.api.event.PharaohBeatenEvent;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
@@ -14,7 +13,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.Rotation;
@@ -38,6 +36,7 @@ import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 
@@ -80,11 +79,11 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
         if (event.getEntity() instanceof ServerPlayerEntity) {
             IWorld world = event.getEntity().world;
             if (world instanceof ServerWorld) {
-                StructureStart<?> structureStart = ((ServerWorld) world).func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
+                ServerWorld serverWorld = (ServerWorld) world;
+                StructureStart<?> structureStart = serverWorld.func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
                 if (structureStart instanceof Start && structureStart.isValid()) {
                     Start start = (Start) structureStart;
-                    System.out.println(start.isPyramidCompleted());
-                    if (!start.isPyramidCompleted()) {
+                    if (!DimensionHelper.isBeatenPyramid(serverWorld, start.getBoundingBox())) {
                         ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
                         Block placedBlock = event.getPlacedBlock().getBlock();
                         if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
@@ -100,10 +99,10 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
     }
 
     public static class Start extends StructureStart<NoFeatureConfig> {
-        private boolean isPyramidCompleted;
 
         public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
+            MinecraftForge.EVENT_BUS.register(this);
         }
 
         @Override
@@ -120,22 +119,14 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
             }
         }
 
-        public boolean isPyramidCompleted() {
-            return isPyramidCompleted;
-        }
 
         @SubscribeEvent
-        public void onPharaohBeaten(PharaohBeatenEvent event) { //TODO Move
+        public void onPharaohBeaten(PharaohBeatenEvent event) {
             World world = event.getPharaoh().world;
             BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
-            if (sarcophagusPos != null && world != null && !world.isRemote) {
-                TileEntity tileEntity = world.getTileEntity(sarcophagusPos);
-                if (tileEntity instanceof SarcophagusTileEntity) {
-                    SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileEntity;
-                    if (this.getBoundingBox().isVecInside(sarcophagusPos)) {
-                        System.out.println("PYRAMID IS COMPLETED");
-                        this.isPyramidCompleted = true;
-                    }
+            if (sarcophagusPos != null && world instanceof ServerWorld && !world.isRemote) {
+                if (this.getBoundingBox().isVecInside(sarcophagusPos)) {
+                    DimensionHelper.getData((ServerWorld) world).addBeatenPyramid(this.getBoundingBox());
                 }
             }
         }

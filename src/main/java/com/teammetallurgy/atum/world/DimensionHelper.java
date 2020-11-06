@@ -9,6 +9,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.ISeedReader;
@@ -27,7 +28,7 @@ public class DimensionHelper {
     public static final int GROUND_LEVEL = 63;
 
     public static AtumDimensionData getData(ServerWorld serverWorld) {
-        return serverWorld.getSavedData().getOrCreate(AtumDimensionData::new, Atum.MOD_ID);
+        return serverWorld.getSavedData().getOrCreate(AtumDimensionData::new, AtumDimensionData.ID);
     }
 
     @SubscribeEvent
@@ -67,5 +68,16 @@ public class DimensionHelper {
 
     public static int getBiomeID(RegistryKey<Biome> key) {
         return WorldGenRegistries.BIOME.getId(getBiome(key));
+    }
+
+    public static boolean isBeatenPyramid(ServerWorld serverWorld, MutableBoundingBox box2) {
+        boolean validBox = false;
+        for (MutableBoundingBox box1 : getData(serverWorld).getBeatenPyramids()) {
+            if (box1.minX == box2.minX && box1.minY == box2.minY && box1.minZ == box2.minZ && box1.maxX == box2.maxX && box1.maxY == box2.maxY && box1.maxZ == box2.maxZ) {
+                validBox = true;
+                break;
+            }
+        }
+        return validBox;
     }
 }
