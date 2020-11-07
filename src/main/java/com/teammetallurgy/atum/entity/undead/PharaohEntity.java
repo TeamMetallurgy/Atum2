@@ -140,6 +140,11 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
+    protected void dropSpecialItems(@Nonnull DamageSource source, int looting, boolean recentlyHit) {
+        //Don't drop equipment
+    }
+
+    @Override
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {

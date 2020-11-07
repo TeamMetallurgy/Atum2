@@ -214,9 +214,7 @@ public class PyramidPieces {
                 if (box.isVecInside(posDown)) {
                     TileEntity tileentity = world.getTileEntity(posDown);
                     if (tileentity instanceof SarcophagusTileEntity) {
-                        SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileentity;
-                        sarcophagus.setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
-                        sarcophagus.setPyramidBox(box);
+                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
                     }
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);

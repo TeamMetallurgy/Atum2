@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.api.event.PharaohBeatenEvent;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
+import com.teammetallurgy.atum.blocks.trap.TrapBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
@@ -10,6 +12,7 @@ import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.TorchBlock;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -126,10 +129,37 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
             BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
             if (sarcophagusPos != null && world instanceof ServerWorld && !world.isRemote) {
                 if (this.getBoundingBox().isVecInside(sarcophagusPos)) {
-                    DimensionHelper.getData((ServerWorld) world).addBeatenPyramid(this.getBoundingBox());
+                    ServerWorld serverWorld = (ServerWorld) world;
+                    DimensionHelper.getData(serverWorld).addBeatenPyramid(this.getBoundingBox());
+                    this.changePyramidBlocks(serverWorld);
                 }
             }
         }
+
+        public void changePyramidBlocks(ServerWorld world) {
+            MutableBoundingBox box = this.getBoundingBox();
+
+            for (int z = box.minZ; z <= box.maxZ; ++z) {
+                for (int y = box.minY; y <= box.maxY; ++y) {
+                    for (int x = box.minX; x <= box.maxX; ++x) {
+                        BlockPos pos = new BlockPos(x, y, z);
+                        if (!world.isAirBlock(pos)) {
+                            BlockState state = world.getBlockState(pos);
+                            if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE)) {
+                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.rand.nextDouble() <= 0.10D) {
+                                    world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState(), 2);
+                                } else {
+                                    world.setBlockState(pos, state.with(LimestoneBrickBlock.UNBREAKABLE, false), 2);
+                                }
+                            } else if (state.getBlock() instanceof TrapBlock) {
+                                world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.getDefaultState(), 2);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         @Override
         public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
