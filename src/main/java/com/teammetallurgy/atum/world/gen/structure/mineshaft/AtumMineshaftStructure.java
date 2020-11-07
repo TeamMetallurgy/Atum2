@@ -32,16 +32,6 @@ public class AtumMineshaftStructure extends Structure<AtumMineshaftConfig> {
         return seedRandom.nextDouble() < probability;
     }
 
-    /*@Override
-    public boolean place(@Nonnull IWorld world, @Nonnull ChunkGenerator<? extends GenerationSettings> generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull AtumMineshaftConfig config) { //TODO. Maybe DimensionGeneratorSettings
-        ChunkPos chunkPos = new ChunkPos(pos);
-        if (StructureHelper.doesChunkHaveStructure(world, chunkPos.x, chunkPos.z, AtumFeatures.PYRAMID)) {
-            return false;
-        } else {
-            return super.place(world, generator, rand, pos, config);
-        }
-    }*/
-
     @Override
     @Nonnull
     public Structure.IStartFactory<AtumMineshaftConfig> getStartFactory() {

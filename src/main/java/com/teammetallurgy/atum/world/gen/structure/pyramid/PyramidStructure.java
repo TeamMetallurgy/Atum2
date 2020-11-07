@@ -11,9 +11,7 @@ import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.TorchBlock;
+import net.minecraft.block.*;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -153,6 +151,8 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                                 }
                             } else if (state.getBlock() instanceof TrapBlock) {
                                 world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.getDefaultState(), 2);
+                            } else if (state.getBlock() instanceof SpawnerBlock) {
+                                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                             }
                         }
                     }

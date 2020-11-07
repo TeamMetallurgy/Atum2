@@ -30,7 +30,7 @@ public class AtumDefaultFeatures {
     }
 
     public static void addSurfaceLavaLake(BiomeGenerationSettings.Builder builder) {
-        builder.withFeature(GenerationStage.Decoration.LAKES, AtumFeatures.SURFACE_LAVA_LAKE.withConfiguration(new BlockStateFeatureConfig(Blocks.LAVA.getDefaultState())).withPlacement(Placement.LAVA_LAKE.configure(new ChanceConfig(80)))); //TODO. Also chance chance most likely
+        builder.withFeature(GenerationStage.Decoration.LAKES, AtumFeatures.SURFACE_LAVA_LAKE.withConfiguration(new BlockStateFeatureConfig(Blocks.LAVA.getDefaultState())).withPlacement(Placement.LAVA_LAKE.configure(new ChanceConfig(80))));
     }
 
     public static void addSprings(BiomeGenerationSettings.Builder builder) {

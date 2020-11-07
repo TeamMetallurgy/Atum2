@@ -65,7 +65,7 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
                 matrixStack.push();
                 matrixStack.scale(1.0F, -1.0F, -1.0F);
                 IVertexBuilder vertexBuilder = ItemRenderer.getBuffer(buffer, this.tefnutsCall.getRenderType(TefnutsCallModel.TEFNUTS_CALL_TEXTURE), false, stack.hasEffect());
-                this.tefnutsCall.render(matrixStack, vertexBuilder, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F); //TODO Possibly use TransformType for better 3D rendering in hand etc.
+                this.tefnutsCall.render(matrixStack, vertexBuilder, combinedLight, combinedOverlay, 1.0F, 1.0F, 1.0F, 1.0F);
                 matrixStack.pop();
             }
         }

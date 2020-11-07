@@ -59,29 +59,27 @@ public class TefnutsCallItem extends Item {
         if (entityLiving instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entityLiving;
             int useDuration = this.getUseDuration(stack) - timeLeft;
-            if (useDuration > 21) {
-                useDuration = 21;
-            }
+            if (useDuration >= 21) {
+                if (!world.isRemote) {
+                    stack.damageItem(1, player, (entity) -> {
+                        entity.sendBreakAnimation(entityLiving.getActiveHand());
+                    });
 
-            if (!world.isRemote) {
-                stack.damageItem(1, player, (entity) -> {
-                    entity.sendBreakAnimation(entityLiving.getActiveHand());
-                });
+                    TefnutsCallEntity spear = new TefnutsCallEntity(world, player, stack);
+                    spear.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
+                    spear.setDamage(spear.getDamage() * 2.0D);
+                    if (player.abilities.isCreativeMode) {
+                        spear.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                    }
 
-                TefnutsCallEntity spear = new TefnutsCallEntity(world, player, stack);
-                spear.shoot(player.rotationPitch, player.rotationYaw, 0.0F, (float) useDuration / 25.0F + 0.25F, 1.0F);
-                spear.setDamage(spear.getDamage() * 2.0D);
-                if (player.abilities.isCreativeMode) {
-                    spear.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+                    world.addEntity(spear);
+                    world.playMovingSound(null, spear, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
+                    if (!player.abilities.isCreativeMode) {
+                        player.inventory.deleteStack(stack);
+                    }
                 }
-
-                world.addEntity(spear);
-                world.playMovingSound(null, spear, SoundEvents.ITEM_TRIDENT_THROW, SoundCategory.PLAYERS, 1.0F, 1.0F);
-                if (!player.abilities.isCreativeMode) {
-                    player.inventory.deleteStack(stack);
-                }
+                player.addStat(Stats.ITEM_USED.get(this));
             }
-            player.addStat(Stats.ITEM_USED.get(this));
         }
     }
 

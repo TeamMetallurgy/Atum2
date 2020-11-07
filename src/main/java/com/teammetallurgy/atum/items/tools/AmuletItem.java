@@ -13,7 +13,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 //@Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
-public class AmuletItem extends Item /*implements IBauble*/ { //TODO Fix when Baubles is updated. Optional stuff is gone due to J9 limitations, so Baubles will have to come up with a new system most likely
+public class AmuletItem extends Item /*implements IBauble*/ { //TODO Use Curios instead?
     //public static final boolean IS_BAUBLES_INSTALLED = ModList.get().isLoaded("baubles");
 
     public AmuletItem(Item.Properties properties) {

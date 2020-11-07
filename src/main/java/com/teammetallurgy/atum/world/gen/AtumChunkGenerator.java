@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.world.gen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
@@ -368,10 +367,6 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
             }
         }
         this.makeBedrock(chunk, seedRandom);
-    }
-
-    public static boolean canBiomeHaveWater (RegistryKey<Biome> biome) {
-        return biome == AtumBiomes.OASIS || biome == AtumBiomes.DRIED_RIVER; //TODO Change river to new river biome
     }
 
     private void makeBedrock(IChunk chunk, Random rand) {

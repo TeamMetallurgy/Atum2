@@ -79,7 +79,8 @@ public class AtumEventListener {
             ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
             ServerWorld world = (ServerWorld) player.world;
             PortalBlock.changeDimension(world, serverPlayer, new TeleporterAtumStart());
-            serverPlayer.func_242111_a(Atum.ATUM, world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, player.getPosition()), serverPlayer.getRotationYawHead(), true, false); //Set players spawn point in Atum, when starting in Atum
+            //TODO Fix setting spawn
+            serverPlayer.func_242111_a(Atum.ATUM, world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, serverPlayer.getPosition()), serverPlayer.getRotationYawHead(), true, false); //Set players spawn point in Atum, when starting in Atum
         }
     }
 

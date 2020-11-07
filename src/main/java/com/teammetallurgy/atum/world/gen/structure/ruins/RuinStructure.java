@@ -66,41 +66,36 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
 
         @Override
         public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            BlockPos checkPos = new BlockPos(chunkPos.x, this.bounds.minY + 1, chunkPos.z);
-            //boolean doesChunkHaveStructure = StructureHelper.doesChunkHaveStructure(seedReader, checkPos, AtumStructures.PYRAMID_STRUCTURE) || StructureHelper.doesChunkHaveStructure(seedReader, checkPos, AtumStructures.GIRAFI_TOMB_STRUCTURE); //TODO Fix world freeze when checking structure
+            super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
+            int y = this.bounds.minY;
 
-            //if (!doesChunkHaveStructure) {
-                super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
-                int y = this.bounds.minY;
+            for (int x = box.minX; x <= box.maxX; ++x) {
+                for (int z = box.minZ; z <= box.maxZ; ++z) {
+                    BlockPos pos = new BlockPos(x, y, z);
 
-                for (int x = box.minX; x <= box.maxX; ++x) {
-                    for (int z = box.minZ; z <= box.maxZ; ++z) {
-                        BlockPos pos = new BlockPos(x, y, z);
+                    if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                        boolean isVecInside = false;
 
-                        if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
-                            boolean isVecInside = false;
+                        for (StructurePiece piece : this.components) {
+                            if (piece.getBoundingBox().isVecInside(pos)) {
+                                isVecInside = true;
+                                break;
+                            }
+                        }
 
-                            for (StructurePiece piece : this.components) {
-                                if (piece.getBoundingBox().isVecInside(pos)) {
-                                    isVecInside = true;
+                        if (isVecInside) {
+                            for (int ruinY = y - 1; ruinY > 1; --ruinY) {
+                                BlockPos tombPos = new BlockPos(x, ruinY, z);
+
+                                if (!seedReader.isAirBlock(tombPos) && !seedReader.getBlockState(tombPos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                            }
-
-                            if (isVecInside) {
-                                for (int ruinY = y - 1; ruinY > 1; --ruinY) {
-                                    BlockPos tombPos = new BlockPos(x, ruinY, z);
-
-                                    if (!seedReader.isAirBlock(tombPos) && !seedReader.getBlockState(tombPos).getMaterial().isLiquid()) {
-                                        break;
-                                    }
-                                    seedReader.setBlockState(tombPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
-                                }
+                                seedReader.setBlockState(tombPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
                             }
                         }
                     }
                 }
-            //}
+            }
         }
     }
 }

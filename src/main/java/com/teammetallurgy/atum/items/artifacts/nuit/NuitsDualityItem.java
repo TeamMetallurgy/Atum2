@@ -57,9 +57,9 @@ public class NuitsDualityItem extends BaseBowItem {
 
                     if (!world.isRemote) {
                         ArrowDoubleShotBlackEntity doubleShotLower = new ArrowDoubleShotBlackEntity(world, player);
-                        doubleShotLower.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
+                        doubleShotLower.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         ArrowDoubleShotWhiteEntity doubleShotHigher = new ArrowDoubleShotWhiteEntity(world, player);
-                        doubleShotHigher.shoot(player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
+                        doubleShotHigher.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         doubleShotLower.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.0F, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
                         doubleShotHigher.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.2D, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
 
