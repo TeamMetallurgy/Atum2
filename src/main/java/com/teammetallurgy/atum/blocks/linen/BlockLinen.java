@@ -16,6 +16,7 @@ import net.minecraft.world.IBlockAccess;
 import org.apache.commons.lang3.text.WordUtils;
 
 import javax.annotation.Nonnull;
+import java.util.Locale;
 import java.util.Map;
 
 public class BlockLinen extends Block implements IOreDictEntry {
@@ -43,7 +44,7 @@ public class BlockLinen extends Block implements IOreDictEntry {
     @Override
     @Nonnull
     public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase()));
+        return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase(Locale.ROOT)));
     }
 
     String getColorString() {
@@ -59,6 +60,6 @@ public class BlockLinen extends Block implements IOreDictEntry {
     @Override
     public void getOreDictEntries() {
         OreDictHelper.add(this, "wool");
-        OreDictHelper.add(this, "wool" + WordUtils.capitalize(EnumDyeColor.valueOf(this.getColorString().toUpperCase()).getTranslationKey()));
+        OreDictHelper.add(this, "wool" + WordUtils.capitalize(EnumDyeColor.valueOf(this.getColorString().toUpperCase(Locale.ROOT)).getTranslationKey()));
     }
 }
