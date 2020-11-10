@@ -144,8 +144,12 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                         if (!world.isAirBlock(pos)) {
                             BlockState state = world.getBlockState(pos);
                             if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE)) {
-                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.rand.nextDouble() <= 0.10D) {
-                                    world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState(), 2);
+                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.rand.nextDouble() <= 0.08D) {
+                                    if (world.isAirBlock(pos.down())) {
+                                        world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState().with(LimestoneBrickBlock.CAN_FALL, true), 2);
+                                    } else {
+                                        world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState(), 2);
+                                    }
                                 } else {
                                     world.setBlockState(pos, state.with(LimestoneBrickBlock.UNBREAKABLE, false), 2);
                                 }
