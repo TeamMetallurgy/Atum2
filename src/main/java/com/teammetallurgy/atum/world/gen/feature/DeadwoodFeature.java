@@ -160,7 +160,7 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
 
                 if (random.nextFloat() < probability) {
                     BlockPos nextPos = pos.add(facing.getDirectionVec());
-                    if (world.isAirBlock(nextPos)) {
+                    if (world.isAirBlock(nextPos) && world.isAreaLoaded(nextPos, 8)) {
                         DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
                         this.setBlockState(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
                         placedBranches.add(nextPos);
