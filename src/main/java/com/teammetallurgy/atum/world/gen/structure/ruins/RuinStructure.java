@@ -4,6 +4,7 @@ import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
+import net.minecraft.block.Block;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
@@ -85,12 +86,18 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
 
                         if (isVecInside) {
                             for (int ruinY = y - 1; ruinY > 1; --ruinY) {
-                                BlockPos tombPos = new BlockPos(x, ruinY, z);
+                                BlockPos ruinPos = new BlockPos(x, ruinY, z);
 
-                                if (!seedReader.isAirBlock(tombPos) && !seedReader.getBlockState(tombPos).getMaterial().isLiquid()) {
+                                if (!seedReader.isAirBlock(ruinPos) && !seedReader.getBlockState(ruinPos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                                seedReader.setBlockState(tombPos, AtumBlocks.LIMESTONE.getDefaultState(), 2);
+                                Block brick = AtumBlocks.LIMESTONE_BRICK_LARGE;
+                                if (rand.nextDouble() <= 0.20D) {
+                                    brick = AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK;
+                                } else if (rand.nextDouble() >= 0.80D) {
+                                    brick = AtumBlocks.LIMESTONE_BRICK_SMALL;
+                                }
+                                seedReader.setBlockState(ruinPos, brick.getDefaultState(), 2);
                             }
                         }
                     }

@@ -36,7 +36,7 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
         if (genReader instanceof WorldGenRegion) {
             WorldGenRegion world = (WorldGenRegion) genReader;
             Set<BlockPos> logs = Sets.newHashSet();
-            int baseHeight = rand.nextInt(3) + 5;
+            int baseHeight = rand.nextInt(5) + 3;
             boolean generate = true;
 
             if (pos.getY() >= 0 && pos.getY() + baseHeight + 1 <= world.getHeight()) {
@@ -55,7 +55,8 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
                     for (int x = pos.getX() - k; x <= pos.getX() + k && generate; ++x) {
                         for (int z = pos.getZ() - k; z <= pos.getZ() + k && generate; ++z) {
                             if (y >= 0 && y < world.getHeight()) {
-                                if (!TreeFeature.func_236410_c_(world, mutable.setPos(x, y, z))) {
+                                BlockPos checkPos = mutable.setPos(x, y, z);
+                                if (!TreeFeature.isAirOrLeavesAt(world, checkPos)) {
                                     generate = false;
                                 }
                             } else {
@@ -160,7 +161,7 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
 
                 if (random.nextFloat() < probability) {
                     BlockPos nextPos = pos.add(facing.getDirectionVec());
-                    if (world.isAirBlock(nextPos)) {
+                    if (world.isAirBlock(nextPos) && world.isAreaLoaded(nextPos, 8)) {
                         DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
                         this.setBlockState(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
                         placedBranches.add(nextPos);

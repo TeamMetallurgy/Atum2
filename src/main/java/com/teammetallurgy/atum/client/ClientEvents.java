@@ -1,8 +1,9 @@
-package com.teammetallurgy.atum.misc.event;
+package com.teammetallurgy.atum.client;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.atem.EyesOfAtemItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
@@ -19,7 +20,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -27,6 +31,8 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class ClientEvents {
@@ -38,22 +44,27 @@ public class ClientEvents {
         ClientPlayerEntity clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
         Entity entity = event.getInfo().getRenderViewEntity();
+        World world = entity.world;
 
-        if (entity.world.getDimensionKey() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
+        if (world.getDimensionKey() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
             RenderSystem.fogMode(GlStateManager.FogMode.EXP);
-            float fogDensity = 0.08F;
+            float fogDensity = 0.05F;
 
             if (entity instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) entity;
                 ItemStack helmet = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
                 if (player.getPosition().getY() <= 60) {
-                    fogDensity += (float) (62 - player.getPosition().getY()) * 0.005F;
+                    fogDensity += (float) (62 - player.getPosition().getY()) * 0.00333F;
+                }
+                Optional<RegistryKey<Biome>> biome = world.func_242406_i(entity.getPosition());
+                if (biome.isPresent() && biome.get() == AtumBiomes.OASIS) {
+                    fogDensity = fogDensity / 2.0F;
                 }
                 if (helmet.getItem() instanceof EyesOfAtemItem) {
-                    fogDensity = fogDensity / 3;
+                    fogDensity = fogDensity / 3.25F;
                 }
                 if (helmet.getItem() == AtumItems.WANDERER_HELMET || helmet.getItem() == AtumItems.DESERT_HELMET_IRON || helmet.getItem() == AtumItems.DESERT_HELMET_GOLD || helmet.getItem() == AtumItems.DESERT_HELMET_DIAMOND) {
-                    fogDensity = fogDensity / 1.5F;
+                    fogDensity = fogDensity / 2.0F;
                 }
                 if (player.getPosY() >= DimensionHelper.GROUND_LEVEL - 8) {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * SandstormHandler.INSTANCE.stormStrength);

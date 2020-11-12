@@ -12,6 +12,7 @@ import javax.annotation.Nonnull;
 
 public class TexturedArmorItem extends ArmorItem {
     private final String armorPieceName;
+    private boolean hasRender = false;
     private int damageModifier;
 
     public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot) {
@@ -28,6 +29,11 @@ public class TexturedArmorItem extends ArmorItem {
         return this;
     }
 
+    public TexturedArmorItem setHasRender() {
+        this.hasRender = true;
+        return this;
+    }
+
     @Override
     public int getMaxDamage(@Nonnull ItemStack stack) {
         return damageModifier > 0 ? super.getMaxDamage(stack) + (super.getMaxDamage(stack) * this.damageModifier / 100) : super.getMaxDamage(stack);
@@ -35,6 +41,6 @@ public class TexturedArmorItem extends ArmorItem {
 
     @Override
     public String getArmorTexture(@Nonnull ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
-        return String.format("%s:textures/models/armor/%s_%d%s.png", Atum.MOD_ID, armorPieceName, (slot == EquipmentSlotType.LEGS ? 2 : 1), type == null ? "" : "_overlay");
+        return this.hasRender ? String.format("%s:textures/models/armor/%s.png", Atum.MOD_ID, armorPieceName) : String.format("%s:textures/models/armor/%s_%d%s.png", Atum.MOD_ID, armorPieceName, (slot == EquipmentSlotType.LEGS ? 2 : 1), type == null ? "" : "_overlay");
     }
 }

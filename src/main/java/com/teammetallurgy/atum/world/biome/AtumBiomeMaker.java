@@ -135,9 +135,9 @@ public class AtumBiomeMaker {
 
     public static Biome makeLimestoneMountain(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY_LIMESTONE));
-        if (AtumConfig.WORLD_GEN.lighthouseEnabled.get()) {
+        /*if (AtumConfig.WORLD_GEN.lighthouseEnabled.get()) {
             biomeGen.withStructure(AtumStructures.LIGHTHOUSE_FEATURE);
-        }
+        }*/
         AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.1F, 1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
@@ -292,7 +292,7 @@ public class AtumBiomeMaker {
         }
 
         public static BiomeAmbience.Builder getBaseEffects() {
-            return new BiomeAmbience.Builder().setFogColor(13876389).setWaterColor(4159204).setWaterFogColor(329011).withSkyColor(DimensionHelper.getSkyColorWithTemperatureModifier(2.0F)).withGrassColor(12889745).withFoliageColor(12889745).setMoodSound(MoodSoundAmbience.DEFAULT_CAVE);
+            return new BiomeAmbience.Builder().setFogColor(13876389).setWaterColor(7036242).setWaterFogColor(7036242).withSkyColor(DimensionHelper.getSkyColorWithTemperatureModifier(2.0F)).withGrassColor(12889745).withFoliageColor(12889745).setMoodSound(MoodSoundAmbience.DEFAULT_CAVE);
         }
     }
 }
