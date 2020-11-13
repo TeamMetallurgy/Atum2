@@ -34,14 +34,14 @@ public class AtemArmorModel extends ArmorModel {
 		chestplate.setRotationPoint(0.0F, 24.0F, 0.0F);
 		bipedBody.addChild(chestplate);
 		setRotationAngle(chestplate, -0.2618F, 0.0F, 0.0F);
-		chestplate.setTextureOffset(16, 32).addBox(-4.0F, -22.0F, -8.0F, 8.0F, 4.0F, 4.0F, -0.1F, false);
+		chestplate.setTextureOffset(16, 32).addBox(-4.0F, -22.0F, -8.5F, 8.0F, 4.0F, 4.0F, 0.0F, false);
 
 		bipedRightArm = new ModelRenderer(this);
 		bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-		bipedRightArm.setTextureOffset(40, 32).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.2F, false);
-		bipedRightArm.setTextureOffset(8, 86).addBox(-3.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.35F, true);
+		bipedRightArm.setTextureOffset(40, 32).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.3F, false);
+		bipedRightArm.setTextureOffset(8, 86).addBox(-3.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.5F, true);
 		bipedRightArm.setTextureOffset(48, 88).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
-		bipedRightArm.setTextureOffset(48, 80).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.6F, true);
+		bipedRightArm.setTextureOffset(48, 80).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.7F, true);
 
 		rightShoulderBlade = new ModelRenderer(this);
 		rightShoulderBlade.setRotationPoint(10.0F, 0.0F, 0.0F);
@@ -51,14 +51,14 @@ public class AtemArmorModel extends ArmorModel {
 		rightCape = new ModelRenderer(this);
 		rightCape.setRotationPoint(5.0F, -2.0F, 0.0F);
 		bipedRightArm.addChild(rightCape);
-		rightCape.setTextureOffset(56, 64).addBox(-7.5F, 4.0F, 2.45F, 4.0F, 16.0F, 0.0F, 0.0F, true);
+		rightCape.setTextureOffset(56, 64).addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, 0.0F, true);
 
 		bipedLeftArm = new ModelRenderer(this);
 		bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-		bipedLeftArm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.2F, true);
-		bipedLeftArm.setTextureOffset(52, 30).addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.35F, true);
+		bipedLeftArm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.3F, true);
+		bipedLeftArm.setTextureOffset(52, 30).addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.5F, true);
 		bipedLeftArm.setTextureOffset(32, 88).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
-		bipedLeftArm.setTextureOffset(32, 80).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.6F, true);
+		bipedLeftArm.setTextureOffset(32, 80).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.7F, true);
 
 		leftShoulderBlade = new ModelRenderer(this);
 		leftShoulderBlade.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -68,14 +68,14 @@ public class AtemArmorModel extends ArmorModel {
 		leftCape = new ModelRenderer(this);
 		leftCape.setRotationPoint(-5.0F, 22.0F, 0.0F);
 		bipedLeftArm.addChild(leftCape);
-		leftCape.setTextureOffset(48, 64).addBox(3.5F, -20.0F, 2.45F, 4.0F, 16.0F, 0.0F, 0.0F, true);
+		leftCape.setTextureOffset(48, 64).addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, 0.0F, true);
 
 		bipedHead = new ModelRenderer(this);
 		bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
 		bipedHead.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.3F, false);
 		bipedHead.setTextureOffset(24, 0).addBox(-2.0F, -6.0F, -5.0F, 4.0F, 4.0F, 1.0F, -0.25F, false);
 		bipedHead.setTextureOffset(58, 0).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 2.0F, 1.0F, 0.2F, false);
-		bipedHead.setTextureOffset(34, 50).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.1F, false);
+		bipedHead.setTextureOffset(34, 50).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.4F, false);
 
 		fins = new ModelRenderer(this);
 		fins.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -98,14 +98,15 @@ public class AtemArmorModel extends ArmorModel {
 		bipedRightLeg = new ModelRenderer(this);
 		bipedRightLeg.setRotationPoint(-1.9F, 12.0F, 0.0F);
 		bipedRightLeg.setTextureOffset(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
-		bipedRightLeg.setTextureOffset(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.35F, false);
+		bipedRightLeg.setTextureOffset(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.5F, false);
 		bipedRightLeg.setTextureOffset(0, 67).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.32F, false);
 
 		bipedLeftLeg = new ModelRenderer(this);
 		bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
 		bipedLeftLeg.setTextureOffset(0, 32).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
-		bipedLeftLeg.setTextureOffset(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.35F, false);
+		bipedLeftLeg.setTextureOffset(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.5F, false);
 		bipedLeftLeg.setTextureOffset(0, 48).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.32F, false);
+
 
 		//Boots manually edited in code
 		rightBoot = new ModelRenderer(this);
