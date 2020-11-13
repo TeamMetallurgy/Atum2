@@ -2,11 +2,21 @@ package com.teammetallurgy.atum.client.model.armor;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RenderPlayerEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class AtemArmorModel extends ArmorModel {
 	private final ModelRenderer fins;
 	private final ModelRenderer hat;
@@ -106,7 +116,7 @@ public class AtemArmorModel extends ArmorModel {
 		bipedLeftLeg.setTextureOffset(0, 32).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
 		bipedLeftLeg.setTextureOffset(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.65F, false);
 		bipedLeftLeg.setTextureOffset(0, 48).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.32F, false);
-		
+
 		//Boots manually edited in code
 		rightBoot = new ModelRenderer(this);
 		rightBoot.setTextureOffset(32, 63).addBox(-4.1F + 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.2F, true);
@@ -140,5 +150,21 @@ public class AtemArmorModel extends ArmorModel {
 		this.leftBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
 		super.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+	}
+
+	@SubscribeEvent
+	public static void onPlayerRender(RenderPlayerEvent event) {
+		PlayerEntity player = event.getPlayer();
+		PlayerModel<AbstractClientPlayerEntity> playerModel = event.getRenderer().getEntityModel();
+		if (player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
+			playerModel.bipedHeadwear.showModel = false;
+		} else if (player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
+			playerModel.bipedBodyWear.showModel = false;
+			playerModel.bipedLeftArmwear.showModel = false;
+			playerModel.bipedRightArmwear.showModel = false;
+		} else if (player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_ATEM || player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATEM) {
+			playerModel.bipedLeftLegwear.showModel = false;
+			playerModel.bipedRightLegwear.showModel = false;
+		}
 	}
 }
