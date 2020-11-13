@@ -1,6 +1,0 @@
-{
-    "parent": "item/generated",
-    "textures": {
-        "layer0": "atum:block/framed_glass_yellow"
-    }
-}

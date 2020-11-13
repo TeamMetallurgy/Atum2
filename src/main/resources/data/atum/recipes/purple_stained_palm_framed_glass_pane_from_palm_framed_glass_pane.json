@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_glass_pane",
+  "pattern": [
+    "###",
+    "#$#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:palm_framed_glass"
+    },
+    "$": {
+      "item": "minecraft:purple_dye"
+    }
+  },
+  "result": {
+    "item": "atum:purple_stained_palm_framed_glass_pane",
+    "count": 8
+  }
+}

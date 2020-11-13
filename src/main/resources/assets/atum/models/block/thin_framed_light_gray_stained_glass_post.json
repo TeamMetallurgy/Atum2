@@ -1,7 +1,0 @@
-{
-    "parent": "block/template_glass_pane_post",
-    "textures": {
-        "edge": "atum:block/thin_glass_top",
-        "pane": "atum:block/framed_glass_light_gray"
-    }
-}

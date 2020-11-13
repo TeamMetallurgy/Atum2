@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_glass",
+  "pattern": [
+    " X ",
+    "#X#",
+    " X "
+  ],
+  "key": {
+    "#": {
+      "item": "atum:orange_stained_crystal_glass"
+    },
+    "X": {
+      "tag": "forge:rods/wooden"
+    }
+  },
+  "result": {
+    "item": "atum:orange_stained_palm_framed_glass"
+  }
+}

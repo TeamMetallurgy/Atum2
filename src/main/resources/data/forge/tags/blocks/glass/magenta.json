@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "atum:crystal_magenta_stained_glass",
-    "atum:framed_magenta_stained_glass"
+    "atum:magenta_stained_crystal_glass",
+    "atum:magenta_stained_palm_framed_glass"
   ]
 }

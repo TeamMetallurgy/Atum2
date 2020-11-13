@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XSX",
+    " X "
+  ],
+  "key": {
+    "S": {
+      "item": "atum:crystal_glass"
+    },
+    "X": {
+      "tag": "atum:palm_stick"
+    }
+  },
+  "result": {
+    "item": "atum:palm_framed_glass"
+  }
+}

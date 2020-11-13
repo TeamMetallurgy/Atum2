@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:thin_crystal_glass"
+          "name": "atum:crystal_glass_pane"
         }
       ],
       "conditions": [

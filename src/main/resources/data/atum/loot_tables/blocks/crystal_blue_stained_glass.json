@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:crystal_blue_stained_glass"
+          "name": "atum:blue_stained_crystal_glass"
         }
       ],
       "conditions": [

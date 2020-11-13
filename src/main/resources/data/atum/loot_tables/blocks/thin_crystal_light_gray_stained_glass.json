@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:thin_crystal_light_gray_stained_glass"
+          "name": "atum:light_gray_stained_crystal_glass_pane"
         }
       ],
       "conditions": [

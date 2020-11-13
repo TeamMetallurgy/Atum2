@@ -3,9 +3,11 @@ package com.teammetallurgy.atum.misc.datagenerator;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.WallBlock;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -57,14 +59,19 @@ public class BlockStatesGenerator extends BlockStateProvider {
         wallBlock(AtumBlocks.CERAMIC_GREEN_WALL, AtumBlocks.CERAMIC_GREEN);
         wallBlock(AtumBlocks.CERAMIC_RED_WALL, AtumBlocks.CERAMIC_RED);
         wallBlock(AtumBlocks.CERAMIC_BLACK_WALL, AtumBlocks.CERAMIC_BLACK);
+
+        for (DyeColor color : DyeColor.values()) {
+            String colorName = color.getString();
+            cubeAll(StackHelper.getBlockFromName(colorName + "_stained_crystal_glass"));
+        }
     }
 
     private void generateTorch(Block torch) {
         String torchName = torch.getRegistryName().getPath();
         simpleBlock(torch, models().torch(torchName, new ResourceLocation(Atum.MOD_ID, "block/" + torchName)));
         simpleBlock(AtumTorchUnlitBlock.UNLIT.get(torch), models().torch(torchName + "_unlit", new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit")));
-        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName)), models().torchWall("wall_" + torchName, new ResourceLocation(Atum.MOD_ID, "block/" + torchName)), 90);
-        horizontalBlock(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName + "_unlit")), models().torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit")), 90);
+        horizontalBlock(StackHelper.getBlockFromName(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName)), models().torchWall("wall_" + torchName, new ResourceLocation(Atum.MOD_ID, "block/" + torchName)), 90);
+        horizontalBlock(StackHelper.getBlockFromName(new ResourceLocation(Atum.MOD_ID, "wall_" + torchName + "_unlit")), models().torchWall("wall_" + torchName + "_unlit", new ResourceLocation(Atum.MOD_ID, "block/" + torchName + "_unlit")), 90);
     }
 
     private void wallBlock(WallBlock wallBlock, Block textureBlock) {

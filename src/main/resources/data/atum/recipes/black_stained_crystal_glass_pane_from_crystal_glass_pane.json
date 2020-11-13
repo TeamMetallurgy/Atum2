@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_glass_pane",
+  "pattern": [
+    "###",
+    "#$#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:crystal_glass_pane"
+    },
+    "$": {
+      "item": "minecraft:black_dye"
+    }
+  },
+  "result": {
+    "item": "atum:black_stained_crystal_glass_pane",
+    "count": 8
+  }
+}
