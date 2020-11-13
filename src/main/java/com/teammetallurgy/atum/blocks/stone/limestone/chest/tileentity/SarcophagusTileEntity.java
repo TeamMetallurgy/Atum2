@@ -104,7 +104,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             pharaoh.rotationYawHead = blockFacing.getHorizontalAngle() + 90;
             pharaoh.setSarcophagusPos(pos);
             world.addEntity(pharaoh);
-            pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 1).down());
+            pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 2).down());
             pharaoh.spawnExplosionParticle();
             this.hasSpawned = true;
 

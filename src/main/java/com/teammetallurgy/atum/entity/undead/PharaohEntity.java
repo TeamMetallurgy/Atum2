@@ -9,7 +9,6 @@ import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -418,16 +417,15 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     private void trySpawnMummy(BlockPos pos, Direction facing) {
-        BlockPos base = pos.offset(facing, 1);
+        BlockPos base = pos.offset(facing);
 
-        BlockState state;
         if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, base, AtumEntities.MUMMY)) {
             MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
 
             if (mummy != null) {
                 if (this.world instanceof ServerWorld) {
                     mummy.onInitialSpawn((IServerWorld) world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
-                    mummy.setLocationAndAngles(base.getX(), base.getY(), base.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);
+                    mummy.setLocationAndAngles(base.getX() + 0.5D, base.getY(), base.getZ() + 0.5D, 0.0F, 0.0F);
 
                     if (!world.isRemote) {
                         this.world.addEntity(mummy);
@@ -438,19 +436,14 @@ public class PharaohEntity extends UndeadBaseEntity {
             }
         }
 
-        for (int i = 0; i < 4; i++) {
-            Direction offset = Direction.byHorizontalIndex((5 - i) % 4); //[W, S, E, N]
-            // Don't spawn the mummy on top of the pharaoh
-            if (offset == facing.getOpposite()) continue;
-
+        for (Direction offset : Direction.Plane.HORIZONTAL) {
             BlockPos newPos = base.offset(offset);
-            state = this.world.getBlockState(newPos);
-            if (WorldEntitySpawner.func_234968_a_(this.world, base, state, state.getFluidState(), AtumEntities.MUMMY)) {
+            if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, newPos, AtumEntities.MUMMY)) {
                 MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
                 if (mummy != null) {
                     if (this.world instanceof ServerWorld) {
                         mummy.onInitialSpawn((IServerWorld) world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
-                        mummy.setLocationAndAngles(newPos.getX(), newPos.getY(), newPos.getZ(), this.rand.nextFloat() * 360.0F, 0.0F);
+                        mummy.setLocationAndAngles(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D, this.rand.nextFloat() * 360.0F, 0.0F);
 
                         if (!this.world.isRemote) {
                             this.world.addEntity(mummy);
