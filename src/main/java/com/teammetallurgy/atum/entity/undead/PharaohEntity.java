@@ -420,7 +420,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     private void trySpawnMummy(BlockPos pos, Direction facing) {
         BlockPos base = pos.offset(facing, 1);
 
-        BlockState state = world.getBlockState(pos);
+        BlockState state = world.getBlockState(base);
         if (WorldEntitySpawner.func_234968_a_(this.world, base, state, state.getFluidState(), AtumEntities.MUMMY)) {
             MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
 

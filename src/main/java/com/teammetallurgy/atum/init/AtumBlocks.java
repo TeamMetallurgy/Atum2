@@ -370,7 +370,7 @@ public class AtumBlocks {
     public static final Block DEADWOOD_SLAB = registerBlock(new SlabBlock(from(DEADWOOD_PLANKS)), "deadwood_slab");
     public static final Block PALM_SAPLING = registerBlock(new PalmSaplingBlock(), "palm_sapling");
     public static final Block PALM_LEAVES = registerBlock(new PalmLeavesBlock(), "palm_leaves");
-    public static final Block DEADWOOD_LEAVES = registerBlock(new LeavesAtumBlock(), null, "deadwood_leaves");
+    public static final Block DRY_LEAVES = registerBlock(new LeavesAtumBlock(), null, "dry_leaves");
     public static final Block PALM_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "palm_crate");
     public static final Block DEADWOOD_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "deadwood_crate");
     public static final Block PALM_LADDER = registerBlock(new AtumLadderBlock(), "palm_ladder");
@@ -412,7 +412,9 @@ public class AtumBlocks {
         fire.setFireInfo(PALM_SLAB, 5, 20);
         fire.setFireInfo(DEADWOOD_SLAB, 5, 20);
         fire.setFireInfo(PALM_LEAVES, 30, 60);
-        fire.setFireInfo(DEADWOOD_LEAVES, 30, 60);
+        fire.setFireInfo(DRY_LEAVES, 30, 60);
+        fire.setFireInfo(DRY_GRASS, 60, 10);
+        fire.setFireInfo(TALL_DRY_GRASS, 60, 10);
         fire.setFireInfo(PALM_STAIRS, 5, 20);
         fire.setFireInfo(DEADWOOD_STAIRS, 5, 20);
     }

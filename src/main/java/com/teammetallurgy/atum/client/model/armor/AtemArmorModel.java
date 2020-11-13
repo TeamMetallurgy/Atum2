@@ -38,7 +38,7 @@ public class AtemArmorModel extends ArmorModel {
 
 		bipedBody = new ModelRenderer(this);
 		bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedBody.setTextureOffset(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.3F, false);
+		bipedBody.setTextureOffset(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.2F, false);
 
 		chestplate = new ModelRenderer(this);
 		chestplate.setRotationPoint(0.0F, 24.0F, 0.0F);
@@ -48,10 +48,10 @@ public class AtemArmorModel extends ArmorModel {
 
 		bipedRightArm = new ModelRenderer(this);
 		bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-		bipedRightArm.setTextureOffset(40, 32).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.3F, false);
-		bipedRightArm.setTextureOffset(8, 86).addBox(-3.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.5F, true);
+		bipedRightArm.setTextureOffset(40, 32).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.2F, false);
+		bipedRightArm.setTextureOffset(8, 86).addBox(-3.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.4F, true);
 		bipedRightArm.setTextureOffset(48, 88).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
-		bipedRightArm.setTextureOffset(48, 80).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.7F, true);
+		bipedRightArm.setTextureOffset(48, 80).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.65F, true);
 
 		rightShoulderBlade = new ModelRenderer(this);
 		rightShoulderBlade.setRotationPoint(10.0F, 0.0F, 0.0F);
@@ -65,10 +65,10 @@ public class AtemArmorModel extends ArmorModel {
 
 		bipedLeftArm = new ModelRenderer(this);
 		bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-		bipedLeftArm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.3F, true);
-		bipedLeftArm.setTextureOffset(52, 30).addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.5F, true);
+		bipedLeftArm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.2F, true);
+		bipedLeftArm.setTextureOffset(52, 30).addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.4F, true);
 		bipedLeftArm.setTextureOffset(32, 88).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
-		bipedLeftArm.setTextureOffset(32, 80).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.7F, true);
+		bipedLeftArm.setTextureOffset(32, 80).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.65F, true);
 
 		leftShoulderBlade = new ModelRenderer(this);
 		leftShoulderBlade.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -82,10 +82,10 @@ public class AtemArmorModel extends ArmorModel {
 
 		bipedHead = new ModelRenderer(this);
 		bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedHead.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.6F, false);
+		bipedHead.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.2F, false);
 		bipedHead.setTextureOffset(24, 0).addBox(-2.0F, -6.0F, -5.0F, 4.0F, 4.0F, 1.0F, -0.25F, false);
-		bipedHead.setTextureOffset(58, 0).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 2.0F, 1.0F, 0.2F, false);
-		bipedHead.setTextureOffset(34, 50).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.7F, false);
+		bipedHead.setTextureOffset(58, 0).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 2.0F, 1.0F, 0.1F, false);
+		bipedHead.setTextureOffset(34, 50).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.4F, false);
 
 		fins = new ModelRenderer(this);
 		fins.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -103,19 +103,19 @@ public class AtemArmorModel extends ArmorModel {
 		hat = new ModelRenderer(this);
 		hat.setRotationPoint(0.0F, 0.0F, 0.0F);
 		bipedHead.addChild(hat);
-		hat.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.7F, false);
+		hat.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.3F, false);
 
 		bipedRightLeg = new ModelRenderer(this);
 		bipedRightLeg.setRotationPoint(-1.9F, 12.0F, 0.0F);
-		bipedRightLeg.setTextureOffset(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
-		bipedRightLeg.setTextureOffset(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.65F, false);
-		bipedRightLeg.setTextureOffset(0, 67).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.32F, false);
+		bipedRightLeg.setTextureOffset(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		bipedRightLeg.setTextureOffset(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.4F, false);
+		bipedRightLeg.setTextureOffset(0, 67).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.3F, false);
 
 		bipedLeftLeg = new ModelRenderer(this);
 		bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
-		bipedLeftLeg.setTextureOffset(0, 32).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
-		bipedLeftLeg.setTextureOffset(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.65F, false);
-		bipedLeftLeg.setTextureOffset(0, 48).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.32F, false);
+		bipedLeftLeg.setTextureOffset(0, 32).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		bipedLeftLeg.setTextureOffset(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.4F, false);
+		bipedLeftLeg.setTextureOffset(0, 48).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.3F, false);
 
 		//Boots manually edited in code
 		rightBoot = new ModelRenderer(this);
@@ -158,11 +158,13 @@ public class AtemArmorModel extends ArmorModel {
 		PlayerModel<AbstractClientPlayerEntity> playerModel = event.getRenderer().getEntityModel();
 		if (player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
 			playerModel.bipedHeadwear.showModel = false;
-		} else if (player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
+		}
+		if (player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
 			playerModel.bipedBodyWear.showModel = false;
 			playerModel.bipedLeftArmwear.showModel = false;
 			playerModel.bipedRightArmwear.showModel = false;
-		} else if (player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_ATEM || player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATEM) {
+		}
+		if (player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_ATEM || player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATEM) {
 			playerModel.bipedLeftLegwear.showModel = false;
 			playerModel.bipedRightLegwear.showModel = false;
 		}

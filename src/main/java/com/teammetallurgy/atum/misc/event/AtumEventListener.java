@@ -11,7 +11,7 @@ import com.teammetallurgy.atum.entity.undead.WraithEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import com.teammetallurgy.atum.items.DyeableTexturedArmor;
+import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
@@ -122,13 +122,13 @@ public class AtumEventListener {
             ItemStack stack = player.getHeldItemMainhand();
             LazyOptional<IFluidHandler> lazyTank = FluidUtil.getFluidHandler(world, pos, event.getFace());
 
-            if (stack.getItem() instanceof DyeableTexturedArmor && ((DyeableTexturedArmor) stack.getItem()).hasColor(stack)) {
+            if (stack.getItem() instanceof WandererDyeableArmor && ((WandererDyeableArmor) stack.getItem()).hasColor(stack)) {
                 BlockState state = world.getBlockState(pos);
                 if (state.getBlock() instanceof CauldronBlock) {
                     int level = state.get(CauldronBlock.LEVEL);
                     if (level > 0) {
                         if (!world.isRemote) {
-                            ((DyeableTexturedArmor) stack.getItem()).removeColor(stack);
+                            ((WandererDyeableArmor) stack.getItem()).removeColor(stack);
                             player.addStat(Stats.CLEAN_ARMOR);
                             ((CauldronBlock) state.getBlock()).setWaterLevel(world, pos, state, level - 1);
                         }
@@ -141,7 +141,7 @@ public class AtumEventListener {
 
                                 if (fluidTank.getFluid().getFluid().isIn(FluidTags.WATER) && fluidTank.getFluidAmount() >= 250) {
                                     if (!world.isRemote) {
-                                        ((DyeableTexturedArmor) stack.getItem()).removeColor(stack);
+                                        ((WandererDyeableArmor) stack.getItem()).removeColor(stack);
                                         player.addStat(Stats.CLEAN_ARMOR);
                                         tank.drain(250, IFluidHandler.FluidAction.EXECUTE);
                                     }

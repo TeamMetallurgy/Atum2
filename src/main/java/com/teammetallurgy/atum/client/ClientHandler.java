@@ -16,7 +16,7 @@ import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.tileentity.*;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
-import com.teammetallurgy.atum.items.DyeableTexturedArmor;
+import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.anubis.AnubisWrathItem;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import com.teammetallurgy.atum.misc.AtumRegistry;
@@ -71,10 +71,10 @@ public class ClientHandler {
         itemColor.register((stack, tintIndex) -> {
             BlockState state = ((BlockItem) stack.getItem()).getBlock().getDefaultState();
             return Minecraft.getInstance().getBlockColors().getColor(state, null, null, tintIndex);
-        }, AtumBlocks.PALM_LEAVES, AtumBlocks.DEADWOOD_LEAVES);
-        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefault(), AtumBlocks.PALM_LEAVES, AtumBlocks.DEADWOOD_LEAVES);
+        }, AtumBlocks.PALM_LEAVES, AtumBlocks.DRY_LEAVES);
+        blockColors.register((state, world, pos, tintIndex) -> world != null && pos != null ? BiomeColors.getFoliageColor(world, pos) : FoliageColors.getDefault(), AtumBlocks.PALM_LEAVES, AtumBlocks.DRY_LEAVES);
         //Dyeable armor
-        itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((DyeableTexturedArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
+        itemColor.register((stack, tintIndex) -> tintIndex > 0 ? -1 : ((WandererDyeableArmor) stack.getItem()).getColor(stack), AtumItems.WANDERER_HELMET, AtumItems.WANDERER_CHEST, AtumItems.WANDERER_LEGS, AtumItems.WANDERER_BOOTS, AtumItems.DESERT_HELMET_IRON, AtumItems.DESERT_CHEST_IRON, AtumItems.DESERT_LEGS_IRON, AtumItems.DESERT_BOOTS_IRON, AtumItems.DESERT_HELMET_GOLD, AtumItems.DESERT_CHEST_GOLD, AtumItems.DESERT_LEGS_GOLD, AtumItems.DESERT_BOOTS_GOLD, AtumItems.DESERT_HELMET_DIAMOND, AtumItems.DESERT_CHEST_DIAMOND, AtumItems.DESERT_LEGS_DIAMOND, AtumItems.DESERT_BOOTS_DIAMOND);
         //Dead Grass
         itemColor.register((stack, tintIndex) -> {
             return 12889745;
@@ -188,7 +188,7 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.THIN_FRAMED_BLACK_STAINED_GLASS, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SAPLING, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LEAVES, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_LEAVES, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_LEAVES, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LADDER, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_LADDER, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_HATCH, cutoutMipped);

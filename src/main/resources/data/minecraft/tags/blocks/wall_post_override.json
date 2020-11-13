@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "atum:palm_torch",
+    "atum:deadwood_torch",
+    "atum:limestone_torch",
+    "atum:bone_torch",
+    "atum:pharaoh_torch"
+  ]
+}
