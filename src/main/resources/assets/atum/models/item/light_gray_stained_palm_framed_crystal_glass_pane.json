@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "atum:block/light_gray_stained_palm_framed_crystal_glass"
+  }
+}

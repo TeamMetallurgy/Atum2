@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "atum:crystal_glass_pane",
-    "atum:framed_glass_pane"
+    "atum:palm_framed_crystal_glass_pane",
+    "atum:deadwood_framed_crystal_glass_pane"
   ]
 }

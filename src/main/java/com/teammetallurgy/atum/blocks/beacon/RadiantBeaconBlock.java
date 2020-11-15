@@ -1,24 +1,22 @@
 package com.teammetallurgy.atum.blocks.beacon;
 
 import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
-import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.*;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.BeaconBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.DyeColor;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.EnumProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -40,7 +38,7 @@ public class RadiantBeaconBlock extends BeaconBlock {
     @Override
     @Nonnull
     public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
-        ItemStack heldStack = player.getHeldItem(hand);
+        /*ItemStack heldStack = player.getHeldItem(hand);
         if (heldStack.isEmpty()) {
             return ActionResultType.FAIL;
         } else {
@@ -67,7 +65,7 @@ public class RadiantBeaconBlock extends BeaconBlock {
                     return ActionResultType.SUCCESS;
                 }
             }
-        }
+        }*/
         return ActionResultType.PASS;
     }
 

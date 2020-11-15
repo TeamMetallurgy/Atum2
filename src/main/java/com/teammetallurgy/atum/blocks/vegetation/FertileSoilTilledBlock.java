@@ -29,7 +29,7 @@ public class FertileSoilTilledBlock extends FarmlandBlock {
     public static final BooleanProperty BLESSED = BooleanProperty.create("blessed");
 
     public FertileSoilTilledBlock() {
-        super(Block.Properties.create(Material.EARTH).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.create(Material.EARTH).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0).setBlocksVision(AtumBlocks::needsPostProcessing).setSuffocates(AtumBlocks::needsPostProcessing));
         this.setDefaultState(this.stateContainer.getBaseState().with(MOISTURE, 0).with(BLESSED, false));
     }
 

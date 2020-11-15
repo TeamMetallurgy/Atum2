@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.init;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.RadiantBeaconTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
@@ -43,7 +42,7 @@ public class AtumTileEntities {
     public static final TileEntityType<ArrowTrapTileEntity> ARROW_TRAP = null;
     //Other
     public static final TileEntityType<HeartOfRaTileEntity> HEART_OF_RA = null;
-    public static final TileEntityType<RadiantBeaconTileEntity> RADIANT_BEACON = null;
+    //public static final TileEntityType<RadiantBeaconTileEntity> RADIANT_BEACON = null;
     public static final TileEntityType<LimestoneFurnaceTileEntity> LIMESTONE_FURNACE = null;
     public static final TileEntityType<QuernTileEntity> QUERN = null;
     public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = null;
@@ -63,7 +62,7 @@ public class AtumTileEntities {
         registerTileEntity("smoke_trap", TileEntityType.Builder.create(SmokeTrapTileEntity::new, AtumBlocks.SMOKE_TRAP));
         registerTileEntity("arrow_trap", TileEntityType.Builder.create(ArrowTrapTileEntity::new, AtumBlocks.ARROW_TRAP));
         registerTileEntity("heart_of_ra", TileEntityType.Builder.create(HeartOfRaTileEntity::new, AtumBlocks.HEART_OF_RA));
-        registerTileEntity("radiant_beacon", TileEntityType.Builder.create(RadiantBeaconTileEntity::new, AtumBlocks.RADIANT_BEACON, AtumBlocks.RADIANT_BEACON_FRAMED));
+        //registerTileEntity("radiant_beacon", TileEntityType.Builder.create(RadiantBeaconTileEntity::new, AtumBlocks.RADIANT_BEACON, AtumBlocks.RADIANT_BEACON_FRAMED));
         registerTileEntity("limestone_furnace", TileEntityType.Builder.create(LimestoneFurnaceTileEntity::new, AtumBlocks.LIMESTONE_FURNACE));
         registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));
         registerTileEntity("spinning_wheel", TileEntityType.Builder.create(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));

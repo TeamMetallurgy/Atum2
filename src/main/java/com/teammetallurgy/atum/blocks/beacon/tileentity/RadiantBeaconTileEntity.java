@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.beacon.tileentity;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.blocks.beacon.RadiantBeaconBlock;
-import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.block.AirBlock;
 import net.minecraft.block.BlockState;
@@ -10,7 +9,6 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.IBeaconBeamColorProvider;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.tileentity.BeaconTileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -24,11 +22,11 @@ import java.util.List;
 public class RadiantBeaconTileEntity extends BeaconTileEntity {
     private List<BeaconTileEntity.BeamSegment> beamSegments = Lists.newArrayList();
 
-    @Override
+    /*@Override
     @Nonnull
     public TileEntityType<?> getType() {
         return AtumTileEntities.RADIANT_BEACON;
-    }
+    }*/
 
     @Override
     @Nonnull

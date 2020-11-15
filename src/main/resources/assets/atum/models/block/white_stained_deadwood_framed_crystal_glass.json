@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "atum:block/white_stained_deadwood_framed_crystal_glass"
+  }
+}

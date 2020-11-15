@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/template_glass_pane_side",
+  "textures": {
+    "pane": "atum:block/cyan_stained_crystal_glass",
+    "edge": "atum:block/crystal_glass_pane_top"
+  }
+}

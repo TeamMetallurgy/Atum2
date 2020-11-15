@@ -19,7 +19,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements IGrowable {
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, Random rand) {
+    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         super.randomTick(state, world, pos, rand);
         if (!world.isRemote) {
             if (world.rand.nextDouble() <= 0.05F) {

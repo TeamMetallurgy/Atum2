@@ -5,13 +5,13 @@ import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
+import net.minecraft.block.PaneBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.item.DyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 
 public class BlockStatesGenerator extends BlockStateProvider {
 
@@ -60,9 +60,20 @@ public class BlockStatesGenerator extends BlockStateProvider {
         wallBlock(AtumBlocks.CERAMIC_RED_WALL, AtumBlocks.CERAMIC_RED);
         wallBlock(AtumBlocks.CERAMIC_BLACK_WALL, AtumBlocks.CERAMIC_BLACK);
 
+        simpleBlockWithItem(AtumBlocks.CRYSTAL_GLASS);
+        simpleBlockWithItem(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS);
+        simpleBlockWithItem(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS);
+        paneBlockWithItem((PaneBlock) AtumBlocks.CRYSTAL_GLASS_PANE, new ResourceLocation(Atum.MOD_ID, "block/crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/crystal_glass_pane_top"));
+        paneBlockWithItem((PaneBlock) AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS_PANE, new ResourceLocation(Atum.MOD_ID, "block/palm_framed_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/palm_framed_crystal_glass_pane_top"));
+        paneBlockWithItem((PaneBlock) AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, new ResourceLocation(Atum.MOD_ID, "block/deadwood_framed_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/deadwood_framed_crystal_glass_pane_top"));
         for (DyeColor color : DyeColor.values()) {
             String colorName = color.getString();
-            cubeAll(StackHelper.getBlockFromName(colorName + "_stained_crystal_glass"));
+            simpleBlockWithItem(StackHelper.getBlockFromName(colorName + "_stained_crystal_glass"));
+            simpleBlockWithItem(StackHelper.getBlockFromName(colorName + "_stained_palm_framed_crystal_glass"));
+            simpleBlockWithItem(StackHelper.getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass"));
+            paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/crystal_glass_pane_top"));
+            paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_palm_framed_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_palm_framed_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/palm_framed_crystal_glass_pane_top"));
+            paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_deadwood_framed_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/deadwood_framed_crystal_glass_pane_top"));
         }
     }
 
@@ -76,5 +87,15 @@ public class BlockStatesGenerator extends BlockStateProvider {
 
     private void wallBlock(WallBlock wallBlock, Block textureBlock) {
         super.wallBlock(wallBlock, modLoc("block/" + textureBlock.getRegistryName().getPath()));
+    }
+
+    private void simpleBlockWithItem(Block block) {
+        super.simpleBlock(block);
+        super.simpleBlockItem(block, cubeAll(block));
+    }
+
+    private void paneBlockWithItem(PaneBlock block, ResourceLocation pane, ResourceLocation edge) {
+        super.paneBlock(block, pane, edge);
+        super.itemModels().getBuilder(block.getRegistryName().getPath()).parent(itemModels().getExistingFile(new ResourceLocation("minecraft:item/generated"))).texture("layer0", pane);
     }
 }
