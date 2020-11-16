@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world;
 
+import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -14,6 +15,7 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
@@ -21,10 +23,12 @@ import net.minecraftforge.event.world.SleepFinishedTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class DimensionHelper {
+    public static final List<Block> SURFACE_BLOCKS = Lists.newArrayList(AtumBlocks.SAND, AtumBlocks.FERTILE_SOIL, AtumBlocks.LIMESTONE_GRAVEL);
     public static final int GROUND_LEVEL = 63;
 
     public static AtumDimensionData getData(ServerWorld serverWorld) {
@@ -60,6 +64,23 @@ public class DimensionHelper {
                 && Block.hasSolidSideOnTop(world, pos.down())
                 && !(stateDown.getBlock() instanceof SandLayersBlock)
                 && !(state.getBlock() instanceof SandLayersBlock);
+    }
+
+    /**
+     * Only use when world#getHeight is not working
+     *
+     * @param world the world
+     * @param pos original pos
+     * @return surface pos
+     */
+    public static BlockPos getSurfacePos(World world, BlockPos pos) {
+        while (pos.getY() > 1 && world.isAirBlock(pos.down())) {
+            pos = pos.down();
+        }
+        while (!world.isAirBlock(pos.up()) && (SURFACE_BLOCKS.contains(world.getBlockState(pos.down()).getBlock()) || world.getBlockState(pos.down()).getBlock() != AtumBlocks.SAND_LAYERED) || pos.getY() < 60) {
+            pos = pos.up();
+        }
+        return pos;
     }
 
     public static Biome getBiome(RegistryKey<Biome> key) {

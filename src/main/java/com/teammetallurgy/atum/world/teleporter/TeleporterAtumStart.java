@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.Heightmap;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
@@ -18,19 +17,16 @@ public class TeleporterAtumStart implements ITeleporter {
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
-        System.out.println("HAS START STRUCTURE SPAWNED: " + DimensionHelper.getData(destWorld).hasStartStructureSpawned());
-        if (!DimensionHelper.getData(destWorld).hasStartStructureSpawned()) { //TODO Test in multiplayer
-            this.onAtumJoining(destWorld, entity, yaw);
+        BlockPos spawnPos = DimensionHelper.getSurfacePos(destWorld, destWorld.getSpawnPoint());
+        if (!DimensionHelper.getData(destWorld).hasStartStructureSpawned()) {
+            this.onInitialAtumJoining(destWorld, spawnPos);
             DimensionHelper.getData(destWorld).setHasStartStructureSpawned(true);
-            return repositionEntity.apply(false);
         }
-        return repositionEntity.apply(false);
+        return this.onAtumJoining(destWorld, repositionEntity.apply(false), spawnPos, yaw);
     }
 
-    private void onAtumJoining(ServerWorld world, Entity entity, float yaw) {
+    private Entity onAtumJoining(ServerWorld world, Entity entity, BlockPos spawnPos, float yaw) {
         if (world.getDimensionKey() == Atum.ATUM) {
-            BlockPos spawnPos = new BlockPos(world.getWorldInfo().getSpawnX(), world.getWorldInfo().getSpawnY(), world.getWorldInfo().getSpawnZ());
-            spawnPos = world.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, spawnPos);
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 TeleporterAtum teleporterAtum = TeleporterAtum.INSTANCE;
                 teleporterAtum.makePortal(world, entity);
@@ -39,6 +35,12 @@ public class TeleporterAtumStart implements ITeleporter {
                 entity.rotationYaw = yaw;
                 entity.moveForced(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
             }
+        }
+        return entity;
+    }
+
+    private void onInitialAtumJoining(ServerWorld world, BlockPos spawnPos) {
+        if (world.getDimensionKey() == Atum.ATUM) {
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 spawnPos = spawnPos.add(4, 0, 4);
             }

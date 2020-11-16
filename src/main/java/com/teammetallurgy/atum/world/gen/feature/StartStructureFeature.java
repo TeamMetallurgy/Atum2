@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
@@ -39,15 +39,9 @@ public class StartStructureFeature extends Feature<NoFeatureConfig> {
                 BlockPos rotatedPos = template.transformedSize(rotation);
                 int x = rand.nextInt(rotatedPos.getX()) + template.getSize().getX();
                 int z = rand.nextInt(rotatedPos.getZ()) + template.getSize().getZ();
-                BlockPos posOffset = pos.add(x, 0, z);
+                BlockPos posOffset = DimensionHelper.getSurfacePos(serverWorld, pos.add(x, 0, z));
 
-                while (posOffset.getY() > 1 && serverWorld.isAirBlock(posOffset.down())) {
-                    posOffset = posOffset.down();
-                }
-                while (!serverWorld.isAirBlock(posOffset.up()) && (serverWorld.getBlockState(posOffset.down()).getBlock() != AtumBlocks.SAND || serverWorld.getBlockState(posOffset.down()).getBlock() != AtumBlocks.SAND_LAYERED) || posOffset.getY() < 60) {
-                    posOffset = posOffset.up();
-                }
-                template.func_237146_a_(serverWorld, posOffset, posOffset, settings, rand, 20);
+                template.func_237146_a_(serverWorld, posOffset, posOffset.down(), settings, rand, 20);
                 return true;
             } else {
                 Atum.LOG.error(AtumConfig.ATUM_START.atumStartStructure.get() + " is not a valid structure");
