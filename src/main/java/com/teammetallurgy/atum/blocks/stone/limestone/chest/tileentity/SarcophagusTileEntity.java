@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.init.AtumSounds;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
@@ -17,9 +18,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.Util;
+import net.minecraft.state.properties.ChestType;
+import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.DifficultyInstance;
@@ -116,6 +116,22 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             }
         }
         this.world.playSound(pos.getX(), pos.getY(), pos.getZ(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 0.8F, 1.0F, true);
+    }
+
+    @Override
+    protected void playSound(@Nonnull SoundEvent sound) { //Overridden to change sound
+        ChestType chestType = this.getBlockState().get(ChestBlock.TYPE);
+        if (chestType != ChestType.LEFT) {
+            double x = (double)this.pos.getX() + 0.5D;
+            double y = (double)this.pos.getY() + 0.5D;
+            double z = (double)this.pos.getZ() + 0.5D;
+            if (chestType == ChestType.RIGHT) {
+                Direction direction = ChestBlock.getDirectionToAttached(this.getBlockState());
+                x += (double)direction.getXOffset() * 0.5D;
+                z += (double)direction.getZOffset() * 0.5D;
+            }
+            this.world.playSound(null, x, y, z, SoundEvents.BLOCK_PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.05F);
+        }
     }
 
     @Override

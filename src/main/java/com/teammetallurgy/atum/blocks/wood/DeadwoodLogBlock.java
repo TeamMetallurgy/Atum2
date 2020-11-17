@@ -10,6 +10,7 @@ import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.server.ServerWorld;
 
@@ -26,11 +27,13 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     @Override
     public void spawnAdditionalDrops(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull ItemStack stack) {
         super.spawnAdditionalDrops(state, world, pos, stack);
-        if (!world.isRemote && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
-            ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB, world);
-            scarab.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
-            world.addEntity(scarab);
-            scarab.spawnExplosionParticle();
+        if (!world.isRemote && world.getDifficulty() != Difficulty.PEACEFUL && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS) && world.getGameRules().getBoolean(GameRules.DO_TILE_DROPS)) {
+            if (state.get(HAS_SCARAB) && RANDOM.nextDouble() <= 0.40D) {
+                ScarabEntity scarab = new ScarabEntity(AtumEntities.SCARAB, world);
+                scarab.setLocationAndAngles(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+                world.addEntity(scarab);
+                scarab.spawnExplosionParticle();
+            }
         }
     }
 

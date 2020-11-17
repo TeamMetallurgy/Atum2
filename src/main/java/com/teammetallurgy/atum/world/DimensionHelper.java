@@ -59,6 +59,7 @@ public class DimensionHelper {
         BlockState stateDown = world.getBlockState(pos.down());
         Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(world.getBiome(pos));
         return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
+                && world.isAirBlock(pos.up())
                 && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED
                 && Block.hasSolidSideOnTop(world, pos.down())

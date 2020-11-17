@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.init.AtumStructures;
@@ -20,14 +21,10 @@ import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
 import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
-import net.minecraft.world.gen.placement.AtSurfaceWithExtraConfig;
-import net.minecraft.world.gen.placement.IPlacementConfig;
-import net.minecraft.world.gen.placement.NoiseDependant;
-import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.*;
 import net.minecraft.world.gen.trunkplacer.ForkyTrunkPlacer;
 
-import static net.minecraft.world.gen.GenerationStage.Decoration.SURFACE_STRUCTURES;
-import static net.minecraft.world.gen.GenerationStage.Decoration.VEGETAL_DECORATION;
+import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
 public class AtumBiomeMaker {
 
@@ -95,6 +92,7 @@ public class AtumBiomeMaker {
 
     public static Biome makeDriedRiver(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
+        biomeGen.withFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(AtumDefaultFeatures.LIMESTONE_CRACKED, AtumBlocks.MARL.getDefaultState(), 32)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(55, 0, 67))).func_242731_b(90));
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
@@ -108,7 +106,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addDungeon(biomeGen);
         AtumDefaultFeatures.addTomb(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
-        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(-0.3F).scale(0.0F).build();
+        return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(MobSpawnInfo.EMPTY).depth(-0.28F).scale(0.0F).build();
     }
 
     public static Biome makeLimestoneCrags(String biomeName) {

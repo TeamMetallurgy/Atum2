@@ -11,6 +11,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.world.biome.BiomeGenerationSettings;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.*;
+import net.minecraft.world.gen.feature.template.BlockMatchRuleTest;
 import net.minecraft.world.gen.feature.template.RuleTest;
 import net.minecraft.world.gen.feature.template.TagMatchRuleTest;
 import net.minecraft.world.gen.placement.*;
@@ -19,6 +20,7 @@ import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
 public class AtumDefaultFeatures {
     public static final RuleTest NATURAL_STONE = new TagMatchRuleTest(AtumAPI.Tags.BASE_STONE_ATUM);
+    public static final RuleTest LIMESTONE_CRACKED = new BlockMatchRuleTest(AtumBlocks.LIMESTONE_CRACKED);
 
     public static void addCarvers(BiomeGenerationSettings.Builder builder) {
         builder.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);

@@ -100,7 +100,7 @@ public class SandLayersBlock extends FallingBlock {
                 return true;
             }
         } else {
-            return layers == 1;
+            return layers < 4;
         }
     }
     
