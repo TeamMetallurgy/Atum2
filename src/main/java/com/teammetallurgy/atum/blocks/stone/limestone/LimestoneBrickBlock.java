@@ -22,6 +22,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -35,7 +36,7 @@ public class LimestoneBrickBlock extends FallingBlock {
     public static final BooleanProperty CAN_FALL = BooleanProperty.create("can_fall");
 
     public LimestoneBrickBlock() {
-        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F, 8.0F));
+        super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F, 8.0F).setRequiresTool().harvestTool(ToolType.PICKAXE).harvestLevel(0));
         this.setDefaultState(this.stateContainer.getBaseState().with(UNBREAKABLE, false).with(CAN_FALL, false));
     }
 

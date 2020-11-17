@@ -21,27 +21,29 @@ import net.minecraft.world.server.TicketType;
 import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Function;
 
-public class TeleporterAtum implements ITeleporter { //TODO
+public class TeleporterAtum implements ITeleporter {
     public static final TeleporterAtum INSTANCE = new TeleporterAtum();
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
+        Entity movedEntity = repositionEntity.apply(false);
         if (!placeInPortal(destWorld, entity, yaw)) {
-            makePortal(destWorld, entity);
-            placeInPortal(destWorld, entity, yaw);
-            return repositionEntity.apply(false);
+            makePortal(destWorld, movedEntity);
+            placeInPortal(destWorld, movedEntity, yaw);
+            return movedEntity;
         } else {
-            placeInPortal(destWorld, entity, yaw);
-            return repositionEntity.apply(false);
+            placeInPortal(destWorld, movedEntity, yaw);
+            return movedEntity;
         }
     }
 
     public boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {
-        PortalInfo portalInfo = getPortalInfo(entity, world, null);
+        PortalInfo portalInfo = this.getPortalInfo(entity, world, null);
         if (portalInfo == null) {
             return false;
         } else {
@@ -49,12 +51,24 @@ public class TeleporterAtum implements ITeleporter { //TODO
             Vector3d vec3d2 = portalInfo.motion;
             entity.setMotion(vec3d2);
             entity.rotationYaw = yaw + portalInfo.rotationYaw;
-            entity.moveForced(vec3d1.x, vec3d1.y, vec3d1.z);
+            entity.moveForced(vec3d1.x, vec3d1.y + 1, vec3d1.z);
             return true;
         }
     }
 
-    protected Optional<TeleportationRepositioner.Result> func_241830_a(ServerWorld serverWorld, BlockPos pos) {
+    @Override
+    @Nullable
+    public PortalInfo getPortalInfo(Entity entity, ServerWorld destWorld, Function<ServerWorld, PortalInfo> defaultPortalInfo) {
+        Optional<TeleportationRepositioner.Result> result = teleporterResult(destWorld, entity.getPosition());
+        if (result.isPresent()) {
+            BlockPos startPos = result.get().startPos;
+            return new PortalInfo(new Vector3d(startPos.getX(), startPos.getY(), startPos.getZ()), entity.getMotion(), entity.rotationYaw, entity.rotationPitch);
+        } else {
+            return new PortalInfo(entity.getPositionVec(), Vector3d.ZERO, entity.rotationYaw, entity.rotationPitch);
+        }
+    }
+
+    protected Optional<TeleportationRepositioner.Result> teleporterResult(ServerWorld serverWorld, BlockPos pos) {
         Optional<TeleportationRepositioner.Result> optional = getExistingPortal(serverWorld, pos);
         if (optional.isPresent()) {
             return optional;
@@ -82,7 +96,7 @@ public class TeleporterAtum implements ITeleporter { //TODO
             BlockPos posPos = poi.getPos();
             serverWorld.getChunkProvider().registerTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
             BlockState blockstate = serverWorld.getBlockState(posPos);
-            return TeleportationRepositioner.findLargestRectangle(posPos, Direction.Axis.X, 9, Direction.Axis.Y, 9, (posIn) -> serverWorld.getBlockState(posIn) == blockstate);
+            return TeleportationRepositioner.findLargestRectangle(posPos, Direction.Axis.X, 9, Direction.Axis.Z, 9, (posIn) -> serverWorld.getBlockState(posIn) == blockstate);
         });
     }
 

@@ -31,10 +31,10 @@ import net.minecraftforge.common.util.ITeleporter;
 import javax.annotation.Nonnull;
 
 public class PortalBlock extends BreakableBlock {
-    private static final VoxelShape PORTAL_AABB = Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
+    private static final VoxelShape PORTAL_AABB = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public PortalBlock() {
-        super(Properties.create(Material.PORTAL, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> 10).tickRandomly());
+        super(Properties.create(Material.PORTAL, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(-1.0F).sound(SoundType.GLASS).notSolid().setLightLevel((state) -> 10).tickRandomly());
     }
 
     @Override
@@ -99,8 +99,12 @@ public class PortalBlock extends BreakableBlock {
             if (destWorld == null) {
                 return;
             }
-            //player.timeUntilPortal = 300; //TODO???
-            player.changeDimension(destWorld, teleporter);
+            if (player.field_242273_aw <= 0) {
+                player.world.getProfiler().startSection("portal");
+                player.changeDimension(destWorld, teleporter);
+                player.field_242273_aw = 300; //Set portal cooldown
+                player.world.getProfiler().endSection();
+            }
         }
     }
 
