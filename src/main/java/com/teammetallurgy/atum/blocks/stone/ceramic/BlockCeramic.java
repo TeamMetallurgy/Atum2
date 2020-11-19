@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 
 import javax.annotation.Nonnull;
+import java.util.Locale;
 import java.util.Map;
 
 public class BlockCeramic extends Block {
@@ -39,7 +40,7 @@ public class BlockCeramic extends Block {
     @Override
     @Nonnull
     public MapColor getMapColor(IBlockState state, IBlockAccess world, BlockPos pos) {
-        return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase()));
+        return MapColor.getBlockColor(EnumDyeColor.valueOf(getColorString().toUpperCase(Locale.ROOT)));
     }
 
     private String getColorString() {

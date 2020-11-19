@@ -232,7 +232,7 @@ public class TileEntityKiln extends TileEntityKilnBase implements ITickable {
 
         String oreName = "";
         for (int oreId : OreDictionary.getOreIDs(stack)) {
-            oreName = OreDictionary.getOreName(oreId).toLowerCase(Locale.ENGLISH);
+            oreName = OreDictionary.getOreName(oreId).toLowerCase(Locale.ROOT);
         }
         return RecipeHandlers.kilnBlacklist.contains(item.getRegistryName()) || RecipeHandlers.kilnBlacklist.contains(block.getRegistryName()) ||
                 item instanceof ItemFood || block instanceof BlockOre || item instanceof ItemCoal ||

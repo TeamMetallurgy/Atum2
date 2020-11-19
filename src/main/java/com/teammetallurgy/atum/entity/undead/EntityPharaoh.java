@@ -247,7 +247,7 @@ public class EntityPharaoh extends EntityUndeadBase {
         int p = this.dataManager.get(PREFIX);
         int s = this.dataManager.get(SUFFIX);
         int n = this.dataManager.get(NUMERAL);
-        return "Pharaoh " + AtumUtils.format("entity.atum.pharaoh." + prefixArray[p]) + AtumUtils.format("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ENGLISH)) + " " + numeralArray[n];
+        return "Pharaoh " + AtumUtils.format("entity.atum.pharaoh." + prefixArray[p]) + AtumUtils.format("entity.atum.pharaoh." + suffixArray[s].toLowerCase(Locale.ROOT)) + " " + numeralArray[n];
     }
 
     @Override

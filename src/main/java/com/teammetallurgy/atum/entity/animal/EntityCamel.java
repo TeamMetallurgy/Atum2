@@ -50,6 +50,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Locale;
 import java.util.UUID;
 
 public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
@@ -380,7 +381,7 @@ public class EntityCamel extends AbstractHorse implements IRangedAttackMob {
                 this.setColor(EnumDyeColor.byMetadata(stack.getMetadata()));
             } else if (Block.getBlockFromItem(stack.getItem()) instanceof BlockLinenCarpet) {
                 BlockLinenCarpet linenCarpet = (BlockLinenCarpet) Block.getBlockFromItem(stack.getItem());
-                this.setColor(EnumDyeColor.valueOf(linenCarpet.getColorString().toUpperCase()));
+                this.setColor(EnumDyeColor.valueOf(linenCarpet.getColorString().toUpperCase(Locale.ROOT)));
             }
         } else {
             this.setColor(null);
