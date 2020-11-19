@@ -489,10 +489,8 @@ public class DesertWolfEntity extends TameableEntity implements IJumpingMount, I
                             this.sitGoal.setSitting(true);
                         }
                         this.setHealth(40.0F);
-                        this.playTameEffect(true);
                         this.world.setEntityState(this, (byte) 7);
                     } else {
-                        this.playTameEffect(false);
                         this.world.setEntityState(this, (byte) 6);
                     }
                 }
