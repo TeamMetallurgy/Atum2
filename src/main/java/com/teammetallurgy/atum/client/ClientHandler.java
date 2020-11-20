@@ -261,6 +261,7 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL, CamelRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SCARAB, ScarabRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.DESERT_RABBIT, DesertRabbitRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.QUAIL, QuailRender::new);
         for (EntityType<? extends CustomArrow> arrow : AtumRegistry.ARROWS) {
             RenderingRegistry.registerEntityRenderingHandler(arrow, manager -> new ArrowRenderer<CustomArrow>(manager) {
                 @Override

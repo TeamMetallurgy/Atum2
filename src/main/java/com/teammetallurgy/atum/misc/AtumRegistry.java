@@ -225,7 +225,7 @@ public class AtumRegistry {
         EntityType.Builder<T> builder = EntityType.Builder.create(factory, EntityClassification.MISC)
                 .size(0.5F, 0.5F)
                 .setTrackingRange(4)
-                .setUpdateInterval(20);
+                .func_233608_b_(20);
         EntityType<T> entityType = registerEntity(name, builder);
         ARROWS.add(entityType);
         return entityType;

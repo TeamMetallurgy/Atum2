@@ -164,6 +164,7 @@ public class AtumBiomeMaker {
         biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(9, 0.25F, 2))));
         biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.ACACIA_LOG.getDefaultState()), new SimpleBlockStateProvider(Blocks.ACACIA_LEAVES.getDefaultState()), new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)), new ForkyTrunkPlacer(5, 2, 2), new TwoLayerFeature(1, 0, 2)).setIgnoreVines().build()).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
         addCamelSpawning(biomeName);
+        addSpawn(biomeName, AtumEntities.QUAIL, 8, 2, 5, EntityClassification.CREATURE);
         biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DENSE_DRY_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, 10))));
         biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DRY_TALL_GRASS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.FLOWER_TALL_GRASS_PLACEMENT).square().withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, 7))));
         AtumDefaultFeatures.addCarvers(biomeGen);
@@ -250,6 +251,7 @@ public class AtumBiomeMaker {
         //Animals
         addSpawn(biomeName, AtumEntities.DESERT_RABBIT, 5, 2, 3, EntityClassification.CREATURE);
         addSpawn(biomeName, EntityType.BAT, 4, 4, 8, EntityClassification.AMBIENT);
+        addSpawn(biomeName, AtumEntities.QUAIL, 3, 2, 4, EntityClassification.CREATURE);
 
         //Undead
         addSpawn(biomeName, AtumEntities.BONESTORM, 5, 1, 2, EntityClassification.MONSTER);
