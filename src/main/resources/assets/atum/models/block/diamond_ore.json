@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "atum:block/ore_diamond"
+    "all": "atum:block/diamond_ore"
   }
 }
