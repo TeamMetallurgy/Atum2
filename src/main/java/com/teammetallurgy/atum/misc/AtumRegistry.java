@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
+import com.teammetallurgy.atum.items.AtumScaffoldingItem;
 import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
@@ -121,6 +122,17 @@ public class AtumRegistry {
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
 
         return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
+    }
+
+    /**
+     * Helper method for easily registering scaffolding
+     *
+     * @param scaffolding The scaffolding block to be registered
+     * @param name  The name to register the block with
+     * @return The Block that was registered
+     */
+    public static Block registerScaffolding(@Nonnull Block scaffolding, @Nonnull String name) {
+        return registerBlockWithItem(scaffolding, new AtumScaffoldingItem(scaffolding), name);
     }
 
     /**

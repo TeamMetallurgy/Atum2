@@ -1,19 +1,13 @@
 {
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
       "entries": [
         {
-          "functions": [
+          "conditions": [
             {
-              "function": "set_count",
-              "count": 1,
-              "conditions": [
-                {
-                  "condition": "random_chance",
-                  "chance": 0.01
-                }
-              ]
+              "condition": "random_chance",
+              "chance": 0.25
             }
           ],
           "type": "minecraft:item",

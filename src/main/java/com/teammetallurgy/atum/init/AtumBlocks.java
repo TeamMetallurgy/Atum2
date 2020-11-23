@@ -60,6 +60,8 @@ public class AtumBlocks {
     public static final Block FLAX = registerBlock(new FlaxBlock(), null, "flax_block");
     public static final Block FERTILE_SOIL = registerBlock(new FertileSoilBlock(), "fertile_soil");
     public static final Block FERTILE_SOIL_TILLED = registerBlock(new FertileSoilTilledBlock(), "fertile_soil_tilled");
+    public static final Block FERTILE_SOIL_PATH = registerBlock(new AtumPathBlock(FERTILE_SOIL), "fertile_soil_path");
+    public static final Block STRANGE_SAND_PATH = registerBlock(new AtumPathBlock(SAND), "strange_sand_path");
     public static final Block QUERN = registerBlock(new QuernBlock(), "quern");
     public static final Block SPINNING_WHEEL = registerBlock(new SpinningWheelBlock(), "spinning_wheel");
     public static final Block KILN = registerBlock(new KilnBlock(), "kiln");
@@ -404,6 +406,7 @@ public class AtumBlocks {
     public static final Block PALM_SLAB = registerBlock(new SlabBlock(from(PALM_PLANKS)), "palm_slab");
     public static final Block DEADWOOD_SLAB = registerBlock(new SlabBlock(from(DEADWOOD_PLANKS)), "deadwood_slab");
     public static final Block PALM_SAPLING = registerBlock(new PalmSaplingBlock(), "palm_sapling");
+    public static final Block POTTED_PALM_SAPLING = registerBaseBlock(new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT.delegate.get(), () -> PALM_SAPLING, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid()), "potted_palm_sapling");
     public static final Block PALM_LEAVES = registerBlock(new PalmLeavesBlock(), "palm_leaves");
     public static final Block DRY_LEAVES = registerBlock(new LeavesAtumBlock(), null, "dry_leaves");
     public static final Block PALM_CRATE = registerBlock(new CrateBlock(from(PALM_PLANKS)), "palm_crate");
@@ -426,9 +429,12 @@ public class AtumBlocks {
     public static final Block DEADWOOD_PRESSURE_PLATE = registerBlock(new PressurePlateBlock(PressurePlateBlock.Sensitivity.EVERYTHING, AbstractBlock.Properties.create(Material.WOOD, DEADWOOD_PLANKS.getMaterialColor()).doesNotBlockMovement().hardnessAndResistance(0.5F).sound(SoundType.WOOD)), "deadwood_pressure_plate");
     public static final Block PALM_SIGN = registerSign(new AtumStandingSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), AtumWoodTypes.PALM), AtumWoodTypes.PALM);
     public static final Block DEADWOOD_SIGN = registerSign(new AtumStandingSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), AtumWoodTypes.DEADWOOD), AtumWoodTypes.DEADWOOD);
+    public static final Block PALM_SCAFFOLDING = registerScaffolding(new AtumScaffoldingBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS, MaterialColor.SAND).doesNotBlockMovement().sound(SoundType.SCAFFOLDING).variableOpacity()), "palm_scaffolding");
+    public static final Block DEADWOOD_SCAFFOLDING = registerScaffolding(new AtumScaffoldingBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS, MaterialColor.SAND).doesNotBlockMovement().sound(SoundType.SCAFFOLDING).variableOpacity()), "deadwood_scaffolding");
     public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;
 
     public static void setBlockInfo() {
+        ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(PALM_SAPLING.getRegistryName(), () -> POTTED_PALM_SAPLING);
         //Fire Info
         FireBlock fire = (FireBlock) Blocks.FIRE;
         fire.setFireInfo(PALM_PLANKS, 5, 20);

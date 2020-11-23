@@ -42,6 +42,7 @@ public class AtumAPI {
         public static final IOptionalNamedTag<Block> LINEN_BLOCKS = blockTag(Atum.MOD_ID, "linen_blocks");
         public static final IOptionalNamedTag<Block> SHRUB = blockTag(Atum.MOD_ID, "shrub");
         public static final IOptionalNamedTag<Block> THREADED_BLOCKS = blockTag(Atum.MOD_ID, "threaded_blocks");
+        public static final IOptionalNamedTag<Block> SCAFFOLDING = blockTag("forge", "scaffolding");
 
         public static IOptionalNamedTag<Item> tag(String modID, String name) {
             return ItemTags.createOptional(new ResourceLocation(modID, name));

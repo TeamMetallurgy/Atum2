@@ -1,8 +1,8 @@
 {   "parent": "block/block",
     "textures": {
         "particle": "atum:block/sand",
-        "top": "block/farmland",
-        "side": "atum:block/fertile_soil_side",
+        "top": "atum:block/strange_sand_path_top",
+        "side": "atum:block/strange_sand_path_side",
         "bottom": "atum:block/sand"
     },
     "elements": [

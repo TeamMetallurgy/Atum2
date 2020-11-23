@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:scaffolding",
+    "atum:palm_scaffolding",
+    "atum:deadwood_scaffolding"
+  ]
+}

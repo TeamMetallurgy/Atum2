@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "bottom=false": {
+      "model": "atum:block/deadwood_scaffolding_stable"
+    },
+    "bottom=true": {
+      "model": "atum:block/deadwood_scaffolding_unstable"
+    }
+  }
+}

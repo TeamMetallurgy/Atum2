@@ -219,6 +219,7 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.RED_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.BLACK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SAPLING, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.POTTED_PALM_SAPLING, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LEAVES, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_LEAVES, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LADDER, cutoutMipped);
@@ -228,6 +229,8 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.PAPYRUS, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.FLAX, cutoutMipped);
         RenderTypeLookup.setRenderLayer(AtumBlocks.EMMER_WHEAT, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SCAFFOLDING, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_SCAFFOLDING, cutoutMipped);
         for (Block torch : AtumTorchUnlitBlock.ALL_TORCHES) {
             RenderTypeLookup.setRenderLayer(torch, cutoutMipped);
         }
