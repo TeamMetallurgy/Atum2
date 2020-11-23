@@ -17,7 +17,7 @@ public class AtumPathBlock extends GrassPathBlock {
     private final Block baseBlock;
 
     public AtumPathBlock(Block baseBlock) {
-        super(AbstractBlock.Properties.create(baseBlock.getDefaultState().getMaterial()).hardnessAndResistance(0.65F).sound(baseBlock.getDefaultState().getSoundType()).setBlocksVision(AtumBlocks::needsPostProcessing).setSuffocates(AtumBlocks::needsPostProcessing).harvestTool(ToolType.SHOVEL));
+        super(AbstractBlock.Properties.create(baseBlock.getDefaultState().getMaterial()).hardnessAndResistance(0.65F).sound(baseBlock.getDefaultState().getSoundType()).setBlocksVision(AtumBlocks::needsPostProcessing).setSuffocates(AtumBlocks::needsPostProcessing).harvestTool(ToolType.SHOVEL).lootFrom(baseBlock));
         this.baseBlock = baseBlock;
     }
 

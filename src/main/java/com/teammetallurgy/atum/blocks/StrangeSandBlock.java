@@ -3,10 +3,13 @@ package com.teammetallurgy.atum.blocks;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
@@ -39,5 +42,10 @@ public class StrangeSandBlock extends FallingBlock {
         } else {
             return super.canSustainPlant(state, world, pos, direction, plantable);
         }
+    }
+
+    @Override
+    public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType) {
+        return toolType == ToolType.SHOVEL ? AtumBlocks.STRANGE_SAND_PATH.getDefaultState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
     }
 }

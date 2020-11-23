@@ -2,12 +2,8 @@ package com.teammetallurgy.atum.misc.event;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.PortalBlock;
-import com.teammetallurgy.atum.blocks.vegetation.FertileSoilBlock;
-import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
-import com.teammetallurgy.atum.entity.undead.WraithEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -36,7 +32,6 @@ import net.minecraft.stats.Stats;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
@@ -44,12 +39,10 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -167,14 +160,6 @@ public class AtumEventListener {
     }
 
     @SubscribeEvent
-    public static void onFallDamage(LivingFallEvent event) {
-        if (event.getEntity() instanceof WraithEntity || event.getEntity() instanceof PharaohEntity) {
-            event.setDistance(0.0F);
-        }
-
-    }
-
-    @SubscribeEvent
     public static void onLivingHurt(LivingHurtEvent event) {
         if (event.getSource().equals(DamageSource.DROWN) && (event.getEntity() instanceof UndeadBaseEntity || event.getEntity() instanceof StoneBaseEntity)) {
             event.setCanceled(true);
@@ -212,27 +197,6 @@ public class AtumEventListener {
             double swush = MathHelper.sqrt(x * x + y * y + z * z);
             fish.setMotion(x * 0.1D, y * 0.1D + swush * 0.08D, z * 0.1D);
             world.addEntity(fish);
-        }
-    }
-
-    @SubscribeEvent
-    public static void onHoeEvent(UseHoeEvent event) {
-        World world = event.getContext().getWorld();
-        BlockPos pos = event.getContext().getPos();
-        BlockState state = world.getBlockState(pos);
-        boolean result = false;
-        if (state.getBlock() instanceof FertileSoilBlock) {
-            if (event.getContext().getItem().getItem() == AtumItems.TEFNUTS_BLESSING) {
-                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(FertileSoilTilledBlock.MOISTURE, 7).with(FertileSoilTilledBlock.BLESSED, true));
-            } else {
-                world.setBlockState(pos, AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState());
-            }
-            result = true;
-        }
-
-        if (result) {
-            event.setResult(Event.Result.ALLOW);
-            world.playSound(null, pos, SoundEvents.ITEM_HOE_TILL, SoundCategory.BLOCKS, 1.0F, 1.0F);
         }
     }
 }

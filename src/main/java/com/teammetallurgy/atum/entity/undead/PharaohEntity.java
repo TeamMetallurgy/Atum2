@@ -126,6 +126,11 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     @Override
+    protected int calculateFallDamage(float distance, float damageMultiplier) {
+        return 0;
+    }
+
+    @Override
     protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {

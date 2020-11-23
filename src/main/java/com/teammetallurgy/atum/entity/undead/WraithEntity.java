@@ -86,6 +86,11 @@ public class WraithEntity extends UndeadBaseEntity {
     }
 
     @Override
+    protected int calculateFallDamage(float distance, float damageMultiplier) {
+        return 0;
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (!this.world.isRemote) {

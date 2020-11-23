@@ -392,7 +392,7 @@ public class AtumBlocks {
     public static final Block LINEN_CARPET_BLACK = registerBlock(new LinenCarpetBlock(DyeColor.BLACK), "linen_carpet_black");
     public static final Block PALM_PLANKS = registerBlock(new Block(create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), "palm_planks");
     public static final Block DEADWOOD_PLANKS = registerBlock(new Block(create(Material.WOOD, MaterialColor.OBSIDIAN).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD)), "deadwood_planks");
-    public static final Block PALM_LOG = registerBlock(new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD, (state) -> state.get(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.WOOD : MaterialColor.WOOD).hardnessAndResistance(2.0F).sound(SoundType.WOOD)), "palm_log");
+    public static final Block PALM_LOG = registerBlock(new PalmLog(), "palm_log");
     public static final Block STRIPPED_PALM_LOG = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "stripped_palm_log");
     public static final Block PALM_WOOD = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "palm_wood");
     public static final Block STRIPPED_PALM_WOOD = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "stripped_palm_wood");

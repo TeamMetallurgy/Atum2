@@ -2,9 +2,12 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.RegistryKey;
@@ -134,6 +137,21 @@ public class FertileSoilBlock extends Block implements IGrowable {
                 }
                 ++amountCheck;
             }
+        }
+    }
+
+    @Override
+    public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, @Nonnull ItemStack stack, ToolType toolType) {
+        if (toolType == ToolType.HOE) {
+            if (stack.getItem() == AtumItems.TEFNUTS_BLESSING) {
+                return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(FertileSoilTilledBlock.MOISTURE, 7).with(FertileSoilTilledBlock.BLESSED, true);
+            } else {
+                return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState();
+            }
+        } else if (toolType == ToolType.SHOVEL) {
+            return AtumBlocks.FERTILE_SOIL_PATH.getDefaultState();
+        } else {
+            return super.getToolModifiedState(state, world, pos, player, stack, toolType);
         }
     }
 }

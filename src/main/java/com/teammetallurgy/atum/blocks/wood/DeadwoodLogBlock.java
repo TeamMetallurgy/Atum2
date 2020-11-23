@@ -1,10 +1,12 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.entity.animal.ScarabEntity;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
@@ -12,7 +14,9 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 
@@ -40,5 +44,10 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(AXIS, HAS_SCARAB);
+    }
+
+    @Override
+    public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType) {
+        return toolType == ToolType.AXE ? AtumBlocks.STRIPPED_DEADWOOD_LOG.getDefaultState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
     }
 }
