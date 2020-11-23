@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X#X",
+    "#X#",
+    "X#X"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:sand"
+    },
+    "X": {
+      "tag": "forge:gunpowder"
+    }
+  },
+  "result": {
+    "item": "minecraft:tnt"
+  }
+}

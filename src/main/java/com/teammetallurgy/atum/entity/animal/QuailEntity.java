@@ -26,7 +26,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class QuailEntity extends ChickenEntity {
+public class QuailEntity extends ChickenEntity { //TODO Look at custom egg and maybe meat
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(AtumItems.EMMER_SEEDS, Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
     private QuailEntity flockLeader;
     private int groupSize = 1;

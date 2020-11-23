@@ -160,7 +160,6 @@ public class AtumItems {
     public static final Item CAMEL_IRON_ARMOR = registerItem(new NonStackableItem(), "camel_iron_armor");
     public static final Item CAMEL_GOLD_ARMOR = registerItem(new NonStackableItem(), "camel_gold_armor");
     public static final Item CAMEL_DIAMOND_ARMOR = registerItem(new NonStackableItem(), "camel_diamond_armor");
-    public static final Item DISENCHANTING_SCROLL = registerItem(new SimpleItem(), "disenchanting_scroll");
     public static final Item SCROLL = registerItem(new SimpleItem(), "scroll");
     public static final Item SCRAP = registerItem(new SimpleItem(), "cloth_scrap");
     public static final Item LINEN_BANDAGE = registerItem(new LinenBandageItem(), "linen_bandage");

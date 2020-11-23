@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#X#",
+    "III"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone_torch"
+    },
+    "X": {
+      "tag": "forge:dusts/redstone"
+    },
+    "I": {
+      "tag": "forge:stone"
+    }
+  },
+  "result": {
+    "item": "minecraft:repeater"
+  }
+}
