@@ -318,21 +318,6 @@
         },
         {
           "type": "item",
-          "name": "atum:disenchanting_scroll",
-          "entryName": "disenchanting_scroll",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ],
-          "weight": 20
-        },
-        {
-          "type": "item",
           "name": "minecraft:book",
           "entryName": "enchanted_book",
           "functions": [

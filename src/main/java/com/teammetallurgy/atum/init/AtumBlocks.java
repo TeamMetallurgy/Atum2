@@ -100,7 +100,7 @@ public class AtumBlocks {
     public static final Block LIMESTONE_BRICK_CRACKED_BRICK = registerBlock(new LimestoneBrickBlock(), "limestone_brick_cracked_brick");
     public static final Block LIMESTONE_BRICK_CHISELED = registerBlock(new LimestoneBrickBlock(), "limestone_brick_chiseled");
     public static final Block LIMESTONE_BRICK_CARVED = registerBlock(new LimestoneBrickBlock(), "limestone_brick_carved");
-    public static final Block LIMESTONE_SMOOTH_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_smooth_slab");
+    public static final Block LIMESTONE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_slab");
     public static final Block LIMESTONE_CRACKED_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_cracked_slab");
     public static final Block LIMESTONE_BRICK_SMALL_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_small_slab");
     public static final Block LIMESTONE_BRICK_LARGE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK).hardnessAndResistance(2.0F, 6.0F)), "limestone_large_slab");

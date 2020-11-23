@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:limestone_smooth_slab"
+          "name": "atum:limestone_slab"
         }
       ],
       "conditions": [

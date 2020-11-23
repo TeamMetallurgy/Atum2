@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "///",
+    " / ",
+    "/_/"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:rods/wooden"
+    },
+    "_": {
+      "item": "atum:limestone_carved_slab"
+    }
+  },
+  "result": {
+    "item": "minecraft:armor_stand"
+  }
+}
