@@ -74,11 +74,10 @@ public class SandstormRendering {
             float light = getSunBrightness(world, partialTicks);
 
             RenderSystem.pushMatrix();
-            RenderSystem.pushTextureAttributes();
 
             //mc.entityRenderer.setupOverlayRendering();
 
-            //RenderSystem.clear(256);
+            RenderSystem.clear(256, Minecraft.IS_RUNNING_ON_MAC);
             RenderSystem.matrixMode(5889);
             RenderSystem.pushMatrix();
             RenderSystem.loadIdentity();

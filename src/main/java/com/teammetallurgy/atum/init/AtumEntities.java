@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
+import com.teammetallurgy.atum.entity.projectile.QuailEggEntity;
 import com.teammetallurgy.atum.entity.projectile.SmallBoneEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.*;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
@@ -81,6 +82,10 @@ public class AtumEntities {
     public static final EntityType<ArrowRainEntity> RAIN_ARROW = registerArrow("arrow_rain", ArrowRainEntity::new);
     public static final EntityType<ArrowSlownessEntity> SLOWNESS_ARROW = registerArrow("arrow_slowness", ArrowSlownessEntity::new);
     public static final EntityType<ArrowStraightEntity> STRAIGHT_ARROW = registerArrow("arrow_straight", ArrowStraightEntity::new);
+    public static final EntityType<QuailEggEntity> QUAIL_EGG = registerEntity("quail_egg", Builder.<QuailEggEntity>create(QuailEggEntity::new, EntityClassification.MISC).size(0.25F, 0.25F)
+            .trackingRange(4)
+            .func_233608_b_(10)
+            .setCustomClientFactory(QuailEggEntity::new));
     public static final EntityType<TefnutsCallEntity> TEFNUTS_CALL = registerEntity("tefnuts_call", Builder.<TefnutsCallEntity>create(TefnutsCallEntity::new, EntityClassification.MISC).size(0.5F, 0.5F)
             .setTrackingRange(4)
             .setUpdateInterval(20)

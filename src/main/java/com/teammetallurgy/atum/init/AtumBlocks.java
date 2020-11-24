@@ -31,7 +31,6 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
-import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
@@ -49,6 +48,7 @@ public class AtumBlocks {
     public static final Block SAND_LAYERED = registerBlock(new SandLayersBlock(), "sand_layer");
     public static final Block DATE_BLOCK = registerBlock(new DateBlock(), null, "date_block");
     public static final Block EMMER_WHEAT = registerBlock(new EmmerBlock(), null, "emmer_wheat");
+    public static final Block EMMER_BLOCK = registerBlock(new HayBlock(AbstractBlock.Properties.create(Material.ORGANIC, MaterialColor.YELLOW).hardnessAndResistance(0.5F).sound(SoundType.PLANT)), "emmer_block");
     public static final Block ANPUTS_FINGERS = registerBlock(new AnputsFingersBlock(), null, "anputs_fingers");
     public static final Block OASIS_GRASS = registerBlock(new OasisGrassBlock(), "oasis_grass");
     public static final Block DRY_GRASS = registerBlock(new DryGrassBlock(), "dry_grass");
@@ -458,6 +458,7 @@ public class AtumBlocks {
         fire.setFireInfo(TALL_DRY_GRASS, 60, 10);
         fire.setFireInfo(PALM_STAIRS, 5, 20);
         fire.setFireInfo(DEADWOOD_STAIRS, 5, 20);
+        fire.setFireInfo(EMMER_BLOCK, 60, 20);
     }
 
     public static StainedGlassBlock createStainedGlassFromColor(DyeColor color) {

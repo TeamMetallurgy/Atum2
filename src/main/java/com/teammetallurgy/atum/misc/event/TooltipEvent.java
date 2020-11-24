@@ -24,10 +24,11 @@ public class TooltipEvent {
                 if (item.getRegistryName() != null) {
                     String itemIdentifier = item.getRegistryName().getPath() + ".tooltip";
                     if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line1").mergeStyle(TextFormatting.DARK_PURPLE));
-                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line2").mergeStyle(TextFormatting.DARK_PURPLE));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").appendString(": ").mergeStyle(TextFormatting.GRAY)
+                                .append(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line1").mergeStyle(TextFormatting.DARK_GRAY)));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line2").mergeStyle(TextFormatting.DARK_GRAY));
                     } else {
-                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title")
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").mergeStyle(TextFormatting.GRAY)
                                 .appendString(" ").append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").mergeStyle(TextFormatting.DARK_GRAY)));
                     }
                 }

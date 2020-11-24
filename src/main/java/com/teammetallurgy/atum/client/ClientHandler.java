@@ -279,6 +279,7 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TEFNUTS_CALL, TefnutsCallRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.HEART_OF_RA, HeartOfRaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL_SPIT, LlamaSpitRenderer::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.QUAIL_EGG, manager -> new SpriteRenderer<>(manager, itemRenderer));
     }
 
     public static void registerBowModelProperties(BaseBowItem bow) {

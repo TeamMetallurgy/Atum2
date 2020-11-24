@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:emmer_block"
+    }
+  ],
+  "result": {
+    "item": "atum:emmer_wheat",
+    "count": 9
+  }
+}

@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
+import com.teammetallurgy.atum.init.AtumStructures;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -23,6 +25,7 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -59,7 +62,8 @@ public class TarantulaEntity extends MonsterEntity {
     }
 
     public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return (spawnReason == SpawnReason.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canBlockSeeSky(pos.down())) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random);
+        return (spawnReason == SpawnReason.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canBlockSeeSky(pos.down())) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random) &&
+                world instanceof ServerWorld && !StructureHelper.doesChunkHaveStructure((ServerWorld) world, pos, AtumStructures.PYRAMID_STRUCTURE);
     }
 
     @Override

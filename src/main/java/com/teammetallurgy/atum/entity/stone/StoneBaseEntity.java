@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.entity.stone;
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumStructures;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -20,6 +22,7 @@ import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -195,7 +198,8 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return isValidLightLevel(world, pos, random) && canMonsterSpawn(stoneBase, world, spawnReason, pos, random);
+        return isValidLightLevel(world, pos, random) && canMonsterSpawn(stoneBase, world, spawnReason, pos, random) && world instanceof ServerWorld &&
+                !StructureHelper.doesChunkHaveStructure((ServerWorld) world, pos, AtumStructures.PYRAMID_STRUCTURE);
     }
 
     boolean isPlayerCreated() {

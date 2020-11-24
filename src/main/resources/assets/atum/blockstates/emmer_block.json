@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "minecraft:block/hay_block_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "atum:block/emmer_block"
+    },
+    "axis=z": {
+      "model": "atum:block/emmer_block_horizontal",
+      "x": 90
+    }
+  }
+}

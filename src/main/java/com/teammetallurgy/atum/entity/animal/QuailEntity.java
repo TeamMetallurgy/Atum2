@@ -3,19 +3,27 @@ package com.teammetallurgy.atum.entity.animal;
 import com.teammetallurgy.atum.entity.ai.goal.FollowFlockLeaderGoal;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.pathfinding.PathNodeType;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
@@ -26,13 +34,20 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class QuailEntity extends ChickenEntity { //TODO Look at custom egg and maybe meat
+public class QuailEntity extends AnimalEntity { //TODO Look at quail meat
     private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(AtumItems.EMMER_SEEDS, Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+    public float wingRotation;
+    public float destPos;
+    public float oFlapSpeed;
+    public float oFlap;
+    public float wingRotDelta = 1.0F;
+    public int timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
     private QuailEntity flockLeader;
     private int groupSize = 1;
 
-    public QuailEntity(EntityType<? extends ChickenEntity> type, World world) {
+    public QuailEntity(EntityType<? extends QuailEntity> type, World world) {
         super(type, world);
+        this.setPathPriority(PathNodeType.WATER, 0.0F);
     }
 
     @Override
@@ -68,7 +83,7 @@ public class QuailEntity extends ChickenEntity { //TODO Look at custom egg and m
     }
 
     @Override
-    public ChickenEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageableEntity) {
+    public QuailEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageableEntity) {
         return AtumEntities.QUAIL.create(world);
     }
 
@@ -116,6 +131,81 @@ public class QuailEntity extends ChickenEntity { //TODO Look at custom egg and m
             if (list.size() <= 1) {
                 this.groupSize = 1;
             }
+        }
+    }
+
+    @Override
+    public void livingTick() {
+        super.livingTick();
+        this.oFlap = this.wingRotation;
+        this.oFlapSpeed = this.destPos;
+        this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.3D);
+        this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
+        if (!this.onGround && this.wingRotDelta < 1.0F) {
+            this.wingRotDelta = 1.0F;
+        }
+
+        this.wingRotDelta = (float) ((double) this.wingRotDelta * 0.9D);
+        Vector3d vector3d = this.getMotion();
+        if (!this.onGround && vector3d.y < 0.0D) {
+            this.setMotion(vector3d.mul(1.0D, 0.6D, 1.0D));
+        }
+
+        this.wingRotation += this.wingRotDelta * 2.0F;
+        if (!this.world.isRemote && this.isAlive() && !this.isChild() && --this.timeUntilNextEgg <= 0) {
+            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+            this.entityDropItem(AtumItems.QUAIL_EGG);
+            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        }
+    }
+
+    @Override
+    public boolean onLivingFall(float distance, float damageMultiplier) {
+        return false;
+    }
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SoundEvents.ENTITY_CHICKEN_AMBIENT;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
+        return SoundEvents.ENTITY_CHICKEN_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_CHICKEN_DEATH;
+    }
+
+    @Override
+    protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState block) {
+        this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
+    }
+
+    @Override
+    public void readAdditional(@Nonnull CompoundNBT compound) {
+        super.readAdditional(compound);
+        if (compound.contains("EggLayTime")) {
+            this.timeUntilNextEgg = compound.getInt("EggLayTime");
+        }
+    }
+
+    @Override
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
+        super.writeAdditional(compound);
+        compound.putInt("EggLayTime", this.timeUntilNextEgg);
+    }
+
+    @Override
+    public void updatePassenger(@Nonnull Entity passenger) {
+        super.updatePassenger(passenger);
+        float f = MathHelper.sin(this.renderYawOffset * ((float)Math.PI / 180F));
+        float f1 = MathHelper.cos(this.renderYawOffset * ((float)Math.PI / 180F));
+        passenger.setPosition(this.getPosX() + (double)(0.1F * f), this.getPosYHeight(0.5D) + passenger.getYOffset() + 0.0D, this.getPosZ() - (double)(0.1F * f1));
+        if (passenger instanceof LivingEntity) {
+            ((LivingEntity)passenger).renderYawOffset = this.renderYawOffset;
         }
     }
 

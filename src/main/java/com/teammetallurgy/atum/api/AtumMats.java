@@ -7,6 +7,7 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.IItemTier;
+import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -173,6 +174,38 @@ public class AtumMats {
         @Nonnull
         public Ingredient getRepairMaterial() {
             return Ingredient.fromItems(AtumBlocks.LIMESTONE_CRACKED);
+        }
+    };
+    public static final IItemTier NEBU = new IItemTier() {
+        @Override
+        public int getMaxUses() {
+            return 2250;
+        }
+
+        @Override
+        public float getEfficiency() {
+            return 9.0F;
+        }
+
+        @Override
+        public float getAttackDamage() {
+            return 4.0F;
+        }
+
+        @Override
+        public int getHarvestLevel() {
+            return 4;
+        }
+
+        @Override
+        public int getEnchantability() {
+            return 22;
+        }
+
+        @Override
+        @Nonnull
+        public Ingredient getRepairMaterial() { //TODO Add nebu
+            return Ingredient.fromItems(Items.NETHERITE_INGOT);
         }
     };
 

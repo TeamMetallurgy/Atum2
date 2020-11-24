@@ -35,6 +35,7 @@ import com.teammetallurgy.atum.items.artifacts.tefnut.TefnutsRainItem;
 import com.teammetallurgy.atum.items.food.CrunchyScarabItem;
 import com.teammetallurgy.atum.items.food.EmmerFlourItem;
 import com.teammetallurgy.atum.items.food.FishItem;
+import com.teammetallurgy.atum.items.food.QuailEggItem;
 import com.teammetallurgy.atum.items.tools.*;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
@@ -175,6 +176,7 @@ public class AtumItems {
     public static final Item EMMER_FLOUR = registerItem(new EmmerFlourItem(), "emmer_flour");
     public static final Item EMMER_DOUGH = registerItem(new SimpleItem(), "emmer_dough");
     public static final Item EMMER_BREAD = registerItem(new Item(new Item.Properties().food(AtumFoods.EMMER_BREAD).group(Atum.GROUP)), "emmer_bread");
+    public static final Item QUAIL_EGG = registerItem(new QuailEggItem(), "quail_egg");
     public static final Item CAMEL_RAW = registerItem(new Item(new Item.Properties().food(AtumFoods.CAMEL_RAW).group(Atum.GROUP)), "camel_raw");
     public static final Item CAMEL_COOKED = registerItem(new Item(new Item.Properties().food(AtumFoods.CAMEL_COOKED).group(Atum.GROUP)), "camel_cooked");
     public static final Item DATE = registerItem(new Item(new Item.Properties().food(Foods.APPLE).group(Atum.GROUP)), "date");
