@@ -92,6 +92,9 @@ public class AtumDefaultFeatures {
         if (AtumConfig.WORLD_GEN.relicOreCount.get() > 0) {
             builder.withFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.RELIC_ORE.getDefaultState(), AtumConfig.WORLD_GEN.relicOreVeinSize.get())).range(AtumConfig.WORLD_GEN.relicOreMaxHeight.get()).square().func_242731_b(AtumConfig.WORLD_GEN.relicOreCount.get()));
         }
+        if (AtumConfig.WORLD_GEN.nebuCount.get() > 0) {
+            builder.withFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(NATURAL_STONE, AtumBlocks.NEBU_ORE.getDefaultState(), AtumConfig.WORLD_GEN.nebuVeinSize.get())).range(AtumConfig.WORLD_GEN.nebuMaxHeight.get()).square().func_242731_b(AtumConfig.WORLD_GEN.nebuCount.get()));
+        }
     }
 
     public static void addEmeraldOre(BiomeGenerationSettings.Builder builder) {

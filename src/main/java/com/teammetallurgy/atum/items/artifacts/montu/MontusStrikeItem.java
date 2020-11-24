@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
@@ -33,7 +34,7 @@ public class MontusStrikeItem extends BattleAxeItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     public MontusStrikeItem() {
-        super(ItemTier.DIAMOND, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

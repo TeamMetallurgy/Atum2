@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "atum:nebu_ore"
+  },
+  "result": "atum:nebu_drop",
+  "experience": 0.7,
+  "cookingtime": 200
+}

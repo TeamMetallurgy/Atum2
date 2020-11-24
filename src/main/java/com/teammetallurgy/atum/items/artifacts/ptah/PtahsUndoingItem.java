@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
@@ -25,7 +26,7 @@ import javax.annotation.Nonnull;
 public class PtahsUndoingItem extends PickaxeItem {
 
     public PtahsUndoingItem() {
-        super(ItemTier.DIAMOND, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0).group(Atum.GROUP));
+        super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0).group(Atum.GROUP));
     }
 
     @Override

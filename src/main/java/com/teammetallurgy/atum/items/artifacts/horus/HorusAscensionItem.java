@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
@@ -20,7 +21,7 @@ import java.util.Random;
 public class HorusAscensionItem extends GauntletItem {
 
     public HorusAscensionItem() {
-        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

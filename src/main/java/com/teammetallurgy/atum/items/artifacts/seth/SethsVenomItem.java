@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.items.artifacts.seth;
 
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowPoisonEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -18,7 +19,7 @@ public class SethsVenomItem extends BaseBowItem {
 
     public SethsVenomItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
-        this.setRepairItem(Items.DIAMOND);
+        this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
     @Override

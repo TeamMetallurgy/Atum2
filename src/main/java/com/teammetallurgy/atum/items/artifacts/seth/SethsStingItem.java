@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.seth;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.DaggerItem;
@@ -31,7 +32,7 @@ public class SethsStingItem extends DaggerItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     public SethsStingItem() {
-        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

@@ -2,41 +2,29 @@ package com.teammetallurgy.atum.items.artifacts.ra;
 
 import com.google.common.base.Objects;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.items.TexturedArmorItem;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.util.BlockSnapshot;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
 
-public class FeetOfRaItem extends TexturedArmorItem {
+public class FeetOfRaItem extends RaArmor {
     private BlockPos prevBlockpos;
 
     public FeetOfRaItem() {
-        super(ArmorMaterial.DIAMOND, "ra_armor", EquipmentSlotType.FEET, new Item.Properties().rarity(Rarity.RARE));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
+        super("ra_armor", EquipmentSlotType.FEET);
     }
 
     @Override
@@ -72,7 +60,6 @@ public class FeetOfRaItem extends TexturedArmorItem {
                     }
                 }
             }
-
         }
     }
 }

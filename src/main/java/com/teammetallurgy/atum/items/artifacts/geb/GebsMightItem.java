@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.HammerItem;
 import net.minecraft.entity.LivingEntity;
@@ -16,7 +17,7 @@ import javax.annotation.Nonnull;
 public class GebsMightItem extends HammerItem {
 
     public GebsMightItem() {
-        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

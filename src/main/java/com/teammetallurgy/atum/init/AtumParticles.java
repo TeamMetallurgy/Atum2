@@ -20,12 +20,14 @@ import static com.teammetallurgy.atum.misc.AtumRegistry.registerParticle;
 public class AtumParticles {
     public static final BasicParticleType ANUBIS = registerParticle("anubis");
     public static final BasicParticleType ANUBIS_SKULL = registerParticle("anubis_skull");
+    public static final BasicParticleType EMPTY = registerParticle("empty");
     public static final BasicParticleType GAS = registerParticle("gas");
     public static final BasicParticleType GEB = registerParticle("geb");
     public static final BasicParticleType HORUS = registerParticle("horus");
     public static final BasicParticleType ISIS = registerParticle("isis");
     public static final BasicParticleType LIGHT_SPARKLE = registerParticle("light_sparkle");
     public static final BasicParticleType MONTU = registerParticle("montu");
+    public static final BasicParticleType NEBU_FLAME = registerParticle("nebu_flame");
     public static final BasicParticleType NUIT_BLACK = registerParticle("nuit_black");
     public static final BasicParticleType NUIT_WHITE = registerParticle("nuit_white");
     public static final BasicParticleType RA_FIRE = registerParticle("ra_fire");
@@ -34,7 +36,6 @@ public class AtumParticles {
     public static final BasicParticleType TAR = registerParticle("tar");
     public static final BasicParticleType TEFNUT = registerParticle("tefnut");
     public static final BasicParticleType TEFNUT_DROP = registerParticle("tefnut_drop");
-    public static final BasicParticleType EMPTY = registerParticle("empty");
 
     @SubscribeEvent
     public static void registerParticleFactories(ParticleFactoryRegisterEvent event) {
@@ -46,6 +47,7 @@ public class AtumParticles {
         registerFactory(ISIS, SwirlParticle.Isis::new);
         registerFactory(LIGHT_SPARKLE, LightSparkleParticle.Factory::new);
         registerFactory(MONTU, MontuParticle.Factory::new);
+        registerFactory(NEBU_FLAME, NebuFlameParticle.Nebu::new);
         registerFactory(NUIT_BLACK, SwirlParticle.NuitBlack::new);
         registerFactory(NUIT_WHITE, SwirlParticle.NuitWhite::new);
         registerFactory(RA_FIRE, RaFireParticle.Factory::new);

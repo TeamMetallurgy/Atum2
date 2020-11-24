@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.nuit;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotBlackEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotWhiteEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -25,7 +26,7 @@ public class NuitsDualityItem extends BaseBowItem {
 
     public NuitsDualityItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
-        this.setRepairItem(Items.DIAMOND);
+        this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
     @Override

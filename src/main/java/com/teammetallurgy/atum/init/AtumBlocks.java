@@ -80,9 +80,11 @@ public class AtumBlocks {
     public static final Block DIAMOND_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "diamond_ore");
     public static final Block EMERALD_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "emerald_ore");
     public static final Block REDSTONE_ORE = registerBlock(new RedstoneOreBlock(create(Material.ROCK).tickRandomly().setLightLevel(s -> 9).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "redstone_ore");
+    public static final Block KHNUMITE_RAW = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "khnumite_raw");
     public static final Block BONE_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(0)), "bone_ore");
     public static final Block RELIC_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "relic_ore");
-    public static final Block KHNUMITE_RAW = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "khnumite_raw");
+    public static final Block NEBU_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "nebu_ore");
+    public static final Block NEBU_BLOCK = registerBlock(new Block(AbstractBlock.Properties.create(Material.IRON, MaterialColor.GOLD).setRequiresTool().hardnessAndResistance(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
     public static final Block DIRTY_BONE = registerBlock(new RotatedPillarBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_block");
     public static final Block DIRTY_BONE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_slab");
     public static final Block BONE_LADDER = registerBlock(new AtumLadderBlock(), "bone_ladder");

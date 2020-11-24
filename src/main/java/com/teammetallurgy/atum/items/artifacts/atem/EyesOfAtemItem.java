@@ -21,7 +21,7 @@ public class EyesOfAtemItem extends AtemArmor {
     private static EffectInstance savedNightVision;
 
     public EyesOfAtemItem() {
-        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.HEAD);
+        super("atem_armor", EquipmentSlotType.HEAD);
     }
 
     @SubscribeEvent

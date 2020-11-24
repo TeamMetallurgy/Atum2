@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
@@ -26,7 +27,7 @@ public class AtemsWillItem extends SwordItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     public AtemsWillItem() {
-        super(ItemTier.DIAMOND, 3, -2.4F, new Item.Properties().group(Atum.GROUP));
+        super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().group(Atum.GROUP));
     }
 
     @Override

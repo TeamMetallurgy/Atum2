@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.ptah;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
@@ -24,7 +25,7 @@ import java.util.List;
 public class PtahsDecadenceItem extends PickaxeItem {
 
     public PtahsDecadenceItem() {
-        super(ItemTier.DIAMOND, 1, -2.8F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
+        super(AtumMats.NEBU, 1, -2.8F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override

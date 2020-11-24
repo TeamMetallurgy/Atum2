@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "iron_ingot",
+  "ingredients": [
+    {
+      "item": "atum:nebu_block"
+    }
+  ],
+  "result": {
+    "item": "atum:nebu_ingot",
+    "count": 9
+  }
+}

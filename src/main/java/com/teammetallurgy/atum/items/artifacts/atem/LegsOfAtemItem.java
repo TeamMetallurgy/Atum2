@@ -19,7 +19,7 @@ public class LegsOfAtemItem extends AtemArmor {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2aa9e06c-cc77-4c0a-b832-58d8aaef1500"), "Legs of Atem speed boost", 0.02D, AttributeModifier.Operation.ADDITION);
 
     public LegsOfAtemItem() {
-        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.LEGS);
+        super("atem_armor", EquipmentSlotType.LEGS);
     }
 
     @SubscribeEvent

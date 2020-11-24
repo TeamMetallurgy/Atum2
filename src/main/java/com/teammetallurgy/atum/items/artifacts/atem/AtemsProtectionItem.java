@@ -29,7 +29,7 @@ public class AtemsProtectionItem extends AtumShieldItem {
 
     public AtemsProtectionItem() {
         super(500, new Item.Properties().rarity(Rarity.RARE));
-        this.setRepairItem(Items.DIAMOND);
+        this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
     @Override

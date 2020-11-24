@@ -3,13 +3,8 @@ package com.teammetallurgy.atum.items.artifacts.ra;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.items.TexturedArmorItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.IndirectEntityDamageSource;
@@ -19,18 +14,11 @@ import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-import javax.annotation.Nonnull;
-
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class HaloOfRaItem extends TexturedArmorItem {
+public class HaloOfRaItem extends RaArmor {
 
     public HaloOfRaItem() {
-        super(ArmorMaterial.DIAMOND, "ra_armor", EquipmentSlotType.HEAD, new Item.Properties().rarity(Rarity.RARE));
-    }
-
-    @Override
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
+        super("ra_armor", EquipmentSlotType.HEAD);
     }
 
     @SubscribeEvent

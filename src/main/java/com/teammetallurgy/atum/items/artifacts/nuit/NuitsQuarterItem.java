@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
@@ -31,7 +32,7 @@ public class NuitsQuarterItem extends KhopeshItem {
     private static boolean isBlocking = false;
 
     public NuitsQuarterItem() {
-        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

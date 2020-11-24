@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.anubis;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
@@ -52,8 +53,7 @@ public class AnubisWrathItem extends SwordItem {
     private float attackDamage = 5.0F;
 
     public AnubisWrathItem() {
-        super(ItemTier.DIAMOND, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
-        int tier = getTier(new ItemStack(this));
+        super(AtumMats.NEBU, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override

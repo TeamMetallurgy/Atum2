@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowExplosiveEntity;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,7 +18,7 @@ public class MontusBlastItem extends BaseBowItem {
 
     public MontusBlastItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
-        this.setRepairItem(Items.DIAMOND);
+        this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
     @Override

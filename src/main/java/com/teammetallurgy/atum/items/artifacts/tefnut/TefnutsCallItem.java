@@ -5,6 +5,7 @@ import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -13,7 +14,10 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Rarity;
+import net.minecraft.item.UseAction;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -115,7 +119,7 @@ public class TefnutsCallItem extends Item {
 
     @Override
     public boolean getIsRepairable(@Nonnull ItemStack toRepair, ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
+        return repair.getItem() == AtumItems.NEBU_INGOT;
     }
 
     @Override

@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.Mod;
 public class BodyOfAtemItem extends AtemArmor {
 
     public BodyOfAtemItem() {
-        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.CHEST);
+        super("atem_armor", EquipmentSlotType.CHEST);
     }
 
     @SubscribeEvent

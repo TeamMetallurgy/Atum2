@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.Mod;
 public class FeetOfAtemItem extends AtemArmor {
 
     public FeetOfAtemItem() {
-        super(ArmorMaterial.DIAMOND, "atem_armor", EquipmentSlotType.FEET);
+        super("atem_armor", EquipmentSlotType.FEET);
     }
 
     @SubscribeEvent

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
@@ -16,7 +17,7 @@ import javax.annotation.Nonnull;
 public class GebsToilItem extends ShovelItem {
 
     public GebsToilItem() {
-        super(ItemTier.DIAMOND, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
+        super(AtumMats.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
     }
 
     @Override

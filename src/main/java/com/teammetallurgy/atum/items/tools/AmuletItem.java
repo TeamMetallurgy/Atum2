@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
@@ -38,7 +39,7 @@ public class AmuletItem extends Item /*implements IBauble*/ { //TODO Use Curios 
 
     @Override
     public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == Items.DIAMOND;
+        return repair.getItem() == AtumItems.NEBU_INGOT;
     }
 
     /*@Override

@@ -137,6 +137,9 @@ public class AtumConfig {
         public final ForgeConfigSpec.IntValue relicOreVeinSize;
         public final ForgeConfigSpec.IntValue relicOreCount;
         public final ForgeConfigSpec.IntValue relicOreMaxHeight;
+        public final ForgeConfigSpec.IntValue nebuVeinSize;
+        public final ForgeConfigSpec.IntValue nebuCount;
+        public final ForgeConfigSpec.IntValue nebuMaxHeight;
         public final ForgeConfigSpec.BooleanValue emeraldEnabled;
         public final ForgeConfigSpec.IntValue alabasterVeinSize;
         public final ForgeConfigSpec.IntValue alabasterCount;
@@ -206,6 +209,9 @@ public class AtumConfig {
             this.relicOreVeinSize = builder.defineInRange("Relic Ore vein size", 5, 1, 64);
             this.relicOreCount = builder.defineInRange("Relic Ore count, set to 0 to disable", 4, 0, 64);
             this.relicOreMaxHeight = builder.defineInRange("Relic Ore max height", 64, 1, 255);
+            this.nebuVeinSize = builder.defineInRange("Nebu vein size", 8, 1, 64);
+            this.nebuCount = builder.defineInRange("Nebu count, set to 0 to disable", 1, 0, 64);
+            this.nebuMaxHeight = builder.defineInRange("Nebu max height", 64, 1, 255);
             this.emeraldEnabled = builder.comment("Should Emeralds generate in Atum?")
                     .translation("atum.config.emeralds_enabled")
                     .define("Enable Emeralds", true);

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.shu;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
@@ -30,7 +31,7 @@ public class ShusExileItem extends BattleAxeItem {
     private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
 
     public ShusExileItem() {
-        super(ItemTier.DIAMOND, 4.5F, -2.9F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, 4.5F, -2.9F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override

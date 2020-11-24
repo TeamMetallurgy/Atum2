@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "#forge:ingots/khnumite"
+    "#forge:ingots/khnumite",
+    "#forge:ingots/nebu"
   ]
 }
