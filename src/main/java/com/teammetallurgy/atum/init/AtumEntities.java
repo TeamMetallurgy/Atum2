@@ -47,7 +47,7 @@ public class AtumEntities {
     public static final EntityType<MummyEntity> MUMMY = registerMob("mummy", 0x515838, 0x868F6B, Builder.create(MummyEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
     public static final EntityType<NomadEntity> NOMAD = registerMob("nomad", 0xC2C2C2, 0x7E0C0C, Builder.create(NomadEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
     public static final EntityType<PharaohEntity> PHARAOH = registerMob("pharaoh", 0xD4BC37, 0x3A4BE0, Builder.create(PharaohEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire().trackingRange(10));
-    public static final EntityType<QuailEntity> QUAIL = registerMob("quail", 0xCC9B72, 0xA47549, Builder.create(QuailEntity::new, EntityClassification.CREATURE).size(0.375F, 0.6F).trackingRange(10));
+    public static final EntityType<QuailEntity> QUAIL = registerMob("quail", 0xCC9B72, 0xA47549, Builder.create(QuailEntity::new, EntityClassification.CREATURE).size(0.3F, 0.6F).trackingRange(10));
     public static final EntityType<ScarabEntity> SCARAB = registerMob("scarab", 0x61412C, 0x2F1D10, Builder.create(ScarabEntity::new, EntityClassification.MONSTER).size(0.4F, 0.3F).trackingRange(8));
     public static final EntityType<SergeantEntity> SERGEANT = registerMob("sergeant", 0x444444, 0xC2C2C2, Builder.create(SergeantEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
     public static final EntityType<StoneguardEntity> STONEGUARD = registerMob("stoneguard", 0x918354, 0x695D37, Builder.create(StoneguardEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire().trackingRange(10));

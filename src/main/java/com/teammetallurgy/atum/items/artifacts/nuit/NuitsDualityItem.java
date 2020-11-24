@@ -16,8 +16,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
@@ -27,12 +25,6 @@ public class NuitsDualityItem extends BaseBowItem {
     public NuitsDualityItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
     }
 
     @Override

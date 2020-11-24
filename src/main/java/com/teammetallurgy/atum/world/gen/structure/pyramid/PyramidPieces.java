@@ -230,7 +230,7 @@ public class PyramidPieces {
             } else if (function.equals("PharaohTorch")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.25D) {
-                        world.setBlockState(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.PHARAOH_TORCH).getDefaultState(), 2);
+                        world.setBlockState(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).getDefaultState(), 2);
                     } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }

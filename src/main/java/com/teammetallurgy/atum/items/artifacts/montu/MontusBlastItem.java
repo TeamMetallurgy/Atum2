@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.Rarity;
 import net.minecraft.world.World;
 
@@ -19,11 +18,6 @@ public class MontusBlastItem extends BaseBowItem {
     public MontusBlastItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
-    }
-
-    @Override
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
     }
 
     @Override

@@ -282,8 +282,8 @@
         },
         {
           "type": "item",
-          "name": "atum:pharaoh_torch",
-          "entryName": "pharaoh_torch",
+          "name": "atum:nebu_torch",
+          "entryName": "nebu_torch",
           "functions": [
             {
               "function": "set_count",

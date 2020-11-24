@@ -25,7 +25,7 @@ public class BlockStatesGenerator extends BlockStateProvider {
         generateTorch(AtumBlocks.DEADWOOD_TORCH);
         generateTorch(AtumBlocks.LIMESTONE_TORCH);
         generateTorch(AtumBlocks.BONE_TORCH);
-        generateTorch(AtumBlocks.PHARAOH_TORCH);
+        generateTorch(AtumBlocks.NEBU_TORCH);
         wallBlock(AtumBlocks.LIMESTONE_WALL, AtumBlocks.LIMESTONE);
         wallBlock(AtumBlocks.LIMESTONE_CRACKED_WALL, AtumBlocks.LIMESTONE_CRACKED);
         wallBlock(AtumBlocks.SMALL_WALL, AtumBlocks.LIMESTONE_BRICK_SMALL);
@@ -71,7 +71,7 @@ public class BlockStatesGenerator extends BlockStateProvider {
             simpleBlockWithItem(StackHelper.getBlockFromName(colorName + "_stained_crystal_glass"));
             simpleBlockWithItem(StackHelper.getBlockFromName(colorName + "_stained_palm_framed_crystal_glass"));
             simpleBlockWithItem(StackHelper.getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass"));
-            paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/crystal_glass_pane_top"));
+            paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_crystal_glass_pane_top"));
             paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_palm_framed_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_palm_framed_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/palm_framed_crystal_glass_pane_top"));
             paneBlockWithItem((PaneBlock) StackHelper.getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass_pane"), new ResourceLocation(Atum.MOD_ID, "block/" + colorName + "_stained_deadwood_framed_crystal_glass"), new ResourceLocation(Atum.MOD_ID, "block/deadwood_framed_crystal_glass_pane_top"));
         }

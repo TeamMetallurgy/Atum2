@@ -11,8 +11,6 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
@@ -20,12 +18,6 @@ public class IdolOfLaborItem extends Item {
 
     public IdolOfLaborItem() {
         super(new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
     }
 
     @Override

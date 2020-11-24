@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_torch_wall",
   "textures": {
-    "torch": "atum:block/pharaoh_torch_unlit"
+    "torch": "atum:block/nebu_torch_unlit"
   }
 }

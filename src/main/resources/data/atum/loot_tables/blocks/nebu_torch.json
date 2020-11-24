@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:pharaoh_torch"
+          "name": "atum:nebu_torch"
         }
       ],
       "conditions": [

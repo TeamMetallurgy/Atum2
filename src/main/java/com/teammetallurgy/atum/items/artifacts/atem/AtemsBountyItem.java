@@ -25,12 +25,6 @@ public class AtemsBountyItem extends FishingRodItem {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    @OnlyIn(Dist.CLIENT)
     public void addInformation(@Nonnull ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, @Nonnull ITooltipFlag tooltipType) {
         int remaining = stack.getMaxDamage() - stack.getDamage();
         tooltip.add(new TranslationTextComponent("atum.tooltip.uses_remaining", remaining));

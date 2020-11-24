@@ -2,6 +2,6 @@
   "parent": "minecraft:block/template_glass_pane_post",
   "textures": {
     "pane": "atum:block/pink_stained_crystal_glass",
-    "edge": "atum:block/crystal_glass_pane_top"
+    "edge": "atum:block/pink_stained_crystal_glass_pane_top"
   }
 }

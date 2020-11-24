@@ -9,11 +9,11 @@
       "tag": "minecraft:coals"
     },
     "#": {
-      "tag": "forge:ingots/gold"
+      "tag": "forge:nuggets/nebu"
     }
   },
   "result": {
-    "item": "atum:pharaoh_torch",
+    "item": "atum:nebu_torch",
     "count": 4
   }
 }

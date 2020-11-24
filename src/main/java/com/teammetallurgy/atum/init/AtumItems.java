@@ -184,7 +184,7 @@ public class AtumItems {
     public static final Item DATE = registerItem(new Item(new Item.Properties().food(Foods.APPLE).group(Atum.GROUP)), "date");
     public static final Item GLISTERING_DATE = registerItem(new SimpleItem(), "glistering_date");
     public static final Item GOLDEN_DATE = registerItem(new Item(new Item.Properties().food(AtumFoods.GOLDEN_DATE).group(Atum.GROUP)), "golden_date");
-    public static final Item ENCHANTED_GOLDEN_DATE = registerItem(new Item(new Item.Properties().food(AtumFoods.ENCHANTED_GOLDEN_DATE).group(Atum.GROUP)), "golden_date_enchanted");
+    public static final Item ENCHANTED_GOLDEN_DATE = registerItem(new EnchantedGoldenAppleItem(new Item.Properties().food(AtumFoods.ENCHANTED_GOLDEN_DATE).group(Atum.GROUP)), "golden_date_enchanted");
     public static final Item ECTOPLASM = registerItem(new SimpleItem(), "ectoplasm");
     public static final Item MANDIBLES = registerItem(new SimpleItem(), "mandibles");
     public static final Item DUSTY_BONE = registerItem(new SimpleItem(), "dusty_bone");

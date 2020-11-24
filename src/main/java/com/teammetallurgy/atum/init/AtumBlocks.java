@@ -1,10 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.AtumOresBlock;
-import com.teammetallurgy.atum.blocks.PortalBlock;
-import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.blocks.StrangeSandBlock;
+import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenBlock;
@@ -93,7 +90,7 @@ public class AtumBlocks {
     public static final Block DEADWOOD_TORCH = registerTorch(new AtumTorchBlock(14), "deadwood_torch");
     public static final Block LIMESTONE_TORCH = registerTorch(new AtumTorchBlock(14), "limestone_torch");
     public static final Block BONE_TORCH = registerTorch(new AtumTorchBlock(14), "bone_torch");
-    public static final Block PHARAOH_TORCH = registerTorch(new AtumTorchBlock(14), "pharaoh_torch");
+    public static final Block NEBU_TORCH = registerTorch(new NebuTorchBlock(null), "nebu_torch");
     public static final Block LIMESTONE_GRAVEL = registerBlock(new LimestoneGravelBlock(), "limestone_gravel");
     public static final Block MARL = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "marl");
     public static final Block RA_STONE = registerBlock(new RaStoneBlock(), null, "ra_stone");
