@@ -20,7 +20,7 @@ public class QuailModel<T extends QuailEntity> extends AgeableModel<T> {
     public ModelRenderer headFeather1;
 
     public QuailModel() {
-        super();
+        super(false, 4.0F, 2.0F); //isChildHeadScaled, childHeadOffsetY, childHeadOffsetZ
         this.beak = new ModelRenderer(this);
         this.beak.setRotationPoint(0.0F, 17.0F, -4.0F);
         this.beak.setTextureOffset(14, 0).addBox(-1.0F, -2.0F, -4.0F, 2.0F, 2.0F, 2.0F, 0.0F, false);
@@ -40,11 +40,11 @@ public class QuailModel<T extends QuailEntity> extends AgeableModel<T> {
         this.setRotateAngle(this.body, 1.5708F, 0.0F, 0.0F);
         this.body.setTextureOffset(0, 9).addBox(-2.5F, -4.0F, -4.0F, 5.0F, 8.0F, 6.0F, 0.0F, false);
         this.rightWing = new ModelRenderer(this);
-        this.rightWing.setRotationPoint(-3.5F, 15.0F, 0.0F);
-        this.rightWing.setTextureOffset(24, 13).addBox(0.0F, 1.0F, -3.0F, 1.0F, 4.0F, 6.0F, 0.0F, false);
+        this.rightWing.setRotationPoint(-2.5F, 16.0F, 0.0F);
+        this.rightWing.setTextureOffset(24, 13).addBox(-1.0F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F, 0.0F, false);
         this.leftWing = new ModelRenderer(this);
-        this.leftWing.setRotationPoint(2.5F, 15.0F, 0.0F);
-        this.leftWing.setTextureOffset(24, 13).addBox(0.0F, 1.0F, -3.0F, 1.0F, 4.0F, 6.0F, 0.0F, false);
+        this.leftWing.setRotationPoint(2.0F, 16.0F, 0.0F);
+        this.leftWing.setTextureOffset(24, 13).addBox(0.5F, 0.0F, -3.0F, 1.0F, 4.0F, 6.0F, 0.0F, false);
         this.leftFoot = new ModelRenderer(this);
         this.leftFoot.setRotationPoint(1.0F, 21.0F, 1.0F);
         this.leftFoot.setTextureOffset(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);
