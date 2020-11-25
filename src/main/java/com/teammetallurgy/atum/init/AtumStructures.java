@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.feature.pool.AtumJigsaw;
 import com.teammetallurgy.atum.world.gen.feature.pool.GatehousePools;
+import com.teammetallurgy.atum.world.gen.feature.pool.GenericVillagePools;
 import com.teammetallurgy.atum.world.gen.structure.GatehouseStructure;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
 import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
@@ -51,6 +52,7 @@ public class AtumStructures {
     public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_DEADWOOD_SURFACE_FEATURE = register("mineshaft_deadwood_surface", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.DEADWOOD_SURFACE));
     public static final StructureFeature<AtumMineshaftConfig, ? extends Structure<AtumMineshaftConfig>> MINESHAFT_LIMESTONE_SURFACE_FEATURE = register("mineshaft_limestone_surface", MINESHAFT_STRUCTURE, new AtumMineshaftConfig(AtumConfig.WORLD_GEN.mineshaftProbability.get().floatValue(), AtumMineshaftStructure.Type.LIMESTONE_SURFACE));
     public static final StructureFeature<VillageConfig, ? extends Structure<VillageConfig>> GATEHOUSE_FEATURE = register("gatehouse", GATEHOUSE, new VillageConfig(() -> GatehousePools.POOL, 5));
+    public static final StructureFeature<VillageConfig, ? extends Structure<VillageConfig>> GENERIC_VILLAGE = register("village_generic", Structure.VILLAGE, new VillageConfig(() -> GenericVillagePools.POOL, 6));
 
     private static <F extends Structure<?>> F register(String name, F structure, GenerationStage.Decoration generationStage) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);

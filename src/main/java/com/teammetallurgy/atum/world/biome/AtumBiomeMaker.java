@@ -19,7 +19,6 @@ import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
 import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.feature.structure.StructureFeatures;
 import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
 import net.minecraft.world.gen.placement.*;
 import net.minecraft.world.gen.trunkplacer.ForkyTrunkPlacer;
@@ -229,7 +228,6 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.025F, 1);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
-        biomeGen.withStructure(StructureFeatures.VILLAGE_DESERT); //TODO Remove, Temporary for testing
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
@@ -246,6 +244,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addRuins(biomeGen);
         AtumDefaultFeatures.addGatehouse(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
+        AtumDefaultFeatures.addGenericVillage(biomeGen);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).build();
     }
 

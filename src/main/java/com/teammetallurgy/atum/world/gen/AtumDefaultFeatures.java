@@ -152,6 +152,10 @@ public class AtumDefaultFeatures {
         }
     }
 
+    public static void addGenericVillage(BiomeGenerationSettings.Builder builder) {
+        builder.withStructure(AtumStructures.GENERIC_VILLAGE);
+    }
+
     public static void addMineshaft(BiomeGenerationSettings.Builder builder, boolean isSurface) {
         if (AtumConfig.WORLD_GEN.mineshaftProbability.get() > 0.0D) {
             if (isSurface) {

@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.RegistryKey;
@@ -17,6 +18,7 @@ import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.gen.feature.structure.Structure;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.DerivedWorldInfo;
 import net.minecraftforge.event.world.SleepFinishedTimeEvent;
@@ -59,6 +61,7 @@ public class DimensionHelper {
         BlockState stateDown = world.getBlockState(pos.down());
         Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(world.getBiome(pos));
         return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
+                && !StructureHelper.doesChunkHaveStructure(world, pos, Structure.VILLAGE)
                 && world.isAirBlock(pos.up())
                 && state.getMaterial().isReplaceable()
                 && stateDown.getBlock() != AtumBlocks.LIMESTONE_CRACKED

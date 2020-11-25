@@ -74,6 +74,7 @@ public class SandstormRendering {
             float light = getSunBrightness(world, partialTicks);
 
             RenderSystem.pushMatrix();
+            RenderSystem.pushTextureAttributes();
 
             //mc.entityRenderer.setupOverlayRendering();
 
