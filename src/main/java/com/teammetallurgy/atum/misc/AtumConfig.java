@@ -102,6 +102,7 @@ public class AtumConfig {
         public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.BooleanValue pyramidEnabled;
         public final ForgeConfigSpec.BooleanValue ruinsEnabled;
+        public final ForgeConfigSpec.BooleanValue gatehouseEnabled;
         public final ForgeConfigSpec.IntValue ruinsAmount;
         //public final ForgeConfigSpec.BooleanValue lighthouseEnabled;
         public final ForgeConfigSpec.IntValue shrubFrequency;
@@ -168,9 +169,12 @@ public class AtumConfig {
             this.ruinsEnabled = builder.comment("Should Ruins generate in Atum?")
                     .translation("atum.config.ruins_enabled")
                     .define("Enable Ruins", true);
+            this.gatehouseEnabled = builder.comment("Should Gatehouses generate in Atum?")
+                    .translation("atum.config.gatehouse_enabled")
+                    .define("Enable Gatehouses", true);
             this.ruinsAmount = builder.comment("Specify the amount of ruin variants structures/ruins. Allows for additional ruin structures with a resourcepack")
                     .translation("atum.config.ruins_amount")
-                    .defineInRange("Ruins Amount", 19, 1, 999);
+                    .defineInRange("Ruins Amount", 17, 1, 999);
             /*this.lighthouseEnabled = builder.comment("Should Lighthouses generate in Atum?")
                     .translation("atum.config.lighthouse_enabled")
                     .define("Enable Lighthouse", true);*/

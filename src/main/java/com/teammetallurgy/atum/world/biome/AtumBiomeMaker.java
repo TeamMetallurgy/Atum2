@@ -86,6 +86,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addTomb(biomeGen);
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addGatehouse(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).build();
     }
@@ -243,6 +244,7 @@ public class AtumBiomeMaker {
         AtumDefaultFeatures.addTomb(biomeGen);
         AtumDefaultFeatures.addPyramid(biomeGen);
         AtumDefaultFeatures.addRuins(biomeGen);
+        AtumDefaultFeatures.addGatehouse(biomeGen);
         AtumDefaultFeatures.addMineshaft(biomeGen, false);
         return new Builder().withGenerationSettings(biomeGen.build()).withMobSpawnSettings(new MobSpawnInfo.Builder().isValidSpawnBiomeForPlayer().copy()).build();
     }
