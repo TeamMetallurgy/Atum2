@@ -29,12 +29,12 @@
     "atum:relic_ruby_brooch",
     "atum:relic_emerald_brooch",
     "atum:relic_diamond_brooch",
-    "atum:relic_dirty_scepter",
-    "atum:relic_silver_scepter",
-    "atum:relic_gold_scepter",
-    "atum:relic_sapphire_scepter",
-    "atum:relic_ruby_scepter",
-    "atum:relic_emerald_scepter",
-    "atum:relic_diamond_scepter"
+    "atum:relic_dirty_bracelet",
+    "atum:relic_silver_bracelet",
+    "atum:relic_gold_bracelet",
+    "atum:relic_sapphire_bracelet",
+    "atum:relic_ruby_bracelet",
+    "atum:relic_emerald_bracelet",
+    "atum:relic_diamond_bracelet"
   ]
 }

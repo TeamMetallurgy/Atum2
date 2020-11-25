@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CauldronBlock;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,10 +14,15 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
+import java.util.List;
 
 public class RelicItem extends Item {
     public static final NonNullList<RelicEntry> RELIC_ENTRIES = NonNullList.create();
@@ -79,12 +87,27 @@ public class RelicItem extends Item {
         return super.onEntityItemUpdate(stack, entityItem);
     }
 
+    @Override
+    public void addInformation(@Nonnull ItemStack stack, World world, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flag) {
+        if (getQuality(stack.getItem()) == Quality.DIRTY) {
+            if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                tooltip.add(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.dirty").appendString(": ").mergeStyle(TextFormatting.GRAY)
+                        .append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.dirty.description").mergeStyle(TextFormatting.DARK_GRAY)));
+            } else {
+                tooltip.add(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.dirty").mergeStyle(TextFormatting.GRAY)
+                        .appendString(" ").append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").mergeStyle(TextFormatting.DARK_GRAY)));
+            }
+        } else {
+            tooltip.add(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.vanity").mergeStyle(TextFormatting.YELLOW));
+        }
+    }
+
     public enum Type implements IStringSerializable {
         IDOL("idol"),
         NECKLACE("necklace"),
         RING("ring"),
         BROOCH("brooch"),
-        SCEPTER("scepter");
+        BRACELET("bracelet");
 
         private final String unlocalizedName;
 

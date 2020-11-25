@@ -22,3 +22,10 @@ license="All Rights Reserved"
     versionRange="[35.0.15,)"
     ordering="AFTER"
     side="BOTH"
+
+[[dependencies.atum]]
+    modId="curios"
+    mandatory=true
+    versionRange="[1.16.4-4.0.3.0,)"
+    ordering="AFTER"
+    side="BOTH"

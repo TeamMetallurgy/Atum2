@@ -507,7 +507,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
                         modifier = 2.0D;
                     } else if (type == RelicItem.Type.BROOCH) {
                         modifier = 2.5D;
-                    } else if (type == RelicItem.Type.SCEPTER) {
+                    } else if (type == RelicItem.Type.BRACELET) {
                         modifier = 3.0D;
                     } else if (type == RelicItem.Type.IDOL) {
                         modifier = 5.0D;

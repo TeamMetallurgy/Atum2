@@ -135,62 +135,62 @@
         ]
       }
     },
-    "silver_scepter": {
+    "silver_bracelet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_silver_scepter"
+            "item": "atum:relic_silver_bracelet"
           }
         ]
       }
     },
-    "gold_scepter": {
+    "gold_bracelet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_gold_scepter"
+            "item": "atum:relic_gold_bracelet"
           }
         ]
       }
     },
-    "sapphire_scepter": {
+    "sapphire_bracelet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_sapphire_scepter"
+            "item": "atum:relic_sapphire_bracelet"
           }
         ]
       }
     },
-    "emerald_scepter": {
+    "emerald_bracelet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_emerald_scepter"
+            "item": "atum:relic_emerald_bracelet"
           }
         ]
       }
     },
-    "ruby_scepter": {
+    "ruby_bracelet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_ruby_scepter"
+            "item": "atum:relic_ruby_bracelet"
           }
         ]
       }
     },
-    "diamond_scepter": {
+    "diamond_bracelet": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:relic_diamond_scepter"
+            "item": "atum:relic_diamond_bracelet"
           }
         ]
       }

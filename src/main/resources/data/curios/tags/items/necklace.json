@@ -1,0 +1,11 @@
+{
+  "replace": "false",
+  "values": [
+    "atum:relic_silver_necklace",
+    "atum:relic_gold_necklace",
+    "atum:relic_sapphire_necklace",
+    "atum:relic_ruby_necklace",
+    "atum:relic_emerald_necklace",
+    "atum:relic_diamond_necklace"
+  ]
+}

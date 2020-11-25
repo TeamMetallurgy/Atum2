@@ -22,15 +22,19 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.InterModComms;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import top.theillusivec4.curios.api.SlotTypeMessage;
+import top.theillusivec4.curios.api.SlotTypePreset;
 
 @Mod(value = Atum.MOD_ID)
 public class Atum {
@@ -45,6 +49,7 @@ public class Atum {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();
         modBus.addListener(this::setupCommon);
         modBus.addListener(this::setupClient);
+        modBus.addListener(this::interModComms);
         MinecraftForge.EVENT_BUS.addListener(this::onCommandRegistering);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
@@ -70,5 +75,12 @@ public class Atum {
     @SubscribeEvent
     public void onCommandRegistering(RegisterCommandsEvent event) {
         AtumWeather.register(event.getDispatcher());
+    }
+
+    private void interModComms(InterModEnqueueEvent event) {
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.CHARM.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.NECKLACE.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.RING.getMessageBuilder().build());
+        InterModComms.sendTo("curios", SlotTypeMessage.REGISTER_TYPE, () -> SlotTypePreset.BRACELET.getMessageBuilder().build());
     }
 }

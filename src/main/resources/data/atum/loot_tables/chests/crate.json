@@ -344,8 +344,8 @@
         },
         {
           "type": "item",
-          "name": "atum:relic_dirty_scepter",
-          "entryName": "loot_dirty_scepter",
+          "name": "atum:relic_dirty_bracelet",
+          "entryName": "loot_dirty_bracelet",
           "weight": 5
         },
         {

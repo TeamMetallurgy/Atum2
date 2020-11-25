@@ -61,7 +61,7 @@ public class AtumItems {
     public static final RelicItem IDOL_NECKLACES = registerRelic(RelicItem.Type.NECKLACE);
     public static final RelicItem IDOL_RINGS = registerRelic(RelicItem.Type.RING);
     public static final RelicItem IDOL_BROOCHES = registerRelic(RelicItem.Type.BROOCH);
-    public static final RelicItem IDOL_SCEPTERS = registerRelic(RelicItem.Type.SCEPTER);
+    public static final RelicItem IDOL_BRACELETS = registerRelic(RelicItem.Type.BRACELET);
     public static final Item EFREET_HEART = registerItem(new SimpleItem(), "efreet_heart");
     public static final Item SCARAB = registerItem(new ScarabItem(), "scarab");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");
