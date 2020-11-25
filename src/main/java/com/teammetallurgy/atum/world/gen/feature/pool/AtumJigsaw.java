@@ -4,5 +4,6 @@ public class AtumJigsaw {
 
     public static void registerJigsaws() {
         AtumVillagePools.init();
+        GatehousePools.init();
     }
 }

@@ -143,6 +143,7 @@ public class AtumDefaultFeatures {
     public static void addRuins(BiomeGenerationSettings.Builder builder) {
         if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
             builder.withStructure(AtumStructures.RUIN_FEATURE);
+            builder.withStructure(AtumStructures.GATEHOUSE_FEATURE);
         }
     }
 

@@ -25,9 +25,14 @@
         "separation": 8,
         "salt": 0
       },
+      "atum:gatehouse": {
+        "spacing": 14,
+        "separation": 6,
+        "salt": 0
+      },
       "atum:ruin": {
-        "spacing": 5,
-        "separation": 3,
+        "spacing": 6,
+        "separation": 4,
         "salt": 0
       },
       "atum:tomb": {
