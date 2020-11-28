@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:rods/wooden"
+    },
+    "N": {
+      "tag": "forge:ingots/nebu"
+    }
+  },
+  "result": {
+    "item": "atum:nebu_hammer"
+  }
+}

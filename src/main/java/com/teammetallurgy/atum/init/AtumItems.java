@@ -87,6 +87,7 @@ public class AtumItems {
     public static final Item LIMESTONE_AXE = registerItem(new AxeItem(AtumMats.LIMESTONE, 7.0F, -3.2F, new Item.Properties().group(Atum.GROUP)), "limestone_axe");
     public static final Item LIMESTONE_SWORD = registerItem(new SwordItem(AtumMats.LIMESTONE, 3, -2.4F, new Item.Properties().group(Atum.GROUP)), "limestone_sword");
     public static final Item LIMESTONE_HOE = registerItem(new HoeItem(AtumMats.LIMESTONE, -1, -1.8F, new Item.Properties().group(Atum.GROUP)), "limestone_hoe");
+    public static final Item NEBU_HAMMER = registerItem(new SimpleItem(), "nebu_hammer");
     public static final Item DAGGER_IRON = registerItem(new DaggerItem(ItemTier.IRON), "iron_dagger");
     public static final Item POISON_DAGGER = registerItem(new PoisonDaggerItem(), "dagger_poison");
     public static final Item SCIMITAR_IRON = registerItem(new SwordItem(ItemTier.IRON, 3, -2.4F, new Item.Properties().group(Atum.GROUP)), "iron_scimitar");
@@ -194,8 +195,10 @@ public class AtumItems {
     public static final Item EMMER_DOUGH = registerItem(new SimpleItem(), "emmer_dough");
     public static final Item EMMER_BREAD = registerItem(new Item(new Item.Properties().food(AtumFoods.EMMER_BREAD).group(Atum.GROUP)), "emmer_bread");
     public static final Item QUAIL_EGG = registerItem(new QuailEggItem(), "quail_egg");
-    public static final Item CAMEL_RAW = registerItem(new Item(new Item.Properties().food(AtumFoods.CAMEL_RAW).group(Atum.GROUP)), "camel_raw");
+    public static final Item CAMEL_RAW = registerItem(new Item(new Item.Properties().food(AtumFoods.CAMEL_RAW).group(Atum.GROUP)), "camel");
     public static final Item CAMEL_COOKED = registerItem(new Item(new Item.Properties().food(AtumFoods.CAMEL_COOKED).group(Atum.GROUP)), "camel_cooked");
+    public static final Item QUAIL_RAW = registerItem(new Item(new Item.Properties().food(AtumFoods.QUAIL_RAW).group(Atum.GROUP)), "quail");
+    public static final Item QUAIL_COOKED = registerItem(new Item(new Item.Properties().food(AtumFoods.QUAIL_COOKED).group(Atum.GROUP)), "quail_cooked");
     public static final Item DATE = registerItem(new Item(new Item.Properties().food(Foods.APPLE).group(Atum.GROUP)), "date");
     public static final Item GLISTERING_DATE = registerItem(new SimpleItem(), "glistering_date");
     public static final Item GOLDEN_DATE = registerItem(new Item(new Item.Properties().food(AtumFoods.GOLDEN_DATE).group(Atum.GROUP)), "golden_date");
@@ -216,8 +219,10 @@ public class AtumItems {
         public static final Food EMMER_BREAD = new Food.Builder().hunger(4).saturation(0.9F).build();
         public static final Food CAMEL_RAW = new Food.Builder().hunger(3).saturation(0.2F).meat().build();
         public static final Food CAMEL_COOKED = new Food.Builder().hunger(9).saturation(0.7F).meat().build();
-        public static final Food GOLDEN_DATE = new Food.Builder().hunger(5).saturation(1.5F).effect(new EffectInstance(Effects.REGENERATION, 100, 1), 1.0F).effect(new EffectInstance(Effects.ABSORPTION, 2400, 0), 1.0F).setAlwaysEdible().build();
-        public static final Food ENCHANTED_GOLDEN_DATE = new Food.Builder().hunger(5).saturation(1.5F).effect(new EffectInstance(Effects.REGENERATION, 400, 1), 1.0F).effect(new EffectInstance(Effects.RESISTANCE, 6000, 0), 1.0F).effect(new EffectInstance(Effects.FIRE_RESISTANCE, 6000, 0), 1.0F).effect(new EffectInstance(Effects.ABSORPTION, 2400, 3), 1.0F).setAlwaysEdible().build();
+        public static final Food QUAIL_RAW = new Food.Builder().hunger(1).saturation(0.4F).meat().build();
+        public static final Food QUAIL_COOKED = new Food.Builder().hunger(5).saturation(0.8F).meat().build();
+        public static final Food GOLDEN_DATE = new Food.Builder().hunger(5).saturation(1.5F).effect(() -> new EffectInstance(Effects.REGENERATION, 100, 1), 1.0F).effect(new EffectInstance(Effects.ABSORPTION, 2400, 0), 1.0F).setAlwaysEdible().build();
+        public static final Food ENCHANTED_GOLDEN_DATE = new Food.Builder().hunger(5).saturation(1.5F).effect(() -> new EffectInstance(Effects.REGENERATION, 400, 1), 1.0F).effect(() -> new EffectInstance(Effects.RESISTANCE, 6000, 0), 1.0F).effect(() -> new EffectInstance(Effects.FIRE_RESISTANCE, 6000, 0), 1.0F).effect(() -> new EffectInstance(Effects.ABSORPTION, 2400, 3), 1.0F).setAlwaysEdible().build();
         public static final Food CRUNCHY_SCARAB = new Food.Builder().hunger(3).saturation(0.1F).meat().build();
         public static final Food CRUNCHY_GOLD_SCARAB = new Food.Builder().hunger(6).saturation(1.3F).meat().build();
     }
