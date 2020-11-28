@@ -5,6 +5,21 @@
     "atum:deadwood_torch",
     "atum:limestone_torch",
     "atum:bone_torch",
-    "atum:nebu_torch"
+    "atum:nebu_torch",
+    "atum:torch_of_anput",
+    "atum:torch_of_anubis",
+    "atum:torch_of_atem",
+    "atum:torch_of_geb",
+    "atum:torch_of_horus",
+    "atum:torch_of_isis",
+    "atum:torch_of_montu",
+    "atum:torch_of_nepthys",
+    "atum:torch_of_nuit",
+    "atum:torch_of_osiris",
+    "atum:torch_of_ptah",
+    "atum:torch_of_ra",
+    "atum:torch_of_seth",
+    "atum:torch_of_shu",
+    "atum:torch_of_tefnut"
   ]
 }

@@ -8,12 +8,7 @@
       "atum:girafi_tomb": {
         "spacing": 160,
         "separation": 40,
-        "salt": 0
-      },
-      "atum:lighthouse": {
-        "spacing": 10,
-        "separation": 4,
-        "salt": 0
+        "salt": 19950902
       },
       "atum:mineshaft": {
         "spacing": 1,
@@ -21,29 +16,29 @@
         "salt": 0
       },
       "atum:pyramid": {
-        "spacing": 18,
-        "separation": 8,
-        "salt": 0
+        "spacing": 19,
+        "separation": 9,
+        "salt": 14705550
       },
       "atum:gatehouse": {
         "spacing": 16,
-        "separation": 6,
-        "salt": 0
+        "separation": 11,
+        "salt": 10162700
       },
       "atum:ruin": {
         "spacing": 6,
         "separation": 4,
-        "salt": 0
+        "salt": 10421550
       },
       "atum:tomb": {
         "spacing": 13,
         "separation": 11,
-        "salt": 0
+        "salt": 14150550
       },
       "minecraft:village": {
-        "spacing": 64,
+        "spacing": 56,
         "separation": 16,
-        "salt": 10387312
+        "salt": 38616855
       }
     }
   },

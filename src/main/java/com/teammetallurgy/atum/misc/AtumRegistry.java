@@ -2,10 +2,12 @@ package com.teammetallurgy.atum.misc;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
+import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
@@ -99,15 +101,15 @@ public class AtumRegistry {
     }
 
     /**
-     * Helper method for easily registering torches
+     * Helper method for easily registering torches with unlit torches
      *
      * @param torch The torch block to be registered
      * @param name  The name to register the block with
      * @return The Block that was registered
      */
-    public static Block registerTorch(@Nonnull Block torch, @Nonnull String name) {
+    public static Block registerTorchWithUnlit(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
         Block unlitTorch = new AtumTorchUnlitBlock();
-        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch));
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(unlitTorch).lootFrom(torch), torch.getParticleType());
         Block wallTorchUnlit = new AtumWallTorchUnlitBlock(wallTorchLit, Block.Properties.from(unlitTorch).lootFrom(unlitTorch));
         registerBaseBlock(wallTorchLit, "wall_" + name);
         registerBaseBlock(wallTorchUnlit, "wall_" + name + "_unlit");
@@ -121,6 +123,14 @@ public class AtumRegistry {
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
 
+        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
+    }
+
+    public static Block registerTorch(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch), torch.getParticleType());
+        registerBaseBlock(wallTorchLit, "wall_" + name);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
         return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
     }
 
@@ -296,7 +306,12 @@ public class AtumRegistry {
         return particleType;
     }
 
-    /*
+    public static BasicParticleType registerGodFlame(String name, PharaohEntity.God god) {
+        BasicParticleType particleType = registerParticle(name);
+        NebuFlameParticle.GOD_FLAMES.put(god, particleType);
+        return particleType;
+    }
+        /*
      * Registry events
      */
 

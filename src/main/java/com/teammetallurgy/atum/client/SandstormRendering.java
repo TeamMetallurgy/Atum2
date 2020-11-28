@@ -74,7 +74,6 @@ public class SandstormRendering {
             float light = getSunBrightness(world, partialTicks);
 
             RenderSystem.pushMatrix();
-            RenderSystem.pushTextureAttributes();
 
             //mc.entityRenderer.setupOverlayRendering();
 
@@ -146,7 +145,6 @@ public class SandstormRendering {
             RenderSystem.matrixMode(5888);
             RenderSystem.popMatrix();
 
-            RenderSystem.popAttributes();
             RenderSystem.popMatrix();
         }
     }

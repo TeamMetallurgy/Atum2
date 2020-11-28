@@ -18,7 +18,6 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.pathfinding.PathNodeType;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
@@ -74,12 +73,6 @@ public class QuailEntity extends AnimalEntity { //TODO Look at quail meat
     @Override
     protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
         return this.isChild() ? size.height * 0.5F : size.height;
-    }
-
-    @Override
-    @Nonnull
-    protected ResourceLocation getLootTable() {
-        return EntityType.CHICKEN.getLootTable();
     }
 
     @Override

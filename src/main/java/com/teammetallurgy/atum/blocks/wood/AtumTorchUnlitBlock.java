@@ -1,13 +1,14 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.FlintAndSteelItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
@@ -22,16 +23,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumTorchUnlitBlock extends AtumTorchBlock {
-    public static final List<Block> ALL_TORCHES = new ArrayList<>();
-    public static final Map<Block, Block> UNLIT = Maps.newHashMap();
-    public static final Map<Block, Block> LIT = Maps.newHashMap();
 
     public AtumTorchUnlitBlock() {
         super(0);
