@@ -473,7 +473,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         HORUS("horus", TextFormatting.AQUA),
         ISIS("isis", TextFormatting.LIGHT_PURPLE),
         MONTU("montu", TextFormatting.DARK_RED),
-        NEPTHYS("osiris", TextFormatting.DARK_PURPLE),
+        NEPTHYS("nepthys", TextFormatting.DARK_PURPLE),
         NUIT("nuit", TextFormatting.GRAY),
         OSIRIS("osiris", TextFormatting.DARK_GREEN),
         PTAH("ptah", TextFormatting.YELLOW),

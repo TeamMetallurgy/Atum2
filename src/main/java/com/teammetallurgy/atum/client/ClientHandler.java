@@ -22,6 +22,7 @@ import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.Atlases;
@@ -106,16 +107,16 @@ public class ClientHandler {
 
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
-        RenderType cutoutMipped = RenderType.getCutoutMipped();
+        RenderType cutout = RenderType.getCutout();
         RenderType translucent = RenderType.getTranslucent();
-        RenderTypeLookup.setRenderLayer(AtumBlocks.ANPUTS_FINGERS, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.OASIS_GRASS, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_GRASS, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.TALL_DRY_GRASS, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.SHRUB, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.WEED, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.OPHIDIAN_TONGUE, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.BONE_LADDER, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.ANPUTS_FINGERS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.OASIS_GRASS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_GRASS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.TALL_DRY_GRASS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.SHRUB, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.WEED, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.OPHIDIAN_TONGUE, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.BONE_LADDER, cutout);
         RenderTypeLookup.setRenderLayer(AtumBlocks.CRYSTAL_GLASS, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.WHITE_STAINED_CRYSTAL_GLASS, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.ORANGE_STAINED_CRYSTAL_GLASS, translucent);
@@ -218,22 +219,38 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.GREEN_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.RED_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
         RenderTypeLookup.setRenderLayer(AtumBlocks.BLACK_STAINED_DEADWOOD_FRAMED_CRYSTAL_GLASS_PANE, translucent);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SAPLING, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.POTTED_PALM_SAPLING, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LEAVES, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_LEAVES, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LADDER, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_LADDER, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_HATCH, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_DOOR, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.PAPYRUS, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.FLAX, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.EMMER_WHEAT, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SCAFFOLDING, cutoutMipped);
-        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_SCAFFOLDING, cutoutMipped);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SAPLING, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.POTTED_PALM_SAPLING, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LEAVES, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DRY_LEAVES, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_LADDER, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_LADDER, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_HATCH, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_DOOR, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PAPYRUS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.FLAX, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.EMMER_WHEAT, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.PALM_SCAFFOLDING, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.DEADWOOD_SCAFFOLDING, cutout);
         for (Block torch : AtumTorchUnlitBlock.ALL_TORCHES) {
-            RenderTypeLookup.setRenderLayer(torch, cutoutMipped);
+            RenderTypeLookup.setRenderLayer(torch, cutout);
         }
+        RenderTypeLookup.setRenderLayer(AtumBlocks.NEBU_LANTERN, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_ANPUT, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_ANUBIS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_ATEM, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_GEB, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_HORUS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_ISIS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_MONTU, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_NEPTHYS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_NUIT, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_OSIRIS, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_PTAH, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_RA, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_SETH, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_SHU, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT, cutout);
 
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CHEST_SPAWNER, TileChestRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.LIMESTONE_CHEST, TileChestRender::new);

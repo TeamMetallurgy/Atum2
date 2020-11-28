@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "atum:block/lantern_of_isis"
+    },
+    "hanging=true": {
+      "model": "atum:block/lantern_of_isis_hanging"
+    }
+  }
+}

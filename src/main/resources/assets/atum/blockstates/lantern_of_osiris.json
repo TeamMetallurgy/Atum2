@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "atum:block/lantern_of_osiris"
+    },
+    "hanging=true": {
+      "model": "atum:block/lantern_of_osiris_hanging"
+    }
+  }
+}

@@ -69,6 +69,14 @@ public class StackHelper {
         return ForgeRegistries.BLOCKS.getValue(location);
     }
 
+    public static Item getItemFromName(String name) {
+        return getItemFromName(new ResourceLocation(Atum.MOD_ID, name));
+    }
+
+    public static Item getItemFromName(ResourceLocation location) {
+        return ForgeRegistries.ITEMS.getValue(location);
+    }
+
     /*
      * Gives the specified ItemStack to the player
      */

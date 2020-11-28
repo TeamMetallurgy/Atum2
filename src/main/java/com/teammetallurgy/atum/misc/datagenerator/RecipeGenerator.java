@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.misc.datagenerator;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.misc.StackHelper;
@@ -8,6 +9,7 @@ import net.minecraft.block.Block;
 import net.minecraft.data.*;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -18,6 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 import static com.teammetallurgy.atum.misc.StackHelper.getBlockFromName;
+import static com.teammetallurgy.atum.misc.StackHelper.getItemFromName;
 
 public class RecipeGenerator extends RecipeProvider {
 
@@ -57,6 +60,11 @@ public class RecipeGenerator extends RecipeProvider {
                 //Add tag versions of the following vanilla recipes
                 ShapelessRecipeBuilder.shapelessRecipe(StackHelper.getBlockFromName(new ResourceLocation(colorName + "_concrete_powder")), 8).addIngredient(dye).addIngredient(Ingredient.fromTag(ItemTags.SAND), 4).addIngredient(Ingredient.fromTag(Tags.Items.GRAVEL), 4).setGroup("concrete_powder").addCriterion("has_sand", this.hasItem(Tags.Items.SAND)).addCriterion("has_gravel", this.hasItem(Tags.Items.GRAVEL)).build(consumer);
             }
+        }
+        for (PharaohEntity.God god : PharaohEntity.God.values()) {
+            String godName = god.getName();
+            ShapedRecipeBuilder.shapedRecipe(getBlockFromName("torch_of_" + godName), 4).key('S', getItemFromName(godName + "_godshard")).key('T', AtumBlocks.NEBU_TORCH).patternLine(" T ").patternLine("TST").patternLine(" T ").addCriterion("has_nebu_torch", this.hasItem(AtumBlocks.NEBU_TORCH)).build(consumer);
+            ShapelessRecipeBuilder.shapelessRecipe(getBlockFromName("lantern_of_" + godName)).addIngredient(AtumBlocks.NEBU_LANTERN).addIngredient(getItemFromName(godName + "_godshard")).addCriterion("has_nebu_lantern", this.hasItem(AtumBlocks.NEBU_LANTERN)).build(consumer);
         }
     }
 }

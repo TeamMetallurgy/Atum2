@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "atum:block/lantern_of_ra"
+    },
+    "hanging=true": {
+      "model": "atum:block/lantern_of_ra_hanging"
+    }
+  }
+}

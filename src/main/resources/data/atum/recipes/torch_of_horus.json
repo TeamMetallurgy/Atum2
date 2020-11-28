@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " T ",
+    "TST",
+    " T "
+  ],
+  "key": {
+    "S": {
+      "item": "atum:horus_godshard"
+    },
+    "T": {
+      "item": "atum:nebu_torch"
+    }
+  },
+  "result": {
+    "item": "atum:torch_of_horus",
+    "count": 4
+  }
+}
