@@ -1,10 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.AtumOresBlock;
-import com.teammetallurgy.atum.blocks.PortalBlock;
-import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.blocks.StrangeSandBlock;
+import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.AtumLanternBlock;
 import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
@@ -89,6 +86,22 @@ public class AtumBlocks {
     public static final Block RELIC_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1)), "relic_ore");
     public static final Block NEBU_ORE = registerBlock(new AtumOresBlock(create(Material.ROCK).hardnessAndResistance(3.0F, 3.0F).harvestTool(ToolType.PICKAXE).harvestLevel(2)), "nebu_ore");
     public static final Block NEBU_BLOCK = registerBlock(new Block(AbstractBlock.Properties.create(Material.IRON, MaterialColor.GOLD).setRequiresTool().hardnessAndResistance(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
+    public static final Block GODFORGED_BLOCK = registerBlock(new GodforgedBlock(), "godforged_block");
+    public static final Block ANPUT_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.ANPUT), "anput_godforged_block");
+    public static final Block ANUBIS_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.ANUBIS), "anubis_godforged_block");
+    public static final Block ATEM_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.ATEM), "atem_godforged_block");
+    public static final Block GEB_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.GEB), "geb_godforged_block");
+    public static final Block HORUS_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.HORUS), "horus_godforged_block");
+    public static final Block ISIS_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.ISIS), "isis_godforged_block");
+    public static final Block MONTU_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.MONTU), "montu_godforged_block");
+    public static final Block NEPTHYS_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.NEPTHYS), "nepthys_godforged_block");
+    public static final Block NUIT_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.NUIT), "nuit_godforged_block");
+    public static final Block OSIRIS_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.OSIRIS), "osiris_godforged_block");
+    public static final Block PTAH_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.PTAH), "ptah_godforged_block");
+    public static final Block RA_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.RA), "ra_godforged_block");
+    public static final Block SETH_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.SETH), "seth_godforged_block");
+    public static final Block SHU_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.SHU), "shu_godforged_block");
+    public static final Block TEFNUT_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(PharaohEntity.God.TEFNUT), "tefnut_godforged_block");
     public static final Block DIRTY_BONE = registerBlock(new RotatedPillarBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_block");
     public static final Block DIRTY_BONE_SLAB = registerBlock(new SlabBlock(create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(2.0F)), "dirty_bone_slab");
     public static final Block BONE_LADDER = registerBlock(new AtumLadderBlock(), "bone_ladder");

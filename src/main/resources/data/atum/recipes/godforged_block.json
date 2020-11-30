@@ -1,19 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "NN",
-    "NS",
-    " S"
+    "NNN",
+    "SSS",
+    "NNN"
   ],
   "key": {
-    "S": {
-      "tag": "forge:rods/wooden"
-    },
     "N": {
       "tag": "forge:ingots/nebu"
+    },
+    "S": {
+      "tag": "atum:godshards"
     }
   },
   "result": {
-    "item": "atum:nebu_hammer"
+    "item": "atum:godforged_block"
   }
 }

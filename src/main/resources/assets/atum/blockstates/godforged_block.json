@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "atum:block/godforged_block" }
+  }
+}

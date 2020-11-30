@@ -1,0 +1,20 @@
+{
+  "replace": false,
+  "values": [
+    "atum:anput_godshard",
+    "atum:anubis_godshard",
+    "atum:atem_godshard",
+    "atum:geb_godshard",
+    "atum:horus_godshard",
+    "atum:isis_godshard",
+    "atum:montu_godshard",
+    "atum:nepthys_godshard",
+    "atum:nuit_godshard",
+    "atum:osiris_godshard",
+    "atum:ptah_godshard",
+    "atum:ra_godshard",
+    "atum:seth_godshard",
+    "atum:shu_godshard",
+    "atum:tefnut_godshard"
+  ]
+}

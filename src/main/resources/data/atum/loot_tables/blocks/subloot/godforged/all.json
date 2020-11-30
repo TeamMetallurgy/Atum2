@@ -1,0 +1,69 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/anput"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/anubis"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/atem"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/geb"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/horus"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/isis"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/montu"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/nepthys"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/nuit"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/osiris"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/ptah"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/ra"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/seth"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/shu"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:blocks/subloot/godforged/tefnut"
+        }
+      ]
+    }
+  ]
+}
