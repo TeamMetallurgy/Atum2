@@ -28,7 +28,7 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class MontusStrikeItem extends BattleAxeItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public MontusStrikeItem() {
         super(AtumMats.NEBU, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
@@ -45,15 +45,15 @@ public class MontusStrikeItem extends BattleAxeItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getHeldItemMainhand().getItem() == AtumItems.MONTUS_STRIKE) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
-            if (cooldown.getFloat(attacker) == 1.0F) {
+        if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
+            if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 PlayerEntity player = (PlayerEntity) attacker;
                 World world = player.world;
                 float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -73,7 +73,7 @@ public class MontusStrikeItem extends BattleAxeItem {
                     }
                 }
             }
-            cooldown.removeFloat(attacker);
+            COOLDOWN.removeFloat(attacker);
         }
         return super.hitEntity(stack, target, attacker);
     }

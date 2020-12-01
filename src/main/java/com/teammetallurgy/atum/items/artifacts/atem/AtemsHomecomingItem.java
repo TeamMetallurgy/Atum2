@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.items.tools.AmuletItem;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -20,10 +22,25 @@ import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.Set;
 
-public class AtemsHomecomingItem extends AmuletItem {
+public class AtemsHomecomingItem extends Item {
 
     public AtemsHomecomingItem() {
         super(new Item.Properties().maxDamage(20));
+    }
+
+    @Override
+    public boolean canApplyAtEnchantingTable(ItemStack stack, Enchantment enchantment) {
+        return enchantment == Enchantments.VANISHING_CURSE || enchantment == Enchantments.MENDING || enchantment == Enchantments.UNBREAKING;
+    }
+
+    @Override
+    public int getItemEnchantability(@Nonnull ItemStack stack) {
+        return 1;
+    }
+
+    @Override
+    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
+        return repair.getItem() == AtumItems.NEBU_INGOT;
     }
 
     @Override

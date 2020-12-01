@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class ShusExileItem extends BattleAxeItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public ShusExileItem() {
         super(AtumMats.NEBU, 4.5F, -2.9F, new Item.Properties().rarity(Rarity.RARE));
@@ -33,16 +33,16 @@ public class ShusExileItem extends BattleAxeItem {
         PlayerEntity player = event.getPlayer();
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE) {
-            cooldown.put(player, player.getCooledAttackStrength(0.5F));
+            COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
         }
     }
 
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
         Entity attacker = event.getEntityLiving();
-        if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
+        if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
             PlayerEntity player = (PlayerEntity) attacker;
-            if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && cooldown.getFloat(attacker) == 1.0F) {
+            if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && COOLDOWN.getFloat(attacker) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 event.setStrength(event.getStrength() * 3F);
                 if (target.world instanceof ServerWorld) {
@@ -52,7 +52,7 @@ public class ShusExileItem extends BattleAxeItem {
                     serverWorld.spawnParticle(AtumParticles.SHU, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + target.getEyeHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }
-            cooldown.removeFloat(attacker);
+            COOLDOWN.removeFloat(attacker);
         }
     }
 }

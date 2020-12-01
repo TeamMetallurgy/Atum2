@@ -23,7 +23,7 @@ public class HorusAscensionItem extends GauntletItem {
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        if (cooldown.getFloat(attacker) == 1.0F) {
+        if (COOLDOWN.getFloat(attacker) == 1.0F) {
             knockUp(target, attacker, random);
         }
         return super.hitEntity(stack, target, attacker);

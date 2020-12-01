@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class KhopeshItem extends SwordItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public KhopeshItem(IItemTier itemTier) {
         this(itemTier, new Item.Properties());
@@ -40,15 +40,15 @@ public class KhopeshItem extends SwordItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getHeldItemMainhand().getItem() instanceof KhopeshItem) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
 
     @Override
     public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
-            if (cooldown.getFloat(attacker) == 1.0F) {
+        if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
+            if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 PlayerEntity player = (PlayerEntity) attacker;
                 World world = player.world;
                 float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -61,7 +61,7 @@ public class KhopeshItem extends SwordItem {
                     }
                 }
             }
-            cooldown.removeFloat(attacker);
+            COOLDOWN.removeFloat(attacker);
         }
         return super.hitEntity(stack, target, attacker);
     }

@@ -25,7 +25,7 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtemsWillItem extends SwordItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public AtemsWillItem() {
         super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().group(Atum.GROUP));
@@ -43,7 +43,7 @@ public class AtemsWillItem extends SwordItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && ((LivingEntity) event.getTarget()).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
             if (player.getHeldItemMainhand().getItem() == AtumItems.ATEMS_WILL) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
@@ -51,8 +51,8 @@ public class AtemsWillItem extends SwordItem {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof PlayerEntity && cooldown.containsKey(trueSource)) {
-            if (cooldown.getFloat(trueSource) == 1.0F) {
+        if (trueSource instanceof PlayerEntity && COOLDOWN.containsKey(trueSource)) {
+            if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 event.setAmount(event.getAmount() * 2);
                 if (target.world instanceof ServerWorld) {
@@ -60,7 +60,7 @@ public class AtemsWillItem extends SwordItem {
                     serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + (target.getHeight() / 2), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
                 }
             }
-            cooldown.removeFloat(trueSource);
+            COOLDOWN.removeFloat(trueSource);
         }
     }
 }

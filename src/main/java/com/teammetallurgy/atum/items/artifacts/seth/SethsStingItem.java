@@ -23,7 +23,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class SethsStingItem extends DaggerItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public SethsStingItem() {
         super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
@@ -35,7 +35,7 @@ public class SethsStingItem extends DaggerItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getHeldItemMainhand().getItem() == AtumItems.SETHS_STING) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
@@ -43,8 +43,8 @@ public class SethsStingItem extends DaggerItem {
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getTrueSource();
-        if (trueSource instanceof PlayerEntity && cooldown.containsKey(trueSource)) {
-            if (cooldown.getFloat(trueSource) == 1.0F) {
+        if (trueSource instanceof PlayerEntity && COOLDOWN.containsKey(trueSource)) {
+            if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 target.addPotionEffect(new EffectInstance(Effects.POISON, 80, 2));
                 if (trueSource.world instanceof ServerWorld) {
@@ -52,7 +52,7 @@ public class SethsStingItem extends DaggerItem {
                     serverWorld.spawnParticle(AtumParticles.SETH, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
                 }
             }
-            cooldown.removeFloat(trueSource);
+            COOLDOWN.removeFloat(trueSource);
         }
     }
 }

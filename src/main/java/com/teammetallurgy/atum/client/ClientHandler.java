@@ -22,7 +22,6 @@ import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.Atlases;

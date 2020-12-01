@@ -16,7 +16,7 @@ public class GebsMightItem extends HammerItem {
 
     @Override
     protected void onStun(LivingEntity target) {
-        stun.put(target, 80);
+        STUN.put(target, 80);
         if (target.world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) target.world;
             double d0 = random.nextGaussian() * 0.02D;

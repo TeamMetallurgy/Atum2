@@ -19,7 +19,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -31,6 +30,8 @@ import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.Optional;
 
@@ -77,14 +78,9 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void onRender(RenderPlayerEvent.Pre event) {
-        PlayerEntity player = event.getPlayer();
-        Hand hand = player.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? Hand.OFF_HAND : Hand.MAIN_HAND;
-        ItemStack heldStack = player.getHeldItem(hand);
-        /*if (NuitsVanishingItem.IS_BAUBLES_INSTALLED && NuitsVanishingItem.getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
-            heldStack = NuitsVanishingItem.getAmulet(player);
-        }*/
-        if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-            if (!NuitsVanishingItem.isPlayerMoving(player)) {
+        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.NUITS_VANISHING, event.getEntityLiving());
+        if (optional.isPresent()) {
+            if (!NuitsVanishingItem.isLivingEntityMoving(event.getEntityLiving())) {
                 event.setCanceled(true);
             }
         }

@@ -7,12 +7,11 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nonnull;
 
-//@Optional.Interface(iface = "baubles.api.IBauble", modid = "baubles")
-public class AmuletItem extends Item /*implements IBauble*/ { //TODO Use Curios instead?
-    //public static final boolean IS_BAUBLES_INSTALLED = ModList.get().isLoaded("baubles");
+public class AmuletItem extends Item implements ICurioItem {
 
     public AmuletItem(Item.Properties properties) {
         super(properties.rarity(Rarity.RARE).group(Atum.GROUP));
@@ -29,30 +28,12 @@ public class AmuletItem extends Item /*implements IBauble*/ { //TODO Use Curios 
     }
 
     @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
-        return repair.getItem() == AtumItems.NEBU_INGOT;
-    }
-
-    /*@Override
-    @Optional.Method(modid = "baubles")
-    public BaubleType getBaubleType(@Nonnull ItemStack stack) {
-        return BaubleType.AMULET;
-    }
-
-    @Override
-    @Optional.Method(modid = "baubles")
-    public boolean willAutoSync(@Nonnull ItemStack stack, LivingEntity player) {
+    public boolean canRightClickEquip(@Nonnull ItemStack stack) {
         return true;
     }
 
-    @Optional.Method(modid = "baubles")
-    public static ItemStack getAmulet(PlayerEntity player) {
-        return getBaublesInventory(player).getStackInSlot(0);
+    @Override
+    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
+        return repair.getItem() == AtumItems.NEBU_INGOT;
     }
-
-    @Optional.Method(modid = "baubles")
-    protected static IInventory getBaublesInventory(PlayerEntity player) {
-        IBaublesItemHandler baublesItemHandler = BaublesApi.getBaublesHandler(player);
-        return new BaublesInventoryWrapper(baublesItemHandler, player);
-    }*/
 }
