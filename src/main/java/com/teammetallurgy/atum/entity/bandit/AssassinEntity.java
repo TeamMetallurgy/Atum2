@@ -1,11 +1,13 @@
 package com.teammetallurgy.atum.entity.bandit;
 
+import com.teammetallurgy.atum.entity.ai.controller.AssassinLookController;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.controller.LookController;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -55,7 +57,13 @@ public class AssassinEntity extends BanditBaseEntity {
         super.registerGoals();
         this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget));
         this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false));
-        this.goalSelector.addGoal(4, new AssassinMeleeAttackGoal(this, 1.2D, true));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.2D, true));
+    }
+
+    @Override
+    @Nonnull
+    public LookController getLookController() {
+        return new AssassinLookController(this);
     }
 
     @Override
@@ -226,25 +234,6 @@ public class AssassinEntity extends BanditBaseEntity {
             super.resetTask();
             this.markedTarget = null;
             ((AssassinEntity) this.goalOwner).markedTarget = null;
-        }
-    }
-
-    public static class AssassinMeleeAttackGoal extends MeleeAttackGoal {
-
-        public AssassinMeleeAttackGoal(CreatureEntity creature, double speedIn, boolean useLongMemory) {
-            super(creature, speedIn, useLongMemory);
-        }
-
-        @Override
-        public boolean shouldExecute() {
-            return this.attacker != null && super.shouldExecute();
-        }
-
-        @Override
-        public void tick() {
-            if (this.attacker != null && this.attacker.getLookController() != null) {
-                super.tick();
-            }
         }
     }
 }
