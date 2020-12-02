@@ -229,6 +229,7 @@ public class AssassinEntity extends BanditBaseEntity {
         }
     }
 
+
     public static class AssassinMeleeAttackGoal extends MeleeAttackGoal {
 
         public AssassinMeleeAttackGoal(CreatureEntity creature, double speedIn, boolean useLongMemory) {
@@ -236,13 +237,8 @@ public class AssassinEntity extends BanditBaseEntity {
         }
 
         @Override
-        public boolean shouldExecute() {
-            return this.attacker != null && super.shouldExecute();
-        }
-
-        @Override
         public void tick() {
-            if (this.attacker != null && this.attacker.getLookController() != null) {
+            if (this.attacker != null && this.attacker.getAttackTarget() != null) {
                 super.tick();
             }
         }
