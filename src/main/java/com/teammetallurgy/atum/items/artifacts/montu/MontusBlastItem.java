@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowExplosiveEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
@@ -13,11 +15,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class MontusBlastItem extends BaseBowItem {
+public class MontusBlastItem extends BaseBowItem implements IArtifact {
 
     public MontusBlastItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.MONTU;
     }
 
     @Override

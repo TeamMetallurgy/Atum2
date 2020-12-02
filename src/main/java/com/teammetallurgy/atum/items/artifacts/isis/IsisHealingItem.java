@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.isis;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -14,11 +16,16 @@ import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
-public class IsisHealingItem extends AmuletItem {
+public class IsisHealingItem extends AmuletItem implements IArtifact {
     protected static final Object2IntMap<LivingEntity> DURATION = new Object2IntOpenHashMap<>();
 
     public IsisHealingItem() {
         super(new Item.Properties().maxDamage(96));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ISIS;
     }
 
     @Override

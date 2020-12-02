@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.items.artifacts.montu;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
@@ -27,11 +29,16 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class MontusStrikeItem extends BattleAxeItem {
+public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
     private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public MontusStrikeItem() {
         super(AtumMats.NEBU, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
+    }
+
+    @Override
+    public God getGod() {
+        return God.MONTU;
     }
 
     @Override

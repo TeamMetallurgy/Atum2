@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.HammerItem;
 import net.minecraft.entity.LivingEntity;
@@ -8,10 +10,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Rarity;
 import net.minecraft.world.server.ServerWorld;
 
-public class GebsMightItem extends HammerItem {
+public class GebsMightItem extends HammerItem implements IArtifact {
 
     public GebsMightItem() {
         super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+    }
+
+    @Override
+    public God getGod() {
+        return God.GEB;
     }
 
     @Override

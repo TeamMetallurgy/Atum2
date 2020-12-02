@@ -1,15 +1,15 @@
 package com.teammetallurgy.atum.items;
 
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
+import com.teammetallurgy.atum.api.God;
 
 public class GodshardItem extends SimpleItem {
-    private final PharaohEntity.God god;
+    private final God god;
 
-    public GodshardItem(PharaohEntity.God god) {
+    public GodshardItem(God god) {
         this.god = god;
     }
 
-    public PharaohEntity.God getGod() {
+    public God getGod() {
         return this.god;
     }
 }

@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
@@ -18,11 +20,16 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class NuitsVanishingItem extends AmuletItem {
+public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     protected static final Object2BooleanMap<LivingEntity> INVISIBLE = new Object2BooleanOpenHashMap<>();
 
     public NuitsVanishingItem() {
         super(new Item.Properties().maxDamage(3600));
+    }
+
+    @Override
+    public God getGod() {
+        return God.NUIT;
     }
 
     @SubscribeEvent
@@ -34,10 +41,12 @@ public class NuitsVanishingItem extends AmuletItem {
 
     @Override
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        INVISIBLE.replace(livingEntity, false);
-        if (!livingEntity.getEntityWorld().isRemote && !livingEntity.isPotionActive(Effects.INVISIBILITY) && livingEntity.isInvisible()) {
-            livingEntity.setInvisible(false);
-        }
+        this.setNotInvisible(livingEntity);
+    }
+
+    @Override
+    public void curioBreak(ItemStack stack, LivingEntity livingEntity) {
+        this.setNotInvisible(livingEntity);
     }
 
     @Override
@@ -54,10 +63,14 @@ public class NuitsVanishingItem extends AmuletItem {
                 livingEntity.setInvisible(true);
             }
         } else {
-            INVISIBLE.replace(livingEntity, false);
-            if (!world.isRemote && livingEntity.isInvisible()) {
-                livingEntity.setInvisible(false);
-            }
+            this.setNotInvisible(livingEntity);
+        }
+    }
+
+    public void setNotInvisible(LivingEntity livingEntity) {
+        INVISIBLE.replace(livingEntity, false);
+        if (!livingEntity.getEntityWorld().isRemote && !livingEntity.isPotionActive(Effects.INVISIBILITY) && livingEntity.isInvisible()) {
+            livingEntity.setInvisible(false);
         }
     }
 

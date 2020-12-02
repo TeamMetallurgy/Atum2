@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.items.artifacts.anput;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.DaggerItem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -23,11 +25,16 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AnputsHungerItem extends DaggerItem {
+public class AnputsHungerItem extends DaggerItem implements IArtifact {
     protected static final Object2IntMap<PlayerEntity> HUNGER_TIMER = new Object2IntOpenHashMap<>();
 
     public AnputsHungerItem() {
         super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ANPUT;
     }
 
     @Override

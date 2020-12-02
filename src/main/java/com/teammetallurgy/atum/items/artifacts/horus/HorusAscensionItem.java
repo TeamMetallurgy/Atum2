@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
@@ -15,10 +17,15 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class HorusAscensionItem extends GauntletItem {
+public class HorusAscensionItem extends GauntletItem implements IArtifact {
 
     public HorusAscensionItem() {
         super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+    }
+
+    @Override
+    public God getGod() {
+        return God.HORUS;
     }
 
     @Override

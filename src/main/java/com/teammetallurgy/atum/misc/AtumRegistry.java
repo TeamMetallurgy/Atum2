@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.misc;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
@@ -9,7 +10,6 @@ import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.AtumScaffoldingItem;
 import com.teammetallurgy.atum.items.RelicItem;
@@ -89,7 +89,7 @@ public class AtumRegistry {
         return dirty;
     }
 
-    public static Item registerScepter(PharaohEntity.God god) {
+    public static Item registerScepter(God god) {
         ScepterItem scepter = new ScepterItem();
         ScepterItem.SCEPTERS.put(god, scepter);
         return AtumRegistry.registerItem(scepter, "scepter_" + god.getName());
@@ -306,7 +306,7 @@ public class AtumRegistry {
         return particleType;
     }
 
-    public static BasicParticleType registerGodFlame(String name, PharaohEntity.God god) {
+    public static BasicParticleType registerGodFlame(String name, God god) {
         BasicParticleType particleType = registerParticle(name);
         NebuFlameParticle.GOD_FLAMES.put(god, particleType);
         return particleType;

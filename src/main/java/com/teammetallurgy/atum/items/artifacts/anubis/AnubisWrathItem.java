@@ -4,6 +4,8 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
@@ -51,12 +53,17 @@ import java.util.List;
 import java.util.Objects;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AnubisWrathItem extends SwordItem {
+public class AnubisWrathItem extends SwordItem implements IArtifact {
     private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
     private float attackDamage = 5.0F;
 
     public AnubisWrathItem() {
         super(AtumMats.NEBU, 0, 0.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ANUBIS;
     }
 
     @Override

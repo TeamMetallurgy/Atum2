@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.anubis;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
@@ -37,10 +39,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AnubisMercyItem extends AmuletItem {
+public class AnubisMercyItem extends AmuletItem implements IArtifact {
 
     public AnubisMercyItem() {
         super(new Item.Properties().maxDamage(1000));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ANUBIS;
     }
 
     @Override

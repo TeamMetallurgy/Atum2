@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity;
 
+import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
@@ -111,7 +112,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
             if (this.world instanceof ServerWorld) {
                 ServerWorld serverWorld = (ServerWorld) this.world;
                 for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
-                    playerMP.sendMessage(pharaoh.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).mergeStyle(PharaohEntity.God.getGod(pharaoh.getVariant()).getColor()), Util.DUMMY_UUID);
+                    playerMP.sendMessage(pharaoh.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).mergeStyle(God.getGod(pharaoh.getVariant()).getColor()), Util.DUMMY_UUID);
                 }
             }
         }

@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.tefnut;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowRainEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -13,11 +15,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class TefnutsRainItem extends BaseBowItem {
+public class TefnutsRainItem extends BaseBowItem implements IArtifact {
 
     public TefnutsRainItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.TEFNUT;
     }
 
     @Override

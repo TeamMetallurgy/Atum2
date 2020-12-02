@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.horus;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowStraightEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
@@ -12,11 +14,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class HorusSoaringItem extends BaseBowItem {
+public class HorusSoaringItem extends BaseBowItem implements IArtifact {
 
     public HorusSoaringItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.HORUS;
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.items.artifacts.ptah;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
@@ -24,10 +26,15 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class PtahsUndoingItem extends PickaxeItem {
+public class PtahsUndoingItem extends PickaxeItem implements IArtifact {
 
     public PtahsUndoingItem() {
         super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0).group(Atum.GROUP));
+    }
+
+    @Override
+    public God getGod() {
+        return God.PTAH;
     }
 
     @Override

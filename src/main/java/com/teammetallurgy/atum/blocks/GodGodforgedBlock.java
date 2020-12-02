@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
+import com.teammetallurgy.atum.api.God;
 
 import javax.annotation.Nonnull;
 
 public class GodGodforgedBlock extends GodforgedBlock {
-    private final PharaohEntity.God god;
+    private final God god;
 
-    public GodGodforgedBlock(@Nonnull PharaohEntity.God god) {
+    public GodGodforgedBlock(@Nonnull God god) {
         this.god = god;
     }
 
-    public PharaohEntity.God getGod() {
+    public God getGod() {
         return god;
     }
 }

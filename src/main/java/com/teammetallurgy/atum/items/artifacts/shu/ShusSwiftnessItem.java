@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.shu;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AmuletItem;
 import net.minecraft.client.util.ITooltipFlag;
@@ -22,11 +24,16 @@ import java.text.DecimalFormat;
 import java.util.List;
 import java.util.UUID;
 
-public class ShusSwiftnessItem extends AmuletItem {
+public class ShusSwiftnessItem extends AmuletItem implements IArtifact {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("f51280de-21d2-47f5-bc9a-e55ef1acfe2d"), "Shu's Swiftness speed boost", 0.025D, AttributeModifier.Operation.ADDITION);
 
     public ShusSwiftnessItem() {
         super(new Item.Properties().maxDamage(12000));
+    }
+
+    @Override
+    public God getGod() {
+        return God.SHU;
     }
 
     @Override

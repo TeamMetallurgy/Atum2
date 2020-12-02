@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotBlackEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotWhiteEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
@@ -20,11 +22,16 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
 
-public class NuitsDualityItem extends BaseBowItem {
+public class NuitsDualityItem extends BaseBowItem implements IArtifact {
 
     public NuitsDualityItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.NUIT;
     }
 
     @Override

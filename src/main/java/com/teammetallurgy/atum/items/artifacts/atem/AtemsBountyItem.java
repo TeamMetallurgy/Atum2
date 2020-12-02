@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.FishingRodItem;
@@ -17,10 +19,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class AtemsBountyItem extends FishingRodItem {
+public class AtemsBountyItem extends FishingRodItem implements IArtifact {
 
     public AtemsBountyItem() {
         super(new Item.Properties().maxDamage(100).rarity(Rarity.RARE).group(Atum.GROUP));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ATEM;
     }
 
     @Override

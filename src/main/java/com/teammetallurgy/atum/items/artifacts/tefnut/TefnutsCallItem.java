@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.items.artifacts.tefnut;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -28,10 +30,15 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class TefnutsCallItem extends Item {
+public class TefnutsCallItem extends Item implements IArtifact {
 
     public TefnutsCallItem() {
         super(new Item.Properties().maxDamage(650).rarity(Rarity.RARE).group(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
+    }
+
+    @Override
+    public God getGod() {
+        return God.TEFNUT;
     }
 
     @Override

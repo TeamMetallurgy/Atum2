@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.blocks.base;
 
 import com.google.common.collect.Maps;
+import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -30,7 +30,7 @@ public class AtumTorchBlock extends TorchBlock {
         this(lightValue, ParticleTypes.FLAME);
     }
 
-    public AtumTorchBlock(@Nullable PharaohEntity.God god) {
+    public AtumTorchBlock(@Nullable God god) {
         this(14, god == null ? AtumParticles.NEBU_FLAME : NebuFlameParticle.GOD_FLAMES.get(god));
         this.particleType = god == null ? AtumParticles.NEBU_FLAME : NebuFlameParticle.GOD_FLAMES.get(god);
     }

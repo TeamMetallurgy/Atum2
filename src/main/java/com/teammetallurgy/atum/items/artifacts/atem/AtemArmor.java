@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.client.model.armor.AtemArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
@@ -16,11 +18,16 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class AtemArmor extends TexturedArmorItem {
+public class AtemArmor extends TexturedArmorItem implements IArtifact {
 
     public AtemArmor(String name, EquipmentSlotType slot) {
         super(AtumMats.NEBU_ARMOR, name, slot, new Item.Properties().rarity(Rarity.RARE));
         this.setHasRender();
+    }
+
+    @Override
+    public God getGod() {
+        return God.ATEM;
     }
 
     @Override

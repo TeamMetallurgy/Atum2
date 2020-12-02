@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.undead;
 
-import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.event.AtumEvents;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
@@ -29,7 +29,6 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.BossInfo;
 import net.minecraft.world.DifficultyInstance;
@@ -48,7 +47,6 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks;
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
 
 public class PharaohEntity extends UndeadBaseEntity {
@@ -463,51 +461,5 @@ public class PharaohEntity extends UndeadBaseEntity {
 
     private void setBossInfo(int variant) {
         this.bossInfo.setName(this.getDisplayName().deepCopy().mergeStyle(God.getGod(variant).getColor()));
-    }
-
-    public enum God {
-        ANPUT("anput", TextFormatting.BLACK),
-        ANUBIS("anubis", TextFormatting.DARK_PURPLE),
-        ATEM("atem", TextFormatting.DARK_AQUA),
-        GEB("geb", TextFormatting.GOLD),
-        HORUS("horus", TextFormatting.AQUA),
-        ISIS("isis", TextFormatting.LIGHT_PURPLE),
-        MONTU("montu", TextFormatting.DARK_RED),
-        NEPTHYS("nepthys", TextFormatting.DARK_PURPLE),
-        NUIT("nuit", TextFormatting.GRAY),
-        OSIRIS("osiris", TextFormatting.DARK_GREEN),
-        PTAH("ptah", TextFormatting.YELLOW),
-        RA("ra", TextFormatting.DARK_RED),
-        SETH("seth", TextFormatting.GREEN),
-        SHU("shu", TextFormatting.BLUE),
-        TEFNUT("tefnut", TextFormatting.DARK_BLUE);
-
-        static Map<Integer, God> MAP;
-        private final String name;
-        private final TextFormatting color;
-
-        God(String name, TextFormatting color) {
-            this.name = name;
-            this.color = color;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public TextFormatting getColor() {
-            return color;
-        }
-
-        public static God getGod(int godType) {
-            if (MAP == null) {
-                MAP = Maps.newHashMap();
-                for (God g : God.values()) {
-                    MAP.put(g.ordinal(), g);
-                }
-            }
-            God god = MAP.get(godType);
-            return god == null ? ANPUT : god;
-        }
     }
 }

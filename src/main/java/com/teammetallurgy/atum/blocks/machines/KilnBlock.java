@@ -41,7 +41,7 @@ public class KilnBlock extends AbstractFurnaceBlock {
 
     @Override
     @Nullable
-    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader interactWithreader) {
         return new KilnTileEntity();
     }
 

@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
@@ -24,11 +26,16 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtemsWillItem extends SwordItem {
+public class AtemsWillItem extends SwordItem implements IArtifact {
     private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public AtemsWillItem() {
         super(AtumMats.NEBU, 3, -2.4F, new Item.Properties().group(Atum.GROUP));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ATEM;
     }
 
     @Override

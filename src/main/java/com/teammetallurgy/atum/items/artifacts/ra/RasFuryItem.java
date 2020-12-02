@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.ra;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowFireEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -12,11 +14,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class RasFuryItem extends BaseBowItem {
+public class RasFuryItem extends BaseBowItem implements IArtifact {
 
     public RasFuryItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.RA;
     }
 
     @Override

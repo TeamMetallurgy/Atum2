@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.enchantment.Enchantment;
@@ -22,10 +24,15 @@ import javax.annotation.Nonnull;
 import java.util.EnumSet;
 import java.util.Set;
 
-public class AtemsHomecomingItem extends Item {
+public class AtemsHomecomingItem extends Item implements IArtifact {
 
     public AtemsHomecomingItem() {
         super(new Item.Properties().maxDamage(20));
+    }
+
+    @Override
+    public God getGod() {
+        return God.ATEM;
     }
 
     @Override

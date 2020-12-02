@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
@@ -28,12 +30,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class NuitsIreItem extends KhopeshItem {
+public class NuitsIreItem extends KhopeshItem implements IArtifact {
     private boolean isOffhand = false;
     private static boolean isBlocking = false;
 
     public NuitsIreItem() {
         super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
+    }
+
+    @Override
+    public God getGod() {
+        return God.NUIT;
     }
 
     @Override

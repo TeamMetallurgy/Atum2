@@ -1,5 +1,7 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.projectile.arrow.ArrowSlownessEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
@@ -12,11 +14,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class GebsGroundingItem extends BaseBowItem {
+public class GebsGroundingItem extends BaseBowItem implements IArtifact {
 
     public GebsGroundingItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.GEB;
     }
 
     @Override

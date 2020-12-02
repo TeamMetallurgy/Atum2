@@ -7,9 +7,9 @@ import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
+import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.entity.ai.brain.SunspeakerShowWaresTask;
 import com.teammetallurgy.atum.entity.ai.brain.SunspeakerTradeTask;
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
@@ -95,7 +95,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         super(entityType, world);
         ((GroundPathNavigator) this.getNavigator()).setBreakDoors(true);
         this.getNavigator().setCanSwim(true);
-        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(PharaohEntity.God.RA)));
+        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(God.RA)));
         this.setSunspeakerData(this.getSunspeakerData().withLevel(0));
     }
 

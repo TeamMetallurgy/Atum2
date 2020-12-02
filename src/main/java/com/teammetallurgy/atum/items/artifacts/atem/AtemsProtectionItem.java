@@ -1,6 +1,8 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AtumShieldItem;
@@ -18,12 +20,17 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtemsProtectionItem extends AtumShieldItem {
+public class AtemsProtectionItem extends AtumShieldItem implements IArtifact {
     private static boolean isBlocking = false;
 
     public AtemsProtectionItem() {
         super(500, new Item.Properties().rarity(Rarity.RARE));
         this.setRepairItem(AtumItems.NEBU_INGOT);
+    }
+
+    @Override
+    public God getGod() {
+        return God.ATEM;
     }
 
     @SubscribeEvent
