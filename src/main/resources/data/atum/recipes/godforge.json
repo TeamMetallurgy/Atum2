@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "NFN",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "tag": "forge:ingots/nebu"
+    },
+    "F": {
+      "tag": "forge:furnace"
+    }
+  },
+  "result": {
+    "item": "atum:godforge"
+  }
+}

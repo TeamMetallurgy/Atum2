@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.client.gui.block.GodforgeScreen;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
@@ -64,6 +65,7 @@ public class ClientHandler {
         ScreenManager.registerFactory(AtumGuis.CAMEL, CamelScreen::new);
         ScreenManager.registerFactory(AtumGuis.KILN, KilnScreen::new);
         ScreenManager.registerFactory(AtumGuis.TRAP, TrapScreen::new);
+        ScreenManager.registerFactory(AtumGuis.GODFORGE, GodforgeScreen::new);
         //Colors
         BlockColors blockColors = Minecraft.getInstance().getBlockColors();
         ItemColors itemColor = Minecraft.getInstance().getItemColors();

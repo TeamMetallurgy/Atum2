@@ -53,12 +53,11 @@ public class GodforgeBlock extends ContainerBlock {
         if (world.isRemote) {
             return ActionResultType.SUCCESS;
         } else {
-            setLitGod(world, pos, state, God.ATEM);
-            /*TileEntity tileEntity = world.getTileEntity(pos);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof GodforgeTileEntity && player instanceof ServerPlayerEntity) {
                 GodforgeTileEntity godForge = (GodforgeTileEntity) tileEntity;
                 NetworkHooks.openGui((ServerPlayerEntity) player, godForge, pos);
-            }*/
+            }
             return ActionResultType.CONSUME;
         }
     }
@@ -66,8 +65,8 @@ public class GodforgeBlock extends ContainerBlock {
     /**
      * Helper method to make sure the Godforge is always set to lit, when a God is being set
      */
-    public static boolean setLitGod(World world, BlockPos pos, BlockState originalState, God god) {
-        return world.setBlockState(pos, originalState.with(LIT, true).with(GOD, god));
+    public static boolean setLitGod(World world, BlockPos pos, BlockState originalState, boolean isLit, God god) {
+        return world.setBlockState(pos, originalState.with(LIT, isLit).with(GOD, god), 3);
     }
 
     @Override

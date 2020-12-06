@@ -2,7 +2,9 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
+import com.teammetallurgy.atum.inventory.container.block.GodforgeContainer;
 import com.teammetallurgy.atum.inventory.container.block.KilnContainer;
 import com.teammetallurgy.atum.inventory.container.block.TrapContainer;
 import com.teammetallurgy.atum.inventory.container.entity.AlphaDesertWolfContainer;
@@ -36,6 +38,10 @@ public class AtumGuis {
         TrapTileEntity trap = (TrapTileEntity) inv.player.world.getTileEntity(data.readBlockPos());
         return new TrapContainer(windowID, inv, trap);
     }), "trap");
+    public static final ContainerType<GodforgeContainer> GODFORGE = register(IForgeContainerType.create((windowID, inv, data) -> {
+        GodforgeTileEntity godforge = (GodforgeTileEntity) inv.player.world.getTileEntity(data.readBlockPos());
+        return new GodforgeContainer(windowID, inv, godforge);
+    }), "godforge");
 
 
     private static <T extends Container> ContainerType<T> register(@Nonnull ContainerType<T> container, @Nonnull String name) {
