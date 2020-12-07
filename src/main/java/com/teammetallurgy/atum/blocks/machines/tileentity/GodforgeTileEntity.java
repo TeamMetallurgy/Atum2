@@ -115,7 +115,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements ISide
             --this.burnTime;
         }
 
-        if (this.world != null && !this.world.isRemote) {
+        if (!this.world.isRemote) {
             God godCache = this.world.getBlockState(this.pos).get(GodforgeBlock.GOD);
 
             ItemStack fuel = this.inventory.get(1);
@@ -247,10 +247,14 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements ISide
 
     @Override
     public void setInventorySlotContents(int index, @Nonnull ItemStack stack) {
-        super.setInventorySlotContents(index, stack);
-        boolean flag = !stack.isEmpty() && stack.isItemEqual(stack) && ItemStack.areItemStackTagsEqual(stack, stack);
+        ItemStack inventoryStack = this.inventory.get(index);
+        boolean haveInputChanged = !stack.isEmpty() && stack.isItemEqual(inventoryStack) && ItemStack.areItemStackTagsEqual(stack, inventoryStack);
+        this.inventory.set(index, stack);
+        if (stack.getCount() > this.getInventoryStackLimit()) {
+            stack.setCount(this.getInventoryStackLimit());
+        }
 
-        if (index == 0 && !flag) {
+        if (index == 0 && !haveInputChanged) {
             this.cookTimeTotal = this.getCookTime();
             this.cookTime = 0;
             this.markDirty();
