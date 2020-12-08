@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:ceramic_purple"
+  },
+  "result": "atum:ceramic_stairs_purple",
+  "count": 1
+}

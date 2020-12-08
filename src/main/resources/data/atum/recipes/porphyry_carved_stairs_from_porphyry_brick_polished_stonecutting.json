@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:porphyry_brick_polished"
+  },
+  "result": "atum:porphyry_carved_stairs",
+  "count": 1
+}

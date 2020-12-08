@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:alabaster_brick_smooth"
+  },
+  "result": "atum:alabaster_brick_pillar",
+  "count": 1
+}

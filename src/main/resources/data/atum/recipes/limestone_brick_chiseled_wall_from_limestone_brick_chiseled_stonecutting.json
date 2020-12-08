@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:limestone_brick_chiseled"
+  },
+  "result": "atum:chiseled_wall",
+  "count": 1
+}
