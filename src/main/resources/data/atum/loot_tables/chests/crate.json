@@ -439,7 +439,7 @@
       "entries": [
         {
           "type": "loot_table",
-          "name": "atum:artifacts",
+          "name": "atum:gods/all",
           "weight": 1,
           "quality": 2
         },

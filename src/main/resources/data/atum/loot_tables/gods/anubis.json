@@ -1,0 +1,19 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:anubiss_mercy"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:anubiss_wrath"
+        }
+      ]
+    }
+  ]
+}

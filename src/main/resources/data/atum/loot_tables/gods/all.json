@@ -5,63 +5,63 @@
       "entries": [
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/anput"
+          "name": "atum:gods/anput"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/anubis"
+          "name": "atum:gods/anubis"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/atem"
+          "name": "atum:gods/atem"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/geb"
+          "name": "atum:gods/geb"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/horus"
+          "name": "atum:gods/horus"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/isis"
+          "name": "atum:gods/isis"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/montu"
+          "name": "atum:gods/montu"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/nepthys"
+          "name": "atum:gods/nepthys"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/nuit"
+          "name": "atum:gods/nuit"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/osiris"
+          "name": "atum:gods/osiris"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/ptah"
+          "name": "atum:gods/ptah"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/ra"
+          "name": "atum:gods/ra"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/seth"
+          "name": "atum:gods/seth"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/shu"
+          "name": "atum:gods/shu"
         },
         {
           "type": "minecraft:loot_table",
-          "name": "atum:blocks/subloot/godforged/tefnut"
+          "name": "atum:gods/tefnut"
         }
       ]
     }

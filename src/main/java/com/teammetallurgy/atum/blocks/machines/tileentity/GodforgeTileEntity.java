@@ -315,8 +315,8 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements ISide
     }
 
     @Override
-    public void remove() {
-        super.remove();
+    protected void invalidateCaps() {
+        super.invalidateCaps();
         for (LazyOptional<? extends IItemHandler> handler : handlers) {
             handler.invalidate();
         }

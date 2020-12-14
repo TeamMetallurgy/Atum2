@@ -1,0 +1,24 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:gebs_toil"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:gebs_grounding"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:gebs_might"
+        }
+      ]
+    }
+  ]
+}

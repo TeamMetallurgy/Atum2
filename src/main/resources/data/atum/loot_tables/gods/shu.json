@@ -1,0 +1,24 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:shus_breath"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:shus_exile"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:shus_swiftness"
+        }
+      ]
+    }
+  ]
+}

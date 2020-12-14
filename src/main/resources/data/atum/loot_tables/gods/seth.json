@@ -6,7 +6,12 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:idol_of_labor"
+          "name": "atum:seths_sting"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:seths_venom"
         }
       ]
     }
