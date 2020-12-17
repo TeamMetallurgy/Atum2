@@ -20,6 +20,7 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.state.properties.ChestType;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -96,27 +97,40 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
         }
     }
 
-    public void spawn(PlayerEntity player, DifficultyInstance difficulty) {
+    public void spawn(PlayerEntity player, DifficultyInstance difficulty, @Nullable God god) {
         if (this.world != null && !this.world.isRemote) {
             PharaohEntity pharaoh = AtumEntities.PHARAOH.create(this.world);
-            pharaoh.onInitialSpawn((IServerWorld) this.world, difficulty, SpawnReason.TRIGGERED, null, null);
-            Direction blockFacing = world.getBlockState(pos).get(SarcophagusBlock.FACING);
-            pharaoh.setLocationAndAngles(pos.getX(), pos.getY() + 1, pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
-            pharaoh.rotationYawHead = blockFacing.getHorizontalAngle() + 90;
-            pharaoh.setSarcophagusPos(pos);
-            world.addEntity(pharaoh);
-            pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 2).down());
-            pharaoh.spawnExplosionParticle();
-            this.hasSpawned = true;
+            if (pharaoh != null) {
+                pharaoh.setDropsGodSpecificLoot(god != null);
+                pharaoh.onInitialSpawn((IServerWorld) this.world, difficulty, god == null ? SpawnReason.TRIGGERED : SpawnReason.CONVERSION, null, null);
+                if (god != null) {
+                    pharaoh.setVariantWithAbilities(god.ordinal(), difficulty);
+                }
+                Direction blockFacing = world.getBlockState(pos).get(SarcophagusBlock.FACING);
+                pharaoh.setLocationAndAngles(this.pos.getX(), this.pos.getY() + 1, this.pos.getZ(), blockFacing.getHorizontalAngle() + 90, 0.0F);
+                pharaoh.rotationYawHead = blockFacing.getHorizontalAngle() + 90;
+                pharaoh.setSarcophagusPos(this.pos);
+                this.world.addEntity(pharaoh);
+                pharaoh.spawnGuards(pharaoh.getPosition().offset(blockFacing, 2).down());
+                pharaoh.spawnExplosionParticle();
 
-            if (this.world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) this.world;
-                for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
-                    playerMP.sendMessage(pharaoh.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).mergeStyle(God.getGod(pharaoh.getVariant()).getColor()), Util.DUMMY_UUID);
+                if (this.world instanceof ServerWorld) {
+                    ServerWorld serverWorld = (ServerWorld) this.world;
+                    for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
+                        playerMP.sendMessage(pharaoh.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).mergeStyle(God.getGod(pharaoh.getVariant()).getColor()), Util.DUMMY_UUID);
+                    }
                 }
             }
         }
-        this.world.playSound(pos.getX(), pos.getY(), pos.getZ(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 0.8F, 1.0F, true);
+        this.world.playSound(this.pos.getX(), this.pos.getY(), this.pos.getZ(), AtumSounds.PHARAOH_SPAWN, SoundCategory.HOSTILE, 0.8F, 1.0F, true);
+
+        for (Direction horizontal : Direction.Plane.HORIZONTAL) {
+            TileEntity tileEntityOffset = this.world.getTileEntity(this.pos.offset(horizontal));
+            if (tileEntityOffset instanceof SarcophagusTileEntity) {
+                ((SarcophagusTileEntity) tileEntityOffset).hasSpawned = true;
+            }
+        }
+        this.hasSpawned = true;
     }
 
     @Override
@@ -147,6 +161,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
+    @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return this.isOpenable ? super.getCapability(capability, direction) : LazyOptional.empty();

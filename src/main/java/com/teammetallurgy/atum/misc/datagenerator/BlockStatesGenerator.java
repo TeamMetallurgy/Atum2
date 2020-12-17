@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.misc.datagenerator;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;

@@ -8,7 +8,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
@@ -218,16 +218,7 @@ public class PyramidPieces {
                     }
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-            } else if (function.equals("SarcophagusArtifact")) {
-                BlockPos posDown = pos.down();
-                if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof SarcophagusTileEntity) {
-                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.SARCOPHAGUS_ARTIFACT, rand.nextLong());
-                    }
-                }
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-            } else if (function.equals("PharaohTorch")) {
+            } else if (function.equals("NebuTorch")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.25D) {
                         world.setBlockState(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).getDefaultState(), 2);

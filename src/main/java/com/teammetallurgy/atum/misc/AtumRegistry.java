@@ -3,11 +3,11 @@ package com.teammetallurgy.atum.misc;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumWallTorch;
+import com.teammetallurgy.atum.blocks.lighting.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
@@ -309,6 +309,7 @@ public class AtumRegistry {
     public static BasicParticleType registerGodFlame(String name, God god) {
         BasicParticleType particleType = registerParticle(name);
         NebuFlameParticle.GOD_FLAMES.put(god, particleType);
+        NebuFlameParticle.GODS.put(particleType, god);
         return particleType;
     }
         /*

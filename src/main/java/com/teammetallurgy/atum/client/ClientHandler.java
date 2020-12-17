@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.client;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.client.gui.block.GodforgeScreen;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
@@ -253,7 +253,6 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_SHU, cutout);
         RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT, cutout);
 
-        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CHEST_SPAWNER, TileChestRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.LIMESTONE_CHEST, TileChestRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, SarcophagusRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CRATE, CrateRender::new);

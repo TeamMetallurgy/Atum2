@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.*;
-import com.teammetallurgy.atum.blocks.base.AtumLanternBlock;
 import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
-import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumLanternBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.machines.*;
@@ -15,7 +15,6 @@ import com.teammetallurgy.atum.blocks.stone.ceramic.CeramicTileBlock;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteBlock;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.*;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.trap.*;
@@ -40,7 +39,6 @@ import static net.minecraft.block.AbstractBlock.Properties.from;
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumBlocks {
     public static final PortalBlock PORTAL = (PortalBlock) registerBlock(new PortalBlock(), null, "portal");
-    public static final Block CHEST_SPAWNER = registerBlock(new ChestSpawnerBlock(), () -> ItemStackRenderer::new, null, "chest_spawner");
     public static final Block SAND = registerBlock(new StrangeSandBlock(), "sand");
     public static final Block SAND_LAYERED = registerBlock(new SandLayersBlock(), "sand_layer");
     public static final Block LIMESTONE_GRAVEL = registerBlock(new LimestoneGravelBlock(), "limestone_gravel");
@@ -65,6 +63,7 @@ public class AtumBlocks {
     public static final Block KILN = registerBlock(new KilnBlock(), "kiln");
     public static final Block KILN_FAKE = registerBlock(new KilnFakeBlock(), null, "kiln_fake");
     public static final Block GODFORGE = registerBlock(new GodforgeBlock(), "godforge");
+    public static final Block QUANDARY_BLOCK = registerBlock(new QuandaryBlock(), "quandary_block");
     public static final Block BURNING_TRAP = registerBlock(new BurningTrapBlock(), "burning_trap");
     public static final Block POISON_TRAP = registerBlock(new PoisonTrapBlock(), "poison_trap");
     public static final Block TAR_TRAP = registerBlock(new TarTrapBlock(), "tar_trap");

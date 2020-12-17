@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.stone.limestone.chest.ChestSpawnerBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
@@ -49,7 +48,7 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
         if (item instanceof BlockItem) {
             Block block = ((BlockItem) item).getBlock();
 
-            if (block instanceof LimestoneChestBlock || block instanceof ChestSpawnerBlock) {
+            if (block instanceof LimestoneChestBlock) {
                 TileEntityRendererDispatcher.instance.renderItem(new LimestoneChestTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (block instanceof SarcophagusBlock) {
                 TileEntityRendererDispatcher.instance.renderItem(new SarcophagusTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);

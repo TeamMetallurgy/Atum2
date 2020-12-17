@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.base;
+package com.teammetallurgy.atum.blocks.lighting;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.LanternBlock;

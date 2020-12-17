@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.blocks.wood;
+package com.teammetallurgy.atum.blocks.lighting;
 
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;

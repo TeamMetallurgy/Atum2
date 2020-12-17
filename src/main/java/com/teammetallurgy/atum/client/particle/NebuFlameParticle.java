@@ -4,13 +4,15 @@ import com.teammetallurgy.atum.api.God;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
+import net.minecraft.particles.IParticleData;
 import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 
 public class NebuFlameParticle extends DeceleratingParticle {
-    public static final HashMap<God, BasicParticleType> GOD_FLAMES = new HashMap<>();
+    public static final HashMap<God, IParticleData> GOD_FLAMES = new HashMap<>();
+    public static final HashMap<IParticleData, God> GODS = new HashMap<>();
 
     public NebuFlameParticle(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);

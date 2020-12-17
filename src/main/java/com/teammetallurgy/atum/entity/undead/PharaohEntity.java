@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.Sarcophag
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import net.minecraft.entity.*;
@@ -57,6 +58,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     private static final DataParameter<Integer> SUFFIX = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Integer> NUMERAL = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
     private static final DataParameter<Optional<BlockPos>> SARCOPHAGUS_POS = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.OPTIONAL_BLOCK_POS);
+    private static final DataParameter<Boolean> DROP_GOD_SPECIFIC_LOOT = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.BOOLEAN);
     private final ServerBossInfo bossInfo = (ServerBossInfo) new ServerBossInfo(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.NOTCHED_10).setCreateFog(true);
     private int stage;
     private int suffixID = 0;
@@ -66,6 +68,7 @@ public class PharaohEntity extends UndeadBaseEntity {
     private int berserkTimer;
     private float berserkDamage;
     private String texturePath;
+    private boolean dropsGodSpecificLoot;
 
     public PharaohEntity(EntityType<? extends PharaohEntity> entityType, World world) {
         super(entityType, world);
@@ -111,6 +114,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         this.dataManager.register(SUFFIX, 0);
         this.dataManager.register(NUMERAL, 0);
         this.dataManager.register(SARCOPHAGUS_POS, Optional.empty());
+        this.dataManager.register(DROP_GOD_SPECIFIC_LOOT, false);
     }
 
     @Override
@@ -144,6 +148,16 @@ public class PharaohEntity extends UndeadBaseEntity {
     @Override
     protected void dropSpecialItems(@Nonnull DamageSource source, int looting, boolean recentlyHit) {
         //Don't drop equipment
+    }
+
+    @Override
+    @Nonnull
+    protected ResourceLocation getLootTable() {
+        if (this.dropsGodSpecificLoot()) {
+            return new ResourceLocation(Atum.MOD_ID, "gods/" + God.getGod(this.getVariant()).getName());
+        } else {
+            return AtumLootTables.GODS_ALL;
+        }
     }
 
     @Override
@@ -181,6 +195,14 @@ public class PharaohEntity extends UndeadBaseEntity {
 
     public void setSarcophagusPos(BlockPos pos) {
         this.dataManager.set(SARCOPHAGUS_POS, Optional.ofNullable(pos));
+    }
+
+    public boolean dropsGodSpecificLoot() {
+        return this.dropsGodSpecificLoot;
+    }
+
+    public void setDropsGodSpecificLoot(boolean dropsGodSpecificLoot) {
+        this.dropsGodSpecificLoot = dropsGodSpecificLoot;
     }
 
     @Override
@@ -382,6 +404,7 @@ public class PharaohEntity extends UndeadBaseEntity {
         compound.putInt("prefix", prefixID);
         compound.putInt("suffix", suffixID);
         compound.putInt("numeral", numID);
+        compound.putBoolean("dropGodSpecificLoot", this.dropsGodSpecificLoot());
         BlockPos sarcophagusPos = getSarcophagusPos();
         if (sarcophagusPos != null) {
             compound.putInt("sarcophagus_x", sarcophagusPos.getX());
@@ -393,9 +416,10 @@ public class PharaohEntity extends UndeadBaseEntity {
     @Override
     public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
-        prefixID = compound.getInt("prefix");
-        suffixID = compound.getInt("suffix");
-        numID = compound.getInt("numeral");
+        this.prefixID = compound.getInt("prefix");
+        this.suffixID = compound.getInt("suffix");
+        this.numID = compound.getInt("numeral");
+        this.dropsGodSpecificLoot = compound.getBoolean("dropGodSpecificLoot");
         if (compound.contains("sarcophagus_x")) {
             int x = compound.getInt("sarcophagus_x");
             int y = compound.getInt("sarcophagus_y");

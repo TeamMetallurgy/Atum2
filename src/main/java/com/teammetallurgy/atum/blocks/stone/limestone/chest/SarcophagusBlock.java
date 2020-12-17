@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.stone.limestone.chest;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.QuandaryBlock;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -83,15 +84,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
         if (tileEntity instanceof SarcophagusTileEntity) {
             SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileEntity;
             if (!sarcophagus.hasSpawned) {
-                if (this.canSpawnPharaoh(world, pos, facing)) {
-                    for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-                        TileEntity tileEntityOffset = world.getTileEntity(pos.offset(horizontal));
-                        if (tileEntityOffset instanceof SarcophagusTileEntity) {
-                            ((SarcophagusTileEntity) tileEntityOffset).hasSpawned = true;
-                        }
-                    }
-                    sarcophagus.spawn(player, world.getDifficultyForLocation(pos));
-                    sarcophagus.hasSpawned = true;
+                if (QuandaryBlock.Helper.canSpawnPharaoh(world, pos, facing, player, sarcophagus)) {
                     return ActionResultType.PASS;
                 } else if (!sarcophagus.isOpenable) {
                     player.sendStatusMessage(new TranslationTextComponent("chat.atum.cannot_spawn_pharaoh").mergeStyle(TextFormatting.RED), true);
@@ -101,14 +94,6 @@ public class SarcophagusBlock extends ChestBaseBlock {
             }
         }
         return super.onBlockActivated(state, world, pos, player, hand, hit);
-    }
-
-    private boolean canSpawnPharaoh(World world, BlockPos pos, Direction facing) {
-        boolean isTopLeftCorner = world.getBlockState(pos.offset(facing.rotateY(), 2).offset(facing.getOpposite(), 1)).getBlock() == AtumBlocks.NEBU_TORCH;
-        boolean isBottomLeftCorner = world.getBlockState(pos.offset(facing.rotateY(), 2).offset(facing, 2)).getBlock() == AtumBlocks.NEBU_TORCH;
-        boolean isTopRightCorner = world.getBlockState(pos.offset(facing.rotateYCCW(), 3).offset(facing.getOpposite(), 1)).getBlock() == AtumBlocks.NEBU_TORCH;
-        boolean isBottomRightCorner = world.getBlockState(pos.offset(facing.rotateYCCW(), 3).offset(facing, 2)).getBlock() == AtumBlocks.NEBU_TORCH;
-        return isTopLeftCorner && isBottomLeftCorner && isTopRightCorner && isBottomRightCorner;
     }
 
     @Override

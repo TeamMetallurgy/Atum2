@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.google.common.collect.Lists;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;

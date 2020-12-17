@@ -1,7 +1,6 @@
-package com.teammetallurgy.atum.blocks.wood;
+package com.teammetallurgy.atum.blocks.lighting;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.base.AtumTorchBlock;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;

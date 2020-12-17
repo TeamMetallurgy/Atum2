@@ -1,7 +1,6 @@
 {
   "_comment": "Blocks",
   "block.atum.portal": "Atum Portal",
-  "block.atum.chest_spawner": "Limestone Chest",
   "block.atum.sand": "Strange Sand",
   "block.atum.limestone_gravel": "Limestone Gravel",
   "block.atum.marl": "Marl",
@@ -238,6 +237,7 @@
   "block.atum.kiln": "Kiln",
   "block.atum.kiln_fake": "Kiln",
   "block.atum.godforge": "Godforge",
+  "block.atum.quandary_block": "Quandary Block",
   "block.atum.burning_trap": "Burning Trap",
   "block.atum.poison_trap": "Poison Trap",
   "block.atum.tar_trap": "Tar Trap",

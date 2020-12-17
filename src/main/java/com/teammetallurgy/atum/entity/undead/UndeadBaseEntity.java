@@ -96,16 +96,20 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
 
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
-        if (this.hasSkinVariants()) {
+        if (this.hasSkinVariants() && spawnReason != SpawnReason.CONVERSION) {
             final int variant = MathHelper.nextInt(world.getRandom(), 0, this.getVariantAmount());
-            this.setVariant(variant);
-            this.setVariantAbilities(difficulty, variant);
+            this.setVariantWithAbilities(variant, difficulty);
         }
         return livingData;
     }
 
     int getVariantAmount() {
         return 6;
+    }
+
+    public void setVariantWithAbilities(int variant, DifficultyInstance difficulty) {
+        this.setVariant(variant);
+        this.setVariantAbilities(difficulty, variant);
     }
 
     void setVariantAbilities(DifficultyInstance difficulty, int variant) {
