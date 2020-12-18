@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
+import net.minecraft.util.Direction;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.SectionPos;
@@ -43,5 +44,18 @@ public class StructureHelper {
         int k1 = generator.getNoiseHeightMinusOne(k + x, l, Heightmap.Type.WORLD_SURFACE_WG);
         int l1 = generator.getNoiseHeightMinusOne(k + x, l + z, Heightmap.Type.WORLD_SURFACE_WG);
         return Math.min(Math.min(i1, j1), Math.min(k1, l1));
+    }
+
+    public static Direction getDirectionFromRotation(Rotation rotation) {
+        switch (rotation) {
+            case CLOCKWISE_90:
+                return Direction.WEST;
+            case CLOCKWISE_180:
+                return Direction.NORTH;
+            case COUNTERCLOCKWISE_90:
+                return Direction.EAST;
+            default:
+                return Direction.SOUTH;
+        }
     }
 }

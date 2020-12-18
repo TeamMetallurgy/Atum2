@@ -1,7 +1,6 @@
 {
   "pools": [
     {
-      "name": "atum:crate",
       "rolls": {
         "min": 2,
         "max": 6

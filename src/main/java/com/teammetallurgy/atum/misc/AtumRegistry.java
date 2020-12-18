@@ -109,7 +109,7 @@ public class AtumRegistry {
      */
     public static Block registerTorchWithUnlit(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
         Block unlitTorch = new AtumTorchUnlitBlock();
-        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(unlitTorch).lootFrom(torch), torch.getParticleType());
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch), torch.getParticleType());
         Block wallTorchUnlit = new AtumWallTorchUnlitBlock(wallTorchLit, Block.Properties.from(unlitTorch).lootFrom(unlitTorch));
         registerBaseBlock(wallTorchLit, "wall_" + name);
         registerBaseBlock(wallTorchUnlit, "wall_" + name + "_unlit");

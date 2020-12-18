@@ -12,13 +12,11 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -50,22 +48,10 @@ public class QuandaryBlock extends Block {
     }
 
     @Override
-    @Nonnull
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult hit) {
-        ItemStack heldStack = player.getHeldItem(Hand.MAIN_HAND);
-        Block heldBlock = Block.getBlockFromItem(heldStack.getItem());
-        if (hit.getFace() == state.get(FACING) && heldBlock instanceof INebuTorch && ((INebuTorch) (heldBlock)).isNebuTorch()) {
-            world.setBlockState(pos, state.with(ACTIVATED, true));
-        }
-        return super.onBlockActivated(state, world, pos, player, hand, hit);
-    }
-
-    @Override
     public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
-        if (state.get(ACTIVATED) && !(world.getBlockState(pos.offset(state.get(FACING))).getBlock() instanceof INebuTorch)) {
-            world.setBlockState(pos, state.with(ACTIVATED, false), 2);
-        }
+        Block facingBlock = world.getBlockState(pos.offset(state.get(FACING))).getBlock();
+        world.setBlockState(pos, state.with(ACTIVATED, facingBlock instanceof INebuTorch && ((INebuTorch) facingBlock).isNebuTorch()), 2);
     }
 
     @Override
