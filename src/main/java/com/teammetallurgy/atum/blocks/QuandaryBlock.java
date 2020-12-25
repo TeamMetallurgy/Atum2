@@ -1,9 +1,8 @@
 package com.teammetallurgy.atum.blocks;
 
-import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.blocks.base.IUnbreakable;
 import com.teammetallurgy.atum.blocks.lighting.INebuTorch;
-import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -22,29 +21,21 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class QuandaryBlock extends Block {
+public class QuandaryBlock extends Block implements IUnbreakable {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     private static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
-    public static final BooleanProperty UNBREAKABLE = BooleanProperty.create("unbreakable");
 
     public QuandaryBlock() {
         super(Block.Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F, 8.0F).setRequiresTool().harvestTool(ToolType.PICKAXE).harvestLevel(1));
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(ACTIVATED, false).with(UNBREAKABLE, false));
     }
 
-    @SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        BlockState state = event.getState();
-        if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE) && !event.getPlayer().isCreative()) {
-            event.setCanceled(true);
-        }
+    @Override
+    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
     }
 
     @Override
@@ -52,11 +43,6 @@ public class QuandaryBlock extends Block {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
         Block facingBlock = world.getBlockState(pos.offset(state.get(FACING))).getBlock();
         world.setBlockState(pos, state.with(ACTIVATED, facingBlock instanceof INebuTorch && ((INebuTorch) facingBlock).isNebuTorch()), 2);
-    }
-
-    @Override
-    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
-        return world.getBlockState(pos).get(UNBREAKABLE) ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
     }
 
     @Override

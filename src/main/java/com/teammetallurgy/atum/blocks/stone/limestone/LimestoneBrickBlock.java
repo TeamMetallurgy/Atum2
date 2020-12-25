@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
-import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.base.IUnbreakable;
 import com.teammetallurgy.atum.blocks.machines.KilnBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
@@ -23,16 +23,11 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class LimestoneBrickBlock extends FallingBlock {
-    public static final BooleanProperty UNBREAKABLE = BooleanProperty.create("unbreakable");
+public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     public static final BooleanProperty CAN_FALL = BooleanProperty.create("can_fall");
 
     public LimestoneBrickBlock() {
@@ -57,14 +52,6 @@ public class LimestoneBrickBlock extends FallingBlock {
                     }
                 }
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onBlockBreak(BlockEvent.BreakEvent event) {
-        BlockState state = event.getState();
-        if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE) && !event.getPlayer().isCreative()) {
-            event.setCanceled(true);
         }
     }
 

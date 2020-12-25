@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.api.event.PharaohBeatenEvent;
+import com.teammetallurgy.atum.blocks.base.IUnbreakable;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -143,7 +144,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                         BlockPos pos = new BlockPos(x, y, z);
                         if (!world.isAirBlock(pos)) {
                             BlockState state = world.getBlockState(pos);
-                            if (state.getBlock() instanceof LimestoneBrickBlock && state.get(LimestoneBrickBlock.UNBREAKABLE)) {
+                            if (state.getBlock() instanceof IUnbreakable && state.get(IUnbreakable.UNBREAKABLE)) {
                                 if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.rand.nextDouble() <= 0.08D) {
                                     if (world.isAirBlock(pos.down())) {
                                         world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState().with(LimestoneBrickBlock.CAN_FALL, true), 2);
@@ -151,7 +152,7 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                                         world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState(), 2);
                                     }
                                 } else {
-                                    world.setBlockState(pos, state.with(LimestoneBrickBlock.UNBREAKABLE, false), 2);
+                                    world.setBlockState(pos, state.with(IUnbreakable.UNBREAKABLE, false), 2);
                                 }
                             } else if (state.getBlock() instanceof TrapBlock) {
                                 world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.getDefaultState(), 2);

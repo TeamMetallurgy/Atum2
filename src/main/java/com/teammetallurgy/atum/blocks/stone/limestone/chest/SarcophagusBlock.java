@@ -21,10 +21,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.Explosion;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.*;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -75,7 +72,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
         TileEntity tileLeft = world.getTileEntity(posLeft);
         if (world.getBlockState(posLeft).getBlock() == this && tileLeft instanceof SarcophagusTileEntity) {
             SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileLeft;
-            if (!sarcophagus.hasSpawned) {
+            if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
                 this.onBlockActivated(state, world, pos.offset(facing.rotateY()), player, hand, hit);
                 return ActionResultType.PASS;
             }
@@ -83,7 +80,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
 
         if (tileEntity instanceof SarcophagusTileEntity) {
             SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileEntity;
-            if (!sarcophagus.hasSpawned) {
+            if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
                 if (QuandaryBlock.Helper.canSpawnPharaoh(world, pos, facing, player, sarcophagus)) {
                     return ActionResultType.PASS;
                 } else if (!sarcophagus.isOpenable) {
