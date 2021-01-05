@@ -3,10 +3,13 @@ package com.teammetallurgy.atum.blocks;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.base.IUnbreakable;
 import com.teammetallurgy.atum.blocks.lighting.INebuTorch;
+import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DirectionalBlock;
+import net.minecraft.block.DoorBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
@@ -14,6 +17,8 @@ import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.DoorHingeSide;
+import net.minecraft.state.properties.DoubleBlockHalf;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Explosion;
@@ -21,8 +26,10 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class QuandaryBlock extends Block implements IUnbreakable {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
@@ -39,10 +46,17 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) { //TODO Use fromPos, to only activate when the facing position is updated
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
-        Block facingBlock = world.getBlockState(pos.offset(state.get(FACING))).getBlock();
-        world.setBlockState(pos, state.with(ACTIVATED, facingBlock instanceof INebuTorch && ((INebuTorch) facingBlock).isNebuTorch()), 2);
+        if (world.getBlockState(pos.offset(state.get(FACING))) == world.getBlockState(fromPos)) {
+            Block facingBlock = world.getBlockState(fromPos).getBlock();
+            boolean activated = facingBlock instanceof INebuTorch && ((INebuTorch) facingBlock).isNebuTorch();
+            world.setBlockState(pos, state.with(ACTIVATED, activated), 2);
+
+            if (activated) {
+                Helper.attemptMakeDoor(world, pos, state.get(FACING), LimestoneBrickBlock.class, null);
+            }
+        }
     }
 
     @Override
@@ -82,6 +96,63 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     }
 
     public static class Helper {
+
+        /**
+         * @param fullBlock Class or block instance for that should be replaced by doors, when successfully activated
+         * @param door      Type of door that should be placed. If null, door will attempt to be placed based on fullBlock
+         */
+        public static void attemptMakeDoor(World world, BlockPos pos, Direction facing, Class<? extends Block> fullBlock, @Nullable DoorBlock door) {
+            if (facing.getAxis() != Direction.Axis.Y) {
+                BlockState offsetLeft = world.getBlockState(pos.offset(facing.rotateY(), 3));
+                BlockState offsetRight = world.getBlockState(pos.offset(facing.rotateYCCW(), 3));
+
+                if ((offsetLeft.getBlock() == AtumBlocks.QUANDARY_BLOCK && offsetLeft.get(ACTIVATED)) || (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK && offsetRight.get(ACTIVATED))) {
+                    boolean isPrimary = false;
+                    if (offsetRight.getBlock() == AtumBlocks.QUANDARY_BLOCK) {
+                        isPrimary = true;
+                    }
+
+                    if (!isPrimary) {
+                        pos = pos.offset(facing.rotateY(), 3); //Change position, if the right Quandary Block is activated last
+                    }
+
+                    if (hasEntranceBlocks(world, pos, facing, fullBlock)) {
+                        BlockPos rightFromPrimary = pos.offset(facing.rotateYCCW());
+                        if (door == null) {
+                            Block readFromBlock = world.getBlockState(rightFromPrimary).getBlock();
+                            if (readFromBlock.getRegistryName() != null) {
+                                ResourceLocation location = readFromBlock.getRegistryName();
+                                Block doorRead = ForgeRegistries.BLOCKS.getValue(new ResourceLocation(location.getNamespace(), location.getPath() + "_door"));
+                                if (doorRead != null) {
+                                    door = (DoorBlock) doorRead;
+                                } else {
+                                    door = (DoorBlock) AtumBlocks.LIMESTONE_DOOR;
+                                }
+                            } else {
+                                door = (DoorBlock) AtumBlocks.LIMESTONE_DOOR;
+                            }
+                        }
+
+                        BlockState doorLeft = door.getDefaultState().with(DoorBlock.HINGE, DoorHingeSide.LEFT).with(DoorBlock.FACING, facing.getOpposite()).with(DoorBlock.OPEN, true);
+                        BlockState doorRight = door.getDefaultState().with(DoorBlock.HINGE, DoorHingeSide.RIGHT).with(DoorBlock.FACING, facing.getOpposite()).with(DoorBlock.OPEN, true);
+                        world.setBlockState(rightFromPrimary, doorLeft.with(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3); //Top Left
+                        world.setBlockState(rightFromPrimary.down(), doorLeft, 2); //Bottom Left
+                        world.setBlockState(pos.offset(facing.rotateYCCW(), 2), doorRight.with(DoorBlock.HALF, DoubleBlockHalf.UPPER), 3); //Top Right
+                        world.setBlockState(pos.offset(facing.rotateYCCW(), 2).down(), doorRight, 2); //Bottom Right
+
+                        playRewardDing(world, pos);
+                    }
+                }
+            }
+        }
+
+        public static boolean hasEntranceBlocks(World world, BlockPos pos, Direction facing, Class<? extends Block> fullBlock) {
+            Block rightFromPrimary = world.getBlockState(pos.offset(facing.rotateYCCW())).getBlock();
+            return fullBlock.isInstance(rightFromPrimary) &&
+                    world.getBlockState(pos.offset(facing.rotateYCCW(), 2)).getBlock() == rightFromPrimary &&
+                    world.getBlockState(pos.offset(facing.rotateYCCW()).down()).getBlock() == rightFromPrimary &&
+                    world.getBlockState(pos.offset(facing.rotateYCCW(), 2).down()).getBlock() == rightFromPrimary;
+        }
 
         public static boolean canSpawnPharaoh(World world, BlockPos pos, Direction facing, PlayerEntity player, SarcophagusTileEntity sarcophagus) {
             Block topLeftCorner = world.getBlockState(pos.offset(facing.rotateY(), 2).offset(facing.getOpposite(), 1)).getBlock();
