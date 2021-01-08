@@ -20,7 +20,7 @@
       "trigger": "minecraft:summoned_entity",
       "conditions": {
         "entity": {
-          "type": "atum:stonewarden"
+          "type": "atum:stonewarden_friendly"
         }
       }
     }

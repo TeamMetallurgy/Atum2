@@ -16,7 +16,7 @@
       "trigger": "minecraft:summoned_entity",
       "conditions": {
         "entity": {
-          "type": "atum:stoneguard"
+          "type": "atum:stoneguard_friendly"
         }
       }
     }

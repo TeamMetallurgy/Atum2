@@ -31,7 +31,13 @@
     "deadwood_forest": {
       "trigger": "minecraft:location",
       "conditions": {
-        "biome": "atum:deadwood_forest"
+        "biome": "atum:dense_woods"
+      }
+    },
+    "deadwood_forest": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "biome": "atum:sparse_woods"
       }
     },
     "dried_river": {

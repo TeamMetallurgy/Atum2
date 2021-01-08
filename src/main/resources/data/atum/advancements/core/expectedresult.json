@@ -36,6 +36,14 @@
         }
       }
     },
+    "sergeant": {
+      "trigger": "minecraft:entity_killed_player",
+      "conditions": {
+        "entity": {
+          "type": "atum:sergeant"
+        }
+      }
+    },
     "assassin": {
       "trigger": "minecraft:entity_killed_player",
       "conditions": {
