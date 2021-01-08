@@ -135,21 +135,15 @@ public class AtumDefaultFeatures {
     }
 
     public static void addPyramid(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.pyramidEnabled.get()) {
-            builder.withStructure(AtumStructures.PYRAMID_FEATURE);
-        }
+        builder.withStructure(AtumStructures.PYRAMID_FEATURE);
     }
 
     public static void addRuins(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.ruinsEnabled.get()) {
-            builder.withStructure(AtumStructures.RUIN_FEATURE);
-        }
+        builder.withStructure(AtumStructures.RUIN_FEATURE);
     }
 
     public static void addGatehouse(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.gatehouseEnabled.get()) {
-            builder.withStructure(AtumStructures.GATEHOUSE_FEATURE);
-        }
+        builder.withStructure(AtumStructures.GATEHOUSE_FEATURE);
     }
 
     public static void addGenericVillage(BiomeGenerationSettings.Builder builder) {
