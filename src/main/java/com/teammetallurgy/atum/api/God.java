@@ -2,35 +2,38 @@ package com.teammetallurgy.atum.api;
 
 import com.google.common.collect.Maps;
 import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.Color;
 import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
 public enum God implements IStringSerializable {
-    ANPUT("anput", TextFormatting.BLACK),
-    ANUBIS("anubis", TextFormatting.DARK_PURPLE),
-    ATEM("atem", TextFormatting.DARK_AQUA),
-    GEB("geb", TextFormatting.GOLD),
-    HORUS("horus", TextFormatting.AQUA),
-    ISIS("isis", TextFormatting.LIGHT_PURPLE),
-    MONTU("montu", TextFormatting.DARK_RED),
-    NEPTHYS("nepthys", TextFormatting.DARK_PURPLE),
-    NUIT("nuit", TextFormatting.GRAY),
-    OSIRIS("osiris", TextFormatting.DARK_GREEN),
-    PTAH("ptah", TextFormatting.YELLOW),
-    RA("ra", TextFormatting.DARK_RED),
-    SETH("seth", TextFormatting.GREEN),
-    SHU("shu", TextFormatting.BLUE),
-    TEFNUT("tefnut", TextFormatting.DARK_BLUE);
+    ANPUT("anput", "#46403F"),
+    ANUBIS("anubis", "#780162"),
+    ATEM("atem", "#229F89"),
+    GEB("geb", "#c65e00"),
+    HORUS("horus", "#6e60e6"),
+    ISIS("isis", "#b853c6"),
+    MONTU("montu", "#893c2e"),
+    NEPTHYS("nepthys", "#9703c9"),
+    NUIT("nuit", "#493e74"),
+    OSIRIS("osiris", "#31ab1c"),
+    PTAH("ptah", "#b39c05"),
+    RA("ra", "#9d0d14"),
+    SETH("seth","#5a7F1a"),
+    SHU("shu", "#a6b4bF"),
+    TEFNUT("tefnut", "#1a70FF");
 
     static Map<Integer, God> MAP;
     private final String name;
-    private final TextFormatting color;
+    private final Color color;
+    private final String hex;
 
-    God(String name, TextFormatting color) {
+    God(String name, String hex) {
         this.name = name;
-        this.color = color;
+        this.hex = hex;
+        this.color = Color.fromHex(hex);
     }
 
     @Override
@@ -43,8 +46,12 @@ public enum God implements IStringSerializable {
         return this.name;
     }
 
-    public TextFormatting getColor() {
+    public Color getColor() {
         return this.color;
+    }
+
+    public String getHex() {
+        return this.hex;
     }
 
     public static God getGod(int godType) {

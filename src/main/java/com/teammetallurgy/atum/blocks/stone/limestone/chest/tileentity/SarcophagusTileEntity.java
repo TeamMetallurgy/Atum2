@@ -117,7 +117,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
                 if (this.world instanceof ServerWorld) {
                     ServerWorld serverWorld = (ServerWorld) this.world;
                     for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
-                        playerMP.sendMessage(pharaoh.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).mergeStyle(God.getGod(pharaoh.getVariant()).getColor()), Util.DUMMY_UUID);
+                        playerMP.sendMessage(pharaoh.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.summon_pharaoh")).appendString(" " + player.getGameProfile().getName()).setStyle(pharaoh.getName().getStyle().setColor(God.getGod(pharaoh.getVariant()).getColor())), Util.DUMMY_UUID);
                     }
                 }
             }

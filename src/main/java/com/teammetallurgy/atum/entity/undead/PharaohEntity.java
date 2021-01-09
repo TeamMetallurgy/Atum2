@@ -241,7 +241,7 @@ public class PharaohEntity extends UndeadBaseEntity {
             if (!this.world.isRemote && slayer != null) {
                 List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
                 for (PlayerEntity player : players) {
-                    player.sendMessage(this.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).mergeStyle(God.getGod(this.getVariant()).getColor()), Util.DUMMY_UUID);
+                    player.sendMessage(this.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().setColor(God.getGod(this.getVariant()).getColor())), Util.DUMMY_UUID);
                 }
             }
         }
@@ -484,6 +484,6 @@ public class PharaohEntity extends UndeadBaseEntity {
     }
 
     private void setBossInfo(int variant) {
-        this.bossInfo.setName(this.getDisplayName().deepCopy().mergeStyle(God.getGod(variant).getColor()));
+        this.bossInfo.setName(this.getDisplayName().deepCopy().setStyle(this.getDisplayName().getStyle().setColor(God.getGod(variant).getColor())));
     }
 }
