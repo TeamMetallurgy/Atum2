@@ -25,6 +25,7 @@ public class MummyEntity extends UndeadBaseEntity {
 
     public MummyEntity(EntityType<? extends UndeadBaseEntity> entityType, World world) {
         super(entityType, world);
+        this.setCanPickUpLoot(false);
         this.experienceValue = 8;
     }
 

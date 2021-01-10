@@ -4,7 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBiomes;
-import com.teammetallurgy.atum.items.artifacts.atem.EyesOfAtemItem;
+import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
@@ -115,7 +115,7 @@ public class SandstormRendering {
 
                 // Make it easier to see
                 ItemStack helmet = player.getItemStackFromSlot(EquipmentSlotType.HEAD);
-                if (helmet.getItem() instanceof EyesOfAtemItem) {
+                if (helmet.getItem() instanceof ArtifactArmor) {
                     alpha *= eyesOfAtumAlpha;
                 }
 

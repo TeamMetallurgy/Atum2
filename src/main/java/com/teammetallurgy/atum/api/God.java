@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.api;
 import com.google.common.collect.Maps;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.Color;
-import net.minecraft.util.text.TextFormatting;
 
 import javax.annotation.Nonnull;
 import java.util.Map;

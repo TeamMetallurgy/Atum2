@@ -12,6 +12,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.ChestType;
 import net.minecraft.tileentity.TileEntity;
@@ -27,6 +28,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class SarcophagusBlock extends ChestBaseBlock {
@@ -91,6 +93,13 @@ public class SarcophagusBlock extends ChestBaseBlock {
             }
         }
         return super.onBlockActivated(state, world, pos, player, hand, hit);
+    }
+
+    @Nullable
+    @Override
+    public INamedContainerProvider getContainer(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos) { //Workaround so you can't see loot before pharaoh is beaten
+        TileEntity tileEntity = world.getTileEntity(pos);
+        return tileEntity instanceof SarcophagusTileEntity && ((SarcophagusTileEntity) tileEntity).isOpenable ? super.getContainer(state, world, pos) : null;
     }
 
     @Override

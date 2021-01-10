@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.items.artifacts.atem;
 
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -27,7 +28,7 @@ import java.util.Set;
 public class AtemsHomecomingItem extends Item implements IArtifact {
 
     public AtemsHomecomingItem() {
-        super(new Item.Properties().maxDamage(20));
+        super(new Item.Properties().maxDamage(20).group(Atum.GROUP));
     }
 
     @Override
@@ -54,6 +55,19 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
+
+        if (recall(world, player) != null) {
+            if (!player.isCreative()) {
+                heldStack.damageItem(1, player, (e) -> {
+                    e.sendBreakAnimation(hand);
+                });
+            }
+        }
+
+        return new ActionResult<>(ActionResultType.PASS, heldStack);
+    }
+
+    public static BlockPos recall(World world, PlayerEntity player) {
         BlockPos pos = null;
         if (world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) world;
@@ -73,18 +87,13 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
             }
         }
         if (pos != null) {
-            teleport(world, player, hand, pos.getX(), pos.getY(), pos.getZ());
-            if (!player.isCreative()) {
-                heldStack.damageItem(1, player, (e) -> {
-                    e.sendBreakAnimation(hand);
-                });
-            }
+            teleport(world, player, pos.getX(), pos.getY(), pos.getZ());
             onTeleport(world, player);
         }
-        return new ActionResult<>(ActionResultType.PASS, heldStack);
+        return pos;
     }
 
-    private static void teleport(World world, Entity entity, Hand hand, int x, int y, int z) {
+    private static void teleport(World world, Entity entity, int x, int y, int z) {
         float yaw = entity.rotationYaw;
         float pitch = entity.rotationPitch;
         if (entity instanceof ServerPlayerEntity) {

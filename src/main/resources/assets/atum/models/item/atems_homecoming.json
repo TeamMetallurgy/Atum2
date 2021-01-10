@@ -1,6 +1,6 @@
 {
-  "parent": "item/generated",
+  "parent": "minecraft:item/handheld",
   "textures": {
-    "layer0": "atum:item/atems_homecoming"
+    "layer0": "atum:item/scepter_atem"
   }
 }
