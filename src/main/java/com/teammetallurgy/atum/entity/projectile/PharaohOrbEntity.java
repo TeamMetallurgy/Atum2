@@ -3,29 +3,41 @@ package com.teammetallurgy.atum.entity.projectile;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.IEntityAdditionalSpawnData;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSpawnData {
     private final God god;
+    //Montu Berserk
+    private static int berserkTimer;
+    private static float berserkDamage;
 
     public PharaohOrbEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(AtumEntities.PHARAOH_ORB, world);
@@ -42,7 +54,8 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     }
 
     public PharaohOrbEntity(World world, LivingEntity shooter, God god) {
-        super(AtumEntities.PHARAOH_ORB, world, shooter);
+        super(AtumEntities.PHARAOH_ORB, world, shooter.getPosX(), shooter.getPosYEye() - (double) 0.3F, shooter.getPosZ());
+        this.setShooter(shooter);
         this.pickupStatus = PickupStatus.DISALLOWED;
         this.setDamage(this.getOrbDamage());
         this.god = god;
@@ -65,7 +78,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     @Override
     @Nonnull
     protected SoundEvent getHitEntitySound() {
-        return SoundEvents.BLOCK_ANCIENT_DEBRIS_HIT;
+        return SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE;
     }
 
     @Override
@@ -73,8 +86,25 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         this.remove();
     }
 
+    @Override
+    public void tick() {
+        super.tick();
+        this.setMotion(this.getMotion().add(0.0D, 0.01D, 0.0D)); //Decrease arc
+
+        //Montu Berserk
+        if (this.getGod() == God.MONTU) {
+            if (berserkTimer > 1) {
+                berserkTimer--;
+            }
+            if (berserkTimer == 1) {
+                berserkDamage = 0;
+                berserkTimer = 0;
+            }
+        }
+    }
+
     public static DamageSource causeOrbDamage(PharaohOrbEntity pharaohOrbEntity, @Nullable Entity indirectEntity) {
-        return (new IndirectEntityDamageSource("atum:pharaoh_orb", pharaohOrbEntity, indirectEntity)).setDifficultyScaled().setProjectile();
+        return (new IndirectEntityDamageSource("atum_pharaoh_orb", pharaohOrbEntity, indirectEntity)).setDifficultyScaled().setProjectile();
     }
 
     @Override
@@ -82,11 +112,6 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         Entity entity = rayTrace.getEntity();
         float f = (float) this.getMotion().length();
         int i = MathHelper.ceil(MathHelper.clamp((double) f * this.getDamage(), 0.0D, 2.147483647E9D));
-
-        if (this.getIsCritical()) {
-            long j = this.rand.nextInt(i / 2 + 2);
-            i = (int) Math.min(j + (long) i, 2147483647L);
-        }
 
         Entity entity1 = this.func_234616_v_();
         DamageSource damagesource = causeOrbDamage(this, entity1);
@@ -96,7 +121,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
         int fireTimer = entity.getFireTimer();
 
-        if (entity.attackEntityFrom(damagesource, (float) i)) {
+        if (!(entity instanceof PharaohEntity) && entity.attackEntityFrom(damagesource, (float) i)) {
             if (entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;
 
@@ -113,6 +138,10 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
                 }
 
                 this.arrowHit(livingEntity);
+                Entity shooter = this.func_234616_v_();
+                if (!this.world.isRemote && shooter instanceof LivingEntity) {
+                    this.doGodSpecificEffect(this.getGod(), (LivingEntity) shooter, livingEntity);
+                }
                 if (entity1 != null && livingEntity != entity1 && livingEntity instanceof PlayerEntity && entity1 instanceof ServerPlayerEntity && !this.isSilent()) {
                     ((ServerPlayerEntity) entity1).connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.field_241770_g_, 0.0F));
                 }
@@ -131,6 +160,77 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
                 this.remove();
             }
         }
+        this.remove();
+    }
+
+    public void doGodSpecificEffect(God god, LivingEntity shooter, LivingEntity target) {
+        switch (god) {
+            case ANPUT:
+                target.addPotionEffect(new EffectInstance(Effects.HUNGER, 80, 1));
+                break;
+            case ANUBIS:
+                target.addPotionEffect(new EffectInstance(Effects.WITHER, 60, 1));
+                break;
+            case ATEM:
+                target.addPotionEffect(new EffectInstance(Effects.INSTANT_DAMAGE, 1, 0));
+                break;
+            case GEB:
+                target.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
+                break;
+            case HORUS:
+                target.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 60, 1));
+                break;
+            case ISIS:
+                shooter.heal(10);
+                break;
+            case NUIT:
+                target.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 120));
+                break;
+            case PTAH:
+                this.applyReverseKnockback(target, 2.0F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
+                break;
+            case RA:
+                target.setFire(3);
+                break;
+            case SETH:
+                target.addPotionEffect(new EffectInstance(Effects.POISON, 100, 0));
+                break;
+            case SHU:
+                HorusAscensionItem.knockUp(target, shooter, this.rand);
+                break;
+            case TEFNUT:
+                target.addPotionEffect(new EffectInstance(Effects.NAUSEA, 100));
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void applyReverseKnockback(LivingEntity target, float reverseStrength, double ratioX, double ratioZ) {
+        reverseStrength = (float) ((double) reverseStrength * (1.0D - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)));
+        if (!(reverseStrength <= 0.0F)) {
+            target.isAirBorne = true;
+            Vector3d vector3d = target.getMotion();
+            Vector3d vector3d1 = (new Vector3d(ratioX, 0.0D, ratioZ)).normalize().scale(reverseStrength);
+            target.setMotion(vector3d.x / 2.0D - vector3d1.x, target.isOnGround() ? -Math.min(0.4D, vector3d.y / 2.0D + (double) reverseStrength) : vector3d.y, -(vector3d.z / 2.0D - vector3d1.z));
+        }
+    }
+
+    @SubscribeEvent
+    public static void onBerserk(LivingHurtEvent event) {
+        Entity immediateSource = event.getSource().getImmediateSource();
+        if (immediateSource instanceof PharaohOrbEntity) {
+            if (((PharaohOrbEntity) immediateSource).getGod() == God.MONTU) {
+                if (berserkTimer == 0) {
+                    event.setAmount(event.getAmount());
+                    berserkDamage = (event.getAmount() / 10) + event.getAmount();
+                } else {
+                    berserkDamage = berserkDamage + (event.getAmount() / 10);
+                    event.setAmount(berserkDamage);
+                }
+                berserkTimer = 80;
+            }
+        }
     }
 
     @Override
@@ -145,6 +245,5 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
     @Override
     public void readSpawnData(PacketBuffer additionalData) {
-
     }
 }

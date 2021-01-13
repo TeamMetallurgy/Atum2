@@ -38,8 +38,6 @@ import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
@@ -77,8 +75,6 @@ public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob 
     private int prefixID = 0;
     private int numID = 0;
     private int regenTime = 0;
-    private int berserkTimer;
-    private float berserkDamage;
     private String texturePath;
     private boolean dropsGodSpecificLoot;
 
@@ -240,7 +236,7 @@ public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob 
         double y = target.getPosYHeight(0.3333333333333333D) - orb.getPosY();
         double z = target.getPosZ() - this.getPosZ();
         double height = MathHelper.sqrt(x * x + z * z);
-        orb.shoot(x, y + height * 0.2D, z, 1.6F, (8 - this.world.getDifficulty().getId() * 4));
+        orb.shoot(x, y + height * 0.2D, z, 1.6F, 1);
         this.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(orb);
     }
@@ -355,21 +351,6 @@ public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob 
         return false;
     }
 
-    @SubscribeEvent
-    public void onBerserk(LivingHurtEvent event) {
-        if (event.getSource().getTrueSource() == this && God.getGod(this.getVariant()) == God.MONTU) {
-            if (this.berserkTimer == 0) {
-                event.setAmount(event.getAmount());
-                this.berserkDamage = (event.getAmount() / 10) + event.getAmount();
-                this.berserkTimer = 80;
-            } else {
-                this.berserkDamage = this.berserkDamage + (event.getAmount() / 10);
-                event.setAmount(this.berserkDamage);
-                this.berserkTimer = 80;
-            }
-        }
-    }
-
     @Override
     public void tick() {
         super.tick();
@@ -399,14 +380,7 @@ public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob 
     public void livingTick() {
         if (regenTime++ > 60) {
             regenTime = 0;
-            this.heal(God.getGod(this.getVariant()) == God.ISIS ? 2 : 1);
-        }
-        if (God.getGod(this.getVariant()) == God.MONTU && this.berserkTimer > 1) {
-            this.berserkTimer--;
-        }
-        if (this.berserkTimer == 1) {
-            this.berserkDamage = 0;
-            this.berserkTimer = 0;
+            this.heal(God.getGod(this.getVariant()) == God.OSIRIS ? 6 : 1);
         }
         super.livingTick();
     }

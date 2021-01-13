@@ -54,7 +54,6 @@ public class OrbAttackGoal<T extends MonsterEntity & IRangedAttackMob> extends G
         this.seeTime = 0;
         this.attackTime = -1;
         this.entity.resetActiveHand();
-        System.out.println("Reset task");
     }
 
     @Override

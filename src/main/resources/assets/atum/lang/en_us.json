@@ -882,6 +882,7 @@
   "entity.atum.mummy": "Mummy",
   "entity.atum.nomad": "Nomad",
   "entity.atum.pharaoh": "Pharaoh",
+  "entity.atum.pharaoh_orb": "Pharaoh Orb",
   "entity.atum.quail": "Quail",
   "entity.atum.scarab": "Scarab",
   "entity.atum.sergeant": "Sergeant",
@@ -910,6 +911,7 @@
 
   "_comment": "Death Messages",
   "death.attack.assassinated": "%1$s was assassinated",
+  "death.attack.atum_pharaoh_orb": "%1$s has felt the wrath of %2$s",
 
   "_comment": "Pharaoh Names",
   "entity.atum.pharaoh.Ama": "Ama'",
