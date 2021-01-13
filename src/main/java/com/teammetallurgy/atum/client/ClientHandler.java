@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
 import com.teammetallurgy.atum.client.gui.entity.CamelScreen;
 import com.teammetallurgy.atum.client.model.entity.*;
 import com.teammetallurgy.atum.client.render.entity.HeartOfRaRender;
+import com.teammetallurgy.atum.client.render.entity.PharaohOrbRender;
 import com.teammetallurgy.atum.client.render.entity.TefnutsCallRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
 import com.teammetallurgy.atum.client.render.tileentity.*;
@@ -279,6 +280,7 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SCARAB, ScarabRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.DESERT_RABBIT, DesertRabbitRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.QUAIL, QuailRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.PHARAOH_ORB, PharaohOrbRender::new);
         for (EntityType<? extends CustomArrow> arrow : AtumRegistry.ARROWS) {
             RenderingRegistry.registerEntityRenderingHandler(arrow, manager -> new ArrowRenderer<CustomArrow>(manager) {
                 @Override

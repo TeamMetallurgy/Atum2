@@ -81,7 +81,6 @@ public class AtemArmor extends ArtifactArmor {
             if (player instanceof ServerPlayerEntity) {
                 if (RECALL_TIMER.containsKey(player)) {
                     int recallTimer = RECALL_TIMER.get(player);
-                    System.out.println(recallTimer);
                     if (recallTimer == 0) {
                         RECALL_TIMER.remove(player);
                     }

@@ -1,21 +1,27 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 public class ArrowDoubleShotBlackEntity extends CustomArrow {
+
+    public ArrowDoubleShotBlackEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.DOUBLE_SHOT_BLACK, world);
+    }
 
     public ArrowDoubleShotBlackEntity(EntityType<? extends ArrowDoubleShotBlackEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowDoubleShotBlackEntity(World world, LivingEntity shooter) {
-        super(world, shooter);
+        super(AtumEntities.DOUBLE_SHOT_BLACK, world, shooter);
     }
 
     @Override

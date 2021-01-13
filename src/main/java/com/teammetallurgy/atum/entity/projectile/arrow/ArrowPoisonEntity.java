@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,17 +12,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 import javax.annotation.Nonnull;
 
 public class ArrowPoisonEntity extends CustomArrow {
+
+    public ArrowPoisonEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.POISON_ARROW, world);
+    }
 
     public ArrowPoisonEntity(EntityType<? extends ArrowPoisonEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowPoisonEntity(World world, LivingEntity shooter) {
-        super(world, shooter);
+        super(AtumEntities.POISON_ARROW, world, shooter);
     }
 
     @Override

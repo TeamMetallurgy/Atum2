@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
-import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
@@ -9,7 +8,7 @@ import net.minecraft.item.BowItem;
 
 import java.util.EnumSet;
 
-public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMob> extends Goal { //Copy of RangedBowAttackGoal. Changed bow item only.
+public class OrbAttackGoal<T extends MonsterEntity & IRangedAttackMob> extends Goal { //Based on CustomRangedBowAttackGoal. Changed to not care about held item
     private final T entity;
     private final double moveSpeedAmp;
     private int attackCooldown;
@@ -20,7 +19,7 @@ public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMo
     private boolean strafingBackwards;
     private int strafingTime = -1;
 
-    public CustomRangedBowAttackGoal(T mob, double moveSpeedAmp, int attackCooldown, float maxAttackDistance) {
+    public OrbAttackGoal(T mob, double moveSpeedAmp, int attackCooldown, float maxAttackDistance) {
         this.entity = mob;
         this.moveSpeedAmp = moveSpeedAmp;
         this.attackCooldown = attackCooldown;
@@ -34,16 +33,12 @@ public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMo
 
     @Override
     public boolean shouldExecute() {
-        return this.entity.getAttackTarget() != null && this.isBowInMainhand();
-    }
-
-    protected boolean isBowInMainhand() {
-        return this.entity.getHeldItemMainhand().getItem() instanceof BowItem || this.entity.getHeldItemOffhand().getItem() instanceof BowItem;
+        return this.entity.getAttackTarget() != null;
     }
 
     @Override
     public boolean shouldContinueExecuting() {
-        return (this.shouldExecute() || !this.entity.getNavigator().noPath()) && this.isBowInMainhand();
+        return (this.shouldExecute() || !this.entity.getNavigator().noPath());
     }
 
     @Override
@@ -59,6 +54,7 @@ public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMo
         this.seeTime = 0;
         this.attackTime = -1;
         this.entity.resetActiveHand();
+        System.out.println("Reset task");
     }
 
     @Override
@@ -111,19 +107,9 @@ public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMo
                 this.entity.getLookController().setLookPositionWithEntity(livingentity, 30.0F, 30.0F);
             }
 
-            if (this.entity.isHandActive()) {
-                if (!flag && this.seeTime < -60) {
-                    this.entity.resetActiveHand();
-                } else if (flag) {
-                    int i = this.entity.getItemInUseMaxCount();
-                    if (i >= 20) {
-                        this.entity.resetActiveHand();
-                        this.entity.attackEntityWithRangedAttack(livingentity, BowItem.getArrowVelocity(i));
-                        this.attackTime = this.attackCooldown;
-                    }
-                }
-            } else if (--this.attackTime <= 0 && this.seeTime >= -60) {
-                this.entity.setActiveHand(StackHelper.getUsedHand(this.entity.getHeldItemMainhand(), BowItem.class));
+            if (flag && this.seeTime > -60 && --this.attackTime <= 0) {
+                this.entity.attackEntityWithRangedAttack(livingentity, BowItem.getArrowVelocity(20));
+                this.attackTime = this.attackCooldown;
             }
         }
     }

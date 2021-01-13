@@ -7,7 +7,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.*;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.SoundCategory;
@@ -47,7 +47,7 @@ public class BaseBowItem extends BowItem {
                     boolean hasArrow = player.abilities.isCreativeMode || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
                     if (!world.isRemote) {
-                        ArrowEntity arrow = setArrow(ammoStack, world, player, velocity);
+                        AbstractArrowEntity arrow = setArrow(ammoStack, world, player, velocity);
                         onShoot(arrow, player, velocity);
 
                         if (velocity == 1.0F) {
@@ -90,15 +90,15 @@ public class BaseBowItem extends BowItem {
         }
     }
 
-    protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
+    protected AbstractArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
         ArrowItem ArrowItem = (ArrowItem) (stack.getItem() instanceof ArrowItem ? stack.getItem() : Items.ARROW);
-        return (ArrowEntity) ArrowItem.createArrow(world, stack, player);
+        return ArrowItem.createArrow(world, stack, player);
     }
 
     protected void onVelocity(World world, PlayerEntity player, float velocity) {
     }
 
-    protected void onShoot(ArrowEntity arrow, PlayerEntity player, float velocity) {
+    protected void onShoot(AbstractArrowEntity arrow, PlayerEntity player, float velocity) {
         arrow.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
     }
 

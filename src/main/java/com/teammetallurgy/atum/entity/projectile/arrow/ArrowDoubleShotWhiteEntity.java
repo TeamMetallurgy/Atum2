@@ -1,14 +1,20 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 public class ArrowDoubleShotWhiteEntity extends CustomArrow {
+
+    public ArrowDoubleShotWhiteEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.DOUBLE_SHOT_WHITE, world);
+    }
 
     public ArrowDoubleShotWhiteEntity(EntityType<? extends ArrowDoubleShotWhiteEntity> entityType, World world) {
         super(entityType, world);
@@ -16,7 +22,7 @@ public class ArrowDoubleShotWhiteEntity extends CustomArrow {
     }
 
     public ArrowDoubleShotWhiteEntity(World world, LivingEntity shooter) {
-        super(world, shooter);
+        super(AtumEntities.DOUBLE_SHOT_WHITE, world, shooter);
         this.pickupStatus = PickupStatus.DISALLOWED;
     }
 

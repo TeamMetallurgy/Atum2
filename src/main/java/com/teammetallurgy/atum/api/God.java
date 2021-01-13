@@ -20,10 +20,11 @@ public enum God implements IStringSerializable {
     OSIRIS("osiris", "#31ab1c"),
     PTAH("ptah", "#b39c05"),
     RA("ra", "#9d0d14"),
-    SETH("seth","#5a7F1a"),
+    SETH("seth", "#5a7F1a"),
     SHU("shu", "#a6b4bF"),
     TEFNUT("tefnut", "#1a70FF");
 
+    static Map<String, God> GOD_BY_NAME;
     static Map<Integer, God> MAP;
     private final String name;
     private final Color color;
@@ -61,6 +62,17 @@ public enum God implements IStringSerializable {
             }
         }
         God god = MAP.get(godType);
+        return god == null ? ANPUT : god;
+    }
+
+    public static God getGodByName(String name) {
+        if (GOD_BY_NAME == null) {
+            GOD_BY_NAME = Maps.newHashMap();
+            for (God god : God.values()) {
+                GOD_BY_NAME.put(god.getName(), god);
+            }
+        }
+        God god = GOD_BY_NAME.get(name);
         return god == null ? ANPUT : god;
     }
 }

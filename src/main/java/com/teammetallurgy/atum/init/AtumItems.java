@@ -108,7 +108,9 @@ public class AtumItems {
     public static final Item SCEPTER_HORUS = registerScepter(God.HORUS);
     public static final Item SCEPTER_ISIS = registerScepter(God.ISIS);
     public static final Item SCEPTER_MONTU = registerScepter(God.MONTU);
+    public static final Item SCEPTER_NEPTHYS = registerScepter(God.NEPTHYS);
     public static final Item SCEPTER_NUIT = registerScepter(God.NUIT);
+    public static final Item SCEPTER_OSIRIS = registerScepter(God.OSIRIS);
     public static final Item SCEPTER_PTAH = registerScepter(God.PTAH);
     public static final Item SCEPTER_RA = registerScepter(God.RA);
     public static final Item SCEPTER_SETH = registerScepter(God.SETH);

@@ -96,7 +96,7 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
         double y = target.getPosYHeight(0.3333333333333333D) - arrow.getPosY();
         double z = target.getPosZ() - this.getPosZ();
         double height = MathHelper.sqrt(x * x + z * z);
-        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (11 - this.world.getDifficulty().getId() * 4));
+        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (12 - this.world.getDifficulty().getId() * 4));
         this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(arrow);
     }

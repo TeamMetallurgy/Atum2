@@ -1,21 +1,27 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 public class ArrowQuickdrawEntity extends CustomArrow {
+
+    public ArrowQuickdrawEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.QUICKDRAW_ARROW, world);
+    }
 
     public ArrowQuickdrawEntity(EntityType<? extends ArrowQuickdrawEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowQuickdrawEntity(World world, LivingEntity shooter) {
-        super(world, shooter);
+        super(AtumEntities.QUICKDRAW_ARROW, world, shooter);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -8,22 +9,27 @@ import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 public class ArrowRainEntity extends CustomArrow {
     private float velocity;
     private boolean isSmallArrow = false;
+
+    public ArrowRainEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.RAIN_ARROW, world);
+    }
 
     public ArrowRainEntity(EntityType<? extends ArrowRainEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowRainEntity(World world, LivingEntity shooter, float velocity) {
-        super(world, shooter);
+        super(AtumEntities.RAIN_ARROW, world, shooter);
         this.velocity = velocity;
     }
 
     public ArrowRainEntity(World world, double x, double y, double z, boolean canPickup) { //Small arrow constructor
-        super(world, x, y, z);
+        super(AtumEntities.RAIN_ARROW, world, x, y, z);
         this.isSmallArrow = true;
         this.pickupStatus = canPickup ? PickupStatus.ALLOWED : ArrowEntity.PickupStatus.DISALLOWED;
     }

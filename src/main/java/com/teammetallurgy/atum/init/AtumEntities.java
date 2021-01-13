@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
+import com.teammetallurgy.atum.entity.projectile.PharaohOrbEntity;
 import com.teammetallurgy.atum.entity.projectile.QuailEggEntity;
 import com.teammetallurgy.atum.entity.projectile.SmallBoneEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.*;
@@ -73,15 +74,19 @@ public class AtumEntities {
             .setTrackingRange(4)
             .setUpdateInterval(10)
             .setCustomClientFactory(SmallBoneEntity::new));
-    public static final EntityType<ArrowDoubleShotBlackEntity> DOUBLE_SHOT_BLACK = registerArrow("arrow_double_shot_black", ArrowDoubleShotBlackEntity::new);
-    public static final EntityType<ArrowDoubleShotWhiteEntity> DOUBLE_SHOT_WHITE = registerArrow("arrow_double_shot_white", ArrowDoubleShotWhiteEntity::new);
-    public static final EntityType<ArrowExplosiveEntity> EXPLOSIVE_ARROW = registerArrow("arrow_explosive", ArrowExplosiveEntity::new);
-    public static final EntityType<ArrowFireEntity> FIRE_ARROW = registerArrow("arrow_fire", ArrowFireEntity::new);
-    public static final EntityType<ArrowPoisonEntity> POISON_ARROW = registerArrow("arrow_poison", ArrowPoisonEntity::new);
-    public static final EntityType<ArrowQuickdrawEntity> QUICKDRAW_ARROW = registerArrow("arrow_quickdraw", ArrowQuickdrawEntity::new);
-    public static final EntityType<ArrowRainEntity> RAIN_ARROW = registerArrow("arrow_rain", ArrowRainEntity::new);
-    public static final EntityType<ArrowSlownessEntity> SLOWNESS_ARROW = registerArrow("arrow_slowness", ArrowSlownessEntity::new);
-    public static final EntityType<ArrowStraightEntity> STRAIGHT_ARROW = registerArrow("arrow_straight", ArrowStraightEntity::new);
+    public static final EntityType<ArrowDoubleShotBlackEntity> DOUBLE_SHOT_BLACK = registerArrow("arrow_double_shot_black", ArrowDoubleShotBlackEntity::new, ArrowDoubleShotBlackEntity::new);
+    public static final EntityType<ArrowDoubleShotWhiteEntity> DOUBLE_SHOT_WHITE = registerArrow("arrow_double_shot_white", ArrowDoubleShotWhiteEntity::new, ArrowDoubleShotWhiteEntity::new);
+    public static final EntityType<ArrowExplosiveEntity> EXPLOSIVE_ARROW = registerArrow("arrow_explosive", ArrowExplosiveEntity::new, ArrowExplosiveEntity::new);
+    public static final EntityType<ArrowFireEntity> FIRE_ARROW = registerArrow("arrow_fire", ArrowFireEntity::new, ArrowFireEntity::new);
+    public static final EntityType<ArrowPoisonEntity> POISON_ARROW = registerArrow("arrow_poison", ArrowPoisonEntity::new, ArrowPoisonEntity::new);
+    public static final EntityType<ArrowQuickdrawEntity> QUICKDRAW_ARROW = registerArrow("arrow_quickdraw", ArrowQuickdrawEntity::new, ArrowQuickdrawEntity::new);
+    public static final EntityType<ArrowRainEntity> RAIN_ARROW = registerArrow("arrow_rain", ArrowRainEntity::new, ArrowRainEntity::new);
+    public static final EntityType<ArrowSlownessEntity> SLOWNESS_ARROW = registerArrow("arrow_slowness", ArrowSlownessEntity::new, ArrowSlownessEntity::new);
+    public static final EntityType<ArrowStraightEntity> STRAIGHT_ARROW = registerArrow("arrow_straight", ArrowStraightEntity::new, ArrowStraightEntity::new);
+    public static final EntityType<PharaohOrbEntity> PHARAOH_ORB = registerEntity("pharaoh_orb", Builder.<PharaohOrbEntity>create(PharaohOrbEntity::new, EntityClassification.MISC).size(0.5F, 0.5F)
+            .setTrackingRange(4)
+            .func_233608_b_(20)
+            .setCustomClientFactory(PharaohOrbEntity::new));
     public static final EntityType<QuailEggEntity> QUAIL_EGG = registerEntity("quail_egg", Builder.<QuailEggEntity>create(QuailEggEntity::new, EntityClassification.MISC).size(0.25F, 0.25F)
             .trackingRange(4)
             .func_233608_b_(10)

@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.entity.projectile.arrow.ArrowStraightEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
@@ -27,12 +27,12 @@ public class HorusSoaringItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    protected ArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
+    protected AbstractArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
         return new ArrowStraightEntity(world, player, velocity);
     }
 
     @Override
-    protected void onShoot(ArrowEntity arrow, PlayerEntity player, float velocity) {
+    protected void onShoot(AbstractArrowEntity arrow, PlayerEntity player, float velocity) {
         arrow.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 0.0F);
     }
 }

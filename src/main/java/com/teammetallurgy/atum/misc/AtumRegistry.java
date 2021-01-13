@@ -33,17 +33,20 @@ import net.minecraft.particles.ParticleType;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -243,11 +246,12 @@ public class AtumRegistry {
      * @param name String to register the arrow with
      * @return The Arrow EntityType that was registered
      */
-    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory) {
+    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> customClientFactory) {
         EntityType.Builder<T> builder = EntityType.Builder.create(factory, EntityClassification.MISC)
                 .size(0.5F, 0.5F)
                 .setTrackingRange(4)
-                .func_233608_b_(20);
+                .func_233608_b_(20)
+                .setCustomClientFactory(customClientFactory);
         EntityType<T> entityType = registerEntity(name, builder);
         ARROWS.add(entityType);
         return entityType;

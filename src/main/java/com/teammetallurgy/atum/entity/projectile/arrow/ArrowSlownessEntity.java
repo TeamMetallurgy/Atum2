@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -11,18 +12,23 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 import javax.annotation.Nonnull;
 
 public class ArrowSlownessEntity extends CustomArrow {
     private float velocity;
 
+    public ArrowSlownessEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.SLOWNESS_ARROW, world);
+    }
+
     public ArrowSlownessEntity(EntityType<? extends ArrowSlownessEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowSlownessEntity(World world, LivingEntity shooter, float velocity) {
-        super(world, shooter);
+        super(AtumEntities.SLOWNESS_ARROW, world, shooter);
         this.velocity = velocity;
     }
 
