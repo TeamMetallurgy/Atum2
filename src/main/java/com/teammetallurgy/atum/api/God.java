@@ -5,7 +5,7 @@ import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.Color;
 
 import javax.annotation.Nonnull;
-import java.util.Map;
+import java.util.HashMap;
 
 public enum God implements IStringSerializable {
     ANPUT("anput", "#46403F"),
@@ -24,8 +24,8 @@ public enum God implements IStringSerializable {
     SHU("shu", "#a6b4bF"),
     TEFNUT("tefnut", "#1a70FF");
 
-    static Map<String, God> GOD_BY_NAME;
-    static Map<Integer, God> MAP;
+    static HashMap<String, God> GOD_BY_NAME;
+    static HashMap<Integer, God> MAP;
     private final String name;
     private final Color color;
     private final String hex;

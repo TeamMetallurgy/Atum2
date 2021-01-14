@@ -16,17 +16,17 @@ public class PharaohModel<T extends PharaohEntity> extends BipedModel<T> {
         this.textureWidth = 64;
         this.textureHeight = 96;
 
-        this.waist = new ModelRenderer(this);
-        this.waist.setRotationPoint(0.0F, 12.0F, 0.0F);
-
         this.bipedBody = new ModelRenderer(this);
-        this.bipedBody.setRotationPoint(0.0F, -12.0F, 0.0F);
-        this.bipedBody.addChild(this.waist);
+        this.bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.bipedBody.setTextureOffset(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.0F, false);
         this.bipedBody.setTextureOffset(0, 75).addBox(-6.0F, 3.0F, -1.5F, 12.0F, 18.0F, 3.0F, 0.9F, false);
         this.bipedBody.setTextureOffset(16, 32).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.1F, false);
         this.bipedBody.setTextureOffset(16, 48).addBox(-4.0F, 9.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.1F, false);
         this.bipedBody.setTextureOffset(16, 64).addBox(-4.0F, 9.0F, -2.0F, 8.0F, 4.0F, 4.0F, 0.25F, false);
+
+        this.waist = new ModelRenderer(this);
+        this.waist.setRotationPoint(0.0F, 12.0F, 0.0F);
+        this.bipedBody.addChild(this.waist);
 
         this.bipedHead = new ModelRenderer(this);
         this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
@@ -35,7 +35,7 @@ public class PharaohModel<T extends PharaohEntity> extends BipedModel<T> {
         this.hat = new ModelRenderer(this);
         this.hat.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.bipedHead.addChild(this.hat);
-        this.hat.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.25F, false);
+        this.hat.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.1F, false);
         this.hat.setTextureOffset(34, 83).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.0F, false);
 
         this.beard = new ModelRenderer(this);
