@@ -6,7 +6,6 @@ import net.minecraft.client.renderer.model.ModelRenderer;
 
 public class PharaohModel<T extends PharaohEntity> extends BipedModel<T> {
     private final ModelRenderer waist;
-    private final ModelRenderer hat;
     private final ModelRenderer beard;
     private final ModelRenderer rightItem;
     private final ModelRenderer leftItem;
@@ -32,15 +31,14 @@ public class PharaohModel<T extends PharaohEntity> extends BipedModel<T> {
         this.bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
         this.bipedHead.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.0F, false);
 
-        this.hat = new ModelRenderer(this);
-        this.hat.setRotationPoint(0.0F, 0.0F, 0.0F);
-        this.bipedHead.addChild(this.hat);
-        this.hat.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.1F, false);
-        this.hat.setTextureOffset(34, 83).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.0F, false);
+        this.bipedHeadwear = new ModelRenderer(this);
+        this.bipedHeadwear.setRotationPoint(0.0F, 0.0F, 0.0F);
+        this.bipedHeadwear.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.25F, false);
+        this.bipedHeadwear.setTextureOffset(34, 83).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.0F, false);
 
         this.beard = new ModelRenderer(this);
         this.beard.setRotationPoint(0.0F, 0.0F, 2.0F);
-        this.hat.addChild(this.beard);
+        this.bipedHeadwear.addChild(this.beard);
         this.setRotationAngle(this.beard, 1.2217F, 0.0F, 0.0F);
         this.beard.setTextureOffset(50, 76).addBox(-1.0F, -5.7071F, -7.2929F, 2.0F, 0.0F, 5.0F, 0.0F, false);
 
