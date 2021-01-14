@@ -100,7 +100,7 @@ public class AtemArmor extends ArtifactArmor {
             PlayerEntity player = (PlayerEntity) livingEntity;
             if (event.getAmount() >= player.getHealth() && StackHelper.hasFullArmorSet(livingEntity, AtumItems.EYES_OF_ATEM, AtumItems.BODY_OF_ATEM, AtumItems.LEGS_OF_ATEM, AtumItems.FEET_OF_ATEM)) {
                 if (!RECALL_TIMER.containsKey(player)) {
-                    livingEntity.heal(1.0F);
+                    livingEntity.setHealth(livingEntity.getMaxHealth());
                     AtemsHomecomingItem.recall(livingEntity.world, player);
                     RECALL_TIMER.put(player, 24000);
                 }
