@@ -41,9 +41,9 @@ public class Atum {
     public static final String MOD_ID = "atum";
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final ItemGroup GROUP = new AtumItemGroup();
-    public static final RegistryKey<World> ATUM = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(Atum.MOD_ID, "atum"));
+    public static final RegistryKey<World> ATUM = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation(MOD_ID, "atum"));
     public static final Codec<AtumBiomeProvider> ATUM_LAYERD = Registry.register(Registry.BIOME_PROVIDER_CODEC, new ResourceLocation(MOD_ID, "atum_layered"), AtumBiomeProvider.CODEC);
-    public static final Codec<AtumChunkGenerator> ATUM_NOISE = Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(Atum.MOD_ID, "noise"), AtumChunkGenerator.CODEC);
+    public static final Codec<AtumChunkGenerator> ATUM_NOISE = Registry.register(Registry.CHUNK_GENERATOR_CODEC, new ResourceLocation(MOD_ID, "noise"), AtumChunkGenerator.CODEC);
 
     public Atum() {
         final IEventBus modBus = FMLJavaModLoadingContext.get().getModEventBus();

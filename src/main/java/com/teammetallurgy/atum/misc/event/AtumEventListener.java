@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.misc.event;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.PortalBlock;
+import com.teammetallurgy.atum.blocks.base.IUnbreakable;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -197,6 +198,15 @@ public class AtumEventListener {
             double swush = MathHelper.sqrt(x * x + y * y + z * z);
             fish.setMotion(x * 0.1D, y * 0.1D + swush * 0.08D, z * 0.1D);
             world.addEntity(fish);
+        }
+    }
+
+    //IUnbreakable
+    @SubscribeEvent
+    public static void onBlockBreak(BlockEvent.BreakEvent event) {
+        BlockState state = event.getState();
+        if (state.getBlock() instanceof IUnbreakable && state.get(IUnbreakable.UNBREAKABLE) && !event.getPlayer().isCreative()) {
+            event.setCanceled(true);
         }
     }
 }
