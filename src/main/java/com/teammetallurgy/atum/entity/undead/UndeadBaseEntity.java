@@ -66,15 +66,16 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
 
     void applyEntityAI() {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, UndeadBaseEntity.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, EfreetBaseEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WolfEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombifiedPiglinEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TarantulaEntity.class, true));
+        boolean checkSight = this.isNonBoss();
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, checkSight));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, checkSight));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, checkSight));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, EfreetBaseEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WolfEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombifiedPiglinEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TarantulaEntity.class, checkSight));
     }
 
     @Override

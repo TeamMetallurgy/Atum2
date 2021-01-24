@@ -56,14 +56,14 @@ public class AssassinEntity extends BanditBaseEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget));
-        this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false));
+        this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false, true));
         this.goalSelector.addGoal(4, new AssassinMeleeAttackGoal(this, 1.2D, true));
     }
 
     @Override
     protected void applyEntityAI() {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, BanditBaseEntity.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
     }
 
     @Override

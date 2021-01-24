@@ -101,7 +101,7 @@ public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new OpenAnyDoorGoal(this, false));
+        this.goalSelector.addGoal(1, new OpenAnyDoorGoal(this, false, true));
     }
 
     @Override

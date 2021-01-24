@@ -44,7 +44,7 @@ public abstract class EfreetBaseEntity extends AgeableEntity implements ITexture
     @Override
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new SwimGoal(this));
-        this.goalSelector.addGoal(2, new OpenAnyDoorGoal(this, true));
+        this.goalSelector.addGoal(2, new OpenAnyDoorGoal(this, true, false));
         this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 0.6D));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
