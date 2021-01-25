@@ -60,7 +60,7 @@ public class AtumTileEntities {
         registerTileEntity("tar_trap", TileEntityType.Builder.create(TarTrapTileEntity::new, AtumBlocks.TAR_TRAP));
         registerTileEntity("smoke_trap", TileEntityType.Builder.create(SmokeTrapTileEntity::new, AtumBlocks.SMOKE_TRAP));
         registerTileEntity("arrow_trap", TileEntityType.Builder.create(ArrowTrapTileEntity::new, AtumBlocks.ARROW_TRAP));
-        registerTileEntity("heart_of_ra", TileEntityType.Builder.create(HeartOfRaTileEntity::new, AtumBlocks.HEART_OF_RA));
+        registerTileEntity("heart_of_ra", TileEntityType.Builder.create(HeartOfRaTileEntity::new, AtumItems.HEART_OF_RA));
         //registerTileEntity("radiant_beacon", TileEntityType.Builder.create(RadiantBeaconTileEntity::new, AtumBlocks.RADIANT_BEACON, AtumBlocks.RADIANT_BEACON_FRAMED));
         registerTileEntity("limestone_furnace", TileEntityType.Builder.create(LimestoneFurnaceTileEntity::new, AtumBlocks.LIMESTONE_FURNACE));
         registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));

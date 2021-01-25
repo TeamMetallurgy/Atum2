@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines;
 
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
 import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import net.minecraft.block.*;
@@ -43,7 +44,7 @@ public class GodforgeBlock extends ContainerBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull IBlockReader world) { //TODO Add Te
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
         return new GodforgeTileEntity();
     }
 
@@ -114,7 +115,7 @@ public class GodforgeBlock extends ContainerBlock {
             double d6 = rand.nextDouble() * 6.0D / 16.0D;
             double d7 = axis == Direction.Axis.Z ? (double)direction.getZOffset() * 0.52D : d4;
             world.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
-            world.addParticle(NebuFlameParticle.GOD_FLAMES.get(state.get(GOD)), d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
+            world.addParticle(AtumTorchBlock.GOD_FLAMES.get(state.get(GOD)), d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
         }
     }
 

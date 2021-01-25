@@ -312,8 +312,8 @@ public class AtumRegistry {
 
     public static BasicParticleType registerGodFlame(String name, God god) {
         BasicParticleType particleType = registerParticle(name);
-        NebuFlameParticle.GOD_FLAMES.put(god, particleType);
-        NebuFlameParticle.GODS.put(particleType, god);
+        AtumTorchBlock.GOD_FLAMES.put(god, particleType);
+        AtumTorchBlock.GODS.put(particleType, god);
         return particleType;
     }
         /*

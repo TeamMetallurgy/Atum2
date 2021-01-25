@@ -23,6 +23,6 @@ public class AtumWallTorch extends WallTorchBlock implements INebuTorch {
 
     @Override
     public God getGod() {
-        return NebuFlameParticle.GODS.get(this.particleData);
+        return AtumTorchBlock.GODS.get(this.particleData);
     }
 }

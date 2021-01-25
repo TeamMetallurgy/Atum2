@@ -477,7 +477,6 @@ public class AtumBlocks {
     public static final Block DEADWOOD_SIGN = registerSign(new AtumStandingSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD), AtumWoodTypes.DEADWOOD), AtumWoodTypes.DEADWOOD);
     public static final Block PALM_SCAFFOLDING = registerScaffolding(new AtumScaffoldingBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS, MaterialColor.SAND).doesNotBlockMovement().sound(SoundType.SCAFFOLDING).variableOpacity()), "palm_scaffolding");
     public static final Block DEADWOOD_SCAFFOLDING = registerScaffolding(new AtumScaffoldingBlock(AbstractBlock.Properties.create(Material.MISCELLANEOUS, MaterialColor.SAND).doesNotBlockMovement().sound(SoundType.SCAFFOLDING).variableOpacity()), "deadwood_scaffolding");
-    public static final Block HEART_OF_RA = AtumItems.HEART_OF_RA;
 
     public static void setBlockInfo() {
         ((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(PALM_SAPLING.getRegistryName(), () -> POTTED_PALM_SAPLING);

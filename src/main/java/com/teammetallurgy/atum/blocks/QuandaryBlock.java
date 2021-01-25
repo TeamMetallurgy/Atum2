@@ -46,7 +46,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) { //TODO Use fromPos, to only activate when the facing position is updated
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
         if (world.getBlockState(pos.offset(state.get(FACING))) == world.getBlockState(fromPos)) {
             Block facingBlock = world.getBlockState(fromPos).getBlock();

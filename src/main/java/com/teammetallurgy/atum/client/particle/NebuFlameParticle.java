@@ -11,8 +11,6 @@ import javax.annotation.Nonnull;
 import java.util.HashMap;
 
 public class NebuFlameParticle extends DeceleratingParticle {
-    public static final HashMap<God, IParticleData> GOD_FLAMES = new HashMap<>();
-    public static final HashMap<IParticleData, God> GODS = new HashMap<>();
 
     public NebuFlameParticle(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);

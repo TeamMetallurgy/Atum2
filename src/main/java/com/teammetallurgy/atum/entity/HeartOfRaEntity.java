@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.entity;
 import com.teammetallurgy.atum.blocks.beacon.HeartOfRaBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
@@ -64,7 +65,7 @@ public class HeartOfRaEntity extends Entity {
                 if (!this.world.isRemote) {
                     if (!source.isExplosion()) {
                         this.world.createExplosion(null, this.getPosX(), this.getPosY(), this.getPosZ(), 3.0F, Explosion.Mode.DESTROY);
-                        this.entityDropItem(AtumBlocks.HEART_OF_RA.asItem(), 1);
+                        this.entityDropItem(AtumItems.HEART_OF_RA.asItem(), 1);
                     }
                 }
             }

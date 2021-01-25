@@ -81,7 +81,7 @@ public class AtumItems {
     public static final Item SHU_GODSHARD = registerItem(new GodshardItem(God.SHU), "shu_godshard");
     public static final Item TEFNUT_GODSHARD = registerItem(new GodshardItem(God.TEFNUT), "tefnut_godshard");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");
-    static final Block HEART_OF_RA = AtumRegistry.registerBlock(new HeartOfRaBlock(), "heart_of_ra");
+    public static final Block HEART_OF_RA = AtumRegistry.registerBlock(new HeartOfRaBlock(), "heart_of_ra");
     public static final BaseBowItem SHORT_BOW = (BaseBowItem) registerItem(new BaseBowItem(new Item.Properties().maxDamage(384)), "short_bow");
     public static final Item LIMESTONE_SHOVEL = registerItem(new ShovelItem(AtumMats.LIMESTONE, 1.2F, -3.0F, new Item.Properties().group(Atum.GROUP)), "limestone_shovel");
     public static final Item LIMESTONE_PICKAXE = registerItem(new PickaxeItem(AtumMats.LIMESTONE, 1, -2.8F, new Item.Properties().group(Atum.GROUP)), "limestone_pickaxe");
