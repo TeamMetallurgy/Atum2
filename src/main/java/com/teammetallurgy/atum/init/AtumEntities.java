@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.HeartOfRaEntity;
 import com.teammetallurgy.atum.entity.animal.*;
 import com.teammetallurgy.atum.entity.bandit.*;
 import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;
@@ -66,10 +65,6 @@ public class AtumEntities {
             .setUpdateInterval(10)
             .setShouldReceiveVelocityUpdates(false)
             .setCustomClientFactory(CamelSpitEntity::new));
-    public static final EntityType<HeartOfRaEntity> HEART_OF_RA = registerEntity("heart_of_ra", Builder.<HeartOfRaEntity>create(HeartOfRaEntity::new, EntityClassification.MISC).size(1.0F, 2.8F)
-            .setTrackingRange(16)
-            .setUpdateInterval(Integer.MAX_VALUE)
-            .setShouldReceiveVelocityUpdates(false));
     public static final EntityType<SmallBoneEntity> SMALL_BONE = registerEntity("small_bone", Builder.<SmallBoneEntity>create(SmallBoneEntity::new, EntityClassification.MISC).size(0.3125F, 0.3125F)
             .setTrackingRange(4)
             .setUpdateInterval(10)

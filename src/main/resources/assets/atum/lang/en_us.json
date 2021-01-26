@@ -745,11 +745,11 @@
   "atum.atems_bounty.tooltip.title": "Alluring",
 
   "atum.shus_swiftness.tooltip.line1": "You run",
-  "atum.shus_swiftness.tooltip.line2": "faster while held",
+  "atum.shus_swiftness.tooltip.line2": "faster while equipped",
   "atum.shus_swiftness.tooltip.title": "Nimbleness",
 
   "atum.isis_healing.tooltip.line1": "Regenerates",
-  "atum.isis_healing.tooltip.line2": "health slowly while held",
+  "atum.isis_healing.tooltip.line2": "health slowly while equipped",
   "atum.isis_healing.tooltip.title": "Regeneration",
 
   "atum.anubiss_mercy.tooltip.line1": "When you die, you will",
@@ -766,7 +766,7 @@
   "atum.anubiss_wrath.tooltip.kills": "Kills: %s",
   "atum.anubiss_wrath.levelup": "Your sword twists into a more wicked form",
 
-  "atum.nuits_vanishing.tooltip.line1": "While held and not",
+  "atum.nuits_vanishing.tooltip.line1": "While equipped and not",
   "atum.nuits_vanishing.tooltip.line2": "moving, you are invisible",
   "atum.nuits_vanishing.tooltip.title": "Meld",
 

@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.WandererDyeableArmor;
 import com.teammetallurgy.atum.items.artifacts.atem.AtemsBountyItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
+import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtumStart;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -40,6 +41,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -207,6 +209,14 @@ public class AtumEventListener {
         BlockState state = event.getState();
         if (state.getBlock() instanceof IUnbreakable && state.get(IUnbreakable.UNBREAKABLE) && !event.getPlayer().isCreative()) {
             event.setCanceled(true);
+        }
+    }
+
+    //Ra Armor
+    @SubscribeEvent
+    public static void onDamage(LivingDamageEvent event) {
+        if (StackHelper.hasFullArmorSet(event.getEntityLiving(), AtumItems.HALO_OF_RA, AtumItems.BODY_OF_RA, AtumItems.LEGS_OF_RA, AtumItems.FEET_OF_RA) && event.getSource().isFireDamage()) {
+            event.setAmount(0.0F);
         }
     }
 }

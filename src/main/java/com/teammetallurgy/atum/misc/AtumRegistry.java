@@ -8,7 +8,6 @@ import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.lighting.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.lighting.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
-import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.AtumScaffoldingItem;
@@ -326,6 +325,7 @@ public class AtumRegistry {
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
         }
+        AtumItems.setItemInfo();
     }
 
     @SubscribeEvent

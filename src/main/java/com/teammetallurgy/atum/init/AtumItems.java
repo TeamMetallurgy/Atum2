@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.blocks.beacon.HeartOfRaBlock;
 import com.teammetallurgy.atum.items.*;
 import com.teammetallurgy.atum.items.artifacts.anput.AnputsHungerItem;
 import com.teammetallurgy.atum.items.artifacts.anubis.AnubisMercyItem;
@@ -38,8 +37,6 @@ import com.teammetallurgy.atum.items.food.EmmerFlourItem;
 import com.teammetallurgy.atum.items.food.FishItem;
 import com.teammetallurgy.atum.items.food.QuailEggItem;
 import com.teammetallurgy.atum.items.tools.*;
-import com.teammetallurgy.atum.misc.AtumRegistry;
-import net.minecraft.block.Block;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
@@ -81,7 +78,6 @@ public class AtumItems {
     public static final Item SHU_GODSHARD = registerItem(new GodshardItem(God.SHU), "shu_godshard");
     public static final Item TEFNUT_GODSHARD = registerItem(new GodshardItem(God.TEFNUT), "tefnut_godshard");
     public static final Item IDOL_OF_LABOR = registerItem(new IdolOfLaborItem(), "idol_of_labor");
-    public static final Block HEART_OF_RA = AtumRegistry.registerBlock(new HeartOfRaBlock(), "heart_of_ra");
     public static final BaseBowItem SHORT_BOW = (BaseBowItem) registerItem(new BaseBowItem(new Item.Properties().maxDamage(384)), "short_bow");
     public static final Item LIMESTONE_SHOVEL = registerItem(new ShovelItem(AtumMats.LIMESTONE, 1.2F, -3.0F, new Item.Properties().group(Atum.GROUP)), "limestone_shovel");
     public static final Item LIMESTONE_PICKAXE = registerItem(new PickaxeItem(AtumMats.LIMESTONE, 1, -2.8F, new Item.Properties().group(Atum.GROUP)), "limestone_pickaxe");
@@ -217,6 +213,10 @@ public class AtumItems {
     public static final Item SKELETAL_FISH = registerItem(new FishItem(FishItem.FishType.SKELETAL), "fish_skeletal");
     public static final Item CRUNCHY_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_SCARAB)), "crunchy_scarab");
     public static final Item CRUNCHY_GOLD_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_GOLD_SCARAB)), "crunchy_golden_scarab");
+
+    public static void setItemInfo() {
+
+    }
 
     public static class AtumFoods {
         public static final Food EMMER_BREAD = new Food.Builder().hunger(4).saturation(0.9F).build();
