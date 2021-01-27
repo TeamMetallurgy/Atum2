@@ -41,12 +41,7 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     @Override
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        //this.setNotInvisible(livingEntity); //TODO. Is for some reason called every tick. Causes issues on servers
-    }
-
-    @Override
-    public boolean canUnequip(String identifier, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        return !livingEntity.isInvisible(); //Temporary workaround
+        this.setNotInvisible(livingEntity); //TODO. Is for some reason called every tick. Causes issues on servers
     }
 
     @Override
@@ -62,9 +57,11 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
         if (!isLivingEntityMoving(livingEntity)) {
             INVISIBLE.replace(livingEntity, true);
             if (!world.isRemote) {
-                stack.damageItem(1, livingEntity, (entity) -> {
-                    entity.sendBreakAnimation(entity.getActiveHand());
-                });
+                if (world.rand.nextDouble() <= 0.50D) {
+                    stack.damageItem(1, livingEntity, (entity) -> {
+                        entity.sendBreakAnimation(entity.getActiveHand());
+                    });
+                }
                 livingEntity.setInvisible(true);
             }
         } else {
