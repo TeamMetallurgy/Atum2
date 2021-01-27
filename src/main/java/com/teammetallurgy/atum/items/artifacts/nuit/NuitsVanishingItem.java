@@ -41,11 +41,16 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     @Override
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        this.setNotInvisible(livingEntity);
+        //this.setNotInvisible(livingEntity); //TODO. Is for some reason called every tick. Causes issues on servers
     }
 
     @Override
-    public void curioBreak(ItemStack stack, LivingEntity livingEntity) {
+    public boolean canUnequip(String identifier, LivingEntity livingEntity, @Nonnull ItemStack stack) {
+        return !livingEntity.isInvisible(); //Temporary workaround
+    }
+
+    @Override
+    public void curioBreak(@Nonnull ItemStack stack, LivingEntity livingEntity) {
         this.setNotInvisible(livingEntity);
     }
 
