@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:item/tefnuts_blessing"
+    "layer0": "atum:item/osiris_blessing"
   }
 }

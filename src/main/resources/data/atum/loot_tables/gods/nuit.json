@@ -11,11 +11,6 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:nuits_duality"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
           "name": "atum:nuits_ire"
         },
         {

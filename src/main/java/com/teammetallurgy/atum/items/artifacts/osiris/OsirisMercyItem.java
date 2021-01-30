@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.anubis;
+package com.teammetallurgy.atum.items.artifacts.osiris;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
@@ -39,15 +39,15 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AnubisMercyItem extends AmuletItem implements IArtifact {
+public class OsirisMercyItem extends AmuletItem implements IArtifact {
 
-    public AnubisMercyItem() {
+    public OsirisMercyItem() {
         super(new Item.Properties().maxDamage(1000));
     }
 
     @Override
     public God getGod() {
-        return God.ANUBIS;
+        return God.OSIRIS;
     }
 
     @Override
@@ -74,7 +74,7 @@ public class AnubisMercyItem extends AmuletItem implements IArtifact {
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         LivingEntity livingEntity = event.getEntityLiving();
-        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.ANUBIS_MERCY, livingEntity);
+        Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.OSIRIS_MERCY, livingEntity);
         if (optional.isPresent()) {
             if (event.getEntityLiving() instanceof PlayerEntity) {
                 ItemStack anubisMercy = optional.get().getRight();

@@ -1,9 +1,8 @@
-package com.teammetallurgy.atum.items.artifacts.nuit;
+package com.teammetallurgy.atum.items.artifacts.isis;
 
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
-import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotBlackEntity;
-import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleShotWhiteEntity;
+import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
@@ -22,16 +21,16 @@ import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
 
-public class NuitsDualityItem extends BaseBowItem implements IArtifact {
+public class IsisDivisionItem extends BaseBowItem implements IArtifact {
 
-    public NuitsDualityItem() {
+    public IsisDivisionItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
     @Override
     public God getGod() {
-        return God.NUIT;
+        return God.ISIS;
     }
 
     @Override
@@ -56,9 +55,9 @@ public class NuitsDualityItem extends BaseBowItem implements IArtifact {
                     boolean hasArrow = player.abilities.isCreativeMode || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
                     if (!world.isRemote) {
-                        ArrowDoubleShotBlackEntity doubleShotLower = new ArrowDoubleShotBlackEntity(world, player);
+                        ArrowDoubleEntity doubleShotLower = new ArrowDoubleEntity(world, player);
                         doubleShotLower.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
-                        ArrowDoubleShotWhiteEntity doubleShotHigher = new ArrowDoubleShotWhiteEntity(world, player);
+                        ArrowDoubleEntity doubleShotHigher = new ArrowDoubleEntity(world, player);
                         doubleShotHigher.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
                         doubleShotLower.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.0F, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
                         doubleShotHigher.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.2D, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
@@ -111,6 +110,6 @@ public class NuitsDualityItem extends BaseBowItem implements IArtifact {
 
     @Override
     protected AbstractArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
-        return new ArrowDoubleShotWhiteEntity(world, player);
+        return new ArrowDoubleEntity(world, player);
     }
 }

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.geb;
+package com.teammetallurgy.atum.items.artifacts.anput;
 
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
@@ -14,16 +14,16 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class GebsGroundingItem extends BaseBowItem implements IArtifact {
+public class AnputsGroundingItem extends BaseBowItem implements IArtifact {
 
-    public GebsGroundingItem() {
+    public AnputsGroundingItem() {
         super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
     @Override
     public God getGod() {
-        return God.GEB;
+        return God.ANPUT;
     }
 
     @Override

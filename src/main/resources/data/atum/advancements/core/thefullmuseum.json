@@ -46,12 +46,12 @@
         ]
       }
     },
-    "anubiss_mercy": {
+    "osiris_mercy": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:anubiss_mercy"
+            "item": "atum:osiris_mercy"
           }
         ]
       }
@@ -76,12 +76,12 @@
         ]
       }
     },
-    "tefnuts_blessing": {
+    "osiris_blessing": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:tefnuts_blessing"
+            "item": "atum:osiris_blessing"
           }
         ]
       }
@@ -206,12 +206,12 @@
         ]
       }
     },
-    "nuits_duality": {
+    "isis_division": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:nuits_duality"
+            "item": "atum:isis_division"
           }
         ]
       }
@@ -266,12 +266,12 @@
         ]
       }
     },
-    "ptahs_undoing": {
+    "gebs_undoing": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:ptahs_undoing"
+            "item": "atum:gebs_undoing"
           }
         ]
       }
@@ -316,12 +316,12 @@
         ]
       }
     },
-    "gebs_grounding": {
+    "anputs_grounding": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:gebs_grounding"
+            "item": "atum:anputs_grounding"
           }
         ]
       }

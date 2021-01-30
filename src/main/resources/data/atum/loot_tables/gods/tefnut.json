@@ -12,11 +12,6 @@
           "type": "minecraft:item",
           "weight": 1,
           "name": "atum:tefnuts_call"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
-          "name": "atum:tefnuts_blessing"
         }
       ]
     }

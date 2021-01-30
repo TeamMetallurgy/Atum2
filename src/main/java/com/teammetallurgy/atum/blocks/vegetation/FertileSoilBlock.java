@@ -143,7 +143,7 @@ public class FertileSoilBlock extends Block implements IGrowable {
     @Override
     public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, @Nonnull ItemStack stack, ToolType toolType) {
         if (toolType == ToolType.HOE) {
-            if (stack.getItem() == AtumItems.TEFNUTS_BLESSING) {
+            if (stack.getItem() == AtumItems.OSIRIS_BLESSING) {
                 return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(FertileSoilTilledBlock.MOISTURE, 7).with(FertileSoilTilledBlock.BLESSED, true);
             } else {
                 return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState();

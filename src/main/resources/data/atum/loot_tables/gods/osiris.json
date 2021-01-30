@@ -6,7 +6,12 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:idol_of_labor"
+          "name": "atum:osiris_blessing"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:osiris_mercy"
         }
       ]
     }

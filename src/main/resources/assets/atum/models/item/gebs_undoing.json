@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:item/ptahs_undoing"
+    "layer0": "atum:item/gebs_undoing"
   }
 }

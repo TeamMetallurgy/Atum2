@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.items.artifacts.ptah;
+package com.teammetallurgy.atum.items.artifacts.geb;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
@@ -26,15 +26,15 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class PtahsUndoingItem extends PickaxeItem implements IArtifact {
+public class GebsUndoingItem extends PickaxeItem implements IArtifact {
 
-    public PtahsUndoingItem() {
+    public GebsUndoingItem() {
         super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0).group(Atum.GROUP));
     }
 
     @Override
     public God getGod() {
-        return God.PTAH;
+        return God.GEB;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PtahsUndoingItem extends PickaxeItem implements IArtifact {
         if (trueSource instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) trueSource;
             ItemStack held = player.getItemStackFromSlot(EquipmentSlotType.MAINHAND);
-            if (held.getItem() == AtumItems.PTAHS_UNDOING) {
+            if (held.getItem() == AtumItems.GEBS_UNDOING) {
                 LivingEntity target = event.getEntityLiving();
                 if (target instanceof StoneBaseEntity) {
                     if (!player.getCooldownTracker().hasCooldown(held.getItem())) {

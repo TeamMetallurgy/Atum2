@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:item/gebs_grounding"
+    "layer0": "atum:item/anputs_grounding"
   },
   "overrides": [
     {

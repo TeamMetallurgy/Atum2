@@ -88,10 +88,10 @@ public class ClientHandler {
         ItemModelsProperties.registerProperty(AtumItems.ANUBIS_WRATH, new ResourceLocation("tier"), (stack, world, entity) -> AnubisWrathItem.getTier(stack));
         ItemModelsProperties.registerProperty(AtumItems.TEFNUTS_CALL, new ResourceLocation("throwing"), (stack, world, entity) -> entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F);
         registerBowModelProperties(AtumItems.SHORT_BOW);
-        registerBowModelProperties(AtumItems.GEBS_GROUNDING);
+        registerBowModelProperties(AtumItems.ANPUTS_GROUNDING);
         registerBowModelProperties(AtumItems.HORUSS_SOARING);
         registerBowModelProperties(AtumItems.MONTUS_BLAST);
-        registerBowModelProperties(AtumItems.NUITS_DUALITY);
+        registerBowModelProperties(AtumItems.ISIS_DIVISION);
         registerBowModelProperties(AtumItems.RAS_FURY);
         registerBowModelProperties(AtumItems.SETHS_VENOM);
         registerBowModelProperties(AtumItems.SHUS_BREATH);

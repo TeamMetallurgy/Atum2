@@ -1,7 +1,7 @@
 {
   "parent": "item/bow",
   "textures": {
-    "layer0": "atum:item/nuits_duality"
+    "layer0": "atum:item/isis_division"
   },
   "overrides": [
     {

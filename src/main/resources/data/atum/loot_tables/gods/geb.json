@@ -11,12 +11,12 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:gebs_grounding"
+          "name": "atum:gebs_might"
         },
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:gebs_might"
+          "name": "atum:gebs_undoing"
         }
       ]
     }

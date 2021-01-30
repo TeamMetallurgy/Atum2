@@ -69,8 +69,7 @@ public class AtumEntities {
             .setTrackingRange(4)
             .setUpdateInterval(10)
             .setCustomClientFactory(SmallBoneEntity::new));
-    public static final EntityType<ArrowDoubleShotBlackEntity> DOUBLE_SHOT_BLACK = registerArrow("arrow_double_shot_black", ArrowDoubleShotBlackEntity::new, ArrowDoubleShotBlackEntity::new);
-    public static final EntityType<ArrowDoubleShotWhiteEntity> DOUBLE_SHOT_WHITE = registerArrow("arrow_double_shot_white", ArrowDoubleShotWhiteEntity::new, ArrowDoubleShotWhiteEntity::new);
+    public static final EntityType<ArrowDoubleEntity> DOUBLE_ARROW = registerArrow("arrow_double", ArrowDoubleEntity::new, ArrowDoubleEntity::new);
     public static final EntityType<ArrowExplosiveEntity> EXPLOSIVE_ARROW = registerArrow("arrow_explosive", ArrowExplosiveEntity::new, ArrowExplosiveEntity::new);
     public static final EntityType<ArrowFireEntity> FIRE_ARROW = registerArrow("arrow_fire", ArrowFireEntity::new, ArrowFireEntity::new);
     public static final EntityType<ArrowPoisonEntity> POISON_ARROW = registerArrow("arrow_poison", ArrowPoisonEntity::new, ArrowPoisonEntity::new);
