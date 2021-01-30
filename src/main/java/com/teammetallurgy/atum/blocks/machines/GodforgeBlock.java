@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.blocks.machines;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
-import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;

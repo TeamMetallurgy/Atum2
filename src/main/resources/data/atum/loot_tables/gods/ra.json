@@ -27,6 +27,11 @@
           "type": "minecraft:item",
           "weight": 1,
           "name": "atum:ras_fury"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:ras_step"
         }
       ]
     }

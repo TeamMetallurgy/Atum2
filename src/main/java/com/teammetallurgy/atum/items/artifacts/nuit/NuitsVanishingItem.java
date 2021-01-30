@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.nuit;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
-import com.teammetallurgy.atum.items.tools.AmuletItem;
+import com.teammetallurgy.atum.items.artifacts.AmuletItem;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.entity.LivingEntity;

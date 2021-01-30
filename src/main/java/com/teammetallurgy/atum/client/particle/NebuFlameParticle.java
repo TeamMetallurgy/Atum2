@@ -1,14 +1,11 @@
 package com.teammetallurgy.atum.client.particle;
 
-import com.teammetallurgy.atum.api.God;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
-import java.util.HashMap;
 
 public class NebuFlameParticle extends DeceleratingParticle {
 

@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.items.artifacts.isis;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
-import com.teammetallurgy.atum.items.tools.AmuletItem;
+import com.teammetallurgy.atum.items.artifacts.AmuletItem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.LivingEntity;

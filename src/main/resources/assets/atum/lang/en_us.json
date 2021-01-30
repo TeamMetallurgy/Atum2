@@ -614,6 +614,7 @@
   "item.atum.body_of_ra": "Body of Ra",
   "item.atum.legs_of_ra": "Legs of Ra",
   "item.atum.feet_of_ra": "Feet of Ra",
+  "item.atum.ras_step": "Ra's Step",
   "item.atum.seths_venom": "Seth's Venom",
   "item.atum.tefnuts_rain": "Tefnuts's Rain",
   "item.atum.tefnuts_call": "Tefnuts's Call",
@@ -623,6 +624,9 @@
   "item.atum.atems_homecoming": "Atems's Homecoming",
   "item.atum.osiris_mercy": "Osiris's Mercy",
   "item.atum.anubis_wrath": "Anubis's Wrath",
+  "item.atum.nepthys_banishing": "Nepthys's Banishing",
+  "item.atum.nepthys_consecration": "Nepthys's Consecration",
+  "item.atum.nepthys_guard": "Nepthys's Guard",
   "item.atum.nuits_vanishing": "Nuit's Vanishing",
   "item.atum.isis_division": "Isis's Duality",
   "item.atum.nuits_ire": "Nuit's Ire",
@@ -677,13 +681,13 @@
   "atum.shus_exile.tooltip.line2": "have extra knockback",
   "atum.shus_exile.tooltip.title": "Exile",
 
-  "atum.atems_will.tooltip.line1": "When fully charged deals",
-  "atum.atems_will.tooltip.line2": "double damage to Undead foes",
-  "atum.atems_will.tooltip.title": "Banish",
+  "atum.atems_will.tooltip.line1": "",
+  "atum.atems_will.tooltip.line2": "",
+  "atum.atems_will.tooltip.title": "TODO",
 
-  "atum.atems_protection.tooltip.line1": "Ignites and damages",
-  "atum.atems_protection.tooltip.line2": "Undead when you block their attacks",
-  "atum.atems_protection.tooltip.title": "Consecrate",
+  "atum.atems_protection.tooltip.line1": "",
+  "atum.atems_protection.tooltip.line2": "",
+  "atum.atems_protection.tooltip.title": "TODO",
 
   "atum.osiris_blessing.tooltip.line1": "Tilled ground is blessed,",
   "atum.osiris_blessing.tooltip.line2": "with increased growth rate",
@@ -692,6 +696,10 @@
   "atum.ras_fury.tooltip.line1": "Flaming arrow",
   "atum.ras_fury.tooltip.line2": "ignites blocks and foes",
   "atum.ras_fury.tooltip.title": "Fire Shot",
+
+  "atum.ras_step.tooltip.line1": "You can walk",
+  "atum.ras_step.tooltip.line2": "on top of lava",
+  "atum.ras_step.tooltip.title": "Radiant Step",
 
   "atum.montus_strike.tooltip.line1": "Fully charged attacks",
   "atum.montus_strike.tooltip.line2": "knockback and strike all nearby foes",
@@ -765,6 +773,18 @@
   "atum.anubis_wrath.tooltip.soul_unraveler": "Soul Unraveler",
   "atum.anubis_wrath.tooltip.kills": "Kills: %s",
   "atum.anubis_wrath.levelup": "Your sword twists into a more wicked form",
+
+  "atum.nepthys_banishing.tooltip.line1": "When fully charged deals double",
+  "atum.nepthys_banishing.tooltip.line2": "damage to Undead foes",
+  "atum.nepthys_banishing.tooltip.title": "Banishing",
+
+  "atum.nepthys_consecration.tooltip.line1": "Ignites and damages Undead",
+  "atum.nepthys_consecration.tooltip.line2": "when you block their attacks",
+  "atum.nepthys_consecration.tooltip.title": "Consecrate",
+
+  "atum.nepthys_guard.tooltip.line1": "Halves damage",
+  "atum.nepthys_guard.tooltip.line2": "from Undead",
+  "atum.nepthys_guard.tooltip.title": "Divine Ward",
 
   "atum.nuits_vanishing.tooltip.line1": "While equipped and not",
   "atum.nuits_vanishing.tooltip.line2": "moving, you are invisible",

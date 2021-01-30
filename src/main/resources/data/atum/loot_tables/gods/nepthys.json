@@ -6,7 +6,17 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:idol_of_labor"
+          "name": "atum:nepthys_banishing"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nepthys_consecration"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nepthys_guard"
         }
       ]
     }

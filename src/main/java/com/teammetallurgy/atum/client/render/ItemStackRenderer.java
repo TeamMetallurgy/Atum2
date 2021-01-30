@@ -11,7 +11,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.Sarcophag
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.TefnutsCallModel;
 import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
-import com.teammetallurgy.atum.client.model.shield.AtumsProtectionModel;
+import com.teammetallurgy.atum.client.model.shield.AtemsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
 import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -33,10 +33,10 @@ import java.util.Map;
 
 public class ItemStackRenderer extends ItemStackTileEntityRenderer {
     private static final Map<String, ResourceLocation> SHIELD_CACHE = Maps.newHashMap();
-    private static final RenderMaterial ATUMS_PROTECTION_MATERIAL = getShieldMaterial("atems_protection");
+    private static final RenderMaterial ATEMS_PROTECTION_MATERIAL = getShieldMaterial("atems_protection");
     private static final RenderMaterial BRIGAND_SHIELD_MATERIAL = getShieldMaterial("brigand_shield");
     private static final RenderMaterial STONEGUARD_SHIELD_MATERIAL = getShieldMaterial("stoneguard_shield");
-    private static final AtumsProtectionModel ATUMS_PROTECTION = new AtumsProtectionModel();
+    private static final AtemsProtectionModel ATEMS_PROTECTION = new AtemsProtectionModel();
     private static final BrigandShieldModel BRIGAND_SHIELD = new BrigandShieldModel();
     private static final StoneguardShieldModel STONEGUARD_SHIELD = new StoneguardShieldModel();
     private final TefnutsCallModel tefnutsCall = new TefnutsCallModel();
@@ -59,7 +59,9 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
             } else if (item == AtumItems.STONEGUARD_SHIELD) {
                 renderShield(stack, STONEGUARD_SHIELD, STONEGUARD_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.ATEMS_PROTECTION) {
-                renderShield(stack, ATUMS_PROTECTION, ATUMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
+                renderShield(stack, ATEMS_PROTECTION, ATEMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (item == AtumItems.NEPTHYS_CONSECRATION) {
+                renderShield(stack, ATEMS_PROTECTION, ATEMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay); //TODO
             } else if (item == AtumItems.TEFNUTS_CALL) {
                 matrixStack.push();
                 matrixStack.scale(1.0F, -1.0F, -1.0F);

@@ -9,7 +9,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class AtumsProtectionModel extends AbstractShieldModel {
+public class AtemsProtectionModel extends AbstractShieldModel {
     private final ModelRenderer shieldCore;
     private final ModelRenderer handleCore;
     private final ModelRenderer gemStone;
@@ -24,7 +24,7 @@ public class AtumsProtectionModel extends AbstractShieldModel {
     private final ModelRenderer handleSide1;
     private final ModelRenderer handleSide2;
 
-    public AtumsProtectionModel() {
+    public AtemsProtectionModel() {
         this.textureWidth = 32;
         this.textureHeight = 32;
         this.handleCore = new ModelRenderer(this, 20, 0);

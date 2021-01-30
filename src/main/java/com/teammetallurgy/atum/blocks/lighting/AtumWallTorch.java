@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.blocks.lighting;
 
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.client.particle.NebuFlameParticle;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
