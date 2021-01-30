@@ -89,7 +89,7 @@ public class ClientHandler {
         ItemModelsProperties.registerProperty(AtumItems.TEFNUTS_CALL, new ResourceLocation("throwing"), (stack, world, entity) -> entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F);
         registerBowModelProperties(AtumItems.SHORT_BOW);
         registerBowModelProperties(AtumItems.ANPUTS_GROUNDING);
-        registerBowModelProperties(AtumItems.HORUSS_SOARING);
+        registerBowModelProperties(AtumItems.HORUS_SOARING);
         registerBowModelProperties(AtumItems.MONTUS_BLAST);
         registerBowModelProperties(AtumItems.ISIS_DIVISION);
         registerBowModelProperties(AtumItems.RAS_FURY);

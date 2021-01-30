@@ -1,32 +1,32 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "atum:item/anubiss_wrath"
+    "layer0": "atum:item/anubis_wrath"
   },
   "overrides": [
     {
       "predicate": {
         "tier": 0.0
       },
-      "model": "atum:item/anubiss_wrath_tier_0"
+      "model": "atum:item/anubis_wrath_tier_0"
     },
     {
       "predicate": {
         "tier": 1.0
       },
-      "model": "atum:item/anubiss_wrath_tier_1"
+      "model": "atum:item/anubis_wrath_tier_1"
     },
     {
       "predicate": {
         "tier": 2.0
       },
-      "model": "atum:item/anubiss_wrath_tier_2"
+      "model": "atum:item/anubis_wrath_tier_2"
     },
     {
       "predicate": {
         "tier": 3.0
       },
-      "model": "atum:item/anubiss_wrath_tier_3"
+      "model": "atum:item/anubis_wrath_tier_3"
     }
   ]
 }

@@ -6,12 +6,12 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:horuss_soaring"
+          "name": "atum:horus_soaring"
         },
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:horuss_ascension"
+          "name": "atum:horus_ascension"
         }
       ]
     }

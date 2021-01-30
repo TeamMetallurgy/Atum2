@@ -136,12 +136,12 @@
         ]
       }
     },
-    "horuss_soaring": {
+    "horus_soaring": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:horuss_soaring"
+            "item": "atum:horus_soaring"
           }
         ]
       }
@@ -216,12 +216,12 @@
         ]
       }
     },
-    "horuss_ascension": {
+    "horus_ascension": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:horuss_ascension"
+            "item": "atum:horus_ascension"
           }
         ]
       }
@@ -346,12 +346,12 @@
         ]
       }
     },
-    "anubiss_wrath": {
+    "anubis_wrath": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:anubiss_wrath"
+            "item": "atum:anubis_wrath"
           }
         ]
       }

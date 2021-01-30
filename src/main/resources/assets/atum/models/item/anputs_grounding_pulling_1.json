@@ -1,6 +1,6 @@
 {
   "parent": "item/bow_pulling_1",
   "textures": {
-    "layer0": "atum:item/gebs_grounding_pulling_1"
+    "layer0": "atum:item/anputs_grounding_pulling_1"
   }
 }

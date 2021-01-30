@@ -1,6 +1,6 @@
 {
   "parent": "item/bow_pulling_2",
   "textures": {
-    "layer0": "atum:item/nuits_duality_pulling_2"
+    "layer0": "atum:item/isis_division_pulling_2"
   }
 }
