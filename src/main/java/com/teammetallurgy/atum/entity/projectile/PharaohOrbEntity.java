@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.entity.projectile;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
@@ -23,6 +24,7 @@ import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -53,7 +55,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         this.god = God.ATEM;
     }
 
-    public PharaohOrbEntity(World world, LivingEntity shooter, God god) {
+    public PharaohOrbEntity(World world, PharaohEntity shooter, God god) {
         super(AtumEntities.PHARAOH_ORB, world, shooter.getPosX(), shooter.getPosYEye() - (double) 0.3F, shooter.getPosZ());
         this.setShooter(shooter);
         this.pickupStatus = PickupStatus.DISALLOWED;
@@ -100,6 +102,12 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
                 berserkDamage = 0;
                 berserkTimer = 0;
             }
+        }
+
+        //Particle
+        if (this.world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            serverWorld.spawnParticle(AtumTorchBlock.GOD_FLAMES.get(this.getGod()), this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
         }
     }
 
@@ -175,7 +183,7 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
                 target.addPotionEffect(new EffectInstance(Effects.INSTANT_DAMAGE, 1, 0));
                 break;
             case GEB:
-                target.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
+                target.applyKnockback(1.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
                 break;
             case HORUS:
                 target.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 60, 1));
@@ -184,6 +192,9 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
                 shooter.heal(10);
                 break;
             case NUIT:
+                target.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
+                break;
+            case NEPTHYS:
                 target.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 120));
                 break;
             case PTAH:
