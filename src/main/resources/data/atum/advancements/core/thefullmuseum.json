@@ -256,6 +256,16 @@
         ]
       }
     },
+    "atems_protection": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:atems_protection"
+          }
+        ]
+      }
+    },
     "ptahs_decadence": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
@@ -382,6 +392,36 @@
         "items": [
           {
             "item": "atum:anputs_hunger"
+          }
+        ]
+      }
+    },
+    "nepthys_banishing": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:nepthys_banishing"
+          }
+        ]
+      }
+    },
+    "nepthys_consecration": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:nepthys_consecration"
+          }
+        ]
+      }
+    },
+    "nepthys_guard": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:nepthys_guard"
           }
         ]
       }
