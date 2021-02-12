@@ -24,7 +24,7 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     protected static final Object2BooleanMap<LivingEntity> INVISIBLE = new Object2BooleanOpenHashMap<>();
 
     public NuitsVanishingItem() {
-        super(new Item.Properties().maxDamage(3600));
+        super(new Item.Properties());
     }
 
     @Override
@@ -41,7 +41,7 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     @Override
     public void onUnequip(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        this.setNotInvisible(livingEntity); //TODO. Is for some reason called every tick. Causes issues on servers
+        this.setNotInvisible(livingEntity);
     }
 
     @Override
@@ -57,11 +57,6 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
         if (!isLivingEntityMoving(livingEntity)) {
             INVISIBLE.replace(livingEntity, true);
             if (!world.isRemote) {
-                if (world.rand.nextDouble() <= 0.50D) {
-                    stack.damageItem(1, livingEntity, (entity) -> {
-                        entity.sendBreakAnimation(entity.getActiveHand());
-                    });
-                }
                 livingEntity.setInvisible(true);
             }
         } else {

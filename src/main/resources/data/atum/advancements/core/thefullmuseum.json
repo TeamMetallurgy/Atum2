@@ -425,6 +425,16 @@
           }
         ]
       }
+    },
+    "ras_step": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "atum:ras_step"
+          }
+        ]
+      }
     }
   }
 }

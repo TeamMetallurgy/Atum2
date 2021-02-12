@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.items.artifacts.AmuletItem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
@@ -20,7 +19,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
     protected static final Object2IntMap<LivingEntity> DURATION = new Object2IntOpenHashMap<>();
 
     public IsisHealingItem() {
-        super(new Item.Properties().maxDamage(96));
+        super(new Item.Properties());
     }
 
     @Override
@@ -53,12 +52,6 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
             if (!world.isRemote) {
                 livingEntity.heal(1.0F);
                 DURATION.replace(livingEntity, 40);
-                if (livingEntity instanceof  PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) livingEntity;
-                    if (!player.abilities.isCreativeMode) {
-                        stack.damageItem(1, player, (e) -> e.sendBreakAnimation(e.getActiveHand()));
-                    }
-                }
             }
         }
     }

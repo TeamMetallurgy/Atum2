@@ -9,7 +9,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
@@ -28,7 +27,7 @@ public class ShusSwiftnessItem extends AmuletItem implements IArtifact {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("f51280de-21d2-47f5-bc9a-e55ef1acfe2d"), "Shu's Swiftness speed boost", 0.025D, AttributeModifier.Operation.ADDITION);
 
     public ShusSwiftnessItem() {
-        super(new Item.Properties().maxDamage(12000));
+        super(new Item.Properties());
     }
 
     @Override
@@ -56,12 +55,6 @@ public class ShusSwiftnessItem extends AmuletItem implements IArtifact {
         }
         if (attribute != null && !attribute.hasModifier(SPEED_BOOST)) {
             attribute.applyNonPersistentModifier(SPEED_BOOST);
-        }
-        if (livingEntity instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) livingEntity;
-            if (!player.abilities.isCreativeMode) {
-                stack.damageItem(1, player, (p) -> p.sendBreakAnimation(player.getActiveHand()));
-            }
         }
     }
 
