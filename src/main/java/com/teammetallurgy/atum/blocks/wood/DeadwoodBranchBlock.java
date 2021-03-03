@@ -5,6 +5,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.IWaterLoggable;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.entity.EntityType;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.BlockItemUseContext;
@@ -83,6 +85,11 @@ public class DeadwoodBranchBlock extends Block implements IWaterLoggable {
     }
 
     @Override
+    public boolean canCreatureSpawn(BlockState state, IBlockReader world, BlockPos pos, EntitySpawnPlacementRegistry.PlacementType type, @Nullable EntityType<?> entityType) {
+        return false;
+    }
+
+    @Override
     public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         if (!this.canSurviveAt(world, pos)) {
             world.destroyBlock(pos, true);
@@ -105,17 +112,17 @@ public class DeadwoodBranchBlock extends Block implements IWaterLoggable {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader reader, BlockPos pos, @Nonnull ISelectionContext context) {
+    public VoxelShape getShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         Direction facing = state.get(FACING);
-
-        BlockState neighbor = reader.getBlockState(pos.add(facing.getDirectionVec()));
-        if (neighbor.getBlock() == this) {
-            AxisAlignedBB box = CONNECTED_BOUNDS.get(facing).getBoundingBox();
-            AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
-            return VoxelShapes.create(expandedBox.expand(5 / 16D * facing.getXOffset(), 5 / 16D * facing.getYOffset(), 5 / 16D * facing.getZOffset()));
-        } else {
-            return BOUNDS.get(facing);
+        if (reader instanceof  World) {
+            BlockState neighbor = reader.getBlockState(pos.add(facing.getDirectionVec()));
+            if (neighbor.getBlock() == this) {
+                AxisAlignedBB box = CONNECTED_BOUNDS.get(facing).getBoundingBox();
+                AxisAlignedBB expandedBox = new AxisAlignedBB(box.minX, box.minY, box.minZ, box.maxX, box.maxY, box.maxZ);
+                return VoxelShapes.create(expandedBox.expand(5 / 16D * facing.getXOffset(), 5 / 16D * facing.getYOffset(), 5 / 16D * facing.getZOffset()));
+            }
         }
+        return BOUNDS.get(facing);
     }
 
     @Nullable

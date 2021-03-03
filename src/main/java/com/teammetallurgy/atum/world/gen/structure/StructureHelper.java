@@ -14,9 +14,6 @@ import java.util.Random;
 
 public class StructureHelper {
 
-    /*
-     * Check if chunk have structure. Do not use during Structure generation (Works for normal worldgen)
-     */
     public static boolean doesChunkHaveStructure(ISeedReader seedReader, BlockPos pos, Structure<?> structure) {
         return seedReader.func_241827_a(SectionPos.from(pos), structure).findAny().isPresent();
     }

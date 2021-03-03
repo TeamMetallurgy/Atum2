@@ -176,25 +176,26 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                 for (int x = box.minX; x <= box.maxX; ++x) {
                     for (int z = box.minZ; z <= box.maxZ; ++z) {
                         BlockPos pos = new BlockPos(x, y, z);
+                        if (!StructureHelper.doesChunkHaveStructure(seedReader, pos, Structure.VILLAGE)) {
+                            if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                                boolean isVecInside = false;
 
-                        if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
-                            boolean isVecInside = false;
-
-                            for (StructurePiece piece : this.components) {
-                                if (piece.getBoundingBox().isVecInside(pos)) {
-                                    isVecInside = true;
-                                    break;
-                                }
-                            }
-
-                            if (isVecInside) {
-                                for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
-                                    BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
-
-                                    if (!seedReader.isAirBlock(pyramidPos) && !seedReader.getBlockState(pyramidPos).getMaterial().isLiquid()) {
+                                for (StructurePiece piece : this.components) {
+                                    if (piece.getBoundingBox().isVecInside(pos)) {
+                                        isVecInside = true;
                                         break;
                                     }
-                                    seedReader.setBlockState(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
+                                }
+
+                                if (isVecInside) {
+                                    for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
+                                        BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
+
+                                        if (!seedReader.isAirBlock(pyramidPos) && !seedReader.getBlockState(pyramidPos).getMaterial().isLiquid()) {
+                                            break;
+                                        }
+                                        seedReader.setBlockState(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
+                                    }
                                 }
                             }
                         }

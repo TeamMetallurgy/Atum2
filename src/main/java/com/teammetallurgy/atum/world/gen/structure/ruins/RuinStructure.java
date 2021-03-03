@@ -74,30 +74,32 @@ public class RuinStructure extends Structure<NoFeatureConfig> {
                 for (int z = box.minZ; z <= box.maxZ; ++z) {
                     BlockPos pos = new BlockPos(x, y, z);
 
-                    if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
-                        boolean isVecInside = false;
+                    if (!StructureHelper.doesChunkHaveStructure(seedReader, pos, Structure.VILLAGE)) {
+                        if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                            boolean isVecInside = false;
 
-                        for (StructurePiece piece : this.components) {
-                            if (piece.getBoundingBox().isVecInside(pos)) {
-                                isVecInside = true;
-                                break;
-                            }
-                        }
-
-                        if (isVecInside) {
-                            for (int ruinY = y - 1; ruinY > 1; --ruinY) {
-                                BlockPos ruinPos = new BlockPos(x, ruinY, z);
-
-                                if (!seedReader.isAirBlock(ruinPos) && !seedReader.getBlockState(ruinPos).getMaterial().isLiquid()) {
+                            for (StructurePiece piece : this.components) {
+                                if (piece.getBoundingBox().isVecInside(pos)) {
+                                    isVecInside = true;
                                     break;
                                 }
-                                Block brick = AtumBlocks.LIMESTONE_BRICK_LARGE;
-                                if (rand.nextDouble() <= 0.20D) {
-                                    brick = AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK;
-                                } else if (rand.nextDouble() >= 0.80D) {
-                                    brick = AtumBlocks.LIMESTONE_BRICK_SMALL;
+                            }
+
+                            if (isVecInside) {
+                                for (int ruinY = y - 1; ruinY > 1; --ruinY) {
+                                    BlockPos ruinPos = new BlockPos(x, ruinY, z);
+
+                                    if (!seedReader.isAirBlock(ruinPos) && !seedReader.getBlockState(ruinPos).getMaterial().isLiquid()) {
+                                        break;
+                                    }
+                                    Block brick = AtumBlocks.LIMESTONE_BRICK_LARGE;
+                                    if (rand.nextDouble() <= 0.20D) {
+                                        brick = AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK;
+                                    } else if (rand.nextDouble() >= 0.80D) {
+                                        brick = AtumBlocks.LIMESTONE_BRICK_SMALL;
+                                    }
+                                    seedReader.setBlockState(ruinPos, brick.getDefaultState(), 2);
                                 }
-                                seedReader.setBlockState(ruinPos, brick.getDefaultState(), 2);
                             }
                         }
                     }
