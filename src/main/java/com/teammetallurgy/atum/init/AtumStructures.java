@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.world.gen.feature.pool.GatehousePools;
 import com.teammetallurgy.atum.world.gen.feature.pool.GenericVillagePools;
 import com.teammetallurgy.atum.world.gen.structure.GatehouseStructure;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombStructure;
-import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthouseStructure;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftConfig;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftStructure;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidStructure;

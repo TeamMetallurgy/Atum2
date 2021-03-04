@@ -31,7 +31,6 @@ import net.minecraft.client.renderer.color.ItemColors;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
 import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.SpriteRenderer;
-import net.minecraft.client.renderer.entity.VillagerRenderer;
 import net.minecraft.client.renderer.tileentity.SignTileEntityRenderer;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
@@ -256,7 +255,6 @@ public class ClientHandler {
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, SarcophagusRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CRATE, CrateRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.HEART_OF_RA, HeartOfRaBaseRender::new);
-        //ClientRegistry.bindTileEntityRenderer(AtumTileEntities.RADIANT_BEACON, RadiantBeaconRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.QUERN, QuernRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SIGN, SignTileEntityRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TARANTULA, TarantulaRender::new);
@@ -270,7 +268,8 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.MUMMY, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false), new MonsterModel<>(0.5F, false), new MonsterModel<>(1.0F, false)));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.FORSAKEN, manager -> new AtumBipedRender<>(manager, new ForsakenModel(), new ForsakenModel(0.5F), new ForsakenModel(1.0F)));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.WRAITH, manager -> new AtumBipedRender<>(manager, new MonsterModel<>(0.0F, false), new MonsterModel<>(0.5F, false), new MonsterModel<>(1.0F, false)));
-        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.VILLAGER, manager -> new AtumVillagerRenderer(manager, (IReloadableResourceManager) Minecraft.getInstance().getResourceManager()));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.VILLAGER_MALE, manager -> new AtumVillagerRenderer(manager, (IReloadableResourceManager) Minecraft.getInstance().getResourceManager(), false));
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.VILLAGER_FEMALE, manager -> new AtumVillagerRenderer(manager, (IReloadableResourceManager) Minecraft.getInstance().getResourceManager(), true));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.BONESTORM, manager -> new AtumMobRender<>(manager, new BonestormModel<>()));
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.STONEGUARD, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.STONEWARDEN, StonewardenRender::new);

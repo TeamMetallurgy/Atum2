@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.entity.ai.brain;
+package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.google.common.collect.ImmutableMap;
 import com.teammetallurgy.atum.entity.efreet.SunspeakerEntity;

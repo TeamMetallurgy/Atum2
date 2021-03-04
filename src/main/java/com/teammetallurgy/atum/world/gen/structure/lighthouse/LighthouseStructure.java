@@ -1,9 +1,7 @@
 package com.teammetallurgy.atum.world.gen.structure.lighthouse;
 
-import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.Rotation;
@@ -14,7 +12,6 @@ import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.DynamicRegistries;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.MobSpawnInfo;
 import net.minecraft.world.biome.provider.BiomeProvider;
 import net.minecraft.world.gen.ChunkGenerator;
 import net.minecraft.world.gen.feature.NoFeatureConfig;
@@ -25,7 +22,6 @@ import net.minecraft.world.gen.feature.structure.StructureStart;
 import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
-import java.util.List;
 import java.util.Random;
 
 public class LighthouseStructure extends Structure<NoFeatureConfig> {

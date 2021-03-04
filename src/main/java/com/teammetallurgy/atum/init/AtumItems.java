@@ -51,6 +51,7 @@ import static com.teammetallurgy.atum.misc.AtumRegistry.*;
 
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumItems {
+    public static final Item VILLAGER_SPAWN_EGG = registerItem(new VillagerSpawnEggItem(), "villager_spawn_egg");
     public static final Item PALM_STICK = registerItem(new SimpleItem(), "palm_stick");
     public static final Item DEADWOOD_STICK = registerItem(new SimpleItem(), "deadwood_stick");
     public static final Item DUST_BONE_STICK = registerItem(new SimpleItem(), "dusty_bone_stick");

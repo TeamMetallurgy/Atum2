@@ -4,33 +4,31 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.entity.ai.brain.SunspeakerShowWaresTask;
-import com.teammetallurgy.atum.entity.ai.brain.SunspeakerTradeTask;
-import com.teammetallurgy.atum.init.*;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumEffects;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.brain.task.*;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.IMerchant;
 import net.minecraft.entity.merchant.IReputationTracking;
 import net.minecraft.entity.merchant.IReputationType;
-import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -38,8 +36,6 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTDynamicOps;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.pathfinding.GroundPathNavigator;
@@ -261,14 +257,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         this.livingSoundTime = -this.getTalkInterval();
         this.onSunSpeakerTrade(offer);
     }
-
-    public void setSunspeakerData(SunspeakerData sunspeakerData) {
-        //this.dataManager.set(SUNSPEAKER_DATA, sunspeakerData);
-    }
-
-    /*public SunspeakerData getSunspeakerData() {
-        return this.dataManager.get(SUNSPEAKER_DATA);
-    }*/
 
     protected void onSunSpeakerTrade(MerchantOffer offer) {
         int xpAmount = 3 + this.rand.nextInt(4);
@@ -721,10 +709,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     @Override
     public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
-        if (compound.contains("SunspeakerData", 10)) {
-            DataResult<SunspeakerData> dataresult = SunspeakerData.CODEC.parse(new Dynamic<>(NBTDynamicOps.INSTANCE, compound.get("SunspeakerData")));
-            dataresult.resultOrPartial(LOGGER::error).ifPresent(this::setSunspeakerData);
-        }
         if (compound.contains("Offers", 10)) {
             this.offers = new MerchantOffers(compound.getCompound("Offers"));
         }
