@@ -67,7 +67,7 @@ import java.util.*;
 import java.util.function.BiPredicate;
 
 public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTracking, IMerchant { //consider changing Relics trading/buying to same system as Piglins
-    private static final DataParameter<SunspeakerData> SUNSPEAKER_DATA = EntityDataManager.createKey(SunspeakerEntity.class, AtumDataSerializer.SUNSPEAKER_DATA);
+    //private static final DataParameter<SunspeakerData> SUNSPEAKER_DATA = EntityDataManager.createKey(SunspeakerEntity.class, AtumDataSerializer.SUNSPEAKER_DATA);
     @Nullable
     private PlayerEntity customer;
     @Nullable
@@ -96,7 +96,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         ((GroundPathNavigator) this.getNavigator()).setBreakDoors(true);
         this.getNavigator().setCanSwim(true);
         this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(ScepterItem.getScepter(God.RA)));
-        this.setSunspeakerData(this.getSunspeakerData().withLevel(0));
+        //this.setSunspeakerData(this.getSunspeakerData().withLevel(0));
     }
 
     @Override
@@ -134,10 +134,10 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     private void initBrain(Brain<SunspeakerEntity> brain) {
         float speed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) + 0.75F; //Add additional speed, due to weird issue
 
-        brain.registerActivity(Activity.CORE, SunspeakerTasks.core(speed));
+        /*brain.registerActivity(Activity.CORE, SunspeakerTasks.core(speed));
         brain.registerActivity(Activity.MEET, SunspeakerTasks.meet(speed), ImmutableSet.of(Pair.of(MemoryModuleType.MEETING_POINT, MemoryModuleStatus.VALUE_PRESENT)));
         brain.registerActivity(Activity.REST, SunspeakerTasks.rest(speed));
-        brain.registerActivity(Activity.IDLE, SunspeakerTasks.idle(speed));
+        brain.registerActivity(Activity.IDLE, SunspeakerTasks.idle(speed));*/
         brain.setDefaultActivities(ImmutableSet.of(Activity.CORE));
         brain.setFallbackActivity(Activity.IDLE);
         brain.switchTo(Activity.IDLE);
@@ -203,9 +203,11 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     @Override
     @Nullable
     public AgeableEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
-        SunspeakerEntity sunspeaker = new SunspeakerEntity(AtumEntities.SUNSPEAKER, world);
+        /*SunspeakerEntity sunspeaker = new SunspeakerEntity(AtumEntities.SUNSPEAKER, world);
         sunspeaker.onInitialSpawn(world, this.world.getDifficultyForLocation(sunspeaker.getPosition()), SpawnReason.BREEDING, null, null);
         return sunspeaker;
+        */
+        return null;
     }
 
     @Override
@@ -261,22 +263,22 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     }
 
     public void setSunspeakerData(SunspeakerData sunspeakerData) {
-        this.dataManager.set(SUNSPEAKER_DATA, sunspeakerData);
+        //this.dataManager.set(SUNSPEAKER_DATA, sunspeakerData);
     }
 
-    public SunspeakerData getSunspeakerData() {
+    /*public SunspeakerData getSunspeakerData() {
         return this.dataManager.get(SUNSPEAKER_DATA);
-    }
+    }*/
 
     protected void onSunSpeakerTrade(MerchantOffer offer) {
         int xpAmount = 3 + this.rand.nextInt(4);
         this.xp += offer.getGivenExp();
         this.previousCustomer = this.getCustomer();
-        if (this.canLevelUp()) {
+        /*if (this.canLevelUp()) {
             this.timeUntilReset = 40;
             this.leveledUp = true;
             xpAmount += 5;
-        }
+        }*/
 
         if (offer.getDoesRewardExp()) {
             this.world.addEntity(new ExperienceOrbEntity(this.world, this.getPosX(), this.getPosY() + 0.5D, this.getPosZ(), xpAmount));
@@ -348,13 +350,13 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         return this.gossip.getReputation(player.getUniqueID(), (gossipType) -> true);
     }
 
-    private boolean canLevelUp() {
+    /*private boolean canLevelUp() {
         int level = this.getSunspeakerData().getLevel();
         return level < 4 && VillagerData.canLevelUp(level) && this.xp >= VillagerData.getExperienceNext(level);
-    }
+    }*/
 
     private void levelUp() {
-        this.setSunspeakerData(this.getSunspeakerData().withLevel(this.getSunspeakerData().getLevel() + 1));
+        //this.setSunspeakerData(this.getSunspeakerData().withLevel(this.getSunspeakerData().getLevel() + 1));
         this.populateTradeData();
     }
 
@@ -403,7 +405,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     }
 
     protected void populateTradeData() {
-        SunspeakerData sunspeakerData = this.getSunspeakerData();
+        /*SunspeakerData sunspeakerData = this.getSunspeakerData();
         List<VillagerTrades.ITrade[]> trades = TRADES;
         if (trades != null && !trades.isEmpty()) {
             VillagerTrades.ITrade[] trade = trades.get(sunspeakerData.getLevel() - 1);
@@ -411,7 +413,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
                 MerchantOffers merchantoffers = this.getOffers();
                 this.addTrades(merchantoffers, trade, 2);
             }
-        }
+        }*/
     }
 
     private void tickGossip() {
@@ -567,7 +569,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     private void displayMerchantGui(PlayerEntity player) {
         this.recalculateSpecialPricesFor(player);
         this.setCustomer(player);
-        this.openMerchantContainer(player, this.getDisplayName(), this.getSunspeakerData().getLevel());
+        //this.openMerchantContainer(player, this.getDisplayName(), this.getSunspeakerData().getLevel());
     }
 
     private void resetAllSpecialPrices() {
@@ -696,7 +698,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(SUNSPEAKER_DATA, new SunspeakerData(1));
+        //this.dataManager.register(SUNSPEAKER_DATA, new SunspeakerData(1));
     }
 
     @Override
@@ -706,9 +708,9 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         if (!merchantOffers.isEmpty()) {
             compound.put("Offers", merchantOffers.write());
         }
-        SunspeakerData.CODEC.encodeStart(NBTDynamicOps.INSTANCE, this.getSunspeakerData()).resultOrPartial(LOGGER::error).ifPresent((data) -> {
+        /*SunspeakerData.CODEC.encodeStart(NBTDynamicOps.INSTANCE, this.getSunspeakerData()).resultOrPartial(LOGGER::error).ifPresent((data) -> {
             compound.put("SunspeakerData", data);
-        });
+        });*/
         compound.put("Gossips", this.gossip.write(NBTDynamicOps.INSTANCE).getValue());
         compound.putInt("Xp", this.xp);
         compound.putLong("LastRestock", this.lastRestock);
@@ -741,7 +743,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         this.restocksToday = compound.getInt("RestocksToday");
     }
 
-    public static class SunspeakerTasks {
+    /*public static class SunspeakerTasks {
         public static ImmutableList<Pair<Integer, ? extends Task<? super SunspeakerEntity>>> core(float speed) {
             return ImmutableList.of(Pair.of(0, new SwimTask(0.8F)), Pair.of(0, new InteractWithDoorTask()), Pair.of(0, new LookTask(45, 90)), Pair.of(0, new WakeUpTask()), Pair.of(1, new WalkToTargetTask()), Pair.of(3, new SunspeakerTradeTask(speed)), Pair.of(5, new PickupWantedItemTask<>(speed, false, 4)), Pair.of(10, new GatherPOITask(PointOfInterestType.HOME, MemoryModuleType.HOME, false, Optional.of((byte)14))));
         }
@@ -751,7 +753,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         }
 
         public static ImmutableList<Pair<Integer, ? extends Task<? super SunspeakerEntity>>> rest(float speed) {
-            return ImmutableList.of(/*Pair.of(2, new StayNearPointTask(MemoryModuleType.HOME, speed, 1, 150, 1200)),*/ Pair.of(3, new ExpirePOITask(PointOfInterestType.HOME, MemoryModuleType.HOME)), Pair.of(3, new SleepAtHomeTask()), Pair.of(5, new FirstShuffledTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleStatus.VALUE_ABSENT), ImmutableList.of(Pair.of(new WalkToHouseTask(speed), 1), Pair.of(new WalkRandomlyTask(speed), 4), Pair.of(new DummyTask(20, 40), 2)))), lookAtPlayerOrSunspeaker(), Pair.of(99, new UpdateActivityTask()));
+            return ImmutableList.of(Pair.of(3, new ExpirePOITask(PointOfInterestType.HOME, MemoryModuleType.HOME)), Pair.of(3, new SleepAtHomeTask()), Pair.of(5, new FirstShuffledTask<>(ImmutableMap.of(MemoryModuleType.HOME, MemoryModuleStatus.VALUE_ABSENT), ImmutableList.of(Pair.of(new WalkToHouseTask(speed), 1), Pair.of(new WalkRandomlyTask(speed), 4), Pair.of(new DummyTask(20, 40), 2)))), lookAtPlayerOrSunspeaker(), Pair.of(99, new UpdateActivityTask()));
         }
 
         public static ImmutableList<Pair<Integer, ? extends Task<? super SunspeakerEntity>>> idle(float p_220641_1_) {
@@ -765,7 +767,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         private static Pair<Integer, Task<LivingEntity>> lookAtPlayerOrSunspeaker() {
             return Pair.of(5, new FirstShuffledTask<>(ImmutableList.of(Pair.of(new LookAtEntityTask(AtumEntities.SUNSPEAKER, 8.0F), 2), Pair.of(new LookAtEntityTask(EntityType.PLAYER, 8.0F), 2), Pair.of(new DummyTask(30, 60), 8))));
         }
-    }
+    }*/
 
     static class ItemsForCoins implements VillagerTrades.ITrade {
         private final int price;

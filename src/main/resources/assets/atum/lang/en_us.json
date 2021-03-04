@@ -886,6 +886,7 @@
   "item.atum.sunspeaker_spawn_egg": "Sunspeaker Spawn Egg",
   "item.atum.tarantula_spawn_egg": "Tarantula Spawn Egg",
   "item.atum.wraith_spawn_egg": "Wraith Spawn Egg",
+  "item.atum.villager_spawn_egg": "Atum Villager Spawn Egg",
 
   "_comment": "Entity",
   "entity.atum.assassin": "Assassin",
@@ -913,6 +914,7 @@
   "entity.atum.sunspeaker": "Sunspeaker",
   "entity.atum.tarantula": "Tarantula",
   "entity.atum.wraith": "Wraith",
+  "entity.atum.villager": "Atum Villager",
 
   "_comment": "Biomes",
   "biome.atum.dead_oasis": "Dead Oasis",

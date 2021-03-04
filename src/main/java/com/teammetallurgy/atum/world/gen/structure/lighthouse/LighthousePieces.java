@@ -89,12 +89,12 @@ public class LighthousePieces {
                 if (box.isVecInside(pos) && world.isAirBlock(pos)) {
                     ++this.sunspeakerSpawned;
 
-                    SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(world.getWorld());
+                    /*SunspeakerEntity sunspeaker = AtumEntities.SUNSPEAKER.create(world.getWorld());
                     if (sunspeaker != null) {
                         sunspeaker.setLocationAndAngles((double) j + 0.5D, k, (double) l + 0.5D, 0.0F, 0.0F);
                         sunspeaker.onInitialSpawn(world, world.getDifficultyForLocation(sunspeaker.getPosition()), SpawnReason.STRUCTURE, null, null);
                         world.addEntity(sunspeaker);
-                    }
+                    }*/
                 }
 
                 // Failsafe

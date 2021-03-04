@@ -34,7 +34,6 @@ public class AtumStructures {
     private static final List<Structure<?>> STRUCTURES = new ArrayList<>();
     //Structures
     public static final Structure<NoFeatureConfig> GIRAFI_TOMB_STRUCTURE = register("girafi_tomb", new GirafiTombStructure(NoFeatureConfig.field_236558_a_), GenerationStage.Decoration.SURFACE_STRUCTURES);
-    public static final Structure<NoFeatureConfig> LIGHTHOUSE_STRUCTURE = register("lighthouse", new LighthouseStructure(NoFeatureConfig.field_236558_a_), GenerationStage.Decoration.SURFACE_STRUCTURES);
     public static final Structure<NoFeatureConfig> TOMB_STRUCTURE = register("tomb", new TombStructure(NoFeatureConfig.field_236558_a_), GenerationStage.Decoration.UNDERGROUND_STRUCTURES);
     public static final Structure<NoFeatureConfig> RUIN_STRUCTURE = register("ruin", new RuinStructure(NoFeatureConfig.field_236558_a_), GenerationStage.Decoration.SURFACE_STRUCTURES);
     public static final Structure<NoFeatureConfig> PYRAMID_STRUCTURE = register("pyramid", new PyramidStructure(NoFeatureConfig.field_236558_a_), GenerationStage.Decoration.SURFACE_STRUCTURES);
@@ -43,7 +42,6 @@ public class AtumStructures {
 
     //Structure Features
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> GIRAFI_TOMB_FEATURE = register("girafi_tomb", GIRAFI_TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
-    public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> LIGHTHOUSE_FEATURE = register("lighthouse", LIGHTHOUSE_STRUCTURE, NoFeatureConfig.field_236559_b_);
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> TOMB_FEATURE = register("tomb", TOMB_STRUCTURE, NoFeatureConfig.field_236559_b_);
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> RUIN_FEATURE = register("ruin", RUIN_STRUCTURE, NoFeatureConfig.field_236559_b_);
     public static final StructureFeature<NoFeatureConfig, ? extends Structure<NoFeatureConfig>> PYRAMID_FEATURE = register("pyramid", PYRAMID_STRUCTURE, NoFeatureConfig.field_236559_b_);

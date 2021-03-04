@@ -13,6 +13,7 @@ import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.entity.stone.StoneguardEntity;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import com.teammetallurgy.atum.entity.undead.*;
+import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -56,10 +57,11 @@ public class AtumEntities {
     public static final EntityType<StoneguardEntity> STONEGUARD_FRIENDLY = registerEntity("stoneguard_friendly", Builder.create(StoneguardEntity::new, EntityClassification.MISC).size(0.6F, 1.8F).immuneToFire().trackingRange(10));
     public static final EntityType<StonewardenEntity> STONEWARDEN = registerMob("stonewarden", 0x918354, 0x695D37, Builder.create(StonewardenEntity::new, EntityClassification.MONSTER).size(1.4F, 2.7F).immuneToFire().trackingRange(10));
     public static final EntityType<StonewardenEntity> STONEWARDEN_FRIENDLY = registerEntity("stonewarden_friendly", Builder.create(StonewardenEntity::new, EntityClassification.MISC).size(1.4F, 2.7F).immuneToFire().trackingRange(10));
-    public static final EntityType<SunspeakerEntity> SUNSPEAKER = registerMob("sunspeaker", 0x464646, 0xCC5654, Builder.create(SunspeakerEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire().trackingRange(8));
+    //public static final EntityType<SunspeakerEntity> SUNSPEAKER = registerMob("sunspeaker", 0x464646, 0xCC5654, Builder.create(SunspeakerEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire().trackingRange(8));
     public static final EntityType<TarantulaEntity> TARANTULA = registerMob("tarantula", 0x745c47, 0xd2b193, Builder.create(TarantulaEntity::new, EntityClassification.MONSTER).size(0.85F, 0.55F).trackingRange(8));
     public static final EntityType<WarlordEntity> BANDIT_WARLORD = registerMob("bandit_warlord", 0xa62d1b, 0xe59a22, Builder.create(WarlordEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
     public static final EntityType<WraithEntity> WRAITH = registerMob("wraith", 0x544d34, 0x3e3927, Builder.create(WraithEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));
+    public static final EntityType<AtumVillagerEntity> VILLAGER = registerMob("villager", 0x9D7A62, 0x452D25, Builder.create(AtumVillagerEntity::new, EntityClassification.MISC).size(0.6F, 1.95F).trackingRange(10));
 
     //Entities
     public static final EntityType<CamelSpitEntity> CAMEL_SPIT = registerEntity("camel_spit", Builder.<CamelSpitEntity>create(CamelSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F)
@@ -113,9 +115,9 @@ public class AtumEntities {
         EntitySpawnPlacementRegistry.register(STONEGUARD_FRIENDLY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(STONEWARDEN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(STONEWARDEN_FRIENDLY, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, StoneBaseEntity::canSpawn);
-        EntitySpawnPlacementRegistry.register(SUNSPEAKER, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
         EntitySpawnPlacementRegistry.register(TARANTULA, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, TarantulaEntity::canSpawn);
         EntitySpawnPlacementRegistry.register(WRAITH, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, UndeadBaseEntity::canSpawn);
+        EntitySpawnPlacementRegistry.register(VILLAGER, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
     }
 
     @SubscribeEvent
@@ -139,9 +141,9 @@ public class AtumEntities {
         event.put(STONEGUARD_FRIENDLY, StoneguardEntity.getAttributes().create());
         event.put(STONEWARDEN, StonewardenEntity.getAttributes().create());
         event.put(STONEWARDEN_FRIENDLY, StoneguardEntity.getAttributes().create());
-        event.put(SUNSPEAKER, SunspeakerEntity.getAttributes().create());
         event.put(TARANTULA, TarantulaEntity.getAttributes().create());
         event.put(WRAITH, WraithEntity.getAttributes().create());
+        event.put(VILLAGER, AtumVillagerEntity.func_233666_p_().create());
     }
 
     public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
