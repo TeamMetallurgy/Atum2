@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.blocks.lighting.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.lighting.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
+import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.*;
 import com.teammetallurgy.atum.items.AtumScaffoldingItem;
 import com.teammetallurgy.atum.items.RelicItem;
@@ -35,11 +36,15 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.network.FMLPlayMessages;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,6 +55,7 @@ import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRegistry {
+    //Registry lists
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
     public static final List<Biome> BIOMES = Lists.newArrayList();
@@ -58,6 +64,9 @@ public class AtumRegistry {
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
     public static final List<EntityType<? extends CustomArrow>> ARROWS = Lists.newArrayList();
+
+    //Registries
+    public static final Supplier<IForgeRegistry<AtumVillagerProfession>> VILLAGER_PROFESSION = AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.makeRegistry("villager_profession", () -> AtumRegistry.makeRegistryNoCreate("villager_profession", AtumVillagerProfession.class));
 
     /**
      * Registers an item
@@ -140,7 +149,7 @@ public class AtumRegistry {
      * Helper method for easily registering scaffolding
      *
      * @param scaffolding The scaffolding block to be registered
-     * @param name  The name to register the block with
+     * @param name        The name to register the block with
      * @return The Block that was registered
      */
     public static Block registerScaffolding(@Nonnull Block scaffolding, @Nonnull String name) {
@@ -272,7 +281,7 @@ public class AtumRegistry {
     /**
      * Registers a biome key
      *
-     * @param biomeName  The name to register the biome key with
+     * @param biomeName The name to register the biome key with
      * @return The Biome key that was registered
      */
     public static RegistryKey<Biome> registerBiomeKey(String biomeName) {
@@ -315,9 +324,25 @@ public class AtumRegistry {
         AtumTorchBlock.GODS.put(particleType, god);
         return particleType;
     }
-        /*
+
+    /*
      * Registry events
      */
+
+    /**
+     * Used to register a new registry
+     *
+     * @param registryName the unique string to register the registry as
+     * @param type         the class that the registry is for
+     * @return a new registry
+     */
+    public static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistryNoCreate(String registryName, Class<T> type) {
+        return new RegistryBuilder<T>().setName(new ResourceLocation(Atum.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).allowModification();
+    }
+
+    public static <T extends IForgeRegistryEntry<T>> IForgeRegistry<T> makeRegistry(String registryName, Class<T> type) {
+        return makeRegistryNoCreate(registryName, type).create();
+    }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -386,5 +411,9 @@ public class AtumRegistry {
         if (event.includeReports()) {
             gen.addProvider(new BiomeProvider(gen));
         }
+    }
+
+    public static void registerDeferredRegistries(IEventBus modBus) {
+        AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
     }
 }

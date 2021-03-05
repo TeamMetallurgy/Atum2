@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.init;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerData;
 import com.teammetallurgy.atum.entity.villager.Race;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -21,7 +21,7 @@ public class AtumDataSerializer {
     private static final List<DataSerializerEntry> DATA_SERIALIZER_ENTRIES = new ArrayList<>();
     public static final IDataSerializer<AtumVillagerData> VILLAGER_DATA = new IDataSerializer<AtumVillagerData>() {
         public void write(PacketBuffer buf, AtumVillagerData value) {
-            buf.writeVarInt(Registry.VILLAGER_PROFESSION.getId(value.getProfession()));
+            buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getProfession()).toString());
             buf.writeVarInt(value.getLevel());
             buf.writeEnumValue(value.getRace());
             buf.writeBoolean(value.isFemale());
@@ -29,7 +29,7 @@ public class AtumDataSerializer {
 
         @Override
         public AtumVillagerData read(PacketBuffer buf) {
-            return new AtumVillagerData(Registry.VILLAGER_PROFESSION.getByValue(buf.readVarInt()), buf.readVarInt(), buf.readEnumValue(Race.class), buf.readBoolean());
+            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readString())), buf.readVarInt(), buf.readEnumValue(Race.class), buf.readBoolean());
         }
 
         @Override

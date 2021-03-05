@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
@@ -54,6 +55,7 @@ public class Atum {
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AtumConfig.spec);
         IntegrationHandler.INSTANCE.addSupport();
         AtumAPI.Tags.init();
+        AtumRegistry.registerDeferredRegistries(modBus);
     }
 
     private void setupCommon(FMLCommonSetupEvent event) {

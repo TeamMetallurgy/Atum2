@@ -2,20 +2,18 @@ package com.teammetallurgy.atum.entity.villager;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.entity.merchant.villager.VillagerData;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
+import com.teammetallurgy.atum.misc.AtumRegistry;
+import com.teammetallurgy.atum.misc.ForgeRegistryEntryCodec;
 import net.minecraft.entity.villager.VillagerType;
 import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.registry.Registry;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerData, but makes sure VillagerType is not used
+public class AtumVillagerData { //Same as vanilla VillagerData, but makes sure VillagerType is not used
+    public static final Codec<AtumVillagerProfession> VILLAGER_PROFESSION_CODEC = ForgeRegistryEntryCodec.getOrCreate(AtumRegistry.VILLAGER_PROFESSION.get());
     public static final Codec<AtumVillagerData> CODEC = RecordCodecBuilder.create((dataInstance) -> {
-        return dataInstance.group(Registry.VILLAGER_PROFESSION.fieldOf("profession").orElseGet(() -> {
-            return VillagerProfession.NONE;
-        }).forGetter((data) -> {
+        return dataInstance.group(VILLAGER_PROFESSION_CODEC.fieldOf("profession").orElseGet(AtumVillagerProfession.NONE).forGetter((data) -> {
             return data.profession;
         }), Codec.INT.fieldOf("level").orElse(1).forGetter((data) -> {
             return data.level;
@@ -25,17 +23,24 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
             return data.isFemale;
         })).apply(dataInstance, AtumVillagerData::new);
     });
-    private final VillagerProfession profession;
+    private final AtumVillagerProfession profession;
     private final int level;
     private final Race race;
     private final boolean isFemale;
 
-    public AtumVillagerData(VillagerProfession profession, int level, Race race, boolean isFemale) {
-        super(null, profession, level);
+    public AtumVillagerData(AtumVillagerProfession profession, int level, Race race, boolean isFemale) {
         this.profession = profession;
         this.level = level;
         this.race = race;
         this.isFemale = isFemale;
+    }
+
+    public AtumVillagerProfession getProfession() {
+        return this.profession;
+    }
+
+    public int getLevel() {
+        return this.level;
     }
 
     public Race getRace() {
@@ -46,31 +51,28 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
         return this.isFemale;
     }
 
-    @Override
     @Nonnull
-    public VillagerData withProfession(@Nonnull VillagerProfession profession) {
+    public AtumVillagerData withProfession(@Nonnull AtumVillagerProfession profession) {
         return new AtumVillagerData(profession, this.getLevel(), this.getRace(), this.isFemale());
     }
 
-    @Override
     @Nonnull
-    public VillagerData withType(@Nullable VillagerType type) {
+    public AtumVillagerData withType(@Nullable VillagerType type) {
         return new AtumVillagerData(this.getProfession(), this.getLevel(), this.getRace(), this.isFemale());
     }
 
-    @Override
     @Nonnull
-    public VillagerData withLevel(int level) {
+    public AtumVillagerData withLevel(int level) {
         return new AtumVillagerData(this.getProfession(), level, this.getRace(), this.isFemale());
     }
 
     @Nonnull
-    public VillagerData withRace(Race race) {
+    public AtumVillagerData withRace(Race race) {
         return new AtumVillagerData(this.getProfession(), this.getLevel(), race, this.isFemale());
     }
 
     @Nonnull
-    public VillagerData withGender(boolean isFemale) {
+    public AtumVillagerData withGender(boolean isFemale) {
         return new AtumVillagerData(this.getProfession(), this.getLevel(), this.getRace(), isFemale);
     }
 }

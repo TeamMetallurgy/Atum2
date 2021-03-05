@@ -17,14 +17,12 @@ import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.schedule.Activity;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.IMerchant;
 import net.minecraft.entity.merchant.IReputationTracking;
@@ -62,7 +60,7 @@ import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.BiPredicate;
 
-public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTracking, IMerchant { //consider changing Relics trading/buying to same system as Piglins
+public class SunspeakerEntity extends AgeableEntity implements IReputationTracking, IMerchant { //consider changing Relics trading/buying to same system as Piglins
     //private static final DataParameter<SunspeakerData> SUNSPEAKER_DATA = EntityDataManager.createKey(SunspeakerEntity.class, AtumDataSerializer.SUNSPEAKER_DATA);
     @Nullable
     private PlayerEntity customer;
@@ -79,10 +77,10 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     private int restocksToday;
     private long restockTime;
     private static final List<VillagerTrades.ITrade[]> TRADES = Arrays.asList(
-    /*Tier 1*/ new VillagerTrades.ITrade[]{new ItemsForCoins(32, AtumBlocks.PALM_SAPLING.asItem(), 4, 5, 4, 3), new ItemsForCoins(16, Blocks.SUNFLOWER.asItem(), 1, 2, 7, 1), new ItemsForCoins(24, AtumItems.DATE, 14, 16, 3, 2), new ItemsForCoins(24, AtumItems.EMMER_BREAD, 3, 4, 6, 2)},
-    /*Tier 2*/ new VillagerTrades.ITrade[]{new ItemsForCoins(36, AtumItems.LINEN_CLOTH, 5, 10, 5, 3), new ItemsForCoins(48, AtumItems.CAMEL_RAW, 13, 18, 10, 2), new ItemsForCoins(48, AtumItems.SCROLL, 9, 12, 4, 4), new ItemsForCoins(32, AtumItems.ANPUTS_FINGERS_SPORES, 8, 10, 2, 2)},
-    /*Tier 3*/ new VillagerTrades.ITrade[]{new ItemsForCoins(48, Blocks.GLOWSTONE.asItem(), 3, 4, 10, 2), new ItemsForCoins(48, Items.NAME_TAG, 1, 2, 16, 1), new ItemsForCoins(64, Items.BREWING_STAND, 1, 1, 2, 9), new ItemsForCoins(36, Items.BLAZE_POWDER, 4, 5, 16, 4)},
-    /*Tier 4*/ new VillagerTrades.ITrade[]{new ItemsForCoins(48, Items.SADDLE, 1, 1, 12, 4), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, 1, 2, 4, 10), new ItemsForCoins(48, Items.ENDER_PEARL, 3, 4, 8, 15)});
+            /*Tier 1*/ new VillagerTrades.ITrade[]{new ItemsForCoins(32, AtumBlocks.PALM_SAPLING.asItem(), 4, 5, 4, 3), new ItemsForCoins(16, Blocks.SUNFLOWER.asItem(), 1, 2, 7, 1), new ItemsForCoins(24, AtumItems.DATE, 14, 16, 3, 2), new ItemsForCoins(24, AtumItems.EMMER_BREAD, 3, 4, 6, 2)},
+            /*Tier 2*/ new VillagerTrades.ITrade[]{new ItemsForCoins(36, AtumItems.LINEN_CLOTH, 5, 10, 5, 3), new ItemsForCoins(48, AtumItems.CAMEL_RAW, 13, 18, 10, 2), new ItemsForCoins(48, AtumItems.SCROLL, 9, 12, 4, 4), new ItemsForCoins(32, AtumItems.ANPUTS_FINGERS_SPORES, 8, 10, 2, 2)},
+            /*Tier 3*/ new VillagerTrades.ITrade[]{new ItemsForCoins(48, Blocks.GLOWSTONE.asItem(), 3, 4, 10, 2), new ItemsForCoins(48, Items.NAME_TAG, 1, 2, 16, 1), new ItemsForCoins(64, Items.BREWING_STAND, 1, 1, 2, 9), new ItemsForCoins(36, Items.BLAZE_POWDER, 4, 5, 16, 4)},
+            /*Tier 4*/ new VillagerTrades.ITrade[]{new ItemsForCoins(48, Items.SADDLE, 1, 1, 12, 4), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, 1, 2, 4, 10), new ItemsForCoins(48, Items.ENDER_PEARL, 3, 4, 8, 15)});
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.MEETING_POINT, MemoryModuleType.MOBS, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.NEAREST_PLAYERS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.WALK_TARGET, MemoryModuleType.LOOK_TARGET, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.PATH, MemoryModuleType.INTERACTABLE_DOORS, MemoryModuleType.OPENED_DOORS, MemoryModuleType.NEAREST_BED, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.NEAREST_HOSTILE, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.LAST_SLEPT, MemoryModuleType.LAST_WOKEN);
     private static final ImmutableList<SensorType<? extends Sensor<? super SunspeakerEntity>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.NEAREST_BED, SensorType.HURT_BY);
     public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<SunspeakerEntity, PointOfInterestType>> HOME = ImmutableMap.of(MemoryModuleType.HOME, (sunspeaker, poi) -> poi == PointOfInterestType.HOME);
@@ -121,7 +119,7 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     }
 
     public void resetBrain(ServerWorld serverWorld) {
-        Brain<SunspeakerEntity> brain =  this.getBrain();
+        Brain<SunspeakerEntity> brain = this.getBrain();
         brain.stopAllTasks(serverWorld, this);
         this.brain = brain.copy();
         this.initBrain(this.getBrain());
@@ -146,17 +144,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
         if (this.world instanceof ServerWorld) {
             this.resetBrain((ServerWorld) this.world);
         }
-    }
-
-    @Override
-    protected void registerGoals() {
-        super.getSuperGoals();
-        this.goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, false));
-        super.applyEntityAI();
-    }
-
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 20.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D).createMutableAttribute(Attributes.ARMOR, 4.0F);
     }
 
     @Override
@@ -439,7 +426,6 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
     public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
         ItemStack heldStack = player.getHeldItem(hand);
         boolean nameTag = heldStack.getItem() == Items.NAME_TAG;
-        boolean isAgressiveTowards = player.getUniqueID() == this.angerTargetUUID;
 
         if (nameTag) {
             heldStack.interactWithEntity(player, this, hand);
@@ -456,14 +442,12 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
                     }
                     player.addStat(Stats.TALKED_TO_VILLAGER);
                 }
-                if (noOffers || isAgressiveTowards) {
-                    if (isAgressiveTowards && heldStack.getItem() == AtumItems.GOLD_COIN) {
-                        this.angerTargetUUID = null;
+                if (noOffers) {
+                    if (heldStack.getItem() == AtumItems.GOLD_COIN) {
                         this.setRevengeTarget(null);
                         this.setAttackTarget(null);
                         this.attackingPlayer = null;
                         this.recentlyHit = 0;
-                        this.angerLevel = 0;
                         this.gossip.add(player.getUniqueID(), GossipType.MINOR_POSITIVE, 10);
                         return ActionResultType.SUCCESS;
                     } else {
@@ -480,37 +464,25 @@ public class SunspeakerEntity extends EfreetBaseEntity implements IReputationTra
             RelicItem.Type type = RelicItem.getType(heldStack.getItem());
             RelicItem.Quality quality = RelicItem.getQuality(heldStack.getItem());
 
-            if (isAgressiveTowards) {
-                this.angerTargetUUID = null;
-                this.setRevengeTarget(null);
-                this.setAttackTarget(null);
-                this.attackingPlayer = null;
-                this.recentlyHit = 0;
-                this.angerLevel = 0;
-                this.gossip.add(player.getUniqueID(), GossipType.MINOR_POSITIVE, 10);
-                return ActionResultType.SUCCESS;
-            } else {
-
-                if (quality != RelicItem.Quality.DIRTY) {
-                    double modifier = 1.0D;
-                    if (type == RelicItem.Type.NECKLACE) {
-                        modifier = 2.0D;
-                    } else if (type == RelicItem.Type.BROOCH) {
-                        modifier = 2.5D;
-                    } else if (type == RelicItem.Type.BRACELET) {
-                        modifier = 3.0D;
-                    } else if (type == RelicItem.Type.IDOL) {
-                        modifier = 5.0D;
-                    }
-                    if (!player.isCreative()) {
-                        heldStack.shrink(1);
-                    }
-                    this.handleRelicTrade(player, hand, modifier, quality);
-                    return ActionResultType.SUCCESS;
-
-                } else {
-                    return super.func_230254_b_(player, hand);
+            if (quality != RelicItem.Quality.DIRTY) {
+                double modifier = 1.0D;
+                if (type == RelicItem.Type.NECKLACE) {
+                    modifier = 2.0D;
+                } else if (type == RelicItem.Type.BROOCH) {
+                    modifier = 2.5D;
+                } else if (type == RelicItem.Type.BRACELET) {
+                    modifier = 3.0D;
+                } else if (type == RelicItem.Type.IDOL) {
+                    modifier = 5.0D;
                 }
+                if (!player.isCreative()) {
+                    heldStack.shrink(1);
+                }
+                this.handleRelicTrade(player, hand, modifier, quality);
+                return ActionResultType.SUCCESS;
+
+            } else {
+                return super.func_230254_b_(player, hand);
             }
         } else {
             return super.func_230254_b_(player, hand);

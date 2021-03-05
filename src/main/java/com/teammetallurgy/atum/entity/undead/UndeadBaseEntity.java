@@ -5,7 +5,6 @@ import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
-import com.teammetallurgy.atum.entity.efreet.EfreetBaseEntity;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityType;
@@ -70,8 +69,6 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, checkSight));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, checkSight));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, checkSight));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, EfreetBaseEntity.class, checkSight));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, checkSight));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, checkSight));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WolfEntity.class, checkSight));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombifiedPiglinEntity.class, checkSight));
