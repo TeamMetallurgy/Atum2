@@ -12,10 +12,7 @@ import com.teammetallurgy.atum.init.AtumDataSerializer;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.entity.AgeableEntity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
@@ -24,12 +21,10 @@ import net.minecraft.entity.ai.brain.schedule.Schedule;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.villager.VillagerType;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffers;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTDynamicOps;
 import net.minecraft.network.DebugPacketSender;
@@ -37,6 +32,7 @@ import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.math.GlobalPos;
@@ -51,6 +47,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -149,8 +146,44 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     protected void updateAITasks() {
         super.updateAITasks();
         if (this.getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.NONE.get() && this.hasCustomer()) {
-            this.resetCustomer();
+            this.resetAtumCustomer();
         }
+    }
+
+    @Override
+    protected void resetCustomer() { //Changed to custom one, to prevent issues
+    }
+
+    protected void resetAtumCustomer() {
+        this.setCustomer(null);
+        this.resetAllSpecialPrices();
+    }
+
+    private void resetAllSpecialPrices() {
+        for (MerchantOffer offer : this.getOffers()) {
+            offer.resetSpecialPrice();
+        }
+    }
+
+    @Override
+    public void setCustomer(@Nullable PlayerEntity player) {
+        boolean shouldReset = this.getCustomer() != null && player == null;
+        super.setCustomer(player);
+        if (shouldReset) {
+            this.resetAtumCustomer();
+        }
+    }
+
+    @Override
+    public void onDeath(@Nonnull DamageSource cause) {
+        super.onDeath(cause);
+        this.resetAtumCustomer();
+    }
+
+    @Nullable
+    public Entity changeDimension(@Nonnull ServerWorld server, @Nonnull ITeleporter teleporter) {
+        this.resetAtumCustomer();
+        return super.changeDimension(server, teleporter);
     }
 
     @Override
@@ -167,6 +200,9 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
 
     @Override
     public void setVillagerData(@Nonnull VillagerData data) {
+        if (data instanceof AtumVillagerData) {
+            this.setAtumVillagerData((AtumVillagerData) data);
+        }
         //Ignore places where vanilla sets villager data
     }
 
@@ -301,9 +337,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     @Override
     protected int getFoodValueFromInventory() {
         Inventory inventory = this.getVillagerInventory();
-        return FOOD_VALUES.entrySet().stream().mapToInt((foodValueEntry) -> {
-            return inventory.count(foodValueEntry.getKey()) * foodValueEntry.getValue();
-        }).sum();
+        return FOOD_VALUES.entrySet().stream().mapToInt((foodValueEntry) -> inventory.count(foodValueEntry.getKey()) * foodValueEntry.getValue()).sum();
     }
 
 
