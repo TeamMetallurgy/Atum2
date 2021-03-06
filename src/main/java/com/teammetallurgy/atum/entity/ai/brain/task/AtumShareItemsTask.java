@@ -52,11 +52,11 @@ public class AtumShareItemsTask extends Task<VillagerEntity> {
             if (!(owner.getDistanceSq(villagerentity) > 5.0D)) {
                 BrainUtil.lookApproachEachOther(owner, villagerentity, 0.5F);
                 owner.func_242368_a(world, villagerentity, gameTime);
-                if (owner.canAbondonItems() && (((AtumVillagerEntity) owner).getAtumVillagerData().getProfession() == AtumVillagerProfession.FARMER.get() || villagerentity.wantsMoreFood())) {
+                if (owner.canAbondonItems() && (((AtumVillagerEntity) owner).getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.FARMER.get() || villagerentity.wantsMoreFood())) {
                     func_220586_a(owner, VillagerEntity.FOOD_VALUES.keySet(), villagerentity);
                 }
 
-                if (((AtumVillagerEntity) villagerentity).getAtumVillagerData().getProfession() == AtumVillagerProfession.FARMER.get() && owner.getVillagerInventory().count(Items.WHEAT) > Items.WHEAT.getMaxStackSize() / 2) {
+                if (((AtumVillagerEntity) villagerentity).getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.FARMER.get() && owner.getVillagerInventory().count(Items.WHEAT) > Items.WHEAT.getMaxStackSize() / 2) {
                     func_220586_a(owner, ImmutableSet.of(Items.WHEAT), villagerentity);
                 }
 
@@ -74,8 +74,8 @@ public class AtumShareItemsTask extends Task<VillagerEntity> {
 
     private static Set<Item> func_220585_a(VillagerEntity from, VillagerEntity to) {
         if (from instanceof AtumVillagerEntity && to instanceof AtumVillagerEntity) {
-            ImmutableSet<Item> immutableset = ((AtumVillagerEntity) to).getAtumVillagerData().getProfession().getSpecificItems();
-            ImmutableSet<Item> immutableset1 = ((AtumVillagerEntity) from).getAtumVillagerData().getProfession().getSpecificItems();
+            ImmutableSet<Item> immutableset = ((AtumVillagerEntity) to).getAtumVillagerData().getAtumProfession().getSpecificItems();
+            ImmutableSet<Item> immutableset1 = ((AtumVillagerEntity) from).getAtumVillagerData().getAtumProfession().getSpecificItems();
             return immutableset.stream().filter((p_220587_1_) -> {
                 return !immutableset1.contains(p_220587_1_);
             }).collect(Collectors.toSet());

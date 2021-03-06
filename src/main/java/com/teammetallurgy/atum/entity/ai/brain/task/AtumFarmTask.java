@@ -40,7 +40,7 @@ public class AtumFarmTask extends Task<VillagerEntity> {
     protected boolean shouldExecute(@Nonnull ServerWorld world, @Nonnull VillagerEntity owner) {
         if (!ForgeEventFactory.getMobGriefingEvent(world, owner) && !(owner instanceof AtumVillagerEntity)) {
             return false;
-        } else if (((AtumVillagerEntity) owner).getAtumVillagerData().getProfession() != AtumVillagerProfession.FARMER.get()) {
+        } else if (((AtumVillagerEntity) owner).getAtumVillagerData().getAtumProfession() != AtumVillagerProfession.FARMER.get()) {
             return false;
         } else {
             BlockPos.Mutable mutablePos = owner.getPosition().toMutable();

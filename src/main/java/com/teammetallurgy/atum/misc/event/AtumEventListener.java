@@ -181,17 +181,17 @@ public class AtumEventListener {
             if (world.getDimensionKey() == Atum.ATUM) {
                 event.setCanceled(true); //We don't want vanillas loot table
                 if (heldStack.getItem() instanceof AtemsBountyItem) {
-                    catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.ATEMS_BOUNTY);
+                    catchFish((ServerWorld) world, angler, heldStack, bobber, builder, AtumLootTables.ATEMS_BOUNTY);
                     angler.world.addEntity(new ExperienceOrbEntity(angler.world, angler.getPosX(), angler.getPosY() + 0.5D, angler.getPosZ() + 0.5D, world.rand.nextInt(6) + 1));
                 } else {
-                    catchFish((ServerWorld) world, angler, bobber, builder, AtumLootTables.FISHING);
+                    catchFish((ServerWorld) world, angler, heldStack, bobber, builder, AtumLootTables.FISHING);
                 }
             }
         }
     }
 
-    private static void catchFish(ServerWorld world, PlayerEntity angler, FishingBobberEntity bobber, LootContext.Builder builder, ResourceLocation lootTable) {
-        List<ItemStack> loots = world.getServer().getLootTableManager().getLootTableFromLocation(lootTable).generate(builder.build(LootParameterSets.FISHING));
+    private static void catchFish(ServerWorld world, PlayerEntity angler, ItemStack heldStack, FishingBobberEntity bobber, LootContext.Builder builder, ResourceLocation lootTable) {
+        List<ItemStack> loots = world.getServer().getLootTableManager().getLootTableFromLocation(lootTable).generate(builder.withParameter(LootParameters.field_237457_g_, bobber.getPositionVec()).withParameter(LootParameters.TOOL, heldStack).withParameter(LootParameters.THIS_ENTITY, bobber).withRandom(world.rand).build(LootParameterSets.FISHING));
         for (ItemStack loot : loots) {
             ItemEntity fish = new ItemEntity(bobber.world, bobber.getPosX(), bobber.getPosY(), bobber.getPosZ(), loot);
             double x = angler.getPosX() - bobber.getPosX();

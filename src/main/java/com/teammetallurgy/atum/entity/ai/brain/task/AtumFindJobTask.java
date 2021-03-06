@@ -31,7 +31,7 @@ public class AtumFindJobTask extends Task<VillagerEntity> {
         if (owner.isChild()) {
             return false;
         } else {
-            return owner instanceof AtumVillagerEntity && ((AtumVillagerEntity) owner).getAtumVillagerData().getProfession() == AtumVillagerProfession.NONE.get();
+            return owner instanceof AtumVillagerEntity && ((AtumVillagerEntity) owner).getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.NONE.get();
         }
     }
 
@@ -54,8 +54,8 @@ public class AtumFindJobTask extends Task<VillagerEntity> {
             return false;
         } else {
             Optional<GlobalPos> optional = entity.getBrain().getMemory(MemoryModuleType.JOB_SITE);
-            AtumVillagerProfession villagerprofession = ((AtumVillagerEntity) entity).getAtumVillagerData().getProfession();
-            if (((AtumVillagerEntity) entity).getAtumVillagerData().getProfession() != AtumVillagerProfession.NONE.get() && villagerprofession.getPointOfInterest().getPredicate().test(poi)) {
+            AtumVillagerProfession villagerprofession = ((AtumVillagerEntity) entity).getAtumVillagerData().getAtumProfession();
+            if (((AtumVillagerEntity) entity).getAtumVillagerData().getAtumProfession() != AtumVillagerProfession.NONE.get() && villagerprofession.getPointOfInterest().getPredicate().test(poi)) {
                 return !optional.isPresent() ? this.func_234020_a_(entity, pos, poi) : optional.get().getPos().equals(pos);
             } else {
                 return false;

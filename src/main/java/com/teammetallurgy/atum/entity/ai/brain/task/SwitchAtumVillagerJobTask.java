@@ -45,7 +45,7 @@ public class SwitchAtumVillagerJobTask extends Task<VillagerEntity> {
     }
 
     private boolean func_233934_a_(GlobalPos globalPos, PointOfInterestType poiType, VillagerEntity entity) {
-        return entity instanceof AtumVillagerEntity && this.func_233931_a_(entity) && globalPos.equals(entity.getBrain().getMemory(MemoryModuleType.JOB_SITE).get()) && this.func_233930_a_(poiType, ((AtumVillagerEntity) entity).getAtumVillagerData().getProfession());
+        return entity instanceof AtumVillagerEntity && this.func_233931_a_(entity) && globalPos.equals(entity.getBrain().getMemory(MemoryModuleType.JOB_SITE).get()) && this.func_233930_a_(poiType, ((AtumVillagerEntity) entity).getAtumVillagerData().getAtumProfession());
     }
 
     private boolean func_233930_a_(PointOfInterestType poiType, AtumVillagerProfession profession) {

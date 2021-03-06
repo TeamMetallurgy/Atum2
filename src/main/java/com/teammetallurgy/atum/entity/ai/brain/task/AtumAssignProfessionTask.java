@@ -34,7 +34,7 @@ public class AtumAssignProfessionTask extends Task<VillagerEntity> {
         entity.getBrain().removeMemory(MemoryModuleType.POTENTIAL_JOB_SITE);
         entity.getBrain().setMemory(MemoryModuleType.JOB_SITE, globalpos);
         world.setEntityState(entity, (byte) 14);
-        if (entity instanceof AtumVillagerEntity && ((AtumVillagerEntity) entity).getAtumVillagerData().getProfession() == AtumVillagerProfession.NONE.get()) {
+        if (entity instanceof AtumVillagerEntity && ((AtumVillagerEntity) entity).getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.NONE.get()) {
             MinecraftServer minecraftserver = world.getServer();
             Optional.ofNullable(minecraftserver.getWorld(globalpos.getDimension())).flatMap((w) -> {
                 return w.getPointOfInterestManager().getType(globalpos.getPos());

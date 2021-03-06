@@ -21,7 +21,7 @@ public class AtumDataSerializer {
     private static final List<DataSerializerEntry> DATA_SERIALIZER_ENTRIES = new ArrayList<>();
     public static final IDataSerializer<AtumVillagerData> VILLAGER_DATA = new IDataSerializer<AtumVillagerData>() {
         public void write(PacketBuffer buf, AtumVillagerData value) {
-            buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getProfession()).toString());
+            buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
             buf.writeVarInt(value.getLevel());
             buf.writeEnumValue(value.getRace());
             buf.writeBoolean(value.isFemale());

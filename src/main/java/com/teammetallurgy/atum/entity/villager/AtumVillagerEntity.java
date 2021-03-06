@@ -68,7 +68,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<AtumVillagerEntity, PointOfInterestType>> JOB_SITE_PREDICATE_MAP = ImmutableMap.of(MemoryModuleType.HOME, (villager, poiType) -> {
         return poiType == PointOfInterestType.HOME;
     }, MemoryModuleType.JOB_SITE, (villager, poiType) -> {
-        return villager.getAtumVillagerData().getProfession().getPointOfInterest() == poiType;
+        return villager.getAtumVillagerData().getAtumProfession().getPointOfInterest() == poiType;
     }, MemoryModuleType.POTENTIAL_JOB_SITE, (villager, poiType) -> {
         return PointOfInterestType.ANY_VILLAGER_WORKSTATION.test(poiType);
     }, MemoryModuleType.MEETING_POINT, (villager, poiType) -> {
@@ -104,7 +104,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     private void initBrain(Brain<VillagerEntity> brain) {
-        AtumVillagerProfession profession = this.getAtumVillagerData().getProfession();
+        AtumVillagerProfession profession = this.getAtumVillagerData().getAtumProfession();
         EntityType<? extends AtumVillagerEntity> entityType = (EntityType<? extends AtumVillagerEntity>) this.getType();
         if (this.isChild()) {
             brain.setSchedule(Schedule.VILLAGER_BABY);
@@ -148,7 +148,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     @Override
     protected void updateAITasks() {
         super.updateAITasks();
-        if (this.getAtumVillagerData().getProfession() == AtumVillagerProfession.NONE.get() && this.hasCustomer()) {
+        if (this.getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.NONE.get() && this.hasCustomer()) {
             this.resetCustomer();
         }
     }
@@ -172,7 +172,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
 
     public void setAtumVillagerData(@Nonnull AtumVillagerData data) {
         AtumVillagerData atumVillagerData = this.getAtumVillagerData();
-        if (atumVillagerData.getProfession() != data.getProfession()) {
+        if (atumVillagerData.getAtumProfession() != data.getAtumProfession()) {
             this.offers = null;
         }
         this.dataManager.set(ATUM_VILLAGER_DATA, data);
@@ -210,7 +210,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     @Nonnull
     public ITextComponent getName() {
         AtumVillagerData villagerData = this.getAtumVillagerData();
-        ResourceLocation profName = villagerData.getProfession().getRegistryName();
+        ResourceLocation profName = villagerData.getAtumProfession().getRegistryName();
         return new TranslationTextComponent(this.getType().getTranslationKey() + '.' + villagerData.getRace().getName() + "." + profName.getPath());
     }
 
@@ -241,7 +241,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     @Override
 
     public void playWorkstationSound() {
-        SoundEvent soundEvent = this.getAtumVillagerData().getProfession().getSound();
+        SoundEvent soundEvent = this.getAtumVillagerData().getAtumProfession().getSound();
         if (soundEvent != null) {
             this.playSound(soundEvent, this.getSoundVolume(), this.getSoundPitch());
         }
@@ -310,13 +310,13 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     @Override
     public boolean func_230293_i_(ItemStack stack) {
         Item item = stack.getItem();
-        return (ALLOWED_INVENTORY_ITEMS.contains(item) || this.getAtumVillagerData().getProfession().getSpecificItems().contains(item)) && this.getVillagerInventory().func_233541_b_(stack);
+        return (ALLOWED_INVENTORY_ITEMS.contains(item) || this.getAtumVillagerData().getAtumProfession().getSpecificItems().contains(item)) && this.getVillagerInventory().func_233541_b_(stack);
     }
 
     @Override
     protected void populateTradeData() {
         AtumVillagerData data = this.getAtumVillagerData();
-        Int2ObjectMap<VillagerTrades.ITrade[]> map = AtumVillagerTrades.VILLAGER_DEFAULT_TRADES.get(data.getProfession());
+        Int2ObjectMap<VillagerTrades.ITrade[]> map = AtumVillagerTrades.VILLAGER_DEFAULT_TRADES.get(data.getAtumProfession());
         if (map != null && !map.isEmpty()) {
             VillagerTrades.ITrade[] trades = map.get(data.getLevel());
             if (trades != null) {
