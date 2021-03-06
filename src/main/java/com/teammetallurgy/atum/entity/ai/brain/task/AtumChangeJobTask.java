@@ -7,9 +7,7 @@ import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
