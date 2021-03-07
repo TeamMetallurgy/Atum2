@@ -964,9 +964,9 @@
   "jei.item.atum.emmer_dough": "将小麦面粉与水均匀搅拌以合成",
 
   "_comment": "Just Tips support",
-  "mods.tips.atum.1": "你会死的。",
-  "mods.tips.atum.2": "你可以自己创造石头守卫和石头哨兵来帮助你防御你的基地！",
-  "mods.tips.atum.3": "法老们拥有各自独特的能力。",
-  "mods.tips.atum.4": "有时候可以在死树原木上发现甲虫。",
-  "mods.tips.atum.5": "流浪者头盔可以提升你的能见度。"
+  "atum.tip.you_will_die": "你会死的。",
+  "atum.tip.stoneguards_stonewardens": "你可以自己创造石头守卫和石头哨兵来帮助你防御你的基地！",
+  "atum.tip.pharaohs_abilities": "法老们拥有各自独特的能力。",
+  "atum.tip.scarabs": "有时候可以在死树原木上发现甲虫。",
+  "atum.tip.wanderer_helmet": "流浪者头盔可以提升你的能见度。"
 }

@@ -964,9 +964,9 @@
   "jei.item.atum.emmer_dough": "Fabriqué en combinant de la farine d'amidonnier et de l'eau",
 
   "_comment": "Just Tips support",
-  "mods.tips.atum.1": "Vous allez mourir.",
-  "mods.tips.atum.2": "Vous pouvez créer des gardes de pierre & des gardiens de pierre vous-même, afin qu'ils vous aident à défendre vos bases !",
-  "mods.tips.atum.3": "Les Pharaons ont différentes habilités uniques",
-  "mods.tips.atum.4": "Des scarabées peuvent parfois être trouvés dans les bûches de bois mort",
-  "mods.tips.atum.5": "Un casque de vagabond peut améliorer votre visibilité"
+  "atum.tip.you_will_die": "Vous allez mourir.",
+  "atum.tip.stoneguards_stonewardens": "Vous pouvez créer des gardes de pierre & des gardiens de pierre vous-même, afin qu'ils vous aident à défendre vos bases !",
+  "atum.tip.pharaohs_abilities": "Les Pharaons ont différentes habilités uniques",
+  "atum.tip.scarabs": "Des scarabées peuvent parfois être trouvés dans les bûches de bois mort",
+  "atum.tip.wanderer_helmet": "Un casque de vagabond peut améliorer votre visibilité"
 }

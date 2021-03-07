@@ -1351,10 +1351,10 @@
   "jei.item.atum.emmer_dough": "Crafted by combining Emmer Flour with water",
 
   "_comment": "Just Tips support",
-  "mods.tips.atum.1": "You will die.",
-  "mods.tips.atum.2": "You can create Stoneguards & Stonewardens yourself, to help defend your base!",
-  "mods.tips.atum.3": "Pharaohs have different unique abilities",
-  "mods.tips.atum.4": "Scarabs can sometimes be found in Deadwood Logs",
-  "mods.tips.atum.5": "A Wanderer Helmet will improve your visibility",
-  "mods.tips.atum.6": "You can trade Relics with a Curator villager"
+  "atum.tip.you_will_die": "You will die.",
+  "atum.tip.stoneguards_stonewardens": "You can create Stoneguards & Stonewardens yourself, to help defend your base!",
+  "atum.tip.pharaohs_abilities": "Pharaohs have different unique abilities",
+  "atum.tip.scarabs": "Scarabs can sometimes be found in Deadwood Logs",
+  "atum.tip.wanderer_helmet": "A Wanderer Helmet will improve your visibility",
+  "atum.tip.curator": "You can trade Relics with a Curator villager"
 }
