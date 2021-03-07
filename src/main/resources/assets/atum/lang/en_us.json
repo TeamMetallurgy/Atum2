@@ -685,9 +685,9 @@
   "atum.atems_will.tooltip.line2": "",
   "atum.atems_will.tooltip.title": "TODO",
 
-  "atum.atems_protection.tooltip.line1": "",
-  "atum.atems_protection.tooltip.line2": "",
-  "atum.atems_protection.tooltip.title": "TODO",
+  "atum.atems_protection.tooltip.line1": "20% chance to negate all",
+  "atum.atems_protection.tooltip.line2": "damage for 10 seconds, when blocking",
+  "atum.atems_protection.tooltip.title": "Safeguard",
 
   "atum.osiris_blessing.tooltip.line1": "Tilled ground is blessed,",
   "atum.osiris_blessing.tooltip.line2": "with increased growth rate",

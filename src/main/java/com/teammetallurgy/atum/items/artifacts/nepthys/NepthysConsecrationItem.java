@@ -6,22 +6,26 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.AtumShieldItem;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.DamageSource;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import javax.annotation.Nonnull;
+
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact {
-    private static boolean isBlocking = false;
+    private static final Object2BooleanMap<LivingEntity> IS_BLOCKING = new Object2BooleanOpenHashMap<>();
 
     public NepthysConsecrationItem() {
         super(500, new Item.Properties().rarity(Rarity.RARE));
@@ -33,26 +37,30 @@ public class NepthysConsecrationItem extends AtumShieldItem implements IArtifact
         return God.NEPTHYS;
     }
 
-    @SubscribeEvent
-    public static void onUse(LivingEntityUseItemEvent.Tick event) {
-        LivingEntity entity = event.getEntityLiving();
-        if (entity instanceof PlayerEntity && entity.getHeldItem(entity.getActiveHand()).getItem() == AtumItems.ATEMS_PROTECTION) {
-            isBlocking = true;
-        }
+    @Override
+    public void onUse(@Nonnull World world, @Nonnull LivingEntity livingEntity, @Nonnull ItemStack stack, int count) {
+        super.onUse(world, livingEntity, stack, count);
+        IS_BLOCKING.putIfAbsent(livingEntity, true);
+    }
+
+    @Override
+    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull LivingEntity livingEntity, int timeLeft) {
+        super.onPlayerStoppedUsing(stack, world, livingEntity, timeLeft);
+        IS_BLOCKING.removeBoolean(livingEntity);
     }
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity source = event.getSource().getImmediateSource();
-        if (source instanceof LivingEntity && isBlocking && ((LivingEntity) source).getCreatureAttribute() == CreatureAttribute.UNDEAD /*&& random.nextFloat() <= 0.50F*/) {
-            LivingEntity entity = event.getEntityLiving();
+        LivingEntity livingEntity = event.getEntityLiving();
+        if (source instanceof LivingEntity && IS_BLOCKING.containsKey(livingEntity) && ((LivingEntity) source).getCreatureAttribute() == CreatureAttribute.UNDEAD /*&& random.nextFloat() <= 0.50F*/) {
             source.setFire(8);
             source.attackEntityFrom(DamageSource.GENERIC, 2.0F);
-            if (entity.world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) entity.world;
-                serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX(), entity.getPosY() + 1.0D, entity.getPosZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
+            if (livingEntity.world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) livingEntity.world;
+                serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, livingEntity.getPosX(), livingEntity.getPosY() + 1.0D, livingEntity.getPosZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
             }
-            isBlocking = false;
+            IS_BLOCKING.removeBoolean(livingEntity);
         }
     }
 }
