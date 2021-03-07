@@ -35,6 +35,7 @@ public class AtumAPI {
         public static final IOptionalNamedTag<Item> SUGAR_CANE = tag("forge", "sugar_cane");
 
         public static final IOptionalNamedTag<Item> RELIC = tag(Atum.MOD_ID, "relic");
+        public static final IOptionalNamedTag<Item> RELIC_NON_DIRTY = tag(Atum.MOD_ID, "relic_non_dirty");
         public static final IOptionalNamedTag<Item> TOOLTIP = tag(Atum.MOD_ID, "tooltip");
         public static final IOptionalNamedTag<Block> BASE_STONE_ATUM = blockTag(Atum.MOD_ID, "base_stone_atum");
         public static final IOptionalNamedTag<Block> INFINIBURN = blockTag(Atum.MOD_ID, "infiniburn");

@@ -573,7 +573,7 @@
   "item.atum.fish_mummified": "Mummified Fish",
   "item.atum.fish_jeweled": "Jeweled Fish",
   "item.atum.fish_skeletal": "Skeletal Fish",
-  "item.atum.ptahs_decadence": "Ptah's Decadence", 
+  "item.atum.ptahs_decadence": "Ptah's Decadence",
   "item.atum.anput_godshard": "Anput Godshard",
   "item.atum.anubis_godshard": "Anubis Godshard",
   "item.atum.atem_godshard": "Atem Godshard",
@@ -681,9 +681,9 @@
   "atum.shus_exile.tooltip.line2": "have extra knockback",
   "atum.shus_exile.tooltip.title": "Exile",
 
-  "atum.atems_will.tooltip.line1": "",
-  "atum.atems_will.tooltip.line2": "",
-  "atum.atems_will.tooltip.title": "TODO",
+  "atum.atems_will.tooltip.line1": "15 % chance to gain",
+  "atum.atems_will.tooltip.line2": "resistance when attacking",
+  "atum.atems_will.tooltip.title": "Defiance",
 
   "atum.atems_protection.tooltip.line1": "20% chance to negate all",
   "atum.atems_protection.tooltip.line2": "damage for 10 seconds, when blocking",
@@ -976,6 +976,18 @@
   "entity.atum.villager_female.avi.cleric": "Avi Female Cleric",
   "entity.atum.villager_male.sphinx.cleric": "Sphinx Male Cleric",
   "entity.atum.villager_female.sphinx.cleric": "Sphinx Female Cleric",
+  "entity.atum.villager_male.human.curator": "Human Male Curator",
+  "entity.atum.villager_female.human.curator": "Human Female Curator",
+  "entity.atum.villager_male.efreet.curator": "Efreet Male Curator",
+  "entity.atum.villager_female.efreet.curator": "Efreet Female Curator",
+  "entity.atum.villager_male.shabti.curator": "Shabti Male Curator",
+  "entity.atum.villager_female.shabti.curator": "Shabti Female Curator",
+  "entity.atum.villager_male.sylph.curator": "Sylph Male Curator",
+  "entity.atum.villager_female.sylph.curator": "Sylph Female Curator",
+  "entity.atum.villager_male.avi.curator": "Avi Male Curator",
+  "entity.atum.villager_female.avi.curator": "Avi Female Curator",
+  "entity.atum.villager_male.sphinx.curator": "Sphinx Male Curator",
+  "entity.atum.villager_female.sphinx.curator": "Sphinx Female Curator",
   "entity.atum.villager_male.human.farmer": "Human Male Farmer",
   "entity.atum.villager_female.human.farmer": "Human Female Farmer",
   "entity.atum.villager_male.efreet.farmer": "Efreet Male Farmer",
@@ -1343,5 +1355,6 @@
   "mods.tips.atum.2": "You can create Stoneguards & Stonewardens yourself, to help defend your base!",
   "mods.tips.atum.3": "Pharaohs have different unique abilities",
   "mods.tips.atum.4": "Scarabs can sometimes be found in Deadwood Logs",
-  "mods.tips.atum.5": "A Wanderer Helmet will improve your visibility"
+  "mods.tips.atum.5": "A Wanderer Helmet will improve your visibility",
+  "mods.tips.atum.6": "You can trade Relics with a Curator villager"
 }

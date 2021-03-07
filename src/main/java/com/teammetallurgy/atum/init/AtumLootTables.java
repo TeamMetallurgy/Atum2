@@ -24,6 +24,7 @@ public class AtumLootTables {
     public static final ResourceLocation PYRAMID_CHEST = register("chests/pyramid_chest");
     public static final ResourceLocation TOMB_CHEST = register("chests/tomb");
 
+    //Misc
     public static final ResourceLocation GODS_ALL = register("gods/all");
 
     private static ResourceLocation register(String path) {

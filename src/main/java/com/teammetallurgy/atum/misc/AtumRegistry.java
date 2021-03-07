@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.lighting.AtumWallTorch;
 import com.teammetallurgy.atum.blocks.lighting.AtumWallTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
+import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.*;
@@ -415,5 +416,6 @@ public class AtumRegistry {
 
     public static void registerDeferredRegistries(IEventBus modBus) {
         AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
+        AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
     }
 }
