@@ -1351,6 +1351,7 @@
   "jei.item.atum.emmer_dough": "Crafted by combining Emmer Flour with water",
 
   "_comment": "Just Tips support",
+  "atum.tip.title": "Atum Tip",
   "atum.tip.you_will_die": "You will die.",
   "atum.tip.stoneguards_stonewardens": "You can create Stoneguards & Stonewardens yourself, to help defend your base!",
   "atum.tip.pharaohs_abilities": "Pharaohs have different unique abilities",
