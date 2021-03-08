@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.beacon.tileentity.HeartOfRaTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
@@ -13,6 +12,7 @@ import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnac
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
+import com.teammetallurgy.atum.blocks.wood.tileentity.CurioDisplayTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -40,14 +40,13 @@ public class AtumTileEntities {
     public static final TileEntityType<SmokeTrapTileEntity> SMOKE_TRAP = null;
     public static final TileEntityType<ArrowTrapTileEntity> ARROW_TRAP = null;
     //Other
-    public static final TileEntityType<HeartOfRaTileEntity> HEART_OF_RA = null;
     public static final TileEntityType<LimestoneFurnaceTileEntity> LIMESTONE_FURNACE = null;
     public static final TileEntityType<QuernTileEntity> QUERN = null;
     public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = null;
     public static final TileEntityType<KilnTileEntity> KILN = null;
     public static final TileEntityType<GodforgeTileEntity> GODFORGE = null;
     public static final TileEntityType<AtumSignTileEntity> SIGN = null;
-
+    public static final TileEntityType<CurioDisplayTileEntity> CURIO_DISPLAY = null;
 
     @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
@@ -65,6 +64,7 @@ public class AtumTileEntities {
         registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));
         registerTileEntity("godforge", TileEntityType.Builder.create(GodforgeTileEntity::new, AtumBlocks.GODFORGE));
         registerTileEntity("sign", TileEntityType.Builder.create(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN, AtumBlocks.DEADWOOD_SIGN, AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN)));
+        registerTileEntity("curio_display", TileEntityType.Builder.create(CurioDisplayTileEntity::new, AtumBlocks.CURIO_DISPLAY));
 
         for (TileEntityType<?> tileEntityType : TILE_ENTITY_TYPES) {
             event.getRegistry().register(tileEntityType);
