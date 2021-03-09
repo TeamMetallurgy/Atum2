@@ -31,6 +31,11 @@ public class RenderUtils {
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
 
             matrixStack.rotate(rotation);
+
+            if (stack.getItem().isShield(stack, null)) {
+                matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
+                matrixStack.translate(0.15, 0.1F, 0.15F);
+            }
             BlockState state = tileEntity.getBlockState();
             if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
                 Direction facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
