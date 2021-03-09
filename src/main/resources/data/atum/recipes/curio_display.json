@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G",
+    "I",
+    "#"
+  ],
+  "key": {
+    "G": {
+      "item": "atum:crystal_glass"
+    },
+    "I": {
+      "tag": "forge:rods/wooden"
+    },
+    "#": {
+      "tag": "minecraft:wooden_slabs"
+    }
+  },
+  "result": {
+    "item": "atum:curio_display"
+  }
+}

@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.google.common.collect.ImmutableMap;
-import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.task.Task;

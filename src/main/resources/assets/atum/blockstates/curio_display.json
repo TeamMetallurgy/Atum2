@@ -1,7 +1,7 @@
 {
     "variants": {
         "": {
-            "model": "atum:block/limestone_chest"
+            "model": "atum:block/curio_display"
         }
     }
 }

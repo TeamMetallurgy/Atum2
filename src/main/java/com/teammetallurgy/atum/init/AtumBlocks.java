@@ -64,7 +64,7 @@ public class AtumBlocks {
     public static final Block KILN_FAKE = registerBlock(new KilnFakeBlock(), null, "kiln_fake");
     public static final Block GODFORGE = registerBlock(new GodforgeBlock(), "godforge");
     public static final Block QUANDARY_BLOCK = registerBlock(new QuandaryBlock(), "quandary_block");
-    public static final Block CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(), "curio_display");
+    public static final Block CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "curio_display");
     public static final Block BURNING_TRAP = registerBlock(new BurningTrapBlock(), "burning_trap");
     public static final Block POISON_TRAP = registerBlock(new PoisonTrapBlock(), "poison_trap");
     public static final Block TAR_TRAP = registerBlock(new TarTrapBlock(), "tar_trap");

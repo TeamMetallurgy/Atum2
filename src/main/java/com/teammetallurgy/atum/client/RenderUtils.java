@@ -13,6 +13,7 @@ import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Quaternion;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.math.vector.Vector3f;
 
@@ -21,11 +22,15 @@ import javax.annotation.Nonnull;
 public class RenderUtils {
 
     public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+        renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, matrixStack, buffer, combinedLight, combinedOverlay);
+    }
+
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
             matrixStack.push();
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
 
-            matrixStack.rotate(Vector3f.YP.rotationDegrees(rotation));
+            matrixStack.rotate(rotation);
             BlockState state = tileEntity.getBlockState();
             if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
                 Direction facing = state.get(BlockStateProperties.HORIZONTAL_FACING);

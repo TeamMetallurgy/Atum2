@@ -8,6 +8,8 @@ import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.blocks.wood.CurioDisplayBlock;
+import com.teammetallurgy.atum.blocks.wood.tileentity.CurioDisplayTileEntity;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.TefnutsCallModel;
 import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
@@ -54,6 +56,8 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
                 TileEntityRendererDispatcher.instance.renderItem(new LimestoneChestTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (block instanceof SarcophagusBlock) {
                 TileEntityRendererDispatcher.instance.renderItem(new SarcophagusTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block instanceof CurioDisplayBlock) {
+                TileEntityRendererDispatcher.instance.renderItem(new CurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             }
         } else {
             if (item == AtumItems.BRIGAND_SHIELD) {
