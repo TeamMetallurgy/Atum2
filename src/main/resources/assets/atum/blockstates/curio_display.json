@@ -1,7 +1,8 @@
 {
     "variants": {
-        "": {
-            "model": "atum:block/curio_display"
-        }
+        "facing=north": { "model": "atum:block/curio_display", "y": 180 },
+        "facing=south": { "model": "atum:block/curio_display" },
+        "facing=west":  { "model": "atum:block/curio_display", "y": 90 },
+        "facing=east":  { "model": "atum:block/curio_display", "y": -90 }
     }
 }

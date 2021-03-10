@@ -140,6 +140,7 @@ public class AtumBlocks {
     public static final Block LANTERN_OF_SETH = registerBlock(new AtumLanternBlock(), "lantern_of_seth");
     public static final Block LANTERN_OF_SHU = registerBlock(new AtumLanternBlock(), "lantern_of_shu");
     public static final Block LANTERN_OF_TEFNUT = registerBlock(new AtumLanternBlock(), "lantern_of_tefnut");
+    public static final Block NEBU_CHAIN = registerBlock(new ChainBlock(AbstractBlock.Properties.create(Material.IRON, MaterialColor.AIR).setRequiresTool().hardnessAndResistance(5.0F, 6.0F).sound(SoundType.CHAIN).notSolid()), "nebu_chain");
     public static final Block MARL = registerBlock(new Block(create(Material.CLAY).hardnessAndResistance(0.6F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0)), "marl");
     public static final Block RA_STONE = registerBlock(new RaStoneBlock(), null, "ra_stone");
     public static final Block LIMESTONE = registerBlock(new LimestoneBlock(), "limestone");

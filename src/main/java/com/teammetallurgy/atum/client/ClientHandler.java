@@ -107,6 +107,7 @@ public class ClientHandler {
     @SubscribeEvent
     public static void registerModels(ModelRegistryEvent event) {
         RenderType cutout = RenderType.getCutout();
+        RenderType cutoutMipped = RenderType.getCutoutMipped();
         RenderType translucent = RenderType.getTranslucent();
         RenderTypeLookup.setRenderLayer(AtumBlocks.ANPUTS_FINGERS, cutout);
         RenderTypeLookup.setRenderLayer(AtumBlocks.OASIS_GRASS, cutout);
@@ -250,6 +251,7 @@ public class ClientHandler {
         RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_SETH, cutout);
         RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_SHU, cutout);
         RenderTypeLookup.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT, cutout);
+        RenderTypeLookup.setRenderLayer(AtumBlocks.NEBU_CHAIN, cutoutMipped);
 
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.LIMESTONE_CHEST, TileChestRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, SarcophagusRender::new);

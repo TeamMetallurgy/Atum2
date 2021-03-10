@@ -94,7 +94,7 @@ public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
 
             ItemStack stack = quern.getStackInSlot(0);
             if (!stack.isEmpty()) {
-                RenderUtils.renderItem(quern, stack, quernRotation, -0.7D, true, matrixStack, buffer, combinedLight, combinedOverlay);
+                RenderUtils.renderItem(quern, stack, quernRotation, -0.7D, true, true, matrixStack, buffer, combinedLight, combinedOverlay);
             }
         }
     }

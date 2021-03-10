@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
@@ -21,16 +22,18 @@ import javax.annotation.Nonnull;
 
 public class RenderUtils {
 
-    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
-        renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, matrixStack, buffer, combinedLight, combinedOverlay);
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+        renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, rotateEastWest, matrixStack, buffer, combinedLight, combinedOverlay);
     }
 
-    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
             matrixStack.push();
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
 
-            matrixStack.rotate(rotation);
+            if (!(stack.getItem() instanceof BlockItem)) {
+                matrixStack.rotate(rotation);
+            }
 
             if (stack.getItem().isShield(stack, null)) {
                 matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
@@ -39,8 +42,20 @@ public class RenderUtils {
             BlockState state = tileEntity.getBlockState();
             if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
                 Direction facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
-                if (facing == Direction.EAST || facing == Direction.WEST) {
-                    matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
+                if (rotateEastWest) {
+                    if (facing == Direction.EAST || facing == Direction.WEST) {
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
+                    }
+                } else {
+                    if (facing == Direction.EAST) {
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
+                    }
+                    if (facing == Direction.WEST) {
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(-90.0F));
+                    }
+                    if (facing == Direction.NORTH) {
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(180.0F));
+                    }
                 }
             }
             matrixStack.scale(0.25F, 0.25F, 0.25F);

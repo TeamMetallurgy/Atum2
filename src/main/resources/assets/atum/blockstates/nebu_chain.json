@@ -1,0 +1,16 @@
+{
+    "variants": {
+        "axis=x": {
+            "model": "atum:block/nebu_chain",
+            "x": 90,
+            "y": 90
+        },
+        "axis=y": {
+            "model": "atum:block/nebu_chain"
+        },
+        "axis=z": {
+            "model": "atum:block/nebu_chain",
+            "x": 90
+        }
+    }
+}

@@ -66,7 +66,7 @@ public class CurioDisplayTileEntityRender extends TileEntityRenderer<CurioDispla
 
             ItemStack stack = tileEntity.getStackInSlot(0);
             if (!stack.isEmpty()) {
-                RenderUtils.renderItem(tileEntity, stack, Minecraft.getInstance().getRenderManager().getCameraOrientation(), -0.5D, false, matrixStack, buffer, combinedLight, combinedOverlay);
+                RenderUtils.renderItem(tileEntity, stack, Minecraft.getInstance().getRenderManager().getCameraOrientation(), -0.5D, false, false, matrixStack, buffer, combinedLight, combinedOverlay);
             }
         }
     }
