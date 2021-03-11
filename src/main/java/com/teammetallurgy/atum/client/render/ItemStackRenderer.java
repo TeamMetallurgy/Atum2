@@ -4,18 +4,18 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.curio.tileentity.*;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.LimestoneChestBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
-import com.teammetallurgy.atum.blocks.wood.CurioDisplayBlock;
-import com.teammetallurgy.atum.blocks.wood.tileentity.CurioDisplayTileEntity;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.TefnutsCallModel;
 import com.teammetallurgy.atum.client.model.shield.AbstractShieldModel;
 import com.teammetallurgy.atum.client.model.shield.AtemsProtectionModel;
 import com.teammetallurgy.atum.client.model.shield.BrigandShieldModel;
 import com.teammetallurgy.atum.client.model.shield.StoneguardShieldModel;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Atlases;
@@ -56,8 +56,20 @@ public class ItemStackRenderer extends ItemStackTileEntityRenderer {
                 TileEntityRendererDispatcher.instance.renderItem(new LimestoneChestTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (block instanceof SarcophagusBlock) {
                 TileEntityRendererDispatcher.instance.renderItem(new SarcophagusTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
-            } else if (block instanceof CurioDisplayBlock) {
-                TileEntityRendererDispatcher.instance.renderItem(new CurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.PALM_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new PalmCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.DEADWOOD_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new DeadwoodCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.ACACIA_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new AcaciaCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.LIMESTONE_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new LimestoneCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.ALABASTER_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new AlabasterCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.PORPHYRY_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new PorphyryCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
+            } else if (block == AtumBlocks.NEBU_CURIO_DISPLAY) {
+                TileEntityRendererDispatcher.instance.renderItem(new NebuCurioDisplayTileEntity(), matrixStack, buffer, combinedLight, combinedOverlay);
             }
         } else {
             if (item == AtumItems.BRIGAND_SHIELD) {

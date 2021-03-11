@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "O",
+    "O"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:crystal_glass"
+    },
+    "O": {
+      "item": "atum:limestone"
+    }
+  },
+  "result": {
+    "item": "atum:limestone_curio_display"
+  }
+}

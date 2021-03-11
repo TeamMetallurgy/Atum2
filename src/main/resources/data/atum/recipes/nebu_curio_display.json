@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "O",
+    "O"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:crystal_glass"
+    },
+    "O": {
+      "tag": "forge:ingots/nebu"
+    }
+  },
+  "result": {
+    "item": "atum:nebu_curio_display"
+  }
+}

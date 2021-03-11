@@ -5,6 +5,8 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.blocks.*;
 import com.teammetallurgy.atum.blocks.base.AtumPaneBlock;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
+import com.teammetallurgy.atum.blocks.curio.CurioDisplayBlock;
+import com.teammetallurgy.atum.blocks.curio.tileentity.*;
 import com.teammetallurgy.atum.blocks.lighting.AtumLanternBlock;
 import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
 import com.teammetallurgy.atum.blocks.linen.LinenBlock;
@@ -27,10 +29,13 @@ import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.DyeColor;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.registries.ObjectHolder;
+
+import javax.annotation.Nonnull;
 
 import static com.teammetallurgy.atum.misc.AtumRegistry.*;
 import static net.minecraft.block.AbstractBlock.Properties.create;
@@ -64,7 +69,48 @@ public class AtumBlocks {
     public static final Block KILN_FAKE = registerBlock(new KilnFakeBlock(), null, "kiln_fake");
     public static final Block GODFORGE = registerBlock(new GodforgeBlock(), "godforge");
     public static final Block QUANDARY_BLOCK = registerBlock(new QuandaryBlock(), "quandary_block");
-    public static final Block CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "curio_display");
+    public static final Block PALM_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new PalmCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "palm_curio_display");
+    public static final Block DEADWOOD_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new DeadwoodCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "deadwood_curio_display");
+    public static final Block ACACIA_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new AcaciaCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "acacia_curio_display");
+    public static final Block LIMESTONE_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.ROCK) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new LimestoneCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "limestone_curio_display");
+    public static final Block ALABASTER_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.ROCK) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new AlabasterCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "alabaster_curio_display");
+    public static final Block PORPHYRY_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.ROCK) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new PorphyryCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "porphyry_curio_display");
+    public static final Block NEBU_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.IRON) {
+        @Override
+        public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+            return new NebuCurioDisplayTileEntity();
+        }
+    }, () -> ItemStackRenderer::new, new Item.Properties(), "nebu_curio_display");
     public static final Block BURNING_TRAP = registerBlock(new BurningTrapBlock(), "burning_trap");
     public static final Block POISON_TRAP = registerBlock(new PoisonTrapBlock(), "poison_trap");
     public static final Block TAR_TRAP = registerBlock(new TarTrapBlock(), "tar_trap");

@@ -1,6 +1,6 @@
-package com.teammetallurgy.atum.blocks.wood;
+package com.teammetallurgy.atum.blocks.curio;
 
-import com.teammetallurgy.atum.blocks.wood.tileentity.CurioDisplayTileEntity;
+import com.teammetallurgy.atum.blocks.curio.tileentity.CurioDisplayTileEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -27,13 +27,13 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class CurioDisplayBlock extends ContainerBlock {
+public abstract class CurioDisplayBlock extends ContainerBlock {
     private static final VoxelShape SHAPE = makeCuboidShape(3.0D, 0.0D, 3.0D, 13.0D, 16.0D, 13.0D);
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    public CurioDisplayBlock() {
-        super(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(1.5F, 1.0F).sound(SoundType.GLASS));
+    public CurioDisplayBlock(Material material) {
+        super(AbstractBlock.Properties.create(material).hardnessAndResistance(1.5F, 1.0F).sound(SoundType.GLASS));
         this.setDefaultState(this.stateContainer.getBaseState().with(WATERLOGGED, false));
         this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
     }
@@ -48,11 +48,6 @@ public class CurioDisplayBlock extends ContainerBlock {
     @Nonnull
     public BlockRenderType getRenderType(@Nonnull BlockState state) {
         return BlockRenderType.ENTITYBLOCK_ANIMATED;
-    }
-
-    @Override
-    public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
-        return new CurioDisplayTileEntity();
     }
 
     @Override

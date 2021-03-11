@@ -1,7 +1,6 @@
-package com.teammetallurgy.atum.blocks.wood.tileentity;
+package com.teammetallurgy.atum.blocks.curio.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
-import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -9,14 +8,15 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
 public class CurioDisplayTileEntity extends InventoryBaseTileEntity {
 
-    public CurioDisplayTileEntity() {
-        super(AtumTileEntities.CURIO_DISPLAY, 1);
+    public CurioDisplayTileEntity(TileEntityType<? extends CurioDisplayTileEntity> tileEntityType) {
+        super(tileEntityType, 1);
     }
 
     @Override

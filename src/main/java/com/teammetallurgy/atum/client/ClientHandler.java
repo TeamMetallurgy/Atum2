@@ -258,7 +258,48 @@ public class ClientHandler {
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CRATE, CrateRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.QUERN, QuernRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SIGN, SignTileEntityRenderer::new);
-        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CURIO_DISPLAY, CurioDisplayTileEntityRender::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.PALM_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.PALM_CURIO_DISPLAY;
+            }
+        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.DEADWOOD_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.DEADWOOD_CURIO_DISPLAY;
+            }
+        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.ACACIA_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.ACACIA_CURIO_DISPLAY;
+            }
+        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.LIMESTONE_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.LIMESTONE_CURIO_DISPLAY;
+            }
+        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.ALABASTER_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.ALABASTER_CURIO_DISPLAY;
+            }
+        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.PORPHYRY_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.PORPHYRY_CURIO_DISPLAY;
+            }
+        });
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.NEBU_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+            @Override
+            public Block getBlock() {
+                return AtumBlocks.NEBU_CURIO_DISPLAY;
+            }
+        });
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.TARANTULA, TarantulaRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.ASSASSIN, AtumBipedRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SERGEANT, AtumBipedRender::new);

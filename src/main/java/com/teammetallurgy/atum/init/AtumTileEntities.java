@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.curio.tileentity.*;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
@@ -12,7 +13,6 @@ import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnac
 import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
-import com.teammetallurgy.atum.blocks.wood.tileentity.CurioDisplayTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
@@ -46,7 +46,14 @@ public class AtumTileEntities {
     public static final TileEntityType<KilnTileEntity> KILN = null;
     public static final TileEntityType<GodforgeTileEntity> GODFORGE = null;
     public static final TileEntityType<AtumSignTileEntity> SIGN = null;
-    public static final TileEntityType<CurioDisplayTileEntity> CURIO_DISPLAY = null;
+    public static final TileEntityType<PalmCurioDisplayTileEntity> PALM_CURIO_DISPLAY = null;
+    public static final TileEntityType<DeadwoodCurioDisplayTileEntity> DEADWOOD_CURIO_DISPLAY = null;
+    public static final TileEntityType<AcaciaCurioDisplayTileEntity> ACACIA_CURIO_DISPLAY = null;
+    public static final TileEntityType<LimestoneCurioDisplayTileEntity> LIMESTONE_CURIO_DISPLAY = null;
+    public static final TileEntityType<AlabasterCurioDisplayTileEntity> ALABASTER_CURIO_DISPLAY = null;
+    public static final TileEntityType<PorphyryCurioDisplayTileEntity> PORPHYRY_CURIO_DISPLAY = null;
+    public static final TileEntityType<NebuCurioDisplayTileEntity> NEBU_CURIO_DISPLAY = null;
+
 
     @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
@@ -64,7 +71,13 @@ public class AtumTileEntities {
         registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));
         registerTileEntity("godforge", TileEntityType.Builder.create(GodforgeTileEntity::new, AtumBlocks.GODFORGE));
         registerTileEntity("sign", TileEntityType.Builder.create(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN, AtumBlocks.DEADWOOD_SIGN, AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN)));
-        registerTileEntity("curio_display", TileEntityType.Builder.create(CurioDisplayTileEntity::new, AtumBlocks.CURIO_DISPLAY));
+        registerTileEntity("palm_curio_display", TileEntityType.Builder.create(PalmCurioDisplayTileEntity::new, AtumBlocks.PALM_CURIO_DISPLAY));
+        registerTileEntity("deadwood_curio_display", TileEntityType.Builder.create(DeadwoodCurioDisplayTileEntity::new, AtumBlocks.DEADWOOD_CURIO_DISPLAY));
+        registerTileEntity("acacia_curio_display", TileEntityType.Builder.create(AcaciaCurioDisplayTileEntity::new, AtumBlocks.ACACIA_CURIO_DISPLAY));
+        registerTileEntity("limestone_curio_display", TileEntityType.Builder.create(LimestoneCurioDisplayTileEntity::new, AtumBlocks.LIMESTONE_CURIO_DISPLAY));
+        registerTileEntity("alabaster_curio_display", TileEntityType.Builder.create(AlabasterCurioDisplayTileEntity::new, AtumBlocks.ALABASTER_CURIO_DISPLAY));
+        registerTileEntity("porphyry_curio_display", TileEntityType.Builder.create(PorphyryCurioDisplayTileEntity::new, AtumBlocks.PORPHYRY_CURIO_DISPLAY));
+        registerTileEntity("nebu_curio_display", TileEntityType.Builder.create(NebuCurioDisplayTileEntity::new, AtumBlocks.NEBU_CURIO_DISPLAY));
 
         for (TileEntityType<?> tileEntityType : TILE_ENTITY_TYPES) {
             event.getRegistry().register(tileEntityType);
