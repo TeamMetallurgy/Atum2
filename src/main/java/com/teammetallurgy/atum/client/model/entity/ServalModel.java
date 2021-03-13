@@ -140,21 +140,6 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
     }
 
     public void baseLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
-        this.body.rotationPointY = 12.0F;
-        this.body.rotationPointZ = -10.0F;
-        this.head.rotationPointY = 15.0F;
-        this.head.rotationPointZ = -9.0F;
-        this.tail.rotationPointY = 15.0F;
-        this.tail.rotationPointZ = 8.0F;
-        this.frontLeftLeg.rotationPointY = 14.1F;
-        this.frontLeftLeg.rotationPointZ = -5.0F;
-        this.frontRightLeg.rotationPointY = 14.1F;
-        this.frontRightLeg.rotationPointZ = -5.0F;
-        this.backLeftLeg.rotationPointY = 18.0F;
-        this.backLeftLeg.rotationPointZ = 5.0F;
-        this.backRightLeg.rotationPointY = 18.0F;
-        this.backRightLeg.rotationPointZ = 5.0F;
-        this.tail.rotateAngleX = 0.9F;
         if (entity.isCrouching()) {
             ++this.body.rotationPointY;
             this.head.rotationPointY += 2.0F;
