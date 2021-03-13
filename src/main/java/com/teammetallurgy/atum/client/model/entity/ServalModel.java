@@ -113,7 +113,7 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
             this.backRightLeg.rotationPointY = 18.0F;
         }
 
-        super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTick);
+        this.baseLivingAnimations(entity, limbSwing, limbSwingAmount, partialTick);
         if (entity.isEntitySleeping()) {
             this.body.rotateAngleX = ((float) Math.PI / 4F);
             this.body.rotationPointY += -4.0F;
@@ -139,6 +139,37 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
         }
     }
 
+    public void baseLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
+        this.body.rotationPointY = 12.0F;
+        this.body.rotationPointZ = -10.0F;
+        this.head.rotationPointY = 15.0F;
+        this.head.rotationPointZ = -9.0F;
+        this.tail.rotationPointY = 15.0F;
+        this.tail.rotationPointZ = 8.0F;
+        this.frontLeftLeg.rotationPointY = 14.1F;
+        this.frontLeftLeg.rotationPointZ = -5.0F;
+        this.frontRightLeg.rotationPointY = 14.1F;
+        this.frontRightLeg.rotationPointZ = -5.0F;
+        this.backLeftLeg.rotationPointY = 18.0F;
+        this.backLeftLeg.rotationPointZ = 5.0F;
+        this.backRightLeg.rotationPointY = 18.0F;
+        this.backRightLeg.rotationPointZ = 5.0F;
+        this.tail.rotateAngleX = 0.9F;
+        if (entity.isCrouching()) {
+            ++this.body.rotationPointY;
+            this.head.rotationPointY += 2.0F;
+            ++this.tail.rotationPointY;
+            this.tail.rotateAngleX = ((float) Math.PI / 2F);
+            this.state = 0;
+        } else if (entity.isSprinting()) {
+            this.tail.rotateAngleX = ((float) Math.PI / 2F);
+            this.state = 2;
+        } else {
+            this.state = 1;
+        }
+
+    }
+
     @Override
     public void setRotationAngles(@Nonnull T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
         this.baseRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
@@ -154,6 +185,7 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
             this.backRightLeg.rotateAngleZ = -0.5F;
             this.backRightLeg.rotationPointX = -0.3F;
             this.backRightLeg.rotationPointY = 20.0F;
+            this.tail.rotateAngleX = ModelUtils.func_228283_a_(this.tail.rotateAngleX, 0.8F, this.field_217156_n);
         }
 
         if (this.field_217157_o > 0.0F) {
@@ -162,19 +194,19 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
     }
 
     public void baseRotationAngles(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.head.rotateAngleX = headPitch * ((float)Math.PI / 180F);
-        this.head.rotateAngleY = netHeadYaw * ((float)Math.PI / 180F);
+        this.head.rotateAngleX = headPitch * ((float) Math.PI / 180F);
+        this.head.rotateAngleY = netHeadYaw * ((float) Math.PI / 180F);
         if (this.state != 3) {
-            this.body.rotateAngleX = ((float)Math.PI / 2F);
+            this.body.rotateAngleX = ((float) Math.PI / 180F);
             if (this.state == 2) {
                 this.backLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;
                 this.backRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + 0.3F) * limbSwingAmount;
-                this.frontLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI + 0.3F) * limbSwingAmount;
-                this.frontRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * limbSwingAmount;
+                this.frontLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI + 0.3F) * limbSwingAmount;
+                this.frontRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
             } else {
                 this.backLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;
-                this.backRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * limbSwingAmount;
-                this.frontLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * limbSwingAmount;
+                this.backRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
+                this.frontLeftLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * limbSwingAmount;
                 this.frontRightLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * limbSwingAmount;
             }
         }
