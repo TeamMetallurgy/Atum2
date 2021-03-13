@@ -26,6 +26,7 @@ public class AtumLootTables {
 
     //Misc
     public static final ResourceLocation GODS_ALL = register("gods/all");
+    public static final ResourceLocation GAMEPLAY_SERVAL_MORNING_GIFT = register("gameplay/serval_morning_gift");
 
     private static ResourceLocation register(String path) {
         return LootTables.register(new ResourceLocation(Atum.MOD_ID, path));

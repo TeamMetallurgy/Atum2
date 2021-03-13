@@ -320,6 +320,7 @@ public class ClientHandler {
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.STONEWARDEN_FRIENDLY, StonewardenRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.DESERT_WOLF, DesertWolfRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.CAMEL, CamelRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SERVAL, ServalRenderer::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.SCARAB, ScarabRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.DESERT_RABBIT, DesertRabbitRender::new);
         RenderingRegistry.registerEntityRenderingHandler(AtumEntities.QUAIL, QuailRender::new);

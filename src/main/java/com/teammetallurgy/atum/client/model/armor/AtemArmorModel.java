@@ -18,6 +18,7 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class AtemArmorModel extends ArmorModel {
+	private boolean hasFullSet;
 	private final ModelRenderer fins;
 	private final ModelRenderer hat;
 	private final ModelRenderer postiche;
@@ -28,13 +29,12 @@ public class AtemArmorModel extends ArmorModel {
 	private final ModelRenderer rightBoot;
 	private final ModelRenderer leftCape;
 	private final ModelRenderer rightCape;
-	private boolean hasFullSet;
 
 	public AtemArmorModel(EquipmentSlotType slot, boolean hasFullSet) {
 		super(slot);
+		this.hasFullSet = hasFullSet;
 		this.textureWidth = 64;
 		this.textureHeight = 96;
-		this.hasFullSet = hasFullSet;
 
 		bipedBody = new ModelRenderer(this);
 		bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
