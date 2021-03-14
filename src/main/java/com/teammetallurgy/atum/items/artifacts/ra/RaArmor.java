@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.items.artifacts.ra;
 
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
-import com.teammetallurgy.atum.client.model.armor.AtemArmorModel;
 import com.teammetallurgy.atum.client.model.armor.RaArmorModel;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
