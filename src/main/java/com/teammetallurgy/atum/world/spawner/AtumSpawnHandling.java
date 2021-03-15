@@ -21,7 +21,7 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumSpawnHandling {
-    public static List<ISpecialSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner());
+    public static List<ISpecialSpawner> specialSpawners = Lists.newArrayList(new BanditPatrolSpawner(), new ServalSpawner());
 
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onBiomeLoad(BiomeLoadingEvent event) { //Passive spawns handling
