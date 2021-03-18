@@ -35,11 +35,11 @@ public class ServalEntity extends CatEntity {
     private static final Ingredient BREEDING_ITEMS = Ingredient.fromItems(AtumItems.SKELETAL_FISH);
     private TemptGoal temptGoal;
     public static final Map<Integer, ResourceLocation> SERVAL_TEXTURE_BY_ID = Util.make(Maps.newHashMap(), (m) -> {
-        m.put(1, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/black.png"));
-        m.put(2, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/white.png"));
-        m.put(3, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/white_spotted.png"));
-        m.put(4, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/beige.png"));
-        m.put(5, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/beige_spotted.png"));
+        m.put(0, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/black.png"));
+        m.put(1, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/white.png"));
+        m.put(2, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/white_spotted.png"));
+        m.put(3, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/beige.png"));
+        m.put(4, new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/beige_spotted.png"));
     });
 
     public ServalEntity(EntityType<? extends CatEntity> type, World world) {
@@ -95,11 +95,11 @@ public class ServalEntity extends CatEntity {
     @Override
     public CatEntity func_241840_a(@Nonnull ServerWorld serverWorld, @Nonnull AgeableEntity ageableEntity) {
         ServalEntity serval = AtumEntities.SERVAL.create(serverWorld);
-        if (ageableEntity instanceof ServalEntity) {
+        if (serval != null && ageableEntity instanceof ServalEntity) {
             if (this.rand.nextBoolean()) {
                 serval.setCatType(this.getCatType());
             } else {
-                serval.setCatType(((CatEntity)ageableEntity).getCatType());
+                serval.setCatType(((ServalEntity) ageableEntity).getCatType());
             }
 
             if (this.isTamed()) {
@@ -108,7 +108,7 @@ public class ServalEntity extends CatEntity {
                 if (this.rand.nextBoolean()) {
                     serval.setCollarColor(this.getCollarColor());
                 } else {
-                    serval.setCollarColor(((CatEntity)ageableEntity).getCollarColor());
+                    serval.setCollarColor(((ServalEntity) ageableEntity).getCollarColor());
                 }
             }
         }

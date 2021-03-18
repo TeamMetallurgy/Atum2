@@ -50,6 +50,5 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
                 }
             }
         }
-
     }
 }

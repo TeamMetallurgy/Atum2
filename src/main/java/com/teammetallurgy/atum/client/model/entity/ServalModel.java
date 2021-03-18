@@ -30,27 +30,23 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
         textureHeight = 32;
 
         body = new ModelRenderer(this);
-        body.setRotationPoint(0.0F, 17.0F, 1.0F);
         body.setTextureOffset(50, 21).addBox(2.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, size, false);
         body.setTextureOffset(50, 10).addBox(-3.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, size, false);
         body.setTextureOffset(26, 25).addBox(-3.0F, -6.0F, -8.0F, 6.0F, 1.0F, 6.0F, size, false);
         body.setTextureOffset(54, 6).addBox(-1.9F, -2.0F, -9.0F, 4.0F, 3.0F, 1.0F, size, false);
 
         body_r1 = new ModelRenderer(this);
-        body_r1.setRotationPoint(0.0F, 7.0F, -1.0F);
         this.body.addChild(body_r1);
         setRotationAngle(body_r1, 1.5708F, 0.0F, 0.0F);
         body_r1.setTextureOffset(20, 0).addBox(-2.0F, -7.0F, 6.0F, 4.0F, 16.0F, 6.0F, size, false);
 
         head = new ModelRenderer(this);
-        head.setRotationPoint(0.0F, 13.0F, -9.0F);
         head.setTextureOffset(0, 0).addBox(-2.5F, -2.0F, -3.0F, 5.0F, 4.0F, 5.0F, size, false);
         head.setTextureOffset(0, 28).addBox(-1.5F, -0.0156F, -4.0F, 3.0F, 2.0F, 2.0F, size, false);
         head.setTextureOffset(26, 22).addBox(-2.0F, -6.0F, -1.0F, 1.0F, 4.0F, 2.0F, size, false);
         head.setTextureOffset(20, 22).addBox(1.0F, -6.0F, -1.0F, 1.0F, 4.0F, 2.0F, size, false);
 
         tail = new ModelRenderer(this);
-        tail.setRotationPoint(0.0F, 15.0F, 8.0F);
 
         tail_r1 = new ModelRenderer(this);
         tail_r1.setRotationPoint(0.0F, 9.0F, -8.0F);
@@ -59,19 +55,15 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
         tail_r1.setTextureOffset(0, 15).addBox(-0.5F, -5.0F, 13.0F, 1.0F, 11.0F, 1.0F, size, false);
 
         backLeftLeg = new ModelRenderer(this);
-        backLeftLeg.setRotationPoint(1.1F, 18.0F, 7.0F);
         backLeftLeg.setTextureOffset(8, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, size, false);
 
         backRightLeg = new ModelRenderer(this);
-        backRightLeg.setRotationPoint(-1.1F, 18.0F, 7.0F);
         backRightLeg.setTextureOffset(8, 13).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, size, false);
 
         frontLeftLeg = new ModelRenderer(this);
-        frontLeftLeg.setRotationPoint(1.2F, 14.0F, -4.0F);
         frontLeftLeg.setTextureOffset(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);
 
         frontRightLeg = new ModelRenderer(this);
-        frontRightLeg.setRotationPoint(-1.2F, 14.0F, -4.0F);
         frontRightLeg.setTextureOffset(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);
     }
 
@@ -115,9 +107,9 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
 
         this.baseLivingAnimations(entity, limbSwing, limbSwingAmount, partialTick);
         if (entity.isEntitySleeping()) {
-            this.body.rotateAngleX = ((float) Math.PI / 4F);
-            this.body.rotationPointY += -4.0F;
-            this.body.rotationPointZ += 5.0F;
+            this.body.rotateAngleX = ((float) Math.PI / -4F);
+            this.body.rotationPointY += 2.0F;
+            this.body.rotationPointZ += -4.0F;
             this.head.rotationPointY += -3.3F;
             ++this.head.rotationPointZ;
             this.tail.rotationPointY += 8.0F;
@@ -140,6 +132,14 @@ public class ServalModel<T extends ServalEntity> extends AgeableModel<T> {
     }
 
     public void baseLivingAnimations(T entity, float limbSwing, float limbSwingAmount, float partialTick) {
+        body.setRotationPoint(0.0F, 17.0F, 1.0F);
+        body_r1.setRotationPoint(0.0F, 7.0F, -1.0F);
+        head.setRotationPoint(0.0F, 13.0F, -9.0F);
+        tail.setRotationPoint(0.0F, 15.0F, 8.0F);
+        backLeftLeg.setRotationPoint(1.1F, 18.0F, 7.0F);
+        backRightLeg.setRotationPoint(-1.1F, 18.0F, 7.0F);
+        frontLeftLeg.setRotationPoint(1.2F, 14.0F, -4.0F);
+        frontRightLeg.setRotationPoint(-1.2F, 14.0F, -4.0F);
         this.tail.rotateAngleX = 0.9F;
         if (entity.isCrouching()) {
             ++this.body.rotationPointY;
