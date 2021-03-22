@@ -257,7 +257,7 @@ public class ClientHandler {
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SARCOPHAGUS, SarcophagusRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.CRATE, CrateRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.QUERN, QuernRender::new);
-        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SIGN, SignTileEntityRenderer::new);
+        ClientRegistry.bindTileEntityRenderer(AtumTileEntities.SIGN, AtumSignRender::new);
         ClientRegistry.bindTileEntityRenderer(AtumTileEntities.PALM_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
@@ -380,9 +380,9 @@ public class ClientHandler {
                 event.addSprite(location);
             }
         }
-        if (event.getMap().getTextureLocation().equals(Atlases.SIGN_ATLAS)) {
+        /*if (event.getMap().getTextureLocation().equals(Atlases.SIGN_ATLAS)) {
             event.addSprite(new ResourceLocation("entity/signs/atum_palm"));
             event.addSprite(new ResourceLocation("entity/signs/atum_deadwood"));
-        }
+        }*/
     }
 }

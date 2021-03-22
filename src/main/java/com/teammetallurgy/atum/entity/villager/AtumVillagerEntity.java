@@ -250,7 +250,6 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT dataTag) {
         Race race = Race.getRandomRaceWeighted();
         this.setAtumVillagerData(this.getAtumVillagerData().withRace(race));
-        System.out.println("RACE: " + race.getName());
         this.setRandomVariant(race);
 
         if (reason == SpawnReason.BREEDING) {
