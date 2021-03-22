@@ -138,7 +138,7 @@ public class AtumItems {
     public static final MontusBlastItem MONTUS_BLAST = (MontusBlastItem) registerItem(new MontusBlastItem(), "montus_blast");
     public static final Item MONTUS_STRIKE = registerItem(new MontusStrikeItem(), "montus_strike");
     public static final Item NEPTHYS_BANISHING = registerItem(new NepthysBanishingItem(), "nepthys_banishing");
-    public static final Item NEPTHYS_CONSECRATION = registerItem(new NepthysConsecrationItem(), "nepthys_consecration");
+    //public static final Item NEPTHYS_CONSECRATION = registerItem(new NepthysConsecrationItem(), "nepthys_consecration");
     public static final Item NEPTHYS_GUARD = registerItem(new NepthysGuardItem(), "nepthys_guard");
     public static final Item NUITS_IRE = registerItem(new NuitsIreItem(), "nuits_ire");
     public static final Item NUITS_QUARTER = registerItem(new NuitsQuarterItem(), "nuits_quarter");

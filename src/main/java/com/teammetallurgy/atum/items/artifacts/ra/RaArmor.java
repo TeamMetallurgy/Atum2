@@ -20,6 +20,7 @@ public class RaArmor extends ArtifactArmor {
 
     public RaArmor(EquipmentSlotType slot) {
         super(AtumMats.NEBU_ARMOR, "ra_armor", slot, new Item.Properties().rarity(Rarity.RARE));
+        this.setHasRender();
     }
 
     @Override

@@ -406,16 +406,6 @@
         ]
       }
     },
-    "nepthys_consecration": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "item": "atum:nepthys_consecration"
-          }
-        ]
-      }
-    },
     "nepthys_guard": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {

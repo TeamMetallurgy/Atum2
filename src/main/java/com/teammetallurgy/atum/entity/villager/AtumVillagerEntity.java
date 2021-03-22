@@ -248,9 +248,10 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     @Nullable
     @Override
     public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT dataTag) {
-        final int variant = MathHelper.nextInt(this.rand, 1, getVariantAmount());
-        this.setVariant(variant);
-        this.setAtumVillagerData(this.getAtumVillagerData().withRace(Race.getRandomRaceWeighted()));
+        Race race = Race.getRandomRaceWeighted();
+        this.setAtumVillagerData(this.getAtumVillagerData().withRace(race));
+        System.out.println("RACE: " + race.getName());
+        this.setRandomVariant(race);
 
         if (reason == SpawnReason.BREEDING) {
             this.setAtumVillagerData(this.getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
@@ -260,15 +261,26 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     @Override
+    public void livingTick() {
+        super.livingTick();
+        if (this.getVariant() == -1) {
+            Race race = this.getAtumVillagerData().getRace();
+            System.out.println("CORRECTED VARIANT, WITH RACE: " + race);
+            this.setRandomVariant(race);
+        }
+    }
+
+    public void setRandomVariant(Race race) {
+        final int variant = MathHelper.nextInt(this.rand, 1, race.getVariantAmount());
+        this.setVariant(variant);
+    }
+
+    @Override
     @Nonnull
     public ITextComponent getName() {
         AtumVillagerData villagerData = this.getAtumVillagerData();
         ResourceLocation profName = villagerData.getAtumProfession().getRegistryName();
         return new TranslationTextComponent(this.getType().getTranslationKey() + '.' + villagerData.getRace().getName() + "." + profName.getPath());
-    }
-
-    protected int getVariantAmount() {
-        return 6;
     }
 
     private void setVariant(int variant) {

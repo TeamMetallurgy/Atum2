@@ -8,12 +8,12 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 public enum Race implements IStringSerializable {
-    HUMAN("human", 0.50D),
-    EFREET("efreet", 0.10D),
+    HUMAN("human", 1.0D, 18); //Change to 0.5D, when races below is added
+    /*EFREET("efreet", 0.10D),
     SHABTI("shabti", 0.10D),
     SYLPH("sylph", 0.10D),
     AVI("avi", 0.10D),
-    SPHINX("sphinx", 0.10D);
+    SPHINX("sphinx", 0.10D);*/
 
     private static final Map<String, Race> BY_NAME = Util.make(Maps.newHashMap(), (nameToTypeMap) -> {
         for (Race race : values()) {
@@ -22,10 +22,12 @@ public enum Race implements IStringSerializable {
     });
     private final String name;
     private final double spawnWeightPercentage;
+    private final int variantAmount;
 
-    Race(String name, double spawnWeightPercentage) {
+    Race(String name, double spawnWeightPercentage, int variantAmount) {
         this.name = name;
         this.spawnWeightPercentage = spawnWeightPercentage;
+        this.variantAmount = variantAmount;
     }
 
     public static Race getTypeFromName(String name) {
@@ -38,6 +40,10 @@ public enum Race implements IStringSerializable {
 
     public double getSpawnWeightPercentage() {
         return this.spawnWeightPercentage;
+    }
+
+    public int getVariantAmount() {
+        return this.variantAmount;
     }
 
     public static Race getRandomRaceWeighted() {

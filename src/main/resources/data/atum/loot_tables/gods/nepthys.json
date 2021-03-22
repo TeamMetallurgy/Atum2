@@ -11,11 +11,6 @@
         {
           "type": "minecraft:item",
           "weight": 1,
-          "name": "atum:nepthys_consecration"
-        },
-        {
-          "type": "minecraft:item",
-          "weight": 1,
           "name": "atum:nepthys_guard"
         }
       ]
