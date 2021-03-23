@@ -84,13 +84,17 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
 
     public AtumVillagerEntity(EntityType<? extends AtumVillagerEntity> type, World world) {
         super(type, world, VillagerType.DESERT); //Type not used, by Atum villagers
-        this.setAtumVillagerData(this.getAtumVillagerData().withGender(type == AtumEntities.VILLAGER_FEMALE).withProfession(AtumVillagerProfession.NONE.get()));
+        this.setAtumVillagerData(this.getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
+    }
+
+    public boolean isFemale() {
+        return this.getType() == AtumEntities.VILLAGER_FEMALE;
     }
 
     @Override
     protected void registerData() {
         super.registerData();
-        this.dataManager.register(ATUM_VILLAGER_DATA, new AtumVillagerData(AtumVillagerProfession.NONE.get(), 1, Race.HUMAN, false));
+        this.dataManager.register(ATUM_VILLAGER_DATA, new AtumVillagerData(AtumVillagerProfession.NONE.get(), 1, Race.HUMAN));
         this.dataManager.register(VARIANT, 0);
     }
 
@@ -301,14 +305,13 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     public String getTexture() {
         if (this.texturePath == null) {
             AtumVillagerData atumVillagerData = this.getAtumVillagerData();
-            String gender = atumVillagerData.isFemale() ? "female" : "male";
+            String gender = this.isFemale() ? "female" : "male";
             this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/villager/" + atumVillagerData.getRace().getName() + "/" + gender + "_" + this.getVariant()) + ".png";
         }
         return this.texturePath;
     }
 
     @Override
-
     public void playWorkstationSound() {
         SoundEvent soundEvent = this.getAtumVillagerData().getAtumProfession().getSound();
         if (soundEvent != null) {

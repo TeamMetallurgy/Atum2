@@ -20,21 +20,17 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
             return data.level;
         }), IStringSerializable.createEnumCodec(Race::values, Race::getTypeFromName).fieldOf("race").orElse(Race.HUMAN).forGetter((data) -> {
             return data.race;
-        }), Codec.BOOL.fieldOf("is_female").orElse(false).forGetter((data) -> {
-            return data.isFemale;
         })).apply(dataInstance, AtumVillagerData::new);
     });
     private final AtumVillagerProfession profession;
     private final int level;
     private final Race race;
-    private final boolean isFemale;
 
-    public AtumVillagerData(AtumVillagerProfession profession, int level, Race race, boolean isFemale) {
+    public AtumVillagerData(AtumVillagerProfession profession, int level, Race race) {
         super(null, null, level);
         this.profession = profession;
         this.level = level;
         this.race = race;
-        this.isFemale = isFemale;
     }
 
     public AtumVillagerProfession getAtumProfession() {
@@ -45,29 +41,20 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
         return this.race;
     }
 
-    public boolean isFemale() {
-        return this.isFemale;
-    }
-
     @Nonnull
     public AtumVillagerData withProfession(@Nonnull AtumVillagerProfession profession) {
-        return new AtumVillagerData(profession, this.getLevel(), this.getRace(), this.isFemale());
+        return new AtumVillagerData(profession, this.getLevel(), this.getRace());
     }
 
     @Override
     @Nonnull
     public AtumVillagerData withLevel(int level) {
-        return new AtumVillagerData(this.getAtumProfession(), level, this.getRace(), this.isFemale());
+        return new AtumVillagerData(this.getAtumProfession(), level, this.getRace());
     }
 
     @Nonnull
     public AtumVillagerData withRace(Race race) {
-        return new AtumVillagerData(this.getAtumProfession(), this.getLevel(), race, this.isFemale());
-    }
-
-    @Nonnull
-    public AtumVillagerData withGender(boolean isFemale) {
-        return new AtumVillagerData(this.getAtumProfession(), this.getLevel(), this.getRace(), isFemale);
+        return new AtumVillagerData(this.getAtumProfession(), this.getLevel(), race);
     }
 
     //Deprecated usage of vanilla mehtods

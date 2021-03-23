@@ -24,12 +24,11 @@ public class AtumDataSerializer {
             buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
             buf.writeVarInt(value.getLevel());
             buf.writeEnumValue(value.getRace());
-            buf.writeBoolean(value.isFemale());
         }
 
         @Override
         public AtumVillagerData read(PacketBuffer buf) {
-            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readString())), buf.readVarInt(), buf.readEnumValue(Race.class), buf.readBoolean());
+            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readString())), buf.readVarInt(), buf.readEnumValue(Race.class));
         }
 
         @Override
