@@ -24,7 +24,7 @@ public class AtumVillagerRenderer extends MobRenderer<AtumVillagerEntity, Player
     protected void preRenderCallback(AtumVillagerEntity atumVillagerEntity, @Nonnull MatrixStack matrixStack, float partialTickTime) {
         float f = 0.9375F;
         if (atumVillagerEntity.isChild()) {
-            f = (float) ((double) f * 0.5D);
+            f = (float) ((double) f * 0.8D);
             this.shadowSize = 0.25F;
         } else {
             this.shadowSize = 0.5F;

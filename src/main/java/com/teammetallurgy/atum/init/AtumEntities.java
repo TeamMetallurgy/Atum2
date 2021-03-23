@@ -51,7 +51,7 @@ public class AtumEntities {
     public static final EntityType<QuailEntity> QUAIL = registerMob("quail", 0xCC9B72, 0xA47549, Builder.create(QuailEntity::new, EntityClassification.CREATURE).size(0.35F, 0.525F).trackingRange(10));
     public static final EntityType<ScarabEntity> SCARAB = registerMob("scarab", 0x61412C, 0x2F1D10, Builder.create(ScarabEntity::new, EntityClassification.MONSTER).size(0.4F, 0.3F).trackingRange(8));
     public static final EntityType<SergeantEntity> SERGEANT = registerMob("sergeant", 0x444444, 0xC2C2C2, Builder.create(SergeantEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
-    public static final EntityType<ServalEntity> SERVAL = registerMob("serval", 0x444444, 0xC2C2C2, Builder.create(ServalEntity::new, EntityClassification.CREATURE).size(0.6F, 0.7F).trackingRange(8));
+    public static final EntityType<ServalEntity> SERVAL = registerMob("serval", 0x444444, 0xC2C2C2, Builder.create(ServalEntity::new, EntityClassification.CREATURE).size(0.7F, 0.8F).trackingRange(8));
     public static final EntityType<StoneguardEntity> STONEGUARD = registerMob("stoneguard", 0x918354, 0x695D37, Builder.create(StoneguardEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire().trackingRange(10));
     public static final EntityType<StoneguardEntity> STONEGUARD_FRIENDLY = registerEntity("stoneguard_friendly", Builder.create(StoneguardEntity::new, EntityClassification.MISC).size(0.6F, 1.8F).immuneToFire().trackingRange(10));
     public static final EntityType<StonewardenEntity> STONEWARDEN = registerMob("stonewarden", 0x918354, 0x695D37, Builder.create(StonewardenEntity::new, EntityClassification.MONSTER).size(1.4F, 2.7F).immuneToFire().trackingRange(10));
@@ -59,8 +59,8 @@ public class AtumEntities {
     public static final EntityType<TarantulaEntity> TARANTULA = registerMob("tarantula", 0x745c47, 0xd2b193, Builder.create(TarantulaEntity::new, EntityClassification.MONSTER).size(0.85F, 0.55F).trackingRange(8));
     public static final EntityType<WarlordEntity> BANDIT_WARLORD = registerMob("bandit_warlord", 0xa62d1b, 0xe59a22, Builder.create(WarlordEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
     public static final EntityType<WraithEntity> WRAITH = registerMob("wraith", 0x544d34, 0x3e3927, Builder.create(WraithEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F));
-    public static final EntityType<AtumVillagerEntity> VILLAGER_MALE = registerEntity("villager_male", Builder.create(AtumVillagerEntity::new, EntityClassification.MISC).size(0.6F, 1.95F).trackingRange(10));
-    public static final EntityType<AtumVillagerEntity> VILLAGER_FEMALE = registerEntity("villager_female", Builder.create(AtumVillagerEntity::new, EntityClassification.MISC).size(0.6F, 1.95F).trackingRange(10));
+    public static final EntityType<AtumVillagerEntity> VILLAGER_MALE = registerEntity("villager_male", Builder.create(AtumVillagerEntity::new, EntityClassification.MISC).size(0.6F, 1.85F).trackingRange(10));
+    public static final EntityType<AtumVillagerEntity> VILLAGER_FEMALE = registerEntity("villager_female", Builder.create(AtumVillagerEntity::new, EntityClassification.MISC).size(0.6F, 1.85F).trackingRange(10));
 
     //Entities
     public static final EntityType<CamelSpitEntity> CAMEL_SPIT = registerEntity("camel_spit", Builder.<CamelSpitEntity>create(CamelSpitEntity::new, EntityClassification.MISC).size(0.25F, 0.25F)
@@ -145,8 +145,8 @@ public class AtumEntities {
         event.put(STONEWARDEN_FRIENDLY, StoneguardEntity.getAttributes().create());
         event.put(TARANTULA, TarantulaEntity.getAttributes().create());
         event.put(WRAITH, WraithEntity.getAttributes().create());
-        event.put(VILLAGER_MALE, AtumVillagerEntity.func_233666_p_().create());
-        event.put(VILLAGER_FEMALE, AtumVillagerEntity.func_233666_p_().create());
+        event.put(VILLAGER_MALE, AtumVillagerEntity.registerAttributes().create());
+        event.put(VILLAGER_FEMALE, AtumVillagerEntity.registerAttributes().create());
     }
 
     public static boolean canAnimalSpawn(EntityType<? extends AnimalEntity> animal, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {

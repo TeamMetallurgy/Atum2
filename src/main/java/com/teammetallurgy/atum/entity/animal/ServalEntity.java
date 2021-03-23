@@ -6,7 +6,9 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntitySize;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.Pose;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.passive.CatEntity;
@@ -68,6 +70,11 @@ public class ServalEntity extends CatEntity {
     @Override
     public boolean isBreedingItem(@Nonnull ItemStack stack) {
         return BREEDING_ITEMS.test(stack);
+    }
+
+    @Override
+    protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
+        return size.height * 0.9F;
     }
 
     @Override

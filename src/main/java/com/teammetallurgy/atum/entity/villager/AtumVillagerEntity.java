@@ -160,6 +160,11 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     @Override
+    protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
+        return  this.isChild() ? 0.65F : 1.55F;
+    }
+
+    @Override
     protected void updateAITasks() {
         super.updateAITasks();
         if (this.getAtumVillagerData().getAtumProfession() == AtumVillagerProfession.NONE.get() && this.hasCustomer()) {

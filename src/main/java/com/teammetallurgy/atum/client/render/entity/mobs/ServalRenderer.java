@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<ServalEntity>> {
 
     public ServalRenderer(EntityRendererManager renderManager) {
-        super(renderManager, new ServalModel<>(0.0F), 0.4F);
+        super(renderManager, new ServalModel<>(0.0F), 0.5F);
         this.addLayer(new ServalCollorLayer(this));
     }
 
@@ -26,12 +26,6 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
     @Nonnull
     public ResourceLocation getEntityTexture(ServalEntity entity) {
         return entity.getCatTypeName();
-    }
-
-    @Override
-    protected void preRenderCallback(@Nonnull ServalEntity serval, @Nonnull MatrixStack matrixStack, float partialTickTime) {
-        super.preRenderCallback(serval, matrixStack, partialTickTime);
-        matrixStack.scale(0.8F, 0.8F, 0.8F);
     }
 
     @Override
