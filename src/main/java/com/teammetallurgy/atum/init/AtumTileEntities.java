@@ -3,10 +3,7 @@ package com.teammetallurgy.atum.init;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.curio.tileentity.*;
-import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
-import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
-import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
-import com.teammetallurgy.atum.blocks.machines.tileentity.SpinningWheelTileEntity;
+import com.teammetallurgy.atum.blocks.machines.tileentity.*;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnaceTileEntity;
@@ -41,6 +38,7 @@ public class AtumTileEntities {
     public static final TileEntityType<ArrowTrapTileEntity> ARROW_TRAP = null;
     //Other
     public static final TileEntityType<LimestoneFurnaceTileEntity> LIMESTONE_FURNACE = null;
+    public static final TileEntityType<GlassblowerFurnaceTileEntity> GLASSBLOWER_FURNACE = null;
     public static final TileEntityType<QuernTileEntity> QUERN = null;
     public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = null;
     public static final TileEntityType<KilnTileEntity> KILN = null;
@@ -66,6 +64,7 @@ public class AtumTileEntities {
         registerTileEntity("smoke_trap", TileEntityType.Builder.create(SmokeTrapTileEntity::new, AtumBlocks.SMOKE_TRAP));
         registerTileEntity("arrow_trap", TileEntityType.Builder.create(ArrowTrapTileEntity::new, AtumBlocks.ARROW_TRAP));
         registerTileEntity("limestone_furnace", TileEntityType.Builder.create(LimestoneFurnaceTileEntity::new, AtumBlocks.LIMESTONE_FURNACE));
+        registerTileEntity("glassblower_furnace", TileEntityType.Builder.create(GlassblowerFurnaceTileEntity::new, AtumBlocks.GLASSBLOWER_FURNACE));
         registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));
         registerTileEntity("spinning_wheel", TileEntityType.Builder.create(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));
         registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));

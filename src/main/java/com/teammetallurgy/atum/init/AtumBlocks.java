@@ -69,6 +69,7 @@ public class AtumBlocks {
     public static final Block KILN_FAKE = registerBlock(new KilnFakeBlock(), null, "kiln_fake");
     public static final Block GODFORGE = registerBlock(new GodforgeBlock(), "godforge");
     public static final Block QUANDARY_BLOCK = registerBlock(new QuandaryBlock(), "quandary_block");
+    public static final Block GLASSBLOWER_FURNACE = registerBlock(new GlassblowerFurnace(), "glassblower_furnace");
     public static final Block PALM_CURIO_DISPLAY = registerBlock(new CurioDisplayBlock(Material.WOOD) {
         @Override
         public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {

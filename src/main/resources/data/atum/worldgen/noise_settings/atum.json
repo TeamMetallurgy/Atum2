@@ -16,7 +16,7 @@
         "salt": 0
       },
       "atum:pyramid": {
-        "spacing": 22,
+        "spacing": 23,
         "separation": 11,
         "salt": 14705550
       },
@@ -36,7 +36,7 @@
         "salt": 14150550
       },
       "minecraft:village": {
-        "spacing": 42,
+        "spacing": 38,
         "separation": 14,
         "salt": 38616855
       }

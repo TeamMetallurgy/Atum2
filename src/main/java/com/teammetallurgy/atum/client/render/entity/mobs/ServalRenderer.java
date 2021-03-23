@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.ServalModel;
 import com.teammetallurgy.atum.client.render.entity.layer.ServalCollorLayer;
 import com.teammetallurgy.atum.entity.animal.ServalEntity;
@@ -16,6 +17,7 @@ import net.minecraft.util.math.vector.Vector3f;
 import javax.annotation.Nonnull;
 
 public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<ServalEntity>> {
+    private static final ResourceLocation AZURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/azure.png");
 
     public ServalRenderer(EntityRendererManager renderManager) {
         super(renderManager, new ServalModel<>(0.0F), 0.5F);
@@ -25,7 +27,11 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
     @Override
     @Nonnull
     public ResourceLocation getEntityTexture(ServalEntity entity) {
-        return entity.getCatTypeName();
+        if (entity.hasCustomName() && entity.getCustomName().getString().equals("azure")) {
+            return AZURE;
+        } else {
+            return entity.getCatTypeName();
+        }
     }
 
     @Override

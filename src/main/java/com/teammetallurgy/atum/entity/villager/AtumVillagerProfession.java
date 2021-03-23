@@ -21,13 +21,14 @@ import javax.annotation.Nullable;
 public class AtumVillagerProfession extends ForgeRegistryEntry<AtumVillagerProfession> {
     public static final DeferredRegister<AtumVillagerProfession> ATUM_PROFESSION_DEFERRED = DeferredRegister.create(AtumVillagerProfession.class, Atum.MOD_ID);
     public static final RegistryObject<AtumVillagerProfession> NONE = register("none", AtumPointsOfInterest.UNEMPLOYED, null);
+    public static final RegistryObject<AtumVillagerProfession> ALCHEMIST = register("alchemist", PointOfInterestType.CLERIC, SoundEvents.ENTITY_VILLAGER_WORK_CLERIC);
     public static final RegistryObject<AtumVillagerProfession> ARMORER = register("armorer", PointOfInterestType.ARMORER, SoundEvents.ENTITY_VILLAGER_WORK_ARMORER);
     public static final RegistryObject<AtumVillagerProfession> BUTCHER = register("butcher", PointOfInterestType.BUTCHER, SoundEvents.ENTITY_VILLAGER_WORK_BUTCHER);
     public static final RegistryObject<AtumVillagerProfession> CARTOGRAPHER = register("cartographer", PointOfInterestType.CARTOGRAPHER, SoundEvents.ENTITY_VILLAGER_WORK_CARTOGRAPHER);
-    public static final RegistryObject<AtumVillagerProfession> CLERIC = register("cleric", PointOfInterestType.CLERIC, SoundEvents.ENTITY_VILLAGER_WORK_CLERIC);
     public static final RegistryObject<AtumVillagerProfession> CURATOR = register("curator", AtumPointsOfInterest.CURATOR, SoundEvents.ENTITY_VILLAGER_WORK_CARTOGRAPHER);
     public static final RegistryObject<AtumVillagerProfession> FARMER = register("farmer", PointOfInterestType.FARMER, ImmutableSet.of(AtumItems.EMMER, AtumItems.EMMER_SEEDS, AtumItems.FLAX_SEEDS, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.BONE_MEAL), ImmutableSet.of(AtumBlocks.FERTILE_SOIL_TILLED, Blocks.FARMLAND), SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
     public static final RegistryObject<AtumVillagerProfession> FLETCHER = register("fletcher", PointOfInterestType.FLETCHER, SoundEvents.ENTITY_VILLAGER_WORK_FLETCHER);
+    public static final RegistryObject<AtumVillagerProfession> GLASSBLOWER = register("glassblower", AtumPointsOfInterest.GLASSBLOWER, SoundEvents.ENTITY_VILLAGER_WORK_CLERIC);
     public static final RegistryObject<AtumVillagerProfession> LIBRARIAN = register("librarian", PointOfInterestType.LIBRARIAN, SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN);
     public static final RegistryObject<AtumVillagerProfession> MASON = register("mason", PointOfInterestType.MASON, SoundEvents.ENTITY_VILLAGER_WORK_MASON);
     public static final RegistryObject<AtumVillagerProfession> NITWIT = register("nitwit", PointOfInterestType.NITWIT, null);

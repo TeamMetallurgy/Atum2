@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:ceramic_yellow"
+          "name": "atum:ceramic_tile_yellow"
         }
       ],
       "conditions": [
