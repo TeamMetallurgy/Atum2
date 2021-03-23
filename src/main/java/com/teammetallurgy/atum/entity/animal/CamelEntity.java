@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
+import com.teammetallurgy.atum.entity.villager.Race;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
@@ -103,9 +104,13 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
+        this.setRandomVariant();
+        return livingdata;
+    }
+
+    public void setRandomVariant() {
         final int variant = this.getCamelVariantBiome();
         this.setVariant(variant);
-        return livingdata;
     }
 
     @Override
@@ -174,6 +179,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         if (this.world.isRemote && this.dataManager.isDirty()) {
             this.dataManager.setClean();
             this.textureName = null;
+        }
+        if (this.getVariant() == -1) {
+            this.setRandomVariant();
         }
     }
 

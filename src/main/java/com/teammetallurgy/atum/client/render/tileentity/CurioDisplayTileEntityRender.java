@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
@@ -67,7 +68,7 @@ public abstract class CurioDisplayTileEntityRender extends TileEntityRenderer<Cu
 
             ItemStack stack = tileEntity.getStackInSlot(0);
             if (!stack.isEmpty()) {
-                RenderUtils.renderItem(tileEntity, stack, Minecraft.getInstance().getRenderManager().getCameraOrientation(), -0.5D, false, false, matrixStack, buffer, combinedLight, combinedOverlay);
+                RenderUtils.renderItem(tileEntity, stack, Minecraft.getInstance().getRenderManager().getCameraOrientation(), -0.5D, false, !(stack.getItem() instanceof BlockItem), -360.0F, matrixStack, buffer, combinedLight, combinedOverlay);
             }
         }
     }

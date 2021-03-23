@@ -23,10 +23,10 @@ import javax.annotation.Nonnull;
 public class RenderUtils {
 
     public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
-        renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, rotateEastWest, matrixStack, buffer, combinedLight, combinedOverlay);
+        renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, rotateEastWest, 90.0F, matrixStack, buffer, combinedLight, combinedOverlay);
     }
 
-    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, float eastWestDegress, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
             matrixStack.push();
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
@@ -44,7 +44,7 @@ public class RenderUtils {
                 Direction facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
                 if (rotateEastWest) {
                     if (facing == Direction.EAST || facing == Direction.WEST) {
-                        matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(eastWestDegress));
                     }
                 } else {
                     if (facing == Direction.EAST) {

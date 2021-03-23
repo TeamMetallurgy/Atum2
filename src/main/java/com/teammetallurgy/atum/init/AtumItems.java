@@ -18,7 +18,6 @@ import com.teammetallurgy.atum.items.artifacts.isis.IsisHealingItem;
 import com.teammetallurgy.atum.items.artifacts.montu.MontusBlastItem;
 import com.teammetallurgy.atum.items.artifacts.montu.MontusStrikeItem;
 import com.teammetallurgy.atum.items.artifacts.nepthys.NepthysBanishingItem;
-import com.teammetallurgy.atum.items.artifacts.nepthys.NepthysConsecrationItem;
 import com.teammetallurgy.atum.items.artifacts.nepthys.NepthysGuardItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsIreItem;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsQuarterItem;

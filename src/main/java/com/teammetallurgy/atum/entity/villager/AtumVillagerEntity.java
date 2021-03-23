@@ -260,8 +260,8 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void tick() {
+        super.tick();
         if (this.getVariant() == -1) {
             Race race = this.getAtumVillagerData().getRace();
             System.out.println("CORRECTED VARIANT, WITH RACE: " + race);
