@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    "CFC",
+    "CCC"
+  ],
+  "key": {
+    "F": {
+      "item": "atum:limestone_furnace"
+    },
+    "C": {
+      "item": "atum:crystal_glass"
+    }
+  },
+  "result": {
+    "item": "atum:glassblower_furnace"
+  }
+}

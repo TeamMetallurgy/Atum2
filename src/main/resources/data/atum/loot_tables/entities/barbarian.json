@@ -7,7 +7,6 @@
         {
           "type": "item",
           "name": "atum:coin_dirty",
-          "entryName": "coin_dirty",
           "weight": 1,
           "functions": [
             {

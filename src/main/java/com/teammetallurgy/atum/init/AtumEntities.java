@@ -51,7 +51,7 @@ public class AtumEntities {
     public static final EntityType<QuailEntity> QUAIL = registerMob("quail", 0xCC9B72, 0xA47549, Builder.create(QuailEntity::new, EntityClassification.CREATURE).size(0.35F, 0.525F).trackingRange(10));
     public static final EntityType<ScarabEntity> SCARAB = registerMob("scarab", 0x61412C, 0x2F1D10, Builder.create(ScarabEntity::new, EntityClassification.MONSTER).size(0.4F, 0.3F).trackingRange(8));
     public static final EntityType<SergeantEntity> SERGEANT = registerMob("sergeant", 0x444444, 0xC2C2C2, Builder.create(SergeantEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).trackingRange(8));
-    public static final EntityType<ServalEntity> SERVAL = registerMob("serval", 0x444444, 0xC2C2C2, Builder.create(ServalEntity::new, EntityClassification.CREATURE).size(0.7F, 0.8F).trackingRange(8));
+    public static final EntityType<ServalEntity> SERVAL = registerMob("serval", 0xffe0b2, 0xa17b64, Builder.create(ServalEntity::new, EntityClassification.CREATURE).size(0.7F, 0.8F).trackingRange(8));
     public static final EntityType<StoneguardEntity> STONEGUARD = registerMob("stoneguard", 0x918354, 0x695D37, Builder.create(StoneguardEntity::new, EntityClassification.MONSTER).size(0.6F, 1.8F).immuneToFire().trackingRange(10));
     public static final EntityType<StoneguardEntity> STONEGUARD_FRIENDLY = registerEntity("stoneguard_friendly", Builder.create(StoneguardEntity::new, EntityClassification.MISC).size(0.6F, 1.8F).immuneToFire().trackingRange(10));
     public static final EntityType<StonewardenEntity> STONEWARDEN = registerMob("stonewarden", 0x918354, 0x695D37, Builder.create(StonewardenEntity::new, EntityClassification.MONSTER).size(1.4F, 2.7F).immuneToFire().trackingRange(10));
