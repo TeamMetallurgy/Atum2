@@ -2,7 +2,9 @@ package com.teammetallurgy.atum.entity.villager;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.init.AtumStructures;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.block.Block;
@@ -35,10 +37,10 @@ import java.util.stream.Collectors;
 
 public class AtumVillagerTrades {
     public static final Map<AtumVillagerProfession, Int2ObjectMap<VillagerTrades.ITrade[]>> VILLAGER_DEFAULT_TRADES = Util.make(Maps.newHashMap(), (trades) -> {
-        trades.put(AtumVillagerProfession.ALCHEMIST.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.ROTTEN_FLESH, 32, 16, 2), new ItemsForCoinsTrade(Items.REDSTONE, 1, 2, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.GOLD_INGOT, 3, 12, 10), new ItemsForCoinsTrade(Items.LAPIS_LAZULI, 1, 1, 5)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.RABBIT_FOOT, 2, 12, 20), new ItemsForCoinsTrade(Blocks.GLOWSTONE, 4, 1, 12, 10)}, 4, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.SCUTE, 4, 12, 30), new CoinForItemsTrade(Items.GLASS_BOTTLE, 9, 12, 30), new ItemsForCoinsTrade(Items.ENDER_PEARL, 5, 1, 15)}, 5, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.NETHER_WART, 22, 12, 30), new ItemsForCoinsTrade(Items.EXPERIENCE_BOTTLE, 3, 1, 30)})));
-        trades.put(AtumVillagerProfession.ARMORER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.COAL, 15, 16, 2), new ItemsForCoinsTrade(new ItemStack(Items.IRON_LEGGINGS), 7, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.IRON_BOOTS), 4, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.IRON_HELMET), 5, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.IRON_CHESTPLATE), 9, 1, 12, 1, 0.2F)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.IRON_INGOT, 4, 12, 10), new ItemsForCoinsTrade(new ItemStack(Items.BELL), 36, 1, 12, 5, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.CHAINMAIL_BOOTS), 1, 1, 12, 5, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.CHAINMAIL_LEGGINGS), 3, 1, 12, 5, 0.2F)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.LAVA_BUCKET, 1, 12, 20), new CoinForItemsTrade(Items.DIAMOND, 1, 12, 20), new ItemsForCoinsTrade(new ItemStack(Items.CHAINMAIL_HELMET), 1, 1, 12, 10, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.CHAINMAIL_CHESTPLATE), 4, 1, 12, 10, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.SHIELD), 5, 1, 12, 10, 0.2F)}, 4, new VillagerTrades.ITrade[]{new EnchantedItemForCoinsTrade(Items.DIAMOND_LEGGINGS, 14, 3, 15, 0.2F), new EnchantedItemForCoinsTrade(Items.DIAMOND_BOOTS, 8, 3, 15, 0.2F)}, 5, new VillagerTrades.ITrade[]{new EnchantedItemForCoinsTrade(Items.DIAMOND_HELMET, 8, 3, 30, 0.2F), new EnchantedItemForCoinsTrade(Items.DIAMOND_CHESTPLATE, 16, 3, 30, 0.2F)})));
-        trades.put(AtumVillagerProfession.BUTCHER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.CHICKEN, 14, 16, 2), new CoinForItemsTrade(Items.PORKCHOP, 7, 16, 2), new CoinForItemsTrade(Items.RABBIT, 4, 16, 2), new ItemsForCoinsTrade(Items.RABBIT_STEW, 1, 1, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.COAL, 15, 16, 2), new ItemsForCoinsTrade(Items.COOKED_PORKCHOP, 1, 5, 16, 5), new ItemsForCoinsTrade(Items.COOKED_CHICKEN, 1, 8, 16, 5)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.MUTTON, 7, 16, 20), new CoinForItemsTrade(Items.BEEF, 10, 16, 20)}, 4, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.DRIED_KELP_BLOCK, 10, 12, 30)}, 5, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.SWEET_BERRIES, 10, 12, 30)})));
-        trades.put(AtumVillagerProfession.CARTOGRAPHER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.PAPER, 24, 16, 2), new ItemsForCoinsTrade(Items.MAP, 7, 1, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.GLASS_PANE, 11, 16, 10), new CoinsForMapTrade(13, Structure.MONUMENT, MapDecoration.Type.MONUMENT, 12, 5)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.COMPASS, 1, 12, 20), new CoinsForMapTrade(14, Structure.WOODLAND_MANSION, MapDecoration.Type.MANSION, 12, 10)}, 4, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Items.ITEM_FRAME, 7, 1, 15), new ItemsForCoinsTrade(Items.WHITE_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.BLUE_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.LIGHT_BLUE_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.RED_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.PINK_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.GREEN_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.LIME_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.GRAY_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.BLACK_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.PURPLE_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.MAGENTA_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.CYAN_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.BROWN_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.YELLOW_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.ORANGE_BANNER, 3, 1, 15), new ItemsForCoinsTrade(Items.LIGHT_GRAY_BANNER, 3, 1, 15)}, 5, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Items.GLOBE_BANNER_PATTERN, 8, 1, 30)})));
+        trades.put(AtumVillagerProfession.ALCHEMIST.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.ROTTEN_FLESH, 32, 3, 16, 2), new ItemsForCoinsTrade(Items.REDSTONE, 3, 2, 12, 1)}, 2, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.GOLD_INGOT, 3, 3, 12, 2), new ItemsForCoinsTrade(Items.LAPIS_LAZULI, 3, 1, 5)}, 3, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.RABBIT_FOOT, 2, 3, 12, 20), new ItemsForCoinsTrade(Items.GLOWSTONE_DUST, 12, 1, 12, 10)}, 4, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.SCUTE, 2, 3, 12, 30), new CoinsForItemsTrade(Items.GLASS_BOTTLE, 9, 3, 12, 30), new ItemsForCoinsTrade(Items.ENDER_PEARL, 15, 1, 15)}, 5, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(AtumItems.ANPUTS_FINGERS_SPORES, 22, 4, 12, 30), new ItemsForCoinsTrade(Items.EXPERIENCE_BOTTLE, 9, 1, 30)})));
+        trades.put(AtumVillagerProfession.ARMORER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.COAL, 15, 3, 16, 2), new ItemsForCoinsTrade(new ItemStack(AtumItems.DESERT_LEGS_IRON), 21, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(AtumItems.DESERT_BOOTS_IRON), 12, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(AtumItems.DESERT_HELMET_IRON), 15, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(AtumItems.DESERT_CHEST_IRON), 27, 1, 12, 1, 0.2F)}, 2, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.IRON_INGOT, 4, 3, 12, 10), new ItemsForCoinsTrade(new ItemStack(Items.BELL), 54, 1, 12, 5, 0.2F), new EnchantedItemForCoinsTrade(AtumItems.DESERT_LEGS_IRON, 9, 12, 5, 0.2F), new EnchantedItemForCoinsTrade(AtumItems.DESERT_BOOTS_IRON, 3, 12, 5, 0.2F)}, 3, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.LAVA_BUCKET, 1, 3, 12, 20), new EnchantedItemForCoinsTrade(AtumItems.DESERT_HELMET_IRON, 3, 12, 10, 0.2F), new EnchantedItemForCoinsTrade(AtumItems.DESERT_CHEST_IRON, 12, 12, 10, 0.2F), new ItemsForCoinsTrade(new ItemStack(AtumItems.BRIGAND_SHIELD), 15, 1, 12, 10, 0.2F)}, 4, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.DIAMOND, 1, 5, 12, 20), new EnchantedItemForCoinsTrade(AtumItems.DESERT_LEGS_DIAMOND, 37, 3, 15, 0.2F), new EnchantedItemForCoinsTrade(AtumItems.DESERT_BOOTS_DIAMOND, 20, 3, 15, 0.2F)}, 5, new VillagerTrades.ITrade[]{new EnchantedItemForCoinsTrade(AtumItems.DESERT_HELMET_DIAMOND, 20, 3, 30, 0.2F), new EnchantedItemForCoinsTrade(AtumItems.DESERT_CHEST_DIAMOND, 45, 3, 30, 0.2F)})));
+        trades.put(AtumVillagerProfession.BUTCHER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(AtumItems.QUAIL_RAW, 14, 3, 16, 2), new CoinsForItemsTrade(Items.RABBIT, 4, 3, 16, 2), new ItemsForCoinsTrade(Items.RABBIT_STEW, 3, 1, 1)}, 2, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.COAL, 15, 3, 16, 2), new ItemsForCoinsTrade(AtumItems.QUAIL_COOKED, 3, 8, 16, 5)}, 3, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(AtumItems.CAMEL_RAW, 10, 3, 16, 20), new ItemsForCoinsTrade(AtumItems.CAMEL_COOKED, 3, 3, 10)}, 4, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.DRIED_KELP_BLOCK, 10, 3, 12, 30)}, 5, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.SWEET_BERRIES, 10, 3, 12, 30)})));
+        trades.put(AtumVillagerProfession.CARTOGRAPHER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.PAPER, 3, 24, 16, 2), new ItemsForCoinsTrade(Items.MAP, 1, 21, 5)}, 2, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(AtumBlocks.CRYSTAL_GLASS_PANE, 11, 3, 16, 10)}, 3, new VillagerTrades.ITrade[]{new CoinsForItemsTrade(Items.COMPASS, 1, 3, 12, 20), new CoinsForMapTrade(13, AtumStructures.PYRAMID_STRUCTURE, MapDecoration.Type.TARGET_X, 12, 15)}, 4, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Items.ITEM_FRAME, 21, 1, 15), new ItemsForCoinsTrade(Items.WHITE_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.BLUE_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.LIGHT_BLUE_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.RED_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.PINK_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.GREEN_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.LIME_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.GRAY_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.BLACK_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.PURPLE_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.MAGENTA_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.CYAN_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.BROWN_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.YELLOW_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.ORANGE_BANNER, 9, 1, 15), new ItemsForCoinsTrade(Items.LIGHT_GRAY_BANNER, 9, 1, 15)}, 5, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Items.GLOBE_BANNER_PATTERN, 3, 1, 30)})));
         trades.put(AtumVillagerProfession.FARMER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.WHEAT, 20, 16, 2), new CoinForItemsTrade(Items.POTATO, 26, 16, 2), new CoinForItemsTrade(Items.CARROT, 22, 16, 2), new CoinForItemsTrade(Items.BEETROOT, 15, 16, 2), new ItemsForCoinsTrade(Items.BREAD, 1, 6, 16, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Blocks.PUMPKIN, 6, 12, 10), new ItemsForCoinsTrade(Items.PUMPKIN_PIE, 1, 4, 5), new ItemsForCoinsTrade(Items.APPLE, 1, 4, 16, 5)}, 3, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Items.COOKIE, 3, 18, 10), new CoinForItemsTrade(Blocks.MELON, 4, 12, 20)}, 4, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Blocks.CAKE, 1, 1, 12, 15), new SuspiciousStewForCoinTrade(Effects.NIGHT_VISION, 100, 15), new SuspiciousStewForCoinTrade(Effects.JUMP_BOOST, 160, 15), new SuspiciousStewForCoinTrade(Effects.WEAKNESS, 140, 15), new SuspiciousStewForCoinTrade(Effects.BLINDNESS, 120, 15), new SuspiciousStewForCoinTrade(Effects.POISON, 280, 15), new SuspiciousStewForCoinTrade(Effects.SATURATION, 7, 15)}, 5, new VillagerTrades.ITrade[]{new ItemsForCoinsTrade(Items.GOLDEN_CARROT, 3, 3, 30), new ItemsForCoinsTrade(Items.GLISTERING_MELON_SLICE, 4, 3, 30)})));
         trades.put(AtumVillagerProfession.FLETCHER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.STICK, 32, 16, 2), new ItemsForCoinsTrade(Items.ARROW, 1, 16, 1), new ItemsForCoinsAndItemsTrade(Blocks.GRAVEL, 10, Items.FLINT, 10, 12, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.FLINT, 26, 12, 10), new ItemsForCoinsTrade(Items.BOW, 2, 1, 5)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.STRING, 14, 16, 20), new ItemsForCoinsTrade(Items.CROSSBOW, 3, 1, 10)}, 4, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.FEATHER, 24, 16, 30), new EnchantedItemForCoinsTrade(Items.BOW, 2, 3, 15)}, 5, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.TRIPWIRE_HOOK, 8, 12, 30), new EnchantedItemForCoinsTrade(Items.CROSSBOW, 3, 3, 15), new ItemWithPotionForCoinsAndItemsTrade(Items.ARROW, 5, Items.TIPPED_ARROW, 5, 2, 12, 30)})));
         trades.put(AtumVillagerProfession.GLASSBLOWER.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.ROTTEN_FLESH, 32, 16, 2), new ItemsForCoinsTrade(Items.REDSTONE, 1, 2, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.GOLD_INGOT, 3, 12, 10), new ItemsForCoinsTrade(Items.LAPIS_LAZULI, 1, 1, 5)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.RABBIT_FOOT, 2, 12, 20), new ItemsForCoinsTrade(Blocks.GLOWSTONE, 4, 1, 12, 10)}, 4, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.SCUTE, 4, 12, 30), new CoinForItemsTrade(Items.GLASS_BOTTLE, 9, 12, 30), new ItemsForCoinsTrade(Items.ENDER_PEARL, 5, 1, 15)}, 5, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.NETHER_WART, 22, 12, 30), new ItemsForCoinsTrade(Items.EXPERIENCE_BOTTLE, 3, 1, 30)})));
@@ -48,15 +50,6 @@ public class AtumVillagerTrades {
         trades.put(AtumVillagerProfession.TOOLSMITH.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.COAL, 15, 16, 2), new ItemsForCoinsTrade(new ItemStack(Items.STONE_AXE), 1, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.STONE_SHOVEL), 1, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.STONE_PICKAXE), 1, 1, 12, 1, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.STONE_HOE), 1, 1, 12, 1, 0.2F)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.IRON_INGOT, 4, 12, 10), new ItemsForCoinsTrade(new ItemStack(Items.BELL), 36, 1, 12, 5, 0.2F)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.FLINT, 30, 12, 20), new EnchantedItemForCoinsTrade(Items.IRON_AXE, 1, 3, 10, 0.2F), new EnchantedItemForCoinsTrade(Items.IRON_SHOVEL, 2, 3, 10, 0.2F), new EnchantedItemForCoinsTrade(Items.IRON_PICKAXE, 3, 3, 10, 0.2F), new ItemsForCoinsTrade(new ItemStack(Items.DIAMOND_HOE), 4, 1, 3, 10, 0.2F)}, 4, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.DIAMOND, 1, 12, 30), new EnchantedItemForCoinsTrade(Items.DIAMOND_AXE, 12, 3, 15, 0.2F), new EnchantedItemForCoinsTrade(Items.DIAMOND_SHOVEL, 5, 3, 15, 0.2F)}, 5, new VillagerTrades.ITrade[]{new EnchantedItemForCoinsTrade(Items.DIAMOND_PICKAXE, 13, 3, 30, 0.2F)})));
         trades.put(AtumVillagerProfession.WEAPONSMITH.get(), gatAsIntMap(ImmutableMap.of(1, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.COAL, 15, 16, 2), new ItemsForCoinsTrade(new ItemStack(Items.IRON_AXE), 3, 1, 12, 1, 0.2F), new EnchantedItemForCoinsTrade(Items.IRON_SWORD, 2, 3, 1)}, 2, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.IRON_INGOT, 4, 12, 10), new ItemsForCoinsTrade(new ItemStack(Items.BELL), 36, 1, 12, 5, 0.2F)}, 3, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.FLINT, 24, 12, 20)}, 4, new VillagerTrades.ITrade[]{new CoinForItemsTrade(Items.DIAMOND, 1, 12, 30), new EnchantedItemForCoinsTrade(Items.DIAMOND_AXE, 12, 3, 15, 0.2F)}, 5, new VillagerTrades.ITrade[]{new EnchantedItemForCoinsTrade(Items.DIAMOND_SWORD, 8, 3, 30, 0.2F)})));
     });
-
-    //Old Sunspeaker trades for reference
-//    private static final List<VillagerTrades.ITrade[]> TRADES = Arrays.asList
-//                                                            /*int price, Item item, int minAmount, int maxAmount, int maxUses, int givenExp                      */
-//            /*Tier 1*/ new VillagerTrades.ITrade[]{new ItemsForCoins(32, AtumBlocks.PALM_SAPLING.asItem(), 4, 5, 4, 3), new ItemsForCoins(16, Blocks.SUNFLOWER.asItem(), 1, 2, 7, 1), new ItemsForCoins(24, AtumItems.DATE, 14, 16, 3, 2), new ItemsForCoins(24, AtumItems.EMMER_BREAD, 3, 4, 6, 2)},
-//            /*Tier 2*/ new VillagerTrades.ITrade[]{new ItemsForCoins(36, AtumItems.LINEN_CLOTH, 5, 10, 5, 3), new ItemsForCoins(48, AtumItems.CAMEL_RAW, 13, 18, 10, 2), new ItemsForCoins(48, AtumItems.SCROLL, 9, 12, 4, 4), new ItemsForCoins(32, AtumItems.ANPUTS_FINGERS_SPORES, 8, 10, 2, 2)},
-//            /*Tier 3*/ new VillagerTrades.ITrade[]{new ItemsForCoins(48, Blocks.GLOWSTONE.asItem(), 3, 4, 10, 2), new ItemsForCoins(48, Items.NAME_TAG, 1, 2, 16, 1), new ItemsForCoins(64, Items.BREWING_STAND, 1, 1, 2, 9), new ItemsForCoins(36, Items.BLAZE_POWDER, 4, 5, 16, 4)},
-//            /*Tier 4*/ new VillagerTrades.ITrade[]{new ItemsForCoins(48, Items.SADDLE, 1, 1, 12, 4), new ItemsForCoins(64, AtumItems.ENCHANTED_GOLDEN_DATE, 1, 2, 4, 10), new ItemsForCoins(48, Items.ENDER_PEARL, 3, 4, 8, 15)});
-
 
     private static Int2ObjectMap<VillagerTrades.ITrade[]> gatAsIntMap(ImmutableMap<Integer, VillagerTrades.ITrade[]> trades) {
         return new Int2ObjectOpenHashMap<>(trades);
@@ -81,6 +74,30 @@ public class AtumVillagerTrades {
         public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
             ItemStack tradeStack = new ItemStack(this.tradeItem, this.count);
             return new MerchantOffer(tradeStack, new ItemStack(AtumItems.GOLD_COIN), this.maxUses, this.xpValue, this.priceMultiplier);
+        }
+    }
+
+    static class CoinsForItemsTrade implements VillagerTrades.ITrade {
+        private final Item tradeItem;
+        private final int count;
+        private final int coinCount;
+        private final int maxUses;
+        private final int xpValue;
+        private final float priceMultiplier;
+
+        public CoinsForItemsTrade(IItemProvider tradeItem, int count, int coinCount, int maxUses, int xpValue) {
+            this.tradeItem = tradeItem.asItem();
+            this.count = count;
+            this.coinCount = coinCount;
+            this.maxUses = maxUses;
+            this.xpValue = xpValue;
+            this.priceMultiplier = 0.05F;
+        }
+
+        @Override
+        public MerchantOffer getOffer(@Nonnull Entity trader, @Nonnull Random rand) {
+            ItemStack tradeStack = new ItemStack(this.tradeItem, this.count);
+            return new MerchantOffer(tradeStack, new ItemStack(AtumItems.GOLD_COIN, this.coinCount), this.maxUses, this.xpValue, this.priceMultiplier);
         }
     }
 
@@ -122,8 +139,8 @@ public class AtumVillagerTrades {
     static class EnchantedBookForCoinsTrade implements VillagerTrades.ITrade {
         private final int xpValue;
 
-        public EnchantedBookForCoinsTrade(int xpValueIn) {
-            this.xpValue = xpValueIn;
+        public EnchantedBookForCoinsTrade(int xpValue) {
+            this.xpValue = xpValue;
         }
 
         @Override
@@ -247,12 +264,12 @@ public class AtumVillagerTrades {
             this(new ItemStack(sellingItem), coinCount, sellingItemCount, maxUses, xpValue);
         }
 
-        public ItemsForCoinsTrade(Item sellingItem, int coinCount, int sellingItemCount, int xpValue) {
-            this(new ItemStack(sellingItem), coinCount, sellingItemCount, 12, xpValue);
-        }
-
         public ItemsForCoinsTrade(Item sellingItem, int coinCount, int sellingItemCount, int maxUses, int xpValue) {
             this(new ItemStack(sellingItem), coinCount, sellingItemCount, maxUses, xpValue);
+        }
+
+        public ItemsForCoinsTrade(Item sellingItem, int coinCount, int sellingItemCount, int xpValue) {
+            this(new ItemStack(sellingItem), coinCount, sellingItemCount, 12, xpValue);
         }
 
         public ItemsForCoinsTrade(@Nonnull ItemStack sellingItem, int coinCount, int sellingItemCount, int maxUses, int xpValue) {
