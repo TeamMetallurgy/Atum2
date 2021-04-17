@@ -29,6 +29,7 @@ public class AtumVillagerProfession extends ForgeRegistryEntry<AtumVillagerProfe
     public static final RegistryObject<AtumVillagerProfession> FARMER = register("farmer", PointOfInterestType.FARMER, ImmutableSet.of(AtumItems.EMMER, AtumItems.EMMER_SEEDS, AtumItems.FLAX_SEEDS, Items.WHEAT, Items.WHEAT_SEEDS, Items.BEETROOT_SEEDS, Items.BONE_MEAL), ImmutableSet.of(AtumBlocks.FERTILE_SOIL_TILLED, Blocks.FARMLAND), SoundEvents.ENTITY_VILLAGER_WORK_FARMER);
     public static final RegistryObject<AtumVillagerProfession> FLETCHER = register("fletcher", PointOfInterestType.FLETCHER, SoundEvents.ENTITY_VILLAGER_WORK_FLETCHER);
     public static final RegistryObject<AtumVillagerProfession> GLASSBLOWER = register("glassblower", AtumPointsOfInterest.GLASSBLOWER, SoundEvents.ENTITY_VILLAGER_WORK_CLERIC);
+    public static final RegistryObject<AtumVillagerProfession> HUNTER = register("hunter", PointOfInterestType.LEATHERWORKER, SoundEvents.ENTITY_VILLAGER_WORK_LEATHERWORKER);
     public static final RegistryObject<AtumVillagerProfession> LIBRARIAN = register("librarian", PointOfInterestType.LIBRARIAN, SoundEvents.ENTITY_VILLAGER_WORK_LIBRARIAN);
     public static final RegistryObject<AtumVillagerProfession> MASON = register("mason", PointOfInterestType.MASON, SoundEvents.ENTITY_VILLAGER_WORK_MASON);
     public static final RegistryObject<AtumVillagerProfession> NITWIT = register("nitwit", PointOfInterestType.NITWIT, null);
