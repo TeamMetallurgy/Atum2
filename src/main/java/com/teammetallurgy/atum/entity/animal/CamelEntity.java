@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
-import com.teammetallurgy.atum.entity.villager.Race;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
