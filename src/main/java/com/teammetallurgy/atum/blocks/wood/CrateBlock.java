@@ -71,6 +71,7 @@ public class CrateBlock extends ContainerBlock {
                 ((CrateTileEntity) tileEntity).setCustomName(stack.getDisplayName());
             }
         }
+        FenceBlock
     }
 
     @Override
