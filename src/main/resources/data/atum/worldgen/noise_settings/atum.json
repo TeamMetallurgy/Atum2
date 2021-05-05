@@ -36,8 +36,8 @@
         "salt": 14150550
       },
       "minecraft:village": {
-        "spacing": 20,
-        "separation": 12,
+        "spacing": 26,
+        "separation": 16,
         "salt": 38616855
       }
     }
