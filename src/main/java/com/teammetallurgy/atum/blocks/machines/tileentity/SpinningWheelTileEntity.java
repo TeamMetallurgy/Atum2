@@ -58,7 +58,9 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     @Override
     public void markDirty() {
         super.markDirty();
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), world.getBlockState(pos), 3);
+        if (this.world != null) {
+            this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 3);
+        }
     }
 
     @Override
