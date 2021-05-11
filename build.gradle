@@ -11,6 +11,9 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
 
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
 repositories {
