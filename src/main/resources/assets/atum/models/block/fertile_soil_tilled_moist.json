@@ -1,9 +1,9 @@
 {   "parent": "block/block",
     "textures": {
-        "particle": "atum:block/fertile_soil",
+        "particle": "atum:block/sand",
         "top": "block/farmland_moist",
         "side": "atum:block/fertile_soil_side",
-        "bottom": "atum:block/fertile_soil"
+        "bottom": "atum:block/sand"
     },
     "elements": [
         {   "from": [ 0, 0, 0 ],

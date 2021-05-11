@@ -1,13 +1,11 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.api.AtumAPI;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.potion.Potions;
-import net.minecraftforge.common.Tags;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -25,7 +23,6 @@ public class AtumRecipes {
     }
 
     private static void addBrewingRecipes() {
-        addBrewingRecipeWithSubPotions(AtumAPI.Tags.DUSTS_BLAZE, Potions.STRENGTH);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.DUSTY_BONE), Potions.FIRE_RESISTANCE);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.ECTOPLASM), Potions.INVISIBILITY);
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.GLISTERING_DATE), Potions.REGENERATION);
@@ -36,10 +33,10 @@ public class AtumRecipes {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.OPHIDIAN_TONGUE_FLOWER), Potions.POISON);
 
         //Anput's Fingers
-        Ingredient cropNetherWart = Ingredient.fromTag(Tags.Items.CROPS_NETHER_WART);
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER), cropNetherWart, addPotionToItemStack(new ItemStack(Items.POTION), Potions.AWKWARD));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.WATER), cropNetherWart, addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.AWKWARD));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), Potions.WATER), cropNetherWart, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), Potions.AWKWARD));
+        Ingredient anputsFingers = Ingredient.fromItems(AtumItems.ANPUTS_FINGERS_SPORES);
+        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER), anputsFingers, addPotionToItemStack(new ItemStack(Items.POTION), Potions.AWKWARD));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.WATER), anputsFingers, addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.AWKWARD));
+        addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), Potions.WATER), anputsFingers, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), Potions.AWKWARD));
 
         //Fertile Soil modifier (Glowstone)
         addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.LEAPING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_LEAPING));

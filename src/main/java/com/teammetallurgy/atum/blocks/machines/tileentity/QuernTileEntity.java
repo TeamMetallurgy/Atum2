@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import com.teammetallurgy.atum.network.NetworkHandler;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ISidedInventory;
@@ -114,8 +115,8 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.currentRotation = compound.getInt("currentRotation");
         this.quernRotations = compound.getInt("quernRotations");
     }
@@ -142,7 +143,7 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     @Override
     public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(packet.getNbtCompound());
+        this.read(this.getBlockState(), packet.getNbtCompound());
     }
 
     @Override

@@ -22,12 +22,12 @@ public class OasisGrassBlock extends BushBlock {
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return SHAPE;
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, @Nonnull BlockItemUseContext context) {
+    public boolean isReplaceable(@Nonnull BlockState state, @Nonnull BlockItemUseContext context) {
         return true;
     }
 

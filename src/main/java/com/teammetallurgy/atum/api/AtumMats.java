@@ -56,6 +56,11 @@ public class AtumMats {
         public float getToughness() {
             return 0.0F;
         }
+
+        @Override
+        public float getKnockbackResistance() {
+            return 0.0F;
+        }
     };
     public static final IArmorMaterial WANDERER_ARMOR = new IArmorMaterial() {
         private final int[] MAX_DAMAGE_ARRAY = new int[]{14, 15, 16, 7};
@@ -98,6 +103,11 @@ public class AtumMats {
 
         @Override
         public float getToughness() {
+            return 0.0F;
+        }
+
+        @Override
+        public float getKnockbackResistance() {
             return 0.0F;
         }
     };
@@ -163,6 +173,86 @@ public class AtumMats {
         @Nonnull
         public Ingredient getRepairMaterial() {
             return Ingredient.fromItems(AtumBlocks.LIMESTONE_CRACKED);
+        }
+    };
+    public static final IItemTier NEBU = new IItemTier() {
+        @Override
+        public int getMaxUses() {
+            return 2250;
+        }
+
+        @Override
+        public float getEfficiency() {
+            return 9.0F;
+        }
+
+        @Override
+        public float getAttackDamage() {
+            return 4.0F;
+        }
+
+        @Override
+        public int getHarvestLevel() {
+            return 4;
+        }
+
+        @Override
+        public int getEnchantability() {
+            return 22;
+        }
+
+        @Override
+        @Nonnull
+        public Ingredient getRepairMaterial() {
+            return Ingredient.fromItems(AtumItems.NEBU_INGOT);
+        }
+    };
+    public static final IArmorMaterial NEBU_ARMOR = new IArmorMaterial() {
+        private final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
+        private final int MAX_DAMAGE_FACTOR = 37;
+
+        @Override
+        public int getDurability(@Nonnull EquipmentSlotType slotType) {
+            return MAX_DAMAGE_ARRAY[slotType.getIndex()] * MAX_DAMAGE_FACTOR;
+        }
+
+        @Override
+        public int getDamageReductionAmount(@Nonnull EquipmentSlotType slotType) {
+            int[] damageReduction = new int[]{3, 6, 8, 3};
+            return damageReduction[slotType.getIndex()];
+        }
+
+        @Override
+        public int getEnchantability() {
+            return 25;
+        }
+
+        @Override
+        @Nonnull
+        public SoundEvent getSoundEvent() {
+            return SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND;
+        }
+
+        @Override
+        @Nonnull
+        public Ingredient getRepairMaterial() {
+            return Ingredient.fromItems(AtumItems.NEBU_INGOT);
+        }
+
+        @Override
+        @Nonnull
+        public String getName() {
+            return "nebu";
+        }
+
+        @Override
+        public float getToughness() {
+            return 3.0F;
+        }
+
+        @Override
+        public float getKnockbackResistance() {
+            return 0.0F;
         }
     };
 

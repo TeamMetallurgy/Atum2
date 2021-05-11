@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "atum:eyes_of_atum"
+      "item": "atum:eyes_of_atem"
     },
     "title": {
       "translate": "advancement.atum.itbelongsinamuseum"
@@ -22,12 +22,12 @@
         ]
       }
     },
-    "atums_homecoming": {
+    "atems_homecoming": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:atums_homecoming"
+            "item": "atum:atems_homecoming"
           }
         ]
       }
@@ -42,22 +42,22 @@
         ]
       }
     },
-    "anubiss_mercy": {
+    "osiris_mercy": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:anubiss_mercy"
+            "item": "atum:osiris_mercy"
           }
         ]
       }
     },
-    "atums_bounty": {
+    "atems_bounty": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:atums_bounty"
+            "item": "atum:atems_bounty"
           }
         ]
       }
@@ -72,12 +72,12 @@
         ]
       }
     },
-    "tefnuts_blessing": {
+    "osiris_blessing": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:tefnuts_blessing"
+            "item": "atum:osiris_blessing"
           }
         ]
       }
@@ -112,22 +112,22 @@
         ]
       }
     },
-    "feet_of_atum": {
+    "feet_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:feet_of_atum"
+            "item": "atum:feet_of_atem"
           }
         ]
       }
     },
-    "horuss_soaring": {
+    "horus_soaring": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:horuss_soaring"
+            "item": "atum:horus_soaring"
           }
         ]
       }
@@ -202,32 +202,32 @@
         ]
       }
     },
-    "nuits_duality": {
+    "isis_division": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:nuits_duality"
+            "item": "atum:isis_division"
           }
         ]
       }
     },
-    "horuss_ascension": {
+    "horus_ascension": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:horuss_ascension"
+            "item": "atum:horus_ascension"
           }
         ]
       }
     },
-    "legs_of_atum": {
+    "legs_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:legs_of_atum"
+            "item": "atum:legs_of_atem"
           }
         ]
       }
@@ -242,12 +242,12 @@
         ]
       }
     },
-    "atums_will": {
+    "atems_will": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:atums_will"
+            "item": "atum:atems_will"
           }
         ]
       }
@@ -262,32 +262,32 @@
         ]
       }
     },
-    "ptahs_undoing": {
+    "gebs_undoing": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:ptahs_undoing"
+            "item": "atum:gebs_undoing"
           }
         ]
       }
     },
-    "eyes_of_atum": {
+    "eyes_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:eyes_of_atum"
+            "item": "atum:eyes_of_atem"
           }
         ]
       }
     },
-    "body_of_atum": {
+    "body_of_atem": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:body_of_atum"
+            "item": "atum:body_of_atem"
           }
         ]
       }
@@ -312,12 +312,12 @@
         ]
       }
     },
-    "gebs_grounding": {
+    "anputs_grounding": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:gebs_grounding"
+            "item": "atum:anputs_grounding"
           }
         ]
       }
@@ -342,12 +342,12 @@
         ]
       }
     },
-    "anubiss_wrath": {
+    "anubis_wrath": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "atum:anubiss_wrath"
+            "item": "atum:anubis_wrath"
           }
         ]
       }
@@ -386,17 +386,17 @@
   "requirements": [
     [
       "gebs_toil",
-      "atums_homecoming",
+      "atems_homecoming",
       "gebs_might",
-      "anubiss_mercy",
-      "atums_bounty",
+      "osiris_mercy",
+      "atems_bounty",
       "ras_fury",
-      "tefnuts_blessing",
+      "osiris_blessing",
       "feet_of_ra",
       "seths_sting",
       "seths_venom",
-      "feet_of_atum",
-      "horuss_soaring",
+      "feet_of_atem",
+      "horus_soaring",
       "body_of_ra",
       "isis_healing",
       "legs_of_ra",
@@ -404,22 +404,22 @@
       "halo_of_ra",
       "montus_blast",
       "montus_strike",
-      "nuits_duality",
-      "horuss_ascension",
-      "legs_of_atum",
+      "isis_division",
+      "horus_ascension",
+      "legs_of_atem",
       "tefnuts_call",
-      "atums_will",
+      "atems_will",
       "ptahs_decadence",
-      "ptahs_undoing",
-      "eyes_of_atum",
-      "body_of_atum",
+      "gebs_undoing",
+      "eyes_of_atem",
+      "body_of_atem",
       "shus_breath",
       "shus_exile",
       "shus_breath",
-      "gebs_grounding",
+      "anputs_grounding",
       "nuits_vanishing",
       "tefnuts_rain",
-      "anubiss_wrath",
+      "anubis_wrath",
       "nuits_ire",
       "nuits_quarter",
       "anputs_hunger"

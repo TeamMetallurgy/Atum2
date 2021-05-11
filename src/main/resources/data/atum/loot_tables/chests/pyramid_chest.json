@@ -282,8 +282,8 @@
         },
         {
           "type": "item",
-          "name": "atum:pharaoh_torch",
-          "entryName": "pharaoh_torch",
+          "name": "atum:nebu_torch",
+          "entryName": "nebu_torch",
           "functions": [
             {
               "function": "set_count",
@@ -312,31 +312,31 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_ring",
+          "name": "atum:relic_dirty_ring",
           "entryName": "loot_dirty_ring",
           "weight": 20
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_necklace",
+          "name": "atum:relic_dirty_necklace",
           "entryName": "loot_dirty_necklace",
           "weight": 15
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_broach",
-          "entryName": "loot_dirty_broach",
+          "name": "atum:relic_dirty_brooch",
+          "entryName": "loot_dirty_brooch",
           "weight": 10
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_scepter",
-          "entryName": "loot_dirty_scepter",
+          "name": "atum:relic_dirty_bracelet",
+          "entryName": "loot_dirty_bracelet",
           "weight": 5
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_idol",
+          "name": "atum:relic_dirty_idol",
           "entryName": "loot_dirty_idol",
           "weight": 1
         },
@@ -390,21 +390,6 @@
         },
         {
           "type": "item",
-          "name": "atum:disenchanting_scroll",
-          "entryName": "disenchanting_scroll",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 1,
-                "max": 2
-              }
-            }
-          ],
-          "weight": 15
-        },
-        {
-          "type": "item",
           "name": "minecraft:book",
           "entryName": "enchanted_book",
           "functions": [
@@ -446,7 +431,7 @@
       "entries": [
         {
           "type": "loot_table",
-          "name": "atum:artifacts",
+          "name": "atum:gods/all",
           "weight": 1,
           "quality": 2
         },

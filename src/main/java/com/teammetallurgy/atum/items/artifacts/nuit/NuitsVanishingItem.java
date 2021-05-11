@@ -1,70 +1,77 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.tools.AmuletItem;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.items.artifacts.AmuletItem;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Effects;
-import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import javax.annotation.Nonnull;
+
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class NuitsVanishingItem extends AmuletItem {
-    private static boolean isInvisible;
+public class NuitsVanishingItem extends AmuletItem implements IArtifact {
+    protected static final Object2BooleanMap<LivingEntity> INVISIBLE = new Object2BooleanOpenHashMap<>();
 
     public NuitsVanishingItem() {
-        super(new Item.Properties().maxDamage(3600));
+        super(new Item.Properties());
+    }
+
+    @Override
+    public God getGod() {
+        return God.NUIT;
     }
 
     @SubscribeEvent
     public static void onTarget(LivingSetAttackTargetEvent event) {
-        if (isInvisible && event.getTarget() instanceof PlayerEntity && event.getEntityLiving() instanceof MobEntity) {
+        if (INVISIBLE.getBoolean(event.getTarget()) && event.getTarget() instanceof PlayerEntity && event.getEntityLiving() instanceof MobEntity) {
             ((MobEntity) event.getEntityLiving()).setAttackTarget(null);
         }
     }
 
-    @SubscribeEvent
-    public static void onTick(TickEvent.PlayerTickEvent event) {
-        PlayerEntity player = event.player;
-        World world = player.world;
-        Hand hand = player.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.NUITS_VANISHING ? Hand.OFF_HAND : Hand.MAIN_HAND;
-        ItemStack heldStack = player.getHeldItem(hand);
-        /*if (IS_BAUBLES_INSTALLED && getAmulet(player).getItem() == AtumItems.NUITS_VANISHING) {
-            heldStack = getAmulet(player);
-        }*/
-        if (event.phase == TickEvent.Phase.START) {
-            if (heldStack.getItem() == AtumItems.NUITS_VANISHING) {
-                if (!isPlayerMoving(player)) {
-                    isInvisible = true;
-                    if (!world.isRemote) {
-                        heldStack.damageItem(1, player, (entity) -> {
-                            entity.sendBreakAnimation(hand);
-                        });
-                        player.setInvisible(true);
-                    }
-                } else {
-                    isInvisible = false;
-                    if (!world.isRemote && player.isInvisible()) {
-                        player.setInvisible(false);
-                    }
-                }
-            } else {
-                isInvisible = false;
-                if (!world.isRemote && !player.isPotionActive(Effects.INVISIBILITY) && player.isInvisible()) {
-                    player.setInvisible(false);
-                }
+    @Override
+    public void onUnequip(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
+        this.setNotInvisible(livingEntity);
+    }
+
+    @Override
+    public void curioBreak(@Nonnull ItemStack stack, LivingEntity livingEntity) {
+        this.setNotInvisible(livingEntity);
+    }
+
+    @Override
+    public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
+        World world = livingEntity.getEntityWorld();
+        INVISIBLE.putIfAbsent(livingEntity, true);
+
+        if (!isLivingEntityMoving(livingEntity)) {
+            INVISIBLE.replace(livingEntity, true);
+            if (!world.isRemote) {
+                livingEntity.setInvisible(true);
             }
+        } else {
+            this.setNotInvisible(livingEntity);
         }
     }
 
-    public static boolean isPlayerMoving(PlayerEntity player) {
-        return player.distanceWalkedModified != player.prevDistanceWalkedModified || player.isCrouching();
+    public void setNotInvisible(LivingEntity livingEntity) {
+        INVISIBLE.replace(livingEntity, false);
+        if (!livingEntity.getEntityWorld().isRemote && !livingEntity.isPotionActive(Effects.INVISIBILITY) && livingEntity.isInvisible()) {
+            livingEntity.setInvisible(false);
+        }
+    }
+
+    public static boolean isLivingEntityMoving(LivingEntity livingEntity) {
+        return livingEntity.distanceWalkedModified != livingEntity.prevDistanceWalkedModified || livingEntity.isCrouching();
     }
 }

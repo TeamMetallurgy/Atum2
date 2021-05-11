@@ -5,11 +5,14 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: false
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
+
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
 
@@ -29,6 +32,10 @@ repositories {
   maven {
     name = "TheOneProbe"
     url = "https://maven.tterrag.com"
+  }
+  maven {
+    name = "Curios"
+    url = "https://maven.theillusivec4.top/"
   }
   flatDir { dirs 'deps' }
 }
@@ -74,10 +81,11 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}_${minecraft_version}")
+    compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
-    compile "mcjty.theoneprobe:TheOneProbe-1.15:${top_version}:api"
-	runtimeOnly fg.deobf("flatdir:champions:1.15.2-2.0-beta4")
+    compile "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
+    runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
+    compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
 }
 
 
@@ -116,4 +124,27 @@ publishing {
 
 artifacts {
     archives apiJar
+}
+
+String getBuildNumber() {
+    return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
+}
+
+processResources {
+    // Minifies all .json files when building the mod.
+    // Source files are not minified, only the jar copies.
+	doLast {
+	    def jsonMinifyStart = System.currentTimeMillis()
+	    def jsonMinified = 0
+		def jsonBytesSaved = 0
+		
+	    fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
+			File file = it
+			jsonMinified++
+			def oldLength = file.length()
+			file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+			jsonBytesSaved += oldLength - file.length()
+		}
+		println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
+	}
 }

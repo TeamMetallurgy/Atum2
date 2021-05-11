@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.entity.efreet.SunspeakerData;
+import com.teammetallurgy.atum.entity.villager.AtumVillagerData;
+import com.teammetallurgy.atum.entity.villager.Race;
+import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.datasync.IDataSerializer;
 import net.minecraft.util.ResourceLocation;
@@ -17,25 +19,25 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumDataSerializer {
     private static final List<DataSerializerEntry> DATA_SERIALIZER_ENTRIES = new ArrayList<>();
-    public static final IDataSerializer<SunspeakerData> SUNSPEAKER_DATA = new IDataSerializer<SunspeakerData>() {
+    public static final IDataSerializer<AtumVillagerData> VILLAGER_DATA = new IDataSerializer<AtumVillagerData>() {
+        public void write(PacketBuffer buf, AtumVillagerData value) {
+            buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
+            buf.writeVarInt(value.getLevel());
+            buf.writeEnumValue(value.getRace());
+        }
+
         @Override
-        public void write(@Nonnull PacketBuffer buf, @Nonnull SunspeakerData sunspeakerData) {
-            buf.writeVarInt(sunspeakerData.getLevel());
+        public AtumVillagerData read(PacketBuffer buf) {
+            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readString())), buf.readVarInt(), buf.readEnumValue(Race.class));
         }
 
         @Override
         @Nonnull
-        public SunspeakerData read(@Nonnull PacketBuffer buf) {
-            return new SunspeakerData(buf.readVarInt());
-        }
-
-        @Override
-        @Nonnull
-        public SunspeakerData copyValue(@Nonnull SunspeakerData sunspeakerData) {
-            return sunspeakerData;
+        public AtumVillagerData copyValue(@Nonnull AtumVillagerData value) {
+            return value;
         }
     };
-    private static final DataSerializerEntry SUNSPEAKER_DATA_ENTRY = register("sunspeaker_data", new DataSerializerEntry(SUNSPEAKER_DATA));
+    private static final DataSerializerEntry VILLAGER_DATA_ENTRY = register("villager_data", new DataSerializerEntry(VILLAGER_DATA));
 
     public static DataSerializerEntry register(String name, DataSerializerEntry dataSerializerEntry) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);

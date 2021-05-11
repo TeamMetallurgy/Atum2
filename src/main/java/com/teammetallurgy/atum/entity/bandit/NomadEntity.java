@@ -3,6 +3,8 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.ai.goal.CustomRangedBowAttackGoal;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.entity.projectile.ProjectileHelper;
@@ -14,7 +16,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -47,13 +49,8 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
         return 6;
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(13.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.20D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(2.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(2.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 13.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.20D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D).createMutableAttribute(Attributes.ARMOR, 2.0F);
     }
 
     @Override
@@ -63,7 +60,7 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
         livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
         this.setCombatTask();
 
@@ -93,13 +90,13 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
         ItemStack ammo = this.findAmmo(this.getHeldItem(ProjectileHelper.getHandWith(this, AtumItems.SHORT_BOW)));
         AbstractArrowEntity arrow = ProjectileHelper.fireArrow(this, ammo, distanceFactor);
         if (this.getHeldItemMainhand().getItem() instanceof BowItem) {
-            arrow = ((BowItem) this.getHeldItemMainhand().getItem()).customeArrow(arrow);
+            arrow = ((BowItem) this.getHeldItemMainhand().getItem()).customArrow(arrow);
         }
         double x = target.getPosX() - this.getPosX();
         double y = target.getPosYHeight(0.3333333333333333D) - arrow.getPosY();
         double z = target.getPosZ() - this.getPosZ();
         double height = MathHelper.sqrt(x * x + z * z);
-        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (11 - this.world.getDifficulty().getId() * 4));
+        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (12 - this.world.getDifficulty().getId() * 4));
         this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
         this.world.addEntity(arrow);
     }

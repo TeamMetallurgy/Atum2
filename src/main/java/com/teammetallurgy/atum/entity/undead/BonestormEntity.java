@@ -3,10 +3,11 @@ package com.teammetallurgy.atum.entity.undead;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.projectile.SmallBoneEntity;
-import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.util.*;
 import net.minecraft.util.math.MathHelper;
@@ -36,13 +37,8 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
         this.goalSelector.addGoal(1, new BonestormEntity.AIBoneAttack(this));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(3.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.24D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(30.0D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 15.0F).createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.24D).createMutableAttribute(Attributes.FOLLOW_RANGE, 30.0D);
     }
 
     @Override
@@ -97,13 +93,6 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            if (ChampionsHelper.isChampion(this)) {
-                ResourceLocation texture = ChampionsHelper.getTexture(this, "bonestorm");
-                if (texture != null) {
-                    this.texturePath = texture.toString();
-                    return this.texturePath;
-                }
-            }
             this.texturePath = BONESTORM_TEXTURE.toString();
         }
         return this.texturePath;
@@ -186,7 +175,7 @@ public class BonestormEntity extends UndeadBaseEntity implements ITexture {
         }
 
         private double getFollowDistance() {
-            return this.bonestorm.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).getValue();
+            return this.bonestorm.getAttributeValue(Attributes.FOLLOW_RANGE);
         }
     }
 }

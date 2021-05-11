@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -52,8 +53,8 @@ public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
     }
 
     @Override
-    public void read(@Nonnull CompoundNBT compound) {
-        super.read(compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
         if (!this.checkLootAndRead(compound)) {
             ItemStackHelper.loadAllItems(compound, this.getItems());

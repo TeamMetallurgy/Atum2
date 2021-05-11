@@ -4,14 +4,13 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
+import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfArmorLayer;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
+import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfSaddleLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.texture.LayeredTexture;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,11 +23,12 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_tame.png");
     private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_angry.png");
-    private static final ResourceLocation SADDLE_DESERT_WOLF_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_saddle.png");
 
     public DesertWolfRender(EntityRendererManager renderManager) {
-        super(renderManager, new DesertWolfModel<>(), 0.5F);
+        super(renderManager, new DesertWolfModel<>(0.0F), 0.5F);
         this.addLayer(new DesertWolfCollarLayer(this));
+        this.addLayer(new DesertWolfSaddleLayer(this));
+        this.addLayer(new DesertWolfArmorLayer(this));
     }
 
     @Override
@@ -55,27 +55,14 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
 
         ResourceLocation location = CACHE.get(textureName);
         if (location == null) {
-            location = new ResourceLocation(textureName);
-            String[] texturePath = new String[3];
-            texturePath[0] = desertWolf.isAngry() ? ANGRY_DESERT_WOLF_TEXTURES.toString() : TAMED_DESERT_WOLF_TEXTURES.toString();
-
-            ItemStack armor = desertWolf.getArmor();
-            if (!armor.isEmpty()) {
-                DesertWolfEntity.ArmorType armorType = DesertWolfEntity.ArmorType.getByItemStack(armor);
-                texturePath[1] = armorType.getTextureName();
-            }
-
-            if (desertWolf.isSaddled()) {
-                texturePath[2] = SADDLE_DESERT_WOLF_TEXTURE.toString();
-            }
-            Minecraft.getInstance().getTextureManager().loadTexture(location, new LayeredTexture(texturePath));
+            location = desertWolf.func_233678_J__() ? ANGRY_DESERT_WOLF_TEXTURES : TAMED_DESERT_WOLF_TEXTURES;
             CACHE.put(textureName, location);
         }
         return location;
     }
 
     @Override
-    protected void preRenderCallback(DesertWolfEntity desertWolf, MatrixStack matrixStack, float partialTickTime) {
+    protected void preRenderCallback(DesertWolfEntity desertWolf, @Nonnull MatrixStack matrixStack, float partialTickTime) {
         if (desertWolf.isAlpha()) {
             float scale = 1.5F;
             matrixStack.scale(scale, scale, scale);

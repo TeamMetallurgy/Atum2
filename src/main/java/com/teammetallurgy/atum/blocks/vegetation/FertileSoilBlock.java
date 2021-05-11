@@ -2,19 +2,27 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
+import java.util.Optional;
 import java.util.Random;
 
 public class FertileSoilBlock extends Block implements IGrowable {
@@ -24,17 +32,18 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     @Override
-    public int getOpacity(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    public int getOpacity(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
         return 255;
     }
 
     @Override
-    public void tick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+    public void randomTick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
         if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-                if (world.getBiome(pos) != AtumBiomes.OASIS) {
+                Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(world.getBiome(pos));
+                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
                     world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
             } else if (Block.doesSideFillSquare(world.getBlockState(pos.up()).getCollisionShape(world, pos), Direction.DOWN)) {
@@ -62,8 +71,8 @@ public class FertileSoilBlock extends Block implements IGrowable {
     }
 
     private boolean hasWater(World world, BlockPos pos) {
-        for (BlockPos Mutable : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
-            if (world.getBlockState(Mutable).getMaterial() == Material.WATER) {
+        for (BlockPos mutablePos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
+            if (world.getBlockState(mutablePos).getFluidState().isTagged(FluidTags.WATER)) {
                 return true;
             }
         }
@@ -75,20 +84,19 @@ public class FertileSoilBlock extends Block implements IGrowable {
         BlockState plant = plantable.getPlant(world, pos.offset(direction));
         PlantType plantType = plantable.getPlantType(world, pos.up());
 
-        boolean hasWater = (world.getBlockState(pos.east()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.west()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.north()).getMaterial() == Material.WATER ||
-                world.getBlockState(pos.south()).getMaterial() == Material.WATER);
+        boolean hasWater = world.getBlockState(pos.east()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.west()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.north()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.south()).getFluidState().isTagged(FluidTags.WATER);
 
-        switch (plantType) {
-            case Plains:
-                return true;
-            case Beach:
-                return hasWater;
-            case Crop:
-                return plant.getBlock() instanceof StemBlock;
-            default:
-                return super.canSustainPlant(state, world, pos, direction, plantable);
+        if (plantType.equals(PlantType.PLAINS) || plantType.equals(PlantType.DESERT)) {
+            return true;
+        } else if (plantType.equals(PlantType.BEACH)) {
+            return hasWater;
+        } else if (plantType.equals(PlantType.CROP)) {
+            return plant.getBlock() instanceof StemBlock;
+        } else {
+            return super.canSustainPlant(state, world, pos, direction, plantable);
         }
     }
 
@@ -129,6 +137,21 @@ public class FertileSoilBlock extends Block implements IGrowable {
                 }
                 ++amountCheck;
             }
+        }
+    }
+
+    @Override
+    public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, @Nonnull ItemStack stack, ToolType toolType) {
+        if (toolType == ToolType.HOE) {
+            if (stack.getItem() == AtumItems.OSIRIS_BLESSING) {
+                return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(FertileSoilTilledBlock.MOISTURE, 7).with(FertileSoilTilledBlock.BLESSED, true);
+            } else {
+                return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState();
+            }
+        } else if (toolType == ToolType.SHOVEL) {
+            return AtumBlocks.FERTILE_SOIL_PATH.getDefaultState();
+        } else {
+            return super.getToolModifiedState(state, world, pos, player, stack, toolType);
         }
     }
 }

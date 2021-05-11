@@ -1,7 +1,7 @@
 {
   "type": "minecraft:smelting",
   "ingredient": {
-    "item": "atum:camel_raw"
+    "item": "atum:camel"
   },
   "result": "atum:camel_cooked",
   "experience": 0.35,

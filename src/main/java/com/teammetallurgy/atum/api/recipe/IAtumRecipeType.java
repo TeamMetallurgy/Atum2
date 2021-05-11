@@ -22,9 +22,9 @@ public interface IAtumRecipeType<T extends IRecipe<?>> extends IRecipeType<T> {
      * Used to blacklist what Furnace recipes the Kiln grabs
      * Can be used by other mods or in a CraftTweaker script, see {@link CTKiln}
      */
-    public static List<ResourceLocation> kilnBlacklist = new ArrayList<>();
+    List<ResourceLocation> kilnBlacklist = new ArrayList<>();
 
-    public static <T extends IRecipe<?>> IRecipeType<T> register(final String key) {
+    static <T extends IRecipe<?>> IRecipeType<T> register(final String key) {
         return Registry.register(Registry.RECIPE_TYPE, new ResourceLocation(Atum.MOD_ID, key), new IRecipeType<T>() {
             @Override
             public String toString() {

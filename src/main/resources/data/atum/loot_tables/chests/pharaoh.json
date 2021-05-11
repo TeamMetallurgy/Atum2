@@ -201,7 +201,7 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_ring",
+          "name": "atum:relic_dirty_ring",
           "entryName": "loot_dirty_ring",
           "functions": [
             {
@@ -216,7 +216,7 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_necklace",
+          "name": "atum:relic_dirty_necklace",
           "entryName": "loot_dirty_necklace",
           "functions": [
             {
@@ -231,8 +231,8 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_broach",
-          "entryName": "loot_dirty_broach",
+          "name": "atum:relic_dirty_brooch",
+          "entryName": "loot_dirty_brooch",
           "functions": [
             {
               "function": "set_count",
@@ -246,8 +246,8 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_scepter",
-          "entryName": "loot_dirty_scepter",
+          "name": "atum:relic_dirty_bracelet",
+          "entryName": "loot_dirty_bracelet",
           "functions": [
             {
               "function": "set_count",
@@ -261,7 +261,7 @@
         },
         {
           "type": "item",
-          "name": "atum:loot_dirty_idol",
+          "name": "atum:relic_dirty_idol",
           "entryName": "loot_dirty_idol",
           "functions": [
             {
@@ -285,21 +285,6 @@
           "name": "minecraft:totem_of_undying",
           "entryName": "totem_of_undying",
           "weight": 10
-        },
-        {
-          "type": "item",
-          "name": "atum:disenchanting_scroll",
-          "entryName": "disenchanting_scroll",
-          "functions": [
-            {
-              "function": "set_count",
-              "count": {
-                "min": 2,
-                "max": 3
-              }
-            }
-          ],
-          "weight": 30
         },
         {
           "type": "item",
@@ -343,13 +328,13 @@
       "entries": [
         {
           "type": "loot_table",
-          "name": "atum:artifacts",
+          "name": "atum:gods/all",
           "weight": 1,
           "quality": 2
         },
         {
           "type": "empty",
-          "weight": 75
+          "weight": 150
         }
       ]
     }

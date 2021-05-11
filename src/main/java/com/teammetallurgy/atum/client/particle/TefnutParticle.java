@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.*;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -11,7 +11,7 @@ import javax.annotation.Nonnull;
 @OnlyIn(Dist.CLIENT)
 public class TefnutParticle extends SpriteTexturedParticle {
 
-    public TefnutParticle(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed, IAnimatedSprite spriteSet) {
+    public TefnutParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, speed);
         this.setSize(0.02F, 0.02F);
         this.particleScale *= this.rand.nextFloat() * 0.6F;
@@ -58,7 +58,7 @@ public class TefnutParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new TefnutParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

@@ -6,6 +6,7 @@ import net.minecraft.block.FurnaceBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -18,7 +19,7 @@ import javax.annotation.Nullable;
 public class LimestoneFurnaceBlock extends FurnaceBlock {
 
     public LimestoneFurnaceBlock() {
-        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).lightValue(13));
+        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).setLightLevel(s -> s.get(BlockStateProperties.LIT) ? 13 : 0));
     }
 
     @Nullable

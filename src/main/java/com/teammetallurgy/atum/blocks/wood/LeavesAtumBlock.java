@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import net.minecraft.block.Block;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.SoundType;
@@ -14,7 +15,7 @@ import java.util.Random;
 public class LeavesAtumBlock extends LeavesBlock {
 
     public LeavesAtumBlock() {
-        super(Block.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid());
+        super(AbstractBlock.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid().setAllowsSpawn(AtumBlocks::allowsSpawnOnLeaves).setSuffocates(AtumBlocks::isntSolid).setBlocksVision(AtumBlocks::isntSolid));
     }
 
     @Override

@@ -1,27 +1,33 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+
+import javax.annotation.Nonnull;
 
 public class ArrowPoisonEntity extends CustomArrow {
+
+    public ArrowPoisonEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.POISON_ARROW, world);
+    }
 
     public ArrowPoisonEntity(EntityType<? extends ArrowPoisonEntity> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowPoisonEntity(World world, LivingEntity shooter) {
-        super(world, shooter);
+        super(AtumEntities.POISON_ARROW, world, shooter);
     }
 
     @Override
@@ -37,7 +43,7 @@ public class ArrowPoisonEntity extends CustomArrow {
         }
 
         //Particle after hit
-        if (this.getShooter() instanceof PlayerEntity && world.getGameTime() % 8L == 0L) {
+        if (world.getGameTime() % 8L == 0L) {
             if (world instanceof ServerWorld) {
                 ServerWorld serverWorld = (ServerWorld) world;
                 serverWorld.spawnParticle(AtumParticles.SETH, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
@@ -46,15 +52,13 @@ public class ArrowPoisonEntity extends CustomArrow {
     }
 
     @Override
-    protected void onHit(RayTraceResult raytraceResult) {
-        if (raytraceResult.getType() == RayTraceResult.Type.ENTITY) {
-            Entity entity = ((EntityRayTraceResult) raytraceResult).getEntity();
-            if (!world.isRemote && entity instanceof LivingEntity) {
-                LivingEntity livingBase = (LivingEntity) entity;
-                livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 80, 0, false, true));
-            }
+    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
+        Entity entity = rayTraceResult.getEntity();
+        if (!world.isRemote && entity instanceof LivingEntity) {
+            LivingEntity livingBase = (LivingEntity) entity;
+            livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 80, 0, false, true));
         }
-        super.onHit(raytraceResult);
+        super.onEntityHit(rayTraceResult);
     }
 
     @Override

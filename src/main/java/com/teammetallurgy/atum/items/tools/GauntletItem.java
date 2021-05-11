@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class GauntletItem extends SwordItem {
-    protected static final Object2FloatMap<LivingEntity> cooldown = new Object2FloatOpenHashMap<>();
+    protected static final Object2FloatMap<LivingEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     protected GauntletItem(IItemTier tier, Item.Properties properties) {
         super(tier, 2, -2.2F, properties.group(Atum.GROUP));
@@ -43,7 +43,7 @@ public class GauntletItem extends SwordItem {
             LivingEntity attacker = (LivingEntity) source;
             if (attacker.getHeldItemMainhand().getItem() instanceof GauntletItem) {
                 float knockback = 0.0F;
-                if (cooldown.getFloat(attacker) == 1.0F) {
+                if (COOLDOWN.getFloat(attacker) == 1.0F) {
                     knockback = 1.0F;
                 }
                 target.addVelocity((-MathHelper.sin(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F), 0.1D, (MathHelper.cos(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F));
@@ -57,7 +57,7 @@ public class GauntletItem extends SwordItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof StoneBaseEntity)) {
             if (player.getHeldItemMainhand().getItem() instanceof GauntletItem) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }

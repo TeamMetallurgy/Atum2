@@ -24,7 +24,7 @@ public class ClimberGroundPathNavigator extends GroundPathNavigator {
 
     @Override
     public Path getPathToEntity(@Nonnull Entity entity, int i) {
-        this.targetPosition = new BlockPos(entity);
+        this.targetPosition = entity.getPosition();
         return super.getPathToEntity(entity, i);
     }
 
@@ -34,7 +34,7 @@ public class ClimberGroundPathNavigator extends GroundPathNavigator {
         if (path != null) {
             return this.setPath(path, speed);
         } else {
-            this.targetPosition = new BlockPos(entity);
+            this.targetPosition = entity.getPosition();
             this.speed = speed;
             return true;
         }

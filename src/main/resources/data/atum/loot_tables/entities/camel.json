@@ -63,7 +63,7 @@
               }
             }
           ],
-          "name": "atum:camel_raw"
+          "name": "atum:camel"
         }
       ]
     }

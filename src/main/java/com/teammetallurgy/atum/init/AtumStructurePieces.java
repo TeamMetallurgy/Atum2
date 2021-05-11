@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.world.gen.structure.girafitomb.GirafiTombPieces;
-import com.teammetallurgy.atum.world.gen.structure.lighthouse.LighthousePieces;
 import com.teammetallurgy.atum.world.gen.structure.mineshaft.AtumMineshaftPieces;
 import com.teammetallurgy.atum.world.gen.structure.pyramid.PyramidPieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
@@ -15,7 +14,6 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumStructurePieces {
     public static final IStructurePieceType GIRAFI_TOMB = register(GirafiTombPieces.GirafiTombTemplate::new, "girafi_tomb_template");
-    public static final IStructurePieceType LIGHTHOUSE = register(LighthousePieces.LighthouseTemplate::new, "lighthouse_template");
     public static final IStructurePieceType TOMB = register(TombPieces.TombTemplate::new, "tomb_template");
     public static final IStructurePieceType RUIN = register(RuinPieces.RuinTemplate::new, "ruin_template");
     public static final IStructurePieceType PYRAMID = register(PyramidPieces.PyramidTemplate::new, "pyramid_template");

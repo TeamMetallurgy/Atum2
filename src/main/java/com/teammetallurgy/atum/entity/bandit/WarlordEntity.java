@@ -3,7 +3,8 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
@@ -30,14 +31,9 @@ public class WarlordEntity extends BanditBaseEntity {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(250.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.3D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(10.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 250.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.ARMOR, 10.0F);
     }
 
     @Override

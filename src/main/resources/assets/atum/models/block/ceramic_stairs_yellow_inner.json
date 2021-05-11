@@ -1,8 +1,8 @@
 {
     "parent": "block/inner_stairs",
     "textures": {
-        "bottom": "atum:block/ceramic_tile_yellow",
-        "top": "atum:block/ceramic_tile_yellow",
-        "side": "atum:block/ceramic_tile_yellow"
+        "bottom": "atum:block/ceramic_yellow",
+        "top": "atum:block/ceramic_yellow",
+        "side": "atum:block/ceramic_yellow"
     }
 }

@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
 import com.teammetallurgy.atum.init.AtumBlocks;
@@ -47,7 +48,7 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getFormattedText();
+        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getString();
     }
 
     @Override
@@ -80,15 +81,15 @@ public class QuernRecipeCategory implements IRecipeCategory<QuernRecipe> {
             if (slotIndex == 1) {
                 boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getId()).applyTextStyles(TextFormatting.DARK_GRAY).getFormattedText());
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getId()).mergeStyle(TextFormatting.DARK_GRAY));
                 }
             }
         });
     }
 
     @Override
-    public void draw(QuernRecipe recipe, double mouseX, double mouseY) {
-        Minecraft.getInstance().fontRenderer.drawString(new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()).getFormattedText(), 32, 0, Color.gray.getRGB());
-        this.icon.draw(29, 8);
+    public void draw(QuernRecipe recipe, @Nonnull MatrixStack matrixStack, double mouseX, double mouseY) {
+        Minecraft.getInstance().fontRenderer.func_243248_b(matrixStack, new TranslationTextComponent("gui.atum.rotations", recipe.getRotations()), 32, 0, Color.gray.getRGB());
+        this.icon.draw(matrixStack, 29, 8);
     }
 }

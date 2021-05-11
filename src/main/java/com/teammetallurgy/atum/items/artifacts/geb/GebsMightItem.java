@@ -1,33 +1,29 @@
 package com.teammetallurgy.atum.items.artifacts.geb;
 
+import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.HammerItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
 import net.minecraft.item.Rarity;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nonnull;
-
-public class GebsMightItem extends HammerItem {
+public class GebsMightItem extends HammerItem implements IArtifact {
 
     public GebsMightItem() {
-        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
+    public God getGod() {
+        return God.GEB;
     }
 
     @Override
     protected void onStun(LivingEntity target) {
-        stun.put(target, 80);
+        STUN.put(target, 80);
         if (target.world instanceof ServerWorld) {
             ServerWorld serverWorld = (ServerWorld) target.world;
             double d0 = random.nextGaussian() * 0.02D;

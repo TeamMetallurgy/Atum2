@@ -25,12 +25,12 @@ public class LimestoneGravelBlock extends GravelBlock {
     @Override
     public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction facing, IPlantable plantable) {
         PlantType plantType = plantable.getPlantType(world, pos.offset(facing));
-        return plantType == PlantType.Desert;
+        return plantType == PlantType.DESERT;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public int getDustColor(BlockState state) {
+    public int getDustColor(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
         return -2370656;
     }
 }

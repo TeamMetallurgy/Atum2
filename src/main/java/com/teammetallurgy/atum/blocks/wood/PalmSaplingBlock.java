@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.gen.feature.config.PalmTree;
+import com.teammetallurgy.atum.world.gen.feature.tree.PalmTree;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.math.BlockPos;

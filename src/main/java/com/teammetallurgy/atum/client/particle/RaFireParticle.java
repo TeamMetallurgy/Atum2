@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.client.particle;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 public class RaFireParticle extends SpriteTexturedParticle {
     private final float flameScale;
 
-    private RaFireParticle(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
+    private RaFireParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.motionX = this.motionX * 0.009999999776482582D + xSpeed;
         this.motionY = this.motionY * 0.009999999776482582D + ySpeed;
@@ -44,7 +44,7 @@ public class RaFireParticle extends SpriteTexturedParticle {
     }
 
     @Override
-    public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, float partialTicks) {
+    public void renderParticle(@Nonnull IVertexBuilder builder, @Nonnull ActiveRenderInfo renderInfo, float partialTicks) {
         float f = ((float) this.age + partialTicks) / (float) this.maxAge;
         this.particleScale = this.flameScale * (1.0F - f * f * 0.5F);
         super.renderParticle(builder, renderInfo, partialTicks);
@@ -95,7 +95,7 @@ public class RaFireParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed) {
             return new RaFireParticle(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

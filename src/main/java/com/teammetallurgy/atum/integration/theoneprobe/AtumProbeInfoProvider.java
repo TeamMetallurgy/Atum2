@@ -7,6 +7,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +34,7 @@ public class AtumProbeInfoProvider implements IBlockDisplayOverride {
                             .item(door)
                             .vertical()
                             .itemLabel(door)
-                            .text(MODNAME + StringUtils.capitalize(Atum.MOD_ID));
+                            .text(new StringTextComponent(MODNAME + StringUtils.capitalize(Atum.MOD_ID)));
                     return true;
                 }
             }

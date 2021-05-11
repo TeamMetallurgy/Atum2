@@ -1,34 +1,50 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumRegistry;
-import com.teammetallurgy.atum.world.biome.*;
+import com.teammetallurgy.atum.world.biome.AtumBiomeMaker;
+import com.teammetallurgy.atum.world.biome.BiomeRegion;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.world.biome.Biome;
 import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.fml.common.Mod;
 
-import static com.teammetallurgy.atum.misc.AtumRegistry.registerBiome;
-
-@ObjectHolder(value = Atum.MOD_ID)
+@Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumBiomes {
-    public static final AtumBiome DEAD_OASIS = registerBiome(new DeadOasisBiome(), "dead_oasis");
-    public static final AtumBiome DEADWOOD_FOREST = registerBiome(new DeadwoodForestBiome(), "deadwood_forest");
-    public static final AtumBiome DRIED_RIVER = registerBiome(new DriedRiverBiome(), "dried_river");
-    public static final AtumBiome LIMESTONE_CRAGS = registerBiome(new LimestoneCragsBiome(), "limestone_crags");
-    public static final AtumBiome LIMESTONE_MOUNTAINS = registerBiome(new LimestoneMountainsBiome(), "limestone_mountains");
-    public static final AtumBiome OASIS = registerBiome(new OasisBiome(), "oasis");
-    public static final AtumBiome SAND_DUNES = registerBiome(new SandDunesBiome(), "sand_dunes");
-    public static final AtumBiome SAND_HILLS = registerBiome(new SandHillsBiome(), "sand_hills");
-    public static final AtumBiome SAND_PLAINS = registerBiome(new SandPlainsBiome(), "sand_plains");
+    public static final RegistryKey<Biome> DEAD_OASIS = registerBiome(AtumBiomeMaker.makeDeadOasis("dead_oasis"), "dead_oasis", BiomeRegion.STRANGE_SANDS);
+    public static final RegistryKey<Biome> DENSE_WOODS = registerBiome(AtumBiomeMaker.makeDenseWoods("dense_woods"), "dense_woods", 10, BiomeRegion.DESSICATED_WOODS);
+    public static final RegistryKey<Biome> SPARSE_WOODS = registerBiome(AtumBiomeMaker.makeSparseWoods("sparse_woods"), "sparse_woods", 10, BiomeRegion.DESSICATED_WOODS);
+    public static final RegistryKey<Biome> DRIED_RIVER = registerBiome(AtumBiomeMaker.makeDriedRiver("dried_river"), "dried_river", BiomeRegion.STRANGE_SANDS);
+    public static final RegistryKey<Biome> LIMESTONE_CRAGS = registerBiome(AtumBiomeMaker.makeLimestoneCrags("limestone_crags"), "limestone_crags", 3, BiomeRegion.LIMESTONE_PEAKS);
+    public static final RegistryKey<Biome> LIMESTONE_MOUNTAINS = registerBiome(AtumBiomeMaker.makeLimestoneMountain("limestone_mountains"), "limestone_mountains", 5, BiomeRegion.LIMESTONE_PEAKS);
+    public static final RegistryKey<Biome> OASIS = registerBiome(AtumBiomeMaker.makeOasis("oasis"), "oasis", BiomeRegion.STRANGE_SANDS);
+    public static final RegistryKey<Biome> SAND_DUNES = registerBiome(AtumBiomeMaker.makeSandDunes("sand_dunes"), "sand_dunes", 15, BiomeRegion.STRANGE_SANDS);
+    public static final RegistryKey<Biome> SAND_HILLS = registerBiome(AtumBiomeMaker.makeSandHills("sand_hills"), "sand_hills", 10, BiomeRegion.STRANGE_SANDS);
+    public static final RegistryKey<Biome> SAND_PLAINS = registerBiome(AtumBiomeMaker.makeSandPlains("sand_plains"), "sand_plains", 30, BiomeRegion.STRANGE_SANDS);
+
+    public static RegistryKey<Biome> registerBiome(Biome biome, String biomeName, BiomeRegion biomeRegion) {
+        return registerBiome(biome, biomeName, 0, biomeRegion);
+    }
+
+    public static RegistryKey<Biome> registerBiome(Biome biome, String biomeName, int weight, BiomeRegion biomeRegion) {
+        AtumRegistry.registerBiome(biome, biomeName);
+        if (weight > 0) {
+            new AtumConfig.Biome(AtumConfig.BUILDER, biomeName, weight); //Write config
+        }
+        return AtumRegistry.registerBiomeKey(biomeName);
+    }
 
     public static void addBiomeTags() {
-        for (AtumBiome biome : AtumRegistry.BIOMES) {
+        for (RegistryKey<Biome> biome : AtumRegistry.BIOME_KEYS) {
             BiomeDictionary.addTypes(biome, BiomeTags.ATUM);
             if (biome != AtumBiomes.OASIS) {
                 BiomeDictionary.addTypes(biome, BiomeDictionary.Type.HOT, BiomeDictionary.Type.SANDY, BiomeDictionary.Type.SPARSE, BiomeDictionary.Type.DRY);
             }
         }
-        BiomeDictionary.addTypes(DEAD_OASIS, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.RARE);
-        BiomeDictionary.addTypes(DEADWOOD_FOREST, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(DEAD_OASIS, BiomeTags.OASIS, BiomeDictionary.Type.DEAD, BiomeDictionary.Type.RARE);
+        BiomeDictionary.addTypes(DENSE_WOODS, BiomeDictionary.Type.FOREST);
+        BiomeDictionary.addTypes(SPARSE_WOODS, BiomeDictionary.Type.FOREST);
         BiomeDictionary.addTypes(DRIED_RIVER, BiomeDictionary.Type.RIVER);
         BiomeDictionary.addTypes(LIMESTONE_CRAGS, BiomeDictionary.Type.HILLS, BiomeDictionary.Type.RARE);
         BiomeDictionary.addTypes(LIMESTONE_MOUNTAINS, BiomeDictionary.Type.MOUNTAIN);

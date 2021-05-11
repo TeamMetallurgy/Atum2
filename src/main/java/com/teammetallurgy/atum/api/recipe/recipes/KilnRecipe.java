@@ -16,7 +16,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
@@ -78,9 +78,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
             else {
                 String s1 = JSONUtils.getString(json, "result");
                 ResourceLocation resourcelocation = new ResourceLocation(s1);
-                itemstack = new ItemStack(Registry.ITEM.getValue(resourcelocation).orElseThrow(() -> {
-                    return new IllegalStateException("Item: " + s1 + " does not exist");
-                }));
+                itemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(resourcelocation));
             }
             float f = JSONUtils.getFloat(json, "experience", 0.0F);
             int i = JSONUtils.getInt(json, "cookingtime", this.cookTime);

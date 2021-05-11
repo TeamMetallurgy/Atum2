@@ -13,13 +13,12 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
 import net.minecraft.world.gen.feature.template.PlacementSettings;
@@ -56,12 +55,12 @@ public class RuinPieces {
 
         private void loadTemplate(TemplateManager manager) {
             Template template = manager.getTemplate(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
-            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             this.setup(template, this.templatePosition, placementsettings);
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IServerWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("Spawner")) {
                 if (box.isVecInside(pos)) {
                     world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
@@ -96,7 +95,7 @@ public class RuinPieces {
         @Override
         protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
             super.readAdditional(compound);
-            compound.putString("Rot", this.placeSettings.getRotation().name());
+            compound.putString("Rot", this.getRotation().name());
             compound.putInt("Type", this.ruinType);
         }
     }

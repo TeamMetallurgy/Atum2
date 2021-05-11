@@ -65,15 +65,22 @@ public class SmallBoneEntity extends AbstractFireballEntity {
     }
 
     @Override
-    protected void onImpact(@Nonnull RayTraceResult result) {
+    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
+        super.onEntityHit(rayTraceResult);
         if (!this.world.isRemote) {
-            if (result.getType() == RayTraceResult.Type.ENTITY) {
-                Entity entity = ((EntityRayTraceResult) result).getEntity();
-                boolean attackEntity = entity.attackEntityFrom(DamageSource.causeThrownDamage(this, this.shootingEntity), 2.0F);
-                if (attackEntity) {
-                    this.applyEnchantments(this.shootingEntity, entity);
-                }
+            Entity entity = rayTraceResult.getEntity();
+            Entity shootingEntity = this.func_234616_v_();
+            boolean flag = entity.attackEntityFrom(DamageSource.func_233547_a_(this, shootingEntity), 5.0F);
+            if (shootingEntity instanceof LivingEntity && flag) {
+                this.applyEnchantments((LivingEntity) shootingEntity, entity);
             }
+        }
+    }
+
+    @Override
+    protected void onImpact(@Nonnull RayTraceResult result) {
+        super.onImpact(result);
+        if (!this.world.isRemote) {
             this.remove();
         }
     }

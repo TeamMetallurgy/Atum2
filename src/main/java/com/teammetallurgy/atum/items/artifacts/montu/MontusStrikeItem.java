@@ -1,6 +1,9 @@
 package com.teammetallurgy.atum.items.artifacts.montu;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
@@ -8,19 +11,16 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,17 +29,16 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class MontusStrikeItem extends BattleAxeItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+public class MontusStrikeItem extends BattleAxeItem implements IArtifact {
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public MontusStrikeItem() {
-        super(ItemTier.DIAMOND, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
+        super(AtumMats.NEBU, 5.1F, -2.6F, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
+    public God getGod() {
+        return God.MONTU;
     }
 
     @Override
@@ -53,22 +52,22 @@ public class MontusStrikeItem extends BattleAxeItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getHeldItemMainhand().getItem() == AtumItems.MONTUS_STRIKE) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
-            if (cooldown.getFloat(attacker) == 1.0F) {
+    public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+        if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
+            if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 PlayerEntity player = (PlayerEntity) attacker;
                 World world = player.world;
-                float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+                float damage = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, target.getBoundingBox().grow(2.0D, 0.25D, 2.0D))) {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 12.0D) {
-                        entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), MathHelper.sin(player.rotationYaw * 0.017453292F), -MathHelper.cos(player.rotationYaw * 0.017453292F));
+                        entity.applyKnockback(1.0F + EnchantmentHelper.getKnockbackModifier(player), MathHelper.sin(player.rotationYaw * 0.017453292F), -MathHelper.cos(player.rotationYaw * 0.017453292F));
                         entity.attackEntityFrom(DamageSource.causePlayerDamage(player), damage);
                         if (entity.world instanceof ServerWorld) {
                             ServerWorld serverWorld = (ServerWorld) entity.world;
@@ -81,7 +80,7 @@ public class MontusStrikeItem extends BattleAxeItem {
                     }
                 }
             }
-            cooldown.removeFloat(attacker);
+            COOLDOWN.removeFloat(attacker);
         }
         return super.hitEntity(stack, target, attacker);
     }

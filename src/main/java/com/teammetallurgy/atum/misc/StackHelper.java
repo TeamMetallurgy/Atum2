@@ -2,9 +2,11 @@ package com.teammetallurgy.atum.misc;
 
 import com.teammetallurgy.atum.Atum;
 import net.minecraft.block.Block;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -67,6 +69,14 @@ public class StackHelper {
         return ForgeRegistries.BLOCKS.getValue(location);
     }
 
+    public static Item getItemFromName(String name) {
+        return getItemFromName(new ResourceLocation(Atum.MOD_ID, name));
+    }
+
+    public static Item getItemFromName(ResourceLocation location) {
+        return ForgeRegistries.ITEMS.getValue(location);
+    }
+
     /*
      * Gives the specified ItemStack to the player
      */
@@ -123,5 +133,12 @@ public class StackHelper {
 
     public static Hand getUsedHand(@Nonnull ItemStack stackMainHand, Class<? extends Item> clazz) {
         return clazz.isAssignableFrom(stackMainHand.getItem().getClass()) ? Hand.MAIN_HAND : Hand.OFF_HAND;
+    }
+
+    public static boolean hasFullArmorSet(LivingEntity livingEntity, Item head, Item chest, Item legs, Item feet) {
+        return livingEntity.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == head &&
+                livingEntity.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == chest &&
+                livingEntity.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == legs &&
+                livingEntity.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == feet;
     }
 }

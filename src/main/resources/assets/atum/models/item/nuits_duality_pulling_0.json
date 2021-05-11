@@ -1,6 +1,0 @@
-{
-  "parent": "item/bow_pulling_0",
-  "textures": {
-    "layer0": "atum:item/nuits_duality_pulling_0"
-  }
-}

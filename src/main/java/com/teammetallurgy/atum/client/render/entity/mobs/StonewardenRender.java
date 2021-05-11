@@ -5,10 +5,10 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -24,7 +24,7 @@ public class StonewardenRender extends MobRenderer<StonewardenEntity, Stonewarde
     }
 
     @Override
-    protected void applyRotations(StonewardenEntity stonewarden, @Nonnull MatrixStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
+    protected void applyRotations(@Nonnull StonewardenEntity stonewarden, @Nonnull MatrixStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
         super.applyRotations(stonewarden, matrixStack, ageInTicks, rotationYaw, partialTicks);
         if ((double) stonewarden.limbSwingAmount >= 0.01D) {
             float swingValue = stonewarden.limbSwing - stonewarden.limbSwingAmount * (1.0F - partialTicks) + 6.0F;

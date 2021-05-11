@@ -2,52 +2,72 @@ package com.teammetallurgy.atum.misc;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorch;
-import com.teammetallurgy.atum.blocks.wood.AtumWallTorchUnlitBlock;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumWallTorch;
+import com.teammetallurgy.atum.blocks.lighting.AtumWallTorchUnlitBlock;
+import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
+import com.teammetallurgy.atum.entity.ai.brain.sensor.AtumSensorTypes;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
-import com.teammetallurgy.atum.entity.undead.PharaohEntity;
+import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.*;
-import com.teammetallurgy.atum.items.LootItem;
+import com.teammetallurgy.atum.items.AtumScaffoldingItem;
+import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
-import com.teammetallurgy.atum.world.biome.AtumBiome;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.WoodType;
+import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
+import net.minecraft.data.BiomeProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.item.WallOrFloorItem;
+import net.minecraft.item.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+import net.minecraftforge.registries.RegistryBuilder;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRegistry {
+    //Registry lists
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
-    public static final List<AtumBiome> BIOMES = Lists.newArrayList();
+    public static final List<Biome> BIOMES = Lists.newArrayList();
+    public static final List<RegistryKey<Biome>> BIOME_KEYS = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
     public static final List<EntityType<? extends CustomArrow>> ARROWS = Lists.newArrayList();
+
+    //Registries
+    public static final Supplier<IForgeRegistry<AtumVillagerProfession>> VILLAGER_PROFESSION = AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.makeRegistry("villager_profession", () -> AtumRegistry.makeRegistryNoCreate("villager_profession", AtumVillagerProfession.class));
 
     /**
      * Registers an item
@@ -68,40 +88,40 @@ public class AtumRegistry {
      * @param type The relic type
      * @return The dirty relic item that was registered
      */
-    public static LootItem registerRelic(@Nonnull LootItem.Type type) {
+    public static RelicItem registerRelic(@Nonnull RelicItem.Type type) {
         Item.Properties nonDirty = new Item.Properties().maxStackSize(16);
-        LootItem dirty = new LootItem(new Item.Properties().maxStackSize(64));
-        registerItem(dirty, getLootName(LootItem.Quality.DIRTY, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.SILVER, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.GOLD, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.SAPPHIRE, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.RUBY, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.EMERALD, type));
-        registerItem(new LootItem(nonDirty), getLootName(LootItem.Quality.DIAMOND, type));
+        RelicItem dirty = new RelicItem(new Item.Properties().maxStackSize(64));
+        registerItem(dirty, getRelicName(RelicItem.Quality.DIRTY, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.SILVER, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.GOLD, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.SAPPHIRE, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.RUBY, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.EMERALD, type));
+        registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.DIAMOND, type));
         return dirty;
     }
 
-    public static Item registerScepter(PharaohEntity.God god) {
+    public static Item registerScepter(God god) {
         ScepterItem scepter = new ScepterItem();
         ScepterItem.SCEPTERS.put(god, scepter);
         return AtumRegistry.registerItem(scepter, "scepter_" + god.getName());
     }
 
-    private static String getLootName(@Nonnull LootItem.Quality quality, @Nonnull LootItem.Type type) {
-        LootItem.LOOT_ENTRIES.add(new LootItem.LootEntry(quality, quality.getWeight()));
-        return "loot_" + quality.getName() + "_" + type.getName();
+    private static String getRelicName(@Nonnull RelicItem.Quality quality, @Nonnull RelicItem.Type type) {
+        RelicItem.RELIC_ENTRIES.add(new RelicItem.RelicEntry(quality, quality.getWeight()));
+        return "relic_" + quality.getString() + "_" + type.getString();
     }
 
     /**
-     * Helper method for easily registering torches
+     * Helper method for easily registering torches with unlit torches
      *
      * @param torch The torch block to be registered
      * @param name  The name to register the block with
      * @return The Block that was registered
      */
-    public static Block registerTorch(@Nonnull Block torch, @Nonnull String name) {
+    public static Block registerTorchWithUnlit(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
         Block unlitTorch = new AtumTorchUnlitBlock();
-        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch));
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch), torch.getParticleType());
         Block wallTorchUnlit = new AtumWallTorchUnlitBlock(wallTorchLit, Block.Properties.from(unlitTorch).lootFrom(unlitTorch));
         registerBaseBlock(wallTorchLit, "wall_" + name);
         registerBaseBlock(wallTorchUnlit, "wall_" + name + "_unlit");
@@ -116,6 +136,25 @@ public class AtumRegistry {
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
 
         return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
+    }
+
+    public static Block registerTorch(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch), torch.getParticleType());
+        registerBaseBlock(wallTorchLit, "wall_" + name);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
+        AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
+        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
+    }
+
+    /**
+     * Helper method for easily registering scaffolding
+     *
+     * @param scaffolding The scaffolding block to be registered
+     * @param name        The name to register the block with
+     * @return The Block that was registered
+     */
+    public static Block registerScaffolding(@Nonnull Block scaffolding, @Nonnull String name) {
+        return registerBlockWithItem(scaffolding, new AtumScaffoldingItem(scaffolding), name);
     }
 
     /**
@@ -163,8 +202,20 @@ public class AtumRegistry {
     public static Block registerBaseBlock(@Nonnull Block block, @Nonnull String name) {
         block.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         BLOCKS.add(block);
-
         return block;
+    }
+
+    /**
+     * Allows for easy registering of signs, that handles Ground Sign, Wall Sign and Item sign registration
+     */
+    public static Block registerSign(@Nonnull Block signBlock, @Nonnull WoodType woodType) {
+        String typeName = woodType.getName().replace("atum_", "");
+        Block wallSignBlock = new AtumWallSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(signBlock), woodType);
+        Item signItem = new SignItem((new Item.Properties()).maxStackSize(16).group(Atum.GROUP), signBlock, wallSignBlock);
+        AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlock, wallSignBlock);
+        registerItem(signItem, typeName + "_sign");
+        registerBaseBlock(wallSignBlock, typeName + "_wall_sign");
+        return registerBaseBlock(signBlock, typeName + "_sign");
     }
 
     /**
@@ -204,11 +255,12 @@ public class AtumRegistry {
      * @param name String to register the arrow with
      * @return The Arrow EntityType that was registered
      */
-    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory) {
+    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> customClientFactory) {
         EntityType.Builder<T> builder = EntityType.Builder.create(factory, EntityClassification.MISC)
                 .size(0.5F, 0.5F)
                 .setTrackingRange(4)
-                .setUpdateInterval(20);
+                .func_233608_b_(20)
+                .setCustomClientFactory(customClientFactory);
         EntityType<T> entityType = registerEntity(name, builder);
         ARROWS.add(entityType);
         return entityType;
@@ -221,10 +273,22 @@ public class AtumRegistry {
      * @param name  The name to register the biome with
      * @return The Biome that was registered
      */
-    public static AtumBiome registerBiome(AtumBiome biome, String name) {
+    public static Biome registerBiome(Biome biome, String name) {
         biome.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         BIOMES.add(biome);
         return biome;
+    }
+
+    /**
+     * Registers a biome key
+     *
+     * @param biomeName The name to register the biome key with
+     * @return The Biome key that was registered
+     */
+    public static RegistryKey<Biome> registerBiomeKey(String biomeName) {
+        RegistryKey<Biome> biomeKey = RegistryKey.getOrCreateKey(ForgeRegistries.Keys.BIOMES, new ResourceLocation(Atum.MOD_ID, biomeName));
+        BIOME_KEYS.add(biomeKey);
+        return biomeKey;
     }
 
     /**
@@ -255,9 +319,31 @@ public class AtumRegistry {
         return particleType;
     }
 
+    public static BasicParticleType registerGodFlame(String name, God god) {
+        BasicParticleType particleType = registerParticle(name);
+        AtumTorchBlock.GOD_FLAMES.put(god, particleType);
+        AtumTorchBlock.GODS.put(particleType, god);
+        return particleType;
+    }
+
     /*
      * Registry events
      */
+
+    /**
+     * Used to register a new registry
+     *
+     * @param registryName the unique string to register the registry as
+     * @param type         the class that the registry is for
+     * @return a new registry
+     */
+    public static <T extends IForgeRegistryEntry<T>> RegistryBuilder<T> makeRegistryNoCreate(String registryName, Class<T> type) {
+        return new RegistryBuilder<T>().setName(new ResourceLocation(Atum.MOD_ID, registryName)).setType(type).setMaxID(Integer.MAX_VALUE >> 5).allowModification();
+    }
+
+    public static <T extends IForgeRegistryEntry<T>> IForgeRegistry<T> makeRegistry(String registryName, Class<T> type) {
+        return makeRegistryNoCreate(registryName, type).create();
+    }
 
     @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
@@ -265,6 +351,7 @@ public class AtumRegistry {
         for (Item item : ITEMS) {
             event.getRegistry().register(item);
         }
+        AtumItems.setItemInfo();
     }
 
     @SubscribeEvent
@@ -278,7 +365,7 @@ public class AtumRegistry {
 
     @SubscribeEvent
     public static void registerBiomes(RegistryEvent.Register<Biome> event) {
-        new AtumBiomes();
+        //new AtumBiomes();
         for (Biome biome : BIOMES) {
             event.getRegistry().register(biome);
         }
@@ -321,5 +408,14 @@ public class AtumRegistry {
         if (event.includeServer()) {
             gen.addProvider(new RecipeGenerator(gen));
         }
+
+        if (event.includeReports()) {
+            gen.addProvider(new BiomeProvider(gen));
+        }
+    }
+
+    public static void registerDeferredRegistries(IEventBus modBus) {
+        AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
+        AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
     }
 }

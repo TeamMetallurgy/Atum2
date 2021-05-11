@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.client.gui.entity;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
@@ -10,6 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+
+import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
 public class CamelScreen extends ContainerScreen<CamelContainer> {
@@ -25,36 +28,36 @@ public class CamelScreen extends ContainerScreen<CamelContainer> {
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.font.drawString(this.title.getFormattedText(), 8, 6, 4210752);
-        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8, this.ySize - 96 + 2, 4210752);
+    protected void drawGuiContainerForegroundLayer(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY) {
+        this.font.func_243248_b(matrixStack, this.title, 8, 6, 4210752);
+        this.font.func_243248_b(matrixStack, this.playerInventory.getDisplayName(), 8, this.ySize - 96 + 2, 4210752);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(@Nonnull MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         this.getMinecraft().getTextureManager().bindTexture(CAMEL_GUI_TEXTURE);
         int width = (this.width - this.xSize) / 2;
         int height = (this.height - this.ySize) / 2;
-        this.blit(width, height, 0, 0, this.xSize, this.ySize);
+        this.blit(matrixStack, width, height, 0, 0, this.xSize, this.ySize);
 
         if (this.container.camel != null) {
             if (this.container.camel.hasLeftCrate()) {
-                this.blit(width + 7, height + 85, this.xSize, 0, this.container.camel.getInventoryColumns() * 18, 54); //Left Crate
+                this.blit(matrixStack, width + 7, height + 85, this.xSize, 0, this.container.camel.getInventoryColumns() * 18, 54); //Left Crate
             }
             if (this.container.camel.hasRightCrate()) {
-                this.blit(width + 97, height + 85, this.xSize, 0, this.container.camel.getInventoryColumns() * 18, 54); //Right Crate
+                this.blit(matrixStack, width + 97, height + 85, this.xSize, 0, this.container.camel.getInventoryColumns() * 18, 54); //Right Crate
             }
             InventoryScreen.drawEntityOnScreen(width + 88, height + 50, 17, (float) (width + 51) - this.mousePosX, (float) (height + 75 - 50) - this.mousePosY, this.container.camel);
         }
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
+    public void render(@Nonnull MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
         this.mousePosX = (float) mouseX;
         this.mousePosY = (float) mouseY;
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 }

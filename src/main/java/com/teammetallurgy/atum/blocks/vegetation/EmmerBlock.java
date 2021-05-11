@@ -19,11 +19,11 @@ public class EmmerBlock extends CropsBlock {
     @Override
     @Nonnull
     public PlantType getPlantType(IBlockReader world, BlockPos pos) {
-        return PlantType.Crop;
+        return PlantType.CROP;
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, IBlockReader world, BlockPos pos) {
+    protected boolean isValidGround(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
         return state.getBlock() instanceof FarmlandBlock;
     }
 

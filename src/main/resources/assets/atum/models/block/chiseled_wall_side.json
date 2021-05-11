@@ -1,6 +1,6 @@
 {
-    "parent": "block/template_wall_side",
-    "textures": {
-        "wall": "atum:block/limestone_brick_chiseled"
-    }
+  "parent": "minecraft:block/template_wall_side",
+  "textures": {
+    "wall": "atum:block/limestone_brick_chiseled"
+  }
 }

@@ -2,17 +2,19 @@ package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.blocks.QuandaryBlock;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.lighting.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBrickBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.blocks.trap.TrapBlock;
-import com.teammetallurgy.atum.blocks.wood.AtumTorchUnlitBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -30,8 +32,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.structure.StructureManager;
 import net.minecraft.world.gen.feature.structure.StructurePiece;
 import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
 import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
@@ -121,7 +126,7 @@ public class PyramidPieces {
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IServerWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.startsWith("Arrow")) {
                 Rotation rotation = this.placeSettings.getRotation();
                 BlockState arrowTrap = AtumBlocks.ARROW_TRAP.getDefaultState();
@@ -215,22 +220,17 @@ public class PyramidPieces {
                     }
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-            } else if (function.equals("SarcophagusArtifact")) {
-                BlockPos posDown = pos.down();
-                if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof SarcophagusTileEntity) {
-                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.SARCOPHAGUS_ARTIFACT, rand.nextLong());
-                    }
-                }
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
-            } else if (function.equals("PharaohTorch")) {
+            } else if (function.equals("NebuTorch")) {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.25D) {
-                        world.setBlockState(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.PHARAOH_TORCH).getDefaultState(), 2);
+                        world.setBlockState(pos, AtumTorchUnlitBlock.UNLIT.get(AtumBlocks.NEBU_TORCH).getDefaultState(), 2);
                     } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
+                }
+            } else if (function.equals("EntrancePuzzle")) {
+                if (box.isVecInside(pos)) {
+                    world.setBlockState(pos, AtumBlocks.QUANDARY_BLOCK.getDefaultState().with(QuandaryBlock.UNBREAKABLE, true).with(QuandaryBlock.FACING, StructureHelper.getDirectionFromRotation(this.getRotation())), 2);
                 }
             }
         }
@@ -281,12 +281,12 @@ public class PyramidPieces {
         }
 
         @Override
-        public boolean create(@Nonnull IWorld world, @Nonnull ChunkGenerator<?> generator, @Nonnull Random random, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
+        public boolean func_230383_a_(@Nonnull ISeedReader world, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random random, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos, BlockPos pos) {
             this.addMaze(world, random, box);
             return true;
         }
 
-        private void addMaze(IWorld world, Random random, MutableBoundingBox validBounds) {
+        private void addMaze(ISeedReader world, Random random, MutableBoundingBox validBounds) {
             if (this.maze == null) {
                 this.maze = this.generateMaze(new Random(world.getSeed() * this.boundingBox.minX * this.boundingBox.minZ), this.boundingBox.getXSize(), this.boundingBox.getZSize());
             }
@@ -320,14 +320,14 @@ public class PyramidPieces {
         }
 
         @Override
-        protected void setBlockState(@Nonnull IWorld world, @Nonnull BlockState state, int x, int y, int z, @Nonnull MutableBoundingBox box) {
+        protected void setBlockState(@Nonnull ISeedReader world, @Nonnull BlockState state, int x, int y, int z, @Nonnull MutableBoundingBox box) {
             BlockPos pos = new BlockPos(this.getXWithOffset(x, z), this.getYWithOffset(y), this.getZWithOffset(x, z));
             if (box.isVecInside(pos) && !(world.getBlockState(pos).getBlock() instanceof LadderBlock)) { //Make sure ladder blocks don't get replaced
                 super.setBlockState(world, state, x, y, z, box);
             }
         }
 
-        private void placeTrap(IWorld world, boolean[][] maze, int x, int z, Random random, MutableBoundingBox validBounds) {
+        private void placeTrap(ISeedReader world, boolean[][] maze, int x, int z, Random random, MutableBoundingBox validBounds) {
             BlockState trapState = PyramidPieces.PyramidTemplate.FLOOR_TRAPS.get(random.nextInt(PyramidPieces.PyramidTemplate.FLOOR_TRAPS.size())).getDefaultState();
 
             List<Direction> validDirections = new ArrayList<>();

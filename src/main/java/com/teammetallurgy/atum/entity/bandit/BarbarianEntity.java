@@ -2,7 +2,8 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
@@ -24,12 +25,8 @@ public class BarbarianEntity extends BanditBaseEntity {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(18.0D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(1.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 18.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 1.0D).createMutableAttribute(Attributes.ARMOR, 4.0F);
     }
 
     @Override

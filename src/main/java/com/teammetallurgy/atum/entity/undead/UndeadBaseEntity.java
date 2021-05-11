@@ -5,16 +5,14 @@ import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.entity.animal.TarantulaEntity;
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
-import com.teammetallurgy.atum.entity.efreet.EfreetBaseEntity;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
-import com.teammetallurgy.atum.integration.champion.ChampionsHelper;
 import net.minecraft.entity.CreatureAttribute;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.ZombiePigmanEntity;
+import net.minecraft.entity.monster.ZombifiedPiglinEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -31,6 +29,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -66,15 +65,14 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
 
     void applyEntityAI() {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, UndeadBaseEntity.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, true));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, EfreetBaseEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WolfEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombiePigmanEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TarantulaEntity.class, true));
+        boolean checkSight = this.isNonBoss();
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, checkSight));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, checkSight));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DesertWolfEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, WolfEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, ZombifiedPiglinEntity.class, checkSight));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, TarantulaEntity.class, checkSight));
     }
 
     @Override
@@ -91,21 +89,25 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     }
 
     @Override
-    public ILivingEntityData onInitialSpawn(@Nonnull IWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingData, @Nullable CompoundNBT nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingData, @Nullable CompoundNBT nbt) {
         livingData = super.onInitialSpawn(world, difficulty, spawnReason, livingData, nbt);
 
         this.setCanPickUpLoot(this.rand.nextFloat() < 0.55F * difficulty.getClampedAdditionalDifficulty());
 
-        if (this.hasSkinVariants()) {
+        if (this.hasSkinVariants() && spawnReason != SpawnReason.CONVERSION) {
             final int variant = MathHelper.nextInt(world.getRandom(), 0, this.getVariantAmount());
-            this.setVariant(variant);
-            this.setVariantAbilities(difficulty, variant);
+            this.setVariantWithAbilities(variant, difficulty);
         }
         return livingData;
     }
 
     int getVariantAmount() {
         return 6;
+    }
+
+    public void setVariantWithAbilities(int variant, DifficultyInstance difficulty) {
+        this.setVariant(variant);
+        this.setVariantAbilities(difficulty, variant);
     }
 
     void setVariantAbilities(DifficultyInstance difficulty, int variant) {
@@ -157,7 +159,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
                     this.attackEntityFrom(DamageSource.ON_FIRE, getBurnDamage());
                 }
                 --fire;
-                this.setFireTimer(fire);
+                this.forceFireTicks(fire);
             }
         }
         super.baseTick();
@@ -182,7 +184,7 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
         return spawnReason == SpawnReason.SPAWNER || super.canSpawn(world, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
+    public static boolean canSpawn(EntityType<? extends UndeadBaseEntity> undeadBase, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
         return (spawnReason == SpawnReason.SPAWNER || pos.getY() > 62) && canMonsterSpawnInLight(undeadBase, world, spawnReason, pos, random);
     }
 
@@ -200,14 +202,6 @@ public class UndeadBaseEntity extends MonsterEntity implements ITexture {
     public String getTexture() {
         if (this.texturePath == null) {
             String entityName = Objects.requireNonNull(this.getType().getRegistryName()).getPath();
-
-            if (ChampionsHelper.isChampion(this)) {
-                ResourceLocation texture = ChampionsHelper.getTexture(this, entityName);
-                if (texture != null) {
-                    this.texturePath = texture.toString();
-                    return texturePath;
-                }
-            }
 
             if (this.hasSkinVariants()) {
                 this.texturePath = new ResourceLocation(Atum.MOD_ID, "textures/entity/" + entityName + "_" + this.getVariant()) + ".png";

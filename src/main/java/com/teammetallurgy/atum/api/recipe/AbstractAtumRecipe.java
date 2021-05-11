@@ -71,4 +71,9 @@ public abstract class AbstractAtumRecipe<C extends IInventory> implements IRecip
     public IRecipeType<?> getType() {
         return this.type;
     }
+
+    @Override
+    public boolean isDynamic() {
+        return true; //Workaround for recipe category warning
+    }
 }

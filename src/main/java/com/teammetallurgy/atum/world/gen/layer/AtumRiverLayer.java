@@ -1,7 +1,5 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
-import com.teammetallurgy.atum.init.AtumBiomes;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.layer.traits.ICastleTransformer;
 
@@ -11,9 +9,9 @@ public enum AtumRiverLayer implements ICastleTransformer {
     INSTANCE;
 
     @Override
-    public int apply(@Nonnull INoiseRandom noiseRandom, int i, int i1, int i2, int i3, int i4) {
-        int riverFilter = riverFilter(i4);
-        return riverFilter == riverFilter(i3) && riverFilter == riverFilter(i) && riverFilter == riverFilter(i1) && riverFilter == riverFilter(i2) ? -1 : Registry.BIOME.getId(AtumBiomes.DRIED_RIVER);
+    public int apply(@Nonnull INoiseRandom context, int north, int west, int south, int east, int center) {
+        int riverFilter = riverFilter(center);
+        return riverFilter == riverFilter(east) && riverFilter == riverFilter(north) && riverFilter == riverFilter(west) && riverFilter == riverFilter(south) ? -1 : AtumLayerUtil.DRIED_RIVER_ID;
     }
 
     private static int riverFilter(int i) {

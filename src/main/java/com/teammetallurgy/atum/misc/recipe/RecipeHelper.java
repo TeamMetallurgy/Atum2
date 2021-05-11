@@ -10,10 +10,10 @@ import net.minecraft.item.Items;
 import net.minecraft.item.crafting.*;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.Potions;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 
 import javax.annotation.Nonnull;
@@ -30,7 +30,7 @@ public class RecipeHelper {
         addBrewingRecipeWithSubPotions(Ingredient.fromStacks(stack), potionType);
     }
 
-    public static void addBrewingRecipeWithSubPotions(Tag<Item> tag, Potion potionType) {
+    public static void addBrewingRecipeWithSubPotions(Tags.IOptionalNamedTag<Item> tag, Potion potionType) {
         addBrewingRecipeWithSubPotions(Ingredient.fromTag(tag), potionType);
     }
 

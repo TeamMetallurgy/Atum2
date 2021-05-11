@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.client.particle;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.*;
 import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -15,7 +15,7 @@ import javax.annotation.Nonnull;
 public class SwirlParticle extends SpriteTexturedParticle {
     private float scale;
 
-    protected SwirlParticle(World world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
+    protected SwirlParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
         this.motionX = this.motionX * 0.009999999776482582D + xSpeed;
         this.motionY = this.motionY * 0.009999999776482582D + ySpeed;
@@ -44,7 +44,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
     }
 
     @Override
-    public void renderParticle(IVertexBuilder builder, ActiveRenderInfo renderInfo, float partialTicks) {
+    public void renderParticle(@Nonnull IVertexBuilder builder, @Nonnull ActiveRenderInfo renderInfo, float partialTicks) {
         float f = ((float) this.age + partialTicks) / (float) this.maxAge;
         this.particleScale = this.scale * (1.0F - f * f * 0.5F);
         super.renderParticle(builder, renderInfo, partialTicks);
@@ -79,7 +79,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
@@ -93,7 +93,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
@@ -107,7 +107,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
             particle.scale = MathHelper.nextFloat(world.rand, 0.05F, 0.18F);
             particle.canCollide = true;
@@ -124,7 +124,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
@@ -138,7 +138,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
@@ -152,7 +152,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
             particle.scale = MathHelper.nextFloat(world.rand, 0.05F, 0.15F);
             return particle;
@@ -168,7 +168,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
@@ -182,7 +182,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
@@ -196,7 +196,7 @@ public class SwirlParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

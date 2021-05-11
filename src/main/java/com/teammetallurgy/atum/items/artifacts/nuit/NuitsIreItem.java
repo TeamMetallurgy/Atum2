@@ -1,24 +1,28 @@
 package com.teammetallurgy.atum.items.artifacts.nuit;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.AtumMats;
+import com.teammetallurgy.atum.api.God;
+import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Rarity;
+import net.minecraft.item.UseAction;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -27,24 +31,17 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class NuitsIreItem extends KhopeshItem {
+public class NuitsIreItem extends KhopeshItem implements IArtifact {
     private boolean isOffhand = false;
-    private static boolean isBlocking = false;
+    private static final Object2BooleanMap<LivingEntity> IS_BLOCKING = new Object2BooleanOpenHashMap<>();
 
     public NuitsIreItem() {
-        super(ItemTier.DIAMOND, new Item.Properties().rarity(Rarity.RARE));
-        this.addPropertyOverride(new ResourceLocation("blocking"), new IItemPropertyGetter() {
-            @OnlyIn(Dist.CLIENT)
-            public float call(@Nonnull ItemStack stack, @Nullable World world, @Nullable LivingEntity entity) {
-                return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
-            }
-        });
+        super(AtumMats.NEBU, new Item.Properties().rarity(Rarity.RARE));
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public boolean hasEffect(@Nonnull ItemStack stack) {
-        return true;
+    public God getGod() {
+        return God.NUIT;
     }
 
     @Override
@@ -65,7 +62,7 @@ public class NuitsIreItem extends KhopeshItem {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, @Nonnull Hand hand) {
+    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
         if (hand == Hand.OFF_HAND) {
             player.setActiveHand(Hand.OFF_HAND);
             this.isOffhand = true;
@@ -76,27 +73,32 @@ public class NuitsIreItem extends KhopeshItem {
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, LivingEntity attacker) {
+    public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         if (random.nextFloat() <= 0.25F) {
             applyWither(target, attacker, attacker.getHeldItemOffhand().getItem() == AtumItems.NUITS_QUARTER);
         }
         return super.hitEntity(stack, target, attacker);
     }
 
-    @SubscribeEvent
-    public static void onUse(LivingEntityUseItemEvent.Tick event) {
-        LivingEntity entity = event.getEntityLiving();
-        if (entity instanceof PlayerEntity && entity.getHeldItem(Hand.OFF_HAND).getItem() == AtumItems.NUITS_IRE) {
-            isBlocking = true;
-        }
+    @Override
+    public void onUse(@Nonnull World world, @Nonnull LivingEntity livingEntity, @Nonnull ItemStack stack, int count) {
+        super.onUse(world, livingEntity, stack, count);
+        IS_BLOCKING.putIfAbsent(livingEntity, true);
+    }
+
+    @Override
+    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull LivingEntity livingEntity, int timeLeft) {
+        super.onPlayerStoppedUsing(stack, world, livingEntity, timeLeft);
+        IS_BLOCKING.removeBoolean(livingEntity);
     }
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getImmediateSource();
-        if (trueSource instanceof LivingEntity && event.getEntityLiving() instanceof PlayerEntity && isBlocking && random.nextFloat() <= 0.25F) {
+        LivingEntity livingEntity = event.getEntityLiving();
+        if (trueSource instanceof LivingEntity && livingEntity instanceof PlayerEntity && IS_BLOCKING.getBoolean(livingEntity) && random.nextFloat() <= 0.25F) {
             applyWither((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getHeldItemMainhand().getItem() == AtumItems.NUITS_QUARTER);
-            isBlocking = false;
+            IS_BLOCKING.removeBoolean(livingEntity);
         }
     }
 

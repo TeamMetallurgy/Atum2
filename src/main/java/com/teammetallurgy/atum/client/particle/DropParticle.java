@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.*;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -13,7 +13,7 @@ public class DropParticle extends SpriteTexturedParticle {
     public float dropGravity;
     private int bobTimer;
 
-    protected DropParticle(World world, double xCoord, double yCoord, double zCoord, IAnimatedSprite spriteSet) {
+    protected DropParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, 0.0D, 0.0D, 0.0D);
         this.motionX = 0.0D;
         this.motionY = 0.0D;
@@ -70,7 +70,7 @@ public class DropParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
             particle.particleScale = 0.05F;
             particle.dropGravity = 8.0F;
@@ -88,7 +88,7 @@ public class DropParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
             particle.particleScale = 0.05F;
             particle.dropGravity = 8.0F;
@@ -106,7 +106,7 @@ public class DropParticle extends SpriteTexturedParticle {
         }
 
         @Override
-        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             DropParticle particle = new DropParticle(world, x, y, z, this.spriteSet);
             particle.particleScale = 0.15F;
             particle.dropGravity = 4.0F;

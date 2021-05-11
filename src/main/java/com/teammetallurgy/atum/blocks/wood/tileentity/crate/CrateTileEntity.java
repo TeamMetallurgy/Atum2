@@ -10,7 +10,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.ChestContainer;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.tileentity.IChestLid;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.LockableTileEntity;
 import net.minecraft.util.SoundCategory;
@@ -18,12 +17,10 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class CrateTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity, IChestLid {
+public class CrateTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity {
     private int ticksSinceSync;
     private int numPlayersUsing;
     public float lidAngle;
@@ -126,8 +123,6 @@ public class CrateTileEntity extends InventoryBaseTileEntity implements ITickabl
         }
     }
 
-    @Override
-    @OnlyIn(Dist.CLIENT)
     public float getLidAngle(float partialTicks) {
         return MathHelper.lerp(partialTicks, this.prevLidAngle, this.lidAngle);
     }

@@ -5,15 +5,14 @@ import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
+import com.teammetallurgy.atum.client.RenderUtils;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.misc.RenderUtils;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -22,6 +21,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -94,7 +94,7 @@ public class QuernRender extends TileEntityRenderer<QuernTileEntity> {
 
             ItemStack stack = quern.getStackInSlot(0);
             if (!stack.isEmpty()) {
-                RenderUtils.renderItem(quern, stack, quernRotation, -0.7D, true, matrixStack, buffer, combinedLight, combinedOverlay);
+                RenderUtils.renderItem(quern, stack, quernRotation, -0.7D, true, true, matrixStack, buffer, combinedLight, combinedOverlay);
             }
         }
     }

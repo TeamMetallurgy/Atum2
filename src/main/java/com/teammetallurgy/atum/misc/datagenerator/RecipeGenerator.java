@@ -1,7 +1,9 @@
 package com.teammetallurgy.atum.misc.datagenerator;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.block.Block;
 import net.minecraft.data.*;
@@ -17,6 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.function.Consumer;
 
 import static com.teammetallurgy.atum.misc.StackHelper.getBlockFromName;
+import static com.teammetallurgy.atum.misc.StackHelper.getItemFromName;
 
 public class RecipeGenerator extends RecipeProvider {
 
@@ -27,16 +30,20 @@ public class RecipeGenerator extends RecipeProvider {
     @Override
     protected void registerRecipes(@Nonnull Consumer<IFinishedRecipe> consumer) {
         for (DyeColor color : DyeColor.values()) {
-            String colorName = color.getName();
+            String colorName = color.getString();
             Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(colorName + "_dye"));
             if (dye != null) {
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("crystal_" + colorName + "_stained_glass"), 8).key('#', AtumBlocks.CRYSTAL_GLASS).key('X', dye).patternLine("###").patternLine("#X#").patternLine("###").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer);
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("framed_" + colorName + "_stained_glass"), 8).key('#', AtumBlocks.FRAMED_GLASS).key('X', dye).patternLine("###").patternLine("#X#").patternLine("###").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.FRAMED_GLASS)).build(consumer);
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("framed_" + colorName + "_stained_glass")).key('#', getBlockFromName("crystal_" + colorName + "_stained_glass")).key('X', Tags.Items.RODS_WOODEN).patternLine(" X ").patternLine("#X#").patternLine(" X ").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_framed_glass_from_crystal_stained_glass"));
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("thin_crystal_" + colorName + "_stained_glass"), 16).key('#', getBlockFromName("crystal_" + colorName + "_stained_glass")).patternLine("###").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer);
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("thin_crystal_" + colorName + "_stained_glass"), 8).key('#', AtumBlocks.THIN_CRYSTAL_GLASS).key('$', dye).patternLine("###").patternLine("#$#").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass_pane", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_thin_crystal_glass_from_thin_crystal_glass"));
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("thin_framed_" + colorName + "_stained_glass"), 16).key('#', getBlockFromName("framed_" + colorName + "_stained_glass")).patternLine("###").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass", this.hasItem(AtumBlocks.FRAMED_GLASS)).build(consumer);
-                ShapedRecipeBuilder.shapedRecipe(getBlockFromName("thin_framed_" + colorName + "_stained_glass"), 8).key('#', AtumBlocks.THIN_FRAMED_GLASS).key('$', dye).patternLine("###").patternLine("#$#").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass_pane", this.hasItem(AtumBlocks.FRAMED_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_thin_framed_glass_from_thin_framed_glass"));
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_crystal_glass"), 8).key('#', AtumBlocks.CRYSTAL_GLASS).key('X', dye).patternLine("###").patternLine("#X#").patternLine("###").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer);
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_crystal_glass_pane"), 16).key('#', getBlockFromName(colorName + "_stained_crystal_glass")).patternLine("###").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer);
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_crystal_glass_pane"), 8).key('#', AtumBlocks.CRYSTAL_GLASS_PANE).key('$', dye).patternLine("###").patternLine("#$#").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass_pane", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_crystal_glass_pane_from_crystal_glass_pane"));
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_palm_framed_crystal_glass"), 8).key('#', AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS).key('X', dye).patternLine("###").patternLine("#X#").patternLine("###").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS)).build(consumer);
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_palm_framed_crystal_glass")).key('#', getBlockFromName(colorName + "_stained_crystal_glass")).key('X', AtumItems.PALM_STICK).patternLine(" X ").patternLine("#X#").patternLine(" X ").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_palm_framed_crystal_glass_from_stained_crystal_glass"));
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_palm_framed_crystal_glass_pane"), 16).key('#', getBlockFromName(colorName + "_stained_palm_framed_crystal_glass")).patternLine("###").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass", this.hasItem(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS)).build(consumer);
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_palm_framed_crystal_glass_pane"), 8).key('#', AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS).key('$', dye).patternLine("###").patternLine("#$#").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass_pane", this.hasItem(AtumBlocks.PALM_FRAMED_CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_palm_framed_crystal_glass_pane_from_palm_framed_crystal_glass_pane"));
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass"), 8).key('#', AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS).key('X', dye).patternLine("###").patternLine("#X#").patternLine("###").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS)).build(consumer);
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass")).key('#', getBlockFromName(colorName + "_stained_crystal_glass")).key('X', AtumItems.DEADWOOD_STICK).patternLine(" X ").patternLine("#X#").patternLine(" X ").setGroup("stained_glass").addCriterion("has_glass", this.hasItem(AtumBlocks.CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_deadwood_framed_crystal_glass_from_stained_crystal_glass"));
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass_pane"), 16).key('#', getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass")).patternLine("###").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass", this.hasItem(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS)).build(consumer);
+                ShapedRecipeBuilder.shapedRecipe(getBlockFromName(colorName + "_stained_deadwood_framed_crystal_glass_pane"), 8).key('#', AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS).key('$', dye).patternLine("###").patternLine("#$#").patternLine("###").setGroup("stained_glass_pane").addCriterion("has_glass_pane", this.hasItem(AtumBlocks.DEADWOOD_FRAMED_CRYSTAL_GLASS)).build(consumer, new ResourceLocation(Atum.MOD_ID, colorName + "_stained_deadwood_framed_crystal_glass_pane_from_deadwood_framed_crystal_glass_pane"));
 
                 Block ceramic = getBlockFromName("ceramic_" + colorName);
                 if (color != DyeColor.WHITE) {
@@ -52,6 +59,11 @@ public class RecipeGenerator extends RecipeProvider {
                 //Add tag versions of the following vanilla recipes
                 ShapelessRecipeBuilder.shapelessRecipe(StackHelper.getBlockFromName(new ResourceLocation(colorName + "_concrete_powder")), 8).addIngredient(dye).addIngredient(Ingredient.fromTag(ItemTags.SAND), 4).addIngredient(Ingredient.fromTag(Tags.Items.GRAVEL), 4).setGroup("concrete_powder").addCriterion("has_sand", this.hasItem(Tags.Items.SAND)).addCriterion("has_gravel", this.hasItem(Tags.Items.GRAVEL)).build(consumer);
             }
+        }
+        for (God god : God.values()) {
+            String godName = god.getName();
+            ShapedRecipeBuilder.shapedRecipe(getBlockFromName("torch_of_" + godName), 4).key('S', getItemFromName(godName + "_godshard")).key('T', AtumBlocks.NEBU_TORCH).patternLine(" T ").patternLine("TST").patternLine(" T ").addCriterion("has_nebu_torch", this.hasItem(AtumBlocks.NEBU_TORCH)).build(consumer);
+            ShapelessRecipeBuilder.shapelessRecipe(getBlockFromName("lantern_of_" + godName)).addIngredient(AtumBlocks.NEBU_LANTERN).addIngredient(getItemFromName(godName + "_godshard")).addCriterion("has_nebu_lantern", this.hasItem(AtumBlocks.NEBU_LANTERN)).build(consumer);
         }
     }
 }

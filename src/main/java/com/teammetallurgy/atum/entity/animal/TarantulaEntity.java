@@ -1,8 +1,12 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
+import com.teammetallurgy.atum.init.AtumStructures;
+import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,8 +22,10 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -45,13 +51,9 @@ public class TarantulaEntity extends MonsterEntity {
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(15.0D);
-        this.getAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.4D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(4.0D);
-        this.getAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(36.0D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 15.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D)
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D);
     }
 
     @Override
@@ -59,8 +61,9 @@ public class TarantulaEntity extends MonsterEntity {
         return spawnReason == SpawnReason.SPAWNER || super.canSpawn(world, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return (spawnReason == SpawnReason.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canBlockSeeSky(pos.down())) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random);
+    public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        return (spawnReason == SpawnReason.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canBlockSeeSky(pos.down())) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random) &&
+                world instanceof ServerWorld && !StructureHelper.doesChunkHaveStructure((ServerWorld) world, pos, AtumStructures.PYRAMID_STRUCTURE);
     }
 
     @Override

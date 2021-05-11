@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
-import com.teammetallurgy.atum.world.gen.AtumGenSettings;
-import net.minecraft.world.WorldType;
+import com.teammetallurgy.atum.init.AtumBiomes;
+import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.world.gen.IExtendedNoiseRandom;
 import net.minecraft.world.gen.LazyAreaLayerContext;
 import net.minecraft.world.gen.area.IArea;
@@ -12,8 +12,12 @@ import net.minecraft.world.gen.layer.*;
 import java.util.function.LongFunction;
 
 public class AtumLayerUtil {
+    public static final int SAND_PLAINS = DimensionHelper.getBiomeID(AtumBiomes.SAND_PLAINS);
+    public static final int OASIS = DimensionHelper.getBiomeID(AtumBiomes.OASIS);
+    public static final int DEAD_OASIS = DimensionHelper.getBiomeID(AtumBiomes.DEAD_OASIS);
+    public static final int DRIED_RIVER_ID = DimensionHelper.getBiomeID(AtumBiomes.DRIED_RIVER);
 
-    public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> buildAtumLayers(WorldType worldType, AtumGenSettings settings, LongFunction<C> context) {
+    public static <T extends IArea, C extends IExtendedNoiseRandom<T>> IAreaFactory<T> buildAtumLayers(int biomeSize, int riverSize, LongFunction<C> context) {
         IAreaFactory<T> layer = IslandLayer.INSTANCE.apply(context.apply(1L));
         layer = ZoomLayer.FUZZY.apply(context.apply(2000L), layer);
         layer = ZoomLayer.NORMAL.apply(context.apply(2001L), layer);
@@ -21,8 +25,6 @@ public class AtumLayerUtil {
         layer = ZoomLayer.NORMAL.apply(context.apply(2002L), layer);
         layer = ZoomLayer.NORMAL.apply(context.apply(2003L), layer);
         layer = LayerUtil.repeat(1000L, ZoomLayer.NORMAL, layer, 0, context);
-        int biomeSize = worldType == WorldType.LARGE_BIOMES ? 6 : settings.getBiomeSize();
-        int riverSize = settings.getRiverSize();
         IAreaFactory<T> zoomLayer = LayerUtil.repeat(1000L, ZoomLayer.NORMAL, layer, 0, context);
         zoomLayer = StartRiverLayer.INSTANCE.apply(context.apply(100L), zoomLayer);
         IAreaFactory<T> biomeLayer = getBiomeLayer(layer, context);
@@ -32,7 +34,11 @@ public class AtumLayerUtil {
         zoomLayer = LayerUtil.repeat(1000L, ZoomLayer.NORMAL, zoomLayer, riverSize, context);
         zoomLayer = AtumRiverLayer.INSTANCE.apply(context.apply(1L), zoomLayer);
         zoomLayer = SmoothLayer.INSTANCE.apply(context.apply(1000L), zoomLayer);
-        biomeLayer = OasisLayer.INSTANCE.apply(context.apply(1001L), biomeLayer);
+        int oasisLayerSize = 3;
+
+        for (int size = 0; size < oasisLayerSize; ++size) {
+            biomeLayer = OasisLayer.INSTANCE.apply(context.apply(1001L + size), biomeLayer);
+        }
 
         for (int size = 0; size < biomeSize; ++size) {
             biomeLayer = ZoomLayer.NORMAL.apply(context.apply(1000 + size), biomeLayer);
@@ -50,9 +56,9 @@ public class AtumLayerUtil {
         return parentLayer;
     }
 
-    public static Layer getNoiseLayer(long seed, WorldType worldType, AtumGenSettings settings) {
+    public static Layer getNoiseLayer(long seed, int biomeSize, int riverSize) {
         int maxCacheSize = 25;
-        IAreaFactory<LazyArea> layer = buildAtumLayers(worldType, settings, (p_227473_2_) -> new LazyAreaLayerContext(maxCacheSize, seed, p_227473_2_));
+        IAreaFactory<LazyArea> layer = buildAtumLayers(biomeSize, riverSize, (p_227473_2_) -> new LazyAreaLayerContext(maxCacheSize, seed, p_227473_2_));
         return new Layer(layer);
     }
 }

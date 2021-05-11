@@ -1,7 +1,7 @@
 {
     "parent": "block/carpet",
     "textures": {
-        "particle": "atum:block/ceramic_tile_white",
-        "wool": "atum:block/ceramic_tile_white"
+        "particle": "atum:block/ceramic_white",
+        "wool": "atum:block/ceramic_white"
     }
 }

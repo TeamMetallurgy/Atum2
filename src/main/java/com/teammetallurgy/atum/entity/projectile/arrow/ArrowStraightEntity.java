@@ -1,22 +1,28 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.fml.network.FMLPlayMessages;
 
 public class ArrowStraightEntity extends CustomArrow {
     private float velocity;
+
+    public ArrowStraightEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+        this(AtumEntities.STRAIGHT_ARROW, world);
+    }
 
     public ArrowStraightEntity(EntityType<? extends CustomArrow> entityType, World world) {
         super(entityType, world);
     }
 
     public ArrowStraightEntity(World world, LivingEntity shooter, float velocity) {
-        super(world, shooter);
+        super(AtumEntities.STRAIGHT_ARROW, world, shooter);
         this.velocity = velocity;
     }
 
@@ -32,7 +38,7 @@ public class ArrowStraightEntity extends CustomArrow {
                 this.remove();
             }
 
-            if (this.getShooter() instanceof LivingEntity && !inGround && velocity == 1.0F && this.isAlive()) {
+            if (this.func_234616_v_() instanceof LivingEntity && !inGround && velocity == 1.0F && this.isAlive()) {
                 if (world instanceof ServerWorld) {
                     ServerWorld serverWorld = (ServerWorld) world;
                     serverWorld.spawnParticle(AtumParticles.HORUS, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);

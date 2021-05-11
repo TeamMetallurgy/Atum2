@@ -8,10 +8,11 @@ import com.teammetallurgy.atum.network.packet.WeatherPacket;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.IPacket;
 import net.minecraft.server.management.PlayerList;
+import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkRegistry;
@@ -40,11 +41,11 @@ public class NetworkHandler {
         CHANNEL.sendToServer(msg);
     }
 
-    public static void sendToDimension(Object packet, ServerWorld serverWorld, DimensionType dimensionType) {
+    public static void sendToDimension(Object packet, ServerWorld serverWorld, RegistryKey<World> dimension) {
         PlayerList playerList = serverWorld.getServer().getPlayerList();
         for (int i = 0; i < playerList.getCurrentPlayerCount(); ++i) {
             ServerPlayerEntity serverPlayer = playerList.getPlayers().get(i);
-            if (serverPlayer.dimension == dimensionType) {
+            if (serverPlayer.world.getDimensionKey() == dimension) {
                 sendTo(serverPlayer, packet);
             }
         }

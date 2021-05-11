@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.Vector3f;
 import net.minecraft.client.renderer.model.ModelRenderer;
 import net.minecraft.client.renderer.tileentity.DualBrightnessCallback;
 import net.minecraft.client.renderer.tileentity.TileEntityRenderer;
@@ -20,6 +19,7 @@ import net.minecraft.tileentity.ChestTileEntity;
 import net.minecraft.tileentity.TileEntityMerger;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
@@ -65,7 +65,7 @@ public class SarcophagusRender extends TileEntityRenderer<SarcophagusTileEntity>
         World world = sarcophagus.getWorld();
         boolean worldNotNull = world != null;
         BlockState state = worldNotNull ? sarcophagus.getBlockState() : AtumBlocks.SARCOPHAGUS.getDefaultState().with(SarcophagusBlock.FACING, Direction.SOUTH);
-        ChestType type = state.has(SarcophagusBlock.TYPE) ? state.get(SarcophagusBlock.TYPE) : ChestType.SINGLE;
+        ChestType type = state.hasProperty(SarcophagusBlock.TYPE) ? state.get(SarcophagusBlock.TYPE) : ChestType.SINGLE;
         Block block = state.getBlock();
         if (block instanceof SarcophagusBlock) { //Actually left side, but whatever
             SarcophagusBlock sarcophagusBlock = (SarcophagusBlock) block;
@@ -90,7 +90,7 @@ public class SarcophagusRender extends TileEntityRenderer<SarcophagusTileEntity>
             matrixStack.rotate(Vector3f.ZP.rotationDegrees(180.0F));
 
             if (type == ChestType.RIGHT) {
-                float lidAngle = callbackWrapper.apply(SarcophagusBlock.func_226917_a_(sarcophagus)).get(partialTicks);
+                float lidAngle = callbackWrapper.apply(SarcophagusBlock.getLidRotationCallback(sarcophagus)).get(partialTicks);
                 lidAngle = 1.0F - lidAngle;
                 lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
                 renderSarcophagus(matrixStack, vertexBuilder, this.sarcophagusBase, this.sarcophagusLid, this.sarcophagusLiddeco1, this.sarcophagusLiddeco2, this.sarcophagusLiddeco3, this.sarcophagusGemhead, this.sarcophagusGemchest, lidAngle, light, combinedOverlay);

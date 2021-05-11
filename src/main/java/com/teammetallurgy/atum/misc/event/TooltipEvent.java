@@ -20,15 +20,16 @@ public class TooltipEvent {
     public static void onTooltip(ItemTooltipEvent event) {
         if (!event.getItemStack().isEmpty()) {
             Item item = event.getItemStack().getItem();
-            if (item.isIn(AtumAPI.Tags.TOOLTIP)) {
+            if (!item.getTags().isEmpty() && item.isIn(AtumAPI.Tags.TOOLTIP)) {
                 if (item.getRegistryName() != null) {
                     String itemIdentifier = item.getRegistryName().getPath() + ".tooltip";
                     if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line1").applyTextStyle(TextFormatting.DARK_PURPLE));
-                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line2").applyTextStyle(TextFormatting.DARK_PURPLE));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").appendString(": ").mergeStyle(TextFormatting.GRAY)
+                                .append(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line1").mergeStyle(TextFormatting.DARK_GRAY)));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line2").mergeStyle(TextFormatting.DARK_GRAY));
                     } else {
-                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title")
-                                .appendText(" ").appendSibling(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").applyTextStyle(TextFormatting.DARK_GRAY)));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").mergeStyle(TextFormatting.GRAY)
+                                .appendString(" ").append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").mergeStyle(TextFormatting.DARK_GRAY)));
                     }
                 }
             }

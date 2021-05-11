@@ -1,22 +1,21 @@
 package com.teammetallurgy.atum.world.teleporter;
 
-import com.teammetallurgy.atum.blocks.PortalBlock;
+import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumPointsOfInterest;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.pattern.BlockPattern;
+import net.minecraft.block.PortalInfo;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.TeleportationRepositioner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.village.PointOfInterest;
 import net.minecraft.village.PointOfInterestManager;
 import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.server.TicketType;
 import net.minecraftforge.common.util.ITeleporter;
@@ -24,60 +23,88 @@ import net.minecraftforge.common.util.ITeleporter;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class TeleporterAtum implements ITeleporter {
+    public static final TeleporterAtum INSTANCE = new TeleporterAtum();
 
     @Override
     public Entity placeEntity(Entity entity, ServerWorld currentWorld, ServerWorld destWorld, float yaw, Function<Boolean, Entity> repositionEntity) {
+        Entity movedEntity = repositionEntity.apply(false);
         if (!placeInPortal(destWorld, entity, yaw)) {
-            makePortal(destWorld, entity);
-            placeInPortal(destWorld, entity, yaw);
-            return repositionEntity.apply(false);
+            makePortal(destWorld, movedEntity);
+            placeInPortal(destWorld, movedEntity, yaw);
+            return movedEntity;
         } else {
-            placeInPortal(destWorld, entity, yaw);
-            return repositionEntity.apply(false);
+            placeInPortal(destWorld, movedEntity, yaw);
+            return movedEntity;
         }
     }
 
-    public static boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {
-        Vec3d lastPortalVec = entity.getLastPortalVec();
-        Direction direction = entity.getTeleportDirection();
-        BlockPattern.PortalInfo portalInfo = placeInExistingPortal(world, new BlockPos(entity), entity.getMotion(), direction, lastPortalVec.x, lastPortalVec.y, entity instanceof PlayerEntity);
+    public boolean placeInPortal(ServerWorld world, Entity entity, float yaw) {
+        PortalInfo portalInfo = this.getPortalInfo(entity, world, null);
         if (portalInfo == null) {
             return false;
         } else {
-            Vec3d vec3d1 = portalInfo.pos;
-            Vec3d vec3d2 = portalInfo.motion;
+            Vector3d vec3d1 = portalInfo.pos;
+            Vector3d vec3d2 = portalInfo.motion;
             entity.setMotion(vec3d2);
-            entity.rotationYaw = yaw + (float) portalInfo.rotation;
-            entity.moveForced(vec3d1.x, vec3d1.y, vec3d1.z);
+            entity.rotationYaw = yaw + portalInfo.rotationYaw;
+            entity.moveForced(vec3d1.x, vec3d1.y + 1, vec3d1.z);
             return true;
         }
     }
 
+    @Override
     @Nullable
-    public static BlockPattern.PortalInfo placeInExistingPortal(ServerWorld world, @Nonnull BlockPos pos, @Nonnull Vec3d portalPos, @Nonnull Direction direction, double d, double d1, boolean b) {
-        PointOfInterestManager poiManager = world.getPointOfInterestManager();
-        poiManager.ensureLoadedAndValid(world, pos, 128);
-        List<PointOfInterest> list = poiManager.getInSquare((poi) -> poi == AtumPointsOfInterest.PORTAL, pos, 128, PointOfInterestManager.Status.ANY).collect(Collectors.toList());
-        Optional<PointOfInterest> optional = list.stream().min(Comparator.<PointOfInterest>comparingDouble((poi) -> poi.getPos().distanceSq(pos)).thenComparingInt((poi) -> poi.getPos().getY()));
+    public PortalInfo getPortalInfo(Entity entity, ServerWorld destWorld, Function<ServerWorld, PortalInfo> defaultPortalInfo) {
+        Optional<TeleportationRepositioner.Result> result = teleporterResult(destWorld, entity.getPosition());
+        if (result.isPresent()) {
+            BlockPos startPos = result.get().startPos;
+            return new PortalInfo(new Vector3d(startPos.getX(), startPos.getY(), startPos.getZ()), entity.getMotion(), entity.rotationYaw, entity.rotationPitch);
+        } else {
+            return new PortalInfo(entity.getPositionVec(), Vector3d.ZERO, entity.rotationYaw, entity.rotationPitch);
+        }
+    }
+
+    protected Optional<TeleportationRepositioner.Result> teleporterResult(ServerWorld serverWorld, BlockPos pos) {
+        Optional<TeleportationRepositioner.Result> optional = getExistingPortal(serverWorld, pos);
+        if (optional.isPresent()) {
+            return optional;
+        } else {
+            Optional<TeleportationRepositioner.Result> optional1 = createPortal(serverWorld, pos);
+            if (!optional1.isPresent()) {
+                Atum.LOG.error("Unable to create a portal, likely target out of worldborder");
+            }
+            return optional1;
+        }
+    }
+
+    public Optional<TeleportationRepositioner.Result> getExistingPortal(ServerWorld serverWorld, BlockPos pos) {
+        PointOfInterestManager posManager = serverWorld.getPointOfInterestManager();
+        int i = 128;
+        posManager.ensureLoadedAndValid(serverWorld, pos, i);
+        Optional<PointOfInterest> optional = posManager.getInSquare((poiType) -> {
+            return poiType == AtumPointsOfInterest.PORTAL;
+        }, pos, i, PointOfInterestManager.Status.ANY).sorted(Comparator.<PointOfInterest>comparingDouble((poi) -> {
+            return poi.getPos().distanceSq(pos);
+        }).thenComparingInt((poi) -> {
+            return poi.getPos().getY();
+        })).findFirst();
         return optional.map((poi) -> {
             BlockPos posPos = poi.getPos();
-            world.getChunkProvider().registerTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
-            BlockPattern.PatternHelper patternHelper = PortalBlock.createPatternHelper(world, posPos);
-            return patternHelper.getPortalInfo(direction, posPos, d1, portalPos, d);
-        }).orElse(null);
+            serverWorld.getChunkProvider().registerTicket(TicketType.PORTAL, new ChunkPos(posPos), 3, posPos);
+            BlockState blockstate = serverWorld.getBlockState(posPos);
+            return TeleportationRepositioner.findLargestRectangle(posPos, Direction.Axis.X, 9, Direction.Axis.Z, 9, (posIn) -> serverWorld.getBlockState(posIn) == blockstate);
+        });
     }
 
-    public static void makePortal(ServerWorld world, @Nonnull Entity entity) {
-        createPortal(world, new BlockPos(MathHelper.floor(entity.getPosX()), MathHelper.floor(entity.getPosY()), MathHelper.floor(entity.getPosZ())), entity);
+    public Optional<TeleportationRepositioner.Result> makePortal(ServerWorld world, @Nonnull Entity entity) {
+        return createPortal(world, new BlockPos(MathHelper.floor(entity.getPosX()), MathHelper.floor(entity.getPosY()), MathHelper.floor(entity.getPosZ())));
     }
 
-    public static void createPortal(World world, BlockPos pos, @Nullable Entity entity) {
+    public Optional<TeleportationRepositioner.Result> createPortal(World world, BlockPos pos) {
         BlockState portalState = AtumBlocks.PORTAL.getDefaultState();
         BlockState sandState;
 
@@ -89,7 +116,7 @@ public class TeleporterAtum implements ITeleporter {
             pos = pos.up();
         }
 
-        if (entity != null && entity.dimension == DimensionType.OVERWORLD) {
+        if (world.getDimensionKey() == World.OVERWORLD) {
             sandState = Blocks.SANDSTONE.getDefaultState();
         } else {
             sandState = AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState();
@@ -118,5 +145,6 @@ public class TeleporterAtum implements ITeleporter {
         for (BlockPos airPos : BlockPos.Mutable.getAllInBoxMutable(pos.add(-2, 2, -1), pos.add(2, 3, 1))) {
             world.setBlockState(airPos, Blocks.AIR.getDefaultState(), 2);
         }
+        return Optional.of(new TeleportationRepositioner.Result(pos.toImmutable(), 3, 3));
     }
 }

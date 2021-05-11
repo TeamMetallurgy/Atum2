@@ -1,12 +1,11 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
+import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.item.BowItem;
-import net.minecraft.item.Item;
-import net.minecraft.util.Hand;
 
 import java.util.EnumSet;
 
@@ -124,12 +123,8 @@ public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMo
                     }
                 }
             } else if (--this.attackTime <= 0 && this.seeTime >= -60) {
-                this.entity.setActiveHand(getHandWith(this.entity, BowItem.class));
+                this.entity.setActiveHand(StackHelper.getUsedHand(this.entity.getHeldItemMainhand(), BowItem.class));
             }
         }
-    }
-
-    public static Hand getHandWith(LivingEntity living, Class<? extends Item> itemClass) {
-        return itemClass.isAssignableFrom(living.getHeldItemMainhand().getItem().getClass()) ? Hand.MAIN_HAND : Hand.OFF_HAND;
     }
 }

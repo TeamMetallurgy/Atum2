@@ -2,10 +2,11 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
-import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.HurtByTargetGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
@@ -54,14 +55,14 @@ public class AssassinEntity extends BanditBaseEntity {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(1, new MarkedForDeathGoal(this, this.markedTarget));
-        this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false));
+        this.goalSelector.addGoal(3, new OpenAnyDoorGoal(this, false, true));
         this.goalSelector.addGoal(4, new AssassinMeleeAttackGoal(this, 1.2D, true));
     }
 
     @Override
     protected void applyEntityAI() {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, BanditBaseEntity.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
     }
 
     @Override
@@ -70,12 +71,8 @@ public class AssassinEntity extends BanditBaseEntity {
         this.dataManager.register(CLIMBING, (byte) 0);
     }
 
-    @Override
-    protected void registerAttributes() {
-        super.registerAttributes();
-        this.getAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(40.0D);
-        this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
-        this.getAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(4.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 5.0D).createMutableAttribute(Attributes.ARMOR, 4.0F);
     }
 
     @Override
@@ -138,7 +135,7 @@ public class AssassinEntity extends BanditBaseEntity {
             return false;
         } else {
             if (this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
-                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue());
+                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
                 (((LivingEntity) entity)).addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
             }
             return true;
@@ -236,8 +233,10 @@ public class AssassinEntity extends BanditBaseEntity {
         }
 
         @Override
-        public boolean shouldExecute() {
-            return this.attacker != null && super.shouldExecute();
+        public void tick() {
+            if (this.attacker != null && this.attacker.getAttackTarget() != null) {
+                super.tick();
+            }
         }
 
         @Override

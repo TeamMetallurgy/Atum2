@@ -5,7 +5,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.IItemTier;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class KhopeshItem extends SwordItem {
-    private static final Object2FloatMap<PlayerEntity> cooldown = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public KhopeshItem(IItemTier itemTier) {
         this(itemTier, new Item.Properties());
@@ -40,28 +40,28 @@ public class KhopeshItem extends SwordItem {
         if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity) {
             if (player.getHeldItemMainhand().getItem() instanceof KhopeshItem) {
-                cooldown.put(player, player.getCooledAttackStrength(0.5F));
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        if (attacker instanceof PlayerEntity && cooldown.containsKey(attacker)) {
-            if (cooldown.getFloat(attacker) == 1.0F) {
+    public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+        if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
+            if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 PlayerEntity player = (PlayerEntity) attacker;
                 World world = player.world;
-                float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getValue();
+                float sweeping = 1.0F + EnchantmentHelper.getSweepingDamageRatio(player) * (float) player.getAttributeValue(Attributes.ATTACK_DAMAGE);
 
                 for (LivingEntity entity : world.getEntitiesWithinAABB(LivingEntity.class, target.getBoundingBox().grow(1.25D, 0.25D, 1.25D))) {
                     if (entity != player && entity != target && !player.isOnSameTeam(entity) && player.getDistanceSq(entity) < 10.0D) {
-                        entity.knockBack(player, 1.0F + EnchantmentHelper.getKnockbackModifier(player), MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
+                        entity.applyKnockback(1.0F + EnchantmentHelper.getKnockbackModifier(player), MathHelper.sin(player.rotationYaw * 0.017453292F), (-MathHelper.cos(player.rotationYaw * 0.017453292F)));
                         entity.attackEntityFrom(DamageSource.causePlayerDamage(player), sweeping);
                         world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, player.getSoundCategory(), 1.0F, 1.0F);
                     }
                 }
             }
-            cooldown.removeFloat(attacker);
+            COOLDOWN.removeFloat(attacker);
         }
         return super.hitEntity(stack, target, attacker);
     }
