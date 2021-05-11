@@ -1,0 +1,15 @@
+{
+  "logical_height": 256,
+  "infiniburn": "atum:infiniburn",
+  "effects": "atum:atum",
+  "ambient_light": 0.0,
+  "bed_works": true,
+  "respawn_anchor_works": true,
+  "has_raids": false,
+  "ultrawarm": false,
+  "natural": true,
+  "coordinate_scale": 1.0,
+  "piglin_safe": false,
+  "has_skylight": true,
+  "has_ceiling": false
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R ",
+    "RHR",
+    " R "
+  ],
+  "key": {
+    "H": {
+      "item": "atum:emmer_block"
+    },
+    "R": {
+      "tag": "forge:dusts/redstone"
+    }
+  },
+  "result": {
+    "item": "minecraft:target"
+  }
+}

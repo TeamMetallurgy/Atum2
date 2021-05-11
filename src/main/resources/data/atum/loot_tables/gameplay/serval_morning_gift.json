@@ -1,0 +1,84 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:rabbit_foot"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:rabbit_hide"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:string"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:rotten_flesh"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "minecraft:feather"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "atum:quail"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 10,
+          "name": "atum:cloth_scrap"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "atum:relic_silver_ring"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:relic_gold_ring"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "atum:relic_silver_necklace"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:relic_gold_necklace"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "atum:relic_silver_idol"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:relic_gold_idol"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "atum:relic_silver_bracelet"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:relic_gold_bracelet"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "NNN",
+    "SSS",
+    "NNN"
+  ],
+  "key": {
+    "N": {
+      "tag": "forge:ingots/nebu"
+    },
+    "S": {
+      "tag": "atum:godshards"
+    }
+  },
+  "result": {
+    "item": "atum:godforged_block"
+  }
+}

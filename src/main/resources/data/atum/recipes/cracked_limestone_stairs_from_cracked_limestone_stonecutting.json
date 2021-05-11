@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:limestone_cracked"
+  },
+  "result": "atum:cracked_stairs",
+  "count": 1
+}

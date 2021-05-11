@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "N",
+    "I",
+    "N"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:ingots/nebu"
+    },
+    "N": {
+      "tag": "forge:nuggets/nebu"
+    }
+  },
+  "result": {
+    "item": "atum:nebu_chain"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:limestone_brick_large"
+  },
+  "result": "atum:limestone_large_slab",
+  "count": 2
+}

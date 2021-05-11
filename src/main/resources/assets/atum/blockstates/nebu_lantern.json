@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "atum:block/nebu_lantern"
+    },
+    "hanging=true": {
+      "model": "atum:block/nebu_lantern_hanging"
+    }
+  }
+}

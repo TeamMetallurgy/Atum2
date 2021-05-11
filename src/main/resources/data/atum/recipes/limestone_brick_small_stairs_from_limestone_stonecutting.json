@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:limestone"
+  },
+  "result": "atum:small_stairs",
+  "count": 1
+}

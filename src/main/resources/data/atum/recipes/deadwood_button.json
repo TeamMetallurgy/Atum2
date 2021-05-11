@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "wooden_button",
+  "ingredients": [
+    {
+      "item": "atum:deadwood_planks"
+    }
+  ],
+  "result": {
+    "item": "atum:deadwood_button"
+  }
+}

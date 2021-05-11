@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_glass",
+  "pattern": [
+    " X ",
+    "#X#",
+    " X "
+  ],
+  "key": {
+    "#": {
+      "item": "atum:light_gray_stained_crystal_glass"
+    },
+    "X": {
+      "item": "atum:palm_stick"
+    }
+  },
+  "result": {
+    "item": "atum:light_gray_stained_palm_framed_crystal_glass"
+  }
+}

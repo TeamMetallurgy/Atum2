@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smoking",
+  "ingredient": {
+    "item": "atum:quail"
+  },
+  "result": "atum:quail_cooked",
+  "experience": 0.35,
+  "cookingtime": 100
+}

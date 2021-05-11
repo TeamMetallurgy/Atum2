@@ -1,0 +1,6 @@
+{
+  "parent": "atum:item/anubis_wrath",
+  "textures": {
+    "layer0": "atum:item/anubis_wrath_tier_3"
+  }
+}

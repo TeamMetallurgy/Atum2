@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "atum:nebu_lantern"
+    },
+    {
+      "item": "atum:isis_godshard"
+    }
+  ],
+  "result": {
+    "item": "atum:lantern_of_isis"
+  }
+}

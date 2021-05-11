@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "atum:block/godforge_top",
+    "front": "atum:block/godforge_front_on_ra",
+    "side": "atum:block/godforge_side"
+  }
+}

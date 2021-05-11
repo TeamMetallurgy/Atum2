@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_glass",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:crystal_glass"
+    },
+    "X": {
+      "item": "minecraft:pink_dye"
+    }
+  },
+  "result": {
+    "item": "atum:pink_stained_crystal_glass",
+    "count": 8
+  }
+}

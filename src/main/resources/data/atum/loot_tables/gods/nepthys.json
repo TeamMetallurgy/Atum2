@@ -1,0 +1,19 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nepthys_banishing"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nepthys_guard"
+        }
+      ]
+    }
+  ]
+}

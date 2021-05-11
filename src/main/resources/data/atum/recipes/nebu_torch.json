@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "#"
+  ],
+  "key": {
+    "X": {
+      "tag": "minecraft:coals"
+    },
+    "#": {
+      "tag": "forge:nuggets/nebu"
+    }
+  },
+  "result": {
+    "item": "atum:nebu_torch",
+    "count": 4
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:limestone_brick_small"
+  },
+  "result": "atum:small_wall",
+  "count": 1
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "atum:block/wall_torch_of_tefnut",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "atum:block/wall_torch_of_tefnut",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "atum:block/wall_torch_of_tefnut",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "atum:block/wall_torch_of_tefnut"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "O",
+    "O"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:crystal_glass"
+    },
+    "O": {
+      "item": "atum:porphyry_brick_smooth"
+    }
+  },
+  "result": {
+    "item": "atum:porphyry_curio_display"
+  }
+}

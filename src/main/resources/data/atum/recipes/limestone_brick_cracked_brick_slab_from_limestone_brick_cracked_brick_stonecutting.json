@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "atum:limestone_brick_cracked_brick"
+  },
+  "result": "atum:limestone_cracked_brick_slab",
+  "count": 2
+}

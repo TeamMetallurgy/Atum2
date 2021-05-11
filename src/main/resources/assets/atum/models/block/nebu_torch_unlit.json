@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_torch",
+  "textures": {
+    "torch": "atum:block/nebu_torch_unlit"
+  }
+}

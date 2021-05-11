@@ -1,0 +1,6 @@
+{
+  "parent": "item/fishing_rod",
+  "textures": {
+    "layer0": "atum:item/atems_bounty_cast"
+  }
+}

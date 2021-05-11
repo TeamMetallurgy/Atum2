@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " X ",
+    "XTX",
+    " X "
+  ],
+  "key": {
+    "X": {
+      "tag": "forge:nuggets/nebu"
+    },
+    "T": {
+      "item": "atum:nebu_torch"
+    }
+  },
+  "result": {
+    "item": "atum:nebu_lantern"
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:halo_of_ra"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:body_of_ra"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:legs_of_ra"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:feet_of_ra"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:ras_fury"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:ras_step"
+        }
+      ]
+    }
+  ]
+}

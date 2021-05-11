@@ -1,0 +1,19 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:isis_healing"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:isis_division"
+        }
+      ]
+    }
+  ]
+}

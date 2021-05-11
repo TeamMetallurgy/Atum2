@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "stained_glass",
+  "pattern": [
+    "###",
+    "#X#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "atum:deadwood_framed_crystal_glass"
+    },
+    "X": {
+      "item": "minecraft:magenta_dye"
+    }
+  },
+  "result": {
+    "item": "atum:magenta_stained_deadwood_framed_crystal_glass",
+    "count": 8
+  }
+}

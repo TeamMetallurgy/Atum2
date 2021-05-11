@@ -1,0 +1,69 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/anput"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/anubis"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/atem"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/geb"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/horus"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/isis"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/montu"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/nepthys"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/nuit"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/osiris"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/ptah"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/ra"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/seth"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/shu"
+        },
+        {
+          "type": "minecraft:loot_table",
+          "name": "atum:gods/tefnut"
+        }
+      ]
+    }
+  ]
+}

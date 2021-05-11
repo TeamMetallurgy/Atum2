@@ -1,0 +1,24 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nuits_vanishing"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nuits_ire"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:nuits_quarter"
+        }
+      ]
+    }
+  ]
+}

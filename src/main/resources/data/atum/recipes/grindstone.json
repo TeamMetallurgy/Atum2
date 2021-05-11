@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I-I",
+    "# #"
+  ],
+  "key": {
+    "I": {
+      "tag": "forge:rods/wooden"
+    },
+    "-": {
+      "item": "atum:limestone_slab"
+    },
+    "#": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "result": {
+    "item": "minecraft:grindstone"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "atum:item/atum_shield",
+  "textures": {
+    "particle": "block/gold_block"
+  }
+}

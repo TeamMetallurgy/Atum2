@@ -1,0 +1,49 @@
+{
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:eyes_of_atem"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:body_of_atem"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:legs_of_atem"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:feet_of_atem"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:atems_will"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:atems_protection"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:atems_bounty"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 1,
+          "name": "atum:atems_homecoming"
+        }
+      ]
+    }
+  ]
+}

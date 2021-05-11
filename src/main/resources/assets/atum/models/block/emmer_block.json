@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "end": "atum:block/emmer_block_top",
+    "side": "atum:block/emmer_block_side"
+  }
+}

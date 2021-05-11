@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X",
+    "O",
+    "O"
+  ],
+  "key": {
+    "X": {
+      "item": "atum:crystal_glass"
+    },
+    "O": {
+      "item": "atum:deadwood_planks"
+    }
+  },
+  "result": {
+    "item": "atum:deadwood_curio_display"
+  }
+}

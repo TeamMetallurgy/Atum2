@@ -1,0 +1,28 @@
+{
+  "parent": "item/bow",
+  "textures": {
+    "layer0": "atum:item/anputs_grounding"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 1
+      },
+      "model": "atum:item/anputs_grounding_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.65
+      },
+      "model": "atum:item/anputs_grounding_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1,
+        "pull": 0.9
+      },
+      "model": "atum:item/anputs_grounding_pulling_2"
+    }
+  ]
+}

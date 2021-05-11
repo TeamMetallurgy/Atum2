@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "atum:limestone_furnace",
+    "minecraft:furnace"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "atum:block/green_stained_palm_framed_crystal_glass"
+  }
+}
