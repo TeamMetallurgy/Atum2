@@ -76,8 +76,8 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    compileOnly fg.deobf("mezz.jei:jei-1.16.4:${jei_version}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:${jei_version}")
+    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
+    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
     compile fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
     compileOnly fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
     compile "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
@@ -125,4 +125,23 @@ artifacts {
 
 String getBuildNumber() {
     return System.getenv('BUILD_NUMBER') ? ".jenkins" + System.getenv('BUILD_NUMBER') : "";
+}
+
+processResources {
+    // Minifies all .json files when building the mod.
+    // Source files are not minified, only the jar copies.
+	doLast {
+	    def jsonMinifyStart = System.currentTimeMillis()
+	    def jsonMinified = 0
+		def jsonBytesSaved = 0
+		
+	    fileTree(dir: outputs.files.asPath, include: '**/*.json').each {
+			File file = it
+			jsonMinified++
+			def oldLength = file.length()
+			file.text = JsonOutput.toJson(new JsonSlurper().parse(file))
+			jsonBytesSaved += oldLength - file.length()
+		}
+		println('Minified ' + jsonMinified + ' json files. Saved ' + jsonBytesSaved + ' bytes. Took ' + (System.currentTimeMillis() - jsonMinifyStart) + 'ms.')
+	}
 }
