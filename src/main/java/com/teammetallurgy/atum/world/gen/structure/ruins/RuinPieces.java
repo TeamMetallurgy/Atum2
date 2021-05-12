@@ -56,7 +56,9 @@ public class RuinPieces {
         private void loadTemplate(TemplateManager manager) {
             Template template = manager.getTemplate(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
             PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
-            this.setup(template, this.templatePosition, placementsettings);
+            if (template != null) {
+                this.setup(template, this.templatePosition, placementsettings);
+            }
         }
 
         @Override
