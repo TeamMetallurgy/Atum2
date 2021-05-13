@@ -1379,6 +1379,9 @@
   "atum.commands.weather.usage": "/atumweather <clear OR sandstorm>",
   "atum.commands.weather.sandstorm": "Changing weather to sandstorm",
 
+  "_comment": "Other",
+  "filled_map.atum:pyramid": "Pyramid Explorer Map",
+
   "_comment": "JEI",
   "atum.quern": "Quern",
   "atum.spinning_wheel": "Spinning Wheel",

@@ -6,12 +6,15 @@ import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumTileEntities;
+import com.teammetallurgy.atum.network.NetworkHandler;
+import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.state.properties.ChestType;
@@ -130,6 +133,12 @@ public class SarcophagusBlock extends ChestBaseBlock {
         if (placedState.getBlock() instanceof SarcophagusBlock) {
             if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.get(FACING))) {
                 event.setCanceled(true);
+                if (event.getEntity() instanceof ServerPlayerEntity) {
+                    ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+                    ItemStack placedStack = new ItemStack(placedState.getBlock().asItem());
+                    Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
+                    NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+                }
             }
         }
     }
