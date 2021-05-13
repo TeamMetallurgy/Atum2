@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.network.packet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.player.ClientPlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.Hand;
@@ -38,7 +39,7 @@ public class SyncHandStackSizePacket {
                 ItemStack heldStack = player.getHeldItem(hand);
                 if (heldStack.getCount() == 0) {
                     player.setItemStackToSlot(handType, message.stack);
-                } else {
+                } else if (heldStack.getItem() instanceof BlockItem) {
                     player.setItemStackToSlot(handType, new ItemStack(heldStack.getItem(), heldStack.getCount() + 1));
                 }
                 ctx.get().setPacketHandled(true);
