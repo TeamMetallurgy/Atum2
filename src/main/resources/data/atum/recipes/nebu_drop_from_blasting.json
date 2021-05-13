@@ -3,7 +3,10 @@
   "ingredient": {
     "item": "atum:nebu_ore"
   },
-  "result": "atum:nebu_drop",
+  "result": {
+    "item": "atum:nebu_drop",
+    "count": 3
+  },
   "experience": 0.7,
   "cookingtime": 100
 }
