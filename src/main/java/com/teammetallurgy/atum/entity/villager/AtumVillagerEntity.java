@@ -213,11 +213,10 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     @Override
-    @Nonnull
     @Deprecated
     //Use getAtumVillagerData
     public VillagerData getVillagerData() {
-        return super.getVillagerData();
+        return null;
     }
 
     public AtumVillagerData getAtumVillagerData() {
@@ -228,6 +227,8 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     public void setVillagerData(@Nonnull VillagerData data) {
         if (data instanceof AtumVillagerData) {
             this.setAtumVillagerData((AtumVillagerData) data);
+        } else {
+            Atum.LOG.debug("VillagerData present, but shouldn't be.");
         }
         //Ignore places where vanilla sets villager data
     }

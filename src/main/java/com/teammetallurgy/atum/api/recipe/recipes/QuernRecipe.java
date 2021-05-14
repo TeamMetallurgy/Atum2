@@ -19,7 +19,7 @@ public class QuernRecipe extends RotationRecipe<QuernTileEntity> {
     }
 
     public QuernRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
-        this(new ResourceLocation(Atum.MOD_ID, "spinning_wheel"), input, output, rotations);
+        this(new ResourceLocation(Atum.MOD_ID, "quern"), input, output, rotations);
     }
 
     public QuernRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {

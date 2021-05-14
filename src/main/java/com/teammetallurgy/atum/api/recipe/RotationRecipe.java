@@ -3,15 +3,13 @@ package com.teammetallurgy.atum.api.recipe;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.ShapedRecipe;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.tags.ITag;
-import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagCollectionManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
@@ -49,20 +47,17 @@ public abstract class RotationRecipe<C extends IInventory> extends AbstractAtumR
             JsonObject inputObject = JSONUtils.getJsonObject(json, "ingredient");
             Ingredient input;
             if (inputObject.has("tag")) { //Only read as Ingredient directly, when it's a tag
-                ResourceLocation tagLocation = new ResourceLocation(JSONUtils.getString(inputObject, "tag"));
-                ITag<Item> tag = ItemTags.getCollection().get(tagLocation);
-                if (tag != null && !tag.getAllElements().isEmpty()) { //Support empty tags, for mod support
-                    Ingredient ingredient = CraftingHelper.getIngredient(inputObject);
-                    if (this.inputCanHaveCount && inputObject.has("count")) {
-                        List<ItemStack> ingredientStacks = new ArrayList<>();
-                        for (ItemStack stack : ingredient.getMatchingStacks()) {
-                            ingredientStacks.add(new ItemStack(stack.getItem(), JSONUtils.getInt(inputObject, "count", 1)));
-                        }
-                        input = Ingredient.fromStacks(ingredientStacks.toArray(new ItemStack[0]));
-                    } else {
-                        input = ingredient;
+                Ingredient ingredient = CraftingHelper.getIngredient(inputObject);
+                if (this.inputCanHaveCount && inputObject.has("count")) {
+                    List<ItemStack> ingredientStacks = new ArrayList<>();
+                    for (ItemStack stack : ingredient.getMatchingStacks()) {
+                        ingredientStacks.add(new ItemStack(stack.getItem(), JSONUtils.getInt(inputObject, "count", 1)));
                     }
+                    input = Ingredient.fromStacks(ingredientStacks.toArray(new ItemStack[0]));
                 } else {
+                    input = ingredient;
+                }
+                if (TagCollectionManager.getManager().getItemTags().getTagByID(new ResourceLocation(JSONUtils.getString(inputObject, "tag"))).getAllElements().size() == 0) { //Support empty tags, for mod support
                     input = Ingredient.EMPTY;
                 }
             } else if (!this.inputCanHaveCount) {

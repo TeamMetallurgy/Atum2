@@ -41,6 +41,11 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
         return this.race;
     }
 
+    @Override
+    public int getLevel() {
+        return this.level;
+    }
+
     @Nonnull
     public AtumVillagerData withProfession(@Nonnull AtumVillagerProfession profession) {
         return new AtumVillagerData(profession, this.getLevel(), this.getRace());
