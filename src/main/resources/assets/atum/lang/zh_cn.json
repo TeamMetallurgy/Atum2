@@ -1212,6 +1212,23 @@
   "entity.atum.pharaoh.tepy": "tepy",
   "entity.atum.pharaoh.moret": "moret",
 
+  "_comment": "God Names",
+  "atum.god.anput": "安普特",
+  "atum.god.anubis": "阿努比斯",
+  "atum.god.atem": "阿图姆",
+  "atum.god.geb": "盖布",
+  "atum.god.horus": "荷鲁斯",
+  "atum.god.isis": "伊西斯",
+  "atum.god.montu": "蒙图",
+  "atum.god.nepthys": "内普特斯",
+  "atum.god.nuit": "努特",
+  "atum.god.osiris": "奥西里斯",
+  "atum.god.ptah": "普塔",
+  "atum.god.ra": "拉",
+  "atum.god.seth": "赛特",
+  "atum.god.shu": "舒",
+  "atum.god.tefnut": "泰夫努特",
+
   "_comment": "Creative Tab",
   "itemGroup.atum": "阿图姆",
 

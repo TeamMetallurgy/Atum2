@@ -6,6 +6,7 @@ import net.minecraft.util.text.Color;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+import net.minecraft.util.text.TranslationTextComponent;
 
 public enum God implements IStringSerializable {
     ANPUT("anput", "#46403F"),
@@ -44,6 +45,10 @@ public enum God implements IStringSerializable {
 
     public String getName() {
         return this.name;
+    }
+
+    public TranslationTextComponent getDisplayName() {
+        return new TranslationTextComponent("atum.god." + this.name);
     }
 
     public Color getColor() {

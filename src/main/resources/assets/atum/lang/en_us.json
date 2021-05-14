@@ -1212,6 +1212,23 @@
   "entity.atum.pharaoh.tepy": "tepy",
   "entity.atum.pharaoh.moret": "moret",
 
+  "_comment": "God Names",
+  "atum.god.anput": "Anput",
+  "atum.god.anubis": "Anubis",
+  "atum.god.atem": "Atem",
+  "atum.god.geb": "Geb",
+  "atum.god.horus": "Horus",
+  "atum.god.isis": "Isis",
+  "atum.god.montu": "Montu",
+  "atum.god.nepthys": "Nepthys",
+  "atum.god.nuit": "Nuit",
+  "atum.god.osiris": "Osiris",
+  "atum.god.ptah": "Ptah",
+  "atum.god.ra": "Ra",
+  "atum.god.seth": "Seth",
+  "atum.god.shu": "Shu",
+  "atum.god.tefnut": "Tefnut",
+
   "_comment": "Creative Tab",
   "itemGroup.atum": "Atum",
 
