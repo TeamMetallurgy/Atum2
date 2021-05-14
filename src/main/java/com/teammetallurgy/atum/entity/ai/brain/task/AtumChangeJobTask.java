@@ -30,7 +30,7 @@ public class AtumChangeJobTask extends Task<VillagerEntity> {
     @Override
     protected void startExecuting(@Nonnull ServerWorld world, @Nonnull VillagerEntity entity, long gameTime) {
         if (entity instanceof AtumVillagerEntity) {
-            entity.setVillagerData(((AtumVillagerEntity) entity).getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
+            ((AtumVillagerEntity) entity).setAtumVillagerData(((AtumVillagerEntity) entity).getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
             entity.resetBrain(world);
         }
     }
