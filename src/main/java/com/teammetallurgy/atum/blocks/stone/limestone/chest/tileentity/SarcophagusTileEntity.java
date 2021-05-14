@@ -29,7 +29,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -119,7 +118,7 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
                     God godVariant = God.getGod(pharaoh.getVariant());
                     Style pharaohStyle = pharaoh.getName().getStyle();
                     for (ServerPlayerEntity playerMP : serverWorld.getServer().getPlayerList().getPlayers()) {
-                        playerMP.sendMessage(pharaoh.getName().deepCopy().setStyle(pharaohStyle.setColor(godVariant.getColor())).append(new TranslationTextComponent("chat.atum.pharaoh_worshiper").mergeStyle(TextFormatting.WHITE)).append(new StringTextComponent(StringUtils.capitalize(godVariant.getName())).setStyle(pharaohStyle.setColor(godVariant.getColor()))).append(new TranslationTextComponent("chat.atum.pharaoh_awakened").mergeStyle(TextFormatting.WHITE)).append(player.getName().deepCopy().mergeStyle(TextFormatting.YELLOW)), Util.DUMMY_UUID);
+                        playerMP.sendMessage(pharaoh.getName().deepCopy().setStyle(pharaohStyle.setColor(godVariant.getColor())).append(new TranslationTextComponent("chat.atum.pharaoh_worshiper").mergeStyle(TextFormatting.WHITE)).append(godVariant.getDisplayName().setStyle(pharaohStyle.setColor(godVariant.getColor()))).append(new TranslationTextComponent("chat.atum.pharaoh_awakened").mergeStyle(TextFormatting.WHITE)).append(player.getName().deepCopy().mergeStyle(TextFormatting.YELLOW)), Util.DUMMY_UUID);
                     }
                 }
             }
