@@ -74,7 +74,8 @@ public abstract class CurioDisplayBlock extends ContainerBlock {
             CurioDisplayTileEntity curioDisplay = (CurioDisplayTileEntity) tileEntity;
             ItemStack slotStack = curioDisplay.getStackInSlot(0);
             if (slotStack.isEmpty() && curioDisplay.isItemValidForSlot(0, heldStack)) {
-                ItemStack copyStack = new ItemStack(heldStack.getItem());
+                ItemStack copyStack = heldStack.copy();
+                copyStack.setCount(1);
                 if (!heldStack.isEmpty()) {
                     curioDisplay.setInventorySlotContents(0, copyStack);
 
