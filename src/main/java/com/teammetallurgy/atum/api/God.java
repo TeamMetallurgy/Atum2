@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.api;
 import com.google.common.collect.Maps;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
-import net.minecraft.util.text.TranslationTextComponent;
 
 public enum God implements IStringSerializable {
     ANPUT("anput", "#46403F"),

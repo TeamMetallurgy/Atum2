@@ -165,7 +165,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
 
     @Override
     protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
-        return  this.isChild() ? 0.65F : 1.55F;
+        return this.isChild() ? 0.65F : 1.55F;
     }
 
     @Override
@@ -232,10 +232,6 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     public void setAtumVillagerData(@Nonnull AtumVillagerData data) {
-        AtumVillagerData atumVillagerData = this.getAtumVillagerData();
-        if (atumVillagerData.getAtumProfession() != data.getAtumProfession()) {
-            this.offers = null;
-        }
         this.dataManager.set(ATUM_VILLAGER_DATA, data);
     }
 
@@ -272,7 +268,6 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
         super.tick();
         if (this.getVariant() == -1) {
             Race race = this.getAtumVillagerData().getRace();
-            System.out.println("CORRECTED VARIANT, WITH RACE: " + race);
             this.setRandomVariant(race);
         }
     }
