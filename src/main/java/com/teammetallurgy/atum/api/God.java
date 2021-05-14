@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.api;
 import com.google.common.collect.Maps;
 import net.minecraft.util.IStringSerializable;
 import net.minecraft.util.text.Color;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
@@ -44,6 +45,10 @@ public enum God implements IStringSerializable {
 
     public String getName() {
         return this.name;
+    }
+
+    public TranslationTextComponent getDisplayName() {
+        return new TranslationTextComponent("atum.god." + this.name);
     }
 
     public Color getColor() {

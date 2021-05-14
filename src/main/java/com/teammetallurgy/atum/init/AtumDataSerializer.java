@@ -20,6 +20,7 @@ import java.util.List;
 public class AtumDataSerializer {
     private static final List<DataSerializerEntry> DATA_SERIALIZER_ENTRIES = new ArrayList<>();
     public static final IDataSerializer<AtumVillagerData> VILLAGER_DATA = new IDataSerializer<AtumVillagerData>() {
+        @Override
         public void write(PacketBuffer buf, AtumVillagerData value) {
             buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
             buf.writeVarInt(value.getLevel());
@@ -27,6 +28,7 @@ public class AtumDataSerializer {
         }
 
         @Override
+        @Nonnull
         public AtumVillagerData read(PacketBuffer buf) {
             return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readString())), buf.readVarInt(), buf.readEnumValue(Race.class));
         }

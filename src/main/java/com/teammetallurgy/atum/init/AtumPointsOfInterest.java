@@ -36,7 +36,7 @@ public class AtumPointsOfInterest {
     public static final PointOfInterestType PORTAL = register("portal", getAllStates(AtumBlocks.PORTAL), 0, 1);
     public static final PointOfInterestType UNEMPLOYED = register("unemployed", ImmutableSet.of(), 1, ANY_VILLAGER_WORKSTATION, 1);
     public static final PointOfInterestType CURATOR = register("curator", CURIO_DISPLAYS, 1, 1);
-    public static final PointOfInterestType GLASSBLOWER = register("glassblower", getAllStates(AtumBlocks.GLASSBLOWER_FURNACE), 0, 1);
+    public static final PointOfInterestType GLASSBLOWER = register("glassblower", getAllStates(AtumBlocks.GLASSBLOWER_FURNACE), 1, 1);
 
     public static PointOfInterestType register(String name, Set<BlockState> states, int maxFreeTickets, int validRange) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);

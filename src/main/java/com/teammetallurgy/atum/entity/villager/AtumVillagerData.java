@@ -29,7 +29,7 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
     public AtumVillagerData(AtumVillagerProfession profession, int level, Race race) {
         super(null, null, level);
         this.profession = profession;
-        this.level = level;
+        this.level = Math.max(1, level);
         this.race = race;
     }
 
@@ -39,6 +39,11 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
 
     public Race getRace() {
         return this.race;
+    }
+
+    @Override
+    public int getLevel() {
+        return this.level;
     }
 
     @Nonnull
