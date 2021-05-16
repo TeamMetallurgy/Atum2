@@ -47,7 +47,9 @@ public class GirafiTombPieces {
         private void loadTemplate(TemplateManager manager) {
             Template template = manager.getTemplate(GIRAFI_TOMB);
             PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
-            this.setup(template, this.templatePosition, placementsettings);
+            if (template != null) {
+                this.setup(template, this.templatePosition, placementsettings);
+            }
         }
 
         @Override
