@@ -214,6 +214,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.WEST);
 
     @Override
+    @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();

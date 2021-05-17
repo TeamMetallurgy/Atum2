@@ -185,7 +185,9 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileE
         ItemStack slotStack = this.inventory.get(index);
         boolean isValid = !stack.isEmpty() && stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack);
 
-        this.inventory.set(index, stack);
+        if (slotStack.getCount() <= this.getInventoryStackLimit()) {
+            this.inventory.set(index, stack);
+        }
 
         if (stack.getCount() > this.getInventoryStackLimit()) {
             stack.setCount(this.getInventoryStackLimit());
