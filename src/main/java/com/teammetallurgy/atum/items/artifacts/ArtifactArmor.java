@@ -118,7 +118,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
         ImmutableMultimap.Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
         builder.putAll(super.getAttributeModifiers(slotType));
 
-        if (slotType == EquipmentSlotType.CHEST) {
+        if (this.getChestplate() == this && slotType == EquipmentSlotType.CHEST) {
             builder.put(Attributes.ARMOR_TOUGHNESS, new AttributeModifier(UUID.fromString("dfdc4a46-06ab-4a7c-b726-1c53e56036d6"), "Armor toughness", 3.0D, AttributeModifier.Operation.ADDITION));
         }
         return builder.build();
