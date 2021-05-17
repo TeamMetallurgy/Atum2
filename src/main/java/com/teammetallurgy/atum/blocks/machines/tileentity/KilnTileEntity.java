@@ -179,15 +179,12 @@ public class KilnTileEntity extends KilnBaseTileEntity implements ITickableTileE
             if (primary != null) {
                 primary.setInventorySlotContents(index, stack);
             }
-            return;
         }
 
         ItemStack slotStack = this.inventory.get(index);
         boolean isValid = !stack.isEmpty() && stack.isItemEqual(slotStack) && ItemStack.areItemStackTagsEqual(stack, slotStack);
 
-        if (slotStack.getCount() <= this.getInventoryStackLimit()) {
-            this.inventory.set(index, stack);
-        }
+        this.inventory.set(index, stack);
 
         if (stack.getCount() > this.getInventoryStackLimit()) {
             stack.setCount(this.getInventoryStackLimit());

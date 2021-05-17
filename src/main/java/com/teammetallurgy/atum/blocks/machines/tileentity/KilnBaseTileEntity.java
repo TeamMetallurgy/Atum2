@@ -115,7 +115,8 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISide
                 return false;
             }
         }
-        return this.isItemValidForSlot(index, stack);
+        ItemStack slotStack = this.inventory.get(index);
+        return (slotStack.isEmpty() || slotStack.getCount() < this.getInventoryStackLimit()) && this.isItemValidForSlot(index, stack);
     }
 
     @Override
