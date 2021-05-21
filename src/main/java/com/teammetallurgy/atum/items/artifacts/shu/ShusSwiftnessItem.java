@@ -19,7 +19,7 @@ public class ShusSwiftnessItem extends AmuletItem implements IArtifact {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("f51280de-21d2-47f5-bc9a-e55ef1acfe2d"), "Shu's Swiftness speed boost", 0.025D, AttributeModifier.Operation.ADDITION);
 
     public ShusSwiftnessItem() {
-        super(new Item.Properties());
+        super(new Item.Properties().maxStackSize(1));
     }
 
     @Override

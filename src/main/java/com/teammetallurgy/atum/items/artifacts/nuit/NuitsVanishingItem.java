@@ -24,7 +24,7 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     protected static final Object2BooleanMap<LivingEntity> INVISIBLE = new Object2BooleanOpenHashMap<>();
 
     public NuitsVanishingItem() {
-        super(new Item.Properties());
+        super(new Item.Properties().maxStackSize(1));
     }
 
     @Override

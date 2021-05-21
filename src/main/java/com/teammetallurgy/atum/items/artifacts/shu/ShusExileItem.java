@@ -46,7 +46,7 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
 
     @SubscribeEvent
     public static void onKnockback(LivingKnockBackEvent event) {
-        Entity attacker = event.getEntityLiving();
+        Entity attacker = event.getEntityLiving(); //TODO. No way to get attacker currently, both getEntityLiving and getEntity returns the target
         if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
             PlayerEntity player = (PlayerEntity) attacker;
             if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && COOLDOWN.getFloat(attacker) == 1.0F) {
