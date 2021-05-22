@@ -553,6 +553,8 @@ public class AtumBlocks {
         fire.setFireInfo(PALM_STAIRS, 5, 20);
         fire.setFireInfo(DEADWOOD_STAIRS, 5, 20);
         fire.setFireInfo(EMMER_BLOCK, 60, 20);
+        fire.setFireInfo(PALM_SCAFFOLDING, 60, 60);
+        fire.setFireInfo(DEADWOOD_SCAFFOLDING, 60, 60);
     }
 
     public static StainedGlassBlock createStainedGlassFromColor(DyeColor color) {
