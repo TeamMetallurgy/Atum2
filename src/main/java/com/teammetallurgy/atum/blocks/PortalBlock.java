@@ -77,7 +77,8 @@ public class PortalBlock extends BreakableBlock {
     @Override
     public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
         Size size = new Size(world, pos);
-        if (neighborBlock == this || size.isSandBlock(neighborBlock.getDefaultState())) {
+        BlockPos posUp = pos.up();
+        if (neighborBlock == this || !(neighborPos.getX() == posUp.getX() && neighborPos.getY() == posUp.getY() && neighborPos.getZ() == posUp.getZ())) {
             if (!size.isValid()) {
                 world.setBlockState(pos, Blocks.AIR.getDefaultState());
             }
