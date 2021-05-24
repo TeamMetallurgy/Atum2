@@ -81,7 +81,7 @@ public class ClientEvents {
     public static void onRender(RenderPlayerEvent.Pre event) {
         Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.NUITS_VANISHING, event.getEntityLiving());
         if (optional.isPresent()) {
-            if (!NuitsVanishingItem.isLivingEntityMoving(event.getEntityLiving())) {
+            if (!NuitsVanishingItem.TIMER.containsKey(event.getEntityLiving()) && !NuitsVanishingItem.isLivingEntityMoving(event.getEntityLiving())) {
                 event.setCanceled(true);
             }
         }
