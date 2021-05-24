@@ -73,7 +73,7 @@ public class DesertWolfModel<T extends DesertWolfEntity> extends TintedAgeableMo
             this.tail.rotateAngleY = MathHelper.cos(limbSwing * 0.6662F) * tailAmount * limbSwingAmount;
         }
 
-        if (desertWolf.isSleeping()) {
+        if (desertWolf.isEntitySleeping()) {
             this.mane.setRotationPoint(-1.0F, 16.0F, -3.0F);
             this.mane.rotateAngleX = ((float) Math.PI * 2F / 5F);
             this.mane.rotateAngleY = 0.0F;

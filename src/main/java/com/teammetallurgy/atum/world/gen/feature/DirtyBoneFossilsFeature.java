@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 
 public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
-    private static final int FOSSIL_AMOUNT = 16;
+    private static final int FOSSIL_AMOUNT = 15;
 
     public DirtyBoneFossilsFeature(Codec<NoFeatureConfig> config) {
         super(config);
@@ -29,8 +29,8 @@ public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
     public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         Rotation[] rotations = Rotation.values();
         Rotation rotation = rotations[rand.nextInt(rotations.length)];
-        int size = rand.nextInt(FOSSIL_AMOUNT);
-        TemplateManager manager = seedReader.getWorld().getStructureTemplateManager();
+        int size = rand.nextInt(FOSSIL_AMOUNT) + 1;
+        TemplateManager manager = seedReader.getWorld().getServer().getTemplateManager();
         Template template = manager.getTemplateDefaulted(new ResourceLocation(Atum.MOD_ID, "fossils/fossil_" + size));
         ChunkPos chunkPos = new ChunkPos(pos);
         MutableBoundingBox box = new MutableBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), 256, chunkPos.getZEnd());

@@ -2,9 +2,15 @@ package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
+import com.teammetallurgy.atum.blocks.vegetation.FertileSoilTilledBlock;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
-import net.minecraft.block.*;
+import com.teammetallurgy.atum.init.AtumBlocks;
+import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CropsBlock;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.memory.WalkTarget;
@@ -70,28 +76,27 @@ public class AtumFarmTask extends Task<VillagerEntity> {
         BlockState blockstate = serverworld.getBlockState(pos);
         Block block = blockstate.getBlock();
         Block block1 = serverworld.getBlockState(pos.down()).getBlock();
-        return block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(blockstate) || blockstate.isAir() && block1 instanceof FarmlandBlock;
+        return block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(blockstate) || blockstate.isAir() && block1 instanceof FertileSoilTilledBlock;
     }
 
     @Override
-    protected void startExecuting(ServerWorld world, VillagerEntity entity, long gameTimeIn) {
-        if (gameTimeIn > this.taskCooldown && this.pos != null) {
+    protected void startExecuting(@Nonnull ServerWorld world, @Nonnull VillagerEntity entity, long gameTime) {
+        if (gameTime > this.taskCooldown && this.pos != null) {
             entity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosWrapper(this.pos));
             entity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosWrapper(this.pos), 0.5F, 1));
         }
-
     }
 
     @Override
-    protected void resetTask(ServerWorld world, VillagerEntity entity, long gameTimeIn) {
+    protected void resetTask(@Nonnull ServerWorld world, VillagerEntity entity, long gameTime) {
         entity.getBrain().removeMemory(MemoryModuleType.LOOK_TARGET);
         entity.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
         this.idleTime = 0;
-        this.taskCooldown = gameTimeIn + 40L;
+        this.taskCooldown = gameTime + 40L;
     }
 
     @Override
-    protected void updateTask(ServerWorld world, VillagerEntity owner, long gameTime) {
+    protected void updateTask(@Nonnull ServerWorld world, @Nonnull VillagerEntity owner, long gameTime) {
         if (this.pos == null || this.pos.withinDistance(owner.getPositionVec(), 1.0D)) {
             if (this.pos != null && gameTime > this.taskCooldown) {
                 BlockState blockstate = world.getBlockState(this.pos);
@@ -101,15 +106,18 @@ public class AtumFarmTask extends Task<VillagerEntity> {
                     world.destroyBlock(this.pos, true, owner);
                 }
 
-                if (blockstate.isAir() && block1 instanceof FarmlandBlock && owner.isFarmItemInInventory()) {
+                if (blockstate.isAir() && block1 instanceof FertileSoilTilledBlock && owner.isFarmItemInInventory()) {
                     Inventory inventory = owner.getVillagerInventory();
 
                     for (int i = 0; i < inventory.getSizeInventory(); ++i) {
                         ItemStack itemstack = inventory.getStackInSlot(i);
                         boolean flag = false;
                         if (!itemstack.isEmpty()) {
-                            if (itemstack.getItem() == Items.WHEAT_SEEDS) {
-                                world.setBlockState(this.pos, Blocks.WHEAT.getDefaultState(), 3);
+                            if (itemstack.getItem() == AtumItems.EMMER_SEEDS) {
+                                world.setBlockState(this.pos, AtumBlocks.EMMER_WHEAT.getDefaultState(), 3);
+                                flag = true;
+                            } else if (itemstack.getItem() == AtumItems.FLAX_SEEDS) {
+                                world.setBlockState(this.pos, AtumBlocks.FLAX.getDefaultState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() == Items.POTATO) {
                                 world.setBlockState(this.pos, Blocks.POTATOES.getDefaultState(), 3);

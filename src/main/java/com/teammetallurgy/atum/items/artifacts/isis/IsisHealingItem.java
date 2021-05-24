@@ -19,7 +19,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
     protected static final Object2IntMap<LivingEntity> DURATION = new Object2IntOpenHashMap<>();
 
     public IsisHealingItem() {
-        super(new Item.Properties());
+        super(new Item.Properties().maxStackSize(1));
     }
 
     @Override

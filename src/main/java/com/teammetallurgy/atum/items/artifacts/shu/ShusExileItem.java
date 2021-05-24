@@ -9,14 +9,12 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Rarity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.event.entity.living.LivingKnockBackEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -37,21 +35,15 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        PlayerEntity player = event.getPlayer();
-        if (player.world.isRemote) return;
-        if (event.getTarget() instanceof LivingEntity && player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE) {
-            COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
-        }
-    }
+        PlayerEntity attacker = event.getPlayer();
+        if (attacker.world.isRemote) return;
+        if (event.getTarget() instanceof LivingEntity && attacker.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE) {
+            COOLDOWN.put(attacker, attacker.getCooledAttackStrength(0.5F));
 
-    @SubscribeEvent
-    public static void onKnockback(LivingKnockBackEvent event) {
-        Entity attacker = event.getEntityLiving();
-        if (attacker instanceof PlayerEntity && COOLDOWN.containsKey(attacker)) {
-            PlayerEntity player = (PlayerEntity) attacker;
-            if (player.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE && COOLDOWN.getFloat(attacker) == 1.0F) {
-                LivingEntity target = event.getEntityLiving();
-                event.setStrength(event.getStrength() * 3F);
+            if (COOLDOWN.getFloat(attacker) == 1.0F) {
+                LivingEntity target = (LivingEntity) event.getTarget();
+                float defaultKnockback = 0.5F;
+                target.applyKnockback(defaultKnockback * 3, MathHelper.sin(attacker.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(attacker.rotationYaw * ((float) Math.PI / 180F)));
                 if (target.world instanceof ServerWorld) {
                     double x = MathHelper.nextDouble(random, 0.001D, 0.02D);
                     double z = MathHelper.nextDouble(random, 0.001D, 0.02D);
@@ -59,7 +51,6 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
                     serverWorld.spawnParticle(AtumParticles.SHU, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + target.getEyeHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }
-            COOLDOWN.removeFloat(attacker);
         }
     }
 }

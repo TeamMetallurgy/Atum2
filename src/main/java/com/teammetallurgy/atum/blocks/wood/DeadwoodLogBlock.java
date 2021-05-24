@@ -22,10 +22,16 @@ import javax.annotation.Nonnull;
 
 public class DeadwoodLogBlock extends RotatedPillarBlock {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("has_scarab");
+    private boolean canBeStripped;
 
     public DeadwoodLogBlock() {
         super(AbstractBlock.Properties.create(Material.WOOD, (state) -> state.get(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.OBSIDIAN : MaterialColor.BROWN).hardnessAndResistance(1.0F).sound(SoundType.WOOD));
         this.setDefaultState(this.stateContainer.getBaseState().with(AXIS, Direction.Axis.Y).with(HAS_SCARAB, false));
+    }
+
+    public DeadwoodLogBlock setCanBeStripped() {
+        this.canBeStripped = true;
+        return this;
     }
 
     @Override
@@ -48,6 +54,10 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
 
     @Override
     public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, ItemStack stack, ToolType toolType) {
-        return toolType == ToolType.AXE ? AtumBlocks.STRIPPED_DEADWOOD_LOG.getDefaultState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
+        if (this.canBeStripped) {
+            return toolType == ToolType.AXE ? AtumBlocks.STRIPPED_DEADWOOD_LOG.getDefaultState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
+        } else {
+            return null;
+        }
     }
 }

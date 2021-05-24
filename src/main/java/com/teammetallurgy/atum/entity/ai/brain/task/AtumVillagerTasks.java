@@ -43,7 +43,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     public static ImmutableList<Pair<Integer, ? extends Task<? super VillagerEntity>>> work(EntityType<? extends AtumVillagerEntity> entityType, AtumVillagerProfession profession, float p_220639_1_) { //AtumFarmTask changed. GiveHeroGiftsTask removed
         SpawnGolemTask spawngolemtask;
         if (profession == AtumVillagerProfession.FARMER.get()) {
-            spawngolemtask = new FarmerWorkTask();
+            spawngolemtask = new AtumFarmerWorkTask();
         } else {
             spawngolemtask = new SpawnGolemTask();
         }

@@ -37,6 +37,9 @@ repositories {
     name = "Curios"
     url = "https://maven.theillusivec4.top/"
   }
+  maven {
+    url "https://nexus.resourcefulbees.com/repository/maven-public/"
+  }
   flatDir { dirs 'deps' }
 }
 
@@ -51,6 +54,8 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 atum {
                     source sourceSets.main
@@ -59,6 +64,8 @@ minecraft {
         }
         server {
             workingDirectory project.file('run')
+            property 'mixin.env.remapRefMap', 'true'
+            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 atum {
                     source sourceSets.main
@@ -86,6 +93,7 @@ dependencies {
     compile "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
+    implementation fg.deobf("com.telepathicgrunt:Blame:1.16.5-3.0.2-forge")
 }
 
 

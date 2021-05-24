@@ -28,19 +28,17 @@ public class ArrowStraightEntity extends CustomArrow {
 
     @Override
     public void tick() {
-        if (!world.isRemote) {
-            super.tick();
-        }
+        super.tick();
 
         if (this.velocity == 1.0F) {
             this.setMotion(this.getMotion().add(0.0D, 0.05D, 0.0D));
-            if (!this.inGround && ticksExisted > 300) {
+            if (!this.inGround && this.ticksExisted > 300) {
                 this.remove();
             }
 
-            if (this.func_234616_v_() instanceof LivingEntity && !inGround && velocity == 1.0F && this.isAlive()) {
-                if (world instanceof ServerWorld) {
-                    ServerWorld serverWorld = (ServerWorld) world;
+            if (this.func_234616_v_() instanceof LivingEntity && !this.inGround && this.velocity == 1.0F && this.isAlive()) {
+                if (this.world instanceof ServerWorld && this.ticksExisted > 2) {
+                    ServerWorld serverWorld = (ServerWorld) this.world;
                     serverWorld.spawnParticle(AtumParticles.HORUS, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
                 }
             }

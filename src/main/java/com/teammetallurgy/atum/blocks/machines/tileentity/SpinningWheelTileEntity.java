@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -77,33 +76,26 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Override
     public boolean canInsertItem(int index, @Nonnull ItemStack stack, Direction facing) {
-        int spool = world.getBlockState(pos).get(SpinningWheelBlock.SPOOL);
-        if (this.getStackInSlot(0).isEmpty() && this.getStackInSlot(1).isEmpty() && index == 0 && this.isItemValidForSlot(0, stack) && spool < 3
-                && (this.input.isEmpty() || StackHelper.areStacksEqualIgnoreSize(ItemStack.read(this.input), stack))) {
-            if (this.input.isEmpty()) {
-                this.input = stack.write(new CompoundNBT());
-            }
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     @Override
     public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction direction) {
-        SpinningWheelBlock spinningWheel = (SpinningWheelBlock) world.getBlockState(pos).getBlock();
-        if (index == 1 && direction == Direction.DOWN) {
-            spinningWheel.output(world, pos, null, this);
-            return true;
-        } else {
+        if (this.world != null) {
+            SpinningWheelBlock spinningWheel = (SpinningWheelBlock) world.getBlockState(pos).getBlock();
+            if (index == 1 && direction == Direction.DOWN) {
+                spinningWheel.output(world, pos, null, this);
+                return true;
+            }
             return false;
         }
+        return false;
     }
 
     LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.DOWN, Direction.WEST);
 
-    @Nullable
     @Override
+    @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (facing != null) {

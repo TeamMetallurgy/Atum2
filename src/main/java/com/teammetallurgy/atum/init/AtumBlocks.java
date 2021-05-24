@@ -491,7 +491,7 @@ public class AtumBlocks {
     public static final Block STRIPPED_PALM_LOG = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "stripped_palm_log");
     public static final Block PALM_WOOD = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "palm_wood");
     public static final Block STRIPPED_PALM_WOOD = registerBlock(new RotatedPillarBlock(from(PALM_LOG)), "stripped_palm_wood");
-    public static final Block DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock(), "deadwood_log");
+    public static final Block DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock().setCanBeStripped(), "deadwood_log");
     public static final Block STRIPPED_DEADWOOD_LOG = registerBlock(new DeadwoodLogBlock(), "stripped_deadwood_log");
     public static final Block DEADWOOD_WOOD = registerBlock(new DeadwoodLogBlock(), "deadwood_wood");
     public static final Block STRIPPED_DEADWOOD_WOOD = registerBlock(new DeadwoodLogBlock(), "stripped_deadwood_wood");
@@ -553,6 +553,8 @@ public class AtumBlocks {
         fire.setFireInfo(PALM_STAIRS, 5, 20);
         fire.setFireInfo(DEADWOOD_STAIRS, 5, 20);
         fire.setFireInfo(EMMER_BLOCK, 60, 20);
+        fire.setFireInfo(PALM_SCAFFOLDING, 60, 60);
+        fire.setFireInfo(DEADWOOD_SCAFFOLDING, 60, 60);
     }
 
     public static StainedGlassBlock createStainedGlassFromColor(DyeColor color) {

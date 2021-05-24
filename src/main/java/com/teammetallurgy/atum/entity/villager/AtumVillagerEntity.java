@@ -379,6 +379,11 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     }
 
     @Override
+    public boolean isFarmItemInInventory() {
+        return super.isFarmItemInInventory() || this.getVillagerInventory().hasAny(ImmutableSet.of(AtumItems.EMMER_SEEDS, AtumItems.FLAX_SEEDS));
+    }
+
+    @Override
     protected void populateTradeData() {
         AtumVillagerData data = this.getAtumVillagerData();
         Int2ObjectMap<VillagerTrades.ITrade[]> map = AtumVillagerTrades.VILLAGER_DEFAULT_TRADES.get(data.getAtumProfession());

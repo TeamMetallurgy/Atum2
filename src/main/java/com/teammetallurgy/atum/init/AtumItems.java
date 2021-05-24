@@ -40,6 +40,7 @@ import com.teammetallurgy.atum.items.food.EmmerFlourItem;
 import com.teammetallurgy.atum.items.food.FishItem;
 import com.teammetallurgy.atum.items.food.QuailEggItem;
 import com.teammetallurgy.atum.items.tools.*;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.potion.EffectInstance;
@@ -221,7 +222,10 @@ public class AtumItems {
     public static final Item CRUNCHY_GOLD_SCARAB = registerItem(new CrunchyScarabItem(new Item.Properties().food(AtumFoods.CRUNCHY_GOLD_SCARAB)), "crunchy_golden_scarab");
 
     public static void setItemInfo() {
-
+        ComposterBlock.CHANCES.put(EMMER_SEEDS, 0.3F);
+        ComposterBlock.CHANCES.put(EMMER, 0.65F);
+        ComposterBlock.CHANCES.put(EMMER_BREAD, 0.85F);
+        ComposterBlock.CHANCES.put(FLAX, 0.50F);
     }
 
     public static class AtumFoods {

@@ -1,6 +1,5 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.DeadBushBlock;
@@ -9,6 +8,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public class ShrubBlock extends DeadBushBlock {
 
     @Override
     protected boolean isValidGround(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return state.getBlock() == AtumBlocks.SAND;
+        return state.getBlock().isIn(BlockTags.SAND);
     }
 
     @Override

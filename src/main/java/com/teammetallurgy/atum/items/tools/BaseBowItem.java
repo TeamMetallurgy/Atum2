@@ -31,7 +31,7 @@ public class BaseBowItem extends BowItem {
             boolean infinity = player.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
             ItemStack ammoStack = player.findAmmo(stack);
 
-            int maxUses = this.getUseDuration(stack) - timeLeft;
+            int maxUses = this.getArrowLoose(stack, timeLeft);
             maxUses = ForgeEventFactory.onArrowLoose(stack, world, player, maxUses, !ammoStack.isEmpty() || infinity);
             if (maxUses < 0) return;
 
@@ -100,6 +100,10 @@ public class BaseBowItem extends BowItem {
 
     protected void onShoot(AbstractArrowEntity arrow, PlayerEntity player, float velocity) {
         arrow.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 3.0F, 1.0F);
+    }
+
+    public int getArrowLoose(@Nonnull ItemStack stack, int timeLeft) {
+        return this.getUseDuration(stack) - timeLeft;
     }
 
     public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {

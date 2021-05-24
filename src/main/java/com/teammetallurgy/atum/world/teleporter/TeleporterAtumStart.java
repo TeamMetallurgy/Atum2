@@ -7,7 +7,6 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.IFeatureConfig;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.ITeleporter;
 
@@ -45,11 +44,11 @@ public class TeleporterAtumStart implements ITeleporter {
                 spawnPos = spawnPos.add(4, 0, 4);
             }
             if (!AtumConfig.ATUM_START.atumStartStructure.get().isEmpty()) {
-                ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+                ConfiguredFeature<?, ?> startStructure = AtumFeatures.START_STRUCTURE_CONFIGURED;
                 startStructure.generate(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
             }
             if (world.getServer().getServerConfiguration().getDimensionGeneratorSettings().hasBonusChest()) {
-                ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG);
+                ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE_CONFIGURED;
                 bonusCrate.generate(world, world.getChunkProvider().getChunkGenerator(), world.rand, spawnPos);
             }
         }
