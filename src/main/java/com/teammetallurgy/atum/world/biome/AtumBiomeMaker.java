@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.init.AtumStructures;
@@ -10,18 +9,11 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.AtumDefaultFeatures;
 import com.teammetallurgy.atum.world.gen.AtumSurfaceBuilders;
 import com.teammetallurgy.atum.world.gen.carver.AtumCarvers;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStage;
-import net.minecraft.world.gen.blockplacer.SimpleBlockPlacer;
-import net.minecraft.world.gen.blockstateprovider.SimpleBlockStateProvider;
-import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.foliageplacer.AcaciaFoliagePlacer;
-import net.minecraft.world.gen.placement.*;
-import net.minecraft.world.gen.trunkplacer.ForkyTrunkPlacer;
 
 import static net.minecraft.world.gen.GenerationStage.Decoration.*;
 
@@ -29,8 +21,8 @@ public class AtumBiomeMaker {
 
     public static Biome makeDeadOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.SPARSE_DRY_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(5));
-        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(AtumFeatures.DEAD_PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_DRY_GRASS_SPREAD_5);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEAD_PALM_TREE);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
@@ -54,22 +46,22 @@ public class AtumBiomeMaker {
 
     public static Biome makeSparseWoods(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        biomeGen.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.SPARSE_DRY_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 2, 3))));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.SPARSE_TALL_GRASS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.FLOWER_TALL_GRASS_PLACEMENT).square().withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, 7))));
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 3, 0.1F, 1);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_DRY_GRASS_NOISE_08_2_3);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.SPARSE_TALL_GRASS);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_3_01_1);
         return makeBaseWoods(biomeName, biomeGen);
     }
 
     public static Biome makeDenseWoods(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        biomeGen.withFeature(GenerationStage.Decoration.VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DENSE_DRY_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, 10))));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DRY_TALL_GRASS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.FLOWER_TALL_GRASS_PLACEMENT).square().withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, 7))));
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 20, 0.25F, 3);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DENSE_DRY_GRASS_NOISE_08_5_10);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DRY_TALL_GRASS);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_20_025_3);
         return makeBaseWoods(biomeName, biomeGen);
     }
 
     private static Biome makeBaseWoods(String biomeName, BiomeGenerationSettings.Builder biomeGen) {
-        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ANPUTS_FINGERS.withConfiguration(AtumFeatures.ANPUTS_FINGERS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.HEIGHTMAP_WORLD_SURFACE.configure(IPlacementConfig.NO_PLACEMENT_CONFIG)).func_242731_b(16));
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ANPUTS_FINGERS_CONFIGURED);
         addDefaultSpawns(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
@@ -92,7 +84,7 @@ public class AtumBiomeMaker {
 
     public static Biome makeDriedRiver(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
-        biomeGen.withFeature(UNDERGROUND_ORES, Feature.ORE.withConfiguration(new OreFeatureConfig(AtumDefaultFeatures.LIMESTONE_CRACKED, AtumBlocks.MARL.getDefaultState(), 32)).withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(55, 0, 67))).func_242731_b(90));
+        biomeGen.withFeature(UNDERGROUND_ORES, AtumFeatures.MARL_DRIED_RIVER);
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addSandLayer(biomeGen);
         AtumDefaultFeatures.addSprings(biomeGen);
@@ -111,8 +103,8 @@ public class AtumBiomeMaker {
 
     public static Biome makeLimestoneCrags(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        biomeGen.withFeature(SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE.withConfiguration(IFeatureConfig.NO_FEATURE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(3));
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.2F, 1);
+        biomeGen.withFeature(SURFACE_STRUCTURES, AtumFeatures.LIMESTONE_SPIKE_CONFIGURED);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_02_1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
@@ -133,10 +125,7 @@ public class AtumBiomeMaker {
 
     public static Biome makeLimestoneMountain(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY_LIMESTONE));
-        /*if (AtumConfig.WORLD_GEN.lighthouseEnabled.get()) {
-            biomeGen.withStructure(AtumStructures.LIGHTHOUSE_FEATURE);
-        }*/
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.1F, 1);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_01_1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
@@ -158,15 +147,15 @@ public class AtumBiomeMaker {
     public static Biome makeOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.OASIS));
         biomeGen.withCarver(GenerationStage.Carving.AIR, AtumCarvers.CAVE_CONFIGURED);
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.OASIS_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(16));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.PAPYRUS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(3));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration((new BlockClusterFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.LILY_PAD.getDefaultState()), SimpleBlockPlacer.PLACER)).tries(7).build()).withPlacement(Features.Placements.PATCH_PLACEMENT).func_242731_b(2));
-        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(AtumFeatures.PALM_TREE_CONFIG).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(9, 0.25F, 2))));
-        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ATUM_TREE.withConfiguration(new BaseTreeFeatureConfig.Builder(new SimpleBlockStateProvider(Blocks.ACACIA_LOG.getDefaultState()), new SimpleBlockStateProvider(Blocks.ACACIA_LEAVES.getDefaultState()), new AcaciaFoliagePlacer(FeatureSpread.func_242252_a(2), FeatureSpread.func_242252_a(0)), new ForkyTrunkPlacer(5, 2, 2), new TwoLayerFeature(1, 0, 2)).setIgnoreVines().build()).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).withPlacement(Placement.COUNT_EXTRA.configure(new AtSurfaceWithExtraConfig(1, 0.1F, 1))));
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.OASIS_GRASS);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.PAPYRUS);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.LILY_PAD);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.PALM_TREE);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.ACACIA_TREE);
         addCamelSpawning(biomeName);
         addSpawn(biomeName, AtumEntities.QUAIL, 8, 2, 5, EntityClassification.CREATURE);
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DENSE_DRY_GRASS_CONFIG).withPlacement(Features.Placements.PATCH_PLACEMENT).withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 5, 10))));
-        biomeGen.withFeature(VEGETAL_DECORATION, Feature.RANDOM_PATCH.withConfiguration(AtumFeatures.DRY_TALL_GRASS_CONFIG).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.FLOWER_TALL_GRASS_PLACEMENT).square().withPlacement(Placement.COUNT_NOISE.configure(new NoiseDependant(-0.8D, 0, 7))));
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DENSE_DRY_GRASS_NOISE_08_5_10);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DRY_TALL_GRASS);
         AtumDefaultFeatures.addCarvers(biomeGen);
         AtumDefaultFeatures.addMaterialPockets(biomeGen);
         AtumDefaultFeatures.addStoneVariants(biomeGen);
@@ -180,7 +169,7 @@ public class AtumBiomeMaker {
 
     public static Biome makeSandDunes(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.01F, 1);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_01_1);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
@@ -203,7 +192,7 @@ public class AtumBiomeMaker {
 
     public static Biome makeSandHills(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.08F, 1);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_08_1);
         addDefaultSpawns(biomeName);
         addDesertWolfSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);
@@ -225,7 +214,7 @@ public class AtumBiomeMaker {
     public static Biome makeSandPlains(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().withSurfaceBuilder(AtumSurfaceBuilders.SANDY));
         biomeGen.withStructure(AtumStructures.GIRAFI_TOMB_FEATURE);
-        AtumDefaultFeatures.addDeadwoodTrees(biomeGen, 0, 0.025F, 1);
+        biomeGen.withFeature(VEGETAL_DECORATION, AtumFeatures.DEADWOOD_0_025_1);
         addDefaultSpawns(biomeName);
         addCamelSpawning(biomeName);
         AtumDefaultFeatures.addCarvers(biomeGen);

@@ -30,7 +30,7 @@ public class DirtyBoneFossilsFeature extends Feature<NoFeatureConfig> {
         Rotation[] rotations = Rotation.values();
         Rotation rotation = rotations[rand.nextInt(rotations.length)];
         int size = rand.nextInt(FOSSIL_AMOUNT);
-        TemplateManager manager = seedReader.getWorld().getStructureTemplateManager();
+        TemplateManager manager = seedReader.getWorld().getServer().getTemplateManager();
         Template template = manager.getTemplateDefaulted(new ResourceLocation(Atum.MOD_ID, "fossils/fossil_" + size));
         ChunkPos chunkPos = new ChunkPos(pos);
         MutableBoundingBox box = new MutableBoundingBox(chunkPos.getXStart(), 0, chunkPos.getZStart(), chunkPos.getXEnd(), 256, chunkPos.getZEnd());

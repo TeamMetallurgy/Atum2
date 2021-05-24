@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world.gen.structure.tomb;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.DimensionHelper;
-import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.util.Rotation;
 import net.minecraft.util.SharedSeedRandom;
 import net.minecraft.util.math.BlockPos;
