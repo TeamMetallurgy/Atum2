@@ -33,7 +33,12 @@ public class ShusBreathItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
+    public int getArrowLoose(@Nonnull ItemStack stack, int timeLeft) {
+        return super.getArrowLoose(stack, timeLeft) * 2;
+    }
+
+    @Override
     public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
-        return (float) (stack.getUseDuration() - entity.getItemInUseCount()) / 10.0F;
+        return super.getDrawbackSpeed(stack, entity) * 2.0F;
     }
 }

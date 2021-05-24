@@ -33,6 +33,11 @@ public class MontusBlastItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
+    public int getArrowLoose(@Nonnull ItemStack stack, int timeLeft) {
+        return super.getArrowLoose(stack, timeLeft) / 2;
+    }
+
+    @Override
     public float getDrawbackSpeed(@Nonnull ItemStack stack, LivingEntity entity) {
         return super.getDrawbackSpeed(stack, entity) / 2.0F;
     }
