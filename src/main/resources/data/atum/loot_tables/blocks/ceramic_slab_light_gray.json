@@ -6,12 +6,25 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "atum:ceramic_slab_light_gray"
-        }
-      ],
-      "conditions": [
-        {
-          "condition": "minecraft:survives_explosion"
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "atum:atum:ceramic_slab_light_gray",
+                  "properties": {
+                    "type": "double"
+                  }
+                }
+              ],
+              "count": 2
+            },
+            {
+              "function": "minecraft:explosion_decay"
+            }
+          ],
+          "name": "atum:atum:ceramic_slab_light_gray"
         }
       ]
     }
