@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.KhopeshItem;
+import com.teammetallurgy.atum.misc.StackHelper;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import net.minecraft.entity.Entity;
@@ -16,6 +17,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Rarity;
 import net.minecraft.item.UseAction;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.ActionResult;
@@ -32,7 +34,6 @@ import javax.annotation.Nullable;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
-    private boolean isOffhand = false;
     private static final Object2BooleanMap<LivingEntity> IS_BLOCKING = new Object2BooleanOpenHashMap<>();
 
     public NuitsQuarterItem() {
@@ -52,23 +53,24 @@ public class NuitsQuarterItem extends KhopeshItem implements IArtifact {
 
     @Override
     public int getUseDuration(@Nonnull ItemStack stack) {
-        return isOffhand ? 72000 : 0;
+        return this.getIsOffHand(stack) ? 72000 : 0;
     }
 
     @Override
     public boolean isShield(@Nonnull ItemStack stack, @Nullable LivingEntity entity) {
-        return isOffhand;
+        return this.getIsOffHand(stack);
     }
 
     @Override
     @Nonnull
     public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull Hand hand) {
+        CompoundNBT tag = StackHelper.getTag(player.getHeldItem(hand));
         if (hand == Hand.OFF_HAND) {
             player.setActiveHand(Hand.OFF_HAND);
-            this.isOffhand = true;
+            tag.putBoolean("is_offhand", true);
             return new ActionResult<>(ActionResultType.SUCCESS, player.getHeldItem(Hand.OFF_HAND));
         }
-        this.isOffhand = false;
+        tag.putBoolean("is_offhand", false);
         return super.onItemRightClick(world, player, hand);
     }
 

@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.misc.StackHelper;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -32,6 +33,10 @@ public class KhopeshItem extends SwordItem {
 
     public KhopeshItem(IItemTier itemTier, Item.Properties properties) {
         super(itemTier, 3, -2.6F, properties.group(Atum.GROUP));
+    }
+
+    public boolean getIsOffHand(@Nonnull ItemStack stack) {
+        return StackHelper.hasKey(stack, "is_offhand") && stack.getTag() != null && stack.getTag().getBoolean("is_offhand");
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
