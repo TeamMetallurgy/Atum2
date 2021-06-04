@@ -12,7 +12,7 @@
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "atumlimestone_large_slab",
+                  "block": "atum:limestone_large_slab",
                   "properties": {
                     "type": "double"
                   }

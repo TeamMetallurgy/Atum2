@@ -12,7 +12,7 @@
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "atum:atum:alabaster_tiled_slab",
+                  "block": "atum:alabaster_tiled_slab",
                   "properties": {
                     "type": "double"
                   }
@@ -24,7 +24,7 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "atum:atum:alabaster_tiled_slab"
+          "name": "atum:alabaster_tiled_slab"
         }
       ]
     }

@@ -31,7 +31,7 @@
               "conditions": [
                 {
                   "condition": "minecraft:block_state_property",
-                  "block": "atum:atum:palm_slab",
+                  "block": "atum:palm_slab",
                   "properties": {
                     "type": "double"
                   }
@@ -43,7 +43,7 @@
               "function": "minecraft:explosion_decay"
             }
           ],
-          "name": "atum:atum:palm_slab"
+          "name": "atum:palm_slab"
         }
       ]
     }
