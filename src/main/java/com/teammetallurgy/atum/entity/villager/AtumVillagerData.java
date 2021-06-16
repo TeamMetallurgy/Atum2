@@ -27,7 +27,7 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
     private final Race race;
 
     public AtumVillagerData(AtumVillagerProfession profession, int level, Race race) {
-        super(null, VillagerProfession.NONE, level);
+        super(null, VillagerProfession.NITWIT, level);
         this.profession = profession;
         this.level = Math.max(1, level);
         this.race = race;
