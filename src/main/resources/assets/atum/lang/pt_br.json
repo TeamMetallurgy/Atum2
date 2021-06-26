@@ -502,7 +502,7 @@
   "atum.container.sarcophagus": "Sarcófago",
 
   "_comment": "Item",
-  "item.atum.scarab": "Escaravelho dourado",
+  "item.atum.scarab": "Escaravelho",
   "item.atum.khnumite": "Khnumita",
   "item.atum.coin_dirty": "Moeda suja",
   "item.atum.coin_gold": "Moeda de ouro",
@@ -1310,7 +1310,7 @@
   "item.atum.idol_of_labor.44": "Isso sim que é fazer coisas chiques, uoo!",
   "item.atum.idol_of_labor.45": "Balançando o esqueleto!",
   "item.atum.idol_of_labor.46": "Funcionou?",
-  "item.atum.idol_of_labor.47": "Disseram-me pra eu ver se isso lhe pararia de me obrigar a fazer coisas absurdas!",
+  "item.atum.idol_of_labor.47": "Disseram-me pra ver se isso lhe pararia de me obrigar a fazer coisas absurdas!",
   "item.atum.idol_of_labor.48": "Oh céus, isso se tornou em um montão de trabalho.",
   "item.atum.idol_of_labor.49": "Bem vindo, ninguém!",
   "item.atum.idol_of_labor.50": "Eu quebrei tudo. Agora estou tentando desquebrar tudo.",
