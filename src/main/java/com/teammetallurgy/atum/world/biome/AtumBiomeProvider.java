@@ -33,6 +33,7 @@ public class AtumBiomeProvider extends BiomeProvider {
 
     public AtumBiomeProvider(boolean largeBiomes, Registry<Biome> lookupRegistry) {
         super(AtumRegistry.BIOME_KEYS.stream().map(lookupRegistry::getOrThrow).collect(Collectors.toList()));
+
         long seed = (new Random()).nextLong(); //Workaround for vanilla bug, not applying seeds to biomes properly. TODO Revisit in 1.17
         this.largeBiomes = largeBiomes;
         this.lookupRegistry = lookupRegistry;
@@ -66,19 +67,16 @@ public class AtumBiomeProvider extends BiomeProvider {
         if (biome != null) {
             // Dynamic Registry biome (this should always be returned ideally)
             return biome;
-        }
-        else {
+        } else {
             //fallback to WorldGenRegistry registry if dynamic registry doesn't have biome
             if (SharedConstants.developmentMode) {
                 throw Util.pauseDevMode(new IllegalStateException("Unknown biome id: " + k));
-            }
-            else {
+            } else {
                 biome = this.lookupRegistry.getValueForKey(BiomeRegistry.getKeyFromID(0));
-                if(biome == null){
+                if (biome == null) {
                     // If this is reached, it is the end of the world lol
                     return BiomeRegistry.THE_VOID;
-                }
-                else{
+                } else {
                     // WorldGenRegistry biome (this is not good but we need to return something)
                     return biome;
                 }

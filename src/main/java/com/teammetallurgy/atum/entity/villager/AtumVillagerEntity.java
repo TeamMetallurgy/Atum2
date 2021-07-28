@@ -375,7 +375,7 @@ public class AtumVillagerEntity extends VillagerEntity implements ITexture {
     public boolean func_230293_i_(ItemStack stack) {
         Item item = stack.getItem();
         AtumVillagerProfession profession = this.getAtumVillagerData().getAtumProfession();
-        return (ALLOWED_INVENTORY_ITEMS.contains(item) || (profession.getSpecificItems().contains(item) || (profession == AtumVillagerProfession.CURATOR.get() && AtumVillagerTasks.canCuratorPickup(this, stack))) && this.getVillagerInventory().func_233541_b_(stack));
+        return (ALLOWED_INVENTORY_ITEMS.contains(item) || (profession.getSpecificItems().contains(item) || (profession == AtumVillagerProfession.CURATOR.get() && (AtumVillagerTasks.canCuratorPickup(this, stack) || ALLOWED_INVENTORY_ITEMS.contains(item)))) && this.getVillagerInventory().func_233541_b_(stack));
     }
 
     @Override

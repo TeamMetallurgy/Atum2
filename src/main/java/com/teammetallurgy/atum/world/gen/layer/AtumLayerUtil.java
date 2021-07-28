@@ -8,15 +8,7 @@ import net.minecraft.world.gen.LazyAreaLayerContext;
 import net.minecraft.world.gen.area.IArea;
 import net.minecraft.world.gen.area.IAreaFactory;
 import net.minecraft.world.gen.area.LazyArea;
-import net.minecraft.world.gen.layer.EdgeBiomeLayer;
-import net.minecraft.world.gen.layer.EdgeLayer;
-import net.minecraft.world.gen.layer.HillsLayer;
-import net.minecraft.world.gen.layer.IslandLayer;
-import net.minecraft.world.gen.layer.Layer;
-import net.minecraft.world.gen.layer.LayerUtil;
-import net.minecraft.world.gen.layer.SmoothLayer;
-import net.minecraft.world.gen.layer.StartRiverLayer;
-import net.minecraft.world.gen.layer.ZoomLayer;
+import net.minecraft.world.gen.layer.*;
 
 import java.util.function.LongFunction;
 
