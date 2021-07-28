@@ -6,7 +6,7 @@ import com.teammetallurgy.atum.misc.AtumRegistry;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.WeightedRandom;
-import net.minecraft.util.registry.WorldGenRegistries;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.INoiseRandom;
 import net.minecraft.world.gen.layer.traits.IC0Transformer;
@@ -17,8 +17,10 @@ import java.util.List;
 
 public class AtumBiomeLayer implements IC0Transformer {
     private final List<BiomeEntry> biomes = Lists.newArrayList();
+    private final Registry<Biome> biomeRegistry;
 
-    public AtumBiomeLayer() {
+    public AtumBiomeLayer(Registry<Biome> biomeRegistry) {
+        this.biomeRegistry = biomeRegistry;
         for (RegistryKey<Biome> biomeKey : AtumRegistry.BIOME_KEYS) {
             ResourceLocation location = biomeKey.getLocation();
             if (location != null) {
@@ -39,6 +41,6 @@ public class AtumBiomeLayer implements IC0Transformer {
         List<BiomeEntry> biomeList = this.biomes;
         int totalWeight = WeightedRandom.getTotalWeight(biomeList);
         int weight = noiseRandom.random(totalWeight);
-        return WorldGenRegistries.BIOME.getId(WorldGenRegistries.BIOME.getValueForKey(WeightedRandom.getRandomItem(biomeList, weight).getKey()));
+        return biomeRegistry.getId(biomeRegistry.getValueForKey(WeightedRandom.getRandomItem(biomeList, weight).getKey()));
     }
 }

@@ -13,7 +13,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.util.registry.WorldGenRegistries;
 import net.minecraft.world.ISeedReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -85,14 +84,6 @@ public class DimensionHelper {
             pos = pos.up();
         }
         return pos;
-    }
-
-    public static Biome getBiome(RegistryKey<Biome> key) {
-        return WorldGenRegistries.BIOME.getValueForKey(key);
-    }
-
-    public static int getBiomeID(RegistryKey<Biome> key) {
-        return WorldGenRegistries.BIOME.getId(getBiome(key));
     }
 
     public static boolean isBeatenPyramid(ServerWorld serverWorld, MutableBoundingBox box2) {
