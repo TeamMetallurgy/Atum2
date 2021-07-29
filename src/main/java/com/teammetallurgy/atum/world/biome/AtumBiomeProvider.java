@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.biome;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.misc.AtumRegistry;
+import com.teammetallurgy.atum.misc.WorldSeedHolder;
 import com.teammetallurgy.atum.world.gen.layer.AtumLayerUtil;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.Util;
@@ -25,16 +26,19 @@ public class AtumBiomeProvider extends BiomeProvider {
             return atumBiomeProvider.largeBiomes;
         }), RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((atumBiomeProvider) -> {
             return atumBiomeProvider.lookupRegistry;
+        }), Codec.LONG.fieldOf("seed").orElseGet(WorldSeedHolder::getSeed).forGetter((chunkGenerator) -> {
+            return chunkGenerator.seed;
         })).apply(builder, builder.stable(AtumBiomeProvider::new));
     });
     private final Layer genBiomes;
     private final boolean largeBiomes;
     private final Registry<Biome> lookupRegistry;
+    private final long seed;
 
-    public AtumBiomeProvider(boolean largeBiomes, Registry<Biome> lookupRegistry) {
+    public AtumBiomeProvider(boolean largeBiomes, Registry<Biome> lookupRegistry, long seed) {
         super(AtumRegistry.BIOME_KEYS.stream().map(lookupRegistry::getOrThrow).collect(Collectors.toList()));
 
-        long seed = (new Random()).nextLong(); //Workaround for vanilla bug, not applying seeds to biomes properly. TODO Revisit in 1.17
+        this.seed = seed;
         this.largeBiomes = largeBiomes;
         this.lookupRegistry = lookupRegistry;
         this.genBiomes = AtumLayerUtil.getNoiseLayer(seed, largeBiomes ? 6 : 4, 6, lookupRegistry);
@@ -50,7 +54,7 @@ public class AtumBiomeProvider extends BiomeProvider {
     @Nonnull
     @OnlyIn(Dist.CLIENT)
     public BiomeProvider getBiomeProvider(long seed) {
-        return new AtumBiomeProvider(this.largeBiomes, this.lookupRegistry);
+        return new AtumBiomeProvider(this.largeBiomes, this.lookupRegistry, this.seed);
     }
 
     /**
