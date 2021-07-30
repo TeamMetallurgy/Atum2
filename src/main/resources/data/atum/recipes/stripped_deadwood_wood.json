@@ -7,11 +7,11 @@
   ],
   "key": {
     "#": {
-      "item": "atum:deadwood_log"
+      "item": "atum:stripped_deadwood_log"
     }
   },
   "result": {
-    "item": "atum:deadwood_wood",
+    "item": "atum:stripped_deadwood_wood",
     "count": 3
   }
 }
