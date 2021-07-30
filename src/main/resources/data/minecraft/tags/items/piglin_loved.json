@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "atum:golden_date",
+    "atum:golden_date_enchanted",
+    "atum:glistering_date",
+    "atum:desert_helmet_gold",
+    "atum:desert_chest_gold",
+    "atum:desert_legs_gold",
+    "atum:desert_boots_gold",
+    "atum:desert_wolf_gold_armor",
+    "atum:camel_gold_armor",
+    "atum:coin_gold"
+  ]
+}

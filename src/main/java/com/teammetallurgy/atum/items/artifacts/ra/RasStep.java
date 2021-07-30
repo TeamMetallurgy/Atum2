@@ -59,7 +59,7 @@ public class RasStep extends RingItem implements IArtifact {
                     BlockState state = world.getBlockState(mutablePos);
                     if (state.isAir(world, mutablePos)) {
                         BlockState checkState = world.getBlockState(posBox);
-                        boolean isFull = checkState.getFluidState().isTagged(FluidTags.LAVA) && checkState.get(FlowingFluidBlock.LEVEL) == 0;
+                        boolean isFull = checkState.getFluidState().isTagged(FluidTags.LAVA) && checkState.hasProperty(FlowingFluidBlock.LEVEL) && checkState.get(FlowingFluidBlock.LEVEL) == 0;
                         if (checkState.getMaterial() == Material.LAVA && isFull && raStone.isValidPosition(world, posBox) && world.placedBlockCollides(raStone, posBox, ISelectionContext.dummy()) && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.getDimensionKey(), world, posBox), Direction.UP)) {
                             world.setBlockState(posBox, raStone);
                             world.getPendingBlockTicks().scheduleTick(posBox, raStone.getBlock(), MathHelper.nextInt(living.getRNG(), 60, 120));

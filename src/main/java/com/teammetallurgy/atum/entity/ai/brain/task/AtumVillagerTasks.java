@@ -223,11 +223,11 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
         Item item = stack.getItem();
         if (entity.getBrain().hasMemory(MemoryModuleType.ADMIRING_DISABLED) && entity.getBrain().hasMemory(MemoryModuleType.ATTACK_TARGET)) {
             return false;
-        } else if (item.isIn(AtumAPI.Tags.RELIC_NON_DIRTY)) {
-            return canPickup(entity);
         } else {
-            boolean flag = entity.getVillagerInventory().func_233541_b_(stack);
-            return canPickup(entity) && flag;
+            if (item.isIn(AtumAPI.Tags.RELIC_NON_DIRTY)) {
+                return canPickup(entity);
+            }
         }
+        return false;
     }
 }

@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.world.gen;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.world.DimensionHelper;
+import com.teammetallurgy.atum.world.WorldSeedHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;
@@ -50,6 +51,8 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
             return chunkGenerator.biomeProvider;
         }), DimensionSettings.field_236098_b_.fieldOf("settings").forGetter((chunkGenerator) -> {
             return chunkGenerator.dimensionSettings;
+        }), Codec.LONG.fieldOf("seed").orElseGet(WorldSeedHolder::getSeed).forGetter((chunkGenerator) -> {
+            return chunkGenerator.seed;
         })).apply(c, c.stable(AtumChunkGenerator::new));
     });
     private static final float[] field_222561_h = Util.make(new float[13824], (p_236094_0_) -> {
@@ -91,8 +94,8 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     protected final Supplier<DimensionSettings> dimensionSettings;
     private final int worldHeight;
 
-    public AtumChunkGenerator(BiomeProvider biomeProvider, Supplier<DimensionSettings> dimensionSettings) {
-        this(biomeProvider, biomeProvider, (new Random()).nextLong(), dimensionSettings); //Set random seed
+    public AtumChunkGenerator(BiomeProvider biomeProvider, Supplier<DimensionSettings> dimensionSettings, long seed) {
+        this(biomeProvider, biomeProvider, seed, dimensionSettings); //Set random seed
     }
 
     private AtumChunkGenerator(BiomeProvider biomeProvider1, BiomeProvider biomeProvider2, long seed, Supplier<DimensionSettings> dimensionSettings) {
@@ -135,7 +138,7 @@ public class AtumChunkGenerator extends ChunkGenerator { //Copied from NoiseChun
     @OnlyIn(Dist.CLIENT)
     @Nonnull
     public ChunkGenerator func_230349_a_(long seed) {
-        return new AtumChunkGenerator(this.biomeProvider.getBiomeProvider(seed), this.dimensionSettings);
+        return new AtumChunkGenerator(this.biomeProvider.getBiomeProvider(seed), this.dimensionSettings, this.seed);
     }
 
     public boolean func_236088_a_(long p_236088_1_, RegistryKey<DimensionSettings> dimensionSettings) {
