@@ -20,6 +20,7 @@ import net.minecraft.block.FarmlandBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.item.ItemEntity;
 import net.minecraft.entity.monster.PhantomEntity;
@@ -39,12 +40,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
@@ -59,6 +62,7 @@ import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtumEventListener {
@@ -79,6 +83,25 @@ public class AtumEventListener {
             ServerWorld world = (ServerWorld) player.world;
             PortalBlock.changeDimension(world, serverPlayer, new TeleporterAtumStart());
             serverPlayer.func_242111_a(Atum.ATUM, serverPlayer.getPosition(), serverPlayer.getRotationYawHead(), true, false); //Set players spawn point in Atum, when starting in Atum
+            world.func_241124_a__(serverPlayer.getPosition(), 16);
+        }
+    }
+
+    @SubscribeEvent
+    public static void onPlayerDeath(LivingDeathEvent event) {
+        if (AtumConfig.ATUM_START.startInAtum.get()) {
+            LivingEntity livingEntity = event.getEntityLiving();
+            if (livingEntity instanceof ServerPlayerEntity) {
+                ServerPlayerEntity serverPlayer = (ServerPlayerEntity) livingEntity;
+                ServerWorld serverWorld = serverPlayer.getServerWorld();
+                BlockPos respawnPos = serverPlayer.func_241140_K_();
+                if (respawnPos != null) {
+                    Optional<Vector3d> bedPos = PlayerEntity.func_242374_a(serverWorld, respawnPos, serverPlayer.func_242109_L(), serverPlayer.func_241142_M_(), false);
+                    if (!bedPos.isPresent()) {
+                        serverPlayer.func_242111_a(Atum.ATUM, serverWorld.getSpawnPoint(), serverPlayer.getRotationYawHead(), true, false); //Ensure that the player respawns in Atum, when bed is broken
+                    }
+                }
+            }
         }
     }
 
@@ -210,7 +233,7 @@ public class AtumEventListener {
     @SubscribeEvent
     public static void checkSpawn(LivingSpawnEvent.CheckSpawn event) { //Prevent Phantom spawning in Atum
         IWorld world = event.getWorld();
-        if ((event.getEntityLiving() instanceof PhantomEntity || event.getEntityLiving().getType() == EntityType.CAT) && (world instanceof ServerWorld && ((ServerWorld)world).getDimensionKey() == Atum.ATUM)) {
+        if ((event.getEntityLiving() instanceof PhantomEntity || event.getEntityLiving().getType() == EntityType.CAT) && (world instanceof ServerWorld && ((ServerWorld) world).getDimensionKey() == Atum.ATUM)) {
             event.setCanceled(true);
         }
     }

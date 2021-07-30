@@ -2,8 +2,8 @@ package com.teammetallurgy.atum.world.gen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.teammetallurgy.atum.misc.WorldSeedHolder;
 import com.teammetallurgy.atum.world.DimensionHelper;
+import com.teammetallurgy.atum.world.WorldSeedHolder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectList;
 import it.unimi.dsi.fastutil.objects.ObjectListIterator;

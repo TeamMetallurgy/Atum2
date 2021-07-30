@@ -3,7 +3,7 @@ package com.teammetallurgy.atum.world.biome;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.misc.AtumRegistry;
-import com.teammetallurgy.atum.misc.WorldSeedHolder;
+import com.teammetallurgy.atum.world.WorldSeedHolder;
 import com.teammetallurgy.atum.world.gen.layer.AtumLayerUtil;
 import net.minecraft.util.SharedConstants;
 import net.minecraft.util.Util;
@@ -17,7 +17,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 public class AtumBiomeProvider extends BiomeProvider {

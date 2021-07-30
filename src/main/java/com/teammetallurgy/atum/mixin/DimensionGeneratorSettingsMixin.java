@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.mixin;
 
-import com.teammetallurgy.atum.misc.WorldSeedHolder;
+import com.teammetallurgy.atum.world.WorldSeedHolder;
 import net.minecraft.util.registry.SimpleRegistry;
 import net.minecraft.world.Dimension;
 import net.minecraft.world.gen.settings.DimensionGeneratorSettings;

@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.misc;
+package com.teammetallurgy.atum.world;
 
 public class WorldSeedHolder {
     /**
