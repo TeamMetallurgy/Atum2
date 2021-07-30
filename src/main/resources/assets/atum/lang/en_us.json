@@ -925,7 +925,7 @@
   "entity.atum.tarantula": "Tarantula",
   "entity.atum.wraith": "Wraith",
   "entity.atum.villager_male": "Male Villager",
-  "entity.atum.wraith_female": "Female Villager",
+  "entity.atum.villager_female": "Female Villager",
 
   "_comment": "Villager",
   "entity.atum.villager_male.human.none": "Human Male",
