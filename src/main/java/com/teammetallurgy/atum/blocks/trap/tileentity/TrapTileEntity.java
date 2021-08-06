@@ -95,7 +95,7 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
 
         if (!this.isDisabled && this.isBurning()) {
             BlockState state = world.getBlockState(this.pos);
-            if (!state.isAir(world, this.pos)) {
+            if (state.getBlock() instanceof TrapBlock) {
                 Direction facing = state.get(TrapBlock.FACING);
                 Class<? extends LivingEntity> entity;
                 if (this.isInsidePyramid) {
