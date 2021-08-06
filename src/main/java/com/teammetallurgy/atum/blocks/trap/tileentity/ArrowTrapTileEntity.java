@@ -38,30 +38,33 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
 
         if (this.timer > 0) this.timer--;
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(this.pos).get(TrapBlock.FACING);
-            Class<? extends LivingEntity> entity;
-            if (this.isInsidePyramid) {
-                entity = PlayerEntity.class;
-            } else {
-                entity = LivingEntity.class;
-            }
-            AxisAlignedBB box = getFacingBoxWithRange(facing, 13).shrink(1);
-            List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, box);
-            for (LivingEntity livingBase : entities) {
-                BlockRayTraceResult findBlock = this.rayTraceMinMax(world, box, livingBase);
-                boolean cantSeeEntity = this.getDistance(findBlock.getPos()) < this.getDistance(livingBase.getPosition());
-                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() && !cantSeeEntity : !cantSeeEntity) {
-                    if (canSee(facing, world, livingBase)) {
-                        canDamageEntity = true;
-                        if (this.timer == 0) {
-                            this.timer = 80;
-                            this.triggerTrap(world, facing, livingBase);
+            BlockState state = world.getBlockState(this.pos);
+            if (!state.isAir(world, this.pos)) {
+                Direction facing = state.get(TrapBlock.FACING);
+                Class<? extends LivingEntity> entity;
+                if (this.isInsidePyramid) {
+                    entity = PlayerEntity.class;
+                } else {
+                    entity = LivingEntity.class;
+                }
+                AxisAlignedBB box = getFacingBoxWithRange(facing, 13).shrink(1);
+                List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, box);
+                for (LivingEntity livingBase : entities) {
+                    BlockRayTraceResult findBlock = this.rayTraceMinMax(world, box, livingBase);
+                    boolean cantSeeEntity = this.getDistance(findBlock.getPos()) < this.getDistance(livingBase.getPosition());
+                    if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() && !cantSeeEntity : !cantSeeEntity) {
+                        if (canSee(facing, world, livingBase)) {
+                            canDamageEntity = true;
+                            if (this.timer == 0) {
+                                this.timer = 80;
+                                this.triggerTrap(world, facing, livingBase);
+                            }
+                        } else {
+                            canDamageEntity = false;
                         }
                     } else {
                         canDamageEntity = false;
                     }
-                } else {
-                    canDamageEntity = false;
                 }
             }
         }
