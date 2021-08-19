@@ -17,7 +17,7 @@ import net.minecraft.world.World;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class AtumShieldItem extends Item {
+public class AtumShieldItem extends ShieldItem {
     private Item repairItem;
 
     public AtumShieldItem(int maxDamage) {
