@@ -196,7 +196,7 @@ public class AtumItems {
     public static final Item OPHIDIAN_TONGUE_FLOWER = registerItem(new SimpleItem(), "ophidian_tongue_flower");
     public static final Item ANPUTS_FINGERS_SPORES = registerItem(new BlockNamedItem(AtumBlocks.ANPUTS_FINGERS, new Item.Properties().group(Atum.GROUP)), "anputs_fingers_spores");
     public static final Item EMMER_SEEDS = registerItem(new BlockNamedItem(AtumBlocks.EMMER_WHEAT, new Item.Properties().group(Atum.GROUP)), "emmer_seeds");
-    public static final Item EMMER = registerItem(new SimpleItem(), "emmer");
+    public static final Item EMMER_EAR = registerItem(new SimpleItem(), "emmer");
     public static final Item EMMER_FLOUR = registerItem(new EmmerFlourItem(), "emmer_flour");
     public static final Item EMMER_DOUGH = registerItem(new SimpleItem(), "emmer_dough");
     public static final Item EMMER_BREAD = registerItem(new Item(new Item.Properties().food(AtumFoods.EMMER_BREAD).group(Atum.GROUP)), "emmer_bread");
@@ -223,7 +223,7 @@ public class AtumItems {
 
     public static void setItemInfo() {
         ComposterBlock.CHANCES.put(EMMER_SEEDS, 0.3F);
-        ComposterBlock.CHANCES.put(EMMER, 0.65F);
+        ComposterBlock.CHANCES.put(EMMER_EAR, 0.65F);
         ComposterBlock.CHANCES.put(EMMER_BREAD, 0.85F);
         ComposterBlock.CHANCES.put(FLAX, 0.50F);
     }

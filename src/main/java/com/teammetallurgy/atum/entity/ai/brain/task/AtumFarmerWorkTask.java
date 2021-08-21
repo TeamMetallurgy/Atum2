@@ -79,18 +79,17 @@ public class AtumFarmerWorkTask extends SpawnGolemTask {
     private void bakeBread(VillagerEntity villager) {
         Inventory inventory = villager.getVillagerInventory();
         if (inventory.count(AtumItems.EMMER_BREAD) <= 36) {
-            int i = inventory.count(AtumItems.EMMER);
+            int i = inventory.count(AtumItems.EMMER_EAR);
             int j = 3;
             int k = 3;
             int l = Math.min(3, i / 3);
             if (l != 0) {
                 int i1 = l * 3;
-                inventory.func_223374_a(AtumItems.EMMER, i1);
+                inventory.func_223374_a(AtumItems.EMMER_EAR, i1);
                 ItemStack itemstack = inventory.addItem(new ItemStack(AtumItems.EMMER_BREAD, l));
                 if (!itemstack.isEmpty()) {
                     villager.entityDropItem(itemstack, 0.5F);
                 }
-
             }
         }
     }
