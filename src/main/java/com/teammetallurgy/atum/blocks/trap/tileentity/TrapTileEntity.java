@@ -94,20 +94,23 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements ITickable
         if (world == null) return;
 
         if (!this.isDisabled && this.isBurning()) {
-            Direction facing = world.getBlockState(this.pos).get(TrapBlock.FACING);
-            Class<? extends LivingEntity> entity;
-            if (this.isInsidePyramid) {
-                entity = PlayerEntity.class;
-            } else {
-                entity = LivingEntity.class;
-            }
-            List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1).shrink(0.05D));
-            for (LivingEntity livingBase : entities) {
-                if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() : livingBase != null) {
-                    canDamageEntity = true;
-                    this.triggerTrap(world, facing, livingBase);
+            BlockState state = world.getBlockState(this.pos);
+            if (state.getBlock() instanceof TrapBlock) {
+                Direction facing = state.get(TrapBlock.FACING);
+                Class<? extends LivingEntity> entity;
+                if (this.isInsidePyramid) {
+                    entity = PlayerEntity.class;
                 } else {
-                    canDamageEntity = false;
+                    entity = LivingEntity.class;
+                }
+                List<LivingEntity> entities = world.getEntitiesWithinAABB(entity, getFacingBoxWithRange(facing, 1).shrink(0.05D));
+                for (LivingEntity livingBase : entities) {
+                    if (livingBase instanceof PlayerEntity ? !((PlayerEntity) livingBase).isCreative() : livingBase != null) {
+                        canDamageEntity = true;
+                        this.triggerTrap(world, facing, livingBase);
+                    } else {
+                        canDamageEntity = false;
+                    }
                 }
             }
         }
