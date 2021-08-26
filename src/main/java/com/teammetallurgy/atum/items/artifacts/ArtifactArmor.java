@@ -17,7 +17,6 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -155,7 +154,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     }
 
     @Override
-    public float getFogReduction(float fogDensity, ArmorItem armorItem) {
+    public float getFogReduction(float fogDensity, ItemStack armorItem) {
         return fogDensity / 3.25F;
     }
 }
