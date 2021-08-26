@@ -5,6 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
+import com.teammetallurgy.atum.items.IDesertArmor;
 import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -65,7 +66,7 @@ public class ClientEvents {
                 if (helmet instanceof ArtifactArmor) {
                     fogDensity = fogDensity / 3.25F;
                 }
-                if (helmet == AtumItems.WANDERER_HELMET || helmet == AtumItems.DESERT_HELMET_IRON || helmet == AtumItems.DESERT_HELMET_GOLD || helmet == AtumItems.DESERT_HELMET_DIAMOND) {
+                if (helmet instanceof IDesertArmor) {
                     fogDensity = fogDensity / 2.0F;
                 }
                 if (player.getPosY() >= DimensionHelper.GROUND_LEVEL - 8) {

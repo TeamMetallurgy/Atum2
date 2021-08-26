@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nonnull;
 
-public class WandererDyeableArmor extends TexturedArmorItem implements IDyeableArmorItem {
+public class WandererDyeableArmor extends TexturedArmorItem implements IDyeableArmorItem, IDesertArmor {
 
     public WandererDyeableArmor(IArmorMaterial material, String name, EquipmentSlotType slot) {
         super(material, name, slot);
