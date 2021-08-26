@@ -154,7 +154,7 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
     }
 
     @Override
-    public float getFogReduction(float fogDensity, Item armorItem) {
+    public float getFogReduction(float fogDensity, ItemStack armorItem) {
         return fogDensity / 3.25F;
     }
 }

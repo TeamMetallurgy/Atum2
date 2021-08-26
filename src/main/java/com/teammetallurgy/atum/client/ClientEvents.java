@@ -19,7 +19,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -66,10 +65,9 @@ public class ClientEvents {
                 for (ItemStack armor : player.getArmorInventoryList()) {
                     if (armor.getItem() instanceof IFogReductionItem) {
                         EquipmentSlotType slotType = MobEntity.getSlotForItemStack(armor);
-                        Item armorItem = armor.getItem();
                         IFogReductionItem fogReductionItem = (IFogReductionItem) armor.getItem();
                         if (fogReductionItem.getSlotTypes().contains(slotType)) {
-                            fogDensity = fogReductionItem.getFogReduction(fogDensity, armorItem);
+                            fogDensity = fogReductionItem.getFogReduction(fogDensity, armor);
                         }
                     }
                 }
