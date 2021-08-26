@@ -24,7 +24,7 @@ public class WandererDyeableArmor extends TexturedArmorItem implements IDyeableA
     }
 
     @Override
-    public float getFogReduction(float fogDensity, ArmorItem armorItem) {
+    public float getFogReduction(float fogDensity, Item armorItem) {
         return fogDensity / 2.0F;
     }
 }
