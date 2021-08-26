@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.IArtifact;
+import com.teammetallurgy.atum.api.IFogReductionItem;
 import com.teammetallurgy.atum.items.TexturedArmorItem;
 import com.teammetallurgy.atum.misc.StackHelper;
 import net.minecraft.client.Minecraft;
@@ -16,6 +17,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -37,7 +39,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifact {
+public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifact, IFogReductionItem {
     private static final AttributeModifier SPEED_BOOST = new AttributeModifier(UUID.fromString("2aa9e06c-cc77-4c0a-b832-58d8aaef1500"), "Artifact boots speed boost", 0.02D, AttributeModifier.Operation.ADDITION);
 
     public ArtifactArmor(IArmorMaterial material, String name, EquipmentSlotType slot, Properties properties) {
@@ -150,5 +152,10 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
                 attribute.removeModifier(SPEED_BOOST);
             }
         }
+    }
+
+    @Override
+    public float getFogReduction(float fogDensity, ArmorItem armorItem) {
+        return fogDensity / 3.25F;
     }
 }

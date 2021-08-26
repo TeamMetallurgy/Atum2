@@ -3,9 +3,9 @@ package com.teammetallurgy.atum.client;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.api.IFogReductionItem;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.items.artifacts.ArtifactArmor;
 import com.teammetallurgy.atum.items.artifacts.nuit.NuitsVanishingItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
@@ -18,7 +18,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.Item;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.RegistryKey;
 import net.minecraft.util.ResourceLocation;
@@ -54,7 +54,6 @@ public class ClientEvents {
 
             if (entity instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) entity;
-                Item helmet = player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem();
                 if (player.getPosition().getY() <= 60) {
                     fogDensity += (float) (62 - player.getPosition().getY()) * 0.00333F;
                 }
@@ -62,11 +61,17 @@ public class ClientEvents {
                 if (biome.isPresent() && biome.get() == AtumBiomes.OASIS) {
                     fogDensity = fogDensity / 2.0F;
                 }
-                if (helmet instanceof ArtifactArmor) {
-                    fogDensity = fogDensity / 3.25F;
-                }
-                if (helmet == AtumItems.WANDERER_HELMET || helmet == AtumItems.DESERT_HELMET_IRON || helmet == AtumItems.DESERT_HELMET_GOLD || helmet == AtumItems.DESERT_HELMET_DIAMOND) {
-                    fogDensity = fogDensity / 2.0F;
+
+                for (ItemStack armor : player.getArmorInventoryList()) {
+                    if (armor.getItem() instanceof ArmorItem) {
+                        ArmorItem armorItem = (ArmorItem) armor.getItem();
+                        if (armorItem instanceof IFogReductionItem) {
+                            IFogReductionItem fogReductionItem = (IFogReductionItem) armorItem;
+                            if (fogReductionItem.getSlotTypes().contains(armorItem.getEquipmentSlot())) {
+                                fogDensity = fogReductionItem.getFogReduction(fogDensity, armorItem);
+                            }
+                        }
+                    }
                 }
                 if (player.getPosY() >= DimensionHelper.GROUND_LEVEL - 8) {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * SandstormHandler.INSTANCE.stormStrength);
