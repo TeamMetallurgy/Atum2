@@ -9,6 +9,7 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
@@ -59,10 +60,7 @@ public class GirafiTombPieces {
                     if (rand.nextDouble() <= 0.15D) {
                         world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
 
-                        TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof CrateTileEntity) {
-                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
-                        }
+                        LockableLootTileEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
                     } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
@@ -70,19 +68,13 @@ public class GirafiTombPieces {
             } else if (function.equals("GirafiSarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof SarcophagusTileEntity) {
-                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.GIRAFI_TOMB, rand.nextLong());
-                    }
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.GIRAFI_TOMB);
                     world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof SarcophagusTileEntity) {
-                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
-                    }
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.PHARAOH);
                     world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
             }

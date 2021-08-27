@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -82,11 +83,7 @@ public class RuinPieces {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
                         world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
-
-                        TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof CrateTileEntity) {
-                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
-                        }
+                        LockableLootTileEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
                     } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
