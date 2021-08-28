@@ -22,6 +22,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.LadderBlock;
 import net.minecraft.entity.EntityType;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -193,11 +194,7 @@ public class PyramidPieces {
                 if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.2D) {
                         world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
-
-                        TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof CrateTileEntity) {
-                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
-                        }
+                        LockableLootTileEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
                     } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
@@ -205,19 +202,13 @@ public class PyramidPieces {
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof LimestoneChestTileEntity) {
-                        ((LimestoneChestTileEntity) tileentity).setLootTable(AtumLootTables.PYRAMID_CHEST, rand.nextLong());
-                    }
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.PYRAMID_CHEST);
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
             } else if (function.equals("Sarcophagus")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof SarcophagusTileEntity) {
-                        ((SarcophagusTileEntity) tileentity).setLootTable(AtumLootTables.PHARAOH, rand.nextLong());
-                    }
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.PHARAOH);
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
             } else if (function.equals("NebuTorch")) {
