@@ -20,6 +20,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     protected final float experience;
@@ -34,7 +35,7 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     }
 
     public KilnRecipe(Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
-        this(new ResourceLocation(Atum.MOD_ID, "kiln"), input, output, experience, cookTime);
+        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(input.getMatchingStacks()[0].getItem().getRegistryName()).getPath() + "_to_" + Objects.requireNonNull(output.getItem().getRegistryName()).getPath()), input, output, experience, cookTime);
     }
 
     public KilnRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
