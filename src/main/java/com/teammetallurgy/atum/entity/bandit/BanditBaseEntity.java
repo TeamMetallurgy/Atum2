@@ -97,7 +97,7 @@ public class BanditBaseEntity extends PatrollerEntity implements ITexture {
 
         if (this.isLeader()) {
             this.setItemStackToSlot(EquipmentSlotType.HEAD, createBanditBanner());
-            this.setDropChance(EquipmentSlotType.HEAD, 1.5F);
+            this.setDropChance(EquipmentSlotType.HEAD, 0.1F);
         }
 
         if (spawnReason == SpawnReason.PATROL) {
