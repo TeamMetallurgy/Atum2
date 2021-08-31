@@ -99,7 +99,7 @@ public class QuernBlock extends ContainerBlock implements IWaterLoggable {
                 }
             }
             quern.markDirty();
-            return ActionResultType.PASS;
+            return ActionResultType.func_233537_a_(world.isRemote());
         }
         return ActionResultType.PASS;
     }
