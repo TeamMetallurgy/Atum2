@@ -234,7 +234,7 @@ public class AtumEventListener {
     public static void checkSpawn(LivingSpawnEvent.CheckSpawn event) { //Prevent Phantom spawning in Atum
         IWorld world = event.getWorld();
         if ((event.getEntityLiving() instanceof PhantomEntity || event.getEntityLiving().getType() == EntityType.CAT) && (world instanceof ServerWorld && ((ServerWorld) world).getDimensionKey() == Atum.ATUM)) {
-            event.setCanceled(true);
+            event.setResult(Event.Result.DENY);
         }
     }
 
