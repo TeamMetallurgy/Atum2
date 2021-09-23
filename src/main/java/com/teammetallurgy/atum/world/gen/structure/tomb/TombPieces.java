@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.init.AtumStructurePieces;
 import com.teammetallurgy.atum.world.gen.structure.ruins.RuinPieces;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
@@ -71,10 +72,7 @@ public class TombPieces {
                     if (rand.nextDouble() < 0.2D) {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2); //Set structure block to air, to remove its TE
                         world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
-                        TileEntity tileEntity = world.getTileEntity(pos);
-                        if (tileEntity instanceof CrateTileEntity) {
-                            ((CrateTileEntity) tileEntity).setLootTable(AtumLootTables.CRATE, rand.nextLong());
-                        }
+                        LockableLootTileEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
                     } else {
                         world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
@@ -82,10 +80,7 @@ public class TombPieces {
             } else if (function.equals("Chest")) {
                 BlockPos posDown = pos.down();
                 if (box.isVecInside(posDown)) {
-                    TileEntity tileentity = world.getTileEntity(posDown);
-                    if (tileentity instanceof LimestoneChestTileEntity) {
-                        ((LimestoneChestTileEntity) tileentity).setLootTable(AtumLootTables.TOMB_CHEST, rand.nextLong());
-                    }
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.TOMB_CHEST);
                 }
                 world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
             }

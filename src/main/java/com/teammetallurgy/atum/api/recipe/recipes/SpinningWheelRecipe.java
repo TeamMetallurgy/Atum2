@@ -11,6 +11,7 @@ import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nonnull;
+import java.util.Objects;
 
 public class SpinningWheelRecipe extends RotationRecipe<SpinningWheelTileEntity> {
 
@@ -19,7 +20,7 @@ public class SpinningWheelRecipe extends RotationRecipe<SpinningWheelTileEntity>
     }
 
     public SpinningWheelRecipe(Ingredient input, @Nonnull ItemStack output, int rotations) {
-        this(new ResourceLocation(Atum.MOD_ID, "spinning_wheel"), input, output, rotations);
+        this(new ResourceLocation(Atum.MOD_ID, "spinning_wheel_" + Objects.requireNonNull(input.getMatchingStacks()[0].getItem().getRegistryName()).getPath() + "_to_" + Objects.requireNonNull(output.getItem().getRegistryName()).getPath() + (output.getCount() > 1 ? "_" + output.getCount() : "")), input, output, rotations);
     }
 
     public SpinningWheelRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {

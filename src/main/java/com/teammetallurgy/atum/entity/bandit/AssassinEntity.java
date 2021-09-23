@@ -153,9 +153,11 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     public void readAdditional(@Nonnull CompoundNBT compound) {
         super.readAdditional(compound);
-        PlayerEntity playerEntity = this.world.getPlayerByUuid(compound.getUniqueId("MarkedForDeathTarget"));
-        if (playerEntity != null) {
-            this.markedTarget = playerEntity;
+        if (compound.contains("MarkedForDeathTarget")) {
+            PlayerEntity playerEntity = this.world.getPlayerByUuid(compound.getUniqueId("MarkedForDeathTarget"));
+            if (playerEntity != null) {
+                this.markedTarget = playerEntity;
+            }
         }
     }
 
