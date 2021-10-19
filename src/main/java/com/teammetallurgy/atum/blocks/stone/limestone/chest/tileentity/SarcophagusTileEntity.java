@@ -14,7 +14,6 @@ import net.minecraft.block.ChestBlock;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.IPacket;
@@ -32,8 +31,7 @@ import net.minecraft.world.IServerWorld;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.items.IItemHandlerModifiable;
-import net.minecraftforge.items.wrapper.InvWrapper;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -42,7 +40,6 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public static final String SARCOPHAGUS_CONTAINER = "atum.container.sarcophagus";
     public boolean hasSpawned;
     public boolean isOpenable;
-    private LazyOptional<IItemHandlerModifiable> sarcophagusHandler;
 
     public SarcophagusTileEntity() {
         super(AtumTileEntities.SARCOPHAGUS, false, true, AtumBlocks.SARCOPHAGUS);
@@ -144,13 +141,13 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     protected void playSound(@Nonnull SoundEvent sound) { //Overridden to change sound
         ChestType chestType = this.getBlockState().get(ChestBlock.TYPE);
         if (chestType != ChestType.LEFT) {
-            double x = (double) this.pos.getX() + 0.5D;
-            double y = (double) this.pos.getY() + 0.5D;
-            double z = (double) this.pos.getZ() + 0.5D;
+            double x = (double)this.pos.getX() + 0.5D;
+            double y = (double)this.pos.getY() + 0.5D;
+            double z = (double)this.pos.getZ() + 0.5D;
             if (chestType == ChestType.RIGHT) {
                 Direction direction = ChestBlock.getDirectionToAttached(this.getBlockState());
-                x += (double) direction.getXOffset() * 0.5D;
-                z += (double) direction.getZOffset() * 0.5D;
+                x += (double)direction.getXOffset() * 0.5D;
+                z += (double)direction.getZOffset() * 0.5D;
             }
             this.world.playSound(null, x, y, z, SoundEvents.BLOCK_PISTON_CONTRACT, SoundCategory.BLOCKS, 0.5F, this.world.rand.nextFloat() * 0.05F);
         }
@@ -170,39 +167,10 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     @Override
     @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nonnull Direction direction) {
-        if (!this.removed && this.isOpenable && capability == net.minecraftforge.items.CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
-            if (this.sarcophagusHandler == null) {
-                this.sarcophagusHandler = net.minecraftforge.common.util.LazyOptional.of(this::createHandler);
-            }
-            return this.sarcophagusHandler.cast();
-        }
-        return super.getCapability(capability, direction);
-    }
-
-    private IItemHandlerModifiable createHandler() {
-        BlockState state = this.getBlockState();
-        if (!(state.getBlock() instanceof ChestBlock)) {
-            return new InvWrapper(this);
-        }
-        IInventory inv = ChestBlock.getChestInventory((ChestBlock) state.getBlock(), state, getWorld(), getPos(), true);
-        return new InvWrapper(inv == null ? this : inv);
-    }
-
-    @Override
-    public void updateContainingBlockInfo() {
-        super.updateContainingBlockInfo();
-        if (this.sarcophagusHandler != null) {
-            net.minecraftforge.common.util.LazyOptional<?> oldHandler = this.sarcophagusHandler;
-            this.sarcophagusHandler = null;
-            oldHandler.invalidate();
-        }
-    }
-
-    @Override
-    protected void invalidateCaps() {
-        super.invalidateCaps();
-        if (sarcophagusHandler != null) {
-            sarcophagusHandler.invalidate();
+        if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            return this.isOpenable ? super.getCapability(capability, direction) : LazyOptional.empty();
+        } else {
+            return super.getCapability(capability, direction);
         }
     }
 }
