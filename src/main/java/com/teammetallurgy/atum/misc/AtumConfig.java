@@ -10,6 +10,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 public class AtumConfig {
     public static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -20,13 +21,12 @@ public class AtumConfig {
     public static final Biome BIOME = new Biome(BUILDER);
     public static final Mobs MOBS = new Mobs(BUILDER);
 
-    public static class General {
-        public static final String GENERAL = "general";
+    public static class General implements BaseConfig {
         public final ForgeConfigSpec.BooleanValue allowCreation;
         public final ForgeConfigSpec.BooleanValue fogEnabled;
 
         public General(ForgeConfigSpec.Builder builder) {
-            builder.push(GENERAL);
+            builder.push(getBaseCategory());
             this.allowCreation = builder.comment("Can a non-creative user create a portal using the scarab?")
                     .translation("atum.config.portal_creation")
                     .define("Atum Portal", true);
@@ -36,16 +36,20 @@ public class AtumConfig {
                     .define("Atum Fog", true);
             builder.pop();
         }
+
+        @Override
+        public String getBaseCategory() {
+            return "general";
+        }
     }
 
-    public static class AtumStart {
-        public static final String ATUM_START = "atum start";
+    public static class AtumStart implements BaseConfig {
         public ForgeConfigSpec.BooleanValue startInAtum;
         public ForgeConfigSpec.ConfigValue<String> atumStartStructure;
         public ForgeConfigSpec.BooleanValue startInAtumPortal;
 
         AtumStart(ForgeConfigSpec.Builder builder) {
-            builder.push(ATUM_START);
+            builder.push(getBaseCategory());
             this.startInAtum = builder.comment("New players should start in Atum?")
                     .translation("atum.config.atum_start")
                     .define("Start in Atum", false);
@@ -57,10 +61,14 @@ public class AtumConfig {
                     .define("Create Atum Portal", false);
             builder.pop();
         }
+
+        @Override
+        public String getBaseCategory() {
+            return "atum start";
+        }
     }
 
-    public static class Sandstorm {
-        public static final String SANDSTORM = "sandstorm";
+    public static class Sandstorm implements BaseConfig {
         public final ForgeConfigSpec.BooleanValue sandstormEnabled;
         public final ForgeConfigSpec.IntValue sandstormSandLayerChance;
         public final ForgeConfigSpec.IntValue sandstormFog;
@@ -70,7 +78,7 @@ public class AtumConfig {
         public final ForgeConfigSpec.IntValue sandstormTransitionTime;
 
         Sandstorm(ForgeConfigSpec.Builder builder) {
-            builder.push(SANDSTORM);
+            builder.push(getBaseCategory());
             this.sandstormEnabled = builder.comment("Enable/disables all functionality of sandstorms")
                     .translation("atum.configGui.sandstormenabled")
                     .define("Sandstorm Enabled", true);
@@ -94,10 +102,14 @@ public class AtumConfig {
                     .defineInRange("Sandstorm Transition Time", 25, 0, 100);
             builder.pop();
         }
+
+        @Override
+        public String getBaseCategory() {
+            return "sandstorm";
+        }
     }
 
-    public static class WorldGen {
-        public static final String WORLDGEN = "world gen";
+    public static class WorldGen implements BaseConfig {
         public static final String OREGEN = "ore gen";
         public final ForgeConfigSpec.DoubleValue mineshaftProbability;
         public final ForgeConfigSpec.IntValue ruinsAmount;
@@ -155,7 +167,7 @@ public class AtumConfig {
         public final ForgeConfigSpec.IntValue marlMaxHeight;
 
         WorldGen(ForgeConfigSpec.Builder builder) {
-            builder.push(WORLDGEN);
+            builder.push(getBaseCategory());
             this.mineshaftProbability = builder.comment("Probability of mineshafts generating. Set to 0 to disable. Default value same as vanilla overworld")
                     .translation("atum.config.mineshaft_probability")
                     .defineInRange("Minecraft probability", 0.007D, 0.0D, 1.0D);
@@ -168,7 +180,6 @@ public class AtumConfig {
             this.sandLayerEdge = builder.comment("Should Sand Layers generate along all edges?")
                     .translation("atum.config.sand_layer_enabled")
                     .define("Enable Sand Layer along edges", true);
-            builder.pop();
             builder.push(OREGEN).comment("All vanilla based ores, uses the vanilla values by default.");
             this.coalVeinSize = builder.defineInRange("Coal vein size", 17, 1, 64);
             this.coalCount = builder.defineInRange("Coal count, set to 0 to disable", 20, 0, 64);
@@ -218,18 +229,22 @@ public class AtumConfig {
             this.marlVeinSize = builder.defineInRange("Marl vein size", 14, 1, 64);
             this.marlCount = builder.defineInRange("Marl count, set to 0 to disable", 8, 0, 64);
             this.marlMaxHeight = builder.defineInRange("Marl max height", 50, 1, 255);
-            builder.pop();
+            builder.pop(2);
+        }
+
+        @Override
+        public String getBaseCategory() {
+            return "worldgen";
         }
     }
 
-    public static class Biome {
-        public static final String BIOME = "biome";
+    public static class Biome implements BaseConfig {
         public ForgeConfigSpec.IntValue subBiomeChance;
         public ForgeConfigSpec.IntValue oasisChance;
         public ForgeConfigSpec.IntValue weight;
 
         Biome(ForgeConfigSpec.Builder builder) {
-            builder.push(BIOME);
+            builder.push(getBaseCategory());
             this.subBiomeChance = builder.comment("By default 1 in 30 Sand Plains biomes can contain either an Oasis or Dead Oasis. Set to 0 to disable both oases biomes.")
                     .translation("atum.config.oaseschances")
                     .defineInRange("Oases chance", 30, 0, 10000);
@@ -240,15 +255,19 @@ public class AtumConfig {
         }
 
         public Biome(ForgeConfigSpec.Builder builder, String biomeName, int weight) {
-            builder.push(BIOME);
+            builder.push(getBaseCategory());
             builder.push(biomeName);
             this.weight = builder.defineInRange("weight", weight, -1, 1000);
             builder.pop(2);
         }
+
+        @Override
+        public String getBaseCategory() {
+            return "biome";
+        }
     }
 
-    public static class Mobs {
-        public static final String MOBS = "mobs";
+    public static class Mobs implements BaseConfig {
         public static HashMap<EntityType<?>, EntityClassification> ENTITY_CLASSIFICATION = new HashMap<>();
         public static HashMultimap<ResourceLocation, EntityType<?>> ENTITY_TYPE = HashMultimap.create();
         public ForgeConfigSpec.IntValue min;
@@ -259,7 +278,7 @@ public class AtumConfig {
         public ForgeConfigSpec.IntValue markedForDeathTimeBaseValue;
 
         public Mobs(ForgeConfigSpec.Builder builder) {
-            builder.push(MOBS);
+            builder.push(getBaseCategory());
             this.banditPatrolFrequency = builder.comment("How frequent Bandit patrols are. The higher the number, the less patrols will spawn")
                     .defineInRange("banditPatrolFrequency", 1000, -1, 10000);
             this.markedForDeathTimeBaseValue = builder.comment("How long time is required for an Assassin to spawn. The higher the number, the less frequent Assassin will spawn")
@@ -270,29 +289,50 @@ public class AtumConfig {
         public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, EntityClassification classification, ResourceLocation biomeName) {
             ENTITY_CLASSIFICATION.put(entityType, classification);
             ENTITY_TYPE.put(biomeName, entityType);
-            builder.push(MOBS);
+            builder.push(getBaseCategory());
             builder.push(mobName);
             this.min = builder.defineInRange("min", min, -1, 63);
             this.max = builder.defineInRange("max", max, 1, 64);
             this.weight = builder.defineInRange("weight", weight, -1, 1000);
             builder.pop(2);
         }
+
+        @Override
+        public String getBaseCategory() {
+            return "mobs";
+        }
     }
 
-    public static class ModIntegration {
+    public static class ModIntegration implements BaseConfig {
         public static final String MOD_INTEGRATION = "mod integration";
 
         public ModIntegration(ForgeConfigSpec.Builder builder, String modName, boolean defaultValue) {
-            builder.push(MOD_INTEGRATION);
+            builder.push(getBaseCategory());
             builder.define(modName, defaultValue);
             builder.pop();
         }
+
+        @Override
+        public String getBaseCategory() {
+            return MOD_INTEGRATION;
+        }
+    }
+
+    public static interface BaseConfig {
+        String getBaseCategory();
     }
 
     public static ForgeConfigSpec spec = BUILDER.build();
 
     public static class Helper {
         private static final FileConfig CONFIG_FILE = FileConfig.of(new File(FMLPaths.CONFIGDIR.get().toFile(), "atum-common.toml"));
+
+        public static <T> T get(ForgeConfigSpec.ConfigValue<?> configValue) {
+            List<String> path = configValue.getPath();
+            String category = path.get(0);
+            String subOrValue = path.get(1);
+            return get(category + "." + subOrValue + (path.size() > 2 ? "." + path.get(2) : ""));
+        }
 
         public static <T> T get(String category, String subCategory, String value) {
             return get(category + "." + subCategory, value);

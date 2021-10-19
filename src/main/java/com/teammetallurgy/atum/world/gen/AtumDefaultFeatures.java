@@ -37,64 +37,80 @@ public class AtumDefaultFeatures {
     }
 
     public static void addMaterialPockets(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.sandCount.get() > 0) {
+        int sandCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.sandCount);
+        if (sandCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.SAND);
         }
-        if (AtumConfig.WORLD_GEN.limestoneGravelCount.get() > 0) {
+        int limestoneGravelCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.limestoneGravelCount);
+        if (limestoneGravelCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.LIMESTONE_GRAVEL);
         }
-        if (AtumConfig.WORLD_GEN.marlCount.get() > 0) {
+        int marlCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.marlCount);
+        if (marlCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.MARL);
         }
     }
 
     public static void addStoneVariants(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.alabasterCount.get() > 0) {
+        int alabasterCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.alabasterCount);
+        if (alabasterCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.ALABASTER);
         }
-        if (AtumConfig.WORLD_GEN.porphyryCount.get() > 0) {
+        int porphyryCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.porphyryCount);
+        if (porphyryCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.PORPHYRY);
         }
     }
 
     public static void addOres(BiomeGenerationSettings.Builder builder) {
         //Vanilla based ores
-        if (AtumConfig.WORLD_GEN.coalCount.get() > 0) {
+        int coalCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.coalCount);
+        if (coalCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.COAL_ORE);
         }
-        if (AtumConfig.WORLD_GEN.ironCount.get() > 0) {
+        int ironCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.ironCount);
+        if (ironCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.IRON_ORE);
         }
-        if (AtumConfig.WORLD_GEN.goldCount.get() > 0) {
+        int goldCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.goldCount);
+        if (goldCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.GOLD_ORE);
         }
-        if (AtumConfig.WORLD_GEN.redstoneCount.get() > 0) {
+        int redstoneCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.redstoneCount);
+        if (redstoneCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.REDSTONE_ORE);
         }
-        if (AtumConfig.WORLD_GEN.diamondCount.get() > 0) {
+        int diamondCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.diamondCount);
+        if (diamondCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.DIAMOND_ORE);
         }
-        if (AtumConfig.WORLD_GEN.lapisBaseline.get() > 0) {
+        int lapisBaseline = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.lapisBaseline);
+        if (lapisBaseline > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.LAPIS_ORE);
         }
 
         //Atum ores
-        if (AtumConfig.WORLD_GEN.khnumiteCount.get() > 0) {
+        int khnumiteCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.khnumiteCount);
+        if (khnumiteCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.KHNUMITE_RAW);
         }
-        if (AtumConfig.WORLD_GEN.boneOreCount.get() > 0) {
+        int boneOreCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.boneOreCount);
+        if (boneOreCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.BONE_ORE);
         }
-        if (AtumConfig.WORLD_GEN.relicOreCount.get() > 0) {
+        int relicOreCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.relicOreCount);
+        if (relicOreCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.RELIC_ORE);
         }
-        if (AtumConfig.WORLD_GEN.nebuCount.get() > 0) {
+        int nebuCount = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.nebuCount);
+        if (nebuCount > 0) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.NEBU_ORE);
         }
     }
 
     public static void addEmeraldOre(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.emeraldEnabled.get()) {
+        boolean emeraldEnabled = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.emeraldEnabled);
+        if (emeraldEnabled) {
             builder.withFeature(UNDERGROUND_ORES, AtumFeatures.EMERALD_ORE);
         }
     }
@@ -104,20 +120,23 @@ public class AtumDefaultFeatures {
     }
 
     public static void addShrubs(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.shrubFrequency.get() > 0) {
+        int shrubFrequency = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.shrubFrequency);
+        if (shrubFrequency > 0) {
             builder.withFeature(VEGETAL_DECORATION, AtumFeatures.SHRUB);
             builder.withFeature(VEGETAL_DECORATION, AtumFeatures.WEED);
         }
     }
 
     public static void addFossils(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.fossilsChance.get() > 0) {
+        int fossilsChance = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.fossilsChance);
+        if (fossilsChance > 0) {
             builder.withFeature(UNDERGROUND_DECORATION, AtumFeatures.DIRTY_BONE_FOSSILS_CONFIGURED);
         }
     }
 
     public static void addDungeon(BiomeGenerationSettings.Builder builder) {
-        if (AtumConfig.WORLD_GEN.dungeonChance.get() > 0) {
+        int dungeonChance = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.dungeonChance);
+        if (dungeonChance > 0) {
             builder.withFeature(UNDERGROUND_STRUCTURES, AtumFeatures.LIMESTONE_DUNGEONS_CONFIGURED);
         }
     }
@@ -143,7 +162,8 @@ public class AtumDefaultFeatures {
     }
 
     public static void addMineshaft(BiomeGenerationSettings.Builder builder, boolean isSurface) {
-        if (AtumConfig.WORLD_GEN.mineshaftProbability.get() > 0.0D) {
+        double mineshaftProbability = AtumConfig.Helper.get(AtumConfig.WORLD_GEN.mineshaftProbability);
+        if (mineshaftProbability > 0.0D) {
             if (isSurface) {
                 builder.withStructure(AtumStructures.MINESHAFT_DEADWOOD_SURFACE_FEATURE);
                 builder.withStructure(AtumStructures.MINESHAFT_LIMESTONE_SURFACE_FEATURE);

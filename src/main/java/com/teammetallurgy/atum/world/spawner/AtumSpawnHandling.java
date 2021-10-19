@@ -28,7 +28,7 @@ public class AtumSpawnHandling {
         ResourceLocation name = event.getName();
         if (AtumConfig.Mobs.ENTITY_TYPE.containsKey(name)) {
             for (EntityType<?> entityType : AtumConfig.Mobs.ENTITY_TYPE.get(name)) {
-                String baseCategory = AtumConfig.Mobs.MOBS;
+                String baseCategory = AtumConfig.MOBS.getBaseCategory();
                 EntityClassification classification = AtumConfig.Mobs.ENTITY_CLASSIFICATION.get(entityType);
                 if (entityType != null && entityType.getRegistryName() != null) {
                     String mobName = entityType.getRegistryName().getPath();

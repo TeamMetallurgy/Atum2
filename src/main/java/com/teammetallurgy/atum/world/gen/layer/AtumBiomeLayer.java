@@ -24,7 +24,7 @@ public class AtumBiomeLayer implements IC0Transformer {
         for (RegistryKey<Biome> biomeKey : AtumRegistry.BIOME_KEYS) {
             ResourceLocation location = biomeKey.getLocation();
             if (location != null) {
-                String subConfig = AtumConfig.Helper.getSubConfig(AtumConfig.Biome.BIOME, location.getPath());
+                String subConfig = AtumConfig.Helper.getSubConfig(AtumConfig.BIOME.getBaseCategory(), location.getPath());
                 if (AtumConfig.Helper.get(subConfig) != null) { //Ensure config exists
                     int weight = AtumConfig.Helper.get(subConfig, "weight");
                     if (weight > 0) {
