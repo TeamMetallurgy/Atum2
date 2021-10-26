@@ -28,7 +28,7 @@ import java.util.Set;
 public class AtemsHomecomingItem extends Item implements IArtifact {
 
     public AtemsHomecomingItem() {
-        super(new Item.Properties().maxDamage(20).group(Atum.GROUP));
+        super(new Item.Properties().maxDamage(20).group(Atum.GROUP).rarity(Rarity.RARE));
     }
 
     @Override
