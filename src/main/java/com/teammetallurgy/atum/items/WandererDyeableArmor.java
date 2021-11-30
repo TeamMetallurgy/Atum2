@@ -2,10 +2,7 @@ package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.api.IFogReductionItem;
 import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.IDyeableArmorItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 
 import javax.annotation.Nonnull;

@@ -2,12 +2,15 @@ package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
 import net.minecraft.block.Blocks;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Mirror;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Rotation;

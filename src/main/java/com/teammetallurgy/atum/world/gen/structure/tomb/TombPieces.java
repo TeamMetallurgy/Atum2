@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.world.gen.structure.tomb;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.ChestBaseBlock;
+import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.LimestoneChestTileEntity;
+import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
