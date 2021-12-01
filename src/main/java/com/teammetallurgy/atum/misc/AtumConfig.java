@@ -106,7 +106,7 @@ public class AtumConfig {
         public final ForgeConfigSpec.IntValue dungeonChance;
         public final ForgeConfigSpec.BooleanValue sandLayerEdge;
 
-        //Oregen options
+        //Oregen options //TODO Remove in 1.18
         public final ForgeConfigSpec.IntValue coalVeinSize;
         public final ForgeConfigSpec.IntValue coalCount;
         public final ForgeConfigSpec.IntValue coalMaxHeight;
@@ -254,9 +254,9 @@ public class AtumConfig {
         public ForgeConfigSpec.IntValue min;
         public ForgeConfigSpec.IntValue max;
         public ForgeConfigSpec.IntValue weight;
-
         public ForgeConfigSpec.IntValue banditPatrolFrequency;
         public ForgeConfigSpec.IntValue markedForDeathTimeBaseValue;
+        public ForgeConfigSpec.BooleanValue displayPharaohSlainMessage;
 
         public Mobs(ForgeConfigSpec.Builder builder) {
             builder.push(MOBS);
@@ -264,6 +264,8 @@ public class AtumConfig {
                     .defineInRange("banditPatrolFrequency", 1000, -1, 10000);
             this.markedForDeathTimeBaseValue = builder.comment("How long time is required for an Assassin to spawn. The higher the number, the less frequent Assassin will spawn")
                     .defineInRange("markedForDeathFrequency", 1000, 1, 10000);
+            this.displayPharaohSlainMessage = builder.comment("Whether a message should be broadcast to everybody, when a Pharaoh have been killed")
+                    .define("displayPharaohSlainMessage", true);
             builder.pop();
         }
 
