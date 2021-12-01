@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
+import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -288,12 +289,14 @@ public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob 
             }
         }
 
-        if (source.damageType.equals("player")) {
-            PlayerEntity slayer = (PlayerEntity) source.getTrueSource();
-            if (!this.world.isRemote && slayer != null) {
-                List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
-                for (PlayerEntity player : players) {
-                    player.sendMessage(this.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().setColor(God.getGod(this.getVariant()).getColor())), Util.DUMMY_UUID);
+        if (AtumConfig.MOBS.displayPharaohSlainMessage.get()) {
+            if (source.damageType.equals("player")) {
+                PlayerEntity slayer = (PlayerEntity) source.getTrueSource();
+                if (!this.world.isRemote && slayer != null) {
+                    List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
+                    for (PlayerEntity player : players) {
+                        player.sendMessage(this.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().setColor(God.getGod(this.getVariant()).getColor())), Util.DUMMY_UUID);
+                    }
                 }
             }
         }
