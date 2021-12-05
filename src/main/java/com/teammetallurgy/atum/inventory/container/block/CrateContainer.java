@@ -1,26 +1,26 @@
 package com.teammetallurgy.atum.inventory.container.block;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.core.BlockPos;
 
 import javax.annotation.Nonnull;
 
-public class CrateContainer extends Container {
-    private final IInventory crateInventory;
+public class CrateContainer extends AbstractContainerMenu {
+    private final Container crateInventory;
     private final int numRows;
 
-    public CrateContainer(int windowID, BlockPos pos, PlayerInventory playerInventory) {
-        super(ContainerType.GENERIC_9X3, windowID);
-        PlayerEntity player = playerInventory.player;
-        this.crateInventory = (IInventory) player.world.getTileEntity(pos);
-        this.numRows = this.crateInventory.getSizeInventory() / 9;
-        crateInventory.openInventory(player);
+    public CrateContainer(int windowID, BlockPos pos, Inventory playerInventory) {
+        super(MenuType.GENERIC_9x3, windowID);
+        Player player = playerInventory.player;
+        this.crateInventory = (Container) player.level.getBlockEntity(pos);
+        this.numRows = this.crateInventory.getContainerSize() / 9;
+        crateInventory.startOpen(player);
         int i = (this.numRows - 4) * 18;
 
         for (int j = 0; j < this.numRows; ++j) {
@@ -41,44 +41,44 @@ public class CrateContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return crateInventory.isUsableByPlayer(player);
+    public boolean stillValid(@Nonnull Player player) {
+        return crateInventory.stillValid(player);
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack slotStack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
+        Slot slot = this.slots.get(index);
 
-        if (slot != null && slot.getHasStack()) {
-            ItemStack stack = slot.getStack();
+        if (slot != null && slot.hasItem()) {
+            ItemStack stack = slot.getItem();
             slotStack = stack.copy();
 
             if (index < this.numRows * 9) {
-                if (!this.mergeItemStack(stack, this.numRows * 9, this.inventorySlots.size(), true)) {
+                if (!this.moveItemStackTo(stack, this.numRows * 9, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(stack, 0, this.numRows * 9, false)) {
+            } else if (!this.moveItemStackTo(stack, 0, this.numRows * 9, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (stack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
         }
         return slotStack;
     }
 
     @Override
-    public void onContainerClosed(PlayerEntity player) {
-        super.onContainerClosed(player);
-        this.crateInventory.closeInventory(player);
+    public void removed(Player player) {
+        super.removed(player);
+        this.crateInventory.stopOpen(player);
     }
 
-    public IInventory getCrateInventory() {
+    public Container getCrateInventory() {
         return crateInventory;
     }
 }

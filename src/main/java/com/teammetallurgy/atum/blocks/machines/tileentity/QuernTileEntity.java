@@ -8,26 +8,26 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.StackHelper;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.HopperTileEntity;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -38,7 +38,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-public class QuernTileEntity extends InventoryBaseTileEntity implements ITickableTileEntity, ISidedInventory {
+public class QuernTileEntity extends InventoryBaseTileEntity implements TickableBlockEntity, WorldlyContainer {
     private int currentRotation;
     private int quernRotations;
 
@@ -48,27 +48,27 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
 
     @Override
     public void tick() {
-        if (this.world != null && !this.world.isRemote) {
+        if (this.level != null && !this.level.isClientSide) {
             if (this.currentRotation >= 360) {
                 this.currentRotation = 0;
                 this.quernRotations += 1;
             }
 
-            if (this.getStackInSlot(0).isEmpty()) {
+            if (this.getItem(0).isEmpty()) {
                 this.quernRotations = 0;
             }
 
             if (this.quernRotations > 0) {
-                if (this.world instanceof ServerWorld) {
-                    ServerWorld serverWorld = (ServerWorld) world;
+                if (this.level instanceof ServerLevel) {
+                    ServerLevel serverWorld = (ServerLevel) level;
                     Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.QUERN);
                     for (QuernRecipe quernRecipe : recipes) {
                         for (Ingredient ingredient : quernRecipe.getIngredients()) {
-                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, this.getStackInSlot(0)) && quernRecipe.getRotations() == this.quernRotations) {
-                                this.decrStackSize(0, 1);
-                                this.outputItems(quernRecipe.getCraftingResult(this), this.world, this.getPos());
+                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, this.getItem(0)) && quernRecipe.getRotations() == this.quernRotations) {
+                                this.removeItem(0, 1);
+                                this.outputItems(quernRecipe.assemble(this), this.level, this.getBlockPos());
                                 this.quernRotations = 0;
-                                this.markDirty();
+                                this.setChanged();
                             }
                         }
                     }
@@ -77,12 +77,12 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
         }
     }
 
-    private void outputItems(@Nonnull ItemStack stack, World world, BlockPos pos) {
-        Direction facing = world.getBlockState(pos).get(QuernBlock.FACING).getOpposite();
-        TileEntity tileEntity = world.getTileEntity(pos.offset(facing));
-        if (tileEntity instanceof ISidedInventory && ((ISidedInventory) tileEntity).getSlotsForFace(facing).length > 0 || tileEntity instanceof IInventory && ((IInventory) tileEntity).getSizeInventory() > 0) {
-            IInventory inventory = ((IInventory) tileEntity);
-            stack = HopperTileEntity.putStackInInventoryAllSlots(this, inventory, stack, facing);
+    private void outputItems(@Nonnull ItemStack stack, Level world, BlockPos pos) {
+        Direction facing = world.getBlockState(pos).getValue(QuernBlock.FACING).getOpposite();
+        BlockEntity tileEntity = world.getBlockEntity(pos.relative(facing));
+        if (tileEntity instanceof WorldlyContainer && ((WorldlyContainer) tileEntity).getSlotsForFace(facing).length > 0 || tileEntity instanceof Container && ((Container) tileEntity).getContainerSize() > 0) {
+            Container inventory = ((Container) tileEntity);
+            stack = HopperBlockEntity.addItem(this, inventory, stack, facing);
         } else if (tileEntity != null) {
             LazyOptional<IItemHandler> capability = tileEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, facing);
             if (capability.isPresent()) {
@@ -94,16 +94,16 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
         }
 
         if (!stack.isEmpty()) {
-            StackHelper.spawnItemStack(world, (double) facing.getXOffset() + pos.getX() + 0.5D, (double) pos.getY() + 0.15D, (double) facing.getZOffset() + pos.getZ() + 0.5, stack);
-            if (world.isRemote) {
-                world.playSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.ENTITY_CHICKEN_EGG, SoundCategory.BLOCKS, 1.0F, 0.4F, false);
+            StackHelper.spawnItemStack(world, (double) facing.getStepX() + pos.getX() + 0.5D, (double) pos.getY() + 0.15D, (double) facing.getStepZ() + pos.getZ() + 0.5, stack);
+            if (world.isClientSide) {
+                world.playLocalSound((double) pos.getX() + 0.5D, pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.CHICKEN_EGG, SoundSource.BLOCKS, 1.0F, 0.4F, false);
             }
         }
     }
 
     @Override
-    public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        return RecipeHelper.isItemValidForSlot(this.world, stack, IAtumRecipeType.QUERN);
+    public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
+        return RecipeHelper.isItemValidForSlot(this.level, stack, IAtumRecipeType.QUERN);
     }
 
     public int getRotations() {
@@ -115,49 +115,49 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
-    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
+        super.load(state, compound);
         this.currentRotation = compound.getInt("currentRotation");
         this.quernRotations = compound.getInt("quernRotations");
     }
 
     @Nonnull
     @Override
-    public CompoundNBT write(@Nonnull CompoundNBT compound) {
-        super.write(compound);
+    public CompoundTag save(@Nonnull CompoundTag compound) {
+        super.save(compound);
         compound.putInt("currentRotation", this.currentRotation);
         compound.putInt("quernRotations", this.quernRotations);
         return compound;
     }
 
     @Override
-    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
+    protected AbstractContainerMenu createMenu(int windowID, @Nonnull Inventory playerInventory) {
         return null;
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
+    public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(this.getBlockState(), packet.getNbtCompound());
+        this.load(this.getBlockState(), packet.getTag());
     }
 
     @Override
     @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return this.save(new CompoundTag());
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
-        if (this.world instanceof ServerWorld) {
-            final IPacket<?> packet = this.getUpdatePacket();
-            NetworkHandler.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
+    public void setChanged() {
+        super.setChanged();
+        if (this.level instanceof ServerLevel) {
+            final Packet<?> packet = this.getUpdatePacket();
+            NetworkHandler.sendToTracking((ServerLevel) this.level, this.worldPosition, packet, false);
         }
     }
 
@@ -168,12 +168,12 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements ITickabl
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, Direction facing) {
+    public boolean canPlaceItemThroughFace(int index, @Nonnull ItemStack stack, Direction facing) {
         return false;
     }
 
     @Override
-    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
+    public boolean canTakeItemThroughFace(int index, @Nonnull ItemStack stack, @Nonnull Direction facing) {
         return false;
     }
 

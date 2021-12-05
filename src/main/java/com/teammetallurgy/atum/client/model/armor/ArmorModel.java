@@ -1,60 +1,60 @@
 package com.teammetallurgy.atum.client.model.armor;
 
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ArmorStandEntity;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.decoration.ArmorStand;
+import net.minecraft.world.entity.EquipmentSlot;
 
 import javax.annotation.Nonnull;
 
-public class ArmorModel extends BipedModel<LivingEntity> {
-    private final EquipmentSlotType slot;
+public class ArmorModel extends HumanoidModel<LivingEntity> {
+    private final EquipmentSlot slot;
 
-    public ArmorModel(EquipmentSlotType slot) {
+    public ArmorModel(EquipmentSlot slot) {
         super(1.0F);
         this.slot = slot;
     }
 
-    public EquipmentSlotType getSlot() {
+    public EquipmentSlot getSlot() {
         return this.slot;
     }
 
     @Override
-    public void setRotationAngles(@Nonnull LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) { //Fixes armor on armor stands
-        if (!(entity instanceof ArmorStandEntity)) {
-            super.setRotationAngles(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+    public void setupAnim(@Nonnull LivingEntity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) { //Fixes armor on armor stands
+        if (!(entity instanceof ArmorStand)) {
+            super.setupAnim(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
             return;
         }
 
-        ArmorStandEntity armorStand = (ArmorStandEntity) entity;
-        this.bipedHead.rotateAngleX = ((float) Math.PI / 180F) * armorStand.getHeadRotation().getX();
-        this.bipedHead.rotateAngleY = ((float) Math.PI / 180F) * armorStand.getHeadRotation().getY();
-        this.bipedHead.rotateAngleZ = ((float) Math.PI / 180F) * armorStand.getHeadRotation().getZ();
-        this.bipedHead.setRotationPoint(0.0F, 1.0F, 0.0F);
-        this.bipedBody.rotateAngleX = ((float) Math.PI / 180F) * armorStand.getBodyRotation().getX();
-        this.bipedBody.rotateAngleY = ((float) Math.PI / 180F) * armorStand.getBodyRotation().getY();
-        this.bipedBody.rotateAngleZ = ((float) Math.PI / 180F) * armorStand.getBodyRotation().getZ();
-        this.bipedLeftArm.rotateAngleX = ((float) Math.PI / 180F) * armorStand.getLeftArmRotation().getX();
-        this.bipedLeftArm.rotateAngleY = ((float) Math.PI / 180F) * armorStand.getLeftArmRotation().getY();
-        this.bipedLeftArm.rotateAngleZ = ((float) Math.PI / 180F) * armorStand.getLeftArmRotation().getZ();
-        this.bipedRightArm.rotateAngleX = ((float) Math.PI / 180F) * armorStand.getRightArmRotation().getX();
-        this.bipedRightArm.rotateAngleY = ((float) Math.PI / 180F) * armorStand.getRightArmRotation().getY();
-        this.bipedRightArm.rotateAngleZ = ((float) Math.PI / 180F) * armorStand.getRightArmRotation().getZ();
-        this.bipedLeftLeg.rotateAngleX = ((float) Math.PI / 180F) * armorStand.getLeftLegRotation().getX();
-        this.bipedLeftLeg.rotateAngleY = ((float) Math.PI / 180F) * armorStand.getLeftLegRotation().getY();
-        this.bipedLeftLeg.rotateAngleZ = ((float) Math.PI / 180F) * armorStand.getLeftLegRotation().getZ();
-        this.bipedLeftLeg.setRotationPoint(1.9F, 11.0F, 0.0F);
-        this.bipedRightLeg.rotateAngleX = ((float) Math.PI / 180F) * armorStand.getRightLegRotation().getX();
-        this.bipedRightLeg.rotateAngleY = ((float) Math.PI / 180F) * armorStand.getRightLegRotation().getY();
-        this.bipedRightLeg.rotateAngleZ = ((float) Math.PI / 180F) * armorStand.getRightLegRotation().getZ();
-        this.bipedRightLeg.setRotationPoint(-1.9F, 11.0F, 0.0F);
-        this.bipedHeadwear.copyModelAngles(this.bipedHead);
+        ArmorStand armorStand = (ArmorStand) entity;
+        this.head.xRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getX();
+        this.head.yRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getY();
+        this.head.zRot = ((float) Math.PI / 180F) * armorStand.getHeadPose().getZ();
+        this.head.setPos(0.0F, 1.0F, 0.0F);
+        this.body.xRot = ((float) Math.PI / 180F) * armorStand.getBodyPose().getX();
+        this.body.yRot = ((float) Math.PI / 180F) * armorStand.getBodyPose().getY();
+        this.body.zRot = ((float) Math.PI / 180F) * armorStand.getBodyPose().getZ();
+        this.leftArm.xRot = ((float) Math.PI / 180F) * armorStand.getLeftArmPose().getX();
+        this.leftArm.yRot = ((float) Math.PI / 180F) * armorStand.getLeftArmPose().getY();
+        this.leftArm.zRot = ((float) Math.PI / 180F) * armorStand.getLeftArmPose().getZ();
+        this.rightArm.xRot = ((float) Math.PI / 180F) * armorStand.getRightArmPose().getX();
+        this.rightArm.yRot = ((float) Math.PI / 180F) * armorStand.getRightArmPose().getY();
+        this.rightArm.zRot = ((float) Math.PI / 180F) * armorStand.getRightArmPose().getZ();
+        this.leftLeg.xRot = ((float) Math.PI / 180F) * armorStand.getLeftLegPose().getX();
+        this.leftLeg.yRot = ((float) Math.PI / 180F) * armorStand.getLeftLegPose().getY();
+        this.leftLeg.zRot = ((float) Math.PI / 180F) * armorStand.getLeftLegPose().getZ();
+        this.leftLeg.setPos(1.9F, 11.0F, 0.0F);
+        this.rightLeg.xRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getX();
+        this.rightLeg.yRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getY();
+        this.rightLeg.zRot = ((float) Math.PI / 180F) * armorStand.getRightLegPose().getZ();
+        this.rightLeg.setPos(-1.9F, 11.0F, 0.0F);
+        this.hat.copyFrom(this.head);
     }
 
-    public void setRotationAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-        modelRenderer.rotateAngleX = x;
-        modelRenderer.rotateAngleY = y;
-        modelRenderer.rotateAngleZ = z;
+    public void setRotationAngle(ModelPart modelRenderer, float x, float y, float z) {
+        modelRenderer.xRot = x;
+        modelRenderer.yRot = y;
+        modelRenderer.zRot = z;
     }
 }

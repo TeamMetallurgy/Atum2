@@ -4,34 +4,34 @@ import com.google.common.collect.ImmutableMap;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerData;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 
-public class AtumChangeJobTask extends Task<VillagerEntity> {
+public class AtumChangeJobTask extends Behavior<Villager> {
     public AtumChangeJobTask() {
-        super(ImmutableMap.of(MemoryModuleType.JOB_SITE, MemoryModuleStatus.VALUE_ABSENT));
+        super(ImmutableMap.of(MemoryModuleType.JOB_SITE, MemoryStatus.VALUE_ABSENT));
     }
 
     @Override
-    protected boolean shouldExecute(@Nonnull ServerWorld world, @Nonnull VillagerEntity owner) {
+    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull Villager owner) {
         if (owner instanceof AtumVillagerEntity) {
             AtumVillagerData villagerData = ((AtumVillagerEntity) owner).getAtumVillagerData();
-            return villagerData.getAtumProfession() != AtumVillagerProfession.NONE.get() && villagerData.getAtumProfession() != AtumVillagerProfession.NITWIT.get() && owner.getXp() == 0 && villagerData.getLevel() <= 1;
+            return villagerData.getAtumProfession() != AtumVillagerProfession.NONE.get() && villagerData.getAtumProfession() != AtumVillagerProfession.NITWIT.get() && owner.getVillagerXp() == 0 && villagerData.getLevel() <= 1;
         } else {
             return false;
         }
     }
 
     @Override
-    protected void startExecuting(@Nonnull ServerWorld world, @Nonnull VillagerEntity entity, long gameTime) {
+    protected void start(@Nonnull ServerLevel world, @Nonnull Villager entity, long gameTime) {
         if (entity instanceof AtumVillagerEntity) {
             ((AtumVillagerEntity) entity).setAtumVillagerData(((AtumVillagerEntity) entity).getAtumVillagerData().withProfession(AtumVillagerProfession.NONE.get()));
-            entity.resetBrain(world);
+            entity.refreshBrain(world);
         }
     }
 }

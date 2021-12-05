@@ -17,25 +17,25 @@ import com.teammetallurgy.atum.items.RelicItem;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.datagenerator.BlockStatesGenerator;
 import com.teammetallurgy.atum.misc.datagenerator.RecipeGenerator;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.WoodType;
-import net.minecraft.block.material.Material;
-import net.minecraft.client.renderer.tileentity.ItemStackTileEntityRenderer;
-import net.minecraft.data.BiomeProvider;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
+import net.minecraft.data.worldgen.biome.BiomeReport;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.item.*;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -54,13 +54,19 @@ import java.util.concurrent.Callable;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.SignItem;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.StandingAndWallBlockItem;
+
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRegistry {
     //Registry lists
     private static final List<Item> ITEMS = Lists.newArrayList();
     private static final List<Block> BLOCKS = Lists.newArrayList();
     public static final List<Biome> BIOMES = Lists.newArrayList();
-    public static final List<RegistryKey<Biome>> BIOME_KEYS = Lists.newArrayList();
+    public static final List<ResourceKey<Biome>> BIOME_KEYS = Lists.newArrayList();
     private static final List<EntityType<?>> ENTITIES = Lists.newArrayList();
     private static final List<SoundEvent> SOUNDS = Lists.newArrayList();
     private static final List<ParticleType<?>> PARTICLES = Lists.newArrayList();
@@ -89,8 +95,8 @@ public class AtumRegistry {
      * @return The dirty relic item that was registered
      */
     public static RelicItem registerRelic(@Nonnull RelicItem.Type type) {
-        Item.Properties nonDirty = new Item.Properties().maxStackSize(16);
-        RelicItem dirty = new RelicItem(new Item.Properties().maxStackSize(64));
+        Item.Properties nonDirty = new Item.Properties().stacksTo(16);
+        RelicItem dirty = new RelicItem(new Item.Properties().stacksTo(64));
         registerItem(dirty, getRelicName(RelicItem.Quality.DIRTY, type));
         registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.SILVER, type));
         registerItem(new RelicItem(nonDirty), getRelicName(RelicItem.Quality.GOLD, type));
@@ -109,7 +115,7 @@ public class AtumRegistry {
 
     private static String getRelicName(@Nonnull RelicItem.Quality quality, @Nonnull RelicItem.Type type) {
         RelicItem.RELIC_ENTRIES.add(new RelicItem.RelicEntry(quality, quality.getWeight()));
-        return "relic_" + quality.getString() + "_" + type.getString();
+        return "relic_" + quality.getSerializedName() + "_" + type.getSerializedName();
     }
 
     /**
@@ -121,11 +127,11 @@ public class AtumRegistry {
      */
     public static Block registerTorchWithUnlit(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
         Block unlitTorch = new AtumTorchUnlitBlock();
-        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch), torch.getParticleType());
-        Block wallTorchUnlit = new AtumWallTorchUnlitBlock(wallTorchLit, Block.Properties.from(unlitTorch).lootFrom(unlitTorch));
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.copy(torch).dropsLike(torch), torch.getParticleType());
+        Block wallTorchUnlit = new AtumWallTorchUnlitBlock(wallTorchLit, Block.Properties.copy(unlitTorch).dropsLike(unlitTorch));
         registerBaseBlock(wallTorchLit, "wall_" + name);
         registerBaseBlock(wallTorchUnlit, "wall_" + name + "_unlit");
-        registerBlockWithItem(unlitTorch, new WallOrFloorItem(unlitTorch, wallTorchUnlit, new Item.Properties()), name + "_unlit");
+        registerBlockWithItem(unlitTorch, new StandingAndWallBlockItem(unlitTorch, wallTorchUnlit, new Item.Properties()), name + "_unlit");
 
         AtumTorchUnlitBlock.UNLIT.put(torch, unlitTorch);
         AtumWallTorchUnlitBlock.UNLIT.put(torch, wallTorchUnlit);
@@ -135,15 +141,15 @@ public class AtumRegistry {
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchUnlit);
 
-        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
+        return registerBlockWithItem(torch, new StandingAndWallBlockItem(torch, wallTorchLit, new Item.Properties().tab(Atum.GROUP)), name);
     }
 
     public static Block registerTorch(@Nonnull AtumTorchBlock torch, @Nonnull String name) {
-        Block wallTorchLit = new AtumWallTorch(Block.Properties.from(torch).lootFrom(torch), torch.getParticleType());
+        Block wallTorchLit = new AtumWallTorch(Block.Properties.copy(torch).dropsLike(torch), torch.getParticleType());
         registerBaseBlock(wallTorchLit, "wall_" + name);
         AtumTorchUnlitBlock.ALL_TORCHES.add(torch);
         AtumTorchUnlitBlock.ALL_TORCHES.add(wallTorchLit);
-        return registerBlockWithItem(torch, new WallOrFloorItem(torch, wallTorchLit, new Item.Properties().group(Atum.GROUP)), name);
+        return registerBlockWithItem(torch, new StandingAndWallBlockItem(torch, wallTorchLit, new Item.Properties().tab(Atum.GROUP)), name);
     }
 
     /**
@@ -169,8 +175,8 @@ public class AtumRegistry {
      *
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
-    public static Block registerBlock(@Nonnull Block block, Supplier<Callable<ItemStackTileEntityRenderer>> ister, @Nullable Item.Properties properties, @Nonnull String name) {
-        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties().setISTER(ister) : properties.setISTER(ister).group(Atum.GROUP));
+    public static Block registerBlock(@Nonnull Block block, Supplier<Callable<BlockEntityWithoutLevelRenderer>> ister, @Nullable Item.Properties properties, @Nonnull String name) {
+        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties().setISTER(ister) : properties.setISTER(ister).tab(Atum.GROUP));
         return registerBlockWithItem(block, blockItem, name);
     }
 
@@ -180,7 +186,7 @@ public class AtumRegistry {
      * @param properties BlockItem properties, can be set to null to not have any ItemGroup
      */
     public static Block registerBlock(@Nonnull Block block, @Nullable Item.Properties properties, @Nonnull String name) {
-        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties() : properties.group(Atum.GROUP));
+        BlockItem blockItem = new BlockItem(block, properties == null ? new Item.Properties() : properties.tab(Atum.GROUP));
         return registerBlockWithItem(block, blockItem, name);
     }
 
@@ -209,9 +215,9 @@ public class AtumRegistry {
      * Allows for easy registering of signs, that handles Ground Sign, Wall Sign and Item sign registration
      */
     public static Block registerSign(@Nonnull Block signBlock, @Nonnull WoodType woodType) {
-        String typeName = woodType.getName().replace("atum_", "");
-        Block wallSignBlock = new AtumWallSignBlock(AbstractBlock.Properties.create(Material.WOOD).doesNotBlockMovement().hardnessAndResistance(1.0F).sound(SoundType.WOOD).lootFrom(signBlock), woodType);
-        Item signItem = new SignItem((new Item.Properties()).maxStackSize(16).group(Atum.GROUP), signBlock, wallSignBlock);
+        String typeName = woodType.name().replace("atum_", "");
+        Block wallSignBlock = new AtumWallSignBlock(BlockBehaviour.Properties.of(Material.WOOD).noCollission().strength(1.0F).sound(SoundType.WOOD).dropsLike(signBlock), woodType);
+        Item signItem = new SignItem((new Item.Properties()).stacksTo(16).tab(Atum.GROUP), signBlock, wallSignBlock);
         AtumWallSignBlock.WALL_SIGN_BLOCKS.put(signBlock, wallSignBlock);
         registerItem(signItem, typeName + "_sign");
         registerBaseBlock(wallSignBlock, typeName + "_wall_sign");
@@ -229,7 +235,7 @@ public class AtumRegistry {
      */
     public static <T extends Entity> EntityType<T> registerMob(String name, int eggPrimary, int eggSecondary, EntityType.Builder<T> builder) {
         EntityType<T> entityType = registerEntity(name, builder);
-        Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).group(Atum.GROUP));
+        Item spawnEgg = new SpawnEggItem(entityType, eggPrimary, eggSecondary, (new Item.Properties()).tab(Atum.GROUP));
         registerItem(spawnEgg, name + "_spawn_egg");
         return entityType;
     }
@@ -255,11 +261,11 @@ public class AtumRegistry {
      * @param name String to register the arrow with
      * @return The Arrow EntityType that was registered
      */
-    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.IFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, World, T> customClientFactory) {
-        EntityType.Builder<T> builder = EntityType.Builder.create(factory, EntityClassification.MISC)
-                .size(0.5F, 0.5F)
+    public static <T extends CustomArrow> EntityType<T> registerArrow(String name, EntityType.EntityFactory<T> factory, BiFunction<FMLPlayMessages.SpawnEntity, Level, T> customClientFactory) {
+        EntityType.Builder<T> builder = EntityType.Builder.of(factory, MobCategory.MISC)
+                .sized(0.5F, 0.5F)
                 .setTrackingRange(4)
-                .func_233608_b_(20)
+                .updateInterval(20)
                 .setCustomClientFactory(customClientFactory);
         EntityType<T> entityType = registerEntity(name, builder);
         ARROWS.add(entityType);
@@ -285,8 +291,8 @@ public class AtumRegistry {
      * @param biomeName The name to register the biome key with
      * @return The Biome key that was registered
      */
-    public static RegistryKey<Biome> registerBiomeKey(String biomeName) {
-        RegistryKey<Biome> biomeKey = RegistryKey.getOrCreateKey(ForgeRegistries.Keys.BIOMES, new ResourceLocation(Atum.MOD_ID, biomeName));
+    public static ResourceKey<Biome> registerBiomeKey(String biomeName) {
+        ResourceKey<Biome> biomeKey = ResourceKey.create(ForgeRegistries.Keys.BIOMES, new ResourceLocation(Atum.MOD_ID, biomeName));
         BIOME_KEYS.add(biomeKey);
         return biomeKey;
     }
@@ -311,16 +317,16 @@ public class AtumRegistry {
      * @param name The name to register the sound with
      * @return The Sound that was registered
      */
-    public static BasicParticleType registerParticle(String name) {
+    public static SimpleParticleType registerParticle(String name) {
         ResourceLocation resourceLocation = new ResourceLocation(Atum.MOD_ID, name);
-        BasicParticleType particleType = new BasicParticleType(false);
+        SimpleParticleType particleType = new SimpleParticleType(false);
         particleType.setRegistryName(resourceLocation);
         PARTICLES.add(particleType);
         return particleType;
     }
 
-    public static BasicParticleType registerGodFlame(String name, God god) {
-        BasicParticleType particleType = registerParticle(name);
+    public static SimpleParticleType registerGodFlame(String name, God god) {
+        SimpleParticleType particleType = registerParticle(name);
         AtumTorchBlock.GOD_FLAMES.put(god, particleType);
         AtumTorchBlock.GODS.put(particleType, god);
         return particleType;
@@ -410,7 +416,7 @@ public class AtumRegistry {
         }
 
         if (event.includeReports()) {
-            gen.addProvider(new BiomeProvider(gen));
+            gen.addProvider(new BiomeReport(gen));
         }
     }
 

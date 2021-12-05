@@ -5,35 +5,55 @@ import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.*;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class StoneBaseEntity extends MonsterEntity {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(StoneBaseEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Byte> PLAYER_CREATED = EntityDataManager.createKey(StoneBaseEntity.class, DataSerializers.BYTE);
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LightLayer;
+import net.minecraft.world.level.ServerLevelAccessor;
+
+public class StoneBaseEntity extends Monster {
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(StoneBaseEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Byte> PLAYER_CREATED = SynchedEntityData.defineId(StoneBaseEntity.class, EntityDataSerializers.BYTE);
     private int homeCheckTimer;
 
-    public StoneBaseEntity(EntityType<? extends StoneBaseEntity> entityType, World world) {
+    public StoneBaseEntity(EntityType<? extends StoneBaseEntity> entityType, Level world) {
         super(entityType, world);
     }
 
@@ -41,23 +61,23 @@ public class StoneBaseEntity extends MonsterEntity {
     protected void registerGoals() {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
         this.goalSelector.addGoal(4, new MoveTowardsRestrictionGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.applyEntityAI();
     }
 
     private void applyEntityAI() {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, input -> !isPlayerCreated()));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, input -> !isPlayerCreated()));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, StoneBaseEntity.class, 10, true, false, input -> input instanceof StoneBaseEntity && (!((StoneBaseEntity) input).isPlayerCreated() && isPlayerCreated() || ((StoneBaseEntity) input).isPlayerCreated() && !isPlayerCreated())));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
         this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, BanditBaseEntity.class, true));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, MonsterEntity.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof StoneBaseEntity) && input.getCreatureAttribute() == CreatureAttribute.UNDEAD));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Monster.class, 10, true, false, input -> input != null && this.isPlayerCreated() && !(input instanceof StoneBaseEntity) && input.getMobType() == MobType.UNDEAD));
     }
 
-    public static AttributeModifierMap.MutableAttribute getBaseAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.15D).createMutableAttribute(Attributes.FOLLOW_RANGE, 16.0D);
+    public static AttributeSupplier.Builder getBaseAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MOVEMENT_SPEED, 0.15D).add(Attributes.FOLLOW_RANGE, 16.0D);
     }
 
     void setFriendlyAttributes() {
@@ -65,41 +85,41 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(VARIANT, 0);
-        this.dataManager.register(PLAYER_CREATED, (byte) 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(VARIANT, 0);
+        this.entityData.define(PLAYER_CREATED, (byte) 0);
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
         if (this.isPlayerCreated()) {
             this.setFriendlyAttributes();
         }
-        return super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
+        return super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
     }
 
     void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.world.isRemote && this.dataManager.isDirty()) {
-            this.dataManager.setClean();
+        if (this.level.isClientSide && this.entityData.isDirty()) {
+            this.entityData.clearDirty();
         }
     }
 
     @Override
     public void remove() {
-        if (!world.isRemote && this.isPlayerCreated() && this.world.getDifficulty() == Difficulty.PEACEFUL) {
+        if (!level.isClientSide && this.isPlayerCreated() && this.level.getDifficulty() == Difficulty.PEACEFUL) {
             //Don't set player created stone mobs as dead on peaceful
         } else {
             super.remove();
@@ -107,48 +127,48 @@ public class StoneBaseEntity extends MonsterEntity {
     }
 
     @Override
-    protected void updateAITasks() {
+    protected void customServerAiStep() {
         if (--this.homeCheckTimer <= 0) {
-            this.homeCheckTimer = 70 + this.rand.nextInt(50);
+            this.homeCheckTimer = 70 + this.random.nextInt(50);
 
-            if (!this.detachHome()) {
-                this.setHomePosAndDistance(this.getPosition(), 16);
+            if (!this.hasRestriction()) {
+                this.restrictTo(this.blockPosition(), 16);
             }
         }
-        super.updateAITasks();
+        super.customServerAiStep();
     }
 
     @Override
     @Nonnull
-    protected ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack heldStack = player.getHeldItem(hand);
+    protected InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
+        ItemStack heldStack = player.getItemInHand(hand);
 
         if (heldStack.getItem() == AtumItems.KHNUMITE) {
-            if (!player.abilities.isCreativeMode) {
+            if (!player.abilities.instabuild) {
                 heldStack.shrink(1);
             }
 
-            if (!this.world.isRemote) {
+            if (!this.level.isClientSide) {
                 this.heal(5.0F);
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
-            return super.func_230254_b_(player, hand);
+            return super.mobInteract(player, hand);
         }
     }
 
     @Override
-    public boolean isPotionApplicable(@Nonnull EffectInstance potionEffect) {
-        return potionEffect.getPotion() != Effects.POISON && super.isPotionApplicable(potionEffect);
+    public boolean canBeAffected(@Nonnull MobEffectInstance potionEffect) {
+        return potionEffect.getEffect() != MobEffects.POISON && super.canBeAffected(potionEffect);
     }
 
     @Override
-    public void applyKnockback(float strength, double xRatio, double zRatio) {
+    public void knockback(float strength, double xRatio, double zRatio) {
         //Immune to knockback
     }
 
     @Override
-    public boolean canDespawn(double distanceToClosestPlayer) {
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
         return !this.isPlayerCreated();
     }
 
@@ -159,73 +179,73 @@ public class StoneBaseEntity extends MonsterEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.BLOCK_STONE_STEP;
+        return SoundEvents.STONE_STEP;
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.BLOCK_STONE_HIT;
+        return SoundEvents.STONE_HIT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.BLOCK_STONE_BREAK;
+        return SoundEvents.STONE_BREAK;
     }
 
     @Override
     @Nonnull
-    protected SoundEvent getFallSound(int height) {
-        return height > 4 ? SoundEvents.ENTITY_HOSTILE_BIG_FALL : SoundEvents.BLOCK_STONE_FALL;
+    protected SoundEvent getFallDamageSound(int height) {
+        return height > 4 ? SoundEvents.HOSTILE_BIG_FALL : SoundEvents.STONE_FALL;
     }
 
     @Override
-    public int getTalkInterval() {
+    public int getAmbientSoundInterval() {
         return 120;
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         return false;
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.BLOCK_STONE_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.STONE_STEP, 0.15F, 1.0F);
     }
 
-    public static boolean isValidLightLevel(IWorld world, @Nonnull BlockPos pos, Random random) {
-        return world.getLightFor(LightType.SKY, pos) == 0 && world.getLight(pos) <= random.nextInt(10);
+    public static boolean isValidLightLevel(LevelAccessor world, @Nonnull BlockPos pos, Random random) {
+        return world.getBrightness(LightLayer.SKY, pos) == 0 && world.getMaxLocalRawBrightness(pos) <= random.nextInt(10);
     }
 
-    public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return isValidLightLevel(world, pos, random) && canMonsterSpawn(stoneBase, world, spawnReason, pos, random) && world instanceof ServerWorld &&
-                !StructureHelper.doesChunkHaveStructure((ServerWorld) world, pos, AtumStructures.PYRAMID_STRUCTURE);
+    public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+        return isValidLightLevel(world, pos, random) && checkAnyLightMonsterSpawnRules(stoneBase, world, spawnReason, pos, random) && world instanceof ServerLevel &&
+                !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE);
     }
 
     boolean isPlayerCreated() {
-        return (this.dataManager.get(PLAYER_CREATED) & 1) != 0;
+        return (this.entityData.get(PLAYER_CREATED) & 1) != 0;
     }
 
     public void setPlayerCreated(boolean playerCreated) {
-        byte b = this.dataManager.get(PLAYER_CREATED);
+        byte b = this.entityData.get(PLAYER_CREATED);
 
         if (playerCreated) {
-            this.dataManager.set(PLAYER_CREATED, (byte) (b | 1));
+            this.entityData.set(PLAYER_CREATED, (byte) (b | 1));
         } else {
-            this.dataManager.set(PLAYER_CREATED, (byte) (b & -2));
+            this.entityData.set(PLAYER_CREATED, (byte) (b & -2));
         }
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getVariant());
         compound.putBoolean("PlayerCreated", this.isPlayerCreated());
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         this.setVariant(compound.getInt("Variant"));
         this.setPlayerCreated(compound.getBoolean("PlayerCreated"));
     }

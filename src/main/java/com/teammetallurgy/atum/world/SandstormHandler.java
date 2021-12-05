@@ -7,18 +7,18 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
-import net.minecraft.world.chunk.Chunk;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.server.ChunkHolder;
-import net.minecraft.world.server.ChunkManager;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.storage.IServerWorldInfo;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.server.level.ChunkHolder;
+import net.minecraft.server.level.ChunkMap;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -35,27 +35,27 @@ public class SandstormHandler {
 
     @SubscribeEvent(priority = EventPriority.LOW)
     public void onWorldLoad(WorldEvent.Load event) { // calculateInitialWeather
-        if (event.getWorld() instanceof ServerWorld && DimensionHelper.getData((ServerWorld) event.getWorld()).isStorming()) {
+        if (event.getWorld() instanceof ServerLevel && DimensionHelper.getData((ServerLevel) event.getWorld()).isStorming()) {
             this.stormStrength = 1.0F;
         }
     }
 
     @SubscribeEvent
     public void onPreServerTick(TickEvent.WorldTickEvent event) {
-        if (event.world.getDimensionKey() == Atum.ATUM) {
+        if (event.world.dimension() == Atum.ATUM) {
             updateWeather(event.world);
         }
     }
 
-    private boolean canPlaceSandAt(ServerWorld serverWorld, BlockPos pos) {
-        BlockState state = serverWorld.getBlockState(pos.down());
-        return ((state.getBlock() != AtumBlocks.SAND && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL) || state.getBlock().isIn(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverWorld, pos);
+    private boolean canPlaceSandAt(ServerLevel serverWorld, BlockPos pos) {
+        BlockState state = serverWorld.getBlockState(pos.below());
+        return ((state.getBlock() != AtumBlocks.SAND && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL) || state.getBlock().is(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverWorld, pos);
     }
 
-    public void updateWeather(World world) {
-        if (world instanceof ServerWorld && !world.isRemote) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            IServerWorldInfo worldInfo = serverWorld.getServer().getServerConfiguration().getServerWorldInfo();
+    public void updateWeather(Level world) {
+        if (world instanceof ServerLevel && !world.isClientSide) {
+            ServerLevel serverWorld = (ServerLevel) world;
+            ServerLevelData worldInfo = serverWorld.getServer().getWorldData().overworldData();
             int cleanWeatherTime = worldInfo.getClearWeatherTime();
 
             if (cleanWeatherTime > 0) {
@@ -65,9 +65,9 @@ public class SandstormHandler {
 
             if (this.stormTime <= 0) {
                 if (DimensionHelper.getData(serverWorld).isStorming()) {
-                    this.stormTime = serverWorld.rand.nextInt(6000) + 6000;
+                    this.stormTime = serverWorld.random.nextInt(6000) + 6000;
                 } else {
-                    this.stormTime = serverWorld.rand.nextInt(168000) + 12000;
+                    this.stormTime = serverWorld.random.nextInt(168000) + 12000;
                 }
                 DimensionHelper.getData(serverWorld).setStorming(DimensionHelper.getData(serverWorld).isStorming());
                 NetworkHandler.sendToDimension(new WeatherPacket(this.stormTime), serverWorld, Atum.ATUM);
@@ -86,7 +86,7 @@ public class SandstormHandler {
             } else {
                 this.stormStrength -= 1.0F / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
             }
-            this.stormStrength = MathHelper.clamp(this.stormStrength, 0.0F, 1.0F);
+            this.stormStrength = Mth.clamp(this.stormStrength, 0.0F, 1.0F);
 
             if (this.stormStrength != this.prevStormStrength || this.lastUpdateTime < System.currentTimeMillis() - 1000) {
                 NetworkHandler.sendToDimension(new StormStrengthPacket(this.stormStrength), serverWorld, Atum.ATUM);
@@ -94,27 +94,27 @@ public class SandstormHandler {
             }
 
             try {
-                if (AtumConfig.SANDSTORM.sandstormSandLayerChance.get() > 0 && serverWorld.rand.nextInt(AtumConfig.SANDSTORM.sandstormSandLayerChance.get()) == 0) {
+                if (AtumConfig.SANDSTORM.sandstormSandLayerChance.get() > 0 && serverWorld.random.nextInt(AtumConfig.SANDSTORM.sandstormSandLayerChance.get()) == 0) {
                     if (this.stormStrength > 0.9F) {
-                        ChunkManager chunkManager = serverWorld.getWorldServer().getChunkProvider().chunkManager;
+                        ChunkMap chunkManager = serverWorld.getWorldServer().getChunkSource().chunkMap;
 
-                        chunkManager.getLoadedChunksIterable().forEach(chunkHolder -> {
-                            Optional<Chunk> optionalChunk = chunkHolder.getEntityTickingFuture().getNow(ChunkHolder.UNLOADED_CHUNK).left();
+                        chunkManager.getChunks().forEach(chunkHolder -> {
+                            Optional<LevelChunk> optionalChunk = chunkHolder.getEntityTickingChunkFuture().getNow(ChunkHolder.UNLOADED_LEVEL_CHUNK).left();
                             if (optionalChunk.isPresent()) {
                                 ChunkPos chunkPos = optionalChunk.get().getPos();
-                                if (!chunkManager.isOutsideSpawningRadius(chunkPos)) {
-                                    BlockPos pos = serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING, serverWorld.getBlockRandomPos(chunkPos.getXStart(), 0, chunkPos.getZStart(), 15));
-                                    BlockPos posDown = pos.down();
+                                if (!chunkManager.noPlayersCloseForSpawning(chunkPos)) {
+                                    BlockPos pos = serverWorld.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, serverWorld.getBlockRandomPos(chunkPos.getMinBlockX(), 0, chunkPos.getMinBlockZ(), 15));
+                                    BlockPos posDown = pos.below();
 
                                     if (serverWorld.isAreaLoaded(posDown, 1)) {
                                         BlockState sandState = serverWorld.getBlockState(pos);
                                         if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
-                                            int layers = sandState.get(SandLayersBlock.LAYERS);
+                                            int layers = sandState.getValue(SandLayersBlock.LAYERS);
                                             if (layers < 3) {
-                                                serverWorld.setBlockState(pos, sandState.with(SandLayersBlock.LAYERS, ++layers));
+                                                serverWorld.setBlockAndUpdate(pos, sandState.setValue(SandLayersBlock.LAYERS, ++layers));
                                             }
                                         } else if (this.canPlaceSandAt(serverWorld, pos)) {
-                                            serverWorld.setBlockState(pos, AtumBlocks.SAND_LAYERED.getDefaultState());
+                                            serverWorld.setBlockAndUpdate(pos, AtumBlocks.SAND_LAYERED.defaultBlockState());
                                         }
                                     }
                                 }

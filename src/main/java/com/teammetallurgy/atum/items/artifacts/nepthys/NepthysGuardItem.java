@@ -5,10 +5,10 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.artifacts.RingItem;
-import net.minecraft.entity.CreatureAttribute;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,8 +29,8 @@ public class NepthysGuardItem extends RingItem implements IArtifact {
     public static void onLivingHurt(LivingHurtEvent event) {
         Optional<ImmutableTriple<String, Integer, ItemStack>> optional = CuriosApi.getCuriosHelper().findEquippedCurio(AtumItems.NEPTHYS_GUARD, event.getEntityLiving());
         if (optional.isPresent()) {
-            Entity source = event.getSource().getImmediateSource();
-            if (source instanceof LivingEntity && ((LivingEntity) source).getCreatureAttribute() == CreatureAttribute.UNDEAD) {
+            Entity source = event.getSource().getDirectEntity();
+            if (source instanceof LivingEntity && ((LivingEntity) source).getMobType() == MobType.UNDEAD) {
                 event.setAmount(event.getAmount() * 0.5F);
             }
         }

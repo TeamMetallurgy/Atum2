@@ -1,26 +1,26 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.AbstractCookingRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.tileentity.AbstractFurnaceTileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.AbstractCookingRecipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.core.NonNullList;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import javax.annotation.Nonnull;
 
-public abstract class FurnaceBaseTileEntity extends AbstractFurnaceTileEntity {
+public abstract class FurnaceBaseTileEntity extends AbstractFurnaceBlockEntity {
 
-    protected FurnaceBaseTileEntity(TileEntityType<?> tileEntityType, IRecipeType<? extends AbstractCookingRecipe> recipeType, int size) {
+    protected FurnaceBaseTileEntity(BlockEntityType<?> tileEntityType, RecipeType<? extends AbstractCookingRecipe> recipeType, int size) {
         super(tileEntityType, recipeType);
         this.items = NonNullList.withSize(size, ItemStack.EMPTY);
     }
 
     @Override
     @Nonnull
-    protected ITextComponent getDefaultName() {
-        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
+    protected Component getDefaultName() {
+        return new TranslatableComponent(this.getBlockState().getBlock().getDescriptionId());
     }
 }

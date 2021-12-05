@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.misc.recipe;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.brewing.BrewingRecipe;
 
 import javax.annotation.Nonnull;
@@ -23,7 +23,7 @@ public class BrewingNBT extends BrewingRecipe {
     }
 
     private boolean testNBT(Ingredient ingredient, @Nonnull ItemStack stack) {
-        for (ItemStack testStack : ingredient.getMatchingStacks()) {
+        for (ItemStack testStack : ingredient.getItems()) {
             return (testStack.getTag() == null || testStack.getTag().equals(stack.getTag()) && testStack.areCapsCompatible(stack));
         }
         return false;

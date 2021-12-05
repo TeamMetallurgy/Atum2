@@ -3,85 +3,106 @@ package com.teammetallurgy.atum.entity.animal;
 import com.teammetallurgy.atum.entity.ai.goal.FollowFlockLeaderGoal;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.PathNodeType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class QuailEntity extends AnimalEntity {
-    private static final Ingredient TEMPTATION_ITEMS = Ingredient.fromItems(AtumItems.EMMER_SEEDS, Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
+import net.minecraft.world.entity.AgableMob.AgableMobGroupData;
+
+import net.minecraft.world.entity.AgableMob;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.BreedGoal;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.FollowParentGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.PanicGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+
+public class QuailEntity extends Animal {
+    private static final Ingredient TEMPTATION_ITEMS = Ingredient.of(AtumItems.EMMER_SEEDS, Items.WHEAT_SEEDS, Items.MELON_SEEDS, Items.PUMPKIN_SEEDS, Items.BEETROOT_SEEDS);
     public float wingRotation;
     public float destPos;
     public float oFlapSpeed;
     public float oFlap;
     public float wingRotDelta = 1.0F;
-    public int timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+    public int timeUntilNextEgg = this.random.nextInt(6000) + 6000;
     private QuailEntity flockLeader;
     private int groupSize = 1;
 
-    public QuailEntity(EntityType<? extends QuailEntity> type, World world) {
+    public QuailEntity(EntityType<? extends QuailEntity> type, Level world) {
         super(type, world);
-        this.setPathPriority(PathNodeType.WATER, 0.0F);
+        this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 1.4D, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, WolfEntity.class, 10.0F, 1.3D, 1.6D));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.4D, 1.6D));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Wolf.class, 10.0F, 1.3D, 1.6D));
         this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 10.0F, 1.3D, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, MonsterEntity.class, 4.0F, 1.0D, 1.4D));
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Monster.class, 4.0F, 1.0D, 1.4D));
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, false, TEMPTATION_ITEMS));
         this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 4.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.32D);
-    }
-
-    @Override
-    protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntitySize size) {
-        return this.isChild() ? size.height * 0.5F : size.height;
+    public static AttributeSupplier.Builder getAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.32D);
     }
 
     @Override
-    public QuailEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageableEntity) {
+    protected float getStandingEyeHeight(@Nonnull Pose pose, @Nonnull EntityDimensions size) {
+        return this.isBaby() ? size.height * 0.5F : size.height;
+    }
+
+    @Override
+    public QuailEntity getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgableMob ageableEntity) {
         return AtumEntities.QUAIL.create(world);
     }
 
     @Override
-    public boolean isBreedingItem(@Nonnull ItemStack stack) {
+    public boolean isFood(@Nonnull ItemStack stack) {
         return TEMPTATION_ITEMS.test(stack);
     }
 
@@ -93,7 +114,7 @@ public class QuailEntity extends AnimalEntity {
         return this.flockLeader != null && this.flockLeader.isAlive();
     }
 
-    public QuailEntity addToFlock(QuailEntity quail) { //func_212803_a
+    public QuailEntity addToFlock(QuailEntity quail) { //startFollowing
         this.flockLeader = quail;
         quail.increaseGroupSize();
         return quail;
@@ -119,8 +140,8 @@ public class QuailEntity extends AnimalEntity {
     @Override
     public void tick() {
         super.tick();
-        if (this.isFlockLeader() && this.world.rand.nextInt(200) == 1) {
-            List<QuailEntity> list = this.world.getEntitiesWithinAABB(this.getClass(), this.getBoundingBox().grow(8.0D, 8.0D, 8.0D));
+        if (this.isFlockLeader() && this.level.random.nextInt(200) == 1) {
+            List<QuailEntity> list = this.level.getEntitiesOfClass(this.getClass(), this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D));
             if (list.size() <= 1) {
                 this.groupSize = 1;
             }
@@ -128,77 +149,77 @@ public class QuailEntity extends AnimalEntity {
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
         this.oFlap = this.wingRotation;
         this.oFlapSpeed = this.destPos;
         this.destPos = (float) ((double) this.destPos + (double) (this.onGround ? -1 : 4) * 0.3D);
-        this.destPos = MathHelper.clamp(this.destPos, 0.0F, 1.0F);
+        this.destPos = Mth.clamp(this.destPos, 0.0F, 1.0F);
         if (!this.onGround && this.wingRotDelta < 1.0F) {
             this.wingRotDelta = 1.0F;
         }
 
         this.wingRotDelta = (float) ((double) this.wingRotDelta * 0.9D);
-        Vector3d vector3d = this.getMotion();
+        Vec3 vector3d = this.getDeltaMovement();
         if (!this.onGround && vector3d.y < 0.0D) {
-            this.setMotion(vector3d.mul(1.0D, 0.6D, 1.0D));
+            this.setDeltaMovement(vector3d.multiply(1.0D, 0.6D, 1.0D));
         }
 
         this.wingRotation += this.wingRotDelta * 2.0F;
-        if (!this.world.isRemote && this.isAlive() && !this.isChild() && --this.timeUntilNextEgg <= 0) {
-            this.playSound(SoundEvents.ENTITY_CHICKEN_EGG, 1.0F, (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
-            this.entityDropItem(AtumItems.QUAIL_EGG);
-            this.timeUntilNextEgg = this.rand.nextInt(6000) + 6000;
+        if (!this.level.isClientSide && this.isAlive() && !this.isBaby() && --this.timeUntilNextEgg <= 0) {
+            this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+            this.spawnAtLocation(AtumItems.QUAIL_EGG);
+            this.timeUntilNextEgg = this.random.nextInt(6000) + 6000;
         }
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         return false;
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_CHICKEN_AMBIENT;
+        return SoundEvents.CHICKEN_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.ENTITY_CHICKEN_HURT;
+        return SoundEvents.CHICKEN_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_CHICKEN_DEATH;
+        return SoundEvents.CHICKEN_DEATH;
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState block) {
-        this.playSound(SoundEvents.ENTITY_CHICKEN_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.CHICKEN_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         if (compound.contains("EggLayTime")) {
             this.timeUntilNextEgg = compound.getInt("EggLayTime");
         }
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("EggLayTime", this.timeUntilNextEgg);
     }
 
     @Override
-    public void updatePassenger(@Nonnull Entity passenger) {
-        super.updatePassenger(passenger);
-        float f = MathHelper.sin(this.renderYawOffset * ((float)Math.PI / 180F));
-        float f1 = MathHelper.cos(this.renderYawOffset * ((float)Math.PI / 180F));
-        passenger.setPosition(this.getPosX() + (double)(0.1F * f), this.getPosYHeight(0.5D) + passenger.getYOffset() + 0.0D, this.getPosZ() - (double)(0.1F * f1));
+    public void positionRider(@Nonnull Entity passenger) {
+        super.positionRider(passenger);
+        float f = Mth.sin(this.yBodyRot * ((float)Math.PI / 180F));
+        float f1 = Mth.cos(this.yBodyRot * ((float)Math.PI / 180F));
+        passenger.setPos(this.getX() + (double)(0.1F * f), this.getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, this.getZ() - (double)(0.1F * f1));
         if (passenger instanceof LivingEntity) {
-            ((LivingEntity)passenger).renderYawOffset = this.renderYawOffset;
+            ((LivingEntity)passenger).yBodyRot = this.yBodyRot;
         }
     }
 
@@ -207,16 +228,16 @@ public class QuailEntity extends AnimalEntity {
     }
 
     public boolean inRangeOfFlockLeader() {
-        return this.getDistanceSq(this.flockLeader) <= 121.0D;
+        return this.distanceToSqr(this.flockLeader) <= 121.0D;
     }
 
     public void moveToFlockLeader() {
         if (this.hasFlockLeader()) {
-            this.getNavigator().tryMoveToEntityLiving(this.flockLeader, 1.0D);
+            this.getNavigation().moveTo(this.flockLeader, 1.0D);
         }
     }
 
-    public void func_212810_a(Stream<QuailEntity> quails) {
+    public void addFollowers(Stream<QuailEntity> quails) {
         quails.limit(this.getMaxFlockSize() - this.groupSize).filter((q) -> {
             return q != this;
         }).forEach((quail) -> {
@@ -225,16 +246,16 @@ public class QuailEntity extends AnimalEntity {
     }
 
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason reason, @Nullable ILivingEntityData spawnData, @Nullable CompoundNBT dataTag) {
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
         if (spawnData == null) {
             spawnData = new GroupData(this);
         } else {
             this.addToFlock(((GroupData) spawnData).flockLeader);
         }
-        return super.onInitialSpawn(world, difficulty, reason, spawnData, dataTag);
+        return super.finalizeSpawn(world, difficulty, reason, spawnData, dataTag);
     }
 
-    public static class GroupData extends AgeableData {
+    public static class GroupData extends AgableMobGroupData {
         public final QuailEntity flockLeader;
 
         public GroupData(QuailEntity flockLeader) {

@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 
 public class BurningTrapTileEntity extends TrapTileEntity {
 
@@ -15,18 +15,18 @@ public class BurningTrapTileEntity extends TrapTileEntity {
     }
 
     @Override
-    protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
-        double x = (double) this.pos.getX() + 0.5D;
-        double y = (double) this.pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
-        double z = (double) this.pos.getZ() + 0.5D;
-        double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
+    protected void triggerTrap(Level world, Direction facing, LivingEntity livingBase) {
+        double x = (double) this.worldPosition.getX() + 0.5D;
+        double y = (double) this.worldPosition.getY() + world.random.nextDouble() * 6.0D / 16.0D;
+        double z = (double) this.worldPosition.getZ() + 0.5D;
+        double randomPos = world.random.nextDouble() * 0.6D - 0.3D;
 
-        if (!world.isRemote) {
-            livingBase.setFire(8);
+        if (!world.isClientSide) {
+            livingBase.setSecondsOnFire(8);
         }
 
-        if (world.rand.nextDouble() < 0.2D) {
-            world.playSound((double) this.pos.getX() + 0.5D, this.pos.getY(), (double) pos.getZ() + 0.5D, SoundEvents.BLOCK_REDSTONE_TORCH_BURNOUT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+        if (world.random.nextDouble() < 0.2D) {
+            world.playLocalSound((double) this.worldPosition.getX() + 0.5D, this.worldPosition.getY(), (double) worldPosition.getZ() + 0.5D, SoundEvents.REDSTONE_TORCH_BURNOUT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
         }
         switch (facing) {
             case DOWN:

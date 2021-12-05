@@ -3,64 +3,66 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+
+import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
 
 public class ArrowRainEntity extends CustomArrow {
     private float velocity;
     private boolean isSmallArrow = false;
 
-    public ArrowRainEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public ArrowRainEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         this(AtumEntities.RAIN_ARROW, world);
     }
 
-    public ArrowRainEntity(EntityType<? extends ArrowRainEntity> entityType, World world) {
+    public ArrowRainEntity(EntityType<? extends ArrowRainEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public ArrowRainEntity(World world, LivingEntity shooter, float velocity) {
+    public ArrowRainEntity(Level world, LivingEntity shooter, float velocity) {
         super(AtumEntities.RAIN_ARROW, world, shooter);
         this.velocity = velocity;
     }
 
-    public ArrowRainEntity(World world, double x, double y, double z, boolean canPickup) { //Small arrow constructor
+    public ArrowRainEntity(Level world, double x, double y, double z, boolean canPickup) { //Small arrow constructor
         super(AtumEntities.RAIN_ARROW, world, x, y, z);
         this.isSmallArrow = true;
-        this.pickupStatus = canPickup ? PickupStatus.ALLOWED : ArrowEntity.PickupStatus.DISALLOWED;
+        this.pickup = canPickup ? Pickup.ALLOWED : Arrow.Pickup.DISALLOWED;
     }
 
     @Override
     public void tick() {
-        if (this.world.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
-            if (this.world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) this.world;
-                serverWorld.spawnParticle(AtumParticles.TEFNUT_DROP, getPosX(), getPosY() - 0.05D, getPosZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
+        if (this.level.getGameTime() % (this.inGround ? 55L : 3L) == 0L) {
+            if (this.level instanceof ServerLevel) {
+                ServerLevel serverWorld = (ServerLevel) this.level;
+                serverWorld.sendParticles(AtumParticles.TEFNUT_DROP, getX(), getY() - 0.05D, getZ(), 1, 0.0D, 0.0D, 0.0D, 0.0D);
             }
         }
-        if (this.velocity == 1.0F && this.func_234616_v_() instanceof LivingEntity) {
-            if (this.ticksExisted == 12) {
+        if (this.velocity == 1.0F && this.getOwner() instanceof LivingEntity) {
+            if (this.tickCount == 12) {
                 this.remove();
                 if (!this.isSmallArrow) {
-                    ArrowRainEntity arrow1 = new ArrowRainEntity(this.world, this.getPosX() + 0.5D, this.getPosY(), this.getPosZ(), false);
+                    ArrowRainEntity arrow1 = new ArrowRainEntity(this.level, this.getX() + 0.5D, this.getY(), this.getZ(), false);
 
-                    ArrowRainEntity arrow2 = new ArrowRainEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ() + 0.5D, false);
+                    ArrowRainEntity arrow2 = new ArrowRainEntity(this.level, this.getX(), this.getY(), this.getZ() + 0.5D, false);
 
-                    ArrowRainEntity arrow3 = new ArrowRainEntity(this.world, this.getPosX() - 0.5D, this.getPosY(), this.getPosZ(), false);
+                    ArrowRainEntity arrow3 = new ArrowRainEntity(this.level, this.getX() - 0.5D, this.getY(), this.getZ(), false);
 
-                    ArrowRainEntity arrow4 = new ArrowRainEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ() - 0.5D, false);
+                    ArrowRainEntity arrow4 = new ArrowRainEntity(this.level, this.getX(), this.getY(), this.getZ() - 0.5D, false);
 
-                    ArrowRainEntity arrow5 = new ArrowRainEntity(this.world, this.getPosX(), this.getPosY(), this.getPosZ(), true);
+                    ArrowRainEntity arrow5 = new ArrowRainEntity(this.level, this.getX(), this.getY(), this.getZ(), true);
 
-                    this.world.addEntity(arrow1);
-                    this.world.addEntity(arrow2);
-                    this.world.addEntity(arrow3);
-                    this.world.addEntity(arrow4);
-                    this.world.addEntity(arrow5);
+                    this.level.addFreshEntity(arrow1);
+                    this.level.addFreshEntity(arrow2);
+                    this.level.addFreshEntity(arrow3);
+                    this.level.addFreshEntity(arrow4);
+                    this.level.addFreshEntity(arrow5);
                 }
             }
         }
@@ -68,11 +70,11 @@ public class ArrowRainEntity extends CustomArrow {
     }
 
     @Override
-    protected void func_225516_i_() {
-        if (this.isSmallArrow && this.pickupStatus == PickupStatus.DISALLOWED && this.timeInGround >= 150) { //Remove small arrows quicker, to prevent lag
+    protected void tickDespawn() {
+        if (this.isSmallArrow && this.pickup == Pickup.DISALLOWED && this.inGroundTime >= 150) { //Remove small arrows quicker, to prevent lag
             this.remove();
         }
-        super.func_225516_i_();
+        super.tickDespawn();
     }
 
     @Override

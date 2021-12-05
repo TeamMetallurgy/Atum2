@@ -1,19 +1,19 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
-import net.minecraft.world.gen.INoiseRandom;
-import net.minecraft.world.gen.area.IArea;
-import net.minecraft.world.gen.layer.traits.IAreaTransformer2;
-import net.minecraft.world.gen.layer.traits.IDimOffset0Transformer;
+import net.minecraft.world.level.newbiome.context.Context;
+import net.minecraft.world.level.newbiome.area.Area;
+import net.minecraft.world.level.newbiome.layer.traits.AreaTransformer2;
+import net.minecraft.world.level.newbiome.layer.traits.DimensionOffset0Transformer;
 
 import javax.annotation.Nonnull;
 
-public enum AtumRiverMixLayer implements IAreaTransformer2, IDimOffset0Transformer {
+public enum AtumRiverMixLayer implements AreaTransformer2, DimensionOffset0Transformer {
     INSTANCE;
 
     @Override
-    public int apply(@Nonnull INoiseRandom noiseRandom, IArea areaX, IArea areaY, int areaWidth, int areaHeight) {
-        int i = areaX.getValue(this.getOffsetX(areaWidth), this.getOffsetZ(areaHeight));
-        int j = areaY.getValue(this.getOffsetX(areaWidth), this.getOffsetZ(areaHeight));
+    public int applyPixel(@Nonnull Context noiseRandom, Area areaX, Area areaY, int areaWidth, int areaHeight) {
+        int i = areaX.get(this.getParentX(areaWidth), this.getParentY(areaHeight));
+        int j = areaY.get(this.getParentX(areaWidth), this.getParentY(areaHeight));
         if (j == AtumLayerUtil.DRIED_RIVER_ID) {
             return AtumLayerUtil.DRIED_RIVER_ID;
         }

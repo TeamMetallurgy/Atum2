@@ -4,23 +4,23 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ExperienceOrbEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.item.ShovelItem;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ExperienceOrb;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.ShovelItem;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 
 public class GebsToilItem extends ShovelItem implements IArtifact {
 
     public GebsToilItem() {
-        super(AtumMats.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE).group(Atum.GROUP));
+        super(AtumMats.NEBU, 2.0F, -3.0F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
     }
 
     @Override
@@ -29,12 +29,12 @@ public class GebsToilItem extends ShovelItem implements IArtifact {
     }
 
     @Override
-    public boolean onBlockDestroyed(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
-        super.onBlockDestroyed(stack, world, state, pos, entityLiving);
-        if (entityLiving instanceof PlayerEntity && !world.isRemote) {
-            ((PlayerEntity) entityLiving).getFoodStats().addExhaustion(-0.005F);
+    public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
+        super.mineBlock(stack, world, state, pos, entityLiving);
+        if (entityLiving instanceof Player && !world.isClientSide) {
+            ((Player) entityLiving).getFoodData().addExhaustion(-0.005F);
             if (random.nextFloat() <= 0.10F) {
-                world.addEntity(new ExperienceOrbEntity(world, pos.getX(), pos.getY(), pos.getZ(), 1));
+                world.addFreshEntity(new ExperienceOrb(world, pos.getX(), pos.getY(), pos.getZ(), 1));
             }
         }
         return true;

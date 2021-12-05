@@ -2,37 +2,41 @@ package com.teammetallurgy.atum.items;
 
 import com.google.common.base.Preconditions;
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CauldronBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import com.mojang.blaze3d.platform.InputConstants;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.network.chat.Component;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 
+import net.minecraft.core.NonNullList;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
+
 public class RelicItem extends Item {
     public static final NonNullList<RelicEntry> RELIC_ENTRIES = NonNullList.create();
 
     public RelicItem(Item.Properties properties) {
-        super(properties.group(Atum.GROUP));
+        super(properties.tab(Atum.GROUP));
     }
 
     public Item getRelic(Type type, Quality quality) {
-        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "relic_" + quality.getString() + "_" + type.getString()));
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(Atum.MOD_ID, "relic_" + quality.getSerializedName() + "_" + type.getSerializedName()));
     }
 
     public static Type getType(Item item) {
@@ -41,7 +45,7 @@ public class RelicItem extends Item {
         } else {
             for (Quality quality : Quality.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Type type = Type.byString(item.getRegistryName().getPath().replace("relic_", "").replace(quality.getString(), "").replace("_", ""));
+                Type type = Type.byString(item.getRegistryName().getPath().replace("relic_", "").replace(quality.getSerializedName(), "").replace("_", ""));
                 if (type != null) {
                     return type;
                 }
@@ -56,7 +60,7 @@ public class RelicItem extends Item {
         } else {
             for (Type type : Type.values()) {
                 Preconditions.checkNotNull(item.getRegistryName(), "registryName");
-                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("relic_", "").replace(type.getString(), "").replace("_", ""));
+                Quality quality = Quality.byString(item.getRegistryName().getPath().replace("relic_", "").replace(type.getSerializedName(), "").replace("_", ""));
                 if (quality != null) {
                     return quality;
                 }
@@ -67,18 +71,18 @@ public class RelicItem extends Item {
 
     @Override
     public boolean onEntityItemUpdate(ItemStack stack, ItemEntity entityItem) {
-        World world = entityItem.world;
-        BlockState state = world.getBlockState(new BlockPos(MathHelper.floor(entityItem.getPosX()), MathHelper.floor(entityItem.getPosY()), MathHelper.floor(entityItem.getPosZ())));
-        if (state.getFluidState().isTagged(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.get(CauldronBlock.LEVEL) > 0) {
-            if (stack.getItem() instanceof RelicItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isRemote) {
+        Level world = entityItem.level;
+        BlockState state = world.getBlockState(new BlockPos(Mth.floor(entityItem.getX()), Mth.floor(entityItem.getY()), Mth.floor(entityItem.getZ())));
+        if (state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.getValue(CauldronBlock.LEVEL) > 0) {
+            if (stack.getItem() instanceof RelicItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !world.isClientSide) {
                 while (stack.getCount() > 0) {
-                    Item item = getRelic(getType(stack.getItem()), WeightedRandom.getRandomItem(random, RELIC_ENTRIES).quality);
+                    Item item = getRelic(getType(stack.getItem()), WeighedRandom.getRandomItem(random, RELIC_ENTRIES).quality);
                     if (random.nextFloat() <= 0.10F) {
                         stack.shrink(1);
-                        world.playSound(null, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), SoundEvents.ENTITY_ITEM_BREAK, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                        world.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
                     } else {
-                        world.addEntity(new ItemEntity(world, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), new ItemStack(item)));
-                        world.playSound(null, entityItem.getPosX(), entityItem.getPosY(), entityItem.getPosZ(), SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, entityItem.getSoundCategory(), 0.8F, 0.8F + entityItem.world.rand.nextFloat() * 0.4F);
+                        world.addFreshEntity(new ItemEntity(world, entityItem.getX(), entityItem.getY(), entityItem.getZ(), new ItemStack(item)));
+                        world.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
                         stack.shrink(1);
                     }
                 }
@@ -88,21 +92,21 @@ public class RelicItem extends Item {
     }
 
     @Override
-    public void addInformation(@Nonnull ItemStack stack, World world, @Nonnull List<ITextComponent> tooltip, @Nonnull ITooltipFlag flag) {
+    public void appendHoverText(@Nonnull ItemStack stack, Level world, @Nonnull List<Component> tooltip, @Nonnull TooltipFlag flag) {
         if (getQuality(stack.getItem()) == Quality.DIRTY) {
-            if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                tooltip.add(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.dirty").appendString(": ").mergeStyle(TextFormatting.GRAY)
-                        .append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.dirty.description").mergeStyle(TextFormatting.DARK_GRAY)));
+            if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").append(": ").withStyle(ChatFormatting.GRAY)
+                        .append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty.description").withStyle(ChatFormatting.DARK_GRAY)));
             } else {
-                tooltip.add(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.dirty").mergeStyle(TextFormatting.GRAY)
-                        .appendString(" ").append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").mergeStyle(TextFormatting.DARK_GRAY)));
+                tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.dirty").withStyle(ChatFormatting.GRAY)
+                        .append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
             }
         } else {
-            tooltip.add(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.vanity").mergeStyle(TextFormatting.YELLOW));
+            tooltip.add(new TranslatableComponent(Atum.MOD_ID + ".tooltip.vanity").withStyle(ChatFormatting.YELLOW));
         }
     }
 
-    public enum Type implements IStringSerializable {
+    public enum Type implements StringRepresentable {
         IDOL("idol"),
         NECKLACE("necklace"),
         RING("ring"),
@@ -117,7 +121,7 @@ public class RelicItem extends Item {
 
         public static Type byString(String name) {
             for (Type type : Type.values()) {
-                if (type.getString().equals(name)) {
+                if (type.getSerializedName().equals(name)) {
                     return type;
                 }
             }
@@ -126,12 +130,12 @@ public class RelicItem extends Item {
 
         @Override
         @Nonnull
-        public String getString() {
+        public String getSerializedName() {
             return this.unlocalizedName;
         }
     }
 
-    public enum Quality implements IStringSerializable {
+    public enum Quality implements StringRepresentable {
         DIRTY("dirty", 0),
         SILVER("silver", 48),
         GOLD("gold", 25),
@@ -150,7 +154,7 @@ public class RelicItem extends Item {
 
         public static Quality byString(String name) {
             for (Quality quality : Quality.values()) {
-                if (quality.getString().equals(name)) {
+                if (quality.getSerializedName().equals(name)) {
                     return quality;
                 }
             }
@@ -163,12 +167,12 @@ public class RelicItem extends Item {
 
         @Override
         @Nonnull
-        public String getString() {
+        public String getSerializedName() {
             return this.unlocalizedName;
         }
     }
 
-    public static class RelicEntry extends WeightedRandom.Item {
+    public static class RelicEntry extends WeighedRandom.WeighedRandomItem {
         final Quality quality;
 
         public RelicEntry(Quality quality, int weight) {

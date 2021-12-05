@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.items.food;
 
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
 
@@ -11,11 +11,11 @@ public class FishItem extends Item {
     private final FishType fishType;
 
     public FishItem(FishType type) {
-        super(new Item.Properties().group(Atum.GROUP));
+        super(new Item.Properties().tab(Atum.GROUP));
         fishType = type;
     }
 
-    public enum FishType implements IStringSerializable {
+    public enum FishType implements StringRepresentable {
         FORSAKEN("forsaken"),
         MUMMIFIED("mummified"),
         JEWELED("jeweled"),
@@ -35,7 +35,7 @@ public class FishItem extends Item {
 
         @Override
         @Nonnull
-        public String getString() {
+        public String getSerializedName() {
             return this.unlocalizedName;
         }
     }

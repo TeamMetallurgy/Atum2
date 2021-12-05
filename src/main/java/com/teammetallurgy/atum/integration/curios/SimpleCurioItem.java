@@ -1,16 +1,18 @@
 package com.teammetallurgy.atum.integration.curios;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.attributes.Attribute;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.text.ITextComponent;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+
+import top.theillusivec4.curios.api.type.capability.ICurio.DropRule;
 
 public class SimpleCurioItem implements ICurio { //TODO Remove in 1.17
     private final ItemStack stack;
@@ -93,7 +95,7 @@ public class SimpleCurioItem implements ICurio { //TODO Remove in 1.17
     }
 
     @Override
-    public List<ITextComponent> getTagsTooltip(List<ITextComponent> tooltips) {
+    public List<Component> getTagsTooltip(List<Component> tooltips) {
         return this.simpleCurioItem.getTagsTooltip(tooltips, this.stack);
     }
 
@@ -103,13 +105,13 @@ public class SimpleCurioItem implements ICurio { //TODO Remove in 1.17
     }
 
     @Override
-    public void readSyncData(CompoundNBT nbt) {
+    public void readSyncData(CompoundTag nbt) {
         this.simpleCurioItem.readSyncData(nbt, this.stack);
     }
 
     @Override
     @Nonnull
-    public CompoundNBT writeSyncData() {
+    public CompoundTag writeSyncData() {
         return this.simpleCurioItem.writeSyncData(this.stack);
     }
 }

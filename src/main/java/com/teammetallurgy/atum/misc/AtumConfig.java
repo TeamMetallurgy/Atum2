@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.misc;
 
 import com.electronwill.nightconfig.core.file.FileConfig;
 import com.google.common.collect.HashMultimap;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.loading.FMLPaths;
 
@@ -249,7 +249,7 @@ public class AtumConfig {
 
     public static class Mobs {
         public static final String MOBS = "mobs";
-        public static HashMap<EntityType<?>, EntityClassification> ENTITY_CLASSIFICATION = new HashMap<>();
+        public static HashMap<EntityType<?>, MobCategory> ENTITY_CLASSIFICATION = new HashMap<>();
         public static HashMultimap<ResourceLocation, EntityType<?>> ENTITY_TYPE = HashMultimap.create();
         public ForgeConfigSpec.IntValue min;
         public ForgeConfigSpec.IntValue max;
@@ -269,7 +269,7 @@ public class AtumConfig {
             builder.pop();
         }
 
-        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, EntityClassification classification, ResourceLocation biomeName) {
+        public Mobs(ForgeConfigSpec.Builder builder, String mobName, int min, int max, int weight, EntityType<?> entityType, MobCategory classification, ResourceLocation biomeName) {
             ENTITY_CLASSIFICATION.put(entityType, classification);
             ENTITY_TYPE.put(biomeName, entityType);
             builder.push(MOBS);

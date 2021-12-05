@@ -3,12 +3,12 @@ package com.teammetallurgy.atum.integration.theoneprobe;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
 import mcjty.theoneprobe.api.*;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.commons.lang3.StringUtils;
 
@@ -21,7 +21,7 @@ import static mcjty.theoneprobe.api.TextStyleClass.MODNAME;
 public class AtumProbeInfoProvider implements IBlockDisplayOverride {
 
     @Override
-    public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, BlockState blockState, IProbeHitData data) {
+    public boolean overrideStandardInfo(ProbeMode mode, IProbeInfo probeInfo, Player player, Level world, BlockState blockState, IProbeHitData data) {
         IProbeConfig config = TOPSupport.getProbeConfig();
 
         if (mode != ProbeMode.DEBUG && !this.show(mode, config.getShowSilverfish())) {
@@ -34,7 +34,7 @@ public class AtumProbeInfoProvider implements IBlockDisplayOverride {
                             .item(door)
                             .vertical()
                             .itemLabel(door)
-                            .text(new StringTextComponent(MODNAME + StringUtils.capitalize(Atum.MOD_ID)));
+                            .text(new TextComponent(MODNAME + StringUtils.capitalize(Atum.MOD_ID)));
                     return true;
                 }
             }

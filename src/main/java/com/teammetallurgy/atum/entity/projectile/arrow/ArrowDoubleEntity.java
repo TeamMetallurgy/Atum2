@@ -3,37 +3,39 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.fml.network.FMLPlayMessages;
+
+import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
 
 public class ArrowDoubleEntity extends CustomArrow {
 
-    public ArrowDoubleEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public ArrowDoubleEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
         this(AtumEntities.DOUBLE_ARROW, world);
     }
 
-    public ArrowDoubleEntity(EntityType<? extends ArrowDoubleEntity> entityType, World world) {
+    public ArrowDoubleEntity(EntityType<? extends ArrowDoubleEntity> entityType, Level world) {
         super(entityType, world);
-        this.pickupStatus = PickupStatus.DISALLOWED;
+        this.pickup = Pickup.DISALLOWED;
     }
 
-    public ArrowDoubleEntity(World world, LivingEntity shooter) {
+    public ArrowDoubleEntity(Level world, LivingEntity shooter) {
         super(AtumEntities.DOUBLE_ARROW, world, shooter);
-        this.pickupStatus = PickupStatus.DISALLOWED;
+        this.pickup = Pickup.DISALLOWED;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.getIsCritical()) {
-            if (world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) world;
-                serverWorld.spawnParticle(AtumParticles.ISIS, this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+        if (this.isCritArrow()) {
+            if (level instanceof ServerLevel) {
+                ServerLevel serverWorld = (ServerLevel) level;
+                serverWorld.sendParticles(AtumParticles.ISIS, this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

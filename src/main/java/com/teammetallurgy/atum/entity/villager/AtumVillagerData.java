@@ -4,10 +4,10 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.misc.ForgeRegistryEntryCodec;
-import net.minecraft.entity.merchant.villager.VillagerData;
-import net.minecraft.entity.merchant.villager.VillagerProfession;
-import net.minecraft.entity.villager.VillagerType;
-import net.minecraft.util.IStringSerializable;
+import net.minecraft.world.entity.npc.VillagerData;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerType;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
 
@@ -18,7 +18,7 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
             return data.profession;
         }), Codec.INT.fieldOf("level").orElse(1).forGetter((data) -> {
             return data.level;
-        }), IStringSerializable.createEnumCodec(Race::values, Race::getTypeFromName).fieldOf("race").orElse(Race.HUMAN).forGetter((data) -> {
+        }), StringRepresentable.fromEnum(Race::values, Race::getTypeFromName).fieldOf("race").orElse(Race.HUMAN).forGetter((data) -> {
             return data.race;
         })).apply(dataInstance, AtumVillagerData::new);
     });
@@ -53,7 +53,7 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
 
     @Override
     @Nonnull
-    public AtumVillagerData withLevel(int level) {
+    public AtumVillagerData setLevel(int level) {
         return new AtumVillagerData(this.getAtumProfession(), level, this.getRace());
     }
 
@@ -80,14 +80,14 @@ public class AtumVillagerData extends VillagerData { //Same as vanilla VillagerD
     @Override
     @Nonnull
     @Deprecated
-    public VillagerData withType(VillagerType type) {
-        return super.withType(type);
+    public VillagerData setType(VillagerType type) {
+        return super.setType(type);
     }
 
     @Override
     @Nonnull
     @Deprecated
-    public VillagerData withProfession(VillagerProfession profession) {
-        return super.withProfession(profession);
+    public VillagerData setProfession(VillagerProfession profession) {
+        return super.setProfession(profession);
     }
 }

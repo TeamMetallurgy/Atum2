@@ -1,25 +1,30 @@
 package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.api.IFogReductionItem;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.CompoundTag;
 
 import javax.annotation.Nonnull;
 
-public class WandererDyeableArmor extends TexturedArmorItem implements IDyeableArmorItem, IFogReductionItem {
+import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
-    public WandererDyeableArmor(IArmorMaterial material, String name, EquipmentSlotType slot) {
+public class WandererDyeableArmor extends TexturedArmorItem implements DyeableLeatherItem, IFogReductionItem {
+
+    public WandererDyeableArmor(ArmorMaterial material, String name, EquipmentSlot slot) {
         super(material, name, slot);
     }
 
-    public WandererDyeableArmor(IArmorMaterial material, String name, EquipmentSlotType slot, Item.Properties properties) {
+    public WandererDyeableArmor(ArmorMaterial material, String name, EquipmentSlot slot, Item.Properties properties) {
         super(material, name, slot, properties);
     }
 
     @Override
     public int getColor(@Nonnull ItemStack stack) {
-        CompoundNBT nbt = stack.getChildTag("display");
+        CompoundTag nbt = stack.getTagElement("display");
         return nbt != null && nbt.contains("color", 99) ? nbt.getInt("color") : 14869989;
     }
 

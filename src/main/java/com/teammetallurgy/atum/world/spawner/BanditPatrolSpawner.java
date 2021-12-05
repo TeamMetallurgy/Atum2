@@ -7,67 +7,67 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.spawner.ISpecialSpawner;
-import net.minecraft.world.spawner.WorldEntitySpawner;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.CustomSpawner;
+import net.minecraft.world.level.NaturalSpawner;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.Random;
 
-public class BanditPatrolSpawner implements ISpecialSpawner {
+public class BanditPatrolSpawner implements CustomSpawner {
     private int timer;
 
     @Override
-    public int func_230253_a_(@Nonnull ServerWorld serverWorld, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
+    public int tick(@Nonnull ServerLevel serverWorld, boolean spawnHostileMobs, boolean spawnPassiveMobs) {
         if (!spawnHostileMobs) {
             return 0;
         } else if (AtumConfig.MOBS.banditPatrolFrequency.get() < 1) {
             return 0;
         } else {
-            Random rand = serverWorld.rand;
+            Random rand = serverWorld.random;
             --this.timer;
             if (this.timer > 0) {
                 return 0;
             } else {
                 this.timer += rand.nextInt(AtumConfig.MOBS.banditPatrolFrequency.get());
-                if (serverWorld.isDaytime()) {
-                    int playerAmount = serverWorld.getPlayers().size();
+                if (serverWorld.isDay()) {
+                    int playerAmount = serverWorld.players().size();
                     if (playerAmount < 1) {
                         return 0;
                     } else {
-                        PlayerEntity player = serverWorld.getPlayers().get(rand.nextInt(playerAmount));
+                        Player player = serverWorld.players().get(rand.nextInt(playerAmount));
                         if (player.isSpectator()) {
                             return 0;
                         } else {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
-                            BlockPos.Mutable mutablePos = (new BlockPos.Mutable(player.getPosX(), player.getPosY(), player.getPosZ())).move(x, 0, z);
+                            BlockPos.MutableBlockPos mutablePos = (new BlockPos.MutableBlockPos(player.getX(), player.getY(), player.getZ())).move(x, 0, z);
                             if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos, AtumStructures.PYRAMID_STRUCTURE)) {
                                 return 0;
                             } else {
                                 Biome biome = serverWorld.getBiome(mutablePos);
-                                Optional<RegistryKey<Biome>> biomeKey = serverWorld.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
+                                Optional<ResourceKey<Biome>> biomeKey = serverWorld.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
                                 if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) {
                                     return 0;
                                 } else {
                                     int amount = 0;
-                                    int difficulty = 1 + (int) Math.ceil(serverWorld.getDifficultyForLocation(mutablePos).getAdditionalDifficulty());
+                                    int difficulty = 1 + (int) Math.ceil(serverWorld.getCurrentDifficultyAt(mutablePos).getEffectiveDifficulty());
                                     BanditBaseEntity leadingEntity = null;
                                     for (int size = 0; size < difficulty; ++size) {
                                         EntityType<? extends BanditBaseEntity> entityType = this.getEntityType(rand);
                                         ++amount;
-                                        mutablePos.setY(serverWorld.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
+                                        mutablePos.setY(serverWorld.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos).getY());
                                         if (size == 0) {
                                             SergeantEntity leader = AtumEntities.SERGEANT.create(serverWorld);
                                             if (leader != null) {
@@ -97,11 +97,11 @@ public class BanditPatrolSpawner implements ISpecialSpawner {
         }
     }
 
-    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerWorld world, BlockPos pos, Random rand, @Nullable BanditBaseEntity leadingEntity) {
+    private boolean spawnPatroller(EntityType<? extends BanditBaseEntity> entityType, ServerLevel world, BlockPos pos, Random rand, @Nullable BanditBaseEntity leadingEntity) {
         BlockState state = world.getBlockState(pos);
-        if (!WorldEntitySpawner.func_234968_a_(world, pos, state, state.getFluidState(), entityType)) {
+        if (!NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), entityType)) {
             return false;
-        } else if (!BanditBaseEntity.canSpawn(entityType, world, SpawnReason.PATROL, pos, rand)) {
+        } else if (!BanditBaseEntity.canSpawn(entityType, world, MobSpawnType.PATROL, pos, rand)) {
             return false;
         } else {
             BanditBaseEntity bandit = entityType.create(world);
@@ -110,9 +110,9 @@ public class BanditPatrolSpawner implements ISpecialSpawner {
                 if (leadingEntity != null) {
                     bandit.setLeadingEntity(leadingEntity);
                 }
-                bandit.setPosition(pos.getX(), pos.getY(), pos.getZ());
-                bandit.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.PATROL, null, null);
-                world.addEntity(bandit);
+                bandit.setPos(pos.getX(), pos.getY(), pos.getZ());
+                bandit.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, null, null);
+                world.addFreshEntity(bandit);
                 return true;
             } else {
                 return false;
@@ -120,20 +120,20 @@ public class BanditPatrolSpawner implements ISpecialSpawner {
         }
     }
 
-    private boolean spawnLeader(BanditBaseEntity leader, ServerWorld world, BlockPos pos, Random rand) {
+    private boolean spawnLeader(BanditBaseEntity leader, ServerLevel world, BlockPos pos, Random rand) {
         BlockState state = world.getBlockState(pos);
         EntityType<? extends BanditBaseEntity> type = (EntityType<? extends BanditBaseEntity>) leader.getType();
-        if (!WorldEntitySpawner.func_234968_a_(world, pos, state, state.getFluidState(), type)) {
+        if (!NaturalSpawner.isValidEmptySpawnBlock(world, pos, state, state.getFluidState(), type)) {
             return false;
-        } else if (!BanditBaseEntity.canSpawn(type, world, SpawnReason.PATROL, pos, rand)) {
+        } else if (!BanditBaseEntity.canSpawn(type, world, MobSpawnType.PATROL, pos, rand)) {
             return false;
         } else {
-            leader.setLeader(true);
-            leader.resetPatrolTarget();
+            leader.setPatrolLeader(true);
+            leader.findPatrolTarget();
             leader.setCanPatrol(true);
-            leader.setPosition(pos.getX(), pos.getY(), pos.getZ());
-            leader.onInitialSpawn(world, world.getDifficultyForLocation(pos), SpawnReason.PATROL, null, null);
-            world.addEntity(leader);
+            leader.setPos(pos.getX(), pos.getY(), pos.getZ());
+            leader.finalizeSpawn(world, world.getCurrentDifficultyAt(pos), MobSpawnType.PATROL, null, null);
+            world.addFreshEntity(leader);
             return true;
         }
     }

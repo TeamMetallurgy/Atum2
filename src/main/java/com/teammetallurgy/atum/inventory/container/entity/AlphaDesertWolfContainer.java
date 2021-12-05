@@ -2,45 +2,45 @@ package com.teammetallurgy.atum.inventory.container.entity;
 
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import com.teammetallurgy.atum.init.AtumGuis;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SaddleItem;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SaddleItem;
 
 import javax.annotation.Nonnull;
 
-public class AlphaDesertWolfContainer extends Container {
-    public final IInventory wolfInventory;
+public class AlphaDesertWolfContainer extends AbstractContainerMenu {
+    public final Container wolfInventory;
     public final DesertWolfEntity desertWolf;
 
-    public AlphaDesertWolfContainer(int windowID, PlayerInventory playerInventory, final int entityID) {
+    public AlphaDesertWolfContainer(int windowID, Inventory playerInventory, final int entityID) {
         super(AtumGuis.ALPHA_DESERT_WOLF, windowID);
-        PlayerEntity player = playerInventory.player;
-        this.desertWolf = (DesertWolfEntity) player.world.getEntityByID(entityID);
+        Player player = playerInventory.player;
+        this.desertWolf = (DesertWolfEntity) player.level.getEntity(entityID);
         this.wolfInventory = this.desertWolf.getInventory();
-        wolfInventory.openInventory(player);
+        wolfInventory.startOpen(player);
         this.addSlot(new Slot(AlphaDesertWolfContainer.this.wolfInventory, 0, 8, 18) {
             @Override
-            public boolean isItemValid(@Nonnull ItemStack stack) {
-                return stack.getItem() instanceof SaddleItem && !this.getHasStack();
+            public boolean mayPlace(@Nonnull ItemStack stack) {
+                return stack.getItem() instanceof SaddleItem && !this.hasItem();
             }
 
             @Override
-            public boolean isEnabled() {
+            public boolean isActive() {
                 return AlphaDesertWolfContainer.this.desertWolf.isAlpha();
             }
         });
         this.addSlot(new Slot(AlphaDesertWolfContainer.this.wolfInventory, 1, 8, 36) {
             @Override
-            public boolean isItemValid(@Nonnull ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return AlphaDesertWolfContainer.this.desertWolf.isArmor(stack);
             }
 
             @Override
-            public int getSlotStackLimit() {
+            public int getMaxStackSize() {
                 return 1;
             }
         });
@@ -55,45 +55,45 @@ public class AlphaDesertWolfContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return this.wolfInventory.isUsableByPlayer(player) && this.desertWolf.isAlive() && this.desertWolf.getDistance(player) < 8.0F;
+    public boolean stillValid(@Nonnull Player player) {
+        return this.wolfInventory.stillValid(player) && this.desertWolf.isAlive() && this.desertWolf.distanceTo(player) < 8.0F;
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack slotStack = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
             stack = slotStack.copy();
-            if (index < this.wolfInventory.getSizeInventory()) {
-                if (!this.mergeItemStack(slotStack, this.wolfInventory.getSizeInventory(), this.inventorySlots.size(), true)) {
+            if (index < this.wolfInventory.getContainerSize()) {
+                if (!this.moveItemStackTo(slotStack, this.wolfInventory.getContainerSize(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(1).isItemValid(slotStack) && !this.getSlot(1).getHasStack()) {
-                if (!this.mergeItemStack(slotStack, 1, 2, false)) {
+            } else if (this.getSlot(1).mayPlace(slotStack) && !this.getSlot(1).hasItem()) {
+                if (!this.moveItemStackTo(slotStack, 1, 2, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (AlphaDesertWolfContainer.this.desertWolf.isAlpha() && this.getSlot(0).isItemValid(slotStack)) {
-                if (!this.mergeItemStack(slotStack, 0, 1, false)) {
+            } else if (AlphaDesertWolfContainer.this.desertWolf.isAlpha() && this.getSlot(0).mayPlace(slotStack)) {
+                if (!this.moveItemStackTo(slotStack, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.wolfInventory.getSizeInventory() <= 2 || !this.mergeItemStack(slotStack, 2, this.wolfInventory.getSizeInventory(), false)) {
+            } else if (this.wolfInventory.getContainerSize() <= 2 || !this.moveItemStackTo(slotStack, 2, this.wolfInventory.getContainerSize(), false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
         }
         return stack;
     }
 
     @Override
-    public void onContainerClosed(@Nonnull PlayerEntity player) {
-        super.onContainerClosed(player);
-        this.wolfInventory.closeInventory(player);
+    public void removed(@Nonnull Player player) {
+        super.removed(player);
+        this.wolfInventory.stopOpen(player);
     }
 }

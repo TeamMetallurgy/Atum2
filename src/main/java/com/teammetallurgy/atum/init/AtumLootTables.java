@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.loot.LootTables;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import net.minecraft.resources.ResourceLocation;
 
 public class AtumLootTables {
     //Entities
@@ -29,6 +29,6 @@ public class AtumLootTables {
     public static final ResourceLocation GAMEPLAY_SERVAL_MORNING_GIFT = register("gameplay/serval_morning_gift");
 
     private static ResourceLocation register(String path) {
-        return LootTables.register(new ResourceLocation(Atum.MOD_ID, path));
+        return BuiltInLootTables.register(new ResourceLocation(Atum.MOD_ID, path));
     }
 }

@@ -5,41 +5,41 @@ import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodBranchBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3i;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.WorldGenRegion;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeature;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.LevelSimulatedRW;
+import net.minecraft.server.level.WorldGenRegion;
+import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class DeadwoodFeature extends Feature<NoFeatureConfig> {
-    private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true);
-    private static final BlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.getDefaultState();
+public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> {
+    private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true);
+    private static final BlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.defaultBlockState();
 
-    public DeadwoodFeature(Codec<NoFeatureConfig> config) {
+    public DeadwoodFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
     }
 
     @Override
-    public boolean generate(@Nonnull ISeedReader genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
+    public boolean place(@Nonnull WorldGenLevel genReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoneFeatureConfiguration config) {
         if (genReader instanceof WorldGenRegion) {
             WorldGenRegion world = (WorldGenRegion) genReader;
             Set<BlockPos> logs = Sets.newHashSet();
             int baseHeight = rand.nextInt(5) + 3;
             boolean generate = true;
 
-            if (pos.getY() >= 0 && pos.getY() + baseHeight + 1 <= world.getHeight()) {
+            if (pos.getY() >= 0 && pos.getY() + baseHeight + 1 <= world.getMaxBuildHeight()) {
                 for (int y = pos.getY(); y <= pos.getY() + 1 + baseHeight; ++y) {
                     int k = 1;
 
@@ -50,13 +50,13 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
                     if (y >= pos.getY() + 1 + baseHeight - 2) {
                         k = 2;
                     }
-                    BlockPos.Mutable mutable = new BlockPos.Mutable();
+                    BlockPos.MutableBlockPos mutable = new BlockPos.MutableBlockPos();
 
                     for (int x = pos.getX() - k; x <= pos.getX() + k && generate; ++x) {
                         for (int z = pos.getZ() - k; z <= pos.getZ() + k && generate; ++z) {
-                            if (y >= 0 && y < world.getHeight()) {
-                                BlockPos checkPos = mutable.setPos(x, y, z);
-                                if (!TreeFeature.isAirOrLeavesAt(world, checkPos)) {
+                            if (y >= 0 && y < world.getMaxBuildHeight()) {
+                                BlockPos checkPos = mutable.set(x, y, z);
+                                if (!TreeFeature.isAirOrLeaves(world, checkPos)) {
                                     generate = false;
                                 }
                             } else {
@@ -69,19 +69,19 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
                 if (!generate) {
                     return false;
                 } else {
-                    BlockPos down = pos.down();
+                    BlockPos down = pos.below();
                     BlockState state = world.getBlockState(down);
                     boolean isSoil = state.getBlock() == AtumBlocks.SAND;
 
                     if (genReader.isAreaLoaded(pos, 16)) {
-                        if (isSoil && pos.getY() < world.getHeight() - baseHeight - 1) {
+                        if (isSoil && pos.getY() < world.getMaxBuildHeight() - baseHeight - 1) {
                             for (int height = 0; height < baseHeight; ++height) {
-                                BlockPos upN = pos.up(height);
+                                BlockPos upN = pos.above(height);
 
-                                if (TreeFeature.isAirOrLeavesAt(genReader, upN)) {
-                                    genReader.setBlockState(pos.up(height), LOG, 19);
+                                if (TreeFeature.isAirOrLeaves(genReader, upN)) {
+                                    genReader.setBlock(pos.above(height), LOG, 19);
                                     if (height > 1) {
-                                        logs.add(pos.up(height));
+                                        logs.add(pos.above(height));
                                     }
                                 }
                             }
@@ -99,7 +99,7 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
         return false;
     }
 
-    public void buildBranches(IWorldReader world, IWorldGenerationReader genReader, Set<BlockPos> logs, Random random) {
+    public void buildBranches(LevelReader world, LevelSimulatedRW genReader, Set<BlockPos> logs, Random random) {
         // Keep track of branches to be generated using a Queue
         Queue<Pair<BlockPos, Integer>> queue = new LinkedList<>();
         List<BlockPos> placedBranches = new ArrayList<>();
@@ -134,14 +134,14 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
 
                 // Prevent branches 3 blocks in the same direction
                 BlockState curr = world.getBlockState(pos);
-                if (curr.getBlock() == BRANCH.getBlock() && curr.get(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
-                    BlockState prev = world.getBlockState(pos.add(facing.getOpposite().getDirectionVec()));
-                    if (prev.getBlock() == BRANCH.getBlock() && prev.get(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
+                if (curr.getBlock() == BRANCH.getBlock() && curr.getValue(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
+                    BlockState prev = world.getBlockState(pos.offset(facing.getOpposite().getNormal()));
+                    if (prev.getBlock() == BRANCH.getBlock() && prev.getValue(DeadwoodBranchBlock.FACING) == facing.getOpposite()) {
                         continue;
                     }
                 }
 
-                double dist = baseLog.distanceSq(new Vector3i(pos.getX(), pos.getY(), pos.getZ()));
+                double dist = baseLog.distSqr(new Vec3i(pos.getX(), pos.getY(), pos.getZ()));
                 float probability = 0.8f;
                 if (facing == Direction.UP) {
                     probability *= 1.5;
@@ -160,10 +160,10 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
                 probability += 0.25 * balancingCount.get(facing);
 
                 if (random.nextFloat() < probability) {
-                    BlockPos nextPos = pos.add(facing.getDirectionVec());
-                    if (world.isAirBlock(nextPos) && world.isAreaLoaded(nextPos, 8)) {
+                    BlockPos nextPos = pos.offset(facing.getNormal());
+                    if (world.isEmptyBlock(nextPos) && world.isAreaLoaded(nextPos, 8)) {
                         DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
-                        this.setBlockState(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
+                        this.setBlock(genReader, nextPos, branch.makeConnections(world, nextPos, facing));
                         placedBranches.add(nextPos);
 
                         // Add this branch onto the queue to spawn new branches from
@@ -188,9 +188,9 @@ public class DeadwoodFeature extends Feature<NoFeatureConfig> {
             }
 
             for (BlockPos placedLocation : placedBranches) {
-                if (!genReader.hasBlockState(placedLocation, BlockState::isAir)) {
+                if (!genReader.isStateAtPosition(placedLocation, BlockState::isAir)) {
                     DeadwoodBranchBlock branch = (DeadwoodBranchBlock) BRANCH.getBlock();
-                    this.setBlockState(genReader, placedLocation, branch.makeConnections(world, placedLocation));
+                    this.setBlock(genReader, placedLocation, branch.makeConnections(world, placedLocation));
                 }
             }
 

@@ -2,16 +2,16 @@ package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.FarmlandBlock;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraft.world.gen.IWorldGenerationBaseReader;
-import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeature;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.LevelSimulatedRW;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -21,31 +21,31 @@ import java.util.Set;
 
 public class AtumTreeFeature extends TreeFeature {
 
-    public AtumTreeFeature(Codec<BaseTreeFeatureConfig> config) {
+    public AtumTreeFeature(Codec<TreeConfiguration> config) {
         super(config);
     }
 
     @Override
-    protected boolean place(@Nonnull IWorldGenerationReader genReader, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull Set<BlockPos> leaves, @Nonnull MutableBoundingBox box, BaseTreeFeatureConfig config) { //Coped from TreeFeature, to add more soil support
-        int trunk = config.trunkPlacer.func_236917_a_(rand);
-        int foliage = config.foliagePlacer.func_230374_a_(rand, trunk, config);
+    protected boolean doPlace(@Nonnull LevelSimulatedRW genReader, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull Set<BlockPos> leaves, @Nonnull BoundingBox box, TreeConfiguration config) { //Coped from TreeFeature, to add more soil support
+        int trunk = config.trunkPlacer.getTreeHeight(rand);
+        int foliage = config.foliagePlacer.foliageHeight(rand, trunk, config);
         int k = trunk - foliage;
-        int l = config.foliagePlacer.func_230376_a_(rand, k);
+        int l = config.foliagePlacer.foliageRadius(rand, k);
         BlockPos blockpos;
-        if (!config.forcePlacement) {
-            int i = genReader.getHeight(Heightmap.Type.OCEAN_FLOOR, pos).getY();
-            int j = genReader.getHeight(Heightmap.Type.WORLD_SURFACE, pos).getY();
+        if (!config.fromSapling) {
+            int i = genReader.getHeightmapPos(Heightmap.Types.OCEAN_FLOOR, pos).getY();
+            int j = genReader.getHeightmapPos(Heightmap.Types.WORLD_SURFACE, pos).getY();
             if (j - i > config.maxWaterDepth) {
                 return false;
             }
 
             int k1;
-            if (config.field_236682_l_ == Heightmap.Type.OCEAN_FLOOR) {
+            if (config.heightmap == Heightmap.Types.OCEAN_FLOOR) {
                 k1 = i;
-            } else if (config.field_236682_l_ == Heightmap.Type.WORLD_SURFACE) {
+            } else if (config.heightmap == Heightmap.Types.WORLD_SURFACE) {
                 k1 = j;
             } else {
-                k1 = genReader.getHeight(config.field_236682_l_, pos).getY();
+                k1 = genReader.getHeightmapPos(config.heightmap, pos).getY();
             }
 
             blockpos = new BlockPos(pos.getX(), k1, pos.getZ());
@@ -54,15 +54,15 @@ public class AtumTreeFeature extends TreeFeature {
         }
 
         if (blockpos.getY() >= 1 && blockpos.getY() + trunk + 1 <= 256) {
-            if (!isSoilOrFarm(genReader, blockpos.down())) {
+            if (!isSoilOrFarm(genReader, blockpos.below())) {
                 return false;
             } else {
-                OptionalInt optionalInt = config.minimumSize.func_236710_c_();
-                int l1 = this.func_241521_a_(genReader, trunk, blockpos, config);
+                OptionalInt optionalInt = config.minimumSize.minClippedHeight();
+                int l1 = this.getMaxFreeTreeHeight(genReader, trunk, blockpos, config);
                 if (l1 >= trunk || optionalInt.isPresent() && l1 >= optionalInt.getAsInt()) {
-                    List<FoliagePlacer.Foliage> list = config.trunkPlacer.func_230382_a_(genReader, rand, l1, blockpos, logs, box, config);
+                    List<FoliagePlacer.FoliageAttachment> list = config.trunkPlacer.placeTrunk(genReader, rand, l1, blockpos, logs, box, config);
                     list.forEach((p_236407_8_) -> {
-                        config.foliagePlacer.func_236752_a_(genReader, rand, config, l1, p_236407_8_, foliage, l, leaves, box);
+                        config.foliagePlacer.createFoliage(genReader, rand, config, l1, p_236407_8_, foliage, l, leaves, box);
                     });
                     return true;
                 } else {
@@ -74,14 +74,14 @@ public class AtumTreeFeature extends TreeFeature {
         }
     }
 
-    protected static boolean isSoilOrFarm(IWorldGenerationBaseReader reader, @Nonnull BlockPos pos) {
-        return isDirtOrFarmlandAt(reader, pos) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL)) || reader.hasBlockState(pos, (state -> state.getBlock() == AtumBlocks.FERTILE_SOIL));
+    protected static boolean isSoilOrFarm(LevelSimulatedReader reader, @Nonnull BlockPos pos) {
+        return isDirtOrFarmlandAt(reader, pos) || reader.isStateAtPosition(pos, (state -> state.getBlock() == AtumBlocks.LIMESTONE_GRAVEL)) || reader.isStateAtPosition(pos, (state -> state.getBlock() == AtumBlocks.FERTILE_SOIL));
     }
 
-    private static boolean isDirtOrFarmlandAt(IWorldGenerationBaseReader reader, BlockPos pos) {
-        return reader.hasBlockState(pos, (state) -> {
+    private static boolean isDirtOrFarmlandAt(LevelSimulatedReader reader, BlockPos pos) {
+        return reader.isStateAtPosition(pos, (state) -> {
             Block block = state.getBlock();
-            return isDirt(block) || block instanceof FarmlandBlock;
+            return isDirt(block) || block instanceof FarmBlock;
         });
     }
 }

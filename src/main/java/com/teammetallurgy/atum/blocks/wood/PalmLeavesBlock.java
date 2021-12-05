@@ -1,44 +1,44 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.IGrowable;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.BonemealableBlock;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class PalmLeavesBlock extends LeavesAtumBlock implements IGrowable {
+public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBlock {
 
     public PalmLeavesBlock() {
         super();
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void randomTick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         super.randomTick(state, world, pos, rand);
-        if (!world.isRemote) {
-            if (world.rand.nextDouble() <= 0.05F) {
-                if (canGrow(world, pos, state, false)) {
-                    world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
+        if (!world.isClientSide) {
+            if (world.random.nextDouble() <= 0.05F) {
+                if (isValidBonemealTarget(world, pos, state, false)) {
+                    world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.defaultBlockState());
                 }
             }
         }
     }
 
     @Override
-    public boolean canGrow(@Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
-        return !state.get(PERSISTENT) && isValidLocation(reader, pos.down()) && reader.getBlockState(pos.down()).isAir(reader, pos.down());
+    public boolean isValidBonemealTarget(@Nonnull BlockGetter reader, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+        return !state.getValue(PERSISTENT) && isValidLocation(reader, pos.below()) && reader.getBlockState(pos.below()).isAir(reader, pos.below());
     }
 
-    private boolean isValidLocation(@Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
+    private boolean isValidLocation(@Nonnull BlockGetter reader, @Nonnull BlockPos pos) {
         for (int i = 0; i < 4; i++) {
-            Direction horizontal = Direction.byHorizontalIndex((5 - i) % 4); //[W, S, E, N]
-            BlockPos check = pos.offset(horizontal);
+            Direction horizontal = Direction.from2DDataValue((5 - i) % 4); //[W, S, E, N]
+            BlockPos check = pos.relative(horizontal);
             if (reader.getBlockState(check).getBlock() == AtumBlocks.PALM_LOG) {
                 return true;
             }
@@ -47,14 +47,14 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements IGrowable {
     }
 
     @Override
-    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void grow(@Nonnull ServerWorld world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        if (canGrow(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
-            world.setBlockState(pos.down(), AtumBlocks.DATE_BLOCK.getDefaultState());
+    public void performBonemeal(@Nonnull ServerLevel world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+        if (isValidBonemealTarget(world, pos, state, false) && rand.nextDouble() <= 0.5D) {
+            world.setBlockAndUpdate(pos.below(), AtumBlocks.DATE_BLOCK.defaultBlockState());
         }
     }
 }

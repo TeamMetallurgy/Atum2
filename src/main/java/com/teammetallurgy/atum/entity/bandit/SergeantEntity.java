@@ -2,27 +2,27 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.init.AtumEffects;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 
 public class SergeantEntity extends BanditBaseEntity {
 
-    public SergeantEntity(EntityType<? extends BanditBaseEntity> entityType, World world) {
+    public SergeantEntity(EntityType<? extends BanditBaseEntity> entityType, Level world) {
         super(entityType, world);
-        this.experienceValue = 16;
+        this.xpReward = 16;
     }
 
     @Override
@@ -41,24 +41,24 @@ public class SergeantEntity extends BanditBaseEntity {
         return true;
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 36.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 5.0D).createMutableAttribute(Attributes.ARMOR, 8.0F);
+    public static AttributeSupplier.Builder getAttributes() {
+        return getBaseAttributes().add(Attributes.MAX_HEALTH, 36.0D).add(Attributes.ATTACK_DAMAGE, 5.0D).add(Attributes.ARMOR, 8.0F);
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
-        this.setItemStackToSlot(EquipmentSlotType.OFFHAND, new ItemStack(Items.SHIELD));
+    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SCIMITAR_IRON));
+        this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(Items.SHIELD));
     }
 
     @Override
-    public void onDeath(@Nonnull DamageSource cause) {
-        super.onDeath(cause);
-        Entity killer = cause.getTrueSource();
-        if (killer instanceof PlayerEntity) {
-            double chance = this.rand.nextDouble();
+    public void die(@Nonnull DamageSource cause) {
+        super.die(cause);
+        Entity killer = cause.getEntity();
+        if (killer instanceof Player) {
+            double chance = this.random.nextDouble();
             if (chance <= 0.1D) {
-                ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 1020, 0, false, false, true));
+                ((Player) killer).addEffect(new MobEffectInstance(AtumEffects.MARKED_FOR_DEATH, 1020, 0, false, false, true));
             }
         }
     }

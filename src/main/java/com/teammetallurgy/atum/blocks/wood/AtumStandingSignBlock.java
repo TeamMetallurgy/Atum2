@@ -1,12 +1,14 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import net.minecraft.block.StandingSignBlock;
-import net.minecraft.block.WoodType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.StandingSignBlock;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.BlockGetter;
 
 import javax.annotation.Nonnull;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class AtumStandingSignBlock extends StandingSignBlock {
 
@@ -15,7 +17,7 @@ public class AtumStandingSignBlock extends StandingSignBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+    public BlockEntity newBlockEntity(@Nonnull BlockGetter world) {
         return AtumTileEntities.SIGN.create();
     }
 }

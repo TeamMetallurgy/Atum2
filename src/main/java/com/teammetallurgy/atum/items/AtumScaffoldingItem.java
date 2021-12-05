@@ -2,63 +2,65 @@ package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.AtumScaffoldingBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ScaffoldingItem;
-import net.minecraft.network.play.server.SChatPacket;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ChatType;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.item.ScaffoldingBlockItem;
+import net.minecraft.network.protocol.game.ClientboundChatPacket;
+import net.minecraft.core.Direction;
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 
-public class AtumScaffoldingItem extends ScaffoldingItem {
+import net.minecraft.world.item.Item.Properties;
+
+public class AtumScaffoldingItem extends ScaffoldingBlockItem {
 
     public AtumScaffoldingItem(Block block) {
-        super(block, new Properties().group(Atum.GROUP));
+        super(block, new Properties().tab(Atum.GROUP));
     }
 
     @Nullable
-    public BlockItemUseContext getBlockItemUseContext(BlockItemUseContext context) {
-        BlockPos blockpos = context.getPos();
-        World world = context.getWorld();
+    public BlockPlaceContext updatePlacementContext(BlockPlaceContext context) {
+        BlockPos blockpos = context.getClickedPos();
+        Level world = context.getLevel();
         BlockState blockstate = world.getBlockState(blockpos);
         Block block = this.getBlock();
-        if (!blockstate.isIn(block)) {
+        if (!blockstate.is(block)) {
             return AtumScaffoldingBlock.getDistance(world, blockpos) == 7 ? null : context; //Only line changed, to call different getDistance method
         } else {
             Direction direction;
-            if (context.hasSecondaryUseForPlayer()) {
-                direction = context.isInside() ? context.getFace().getOpposite() : context.getFace();
+            if (context.isSecondaryUseActive()) {
+                direction = context.isInside() ? context.getClickedFace().getOpposite() : context.getClickedFace();
             } else {
-                direction = context.getFace() == Direction.UP ? context.getPlacementHorizontalFacing() : Direction.UP;
+                direction = context.getClickedFace() == Direction.UP ? context.getHorizontalDirection() : Direction.UP;
             }
 
             int i = 0;
-            BlockPos.Mutable blockpos$mutable = blockpos.toMutable().move(direction);
+            BlockPos.MutableBlockPos blockpos$mutable = blockpos.mutable().move(direction);
 
             while (i < 7) {
-                if (!world.isRemote && !World.isValid(blockpos$mutable)) {
-                    PlayerEntity playerentity = context.getPlayer();
-                    int j = world.getHeight();
-                    if (playerentity instanceof ServerPlayerEntity && blockpos$mutable.getY() >= j) {
-                        SChatPacket schatpacket = new SChatPacket((new TranslationTextComponent("build.tooHigh", j)).mergeStyle(TextFormatting.RED), ChatType.GAME_INFO, Util.DUMMY_UUID);
-                        ((ServerPlayerEntity) playerentity).connection.sendPacket(schatpacket);
+                if (!world.isClientSide && !Level.isInWorldBounds(blockpos$mutable)) {
+                    Player playerentity = context.getPlayer();
+                    int j = world.getMaxBuildHeight();
+                    if (playerentity instanceof ServerPlayer && blockpos$mutable.getY() >= j) {
+                        ClientboundChatPacket schatpacket = new ClientboundChatPacket((new TranslatableComponent("build.tooHigh", j)).withStyle(ChatFormatting.RED), ChatType.GAME_INFO, Util.NIL_UUID);
+                        ((ServerPlayer) playerentity).connection.send(schatpacket);
                     }
                     break;
                 }
 
                 blockstate = world.getBlockState(blockpos$mutable);
-                if (!blockstate.isIn(this.getBlock())) {
-                    if (blockstate.isReplaceable(context)) {
-                        return BlockItemUseContext.func_221536_a(context, blockpos$mutable, direction);
+                if (!blockstate.is(this.getBlock())) {
+                    if (blockstate.canBeReplaced(context)) {
+                        return BlockPlaceContext.at(context, blockpos$mutable, direction);
                     }
                     break;
                 }

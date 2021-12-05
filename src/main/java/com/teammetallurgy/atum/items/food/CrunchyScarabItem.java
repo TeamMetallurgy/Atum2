@@ -1,15 +1,15 @@
 package com.teammetallurgy.atum.items.food;
 
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
 public class CrunchyScarabItem extends Item {
 
     public CrunchyScarabItem(Item.Properties properties) {
-        super(properties.group(Atum.GROUP));
+        super(properties.tab(Atum.GROUP));
     }
 
     @Override

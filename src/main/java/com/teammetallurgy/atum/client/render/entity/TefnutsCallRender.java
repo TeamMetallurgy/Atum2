@@ -1,41 +1,41 @@
 package com.teammetallurgy.atum.client.render.entity;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.client.model.TefnutsCallModel;
 import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
-import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.ItemRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import com.mojang.math.Vector3f;
 
 import javax.annotation.Nonnull;
 
 public class TefnutsCallRender extends EntityRenderer<TefnutsCallEntity> {
     private final TefnutsCallModel tefnutsCallModel = new TefnutsCallModel();
 
-    public TefnutsCallRender(EntityRendererManager renderManager) {
+    public TefnutsCallRender(EntityRenderDispatcher renderManager) {
         super(renderManager);
     }
 
     @Override
-    public void render(TefnutsCallEntity entity, float entityYaw, float partialTicks, MatrixStack matrixStack, @Nonnull IRenderTypeBuffer buffer, int packedLight) {
-        matrixStack.push();
-        matrixStack.rotate(Vector3f.YP.rotationDegrees(MathHelper.lerp(partialTicks, entity.prevRotationYaw, entity.rotationYaw) - 90.0F));
-        matrixStack.rotate(Vector3f.ZP.rotationDegrees(MathHelper.lerp(partialTicks, entity.prevRotationPitch, entity.rotationPitch) + 90.0F));
-        IVertexBuilder vertexBuilder = ItemRenderer.getBuffer(buffer, this.tefnutsCallModel.getRenderType(this.getEntityTexture(entity)), false, true);
-        this.tefnutsCallModel.render(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        matrixStack.pop();
+    public void render(TefnutsCallEntity entity, float entityYaw, float partialTicks, PoseStack matrixStack, @Nonnull MultiBufferSource buffer, int packedLight) {
+        matrixStack.pushPose();
+        matrixStack.mulPose(Vector3f.YP.rotationDegrees(Mth.lerp(partialTicks, entity.yRotO, entity.yRot) - 90.0F));
+        matrixStack.mulPose(Vector3f.ZP.rotationDegrees(Mth.lerp(partialTicks, entity.xRotO, entity.xRot) + 90.0F));
+        VertexConsumer vertexBuilder = ItemRenderer.getFoilBuffer(buffer, this.tefnutsCallModel.renderType(this.getTextureLocation(entity)), false, true);
+        this.tefnutsCallModel.renderToBuffer(matrixStack, vertexBuilder, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+        matrixStack.popPose();
         super.render(entity, entityYaw, partialTicks, matrixStack, buffer, packedLight);
     }
 
     @Override
     @Nonnull
-    public ResourceLocation getEntityTexture(@Nonnull TefnutsCallEntity entity) {
+    public ResourceLocation getTextureLocation(@Nonnull TefnutsCallEntity entity) {
         return TefnutsCallModel.TEFNUTS_CALL_TEXTURE;
     }
 }

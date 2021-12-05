@@ -13,31 +13,31 @@ import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.block.*;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.StructureStart;
-import net.minecraft.world.gen.feature.template.TemplateManager;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.Registry;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -47,21 +47,29 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class PyramidStructure extends Structure<NoFeatureConfig> {
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory;
 
-    public PyramidStructure(Codec<NoFeatureConfig> config) {
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SpawnerBlock;
+import net.minecraft.world.level.block.TorchBlock;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration> {
+
+    public PyramidStructure(Codec<NoneFeatureConfiguration> config) {
         super(config);
     }
 
     @Override
-    protected boolean func_230365_b_() {
+    protected boolean linearSeparation() {
         return false;
     }
 
     @Override
-    protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
-        for (Biome b : provider.getBiomes(chunkX * 16 + 9, DimensionHelper.GROUND_LEVEL, chunkZ * 16 + 9, 32)) {
-            if (!b.getGenerationSettings().hasStructure(this)) {
+    protected boolean isFeatureChunk(@Nonnull ChunkGenerator generator, @Nonnull BiomeSource provider, long seed, @Nonnull WorldgenRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoneFeatureConfiguration config) {
+        for (Biome b : provider.getBiomesWithin(chunkX * 16 + 9, DimensionHelper.GROUND_LEVEL, chunkZ * 16 + 9, 32)) {
+            if (!b.getGenerationSettings().isValidStart(this)) {
                 return false;
             } else {
                 return StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, null) > 55;
@@ -72,27 +80,27 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
     @Override
     @Nonnull
-    public IStartFactory<NoFeatureConfig> getStartFactory() {
+    public StructureStartFactory<NoneFeatureConfiguration> getStartFactory() {
         return Start::new;
     }
 
     @SubscribeEvent
     public void onBlockPlaced(BlockEvent.EntityPlaceEvent event) {
-        if (event.getEntity() instanceof ServerPlayerEntity) {
-            IWorld world = event.getEntity().world;
-            if (world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) world;
-                StructureStart<?> structureStart = serverWorld.func_241112_a_().getStructureStart(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
+        if (event.getEntity() instanceof ServerPlayer) {
+            LevelAccessor world = event.getEntity().level;
+            if (world instanceof ServerLevel) {
+                ServerLevel serverWorld = (ServerLevel) world;
+                StructureStart<?> structureStart = serverWorld.structureFeatureManager().getStructureAt(event.getPos(), true, AtumStructures.PYRAMID_STRUCTURE);
                 if (structureStart instanceof Start && structureStart.isValid()) {
                     Start start = (Start) structureStart;
                     if (!DimensionHelper.isBeatenPyramid(serverWorld, start.getBoundingBox())) {
-                        ServerPlayerEntity player = (ServerPlayerEntity) event.getEntity();
+                        ServerPlayer player = (ServerPlayer) event.getEntity();
                         Block placedBlock = event.getPlacedBlock().getBlock();
                         if (!player.isCreative() && !(placedBlock instanceof TorchBlock)) {
                             event.setCanceled(true);
                             ItemStack placedStack = new ItemStack(placedBlock);
-                            Hand hand = player.getHeldItemMainhand().getItem() == placedStack.getItem() ? Hand.MAIN_HAND : Hand.OFF_HAND;
-                            NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == Hand.MAIN_HAND ? 1 : 0));
+                            InteractionHand hand = player.getMainHandItem().getItem() == placedStack.getItem() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+                            NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == InteractionHand.MAIN_HAND ? 1 : 0));
                         }
                     }
                 }
@@ -100,64 +108,64 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
         }
     }
 
-    public static class Start extends StructureStart<NoFeatureConfig> {
+    public static class Start extends StructureStart<NoneFeatureConfiguration> {
 
-        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(StructureFeature<NoneFeatureConfiguration> structure, int chunkPosX, int chunkPosZ, BoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @Override
-        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
-            Rotation rotation = Rotation.randomRotation(this.rand);
+        public void generatePieces(@Nonnull RegistryAccess registries, @Nonnull ChunkGenerator generator, @Nonnull StructureManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoneFeatureConfiguration config) {
+            Rotation rotation = Rotation.getRandom(this.random);
             int y = StructureHelper.getYPosForStructure(chunkX, chunkZ, generator, rotation);
 
             if (y > 55) {
-                int yChance = MathHelper.nextInt(this.rand, 7, 14);
+                int yChance = Mth.nextInt(this.random, 7, 14);
                 BlockPos pos = new BlockPos(chunkX * 16 + 8, y - yChance, chunkZ * 16 + 8);
                 List<StructurePiece> components = PyramidPieces.getComponents(manager, pos, rotation);
-                this.components.addAll(components);
-                this.recalculateStructureSize();
+                this.pieces.addAll(components);
+                this.calculateBoundingBox();
             }
         }
 
 
         @SubscribeEvent
         public void onPharaohBeaten(PharaohBeatenEvent event) {
-            World world = event.getPharaoh().world;
+            Level world = event.getPharaoh().level;
             BlockPos sarcophagusPos = event.getPharaoh().getSarcophagusPos();
-            if (sarcophagusPos != null && world instanceof ServerWorld && !world.isRemote) {
-                if (this.getBoundingBox().isVecInside(sarcophagusPos)) {
-                    ServerWorld serverWorld = (ServerWorld) world;
+            if (sarcophagusPos != null && world instanceof ServerLevel && !world.isClientSide) {
+                if (this.getBoundingBox().isInside(sarcophagusPos)) {
+                    ServerLevel serverWorld = (ServerLevel) world;
                     DimensionHelper.getData(serverWorld).addBeatenPyramid(this.getBoundingBox());
                     this.changePyramidBlocks(serverWorld);
                 }
             }
         }
 
-        public void changePyramidBlocks(ServerWorld world) {
-            MutableBoundingBox box = this.getBoundingBox();
+        public void changePyramidBlocks(ServerLevel world) {
+            BoundingBox box = this.getBoundingBox();
 
-            for (int z = box.minZ; z <= box.maxZ; ++z) {
-                for (int y = box.minY; y <= box.maxY; ++y) {
-                    for (int x = box.minX; x <= box.maxX; ++x) {
+            for (int z = box.z0; z <= box.z1; ++z) {
+                for (int y = box.y0; y <= box.y1; ++y) {
+                    for (int x = box.x0; x <= box.x1; ++x) {
                         BlockPos pos = new BlockPos(x, y, z);
-                        if (!world.isAirBlock(pos)) {
+                        if (!world.isEmptyBlock(pos)) {
                             BlockState state = world.getBlockState(pos);
-                            if (state.getBlock() instanceof IUnbreakable && state.get(IUnbreakable.UNBREAKABLE)) {
-                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.rand.nextDouble() <= 0.08D) {
-                                    if (world.isAirBlock(pos.down())) {
-                                        world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState().with(LimestoneBrickBlock.CAN_FALL, true), 2);
+                            if (state.getBlock() instanceof IUnbreakable && state.getValue(IUnbreakable.UNBREAKABLE)) {
+                                if (state.getBlock() == AtumBlocks.LIMESTONE_BRICK_LARGE && world.random.nextDouble() <= 0.08D) {
+                                    if (world.isEmptyBlock(pos.below())) {
+                                        world.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.defaultBlockState().setValue(LimestoneBrickBlock.CAN_FALL, true), 2);
                                     } else {
-                                        world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.getDefaultState(), 2);
+                                        world.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CRACKED_BRICK.defaultBlockState(), 2);
                                     }
                                 } else {
-                                    world.setBlockState(pos, state.with(IUnbreakable.UNBREAKABLE, false), 2);
+                                    world.setBlock(pos, state.setValue(IUnbreakable.UNBREAKABLE, false), 2);
                                 }
                             } else if (state.getBlock() instanceof TrapBlock) {
-                                world.setBlockState(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.getDefaultState(), 2);
+                                world.setBlock(pos, AtumBlocks.LIMESTONE_BRICK_CARVED.defaultBlockState(), 2);
                             } else if (state.getBlock() instanceof SpawnerBlock) {
-                                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+                                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                             }
                         }
                     }
@@ -167,21 +175,21 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
 
 
         @Override
-        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            Optional<RegistryKey<Biome>> optional = seedReader.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(seedReader.getBiome(this.getPos()));
+        public void placeInChunk(@Nonnull WorldGenLevel seedReader, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos) {
+            Optional<ResourceKey<Biome>> optional = seedReader.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(seedReader.getBiome(this.getLocatePos()));
             if (optional.isPresent() && optional.get() != AtumBiomes.DRIED_RIVER) {
-                super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
-                int y = this.bounds.minY;
+                super.placeInChunk(seedReader, manager, generator, rand, box, chunkPos);
+                int y = this.boundingBox.y0;
 
-                for (int x = box.minX; x <= box.maxX; ++x) {
-                    for (int z = box.minZ; z <= box.maxZ; ++z) {
+                for (int x = box.x0; x <= box.x1; ++x) {
+                    for (int z = box.z0; z <= box.z1; ++z) {
                         BlockPos pos = new BlockPos(x, y, z);
-                        if (!StructureHelper.doesChunkHaveStructure(seedReader, pos, Structure.VILLAGE)) {
-                            if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                        if (!StructureHelper.doesChunkHaveStructure(seedReader, pos, StructureFeature.VILLAGE)) {
+                            if (!seedReader.isEmptyBlock(pos) && this.boundingBox.isInside(pos)) {
                                 boolean isVecInside = false;
 
-                                for (StructurePiece piece : this.components) {
-                                    if (piece.getBoundingBox().isVecInside(pos)) {
+                                for (StructurePiece piece : this.pieces) {
+                                    if (piece.getBoundingBox().isInside(pos)) {
                                         isVecInside = true;
                                         break;
                                     }
@@ -191,10 +199,10 @@ public class PyramidStructure extends Structure<NoFeatureConfig> {
                                     for (int pyramidY = y - 1; pyramidY > 1; --pyramidY) {
                                         BlockPos pyramidPos = new BlockPos(x, pyramidY, z);
 
-                                        if (!seedReader.isAirBlock(pyramidPos) && !seedReader.getBlockState(pyramidPos).getMaterial().isLiquid()) {
+                                        if (!seedReader.isEmptyBlock(pyramidPos) && !seedReader.getBlockState(pyramidPos).getMaterial().isLiquid()) {
                                             break;
                                         }
-                                        seedReader.setBlockState(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
+                                        seedReader.setBlock(pyramidPos, AtumBlocks.LIMESTONE_BRICK_LARGE.defaultBlockState(), 2);
                                     }
                                 }
                             }

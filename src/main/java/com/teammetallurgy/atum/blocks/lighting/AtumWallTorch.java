@@ -1,9 +1,11 @@
 package com.teammetallurgy.atum.blocks.lighting;
 
 import com.teammetallurgy.atum.api.God;
-import net.minecraft.block.WallTorchBlock;
-import net.minecraft.particles.IParticleData;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.world.level.block.WallTorchBlock;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class AtumWallTorch extends WallTorchBlock implements INebuTorch {
 
@@ -11,17 +13,17 @@ public class AtumWallTorch extends WallTorchBlock implements INebuTorch {
         super(properties, ParticleTypes.FLAME);
     }
 
-    public AtumWallTorch(Properties properties, IParticleData particleType) {
+    public AtumWallTorch(Properties properties, ParticleOptions particleType) {
         super(properties, particleType);
     }
 
     @Override
     public boolean isNebuTorch() {
-        return this.particleData != ParticleTypes.FLAME;
+        return this.flameParticle != ParticleTypes.FLAME;
     }
 
     @Override
     public God getGod() {
-        return AtumTorchBlock.GODS.get(this.particleData);
+        return AtumTorchBlock.GODS.get(this.flameParticle);
     }
 }

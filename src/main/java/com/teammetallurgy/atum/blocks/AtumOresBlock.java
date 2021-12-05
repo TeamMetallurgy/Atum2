@@ -1,9 +1,9 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.Block;
-import net.minecraft.block.OreBlock;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.util.Mth;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -15,19 +15,19 @@ public class AtumOresBlock extends OreBlock {
     }
 
     @Override
-    protected int getExperience(@Nonnull Random rand) {
+    protected int xpOnDrop(@Nonnull Random rand) {
         if (this == AtumBlocks.COAL_ORE) {
-            return MathHelper.nextInt(rand, 0, 2);
+            return Mth.nextInt(rand, 0, 2);
         } else if (this == AtumBlocks.RELIC_ORE) {
-            return MathHelper.nextInt(rand, 0, 2);
+            return Mth.nextInt(rand, 0, 2);
         } else if (this == AtumBlocks.BONE_ORE) {
-            return MathHelper.nextInt(rand, 0, 2);
+            return Mth.nextInt(rand, 0, 2);
         } else if (this == AtumBlocks.DIAMOND_ORE) {
-            return MathHelper.nextInt(rand, 3, 7);
+            return Mth.nextInt(rand, 3, 7);
         } else if (this == AtumBlocks.EMERALD_ORE) {
-            return MathHelper.nextInt(rand, 3, 7);
+            return Mth.nextInt(rand, 3, 7);
         } else if (this == AtumBlocks.LAPIS_ORE) {
-            return MathHelper.nextInt(rand, 2, 5);
+            return Mth.nextInt(rand, 2, 5);
         } else {
             return 0;
         }

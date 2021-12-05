@@ -1,14 +1,16 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import net.minecraft.block.Block;
-import net.minecraft.block.WallSignBlock;
-import net.minecraft.block.WoodType;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.WallSignBlock;
+import net.minecraft.world.level.block.state.properties.WoodType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.BlockGetter;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
+
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class AtumWallSignBlock extends WallSignBlock {
     public static final HashMap<Block, Block> WALL_SIGN_BLOCKS = new HashMap<>();
@@ -18,7 +20,7 @@ public class AtumWallSignBlock extends WallSignBlock {
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull IBlockReader world) {
+    public BlockEntity newBlockEntity(@Nonnull BlockGetter world) {
         return AtumTileEntities.SIGN.create();
     }
 }

@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.DeadBushBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.DeadBushBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -21,17 +21,17 @@ import java.util.List;
 public class ShrubBlock extends DeadBushBlock {
 
     public ShrubBlock() {
-        super(Block.Properties.create(Material.TALL_PLANTS, MaterialColor.WOOD).doesNotBlockMovement().hardnessAndResistance(0.0F).sound(SoundType.PLANT));
+        super(Block.Properties.of(Material.REPLACEABLE_PLANT, MaterialColor.WOOD).noCollission().strength(0.0F).sound(SoundType.GRASS));
     }
 
     @Override
-    protected boolean isValidGround(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
-        return state.getBlock().isIn(BlockTags.SAND);
+    protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
+        return state.getBlock().is(BlockTags.SAND);
     }
 
     @Override
     @Nonnull
-    public List<ItemStack> onSheared(@Nullable PlayerEntity player, @Nonnull ItemStack stack, World world, BlockPos pos, int fortune) {
+    public List<ItemStack> onSheared(@Nullable Player player, @Nonnull ItemStack stack, Level world, BlockPos pos, int fortune) {
         return Collections.singletonList(new ItemStack(this));
     }
 }

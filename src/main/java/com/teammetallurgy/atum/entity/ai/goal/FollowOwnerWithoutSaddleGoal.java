@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import net.minecraft.entity.ai.goal.FollowOwnerGoal;
+import net.minecraft.world.entity.ai.goal.FollowOwnerGoal;
 
 public class FollowOwnerWithoutSaddleGoal extends FollowOwnerGoal {
     private final DesertWolfEntity wolf;
@@ -12,10 +12,10 @@ public class FollowOwnerWithoutSaddleGoal extends FollowOwnerGoal {
     }
 
     @Override
-    public boolean shouldExecute() {
-        if (this.wolf.isTamed() && this.wolf.isAlpha()) {
+    public boolean canUse() {
+        if (this.wolf.isTame() && this.wolf.isAlpha()) {
             return false;
         }
-        return super.shouldExecute();
+        return super.canUse();
     }
 }

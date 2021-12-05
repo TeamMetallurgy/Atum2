@@ -2,17 +2,23 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.item.*;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ShieldItem;
+import net.minecraft.world.item.UseAnim;
 
 public class AtumShieldItem extends ShieldItem {
     private Item repairItem;
@@ -22,8 +28,8 @@ public class AtumShieldItem extends ShieldItem {
     }
 
     public AtumShieldItem(int maxDamage, Item.Properties properties) {
-        super(properties.defaultMaxDamage(maxDamage).group(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
-        DispenserBlock.registerDispenseBehavior(this, ArmorItem.DISPENSER_BEHAVIOR);
+        super(properties.defaultDurability(maxDamage).tab(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
+        DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
     }
 
     @Override
@@ -33,8 +39,8 @@ public class AtumShieldItem extends ShieldItem {
 
     @Override
     @Nonnull
-    public UseAction getUseAction(@Nonnull ItemStack stack) {
-        return UseAction.BLOCK;
+    public UseAnim getUseAnimation(@Nonnull ItemStack stack) {
+        return UseAnim.BLOCK;
     }
 
     @Override
@@ -44,10 +50,10 @@ public class AtumShieldItem extends ShieldItem {
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack heldStack = player.getHeldItem(hand);
-        player.setActiveHand(hand);
-        return new ActionResult<>(ActionResultType.SUCCESS, heldStack);
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
+        ItemStack heldStack = player.getItemInHand(hand);
+        player.startUsingItem(hand);
+        return new InteractionResultHolder<>(InteractionResult.SUCCESS, heldStack);
     }
 
     public AtumShieldItem setRepairItem(Item item) {
@@ -56,7 +62,7 @@ public class AtumShieldItem extends ShieldItem {
     }
 
     @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
+    public boolean isValidRepairItem(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
         return this.repairItem != null && repair.getItem() == this.repairItem;
     }
 }

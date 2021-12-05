@@ -2,27 +2,27 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.LightningBoltEntity;
-import net.minecraft.entity.monster.EndermanEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.LightningBolt;
+import net.minecraft.world.entity.monster.EnderMan;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -31,62 +31,62 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TefnutsCallEntity extends AbstractArrowEntity {
+public class TefnutsCallEntity extends AbstractArrow {
     protected ItemStack thrownStack = new ItemStack(AtumItems.TEFNUTS_CALL);
     private boolean dealtDamage;
     public int returningTicks;
 
-    public TefnutsCallEntity(FMLPlayMessages.SpawnEntity spawnPacket, World world) {
+    public TefnutsCallEntity(FMLPlayMessages.SpawnEntity spawnPacket, Level world) {
         this(AtumEntities.TEFNUTS_CALL, world);
     }
 
-    public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, World world) {
+    public TefnutsCallEntity(EntityType<? extends TefnutsCallEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public TefnutsCallEntity(World world, LivingEntity shooter, @Nonnull ItemStack stack) {
+    public TefnutsCallEntity(Level world, LivingEntity shooter, @Nonnull ItemStack stack) {
         super(AtumEntities.TEFNUTS_CALL, shooter, world);
         this.thrownStack = stack.copy();
     }
 
     @OnlyIn(Dist.CLIENT)
-    public TefnutsCallEntity(World world, double x, double y, double z) {
+    public TefnutsCallEntity(Level world, double x, double y, double z) {
         super(AtumEntities.TEFNUTS_CALL, x, y, z, world);
     }
 
     @Override
     @Nonnull
-    public IPacket<?> createSpawnPacket() {
+    public Packet<?> getAddEntityPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
-    public boolean isImmuneToExplosions() {
+    public boolean ignoreExplosion() {
         return true;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public boolean canRenderOnFire() {
+    public boolean displayFireAnimation() {
         return false;
     }
 
     @Override
     @Nonnull
-    protected ItemStack getArrowStack() {
+    protected ItemStack getPickupItem() {
         return this.thrownStack.copy();
     }
 
     @Override
     @Nullable
-    protected EntityRayTraceResult rayTraceEntities(@Nonnull Vector3d startVec, @Nonnull Vector3d endVec) {
-        return this.dealtDamage ? null : super.rayTraceEntities(startVec, endVec);
+    protected EntityHitResult findHitEntity(@Nonnull Vec3 startVec, @Nonnull Vec3 endVec) {
+        return this.dealtDamage ? null : super.findHitEntity(startVec, endVec);
     }
 
     private boolean shouldReturnToThrower() {
-        Entity entity = this.func_234616_v_();
+        Entity entity = this.getOwner();
         if (entity != null && entity.isAlive()) {
-            return !(entity instanceof ServerPlayerEntity) || !entity.isSpectator();
+            return !(entity instanceof ServerPlayer) || !entity.isSpectator();
         } else {
             return false;
         }
@@ -94,24 +94,24 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
 
     @Override
     public void tick() {
-        if (this.timeInGround > 4) {
+        if (this.inGroundTime > 4) {
             this.dealtDamage = true;
         }
 
-        Entity entity = this.func_234616_v_();
-        if ((this.dealtDamage || this.getNoClip()) && entity != null) {
+        Entity entity = this.getOwner();
+        if ((this.dealtDamage || this.isNoPhysics()) && entity != null) {
             if (this.shouldReturnToThrower()) {//Always return to valid thrower
-                this.setNoClip(true);
-                Vector3d vec3d = new Vector3d(entity.getPosX() - this.getPosX(), entity.getPosYEye() - this.getPosY(), entity.getPosZ() - this.getPosZ());
-                this.setRawPosition(this.getPosX(), this.getPosY() + vec3d.y * 0.015D, this.getPosZ());
-                if (this.world.isRemote) {
-                    this.lastTickPosY = this.getPosY();
+                this.setNoPhysics(true);
+                Vec3 vec3d = new Vec3(entity.getX() - this.getX(), entity.getEyeY() - this.getY(), entity.getZ() - this.getZ());
+                this.setPosRaw(this.getX(), this.getY() + vec3d.y * 0.015D, this.getZ());
+                if (this.level.isClientSide) {
+                    this.yOld = this.getY();
                 }
 
                 double d0 = 0.05D;
-                this.setMotion(this.getMotion().scale(0.95D).add(vec3d.normalize().scale(d0)));
+                this.setDeltaMovement(this.getDeltaMovement().scale(0.95D).add(vec3d.normalize().scale(d0)));
                 if (this.returningTicks == 0) {
-                    this.playSound(SoundEvents.ITEM_TRIDENT_RETURN, 10.0F, 1.0F);
+                    this.playSound(SoundEvents.TRIDENT_RETURN, 10.0F, 1.0F);
                 }
                 ++this.returningTicks;
             }
@@ -120,95 +120,95 @@ public class TefnutsCallEntity extends AbstractArrowEntity {
     }
 
     @Override
-    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
+    protected void onHitEntity(@Nonnull EntityHitResult rayTraceResult) {
         Entity entity = rayTraceResult.getEntity();
-        Entity shooter = this.func_234616_v_();
+        Entity shooter = this.getOwner();
 
         if (shooter != entity) {
-            Vector3d motion = this.getMotion();
-            float f = MathHelper.sqrt(motion.x * motion.x + motion.y * motion.y + motion.z * motion.z);
-            int i = MathHelper.ceil((double) f * this.getDamage());
-            if (this.getIsCritical()) {
-                i += this.rand.nextInt(i / 2 + 2);
+            Vec3 motion = this.getDeltaMovement();
+            float f = Mth.sqrt(motion.x * motion.x + motion.y * motion.y + motion.z * motion.z);
+            int i = Mth.ceil((double) f * this.getBaseDamage());
+            if (this.isCritArrow()) {
+                i += this.random.nextInt(i / 2 + 2);
             }
 
             DamageSource damagesource;
 
             if (shooter == null) {
-                damagesource = DamageSource.causeArrowDamage(this, this);
+                damagesource = DamageSource.arrow(this, this);
             } else {
-                damagesource = DamageSource.causeArrowDamage(this, shooter);
+                damagesource = DamageSource.arrow(this, shooter);
             }
 
-            if (this.isBurning() && !(entity instanceof EndermanEntity)) {
-                entity.setFire(5);
+            if (this.isOnFire() && !(entity instanceof EnderMan)) {
+                entity.setSecondsOnFire(5);
             }
 
-            if (entity.attackEntityFrom(damagesource, (float) i)) {
+            if (entity.hurt(damagesource, (float) i)) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingEntity = (LivingEntity) entity;
 
                     if (shooter instanceof LivingEntity) {
-                        EnchantmentHelper.applyThornEnchantments(livingEntity, shooter);
-                        EnchantmentHelper.applyArthropodEnchantments((LivingEntity) shooter, livingEntity);
+                        EnchantmentHelper.doPostHurtEffects(livingEntity, shooter);
+                        EnchantmentHelper.doPostDamageEffects((LivingEntity) shooter, livingEntity);
                     }
 
-                    this.arrowHit(livingEntity);
+                    this.doPostHurtEffects(livingEntity);
                 }
-                if (this.world instanceof ServerWorld) {
-                    ServerWorld serverWorld = (ServerWorld) this.world;
-                    BlockPos entityPos = this.getPosition();
-                    if (this.world.canSeeSky(entityPos)) {
-                        LightningBoltEntity lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.world);
-                        lightningboltentity.moveForced(Vector3d.copyCenteredHorizontally(entityPos));
-                        lightningboltentity.setCaster(shooter instanceof ServerPlayerEntity ? (ServerPlayerEntity) shooter : null);
-                        serverWorld.addEntity(lightningboltentity);
+                if (this.level instanceof ServerLevel) {
+                    ServerLevel serverWorld = (ServerLevel) this.level;
+                    BlockPos entityPos = this.blockPosition();
+                    if (this.level.canSeeSky(entityPos)) {
+                        LightningBolt lightningboltentity = EntityType.LIGHTNING_BOLT.create(this.level);
+                        lightningboltentity.moveTo(Vec3.atBottomCenterOf(entityPos));
+                        lightningboltentity.setCause(shooter instanceof ServerPlayer ? (ServerPlayer) shooter : null);
+                        serverWorld.addFreshEntity(lightningboltentity);
                     }
                 }
-                this.playSound(SoundEvents.ITEM_TRIDENT_THUNDER, 4.0F, 1.0F);
+                this.playSound(SoundEvents.TRIDENT_THUNDER, 4.0F, 1.0F);
             }
         }
     }
 
     @Override
     @Nonnull
-    protected SoundEvent getHitEntitySound() {
-        return SoundEvents.ITEM_TRIDENT_HIT_GROUND;
+    protected SoundEvent getDefaultHitGroundSoundEvent() {
+        return SoundEvents.TRIDENT_HIT_GROUND;
     }
 
     @Override
-    public void onCollideWithPlayer(@Nonnull PlayerEntity player) {
-        Entity entity = this.func_234616_v_();
-        if (entity == null || entity.getUniqueID() == player.getUniqueID()) {
-            super.onCollideWithPlayer(player);
+    public void playerTouch(@Nonnull Player player) {
+        Entity entity = this.getOwner();
+        if (entity == null || entity.getUUID() == player.getUUID()) {
+            super.playerTouch(player);
         }
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         if (compound.contains("TefnutsCall", 10)) {
-            this.thrownStack = ItemStack.read(compound.getCompound("TefnutsCall"));
+            this.thrownStack = ItemStack.of(compound.getCompound("TefnutsCall"));
         }
         this.dealtDamage = compound.getBoolean("DealtDamage");
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
-        compound.put("TefnutsCall", this.thrownStack.write(new CompoundNBT()));
+    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
+        compound.put("TefnutsCall", this.thrownStack.save(new CompoundTag()));
         compound.putBoolean("DealtDamage", this.dealtDamage);
     }
 
     @Override
-    public void func_225516_i_() {
-        if (this.pickupStatus != AbstractArrowEntity.PickupStatus.ALLOWED) {
-            super.func_225516_i_();
+    public void tickDespawn() {
+        if (this.pickup != AbstractArrow.Pickup.ALLOWED) {
+            super.tickDespawn();
         }
     }
 
     @Override
-    public boolean isInRangeToRender3d(double x, double y, double z) {
+    public boolean shouldRender(double x, double y, double z) {
         return true;
     }
 }

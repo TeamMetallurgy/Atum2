@@ -11,19 +11,19 @@ import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.SandstormHandler;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
+import net.minecraft.client.player.LocalPlayer;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -43,35 +43,35 @@ public class ClientEvents {
     @SubscribeEvent
     public static void renderFog(EntityViewRenderEvent.RenderFogEvent event) {
         float sandstormFog = AtumConfig.SANDSTORM.sandstormFog.get();
-        ClientPlayerEntity clientPlayer = Minecraft.getInstance().player;
+        LocalPlayer clientPlayer = Minecraft.getInstance().player;
         if (clientPlayer == null) return;
-        Entity entity = event.getInfo().getRenderViewEntity();
-        World world = entity.world;
+        Entity entity = event.getInfo().getEntity();
+        Level world = entity.level;
 
-        if (world.getDimensionKey() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
+        if (world.dimension() == Atum.ATUM && AtumConfig.GENERAL.fogEnabled.get()) {
             RenderSystem.fogMode(GlStateManager.FogMode.EXP);
             float fogDensity = 0.05F;
 
-            if (entity instanceof PlayerEntity) {
-                PlayerEntity player = (PlayerEntity) entity;
-                if (player.getPosition().getY() <= 60) {
-                    fogDensity += (float) (62 - player.getPosition().getY()) * 0.00333F;
+            if (entity instanceof Player) {
+                Player player = (Player) entity;
+                if (player.blockPosition().getY() <= 60) {
+                    fogDensity += (float) (62 - player.blockPosition().getY()) * 0.00333F;
                 }
-                Optional<RegistryKey<Biome>> biome = world.func_242406_i(entity.getPosition());
+                Optional<ResourceKey<Biome>> biome = world.getBiomeName(entity.blockPosition());
                 if (biome.isPresent() && biome.get() == AtumBiomes.OASIS) {
                     fogDensity = fogDensity / 2.0F;
                 }
 
-                for (ItemStack armor : player.getArmorInventoryList()) {
+                for (ItemStack armor : player.getArmorSlots()) {
                     if (armor.getItem() instanceof IFogReductionItem) {
-                        EquipmentSlotType slotType = MobEntity.getSlotForItemStack(armor);
+                        EquipmentSlot slotType = Mob.getEquipmentSlotForItem(armor);
                         IFogReductionItem fogReductionItem = (IFogReductionItem) armor.getItem();
                         if (fogReductionItem.getSlotTypes().contains(slotType)) {
                             fogDensity = fogReductionItem.getFogReduction(fogDensity, armor);
                         }
                     }
                 }
-                if (player.getPosY() >= DimensionHelper.GROUND_LEVEL - 8) {
+                if (player.getY() >= DimensionHelper.GROUND_LEVEL - 8) {
                     fogDensity *= 1 + sandstormFog - (sandstormFog - sandstormFog * SandstormHandler.INSTANCE.stormStrength);
                 }
                 RenderSystem.fogDensity(fogDensity);
@@ -92,27 +92,27 @@ public class ClientEvents {
 
     @SubscribeEvent
     public static void renderMummyHelmet(RenderGameOverlayEvent event) {
-        ClientPlayerEntity player = Minecraft.getInstance().player;
+        LocalPlayer player = Minecraft.getInstance().player;
         Minecraft mc = Minecraft.getInstance();
 
-        if (player != null && mc.gameSettings.getPointOfView().func_243192_a() && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
-            int width = mc.getMainWindow().getScaledWidth();
-            int height = mc.getMainWindow().getScaledHeight();
+        if (player != null && mc.options.getCameraType().isFirstPerson() && event.getType() == RenderGameOverlayEvent.ElementType.HELMET && player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.MUMMY_HELMET) {
+            int width = mc.getWindow().getGuiScaledWidth();
+            int height = mc.getWindow().getGuiScaledHeight();
 
             RenderSystem.disableDepthTest();
             RenderSystem.depthMask(false);
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.disableAlphaTest();
-            mc.getTextureManager().bindTexture(MUMMY_BLUR_TEXTURE);
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder bufferbuilder = tessellator.getBuffer();
-            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX);
-            bufferbuilder.pos(0.0D, height, -90.0D).tex(0.0F, 1.0F).endVertex();
-            bufferbuilder.pos(width, height, -90.0D).tex(1.0F, 1.0F).endVertex();
-            bufferbuilder.pos(width, 0.0D, -90.0D).tex(1.0F, 0.0F).endVertex();
-            bufferbuilder.pos(0.0D, 0.0D, -90.0D).tex(0.0F, 0.0F).endVertex();
-            tessellator.draw();
+            mc.getTextureManager().bind(MUMMY_BLUR_TEXTURE);
+            Tesselator tessellator = Tesselator.getInstance();
+            BufferBuilder bufferbuilder = tessellator.getBuilder();
+            bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);
+            bufferbuilder.vertex(0.0D, height, -90.0D).uv(0.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(width, height, -90.0D).uv(1.0F, 1.0F).endVertex();
+            bufferbuilder.vertex(width, 0.0D, -90.0D).uv(1.0F, 0.0F).endVertex();
+            bufferbuilder.vertex(0.0D, 0.0D, -90.0D).uv(0.0F, 0.0F).endVertex();
+            tessellator.end();
             RenderSystem.depthMask(true);
             RenderSystem.enableDepthTest();
             RenderSystem.enableAlphaTest();

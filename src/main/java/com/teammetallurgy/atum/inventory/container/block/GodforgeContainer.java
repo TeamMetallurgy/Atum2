@@ -4,37 +4,37 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.blocks.machines.tileentity.GodforgeTileEntity;
 import com.teammetallurgy.atum.init.AtumGuis;
 import com.teammetallurgy.atum.inventory.container.slot.GodforgeFuelSlot;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.FurnaceResultSlot;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.IIntArray;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.FurnaceResultSlot;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class GodforgeContainer extends Container {
+public class GodforgeContainer extends AbstractContainerMenu {
     private final GodforgeTileEntity godforgeInventory;
-    private IIntArray godforgeData;
+    private ContainerData godforgeData;
     public Slot fuelSlot;
 
-    public GodforgeContainer(int id, PlayerInventory playerInventory, GodforgeTileEntity godforgeInventory) {
+    public GodforgeContainer(int id, Inventory playerInventory, GodforgeTileEntity godforgeInventory) {
         super(AtumGuis.GODFORGE, id);
         this.godforgeInventory = godforgeInventory;
         this.godforgeData = godforgeInventory.godforgeData;
         this.addSlot(new Slot(godforgeInventory, 0, 56, 17) {
             @Override
-            public boolean isItemValid(@Nonnull ItemStack stack) {
+            public boolean mayPlace(@Nonnull ItemStack stack) {
                 return stack.getItem() instanceof IArtifact;
             }
         });
         this.fuelSlot = this.addSlot(new GodforgeFuelSlot(godforgeInventory, 1, 56, 53));
         this.addSlot(new FurnaceResultSlot(playerInventory.player, godforgeInventory, 2, 116, 35));
-        assertInventorySize(godforgeInventory, 3);
-        assertIntArraySize(godforgeInventory.godforgeData, 3);
+        checkContainerSize(godforgeInventory, 3);
+        checkContainerDataCount(godforgeInventory.godforgeData, 3);
 
         for (int rows = 0; rows < 3; ++rows) {
             for (int slots = 0; slots < 9; ++slots) {
@@ -45,46 +45,46 @@ public class GodforgeContainer extends Container {
         for (int slot = 0; slot < 9; ++slot) {
             this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 142));
         }
-        this.trackIntArray(this.godforgeData);
+        this.addDataSlots(this.godforgeData);
     }
 
     @Override
     @Nonnull
-    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
         ItemStack transferStack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack slotStack = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack slotStack = slot.getItem();
             transferStack = slotStack.copy();
             if (index == 2) {
-                if (!this.mergeItemStack(slotStack, 3, 39, true)) {
+                if (!this.moveItemStackTo(slotStack, 3, 39, true)) {
                     return ItemStack.EMPTY;
                 }
-                slot.onSlotChange(slotStack, transferStack);
+                slot.onQuickCraft(slotStack, transferStack);
             } else if (index != 1 && index != 0) {
                 if (slotStack.getItem() instanceof IArtifact) {
-                    if (!this.mergeItemStack(slotStack, 0, 1, false)) {
+                    if (!this.moveItemStackTo(slotStack, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (GodforgeTileEntity.isFuel(slotStack)) {
-                    if (!this.mergeItemStack(slotStack, 1, 2, false)) {
+                    if (!this.moveItemStackTo(slotStack, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (index >= 3 && index < 30) {
-                    if (!this.mergeItemStack(slotStack, 30, 39, false)) {
+                    if (!this.moveItemStackTo(slotStack, 30, 39, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 30 && index < 39 && !this.mergeItemStack(slotStack, 3, 30, false)) {
+                } else if (index >= 30 && index < 39 && !this.moveItemStackTo(slotStack, 3, 30, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(slotStack, 3, 39, false)) {
+            } else if (!this.moveItemStackTo(slotStack, 3, 39, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (slotStack.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (slotStack.getCount() == transferStack.getCount()) {
@@ -96,8 +96,8 @@ public class GodforgeContainer extends Container {
     }
 
     @Override
-    public boolean canInteractWith(@Nonnull PlayerEntity player) {
-        return this.godforgeInventory.isUsableByPlayer(player);
+    public boolean stillValid(@Nonnull Player player) {
+        return this.godforgeInventory.stillValid(player);
     }
 
     @OnlyIn(Dist.CLIENT)

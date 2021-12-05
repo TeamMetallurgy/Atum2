@@ -1,65 +1,73 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.block.material.PushReaction;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.core.Direction;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.Mth;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class RaStoneBlock extends BreakableBlock {
-    private static final IntegerProperty AGE = BlockStateProperties.AGE_0_3;
+import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.HalfTransparentBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+
+public class RaStoneBlock extends HalfTransparentBlock {
+    private static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 
     public RaStoneBlock() {
-        super(Properties.create(Material.ROCK, MaterialColor.RED).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.STONE));
-        this.setDefaultState(this.stateContainer.getBaseState().with(AGE, 0));
+        super(Properties.of(Material.STONE, MaterialColor.COLOR_RED).randomTicks().strength(0.5F).sound(SoundType.STONE));
+        this.registerDefaultState(this.stateDefinition.any().setValue(AGE, 0));
     }
 
     @Override
-    public int getOpacity(@Nonnull BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos) {
+    public int getLightBlock(@Nonnull BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
         return 3;
     }
 
     @Override
     @Nonnull
-    public PushReaction getPushReaction(@Nonnull BlockState state) {
+    public PushReaction getPistonPushReaction(@Nonnull BlockState state) {
         return PushReaction.NORMAL;
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, Random random) {
-        if ((random.nextInt(3) == 0 || this.shouldDisappear(world, pos, 4)) && world.getLight(pos) > 11 - state.get(AGE) - state.getOpacity(world, pos) && this.slightlyRemove(state, world, pos)) {
-            BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, Random random) {
+        if ((random.nextInt(3) == 0 || this.shouldDisappear(world, pos, 4)) && world.getMaxLocalRawBrightness(pos) > 11 - state.getValue(AGE) - state.getLightBlock(world, pos) && this.slightlyRemove(state, world, pos)) {
+            BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
             for (Direction direction : Direction.values()) {
-                mutablePos.setPos(pos).move(direction);
+                mutablePos.set(pos).move(direction);
                 BlockState stateDirection = world.getBlockState(mutablePos);
-                if (stateDirection.isIn(this) && !this.slightlyRemove(stateDirection, world, mutablePos)) {
-                    world.getPendingBlockTicks().scheduleTick(mutablePos, this, MathHelper.nextInt(random, 20, 40));
+                if (stateDirection.is(this) && !this.slightlyRemove(stateDirection, world, mutablePos)) {
+                    world.getBlockTicks().scheduleTick(mutablePos, this, Mth.nextInt(random, 20, 40));
                 }
             }
         } else {
-            world.getPendingBlockTicks().scheduleTick(pos, this, MathHelper.nextInt(random, 20, 40));
+            world.getBlockTicks().scheduleTick(pos, this, Mth.nextInt(random, 20, 40));
         }
     }
 
-    private boolean slightlyRemove(BlockState state, World world, BlockPos pos) {
-        int age = state.get(AGE);
+    private boolean slightlyRemove(BlockState state, Level world, BlockPos pos) {
+        int age = state.getValue(AGE);
         if (age < 3) {
-            world.setBlockState(pos, state.with(AGE, age + 1), 2);
+            world.setBlock(pos, state.setValue(AGE, age + 1), 2);
             return false;
         } else {
             this.turnIntoLava(world, pos);
@@ -68,18 +76,18 @@ public class RaStoneBlock extends BreakableBlock {
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         if (block == this && this.shouldDisappear(world, pos, 2)) {
             this.turnIntoLava(world, pos);
         }
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
     }
 
-    private boolean shouldDisappear(IBlockReader world, BlockPos pos, int neighborsRequired) {
+    private boolean shouldDisappear(BlockGetter world, BlockPos pos, int neighborsRequired) {
         int i = 0;
-        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
         for (Direction direction : Direction.values()) {
-            mutablePos.setPos(pos).move(direction);
+            mutablePos.set(pos).move(direction);
             if (world.getBlockState(mutablePos).getBlock() == this) {
                 ++i;
                 if (i >= neighborsRequired) {
@@ -90,18 +98,18 @@ public class RaStoneBlock extends BreakableBlock {
         return true;
     }
 
-    private void turnIntoLava(World world, BlockPos pos) {
-        world.setBlockState(pos, Blocks.LAVA.getDefaultState());
+    private void turnIntoLava(Level world, BlockPos pos) {
+        world.setBlockAndUpdate(pos, Blocks.LAVA.defaultBlockState());
         world.neighborChanged(pos, Blocks.LAVA, pos);
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
+    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
         return ItemStack.EMPTY;
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
         container.add(AGE);
     }
 }

@@ -6,9 +6,9 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.AtumScaffoldingBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.furnace.FurnaceFuelBurnTimeEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,7 +20,7 @@ public class FurnaceFuel {
     public static void fuel(FurnaceFuelBurnTimeEvent event) {
         ItemStack stack = event.getItemStack();
         Item item = stack.getItem();
-        Block block = Block.getBlockFromItem(item);
+        Block block = Block.byItem(item);
         if (item == AtumBlocks.DEADWOOD_LADDER.asItem() || item == AtumBlocks.PALM_LADDER.asItem()) {
             event.setBurnTime(300);
         } else if (block instanceof LinenBlock) {
