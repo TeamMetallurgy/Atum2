@@ -7,21 +7,21 @@ import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.block.Blocks;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.util.Mirror;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -32,57 +32,57 @@ public class GirafiTombPieces {
     public static class GirafiTombTemplate extends TemplateStructurePiece {
         private final Rotation rotation;
 
-        public GirafiTombTemplate(StructureManager manager, BlockPos pos, Rotation rotation) {
+        public GirafiTombTemplate(TemplateManager manager, BlockPos pos, Rotation rotation) {
             super(AtumStructurePieces.GIRAFI_TOMB, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
             this.loadTemplate(manager);
         }
 
-        public GirafiTombTemplate(StructureManager manager, CompoundTag nbt) {
+        public GirafiTombTemplate(TemplateManager manager, CompoundNBT nbt) {
             super(AtumStructurePieces.GIRAFI_TOMB, nbt);
             this.rotation = Rotation.valueOf(nbt.getString("Rot"));
             this.loadTemplate(manager);
         }
 
-        private void loadTemplate(StructureManager manager) {
-            StructureTemplate template = manager.get(GIRAFI_TOMB);
-            StructurePlaceSettings placementsettings = (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        private void loadTemplate(TemplateManager manager) {
+            Template template = manager.getTemplate(GIRAFI_TOMB);
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).setMirror(Mirror.NONE).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             if (template != null) {
                 this.setup(template, this.templatePosition, placementsettings);
             }
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor world, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IServerWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("Crate")) {
-                if (box.isInside(pos)) {
+                if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlock(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
 
-                        RandomizableContainerBlockEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
+                        LockableLootTileEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
                 }
             } else if (function.equals("GirafiSarcophagus")) {
-                BlockPos posDown = pos.below();
-                if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.GIRAFI_TOMB);
-                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                BlockPos posDown = pos.down();
+                if (box.isVecInside(posDown)) {
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.GIRAFI_TOMB);
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
             } else if (function.equals("Sarcophagus")) {
-                BlockPos posDown = pos.below();
-                if (box.isInside(posDown)) {
-                    RandomizableContainerBlockEntity.setLootTable(world, rand, posDown, AtumLootTables.PHARAOH);
-                    world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                BlockPos posDown = pos.down();
+                if (box.isVecInside(posDown)) {
+                    LockableLootTileEntity.setLootTable(world, rand, posDown, AtumLootTables.PHARAOH);
+                    world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                 }
             }
         }
 
         @Override
-        protected void addAdditionalSaveData(@Nonnull CompoundTag compound) { //Is actually write, just horrible name
-            super.addAdditionalSaveData(compound);
+        protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
+            super.readAdditional(compound);
             compound.putString("Rot", this.placeSettings.getRotation().name());
         }
     }

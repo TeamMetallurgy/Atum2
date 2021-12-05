@@ -1,8 +1,6 @@
 package com.teammetallurgy.atum.blocks.wood;
 
-import net.minecraft.world.level.block.TrapDoorBlock;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
+import net.minecraft.block.TrapDoorBlock;
 
 public class AtumTrapDoorBlock extends TrapDoorBlock {
 

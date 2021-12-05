@@ -7,24 +7,24 @@ import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.items.artifacts.horus.HorusAscensionItem;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.game.ClientboundGameEventPacket;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.play.server.SChangeGameStatePacket;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.*;
-import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,14 +34,6 @@ import net.minecraftforge.fml.network.FMLPlayMessages;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import net.minecraft.world.entity.projectile.AbstractArrow.Pickup;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
-
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSpawnData {
     private final God god;
@@ -49,25 +41,25 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     private static int berserkTimer;
     private static float berserkDamage;
 
-    public PharaohOrbEntity(FMLPlayMessages.SpawnEntity spawnEntity, Level world) {
+    public PharaohOrbEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
         super(AtumEntities.PHARAOH_ORB, world);
-        this.pickup = Pickup.DISALLOWED;
-        this.setBaseDamage(this.getOrbDamage());
-        this.god = God.getGodByName(spawnEntity.getAdditionalData().readUtf());
+        this.pickupStatus = PickupStatus.DISALLOWED;
+        this.setDamage(this.getOrbDamage());
+        this.god = God.getGodByName(spawnEntity.getAdditionalData().readString());
     }
 
-    public PharaohOrbEntity(EntityType<? extends PharaohOrbEntity> entityType, Level world) {
+    public PharaohOrbEntity(EntityType<? extends PharaohOrbEntity> entityType, World world) {
         super(entityType, world);
-        this.pickup = Pickup.DISALLOWED;
-        this.setBaseDamage(this.getOrbDamage());
+        this.pickupStatus = PickupStatus.DISALLOWED;
+        this.setDamage(this.getOrbDamage());
         this.god = God.ATEM;
     }
 
-    public PharaohOrbEntity(Level world, PharaohEntity shooter, God god) {
-        super(AtumEntities.PHARAOH_ORB, world, shooter.getX(), shooter.getEyeY() - (double) 0.3F, shooter.getZ());
-        this.setOwner(shooter);
-        this.pickup = Pickup.DISALLOWED;
-        this.setBaseDamage(this.getOrbDamage());
+    public PharaohOrbEntity(World world, PharaohEntity shooter, God god) {
+        super(AtumEntities.PHARAOH_ORB, world, shooter.getPosX(), shooter.getPosYEye() - (double) 0.3F, shooter.getPosZ());
+        this.setShooter(shooter);
+        this.pickupStatus = PickupStatus.DISALLOWED;
+        this.setDamage(this.getOrbDamage());
         this.god = god;
     }
 
@@ -81,25 +73,25 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
 
     @Override
     @Nonnull
-    protected ItemStack getPickupItem() {
+    protected ItemStack getArrowStack() {
         return ItemStack.EMPTY;
     }
 
     @Override
     @Nonnull
-    protected SoundEvent getDefaultHitGroundSoundEvent() {
-        return SoundEvents.GENERIC_EXTINGUISH_FIRE;
+    protected SoundEvent getHitEntitySound() {
+        return SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE;
     }
 
     @Override
-    protected void tickDespawn() {
+    protected void func_225516_i_() {
         this.remove();
     }
 
     @Override
     public void tick() {
         super.tick();
-        this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.01D, 0.0D)); //Decrease arc
+        this.setMotion(this.getMotion().add(0.0D, 0.01D, 0.0D)); //Decrease arc
 
         //Montu Berserk
         if (this.getGod() == God.MONTU) {
@@ -113,66 +105,66 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
         }
 
         //Particle
-        if (this.level instanceof ServerLevel) {
-            ServerLevel serverWorld = (ServerLevel) level;
-            serverWorld.sendParticles(AtumTorchBlock.GOD_FLAMES.get(this.getGod()), this.getX() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+        if (this.world instanceof ServerWorld) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            serverWorld.spawnParticle(AtumTorchBlock.GOD_FLAMES.get(this.getGod()), this.getPosX() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
         }
     }
 
     public static DamageSource causeOrbDamage(PharaohOrbEntity pharaohOrbEntity, @Nullable Entity indirectEntity) {
-        return (new IndirectEntityDamageSource("atum_pharaoh_orb", pharaohOrbEntity, indirectEntity)).setScalesWithDifficulty().setProjectile();
+        return (new IndirectEntityDamageSource("atum_pharaoh_orb", pharaohOrbEntity, indirectEntity)).setDifficultyScaled().setProjectile();
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult rayTrace) {
+    protected void onEntityHit(EntityRayTraceResult rayTrace) {
         Entity entity = rayTrace.getEntity();
-        float f = (float) this.getDeltaMovement().length();
-        int i = Mth.ceil(Mth.clamp((double) f * this.getBaseDamage(), 0.0D, 2.147483647E9D));
+        float f = (float) this.getMotion().length();
+        int i = MathHelper.ceil(MathHelper.clamp((double) f * this.getDamage(), 0.0D, 2.147483647E9D));
 
-        Entity entity1 = this.getOwner();
+        Entity entity1 = this.func_234616_v_();
         DamageSource damagesource = causeOrbDamage(this, entity1);
         if (entity1 instanceof LivingEntity) {
-            ((LivingEntity) entity1).setLastHurtMob(entity);
+            ((LivingEntity) entity1).setLastAttackedEntity(entity);
         }
 
-        int fireTimer = entity.getRemainingFireTicks();
+        int fireTimer = entity.getFireTimer();
 
-        if (!(entity instanceof PharaohEntity) && entity.hurt(damagesource, (float) i)) {
+        if (!(entity instanceof PharaohEntity) && entity.attackEntityFrom(damagesource, (float) i)) {
             if (entity instanceof LivingEntity) {
                 LivingEntity livingEntity = (LivingEntity) entity;
 
-                if (this.knockback > 0) {
-                    Vec3 vector3d = this.getDeltaMovement().multiply(1.0D, 0.0D, 1.0D).normalize().scale((double) this.knockback * 0.6D);
-                    if (vector3d.lengthSqr() > 0.0D) {
-                        livingEntity.push(vector3d.x, 0.1D, vector3d.z);
+                if (this.knockbackStrength > 0) {
+                    Vector3d vector3d = this.getMotion().mul(1.0D, 0.0D, 1.0D).normalize().scale((double) this.knockbackStrength * 0.6D);
+                    if (vector3d.lengthSquared() > 0.0D) {
+                        livingEntity.addVelocity(vector3d.x, 0.1D, vector3d.z);
                     }
                 }
 
-                if (!this.level.isClientSide && entity1 instanceof LivingEntity) {
-                    EnchantmentHelper.doPostHurtEffects(livingEntity, entity1);
-                    EnchantmentHelper.doPostDamageEffects((LivingEntity) entity1, livingEntity);
+                if (!this.world.isRemote && entity1 instanceof LivingEntity) {
+                    EnchantmentHelper.applyThornEnchantments(livingEntity, entity1);
+                    EnchantmentHelper.applyArthropodEnchantments((LivingEntity) entity1, livingEntity);
                 }
 
-                this.doPostHurtEffects(livingEntity);
-                Entity shooter = this.getOwner();
-                if (!this.level.isClientSide && shooter instanceof LivingEntity) {
+                this.arrowHit(livingEntity);
+                Entity shooter = this.func_234616_v_();
+                if (!this.world.isRemote && shooter instanceof LivingEntity) {
                     this.doGodSpecificEffect(this.getGod(), (LivingEntity) shooter, livingEntity);
                 }
-                if (entity1 != null && livingEntity != entity1 && livingEntity instanceof Player && entity1 instanceof ServerPlayer && !this.isSilent()) {
-                    ((ServerPlayer) entity1).connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.ARROW_HIT_PLAYER, 0.0F));
+                if (entity1 != null && livingEntity != entity1 && livingEntity instanceof PlayerEntity && entity1 instanceof ServerPlayerEntity && !this.isSilent()) {
+                    ((ServerPlayerEntity) entity1).connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.field_241770_g_, 0.0F));
                 }
             }
 
-            this.playSound(this.getDefaultHitGroundSoundEvent(), 1.0F, 1.2F / (this.random.nextFloat() * 0.2F + 0.9F));
+            this.playSound(this.getHitEntitySound(), 1.0F, 1.2F / (this.rand.nextFloat() * 0.2F + 0.9F));
             if (this.getPierceLevel() <= 0) {
                 this.remove();
             }
         } else {
-            entity.setRemainingFireTicks(fireTimer);
-            this.setDeltaMovement(this.getDeltaMovement().scale(-0.1D));
-            this.yRot += 180.0F;
-            this.yRotO += 180.0F;
-            if (!this.level.isClientSide && this.getDeltaMovement().lengthSqr() < 1.0E-7D) {
+            entity.forceFireTicks(fireTimer);
+            this.setMotion(this.getMotion().scale(-0.1D));
+            this.rotationYaw += 180.0F;
+            this.prevRotationYaw += 180.0F;
+            if (!this.world.isRemote && this.getMotion().lengthSquared() < 1.0E-7D) {
                 this.remove();
             }
         }
@@ -182,43 +174,43 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     public void doGodSpecificEffect(God god, LivingEntity shooter, LivingEntity target) {
         switch (god) {
             case ANPUT:
-                target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 80, 1));
+                target.addPotionEffect(new EffectInstance(Effects.HUNGER, 80, 1));
                 break;
             case ANUBIS:
-                target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, 1));
+                target.addPotionEffect(new EffectInstance(Effects.WITHER, 60, 1));
                 break;
             case ATEM:
-                target.addEffect(new MobEffectInstance(MobEffects.HARM, 1, 0));
+                target.addPotionEffect(new EffectInstance(Effects.INSTANT_DAMAGE, 1, 0));
                 break;
             case GEB:
-                target.knockback(1.5F, Mth.sin(this.yRot * ((float) Math.PI / 180F)), -Mth.cos(this.yRot * ((float) Math.PI / 180F)));
+                target.applyKnockback(1.5F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
                 break;
             case HORUS:
-                target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 60, 1));
+                target.addPotionEffect(new EffectInstance(Effects.MINING_FATIGUE, 60, 1));
                 break;
             case ISIS:
                 shooter.heal(10);
                 break;
             case NUIT:
-                target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 60, 0));
+                target.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 60, 0));
                 break;
             case NEPTHYS:
-                target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120));
+                target.addPotionEffect(new EffectInstance(Effects.WEAKNESS, 120));
                 break;
             case PTAH:
-                this.applyReverseKnockback(target, 2.0F, Mth.sin(this.yRot * ((float) Math.PI / 180F)), -Mth.cos(this.yRot * ((float) Math.PI / 180F)));
+                this.applyReverseKnockback(target, 2.0F, MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F)));
                 break;
             case RA:
-                target.setSecondsOnFire(3);
+                target.setFire(3);
                 break;
             case SETH:
-                target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 0));
+                target.addPotionEffect(new EffectInstance(Effects.POISON, 100, 0));
                 break;
             case SHU:
-                HorusAscensionItem.knockUp(target, shooter, this.random);
+                HorusAscensionItem.knockUp(target, shooter, this.rand);
                 break;
             case TEFNUT:
-                target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, 100));
+                target.addPotionEffect(new EffectInstance(Effects.NAUSEA, 100));
                 break;
             default:
                 break;
@@ -228,16 +220,16 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     public void applyReverseKnockback(LivingEntity target, float reverseStrength, double ratioX, double ratioZ) {
         reverseStrength = (float) ((double) reverseStrength * (1.0D - target.getAttributeValue(Attributes.KNOCKBACK_RESISTANCE)));
         if (!(reverseStrength <= 0.0F)) {
-            target.hasImpulse = true;
-            Vec3 vector3d = target.getDeltaMovement();
-            Vec3 vector3d1 = (new Vec3(ratioX, 0.0D, ratioZ)).normalize().scale(reverseStrength);
-            target.setDeltaMovement(vector3d.x / 2.0D - vector3d1.x, target.isOnGround() ? -Math.min(0.4D, vector3d.y / 2.0D + (double) reverseStrength) : vector3d.y, -(vector3d.z / 2.0D - vector3d1.z));
+            target.isAirBorne = true;
+            Vector3d vector3d = target.getMotion();
+            Vector3d vector3d1 = (new Vector3d(ratioX, 0.0D, ratioZ)).normalize().scale(reverseStrength);
+            target.setMotion(vector3d.x / 2.0D - vector3d1.x, target.isOnGround() ? -Math.min(0.4D, vector3d.y / 2.0D + (double) reverseStrength) : vector3d.y, -(vector3d.z / 2.0D - vector3d1.z));
         }
     }
 
     @SubscribeEvent
     public static void onBerserk(LivingHurtEvent event) {
-        Entity immediateSource = event.getSource().getDirectEntity();
+        Entity immediateSource = event.getSource().getImmediateSource();
         if (immediateSource instanceof PharaohOrbEntity) {
             if (((PharaohOrbEntity) immediateSource).getGod() == God.MONTU) {
                 if (berserkTimer == 0) {
@@ -258,11 +250,11 @@ public class PharaohOrbEntity extends CustomArrow implements IEntityAdditionalSp
     }
 
     @Override
-    public void writeSpawnData(FriendlyByteBuf buffer) {
-        buffer.writeUtf(this.god.getName());
+    public void writeSpawnData(PacketBuffer buffer) {
+        buffer.writeString(this.god.getName());
     }
 
     @Override
-    public void readSpawnData(FriendlyByteBuf additionalData) {
+    public void readSpawnData(PacketBuffer additionalData) {
     }
 }

@@ -1,15 +1,15 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
 import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.world.entity.monster.RangedAttackMob;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.item.BowItem;
+import net.minecraft.entity.IRangedAttackMob;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.item.BowItem;
 
 import java.util.EnumSet;
 
-public class CustomRangedBowAttackGoal<T extends Monster & RangedAttackMob> extends Goal { //Copy of RangedBowAttackGoal. Changed bow item only.
+public class CustomRangedBowAttackGoal<T extends MonsterEntity & IRangedAttackMob> extends Goal { //Copy of RangedBowAttackGoal. Changed bow item only.
     private final T entity;
     private final double moveSpeedAmp;
     private int attackCooldown;
@@ -25,7 +25,7 @@ public class CustomRangedBowAttackGoal<T extends Monster & RangedAttackMob> exte
         this.moveSpeedAmp = moveSpeedAmp;
         this.attackCooldown = attackCooldown;
         this.maxAttackDistance = maxAttackDistance * maxAttackDistance;
-        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
 
     public void setAttackCooldown(int attackCooldownIn) {
@@ -33,40 +33,40 @@ public class CustomRangedBowAttackGoal<T extends Monster & RangedAttackMob> exte
     }
 
     @Override
-    public boolean canUse() {
-        return this.entity.getTarget() != null && this.isBowInMainhand();
+    public boolean shouldExecute() {
+        return this.entity.getAttackTarget() != null && this.isBowInMainhand();
     }
 
     protected boolean isBowInMainhand() {
-        return this.entity.getMainHandItem().getItem() instanceof BowItem || this.entity.getOffhandItem().getItem() instanceof BowItem;
+        return this.entity.getHeldItemMainhand().getItem() instanceof BowItem || this.entity.getHeldItemOffhand().getItem() instanceof BowItem;
     }
 
     @Override
-    public boolean canContinueToUse() {
-        return (this.canUse() || !this.entity.getNavigation().isDone()) && this.isBowInMainhand();
+    public boolean shouldContinueExecuting() {
+        return (this.shouldExecute() || !this.entity.getNavigator().noPath()) && this.isBowInMainhand();
     }
 
     @Override
-    public void start() {
-        super.start();
-        this.entity.setAggressive(true);
+    public void startExecuting() {
+        super.startExecuting();
+        this.entity.setAggroed(true);
     }
 
     @Override
-    public void stop() {
-        super.stop();
-        this.entity.setAggressive(false);
+    public void resetTask() {
+        super.resetTask();
+        this.entity.setAggroed(false);
         this.seeTime = 0;
         this.attackTime = -1;
-        this.entity.stopUsingItem();
+        this.entity.resetActiveHand();
     }
 
     @Override
     public void tick() {
-        LivingEntity livingentity = this.entity.getTarget();
+        LivingEntity livingentity = this.entity.getAttackTarget();
         if (livingentity != null) {
-            double d0 = this.entity.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-            boolean flag = this.entity.getSensing().canSee(livingentity);
+            double d0 = this.entity.getDistanceSq(livingentity.getPosX(), livingentity.getPosY(), livingentity.getPosZ());
+            boolean flag = this.entity.getEntitySenses().canSee(livingentity);
             boolean flag1 = this.seeTime > 0;
             if (flag != flag1) {
                 this.seeTime = 0;
@@ -79,19 +79,19 @@ public class CustomRangedBowAttackGoal<T extends Monster & RangedAttackMob> exte
             }
 
             if (!(d0 > (double) this.maxAttackDistance) && this.seeTime >= 20) {
-                this.entity.getNavigation().stop();
+                this.entity.getNavigator().clearPath();
                 ++this.strafingTime;
             } else {
-                this.entity.getNavigation().moveTo(livingentity, this.moveSpeedAmp);
+                this.entity.getNavigator().tryMoveToEntityLiving(livingentity, this.moveSpeedAmp);
                 this.strafingTime = -1;
             }
 
             if (this.strafingTime >= 20) {
-                if ((double) this.entity.getRandom().nextFloat() < 0.3D) {
+                if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
                     this.strafingClockwise = !this.strafingClockwise;
                 }
 
-                if ((double) this.entity.getRandom().nextFloat() < 0.3D) {
+                if ((double) this.entity.getRNG().nextFloat() < 0.3D) {
                     this.strafingBackwards = !this.strafingBackwards;
                 }
 
@@ -105,25 +105,25 @@ public class CustomRangedBowAttackGoal<T extends Monster & RangedAttackMob> exte
                     this.strafingBackwards = true;
                 }
 
-                this.entity.getMoveControl().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
-                this.entity.lookAt(livingentity, 30.0F, 30.0F);
+                this.entity.getMoveHelper().strafe(this.strafingBackwards ? -0.5F : 0.5F, this.strafingClockwise ? 0.5F : -0.5F);
+                this.entity.faceEntity(livingentity, 30.0F, 30.0F);
             } else {
-                this.entity.getLookControl().setLookAt(livingentity, 30.0F, 30.0F);
+                this.entity.getLookController().setLookPositionWithEntity(livingentity, 30.0F, 30.0F);
             }
 
-            if (this.entity.isUsingItem()) {
+            if (this.entity.isHandActive()) {
                 if (!flag && this.seeTime < -60) {
-                    this.entity.stopUsingItem();
+                    this.entity.resetActiveHand();
                 } else if (flag) {
-                    int i = this.entity.getTicksUsingItem();
+                    int i = this.entity.getItemInUseMaxCount();
                     if (i >= 20) {
-                        this.entity.stopUsingItem();
-                        this.entity.performRangedAttack(livingentity, BowItem.getPowerForTime(i));
+                        this.entity.resetActiveHand();
+                        this.entity.attackEntityWithRangedAttack(livingentity, BowItem.getArrowVelocity(i));
                         this.attackTime = this.attackCooldown;
                     }
                 }
             } else if (--this.attackTime <= 0 && this.seeTime >= -60) {
-                this.entity.startUsingItem(StackHelper.getUsedHand(this.entity.getMainHandItem(), BowItem.class));
+                this.entity.setActiveHand(StackHelper.getUsedHand(this.entity.getHeldItemMainhand(), BowItem.class));
             }
         }
     }

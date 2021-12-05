@@ -3,16 +3,16 @@ package com.teammetallurgy.atum.world.gen.feature;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.block.BlockState;
+import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.NoFeatureConfig;
 
 import javax.annotation.Nonnull;
 import java.util.Collections;
@@ -21,34 +21,34 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> {
+public class BonusCrateFeature extends Feature<NoFeatureConfig> {
 
-    public BonusCrateFeature(Codec<NoneFeatureConfiguration> config) {
+    public BonusCrateFeature(Codec<NoFeatureConfig> config) {
         super(config);
     }
 
     @Override
-    public boolean place(@Nonnull WorldGenLevel seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoneFeatureConfiguration config) {
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull NoFeatureConfig config) {
         ChunkPos chunkpos = new ChunkPos(pos);
-        List<Integer> xPositions = IntStream.rangeClosed(chunkpos.getMinBlockX(), chunkpos.getMaxBlockX()).boxed().collect(Collectors.toList());
+        List<Integer> xPositions = IntStream.rangeClosed(chunkpos.getXStart(), chunkpos.getXEnd()).boxed().collect(Collectors.toList());
         Collections.shuffle(xPositions, rand);
-        List<Integer> zPositions = IntStream.rangeClosed(chunkpos.getMinBlockZ(), chunkpos.getMaxBlockZ()).boxed().collect(Collectors.toList());
+        List<Integer> zPositions = IntStream.rangeClosed(chunkpos.getZStart(), chunkpos.getZEnd()).boxed().collect(Collectors.toList());
         Collections.shuffle(zPositions, rand);
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
+        BlockPos.Mutable mutablePos = new BlockPos.Mutable();
 
         for (Integer x : xPositions) {
             for (Integer z : zPositions) {
-                mutablePos.set(x, 0, z);
-                BlockPos posHeight = seedReader.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, mutablePos);
-                if (seedReader.isEmptyBlock(posHeight) || seedReader.getBlockState(posHeight).getCollisionShape(seedReader, posHeight).isEmpty()) {
-                    seedReader.setBlock(posHeight, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), 2);
-                    RandomizableContainerBlockEntity.setLootTable(seedReader, rand, posHeight, AtumLootTables.CRATE_BONUS);
-                    BlockState torch = AtumBlocks.DEADWOOD_TORCH.defaultBlockState();
+                mutablePos.setPos(x, 0, z);
+                BlockPos posHeight = seedReader.getHeight(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, mutablePos);
+                if (seedReader.isAirBlock(posHeight) || seedReader.getBlockState(posHeight).getCollisionShape(seedReader, posHeight).isEmpty()) {
+                    seedReader.setBlockState(posHeight, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), 2);
+                    LockableLootTileEntity.setLootTable(seedReader, rand, posHeight, AtumLootTables.CRATE_BONUS);
+                    BlockState torch = AtumBlocks.DEADWOOD_TORCH.getDefaultState();
 
                     for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-                        BlockPos neighborPos = posHeight.relative(horizontal);
-                        if (torch.canSurvive(seedReader, neighborPos)) {
-                            seedReader.setBlock(neighborPos, torch, 2);
+                        BlockPos neighborPos = posHeight.offset(horizontal);
+                        if (torch.isValidPosition(seedReader, neighborPos)) {
+                            seedReader.setBlockState(neighborPos, torch, 2);
                         }
                     }
                     return true;

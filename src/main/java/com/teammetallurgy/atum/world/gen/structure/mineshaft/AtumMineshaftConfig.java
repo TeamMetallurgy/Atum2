@@ -2,9 +2,9 @@ package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.gen.feature.IFeatureConfig;
 
-public class AtumMineshaftConfig implements FeatureConfiguration {
+public class AtumMineshaftConfig implements IFeatureConfig {
     public static final Codec<AtumMineshaftConfig> CODEC = RecordCodecBuilder.create((b) -> b.group(Codec.floatRange(0.0F, 1.0F).fieldOf("probability").forGetter((c) -> c.probability),
                                                                                                AtumMineshaftStructure.Type.CODEC.fieldOf("type").forGetter((c) -> c.type)).apply(b, AtumMineshaftConfig::new));
     public final float probability;

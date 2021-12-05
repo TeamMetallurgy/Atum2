@@ -8,23 +8,23 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.init.AtumStructurePieces;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.levelgen.structure.TemplateStructurePiece;
-import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.EntityType;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.gen.feature.structure.TemplateStructurePiece;
+import net.minecraft.world.gen.feature.template.BlockIgnoreStructureProcessor;
+import net.minecraft.world.gen.feature.template.PlacementSettings;
+import net.minecraft.world.gen.feature.template.Template;
+import net.minecraft.world.gen.feature.template.TemplateManager;
 
 import javax.annotation.Nonnull;
 import java.util.Arrays;
@@ -39,61 +39,61 @@ public class RuinPieces {
         private final int ruinType;
         private final Rotation rotation;
 
-        public RuinTemplate(StructureManager manager, BlockPos pos, Random random, Rotation rotation) {
+        public RuinTemplate(TemplateManager manager, BlockPos pos, Random random, Rotation rotation) {
             super(AtumStructurePieces.RUIN, 0);
             this.templatePosition = pos;
             this.rotation = rotation;
-            this.ruinType = Mth.nextInt(random, 1, AtumConfig.WORLD_GEN.ruinsAmount.get());
+            this.ruinType = MathHelper.nextInt(random, 1, AtumConfig.WORLD_GEN.ruinsAmount.get());
             this.loadTemplate(manager);
         }
 
-        public RuinTemplate(StructureManager manager, CompoundTag nbt) {
+        public RuinTemplate(TemplateManager manager, CompoundNBT nbt) {
             super(AtumStructurePieces.RUIN, nbt);
             this.rotation = Rotation.valueOf(nbt.getString("Rot"));
             this.ruinType = nbt.getInt("Type");
             this.loadTemplate(manager);
         }
 
-        private void loadTemplate(StructureManager manager) {
-            StructureTemplate template = manager.get(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
-            StructurePlaceSettings placementsettings = (new StructurePlaceSettings()).setIgnoreEntities(true).setRotation(this.rotation).addProcessor(BlockIgnoreProcessor.STRUCTURE_BLOCK);
+        private void loadTemplate(TemplateManager manager) {
+            Template template = manager.getTemplate(new ResourceLocation(Atum.MOD_ID, "ruins/ruin" + this.ruinType));
+            PlacementSettings placementsettings = (new PlacementSettings()).setIgnoreEntities(true).setRotation(this.rotation).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_BLOCK);
             if (template != null) {
                 this.setup(template, this.templatePosition, placementsettings);
             }
         }
 
         @Override
-        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull ServerLevelAccessor world, @Nonnull Random rand, @Nonnull BoundingBox box) {
+        protected void handleDataMarker(@Nonnull String function, @Nonnull BlockPos pos, @Nonnull IServerWorld world, @Nonnull Random rand, @Nonnull MutableBoundingBox box) {
             if (function.equals("Spawner")) {
-                if (box.isInside(pos)) {
-                    world.setBlock(pos, Blocks.SPAWNER.defaultBlockState(), 2);
+                if (box.isVecInside(pos)) {
+                    world.setBlockState(pos, Blocks.SPAWNER.getDefaultState(), 2);
 
-                    BlockEntity tileEntity = world.getBlockEntity(pos);
-                    if (tileEntity instanceof SpawnerBlockEntity) {
+                    TileEntity tileEntity = world.getTileEntity(pos);
+                    if (tileEntity instanceof MobSpawnerTileEntity) {
                         EntityType<?> type;
                         if (rand.nextDouble() < 0.5D) {
                             type = BANDITS.get(rand.nextInt(BANDITS.size()));
                         } else {
                             type = UNDEAD.get(rand.nextInt(UNDEAD.size()));
                         }
-                        ((SpawnerBlockEntity) tileEntity).getSpawner().setEntityId(type);
+                        ((MobSpawnerTileEntity) tileEntity).getSpawnerBaseLogic().setEntityType(type);
                     }
                 }
             } else if (function.equals("Crate")) {
-                if (box.isInside(pos)) {
+                if (box.isVecInside(pos)) {
                     if (rand.nextDouble() <= 0.15D) {
-                        world.setBlock(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.defaultBlockState(), AtumBlocks.DEADWOOD_CRATE), 2);
-                        RandomizableContainerBlockEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
+                        world.setBlockState(pos, ChestBaseBlock.correctFacing(world, pos, AtumBlocks.DEADWOOD_CRATE.getDefaultState(), AtumBlocks.DEADWOOD_CRATE), 2);
+                        LockableLootTileEntity.setLootTable(world, rand, pos, AtumLootTables.CRATE);
                     } else {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+                        world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
                     }
                 }
             }
         }
 
         @Override
-        protected void addAdditionalSaveData(@Nonnull CompoundTag compound) { //Is actually write, just horrible name
-            super.addAdditionalSaveData(compound);
+        protected void readAdditional(@Nonnull CompoundNBT compound) { //Is actually write, just horrible name
+            super.readAdditional(compound);
             compound.putString("Rot", this.getRotation().name());
             compound.putInt("Type", this.ruinType);
         }

@@ -1,10 +1,10 @@
 package com.teammetallurgy.atum.world.biome;
 
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.IStringSerializable;
 
 import javax.annotation.Nonnull;
 
-public enum BiomeRegion implements StringRepresentable {
+public enum BiomeRegion implements IStringSerializable {
     STRANGE_SANDS("strange_sands"),
     LIMESTONE_PEAKS("limestone_peaks"),
     DESSICATED_WOODS("dessicated_woods"),
@@ -20,7 +20,7 @@ public enum BiomeRegion implements StringRepresentable {
 
     @Override
     @Nonnull
-    public String getSerializedName() {
+    public String getString() {
         return this.name;
     }
 }

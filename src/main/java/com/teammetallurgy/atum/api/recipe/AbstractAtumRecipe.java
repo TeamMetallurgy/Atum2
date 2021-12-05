@@ -1,24 +1,24 @@
 package com.teammetallurgy.atum.api.recipe;
 
 import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.core.NonNullList;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<C> {
+public abstract class AbstractAtumRecipe<C extends IInventory> implements IRecipe<C> {
     protected final Ingredient input;
     protected final ItemStack output;
-    protected final RecipeType<?> type;
+    protected final IRecipeType<?> type;
     protected final ResourceLocation id;
 
-    public AbstractAtumRecipe(RecipeType<?> type, ResourceLocation id, Ingredient input, @Nonnull ItemStack output) {
+    public AbstractAtumRecipe(IRecipeType<?> type, ResourceLocation id, Ingredient input, @Nonnull ItemStack output) {
         this.type = type;
         this.id = id;
         this.input = input;
@@ -35,14 +35,14 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public ItemStack getResultItem() {
+    public ItemStack getRecipeOutput() {
         return this.output;
     }
 
     @Override
-    public boolean matches(@Nonnull C inv, @Nonnull Level world) {
+    public boolean matches(@Nonnull C inv, @Nonnull World world) {
         for (Ingredient ingredient : this.getIngredients()) {
-            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, inv.getItem(0))) {
+            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, inv.getStackInSlot(0))) {
                 return true;
             }
         }
@@ -51,12 +51,12 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public ItemStack assemble(@Nonnull C inv) {
+    public ItemStack getCraftingResult(@Nonnull C inv) {
         return this.output.copy();
     }
 
     @Override
-    public boolean canCraftInDimensions(int width, int height) {
+    public boolean canFit(int width, int height) {
         return true;
     }
 
@@ -68,12 +68,12 @@ public abstract class AbstractAtumRecipe<C extends Container> implements Recipe<
 
     @Override
     @Nonnull
-    public RecipeType<?> getType() {
+    public IRecipeType<?> getType() {
         return this.type;
     }
 
     @Override
-    public boolean isSpecial() {
+    public boolean isDynamic() {
         return true; //Workaround for recipe category warning
     }
 }

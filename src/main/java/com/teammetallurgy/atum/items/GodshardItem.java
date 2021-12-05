@@ -2,7 +2,7 @@ package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.world.item.Item;
+import net.minecraft.item.Item;
 
 public class GodshardItem extends SimpleItem {
     private final God god;

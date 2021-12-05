@@ -4,19 +4,19 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
 import net.minecraft.block.*;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Direction;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import net.minecraftforge.common.ToolType;
@@ -25,50 +25,44 @@ import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.Random;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BonemealableBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.StemBlock;
-import net.minecraft.world.level.block.state.BlockState;
-
-public class FertileSoilBlock extends Block implements BonemealableBlock {
+public class FertileSoilBlock extends Block implements IGrowable {
 
     public FertileSoilBlock() {
-        super(Block.Properties.of(Material.GRASS, MaterialColor.GRASS).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.create(Material.ORGANIC, MaterialColor.GRASS).tickRandomly().hardnessAndResistance(0.5F).sound(SoundType.GROUND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
     }
 
     @Override
-    public int getLightBlock(@Nonnull BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos) {
+    public int getOpacity(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
         return 255;
     }
 
     @Override
-    public void randomTick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random random) {
-        if (!world.isClientSide) {
+    public void randomTick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
+        if (!world.isRemote) {
             if (!world.isAreaLoaded(pos, 3)) return;
 
             if (!hasWater(world, pos)) {
-                Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos));
+                Optional<RegistryKey<Biome>> biomeKey = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(world.getBiome(pos));
                 if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
-                    world.setBlock(pos, AtumBlocks.SAND.defaultBlockState(), 2);
+                    world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
-            } else if (Block.isFaceFull(world.getBlockState(pos.above()).getCollisionShape(world, pos), Direction.DOWN)) {
-                if (world.random.nextDouble() >= 0.5D) {
-                    world.setBlock(pos, AtumBlocks.SAND.defaultBlockState(), 2);
+            } else if (Block.doesSideFillSquare(world.getBlockState(pos.up()).getCollisionShape(world, pos), Direction.DOWN)) {
+                if (world.rand.nextDouble() >= 0.5D) {
+                    world.setBlockState(pos, AtumBlocks.SAND.getDefaultState(), 2);
                 }
             } else {
-                if (world.getMaxLocalRawBrightness(pos.above()) >= 9) {
+                if (world.getLight(pos.up()) >= 9) {
                     for (int i = 0; i < 4; ++i) {
-                        BlockPos posGrow = pos.offset(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
+                        BlockPos posGrow = pos.add(random.nextInt(3) - 1, random.nextInt(5) - 3, random.nextInt(3) - 1);
 
-                        if (posGrow.getY() >= 0 && posGrow.getY() < 256 && !world.hasChunkAt(posGrow) || !hasWater(world, posGrow)) {
+                        if (posGrow.getY() >= 0 && posGrow.getY() < 256 && !world.isBlockLoaded(posGrow) || !hasWater(world, posGrow)) {
                             return;
                         }
-                        BlockState stateUp = world.getBlockState(posGrow.above());
+                        BlockState stateUp = world.getBlockState(posGrow.up());
                         BlockState stateGrow = world.getBlockState(posGrow);
 
-                        if (stateGrow.getBlock() == AtumBlocks.SAND && world.getMaxLocalRawBrightness(posGrow.above()) >= 4 && stateUp.getLightBlock(world, pos.above()) <= 2) {
-                            world.setBlockAndUpdate(posGrow, AtumBlocks.FERTILE_SOIL.defaultBlockState());
+                        if (stateGrow.getBlock() == AtumBlocks.SAND && world.getLight(posGrow.up()) >= 4 && stateUp.getOpacity(world, pos.up()) <= 2) {
+                            world.setBlockState(posGrow, AtumBlocks.FERTILE_SOIL.getDefaultState());
                         }
                     }
                 }
@@ -76,9 +70,9 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
         }
     }
 
-    private boolean hasWater(Level world, BlockPos pos) {
-        for (BlockPos mutablePos : BlockPos.betweenClosed(pos.offset(-6, -1, -6), pos.offset(6, 4, 6))) {
-            if (world.getBlockState(mutablePos).getFluidState().is(FluidTags.WATER)) {
+    private boolean hasWater(World world, BlockPos pos) {
+        for (BlockPos mutablePos : BlockPos.getAllInBoxMutable(pos.add(-6, -1, -6), pos.add(6, 4, 6))) {
+            if (world.getBlockState(mutablePos).getFluidState().isTagged(FluidTags.WATER)) {
                 return true;
             }
         }
@@ -86,14 +80,14 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull BlockGetter world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
-        BlockState plant = plantable.getPlant(world, pos.relative(direction));
-        PlantType plantType = plantable.getPlantType(world, pos.above());
+    public boolean canSustainPlant(@Nonnull BlockState state, @Nonnull IBlockReader world, BlockPos pos, @Nonnull Direction direction, IPlantable plantable) {
+        BlockState plant = plantable.getPlant(world, pos.offset(direction));
+        PlantType plantType = plantable.getPlantType(world, pos.up());
 
-        boolean hasWater = world.getBlockState(pos.east()).getFluidState().is(FluidTags.WATER) ||
-                world.getBlockState(pos.west()).getFluidState().is(FluidTags.WATER) ||
-                world.getBlockState(pos.north()).getFluidState().is(FluidTags.WATER) ||
-                world.getBlockState(pos.south()).getFluidState().is(FluidTags.WATER);
+        boolean hasWater = world.getBlockState(pos.east()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.west()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.north()).getFluidState().isTagged(FluidTags.WATER) ||
+                world.getBlockState(pos.south()).getFluidState().isTagged(FluidTags.WATER);
 
         if (plantType.equals(PlantType.PLAINS) || plantType.equals(PlantType.DESERT)) {
             return true;
@@ -107,18 +101,18 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public boolean isValidBonemealTarget(@Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
+    public boolean canGrow(@Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
         return true;
     }
 
     @Override
-    public boolean isBonemealSuccess(@Nonnull Level world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+    public boolean canUseBonemeal(@Nonnull World world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public void performBonemeal(@Nonnull ServerLevel world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
-        BlockPos posUp = pos.above();
+    public void grow(@Nonnull ServerWorld world, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockState state) {
+        BlockPos posUp = pos.up();
 
         for (int amount = 0; amount < 36; ++amount) {
             BlockPos up = posUp;
@@ -126,19 +120,19 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
 
             while (true) {
                 if (amountCheck >= amount / 16) {
-                    if (world.isEmptyBlock(up)) {
+                    if (world.isAirBlock(up)) {
                         if (rand.nextDouble() <= 75) {
-                            BlockState grassState = AtumBlocks.OASIS_GRASS.defaultBlockState();
-                            if (AtumBlocks.OASIS_GRASS.canSurvive(grassState, world, up)) {
-                                world.setBlock(up, grassState, 3);
+                            BlockState grassState = AtumBlocks.OASIS_GRASS.getDefaultState();
+                            if (AtumBlocks.OASIS_GRASS.isValidPosition(grassState, world, up)) {
+                                world.setBlockState(up, grassState, 3);
                             }
                         }
                     }
                     break;
                 }
-                up = up.offset(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
+                up = up.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
 
-                if (world.getBlockState(up.below()).getBlock() != AtumBlocks.FERTILE_SOIL || world.getBlockState(up).isRedstoneConductor(world, up)) {
+                if (world.getBlockState(up.down()).getBlock() != AtumBlocks.FERTILE_SOIL || world.getBlockState(up).isNormalCube(world, up)) {
                     break;
                 }
                 ++amountCheck;
@@ -147,15 +141,15 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, @Nonnull ItemStack stack, ToolType toolType) {
+    public BlockState getToolModifiedState(BlockState state, World world, BlockPos pos, PlayerEntity player, @Nonnull ItemStack stack, ToolType toolType) {
         if (toolType == ToolType.HOE) {
             if (stack.getItem() == AtumItems.OSIRIS_BLESSING) {
-                return AtumBlocks.FERTILE_SOIL_TILLED.defaultBlockState().setValue(FertileSoilTilledBlock.MOISTURE, 7).setValue(FertileSoilTilledBlock.BLESSED, true);
+                return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState().with(FertileSoilTilledBlock.MOISTURE, 7).with(FertileSoilTilledBlock.BLESSED, true);
             } else {
-                return AtumBlocks.FERTILE_SOIL_TILLED.defaultBlockState();
+                return AtumBlocks.FERTILE_SOIL_TILLED.getDefaultState();
             }
         } else if (toolType == ToolType.SHOVEL) {
-            return AtumBlocks.FERTILE_SOIL_PATH.defaultBlockState();
+            return AtumBlocks.FERTILE_SOIL_PATH.getDefaultState();
         } else {
             return super.getToolModifiedState(state, world, pos, player, stack, toolType);
         }

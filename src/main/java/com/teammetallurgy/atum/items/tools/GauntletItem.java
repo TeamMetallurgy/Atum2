@@ -4,16 +4,16 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.Enchantments;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SwordItem;
-import net.minecraft.util.Mth;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.IItemTier;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -26,38 +26,38 @@ import javax.annotation.Nonnull;
 public class GauntletItem extends SwordItem {
     protected static final Object2FloatMap<LivingEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
-    protected GauntletItem(Tier tier, Item.Properties properties) {
-        super(tier, 2, -2.2F, properties.tab(Atum.GROUP));
+    protected GauntletItem(IItemTier tier, Item.Properties properties) {
+        super(tier, 2, -2.2F, properties.group(Atum.GROUP));
     }
 
     @Override
     public boolean canApplyAtEnchantingTable(@Nonnull ItemStack stack, Enchantment enchantment) {
-        return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.SWEEPING_EDGE;
+        return super.canApplyAtEnchantingTable(stack, enchantment) && enchantment != Enchantments.SWEEPING;
     }
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
         LivingEntity target = event.getEntityLiving();
-        Entity source = event.getSource().getEntity();
+        Entity source = event.getSource().getTrueSource();
         if (!(target instanceof StoneBaseEntity) && source instanceof LivingEntity) {
             LivingEntity attacker = (LivingEntity) source;
-            if (attacker.getMainHandItem().getItem() instanceof GauntletItem) {
+            if (attacker.getHeldItemMainhand().getItem() instanceof GauntletItem) {
                 float knockback = 0.0F;
                 if (COOLDOWN.getFloat(attacker) == 1.0F) {
                     knockback = 1.0F;
                 }
-                target.push((-Mth.sin(attacker.yRot * 3.1415927F / 180.0F) * knockback * 0.5F), 0.1D, (Mth.cos(attacker.yRot * 3.1415927F / 180.0F) * knockback * 0.5F));
+                target.addVelocity((-MathHelper.sin(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F), 0.1D, (MathHelper.cos(attacker.rotationYaw * 3.1415927F / 180.0F) * knockback * 0.5F));
             }
         }
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player player = event.getPlayer();
-        if (player.level.isClientSide) return;
+        PlayerEntity player = event.getPlayer();
+        if (player.world.isRemote) return;
         if (event.getTarget() instanceof LivingEntity && !(event.getTarget() instanceof StoneBaseEntity)) {
-            if (player.getMainHandItem().getItem() instanceof GauntletItem) {
-                COOLDOWN.put(player, player.getAttackStrengthScale(0.5F));
+            if (player.getHeldItemMainhand().getItem() instanceof GauntletItem) {
+                COOLDOWN.put(player, player.getCooledAttackStrength(0.5F));
             }
         }
     }

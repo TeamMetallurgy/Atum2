@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.entity.Entity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ArmorItem;
+import net.minecraft.item.IArmorMaterial;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
@@ -15,12 +15,12 @@ public class TexturedArmorItem extends ArmorItem {
     private boolean hasRender = false;
     private int damageModifier;
 
-    public TexturedArmorItem(ArmorMaterial material, String name, EquipmentSlot slot) {
-        this(material, name, slot, new Item.Properties().tab(Atum.GROUP));
+    public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot) {
+        this(material, name, slot, new Item.Properties().group(Atum.GROUP));
     }
 
-    public TexturedArmorItem(ArmorMaterial material, String name, EquipmentSlot slot, Item.Properties properties) {
-        super(material, slot, properties.tab(Atum.GROUP));
+    public TexturedArmorItem(IArmorMaterial material, String name, EquipmentSlotType slot, Item.Properties properties) {
+        super(material, slot, properties.group(Atum.GROUP));
         this.armorPieceName = name;
     }
 
@@ -40,7 +40,7 @@ public class TexturedArmorItem extends ArmorItem {
     }
 
     @Override
-    public String getArmorTexture(@Nonnull ItemStack stack, Entity entity, EquipmentSlot slot, String type) {
-        return this.hasRender ? String.format("%s:textures/models/armor/%s.png", Atum.MOD_ID, armorPieceName) : String.format("%s:textures/models/armor/%s_%d%s.png", Atum.MOD_ID, armorPieceName, (slot == EquipmentSlot.LEGS ? 2 : 1), type == null ? "" : "_overlay");
+    public String getArmorTexture(@Nonnull ItemStack stack, Entity entity, EquipmentSlotType slot, String type) {
+        return this.hasRender ? String.format("%s:textures/models/armor/%s.png", Atum.MOD_ID, armorPieceName) : String.format("%s:textures/models/armor/%s_%d%s.png", Atum.MOD_ID, armorPieceName, (slot == EquipmentSlotType.LEGS ? 2 : 1), type == null ? "" : "_overlay");
     }
 }

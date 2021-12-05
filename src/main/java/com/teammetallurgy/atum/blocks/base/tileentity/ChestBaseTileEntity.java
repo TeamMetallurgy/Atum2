@@ -1,25 +1,25 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.storage.loot.LootTables;
-import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.loot.LootTableManager;
+import net.minecraft.tileentity.ChestTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class ChestBaseTileEntity extends ChestBlockEntity {
+public class ChestBaseTileEntity extends ChestTileEntity {
     public boolean canBeSingle;
     public boolean canBeDouble;
     private final Block chestBlock;
 
-    public ChestBaseTileEntity(BlockEntityType<?> type, boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
+    public ChestBaseTileEntity(TileEntityType<?> type, boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
         super(type);
         this.canBeSingle = canBeSingle;
         this.canBeDouble = canBeDouble;
@@ -28,32 +28,32 @@ public class ChestBaseTileEntity extends ChestBlockEntity {
 
     @Override
     @Nonnull
-    protected Component getDefaultName() {
-        return new TranslatableComponent(this.getBlockState().getBlock().getDescriptionId());
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
     }
 
     private boolean isChestAt(BlockPos pos) {
-        if (level == null) {
+        if (world == null) {
             return false;
         } else {
-            Block block = level.getBlockState(pos).getBlock();
-            BlockEntity tileEntity = level.getBlockEntity(pos);
+            Block block = world.getBlockState(pos).getBlock();
+            TileEntity tileEntity = world.getTileEntity(pos);
             return tileEntity instanceof ChestBaseTileEntity && block == this.chestBlock;
         }
     }
 
     @Override
     @Nonnull
-    public AABB getRenderBoundingBox() {
-        return new AABB(worldPosition.getX() - 1, worldPosition.getY(), worldPosition.getZ() - 1, worldPosition.getX() + 2, worldPosition.getY() + 2, worldPosition.getZ() + 2);
+    public AxisAlignedBB getRenderBoundingBox() {
+        return new AxisAlignedBB(pos.getX() - 1, pos.getY(), pos.getZ() - 1, pos.getX() + 2, pos.getY() + 2, pos.getZ() + 2);
     }
 
     @Override
-    public void unpackLootTable(@Nullable Player player) { //Added null check for LootTableManager to prevent issues with WIT
-        if (this.lootTable != null && this.level != null && level.getServer() != null) {
-            LootTables manager = this.level.getServer().getLootTables();
+    public void fillWithLoot(@Nullable PlayerEntity player) { //Added null check for LootTableManager to prevent issues with WIT
+        if (this.lootTable != null && this.world != null && world.getServer() != null) {
+            LootTableManager manager = this.world.getServer().getLootTableManager();
             if (manager != null) {
-                super.unpackLootTable(player);
+                super.fillWithLoot(player);
             }
         }
     }

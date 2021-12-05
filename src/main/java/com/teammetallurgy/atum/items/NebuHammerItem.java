@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.items;
 
 import com.teammetallurgy.atum.blocks.GodforgedBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
 
 import javax.annotation.Nonnull;
 

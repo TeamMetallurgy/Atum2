@@ -6,32 +6,32 @@ import com.teammetallurgy.atum.init.AtumGuis;
 import com.teammetallurgy.atum.inventory.container.slot.FuelSlot;
 import com.teammetallurgy.atum.inventory.container.slot.KilnOutputSlot;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.RecipeManager;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.Inventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.RecipeManager;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 
-public class KilnContainer extends AbstractContainerMenu {
+public class KilnContainer extends Container {
     public KilnTileEntity kilnInventory;
-    private ContainerData kilnData;
+    private IIntArray kilnData;
 
-    public KilnContainer(int windowID, Inventory playerInventory, BlockPos pos) {
+    public KilnContainer(int windowID, PlayerInventory playerInventory, BlockPos pos) {
         super(AtumGuis.KILN, windowID);
-        Player player = playerInventory.player;
-        this.kilnInventory = (KilnTileEntity) player.level.getBlockEntity(pos);
-        checkContainerSize(kilnInventory, kilnInventory.getContainerSize());
-        ContainerData kilnData = kilnInventory.kilnData;
-        checkContainerDataCount(kilnData, kilnData.getCount());
+        PlayerEntity player = playerInventory.player;
+        this.kilnInventory = (KilnTileEntity) player.world.getTileEntity(pos);
+        assertInventorySize(kilnInventory, kilnInventory.getSizeInventory());
+        IIntArray kilnData = kilnInventory.kilnData;
+        assertIntArraySize(kilnData, kilnData.size());
         this.kilnData = kilnData;
         //Input Slots
         for (int row = 0; row < 2; ++row) {
@@ -58,14 +58,14 @@ public class KilnContainer extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 142 + 26));
         }
 
-        this.addDataSlots(kilnData);
+        this.trackIntArray(kilnData);
     }
 
     @Override
     @Nonnull
-    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
         int slotFuel = 4;
         int internalStart = 0;
@@ -77,37 +77,37 @@ public class KilnContainer extends AbstractContainerMenu {
         int hotbarStart = 36;
         int hotbarEnd = 44;
 
-        if (slot != null && slot.hasItem()) {
-            ItemStack slotStack = slot.getItem();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
             if (index == slotFuel) {
-                if (!this.moveItemStackTo(slotStack, playerStart, hotbarEnd + 1, true)) {
+                if (!this.mergeItemStack(slotStack, playerStart, hotbarEnd + 1, true)) {
                     return ItemStack.EMPTY;
                 }
-                slot.onQuickCraft(slotStack, stack);
+                slot.onSlotChange(slotStack, stack);
             } else if ((index < internalStart || index > internalEnd) && (index < outputStart || index > outputEnd)) {
                 if (getRecipe(slotStack)) {
-                    if (!this.moveItemStackTo(slotStack, internalStart, internalEnd + 1, false)) {
+                    if (!this.mergeItemStack(slotStack, internalStart, internalEnd + 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (AbstractFurnaceBlockEntity.isFuel(slotStack)) {
-                    if (!this.moveItemStackTo(slotStack, slotFuel, slotFuel + 1, false)) {
+                } else if (AbstractFurnaceTileEntity.isFuel(slotStack)) {
+                    if (!this.mergeItemStack(slotStack, slotFuel, slotFuel + 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (index >= playerStart && index <= playerEnd) {
-                    if (!this.moveItemStackTo(slotStack, hotbarStart, hotbarEnd + 1, false)) {
+                    if (!this.mergeItemStack(slotStack, hotbarStart, hotbarEnd + 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= hotbarStart && index <= hotbarEnd && !this.moveItemStackTo(slotStack, playerStart, playerEnd + 1, false)) {
+                } else if (index >= hotbarStart && index <= hotbarEnd && !this.mergeItemStack(slotStack, playerStart, playerEnd + 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(slotStack, playerStart, hotbarEnd + 1, false)) {
+            } else if (!this.mergeItemStack(slotStack, playerStart, hotbarEnd + 1, false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             } else {
-                slot.setChanged();
+                slot.onSlotChanged();
             }
             if (slotStack.getCount() == stack.getCount()) {
                 return ItemStack.EMPTY;
@@ -118,14 +118,14 @@ public class KilnContainer extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(@Nonnull Player player) {
-        return this.kilnInventory.stillValid(player);
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+        return this.kilnInventory.isUsableByPlayer(player);
     }
 
     protected boolean getRecipe(@Nonnull ItemStack stack) {
-        Level world = this.kilnInventory.getLevel();
+        World world = this.kilnInventory.getWorld();
         RecipeManager recipeManager = world.getRecipeManager();
-        return recipeManager.getRecipeFor((RecipeType) IAtumRecipeType.KILN, new SimpleContainer(stack), world).isPresent() || RecipeHelper.isValidRecipeInput(RecipeHelper.getKilnRecipesFromFurnace(recipeManager), stack);
+        return recipeManager.getRecipe((IRecipeType) IAtumRecipeType.KILN, new Inventory(stack), world).isPresent() || RecipeHelper.isValidRecipeInput(RecipeHelper.getKilnRecipesFromFurnace(recipeManager), stack);
     }
 
     public int getCookProgressionScaled() {

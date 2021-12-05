@@ -2,21 +2,21 @@ package com.teammetallurgy.atum.entity.projectile;
 
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.LlamaSpit;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.util.Mth;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.level.Level;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.LlamaSpitEntity;
+import net.minecraft.entity.projectile.ProjectileHelper;
+import net.minecraft.network.IPacket;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -25,37 +25,37 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
-public class CamelSpitEntity extends LlamaSpit {
+public class CamelSpitEntity extends LlamaSpitEntity {
 
-    public CamelSpitEntity(FMLPlayMessages.SpawnEntity spawnPacket, Level world) {
+    public CamelSpitEntity(FMLPlayMessages.SpawnEntity spawnPacket, World world) {
         this(AtumEntities.CAMEL_SPIT, world);
     }
 
-    public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, Level world) {
+    public CamelSpitEntity(EntityType<? extends CamelSpitEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public CamelSpitEntity(Level world, CamelEntity camel) {
+    public CamelSpitEntity(World world, CamelEntity camel) {
         this(AtumEntities.CAMEL_SPIT, world);
-        super.setOwner(camel);
-        this.setPos(camel.getX() - (double) (camel.getBbWidth() + 1.0F) * 0.5D * (double) Mth.sin(camel.yBodyRot * ((float) Math.PI / 180F)), camel.getY() + (double) camel.getEyeHeight() - (double) 0.1F, camel.getZ() + (double) (camel.getBbWidth() + 1.0F) * 0.5D * (double) Mth.cos(camel.yBodyRot * ((float) Math.PI / 180F)));
+        super.setShooter(camel);
+        this.setPosition(camel.getPosX() - (double) (camel.getWidth() + 1.0F) * 0.5D * (double) MathHelper.sin(camel.renderYawOffset * ((float) Math.PI / 180F)), camel.getPosY() + (double) camel.getEyeHeight() - (double) 0.1F, camel.getPosZ() + (double) (camel.getWidth() + 1.0F) * 0.5D * (double) MathHelper.cos(camel.renderYawOffset * ((float) Math.PI / 180F)));
     }
 
     @OnlyIn(Dist.CLIENT)
-    public CamelSpitEntity(Level world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+    public CamelSpitEntity(World world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
         this(AtumEntities.CAMEL_SPIT, world);
-        this.setPos(x, y, z);
+        this.setPosition(x, y, z);
 
         for (int i = 0; i < 7; ++i) {
             double d0 = 0.4D + 0.1D * (double) i;
             world.addParticle(ParticleTypes.SPIT, x, y, z, xSpeed * d0, ySpeed, zSpeed * d0);
         }
-        this.setDeltaMovement(xSpeed, ySpeed, zSpeed);
+        this.setMotion(xSpeed, ySpeed, zSpeed);
     }
 
     @Override
     @Nonnull
-    public Packet<?> getAddEntityPacket() {
+    public IPacket<?> createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
@@ -63,49 +63,49 @@ public class CamelSpitEntity extends LlamaSpit {
     public void tick() {
         super.tick();
 
-        Vec3 motion = this.getDeltaMovement();
-        HitResult raytrace = ProjectileUtil.getHitResult(this, this::canHitEntity);
-        if (raytrace != null && raytrace.getType() != HitResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, raytrace)) {
-            this.onHit(raytrace);
+        Vector3d motion = this.getMotion();
+        RayTraceResult raytrace = ProjectileHelper.func_234618_a_(this, this::func_230298_a_);
+        if (raytrace != null && raytrace.getType() != RayTraceResult.Type.MISS && !ForgeEventFactory.onProjectileImpact(this, raytrace)) {
+            this.onImpact(raytrace);
         }
 
-        double d0 = this.getX() + motion.x;
-        double d1 = this.getY() + motion.y;
-        double d2 = this.getZ() + motion.z;
-        this.updateRotation();
-        if (this.level.getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
+        double d0 = this.getPosX() + motion.x;
+        double d1 = this.getPosY() + motion.y;
+        double d2 = this.getPosZ() + motion.z;
+        this.func_234617_x_();
+        if (this.world.func_234853_a_(this.getBoundingBox()).noneMatch(AbstractBlock.AbstractBlockState::isAir)) {
             this.remove();
-        } else if (this.isInWaterOrBubble()) {
+        } else if (this.isInWaterOrBubbleColumn()) {
             this.remove();
         } else {
-            this.setDeltaMovement(motion.scale(0.99F));
-            if (!this.isNoGravity()) {
-                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.06F, 0.0D));
+            this.setMotion(motion.scale(0.99F));
+            if (!this.hasNoGravity()) {
+                this.setMotion(this.getMotion().add(0.0D, -0.06F, 0.0D));
             }
 
-            this.setPos(d0, d1, d2);
+            this.setPosition(d0, d1, d2);
         }
     }
 
     @Override
-    protected void onHitEntity(@Nonnull EntityHitResult rayTraceResult) {
-        super.onHitEntity(rayTraceResult);
-        Entity entity = this.getOwner();
+    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
+        super.onEntityHit(rayTraceResult);
+        Entity entity = this.func_234616_v_();
         if (entity instanceof LivingEntity) {
-            rayTraceResult.getEntity().hurt(DamageSource.indirectMobAttack(this, (LivingEntity) entity).setProjectile(), 1.0F);
+            rayTraceResult.getEntity().attackEntityFrom(DamageSource.causeIndirectDamage(this, (LivingEntity) entity).setProjectile(), 1.0F);
         }
     }
 
     @Override
-    protected void onHitBlock(@Nonnull BlockHitResult rayTraceResult) {
-        super.onHitBlock(rayTraceResult);
-        if (!this.level.isClientSide) {
+    protected void func_230299_a_(@Nonnull BlockRayTraceResult rayTraceResult) {
+        super.func_230299_a_(rayTraceResult);
+        if (!this.world.isRemote) {
             this.remove();
         }
 
     }
 
     @Override
-    protected void defineSynchedData() {
+    protected void registerData() {
     }
 }

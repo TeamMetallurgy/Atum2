@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.network.packet;
 
 import com.teammetallurgy.atum.world.SandstormHandler;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
 import java.util.function.Supplier;
@@ -13,11 +13,11 @@ public class WeatherPacket {
 		this.stormTime = stormTime;
 	}
 
-	public static void encode(WeatherPacket packet, FriendlyByteBuf buf) {
+	public static void encode(WeatherPacket packet, PacketBuffer buf) {
 		buf.writeInt(packet.stormTime);
 	}
 
-	public static WeatherPacket decode(FriendlyByteBuf buf) {
+	public static WeatherPacket decode(PacketBuffer buf) {
 		return new WeatherPacket(buf.readInt());
 	}
 

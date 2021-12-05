@@ -1,45 +1,43 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityPredicate;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
+import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
 
 import java.util.EnumSet;
 
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
-
 public class BegGoal extends Goal {
     private final DesertWolfEntity desertWolf;
-    private Player player;
-    private final Level world;
+    private PlayerEntity player;
+    private final World world;
     private final float minPlayerDistance;
     private int timeoutCounter;
-    private final TargetingConditions predicate;
+    private final EntityPredicate predicate;
 
     public BegGoal(DesertWolfEntity desertWolf, float minDistance) {
         this.desertWolf = desertWolf;
-        this.world = desertWolf.level;
+        this.world = desertWolf.world;
         this.minPlayerDistance = minDistance;
-        this.predicate = (new TargetingConditions()).range(minDistance).allowInvulnerable().allowSameTeam().allowNonAttackable();
-        this.setFlags(EnumSet.of(Flag.LOOK));
+        this.predicate = (new EntityPredicate()).setDistance(minDistance).allowInvulnerable().allowFriendlyFire().setSkipAttackChecks();
+        this.setMutexFlags(EnumSet.of(Flag.LOOK));
     }
 
     @Override
-    public boolean canUse() {
-        this.player = this.world.getNearestPlayer(predicate, this.desertWolf);
+    public boolean shouldExecute() {
+        this.player = this.world.getClosestPlayer(predicate, this.desertWolf);
         return this.player != null && this.hasTemptationItemInHand(this.player);
     }
 
     @Override
-    public boolean canContinueToUse() {
+    public boolean shouldContinueExecuting() {
         if (!this.player.isAlive()) {
             return false;
-        } else if (this.desertWolf.distanceToSqr(this.player) > (double) (this.minPlayerDistance * this.minPlayerDistance)) {
+        } else if (this.desertWolf.getDistanceSq(this.player) > (double) (this.minPlayerDistance * this.minPlayerDistance)) {
             return false;
         } else {
             return this.timeoutCounter > 0 && this.hasTemptationItemInHand(this.player);
@@ -47,32 +45,32 @@ public class BegGoal extends Goal {
     }
 
     @Override
-    public void start() {
+    public void startExecuting() {
         this.desertWolf.setBegging(true);
-        this.timeoutCounter = 40 + this.desertWolf.getRandom().nextInt(40);
+        this.timeoutCounter = 40 + this.desertWolf.getRNG().nextInt(40);
     }
 
     @Override
-    public void stop() {
+    public void resetTask() {
         this.desertWolf.setBegging(false);
         this.player = null;
     }
 
     @Override
     public void tick() {
-        this.desertWolf.getLookControl().setLookAt(this.player.getX(), this.player.getY() + (double) this.player.getEyeHeight(), this.player.getZ(), 10.0F, (float) this.desertWolf.getMaxHeadXRot());
+        this.desertWolf.getLookController().setLookPosition(this.player.getPosX(), this.player.getPosY() + (double) this.player.getEyeHeight(), this.player.getPosZ(), 10.0F, (float) this.desertWolf.getVerticalFaceSpeed());
         --this.timeoutCounter;
     }
 
 
-    private boolean hasTemptationItemInHand(Player player) {
-        for (InteractionHand hand : InteractionHand.values()) {
-            ItemStack heldStack = player.getItemInHand(hand);
+    private boolean hasTemptationItemInHand(PlayerEntity player) {
+        for (Hand hand : Hand.values()) {
+            ItemStack heldStack = player.getHeldItem(hand);
 
-            if (this.desertWolf.isTame() && heldStack.getItem().is(Tags.Items.BONES)) {
+            if (this.desertWolf.isTamed() && heldStack.getItem().isIn(Tags.Items.BONES)) {
                 return true;
             }
-            if (this.desertWolf.isFood(heldStack)) {
+            if (this.desertWolf.isBreedingItem(heldStack)) {
                 return true;
             }
         }

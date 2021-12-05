@@ -6,12 +6,12 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.artifacts.AmuletItem;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.util.Mth;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
@@ -19,7 +19,7 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
     protected static final Object2IntMap<LivingEntity> DURATION = new Object2IntOpenHashMap<>();
 
     public IsisHealingItem() {
-        super(new Item.Properties().stacksTo(1));
+        super(new Item.Properties().maxStackSize(1));
     }
 
     @Override
@@ -42,14 +42,14 @@ public class IsisHealingItem extends AmuletItem implements IArtifact {
 
     private void doEffect(LivingEntity livingEntity, @Nonnull ItemStack stack) {
         if (livingEntity.getHealth() < livingEntity.getMaxHealth()) {
-            Level world = livingEntity.getCommandSenderWorld();
-            if (world instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) world;
-                double x = Mth.nextDouble(world.random, 0.0001D, 0.05D);
-                double z = Mth.nextDouble(world.random, 0.0001D, 0.05D);
-                serverWorld.sendParticles(AtumParticles.ISIS, livingEntity.getX(), livingEntity.getY() + 1.2D, livingEntity.getZ(), 24, x, 0.0D, -z, 0.02D);
+            World world = livingEntity.getEntityWorld();
+            if (world instanceof ServerWorld) {
+                ServerWorld serverWorld = (ServerWorld) world;
+                double x = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
+                double z = MathHelper.nextDouble(world.rand, 0.0001D, 0.05D);
+                serverWorld.spawnParticle(AtumParticles.ISIS, livingEntity.getPosX(), livingEntity.getPosY() + 1.2D, livingEntity.getPosZ(), 24, x, 0.0D, -z, 0.02D);
             }
-            if (!world.isClientSide) {
+            if (!world.isRemote) {
                 livingEntity.heal(1.0F);
                 DURATION.replace(livingEntity, 40);
             }

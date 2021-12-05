@@ -3,60 +3,60 @@ package com.teammetallurgy.atum.entity.animal;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.world.entity.AgableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.TemptGoal;
-import net.minecraft.world.entity.animal.Rabbit;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.core.Registry;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.entity.ai.goal.TemptGoal;
+import net.minecraft.entity.passive.RabbitEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.RegistryKey;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 
-public class DesertRabbitEntity extends Rabbit {
+public class DesertRabbitEntity extends RabbitEntity {
 
-    public DesertRabbitEntity(EntityType<? extends DesertRabbitEntity> entityType, Level world) {
+    public DesertRabbitEntity(EntityType<? extends DesertRabbitEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public static AttributeSupplier.Builder getAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 5.0D).add(Attributes.MOVEMENT_SPEED, 0.3D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 5.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D);
     }
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.of(AtumAPI.Tags.CROPS_FLAX), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.0D, Ingredient.fromTag(AtumAPI.Tags.CROPS_FLAX), false));
         this.goalSelector.addGoal(4, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 16.0F, 2.2D, 2.6D));
     }
 
     @Override
     @Nonnull
-    protected ResourceLocation getDefaultLootTable() {
-        return EntityType.RABBIT.getDefaultLootTable();
+    protected ResourceLocation getLootTable() {
+        return EntityType.RABBIT.getLootTable();
     }
 
     @Override
-    protected int getRandomRabbitType(LevelAccessor world) {
-        Biome biome = world.getBiome(this.blockPosition());
-        int i = this.random.nextInt(100);
+    protected int getRandomRabbitType(IWorld world) {
+        Biome biome = world.getBiome(this.getPosition());
+        int i = this.rand.nextInt(100);
 
-        Optional<ResourceKey<Biome>> optional = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
 
         if (optional.isPresent()) {
-            ResourceKey<Biome> biomeKey = optional.get();
+            RegistryKey<Biome> biomeKey = optional.get();
             if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return i <= 80 ? 0 : 1;
             } else if (biomeKey.equals(AtumBiomes.SAND_DUNES)) {
@@ -84,19 +84,19 @@ public class DesertRabbitEntity extends Rabbit {
     }
 
     @Override
-    public boolean isFood(@Nonnull ItemStack stack) {
+    public boolean isBreedingItem(@Nonnull ItemStack stack) {
         Item item = stack.getItem();
-        return item.is(AtumAPI.Tags.CROPS_FLAX) || super.isFood(stack);
+        return item.isIn(AtumAPI.Tags.CROPS_FLAX) || super.isBreedingItem(stack);
     }
 
     @Override
-    public DesertRabbitEntity getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgableMob ageable) {
-        DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.create(this.level);
-        int type = this.getRandomRabbitType(this.level);
+    public DesertRabbitEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
+        DesertRabbitEntity rabbit = AtumEntities.DESERT_RABBIT.create(this.world);
+        int type = this.getRandomRabbitType(this.world);
 
         if (rabbit != null) {
-            if (this.random.nextInt(20) != 0) {
-                if (ageable instanceof DesertRabbitEntity && this.random.nextBoolean()) {
+            if (this.rand.nextInt(20) != 0) {
+                if (ageable instanceof DesertRabbitEntity && this.rand.nextBoolean()) {
                     type = ((DesertRabbitEntity) ageable).getRabbitType();
                 } else {
                     type = this.getRabbitType();

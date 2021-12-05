@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.blocks.trap.tileentity;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.Direction;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.world.World;
 
 public class SmokeTrapTileEntity extends TrapTileEntity {
 
@@ -17,17 +17,17 @@ public class SmokeTrapTileEntity extends TrapTileEntity {
     }
 
     @Override
-    protected void triggerTrap(Level world, Direction facing, LivingEntity livingBase) {
-        double x = (double) this.worldPosition.getX() + 0.5D;
-        double y = (double) this.worldPosition.getY() + world.random.nextDouble() * 6.0D / 16.0D;
-        double z = (double) this.worldPosition.getZ() + 0.5D;
-        double randomPos = world.random.nextDouble() * 0.6D - 0.3D;
+    protected void triggerTrap(World world, Direction facing, LivingEntity livingBase) {
+        double x = (double) this.pos.getX() + 0.5D;
+        double y = (double) this.pos.getY() + world.rand.nextDouble() * 6.0D / 16.0D;
+        double z = (double) this.pos.getZ() + 0.5D;
+        double randomPos = world.rand.nextDouble() * 0.6D - 0.3D;
 
-        if (!livingBase.hasEffect(MobEffects.BLINDNESS)) {
-            if (!world.isClientSide) {
-                livingBase.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, 120));
+        if (!livingBase.isPotionActive(Effects.BLINDNESS)) {
+            if (!world.isRemote) {
+                livingBase.addPotionEffect(new EffectInstance(Effects.BLINDNESS, 120));
             }
-            world.playLocalSound((double) this.worldPosition.getX() + 0.5D, this.worldPosition.getY(), (double) this.worldPosition.getZ() + 0.5D, SoundEvents.CAT_HISS, SoundSource.BLOCKS, 0.3F, 0.8F, false);
+            world.playSound((double) this.pos.getX() + 0.5D, this.pos.getY(), (double) this.pos.getZ() + 0.5D, SoundEvents.ENTITY_CAT_HISS, SoundCategory.BLOCKS, 0.3F, 0.8F, false);
         }
 
         switch (facing) {

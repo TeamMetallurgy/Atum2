@@ -13,29 +13,29 @@ import com.teammetallurgy.atum.init.AtumLootTables;
 import com.teammetallurgy.atum.items.tools.ScepterItem;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraft.core.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.*;
-import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.NaturalSpawner;
+import net.minecraft.world.server.ServerBossInfo;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.spawner.WorldEntitySpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -47,45 +47,28 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import net.minecraft.Util;
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.SpawnPlacements;
-import net.minecraft.world.entity.monster.RangedAttackMob;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-
-public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
+public class PharaohEntity extends UndeadBaseEntity implements IRangedAttackMob {
     private static final String[] PREFIXES = {"Ama", "Ata", "Ato", "Bak", "Cal", "Djet", "Eje", "For", "Gol", "Gut", "Hop", "Hor", "Huni", "Iam", "Jor", "Kal", "Khas", "Khor", "Lat", "Mal", "Not", "Oap", "Pra", "Qo", "Ras", "Shas", "Thoth", "Tui", "Uld", "Ver", "Wot", "Xo", "Yat", "Zyt", "Khep"};
     private static final String[] SUFFIXES = {"Ahat", "Amesh", "Amon", "Anut", "Baroom", "Chanta", "Erant", "Funam", "Daresh", "Djer", "Hotesh", "Khaden", "Kron", "Gorkum", "Ialenter", "Ma'at", "Narmer", "Radeem", "Jaloom", "Lepsha", "Quor", "Oleshet", "Peput", "Talat", "Ulam", "Veresh", "Ranesh", "Snef", "Wollolo", "Hathor", "Intef", "Neferk", "Khatne", "Tepy", "Moret"};
     private static final String[] NUMERALS = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "XIII", "XIV", "XV"};
-    private static final EntityDataAccessor<Integer> PREFIX = SynchedEntityData.defineId(PharaohEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> SUFFIX = SynchedEntityData.defineId(PharaohEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Integer> NUMERAL = SynchedEntityData.defineId(PharaohEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Optional<BlockPos>> SARCOPHAGUS_POS = SynchedEntityData.defineId(PharaohEntity.class, EntityDataSerializers.OPTIONAL_BLOCK_POS);
-    private static final EntityDataAccessor<Boolean> DROP_GOD_SPECIFIC_LOOT = SynchedEntityData.defineId(PharaohEntity.class, EntityDataSerializers.BOOLEAN);
-    private final ServerBossEvent bossInfo = (ServerBossEvent) new ServerBossEvent(this.getDisplayName(), BossEvent.BossBarColor.YELLOW, BossEvent.BossBarOverlay.NOTCHED_10).setCreateWorldFog(true);
+    private static final DataParameter<Integer> PREFIX = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> SUFFIX = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> NUMERAL = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Optional<BlockPos>> SARCOPHAGUS_POS = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.OPTIONAL_BLOCK_POS);
+    private static final DataParameter<Boolean> DROP_GOD_SPECIFIC_LOOT = EntityDataManager.createKey(PharaohEntity.class, DataSerializers.BOOLEAN);
+    private final ServerBossInfo bossInfo = (ServerBossInfo) new ServerBossInfo(this.getDisplayName(), BossInfo.Color.YELLOW, BossInfo.Overlay.NOTCHED_10).setCreateFog(true);
     private final OrbAttackGoal<PharaohEntity> aiOrbAttack = new OrbAttackGoal<>(this, 1.2D, 20, 24.0F);
     private final MeleeAttackGoal aiAttackOnCollide = new MeleeAttackGoal(this, 1.2D, true) {
         @Override
-        public void stop() {
-            super.stop();
-            PharaohEntity.this.setAggressive(false);
+        public void resetTask() {
+            super.resetTask();
+            PharaohEntity.this.setAggroed(false);
         }
 
         @Override
-        public void start() {
-            super.start();
-            PharaohEntity.this.setAggressive(true);
+        public void startExecuting() {
+            super.startExecuting();
+            PharaohEntity.this.setAggroed(true);
         }
     };
     private int stage;
@@ -96,10 +79,10 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     private String texturePath;
     private boolean dropsGodSpecificLoot;
 
-    public PharaohEntity(EntityType<? extends PharaohEntity> entityType, Level world) {
+    public PharaohEntity(EntityType<? extends PharaohEntity> entityType, World world) {
         super(entityType, world);
         this.setHealth(this.getMaxHealth());
-        this.xpReward = 250;
+        this.experienceValue = 250;
         this.stage = 0;
         this.setCanPickUpLoot(false);
         this.setCombatTask();
@@ -128,24 +111,24 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this));
     }
 
-    public static AttributeSupplier.Builder getAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 300.0D).add(Attributes.MOVEMENT_SPEED, 0.3D).add(Attributes.ATTACK_DAMAGE, 8.0D)
-                .add(Attributes.FOLLOW_RANGE, 36.0D).add(Attributes.ARMOR, 10.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 300.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.3D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 8.0D)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.ARMOR, 10.0F);
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(PREFIX, 0);
-        this.entityData.define(SUFFIX, 0);
-        this.entityData.define(NUMERAL, 0);
-        this.entityData.define(SARCOPHAGUS_POS, Optional.empty());
-        this.entityData.define(DROP_GOD_SPECIFIC_LOOT, false);
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(PREFIX, 0);
+        this.dataManager.register(SUFFIX, 0);
+        this.dataManager.register(NUMERAL, 0);
+        this.dataManager.register(SARCOPHAGUS_POS, Optional.empty());
+        this.dataManager.register(DROP_GOD_SPECIFIC_LOOT, false);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.VINDICATOR_AMBIENT;
+        return SoundEvents.ENTITY_VINDICATOR_AMBIENT;
     }
 
     @Override
@@ -159,17 +142,17 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
         ScepterItem scepter = ScepterItem.getScepter(God.getGod(getVariant()));
         if (scepter != null) {
-            this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(scepter));
+            this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(scepter));
         }
     }
 
     @Override
-    public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
-        super.setItemSlot(slot, stack);
-        if (!this.level.isClientSide) {
+    public void setItemStackToSlot(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
+        super.setItemStackToSlot(slot, stack);
+        if (!this.world.isRemote) {
             this.setCombatTask();
         }
     }
@@ -180,13 +163,13 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    protected void dropCustomDeathLoot(@Nonnull DamageSource source, int looting, boolean recentlyHit) {
+    protected void dropSpecialItems(@Nonnull DamageSource source, int looting, boolean recentlyHit) {
         //Don't drop equipment
     }
 
     @Override
     @Nonnull
-    protected ResourceLocation getDefaultLootTable() {
+    protected ResourceLocation getLootTable() {
         if (this.dropsGodSpecificLoot()) {
             return new ResourceLocation(Atum.MOD_ID, "gods/" + God.getGod(this.getVariant()).getName());
         } else {
@@ -213,30 +196,30 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     protected void setVariantAbilities(DifficultyInstance difficulty, int variant) {
         super.setVariantAbilities(difficulty, variant);
 
-        prefixID = random.nextInt(PREFIXES.length);
-        suffixID = random.nextInt(SUFFIXES.length);
-        numID = random.nextInt(NUMERALS.length);
+        prefixID = rand.nextInt(PREFIXES.length);
+        suffixID = rand.nextInt(SUFFIXES.length);
+        numID = rand.nextInt(NUMERALS.length);
 
         this.setPharaohName(this.prefixID, this.suffixID, this.numID);
 
-        this.populateDefaultEquipmentSlots(difficulty);
-        this.populateDefaultEquipmentEnchantments(difficulty);
+        this.setEquipmentBasedOnDifficulty(difficulty);
+        this.setEnchantmentBasedOnDifficulty(difficulty);
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingData, @Nullable CompoundTag nbt) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingData, @Nullable CompoundNBT nbt) {
         this.setCombatTask();
-        return super.finalizeSpawn(world, difficulty, spawnReason, livingData, nbt);
+        return super.onInitialSpawn(world, difficulty, spawnReason, livingData, nbt);
     }
 
     private void setCombatTask() {
-        if (this.level != null && !this.level.isClientSide) {
+        if (this.world != null && !this.world.isRemote) {
             this.goalSelector.removeGoal(this.aiAttackOnCollide);
             this.goalSelector.removeGoal(this.aiOrbAttack);
-            ItemStack heldItem = this.getItemInHand(InteractionHand.MAIN_HAND);
+            ItemStack heldItem = this.getHeldItem(Hand.MAIN_HAND);
             if (heldItem.getItem() instanceof ScepterItem) {
                 int cooldown = 18;
-                if (this.level.getDifficulty() != Difficulty.HARD) {
+                if (this.world.getDifficulty() != Difficulty.HARD) {
                     cooldown = 32;
                 }
                 this.aiOrbAttack.setAttackCooldown(cooldown);
@@ -248,23 +231,23 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    public void performRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
-        PharaohOrbEntity orb = new PharaohOrbEntity(this.level, this, God.getGod(this.getVariant()));
-        double x = target.getX() - this.getX();
-        double y = target.getY(0.3333333333333333D) - orb.getY();
-        double z = target.getZ() - this.getZ();
-        double height = Mth.sqrt(x * x + z * z);
+    public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
+        PharaohOrbEntity orb = new PharaohOrbEntity(this.world, this, God.getGod(this.getVariant()));
+        double x = target.getPosX() - this.getPosX();
+        double y = target.getPosYHeight(0.3333333333333333D) - orb.getPosY();
+        double z = target.getPosZ() - this.getPosZ();
+        double height = MathHelper.sqrt(x * x + z * z);
         orb.shoot(x, y + height * 0.2D, z, 1.6F, 1);
-        this.playSound(SoundEvents.GHAST_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
-        this.level.addFreshEntity(orb);
+        this.playSound(SoundEvents.ENTITY_GHAST_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
+        this.world.addEntity(orb);
     }
 
     public BlockPos getSarcophagusPos() {
-        return this.entityData.get(SARCOPHAGUS_POS).orElse(null);
+        return this.dataManager.get(SARCOPHAGUS_POS).orElse(null);
     }
 
     public void setSarcophagusPos(BlockPos pos) {
-        this.entityData.set(SARCOPHAGUS_POS, Optional.ofNullable(pos));
+        this.dataManager.set(SARCOPHAGUS_POS, Optional.ofNullable(pos));
     }
 
     public boolean dropsGodSpecificLoot() {
@@ -276,25 +259,25 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    public boolean canChangeDimensions() {
+    public boolean isNonBoss() {
         return false;
     }
 
     @Override
-    public boolean requiresCustomPersistence() {
+    public boolean preventDespawn() {
         return true;
     }
 
     @Override
-    public void die(@Nonnull DamageSource source) {
-        if (!this.level.isClientSide) {
+    public void onDeath(@Nonnull DamageSource source) {
+        if (!this.world.isRemote) {
             BlockPos sarcophagusPos = getSarcophagusPos();
             if (sarcophagusPos != null) {
-                BlockEntity tileEntity = this.level.getBlockEntity(sarcophagusPos);
+                TileEntity tileEntity = this.world.getTileEntity(sarcophagusPos);
                 if (tileEntity instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) tileEntity).setOpenable();
                     for (Direction horizontal : Direction.Plane.HORIZONTAL) {
-                        BlockEntity tileEntityOffset = this.level.getBlockEntity(sarcophagusPos.relative(horizontal));
+                        TileEntity tileEntityOffset = this.world.getTileEntity(sarcophagusPos.offset(horizontal));
                         if (tileEntityOffset instanceof SarcophagusTileEntity) {
                             ((SarcophagusTileEntity) tileEntityOffset).setOpenable();
                         }
@@ -307,64 +290,64 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         }
 
         if (AtumConfig.MOBS.displayPharaohSlainMessage.get()) {
-            if (source.msgId.equals("player")) {
-                Player slayer = (Player) source.getEntity();
-                if (!this.level.isClientSide && slayer != null) {
-                    List<ServerPlayer> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
-                    for (Player player : players) {
-                        player.sendMessage(this.getName().copy().append(" ").append(new TranslatableComponent("chat.atum.kill_pharaoh")).append(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().withColor(God.getGod(this.getVariant()).getColor())), Util.NIL_UUID);
+            if (source.damageType.equals("player")) {
+                PlayerEntity slayer = (PlayerEntity) source.getTrueSource();
+                if (!this.world.isRemote && slayer != null) {
+                    List<ServerPlayerEntity> players = ServerLifecycleHooks.getCurrentServer().getPlayerList().getPlayers();
+                    for (PlayerEntity player : players) {
+                        player.sendMessage(this.getName().deepCopy().appendString(" ").append(new TranslationTextComponent("chat.atum.kill_pharaoh")).appendString(" " + slayer.getGameProfile().getName()).setStyle(this.getName().getStyle().setColor(God.getGod(this.getVariant()).getColor())), Util.DUMMY_UUID);
                     }
                 }
             }
         }
-        Entity killer = source.getEntity();
-        if (killer instanceof Player) {
-            ((Player) killer).addEffect(new MobEffectInstance(AtumEffects.MARKED_FOR_DEATH, 2400, 0, false, false, true));
+        Entity killer = source.getTrueSource();
+        if (killer instanceof PlayerEntity) {
+            ((PlayerEntity) killer).addPotionEffect(new EffectInstance(AtumEffects.MARKED_FOR_DEATH, 2400, 0, false, false, true));
         }
-        super.die(source);
+        super.onDeath(source);
     }
 
     @Override
-    public void startSeenByPlayer(@Nonnull ServerPlayer player) {
-        super.startSeenByPlayer(player);
+    public void addTrackingPlayer(@Nonnull ServerPlayerEntity player) {
+        super.addTrackingPlayer(player);
         this.bossInfo.addPlayer(player);
     }
 
     @Override
-    public void stopSeenByPlayer(@Nonnull ServerPlayer player) {
-        super.stopSeenByPlayer(player);
+    public void removeTrackingPlayer(@Nonnull ServerPlayerEntity player) {
+        super.removeTrackingPlayer(player);
         this.bossInfo.removePlayer(player);
     }
 
     @Override
     @Nonnull
-    public Component getName() {
-        int p = this.entityData.get(PREFIX);
-        int s = this.entityData.get(SUFFIX);
-        int n = this.entityData.get(NUMERAL);
-        return new TranslatableComponent(this.getType().getDescriptionId()).append(" ").append(new TranslatableComponent("entity.atum.pharaoh." + PREFIXES[p])).append(new TranslatableComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ROOT))).append(" " + NUMERALS[n]);
+    public ITextComponent getName() {
+        int p = this.dataManager.get(PREFIX);
+        int s = this.dataManager.get(SUFFIX);
+        int n = this.dataManager.get(NUMERAL);
+        return new TranslationTextComponent(this.getType().getTranslationKey()).appendString(" ").append(new TranslationTextComponent("entity.atum.pharaoh." + PREFIXES[p])).append(new TranslationTextComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ROOT))).appendString(" " + NUMERALS[n]);
     }
 
     @Override
-    public void knockback(float strength, double xRatio, double zRatio) {
+    public void applyKnockback(float strength, double xRatio, double zRatio) {
         if (God.getGod(this.getVariant()) != God.PTAH) {
             strength *= 0.20F;
-            super.knockback(strength, xRatio, zRatio);
+            super.applyKnockback(strength, xRatio, zRatio);
         }
     }
 
     @Override
-    public boolean hurt(@Nonnull DamageSource source, float amount) {
-        if (super.hurt(source, amount)) {
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
+        if (super.attackEntityFrom(source, amount)) {
             if (this.getHealth() < this.getMaxHealth() * 0.75F && stage == 0) {
                 stage++;
-                spawnGuards(this.blockPosition());
+                spawnGuards(this.getPosition());
             } else if (stage == 1 && this.getHealth() < this.getMaxHealth() * 0.5F) {
                 stage++;
-                spawnGuards(this.blockPosition());
+                spawnGuards(this.getPosition());
             } else if (stage == 2 && this.getHealth() < this.getMaxHealth() * 0.25F) {
                 stage++;
-                spawnGuards(this.blockPosition());
+                spawnGuards(this.getPosition());
             }
             return true;
         }
@@ -375,13 +358,13 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     public void tick() {
         super.tick();
 
-        if (!this.level.isClientSide) {
+        if (!this.world.isRemote) {
             this.setBossInfo(this.getVariant());
         }
 
-        if (this.level.getDifficulty().getId() == 0) {
+        if (this.world.getDifficulty().getId() == 0) {
             if (this.getSarcophagusPos() != null) {
-                BlockEntity te = this.level.getBlockEntity(this.getSarcophagusPos());
+                TileEntity te = this.world.getTileEntity(this.getSarcophagusPos());
                 if (te instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) te).hasSpawned = false;
                 }
@@ -391,23 +374,23 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    protected void customServerAiStep() {
-        super.customServerAiStep();
+    protected void updateAITasks() {
+        super.updateAITasks();
         this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
     }
 
     @Override
-    public void aiStep() {
+    public void livingTick() {
         if (regenTime++ > 60) {
             regenTime = 0;
             this.heal(God.getGod(this.getVariant()) == God.OSIRIS ? 6 : 1);
         }
-        super.aiStep();
+        super.livingTick();
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("prefix", prefixID);
         compound.putInt("suffix", suffixID);
         compound.putInt("numeral", numID);
@@ -421,8 +404,8 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
+    public void readAdditional(@Nonnull CompoundNBT compound) {
+        super.readAdditional(compound);
         this.prefixID = compound.getInt("prefix");
         this.suffixID = compound.getInt("suffix");
         this.numID = compound.getInt("numeral");
@@ -431,60 +414,60 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
             int x = compound.getInt("sarcophagus_x");
             int y = compound.getInt("sarcophagus_y");
             int z = compound.getInt("sarcophagus_z");
-            this.entityData.set(SARCOPHAGUS_POS, Optional.of(new BlockPos(x, y, z)));
+            this.dataManager.set(SARCOPHAGUS_POS, Optional.of(new BlockPos(x, y, z)));
         } else {
-            this.entityData.set(SARCOPHAGUS_POS, Optional.empty());
+            this.dataManager.set(SARCOPHAGUS_POS, Optional.empty());
         }
         this.setPharaohName(compound.getInt("prefix"), compound.getInt("suffix"), compound.getInt("numeral"));
         this.setCombatTask();
     }
 
     private void setPharaohName(int prefix, int suffix, int numeral) {
-        this.entityData.set(PREFIX, prefix);
-        this.entityData.set(SUFFIX, suffix);
-        this.entityData.set(NUMERAL, numeral);
+        this.dataManager.set(PREFIX, prefix);
+        this.dataManager.set(SUFFIX, suffix);
+        this.dataManager.set(NUMERAL, numeral);
     }
 
     public void spawnGuards(BlockPos pos) {
-        Direction facing = Direction.from2DDataValue(Mth.floor(this.yRot * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
+        Direction facing = Direction.byHorizontalIndex(MathHelper.floor(this.rotationYaw * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
         this.trySpawnMummy(pos, facing);
-        this.trySpawnMummy(pos, facing.getClockWise().getClockWise());
+        this.trySpawnMummy(pos, facing.rotateY().rotateY());
     }
 
     private void trySpawnMummy(BlockPos pos, Direction facing) {
-        BlockPos base = pos.relative(facing);
+        BlockPos base = pos.offset(facing);
 
-        if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, base, AtumEntities.MUMMY)) {
-            MummyEntity mummy = AtumEntities.MUMMY.create(this.level);
+        if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, base, AtumEntities.MUMMY)) {
+            MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
 
             if (mummy != null) {
-                if (this.level instanceof ServerLevel) {
-                    mummy.finalizeSpawn((ServerLevelAccessor) level, this.level.getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);
-                    mummy.moveTo(base.getX() + 0.5D, base.getY(), base.getZ() + 0.5D, 0.0F, 0.0F);
+                if (this.world instanceof ServerWorld) {
+                    mummy.onInitialSpawn((IServerWorld) world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
+                    mummy.setLocationAndAngles(base.getX() + 0.5D, base.getY(), base.getZ() + 0.5D, 0.0F, 0.0F);
 
-                    if (!level.isClientSide) {
-                        this.level.addFreshEntity(mummy);
+                    if (!world.isRemote) {
+                        this.world.addEntity(mummy);
                     }
                 }
-                mummy.spawnAnim();
+                mummy.spawnExplosionParticle();
                 return;
             }
         }
 
         for (Direction offset : Direction.Plane.HORIZONTAL) {
-            BlockPos newPos = base.relative(offset);
-            if (NaturalSpawner.isSpawnPositionOk(SpawnPlacements.Type.ON_GROUND, this.level, newPos, AtumEntities.MUMMY)) {
-                MummyEntity mummy = AtumEntities.MUMMY.create(this.level);
+            BlockPos newPos = base.offset(offset);
+            if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, newPos, AtumEntities.MUMMY)) {
+                MummyEntity mummy = AtumEntities.MUMMY.create(this.world);
                 if (mummy != null) {
-                    if (this.level instanceof ServerLevel) {
-                        mummy.finalizeSpawn((ServerLevelAccessor) level, this.level.getCurrentDifficultyAt(base), MobSpawnType.TRIGGERED, null, null);
-                        mummy.moveTo(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D, this.random.nextFloat() * 360.0F, 0.0F);
+                    if (this.world instanceof ServerWorld) {
+                        mummy.onInitialSpawn((IServerWorld) world, this.world.getDifficultyForLocation(base), SpawnReason.TRIGGERED, null, null);
+                        mummy.setLocationAndAngles(newPos.getX() + 0.5D, newPos.getY(), newPos.getZ() + 0.5D, this.rand.nextFloat() * 360.0F, 0.0F);
 
-                        if (!this.level.isClientSide) {
-                            this.level.addFreshEntity(mummy);
+                        if (!this.world.isRemote) {
+                            this.world.addEntity(mummy);
                         }
                     }
-                    mummy.spawnAnim();
+                    mummy.spawnExplosionParticle();
                     return;
                 }
             }
@@ -492,6 +475,6 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
     }
 
     private void setBossInfo(int variant) {
-        this.bossInfo.setName(this.getDisplayName().copy().setStyle(this.getDisplayName().getStyle().withColor(God.getGod(variant).getColor())));
+        this.bossInfo.setName(this.getDisplayName().deepCopy().setStyle(this.getDisplayName().getStyle().setColor(God.getGod(variant).getColor())));
     }
 }

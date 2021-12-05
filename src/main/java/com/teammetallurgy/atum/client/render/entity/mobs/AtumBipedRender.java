@@ -2,13 +2,13 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.entity.ITexture;
-import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
-import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.PlayerModel;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.entity.BipedRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.layers.BipedArmorLayer;
+import net.minecraft.client.renderer.entity.model.BipedModel;
+import net.minecraft.client.renderer.entity.model.PlayerModel;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -16,21 +16,21 @@ import javax.annotation.Nonnull;
 import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
-public class AtumBipedRender<T extends Mob & ITexture, M extends HumanoidModel<T>> extends HumanoidMobRenderer<T, M> {
+public class AtumBipedRender<T extends MobEntity & ITexture, M extends BipedModel<T>> extends BipedRenderer<T, M> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public AtumBipedRender(EntityRenderDispatcher manager) {
+    public AtumBipedRender(EntityRendererManager manager) {
         this(manager, (M) new PlayerModel(0.0F, false), (M) new PlayerModel(0.5F, false), (M) new PlayerModel(1.0F, false));
     }
 
-    public AtumBipedRender(EntityRenderDispatcher renderManager, M model, M modelArmorHalf, M modelArmorFull) {
+    public AtumBipedRender(EntityRendererManager renderManager, M model, M modelArmorHalf, M modelArmorFull) {
         super(renderManager, model, 0.5F);
-        this.addLayer(new HumanoidArmorLayer<>(this, modelArmorHalf, modelArmorFull));
+        this.addLayer(new BipedArmorLayer<>(this, modelArmorHalf, modelArmorFull));
     }
 
     @Override
     @Nonnull
-    public ResourceLocation getTextureLocation(T entity) {
+    public ResourceLocation getEntityTexture(T entity) {
         String texture = entity.getTexture();
         ResourceLocation location = CACHE.get(texture);
 

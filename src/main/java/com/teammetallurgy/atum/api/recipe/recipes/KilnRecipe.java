@@ -7,15 +7,15 @@ import com.teammetallurgy.atum.api.recipe.AbstractAtumRecipe;
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.tags.SetTag;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.Tag;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
@@ -27,15 +27,15 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
     protected final int cookTime;
 
     public KilnRecipe(@Nonnull ItemStack input, @Nonnull ItemStack output, float experience, int cookTime) {
-        this(Ingredient.of(input), output, experience, cookTime);
+        this(Ingredient.fromStacks(input), output, experience, cookTime);
     }
 
-    public KilnRecipe(SetTag<Item> input, @Nonnull ItemStack output, float experience, int cookTime) {
-        this(Ingredient.of(input), output, experience, cookTime);
+    public KilnRecipe(Tag<Item> input, @Nonnull ItemStack output, float experience, int cookTime) {
+        this(Ingredient.fromTag(input), output, experience, cookTime);
     }
 
     public KilnRecipe(Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
-        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(input.getItems()[0].getItem().getRegistryName()).getPath() + "_to_" + Objects.requireNonNull(output.getItem().getRegistryName()).getPath()), input, output, experience, cookTime);
+        this(new ResourceLocation(Atum.MOD_ID, "kiln_" + Objects.requireNonNull(input.getMatchingStacks()[0].getItem().getRegistryName()).getPath() + "_to_" + Objects.requireNonNull(output.getItem().getRegistryName()).getPath()), input, output, experience, cookTime);
     }
 
     public KilnRecipe(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, float experience, int cookTime) {
@@ -54,11 +54,11 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
 
     @Override
     @Nonnull
-    public RecipeSerializer<?> getSerializer() {
+    public IRecipeSerializer<?> getSerializer() {
         return AtumRecipeSerializers.KILN;
     }
 
-    public static class Serializer<T extends KilnRecipe> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
+    public static class Serializer<T extends KilnRecipe> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<T> {
         private final Serializer.IFactory<T> factory;
         private final int cookTime;
 
@@ -69,36 +69,36 @@ public class KilnRecipe extends AbstractAtumRecipe<KilnTileEntity> {
 
         @Override
         @Nonnull
-        public T fromJson(@Nonnull ResourceLocation id, @Nonnull JsonObject json) {
-            JsonElement jsonelement = GsonHelper.isArrayNode(json, "ingredient") ? GsonHelper.getAsJsonArray(json, "ingredient") : GsonHelper.getAsJsonObject(json, "ingredient");
-            Ingredient ingredient = Ingredient.fromJson(jsonelement);
+        public T read(@Nonnull ResourceLocation id, @Nonnull JsonObject json) {
+            JsonElement jsonelement = JSONUtils.isJsonArray(json, "ingredient") ? JSONUtils.getJsonArray(json, "ingredient") : JSONUtils.getJsonObject(json, "ingredient");
+            Ingredient ingredient = Ingredient.deserialize(jsonelement);
             //Forge: Check if primitive string to keep vanilla or a object which can contain a count field.
             if (!json.has("result")) throw new com.google.gson.JsonSyntaxException("Missing result, expected to find a string or object");
             ItemStack itemstack;
-            if (json.get("result").isJsonObject()) itemstack = ShapedRecipe.itemFromJson(GsonHelper.getAsJsonObject(json, "result"));
+            if (json.get("result").isJsonObject()) itemstack = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
             else {
-                String s1 = GsonHelper.getAsString(json, "result");
+                String s1 = JSONUtils.getString(json, "result");
                 ResourceLocation resourcelocation = new ResourceLocation(s1);
                 itemstack = new ItemStack(ForgeRegistries.ITEMS.getValue(resourcelocation));
             }
-            float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
-            int i = GsonHelper.getAsInt(json, "cookingtime", this.cookTime);
+            float f = JSONUtils.getFloat(json, "experience", 0.0F);
+            int i = JSONUtils.getInt(json, "cookingtime", this.cookTime);
             return this.factory.create(id, ingredient, itemstack, f, i);
         }
 
         @Override
-        public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
-            Ingredient input = Ingredient.fromNetwork(buffer);
-            ItemStack output = buffer.readItem();
+        public T read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+            Ingredient input = Ingredient.read(buffer);
+            ItemStack output = buffer.readItemStack();
             float experience = buffer.readFloat();
             int cookTime = buffer.readVarInt();
             return this.factory.create(id, input, output, experience, cookTime);
         }
 
         @Override
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, T recipe) {
-            recipe.input.toNetwork(buffer);
-            buffer.writeItem(recipe.output);
+        public void write(@Nonnull PacketBuffer buffer, T recipe) {
+            recipe.input.write(buffer);
+            buffer.writeItemStack(recipe.output);
             buffer.writeFloat(recipe.experience);
             buffer.writeVarInt(recipe.cookTime);
         }

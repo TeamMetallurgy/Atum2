@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.registries.ObjectHolder;
 
 import static com.teammetallurgy.atum.misc.AtumRegistry.registerSound;

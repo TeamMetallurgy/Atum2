@@ -1,17 +1,17 @@
 package com.teammetallurgy.atum.blocks.stone.limestone;
 
 import com.teammetallurgy.atum.blocks.stone.limestone.tileentity.LimestoneFurnaceTileEntity;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.FurnaceBlock;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.MenuProvider;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.block.Block;
+import net.minecraft.block.FurnaceBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,21 +19,21 @@ import javax.annotation.Nullable;
 public class LimestoneFurnaceBlock extends FurnaceBlock {
 
     public LimestoneFurnaceBlock() {
-        super(Block.Properties.of(Material.STONE).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0));
+        super(Block.Properties.create(Material.ROCK).hardnessAndResistance(3.5F).setLightLevel(s -> s.get(BlockStateProperties.LIT) ? 13 : 0));
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
         return new LimestoneFurnaceTileEntity();
     }
 
     @Override
-    protected void openContainer(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    protected void interactWith(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player) {
+        TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof LimestoneFurnaceTileEntity) {
-            player.openMenu((MenuProvider) tileEntity);
-            player.awardStat(Stats.INTERACT_WITH_FURNACE);
+            player.openContainer((INamedContainerProvider) tileEntity);
+            player.addStat(Stats.INTERACT_WITH_FURNACE);
         }
     }
 }

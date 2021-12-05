@@ -1,47 +1,47 @@
 package com.teammetallurgy.atum.entity.projectile.arrow;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.AbstractArrowEntity;
+import net.minecraft.entity.projectile.ArrowEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.network.IPacket;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
-public abstract class CustomArrow extends Arrow {
+public abstract class CustomArrow extends ArrowEntity {
 
-    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level world) {
+    public CustomArrow(EntityType<? extends CustomArrow> entityType, World world) {
         super(entityType, world);
     }
 
-    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level world, double x, double y, double z) {
+    public CustomArrow(EntityType<? extends CustomArrow> entityType, World world, double x, double y, double z) {
         this(entityType, world);
-        this.setPos(x, y, z);
+        this.setPosition(x, y, z);
     }
 
-    public CustomArrow(EntityType<? extends CustomArrow> entityType, Level world, LivingEntity shooter) {
-        this(entityType, world, shooter.getX(), shooter.getEyeY() - (double) 0.1F, shooter.getZ());
-        this.setOwner(shooter);
-        if (shooter instanceof Player) {
-            this.pickup = AbstractArrow.Pickup.ALLOWED;
+    public CustomArrow(EntityType<? extends CustomArrow> entityType, World world, LivingEntity shooter) {
+        this(entityType, world, shooter.getPosX(), shooter.getPosYEye() - (double) 0.1F, shooter.getPosZ());
+        this.setShooter(shooter);
+        if (shooter instanceof PlayerEntity) {
+            this.pickupStatus = AbstractArrowEntity.PickupStatus.ALLOWED;
         }
     }
 
     @Override
     @Nonnull
-    public Packet<?> getAddEntityPacket() {
+    public IPacket<?> createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
     @Nonnull
-    protected ItemStack getPickupItem() {
+    protected ItemStack getArrowStack() {
         return new ItemStack(Items.ARROW);
     }
 

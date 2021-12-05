@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.blocks.lighting;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.Lantern;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.LanternBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 
-public class AtumLanternBlock extends Lantern {
+public class AtumLanternBlock extends LanternBlock {
 
     public AtumLanternBlock() {
-        super(BlockBehaviour.Properties.of(Material.METAL).requiresCorrectToolForDrops().strength(3.5F).sound(SoundType.LANTERN).lightLevel((state) -> 15).noOcclusion());
+        super(AbstractBlock.Properties.create(Material.IRON).setRequiresTool().hardnessAndResistance(3.5F).sound(SoundType.LANTERN).setLightLevel((state) -> 15).notSolid());
     }
 }

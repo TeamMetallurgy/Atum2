@@ -2,51 +2,51 @@ package com.teammetallurgy.atum.blocks.curio.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.network.NetworkHandler;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.IPacket;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
 public class CurioDisplayTileEntity extends InventoryBaseTileEntity {
 
-    public CurioDisplayTileEntity(BlockEntityType<? extends CurioDisplayTileEntity> tileEntityType) {
+    public CurioDisplayTileEntity(TileEntityType<? extends CurioDisplayTileEntity> tileEntityType) {
         super(tileEntityType, 1);
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int id, @Nonnull Inventory player) {
+    protected Container createMenu(int id, @Nonnull PlayerInventory player) {
         return null;
     }
 
     @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
+    public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        this.read(this.getBlockState(), packet.getNbtCompound());
     }
 
     @Override
     @Nonnull
-    public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
     }
 
     @Override
-    public void setChanged() {
-        super.setChanged();
-        if (this.level instanceof ServerLevel) {
-            final Packet<?> packet = this.getUpdatePacket();
-            NetworkHandler.sendToTracking((ServerLevel) this.level, this.worldPosition, packet, false);
+    public void markDirty() {
+        super.markDirty();
+        if (this.world instanceof ServerWorld) {
+            final IPacket<?> packet = this.getUpdatePacket();
+            NetworkHandler.sendToTracking((ServerWorld) this.world, this.pos, packet, false);
         }
     }
 }

@@ -1,64 +1,64 @@
 package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.*;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particles.BasicParticleType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class TefnutParticle extends TextureSheetParticle {
+public class TefnutParticle extends SpriteTexturedParticle {
 
-    public TefnutParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed, SpriteSet spriteSet) {
+    public TefnutParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double speed, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, speed);
         this.setSize(0.02F, 0.02F);
-        this.quadSize *= this.random.nextFloat() * 0.6F;
-        this.xd *= 0.019999999552965164D;
-        this.yd *= 0.019999999552965164D;
-        this.zd *= 0.019999999552965164D;
-        this.lifetime = (int) (20.0D / (Math.random() * 0.8D + 0.2D));
-        this.setSpriteFromAge(spriteSet);
+        this.particleScale *= this.rand.nextFloat() * 0.6F;
+        this.motionX *= 0.019999999552965164D;
+        this.motionY *= 0.019999999552965164D;
+        this.motionZ *= 0.019999999552965164D;
+        this.maxAge = (int) (20.0D / (Math.random() * 0.8D + 0.2D));
+        this.selectSpriteWithAge(spriteSet);
     }
 
     @Override
     @Nonnull
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     @Override
     public void move(double x, double y, double z) {
-        this.setBoundingBox(this.getBoundingBox().move(x, y, z));
-        this.setLocationFromBoundingbox();
+        this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
+        this.resetPositionToBB();
     }
 
     @Override
     public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
-        this.move(this.xd, this.yd, this.zd);
-        this.xd *= 0.99D;
-        this.yd *= 0.99D;
-        this.zd *= 0.99D;
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
+        this.move(this.motionX, this.motionY, this.motionZ);
+        this.motionX *= 0.99D;
+        this.motionY *= 0.99D;
+        this.motionZ *= 0.99D;
 
-        if (this.lifetime-- <= 0) {
-            this.remove();
+        if (this.maxAge-- <= 0) {
+            this.setExpired();
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Factory implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Factory implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Factory(SpriteSet sprite) {
+        public Factory(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new TefnutParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

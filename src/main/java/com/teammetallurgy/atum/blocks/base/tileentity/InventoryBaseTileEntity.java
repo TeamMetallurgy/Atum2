@@ -1,27 +1,27 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.NonNullList;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.block.BlockState;
+import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.tileentity.LockableLootTileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 
-public abstract class InventoryBaseTileEntity extends RandomizableContainerBlockEntity {
+public abstract class InventoryBaseTileEntity extends LockableLootTileEntity {
     protected NonNullList<ItemStack> inventory;
 
-    public InventoryBaseTileEntity(BlockEntityType<?> tileEntityType, int slots) {
+    public InventoryBaseTileEntity(TileEntityType<?> tileEntityType, int slots) {
         super(tileEntityType);
         this.inventory = NonNullList.withSize(slots, ItemStack.EMPTY);
     }
 
     @Override
-    public int getContainerSize() {
+    public int getSizeInventory() {
         return this.inventory.size();
     }
 
@@ -38,8 +38,8 @@ public abstract class InventoryBaseTileEntity extends RandomizableContainerBlock
 
     @Override
     @Nonnull
-    protected Component getDefaultName() {
-        return new TranslatableComponent(this.getBlockState().getBlock().getDescriptionId());
+    protected ITextComponent getDefaultName() {
+        return new TranslationTextComponent(this.getBlockState().getBlock().getTranslationKey());
     }
 
     @Override
@@ -53,20 +53,20 @@ public abstract class InventoryBaseTileEntity extends RandomizableContainerBlock
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        this.inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(compound)) {
-            ContainerHelper.loadAllItems(compound, this.getItems());
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
+        this.inventory = NonNullList.withSize(this.getSizeInventory(), ItemStack.EMPTY);
+        if (!this.checkLootAndRead(compound)) {
+            ItemStackHelper.loadAllItems(compound, this.getItems());
         }
     }
 
     @Override
     @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        if (!this.trySaveLootTable(compound)) {
-            ContainerHelper.saveAllItems(compound, this.getItems());
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
+        super.write(compound);
+        if (!this.checkLootAndWrite(compound)) {
+            ItemStackHelper.saveAllItems(compound, this.getItems());
         }
         return compound;
     }

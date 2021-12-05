@@ -3,53 +3,46 @@ package com.teammetallurgy.atum.entity.bandit;
 import com.teammetallurgy.atum.entity.ai.goal.OpenAnyDoorGoal;
 import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.TargetGoal;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.core.BlockPos;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.goal.HurtByTargetGoal;
+import net.minecraft.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.TargetGoal;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LightLayer;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.PathfinderMob;
-
 public class AssassinEntity extends BanditBaseEntity {
     private final DamageSource ASSASSINATED = new EntityDamageSource("assassinated", this);
-    private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(AssassinEntity.class, EntityDataSerializers.BYTE);
+    private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(AssassinEntity.class, DataSerializers.BYTE);
     private LivingEntity markedTarget;
 
-    public AssassinEntity(EntityType<? extends AssassinEntity> entityType, Level world) {
+    public AssassinEntity(EntityType<? extends AssassinEntity> entityType, World world) {
         super(entityType, world);
-        this.xpReward = 12;
-        (new ClimberGroundPathNavigator(this, world)).setCanOpenDoors(true);
+        this.experienceValue = 12;
+        (new ClimberGroundPathNavigator(this, world)).setBreakDoors(true);
         this.setCanPatrol(false);
     }
 
@@ -69,22 +62,22 @@ public class AssassinEntity extends BanditBaseEntity {
     @Override
     protected void applyEntityAI() {
         this.targetSelector.addGoal(0, new HurtByTargetGoal(this, BanditBaseEntity.class));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, false));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, false));
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(CLIMBING, (byte) 0);
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(CLIMBING, (byte) 0);
     }
 
-    public static AttributeSupplier.Builder getAttributes() {
-        return getBaseAttributes().add(Attributes.MAX_HEALTH, 40.0D).add(Attributes.ATTACK_DAMAGE, 5.0D).add(Attributes.ARMOR, 4.0F);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 5.0D).createMutableAttribute(Attributes.ARMOR, 4.0F);
     }
 
     @Override
     @Nonnull
-    protected PathNavigation createNavigation(@Nonnull Level world) {
+    protected PathNavigator createNavigator(@Nonnull World world) {
         return new ClimberGroundPathNavigator(this, world);
     }
 
@@ -92,29 +85,29 @@ public class AssassinEntity extends BanditBaseEntity {
     public void tick() {
         super.tick();
 
-        if (!this.level.isClientSide) {
-            this.setBesideClimbableBlock(this.horizontalCollision);
+        if (!this.world.isRemote) {
+            this.setBesideClimbableBlock(this.collidedHorizontally);
         }
     }
 
     @Override
-    public boolean onClimbable() {
+    public boolean isOnLadder() {
         return this.isBesideClimbableBlock();
     }
 
     private boolean isBesideClimbableBlock() {
-        return (this.entityData.get(CLIMBING) & 1) != 0;
+        return (this.dataManager.get(CLIMBING) & 1) != 0;
     }
 
     private void setBesideClimbableBlock(boolean isClimbing) {
-        byte climbing = this.entityData.get(CLIMBING);
+        byte climbing = this.dataManager.get(CLIMBING);
 
         if (isClimbing) {
             climbing = (byte) (climbing | 1);
         } else {
             climbing = (byte) (climbing & -2);
         }
-        this.entityData.set(CLIMBING, climbing);
+        this.dataManager.set(CLIMBING, climbing);
     }
 
     @Override
@@ -127,49 +120,49 @@ public class AssassinEntity extends BanditBaseEntity {
     }
 
     @Override
-    public int getMaxSpawnClusterSize() {
+    public int getMaxSpawnedInChunk() {
         return 1;
     }
 
     @Override
-    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
-        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER));
+    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
+        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.POISON_DAGGER));
     }
 
     @Override
-    public boolean doHurtTarget(@Nonnull Entity entity) {
-        if (!super.doHurtTarget(entity)) {
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
+        if (!super.attackEntityAsMob(entity)) {
             return false;
         } else {
-            if (this.getItemBySlot(EquipmentSlot.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
-                entity.hurt(ASSASSINATED, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
-                (((LivingEntity) entity)).addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+            if (this.getItemStackFromSlot(EquipmentSlotType.MAINHAND).getItem() == AtumItems.POISON_DAGGER && entity instanceof LivingEntity) {
+                entity.attackEntityFrom(ASSASSINATED, (float) this.getAttributeValue(Attributes.ATTACK_DAMAGE));
+                (((LivingEntity) entity)).addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
             }
             return true;
         }
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
-        if (this.markedTarget instanceof Player) {
-            compound.putUUID("MarkedForDeathTarget", this.markedTarget.getUUID());
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
+        super.writeAdditional(compound);
+        if (this.markedTarget instanceof PlayerEntity) {
+            compound.putUniqueId("MarkedForDeathTarget", this.markedTarget.getUniqueID());
         }
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
+    public void readAdditional(@Nonnull CompoundNBT compound) {
+        super.readAdditional(compound);
         if (compound.contains("MarkedForDeathTarget")) {
-            Player playerEntity = this.level.getPlayerByUUID(compound.getUUID("MarkedForDeathTarget"));
+            PlayerEntity playerEntity = this.world.getPlayerByUuid(compound.getUniqueId("MarkedForDeathTarget"));
             if (playerEntity != null) {
                 this.markedTarget = playerEntity;
             }
         }
     }
 
-    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
-        return spawnReason == MobSpawnType.EVENT ? world.canSeeSkyFromBelowWater(pos) && world.getBrightness(LightLayer.BLOCK, pos) <= 8 : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
+    public static boolean canSpawn(EntityType<? extends BanditBaseEntity> banditBase, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        return spawnReason == SpawnReason.EVENT ? world.canBlockSeeSky(pos) && world.getLightFor(LightType.BLOCK, pos) <= 8 : BanditBaseEntity.canSpawn(banditBase, world, spawnReason, pos, random);
     }
 
     public void setMarkedTarget(LivingEntity livingEntity) {
@@ -180,26 +173,26 @@ public class AssassinEntity extends BanditBaseEntity {
     public static class MarkedForDeathGoal extends TargetGoal {
         protected LivingEntity markedTarget;
 
-        public MarkedForDeathGoal(Mob mob, @Nullable LivingEntity markedTarget) {
+        public MarkedForDeathGoal(MobEntity mob, @Nullable LivingEntity markedTarget) {
             super(mob, false);
             this.markedTarget = markedTarget;
         }
 
         @Override
-        protected double getFollowDistance() {
+        protected double getTargetDistance() {
             return 128.0D;
         }
 
         @Override
-        public boolean canContinueToUse() {
+        public boolean shouldContinueExecuting() {
             LivingEntity target;
-            LivingEntity revenge = this.mob.getLastHurtByMob();
+            LivingEntity revenge = this.goalOwner.getRevengeTarget();
             if (revenge != null) {
                 target = revenge;
             } else {
                 target = this.markedTarget;
                 if (target == null) {
-                    target = this.mob.getTarget();
+                    target = this.goalOwner.getAttackTarget();
                 }
             }
 
@@ -208,14 +201,14 @@ public class AssassinEntity extends BanditBaseEntity {
             } else if (!target.isAlive()) {
                 return false;
             } else {
-                double distance = this.getFollowDistance();
-                if (this.mob.distanceToSqr(target) > distance * distance) {
+                double distance = this.getTargetDistance();
+                if (this.goalOwner.getDistanceSq(target) > distance * distance) {
                     return false;
                 } else {
-                    if (target instanceof Player && ((Player) target).abilities.invulnerable) {
+                    if (target instanceof PlayerEntity && ((PlayerEntity) target).abilities.disableDamage) {
                         return false;
                     } else {
-                        this.mob.setTarget(target);
+                        this.goalOwner.setAttackTarget(target);
                         return true;
                     }
                 }
@@ -223,27 +216,27 @@ public class AssassinEntity extends BanditBaseEntity {
         }
 
         @Override
-        public boolean canUse() {
+        public boolean shouldExecute() {
             return this.markedTarget != null;
         }
 
         @Override
-        public void stop() {
-            super.stop();
+        public void resetTask() {
+            super.resetTask();
             this.markedTarget = null;
-            ((AssassinEntity) this.mob).markedTarget = null;
+            ((AssassinEntity) this.goalOwner).markedTarget = null;
         }
     }
 
     public static class AssassinMeleeAttackGoal extends MeleeAttackGoal {
 
-        public AssassinMeleeAttackGoal(PathfinderMob creature, double speedIn, boolean useLongMemory) {
+        public AssassinMeleeAttackGoal(CreatureEntity creature, double speedIn, boolean useLongMemory) {
             super(creature, speedIn, useLongMemory);
         }
 
         @Override
         public void tick() {
-            if (this.mob != null && this.mob.getTarget() != null) {
+            if (this.attacker != null && this.attacker.getAttackTarget() != null) {
                 super.tick();
             }
         }

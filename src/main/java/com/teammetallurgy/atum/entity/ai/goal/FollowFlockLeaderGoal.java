@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
 import com.teammetallurgy.atum.entity.animal.QuailEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.Goal;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,12 +17,12 @@ public class FollowFlockLeaderGoal extends Goal {
     }
 
     protected int getNewCooldown(QuailEntity taskOwner) {
-        return 200 + taskOwner.getRandom().nextInt(200) % 20;
+        return 200 + taskOwner.getRNG().nextInt(200) % 20;
     }
 
     @Override
-    public boolean canUse() {
-        if (this.taskOwner.isFlockLeader() || this.taskOwner.isBaby()) { //Added child check, since that's handled by FollowParentGoal
+    public boolean shouldExecute() {
+        if (this.taskOwner.isFlockLeader() || this.taskOwner.isChild()) { //Added child check, since that's handled by FollowParentGoal
             return false;
         } else if (this.taskOwner.hasFlockLeader()) {
             return true;
@@ -34,9 +34,9 @@ public class FollowFlockLeaderGoal extends Goal {
             Predicate<QuailEntity> predicate = (quail) -> {
                 return quail.canGroupGrow() || !quail.hasFlockLeader();
             };
-            List<QuailEntity> list = this.taskOwner.level.getEntitiesOfClass(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
+            List<QuailEntity> list = this.taskOwner.world.getEntitiesWithinAABB(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().grow(8.0D, 8.0D, 8.0D), predicate);
             QuailEntity quail = list.stream().filter(QuailEntity::canGroupGrow).findAny().orElse(this.taskOwner);
-            quail.addFollowers(list.stream().filter((quailEntity) -> {
+            quail.func_212810_a(list.stream().filter((quailEntity) -> {
                 return !quailEntity.hasFlockLeader();
             }));
             return this.taskOwner.hasFlockLeader();
@@ -44,17 +44,17 @@ public class FollowFlockLeaderGoal extends Goal {
     }
 
     @Override
-    public boolean canContinueToUse() {
+    public boolean shouldContinueExecuting() {
         return this.taskOwner.hasFlockLeader() && this.taskOwner.inRangeOfFlockLeader();
     }
 
     @Override
-    public void start() {
+    public void startExecuting() {
         this.navigateTimer = 0;
     }
 
     @Override
-    public void stop() {
+    public void resetTask() {
         this.taskOwner.leaveGroup();
     }
 

@@ -1,27 +1,27 @@
 package com.teammetallurgy.atum.world.gen.structure;
 
-import net.minecraft.core.Direction;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.SectionPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.util.Direction;
+import net.minecraft.util.Rotation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.SectionPos;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.Heightmap;
+import net.minecraft.world.gen.feature.structure.Structure;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 public class StructureHelper {
 
-    public static boolean doesChunkHaveStructure(WorldGenLevel seedReader, BlockPos pos, StructureFeature<?> structure) {
-        return seedReader.startsForFeature(SectionPos.of(pos), structure).findAny().isPresent();
+    public static boolean doesChunkHaveStructure(ISeedReader seedReader, BlockPos pos, Structure<?> structure) {
+        return seedReader.func_241827_a(SectionPos.from(pos), structure).findAny().isPresent();
     }
 
     public static int getYPosForStructure(int chunkX, int chunkZ, ChunkGenerator generator, @Nullable Rotation rotation) {
         if (rotation == null) {
             Random rand = new Random();
-            rotation = Rotation.getRandom(rand);
+            rotation = Rotation.randomRotation(rand);
         }
         int x = 5;
         int z = 5;
@@ -36,10 +36,10 @@ public class StructureHelper {
 
         int k = (chunkX << 4) + 7;
         int l = (chunkZ << 4) + 7;
-        int i1 = generator.getFirstOccupiedHeight(k, l, Heightmap.Types.WORLD_SURFACE_WG);
-        int j1 = generator.getFirstOccupiedHeight(k, l + z, Heightmap.Types.WORLD_SURFACE_WG);
-        int k1 = generator.getFirstOccupiedHeight(k + x, l, Heightmap.Types.WORLD_SURFACE_WG);
-        int l1 = generator.getFirstOccupiedHeight(k + x, l + z, Heightmap.Types.WORLD_SURFACE_WG);
+        int i1 = generator.getNoiseHeightMinusOne(k, l, Heightmap.Type.WORLD_SURFACE_WG);
+        int j1 = generator.getNoiseHeightMinusOne(k, l + z, Heightmap.Type.WORLD_SURFACE_WG);
+        int k1 = generator.getNoiseHeightMinusOne(k + x, l, Heightmap.Type.WORLD_SURFACE_WG);
+        int l1 = generator.getNoiseHeightMinusOne(k + x, l + z, Heightmap.Type.WORLD_SURFACE_WG);
         return Math.min(Math.min(i1, j1), Math.min(k1, l1));
     }
 

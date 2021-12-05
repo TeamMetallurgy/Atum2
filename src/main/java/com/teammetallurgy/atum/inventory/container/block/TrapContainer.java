@@ -3,22 +3,22 @@ package com.teammetallurgy.atum.inventory.container.block;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import com.teammetallurgy.atum.init.AtumGuis;
 import com.teammetallurgy.atum.inventory.container.slot.FuelSlot;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
-public class TrapContainer extends AbstractContainerMenu {
+public class TrapContainer extends Container {
     private final TrapTileEntity trapInventory;
-    private final ContainerData trapData;
+    private final IIntArray trapData;
 
-    public TrapContainer(int windowID, Inventory playerInventory, TrapTileEntity trapInventory) {
+    public TrapContainer(int windowID, PlayerInventory playerInventory, TrapTileEntity trapInventory) {
         super(AtumGuis.TRAP, windowID);
         this.trapInventory = trapInventory;
         this.trapData = trapInventory.trapData;
@@ -33,38 +33,38 @@ public class TrapContainer extends AbstractContainerMenu {
         for (int slot = 0; slot < 9; ++slot) {
             this.addSlot(new Slot(playerInventory, slot, 8 + slot * 18, 109));
         }
-        this.addDataSlots(trapInventory.trapData);
+        this.trackIntArray(trapInventory.trapData);
     }
 
     @Override
     @Nonnull
-    public ItemStack quickMoveStack(@Nonnull Player player, int index) {
+    public ItemStack transferStackInSlot(@Nonnull PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
+        Slot slot = this.inventorySlots.get(index);
 
-        if (slot != null && slot.hasItem()) {
-            ItemStack slotStack = slot.getItem();
+        if (slot != null && slot.getHasStack()) {
+            ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
 
-            if (index < this.trapInventory.getContainerSize()) {
-                if (!this.moveItemStackTo(slotStack, this.trapInventory.getContainerSize(), this.slots.size(), true)) {
+            if (index < this.trapInventory.getSizeInventory()) {
+                if (!this.mergeItemStack(slotStack, this.trapInventory.getSizeInventory(), this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.moveItemStackTo(slotStack, 0, this.trapInventory.getContainerSize(), false)) {
+            } else if (!this.mergeItemStack(slotStack, 0, this.trapInventory.getSizeInventory(), false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.getCount() == 0) {
-                slot.set(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             } else {
-                slot.setChanged();
+                slot.onSlotChanged();
             }
         }
         return stack;
     }
 
     @Override
-    public boolean stillValid(@Nonnull Player player) {
-        return this.trapInventory.stillValid(player);
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+        return this.trapInventory.isUsableByPlayer(player);
     }
 
     @OnlyIn(Dist.CLIENT)

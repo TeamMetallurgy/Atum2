@@ -3,8 +3,8 @@ package com.teammetallurgy.atum.items.tools;
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.api.AtumMats;
 import com.teammetallurgy.atum.api.God;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.SwordItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.SwordItem;
 
 import java.util.Map;
 

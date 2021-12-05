@@ -3,28 +3,28 @@ package com.teammetallurgy.atum.blocks.trap;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.trap.tileentity.TrapTileEntity;
 import net.minecraft.block.*;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.DirectionProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.level.Explosion;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.world.Explosion;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.world.BlockEvent;
@@ -35,36 +35,21 @@ import net.minecraftforge.fml.network.NetworkHooks;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
-import net.minecraft.core.Direction;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.DirectionalBlock;
-import net.minecraft.world.level.block.Mirror;
-import net.minecraft.world.level.block.RenderShape;
-import net.minecraft.world.level.block.Rotation;
-import net.minecraft.world.level.block.state.BlockState;
-
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public abstract class TrapBlock extends BaseEntityBlock {
+public abstract class TrapBlock extends ContainerBlock {
     public static final DirectionProperty FACING = DirectionalBlock.FACING;
     private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
 
     protected TrapBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F).harvestTool(ToolType.PICKAXE).harvestLevel(0));
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(DISABLED, Boolean.FALSE));
+        super(Properties.create(Material.ROCK, MaterialColor.SAND).hardnessAndResistance(1.5F).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH).with(DISABLED, Boolean.FALSE));
     }
 
     @SubscribeEvent
     public static void onBlockBreak(BlockEvent.BreakEvent event) {
         BlockState state = event.getState();
         if (state.getBlock() instanceof TrapBlock) {
-            BlockEntity tileEntity = event.getWorld().getBlockEntity(event.getPos());
+            TileEntity tileEntity = event.getWorld().getTileEntity(event.getPos());
             if (tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid && !event.getPlayer().isCreative()) {
                 event.setCanceled(true);
             }
@@ -72,129 +57,129 @@ public abstract class TrapBlock extends BaseEntityBlock {
     }
 
     @Override
-    public float getExplosionResistance(BlockState state, BlockGetter world, BlockPos pos, Explosion explosion) {
-        BlockEntity tileEntity = world.getBlockEntity(pos);
+    public float getExplosionResistance(BlockState state, IBlockReader world, BlockPos pos, Explosion explosion) {
+        TileEntity tileEntity = world.getTileEntity(pos);
         return tileEntity instanceof TrapTileEntity && ((TrapTileEntity) tileEntity).isInsidePyramid ? 6000000.0F : super.getExplosionResistance(state, world, pos, explosion);
     }
 
     @Override
     @Nonnull
-    public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTraceResult) {
-        if (world.isClientSide) {
-            return InteractionResult.PASS;
+    public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTraceResult) {
+        if (world.isRemote) {
+            return ActionResultType.PASS;
         } else {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
-            boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getItemInHand(InteractionHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getItemInHand(InteractionHand.OFF_HAND));
+            TileEntity tileEntity = world.getTileEntity(pos);
+            boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getHeldItem(Hand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getHeldItem(Hand.OFF_HAND));
             if (tileEntity instanceof TrapTileEntity) {
                 TrapTileEntity trap = (TrapTileEntity) tileEntity;
                 if (!trap.isInsidePyramid) {
-                    NetworkHooks.openGui((ServerPlayer) player, trap, pos);
-                    return InteractionResult.SUCCESS;
+                    NetworkHooks.openGui((ServerPlayerEntity) player, trap, pos);
+                    return ActionResultType.SUCCESS;
                 }
-                if (trap.isInsidePyramid && isToolEffective && !state.getValue(DISABLED)) {
+                if (trap.isInsidePyramid && isToolEffective && !state.get(DISABLED)) {
                     this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
-                    world.playSound(null, pos, SoundEvents.DISPENSER_FAIL, SoundSource.BLOCKS, 1.1F, 1.5F);
-                    return InteractionResult.SUCCESS;
+                    world.playSound(null, pos, SoundEvents.BLOCK_DISPENSER_FAIL, SoundCategory.BLOCKS, 1.1F, 1.5F);
+                    return ActionResultType.SUCCESS;
                 }
             }
         }
-        return super.use(state, world, pos, player, hand, rayTraceResult);
+        return super.onBlockActivated(state, world, pos, player, hand, rayTraceResult);
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
-        if (!world.isClientSide) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void neighborChanged(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
-                if (world.hasNeighborSignal(pos)) {
+                if (world.isBlockPowered(pos)) {
                     this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
-                } else if (!world.hasNeighborSignal(pos)) {
-                    world.getBlockTicks().scheduleTick(pos, this, 4);
+                } else if (!world.isBlockPowered(pos)) {
+                    world.getPendingBlockTicks().scheduleTick(pos, this, 4);
                 }
             }
         }
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
-        if (!world.isClientSide) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+        if (!world.isRemote) {
+            TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity && !((TrapTileEntity) tileEntity).isInsidePyramid) {
-                if (!world.hasNeighborSignal(pos)) {
+                if (!world.isBlockPowered(pos)) {
                     this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, false);
                 }
             }
         }
     }
 
-    private void setDisabled(Level world, BlockPos pos, BlockState state, TrapTileEntity trap, boolean disabledStatus) {
+    private void setDisabled(World world, BlockPos pos, BlockState state, TrapTileEntity trap, boolean disabledStatus) {
         trap.setDisabledStatus(disabledStatus);
-        world.setBlockAndUpdate(pos, state.setValue(DISABLED, disabledStatus));
-        world.sendBlockUpdated(pos, state, state, 3);
+        world.setBlockState(pos, state.with(DISABLED, disabledStatus));
+        world.notifyBlockUpdate(pos, state, state, 3);
     }
 
     @Override
     @Nonnull
-    public RenderShape getRenderShape(@Nonnull BlockState state) {
-        return RenderShape.MODEL;
+    public BlockRenderType getRenderType(@Nonnull BlockState state) {
+        return BlockRenderType.MODEL;
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(FACING, context.getNearestLookingDirection().getOpposite());
+    public BlockState getStateForPlacement(BlockItemUseContext context) {
+        return this.getDefaultState().with(FACING, context.getNearestLookingDirection().getOpposite());
     }
 
     @Override
-    public void setPlacedBy(Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        BlockEntity tileentity = world.getBlockEntity(pos);
+    public void onBlockPlacedBy(World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        TileEntity tileentity = world.getTileEntity(pos);
         if (tileentity instanceof TrapTileEntity) {
             ((TrapTileEntity) tileentity).isInsidePyramid = false;
-            if (stack.hasCustomHoverName()) {
-                ((TrapTileEntity) tileentity).setCustomName(stack.getHoverName());
+            if (stack.hasDisplayName()) {
+                ((TrapTileEntity) tileentity).setCustomName(stack.getDisplayName());
             }
         }
     }
 
     @Override
-    public void onRemove(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+    public void onReplaced(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
         if (newState.getBlock() != state.getBlock()) {
-            BlockEntity tileEntity = world.getBlockEntity(pos);
+            TileEntity tileEntity = world.getTileEntity(pos);
             if (tileEntity instanceof TrapTileEntity) {
-                Containers.dropContents(world, pos, (Container) tileEntity);
-                world.updateNeighbourForOutputSignal(pos, this);
+                InventoryHelper.dropInventoryItems(world, pos, (IInventory) tileEntity);
+                world.updateComparatorOutputLevel(pos, this);
             }
-            world.removeBlockEntity(pos);
+            world.removeTileEntity(pos);
         }
     }
 
     @Override
-    public boolean isSignalSource(@Nonnull BlockState state) {
+    public boolean canProvidePower(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean hasAnalogOutputSignal(@Nonnull BlockState state) {
+    public boolean hasComparatorInputOverride(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public int getAnalogOutputSignal(@Nonnull BlockState blockState, Level world, @Nonnull BlockPos pos) {
-        return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
+    public int getComparatorInputOverride(@Nonnull BlockState blockState, World world, @Nonnull BlockPos pos) {
+        return Container.calcRedstone(world.getTileEntity(pos));
     }
 
     @Override
-    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
-        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
+        return state.with(FACING, rotation.rotate(state.get(FACING)));
     }
 
     @Override
     @Nonnull
     public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.rotate(mirror.getRotation(state.getValue(FACING)));
+        return state.rotate(mirror.toRotation(state.get(FACING)));
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(FACING, DISABLED);
     }
 }

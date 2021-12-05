@@ -1,14 +1,12 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.phys.Vec3;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.util.math.vector.Vector3d;
 
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
-
-import net.minecraft.world.entity.ai.goal.Goal.Flag;
 
 public class CamelCaravanGoal extends Goal {
     private CamelEntity camel;
@@ -18,19 +16,19 @@ public class CamelCaravanGoal extends Goal {
     public CamelCaravanGoal(CamelEntity camel, double speedModifier) {
         this.camel = camel;
         this.speedModifier = speedModifier;
-        this.setFlags(EnumSet.of(Flag.MOVE));
+        this.setMutexFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
-    public boolean canUse() {
-        if (this.camel.isTamed() && !this.canLeadCaravan(this.camel) && !this.camel.inCaravan()) {
-            List<CamelEntity> list = this.camel.level.getEntitiesOfClass(this.camel.getClass(), this.camel.getBoundingBox().inflate(9.0D, 4.0D, 9.0D));
+    public boolean shouldExecute() {
+        if (this.camel.isTame() && !this.canLeadCaravan(this.camel) && !this.camel.inCaravan()) {
+            List<CamelEntity> list = this.camel.world.getEntitiesWithinAABB(this.camel.getClass(), this.camel.getBoundingBox().grow(9.0D, 4.0D, 9.0D));
             CamelEntity camel = null;
             double distance = Double.MAX_VALUE;
 
             for (CamelEntity caravanCamel : list) {
-                if (caravanCamel.isTamed() && caravanCamel.inCaravan() && !caravanCamel.hasCaravanTrail()) {
-                    double distanceSq = this.camel.distanceToSqr(caravanCamel);
+                if (caravanCamel.isTame() && caravanCamel.inCaravan() && !caravanCamel.hasCaravanTrail()) {
+                    double distanceSq = this.camel.getDistanceSq(caravanCamel);
                     if (distanceSq <= distance) {
                         distance = distanceSq;
                         camel = caravanCamel;
@@ -39,8 +37,8 @@ public class CamelCaravanGoal extends Goal {
             }
             if (camel == null) {
                 for (CamelEntity caravanLeader : list) {
-                    if (caravanLeader.isTamed() && this.canLeadCaravan(caravanLeader) && !caravanLeader.hasCaravanTrail()) {
-                        double distanceSq = this.camel.distanceToSqr(caravanLeader);
+                    if (caravanLeader.isTame() && this.canLeadCaravan(caravanLeader) && !caravanLeader.hasCaravanTrail()) {
+                        double distanceSq = this.camel.getDistanceSq(caravanLeader);
                         if (distanceSq <= distance) {
                             distance = distanceSq;
                             camel = caravanLeader;
@@ -65,9 +63,9 @@ public class CamelCaravanGoal extends Goal {
     }
 
     @Override
-    public boolean canContinueToUse() {
+    public boolean shouldContinueExecuting() {
         if (this.camel.inCaravan() && this.camel.getCaravanHead() != null && this.camel.getCaravanHead().isAlive() && this.firstCanBeCaravanLeader(this.camel, 0)) {
-            double distanceSq = this.camel.distanceToSqr(this.camel.getCaravanHead());
+            double distanceSq = this.camel.getDistanceSq(this.camel.getCaravanHead());
 
             if (distanceSq > 676.0D) {
                 if (this.speedModifier <= 3.0D) {
@@ -89,7 +87,7 @@ public class CamelCaravanGoal extends Goal {
     }
 
     @Override
-    public void stop() {
+    public void resetTask() {
         this.camel.leaveCaravan();
         this.speedModifier = 2.1D;
     }
@@ -98,9 +96,9 @@ public class CamelCaravanGoal extends Goal {
     public void tick() {
         if (this.camel.inCaravan()) {
             CamelEntity caravanLeader = this.camel.getCaravanHead();
-            double distance = this.camel.distanceTo(Objects.requireNonNull(caravanLeader));
-            Vec3 vec3d = (new Vec3(caravanLeader.getX() - this.camel.getX(), caravanLeader.getY() - this.camel.getY(), caravanLeader.getZ() - this.camel.getZ())).normalize().scale(Math.max(distance - 2.0D, 0.0D));
-            this.camel.getNavigation().moveTo(this.camel.getX() + vec3d.x, this.camel.getY() + vec3d.y, this.camel.getZ() + vec3d.z, this.speedModifier);
+            double distance = this.camel.getDistance(Objects.requireNonNull(caravanLeader));
+            Vector3d vec3d = (new Vector3d(caravanLeader.getPosX() - this.camel.getPosX(), caravanLeader.getPosY() - this.camel.getPosY(), caravanLeader.getPosZ() - this.camel.getPosZ())).normalize().scale(Math.max(distance - 2.0D, 0.0D));
+            this.camel.getNavigator().tryMoveToXYZ(this.camel.getPosX() + vec3d.x, this.camel.getPosY() + vec3d.y, this.camel.getPosZ() + vec3d.z, this.speedModifier);
         }
     }
 
@@ -121,6 +119,6 @@ public class CamelCaravanGoal extends Goal {
     }
 
     private boolean canLeadCaravan(CamelEntity camel) {
-        return camel.isLeashed() || camel.isSaddled() && camel.isVehicle() && (!camel.hasColor() || camel.getColor() == this.camel.getColor());
+        return camel.getLeashed() || camel.isHorseSaddled() && camel.isBeingRidden() && (!camel.hasColor() || camel.getColor() == this.camel.getColor());
     }
 }

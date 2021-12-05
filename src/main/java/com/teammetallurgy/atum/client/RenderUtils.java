@@ -1,66 +1,66 @@
 package com.teammetallurgy.atum.client;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.level.block.state.BlockState;
+import com.mojang.blaze3d.matrix.MatrixStack;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
-import com.mojang.math.Quaternion;
-import net.minecraft.world.phys.Vec3;
-import com.mojang.math.Vector3f;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.model.ItemCameraTransforms;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.entity.Entity;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemStack;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Quaternion;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 
 import javax.annotation.Nonnull;
 
 public class RenderUtils {
 
-    public static void renderItem(BlockEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, float rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         renderItem(tileEntity, stack, Vector3f.YP.rotationDegrees(rotation), yOffset, drawStackSize, rotateEastWest, 90.0F, matrixStack, buffer, combinedLight, combinedOverlay);
     }
 
-    public static void renderItem(BlockEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, float eastWestDegress, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
+    public static void renderItem(TileEntity tileEntity, @Nonnull ItemStack stack, Quaternion rotation, double yOffset, boolean drawStackSize, boolean rotateEastWest, float eastWestDegress, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
         if (!stack.isEmpty()) {
-            matrixStack.pushPose();
+            matrixStack.push();
             matrixStack.translate(0.5F, yOffset + 1.225F, 0.5F);
 
             if (!(stack.getItem() instanceof BlockItem)) {
-                matrixStack.mulPose(rotation);
+                matrixStack.rotate(rotation);
             }
 
             if (stack.getItem().isShield(stack, null)) {
-                matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
+                matrixStack.rotate(Vector3f.YP.rotationDegrees(180));
                 matrixStack.translate(0.15, 0.1F, 0.15F);
             }
             BlockState state = tileEntity.getBlockState();
             if (state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
-                Direction facing = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+                Direction facing = state.get(BlockStateProperties.HORIZONTAL_FACING);
                 if (rotateEastWest) {
                     if (facing == Direction.EAST || facing == Direction.WEST) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(eastWestDegress));
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(eastWestDegress));
                     }
                 } else {
                     if (facing == Direction.EAST) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(90.0F));
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(90.0F));
                     }
                     if (facing == Direction.WEST) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(-90.0F));
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(-90.0F));
                     }
                     if (facing == Direction.NORTH) {
-                        matrixStack.mulPose(Vector3f.YP.rotationDegrees(180.0F));
+                        matrixStack.rotate(Vector3f.YP.rotationDegrees(180.0F));
                     }
                 }
             }
             matrixStack.scale(0.25F, 0.25F, 0.25F);
-            Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrixStack, buffer);
-            matrixStack.popPose();
+            Minecraft.getInstance().getItemRenderer().renderItem(stack, ItemCameraTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrixStack, buffer);
+            matrixStack.pop();
 
             if (drawStackSize) {
                 String stackSize = String.valueOf(stack.getCount());
@@ -69,25 +69,25 @@ public class RenderUtils {
         }
     }
 
-    public static void drawString(BlockEntity te, String str, double xOffset, double yOffset, double zOffset, float scaleModifier, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        BlockEntityRenderDispatcher rendererDispatcher = BlockEntityRenderDispatcher.instance;
-        Entity entity = rendererDispatcher.camera.getEntity();
-        BlockPos tePos = te.getBlockPos();
-        double distance = new Vec3(entity.getX(), entity.getY(), entity.getZ()).distanceToSqr(tePos.getX(), tePos.getY(), tePos.getZ());
+    public static void drawString(TileEntity te, String str, double xOffset, double yOffset, double zOffset, float scaleModifier, MatrixStack matrixStack, IRenderTypeBuffer buffer, int combinedLight, int combinedOverlay) {
+        TileEntityRendererDispatcher rendererDispatcher = TileEntityRendererDispatcher.instance;
+        Entity entity = rendererDispatcher.renderInfo.getRenderViewEntity();
+        BlockPos tePos = te.getPos();
+        double distance = new Vector3d(entity.getPosX(), entity.getPosY(), entity.getPosZ()).squareDistanceTo(tePos.getX(), tePos.getY(), tePos.getZ());
 
         if (distance <= (double) (14 * 14)) {
-            float yaw = rendererDispatcher.camera.getYRot();
-            float pitch = rendererDispatcher.camera.getXRot();
-            Font font = rendererDispatcher.getFont();
-            matrixStack.pushPose();
+            float yaw = rendererDispatcher.renderInfo.getYaw();
+            float pitch = rendererDispatcher.renderInfo.getPitch();
+            FontRenderer font = rendererDispatcher.getFontRenderer();
+            matrixStack.push();
             matrixStack.translate(xOffset, yOffset, zOffset);
 
-            matrixStack.mulPose(Vector3f.YP.rotationDegrees(-yaw));
-            matrixStack.mulPose(Vector3f.XP.rotationDegrees(pitch));
+            matrixStack.rotate(Vector3f.YP.rotationDegrees(-yaw));
+            matrixStack.rotate(Vector3f.XP.rotationDegrees(pitch));
             matrixStack.scale(-0.015F + scaleModifier, -0.015F + scaleModifier, 0.015F + scaleModifier);
 
-            font.drawInBatch(str, -font.width(str) / 2, 0, 1, false, matrixStack.last().pose(), buffer, false, 0, 0);
-            matrixStack.popPose();
+            font.renderString(str, -font.getStringWidth(str) / 2, 0, 1, false, matrixStack.getLast().getMatrix(), buffer, false, 0, 0);
+            matrixStack.pop();
         }
     }
 }

@@ -1,46 +1,46 @@
 package com.teammetallurgy.atum.world;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.world.storage.WorldSavedData;
 import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AtumDimensionData extends SavedData {
+public class AtumDimensionData extends WorldSavedData {
     public static final String ID = "atum_dimension_data";
     private boolean hasStartStructureSpawned;
     private boolean isStorming;
-    private final List<BoundingBox> beatenPyramids = new ArrayList<>();
+    private final List<MutableBoundingBox> beatenPyramids = new ArrayList<>();
 
     public AtumDimensionData() {
         super(ID);
     }
 
     @Override
-    public void load(@Nonnull CompoundTag nbt) {
+    public void read(@Nonnull CompoundNBT nbt) {
         this.hasStartStructureSpawned = nbt.getBoolean("HasStartStructureSpawned");
         this.isStorming = nbt.getBoolean("IsStorming");
 
-        ListTag listNBT = nbt.getList("PyramidBoxes", Constants.NBT.TAG_INT_ARRAY);
+        ListNBT listNBT = nbt.getList("PyramidBoxes", Constants.NBT.TAG_INT_ARRAY);
         for (int i = 0; i < listNBT.size(); ++i) {
-            this.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i)));
+            this.beatenPyramids.add(new MutableBoundingBox(listNBT.getIntArray(i)));
         }
     }
 
     @Override
     @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag nbt) {
+    public CompoundNBT write(@Nonnull CompoundNBT nbt) {
         nbt.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
         nbt.putBoolean("IsStorming", this.isStorming);
 
         if (!this.beatenPyramids.isEmpty()) {
-            ListTag listNBT = new ListTag();
-            for (BoundingBox box : this.beatenPyramids) {
-                listNBT.add(box.createTag());
+            ListNBT listNBT = new ListNBT();
+            for (MutableBoundingBox box : this.beatenPyramids) {
+                listNBT.add(box.toNBTTagIntArray());
             }
             nbt.put("PyramidBoxes", listNBT);
         }
@@ -55,22 +55,22 @@ public class AtumDimensionData extends SavedData {
         return this.isStorming;
     }
 
-    public List<BoundingBox> getBeatenPyramids() {
+    public List<MutableBoundingBox> getBeatenPyramids() {
         return this.beatenPyramids;
     }
 
     public void setHasStartStructureSpawned(boolean hasStartStructureSpawned) {
         this.hasStartStructureSpawned = hasStartStructureSpawned;
-        this.setDirty();
+        this.markDirty();
     }
 
     public void setStorming(boolean isStorming) {
         this.isStorming = isStorming;
-        this.setDirty();
+        this.markDirty();
     }
 
-    public void addBeatenPyramid(BoundingBox box) {
+    public void addBeatenPyramid(MutableBoundingBox box) {
         this.beatenPyramids.add(box);
-        this.setDirty();
+        this.markDirty();
     }
 }

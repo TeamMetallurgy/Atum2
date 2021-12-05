@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.api;
 
 import com.google.common.collect.Maps;
-import net.minecraft.util.StringRepresentable;
-import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.util.IStringSerializable;
+import net.minecraft.util.text.Color;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 
-public enum God implements StringRepresentable {
+public enum God implements IStringSerializable {
     ANPUT("anput", "#46403F"),
     ANUBIS("anubis", "#780162"),
     ATEM("atem", "#229F89"),
@@ -28,18 +28,18 @@ public enum God implements StringRepresentable {
     static HashMap<String, God> GOD_BY_NAME;
     static HashMap<Integer, God> MAP;
     private final String name;
-    private final TextColor color;
+    private final Color color;
     private final String hex;
 
     God(String name, String hex) {
         this.name = name;
         this.hex = hex;
-        this.color = TextColor.parseColor(hex);
+        this.color = Color.fromHex(hex);
     }
 
     @Override
     @Nonnull
-    public String getSerializedName() {
+    public String getString() {
         return this.getName();
     }
 
@@ -47,11 +47,11 @@ public enum God implements StringRepresentable {
         return this.name;
     }
 
-    public TranslatableComponent getDisplayName() {
-        return new TranslatableComponent("atum.god." + this.name);
+    public TranslationTextComponent getDisplayName() {
+        return new TranslationTextComponent("atum.god." + this.name);
     }
 
-    public TextColor getColor() {
+    public Color getColor() {
         return this.color;
     }
 

@@ -3,10 +3,10 @@ package com.teammetallurgy.atum.misc.event;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.AtumAPI;
 import net.minecraft.client.Minecraft;
-import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.world.item.Item;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.util.InputMappings;
+import net.minecraft.item.Item;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -20,16 +20,16 @@ public class TooltipEvent {
     public static void onTooltip(ItemTooltipEvent event) {
         if (!event.getItemStack().isEmpty()) {
             Item item = event.getItemStack().getItem();
-            if (!item.getTags().isEmpty() && item.is(AtumAPI.Tags.TOOLTIP)) {
+            if (!item.getTags().isEmpty() && item.isIn(AtumAPI.Tags.TOOLTIP)) {
                 if (item.getRegistryName() != null) {
                     String itemIdentifier = item.getRegistryName().getPath() + ".tooltip";
-                    if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
-                        event.getToolTip().add(new TranslatableComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").append(": ").withStyle(ChatFormatting.GRAY)
-                                .append(new TranslatableComponent(Atum.MOD_ID + "." + itemIdentifier + ".line1").withStyle(ChatFormatting.DARK_GRAY)));
-                        event.getToolTip().add(new TranslatableComponent(Atum.MOD_ID + "." + itemIdentifier + ".line2").withStyle(ChatFormatting.DARK_GRAY));
+                    if (InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_LEFT_SHIFT)) {
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").appendString(": ").mergeStyle(TextFormatting.GRAY)
+                                .append(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line1").mergeStyle(TextFormatting.DARK_GRAY)));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".line2").mergeStyle(TextFormatting.DARK_GRAY));
                     } else {
-                        event.getToolTip().add(new TranslatableComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").withStyle(ChatFormatting.GRAY)
-                                .append(" ").append(new TranslatableComponent(Atum.MOD_ID + ".tooltip.shift").withStyle(ChatFormatting.DARK_GRAY)));
+                        event.getToolTip().add(new TranslationTextComponent(Atum.MOD_ID + "." + itemIdentifier + ".title").mergeStyle(TextFormatting.GRAY)
+                                .appendString(" ").append(new TranslationTextComponent(Atum.MOD_ID + ".tooltip.shift").mergeStyle(TextFormatting.DARK_GRAY)));
                     }
                 }
             }

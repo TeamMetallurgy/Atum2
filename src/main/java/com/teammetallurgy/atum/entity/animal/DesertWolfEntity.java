@@ -17,26 +17,26 @@ import net.minecraft.client.gui.DisplayEffectsScreen;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.*;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.entity.monster.AbstractSkeletonEntity;
 import net.minecraft.entity.monster.CreeperEntity;
 import net.minecraft.entity.monster.GhastEntity;
 import net.minecraft.entity.passive.*;
 import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.world.entity.animal.horse.Llama;
-import net.minecraft.world.entity.player.Player;
+import net.minecraft.entity.passive.horse.LlamaEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.world.ContainerListener;
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.inventory.IInventoryChangedListener;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.world.MenuProvider;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
@@ -64,104 +64,74 @@ import javax.annotation.Nullable;
 import java.util.Random;
 import java.util.UUID;
 
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.PlayerRideableJumping;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.RangedAttribute;
-import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
-import net.minecraft.world.entity.ai.goal.BreedGoal;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.OwnerHurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.OwnerHurtTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.Fox;
-import net.minecraft.world.entity.animal.Rabbit;
-import net.minecraft.world.entity.animal.Sheep;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
-
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJumping, ContainerListener, MenuProvider, NeutralMob {
-    private static final EntityDataAccessor<Boolean> BEGGING = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<Integer> COLLAR_COLOR = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<Boolean> SADDLED = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final EntityDataAccessor<ItemStack> ARMOR_STACK = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.ITEM_STACK);
-    private static final EntityDataAccessor<Integer> ANGER = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.INT);
+public class DesertWolfEntity extends TameableEntity implements IJumpingMount, IInventoryChangedListener, INamedContainerProvider, IAngerable {
+    private static final DataParameter<Boolean> BEGGING = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<Integer> COLLAR_COLOR = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
+    private static final DataParameter<Boolean> SADDLED = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.BOOLEAN);
+    private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.ITEMSTACK);
+    private static final DataParameter<Integer> ANGER = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("0b3da7ef-52bf-47c9-9829-862ffa35b418");
     private String texturePath;
-    private SimpleContainer desertWolfInventory;
+    private Inventory desertWolfInventory;
     private float headRotationCourse;
     private float headRotationCourseWild;
     private boolean isWet;
     private boolean isShaking;
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
-    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(DesertWolfEntity.class, EntityDataSerializers.INT);
-    private static final Attribute JUMP_STRENGTH = (new RangedAttribute("attribute.name.wolf.jump_strength", 0.7D, 0.0D, 2.0D)).setSyncable(true);
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(DesertWolfEntity.class, DataSerializers.VARINT);
+    private static final Attribute JUMP_STRENGTH = (new RangedAttribute("attribute.name.wolf.jump_strength", 0.7D, 0.0D, 2.0D)).setShouldWatch(true);
     private boolean isWolfJumping;
     private float jumpPower;
     private static long lastAlphaTime = 0;
     private UUID angryAt;
-    private static final IntRange ANGRY_TIMER_RANGE = TimeUtil.rangeOfSeconds(20, 39);
+    private static final RangedInteger ANGRY_TIMER_RANGE = TickRangeConverter.convertRange(20, 39);
 
-    public DesertWolfEntity(EntityType<? extends DesertWolfEntity> entityType, Level world) {
+    public DesertWolfEntity(EntityType<? extends DesertWolfEntity> entityType, World world) {
         super(entityType, world);
-        this.xpReward = 6;
-        this.maxUpStep = 1.1F;
+        this.experienceValue = 6;
+        this.stepHeight = 1.1F;
         this.initInventory();
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, new SitWithCheckGoal(this, !this.isAlpha()));
-        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 8.0F, 0.6D, 1.0D, avoid -> avoid instanceof DesertWolfEntity && ((DesertWolfEntity) avoid).isAlpha() && (!this.isAlpha() && this.isTame())));
-        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Llama.class, 24.0F, 0.6D, 1.2D));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 8.0F, 0.6D, 1.0D, avoid -> avoid instanceof DesertWolfEntity && ((DesertWolfEntity) avoid).isAlpha() && (!this.isAlpha() && this.isTamed())));
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, LlamaEntity.class, 24.0F, 0.6D, 1.2D));
         this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, CamelEntity.class, 24.0F, 0.6D, 1.2D, avoid -> avoid != null && !this.isAlpha()));
         this.goalSelector.addGoal(4, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(5, new MeleeAttackGoal(this, 1.0D, true));
         this.goalSelector.addGoal(6, new FollowOwnerWithoutSaddleGoal(this, 1.0D, 10.0F, 2.0F));
         this.goalSelector.addGoal(7, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.4D));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 0.4D));
         this.goalSelector.addGoal(9, new BegGoal(this, 8.0F));
-        this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(10, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 0, false, false, target -> !this.isTame()));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, 10, false, false, target -> !this.isTame()));
+        this.goalSelector.addGoal(10, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(10, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 0, false, false, target -> !this.isTamed()));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, 10, false, false, target -> !this.isTamed()));
         this.targetSelector.addGoal(1, new OwnerHurtByTargetGoal(this));
         this.targetSelector.addGoal(2, new OwnerHurtTargetGoal(this));
-        this.targetSelector.addGoal(3, new HurtByTargetGoal(this).setAlertOthers());
-        this.targetSelector.addGoal(4, new NonTameRandomTargetGoal<>(this, Animal.class, false, (entity) -> entity instanceof Sheep || entity instanceof Rabbit || entity instanceof Fox));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AbstractSkeleton.class, 10, false, false, target -> !this.isTame()));
+        this.targetSelector.addGoal(3, new HurtByTargetGoal(this).setCallsForHelp());
+        this.targetSelector.addGoal(4, new NonTamedTargetGoal<>(this, AnimalEntity.class, false, (entity) -> entity instanceof SheepEntity || entity instanceof RabbitEntity || entity instanceof FoxEntity));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AbstractSkeletonEntity.class, 10, false, false, target -> !this.isTamed()));
     }
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
-        this.getAttributes().getInstance(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
+        this.getAttributeManager().createInstanceIfAbsent(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
 
-        if (this.random.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100) {
+        if (this.rand.nextDouble() <= 0.25D && System.currentTimeMillis() > lastAlphaTime + 100) {
             this.setVariant(1);
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
             this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
             this.setHealth(this.getWolfMaxHealth());
-            this.xpReward = 12;
+            this.experienceValue = 12;
             lastAlphaTime = System.currentTimeMillis();
         } else {
             this.setVariant(0);
@@ -170,48 +140,48 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.4D).add(Attributes.ATTACK_DAMAGE, 8.0D).add(JUMP_STRENGTH);
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 8.0D).createMutableAttribute(JUMP_STRENGTH);
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(BEGGING, Boolean.FALSE);
-        this.entityData.define(COLLAR_COLOR, DyeColor.GREEN.getId());
-        this.entityData.define(VARIANT, 0);
-        this.entityData.define(SADDLED, Boolean.FALSE);
-        this.entityData.define(ARMOR_STACK, ItemStack.EMPTY);
-        this.entityData.define(ANGER, 0);
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(BEGGING, Boolean.FALSE);
+        this.dataManager.register(COLLAR_COLOR, DyeColor.GREEN.getId());
+        this.dataManager.register(VARIANT, 0);
+        this.dataManager.register(SADDLED, Boolean.FALSE);
+        this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
+        this.dataManager.register(ANGER, 0);
     }
 
     public static boolean canSpawn(EntityType<? extends DesertWolfEntity> animal, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return pos.getY() > 62 && ((ServerWorld) world.getChunkSource().getLevel()).getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && world.canSeeSkyFromBelowWater(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
+        return pos.getY() > 62 && ((ServerWorld) world.getChunkProvider().getWorld()).getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && world.canBlockSeeSky(pos) && AtumEntities.canAnimalSpawn(animal, world, spawnReason, pos, random);
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.WOLF_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ENTITY_WOLF_STEP, 0.15F, 1.0F);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        if (this.isAngry()) {
-            return SoundEvents.WOLF_GROWL;
-        } else if (this.random.nextInt(3) == 0) {
-            return this.isTame() && this.getHealth() < 10.0F ? SoundEvents.WOLF_WHINE : SoundEvents.WOLF_PANT;
+        if (this.func_233678_J__()) {
+            return SoundEvents.ENTITY_WOLF_GROWL;
+        } else if (this.rand.nextInt(3) == 0) {
+            return this.isTamed() && this.getHealth() < 10.0F ? SoundEvents.ENTITY_WOLF_WHINE : SoundEvents.ENTITY_WOLF_PANT;
         } else {
-            return SoundEvents.WOLF_AMBIENT;
+            return SoundEvents.ENTITY_WOLF_AMBIENT;
         }
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.WOLF_HURT;
+        return SoundEvents.ENTITY_WOLF_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.WOLF_DEATH;
+        return SoundEvents.ENTITY_WOLF_DEATH;
     }
 
     @Override
@@ -221,7 +191,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     @Nonnull
-    protected ResourceLocation getDefaultLootTable() {
+    protected ResourceLocation getLootTable() {
         if (isAlpha()) {
             return AtumLootTables.DESERT_WOLF_ALPHA;
         }
@@ -229,43 +199,43 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public void die(@Nonnull DamageSource cause) {
+    public void onDeath(@Nonnull DamageSource cause) {
         this.isWet = false;
         this.isShaking = false;
         this.prevTimeWolfIsShaking = 0.0F;
         this.timeWolfIsShaking = 0.0F;
-        if (!this.level.isClientSide && this.desertWolfInventory != null) {
-            for (int i = 0; i < this.desertWolfInventory.getContainerSize(); ++i) {
-                ItemStack slotStack = this.desertWolfInventory.getItem(i);
+        if (!this.world.isRemote && this.desertWolfInventory != null) {
+            for (int i = 0; i < this.desertWolfInventory.getSizeInventory(); ++i) {
+                ItemStack slotStack = this.desertWolfInventory.getStackInSlot(i);
                 if (!slotStack.isEmpty()) {
-                    this.spawnAtLocation(slotStack, 0.0F);
+                    this.entityDropItem(slotStack, 0.0F);
                 }
             }
         }
-        super.die(cause);
+        super.onDeath(cause);
     }
 
     @Override
-    public void aiStep() {
-        super.aiStep();
+    public void livingTick() {
+        super.livingTick();
 
-        if (!this.level.isClientSide && this.isWet && !this.isShaking && !this.isPathFinding() && this.onGround) {
+        if (!this.world.isRemote && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
             this.isShaking = true;
             this.timeWolfIsShaking = 0.0F;
             this.prevTimeWolfIsShaking = 0.0F;
-            this.level.broadcastEntityEvent(this, (byte) 8);
+            this.world.setEntityState(this, (byte) 8);
         }
 
-        if (!this.level.isClientSide) {
-            this.updatePersistentAnger((ServerWorld) this.level, true);
+        if (!this.world.isRemote) {
+            this.func_241359_a_((ServerWorld) this.world, true);
         }
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
+        if (this.world.isRemote && this.dataManager.isDirty()) {
+            this.dataManager.setClean();
             this.texturePath = null;
         }
 
@@ -277,21 +247,21 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 this.headRotationCourse += (0.0F - this.headRotationCourse) * 0.4F;
             }
 
-            if (!this.level.isClientSide && this.level.getDifficulty() == Difficulty.PEACEFUL && !this.isTame()) {
+            if (!this.world.isRemote && this.world.getDifficulty() == Difficulty.PEACEFUL && !this.isTamed()) {
                 this.remove();
             }
 
-            if (this.isInWaterRainOrBubble()) {
+            if (this.isInWaterRainOrBubbleColumn()) {
                 this.isWet = true;
-                if (this.isShaking && !this.level.isClientSide) {
-                    this.level.broadcastEntityEvent(this, (byte) 56);
+                if (this.isShaking && !this.world.isRemote) {
+                    this.world.setEntityState(this, (byte) 56);
                     this.isShaking = false;
                     this.timeWolfIsShaking = 0.0F;
                     this.prevTimeWolfIsShaking = 0.0F;
                 }
             } else if ((this.isWet || this.isShaking) && this.isShaking) {
                 if (this.timeWolfIsShaking == 0.0F) {
-                    this.playSound(SoundEvents.WOLF_SHAKE, this.getSoundVolume(), (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
+                    this.playSound(SoundEvents.ENTITY_WOLF_SHAKE, this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
                 }
 
                 this.prevTimeWolfIsShaking = this.timeWolfIsShaking;
@@ -304,14 +274,14 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 }
 
                 if (this.timeWolfIsShaking > 0.4F) {
-                    float f = (float) this.getY();
+                    float f = (float) this.getPosY();
                     int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
-                    Vector3d vector3d = this.getDeltaMovement();
+                    Vector3d vector3d = this.getMotion();
 
                     for (int j = 0; j < i; ++j) {
-                        float f1 = (this.random.nextFloat() * 2.0F - 1.0F) * this.getBbWidth() * 0.5F;
-                        float f2 = (this.random.nextFloat() * 2.0F - 1.0F) * this.getBbWidth() * 0.5F;
-                        this.level.addParticle(ParticleTypes.SPLASH, this.getX() + (double) f1, (double) (f + 0.8F), this.getZ() + (double) f2, vector3d.x, vector3d.y, vector3d.z);
+                        float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                        float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.getWidth() * 0.5F;
+                        this.world.addParticle(ParticleTypes.SPLASH, this.getPosX() + (double) f1, (double) (f + 0.8F), this.getPosZ() + (double) f2, vector3d.x, vector3d.y, vector3d.z);
                     }
                 }
             }
@@ -321,7 +291,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     @OnlyIn(Dist.CLIENT)
     public String getTexture() {
         if (this.texturePath == null) {
-            this.texturePath = isAngry() ? "angry" : "tamed";
+            this.texturePath = func_233678_J__() ? "angry" : "tamed";
         }
         return this.texturePath;
     }
@@ -359,45 +329,45 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public float getScale() {
-        return this.isAlpha() ? 1.6F : super.getScale();
+    public float getRenderScale() {
+        return this.isAlpha() ? 1.6F : super.getRenderScale();
     }
 
     @Override
-    public int getMaxHeadXRot() {
-        return this.isOrderedToSit() ? 20 : super.getMaxHeadXRot();
+    public int getVerticalFaceSpeed() {
+        return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
     }
 
     @Override
-    public boolean hurt(@Nonnull DamageSource source, float amount) {
+    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
         if (this.isInvulnerableTo(source)) {
             return false;
         } else {
-            Entity entity = source.getEntity();
-            this.setOrderedToSit(false);
+            Entity entity = source.getTrueSource();
+            this.func_233687_w_(false);
 
             if (entity != null && !(entity instanceof PlayerEntity) && !(entity instanceof ArrowEntity)) {
                 amount = (amount + 1.0F) / 2.0F;
             }
-            return super.hurt(source, amount);
+            return super.attackEntityFrom(source, amount);
         }
     }
 
     @Override
-    public boolean doHurtTarget(@Nonnull Entity entity) {
-        boolean shouldAttack = entity.hurt(DamageSource.mobAttack(this), (float) ((int) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+    public boolean attackEntityAsMob(@Nonnull Entity entity) {
+        boolean shouldAttack = entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float) ((int) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
 
         if (shouldAttack) {
-            this.doEnchantDamageEffects(this, entity);
+            this.applyEnchantments(this, entity);
         }
         return shouldAttack;
     }
 
     @Override
-    public void setTame(boolean tamed) {
-        super.setTame(tamed);
+    public void setTamed(boolean tamed) {
+        super.setTamed(tamed);
         if (tamed) {
-            this.setRemainingPersistentAngerTime(0);
+            this.setAngerTime(0);
         }
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
@@ -405,26 +375,26 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     @Nonnull
-    public ActionResultType mobInteract(PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack heldStack = player.getItemInHand(hand);
+    public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
+        ItemStack heldStack = player.getHeldItem(hand);
         Item item = heldStack.getItem();
-        boolean tameItem = item.is(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
-        if (this.level.isClientSide) {
-            boolean flag = this.isOwnedBy(player) || this.isTame() || tameItem && !this.isTame();
+        boolean tameItem = item.isIn(Tags.Items.BONES) || item == Items.RABBIT || item == Items.COOKED_RABBIT;
+        if (this.world.isRemote) {
+            boolean flag = this.isOwner(player) || this.isTamed() || tameItem && !this.isTamed();
             return flag ? ActionResultType.CONSUME : ActionResultType.PASS;
         } else {
-            if (this.isTame()) {
-                if (this.isFood(heldStack) && this.getHealth() < this.getMaxHealth()) {
-                    if (!player.abilities.instabuild) {
+            if (this.isTamed()) {
+                if (this.isBreedingItem(heldStack) && this.getHealth() < this.getMaxHealth()) {
+                    if (!player.abilities.isCreativeMode) {
                         heldStack.shrink(1);
                     }
 
-                    this.heal((float) item.getFoodProperties().getNutrition());
+                    this.heal((float) item.getFood().getHealing());
                     return ActionResultType.SUCCESS;
                 }
 
                 boolean holdsArmor = ArmorType.isArmor(heldStack);
-                boolean holdsSaddle = !this.isBaby() && !this.isSaddled() && heldStack.getItem() instanceof SaddleItem;
+                boolean holdsSaddle = !this.isChild() && !this.isSaddled() && heldStack.getItem() instanceof SaddleItem;
 
                 if (holdsArmor || holdsSaddle) {
                     this.openGUI(player);
@@ -432,25 +402,25 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 }
 
                 if (!(item instanceof DyeItem)) {
-                    if (!this.isBaby()) {
+                    if (!this.isChild()) {
                         if (player.isCrouching()) {
                             this.openGUI(player);
                             return ActionResultType.SUCCESS;
                         }
-                        if (this.isVehicle()) {
-                            return super.mobInteract(player, hand);
+                        if (this.isBeingRidden()) {
+                            return super.func_230254_b_(player, hand);
                         }
                     }
 
-                    ActionResultType resultType = super.mobInteract(player, hand);
-                    if (this.isAlpha() && !this.isVehicle()) {
+                    ActionResultType resultType = super.func_230254_b_(player, hand);
+                    if (this.isAlpha() && !this.isBeingRidden()) {
                         this.mountTo(player);
                         return ActionResultType.SUCCESS;
-                    } else if (!this.isAlpha() && (!resultType.consumesAction() || this.isBaby()) && this.isOwnedBy(player)) { //Sit
-                        this.setOrderedToSit(!this.isOrderedToSit());
-                        this.jumping = false;
-                        this.navigation.stop();
-                        this.setTarget(null);
+                    } else if (!this.isAlpha() && (!resultType.isSuccessOrConsume() || this.isChild()) && this.isOwner(player)) { //Sit
+                        this.func_233687_w_(!this.isSitting());
+                        this.isJumping = false;
+                        this.navigator.clearPath();
+                        this.setAttackTarget(null);
                         return ActionResultType.SUCCESS;
                     }
                     return resultType;
@@ -459,46 +429,46 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                 DyeColor color = ((DyeItem) item).getDyeColor();
                 if (color != this.getCollarColor()) {
                     this.setCollarColor(color);
-                    if (!player.abilities.instabuild) {
+                    if (!player.abilities.isCreativeMode) {
                         heldStack.shrink(1);
                     }
                     return ActionResultType.SUCCESS;
                 }
             } else if (tameItem) {
-                if (!player.abilities.instabuild) {
+                if (!player.abilities.isCreativeMode) {
                     heldStack.shrink(1);
                 }
 
-                if (this.random.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
-                    this.tame(player);
-                    this.navigation.stop();
-                    this.setTarget(null);
+                if (this.rand.nextInt(3) == 0 && !net.minecraftforge.event.ForgeEventFactory.onAnimalTame(this, player)) {
+                    this.setTamedBy(player);
+                    this.navigator.clearPath();
+                    this.setAttackTarget(null);
                     if (!this.isAlpha()) {
-                        this.setOrderedToSit(true);
+                        this.func_233687_w_(true);
                     }
-                    this.stopBeingAngry();
+                    this.func_241356_K__();
                     this.setHealth(40.0F);
-                    this.level.broadcastEntityEvent(this, (byte) 7);
+                    this.world.setEntityState(this, (byte) 7);
                 } else {
-                    this.level.broadcastEntityEvent(this, (byte) 6);
+                    this.world.setEntityState(this, (byte) 6);
                 }
                 return ActionResultType.SUCCESS;
             }
-            return super.mobInteract(player, hand);
+            return super.func_230254_b_(player, hand);
         }
     }
 
     @Override
-    public boolean isOrderedToSit() {
+    public boolean isSitting() {
         if (this.isAlpha()) {
             return false;
         }
-        return super.isOrderedToSit();
+        return super.isSitting();
     }
 
     @Override
-    protected boolean isImmobile() {
-        return super.isImmobile() && this.isVehicle() && this.isSaddled();
+    protected boolean isMovementBlocked() {
+        return super.isMovementBlocked() && this.isBeingRidden() && this.isSaddled();
     }
 
     @SubscribeEvent
@@ -506,12 +476,12 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     public static void openInventoryOverride(GuiOpenEvent event) {
         if (event.getGui() instanceof DisplayEffectsScreen) {
             PlayerEntity player = Minecraft.getInstance().player;
-            if (player != null && player.getVehicle() instanceof DesertWolfEntity) {
-                DesertWolfEntity desertWolf = (DesertWolfEntity) player.getVehicle();
-                if (player.getUUID() == player.getUUID()) {
-                    if (desertWolf.isAlpha() && desertWolf.isVehicle()) {
+            if (player != null && player.getRidingEntity() instanceof DesertWolfEntity) {
+                DesertWolfEntity desertWolf = (DesertWolfEntity) player.getRidingEntity();
+                if (player.getUniqueID() == player.getUniqueID()) {
+                    if (desertWolf.isAlpha() && desertWolf.isBeingRidden()) {
                         event.setCanceled(true);
-                        NetworkHandler.sendToServer(new OpenWolfGuiPacket(desertWolf.getId()));
+                        NetworkHandler.sendToServer(new OpenWolfGuiPacket(desertWolf.getEntityId()));
                     }
                 }
             }
@@ -519,9 +489,9 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     private void openGUI(PlayerEntity player) {
-        if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTame()) {
+        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTamed()) {
             if (player instanceof ServerPlayerEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, this, buf -> buf.writeInt(this.getId()));
+                NetworkHooks.openGui((ServerPlayerEntity) player, this, buf -> buf.writeInt(this.getEntityId()));
             }
         }
     }
@@ -537,9 +507,9 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
         if (inventory != null) {
             inventory.removeListener(this);
             for (int j = 0; j < 2; ++j) {
-                ItemStack slotStack = inventory.getItem(j);
+                ItemStack slotStack = inventory.getStackInSlot(j);
                 if (!slotStack.isEmpty()) {
-                    this.desertWolfInventory.setItem(j, slotStack.copy());
+                    this.desertWolfInventory.setInventorySlotContents(j, slotStack.copy());
                 }
             }
         }
@@ -550,101 +520,101 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleEntityEvent(byte id) {
+    public void handleStatusUpdate(byte id) {
         if (id == 8) {
             this.isShaking = true;
             this.timeWolfIsShaking = 0.0F;
             this.prevTimeWolfIsShaking = 0.0F;
         } else {
-            super.handleEntityEvent(id);
+            super.handleStatusUpdate(id);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
     public float getTailRotation() {
-        if (this.isAngry()) {
+        if (this.func_233678_J__()) {
             return 1.5393804F;
-        } else if (!this.isVehicle()) {
-            return this.isTame() ? (0.55F - (this.getMaxHealth() - this.getHealth()) * 0.02F) * (float) Math.PI : ((float) Math.PI / 5F);
+        } else if (!this.isBeingRidden()) {
+            return this.isTamed() ? (0.55F - (this.getMaxHealth() - this.getHealth()) * 0.02F) * (float) Math.PI : ((float) Math.PI / 5F);
         } else {
             return 1.5F;
         }
     }
 
     @Override
-    public boolean isFood(@Nonnull ItemStack stack) {
+    public boolean isBreedingItem(@Nonnull ItemStack stack) {
         Item item = stack.getItem();
-        return item.isEdible() && item.getFoodProperties() != null && item.getFoodProperties().isMeat();
+        return item.isFood() && item.getFood() != null && item.getFood().isMeat();
     }
 
     @Override
-    public int getMaxSpawnClusterSize() {
+    public int getMaxSpawnedInChunk() {
         return 6;
     }
 
     @Override
-    public int getRemainingPersistentAngerTime() {
-        return this.entityData.get(ANGER);
+    public int getAngerTime() {
+        return this.dataManager.get(ANGER);
     }
 
     @Override
-    public void setRemainingPersistentAngerTime(int time) {
-        if (!this.isTame()) {
-            this.entityData.set(ANGER, time);
+    public void setAngerTime(int time) {
+        if (!this.isTamed()) {
+            this.dataManager.set(ANGER, time);
         }
     }
 
     @Override
-    public void startPersistentAngerTimer() {
-        this.setRemainingPersistentAngerTime(ANGRY_TIMER_RANGE.randomValue(this.random));
+    public void func_230258_H__() {
+        this.setAngerTime(ANGRY_TIMER_RANGE.getRandomWithinRange(this.rand));
     }
 
     @Override
     @Nullable
-    public UUID getPersistentAngerTarget() {
+    public UUID getAngerTarget() {
         return this.angryAt;
     }
 
     @Override
-    public void setPersistentAngerTarget(@Nullable UUID target) {
+    public void setAngerTarget(@Nullable UUID target) {
         this.angryAt = target;
     }
 
     @Override
-    public boolean isAngry() {
-        return !this.isTame() || this.getRemainingPersistentAngerTime() > 0;
+    public boolean func_233678_J__() {
+        return !this.isTamed() || this.getAngerTime() > 0;
     }
 
     public DyeColor getCollarColor() {
-        return DyeColor.byId(this.entityData.get(COLLAR_COLOR));
+        return DyeColor.byId(this.dataManager.get(COLLAR_COLOR));
     }
 
     private void setCollarColor(DyeColor color) {
-        this.entityData.set(COLLAR_COLOR, color.getId());
+        this.dataManager.set(COLLAR_COLOR, color.getId());
     }
 
     public boolean isSaddled() {
-        return this.entityData.get(SADDLED);
+        return this.dataManager.get(SADDLED);
     }
 
     private void setSaddled(boolean saddled) {
         if (saddled) {
-            this.entityData.set(SADDLED, Boolean.TRUE);
+            this.dataManager.set(SADDLED, Boolean.TRUE);
         } else {
-            this.entityData.set(SADDLED, Boolean.FALSE);
+            this.dataManager.set(SADDLED, Boolean.FALSE);
         }
     }
 
     @Override
-    public DesertWolfEntity getBreedOffspring(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
-        DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.create(this.level);
+    public DesertWolfEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
+        DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.create(this.world);
         if (desertWolf != null) {
-            UUID uuid = this.getOwnerUUID();
+            UUID uuid = this.getOwnerId();
 
             if (uuid != null) {
-                desertWolf.setOwnerUUID(uuid);
-                desertWolf.setTame(true);
-                desertWolf.stopBeingAngry();
+                desertWolf.setOwnerId(uuid);
+                desertWolf.setTamed(true);
+                desertWolf.func_241356_K__();
                 desertWolf.heal(8.0F);
             }
             return desertWolf;
@@ -653,27 +623,27 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     public void setBegging(boolean beg) {
-        this.entityData.set(BEGGING, beg);
+        this.dataManager.set(BEGGING, beg);
     }
 
     private boolean isBegging() {
-        return this.entityData.get(BEGGING);
+        return this.dataManager.get(BEGGING);
     }
 
     @Override
-    public boolean canMate(@Nonnull AnimalEntity otherAnimal) {
+    public boolean canMateWith(@Nonnull AnimalEntity otherAnimal) {
         if (otherAnimal == this) {
             return false;
-        } else if (!this.isTame()) {
+        } else if (!this.isTamed()) {
             return false;
         } else if (!(otherAnimal instanceof DesertWolfEntity)) {
             return false;
         } else {
             DesertWolfEntity desertWolf = (DesertWolfEntity) otherAnimal;
 
-            if (!desertWolf.isTame()) {
+            if (!desertWolf.isTamed()) {
                 return false;
-            } else if (desertWolf.isOrderedToSit()) {
+            } else if (desertWolf.isSitting()) {
                 return false;
             } else {
                 return this.isInLove() && desertWolf.isInLove();
@@ -682,20 +652,20 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public boolean wantsToAttack(@Nonnull LivingEntity target, @Nonnull LivingEntity owner) {
+    public boolean shouldAttackEntity(@Nonnull LivingEntity target, @Nonnull LivingEntity owner) {
         if (!(target instanceof CreeperEntity) && !(target instanceof GhastEntity)) {
             if (target instanceof DesertWolfEntity) {
                 DesertWolfEntity desertWolf = (DesertWolfEntity) target;
-                if (desertWolf.isTame() && desertWolf.getOwner() == owner) {
+                if (desertWolf.isTamed() && desertWolf.getOwner() == owner) {
                     return false;
                 }
             }
-            if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canHarmPlayer((PlayerEntity) target)) {
+            if (target instanceof PlayerEntity && owner instanceof PlayerEntity && !((PlayerEntity) owner).canAttackPlayer((PlayerEntity) target)) {
                 return false;
-            } else if (target instanceof AbstractHorseEntity && ((AbstractHorseEntity) target).isTamed()) {
+            } else if (target instanceof AbstractHorseEntity && ((AbstractHorseEntity) target).isTame()) {
                 return false;
             } else {
-                return !(target instanceof CatEntity) || !((CatEntity) target).isTame();
+                return !(target instanceof CatEntity) || !((CatEntity) target).isTamed();
             }
         } else {
             return false;
@@ -705,77 +675,77 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     @SubscribeEvent
     public void onTarget(LivingSetAttackTargetEvent event) {
         if (event.getTarget() instanceof DesertWolfEntity && event.getEntityLiving() instanceof DesertWolfEntity) {
-            if (((DesertWolfEntity) event.getTarget()).isTame() && ((DesertWolfEntity) event.getEntityLiving()).isTame()) {
-                ((DesertWolfEntity) event.getEntityLiving()).setTarget(null);
+            if (((DesertWolfEntity) event.getTarget()).isTamed() && ((DesertWolfEntity) event.getEntityLiving()).isTamed()) {
+                ((DesertWolfEntity) event.getEntityLiving()).setAttackTarget(null);
             }
         }
     }
 
     @Override
-    public boolean canBeLeashed(@Nonnull PlayerEntity player) {
-        return !this.isAngry() && super.canBeLeashed(player);
+    public boolean canBeLeashedTo(@Nonnull PlayerEntity player) {
+        return !this.func_233678_J__() && super.canBeLeashedTo(player);
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT compound) {
+    public void writeAdditional(CompoundNBT compound) {
         compound.putInt("Variant", this.getVariant());
-        super.addAdditionalSaveData(compound);
+        super.writeAdditional(compound);
         compound.putByte("CollarColor", (byte) this.getCollarColor().getId());
         compound.putBoolean("Saddle", this.isSaddled());
-        this.addPersistentAngerSaveData(compound);
-        if (!this.desertWolfInventory.getItem(0).isEmpty()) {
-            compound.put("SaddleItem", this.desertWolfInventory.getItem(0).save(new CompoundNBT()));
+        this.writeAngerNBT(compound);
+        if (!this.desertWolfInventory.getStackInSlot(0).isEmpty()) {
+            compound.put("SaddleItem", this.desertWolfInventory.getStackInSlot(0).write(new CompoundNBT()));
         }
-        if (!this.desertWolfInventory.getItem(1).isEmpty()) {
-            compound.put("ArmorItem", this.desertWolfInventory.getItem(1).save(new CompoundNBT()));
+        if (!this.desertWolfInventory.getStackInSlot(1).isEmpty()) {
+            compound.put("ArmorItem", this.desertWolfInventory.getStackInSlot(1).write(new CompoundNBT()));
         }
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT compound) {
+    public void readAdditional(CompoundNBT compound) {
         this.setVariant(compound.getInt("Variant"));
-        super.readAdditionalSaveData(compound);
+        super.readAdditional(compound);
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getWolfMaxHealth());
         this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(this.getWolfAttack());
         this.setSaddled(compound.getBoolean("Saddle"));
-        this.readPersistentAngerSaveData((ServerWorld) this.level, compound);
+        this.readAngerNBT((ServerWorld) this.world, compound);
 
         if (compound.contains("CollarColor", 99)) {
             this.setCollarColor(DyeColor.byId(compound.getInt("CollarColor")));
         }
         if (compound.contains("SaddleItem", 10)) {
-            ItemStack saddleStack = ItemStack.of(compound.getCompound("SaddleItem"));
+            ItemStack saddleStack = ItemStack.read(compound.getCompound("SaddleItem"));
             if (saddleStack.getItem() instanceof SaddleItem) {
-                this.desertWolfInventory.setItem(0, saddleStack);
+                this.desertWolfInventory.setInventorySlotContents(0, saddleStack);
             }
         }
         if (compound.contains("ArmorItem", 10)) {
-            ItemStack armorStack = ItemStack.of(compound.getCompound("ArmorItem"));
+            ItemStack armorStack = ItemStack.read(compound.getCompound("ArmorItem"));
             if (!armorStack.isEmpty() && isArmor(armorStack)) {
-                this.desertWolfInventory.setItem(1, armorStack);
+                this.desertWolfInventory.setInventorySlotContents(1, armorStack);
             }
         }
         this.updateSlots();
     }
 
     private void updateSlots() {
-        this.setArmorStack(this.desertWolfInventory.getItem(1));
-        if (!this.level.isClientSide) {
-            this.setSaddled(!this.desertWolfInventory.getItem(0).isEmpty());
+        this.setArmorStack(this.desertWolfInventory.getStackInSlot(1));
+        if (!this.world.isRemote) {
+            this.setSaddled(!this.desertWolfInventory.getStackInSlot(0).isEmpty());
         }
     }
 
     private void setArmorStack(@Nonnull ItemStack stack) {
         ArmorType armorType = ArmorType.getByItemStack(stack);
-        this.entityData.set(ARMOR_STACK, stack);
+        this.dataManager.set(ARMOR_STACK, stack);
 
-        if (!this.level.isClientSide) {
+        if (!this.world.isRemote) {
             ModifiableAttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             if (armor != null) {
                 armor.removeModifier(ARMOR_MODIFIER_UUID);
                 int protection = armorType.getProtection();
                 if (protection != 0) {
-                    armor.addTransientModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Desert wolf armor bonus", protection, AttributeModifier.Operation.ADDITION)));
+                    armor.applyNonPersistentModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Desert wolf armor bonus", protection, AttributeModifier.Operation.ADDITION)));
                 }
             }
         }
@@ -783,22 +753,22 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
 
     @Nonnull
     public ItemStack getArmor() {
-        return this.entityData.get(ARMOR_STACK);
+        return this.dataManager.get(ARMOR_STACK);
     }
 
     @Override
-    public void containerChanged(@Nonnull IInventory invBasic) {
+    public void onInventoryChanged(@Nonnull IInventory invBasic) {
         this.updateSlots();
     }
 
     @Override
-    public boolean setSlot(int inventorySlot, @Nonnull ItemStack stack) {
+    public boolean replaceItemInInventory(int inventorySlot, @Nonnull ItemStack stack) {
         int slot = inventorySlot - 400;
-        if (slot >= 0 && slot < 2 && slot < this.desertWolfInventory.getContainerSize()) {
+        if (slot >= 0 && slot < 2 && slot < this.desertWolfInventory.getSizeInventory()) {
             if (slot == 0 && !(stack.getItem() instanceof SaddleItem)) {
                 return false;
             } else if (slot != 1 || this.isArmor(stack)) {
-                this.desertWolfInventory.setItem(slot, stack);
+                this.desertWolfInventory.setInventorySlotContents(slot, stack);
                 this.updateSlots();
                 return true;
             } else {
@@ -810,12 +780,12 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     private void setVariant(int variant) {
-        this.entityData.set(VARIANT, variant);
+        this.dataManager.set(VARIANT, variant);
         this.texturePath = null;
     }
 
     private int getVariant() {
-        return this.entityData.get(VARIANT);
+        return this.dataManager.get(VARIANT);
     }
 
     @Nullable
@@ -824,28 +794,28 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public boolean canBeControlledByRider() {
+    public boolean canBeSteered() {
         return true;
     }
 
     @Override
-    public double getPassengersRidingOffset() {
-        return super.getPassengersRidingOffset() + 0.07D;
+    public double getMountedYOffset() {
+        return super.getMountedYOffset() + 0.07D;
     }
 
     @Override
-    public void positionRider(@Nonnull Entity passenger) {
-        if (this.hasPassenger(passenger)) {
-            float cos = MathHelper.cos(this.yBodyRot * 0.017453292F);
-            float sin = MathHelper.sin(this.yBodyRot * 0.017453292F);
-            passenger.setPos(this.getX() + (double) (0.4F * sin), this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(), this.getZ() - (double) (0.4F * cos));
+    public void updatePassenger(@Nonnull Entity passenger) {
+        if (this.isPassenger(passenger)) {
+            float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
+            float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
+            passenger.setPosition(this.getPosX() + (double) (0.4F * sin), this.getPosY() + this.getMountedYOffset() + passenger.getYOffset(), this.getPosZ() - (double) (0.4F * cos));
         }
     }
 
     private void mountTo(PlayerEntity player) {
-        player.yRot = this.yRot;
-        player.xRot = this.xRot;
-        if (!this.level.isClientSide) {
+        player.rotationYaw = this.rotationYaw;
+        player.rotationPitch = this.rotationPitch;
+        if (!this.world.isRemote) {
             player.startRiding(this);
         }
     }
@@ -853,17 +823,17 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     @Override
     public void travel(@Nonnull Vector3d travelVec) {
         if (this.isAlive()) {
-            if (this.isVehicle() && this.canBeControlledByRider() && this.isSaddled()) {
+            if (this.isBeingRidden() && this.canBeSteered() && this.isSaddled()) {
                 LivingEntity livingBase = (LivingEntity) this.getControllingPassenger();
                 if (livingBase != null) {
-                    this.yRot = livingBase.yRot;
-                    this.yRotO = this.yRot;
-                    this.xRot = livingBase.xRot * 0.5F;
-                    this.setRot(this.yRot, this.xRot);
-                    this.yBodyRot = this.yRot;
-                    this.yHeadRot = this.yBodyRot;
-                    float strafe = livingBase.xxa * 0.5F;
-                    float forward = livingBase.zza;
+                    this.rotationYaw = livingBase.rotationYaw;
+                    this.prevRotationYaw = this.rotationYaw;
+                    this.rotationPitch = livingBase.rotationPitch * 0.5F;
+                    this.setRotation(this.rotationYaw, this.rotationPitch);
+                    this.renderYawOffset = this.rotationYaw;
+                    this.rotationYawHead = this.renderYawOffset;
+                    float strafe = livingBase.moveStrafing * 0.5F;
+                    float forward = livingBase.moveForward;
 
                     if (forward <= 0.0F) {
                         forward *= 0.25F;
@@ -873,33 +843,33 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                         double wolfJumpStrength = this.getWolfJumpStrength() * (double) this.jumpPower;
                         double jumpY;
 
-                        if (this.hasEffect(Effects.JUMP)) {
-                            EffectInstance jumpBoost = this.getEffect(Effects.JUMP);
+                        if (this.isPotionActive(Effects.JUMP_BOOST)) {
+                            EffectInstance jumpBoost = this.getActivePotionEffect(Effects.JUMP_BOOST);
                             jumpY = wolfJumpStrength + (jumpBoost != null ? (double) ((float) (jumpBoost.getAmplifier() + 1) * 0.1F) : 0);
                         } else {
                             jumpY = wolfJumpStrength;
                         }
 
-                        Vector3d motion = this.getDeltaMovement();
-                        this.setDeltaMovement(motion.x, jumpY, motion.z);
+                        Vector3d motion = this.getMotion();
+                        this.setMotion(motion.x, jumpY, motion.z);
                         this.setWolfJumping(true);
-                        this.hasImpulse = true;
+                        this.isAirBorne = true;
 
                         if (forward > 0.0F) {
-                            float f2 = MathHelper.sin(this.yRot * ((float) Math.PI / 180F));
-                            float f3 = MathHelper.cos(this.yRot * ((float) Math.PI / 180F));
-                            this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * f2 * this.jumpPower, 0.0D, 0.4F * f3 * this.jumpPower));
-                            this.playSound(SoundEvents.HORSE_JUMP, 0.4F, 1.0F);
+                            float f2 = MathHelper.sin(this.rotationYaw * ((float) Math.PI / 180F));
+                            float f3 = MathHelper.cos(this.rotationYaw * ((float) Math.PI / 180F));
+                            this.setMotion(this.getMotion().add(-0.4F * f2 * this.jumpPower, 0.0D, 0.4F * f3 * this.jumpPower));
+                            this.playSound(SoundEvents.ENTITY_HORSE_JUMP, 0.4F, 1.0F);
                         }
                         this.jumpPower = 0.0F;
                     }
-                    this.flyingSpeed = this.getSpeed() * 0.1F;
+                    this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
-                    if (this.isControlledByLocalInstance()) {
-                        this.setSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.80F);
+                    if (this.canPassengerSteer()) {
+                        this.setAIMoveSpeed((float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.80F);
                         super.travel(new Vector3d(strafe, travelVec.y, forward));
                     } else if (livingBase instanceof PlayerEntity) {
-                        this.setDeltaMovement(Vector3d.ZERO);
+                        this.setMotion(Vector3d.ZERO);
                     }
 
                     if (this.onGround) {
@@ -908,18 +878,18 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
                     }
                 }
             } else {
-                this.flyingSpeed = 0.02F;
+                this.jumpMovementFactor = 0.02F;
                 super.travel(travelVec);
             }
         }
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean onLivingFall(float distance, float damageMultiplier) {
         if (this.isAlpha() && distance > 5.0F) {
-            return super.causeFallDamage(distance, damageMultiplier);
+            return super.onLivingFall(distance, damageMultiplier);
         } else if (!this.isAlpha() && distance > 2.5F) {
-            return super.causeFallDamage(distance, damageMultiplier);
+            return super.onLivingFall(distance, damageMultiplier);
         }
         return false;
     }
@@ -937,7 +907,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @OnlyIn(Dist.CLIENT)
-    public void onPlayerJump(int jumpPower) {
+    public void setJumpPower(int jumpPower) {
         if (this.isAlpha()) {
             if (jumpPower < 0) {
                 jumpPower = 0;
@@ -966,7 +936,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     private float getWolfMaxHealth() {
-        if (this.isTame()) {
+        if (this.isTamed()) {
             if (this.isAlpha()) {
                 return 36;
             } else {
@@ -1007,7 +977,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     @Nullable
     @Override
     public Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
-        return new AlphaDesertWolfContainer(windowID, playerInventory, this.getId());
+        return new AlphaDesertWolfContainer(windowID, playerInventory, this.getEntityId());
     }
 
     public enum ArmorType {

@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
-import com.mojang.math.Vector3f;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -19,23 +19,23 @@ import java.util.Map;
 public class StonewardenRender extends MobRenderer<StonewardenEntity, StonewardenModel<StonewardenEntity>> {
     private static final Map<Integer, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public StonewardenRender(EntityRenderDispatcher manager) {
+    public StonewardenRender(EntityRendererManager manager) {
         super(manager, new StonewardenModel<>(), 0.5F);
     }
 
     @Override
-    protected void setupRotations(@Nonnull StonewardenEntity stonewarden, @Nonnull PoseStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
-        super.setupRotations(stonewarden, matrixStack, ageInTicks, rotationYaw, partialTicks);
-        if ((double) stonewarden.animationSpeed >= 0.01D) {
-            float swingValue = stonewarden.animationPosition - stonewarden.animationSpeed * (1.0F - partialTicks) + 6.0F;
+    protected void applyRotations(@Nonnull StonewardenEntity stonewarden, @Nonnull MatrixStack matrixStack, float ageInTicks, float rotationYaw, float partialTicks) {
+        super.applyRotations(stonewarden, matrixStack, ageInTicks, rotationYaw, partialTicks);
+        if ((double) stonewarden.limbSwingAmount >= 0.01D) {
+            float swingValue = stonewarden.limbSwing - stonewarden.limbSwingAmount * (1.0F - partialTicks) + 6.0F;
             float swing = (Math.abs(swingValue % 13.0F - 6.5F) - 3.25F) / 3.25F;
-            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(6.5F * swing));
+            matrixStack.rotate(Vector3f.ZP.rotationDegrees(6.5F * swing));
         }
     }
 
     @Override
     @Nonnull
-    public ResourceLocation getTextureLocation(@Nonnull StonewardenEntity stonewarden) {
+    public ResourceLocation getEntityTexture(@Nonnull StonewardenEntity stonewarden) {
         ResourceLocation location = CACHE.get(stonewarden.getVariant());
 
         if (location == null) {

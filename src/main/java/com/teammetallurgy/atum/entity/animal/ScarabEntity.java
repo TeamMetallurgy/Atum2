@@ -4,24 +4,24 @@ import com.teammetallurgy.atum.blocks.stone.limestone.LimestoneBlock;
 import com.teammetallurgy.atum.blocks.wood.DeadwoodLogBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumLootTables;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.attributes.AttributeModifierMap;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.*;
-import net.minecraft.core.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.level.ServerLevelAccessor;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.IServerWorld;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
@@ -29,61 +29,40 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.Random;
 
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.MobType;
-import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.ai.goal.FloatGoal;
-import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
-import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+public class ScarabEntity extends MonsterEntity {
+    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(ScarabEntity.class, DataSerializers.VARINT);
 
-public class ScarabEntity extends Monster {
-    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(ScarabEntity.class, EntityDataSerializers.INT);
-
-    public ScarabEntity(EntityType<? extends ScarabEntity> entityType, Level world) {
+    public ScarabEntity(EntityType<? extends ScarabEntity> entityType, World world) {
         super(entityType, world);
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
-        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new AIHideInBlock(this));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this).setCallsForHelp());
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
     }
 
-    public static AttributeSupplier.Builder getAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0D).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.MOVEMENT_SPEED, 0.25D);
+    public static AttributeModifierMap.MutableAttribute getAttributes() {
+        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D);
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(VARIANT, 0);
+    protected void registerData() {
+        super.registerData();
+        this.dataManager.register(VARIANT, 0);
     }
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
-        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
-        if (random.nextDouble() <= 0.002D) {
+    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
+        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
+        if (rand.nextDouble() <= 0.002D) {
             this.setVariant(1);
             this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(24.0D);
             this.getAttribute(Attributes.ATTACK_DAMAGE).setBaseValue(3.0D);
@@ -97,61 +76,61 @@ public class ScarabEntity extends Monster {
     }
 
     private void setVariant(int variant) {
-        this.entityData.set(VARIANT, variant);
+        this.dataManager.set(VARIANT, variant);
     }
 
     public int getVariant() {
-        return this.entityData.get(VARIANT);
+        return this.dataManager.get(VARIANT);
     }
 
     @Override
-    protected boolean isMovementNoisy() {
+    protected boolean canTriggerWalking() {
         return false;
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENDERMITE_AMBIENT;
+        return SoundEvents.ENTITY_ENDERMITE_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.ENDERMITE_HURT;
+        return SoundEvents.ENTITY_ENDERMITE_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENDERMITE_DEATH;
+        return SoundEvents.ENTITY_ENDERMITE_DEATH;
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.ENDERMITE_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ENTITY_ENDERMITE_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    protected int getExperienceReward(@Nonnull Player player) {
+    protected int getExperiencePoints(@Nonnull PlayerEntity player) {
         return this.getVariant() == 1 ? 30 : 3;
     }
 
     @Override
     @Nonnull
-    protected ResourceLocation getDefaultLootTable() {
+    protected ResourceLocation getLootTable() {
         return this.getVariant() == 1 ? AtumLootTables.SCARAB_GOLDEN : AtumLootTables.SCARAB;
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (this.level.isClientSide && this.entityData.isDirty()) {
-            this.entityData.clearDirty();
+        if (this.world.isRemote && this.dataManager.isDirty()) {
+            this.dataManager.setClean();
         }
     }
 
     @Override
-    public float getWalkTargetValue(@Nonnull BlockPos pos) {
-        Block block = this.level.getBlockState(pos.below()).getBlock();
-        return block == AtumBlocks.LIMESTONE || block == AtumBlocks.DEADWOOD_LOG ? 10.0F : super.getWalkTargetValue(pos);
+    public float getBlockPathWeight(@Nonnull BlockPos pos) {
+        Block block = this.world.getBlockState(pos.down()).getBlock();
+        return block == AtumBlocks.LIMESTONE || block == AtumBlocks.DEADWOOD_LOG ? 10.0F : super.getBlockPathWeight(pos);
     }
 
     @Override
@@ -160,13 +139,13 @@ public class ScarabEntity extends Monster {
     }
 
     @Override
-    public double getMyRidingOffset() {
+    public double getYOffset() {
         return 0.1D;
     }
 
-    public static boolean canSpawn(EntityType<ScarabEntity> scarab, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
-        if (checkAnyLightMonsterSpawnRules(scarab, world, spawnReason, pos, random)) {
-            Player player = world.getNearestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0D, true);
+    public static boolean canSpawn(EntityType<ScarabEntity> scarab, IWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
+        if (canMonsterSpawn(scarab, world, spawnReason, pos, random)) {
+            PlayerEntity player = world.getClosestPlayer((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D, 5.0D, true);
             return player == null;
         } else {
             return false;
@@ -175,44 +154,44 @@ public class ScarabEntity extends Monster {
 
     @Override
     @Nonnull
-    public MobType getMobType() {
-        return MobType.ARTHROPOD;
+    public CreatureAttribute getCreatureAttribute() {
+        return CreatureAttribute.ARTHROPOD;
     }
 
     @Override
-    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.addAdditionalSaveData(compound);
+    public void writeAdditional(@Nonnull CompoundNBT compound) {
+        super.writeAdditional(compound);
         compound.putInt("Variant", this.getVariant());
     }
 
     @Override
-    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
-        super.readAdditionalSaveData(compound);
+    public void readAdditional(@Nonnull CompoundNBT compound) {
+        super.readAdditional(compound);
         this.setVariant(compound.getInt("Variant"));
     }
 
-    static class AIHideInBlock extends RandomStrollGoal {
+    static class AIHideInBlock extends RandomWalkingGoal {
         private Direction facing;
         private boolean doMerge;
 
         AIHideInBlock(ScarabEntity scarab) {
             super(scarab, 1.0D, 10);
-            this.setFlags(EnumSet.of(Goal.Flag.MOVE));
+            this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
         }
 
         @Override
-        public boolean canUse() {
-            if (this.mob.getTarget() != null) {
+        public boolean shouldExecute() {
+            if (this.creature.getAttackTarget() != null) {
                 return false;
-            } else if (!this.mob.getNavigation().isDone()) {
+            } else if (!this.creature.getNavigator().noPath()) {
                 return false;
             } else {
-                Random random = this.mob.getRandom();
+                Random random = this.creature.getRNG();
 
-                if (ForgeEventFactory.getMobGriefingEvent(this.mob.level, this.mob) && random.nextInt(10) == 0) {
-                    this.facing = Direction.getRandom(random);
-                    BlockPos pos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
-                    BlockState state = this.mob.level.getBlockState(pos);
+                if (ForgeEventFactory.getMobGriefingEvent(this.creature.world, this.creature) && random.nextInt(10) == 0) {
+                    this.facing = Direction.getRandomDirection(random);
+                    BlockPos pos = (new BlockPos(this.creature.getPosX(), this.creature.getPosY() + 0.5D, this.creature.getPosZ())).offset(this.facing);
+                    BlockState state = this.creature.world.getBlockState(pos);
 
                     if (state.getBlock() == AtumBlocks.LIMESTONE || state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
                         this.doMerge = true;
@@ -220,33 +199,33 @@ public class ScarabEntity extends Monster {
                     }
                 }
                 this.doMerge = false;
-                return super.canUse();
+                return super.shouldExecute();
             }
         }
 
         @Override
-        public boolean canContinueToUse() {
-            return !this.doMerge && super.canContinueToUse();
+        public boolean shouldContinueExecuting() {
+            return !this.doMerge && super.shouldContinueExecuting();
         }
 
         @Override
-        public void start() {
+        public void startExecuting() {
             if (!this.doMerge) {
-                super.start();
+                super.startExecuting();
             } else {
-                Level world = this.mob.level;
-                BlockPos pos = (new BlockPos(this.mob.getX(), this.mob.getY() + 0.5D, this.mob.getZ())).relative(this.facing);
+                World world = this.creature.world;
+                BlockPos pos = (new BlockPos(this.creature.getPosX(), this.creature.getPosY() + 0.5D, this.creature.getPosZ())).offset(this.facing);
                 BlockState state = world.getBlockState(pos);
 
                 if (state.getBlock() == AtumBlocks.LIMESTONE) {
-                    world.setBlock(pos, AtumBlocks.LIMESTONE.defaultBlockState().setValue(LimestoneBlock.HAS_SCARAB, true), 3);
-                    this.mob.spawnAnim();
-                    this.mob.remove();
+                    world.setBlockState(pos, AtumBlocks.LIMESTONE.getDefaultState().with(LimestoneBlock.HAS_SCARAB, true), 3);
+                    this.creature.spawnExplosionParticle();
+                    this.creature.remove();
                 }
                 if (state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
-                    world.setBlock(pos, AtumBlocks.DEADWOOD_LOG.defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true), 3);
-                    this.mob.spawnAnim();
-                    this.mob.remove();
+                    world.setBlockState(pos, AtumBlocks.DEADWOOD_LOG.getDefaultState().with(DeadwoodLogBlock.HAS_SCARAB, true), 3);
+                    this.creature.spawnExplosionParticle();
+                    this.creature.remove();
                 }
             }
         }

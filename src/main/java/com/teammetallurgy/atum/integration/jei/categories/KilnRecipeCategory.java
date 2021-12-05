@@ -1,6 +1,6 @@
 package com.teammetallurgy.atum.integration.jei.categories;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.client.gui.block.KilnScreen;
@@ -16,11 +16,11 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import java.awt.*;
@@ -54,7 +54,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     @Override
     @Nonnull
     public String getTitle() {
-        return new TranslatableComponent(Atum.MOD_ID + "." + getUid().getPath()).getString();
+        return new TranslationTextComponent(Atum.MOD_ID + "." + getUid().getPath()).getString();
     }
 
     @Override
@@ -72,7 +72,7 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
     @Override
     public void setIngredients(@Nonnull KilnRecipe recipe, @Nonnull IIngredients ingredients) {
         ingredients.setInputIngredients(recipe.getIngredients());
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
     }
 
     @Override
@@ -85,23 +85,23 @@ public class KilnRecipeCategory implements IRecipeCategory<KilnRecipe> {
 
         guiItemStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> {
             if (slotIndex >= 5) {
-                boolean showAdvanced = Minecraft.getInstance().options.advancedItemTooltips || Screen.hasShiftDown();
+                boolean showAdvanced = Minecraft.getInstance().gameSettings.advancedItemTooltips || Screen.hasShiftDown();
                 if (showAdvanced) {
-                    tooltip.add(new TranslatableComponent("jei.tooltip.recipe.id", recipe.getId()).withStyle(ChatFormatting.DARK_GRAY));
+                    tooltip.add(new TranslationTextComponent("jei.tooltip.recipe.id", recipe.getId()).mergeStyle(TextFormatting.DARK_GRAY));
                 }
             }
         });
     }
 
     @Override
-    public void draw(KilnRecipe recipe, @Nonnull PoseStack matrixStack, double mouseX, double mouseY) {
+    public void draw(KilnRecipe recipe, @Nonnull MatrixStack matrixStack, double mouseX, double mouseY) {
         animatedFlame.draw(matrixStack, 1, 17);
         arrow.draw(matrixStack, 43, 38);
 
         float experience = recipe.getExperience();
         if (experience > 0) {
-            TranslatableComponent experienceString = new TranslatableComponent("gui.jei.category.smelting.experience", experience);
-            Minecraft.getInstance().font.draw(matrixStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
+            TranslationTextComponent experienceString = new TranslationTextComponent("gui.jei.category.smelting.experience", experience);
+            Minecraft.getInstance().fontRenderer.func_243248_b(matrixStack, experienceString, -1, this.background.getHeight() - 13, Color.gray.getRGB());
         }
     }
 }

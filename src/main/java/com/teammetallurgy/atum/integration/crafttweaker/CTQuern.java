@@ -9,7 +9,7 @@ import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutp
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutputInput;
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.api.recipe.recipes.QuernRecipe;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.item.crafting.IRecipeType;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
@@ -32,7 +32,7 @@ public class CTQuern implements IRecipeManager {
     }
 
     @Override
-    public RecipeType<QuernRecipe> getRecipeType() {
+    public IRecipeType<QuernRecipe> getRecipeType() {
         return IAtumRecipeType.QUERN;
     }
 }

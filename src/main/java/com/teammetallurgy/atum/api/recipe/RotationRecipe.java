@@ -2,16 +2,16 @@ package com.teammetallurgy.atum.api.recipe;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import net.minecraft.world.Container;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.tags.SerializationTags;
-import net.minecraft.util.GsonHelper;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.item.crafting.ShapedRecipe;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.tags.TagCollectionManager;
+import net.minecraft.util.JSONUtils;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
@@ -20,10 +20,10 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class RotationRecipe<C extends Container> extends AbstractAtumRecipe<C> {
+public abstract class RotationRecipe<C extends IInventory> extends AbstractAtumRecipe<C> {
     protected final int rotations;
 
-    public RotationRecipe(RecipeType<?> recipeType, ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {
+    public RotationRecipe(IRecipeType<?> recipeType, ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations) {
         super(recipeType, id, input, output);
         this.rotations = rotations;
     }
@@ -32,7 +32,7 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
         return this.rotations;
     }
 
-    public static class Serializer<C extends RotationRecipe<? extends Container>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<C> {
+    public static class Serializer<C extends RotationRecipe<? extends IInventory>> extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<C> {
         private final Serializer.IFactory<C> factory;
         private final boolean inputCanHaveCount;
 
@@ -43,28 +43,28 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
 
         @Override
         @Nonnull
-        public C fromJson(@Nonnull ResourceLocation id, @Nonnull JsonObject json) {
-            JsonObject inputObject = GsonHelper.getAsJsonObject(json, "ingredient");
+        public C read(@Nonnull ResourceLocation id, @Nonnull JsonObject json) {
+            JsonObject inputObject = JSONUtils.getJsonObject(json, "ingredient");
             Ingredient input;
             if (inputObject.has("tag")) { //Only read as Ingredient directly, when it's a tag
                 Ingredient ingredient = CraftingHelper.getIngredient(inputObject);
                 if (this.inputCanHaveCount && inputObject.has("count")) {
                     List<ItemStack> ingredientStacks = new ArrayList<>();
-                    for (ItemStack stack : ingredient.getItems()) {
-                        ingredientStacks.add(new ItemStack(stack.getItem(), GsonHelper.getAsInt(inputObject, "count", 1)));
+                    for (ItemStack stack : ingredient.getMatchingStacks()) {
+                        ingredientStacks.add(new ItemStack(stack.getItem(), JSONUtils.getInt(inputObject, "count", 1)));
                     }
-                    input = Ingredient.of(ingredientStacks.toArray(new ItemStack[0]));
+                    input = Ingredient.fromStacks(ingredientStacks.toArray(new ItemStack[0]));
                 } else {
                     input = ingredient;
                 }
-                if (SerializationTags.getInstance().getItems().getTagOrEmpty(new ResourceLocation(GsonHelper.getAsString(inputObject, "tag"))).getValues().size() == 0) { //Support empty tags, for mod support
+                if (TagCollectionManager.getManager().getItemTags().getTagByID(new ResourceLocation(JSONUtils.getString(inputObject, "tag"))).getAllElements().size() == 0) { //Support empty tags, for mod support
                     input = Ingredient.EMPTY;
                 }
             } else if (!this.inputCanHaveCount) {
                 input = CraftingHelper.getIngredient(inputObject);
             } else {
                 ItemStack stack = CraftingHelper.getItemStack(inputObject, true);
-                input = Ingredient.of(stack);
+                input = Ingredient.fromStacks(stack);
             }
 
             if (!json.has("result")) {
@@ -72,32 +72,32 @@ public abstract class RotationRecipe<C extends Container> extends AbstractAtumRe
             }
             ItemStack output;
             if (json.get("result").isJsonObject()) {
-                output = ShapedRecipe.itemFromJson(GsonHelper.getAsJsonObject(json, "result"));
+                output = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
             } else {
-                String result = GsonHelper.getAsString(json, "result");
+                String result = JSONUtils.getString(json, "result");
                 ResourceLocation resultID = new ResourceLocation(result);
                 output = new ItemStack(ForgeRegistries.ITEMS.getValue(resultID));
             }
-            int rotations = GsonHelper.getAsInt(json, "rotations", 0);
+            int rotations = JSONUtils.getInt(json, "rotations", 0);
             return this.factory.create(id, input, output, rotations);
         }
 
         @Override
-        public C fromNetwork(@Nonnull ResourceLocation id, @Nonnull FriendlyByteBuf buffer) {
-            Ingredient ingredient = Ingredient.fromNetwork(buffer);
-            ItemStack stack = buffer.readItem();
+        public C read(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
+            Ingredient ingredient = Ingredient.read(buffer);
+            ItemStack stack = buffer.readItemStack();
             int rotations = buffer.readInt();
             return this.factory.create(id, ingredient, stack, rotations);
         }
 
         @Override
-        public void toNetwork(@Nonnull FriendlyByteBuf buffer, C recipe) {
-            recipe.input.toNetwork(buffer);
-            buffer.writeItem(recipe.output);
+        public void write(@Nonnull PacketBuffer buffer, C recipe) {
+            recipe.input.write(buffer);
+            buffer.writeItemStack(recipe.output);
             buffer.writeInt(recipe.rotations);
         }
 
-        public interface IFactory<T extends RotationRecipe<? extends Container>> {
+        public interface IFactory<T extends RotationRecipe<? extends IInventory>> {
             T create(ResourceLocation id, Ingredient input, @Nonnull ItemStack output, int rotations);
         }
     }

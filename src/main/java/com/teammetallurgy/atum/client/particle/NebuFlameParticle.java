@@ -1,41 +1,41 @@
 package com.teammetallurgy.atum.client.particle;
 
 import net.minecraft.client.particle.*;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.util.math.MathHelper;
 
 import javax.annotation.Nonnull;
 
-public class NebuFlameParticle extends RisingParticle {
+public class NebuFlameParticle extends DeceleratingParticle {
 
-    public NebuFlameParticle(ClientLevel world, double x, double y, double z, double motionX, double motionY, double motionZ) {
+    public NebuFlameParticle(ClientWorld world, double x, double y, double z, double motionX, double motionY, double motionZ) {
         super(world, x, y, z, motionX, motionY, motionZ);
     }
 
     @Override
     @Nonnull
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     @Override
     public void move(double x, double y, double z) {
-        this.setBoundingBox(this.getBoundingBox().move(x, y, z));
-        this.setLocationFromBoundingbox();
+        this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
+        this.resetPositionToBB();
     }
 
     @Override
-    public float getQuadSize(float scaleFactor) {
-        float f = ((float) this.age + scaleFactor) / (float) this.lifetime;
-        return this.quadSize * (1.0F - f * f * 0.5F);
+    public float getScale(float scaleFactor) {
+        float f = ((float) this.age + scaleFactor) / (float) this.maxAge;
+        return this.particleScale * (1.0F - f * f * 0.5F);
     }
 
     @Override
-    public int getLightColor(float partialTick) {
-        float f = ((float) this.age + partialTick) / (float) this.lifetime;
-        f = Mth.clamp(f, 0.0F, 1.0F);
-        int i = super.getLightColor(partialTick);
+    public int getBrightnessForRender(float partialTick) {
+        float f = ((float) this.age + partialTick) / (float) this.maxAge;
+        f = MathHelper.clamp(f, 0.0F, 1.0F);
+        int i = super.getBrightnessForRender(partialTick);
         int j = i & 255;
         int k = i >> 16 & 255;
         j = j + (int) (f * 15.0F * 16.0F);
@@ -46,17 +46,17 @@ public class NebuFlameParticle extends RisingParticle {
         return j | k << 16;
     }
 
-    public static class Nebu implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Nebu implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Nebu(SpriteSet spriteSet) {
+        public Nebu(IAnimatedSprite spriteSet) {
             this.spriteSet = spriteSet;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType type, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType type, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             NebuFlameParticle nebuFireParticle = new NebuFlameParticle(world, x, y, z, xSpeed, ySpeed, zSpeed);
-            nebuFireParticle.pickSprite(this.spriteSet);
+            nebuFireParticle.selectSpriteRandomly(this.spriteSet);
             return nebuFireParticle;
         }
     }

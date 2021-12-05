@@ -6,80 +6,67 @@ import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.teleporter.TeleporterAtum;
 import net.minecraft.block.*;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
-import net.minecraft.world.level.block.state.pattern.BlockPattern;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.block.material.Material;
+import net.minecraft.block.material.MaterialColor;
+import net.minecraft.block.pattern.BlockPattern;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.*;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.shapes.CollisionContext;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraft.world.phys.shapes.Shapes;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.shapes.ISelectionContext;
+import net.minecraft.util.math.shapes.VoxelShape;
+import net.minecraft.util.math.shapes.VoxelShapes;
+import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorld;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
-
-import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.HalfTransparentBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.pattern.BlockInWorld;
-
-public class PortalBlock extends HalfTransparentBlock {
-    private static final VoxelShape PORTAL_AABB = Shapes.box(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
+public class PortalBlock extends BreakableBlock {
+    private static final VoxelShape PORTAL_AABB = VoxelShapes.create(0.0D, 0.0D, 0.0D, 1.0D, 0.875D, 1.0D);
 
     public PortalBlock() {
-        super(Properties.of(Material.PORTAL, MaterialColor.TERRACOTTA_ORANGE).strength(-1.0F).sound(SoundType.GLASS).noOcclusion().lightLevel((state) -> 10).randomTicks());
+        super(Properties.create(Material.PORTAL, MaterialColor.ORANGE_TERRACOTTA).hardnessAndResistance(-1.0F).sound(SoundType.GLASS).notSolid().setLightLevel((state) -> 10).tickRandomly());
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+    public VoxelShape getShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
         return PORTAL_AABB;
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
-        return Shapes.empty();
+    public VoxelShape getCollisionShape(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
+        return VoxelShapes.empty();
     }
 
     @Override
-    public boolean canBeReplaced(@Nonnull BlockState state, @Nonnull Fluid fluid) {
+    public boolean isReplaceable(@Nonnull BlockState state, @Nonnull Fluid fluid) {
         return false;
     }
 
-    public boolean trySpawnPortal(Level world, BlockPos pos) {
+    public boolean trySpawnPortal(World world, BlockPos pos) {
         PortalBlock.Size size = new PortalBlock.Size(world, pos);
 
         if (size.isValid()) {
             size.placePortalBlocks();
-            world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.7F, 1.0F);
+            world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.BLOCKS, 0.7F, 1.0F);
             return true;
         } else {
             PortalBlock.Size size1 = new PortalBlock.Size(world, pos);
 
             if (size1.isValid()) {
                 size1.placePortalBlocks();
-                world.playSound(null, pos, SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 1.0F, 1.0F);
+                world.playSound(null, pos, SoundEvents.BLOCK_END_PORTAL_SPAWN, SoundCategory.BLOCKS, 1.0F, 1.0F);
                 return true;
             } else {
                 return false;
@@ -88,56 +75,56 @@ public class PortalBlock extends HalfTransparentBlock {
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block neighborBlock, @Nonnull BlockPos neighborPos, boolean isMoving) {
         Size size = new Size(world, pos);
-        BlockPos posUp = pos.above();
+        BlockPos posUp = pos.up();
         if (neighborBlock == this || !(neighborPos.getX() == posUp.getX() && neighborPos.getY() == posUp.getY() && neighborPos.getZ() == posUp.getZ())) {
             if (!size.isValid()) {
-                world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                world.setBlockState(pos, Blocks.AIR.getDefaultState());
             }
         }
     }
 
     @Override
-    public void entityInside(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
-        if (world instanceof ServerLevel) {
-           changeDimension((ServerLevel) world, entity, new TeleporterAtum());
+    public void onEntityCollision(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Entity entity) {
+        if (world instanceof ServerWorld) {
+           changeDimension((ServerWorld) world, entity, new TeleporterAtum());
         }
     }
 
-    public static void changeDimension(ServerLevel serverWorld, Entity entity, ITeleporter teleporter) {
-        if (!entity.isPassenger() && !entity.isVehicle() && entity.canChangeDimensions() && entity instanceof ServerPlayer) {
-            ServerPlayer player = (ServerPlayer) entity;
-            ResourceKey<Level> key = serverWorld.dimension() == Atum.ATUM ? Level.OVERWORLD : Atum.ATUM;
-            ServerLevel destWorld = serverWorld.getServer().getLevel(key);
+    public static void changeDimension(ServerWorld serverWorld, Entity entity, ITeleporter teleporter) {
+        if (!entity.isPassenger() && !entity.isBeingRidden() && entity.isNonBoss() && entity instanceof ServerPlayerEntity) {
+            ServerPlayerEntity player = (ServerPlayerEntity) entity;
+            RegistryKey<World> key = serverWorld.getDimensionKey() == Atum.ATUM ? World.OVERWORLD : Atum.ATUM;
+            ServerWorld destWorld = serverWorld.getServer().getWorld(key);
             if (destWorld == null) {
                 return;
             }
-            if (player.portalCooldown <= 0) {
-                player.level.getProfiler().push("portal");
+            if (player.field_242273_aw <= 0) {
+                player.world.getProfiler().startSection("portal");
                 player.changeDimension(destWorld, teleporter);
-                player.portalCooldown = 300; //Set portal cooldown
-                player.level.getProfiler().pop();
+                player.field_242273_aw = 300; //Set portal cooldown
+                player.world.getProfiler().endSection();
             }
         }
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getPickBlock(BlockState state, RayTraceResult target, IBlockReader world, BlockPos pos, PlayerEntity player) {
         return ItemStack.EMPTY;
     }
 
-    public static BlockPattern.BlockPatternMatch createPatternHelper(LevelAccessor world, BlockPos pos) {
+    public static BlockPattern.PatternHelper createPatternHelper(IWorld world, BlockPos pos) {
         Size size = new Size(world, pos);
-        LoadingCache<BlockPos, BlockInWorld> cache = BlockPattern.createLevelCache(world, true);
+        LoadingCache<BlockPos, CachedBlockInfo> cache = BlockPattern.createLoadingCache(world, true);
         if (!size.isValid()) {
             size = new Size(world, pos);
         }
 
         if (!size.isValid()) {
-            return new BlockPattern.BlockPatternMatch(pos, Direction.NORTH, Direction.SOUTH, cache, 1, 1, 1);
+            return new BlockPattern.PatternHelper(pos, Direction.NORTH, Direction.SOUTH, cache, 1, 1, 1);
         } else {
-            return new BlockPattern.BlockPatternMatch(pos, Direction.NORTH, Direction.EAST, cache, size.width, 4, size.length);
+            return new BlockPattern.PatternHelper(pos, Direction.NORTH, Direction.EAST, cache, size.width, 4, size.length);
         }
     }
 
@@ -145,14 +132,14 @@ public class PortalBlock extends HalfTransparentBlock {
         private static final int MAX_SIZE = 9;
         private static final int MIN_SIZE = 3;
 
-        private final LevelAccessor world;
+        private final IWorld world;
         private boolean valid = false;
         private BlockPos nw;
         private BlockPos se;
         private int width;
         private int length;
 
-        public Size(LevelAccessor world, BlockPos pos) {
+        public Size(IWorld world, BlockPos pos) {
             this.world = world;
 
             int east = getDistanceUntilEdge(pos, Direction.EAST);
@@ -175,8 +162,8 @@ public class PortalBlock extends HalfTransparentBlock {
             BlockPos seCorner = pos.east(east).south(south);
             BlockPos swCorner = pos.west(west).south(south);
 
-            this.nw = nwCorner.offset(1, 0, 1);
-            this.se = seCorner.offset(-1, 0, -1);
+            this.nw = nwCorner.add(1, 0, 1);
+            this.se = seCorner.add(-1, 0, -1);
             int wallWidth = width + 2;
             int wallLength = length + 2;
             this.width = wallWidth;
@@ -186,7 +173,7 @@ public class PortalBlock extends HalfTransparentBlock {
                 for (int x = 0; x < wallWidth; x++) {
                     for (int z = 0; z < wallLength; z++) {
                         if (y == 0 || x == 0 || z == 0 || x == wallWidth - 1 || z == wallLength - 1) {
-                            if (!isSandBlock(world.getBlockState(nwCorner.below().offset(x, y, z)))) {
+                            if (!isSandBlock(world.getBlockState(nwCorner.down().add(x, y, z)))) {
                                 return;
                             }
                         }
@@ -195,16 +182,16 @@ public class PortalBlock extends HalfTransparentBlock {
             }
 
             for (int y = 0; y < 2; y++) {
-                if (!isSandBlock(world.getBlockState(neCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(world.getBlockState(neCorner.add(0, y + 1, 0)))) {
                     return;
                 }
-                if (!isSandBlock(world.getBlockState(nwCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(world.getBlockState(nwCorner.add(0, y + 1, 0)))) {
                     return;
                 }
-                if (!isSandBlock(world.getBlockState(seCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(world.getBlockState(seCorner.add(0, y + 1, 0)))) {
                     return;
                 }
-                if (!isSandBlock(world.getBlockState(swCorner.offset(0, y + 1, 0)))) {
+                if (!isSandBlock(world.getBlockState(swCorner.add(0, y + 1, 0)))) {
                     return;
                 }
             }
@@ -215,23 +202,23 @@ public class PortalBlock extends HalfTransparentBlock {
             int i;
 
             for (i = 0; i < 9; ++i) {
-                BlockPos blockpos = pos.relative(facing, i);
+                BlockPos blockpos = pos.offset(facing, i);
 
-                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || !isSandBlock(this.world.getBlockState(blockpos.below()))) {
+                if (!this.isEmptyBlock(this.world.getBlockState(blockpos)) || !isSandBlock(this.world.getBlockState(blockpos.down()))) {
                     break;
                 }
             }
 
-            BlockState state = this.world.getBlockState(pos.relative(facing, i));
+            BlockState state = this.world.getBlockState(pos.offset(facing, i));
             return isSandBlock(state) ? i : 0;
         }
 
         boolean isEmptyBlock(BlockState state) {
-            return state.getFluidState().is(FluidTags.WATER);
+            return state.getFluidState().isTagged(FluidTags.WATER);
         }
 
         boolean isSandBlock(BlockState state) {
-            return state.getBlock().is(Tags.Blocks.SANDSTONE) || state.getBlock().is(AtumAPI.Tags.LIMESTONE_BRICKS);
+            return state.getBlock().isIn(Tags.Blocks.SANDSTONE) || state.getBlock().isIn(AtumAPI.Tags.LIMESTONE_BRICKS);
         }
 
         boolean isValid() {
@@ -239,8 +226,8 @@ public class PortalBlock extends HalfTransparentBlock {
         }
 
         void placePortalBlocks() {
-            for (BlockPos portalPos : BlockPos.MutableBlockPos.betweenClosed(nw, se)) {
-                this.world.setBlock(portalPos, AtumBlocks.PORTAL.defaultBlockState(), 2);
+            for (BlockPos portalPos : BlockPos.Mutable.getAllInBoxMutable(nw, se)) {
+                this.world.setBlockState(portalPos, AtumBlocks.PORTAL.getDefaultState(), 2);
             }
         }
     }

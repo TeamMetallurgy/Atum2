@@ -4,9 +4,9 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerData;
 import com.teammetallurgy.atum.entity.villager.Race;
 import com.teammetallurgy.atum.misc.AtumRegistry;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.syncher.EntityDataSerializer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.network.datasync.IDataSerializer;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -19,23 +19,23 @@ import java.util.List;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumDataSerializer {
     private static final List<DataSerializerEntry> DATA_SERIALIZER_ENTRIES = new ArrayList<>();
-    public static final EntityDataSerializer<AtumVillagerData> VILLAGER_DATA = new EntityDataSerializer<AtumVillagerData>() {
+    public static final IDataSerializer<AtumVillagerData> VILLAGER_DATA = new IDataSerializer<AtumVillagerData>() {
         @Override
-        public void write(FriendlyByteBuf buf, AtumVillagerData value) {
-            buf.writeUtf(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
+        public void write(PacketBuffer buf, AtumVillagerData value) {
+            buf.writeString(AtumRegistry.VILLAGER_PROFESSION.get().getKey(value.getAtumProfession()).toString());
             buf.writeVarInt(value.getLevel());
-            buf.writeEnum(value.getRace());
+            buf.writeEnumValue(value.getRace());
         }
 
         @Override
         @Nonnull
-        public AtumVillagerData read(FriendlyByteBuf buf) {
-            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readUtf())), buf.readVarInt(), buf.readEnum(Race.class));
+        public AtumVillagerData read(PacketBuffer buf) {
+            return new AtumVillagerData(AtumRegistry.VILLAGER_PROFESSION.get().getValue(new ResourceLocation(buf.readString())), buf.readVarInt(), buf.readEnumValue(Race.class));
         }
 
         @Override
         @Nonnull
-        public AtumVillagerData copy(@Nonnull AtumVillagerData value) {
+        public AtumVillagerData copyValue(@Nonnull AtumVillagerData value) {
             return value;
         }
     };

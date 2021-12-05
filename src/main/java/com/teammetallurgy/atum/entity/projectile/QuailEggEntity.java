@@ -3,17 +3,17 @@ package com.teammetallurgy.atum.entity.projectile;
 import com.teammetallurgy.atum.entity.animal.QuailEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
-import net.minecraft.world.item.Item;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.core.particles.ItemParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.level.Level;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.projectile.ProjectileItemEntity;
+import net.minecraft.item.Item;
+import net.minecraft.network.IPacket;
+import net.minecraft.particles.ItemParticleData;
+import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.DamageSource;
+import net.minecraft.util.math.EntityRayTraceResult;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
@@ -21,21 +21,21 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 
-public class QuailEggEntity extends ThrowableItemProjectile {
+public class QuailEggEntity extends ProjectileItemEntity {
 
-    public QuailEggEntity(FMLPlayMessages.SpawnEntity spawnPacket, Level world) {
+    public QuailEggEntity(FMLPlayMessages.SpawnEntity spawnPacket, World world) {
         this(AtumEntities.QUAIL_EGG, world);
     }
 
-    public QuailEggEntity(EntityType<? extends QuailEggEntity> entityType, Level world) {
+    public QuailEggEntity(EntityType<? extends QuailEggEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    public QuailEggEntity(Level world, LivingEntity thrower) {
+    public QuailEggEntity(World world, LivingEntity thrower) {
         super(AtumEntities.QUAIL_EGG, thrower, world);
     }
 
-    public QuailEggEntity(Level world, double x, double y, double z) {
+    public QuailEggEntity(World world, double x, double y, double z) {
         super(AtumEntities.QUAIL_EGG, x, y, z, world);
     }
 
@@ -47,44 +47,44 @@ public class QuailEggEntity extends ThrowableItemProjectile {
 
     @Override
     @Nonnull
-    public Packet<?> getAddEntityPacket() {
+    public IPacket<?> createSpawnPacket() {
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleEntityEvent(byte id) {
+    public void handleStatusUpdate(byte id) {
         if (id == 3) {
             for (int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
+                this.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getPosX(), this.getPosY(), this.getPosZ(), ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
 
     @Override
-    protected void onHitEntity(@Nonnull EntityHitResult result) {
-        super.onHitEntity(result);
-        result.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
+    protected void onEntityHit(@Nonnull EntityRayTraceResult result) {
+        super.onEntityHit(result);
+        result.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 0.0F);
     }
 
     @Override
-    protected void onHit(@Nonnull HitResult result) {
-        super.onHit(result);
-        if (!this.level.isClientSide) {
-            if (this.random.nextInt(8) == 0) {
+    protected void onImpact(@Nonnull RayTraceResult result) {
+        super.onImpact(result);
+        if (!this.world.isRemote) {
+            if (this.rand.nextInt(8) == 0) {
                 int i = 1;
-                if (this.random.nextInt(32) == 0) {
+                if (this.rand.nextInt(32) == 0) {
                     i = 4;
                 }
 
                 for (int j = 0; j < i; ++j) {
-                    QuailEntity quail = AtumEntities.QUAIL.create(this.level);
-                    quail.setAge(-24000);
-                    quail.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
-                    this.level.addFreshEntity(quail);
+                    QuailEntity quail = AtumEntities.QUAIL.create(this.world);
+                    quail.setGrowingAge(-24000);
+                    quail.setLocationAndAngles(this.getPosX(), this.getPosY(), this.getPosZ(), this.rotationYaw, 0.0F);
+                    this.world.addEntity(quail);
                 }
             }
-            this.level.broadcastEntityEvent(this, (byte) 3);
+            this.world.setEntityState(this, (byte) 3);
             this.remove();
         }
     }

@@ -1,27 +1,27 @@
 package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.google.common.collect.ImmutableMap;
-import net.minecraft.world.entity.ai.memory.MemoryStatus;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.behavior.Behavior;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.task.Task;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 
-public class CuratorStartAdmiringItemTask <E extends Villager> extends Behavior<E> {
+public class CuratorStartAdmiringItemTask <E extends VillagerEntity> extends Task<E> {
 
     public CuratorStartAdmiringItemTask() {
-        super(ImmutableMap.of(MemoryModuleType.ADMIRING_ITEM, MemoryStatus.VALUE_ABSENT));
+        super(ImmutableMap.of(MemoryModuleType.ADMIRING_ITEM, MemoryModuleStatus.VALUE_ABSENT));
     }
 
     @Override
-    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull E owner) {
-        return !owner.getOffhandItem().isEmpty() && !owner.getOffhandItem().isShield(owner);
+    protected boolean shouldExecute(@Nonnull ServerWorld world, @Nonnull E owner) {
+        return !owner.getHeldItemOffhand().isEmpty() && !owner.getHeldItemOffhand().isShield(owner);
     }
 
     @Override
-    protected void start(@Nonnull ServerLevel world, @Nonnull E entity, long gameTimeIn) {
+    protected void startExecuting(@Nonnull ServerWorld world, @Nonnull E entity, long gameTimeIn) {
         AtumVillagerTasks.trade(entity, true);
     }
 }

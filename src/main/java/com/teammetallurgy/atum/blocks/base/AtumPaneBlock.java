@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.blocks.base;
 
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.block.IronBarsBlock;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.PaneBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 
-public class AtumPaneBlock extends IronBarsBlock {
+public class AtumPaneBlock extends PaneBlock {
 
     public AtumPaneBlock() {
-        super(BlockBehaviour.Properties.of(Material.GLASS).strength(0.3F).sound(SoundType.GLASS).noOcclusion());
+        super(AbstractBlock.Properties.create(Material.GLASS).hardnessAndResistance(0.3F).sound(SoundType.GLASS).notSolid());
     }
 }

@@ -1,77 +1,77 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.ai.goal.DoorInteractGoal;
-import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.level.pathfinder.Node;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.DoorBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.goal.InteractDoorGoal;
+import net.minecraft.pathfinding.Path;
+import net.minecraft.pathfinding.PathNavigator;
+import net.minecraft.pathfinding.PathPoint;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
-public class OpenAnyDoorGoal extends DoorInteractGoal {
+public class OpenAnyDoorGoal extends InteractDoorGoal {
     private final boolean closeDoor;
     private final boolean noCooldown;
     private int closeDoorTemporisation;
 
-    public OpenAnyDoorGoal(Mob entity, boolean closeDoor, boolean noCooldown) {
+    public OpenAnyDoorGoal(MobEntity entity, boolean closeDoor, boolean noCooldown) {
         super(entity);
         this.closeDoor = closeDoor;
         this.noCooldown = noCooldown;
     }
 
     @Override
-    public boolean canUse() {
-        if (!this.mob.horizontalCollision) {
+    public boolean shouldExecute() {
+        if (!this.entity.collidedHorizontally) {
             return false;
         } else {
-            PathNavigation pathNavigator = this.mob.getNavigation();
+            PathNavigator pathNavigator = this.entity.getNavigator();
             Path path = pathNavigator.getPath();
-            if (path != null && !path.isDone()) {
-                for (int i = 0; i < Math.min(path.getNextNodeIndex() + 2, path.getNodeCount()); ++i) {
-                    Node pathPoint = path.getNode(i);
-                    this.doorPos = new BlockPos(pathPoint.x, pathPoint.y + 1, pathPoint.z);
-                    if (!(this.mob.distanceToSqr(this.doorPos.getX(), this.mob.getY(), this.doorPos.getZ()) > 2.25D)) {
-                        this.hasDoor = canOpen(this.mob.level, this.doorPos);
-                        if (this.hasDoor) {
+            if (path != null && !path.isFinished()) {
+                for (int i = 0; i < Math.min(path.getCurrentPathIndex() + 2, path.getCurrentPathLength()); ++i) {
+                    PathPoint pathPoint = path.getPathPointFromIndex(i);
+                    this.doorPosition = new BlockPos(pathPoint.x, pathPoint.y + 1, pathPoint.z);
+                    if (!(this.entity.getDistanceSq(this.doorPosition.getX(), this.entity.getPosY(), this.doorPosition.getZ()) > 2.25D)) {
+                        this.doorInteract = canOpen(this.entity.world, this.doorPosition);
+                        if (this.doorInteract) {
                             return true;
                         }
                     }
                 }
 
-                this.doorPos = this.mob.blockPosition().above();
-                this.hasDoor = canOpen(this.mob.level, this.doorPos);
-                return this.hasDoor;
+                this.doorPosition = this.entity.getPosition().up();
+                this.doorInteract = canOpen(this.entity.world, this.doorPosition);
+                return this.doorInteract;
             } else {
                 return false;
             }
         }
     }
 
-    private boolean canOpen(Level world, BlockPos pos) {
+    private boolean canOpen(World world, BlockPos pos) {
         BlockState state = world.getBlockState(pos);
-        return state.getBlock() instanceof DoorBlock && state.getMaterial() != Material.METAL;
+        return state.getBlock() instanceof DoorBlock && state.getMaterial() != Material.IRON;
     }
 
     @Override
-    public boolean canContinueToUse() {
-        return (this.noCooldown || this.closeDoorTemporisation > 0) && super.canContinueToUse();
+    public boolean shouldContinueExecuting() {
+        return (this.noCooldown || this.closeDoorTemporisation > 0) && super.shouldContinueExecuting();
     }
 
     @Override
-    public void start() {
+    public void startExecuting() {
         if (!this.noCooldown) {
             this.closeDoorTemporisation = 20;
         }
-        this.setOpen(true);
+        this.toggleDoor(true);
     }
 
     @Override
-    public void stop() {
+    public void resetTask() {
         if (this.closeDoor) {
-            this.setOpen(false);
+            this.toggleDoor(false);
         }
     }
 

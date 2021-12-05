@@ -1,202 +1,202 @@
 package com.teammetallurgy.atum.client.particle;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.IVertexBuilder;
 import net.minecraft.client.particle.*;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.util.Mth;
+import net.minecraft.client.renderer.ActiveRenderInfo;
+import net.minecraft.client.world.ClientWorld;
+import net.minecraft.particles.BasicParticleType;
+import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class SwirlParticle extends TextureSheetParticle {
+public class SwirlParticle extends SpriteTexturedParticle {
     private float scale;
 
-    protected SwirlParticle(ClientLevel world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet spriteSet) {
+    protected SwirlParticle(ClientWorld world, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, IAnimatedSprite spriteSet) {
         super(world, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed);
-        this.xd = this.xd * 0.009999999776482582D + xSpeed;
-        this.yd = this.yd * 0.009999999776482582D + ySpeed;
-        this.zd = this.zd * 0.009999999776482582D + zSpeed;
-        this.x += (this.random.nextFloat() - this.random.nextFloat()) * 0.05F;
-        this.y += (this.random.nextFloat() - this.random.nextFloat()) * 0.05F;
-        this.z += (this.random.nextFloat() - this.random.nextFloat()) * 0.05F;
-        this.scale = this.quadSize;
-        this.rCol = 1.0F;
-        this.gCol = 1.0F;
-        this.bCol = 1.0F;
-        this.lifetime = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
-        this.setSpriteFromAge(spriteSet);
+        this.motionX = this.motionX * 0.009999999776482582D + xSpeed;
+        this.motionY = this.motionY * 0.009999999776482582D + ySpeed;
+        this.motionZ = this.motionZ * 0.009999999776482582D + zSpeed;
+        this.posX += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F;
+        this.posY += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F;
+        this.posZ += (this.rand.nextFloat() - this.rand.nextFloat()) * 0.05F;
+        this.scale = this.particleScale;
+        this.particleRed = 1.0F;
+        this.particleGreen = 1.0F;
+        this.particleBlue = 1.0F;
+        this.maxAge = (int) (8.0D / (Math.random() * 0.8D + 0.2D)) + 4;
+        this.selectSpriteWithAge(spriteSet);
     }
 
     @Override
     @Nonnull
-    public ParticleRenderType getRenderType() {
-        return ParticleRenderType.PARTICLE_SHEET_OPAQUE;
+    public IParticleRenderType getRenderType() {
+        return IParticleRenderType.PARTICLE_SHEET_OPAQUE;
     }
 
     @Override
     public void move(double x, double y, double z) {
-        this.setBoundingBox(this.getBoundingBox().move(x, y, z));
-        this.setLocationFromBoundingbox();
+        this.setBoundingBox(this.getBoundingBox().offset(x, y, z));
+        this.resetPositionToBB();
     }
 
     @Override
-    public void render(@Nonnull VertexConsumer builder, @Nonnull Camera renderInfo, float partialTicks) {
-        float f = ((float) this.age + partialTicks) / (float) this.lifetime;
-        this.quadSize = this.scale * (1.0F - f * f * 0.5F);
-        super.render(builder, renderInfo, partialTicks);
+    public void renderParticle(@Nonnull IVertexBuilder builder, @Nonnull ActiveRenderInfo renderInfo, float partialTicks) {
+        float f = ((float) this.age + partialTicks) / (float) this.maxAge;
+        this.particleScale = this.scale * (1.0F - f * f * 0.5F);
+        super.renderParticle(builder, renderInfo, partialTicks);
     }
 
     @Override
     public void tick() {
-        this.xo = this.x;
-        this.yo = this.y;
-        this.zo = this.z;
+        this.prevPosX = this.posX;
+        this.prevPosY = this.posY;
+        this.prevPosZ = this.posZ;
 
-        if (this.age++ >= this.lifetime) {
-            this.remove();
+        if (this.age++ >= this.maxAge) {
+            this.setExpired();
         }
-        this.move(this.xd, this.yd, this.zd);
-        this.xd *= 0.9599999785423279D;
-        this.yd *= 0.9599999785423279D;
-        this.zd *= 0.9599999785423279D;
+        this.move(this.motionX, this.motionY, this.motionZ);
+        this.motionX *= 0.9599999785423279D;
+        this.motionY *= 0.9599999785423279D;
+        this.motionZ *= 0.9599999785423279D;
 
         if (this.onGround) {
-            this.xd *= 0.699999988079071D;
-            this.zd *= 0.699999988079071D;
+            this.motionX *= 0.699999988079071D;
+            this.motionZ *= 0.699999988079071D;
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Anubis implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Anubis implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Anubis(SpriteSet sprite) {
+        public Anubis(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class AnubisSkull implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class AnubisSkull implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public AnubisSkull(SpriteSet sprite) {
+        public AnubisSkull(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Gas implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Gas implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Gas(SpriteSet sprite) {
+        public Gas(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-            particle.scale = Mth.nextFloat(world.random, 0.05F, 0.18F);
-            particle.hasPhysics = true;
+            particle.scale = MathHelper.nextFloat(world.rand, 0.05F, 0.18F);
+            particle.canCollide = true;
             return particle;
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Geb implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Geb implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Geb(SpriteSet sprite) {
+        public Geb(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Horus implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Horus implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Horus(SpriteSet sprite) {
+        public Horus(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Isis implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Isis implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Isis(SpriteSet sprite) {
+        public Isis(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             SwirlParticle particle = new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
-            particle.scale = Mth.nextFloat(world.random, 0.05F, 0.15F);
+            particle.scale = MathHelper.nextFloat(world.rand, 0.05F, 0.15F);
             return particle;
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class NuitBlack implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class NuitBlack implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public NuitBlack(SpriteSet sprite) {
+        public NuitBlack(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class NuitWhite implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class NuitWhite implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public NuitWhite(SpriteSet sprite) {
+        public NuitWhite(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Shu implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet spriteSet;
+    public static class Shu implements IParticleFactory<BasicParticleType> {
+        private final IAnimatedSprite spriteSet;
 
-        public Shu(SpriteSet sprite) {
+        public Shu(IAnimatedSprite sprite) {
             this.spriteSet = sprite;
         }
 
         @Override
-        public Particle createParticle(@Nonnull SimpleParticleType particleType, @Nonnull ClientLevel world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
+        public Particle makeParticle(@Nonnull BasicParticleType particleType, @Nonnull ClientWorld world, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
             return new SwirlParticle(world, x, y, z, xSpeed, ySpeed, zSpeed, this.spriteSet);
         }
     }

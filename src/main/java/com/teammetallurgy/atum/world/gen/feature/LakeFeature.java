@@ -5,36 +5,36 @@ import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.material.Material;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.chunk.ChunkGenerator;
-import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
-import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.ISeedReader;
+import net.minecraft.world.gen.ChunkGenerator;
+import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
+import net.minecraft.world.gen.feature.Feature;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class LakeFeature extends Feature<BlockStateConfiguration> { //Copied from LakesFeature
-    private static final BlockState AIR = Blocks.CAVE_AIR.defaultBlockState();
+public class LakeFeature extends Feature<BlockStateFeatureConfig> { //Copied from LakesFeature
+    private static final BlockState AIR = Blocks.CAVE_AIR.getDefaultState();
 
-    public LakeFeature(Codec<BlockStateConfiguration> config) {
+    public LakeFeature(Codec<BlockStateFeatureConfig> config) {
         super(config);
     }
 
     @Override
-    public boolean place(@Nonnull WorldGenLevel seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockStateConfiguration config) {
-        while (pos.getY() > 5 && seedReader.isEmptyBlock(pos)) {
-            pos = pos.below();
+    public boolean generate(@Nonnull ISeedReader seedReader, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BlockPos pos, @Nonnull BlockStateFeatureConfig config) {
+        while (pos.getY() > 5 && seedReader.isAirBlock(pos)) {
+            pos = pos.down();
         }
 
         if (pos.getY() <= DimensionHelper.GROUND_LEVEL) {
             return false;
         } else {
-            pos = pos.below(4);
+            pos = pos.down(4);
             if (StructureHelper.doesChunkHaveStructure(seedReader, pos, AtumStructures.PYRAMID_STRUCTURE)) {
                 return false;
             } else {
@@ -69,11 +69,11 @@ public class LakeFeature extends Feature<BlockStateConfiguration> { //Copied fro
                         for (int k = 0; k < 8; ++k) {
                             boolean flag = !aboolean[(k1 * 16 + l2) * 8 + k] && (k1 < 15 && aboolean[((k1 + 1) * 16 + l2) * 8 + k] || k1 > 0 && aboolean[((k1 - 1) * 16 + l2) * 8 + k] || l2 < 15 && aboolean[(k1 * 16 + l2 + 1) * 8 + k] || l2 > 0 && aboolean[(k1 * 16 + (l2 - 1)) * 8 + k] || k < 7 && aboolean[(k1 * 16 + l2) * 8 + k + 1] || k > 0 && aboolean[(k1 * 16 + l2) * 8 + (k - 1)]);
                             if (flag) {
-                                Material material = seedReader.getBlockState(pos.offset(k1, k, l2)).getMaterial();
+                                Material material = seedReader.getBlockState(pos.add(k1, k, l2)).getMaterial();
                                 if (k >= 4 && material.isLiquid()) {
                                     return false;
                                 }
-                                if (k < 4 && !material.isSolid() && seedReader.getBlockState(pos.offset(k1, k, l2)) != config.state) {
+                                if (k < 4 && !material.isSolid() && seedReader.getBlockState(pos.add(k1, k, l2)) != config.state) {
                                     return false;
                                 }
                             }
@@ -85,19 +85,19 @@ public class LakeFeature extends Feature<BlockStateConfiguration> { //Copied fro
                     for (int i3 = 0; i3 < 16; ++i3) {
                         for (int i4 = 0; i4 < 8; ++i4) {
                             if (aboolean[(l1 * 16 + i3) * 8 + i4]) {
-                                seedReader.setBlock(pos.offset(l1, i4, i3), i4 >= 4 ? AIR : config.state, 2);
+                                seedReader.setBlockState(pos.add(l1, i4, i3), i4 >= 4 ? AIR : config.state, 2);
                             }
                         }
                     }
                 }
 
-                if (config.state.getFluidState().is(FluidTags.LAVA)) {
+                if (config.state.getFluidState().isTagged(FluidTags.LAVA)) {
                     for (int j2 = 0; j2 < 16; ++j2) {
                         for (int k3 = 0; k3 < 16; ++k3) {
                             for (int k4 = 0; k4 < 8; ++k4) {
                                 boolean flag1 = !aboolean[(j2 * 16 + k3) * 8 + k4] && (j2 < 15 && aboolean[((j2 + 1) * 16 + k3) * 8 + k4] || j2 > 0 && aboolean[((j2 - 1) * 16 + k3) * 8 + k4] || k3 < 15 && aboolean[(j2 * 16 + k3 + 1) * 8 + k4] || k3 > 0 && aboolean[(j2 * 16 + (k3 - 1)) * 8 + k4] || k4 < 7 && aboolean[(j2 * 16 + k3) * 8 + k4 + 1] || k4 > 0 && aboolean[(j2 * 16 + k3) * 8 + (k4 - 1)]);
-                                if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && seedReader.getBlockState(pos.offset(j2, k4, k3)).getMaterial().isSolid()) {
-                                    seedReader.setBlock(pos.offset(j2, k4, k3), AtumBlocks.LIMESTONE.defaultBlockState(), 2);
+                                if (flag1 && (k4 < 4 || rand.nextInt(2) != 0) && seedReader.getBlockState(pos.add(j2, k4, k3)).getMaterial().isSolid()) {
+                                    seedReader.setBlockState(pos.add(j2, k4, k3), AtumBlocks.LIMESTONE.getDefaultState(), 2);
                                 }
                             }
                         }

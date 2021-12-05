@@ -3,14 +3,14 @@ package com.teammetallurgy.atum.inventory.container.entity;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import com.teammetallurgy.atum.init.AtumGuis;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.Container;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.SaddleItem;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.SaddleItem;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -18,72 +18,72 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CamelContainer extends AbstractContainerMenu {
-    public final Container camelInventory;
+public class CamelContainer extends Container {
+    public final IInventory camelInventory;
     public final CamelEntity camel;
     private List<Slot> rightCrateSlots = new ArrayList<>();
     private List<Slot> leftCrateSlots = new ArrayList<>();
 
-    public CamelContainer(int windowID, Inventory playerInventory, final int entityID) {
+    public CamelContainer(int windowID, PlayerInventory playerInventory, final int entityID) {
         super(AtumGuis.CAMEL, windowID);
-        Player player = playerInventory.player;
-        this.camel = (CamelEntity) player.level.getEntity(entityID);
+        PlayerEntity player = playerInventory.player;
+        this.camel = (CamelEntity) player.world.getEntityByID(entityID);
         this.camelInventory = this.camel.getHorseChest();
-        camelInventory.startOpen(player);
+        camelInventory.openInventory(player);
         //Saddle slot
         this.addSlot(new Slot(camelInventory, 0, 62, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
-                return stack.getItem() instanceof SaddleItem && !this.hasItem();
+            public boolean isItemValid(ItemStack stack) {
+                return stack.getItem() instanceof SaddleItem && !this.getHasStack();
             }
         });
         //Armor slot
         this.addSlot(new Slot(camelInventory, 1, 80, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean isItemValid(ItemStack stack) {
                 return camel.isArmor(stack);
             }
 
             @Override
-            public int getMaxStackSize() {
+            public int getSlotStackLimit() {
                 return 1;
             }
 
             @Override
             @OnlyIn(Dist.CLIENT)
-            public boolean isActive() {
-                return camel.canWearArmor();
+            public boolean isEnabled() {
+                return camel.func_230276_fq_();
             }
         });
         //Carpet slot
         this.addSlot(new Slot(camelInventory, 2, 98, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
+            public boolean isItemValid(ItemStack stack) {
                 return camel.isValidCarpet(stack);
             }
 
             @Override
-            public int getMaxStackSize() {
+            public int getSlotStackLimit() {
                 return 1;
             }
         });
         //Left Crate slot
         this.addSlot(new Slot(camelInventory, 3, 35, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
-                return Block.byItem(stack.getItem()) instanceof CrateBlock;
+            public boolean isItemValid(ItemStack stack) {
+                return Block.getBlockFromItem(stack.getItem()) instanceof CrateBlock;
             }
 
             @Override
-            public void setChanged() {
-                super.setChanged();
+            public void onSlotChanged() {
+                super.onSlotChanged();
                 CamelContainer.this.updateLeftChestSlots();
             }
 
             @Override
-            public boolean mayPickup(Player playerIn) {
+            public boolean canTakeStack(PlayerEntity playerIn) {
                 for (Slot slot : leftCrateSlots) {
-                    if (slot.hasItem()) {
+                    if (slot.getHasStack()) {
                         return false;
                     }
                 }
@@ -91,27 +91,27 @@ public class CamelContainer extends AbstractContainerMenu {
             }
 
             @Override
-            public int getMaxStackSize() {
+            public int getSlotStackLimit() {
                 return 1;
             }
         });
         //Right Crate slot
         this.addSlot(new Slot(camelInventory, 4, 125, 64) {
             @Override
-            public boolean mayPlace(ItemStack stack) {
-                return Block.byItem(stack.getItem()) instanceof CrateBlock;
+            public boolean isItemValid(ItemStack stack) {
+                return Block.getBlockFromItem(stack.getItem()) instanceof CrateBlock;
             }
 
             @Override
-            public void setChanged() {
-                super.setChanged();
+            public void onSlotChanged() {
+                super.onSlotChanged();
                 CamelContainer.this.updateRightChestSlots();
             }
 
             @Override
-            public boolean mayPickup(Player playerIn) {
+            public boolean canTakeStack(PlayerEntity playerIn) {
                 for (Slot slot : rightCrateSlots) {
-                    if (slot.hasItem()) {
+                    if (slot.getHasStack()) {
                         return false;
                     }
                 }
@@ -119,7 +119,7 @@ public class CamelContainer extends AbstractContainerMenu {
             }
 
             @Override
-            public int getMaxStackSize() {
+            public int getSlotStackLimit() {
                 return 1;
             }
         });
@@ -157,29 +157,29 @@ public class CamelContainer extends AbstractContainerMenu {
         if (camel.hasLeftCrate()) {
             boolean hasLeftSlots = false;
             for (Slot slot : leftCrateSlots) {
-                if (slots.contains(slot)) {
+                if (inventorySlots.contains(slot)) {
                     hasLeftSlots = true;
                     break;
                 }
             }
             if (!hasLeftSlots) {
                 for (int i = 0; i < leftCrateSlots.size(); i++) {
-                    slots.add(camel.getNonCrateSize() + i, leftCrateSlots.get(i));
-                    lastSlots.add(ItemStack.EMPTY);
+                    inventorySlots.add(camel.getNonCrateSize() + i, leftCrateSlots.get(i));
+                    inventoryItemStacks.add(ItemStack.EMPTY);
                 }
             }
         } else {
-            for (int i = 0; i < slots.size(); i++) {
-                Slot slot = slots.get(i);
+            for (int i = 0; i < inventorySlots.size(); i++) {
+                Slot slot = inventorySlots.get(i);
                 if (leftCrateSlots.contains(slot)) {
-                    slots.remove(i);
-                    lastSlots.remove(i);
+                    inventorySlots.remove(i);
+                    inventoryItemStacks.remove(i);
                     i--;
                 }
             }
         }
-        for (int i = 0; i < slots.size(); i++) {
-            slots.get(i).index = i;
+        for (int i = 0; i < inventorySlots.size(); i++) {
+            inventorySlots.get(i).slotNumber = i;
         }
     }
 
@@ -187,85 +187,85 @@ public class CamelContainer extends AbstractContainerMenu {
         if (camel.hasRightCrate()) {
             boolean hasRightSlots = false;
             for (Slot slot : rightCrateSlots) {
-                if (slots.contains(slot)) {
+                if (inventorySlots.contains(slot)) {
                     hasRightSlots = true;
                     break;
                 }
             }
             if (!hasRightSlots) {
                 for (Slot rightCrateSlot : rightCrateSlots) {
-                    slots.add(camel.getNonCrateSize() + leftCrateSlots.size(), rightCrateSlot);
-                    lastSlots.add(ItemStack.EMPTY);
+                    inventorySlots.add(camel.getNonCrateSize() + leftCrateSlots.size(), rightCrateSlot);
+                    inventoryItemStacks.add(ItemStack.EMPTY);
                 }
             }
         } else {
-            for (int i = 0; i < slots.size(); i++) {
-                Slot slot = slots.get(i);
+            for (int i = 0; i < inventorySlots.size(); i++) {
+                Slot slot = inventorySlots.get(i);
                 if (rightCrateSlots.contains(slot)) {
-                    slots.remove(i);
-                    lastSlots.remove(i);
+                    inventorySlots.remove(i);
+                    inventoryItemStacks.remove(i);
                     i--;
                 }
             }
         }
-        for (int i = 0; i < slots.size(); i++) {
-            slots.get(i).index = i;
+        for (int i = 0; i < inventorySlots.size(); i++) {
+            inventorySlots.get(i).slotNumber = i;
         }
     }
 
     @Override
-    public boolean stillValid(@Nonnull Player player) {
-        return this.camelInventory.stillValid(player) && this.camel.isAlive() && this.camel.distanceTo(player) < 8.0F;
+    public boolean canInteractWith(@Nonnull PlayerEntity player) {
+        return this.camelInventory.isUsableByPlayer(player) && this.camel.isAlive() && this.camel.getDistance(player) < 8.0F;
     }
 
     @Override
     @Nonnull
-    public ItemStack quickMoveStack(Player player, int index) {
+    public ItemStack transferStackInSlot(PlayerEntity player, int index) {
         ItemStack stack = ItemStack.EMPTY;
-        Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
-            ItemStack slotStack = slot.getItem();
+        Slot slot = this.inventorySlots.get(index);
+        if (slot != null && slot.getHasStack()) {
+            ItemStack slotStack = slot.getStack();
             stack = slotStack.copy();
             int camelInventorySize = camel.getNonCrateSize() + (camel.hasLeftCrate() ? leftCrateSlots.size() : 0) + (camel.hasRightCrate() ? rightCrateSlots.size() : 0);
             if (index < camelInventorySize) {
-                if (!this.moveItemStackTo(slotStack, camelInventorySize, this.slots.size(), true)) {
+                if (!this.mergeItemStack(slotStack, camelInventorySize, this.inventorySlots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(1).mayPlace(slotStack) && !this.getSlot(1).hasItem()) {
-                if (!this.moveItemStackTo(slotStack, 1, 5, false)) {
+            } else if (this.getSlot(1).isItemValid(slotStack) && !this.getSlot(1).getHasStack()) {
+                if (!this.mergeItemStack(slotStack, 1, 5, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(2).mayPlace(slotStack) && !this.getSlot(2).hasItem()) {
-                if (!this.moveItemStackTo(slotStack, 2, 5, false)) {
+            } else if (this.getSlot(2).isItemValid(slotStack) && !this.getSlot(2).getHasStack()) {
+                if (!this.mergeItemStack(slotStack, 2, 5, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(3).mayPlace(slotStack) && !this.getSlot(3).hasItem()) {
-                if (!this.moveItemStackTo(slotStack, 3, 5, false)) {
+            } else if (this.getSlot(3).isItemValid(slotStack) && !this.getSlot(3).getHasStack()) {
+                if (!this.mergeItemStack(slotStack, 3, 5, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(4).mayPlace(slotStack) && !this.getSlot(4).hasItem()) {
-                if (!this.moveItemStackTo(slotStack, 4, 5, false)) {
+            } else if (this.getSlot(4).isItemValid(slotStack) && !this.getSlot(4).getHasStack()) {
+                if (!this.mergeItemStack(slotStack, 4, 5, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.getSlot(0).mayPlace(slotStack)) {
-                if (!this.moveItemStackTo(slotStack, 0, 1, false)) {
+            } else if (this.getSlot(0).isItemValid(slotStack)) {
+                if (!this.mergeItemStack(slotStack, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (camelInventorySize <= 5 || !this.moveItemStackTo(slotStack, 5, camelInventorySize, false)) {
+            } else if (camelInventorySize <= 5 || !this.mergeItemStack(slotStack, 5, camelInventorySize, false)) {
                 return ItemStack.EMPTY;
             }
             if (slotStack.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
+                slot.putStack(ItemStack.EMPTY);
             } else {
-                slot.setChanged();
+                slot.onSlotChanged();
             }
         }
         return stack;
     }
 
     @Override
-    public void removed(Player player) {
-        super.removed(player);
-        this.camelInventory.stopOpen(player);
+    public void onContainerClosed(PlayerEntity player) {
+        super.onContainerClosed(player);
+        this.camelInventory.closeInventory(player);
     }
 }

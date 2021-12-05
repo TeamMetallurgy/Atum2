@@ -1,12 +1,12 @@
 package com.teammetallurgy.atum.integration.curios;
 
 import com.google.common.collect.Multimap;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.text.ITextComponent;
 import top.theillusivec4.curios.api.type.capability.ICurio;
 
 import javax.annotation.Nonnull;
@@ -44,7 +44,7 @@ public interface ISimpleCurioItem { //TODO Remove in 1.17. Temporary workaround 
         return defaultInstance.canUnequip(identifier, livingEntity);
     }
 
-    default List<Component> getTagsTooltip(List<Component> tagTooltips, @Nonnull ItemStack stack) {
+    default List<ITextComponent> getTagsTooltip(List<ITextComponent> tagTooltips, @Nonnull ItemStack stack) {
         return defaultInstance.getTagsTooltip(tagTooltips);
     }
 
@@ -69,11 +69,11 @@ public interface ISimpleCurioItem { //TODO Remove in 1.17. Temporary workaround 
     }
 
     @Nonnull
-    default CompoundTag writeSyncData(@Nonnull ItemStack stack) {
+    default CompoundNBT writeSyncData(@Nonnull ItemStack stack) {
         return defaultInstance.writeSyncData();
     }
 
-    default void readSyncData(CompoundTag compound, @Nonnull ItemStack stack) {
+    default void readSyncData(CompoundNBT compound, @Nonnull ItemStack stack) {
         defaultInstance.readSyncData(compound);
     }
 

@@ -5,25 +5,25 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.world.WorldSeedHolder;
 import com.teammetallurgy.atum.world.gen.layer.AtumLayerUtil;
-import net.minecraft.SharedConstants;
-import net.minecraft.Util;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.RegistryLookupCodec;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.data.worldgen.biome.Biomes;
-import net.minecraft.world.level.biome.BiomeSource;
-import net.minecraft.world.level.newbiome.layer.Layer;
+import net.minecraft.util.SharedConstants;
+import net.minecraft.util.Util;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryLookupCodec;
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeRegistry;
+import net.minecraft.world.biome.provider.BiomeProvider;
+import net.minecraft.world.gen.layer.Layer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
 
-public class AtumBiomeProvider extends BiomeSource {
+public class AtumBiomeProvider extends BiomeProvider {
     public static final Codec<AtumBiomeProvider> CODEC = RecordCodecBuilder.create((builder) -> {
         return builder.group(Codec.BOOL.fieldOf("large_biomes").orElse(false).stable().forGetter((atumBiomeProvider) -> {
             return atumBiomeProvider.largeBiomes;
-        }), RegistryLookupCodec.create(Registry.BIOME_REGISTRY).forGetter((atumBiomeProvider) -> {
+        }), RegistryLookupCodec.getLookUpCodec(Registry.BIOME_KEY).forGetter((atumBiomeProvider) -> {
             return atumBiomeProvider.lookupRegistry;
         }), Codec.LONG.fieldOf("seed").orElseGet(WorldSeedHolder::getSeed).forGetter((chunkGenerator) -> {
             return chunkGenerator.seed;
@@ -45,40 +45,40 @@ public class AtumBiomeProvider extends BiomeSource {
 
     @Override
     @Nonnull
-    protected Codec<? extends BiomeSource> codec() {
+    protected Codec<? extends BiomeProvider> getBiomeProviderCodec() {
         return CODEC;
     }
 
     @Override
     @Nonnull
     @OnlyIn(Dist.CLIENT)
-    public BiomeSource withSeed(long seed) {
+    public BiomeProvider getBiomeProvider(long seed) {
         return new AtumBiomeProvider(this.largeBiomes, this.lookupRegistry, this.seed);
     }
 
     /**
-     * Returns the correct dynamic registry biome instead of using get method
+     * Returns the correct dynamic registry biome instead of using func_242936_a method
      * which actually returns the incorrect biome instance because it resolves the biome
      * with WorldGenRegistry first instead of the dynamic registry which is... bad.
      */
     @Override
     @Nonnull
     public Biome getNoiseBiome(int x, int y, int z) {
-        int k = this.genBiomes.area.get(x, z);
-        Biome biome = this.lookupRegistry.byId(k);
+        int k = this.genBiomes.field_215742_b.getValue(x, z);
+        Biome biome = this.lookupRegistry.getByValue(k);
 
         if (biome != null) {
             // Dynamic Registry biome (this should always be returned ideally)
             return biome;
         } else {
             //fallback to WorldGenRegistry registry if dynamic registry doesn't have biome
-            if (SharedConstants.IS_RUNNING_IN_IDE) {
-                throw Util.pauseInIde(new IllegalStateException("Unknown biome id: " + k));
+            if (SharedConstants.developmentMode) {
+                throw Util.pauseDevMode(new IllegalStateException("Unknown biome id: " + k));
             } else {
-                biome = this.lookupRegistry.get(Biomes.byId(0));
+                biome = this.lookupRegistry.getValueForKey(BiomeRegistry.getKeyFromID(0));
                 if (biome == null) {
                     // If this is reached, it is the end of the world lol
-                    return Biomes.THE_VOID;
+                    return BiomeRegistry.THE_VOID;
                 } else {
                     // WorldGenRegistry biome (this is not good but we need to return something)
                     return biome;

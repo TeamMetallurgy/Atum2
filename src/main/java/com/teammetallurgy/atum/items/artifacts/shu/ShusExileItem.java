@@ -9,12 +9,12 @@ import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.BattleAxeItem;
 import it.unimi.dsi.fastutil.objects.Object2FloatMap;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Rarity;
-import net.minecraft.util.Mth;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.Rarity;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class ShusExileItem extends BattleAxeItem implements IArtifact {
-    private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
+    private static final Object2FloatMap<PlayerEntity> COOLDOWN = new Object2FloatOpenHashMap<>();
 
     public ShusExileItem() {
         super(AtumMats.NEBU, 4.5F, -2.9F, new Item.Properties().rarity(Rarity.RARE));
@@ -35,20 +35,20 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onAttack(AttackEntityEvent event) {
-        Player attacker = event.getPlayer();
-        if (attacker.level.isClientSide) return;
-        if (event.getTarget() instanceof LivingEntity && attacker.getMainHandItem().getItem() == AtumItems.SHUS_EXILE) {
-            COOLDOWN.put(attacker, attacker.getAttackStrengthScale(0.5F));
+        PlayerEntity attacker = event.getPlayer();
+        if (attacker.world.isRemote) return;
+        if (event.getTarget() instanceof LivingEntity && attacker.getHeldItemMainhand().getItem() == AtumItems.SHUS_EXILE) {
+            COOLDOWN.put(attacker, attacker.getCooledAttackStrength(0.5F));
 
             if (COOLDOWN.getFloat(attacker) == 1.0F) {
                 LivingEntity target = (LivingEntity) event.getTarget();
                 float defaultKnockback = 0.5F;
-                target.knockback(defaultKnockback * 3, Mth.sin(attacker.yRot * ((float) Math.PI / 180F)), -Mth.cos(attacker.yRot * ((float) Math.PI / 180F)));
-                if (target.level instanceof ServerLevel) {
-                    double x = Mth.nextDouble(random, 0.001D, 0.02D);
-                    double z = Mth.nextDouble(random, 0.001D, 0.02D);
-                    ServerLevel serverWorld = (ServerLevel) target.level;
-                    serverWorld.sendParticles(AtumParticles.SHU, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + target.getEyeHeight(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 12, x, 0.04D, -z, 0.015D);
+                target.applyKnockback(defaultKnockback * 3, MathHelper.sin(attacker.rotationYaw * ((float) Math.PI / 180F)), -MathHelper.cos(attacker.rotationYaw * ((float) Math.PI / 180F)));
+                if (target.world instanceof ServerWorld) {
+                    double x = MathHelper.nextDouble(random, 0.001D, 0.02D);
+                    double z = MathHelper.nextDouble(random, 0.001D, 0.02D);
+                    ServerWorld serverWorld = (ServerWorld) target.world;
+                    serverWorld.spawnParticle(AtumParticles.SHU, target.getPosX() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), target.getPosY() + target.getEyeHeight(), target.getPosZ() + (random.nextDouble() - 0.5D) * (double) target.getWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }
         }

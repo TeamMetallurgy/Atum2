@@ -1,59 +1,57 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.SoundType;
-import net.minecraft.world.level.block.VineBlock;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.VineBlock;
+import net.minecraft.block.material.Material;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
+import net.minecraft.state.BooleanProperty;
+import net.minecraft.state.StateContainer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
-
-import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 
 public class OphidianTongueBlock extends VineBlock {
     private static final BooleanProperty HAS_FLOWERS = BooleanProperty.create("flowers");
 
     public OphidianTongueBlock() {
-        super(Properties.of(Material.REPLACEABLE_PLANT).noCollission().randomTicks().strength(0.2F).sound(SoundType.GRASS));
-        this.registerDefaultState(this.stateDefinition.any().setValue(UP, Boolean.FALSE).setValue(NORTH, Boolean.FALSE).setValue(EAST, Boolean.FALSE).setValue(SOUTH, Boolean.FALSE).setValue(WEST, Boolean.FALSE).setValue(HAS_FLOWERS, false));
+        super(Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().tickRandomly().hardnessAndResistance(0.2F).sound(SoundType.PLANT));
+        this.setDefaultState(this.stateContainer.getBaseState().with(UP, Boolean.FALSE).with(NORTH, Boolean.FALSE).with(EAST, Boolean.FALSE).with(SOUTH, Boolean.FALSE).with(WEST, Boolean.FALSE).with(HAS_FLOWERS, false));
     }
 
     @Override
-    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        if (!world.isClientSide && state.getValue(HAS_FLOWERS) && entity instanceof LivingEntity) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (!world.isRemote && state.get(HAS_FLOWERS) && entity instanceof LivingEntity) {
             LivingEntity livingBase = (LivingEntity) entity;
-            if (livingBase instanceof Player) {
-                Player player = (Player) livingBase;
+            if (livingBase instanceof PlayerEntity) {
+                PlayerEntity player = (PlayerEntity) livingBase;
                 if (!player.isCreative()) {
-                    player.addEffect(new MobEffectInstance(MobEffects.POISON, 35));
+                    player.addPotionEffect(new EffectInstance(Effects.POISON, 35));
                 }
             } else {
-                livingBase.addEffect(new MobEffectInstance(MobEffects.POISON, 35));
+                livingBase.addPotionEffect(new EffectInstance(Effects.POISON, 35));
             }
         }
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+    public void tick(@Nonnull BlockState state, ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
         super.tick(state, world, pos, rand);
-        if (!world.isClientSide && !state.getValue(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
-            world.setBlock(pos, state.setValue(HAS_FLOWERS, true), 2);
+        if (!world.isRemote && !state.get(HAS_FLOWERS) && rand.nextDouble() <= 0.03D) {
+            world.setBlockState(pos, state.with(HAS_FLOWERS, true), 2);
         }
     }
 
     @Override
-    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
+    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
         container.add(UP, NORTH, EAST, SOUTH, WEST, HAS_FLOWERS);
     }
 }

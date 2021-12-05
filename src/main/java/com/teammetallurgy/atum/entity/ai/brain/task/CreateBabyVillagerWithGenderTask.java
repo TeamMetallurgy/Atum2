@@ -2,35 +2,35 @@ package com.teammetallurgy.atum.entity.ai.brain.task;
 
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
-import net.minecraft.world.entity.AgableMob;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.Brain;
-import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.ai.behavior.VillagerMakeLove;
-import net.minecraft.world.entity.npc.Villager;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.BrainUtil;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
+import net.minecraft.entity.ai.brain.task.CreateBabyVillagerTask;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.function.Predicate;
 
-public class CreateBabyVillagerWithGenderTask extends VillagerMakeLove {
+public class CreateBabyVillagerWithGenderTask extends CreateBabyVillagerTask {
 
     @Override
-    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull Villager owner) {
+    protected boolean shouldExecute(@Nonnull ServerWorld world, @Nonnull VillagerEntity owner) {
         return this.canBreed((AtumVillagerEntity) owner);
     }
 
     @Override
-    protected boolean canStillUse(@Nonnull ServerLevel world, @Nonnull Villager entity, long gameTime) {
-        return gameTime <= this.birthTimestamp && this.canBreed((AtumVillagerEntity) entity);
+    protected boolean shouldContinueExecuting(@Nonnull ServerWorld world, @Nonnull VillagerEntity entity, long gameTime) {
+        return gameTime <= this.duration && this.canBreed((AtumVillagerEntity) entity);
     }
 
     private boolean canBreed(AtumVillagerEntity villager) {
-        Brain<Villager> brain = villager.getBrain();
-        Optional<AgableMob> optional = brain.getMemory(MemoryModuleType.BREED_TARGET).filter((breedTarget) -> {
+        Brain<VillagerEntity> brain = villager.getBrain();
+        Optional<AgeableEntity> optional = brain.getMemory(MemoryModuleType.BREED_TARGET).filter((breedTarget) -> {
             return (villager.getType() == AtumEntities.VILLAGER_MALE && breedTarget.getType() == AtumEntities.VILLAGER_FEMALE) || villager.getType() == AtumEntities.VILLAGER_FEMALE && breedTarget.getType() == AtumEntities.VILLAGER_MALE;
         });
         if (!optional.isPresent()) {
@@ -48,7 +48,7 @@ public class CreateBabyVillagerWithGenderTask extends VillagerMakeLove {
 
     private static boolean canSeeEntity(Brain<?> brain, MemoryModuleType<? extends LivingEntity> memoryType, Predicate<LivingEntity> livingPredicate) {
         return brain.getMemory(memoryType).filter(livingPredicate).filter(LivingEntity::isAlive).filter((livingEntity) -> {
-            return BehaviorUtils.entityIsVisible(brain, livingEntity);
+            return BrainUtil.canSee(brain, livingEntity);
         }).isPresent();
     }
 }

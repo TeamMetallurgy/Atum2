@@ -1,19 +1,19 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.WorldlyContainer;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.Connection;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.core.Direction;
-import net.minecraft.core.BlockPos;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.inventory.ISidedInventory;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.Direction;
+import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -23,19 +23,19 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class KilnBaseTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
+public class KilnBaseTileEntity extends InventoryBaseTileEntity implements ISidedInventory {
     private BlockPos primaryPos;
     private static final int[] SLOTS_TOP = new int[]{0, 1, 2, 3};
     private static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
     private static final int[] SLOTS_SIDES = new int[]{4};
 
-    KilnBaseTileEntity(BlockEntityType<?> tileType) {
+    KilnBaseTileEntity(TileEntityType<?> tileType) {
         super(tileType, 9);
     }
 
     @Override
     @Nonnull
-    public BlockEntityType<?> getType() {
+    public TileEntityType<?> getType() {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
@@ -46,7 +46,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     public boolean isPrimary() {
-        return primaryPos != null && primaryPos.equals(this.worldPosition);
+        return primaryPos != null && primaryPos.equals(this.pos);
     }
 
     public void setPrimaryPos(BlockPos primaryPos) {
@@ -61,8 +61,8 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
         if (this.isPrimary()) {
             return this;
         }
-        if (this.level != null && primaryPos != null) {
-            BlockEntity te = level.getBlockEntity(primaryPos);
+        if (this.world != null && primaryPos != null) {
+            TileEntity te = world.getTileEntity(primaryPos);
             if (te instanceof KilnBaseTileEntity) {
                 return (KilnBaseTileEntity) te;
             }
@@ -71,11 +71,11 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
+    public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
-                return primary.canPlaceItem(index, stack);
+                return primary.isItemValidForSlot(index, stack);
             } else {
                 return false;
             }
@@ -83,7 +83,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
         if (index >= 5 && index <= 9) {
             return false;
         } else if (index == 4) {
-            return AbstractFurnaceBlockEntity.isFuel(stack);
+            return AbstractFurnaceTileEntity.isFuel(stack);
         } else {
             return true;
         }
@@ -106,44 +106,44 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    public boolean canPlaceItemThroughFace(int index, @Nonnull ItemStack stack, Direction side) {
+    public boolean canInsertItem(int index, @Nonnull ItemStack stack, Direction side) {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
-                return primary.canPlaceItemThroughFace(index, stack, side);
+                return primary.canInsertItem(index, stack, side);
             } else {
                 return false;
             }
         }
         ItemStack slotStack = this.inventory.get(index);
-        return (slotStack.isEmpty() || slotStack.getCount() < this.getMaxStackSize()) && this.canPlaceItem(index, stack);
+        return (slotStack.isEmpty() || slotStack.getCount() < this.getInventoryStackLimit()) && this.isItemValidForSlot(index, stack);
     }
 
     @Override
-    public boolean canTakeItemThroughFace(int index, @Nonnull ItemStack stack, @Nonnull Direction side) {
-        return this.isPrimary() || this.getPrimary() != null && this.getPrimary().canTakeItemThroughFace(index, stack, side);
+    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction side) {
+        return this.isPrimary() || this.getPrimary() != null && this.getPrimary().canExtractItem(index, stack, side);
     }
 
     @Override
-    public int getContainerSize() {
+    public int getSizeInventory() {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
-                return primary.getContainerSize();
+                return primary.getSizeInventory();
             }
         }
-        return super.getContainerSize();
+        return super.getSizeInventory();
     }
 
     @Override
-    public int getMaxStackSize() {
+    public int getInventoryStackLimit() {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
-                return primary.getMaxStackSize();
+                return primary.getInventoryStackLimit();
             }
         }
-        return super.getMaxStackSize();
+        return super.getInventoryStackLimit();
     }
 
     @Override
@@ -158,8 +158,8 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
+    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
+        super.read(state, compound);
         boolean hasPrimary = compound.getBoolean("has_primary");
         if (hasPrimary) {
             int x = compound.getInt("px");
@@ -171,8 +171,8 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
 
     @Override
     @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
+    public CompoundNBT write(@Nonnull CompoundNBT compound) {
+        super.write(compound);
         if (primaryPos != null) {
             compound.putBoolean("has_primary", true);
             compound.putInt("px", primaryPos.getX());
@@ -185,7 +185,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    protected AbstractContainerMenu createMenu(int windowID, @Nonnull Inventory playerInventory) {
+    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) {
         if (!isPrimary()) {
             KilnBaseTileEntity primary = getPrimary();
             if (primary != null) {
@@ -196,20 +196,20 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+    public SUpdateTileEntityPacket getUpdatePacket() {
+        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
+    public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        this.read(this.getBlockState(), packet.getNbtCompound());
     }
 
     @Override
     @Nonnull
-    public CompoundTag getUpdateTag() {
-        return this.save(new CompoundTag());
+    public CompoundNBT getUpdateTag() {
+        return this.write(new CompoundNBT());
     }
 
     private final LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.WEST);
@@ -223,7 +223,7 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
                 return primary.getCapability(capability, facing);
             }
         }
-        if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+        if (!this.removed && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (facing == Direction.UP) {
                 return handlers[0].cast();
             } else if (facing == Direction.DOWN) {
