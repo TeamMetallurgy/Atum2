@@ -91,7 +91,7 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-	annotationProcessor 'org.spongepowered:mixin:0.8.2:processor'
+	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
     implementation fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
