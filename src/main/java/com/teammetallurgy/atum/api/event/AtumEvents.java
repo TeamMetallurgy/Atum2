@@ -1,7 +1,7 @@
 package com.teammetallurgy.atum.api.event;
 
 import com.teammetallurgy.atum.entity.undead.PharaohEntity;
-import net.minecraft.util.DamageSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraftforge.common.MinecraftForge;
 
 public class AtumEvents {

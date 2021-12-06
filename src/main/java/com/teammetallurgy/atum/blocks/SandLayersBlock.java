@@ -1,81 +1,84 @@
 package com.teammetallurgy.atum.blocks;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.block.material.MaterialColor;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.pathfinding.PathType;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.FallingBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class SandLayersBlock extends FallingBlock {
-    private static final Material SAND_LAYER = new Material.Builder(MaterialColor.SAND).doesNotBlockMovement().notOpaque().notSolid().pushDestroys().replaceable().build();
-    public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS_1_8;
-    private static final VoxelShape[] SAND_SHAPE = new VoxelShape[]{VoxelShapes.empty(), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+    private static final Material SAND_LAYER = new Material.Builder(MaterialColor.SAND).noCollider().notSolidBlocking().nonSolid().destroyOnPush().replaceable().build();
+    public static final IntegerProperty LAYERS = BlockStateProperties.LAYERS;
+    private static final VoxelShape[] SAND_SHAPE = new VoxelShape[]{Shapes.empty(), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 10.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 12.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 14.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 
     public SandLayersBlock() {
-        super(Block.Properties.create(SAND_LAYER).hardnessAndResistance(0.1F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
-        this.setDefaultState(this.stateContainer.getBaseState().with(LAYERS, 1));
+        super(Block.Properties.of(SAND_LAYER).strength(0.1F).sound(SoundType.SAND).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        this.registerDefaultState(this.stateDefinition.any().setValue(LAYERS, 1));
     }
 
     @Override
     @Nonnull
-    public VoxelShape getShape(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        return SAND_SHAPE[state.get(LAYERS)];
+    public VoxelShape getShape(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+        return SAND_SHAPE[state.getValue(LAYERS)];
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(BlockState state, @Nonnull IBlockReader world, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        return SAND_SHAPE[state.get(LAYERS) - 1];
+    public VoxelShape getCollisionShape(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+        return SAND_SHAPE[state.getValue(LAYERS) - 1];
     }
 
     @Override
     @Nonnull
-    public VoxelShape getCollisionShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos) {
-        return SAND_SHAPE[state.get(LAYERS)];
+    public VoxelShape getBlockSupportShape(BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos) {
+        return SAND_SHAPE[state.getValue(LAYERS)];
     }
 
     @Override
     @Nonnull
-    public VoxelShape getRayTraceShape(BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull ISelectionContext context) {
-        return SAND_SHAPE[state.get(LAYERS)];
+    public VoxelShape getVisualShape(BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos, @Nonnull CollisionContext context) {
+        return SAND_SHAPE[state.getValue(LAYERS)];
     }
 
     @Override
-    public boolean allowsMovement(@Nonnull BlockState state, @Nonnull IBlockReader reader, @Nonnull BlockPos pos, @Nonnull PathType pathType) {
-        if (pathType == PathType.LAND) {
-            return state.get(LAYERS) < 5;
+    public boolean isPathfindable(@Nonnull BlockState state, @Nonnull BlockGetter reader, @Nonnull BlockPos pos, @Nonnull PathComputationType pathType) {
+        if (pathType == PathComputationType.LAND) {
+            return state.getValue(LAYERS) < 5;
         } else {
             return false;
         }
     }
 
     @Override
-    public boolean isTransparent(@Nonnull BlockState state) {
+    public boolean useShapeForLightOcclusion(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public boolean isValidPosition(@Nonnull BlockState state, @Nonnull IWorldReader world, BlockPos pos) {
-        BlockState stateDown = world.getBlockState(pos.down());
-        if (!stateDown.isIn(Blocks.ICE) && !stateDown.isIn(Blocks.PACKED_ICE) && !stateDown.isIn(Blocks.BARRIER)) {
-            if (!stateDown.isIn(Blocks.HONEY_BLOCK) && !stateDown.isIn(Blocks.SOUL_SAND)) {
-                return Block.doesSideFillSquare(stateDown.getCollisionShape(world, pos.down()), Direction.UP) || stateDown.getBlock() == this && stateDown.get(LAYERS) == 8;
+    public boolean canSurvive(@Nonnull BlockState state, @Nonnull LevelReader world, BlockPos pos) {
+        BlockState stateDown = world.getBlockState(pos.below());
+        if (!stateDown.is(Blocks.ICE) && !stateDown.is(Blocks.PACKED_ICE) && !stateDown.is(Blocks.BARRIER)) {
+            if (!stateDown.is(Blocks.HONEY_BLOCK) && !stateDown.is(Blocks.SOUL_SAND)) {
+                return Block.isFaceFull(stateDown.getCollisionShape(world, pos.below()), Direction.UP) || stateDown.getBlock() == this && stateDown.getValue(LAYERS) == 8;
             } else {
                 return true;
             }
@@ -86,16 +89,16 @@ public class SandLayersBlock extends FallingBlock {
 
     @Override
     @Nonnull
-    public BlockState updatePostPlacement(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull IWorld world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
-        return !state.isValidPosition(world, currentPos) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(state, direction, facingState, world, currentPos, facingPos);
+    public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
+        return !state.canSurvive(world, currentPos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, facingState, world, currentPos, facingPos);
     }
 
     @Override
-    public boolean isReplaceable(BlockState state, BlockItemUseContext useContext) {
-        int layers = state.get(LAYERS);
-        if (useContext.getItem().getItem() == this.asItem() && layers < 8) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext useContext) {
+        int layers = state.getValue(LAYERS);
+        if (useContext.getItemInHand().getItem() == this.asItem() && layers < 8) {
             if (useContext.replacingClickedOnBlock()) {
-                return useContext.getFace() == Direction.UP;
+                return useContext.getClickedFace() == Direction.UP;
             } else {
                 return true;
             }
@@ -106,18 +109,18 @@ public class SandLayersBlock extends FallingBlock {
     
     @Override
     @Nullable
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        BlockState state = context.getWorld().getBlockState(context.getPos());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
         if (state.getBlock() == this) {
-            int layer = state.get(LAYERS);
-            return layer == 7 ? AtumBlocks.SAND.getDefaultState() : state.with(LAYERS, Math.min(7, layer + 1));
+            int layer = state.getValue(LAYERS);
+            return layer == 7 ? AtumBlocks.SAND.defaultBlockState() : state.setValue(LAYERS, Math.min(7, layer + 1));
         } else {
             return super.getStateForPlacement(context);
         }
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
         container.add(LAYERS);
     }
 }

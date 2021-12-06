@@ -2,21 +2,21 @@ package com.teammetallurgy.atum.misc;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nonnull;
 
-public class AtumItemGroup extends ItemGroup {
+public class AtumItemGroup extends CreativeModeTab {
 
     public AtumItemGroup() {
         super(Atum.MOD_ID);
-        this.setBackgroundImageName("item_search.png");
+        this.setBackgroundSuffix("item_search.png");
     }
 
     @Override
     @Nonnull
-    public ItemStack createIcon() {
+    public ItemStack makeIcon() {
         return new ItemStack(AtumItems.SCARAB);
     }
 

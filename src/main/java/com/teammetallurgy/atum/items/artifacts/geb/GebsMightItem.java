@@ -5,10 +5,10 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.HammerItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.Rarity;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 
 public class GebsMightItem extends HammerItem implements IArtifact {
 
@@ -24,12 +24,12 @@ public class GebsMightItem extends HammerItem implements IArtifact {
     @Override
     protected void onStun(LivingEntity target) {
         STUN.put(target, 80);
-        if (target.world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) target.world;
+        if (target.level instanceof ServerLevel) {
+            ServerLevel serverWorld = (ServerLevel) target.level;
             double d0 = random.nextGaussian() * 0.02D;
             double d1 = random.nextGaussian() * 0.02D;
             double d2 = random.nextGaussian() * 0.02D;
-            serverWorld.spawnParticle(AtumParticles.GEB, target.getPosX(), target.getPosY() + target.getEyeHeight() - 0.1D, target.getPosZ(), 35, d0, d1, d2, 0.04D);
+            serverWorld.sendParticles(AtumParticles.GEB, target.getX(), target.getY() + target.getEyeHeight() - 0.1D, target.getZ(), 35, d0, d1, d2, 0.04D);
         }
     }
 }

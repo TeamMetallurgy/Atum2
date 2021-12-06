@@ -11,9 +11,9 @@ import com.teammetallurgy.atum.blocks.trap.tileentity.*;
 import com.teammetallurgy.atum.blocks.wood.AtumWallSignBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,67 +24,67 @@ import java.util.List;
 
 @ObjectHolder(value = Atum.MOD_ID)
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AtumTileEntities {
-    private static final List<TileEntityType<?>> TILE_ENTITY_TYPES = Lists.newArrayList();
+public class AtumTileEntities { //TODO Move to deferred registry
+    private static final List<BlockEntityType<?>> TILE_ENTITY_TYPES = Lists.newArrayList();
     //Chests
-    public static final TileEntityType<LimestoneChestTileEntity> LIMESTONE_CHEST = null;
-    public static final TileEntityType<SarcophagusTileEntity> SARCOPHAGUS = null;
-    public static final TileEntityType<CrateTileEntity> CRATE = null;
+    public static final BlockEntityType<LimestoneChestTileEntity> LIMESTONE_CHEST = null;
+    public static final BlockEntityType<SarcophagusTileEntity> SARCOPHAGUS = null;
+    public static final BlockEntityType<CrateTileEntity> CRATE = null;
     //Traps
-    public static final TileEntityType<BurningTrapTileEntity> BURNING_TRAP = null;
-    public static final TileEntityType<PoisonTrapTileEntity> POISON_TRAP = null;
-    public static final TileEntityType<TarTrapTileEntity> TAR_TRAP = null;
-    public static final TileEntityType<SmokeTrapTileEntity> SMOKE_TRAP = null;
-    public static final TileEntityType<ArrowTrapTileEntity> ARROW_TRAP = null;
+    public static final BlockEntityType<BurningTrapTileEntity> BURNING_TRAP = null;
+    public static final BlockEntityType<PoisonTrapTileEntity> POISON_TRAP = null;
+    public static final BlockEntityType<TarTrapTileEntity> TAR_TRAP = null;
+    public static final BlockEntityType<SmokeTrapTileEntity> SMOKE_TRAP = null;
+    public static final BlockEntityType<ArrowTrapTileEntity> ARROW_TRAP = null;
     //Other
-    public static final TileEntityType<LimestoneFurnaceTileEntity> LIMESTONE_FURNACE = null;
-    public static final TileEntityType<GlassblowerFurnaceTileEntity> GLASSBLOWER_FURNACE = null;
-    public static final TileEntityType<QuernTileEntity> QUERN = null;
-    public static final TileEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = null;
-    public static final TileEntityType<KilnTileEntity> KILN = null;
-    public static final TileEntityType<GodforgeTileEntity> GODFORGE = null;
-    public static final TileEntityType<AtumSignTileEntity> SIGN = null;
-    public static final TileEntityType<PalmCurioDisplayTileEntity> PALM_CURIO_DISPLAY = null;
-    public static final TileEntityType<DeadwoodCurioDisplayTileEntity> DEADWOOD_CURIO_DISPLAY = null;
-    public static final TileEntityType<AcaciaCurioDisplayTileEntity> ACACIA_CURIO_DISPLAY = null;
-    public static final TileEntityType<LimestoneCurioDisplayTileEntity> LIMESTONE_CURIO_DISPLAY = null;
-    public static final TileEntityType<AlabasterCurioDisplayTileEntity> ALABASTER_CURIO_DISPLAY = null;
-    public static final TileEntityType<PorphyryCurioDisplayTileEntity> PORPHYRY_CURIO_DISPLAY = null;
-    public static final TileEntityType<NebuCurioDisplayTileEntity> NEBU_CURIO_DISPLAY = null;
+    public static final BlockEntityType<LimestoneFurnaceTileEntity> LIMESTONE_FURNACE = null;
+    public static final BlockEntityType<GlassblowerFurnaceTileEntity> GLASSBLOWER_FURNACE = null;
+    public static final BlockEntityType<QuernTileEntity> QUERN = null;
+    public static final BlockEntityType<SpinningWheelTileEntity> SPINNING_WHEEL = null;
+    public static final BlockEntityType<KilnTileEntity> KILN = null;
+    public static final BlockEntityType<GodforgeTileEntity> GODFORGE = null;
+    public static final BlockEntityType<AtumSignTileEntity> SIGN = null;
+    public static final BlockEntityType<PalmCurioDisplayTileEntity> PALM_CURIO_DISPLAY = null;
+    public static final BlockEntityType<DeadwoodCurioDisplayTileEntity> DEADWOOD_CURIO_DISPLAY = null;
+    public static final BlockEntityType<AcaciaCurioDisplayTileEntity> ACACIA_CURIO_DISPLAY = null;
+    public static final BlockEntityType<LimestoneCurioDisplayTileEntity> LIMESTONE_CURIO_DISPLAY = null;
+    public static final BlockEntityType<AlabasterCurioDisplayTileEntity> ALABASTER_CURIO_DISPLAY = null;
+    public static final BlockEntityType<PorphyryCurioDisplayTileEntity> PORPHYRY_CURIO_DISPLAY = null;
+    public static final BlockEntityType<NebuCurioDisplayTileEntity> NEBU_CURIO_DISPLAY = null;
 
 
     @SubscribeEvent
-    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
-        registerTileEntity("limestone_chest", TileEntityType.Builder.create(LimestoneChestTileEntity::new, AtumBlocks.LIMESTONE_CHEST));
-        registerTileEntity("sarcophagus", TileEntityType.Builder.create(SarcophagusTileEntity::new, AtumBlocks.SARCOPHAGUS));
-        registerTileEntity("crate", TileEntityType.Builder.create(CrateTileEntity::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
-        registerTileEntity("burning_trap", TileEntityType.Builder.create(BurningTrapTileEntity::new, AtumBlocks.BURNING_TRAP));
-        registerTileEntity("poison_trap", TileEntityType.Builder.create(PoisonTrapTileEntity::new, AtumBlocks.POISON_TRAP));
-        registerTileEntity("tar_trap", TileEntityType.Builder.create(TarTrapTileEntity::new, AtumBlocks.TAR_TRAP));
-        registerTileEntity("smoke_trap", TileEntityType.Builder.create(SmokeTrapTileEntity::new, AtumBlocks.SMOKE_TRAP));
-        registerTileEntity("arrow_trap", TileEntityType.Builder.create(ArrowTrapTileEntity::new, AtumBlocks.ARROW_TRAP));
-        registerTileEntity("limestone_furnace", TileEntityType.Builder.create(LimestoneFurnaceTileEntity::new, AtumBlocks.LIMESTONE_FURNACE));
-        registerTileEntity("glassblower_furnace", TileEntityType.Builder.create(GlassblowerFurnaceTileEntity::new, AtumBlocks.GLASSBLOWER_FURNACE));
-        registerTileEntity("quern", TileEntityType.Builder.create(QuernTileEntity::new, AtumBlocks.QUERN));
-        registerTileEntity("spinning_wheel", TileEntityType.Builder.create(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));
-        registerTileEntity("kiln", TileEntityType.Builder.create(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));
-        registerTileEntity("godforge", TileEntityType.Builder.create(GodforgeTileEntity::new, AtumBlocks.GODFORGE));
-        registerTileEntity("sign", TileEntityType.Builder.create(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN, AtumBlocks.DEADWOOD_SIGN, AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN)));
-        registerTileEntity("palm_curio_display", TileEntityType.Builder.create(PalmCurioDisplayTileEntity::new, AtumBlocks.PALM_CURIO_DISPLAY));
-        registerTileEntity("deadwood_curio_display", TileEntityType.Builder.create(DeadwoodCurioDisplayTileEntity::new, AtumBlocks.DEADWOOD_CURIO_DISPLAY));
-        registerTileEntity("acacia_curio_display", TileEntityType.Builder.create(AcaciaCurioDisplayTileEntity::new, AtumBlocks.ACACIA_CURIO_DISPLAY));
-        registerTileEntity("limestone_curio_display", TileEntityType.Builder.create(LimestoneCurioDisplayTileEntity::new, AtumBlocks.LIMESTONE_CURIO_DISPLAY));
-        registerTileEntity("alabaster_curio_display", TileEntityType.Builder.create(AlabasterCurioDisplayTileEntity::new, AtumBlocks.ALABASTER_CURIO_DISPLAY));
-        registerTileEntity("porphyry_curio_display", TileEntityType.Builder.create(PorphyryCurioDisplayTileEntity::new, AtumBlocks.PORPHYRY_CURIO_DISPLAY));
-        registerTileEntity("nebu_curio_display", TileEntityType.Builder.create(NebuCurioDisplayTileEntity::new, AtumBlocks.NEBU_CURIO_DISPLAY));
+    public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
+        registerTileEntity("limestone_chest", BlockEntityType.Builder.of(LimestoneChestTileEntity::new, AtumBlocks.LIMESTONE_CHEST));
+        registerTileEntity("sarcophagus", BlockEntityType.Builder.of(SarcophagusTileEntity::new, AtumBlocks.SARCOPHAGUS));
+        registerTileEntity("crate", BlockEntityType.Builder.of(CrateTileEntity::new, AtumBlocks.PALM_CRATE, AtumBlocks.DEADWOOD_CRATE));
+        registerTileEntity("burning_trap", BlockEntityType.Builder.of(BurningTrapTileEntity::new, AtumBlocks.BURNING_TRAP));
+        registerTileEntity("poison_trap", BlockEntityType.Builder.of(PoisonTrapTileEntity::new, AtumBlocks.POISON_TRAP));
+        registerTileEntity("tar_trap", BlockEntityType.Builder.of(TarTrapTileEntity::new, AtumBlocks.TAR_TRAP));
+        registerTileEntity("smoke_trap", BlockEntityType.Builder.of(SmokeTrapTileEntity::new, AtumBlocks.SMOKE_TRAP));
+        registerTileEntity("arrow_trap", BlockEntityType.Builder.of(ArrowTrapTileEntity::new, AtumBlocks.ARROW_TRAP));
+        registerTileEntity("limestone_furnace", BlockEntityType.Builder.of(LimestoneFurnaceTileEntity::new, AtumBlocks.LIMESTONE_FURNACE));
+        registerTileEntity("glassblower_furnace", BlockEntityType.Builder.of(GlassblowerFurnaceTileEntity::new, AtumBlocks.GLASSBLOWER_FURNACE));
+        registerTileEntity("quern", BlockEntityType.Builder.of(QuernTileEntity::new, AtumBlocks.QUERN));
+        registerTileEntity("spinning_wheel", BlockEntityType.Builder.of(SpinningWheelTileEntity::new, AtumBlocks.SPINNING_WHEEL));
+        registerTileEntity("kiln", BlockEntityType.Builder.of(KilnTileEntity::new, AtumBlocks.KILN, AtumBlocks.KILN_FAKE));
+        registerTileEntity("godforge", BlockEntityType.Builder.of(GodforgeTileEntity::new, AtumBlocks.GODFORGE));
+        registerTileEntity("sign", BlockEntityType.Builder.of(AtumSignTileEntity::new, AtumBlocks.PALM_SIGN, AtumBlocks.DEADWOOD_SIGN, AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.PALM_SIGN), AtumWallSignBlock.WALL_SIGN_BLOCKS.get(AtumBlocks.DEADWOOD_SIGN)));
+        registerTileEntity("palm_curio_display", BlockEntityType.Builder.of(PalmCurioDisplayTileEntity::new, AtumBlocks.PALM_CURIO_DISPLAY));
+        registerTileEntity("deadwood_curio_display", BlockEntityType.Builder.of(DeadwoodCurioDisplayTileEntity::new, AtumBlocks.DEADWOOD_CURIO_DISPLAY));
+        registerTileEntity("acacia_curio_display", BlockEntityType.Builder.of(AcaciaCurioDisplayTileEntity::new, AtumBlocks.ACACIA_CURIO_DISPLAY));
+        registerTileEntity("limestone_curio_display", BlockEntityType.Builder.of(LimestoneCurioDisplayTileEntity::new, AtumBlocks.LIMESTONE_CURIO_DISPLAY));
+        registerTileEntity("alabaster_curio_display", BlockEntityType.Builder.of(AlabasterCurioDisplayTileEntity::new, AtumBlocks.ALABASTER_CURIO_DISPLAY));
+        registerTileEntity("porphyry_curio_display", BlockEntityType.Builder.of(PorphyryCurioDisplayTileEntity::new, AtumBlocks.PORPHYRY_CURIO_DISPLAY));
+        registerTileEntity("nebu_curio_display", BlockEntityType.Builder.of(NebuCurioDisplayTileEntity::new, AtumBlocks.NEBU_CURIO_DISPLAY));
 
-        for (TileEntityType<?> tileEntityType : TILE_ENTITY_TYPES) {
+        for (BlockEntityType<?> tileEntityType : TILE_ENTITY_TYPES) {
             event.getRegistry().register(tileEntityType);
         }
     }
 
-    public static <T extends TileEntity> TileEntityType<T> registerTileEntity(@Nonnull String name, @Nonnull TileEntityType.Builder<T> builder) {
-        TileEntityType<T> tileEntityType = builder.build(null);
+    public static <T extends BlockEntity> BlockEntityType<T> registerTileEntity(@Nonnull String name, @Nonnull BlockEntityType.Builder<T> builder) {
+        BlockEntityType<T> tileEntityType = builder.build(null);
         tileEntityType.setRegistryName(new ResourceLocation(Atum.MOD_ID, name));
         TILE_ENTITY_TYPES.add(tileEntityType);
         return tileEntityType;

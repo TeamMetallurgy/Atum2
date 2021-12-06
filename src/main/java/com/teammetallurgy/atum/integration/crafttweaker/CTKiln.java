@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.crafttweaker;
+/*package com.teammetallurgy.atum.integration.crafttweaker;
 
 import com.blamejared.crafttweaker.api.CraftTweakerAPI;
 import com.blamejared.crafttweaker.api.actions.IAction;
@@ -10,8 +10,8 @@ import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutp
 import com.blamejared.crafttweaker.impl.actions.recipes.ActionRemoveRecipeByOutputInput;
 import com.teammetallurgy.atum.api.recipe.IAtumRecipeType;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeType;
 import org.openzen.zencode.java.ZenCodeType;
 
 @ZenRegister
@@ -44,7 +44,7 @@ public class CTKiln implements IRecipeManager {
     }
 
     @Override
-    public IRecipeType<KilnRecipe> getRecipeType() {
+    public RecipeType<KilnRecipe> getRecipeType() {
         return IAtumRecipeType.KILN;
     }
 
@@ -68,4 +68,4 @@ public class CTKiln implements IRecipeManager {
             return "Blacklisted " + this.id + " from being in a Kiln recipe";
         }
     }
-}
+}*/

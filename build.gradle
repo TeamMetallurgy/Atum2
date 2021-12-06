@@ -1,23 +1,19 @@
 buildscript {
     repositories {
-        maven { url = 'https://files.minecraftforge.net/maven' }
-        jcenter()
+        maven { url = 'https://maven.minecraftforge.net' }
         mavenCentral()
-        maven { url = 'https://repo.spongepowered.org/repository/maven-public/' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
     }
 }
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'maven-publish'
-apply plugin: 'org.spongepowered.mixin'
 
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8'
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 repositories {
   maven {
@@ -51,15 +47,12 @@ group= "com.teammetallurgy.atum"
 archivesBaseName = "Atum"
 
 minecraft {
-    mappings channel: 'snapshot', version: project.mappings
+    mappings channel: 'official', version: project.minecraft_version
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
     runs {
         client {
             workingDirectory project.file('run')
-            arg "-mixin.config=atum.mixins.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 atum {
                     source sourceSets.main
@@ -68,9 +61,6 @@ minecraft {
         }
         server {
             workingDirectory project.file('run')
-            arg "-mixin.config=atum.mixins.json"
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
             mods {
                 atum {
                     source sourceSets.main
@@ -91,26 +81,20 @@ minecraft {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-	annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
-    implementation fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
-    implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
-    implementation "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
+    //implementation fg.deobf("mcp.mobius.waila:Hwyla:${hwyla_version}")
+    //implementation fg.deobf("com.blamejared.crafttweaker:CraftTweaker-${minecraft_version}:${ct_version}")
+    //implementation "mcjty.theoneprobe:TheOneProbe-1.16:${top_version}:api"
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}")
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${minecraft_version}-${curios_version}:api")
-    implementation fg.deobf("com.telepathicgrunt:Blame:1.16.5-3.0.2-forge")
-}
-
-mixin {
-    add sourceSets.main, "atum.refmap.json"
+    //implementation fg.deobf("com.telepathicgrunt:Blame:1.16.5-3.0.2-forge")
 }
 
 jar {
     manifest {
         attributes([
             "Implementation-Version": "${version}",
-            "MixinConfigs": "atum.mixins.json"
         ])
     }
 }

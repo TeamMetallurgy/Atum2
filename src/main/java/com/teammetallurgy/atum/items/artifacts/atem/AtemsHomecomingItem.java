@@ -5,22 +5,26 @@ import com.teammetallurgy.atum.api.God;
 import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundPlayerPositionPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 import java.util.EnumSet;
@@ -29,7 +33,7 @@ import java.util.Set;
 public class AtemsHomecomingItem extends Item implements IArtifact {
 
     public AtemsHomecomingItem() {
-        super(new Item.Properties().maxDamage(20).group(Atum.GROUP).rarity(Rarity.RARE));
+        super(new Item.Properties().durability(20).tab(Atum.GROUP).rarity(Rarity.RARE));
     }
 
     @Override
@@ -48,40 +52,40 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
     }
 
     @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
+    public boolean isValidRepairItem(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
         return repair.getItem() == AtumItems.NEBU_INGOT;
     }
 
     @Override
     @Nonnull
-    public ActionResult<ItemStack> onItemRightClick(@Nonnull World world, PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack heldStack = player.getHeldItem(hand);
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level world, Player player, @Nonnull InteractionHand hand) {
+        ItemStack heldStack = player.getItemInHand(hand);
 
         if (recall(world, player) != null) {
             if (!player.isCreative()) {
-                heldStack.damageItem(1, player, (e) -> {
-                    e.sendBreakAnimation(hand);
+                heldStack.hurtAndBreak(1, player, (e) -> {
+                    e.broadcastBreakEvent(hand);
                 });
             }
         }
 
-        return new ActionResult<>(ActionResultType.PASS, heldStack);
+        return new InteractionResultHolder<>(InteractionResult.PASS, heldStack);
     }
 
-    public static BlockPos recall(World world, PlayerEntity player) {
+    public static BlockPos recall(Level world, Player player) {
         BlockPos pos = null;
-        if (world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            if (player instanceof ServerPlayerEntity) {
-                ServerPlayerEntity serverPlayer = (ServerPlayerEntity) player;
-                pos = serverPlayer.func_241140_K_(); //Bed pos
+        if (world instanceof ServerLevel) {
+            ServerLevel serverWorld = (ServerLevel) world;
+            if (player instanceof ServerPlayer) {
+                ServerPlayer serverPlayer = (ServerPlayer) player;
+                pos = serverPlayer.getRespawnPosition(); //Bed pos
                 if (pos == null) {
-                    BlockPos spawnPointPos = serverWorld.getSpawnPoint();
-                    while (spawnPointPos.getY() > 1 && world.isAirBlock(spawnPointPos)) {
-                        spawnPointPos = spawnPointPos.down();
+                    BlockPos spawnPointPos = serverWorld.getSharedSpawnPos();
+                    while (spawnPointPos.getY() > 1 && world.isEmptyBlock(spawnPointPos)) {
+                        spawnPointPos = spawnPointPos.below();
                     }
-                    while (!world.canBlockSeeSky(spawnPointPos)) {
-                        spawnPointPos = spawnPointPos.up();
+                    while (!world.canSeeSkyFromBelowWater(spawnPointPos)) {
+                        spawnPointPos = spawnPointPos.above();
                     }
                     pos = new BlockPos(spawnPointPos.getX(), spawnPointPos.getY(), spawnPointPos.getZ());
                 }
@@ -94,43 +98,43 @@ public class AtemsHomecomingItem extends Item implements IArtifact {
         return pos;
     }
 
-    private static void teleport(World world, Entity entity, int x, int y, int z) {
-        float yaw = entity.rotationYaw;
-        float pitch = entity.rotationPitch;
-        if (entity instanceof ServerPlayerEntity) {
-            Set<SPlayerPositionLookPacket.Flags> set = EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class);
-            float f = MathHelper.wrapDegrees(yaw);
-            float f1 = MathHelper.wrapDegrees(pitch);
+    private static void teleport(Level world, Entity entity, int x, int y, int z) {
+        float yaw = entity.getYRot();
+        float pitch = entity.getXRot();
+        if (entity instanceof ServerPlayer) {
+            Set<ClientboundPlayerPositionPacket.RelativeArgument> set = EnumSet.noneOf(ClientboundPlayerPositionPacket.RelativeArgument.class);
+            float f = Mth.wrapDegrees(yaw);
+            float f1 = Mth.wrapDegrees(pitch);
 
             entity.stopRiding();
             onTeleport(world, entity);
-            ((ServerPlayerEntity) entity).connection.setPlayerLocation(x, y, z, f, f1, set);
-            entity.setRotationYawHead(f);
+            ((ServerPlayer) entity).connection.teleport(x, y, z, f, f1, set);
+            entity.setYHeadRot(f);
         } else {
-            float f2 = MathHelper.wrapDegrees(yaw);
-            float f3 = MathHelper.wrapDegrees(pitch);
-            f3 = MathHelper.clamp(f3, -90.0F, 90.0F);
-            entity.setLocationAndAngles(x, y, z, f2, f3);
-            entity.setRotationYawHead(f2);
+            float f2 = Mth.wrapDegrees(yaw);
+            float f3 = Mth.wrapDegrees(pitch);
+            f3 = Mth.clamp(f3, -90.0F, 90.0F);
+            entity.moveTo(x, y, z, f2, f3);
+            entity.setYHeadRot(f2);
         }
 
-        if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isElytraFlying()) {
-            Vector3d motion = entity.getMotion();
-            entity.setMotion(new Vector3d(motion.x, 0.0D, motion.z));
+        if (!(entity instanceof LivingEntity) || !((LivingEntity) entity).isFallFlying()) {
+            Vec3 motion = entity.getDeltaMovement();
+            entity.setDeltaMovement(new Vec3(motion.x, 0.0D, motion.z));
             entity.setOnGround(true);
         }
     }
 
-    private static void onTeleport(World world, Entity entity) {
-        if (world instanceof ServerWorld) {
-            float timesRandom = world.rand.nextFloat() * 4.0F;
-            float cosRandom = world.rand.nextFloat() * ((float) Math.PI * 2F);
-            double x = MathHelper.cos(cosRandom) * timesRandom;
-            double y = 0.01D + (world.rand.nextDouble() * 0.5D);
-            double z = MathHelper.sin(cosRandom) * timesRandom;
-            ServerWorld serverWorld = (ServerWorld) world;
-            serverWorld.spawnParticle(AtumParticles.LIGHT_SPARKLE, entity.getPosX() + x * 0.1D, entity.getPosY() + 0.3D, entity.getPosZ() + z * 0.1D, 250, 0.25D, y, 0.25D, 0.005D);
+    private static void onTeleport(Level world, Entity entity) {
+        if (world instanceof ServerLevel) {
+            float timesRandom = world.random.nextFloat() * 4.0F;
+            float cosRandom = world.random.nextFloat() * ((float) Math.PI * 2F);
+            double x = Mth.cos(cosRandom) * timesRandom;
+            double y = 0.01D + (world.random.nextDouble() * 0.5D);
+            double z = Mth.sin(cosRandom) * timesRandom;
+            ServerLevel serverWorld = (ServerLevel) world;
+            serverWorld.sendParticles(AtumParticles.LIGHT_SPARKLE, entity.getX() + x * 0.1D, entity.getY() + 0.3D, entity.getZ() + z * 0.1D, 250, 0.25D, y, 0.25D, 0.005D);
         }
-        world.playSound(null, entity.getPosition(), SoundEvents.ENTITY_SHULKER_TELEPORT, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        world.playSound(null, entity.blockPosition(), SoundEvents.SHULKER_TELEPORT, SoundSource.PLAYERS, 1.0F, 1.0F);
     }
 }

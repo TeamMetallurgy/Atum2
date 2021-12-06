@@ -8,43 +8,49 @@ import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CarpetBlock;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.WolfEntity;
-import net.minecraft.entity.passive.horse.AbstractHorseEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.util.Mth;
+import net.minecraft.world.*;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.Wolf;
+import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.*;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.WoolCarpetBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
@@ -55,12 +61,12 @@ import javax.annotation.Nullable;
 import java.util.Optional;
 import java.util.UUID;
 
-public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob, INamedContainerProvider {
-    private static final DataParameter<Integer> VARIANT = EntityDataManager.createKey(CamelEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<Integer> DATA_COLOR_ID = EntityDataManager.createKey(CamelEntity.class, DataSerializers.VARINT);
-    private static final DataParameter<ItemStack> LEFT_CRATE = EntityDataManager.createKey(CamelEntity.class, DataSerializers.ITEMSTACK);
-    private static final DataParameter<ItemStack> RIGHT_CRATE = EntityDataManager.createKey(CamelEntity.class, DataSerializers.ITEMSTACK);
-    private static final DataParameter<ItemStack> ARMOR_STACK = EntityDataManager.createKey(CamelEntity.class, DataSerializers.ITEMSTACK);
+public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuProvider {
+    private static final EntityDataAccessor<Integer> VARIANT = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_COLOR_ID = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<ItemStack> LEFT_CRATE = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<ItemStack> RIGHT_CRATE = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
+    private static final EntityDataAccessor<ItemStack> ARMOR_STACK = SynchedEntityData.defineId(CamelEntity.class, EntityDataSerializers.ITEM_STACK);
     private static final UUID ARMOR_MODIFIER_UUID = UUID.fromString("13a48eeb-c17d-45cc-8163-e7210a6adfc9");
     public static final float CAMEL_RIDING_SPEED_AMOUNT = 0.65F;
     private String textureName;
@@ -68,30 +74,30 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     private CamelEntity caravanHead;
     private CamelEntity caravanTail;
 
-    public CamelEntity(EntityType<? extends CamelEntity> entityType, World world) {
+    public CamelEntity(EntityType<? extends CamelEntity> entityType, Level world) {
         super(entityType, world);
-        this.experienceValue = 3;
+        this.xpReward = 3;
         this.canGallop = false;
-        this.stepHeight = 1.6F;
-        this.initHorseChest();
+        this.maxUpStep = 1.6F;
+        this.createInventory();
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(DATA_COLOR_ID, -1);
-        this.dataManager.register(VARIANT, 0);
-        this.dataManager.register(LEFT_CRATE, ItemStack.EMPTY);
-        this.dataManager.register(RIGHT_CRATE, ItemStack.EMPTY);
-        this.dataManager.register(ARMOR_STACK, ItemStack.EMPTY);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(DATA_COLOR_ID, -1);
+        this.entityData.define(VARIANT, 0);
+        this.entityData.define(LEFT_CRATE, ItemStack.EMPTY);
+        this.entityData.define(RIGHT_CRATE, ItemStack.EMPTY);
+        this.entityData.define(ARMOR_STACK, ItemStack.EMPTY);
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 20.0F).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.225F).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D).createMutableAttribute(Attributes.HORSE_JUMP_STRENGTH, 0.0D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 20.0F).add(Attributes.MOVEMENT_SPEED, 0.225F).add(Attributes.FOLLOW_RANGE, 36.0D).add(Attributes.JUMP_STRENGTH, 0.0D);
     }
 
     private float getCamelMaxHealth() {
-        if (this.isTame()) {
+        if (this.isTamed()) {
             return 40.0F;
         } else {
             return 20.0F;
@@ -100,8 +106,8 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
-        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         this.setRandomVariant();
         return livingdata;
@@ -114,7 +120,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(0, new SwimGoal(this));
+        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new RunAroundLikeCrazyGoal(this, 1.2D));
         this.goalSelector.addGoal(2, new CamelCaravanGoal(this, 2.0999999046325684D));
         this.goalSelector.addGoal(3, new RangedAttackGoal(this, 1.25D, 40, 20.0F));
@@ -122,9 +128,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         this.goalSelector.addGoal(4, new BreedGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.0D));
         this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.0D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomWalkingGoal(this, 0.7D));
-        this.goalSelector.addGoal(7, new LookAtGoal(this, PlayerEntity.class, 6.0F));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 0.7D));
+        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new CamelEntity.SpitGoal(this));
         this.targetSelector.addGoal(2, new CamelEntity.DefendDesertWolfGoal(this));
         this.targetSelector.addGoal(3, new CamelEntity.DefendWolfGoal(this));
@@ -132,22 +138,22 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_LLAMA_AMBIENT;
+        return SoundEvents.LLAMA_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.ENTITY_LLAMA_HURT;
+        return SoundEvents.LLAMA_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_LLAMA_DEATH;
+        return SoundEvents.LLAMA_DEATH;
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.ENTITY_HORSE_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.HORSE_STEP, 0.15F, 1.0F);
     }
 
     @Override
@@ -157,26 +163,26 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Override
     protected SoundEvent getAngrySound() {
-        return SoundEvents.ENTITY_LLAMA_AMBIENT;
+        return SoundEvents.LLAMA_AMBIENT;
     }
 
     @Override
-    public boolean canMateWith(@Nonnull AnimalEntity otherAnimal) {
-        return otherAnimal != this && otherAnimal instanceof CamelEntity && this.canMate() && ((CamelEntity) otherAnimal).canMate();
+    public boolean canMate(@Nonnull Animal otherAnimal) {
+        return otherAnimal != this && otherAnimal instanceof CamelEntity && this.canParent() && ((CamelEntity) otherAnimal).canParent();
     }
 
     @Override
-    public AgeableEntity func_241840_a(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
-        CamelEntity camel = new CamelEntity(AtumEntities.CAMEL, this.world);
-        camel.onInitialSpawn(world, this.world.getDifficultyForLocation(ageable.getPosition()), SpawnReason.BREEDING, null, null);
+    public AgableMob getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgableMob ageable) {
+        CamelEntity camel = new CamelEntity(AtumEntities.CAMEL, this.level);
+        camel.finalizeSpawn(world, this.level.getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
         return camel;
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (this.world.isRemote && this.dataManager.isDirty()) {
-            this.dataManager.setClean();
+        if (this.level.isClientSide && this.entityData.isDirty()) {
+            this.entityData.clearDirty();
             this.textureName = null;
         }
         if (this.getVariant() == -1) {
@@ -185,22 +191,22 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     private void setVariant(int variant) {
-        this.dataManager.set(VARIANT, variant);
+        this.entityData.set(VARIANT, variant);
         this.textureName = null;
     }
 
     public int getVariant() {
-        return this.dataManager.get(VARIANT);
+        return this.entityData.get(VARIANT);
     }
 
     private int getCamelVariantBiome() {
-        Biome biome = this.world.getBiome(this.getPosition());
-        int chance = this.rand.nextInt(100);
+        Biome biome = this.level.getBiome(this.blockPosition());
+        int chance = this.random.nextInt(100);
 
-        Optional<RegistryKey<Biome>> optional = world.func_241828_r().getRegistry(Registry.BIOME_KEY).getOptionalKey(biome);
+        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
 
         if (optional.isPresent()) {
-            RegistryKey<Biome> biomeKey = optional.get();
+            ResourceKey<Biome> biomeKey = optional.get();
             if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return chance <= 50 ? 0 : 5;
             } else if (biomeKey.equals(AtumBiomes.SAND_DUNES)) {
@@ -213,7 +219,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
                 return 0;
             }
         } else {
-            return MathHelper.nextInt(rand, 0, 5);
+            return Mth.nextInt(random, 0, 5);
         }
     }
 
@@ -222,7 +228,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         if (this.textureName == null) {
             this.textureName = String.valueOf(this.getVariant());
             if (this.hasCustomName() && this.getCustomName() != null) {
-                String customName = this.getCustomName().getUnformattedComponentText();
+                String customName = this.getCustomName().getContents();
                 if (customName.equalsIgnoreCase("girafi")) {
                     this.textureName = "girafi";
                 }
@@ -232,19 +238,19 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
+    public void performRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
         this.spit(target);
     }
 
     private void spit(LivingEntity target) {
-        CamelSpitEntity camelSpit = new CamelSpitEntity(this.world, this);
-        double d0 = target.getPosX() - this.getPosX();
-        double d1 = target.getBoundingBox().minY + (double) (target.getHeight() / 3.0F) - camelSpit.getPosY();
-        double d2 = target.getPosZ() - this.getPosZ();
-        float f = MathHelper.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+        CamelSpitEntity camelSpit = new CamelSpitEntity(this.level, this);
+        double d0 = target.getX() - this.getX();
+        double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - camelSpit.getY();
+        double d2 = target.getZ() - this.getZ();
+        float f = Mth.sqrt(d0 * d0 + d2 * d2) * 0.2F;
         camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
-        this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_SPIT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
-        this.world.addEntity(camelSpit);
+        this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_SPIT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
+        this.level.addFreshEntity(camelSpit);
         this.didSpit = true;
     }
 
@@ -258,25 +264,25 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public double getMountedYOffset() {
-        return (double) this.getHeight() * 0.78D;
+    public double getPassengersRidingOffset() {
+        return (double) this.getBbHeight() * 0.78D;
     }
 
     @Override
-    public void updatePassenger(@Nonnull Entity passenger) {
-        if (this.isPassenger(passenger)) {
-            float cos = MathHelper.cos(this.renderYawOffset * 0.017453292F);
-            float sin = MathHelper.sin(this.renderYawOffset * 0.017453292F);
-            passenger.setPosition(this.getPosX() + (double) (0.1F * sin), this.getPosY() + this.getMountedYOffset() + passenger.getYOffset(), this.getPosZ() - (double) (0.1F * cos));
+    public void positionRider(@Nonnull Entity passenger) {
+        if (this.hasPassenger(passenger)) {
+            float cos = Mth.cos(this.yBodyRot * 0.017453292F);
+            float sin = Mth.sin(this.yBodyRot * 0.017453292F);
+            passenger.setPos(this.getX() + (double) (0.1F * sin), this.getY() + this.getPassengersRidingOffset() + passenger.getMyRidingOffset(), this.getZ() - (double) (0.1F * cos));
         }
     }
 
     @Override
-    public void setAIMoveSpeed(float speed) {
-        if (this.isBeingRidden()) {
-            super.setAIMoveSpeed(speed * CAMEL_RIDING_SPEED_AMOUNT);
+    public void setSpeed(float speed) {
+        if (this.isVehicle()) {
+            super.setSpeed(speed * CAMEL_RIDING_SPEED_AMOUNT);
         } else {
-            super.setAIMoveSpeed(speed);
+            super.setSpeed(speed);
         }
     }
 
@@ -311,9 +317,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    protected void followMother() {
-        if (!this.inCaravan() && this.isChild()) {
-            super.followMother();
+    protected void followMommy() {
+        if (!this.inCaravan() && this.isBaby()) {
+            super.followMommy();
         }
     }
 
@@ -324,12 +330,12 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Nullable
     public DyeColor getColor() {
-        int color = this.dataManager.get(DATA_COLOR_ID);
+        int color = this.entityData.get(DATA_COLOR_ID);
         return color == -1 ? null : DyeColor.byId(color);
     }
 
     private void setColor(@Nullable DyeColor color) {
-        this.dataManager.set(DATA_COLOR_ID, color == null ? -1 : color.getId());
+        this.entityData.set(DATA_COLOR_ID, color == null ? -1 : color.getId());
     }
 
     public boolean hasColor() {
@@ -337,27 +343,27 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    protected void func_230275_fc_() {
-        if (!this.world.isRemote) {
-            super.func_230275_fc_();
-            this.setColor(getCarpetColor(this.horseChest.getStackInSlot(2)));
+    protected void updateContainerEquipment() {
+        if (!this.level.isClientSide) {
+            super.updateContainerEquipment();
+            this.setColor(getCarpetColor(this.inventory.getItem(2)));
         }
-        this.setArmorStack(this.horseChest.getStackInSlot(1));
-        this.dataManager.set(LEFT_CRATE, this.horseChest.getStackInSlot(3));
-        this.dataManager.set(RIGHT_CRATE, this.horseChest.getStackInSlot(4));
+        this.setArmorStack(this.inventory.getItem(1));
+        this.entityData.set(LEFT_CRATE, this.inventory.getItem(3));
+        this.entityData.set(RIGHT_CRATE, this.inventory.getItem(4));
     }
 
     private void setArmorStack(@Nonnull ItemStack stack) {
         ArmorType armorType = ArmorType.getByItemStack(stack);
-        this.dataManager.set(ARMOR_STACK, stack);
+        this.entityData.set(ARMOR_STACK, stack);
 
-        if (!this.world.isRemote) {
-            ModifiableAttributeInstance armor = this.getAttribute(Attributes.ARMOR);
+        if (!this.level.isClientSide) {
+            AttributeInstance armor = this.getAttribute(Attributes.ARMOR);
             if (armor != null) {
                 armor.removeModifier(ARMOR_MODIFIER_UUID);
                 int protection = armorType.getProtection();
                 if (protection != 0) {
-                    armor.applyNonPersistentModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", protection, AttributeModifier.Operation.ADDITION)));
+                    armor.addTransientModifier((new AttributeModifier(ARMOR_MODIFIER_UUID, "Camel armor bonus", protection, AttributeModifier.Operation.ADDITION)));
                 }
             }
         }
@@ -365,17 +371,17 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     @Nonnull
     public ItemStack getArmor() {
-        return this.dataManager.get(ARMOR_STACK);
+        return this.entityData.get(ARMOR_STACK);
     }
 
     @Nullable
     private static DyeColor getCarpetColor(ItemStack stack) {
-        Block block = Block.getBlockFromItem(stack.getItem());
-        return block instanceof CarpetBlock ? ((CarpetBlock) block).getColor() : null;
+        Block block = Block.byItem(stack.getItem());
+        return block instanceof WoolCarpetBlock ? ((WoolCarpetBlock) block).getColor() : null;
     }
 
     public boolean isValidCarpet(@Nonnull ItemStack stack) {
-        return stack.getItem().isIn(ItemTags.CARPETS) || Block.getBlockFromItem(stack.getItem()) instanceof LinenCarpetBlock;
+        return stack.getItem().is(ItemTags.CARPETS) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
     }
 
     @Override
@@ -384,49 +390,49 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public boolean func_230276_fq_() {
+    public boolean canWearArmor() {
         return true;
     }
 
     @Override
-    public void openGUI(@Nonnull PlayerEntity player) {
-        if (!this.world.isRemote && (!this.isBeingRidden() || this.isPassenger(player)) && this.isTame()) {
-            if (player instanceof ServerPlayerEntity) {
-                NetworkHooks.openGui((ServerPlayerEntity) player, this, buf -> buf.writeInt(this.getEntityId()));
+    public void openInventory(@Nonnull Player player) {
+        if (!this.level.isClientSide && (!this.isVehicle() || this.hasPassenger(player)) && this.isTamed()) {
+            if (player instanceof ServerPlayer) {
+                NetworkHooks.openGui((ServerPlayer) player, this, buf -> buf.writeInt(this.getId()));
             }
         }
     }
 
-    public Inventory getHorseChest() {
-        return this.horseChest;
+    public SimpleContainer getHorseChest() {
+        return this.inventory;
     }
 
     @Override
-    public void writeAdditional(@Nonnull CompoundNBT compound) {
-        super.writeAdditional(compound);
+    public void addAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.addAdditionalSaveData(compound);
         compound.putInt("Variant", this.getVariant());
 
-        if (!this.horseChest.getStackInSlot(1).isEmpty()) {
-            compound.put("ArmorItem", this.horseChest.getStackInSlot(1).write(new CompoundNBT()));
+        if (!this.inventory.getItem(1).isEmpty()) {
+            compound.put("ArmorItem", this.inventory.getItem(1).save(new CompoundTag()));
         }
-        if (!this.horseChest.getStackInSlot(2).isEmpty()) {
-            compound.put("Carpet", this.horseChest.getStackInSlot(2).write(new CompoundNBT()));
+        if (!this.inventory.getItem(2).isEmpty()) {
+            compound.put("Carpet", this.inventory.getItem(2).save(new CompoundTag()));
         }
-        if (!this.horseChest.getStackInSlot(3).isEmpty()) {
-            compound.put("CrateLeft", this.horseChest.getStackInSlot(3).write(new CompoundNBT()));
+        if (!this.inventory.getItem(3).isEmpty()) {
+            compound.put("CrateLeft", this.inventory.getItem(3).save(new CompoundTag()));
         }
-        if (!this.horseChest.getStackInSlot(4).isEmpty()) {
-            compound.put("CrateRight", this.horseChest.getStackInSlot(4).write(new CompoundNBT()));
+        if (!this.inventory.getItem(4).isEmpty()) {
+            compound.put("CrateRight", this.inventory.getItem(4).save(new CompoundTag()));
         }
 
         if (this.hasLeftCrate()) {
-            ListNBT tagList = new ListNBT();
-            for (int slot = this.getNonCrateSize(); slot < this.horseChest.getSizeInventory(); ++slot) {
-                ItemStack slotStack = this.horseChest.getStackInSlot(slot);
+            ListTag tagList = new ListTag();
+            for (int slot = this.getNonCrateSize(); slot < this.inventory.getContainerSize(); ++slot) {
+                ItemStack slotStack = this.inventory.getItem(slot);
                 if (!slotStack.isEmpty()) {
-                    CompoundNBT tagCompound = new CompoundNBT();
+                    CompoundTag tagCompound = new CompoundTag();
                     tagCompound.putByte("Slot", (byte) slot);
-                    slotStack.write(tagCompound);
+                    slotStack.save(tagCompound);
                     tagList.add(tagCompound);
                 }
             }
@@ -435,45 +441,45 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         this.setVariant(compound.getInt("Variant"));
 
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
 
         if (compound.contains("Carpet", 10)) {
-            this.horseChest.setInventorySlotContents(2, ItemStack.read(compound.getCompound("Carpet")));
+            this.inventory.setItem(2, ItemStack.of(compound.getCompound("Carpet")));
         }
         if (compound.contains("ArmorItem", 10)) {
-            ItemStack armorStack = ItemStack.read(compound.getCompound("ArmorItem"));
+            ItemStack armorStack = ItemStack.of(compound.getCompound("ArmorItem"));
             if (!armorStack.isEmpty() && isArmor(armorStack)) {
-                this.horseChest.setInventorySlotContents(1, armorStack);
+                this.inventory.setItem(1, armorStack);
             }
         }
         if (compound.contains("CrateLeft", 10)) {
-            this.horseChest.setInventorySlotContents(3, ItemStack.read(compound.getCompound("CrateLeft")));
+            this.inventory.setItem(3, ItemStack.of(compound.getCompound("CrateLeft")));
         }
         if (compound.contains("CrateRight", 10)) {
-            this.horseChest.setInventorySlotContents(4, ItemStack.read(compound.getCompound("CrateRight")));
+            this.inventory.setItem(4, ItemStack.of(compound.getCompound("CrateRight")));
         }
 
         if (this.hasLeftCrate()) {
-            ListNBT tagList = compound.getList("Items", 10);
-            this.initHorseChest();
+            ListTag tagList = compound.getList("Items", 10);
+            this.createInventory();
             for (int i = 0; i < tagList.size(); ++i) {
-                CompoundNBT tagCompound = tagList.getCompound(i);
+                CompoundTag tagCompound = tagList.getCompound(i);
                 int slot = tagCompound.getByte("Slot") & 255;
-                if (slot >= this.getNonCrateSize() && slot < this.horseChest.getSizeInventory()) {
-                    this.horseChest.setInventorySlotContents(slot, ItemStack.read(tagCompound));
+                if (slot >= this.getNonCrateSize() && slot < this.inventory.getContainerSize()) {
+                    this.inventory.setItem(slot, ItemStack.of(tagCompound));
                 }
             }
         }
-        this.func_230275_fc_();
+        this.updateContainerEquipment();
     }
 
     @Override
-    public void onInventoryChanged(@Nonnull IInventory invBasic) {
-        this.func_230275_fc_();
+    public void containerChanged(@Nonnull Container invBasic) {
+        this.updateContainerEquipment();
     }
 
     @Override
@@ -490,101 +496,101 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
     }
 
     public boolean hasLeftCrate() {
-        return !this.dataManager.get(LEFT_CRATE).isEmpty();
+        return !this.entityData.get(LEFT_CRATE).isEmpty();
     }
 
     public boolean hasRightCrate() {
-        return !this.dataManager.get(RIGHT_CRATE).isEmpty();
+        return !this.entityData.get(RIGHT_CRATE).isEmpty();
     }
 
     @Override
     @Nonnull
-    public ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
-        ItemStack heldStack = player.getHeldItem(hand);
+    public InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
+        ItemStack heldStack = player.getItemInHand(hand);
 
         if (heldStack.getItem() instanceof SpawnEggItem) {
-            return super.func_230254_b_(player, hand);
+            return super.mobInteract(player, hand);
         } else {
             if (!heldStack.isEmpty()) {
                 boolean eating = this.handleEating(player, heldStack);
 
-                if (!eating && !this.isTame()) {
-                    if (heldStack.interactWithEntity(player, this, hand).isSuccessOrConsume()) {
-                        return ActionResultType.SUCCESS;
+                if (!eating && !this.isTamed()) {
+                    if (heldStack.interactLivingEntity(player, this, hand).consumesAction()) {
+                        return InteractionResult.SUCCESS;
                     }
                     this.makeMad();
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
 
-                if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.getBlockFromItem(heldStack.getItem()) instanceof CrateBlock) {
-                    this.openGUI(player);
-                    return ActionResultType.SUCCESS;
+                if (!eating && (!this.hasLeftCrate() || !this.hasRightCrate()) && Block.byItem(heldStack.getItem()) instanceof CrateBlock) {
+                    this.openInventory(player);
+                    return InteractionResult.SUCCESS;
                 }
                 if (!eating && this.getArmor().isEmpty() && this.isArmor(heldStack)) {
-                    this.openGUI(player);
-                    return ActionResultType.SUCCESS;
+                    this.openInventory(player);
+                    return InteractionResult.SUCCESS;
                 }
-                if (!eating && this.horseChest.getStackInSlot(2).isEmpty() && this.isValidCarpet(heldStack)) {
-                    this.openGUI(player);
-                    return ActionResultType.SUCCESS;
+                if (!eating && this.inventory.getItem(2).isEmpty() && this.isValidCarpet(heldStack)) {
+                    this.openInventory(player);
+                    return InteractionResult.SUCCESS;
                 }
-                if (!eating && !this.isChild() && !this.isHorseSaddled() && heldStack.getItem() instanceof SaddleItem) {
-                    this.openGUI(player);
-                    return ActionResultType.SUCCESS;
+                if (!eating && !this.isBaby() && !this.isSaddled() && heldStack.getItem() instanceof SaddleItem) {
+                    this.openInventory(player);
+                    return InteractionResult.SUCCESS;
                 }
-                if (!eating && heldStack.getItem() == Items.BUCKET && !this.isChild() && this.isTame()) {
+                if (!eating && heldStack.getItem() == Items.BUCKET && !this.isBaby() && this.isTamed()) {
                     heldStack.shrink(1);
-                    player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0F, 1.0F);
+                    player.playSound(SoundEvents.COW_MILK, 1.0F, 1.0F);
                     if (heldStack.isEmpty()) {
-                        player.setHeldItem(hand, new ItemStack(Items.MILK_BUCKET));
-                    } else if (!player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET))) {
-                        player.dropItem(new ItemStack(Items.MILK_BUCKET), false);
+                        player.setItemInHand(hand, new ItemStack(Items.MILK_BUCKET));
+                    } else if (!player.getInventory().add(new ItemStack(Items.MILK_BUCKET))) {
+                        player.drop(new ItemStack(Items.MILK_BUCKET), false);
                     }
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
 
-                ActionResultType actionresulttype = heldStack.interactWithEntity(player, this, hand);
-                if (actionresulttype.isSuccessOrConsume()) {
+                InteractionResult actionresulttype = heldStack.interactLivingEntity(player, this, hand);
+                if (actionresulttype.consumesAction()) {
                     return actionresulttype;
                 }
 
                 if (eating) {
-                    if (!player.abilities.isCreativeMode) {
+                    if (!player.getAbilities().instabuild) {
                         heldStack.shrink(1);
                     }
-                    return ActionResultType.SUCCESS;
+                    return InteractionResult.SUCCESS;
                 }
             }
 
-            if (!this.isChild()) {
-                if (this.isTame() && player.isSecondaryUseActive()) {
-                    this.openGUI(player);
-                    return ActionResultType.func_233537_a_(this.world.isRemote);
+            if (!this.isBaby()) {
+                if (this.isTamed() && player.isSecondaryUseActive()) {
+                    this.openInventory(player);
+                    return InteractionResult.sidedSuccess(this.level.isClientSide);
                 }
 
-                if (this.isBeingRidden()) {
-                    return super.func_230254_b_(player, hand);
+                if (this.isVehicle()) {
+                    return super.mobInteract(player, hand);
                 }
             }
 
-            if (this.isChild()) {
-                return super.func_230254_b_(player, hand);
+            if (this.isBaby()) {
+                return super.mobInteract(player, hand);
             } else {
-                this.mountTo(player);
-                return ActionResultType.func_233537_a_(this.world.isRemote);
+                this.doPlayerRide(player);
+                return InteractionResult.sidedSuccess(this.level.isClientSide);
             }
         }
     }
 
     @Override
-    protected boolean handleEating(@Nonnull PlayerEntity player, @Nonnull ItemStack stack) {
+    protected boolean handleEating(@Nonnull Player player, @Nonnull ItemStack stack) {
         boolean isEating = false;
         float healAmount = 0.0F;
         int growthAmount = 0;
         int temperAmount = 0;
         Item item = stack.getItem();
 
-        if (item.isIn(Tags.Items.CROPS_WHEAT)) {
+        if (item.is(Tags.Items.CROPS_WHEAT)) {
             healAmount = 2.0F;
             growthAmount = 20;
             temperAmount = 3;
@@ -599,7 +605,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             healAmount = 3.0F;
             growthAmount = 60;
             temperAmount = 3;
-            if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove()) {
+            if (this.isTamed() && this.getAge() == 0 && !this.isInLove()) {
                 isEating = true;
                 this.setInLove(player);
             }
@@ -607,7 +613,7 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             healAmount = 4.0F;
             growthAmount = 60;
             temperAmount = 5;
-            if (this.isTame() && this.getGrowingAge() == 0 && !this.isInLove()) {
+            if (this.isTamed() && this.getAge() == 0 && !this.isInLove()) {
                 isEating = true;
                 this.setInLove(player);
             }
@@ -616,9 +622,9 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             growthAmount = 240;
             temperAmount = 10;
 
-            if (!this.isTame()) {
-                this.setTamedBy(player);
-            } else if (this.getGrowingAge() == 0 && !this.isInLove()) {
+            if (!this.isTamed()) {
+                this.tameWithName(player);
+            } else if (this.getAge() == 0 && !this.isInLove()) {
                 isEating = true;
                 this.setInLove(player);
             }
@@ -627,19 +633,19 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
             this.heal(healAmount);
             isEating = true;
         }
-        if (this.isChild() && growthAmount > 0) {
-            this.world.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getPosX() + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), this.getPosY() + 0.5D + (double) (this.rand.nextFloat() * this.getHeight()), this.getPosZ() + (double) (this.rand.nextFloat() * this.getWidth() * 2.0F) - (double) this.getWidth(), 0.0D, 0.0D, 0.0D);
+        if (this.isBaby() && growthAmount > 0) {
+            this.level.addParticle(ParticleTypes.HAPPY_VILLAGER, this.getX() + (double) (this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double) this.getBbWidth(), this.getY() + 0.5D + (double) (this.random.nextFloat() * this.getBbHeight()), this.getZ() + (double) (this.random.nextFloat() * this.getBbWidth() * 2.0F) - (double) this.getBbWidth(), 0.0D, 0.0D, 0.0D);
 
-            if (!this.world.isRemote) {
-                this.addGrowth(growthAmount);
+            if (!this.level.isClientSide) {
+                this.ageUp(growthAmount);
             }
             isEating = true;
         }
 
-        if (temperAmount > 0 && (isEating || !this.isTame()) && this.getTemper() < this.getMaxTemper()) {
+        if (temperAmount > 0 && (isEating || !this.isTamed()) && this.getTemper() < this.getMaxTemper()) {
             isEating = true;
-            if (!this.world.isRemote) {
-                this.increaseTemper(temperAmount);
+            if (!this.level.isClientSide) {
+                this.modifyTemper(temperAmount);
             }
         }
         if (isEating) {
@@ -650,42 +656,42 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
 
     private void eatingCamel() {
         if (!this.isSilent()) {
-            this.world.playSound(null, this.getPosX(), this.getPosY(), this.getPosZ(), SoundEvents.ENTITY_LLAMA_EAT, this.getSoundCategory(), 1.0F, 1.0F + (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F);
+            this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_EAT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
         }
     }
 
     @Override
-    public void setHorseTamed(boolean tamed) {
-        super.setHorseTamed(tamed);
+    public void setTamed(boolean tamed) {
+        super.setTamed(tamed);
         this.getAttribute(Attributes.MAX_HEALTH).setBaseValue(this.getCamelMaxHealth());
         this.heal(this.getCamelMaxHealth());
     }
 
     @Nullable
     @Override
-    public Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory, @Nonnull PlayerEntity player) {
-        return new CamelContainer(windowID, playerInventory, this.getEntityId());
+    public AbstractContainerMenu createMenu(int windowID, @Nonnull Inventory playerInventory, @Nonnull Player player) {
+        return new CamelContainer(windowID, playerInventory, this.getId());
     }
 
     static class DefendDesertWolfGoal extends NearestAttackableTargetGoal<DesertWolfEntity> {
         DefendDesertWolfGoal(CamelEntity camel) {
-            super(camel, DesertWolfEntity.class, 16, false, true, (entity) -> !((DesertWolfEntity) entity).isTamed());
+            super(camel, DesertWolfEntity.class, 16, false, true, (entity) -> !((DesertWolfEntity) entity).isTame());
         }
 
         @Override
-        protected double getTargetDistance() {
-            return super.getTargetDistance() * 0.25D;
+        protected double getFollowDistance() {
+            return super.getFollowDistance() * 0.25D;
         }
     }
 
-    static class DefendWolfGoal extends NearestAttackableTargetGoal<WolfEntity> {
+    static class DefendWolfGoal extends NearestAttackableTargetGoal<Wolf> {
         public DefendWolfGoal(CamelEntity camel) {
-            super(camel, WolfEntity.class, 16, false, true, (entity) -> !((WolfEntity) entity).isTamed());
+            super(camel, Wolf.class, 16, false, true, (entity) -> !((Wolf) entity).isTame());
         }
 
         @Override
-        protected double getTargetDistance() {
-            return super.getTargetDistance() * 0.25D;
+        protected double getFollowDistance() {
+            return super.getFollowDistance() * 0.25D;
         }
     }
 
@@ -695,15 +701,15 @@ public class CamelEntity extends AbstractHorseEntity implements IRangedAttackMob
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            if (this.goalOwner instanceof CamelEntity) {
-                CamelEntity camel = (CamelEntity) this.goalOwner;
+        public boolean canContinueToUse() {
+            if (this.mob instanceof CamelEntity) {
+                CamelEntity camel = (CamelEntity) this.mob;
                 if (camel.didSpit) {
                     camel.setDidSpit(false);
                     return false;
                 }
             }
-            return super.shouldContinueExecuting();
+            return super.canContinueToUse();
         }
     }
 

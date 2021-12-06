@@ -6,13 +6,13 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.entity.stone.StoneBaseEntity;
 import com.teammetallurgy.atum.init.AtumParticles;
 import com.teammetallurgy.atum.items.tools.GauntletItem;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -29,32 +29,32 @@ public class HorusAscensionItem extends GauntletItem implements IArtifact {
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+    public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         if (COOLDOWN.getFloat(attacker) == 1.0F) {
             knockUp(target, attacker, random);
         }
-        return super.hitEntity(stack, target, attacker);
+        return super.hurtEnemy(stack, target, attacker);
     }
 
     public static void knockUp(LivingEntity target, LivingEntity attacker, Random random) {
         if (attacker != null && !(target instanceof StoneBaseEntity)) {
-            if (!attacker.world.isRemote) {
-                double dx = target.getPosX() - attacker.getPosX();
-                double dz = target.getPosZ() - attacker.getPosZ();
+            if (!attacker.level.isClientSide) {
+                double dx = target.getX() - attacker.getX();
+                double dz = target.getZ() - attacker.getZ();
                 double magnitude = Math.sqrt(dx * dx + dz * dz);
                 dx /= magnitude;
                 dz /= magnitude;
-                target.addVelocity(dx / 2.0D, 1.5D, dz / 2.0D);
-                Vector3d motion = target.getMotion();
+                target.push(dx / 2.0D, 1.5D, dz / 2.0D);
+                Vec3 motion = target.getDeltaMovement();
                 if (motion.y > 0.9D) {
-                    target.setMotion(motion.x, 0.9D, motion.z);
+                    target.setDeltaMovement(motion.x, 0.9D, motion.z);
                 }
             }
-            if (target.world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) target.world;
-                double x = MathHelper.nextDouble(random, 0.0001D, 0.04D);
-                double z = MathHelper.nextDouble(random, 0.0001D, 0.04D);
-                serverWorld.spawnParticle(AtumParticles.HORUS, target.getPosX(), target.getPosY() + 0.9D, target.getPosZ(), 65, x, 0.9D, -z, 0.005D);
+            if (target.level instanceof ServerLevel) {
+                ServerLevel serverWorld = (ServerLevel) target.level;
+                double x = Mth.nextDouble(random, 0.0001D, 0.04D);
+                double z = Mth.nextDouble(random, 0.0001D, 0.04D);
+                serverWorld.sendParticles(AtumParticles.HORUS, target.getX(), target.getY() + 0.9D, target.getZ(), 65, x, 0.9D, -z, 0.005D);
             }
         }
     }

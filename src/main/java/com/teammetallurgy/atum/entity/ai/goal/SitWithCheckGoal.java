@@ -1,18 +1,18 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
-import net.minecraft.entity.ai.goal.SitGoal;
-import net.minecraft.entity.passive.TameableEntity;
+import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.goal.SitWhenOrderedToGoal;
 
-public class SitWithCheckGoal extends SitGoal {
+public class SitWithCheckGoal extends SitWhenOrderedToGoal {
     private final boolean canSit;
 
-    public SitWithCheckGoal(TameableEntity entity, boolean canSit) {
+    public SitWithCheckGoal(TamableAnimal entity, boolean canSit) {
         super(entity);
         this.canSit = canSit;
     }
 
     @Override
-    public boolean shouldExecute() {
-        return this.canSit && super.shouldExecute();
+    public boolean canUse() {
+        return this.canSit && super.canUse();
     }
 }

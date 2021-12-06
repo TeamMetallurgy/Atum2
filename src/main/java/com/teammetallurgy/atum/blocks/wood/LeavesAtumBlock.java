@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.LeavesBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -15,13 +15,13 @@ import java.util.Random;
 public class LeavesAtumBlock extends LeavesBlock {
 
     public LeavesAtumBlock() {
-        super(AbstractBlock.Properties.create(Material.LEAVES).hardnessAndResistance(0.2F).tickRandomly().sound(SoundType.PLANT).notSolid().setAllowsSpawn(AtumBlocks::allowsSpawnOnLeaves).setSuffocates(AtumBlocks::isntSolid).setBlocksVision(AtumBlocks::isntSolid));
+        super(BlockBehaviour.Properties.of(Material.LEAVES).strength(0.2F).randomTicks().sound(SoundType.GRASS).noOcclusion().isValidSpawn(AtumBlocks::allowsSpawnOnLeaves).isSuffocating(AtumBlocks::isntSolid).isViewBlocking(AtumBlocks::isntSolid));
     }
 
     @Override
-    public void randomTick(BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random random) {
-        if (!state.get(PERSISTENT) && state.get(DISTANCE) >= 3) {
-            spawnDrops(state, world, pos);
+    public void randomTick(BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random random) {
+        if (!state.getValue(PERSISTENT) && state.getValue(DISTANCE) >= 3) {
+            dropResources(state, world, pos);
             world.removeBlock(pos, false);
         }
     }

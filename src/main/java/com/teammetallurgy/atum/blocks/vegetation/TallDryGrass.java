@@ -1,21 +1,21 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.DoublePlantBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.DoublePlantBlock;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.PlantType;
 
 public class TallDryGrass extends DoublePlantBlock {
 
     public TallDryGrass() {
-        super(AbstractBlock.Properties.create(Material.TALL_PLANTS).doesNotBlockMovement().zeroHardnessAndResistance().sound(SoundType.PLANT));
+        super(BlockBehaviour.Properties.of(Material.REPLACEABLE_PLANT).noCollission().instabreak().sound(SoundType.GRASS));
     }
 
     @Override
-    public PlantType getPlantType(IBlockReader world, BlockPos pos) {
+    public PlantType getPlantType(BlockGetter world, BlockPos pos) {
         return PlantType.DESERT;
     }
 }

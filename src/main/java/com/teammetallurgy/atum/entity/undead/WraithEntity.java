@@ -1,38 +1,38 @@
 package com.teammetallurgy.atum.entity.undead;
 
 import com.teammetallurgy.atum.entity.ai.pathfinding.ClimberGroundPathNavigator;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 
 public class WraithEntity extends UndeadBaseEntity {
-    private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(WraithEntity.class, DataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(WraithEntity.class, EntityDataSerializers.BYTE);
     private int cycleHeight;
     private final int cycleTime;
 
-    public WraithEntity(EntityType<? extends WraithEntity> entityType, World world) {
+    public WraithEntity(EntityType<? extends WraithEntity> entityType, Level world) {
         super(entityType, world);
-        this.experienceValue = 6;
+        this.xpReward = 6;
         this.setCanPickUpLoot(false);
 
         this.cycleTime = (int) ((Math.random() * 40) + 80);
@@ -47,38 +47,38 @@ public class WraithEntity extends UndeadBaseEntity {
 
     protected void applyEntityAI() {
         super.applyEntityAI();
-        this.targetSelector.addGoal(1, new WraithEntity.AIWraithTarget<>(this, PlayerEntity.class));
+        this.targetSelector.addGoal(1, new WraithEntity.AIWraithTarget<>(this, Player.class));
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(CLIMBING, (byte) 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(CLIMBING, (byte) 0);
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 8.0F).createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.35D).createMutableAttribute(Attributes.FOLLOW_RANGE, 30.0D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0F).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.MOVEMENT_SPEED, 0.35D).add(Attributes.FOLLOW_RANGE, 30.0D);
     }
 
     @Override
     @Nonnull
-    protected PathNavigator createNavigator(@Nonnull World world) {
+    protected PathNavigation createNavigation(@Nonnull Level world) {
         return new ClimberGroundPathNavigator(this, world);
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_HUSK_AMBIENT;
+        return SoundEvents.HUSK_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.ENTITY_HUSK_HURT;
+        return SoundEvents.HUSK_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_HUSK_DEATH;
+        return SoundEvents.HUSK_DEATH;
     }
 
     @Override
@@ -93,34 +93,34 @@ public class WraithEntity extends UndeadBaseEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!this.world.isRemote) {
-            this.setBesideClimbableBlock(this.collidedHorizontally);
+        if (!this.level.isClientSide) {
+            this.setBesideClimbableBlock(this.horizontalCollision);
         }
     }
 
     @Override
-    public void livingTick() {
+    public void aiStep() {
         this.cycleHeight = (this.cycleHeight + 1) % this.cycleTime;
 
-        super.livingTick();
+        super.aiStep();
     }
 
     @Override
-    public boolean onLivingFall(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier) {
         return false;
     }
 
     @Override
-    public boolean isOnLadder() {
+    public boolean onClimbable() {
         return this.isBesideClimbableBlock();
     }
 
     private boolean isBesideClimbableBlock() {
-        return (this.dataManager.get(CLIMBING) & 1) != 0;
+        return (this.entityData.get(CLIMBING) & 1) != 0;
     }
 
     private void setBesideClimbableBlock(boolean climbing) {
-        byte b0 = this.dataManager.get(CLIMBING);
+        byte b0 = this.entityData.get(CLIMBING);
 
         if (climbing) {
             b0 = (byte) (b0 | 1);
@@ -128,19 +128,19 @@ public class WraithEntity extends UndeadBaseEntity {
             b0 = (byte) (b0 & -2);
         }
 
-        this.dataManager.set(CLIMBING, b0);
+        this.entityData.set(CLIMBING, b0);
     }
 
     @Override
-    public boolean attackEntityAsMob(@Nonnull Entity entity) {
-        if (!super.attackEntityAsMob(entity)) {
+    public boolean doHurtTarget(@Nonnull Entity entity) {
+        if (!super.doHurtTarget(entity)) {
             return false;
         } else {
-            if (this.rand.nextDouble() <= 0.175D) {
+            if (this.random.nextDouble() <= 0.175D) {
                 if (entity instanceof LivingEntity) {
                     LivingEntity livingBase = (LivingEntity) entity;
-                    if (!livingBase.isPotionActive(Effects.SLOWNESS)) {
-                        livingBase.addPotionEffect(new EffectInstance(Effects.SLOWNESS, 80, 1));
+                    if (!livingBase.hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+                        livingBase.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1));
                     }
                 }
             }
@@ -154,19 +154,19 @@ public class WraithEntity extends UndeadBaseEntity {
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            float brightness = this.attacker.getBrightness();
-            if (brightness >= 0.5F && this.attacker.getRNG().nextInt(100) == 0) {
-                this.attacker.setAttackTarget(null);
+        public boolean canContinueToUse() {
+            float brightness = this.mob.getBrightness();
+            if (brightness >= 0.5F && this.mob.getRandom().nextInt(100) == 0) {
+                this.mob.setTarget(null);
                 return false;
             } else {
-                return super.shouldContinueExecuting();
+                return super.canContinueToUse();
             }
         }
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4.0F + attackTarget.getWidth();
+            return 4.0F + attackTarget.getBbWidth();
         }
     }
 
@@ -176,9 +176,9 @@ public class WraithEntity extends UndeadBaseEntity {
         }
 
         @Override
-        public boolean shouldExecute() {
-            float f = this.goalOwner.getBrightness();
-            return f < 0.5F && super.shouldExecute();
+        public boolean canUse() {
+            float f = this.mob.getBrightness();
+            return f < 0.5F && super.canUse();
         }
     }
 }

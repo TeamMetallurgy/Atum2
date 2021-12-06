@@ -1,21 +1,21 @@
 package com.teammetallurgy.atum.entity.undead;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;
@@ -23,10 +23,10 @@ import java.util.UUID;
 public class MummyEntity extends UndeadBaseEntity {
     private static final AttributeModifier SPEED_BOOST_BURNING = new AttributeModifier(UUID.fromString("2dc2358a-63df-435d-a602-2ff3d6bca8d1"), "Burning speed boost", 0.1D, AttributeModifier.Operation.ADDITION);
 
-    public MummyEntity(EntityType<? extends UndeadBaseEntity> entityType, World world) {
+    public MummyEntity(EntityType<? extends UndeadBaseEntity> entityType, Level world) {
         super(entityType, world);
         this.setCanPickUpLoot(false);
-        this.experienceValue = 8;
+        this.xpReward = 8;
     }
 
     @Override
@@ -35,23 +35,23 @@ public class MummyEntity extends UndeadBaseEntity {
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 22.0F).createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.2D)
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 30.0D).createMutableAttribute(Attributes.ARMOR, 2.0F);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 22.0F).add(Attributes.ATTACK_DAMAGE, 3.0D).add(Attributes.MOVEMENT_SPEED, 0.2D)
+                .add(Attributes.FOLLOW_RANGE, 30.0D).add(Attributes.ARMOR, 2.0F);
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.ENTITY_ZOMBIE_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    public void livingTick() {
-        super.livingTick();
+    public void aiStep() {
+        super.aiStep();
 
-        ModifiableAttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (this.isBurning() && !attribute.hasModifier(SPEED_BOOST_BURNING)) {
-            attribute.applyNonPersistentModifier(SPEED_BOOST_BURNING);
+        AttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
+        if (this.isOnFire() && !attribute.hasModifier(SPEED_BOOST_BURNING)) {
+            attribute.addTransientModifier(SPEED_BOOST_BURNING);
         } else {
             attribute.removeModifier(SPEED_BOOST_BURNING);
         }
@@ -63,28 +63,28 @@ public class MummyEntity extends UndeadBaseEntity {
     }
 
     @Override
-    public boolean attackEntityFrom(@Nonnull DamageSource source, float amount) {
-        if (source.isFireDamage()) {
+    public boolean hurt(@Nonnull DamageSource source, float amount) {
+        if (source.isFire()) {
             amount += 1;
         }
-        if (this.isBurning()) {
+        if (this.isOnFire()) {
             amount = (int) (amount * 1.5);
         }
 
-        return super.attackEntityFrom(source, amount);
+        return super.hurt(source, amount);
     }
 
     @Override
-    public boolean attackEntityAsMob(@Nonnull Entity entity) {
-        boolean attackEntity = super.attackEntityAsMob(entity);
+    public boolean doHurtTarget(@Nonnull Entity entity) {
+        boolean attackEntity = super.doHurtTarget(entity);
 
         if (attackEntity) {
-            if (this.isBurning() && this.rand.nextFloat() < (float) this.world.getDifficulty().getId() * 0.4F) {
-                entity.setFire(2 * this.world.getDifficulty().getId());
+            if (this.isOnFire() && this.random.nextFloat() < (float) this.level.getDifficulty().getId() * 0.4F) {
+                entity.setSecondsOnFire(2 * this.level.getDifficulty().getId());
             }
             if (entity instanceof LivingEntity) {
                 LivingEntity base = (LivingEntity) entity;
-                base.addPotionEffect(new EffectInstance(Effects.WITHER, 80, 1));
+                base.addEffect(new MobEffectInstance(MobEffects.WITHER, 80, 1));
             }
         }
         return attackEntity;

@@ -8,14 +8,14 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Effects;
-import net.minecraft.world.World;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -29,7 +29,7 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     public static final Object2IntMap<LivingEntity> TIMER = new Object2IntOpenHashMap<>();
 
     public NuitsVanishingItem() {
-        super(new Item.Properties().maxStackSize(1));
+        super(new Item.Properties().stacksTo(1));
     }
 
     @Override
@@ -39,14 +39,14 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     @SubscribeEvent
     public static void onTarget(LivingSetAttackTargetEvent event) {
-        if (TIMER.getInt(event.getTarget()) <= 0 && INVISIBLE.getBoolean(event.getTarget()) && event.getTarget() instanceof PlayerEntity && event.getEntityLiving() instanceof MobEntity) {
-            ((MobEntity) event.getEntityLiving()).setAttackTarget(null);
+        if (TIMER.getInt(event.getTarget()) <= 0 && INVISIBLE.getBoolean(event.getTarget()) && event.getTarget() instanceof Player && event.getEntityLiving() instanceof Mob) {
+            ((Mob) event.getEntityLiving()).setTarget(null);
         }
     }
 
     @SubscribeEvent
     public static void onAttack(LivingAttackEvent event) {
-        Entity source = event.getSource().getTrueSource();
+        Entity source = event.getSource().getEntity();
         if (source instanceof LivingEntity) {
             LivingEntity attacker = (LivingEntity) source;
             if (INVISIBLE.getBoolean(attacker)) {
@@ -68,13 +68,13 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     @Override
     public void curioTick(String identifier, int index, LivingEntity livingEntity, @Nonnull ItemStack stack) {
-        World world = livingEntity.getEntityWorld();
+        Level world = livingEntity.getCommandSenderWorld();
         if (!TIMER.containsKey(livingEntity)) {
             INVISIBLE.putIfAbsent(livingEntity, true);
 
             if (!isLivingEntityMoving(livingEntity)) {
                 INVISIBLE.replace(livingEntity, true);
-                if (!world.isRemote) {
+                if (!world.isClientSide) {
                     livingEntity.setInvisible(true);
                 }
             } else {
@@ -96,12 +96,12 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
 
     public static void setNotInvisible(LivingEntity livingEntity) {
         INVISIBLE.replace(livingEntity, false);
-        if (!livingEntity.getEntityWorld().isRemote && !livingEntity.isPotionActive(Effects.INVISIBILITY) && livingEntity.isInvisible()) {
+        if (!livingEntity.getCommandSenderWorld().isClientSide && !livingEntity.hasEffect(MobEffects.INVISIBILITY) && livingEntity.isInvisible()) {
             livingEntity.setInvisible(false);
         }
     }
 
     public static boolean isLivingEntityMoving(LivingEntity livingEntity) {
-        return livingEntity.distanceWalkedModified != livingEntity.prevDistanceWalkedModified || livingEntity.isCrouching();
+        return livingEntity.walkDist != livingEntity.walkDistO || livingEntity.isCrouching();
     }
 }

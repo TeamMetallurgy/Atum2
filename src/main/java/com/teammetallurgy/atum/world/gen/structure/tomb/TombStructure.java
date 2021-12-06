@@ -3,77 +3,78 @@ package com.teammetallurgy.atum.world.gen.structure.tomb;
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.DimensionHelper;
-import net.minecraft.util.Rotation;
-import net.minecraft.util.SharedSeedRandom;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.util.registry.DynamicRegistries;
-import net.minecraft.world.ISeedReader;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.provider.BiomeProvider;
-import net.minecraft.world.gen.ChunkGenerator;
-import net.minecraft.world.gen.feature.NoFeatureConfig;
-import net.minecraft.world.gen.feature.structure.Structure;
-import net.minecraft.world.gen.feature.structure.StructureManager;
-import net.minecraft.world.gen.feature.structure.StructurePiece;
-import net.minecraft.world.gen.feature.structure.StructureStart;
-import net.minecraft.world.gen.feature.template.TemplateManager;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.util.Mth;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.BiomeSource;
+import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.WorldgenRandom;
+import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.StructureFeature.StructureStartFactory;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
+import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TombStructure extends Structure<NoFeatureConfig> {
+public class TombStructure extends StructureFeature<NoneFeatureConfiguration> {
 
-    public TombStructure(Codec<NoFeatureConfig> config) {
+    public TombStructure(Codec<NoneFeatureConfiguration> config) {
         super(config);
     }
 
     @Override
-    protected boolean func_230363_a_(@Nonnull ChunkGenerator generator, @Nonnull BiomeProvider provider, long seed, @Nonnull SharedSeedRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoFeatureConfig config) {
-        for (Biome b : provider.getBiomes(chunkX * 16 + 9, DimensionHelper.GROUND_LEVEL, chunkZ * 16 + 9, 20)) {
-            return b.getGenerationSettings().hasStructure(this);
+    protected boolean isFeatureChunk(@Nonnull ChunkGenerator generator, @Nonnull BiomeSource provider, long seed, @Nonnull WorldgenRandom seedRandom, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull ChunkPos chunkPos, @Nonnull NoneFeatureConfiguration config) {
+        for (Biome b : provider.getBiomesWithin(chunkX * 16 + 9, DimensionHelper.GROUND_LEVEL, chunkZ * 16 + 9, 20)) {
+            return b.getGenerationSettings().isValidStart(this);
         }
         return false;
     }
 
     @Override
     @Nonnull
-    public IStartFactory<NoFeatureConfig> getStartFactory() {
+    public StructureStartFactory<NoneFeatureConfiguration> getStartFactory() {
         return Start::new;
     }
 
-    public static class Start extends StructureStart<NoFeatureConfig> {
+    public static class Start extends StructureStart<NoneFeatureConfiguration> {
 
-        public Start(Structure<NoFeatureConfig> structure, int chunkPosX, int chunkPosZ, MutableBoundingBox box, int references, long seed) {
+        public Start(StructureFeature<NoneFeatureConfiguration> structure, int chunkPosX, int chunkPosZ, BoundingBox box, int references, long seed) {
             super(structure, chunkPosX, chunkPosZ, box, references, seed);
         }
 
         @Override
-        public void func_230364_a_(@Nonnull DynamicRegistries registries, @Nonnull ChunkGenerator generator, @Nonnull TemplateManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoFeatureConfig config) {
-            Rotation rotation = Rotation.randomRotation(this.rand);
-            int y = MathHelper.nextInt(this.rand, 8, 55);
+        public void generatePieces(@Nonnull RegistryAccess registries, @Nonnull ChunkGenerator generator, @Nonnull StructureManager manager, int chunkX, int chunkZ, @Nonnull Biome biome, @Nonnull NoneFeatureConfiguration config) {
+            Rotation rotation = Rotation.getRandom(this.random);
+            int y = Mth.nextInt(this.random, 8, 55);
             BlockPos pos = new BlockPos(chunkX * 16 + 8, y, chunkZ * 16 + 8);
             TombPieces.TombTemplate tomb = new TombPieces.TombTemplate(manager, pos, rotation);
-            this.components.add(tomb);
-            this.recalculateStructureSize();
+            this.pieces.add(tomb);
+            this.calculateBoundingBox();
         }
 
         @Override
-        public void func_230366_a_(@Nonnull ISeedReader seedReader, @Nonnull StructureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull MutableBoundingBox box, @Nonnull ChunkPos chunkPos) {
-            super.func_230366_a_(seedReader, manager, generator, rand, box, chunkPos);
-            int y = this.bounds.minY;
+        public void placeInChunk(@Nonnull WorldGenLevel seedReader, @Nonnull StructureFeatureManager manager, @Nonnull ChunkGenerator generator, @Nonnull Random rand, @Nonnull BoundingBox box, @Nonnull ChunkPos chunkPos) {
+            super.placeInChunk(seedReader, manager, generator, rand, box, chunkPos);
+            int y = this.boundingBox.y0;
 
-            for (int x = box.minX; x <= box.maxX; ++x) {
-                for (int z = box.minZ; z <= box.maxZ; ++z) {
+            for (int x = box.x0; x <= box.x1; ++x) {
+                for (int z = box.z0; z <= box.z1; ++z) {
                     BlockPos pos = new BlockPos(x, y, z);
 
-                    if (!seedReader.isAirBlock(pos) && this.bounds.isVecInside(pos)) {
+                    if (!seedReader.isEmptyBlock(pos) && this.boundingBox.isInside(pos)) {
                         boolean isVecInside = false;
 
-                        for (StructurePiece piece : this.components) {
-                            if (piece.getBoundingBox().isVecInside(pos)) {
+                        for (StructurePiece piece : this.pieces) {
+                            if (piece.getBoundingBox().isInside(pos)) {
                                 isVecInside = true;
                                 break;
                             }
@@ -83,10 +84,10 @@ public class TombStructure extends Structure<NoFeatureConfig> {
                             for (int tombY = y - 1; tombY > 1; --tombY) {
                                 BlockPos tombPos = new BlockPos(x, tombY, z);
 
-                                if (!seedReader.isAirBlock(tombPos) && !seedReader.getBlockState(tombPos).getMaterial().isLiquid()) {
+                                if (!seedReader.isEmptyBlock(tombPos) && !seedReader.getBlockState(tombPos).getMaterial().isLiquid()) {
                                     break;
                                 }
-                                seedReader.setBlockState(tombPos, AtumBlocks.LIMESTONE_BRICK_LARGE.getDefaultState(), 2);
+                                seedReader.setBlock(tombPos, AtumBlocks.LIMESTONE_BRICK_LARGE.defaultBlockState(), 2);
                             }
                         }
                     }

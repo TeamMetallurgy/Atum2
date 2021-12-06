@@ -4,27 +4,27 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.ITexture;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.misc.StackHelper;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ILivingEntityData;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.ModifiableAttributeInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.pathfinding.GroundPathNavigator;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -34,82 +34,82 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     private static final ResourceLocation STONEGUARD_IRON_TEXTURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/stoneguard_derp.png");
     private static final AttributeModifier SHIELD_ARMOR = new AttributeModifier(UUID.fromString("29c9fac8-7da1-43c0-95e7-4a3cae9bcbef"), "Stoneguard shield armor", 4, AttributeModifier.Operation.ADDITION);
 
-    public StoneguardEntity(EntityType<? extends StoneguardEntity> entityType, World world) {
+    public StoneguardEntity(EntityType<? extends StoneguardEntity> entityType, Level world) {
         super(entityType, world);
-        this.experienceValue = 8;
+        this.xpReward = 8;
         this.setCanPickUpLoot(true);
-        new GroundPathNavigator(this, world).getNodeProcessor().setCanEnterDoors(true);
+        new GroundPathNavigation(this, world).getNodeEvaluator().setCanPassDoors(true);
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 40.0D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 3.0D).createMutableAttribute(Attributes.ARMOR, 10.0F);
+    public static AttributeSupplier.Builder createAttributes() {
+        return getBaseAttributes().add(Attributes.MAX_HEALTH, 40.0D).add(Attributes.ATTACK_DAMAGE, 3.0D).add(Attributes.ARMOR, 10.0F);
     }
 
     @Override
     protected void setFriendlyAttributes() {
         super.setFriendlyAttributes();
         final AttributeModifier FRIENDLY_HEALTH = new AttributeModifier(UUID.fromString("41d44fff-f8a8-47c5-a753-d7eb9f715d40"), "Friendly Stoneguard health", 30.0D, AttributeModifier.Operation.ADDITION);
-        this.getAttribute(Attributes.MAX_HEALTH).applyPersistentModifier(FRIENDLY_HEALTH);
+        this.getAttribute(Attributes.MAX_HEALTH).addPermanentModifier(FRIENDLY_HEALTH);
         this.heal(30);
     }
 
     @Override
-    protected void dropSpecialItems(@Nonnull DamageSource source, int lootingModifier, boolean wasRecentlyHit) {
+    protected void dropCustomDeathLoot(@Nonnull DamageSource source, int lootingModifier, boolean wasRecentlyHit) {
         if (this.isPlayerCreated()) {
-            for (EquipmentSlotType slot : EquipmentSlotType.values()) {
-                ItemStack stack = this.getItemStackFromSlot(slot);
+            for (EquipmentSlot slot : EquipmentSlot.values()) {
+                ItemStack stack = this.getItemBySlot(slot);
                 if (!stack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(stack) && wasRecentlyHit) {
-                    this.entityDropItem(stack, 0.0F);
+                    this.spawnAtLocation(stack, 0.0F);
                 }
             }
         } else {
-            super.dropSpecialItems(source, lootingModifier, wasRecentlyHit);
+            super.dropCustomDeathLoot(source, lootingModifier, wasRecentlyHit);
         }
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
-        int randomWeapon = MathHelper.nextInt(this.rand, 0, 3);
+    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+        int randomWeapon = Mth.nextInt(this.random, 0, 3);
         this.setStoneguardEquipment(randomWeapon);
     }
 
     private void setStoneguardEquipment(int randomWeapon) {
         if (randomWeapon != 2) {
-            this.setItemStackToSlot(EquipmentSlotType.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
+            this.setItemSlot(EquipmentSlot.OFFHAND, new ItemStack(AtumItems.STONEGUARD_SHIELD));
 
-            if (!this.world.isRemote) {
-                ModifiableAttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
+            if (!this.level.isClientSide) {
+                AttributeInstance attribute = this.getAttribute(Attributes.MOVEMENT_SPEED);
 
                 if (attribute != null && !attribute.hasModifier(SHIELD_ARMOR)) {
-                    this.getAttribute(Attributes.ARMOR).applyPersistentModifier(SHIELD_ARMOR);
+                    this.getAttribute(Attributes.ARMOR).addPermanentModifier(SHIELD_ARMOR);
                 }
             }
         }
 
         switch (randomWeapon) {
             case 0:
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_SWORD));
                 break;
             case 1:
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.STONEGUARD_CLUB));
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_CLUB));
                 break;
             case 2:
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.STONEGUARD_GREATSWORD));
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_GREATSWORD));
                 break;
             case 3:
-                this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.STONEGUARD_KHOPESH));
+                this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.STONEGUARD_KHOPESH));
                 break;
         }
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
-        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
 
         if (!this.isPlayerCreated()) {
-            this.setEquipmentBasedOnDifficulty(difficulty);
-            final int variant = MathHelper.nextInt(rand, 0, 7);
+            this.populateDefaultEquipmentSlots(difficulty);
+            final int variant = Mth.nextInt(random, 0, 7);
             this.setVariant(variant);
         } else {
             this.setVariant(8);
@@ -118,22 +118,22 @@ public class StoneguardEntity extends StoneBaseEntity implements ITexture {
     }
 
     @Override
-    public boolean func_230292_f_(@Nonnull PlayerEntity player) { //isPreventingPlayerRest
+    public boolean isPreventingPlayerRest(@Nonnull Player player) { //isPreventingPlayerRest
         return this.getVariant() != 8;
     }
 
     @Override
     @Nonnull
-    protected ActionResultType func_230254_b_(PlayerEntity player, @Nonnull Hand hand) {
-        if (this.isPlayerCreated() && player.isCrouching() && player.getHeldItem(hand).isEmpty()) {
-            if (!world.isRemote) {
-                for (ItemStack held : this.getHeldEquipment()) {
+    protected InteractionResult mobInteract(Player player, @Nonnull InteractionHand hand) {
+        if (this.isPlayerCreated() && player.isCrouching() && player.getItemInHand(hand).isEmpty()) {
+            if (!level.isClientSide) {
+                for (ItemStack held : this.getHandSlots()) {
                     StackHelper.giveItem(player, hand, held);
                 }
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         } else {
-            return super.func_230254_b_(player, hand);
+            return super.mobInteract(player, hand);
         }
     }
 

@@ -17,14 +17,14 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class JEIIntegration implements IModPlugin {
 
     @Override
     public void registerRecipes(@Nonnull IRecipeRegistration registry) {
-        ClientWorld world = Minecraft.getInstance().world;
+        ClientLevel world = Minecraft.getInstance().level;
         if (world != null) {
             addRecipes(registry, world, IAtumRecipeType.KILN, KILN);
             registry.addRecipes(RecipeHelper.getKilnRecipesFromFurnace(world.getRecipeManager()), KILN);
@@ -62,8 +62,8 @@ public class JEIIntegration implements IModPlugin {
         addInfo(new ItemStack(AtumItems.EMMER_DOUGH), registry);
     }
 
-    private <C extends IInventory, T extends IRecipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, World world, IRecipeType<T> recipeType, ResourceLocation name) {
-        registry.addRecipes(RecipeHelper.getRecipes(world.getRecipeManager(), recipeType).stream().filter(r -> r.getIngredients().stream().noneMatch(Ingredient::hasNoMatchingItems)).collect(Collectors.toCollection(ArrayList::new)), name);
+    private <C extends Container, T extends Recipe<C>> void addRecipes(@Nonnull IRecipeRegistration registry, Level world, RecipeType<T> recipeType, ResourceLocation name) {
+        registry.addRecipes(RecipeHelper.getRecipes(world.getRecipeManager(), recipeType).stream().filter(r -> r.getIngredients().stream().noneMatch(Ingredient::isEmpty)).collect(Collectors.toCollection(ArrayList::new)), name);
     }
 
     @Override
@@ -75,6 +75,6 @@ public class JEIIntegration implements IModPlugin {
     }
 
     private void addInfo(ItemStack stack, IRecipeRegistration registry) {
-        registry.addIngredientInfo(stack, VanillaTypes.ITEM, "jei." + stack.getItem().getTranslationKey());
+        registry.addIngredientInfo(stack, VanillaTypes.ITEM, "jei." + stack.getItem().getDescriptionId());
     }
 }

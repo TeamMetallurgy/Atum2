@@ -5,33 +5,33 @@ import com.google.common.collect.Sets;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.VineBlock;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IWorldWriter;
-import net.minecraft.world.gen.IWorldGenerationBaseReader;
-import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
-import net.minecraft.world.gen.feature.TreeFeature;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
-import net.minecraft.world.gen.trunkplacer.AbstractTrunkPlacer;
-import net.minecraft.world.gen.trunkplacer.TrunkPlacerType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.LevelSimulatedRW;
+import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.LevelWriter;
+import net.minecraft.world.level.block.VineBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-public class PalmTrunkPlacer extends AbstractTrunkPlacer { //Based on StraightTrunkPlacer
+public class PalmTrunkPlacer extends TrunkPlacer { //Based on StraightTrunkPlacer
     public static final Codec<PalmTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> {
         return instance.group(Codec.intRange(0, 32).fieldOf("base_height").forGetter((tp) -> {
-            return tp.field_236906_d_;
+            return tp.baseHeight;
         }), Codec.intRange(0, 24).fieldOf("height_rand_a").forGetter((tp) -> {
-            return tp.field_236907_e_;
+            return tp.heightRandA;
         }), Codec.intRange(0, 24).fieldOf("height_rand_b").forGetter((tp) -> {
-            return tp.field_236908_f_;
+            return tp.heightRandB;
         }), Codec.FLOAT.fieldOf("ophidian_tongue_chance").forGetter((tp) -> {
             return tp.ophidianTongueChance;
         })).apply(instance, PalmTrunkPlacer::new);
@@ -45,25 +45,25 @@ public class PalmTrunkPlacer extends AbstractTrunkPlacer { //Based on StraightTr
 
     @Override
     @Nonnull
-    protected TrunkPlacerType<?> func_230381_a_() {
+    protected TrunkPlacerType<?> type() {
         return TreePlacerTypes.PALM_Trunk;
     }
 
     @Override
     @Nonnull
-    public List<FoliagePlacer.Foliage> func_230382_a_(@Nonnull IWorldGenerationReader genReader, @Nonnull Random rand, int amount, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull MutableBoundingBox box, @Nonnull BaseTreeFeatureConfig config) {
+    public List<FoliagePlacer.FoliageAttachment> placeTrunk(@Nonnull LevelSimulatedRW genReader, @Nonnull Random rand, int amount, @Nonnull BlockPos pos, @Nonnull Set<BlockPos> logs, @Nonnull BoundingBox box, @Nonnull TreeConfiguration config) {
         for (int i = 0; i < amount; ++i) {
-            BlockPos placePos = pos.up(i);
+            BlockPos placePos = pos.above(i);
             placeLogWithOphidian(genReader, rand, placePos, logs, box, config);
         }
 
-        return ImmutableList.of(new FoliagePlacer.Foliage(pos.up(amount), 0, false));
+        return ImmutableList.of(new FoliagePlacer.FoliageAttachment(pos.above(amount), 0, false));
     }
 
-    protected boolean placeLogWithOphidian(IWorldGenerationReader genReader, Random rand, BlockPos pos, Set<BlockPos> logs, MutableBoundingBox box, BaseTreeFeatureConfig config) {
-        if (TreeFeature.isReplaceableAt(genReader, pos)) {
-            func_236913_a_(genReader, pos, config.trunkProvider.getBlockState(rand, pos), box);
-            logs.add(pos.toImmutable());
+    protected boolean placeLogWithOphidian(LevelSimulatedRW genReader, Random rand, BlockPos pos, Set<BlockPos> logs, BoundingBox box, TreeConfiguration config) {
+        if (TreeFeature.validTreePos(genReader, pos)) {
+            setBlock(genReader, pos, config.trunkProvider.getState(rand, pos), box);
+            logs.add(pos.immutable());
 
             if (this.ophidianTongueChance > 0.0F && rand.nextDouble() <= this.ophidianTongueChance) { //It's working, but a little wonky. Works out okay-ish in-game
                 Set<BlockPos> set = Sets.newHashSet();
@@ -99,26 +99,26 @@ public class PalmTrunkPlacer extends AbstractTrunkPlacer { //Based on StraightTr
         }
     }
 
-    private void addOphidianTongueToTree(IWorldGenerationReader seedReader, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, MutableBoundingBox mutableBox) {
+    private void addOphidianTongueToTree(LevelSimulatedRW seedReader, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, BoundingBox mutableBox) {
         this.generateOphidianTongue(seedReader, pos, booleanProperty, positions, mutableBox);
         int i = 4;
-        for (pos = pos.down(); isAirAt(seedReader, pos) && i > 0; --i) {
+        for (pos = pos.below(); isAirAt(seedReader, pos) && i > 0; --i) {
             this.generateOphidianTongue(seedReader, pos, booleanProperty, positions, mutableBox);
-            pos = pos.down();
+            pos = pos.below();
         }
     }
 
-    protected void generateOphidianTongue(IWorldWriter world, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, MutableBoundingBox mutableBox) {
-        this.setOphidianTongue(world, pos, AtumBlocks.OPHIDIAN_TONGUE.getDefaultState().with(booleanProperty, true), positions, mutableBox);
+    protected void generateOphidianTongue(LevelWriter world, BlockPos pos, BooleanProperty booleanProperty, Set<BlockPos> positions, BoundingBox mutableBox) {
+        this.setOphidianTongue(world, pos, AtumBlocks.OPHIDIAN_TONGUE.defaultBlockState().setValue(booleanProperty, true), positions, mutableBox);
     }
 
-    protected void setOphidianTongue(IWorldWriter worldWriter, BlockPos pos, BlockState state, Set<BlockPos> positions, MutableBoundingBox mutableBox) {
-        worldWriter.setBlockState(pos, state, 19);
+    protected void setOphidianTongue(LevelWriter worldWriter, BlockPos pos, BlockState state, Set<BlockPos> positions, BoundingBox mutableBox) {
+        worldWriter.setBlock(pos, state, 19);
         positions.add(pos);
-        mutableBox.expandTo(new MutableBoundingBox(pos, pos));
+        mutableBox.expand(new BoundingBox(pos, pos));
     }
 
-    public static boolean isAirAt(IWorldGenerationBaseReader reader, BlockPos pos) {
-        return reader.hasBlockState(pos, (ab) -> ab.isAir());
+    public static boolean isAirAt(LevelSimulatedReader reader, BlockPos pos) {
+        return reader.isStateAtPosition(pos, (ab) -> ab.isAir());
     }
 }

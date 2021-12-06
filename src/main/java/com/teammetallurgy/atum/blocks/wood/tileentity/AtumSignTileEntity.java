@@ -1,16 +1,16 @@
 package com.teammetallurgy.atum.blocks.wood.tileentity;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
-import net.minecraft.tileentity.SignTileEntity;
-import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.SignBlockEntity;
 
 import javax.annotation.Nonnull;
 
-public class AtumSignTileEntity extends SignTileEntity {
+public class AtumSignTileEntity extends SignBlockEntity {
 
     @Override
     @Nonnull
-    public TileEntityType<?> getType() {
+    public BlockEntityType<?> getType() {
         return AtumTileEntities.SIGN;
     }
 }

@@ -1,33 +1,32 @@
 package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.GrassPathBlock;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.common.ToolType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.DirtPathBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class AtumPathBlock extends GrassPathBlock {
+public class AtumPathBlock extends DirtPathBlock {
     private final Block baseBlock;
 
     public AtumPathBlock(Block baseBlock) {
-        super(AbstractBlock.Properties.create(baseBlock.getDefaultState().getMaterial()).hardnessAndResistance(0.65F).sound(baseBlock.getDefaultState().getSoundType()).setBlocksVision(AtumBlocks::needsPostProcessing).setSuffocates(AtumBlocks::needsPostProcessing).harvestTool(ToolType.SHOVEL).lootFrom(baseBlock));
+        super(BlockBehaviour.Properties.of(baseBlock.defaultBlockState().getMaterial()).strength(0.65F).sound(baseBlock.defaultBlockState().getSoundType()).isViewBlocking(AtumBlocks::needsPostProcessing).isSuffocating(AtumBlocks::needsPostProcessing).harvestTool(ToolType.SHOVEL).dropsLike(baseBlock));
         this.baseBlock = baseBlock;
     }
 
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return !this.getDefaultState().isValidPosition(context.getWorld(), context.getPos()) ? Block.nudgeEntitiesWithNewState(this.getDefaultState(), this.baseBlock.getDefaultState(), context.getWorld(), context.getPos()) : super.getStateForPlacement(context);
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return !this.defaultBlockState().canSurvive(context.getLevel(), context.getClickedPos()) ? Block.pushEntitiesUp(this.defaultBlockState(), this.baseBlock.defaultBlockState(), context.getLevel(), context.getClickedPos()) : super.getStateForPlacement(context);
     }
 
     @Override
-    public void tick(@Nonnull BlockState state, @Nonnull ServerWorld world, @Nonnull BlockPos pos, @Nonnull Random rand) {
-        world.setBlockState(pos, nudgeEntitiesWithNewState(state, this.baseBlock.getDefaultState(), world, pos));
+    public void tick(@Nonnull BlockState state, @Nonnull ServerLevel world, @Nonnull BlockPos pos, @Nonnull Random rand) {
+        world.setBlockAndUpdate(pos, pushEntitiesUp(state, this.baseBlock.defaultBlockState(), world, pos));
     }
 }

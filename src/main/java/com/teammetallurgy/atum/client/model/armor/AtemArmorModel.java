@@ -1,14 +1,14 @@
 package com.teammetallurgy.atum.client.model.armor;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.client.entity.player.AbstractClientPlayerEntity;
-import net.minecraft.client.renderer.entity.model.PlayerModel;
-import net.minecraft.client.renderer.model.ModelRenderer;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,154 +19,154 @@ import javax.annotation.Nonnull;
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, value = Dist.CLIENT)
 public class AtemArmorModel extends ArmorModel {
 	private boolean hasFullSet;
-	private final ModelRenderer fins;
-	private final ModelRenderer hat;
-	private final ModelRenderer postiche;
-	private final ModelRenderer chestplate;
-	private final ModelRenderer rightShoulderBlade;
-	private final ModelRenderer leftShoulderBlade;
-	private final ModelRenderer leftBoot;
-	private final ModelRenderer rightBoot;
-	private final ModelRenderer leftCape;
-	private final ModelRenderer rightCape;
+	private final ModelPart fins;
+	private final ModelPart hat;
+	private final ModelPart postiche;
+	private final ModelPart chestplate;
+	private final ModelPart rightShoulderBlade;
+	private final ModelPart leftShoulderBlade;
+	private final ModelPart leftBoot;
+	private final ModelPart rightBoot;
+	private final ModelPart leftCape;
+	private final ModelPart rightCape;
 
-	public AtemArmorModel(EquipmentSlotType slot, boolean hasFullSet) {
+	public AtemArmorModel(EquipmentSlot slot, boolean hasFullSet) {
 		super(slot);
 		this.hasFullSet = hasFullSet;
-		this.textureWidth = 64;
-		this.textureHeight = 96;
+		this.texWidth = 64;
+		this.texHeight = 96;
 
-		bipedBody = new ModelRenderer(this);
-		bipedBody.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedBody.setTextureOffset(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.2F, false);
+		body = new ModelPart(this);
+		body.setPos(0.0F, 0.0F, 0.0F);
+		body.texOffs(16, 16).addBox(-4.0F, 0.0F, -2.0F, 8.0F, 12.0F, 4.0F, 0.2F, false);
 
-		chestplate = new ModelRenderer(this);
-		chestplate.setRotationPoint(0.0F, 24.0F, 0.0F);
-		bipedBody.addChild(chestplate);
+		chestplate = new ModelPart(this);
+		chestplate.setPos(0.0F, 24.0F, 0.0F);
+		body.addChild(chestplate);
 		setRotationAngle(chestplate, -0.2618F, 0.0F, 0.0F);
-		chestplate.setTextureOffset(16, 32).addBox(-4.0F, -22.0F, -8.5F, 8.0F, 4.0F, 4.0F, 0.0F, false);
+		chestplate.texOffs(16, 32).addBox(-4.0F, -22.0F, -8.5F, 8.0F, 4.0F, 4.0F, 0.0F, false);
 
-		bipedRightArm = new ModelRenderer(this);
-		bipedRightArm.setRotationPoint(-5.0F, 2.0F, 0.0F);
-		bipedRightArm.setTextureOffset(40, 32).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
-		bipedRightArm.setTextureOffset(8, 86).addBox(-3.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.4F, true);
-		bipedRightArm.setTextureOffset(48, 88).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
-		bipedRightArm.setTextureOffset(48, 80).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.65F, true);
+		rightArm = new ModelPart(this);
+		rightArm.setPos(-5.0F, 2.0F, 0.0F);
+		rightArm.texOffs(40, 32).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, false);
+		rightArm.texOffs(8, 86).addBox(-3.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.4F, true);
+		rightArm.texOffs(48, 88).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
+		rightArm.texOffs(48, 80).addBox(-3.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.65F, true);
 
-		rightShoulderBlade = new ModelRenderer(this);
-		rightShoulderBlade.setRotationPoint(10.0F, 0.0F, 0.0F);
-		bipedRightArm.addChild(rightShoulderBlade);
-		rightShoulderBlade.setTextureOffset(18, 90).addBox(-14.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, 0.1F, true);
+		rightShoulderBlade = new ModelPart(this);
+		rightShoulderBlade.setPos(10.0F, 0.0F, 0.0F);
+		rightArm.addChild(rightShoulderBlade);
+		rightShoulderBlade.texOffs(18, 90).addBox(-14.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, 0.1F, true);
 
-		rightCape = new ModelRenderer(this);
-		rightCape.setRotationPoint(5.0F, -2.0F, 0.0F);
-		bipedRightArm.addChild(rightCape);
-		rightCape.setTextureOffset(56, 64).addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, 0.0F, true);
+		rightCape = new ModelPart(this);
+		rightCape.setPos(5.0F, -2.0F, 0.0F);
+		rightArm.addChild(rightCape);
+		rightCape.texOffs(56, 64).addBox(-7.5F, 4.0F, 2.6F, 4.0F, 16.0F, 0.0F, 0.0F, true);
 
-		bipedLeftArm = new ModelRenderer(this);
-		bipedLeftArm.setRotationPoint(5.0F, 2.0F, 0.0F);
-		bipedLeftArm.setTextureOffset(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, true);
-		bipedLeftArm.setTextureOffset(52, 30).addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.4F, true);
-		bipedLeftArm.setTextureOffset(32, 88).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
-		bipedLeftArm.setTextureOffset(32, 80).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.65F, true);
+		leftArm = new ModelPart(this);
+		leftArm.setPos(5.0F, 2.0F, 0.0F);
+		leftArm.texOffs(40, 16).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.1F, true);
+		leftArm.texOffs(52, 30).addBox(1.0F, 6.0F, -2.0F, 2.0F, 2.0F, 4.0F, 0.4F, true);
+		leftArm.texOffs(32, 88).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.35F, true);
+		leftArm.texOffs(32, 80).addBox(-1.0F, -2.0F, -2.0F, 4.0F, 4.0F, 4.0F, 0.65F, true);
 
-		leftShoulderBlade = new ModelRenderer(this);
-		leftShoulderBlade.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedLeftArm.addChild(leftShoulderBlade);
-		leftShoulderBlade.setTextureOffset(18, 82).addBox(0.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, 0.1F, true);
+		leftShoulderBlade = new ModelPart(this);
+		leftShoulderBlade.setPos(0.0F, 0.0F, 0.0F);
+		leftArm.addChild(leftShoulderBlade);
+		leftShoulderBlade.texOffs(18, 82).addBox(0.0F, -3.0F, -1.0F, 4.0F, 4.0F, 2.0F, 0.1F, true);
 
-		leftCape = new ModelRenderer(this);
-		leftCape.setRotationPoint(-5.0F, 22.0F, 0.0F);
-		bipedLeftArm.addChild(leftCape);
-		leftCape.setTextureOffset(48, 64).addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, 0.0F, true);
+		leftCape = new ModelPart(this);
+		leftCape.setPos(-5.0F, 22.0F, 0.0F);
+		leftArm.addChild(leftCape);
+		leftCape.texOffs(48, 64).addBox(3.5F, -20.0F, 2.6F, 4.0F, 16.0F, 0.0F, 0.0F, true);
 
-		bipedHead = new ModelRenderer(this);
-		bipedHead.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedHead.setTextureOffset(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.1F, false);
-		bipedHead.setTextureOffset(24, 0).addBox(-2.0F, -6.0F, -5.0F, 4.0F, 4.0F, 1.0F, -0.25F, false);
-		bipedHead.setTextureOffset(58, 0).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 2.0F, 1.0F, 0.0F, false);
-		bipedHead.setTextureOffset(34, 50).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.4F, false);
+		head = new ModelPart(this);
+		head.setPos(0.0F, 0.0F, 0.0F);
+		head.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.1F, false);
+		head.texOffs(24, 0).addBox(-2.0F, -6.0F, -5.0F, 4.0F, 4.0F, 1.0F, -0.25F, false);
+		head.texOffs(58, 0).addBox(-1.0F, -9.0F, -4.0F, 2.0F, 2.0F, 1.0F, 0.0F, false);
+		head.texOffs(34, 50).addBox(-6.0F, -10.0F, -2.0F, 12.0F, 10.0F, 3.0F, 0.4F, false);
 
-		fins = new ModelRenderer(this);
-		fins.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedHead.addChild(fins);
+		fins = new ModelPart(this);
+		fins.setPos(0.0F, 0.0F, 0.0F);
+		head.addChild(fins);
 		setRotationAngle(fins, 0.7854F, 0.0F, 0.0F);
-		fins.setTextureOffset(0, 87).addBox(5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, 0.1F, false);
-		fins.setTextureOffset(0, 87).addBox(-5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, 0.1F, false);
+		fins.texOffs(0, 87).addBox(5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, 0.1F, false);
+		fins.texOffs(0, 87).addBox(-5.0F, -5.0F, 2.0F, 0.0F, 3.0F, 6.0F, 0.1F, false);
 
-		postiche = new ModelRenderer(this);
-		postiche.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedHead.addChild(postiche);
+		postiche = new ModelPart(this);
+		postiche.setPos(0.0F, 0.0F, 0.0F);
+		head.addChild(postiche);
 		setRotationAngle(postiche, 0.7854F, 0.0F, 0.0F);
-		postiche.setTextureOffset(0, 89).addBox(-1.0F, -3.0F, -7.0F, 2.0F, 0.0F, 4.0F, 0.1F, false);
+		postiche.texOffs(0, 89).addBox(-1.0F, -3.0F, -7.0F, 2.0F, 0.0F, 4.0F, 0.1F, false);
 
-		hat = new ModelRenderer(this);
-		hat.setRotationPoint(0.0F, 0.0F, 0.0F);
-		bipedHead.addChild(hat);
-		hat.setTextureOffset(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.4F, false);
+		hat = new ModelPart(this);
+		hat.setPos(0.0F, 0.0F, 0.0F);
+		head.addChild(hat);
+		hat.texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, 0.4F, false);
 
-		bipedRightLeg = new ModelRenderer(this);
-		bipedRightLeg.setRotationPoint(-1.9F, 12.0F, 0.0F);
-		bipedRightLeg.setTextureOffset(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
-		bipedRightLeg.setTextureOffset(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.4F, false);
-		bipedRightLeg.setTextureOffset(0, 67).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.3F, false);
+		rightLeg = new ModelPart(this);
+		rightLeg.setPos(-1.9F, 12.0F, 0.0F);
+		rightLeg.texOffs(0, 16).addBox(-2.1F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		rightLeg.texOffs(16, 59).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.4F, false);
+		rightLeg.texOffs(0, 67).addBox(-2.1F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.3F, false);
 
-		bipedLeftLeg = new ModelRenderer(this);
-		bipedLeftLeg.setRotationPoint(1.9F, 12.0F, 0.0F);
-		bipedLeftLeg.setTextureOffset(0, 32).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
-		bipedLeftLeg.setTextureOffset(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.4F, false);
-		bipedLeftLeg.setTextureOffset(0, 48).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.3F, false);
+		leftLeg = new ModelPart(this);
+		leftLeg.setPos(1.9F, 12.0F, 0.0F);
+		leftLeg.texOffs(0, 32).addBox(-1.9F, 0.0F, -2.0F, 4.0F, 12.0F, 4.0F, 0.0F, false);
+		leftLeg.texOffs(16, 40).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.4F, false);
+		leftLeg.texOffs(0, 48).addBox(-1.9F, -3.0F, -2.0F, 4.0F, 15.0F, 4.0F, 0.3F, false);
 
 		//Boots manually edited in code
-		rightBoot = new ModelRenderer(this);
-		rightBoot.setTextureOffset(32, 63).addBox(-4.1F + 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.2F, true);
-		rightBoot.setTextureOffset(56, 36).addBox(-3.4F + 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);
+		rightBoot = new ModelPart(this);
+		rightBoot.texOffs(32, 63).addBox(-4.1F + 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.2F, true);
+		rightBoot.texOffs(56, 36).addBox(-3.4F + 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);
 
-		leftBoot = new ModelRenderer(this);
-		leftBoot.setTextureOffset(32, 63).addBox(0.1F - 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.2F, true);
-		leftBoot.setTextureOffset(56, 36).addBox(0.4F - 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);
+		leftBoot = new ModelPart(this);
+		leftBoot.texOffs(32, 63).addBox(0.1F - 2, -6.2F + 12, -2.0F, 4.0F, 6.0F, 4.0F, 0.2F, true);
+		leftBoot.texOffs(56, 36).addBox(0.4F - 2, -2.0F + 12, -3.0F, 3.0F, 2.0F, 1.0F, 0.1F, true);
 	}
 
 	@Override
-	public void render(@Nonnull MatrixStack matrixStack, @Nonnull IVertexBuilder buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		EquipmentSlotType slot = this.getSlot();
+	public void renderToBuffer(@Nonnull PoseStack matrixStack, @Nonnull VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+		EquipmentSlot slot = this.getSlot();
 
-		this.bipedHeadwear.showModel = false; //Hide vanilla stuff
+		this.hat.visible = false; //Hide vanilla stuff
 
-		this.bipedHead.showModel = slot == EquipmentSlotType.HEAD;
-		this.bipedBody.showModel = slot == EquipmentSlotType.CHEST;
-		this.bipedLeftArm.showModel = slot == EquipmentSlotType.CHEST;
-		this.bipedRightArm.showModel = slot == EquipmentSlotType.CHEST;
-		this.bipedLeftLeg.showModel = slot == EquipmentSlotType.LEGS;
-		this.bipedRightLeg.showModel = slot == EquipmentSlotType.LEGS;
-		this.leftBoot.showModel = slot == EquipmentSlotType.FEET;
-		this.rightBoot.showModel = slot == EquipmentSlotType.FEET;
-		this.leftCape.showModel = this.hasFullSet;
-		this.rightCape.showModel = this.hasFullSet;
+		this.head.visible = slot == EquipmentSlot.HEAD;
+		this.body.visible = slot == EquipmentSlot.CHEST;
+		this.leftArm.visible = slot == EquipmentSlot.CHEST;
+		this.rightArm.visible = slot == EquipmentSlot.CHEST;
+		this.leftLeg.visible = slot == EquipmentSlot.LEGS;
+		this.rightLeg.visible = slot == EquipmentSlot.LEGS;
+		this.leftBoot.visible = slot == EquipmentSlot.FEET;
+		this.rightBoot.visible = slot == EquipmentSlot.FEET;
+		this.leftCape.visible = this.hasFullSet;
+		this.rightCape.visible = this.hasFullSet;
 
-		this.leftBoot.copyModelAngles(this.bipedLeftLeg);
-		this.rightBoot.copyModelAngles(this.bipedRightLeg);
+		this.leftBoot.copyFrom(this.leftLeg);
+		this.rightBoot.copyFrom(this.rightLeg);
 		this.rightBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 		this.leftBoot.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 
-		super.render(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+		super.renderToBuffer(matrixStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	@SubscribeEvent
 	public static void onPlayerRender(RenderPlayerEvent event) {
-		PlayerEntity player = event.getPlayer();
-		PlayerModel<AbstractClientPlayerEntity> playerModel = event.getRenderer().getEntityModel();
-		if (player.getItemStackFromSlot(EquipmentSlotType.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
-			playerModel.bipedHeadwear.showModel = false;
+		Player player = event.getPlayer();
+		PlayerModel<AbstractClientPlayer> playerModel = event.getRenderer().getModel();
+		if (player.getItemBySlot(EquipmentSlot.HEAD).getItem() == AtumItems.EYES_OF_ATEM) {
+			playerModel.hat.visible = false;
 		}
-		if (player.getItemStackFromSlot(EquipmentSlotType.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
-			playerModel.bipedBodyWear.showModel = false;
-			playerModel.bipedLeftArmwear.showModel = false;
-			playerModel.bipedRightArmwear.showModel = false;
+		if (player.getItemBySlot(EquipmentSlot.CHEST).getItem() == AtumItems.BODY_OF_ATEM) {
+			playerModel.jacket.visible = false;
+			playerModel.leftSleeve.visible = false;
+			playerModel.rightSleeve.visible = false;
 		}
-		if (player.getItemStackFromSlot(EquipmentSlotType.LEGS).getItem() == AtumItems.LEGS_OF_ATEM || player.getItemStackFromSlot(EquipmentSlotType.FEET).getItem() == AtumItems.FEET_OF_ATEM) {
-			playerModel.bipedLeftLegwear.showModel = false;
-			playerModel.bipedRightLegwear.showModel = false;
+		if (player.getItemBySlot(EquipmentSlot.LEGS).getItem() == AtumItems.LEGS_OF_ATEM || player.getItemBySlot(EquipmentSlot.FEET).getItem() == AtumItems.FEET_OF_ATEM) {
+			playerModel.leftPants.visible = false;
+			playerModel.rightPants.visible = false;
 		}
 	}
 }

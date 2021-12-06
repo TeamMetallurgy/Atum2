@@ -1,130 +1,133 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
-import net.minecraft.block.*;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.StateContainer;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CrateBlock extends ContainerBlock {
-    public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+public class CrateBlock extends BaseEntityBlock {
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public CrateBlock(Properties properties) {
-        super(properties.notSolid());
-        this.setDefaultState(this.stateContainer.getBaseState().with(FACING, Direction.NORTH));
+        super(properties.noOcclusion());
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Override
-    public TileEntity createNewTileEntity(@Nonnull IBlockReader reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
         return new CrateTileEntity();
     }
 
     @Override
     @Nonnull
-    public BlockRenderType getRenderType(@Nonnull BlockState state) {
-        return BlockRenderType.ENTITYBLOCK_ANIMATED;
+    public RenderShape getRenderShape(@Nonnull BlockState state) {
+        return RenderShape.ENTITYBLOCK_ANIMATED;
     }
 
     @Override
     @Nonnull
-    public ActionResultType onBlockActivated(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull PlayerEntity player, @Nonnull Hand hand, @Nonnull BlockRayTraceResult rayTrace) {
-        if (world.isRemote) {
-            return ActionResultType.SUCCESS;
-        } else if (!ChestBlock.isBlocked(world, pos)) {
-            TileEntity tileEntity = world.getTileEntity(pos);
+    public InteractionResult use(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player, @Nonnull InteractionHand hand, @Nonnull BlockHitResult rayTrace) {
+        if (world.isClientSide) {
+            return InteractionResult.SUCCESS;
+        } else if (!ChestBlock.isChestBlockedAt(world, pos)) {
+            BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
-                player.openContainer((CrateTileEntity) tileEntity);
-                player.addStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
+                player.openMenu((CrateTileEntity) tileEntity);
+                player.awardStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
             }
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
-        return super.onBlockActivated(state, world, pos, player, hand, rayTrace);
+        return super.use(state, world, pos, player, hand, rayTrace);
     }
 
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState().with(FACING, context.getPlacementHorizontalFacing());
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection());
     }
 
     @Override
-    public void onBlockPlacedBy(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
-        if (stack.hasDisplayName()) {
-            TileEntity tileEntity = world.getTileEntity(pos);
+    public void setPlacedBy(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull BlockState state, LivingEntity placer, @Nonnull ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            BlockEntity tileEntity = world.getBlockEntity(pos);
             if (tileEntity instanceof CrateTileEntity) {
-                ((CrateTileEntity) tileEntity).setCustomName(stack.getDisplayName());
+                ((CrateTileEntity) tileEntity).setCustomName(stack.getHoverName());
             }
         }
     }
 
     @Override
-    public void neighborChanged(@Nonnull BlockState state, @Nonnull World world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
+    public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         super.neighborChanged(state, world, pos, block, fromPos, isMoving);
-        TileEntity tileEntity = world.getTileEntity(pos);
+        BlockEntity tileEntity = world.getBlockEntity(pos);
 
         if (tileEntity instanceof CrateTileEntity) {
-            tileEntity.updateContainingBlockInfo();
+            tileEntity.clearCache();
         }
     }
 
     @Override
-    public void onReplaced(@Nonnull BlockState state, World world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+    public void onRemove(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull BlockState newState, boolean isMoving) {
+        BlockEntity tileEntity = world.getBlockEntity(pos);
 
         if (tileEntity instanceof CrateTileEntity) {
-            world.updateComparatorOutputLevel(pos, this);
+            world.updateNeighbourForOutputSignal(pos, this);
         }
-        super.onReplaced(state, world, pos, newState, isMoving);
+        super.onRemove(state, world, pos, newState, isMoving);
     }
 
     @Override
-    public void harvestBlock(@Nonnull World world, @Nonnull PlayerEntity player, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable TileEntity tileEntity, @Nonnull ItemStack stack) {
+    public void playerDestroy(@Nonnull Level world, @Nonnull Player player, @Nonnull BlockPos pos, @Nonnull BlockState state, @Nullable BlockEntity tileEntity, @Nonnull ItemStack stack) {
         if (tileEntity instanceof CrateTileEntity) {
-            InventoryHelper.dropInventoryItems(world, pos, (CrateTileEntity) tileEntity);
-            world.updateComparatorOutputLevel(pos, this);
+            Containers.dropContents(world, pos, (CrateTileEntity) tileEntity);
+            world.updateNeighbourForOutputSignal(pos, this);
         }
-        super.harvestBlock(world, player, pos, state, tileEntity, stack);
+        super.playerDestroy(world, player, pos, state, tileEntity, stack);
     }
 
     @Override
-    public boolean hasComparatorInputOverride(@Nonnull BlockState state) {
+    public boolean hasAnalogOutputSignal(@Nonnull BlockState state) {
         return true;
     }
 
     @Override
-    public int getComparatorInputOverride(@Nonnull BlockState blockState, World world, @Nonnull BlockPos pos) {
-        return Container.calcRedstoneFromInventory((CrateTileEntity) world.getTileEntity(pos));
+    public int getAnalogOutputSignal(@Nonnull BlockState blockState, Level world, @Nonnull BlockPos pos) {
+        return AbstractContainerMenu.getRedstoneSignalFromContainer((CrateTileEntity) world.getBlockEntity(pos));
     }
 
     @Override
-    public BlockState rotate(BlockState state, IWorld world, BlockPos pos, Rotation rotation) {
-        return state.with(FACING, rotation.rotate(state.get(FACING)));
+    public BlockState rotate(BlockState state, LevelAccessor world, BlockPos pos, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
     }
 
     @Override
     @Nonnull
     public BlockState mirror(@Nonnull BlockState state, Mirror mirror) {
-        return state.rotate(mirror.toRotation(state.get(FACING)));
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> container) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
         container.add(FACING);
     }
 }

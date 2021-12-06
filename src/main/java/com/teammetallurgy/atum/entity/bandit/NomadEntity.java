@@ -2,45 +2,45 @@ package com.teammetallurgy.atum.entity.bandit;
 
 import com.teammetallurgy.atum.entity.ai.goal.CustomRangedBowAttackGoal;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.ProjectileHelper;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.BowItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.monster.RangedAttackMob;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.item.BowItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
+public class NomadEntity extends BanditBaseEntity implements RangedAttackMob {
     private final CustomRangedBowAttackGoal<NomadEntity> aiArrowAttack = new CustomRangedBowAttackGoal<>(this, 0.75D, 35, 12.0F);
     private final MeleeAttackGoal aiAttackOnCollide = new MeleeAttackGoal(this, 1.0D, false) {
         @Override
-        public void resetTask() {
-            super.resetTask();
-            NomadEntity.this.setAggroed(false);
+        public void stop() {
+            super.stop();
+            NomadEntity.this.setAggressive(false);
         }
 
         @Override
-        public void startExecuting() {
-            super.startExecuting();
-            NomadEntity.this.setAggroed(true);
+        public void start() {
+            super.start();
+            NomadEntity.this.setAggressive(true);
         }
     };
 
-    public NomadEntity(EntityType<? extends NomadEntity> entityType, World world) {
+    public NomadEntity(EntityType<? extends NomadEntity> entityType, Level world) {
         super(entityType, world);
-        this.experienceValue = 6;
+        this.xpReward = 6;
         this.setCombatTask();
     }
 
@@ -49,32 +49,32 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
         return 6;
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return getBaseAttributes().createMutableAttribute(Attributes.MAX_HEALTH, 13.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.20D).createMutableAttribute(Attributes.ATTACK_DAMAGE, 2.0D).createMutableAttribute(Attributes.ARMOR, 2.0F);
+    public static AttributeSupplier.Builder createAttributes() {
+        return getBaseAttributes().add(Attributes.MAX_HEALTH, 13.0D).add(Attributes.MOVEMENT_SPEED, 0.20D).add(Attributes.ATTACK_DAMAGE, 2.0D).add(Attributes.ARMOR, 2.0F);
     }
 
     @Override
-    protected void setEquipmentBasedOnDifficulty(@Nonnull DifficultyInstance difficulty) {
-        this.setItemStackToSlot(EquipmentSlotType.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
+    protected void populateDefaultEquipmentSlots(@Nonnull DifficultyInstance difficulty) {
+        this.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(AtumItems.SHORT_BOW));
     }
 
     @Override
     @Nullable
-    public ILivingEntityData onInitialSpawn(@Nonnull IServerWorld world, @Nonnull DifficultyInstance difficulty, @Nonnull SpawnReason spawnReason, @Nullable ILivingEntityData livingdata, @Nullable CompoundNBT nbt) {
-        livingdata = super.onInitialSpawn(world, difficulty, spawnReason, livingdata, nbt);
+    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType spawnReason, @Nullable SpawnGroupData livingdata, @Nullable CompoundTag nbt) {
+        livingdata = super.finalizeSpawn(world, difficulty, spawnReason, livingdata, nbt);
         this.setCombatTask();
 
         return livingdata;
     }
 
     private void setCombatTask() {
-        if (this.world != null && !this.world.isRemote) {
+        if (this.level != null && !this.level.isClientSide) {
             this.goalSelector.removeGoal(this.aiAttackOnCollide);
             this.goalSelector.removeGoal(this.aiArrowAttack);
-            ItemStack heldBow = this.getHeldItem(ProjectileHelper.getHandWith(this, AtumItems.SHORT_BOW));
+            ItemStack heldBow = this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW));
             if (heldBow.getItem() instanceof BowItem) {
                 int cooldown = 20;
-                if (this.world.getDifficulty() != Difficulty.HARD) {
+                if (this.level.getDifficulty() != Difficulty.HARD) {
                     cooldown = 35;
                 }
                 this.aiArrowAttack.setAttackCooldown(cooldown);
@@ -86,31 +86,31 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     }
 
     @Override
-    public void attackEntityWithRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
-        ItemStack ammo = this.findAmmo(this.getHeldItem(ProjectileHelper.getHandWith(this, AtumItems.SHORT_BOW)));
-        AbstractArrowEntity arrow = ProjectileHelper.fireArrow(this, ammo, distanceFactor);
-        if (this.getHeldItemMainhand().getItem() instanceof BowItem) {
-            arrow = ((BowItem) this.getHeldItemMainhand().getItem()).customArrow(arrow);
+    public void performRangedAttack(@Nonnull LivingEntity target, float distanceFactor) {
+        ItemStack ammo = this.getProjectile(this.getItemInHand(ProjectileUtil.getWeaponHoldingHand(this, AtumItems.SHORT_BOW)));
+        AbstractArrow arrow = ProjectileUtil.getMobArrow(this, ammo, distanceFactor);
+        if (this.getMainHandItem().getItem() instanceof BowItem) {
+            arrow = ((BowItem) this.getMainHandItem().getItem()).customArrow(arrow);
         }
-        double x = target.getPosX() - this.getPosX();
-        double y = target.getPosYHeight(0.3333333333333333D) - arrow.getPosY();
-        double z = target.getPosZ() - this.getPosZ();
-        double height = MathHelper.sqrt(x * x + z * z);
-        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (12 - this.world.getDifficulty().getId() * 4));
-        this.playSound(SoundEvents.ENTITY_ARROW_SHOOT, 1.0F, 1.0F / (this.getRNG().nextFloat() * 0.4F + 0.8F));
-        this.world.addEntity(arrow);
+        double x = target.getX() - this.getX();
+        double y = target.getY(0.3333333333333333D) - arrow.getY();
+        double z = target.getZ() - this.getZ();
+        double height = Mth.sqrt(x * x + z * z);
+        arrow.shoot(x, y + height * 0.2D, z, 1.6F, (float) (12 - this.level.getDifficulty().getId() * 4));
+        this.playSound(SoundEvents.ARROW_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
+        this.level.addFreshEntity(arrow);
     }
 
     @Override
-    public void readAdditional(@Nonnull CompoundNBT compound) {
-        super.readAdditional(compound);
+    public void readAdditionalSaveData(@Nonnull CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         this.setCombatTask();
     }
 
     @Override
-    public void setItemStackToSlot(@Nonnull EquipmentSlotType slot, @Nonnull ItemStack stack) {
-        super.setItemStackToSlot(slot, stack);
-        if (!this.world.isRemote) {
+    public void setItemSlot(@Nonnull EquipmentSlot slot, @Nonnull ItemStack stack) {
+        super.setItemSlot(slot, stack);
+        if (!this.level.isClientSide) {
             this.setCombatTask();
         }
     }
@@ -121,7 +121,7 @@ public class NomadEntity extends BanditBaseEntity implements IRangedAttackMob {
     }
 
     @Override
-    public double getYOffset() {
+    public double getMyRidingOffset() {
         return -0.35D;
     }
 }

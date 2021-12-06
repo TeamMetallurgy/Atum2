@@ -2,12 +2,12 @@ package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
-import net.minecraft.world.gen.trunkplacer.AbstractTrunkPlacer;
-import net.minecraft.world.gen.trunkplacer.TrunkPlacerType;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacer;
+import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -29,9 +29,9 @@ public class TreePlacerTypes {
         return foliagePlacerType;
     }
 
-    private static <P extends AbstractTrunkPlacer> TrunkPlacerType<P> registerTrunkPlaceType(String name, Codec<P> codec) {
+    private static <P extends TrunkPlacer> TrunkPlacerType<P> registerTrunkPlaceType(String name, Codec<P> codec) {
         ResourceLocation id = new ResourceLocation(Atum.MOD_ID, name);
-        return Registry.register(Registry.TRUNK_REPLACER, id, new TrunkPlacerType<>(codec)); //Registering to vanilla registry, as Forge have not added it to the RegistryEvent - when this is coded
+        return Registry.register(Registry.TRUNK_PLACER_TYPES, id, new TrunkPlacerType<>(codec)); //Registering to vanilla registry, as Forge have not added it to the RegistryEvent - when this is coded
     }
 
     @SubscribeEvent

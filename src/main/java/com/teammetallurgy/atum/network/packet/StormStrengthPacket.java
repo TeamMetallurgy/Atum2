@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.network.packet;
 
 import com.teammetallurgy.atum.world.SandstormHandler;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraftforge.network.NetworkEvent;
 
 import java.util.function.Supplier;
 
@@ -13,11 +13,11 @@ public class StormStrengthPacket {
 		this.stormStrength = stormStrength;
 	}
 
-	public static void encode(StormStrengthPacket packet, PacketBuffer buf) {
+	public static void encode(StormStrengthPacket packet, FriendlyByteBuf buf) {
 		buf.writeFloat(packet.stormStrength);
 	}
 
-	public static StormStrengthPacket decode(PacketBuffer buf) {
+	public static StormStrengthPacket decode(FriendlyByteBuf buf) {
 		return new StormStrengthPacket(buf.readFloat());
 	}
 

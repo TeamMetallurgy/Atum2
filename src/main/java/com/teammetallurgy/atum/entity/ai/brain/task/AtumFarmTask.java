@@ -7,31 +7,31 @@ import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerProfession;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumItems;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropsBlock;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleStatus;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
-import net.minecraft.entity.ai.brain.memory.WalkTarget;
-import net.minecraft.entity.ai.brain.task.Task;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockPosWrapper;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BlockPosTracker;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class AtumFarmTask extends Task<VillagerEntity> {
+public class AtumFarmTask extends Behavior<Villager> {
     @Nullable
     private BlockPos pos;
     private long taskCooldown;
@@ -39,23 +39,23 @@ public class AtumFarmTask extends Task<VillagerEntity> {
     private final List<BlockPos> farmableBlocks = Lists.newArrayList();
 
     public AtumFarmTask() {
-        super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryModuleStatus.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryModuleStatus.VALUE_ABSENT, MemoryModuleType.SECONDARY_JOB_SITE, MemoryModuleStatus.VALUE_PRESENT));
+        super(ImmutableMap.of(MemoryModuleType.LOOK_TARGET, MemoryStatus.VALUE_ABSENT, MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT, MemoryModuleType.SECONDARY_JOB_SITE, MemoryStatus.VALUE_PRESENT));
     }
 
     @Override
-    protected boolean shouldExecute(@Nonnull ServerWorld world, @Nonnull VillagerEntity owner) {
+    protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull Villager owner) {
         if (!ForgeEventFactory.getMobGriefingEvent(world, owner) && !(owner instanceof AtumVillagerEntity)) {
             return false;
         } else if (((AtumVillagerEntity) owner).getAtumVillagerData().getAtumProfession() != AtumVillagerProfession.FARMER.get()) {
             return false;
         } else {
-            BlockPos.Mutable mutablePos = owner.getPosition().toMutable();
+            BlockPos.MutableBlockPos mutablePos = owner.blockPosition().mutable();
             this.farmableBlocks.clear();
 
             for (int i = -1; i <= 1; ++i) {
                 for (int j = -1; j <= 1; ++j) {
                     for (int k = -1; k <= 1; ++k) {
-                        mutablePos.setPos(owner.getPosX() + (double) i, owner.getPosY() + (double) j, owner.getPosZ() + (double) k);
+                        mutablePos.set(owner.getX() + (double) i, owner.getY() + (double) j, owner.getZ() + (double) k);
                         if (this.isValidPosForFarming(mutablePos, world)) {
                             this.farmableBlocks.add(new BlockPos(mutablePos));
                         }
@@ -68,92 +68,92 @@ public class AtumFarmTask extends Task<VillagerEntity> {
     }
 
     @Nullable
-    private BlockPos getNextPosForFarming(ServerWorld serverworld) {
+    private BlockPos getNextPosForFarming(ServerLevel serverworld) {
         return this.farmableBlocks.isEmpty() ? null : this.farmableBlocks.get(serverworld.getRandom().nextInt(this.farmableBlocks.size()));
     }
 
-    private boolean isValidPosForFarming(BlockPos pos, ServerWorld serverworld) {
+    private boolean isValidPosForFarming(BlockPos pos, ServerLevel serverworld) {
         BlockState blockstate = serverworld.getBlockState(pos);
         Block block = blockstate.getBlock();
-        Block block1 = serverworld.getBlockState(pos.down()).getBlock();
-        return block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(blockstate) || blockstate.isAir() && block1 instanceof FertileSoilTilledBlock;
+        Block block1 = serverworld.getBlockState(pos.below()).getBlock();
+        return block instanceof CropBlock && ((CropBlock) block).isMaxAge(blockstate) || blockstate.isAir() && block1 instanceof FertileSoilTilledBlock;
     }
 
     @Override
-    protected void startExecuting(@Nonnull ServerWorld world, @Nonnull VillagerEntity entity, long gameTime) {
+    protected void start(@Nonnull ServerLevel world, @Nonnull Villager entity, long gameTime) {
         if (gameTime > this.taskCooldown && this.pos != null) {
-            entity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosWrapper(this.pos));
-            entity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosWrapper(this.pos), 0.5F, 1));
+            entity.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(this.pos));
+            entity.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosTracker(this.pos), 0.5F, 1));
         }
     }
 
     @Override
-    protected void resetTask(@Nonnull ServerWorld world, VillagerEntity entity, long gameTime) {
-        entity.getBrain().removeMemory(MemoryModuleType.LOOK_TARGET);
-        entity.getBrain().removeMemory(MemoryModuleType.WALK_TARGET);
+    protected void stop(@Nonnull ServerLevel world, Villager entity, long gameTime) {
+        entity.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
+        entity.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
         this.idleTime = 0;
         this.taskCooldown = gameTime + 40L;
     }
 
     @Override
-    protected void updateTask(@Nonnull ServerWorld world, @Nonnull VillagerEntity owner, long gameTime) {
-        if (this.pos == null || this.pos.withinDistance(owner.getPositionVec(), 1.0D)) {
+    protected void tick(@Nonnull ServerLevel world, @Nonnull Villager owner, long gameTime) {
+        if (this.pos == null || this.pos.closerThan(owner.position(), 1.0D)) {
             if (this.pos != null && gameTime > this.taskCooldown) {
                 BlockState blockstate = world.getBlockState(this.pos);
                 Block block = blockstate.getBlock();
-                Block block1 = world.getBlockState(this.pos.down()).getBlock();
-                if (block instanceof CropsBlock && ((CropsBlock) block).isMaxAge(blockstate)) {
+                Block block1 = world.getBlockState(this.pos.below()).getBlock();
+                if (block instanceof CropBlock && ((CropBlock) block).isMaxAge(blockstate)) {
                     world.destroyBlock(this.pos, true, owner);
                 }
 
-                if (blockstate.isAir() && block1 instanceof FertileSoilTilledBlock && owner.isFarmItemInInventory()) {
-                    Inventory inventory = owner.getVillagerInventory();
+                if (blockstate.isAir() && block1 instanceof FertileSoilTilledBlock && owner.hasFarmSeeds()) {
+                    SimpleContainer inventory = owner.getInventory();
 
-                    for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-                        ItemStack itemstack = inventory.getStackInSlot(i);
+                    for (int i = 0; i < inventory.getContainerSize(); ++i) {
+                        ItemStack itemstack = inventory.getItem(i);
                         boolean flag = false;
                         if (!itemstack.isEmpty()) {
                             if (itemstack.getItem() == AtumItems.EMMER_SEEDS) {
-                                world.setBlockState(this.pos, AtumBlocks.EMMER_WHEAT.getDefaultState(), 3);
+                                world.setBlock(this.pos, AtumBlocks.EMMER_WHEAT.defaultBlockState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() == AtumItems.FLAX_SEEDS) {
-                                world.setBlockState(this.pos, AtumBlocks.FLAX.getDefaultState(), 3);
+                                world.setBlock(this.pos, AtumBlocks.FLAX.defaultBlockState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() == Items.POTATO) {
-                                world.setBlockState(this.pos, Blocks.POTATOES.getDefaultState(), 3);
+                                world.setBlock(this.pos, Blocks.POTATOES.defaultBlockState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() == Items.CARROT) {
-                                world.setBlockState(this.pos, Blocks.CARROTS.getDefaultState(), 3);
+                                world.setBlock(this.pos, Blocks.CARROTS.defaultBlockState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() == Items.BEETROOT_SEEDS) {
-                                world.setBlockState(this.pos, Blocks.BEETROOTS.getDefaultState(), 3);
+                                world.setBlock(this.pos, Blocks.BEETROOTS.defaultBlockState(), 3);
                                 flag = true;
                             } else if (itemstack.getItem() instanceof net.minecraftforge.common.IPlantable) {
                                 if (((net.minecraftforge.common.IPlantable) itemstack.getItem()).getPlantType(world, pos) == net.minecraftforge.common.PlantType.CROP) {
-                                    world.setBlockState(pos, ((net.minecraftforge.common.IPlantable) itemstack.getItem()).getPlant(world, pos), 3);
+                                    world.setBlock(pos, ((net.minecraftforge.common.IPlantable) itemstack.getItem()).getPlant(world, pos), 3);
                                     flag = true;
                                 }
                             }
                         }
 
                         if (flag) {
-                            world.playSound((PlayerEntity) null, (double) this.pos.getX(), (double) this.pos.getY(), (double) this.pos.getZ(), SoundEvents.ITEM_CROP_PLANT, SoundCategory.BLOCKS, 1.0F, 1.0F);
+                            world.playSound((Player) null, (double) this.pos.getX(), (double) this.pos.getY(), (double) this.pos.getZ(), SoundEvents.CROP_PLANTED, SoundSource.BLOCKS, 1.0F, 1.0F);
                             itemstack.shrink(1);
                             if (itemstack.isEmpty()) {
-                                inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                                inventory.setItem(i, ItemStack.EMPTY);
                             }
                             break;
                         }
                     }
                 }
 
-                if (block instanceof CropsBlock && !((CropsBlock) block).isMaxAge(blockstate)) {
+                if (block instanceof CropBlock && !((CropBlock) block).isMaxAge(blockstate)) {
                     this.farmableBlocks.remove(this.pos);
                     this.pos = this.getNextPosForFarming(world);
                     if (this.pos != null) {
                         this.taskCooldown = gameTime + 20L;
-                        owner.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosWrapper(this.pos), 0.5F, 1));
-                        owner.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosWrapper(this.pos));
+                        owner.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(new BlockPosTracker(this.pos), 0.5F, 1));
+                        owner.getBrain().setMemory(MemoryModuleType.LOOK_TARGET, new BlockPosTracker(this.pos));
                     }
                 }
             }
@@ -163,7 +163,7 @@ public class AtumFarmTask extends Task<VillagerEntity> {
     }
 
     @Override
-    protected boolean shouldContinueExecuting(@Nonnull ServerWorld world, @Nonnull VillagerEntity entity, long gameTimeIn) {
+    protected boolean canStillUse(@Nonnull ServerLevel world, @Nonnull Villager entity, long gameTimeIn) {
         return this.idleTime < 200;
     }
 }

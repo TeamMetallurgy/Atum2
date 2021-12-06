@@ -2,43 +2,43 @@ package com.teammetallurgy.atum.misc.recipe;
 
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
-import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.FilledMapItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.item.crafting.ShapedRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraft.world.storage.MapData;
-import net.minecraft.world.storage.MapDecoration;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.MapItem;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.ShapedRecipe;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.saveddata.maps.MapDecoration;
+import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
 import javax.annotation.Nonnull;
 
 public class MapExtendingScrollRecipe extends ShapedRecipe {
 
     public MapExtendingScrollRecipe(ResourceLocation location) {
-        super(location, "", 3, 3, NonNullList.from(Ingredient.EMPTY, Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(Items.FILLED_MAP), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL), Ingredient.fromItems(AtumItems.SCROLL)), new ItemStack(Items.MAP));
+        super(location, "", 3, 3, NonNullList.of(Ingredient.EMPTY, Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(Items.FILLED_MAP), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL), Ingredient.of(AtumItems.SCROLL)), new ItemStack(Items.MAP));
     }
 
     @Override
     @Nonnull
-    public IRecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<?> getSerializer() {
         return AtumRecipeSerializers.MAP_EXTENDING_SCROLL;
     }
 
     @Override
-    public boolean matches(@Nonnull CraftingInventory inv, @Nonnull World world) {
+    public boolean matches(@Nonnull CraftingContainer inv, @Nonnull Level world) {
         if (!super.matches(inv, world)) {
             return false;
         } else {
             ItemStack stack = ItemStack.EMPTY;
 
-            for (int i = 0; i < inv.getSizeInventory() && stack.isEmpty(); ++i) {
-                ItemStack slotStack = inv.getStackInSlot(i);
+            for (int i = 0; i < inv.getContainerSize() && stack.isEmpty(); ++i) {
+                ItemStack slotStack = inv.getItem(i);
 
                 if (slotStack.getItem() == Items.FILLED_MAP) {
                     stack = slotStack;
@@ -47,7 +47,7 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
             if (stack.isEmpty()) {
                 return false;
             } else {
-                MapData mapdata = FilledMapItem.getMapData(stack, world);
+                MapItemSavedData mapdata = MapItem.getOrCreateSavedData(stack, world);
 
                 if (mapdata == null) {
                     return false;
@@ -60,9 +60,9 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
         }
     }
 
-    private boolean isExplorationMap(MapData mapData) {
-        if (mapData.mapDecorations != null) {
-            for (MapDecoration decoration : mapData.mapDecorations.values()) {
+    private boolean isExplorationMap(MapItemSavedData mapData) {
+        if (mapData.decorations != null) {
+            for (MapDecoration decoration : mapData.decorations.values()) {
                 if (decoration.getType() == MapDecoration.Type.MANSION || decoration.getType() == MapDecoration.Type.MONUMENT) {
                     return true;
                 }
@@ -73,11 +73,11 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
 
     @Override
     @Nonnull
-    public ItemStack getCraftingResult(CraftingInventory inv) {
+    public ItemStack assemble(CraftingContainer inv) {
         ItemStack stack = ItemStack.EMPTY;
 
-        for (int i = 0; i < inv.getSizeInventory() && stack.isEmpty(); ++i) {
-            ItemStack slotStack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize() && stack.isEmpty(); ++i) {
+            ItemStack slotStack = inv.getItem(i);
             if (slotStack.getItem() == Items.FILLED_MAP) {
                 stack = slotStack;
             }
@@ -86,14 +86,14 @@ public class MapExtendingScrollRecipe extends ShapedRecipe {
         stack.setCount(1);
 
         if (stack.getTag() == null) {
-            stack.setTag(new CompoundNBT());
+            stack.setTag(new CompoundTag());
         }
         stack.getTag().putInt("map_scale_direction", 1);
         return stack;
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 }

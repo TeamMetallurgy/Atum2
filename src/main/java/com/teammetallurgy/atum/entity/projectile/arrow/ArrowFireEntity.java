@@ -3,61 +3,61 @@ package com.teammetallurgy.atum.entity.projectile.arrow;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.FMLPlayMessages;
+import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraftforge.network.PlayMessages;
 
 import javax.annotation.Nonnull;
 
 public class ArrowFireEntity extends CustomArrow {
 
-    public ArrowFireEntity(FMLPlayMessages.SpawnEntity spawnEntity, World world) {
+    public ArrowFireEntity(PlayMessages.SpawnEntity spawnEntity, Level world) {
         this(AtumEntities.FIRE_ARROW, world);
     }
 
-    public ArrowFireEntity(EntityType<? extends ArrowFireEntity> entityType, World world) {
+    public ArrowFireEntity(EntityType<? extends ArrowFireEntity> entityType, Level world) {
         super(entityType, world);
     }
 
-    public ArrowFireEntity(World world, LivingEntity shooter) {
+    public ArrowFireEntity(Level world, LivingEntity shooter) {
         super(AtumEntities.FIRE_ARROW, world, shooter);
     }
 
     @Override
-    protected void onEntityHit(@Nonnull EntityRayTraceResult rayTraceResult) {
-        super.onEntityHit(rayTraceResult);
+    protected void onHitEntity(@Nonnull EntityHitResult rayTraceResult) {
+        super.onHitEntity(rayTraceResult);
         Entity hitEnity = rayTraceResult.getEntity();
         if (hitEnity instanceof LivingEntity) {
-            if (!hitEnity.isImmuneToFire()) {
-                if (hitEnity.getFireTimer() > 0) {
-                    this.setDamage(this.getDamage() * 1.5D);
-                    this.playSound(SoundEvents.ITEM_FIRECHARGE_USE, 1.0F, 1.0F);
+            if (!hitEnity.fireImmune()) {
+                if (hitEnity.getRemainingFireTicks() > 0) {
+                    this.setBaseDamage(this.getBaseDamage() * 1.5D);
+                    this.playSound(SoundEvents.FIRECHARGE_USE, 1.0F, 1.0F);
                 }
-                hitEnity.setFire(5);
+                hitEnity.setSecondsOnFire(5);
             }
         }
     }
 
     @Override
-    protected void func_230299_a_(@Nonnull BlockRayTraceResult rayTraceResult) {
-        super.func_230299_a_(rayTraceResult);
-        Entity shooter = this.func_234616_v_();
-        if (shooter instanceof PlayerEntity) {
-            BlockPos pos = rayTraceResult.getPos().offset(rayTraceResult.getFace());
-            PlayerEntity player = (PlayerEntity) shooter;
-            if (player.canPlayerEdit(pos, rayTraceResult.getFace(), player.getHeldItem(player.getActiveHand())) && this.world.getBlockState(pos).getMaterial() == Material.AIR) {
-                this.world.setBlockState(pos, Blocks.FIRE.getDefaultState());
+    protected void onHitBlock(@Nonnull BlockHitResult rayTraceResult) {
+        super.onHitBlock(rayTraceResult);
+        Entity shooter = this.getOwner();
+        if (shooter instanceof Player) {
+            BlockPos pos = rayTraceResult.getBlockPos().relative(rayTraceResult.getDirection());
+            Player player = (Player) shooter;
+            if (player.mayUseItemAt(pos, rayTraceResult.getDirection(), player.getItemInHand(player.getUsedItemHand())) && this.level.getBlockState(pos).getMaterial() == Material.AIR) {
+                this.level.setBlockAndUpdate(pos, Blocks.FIRE.defaultBlockState());
             }
         }
     }
@@ -66,10 +66,10 @@ public class ArrowFireEntity extends CustomArrow {
     public void tick() {
         super.tick();
 
-        if (this.getIsCritical()) {
-            if (this.world instanceof ServerWorld) {
-                ServerWorld serverWorld = (ServerWorld) this.world;
-                serverWorld.spawnParticle(AtumParticles.RA_FIRE, this.getPosX() + (this.world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), this.getPosY() + this.world.rand.nextDouble() * (double) this.getHeight(), this.getPosZ() + (this.world.rand.nextDouble() - 0.5D) * (double) this.getWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
+        if (this.isCritArrow()) {
+            if (this.level instanceof ServerLevel) {
+                ServerLevel serverWorld = (ServerLevel) this.level;
+                serverWorld.sendParticles(AtumParticles.RA_FIRE, this.getX() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), this.getY() + this.level.random.nextDouble() * (double) this.getBbHeight(), this.getZ() + (this.level.random.nextDouble() - 0.5D) * (double) this.getBbWidth(), 2, 0.0D, 0.0D, 0.0D, 0.01D);
             }
         }
     }

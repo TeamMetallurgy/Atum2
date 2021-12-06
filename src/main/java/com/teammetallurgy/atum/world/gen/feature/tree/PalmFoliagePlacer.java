@@ -4,16 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.teammetallurgy.atum.blocks.vegetation.DateBlock;
 import com.teammetallurgy.atum.init.AtumBlocks;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.gen.IWorldGenerationReader;
-import net.minecraft.world.gen.feature.BaseTreeFeatureConfig;
-import net.minecraft.world.gen.feature.FeatureSpread;
-import net.minecraft.world.gen.feature.TreeFeature;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacer;
-import net.minecraft.world.gen.foliageplacer.FoliagePlacerType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.util.Mth;
+import net.minecraft.util.UniformInt;
+import net.minecraft.world.level.LevelSimulatedRW;
+import net.minecraft.world.level.levelgen.feature.TreeFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
+import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -25,61 +25,61 @@ public class PalmFoliagePlacer extends FoliagePlacer {
     private final float dateChance;
 
     public PalmFoliagePlacer(float dateChance) {
-        super(FeatureSpread.func_242252_a(0), FeatureSpread.func_242252_a(0));
+        super(UniformInt.fixed(0), UniformInt.fixed(0));
         this.dateChance = dateChance;
     }
 
     @Override
     @Nonnull
-    protected FoliagePlacerType<?> func_230371_a_() {
+    protected FoliagePlacerType<?> type() {
         return TreePlacerTypes.PALM_FOLIAGE;
     }
 
     @Override
-    protected void func_230372_a_(@Nonnull IWorldGenerationReader genReader, @Nonnull Random rand, @Nonnull BaseTreeFeatureConfig config, int i, @Nonnull Foliage foliage, int i1, int i2, @Nonnull Set<BlockPos> positions, int i4, @Nonnull MutableBoundingBox box) {
-        BlockPos leafPos = foliage.func_236763_a_();
-        this.generateLeaf(genReader, leafPos.up(), rand, config);
-        for (BlockPos baseLeafPos : BlockPos.Mutable.getAllInBoxMutable(leafPos.add(-1, 0, -1), leafPos.add(1, 0, 1))) {
+    protected void createFoliage(@Nonnull LevelSimulatedRW genReader, @Nonnull Random rand, @Nonnull TreeConfiguration config, int i, @Nonnull FoliageAttachment foliage, int i1, int i2, @Nonnull Set<BlockPos> positions, int i4, @Nonnull BoundingBox box) {
+        BlockPos leafPos = foliage.foliagePos();
+        this.generateLeaf(genReader, leafPos.above(), rand, config);
+        for (BlockPos baseLeafPos : BlockPos.MutableBlockPos.betweenClosed(leafPos.offset(-1, 0, -1), leafPos.offset(1, 0, 1))) {
             this.generateLeaf(genReader, baseLeafPos, rand, config);
         }
-        this.generateLeaf(genReader, leafPos.add(2, 0, 0), rand, config);
-        this.generateLeaf(genReader, leafPos.add(-2, 0, 0), rand, config);
-        this.generateLeaf(genReader, leafPos.add(0, 0, 2), rand, config);
-        this.generateLeaf(genReader, leafPos.add(0, 0, -2), rand, config);
-        this.generateLeaf(genReader, leafPos.add(0, -1, -2), rand, config);
-        this.generateLeaf(genReader, leafPos.add(0, -1, 2), rand, config);
-        this.generateLeaf(genReader, leafPos.add(2, -1, 0), rand, config);
-        this.generateLeaf(genReader, leafPos.add(-2, -1, 0), rand, config);
-        this.generateLeaf(genReader, leafPos.add(0, -1, -3), rand, config);
-        this.generateLeaf(genReader, leafPos.add(0, -1, 3), rand, config);
-        this.generateLeaf(genReader, leafPos.add(3, -1, 0), rand, config);
-        this.generateLeaf(genReader, leafPos.add(-3, -1, 0), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(2, 0, 0), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(-2, 0, 0), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(0, 0, 2), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(0, 0, -2), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(0, -1, -2), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(0, -1, 2), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(2, -1, 0), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(-2, -1, 0), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(0, -1, -3), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(0, -1, 3), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(3, -1, 0), rand, config);
+        this.generateLeaf(genReader, leafPos.offset(-3, -1, 0), rand, config);
 
         if (this.dateChance > 0.0F) {
-            BlockPos datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(rand));
+            BlockPos datePos = leafPos.below().relative(Direction.Plane.HORIZONTAL.getRandomDirection(rand));
             if (rand.nextDouble() <= this.dateChance) {
-                genReader.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(DateBlock.AGE, MathHelper.nextInt(rand, 0, 7)), 2);
+                genReader.setBlock(datePos, AtumBlocks.DATE_BLOCK.defaultBlockState().setValue(DateBlock.AGE, Mth.nextInt(rand, 0, 7)), 2);
                 if (rand.nextDouble() <= 0.25F) { //Chance for 2nd date
-                    datePos = leafPos.down().offset(Direction.Plane.HORIZONTAL.random(rand));
-                    genReader.setBlockState(datePos, AtumBlocks.DATE_BLOCK.getDefaultState().with(DateBlock.AGE, MathHelper.nextInt(rand, 0, 7)), 2);
+                    datePos = leafPos.below().relative(Direction.Plane.HORIZONTAL.getRandomDirection(rand));
+                    genReader.setBlock(datePos, AtumBlocks.DATE_BLOCK.defaultBlockState().setValue(DateBlock.AGE, Mth.nextInt(rand, 0, 7)), 2);
                 }
             }
         }
     }
 
     @Override
-    public int func_230374_a_(@Nonnull Random rand, int i, @Nonnull BaseTreeFeatureConfig config) {
+    public int foliageHeight(@Nonnull Random rand, int i, @Nonnull TreeConfiguration config) {
         return 0;
     }
 
     @Override
-    protected boolean func_230373_a_(@Nonnull Random rand, int i1, int i2, int i3, int i4, boolean b) {
+    protected boolean shouldSkipLocation(@Nonnull Random rand, int i1, int i2, int i3, int i4, boolean b) {
         return true;
     }
 
-    private void generateLeaf(IWorldGenerationReader seedReader, BlockPos pos, Random rand, BaseTreeFeatureConfig config) {
-        if (TreeFeature.isAirOrLeavesAt(seedReader, pos)) {
-            seedReader.setBlockState(pos, config.leavesProvider.getBlockState(rand, pos), 19);
+    private void generateLeaf(LevelSimulatedRW seedReader, BlockPos pos, Random rand, TreeConfiguration config) {
+        if (TreeFeature.isAirOrLeaves(seedReader, pos)) {
+            seedReader.setBlock(pos, config.leavesProvider.getState(rand, pos), 19);
         }
     }
 }

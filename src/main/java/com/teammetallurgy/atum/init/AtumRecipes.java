@@ -1,24 +1,23 @@
 package com.teammetallurgy.atum.init;
 
-import com.teammetallurgy.atum.Atum;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.potion.Potions;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potions;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.addBrewingRecipeWithSubPotions;
 import static com.teammetallurgy.atum.misc.recipe.RecipeHelper.addRecipe;
-import static net.minecraft.potion.PotionUtils.addPotionToItemStack;
+import static net.minecraft.world.item.alchemy.PotionUtils.setPotion;
 
-@Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AtumRecipes {
 
     @SubscribeEvent
-    public static void registerRecipes(RegistryEvent.Register<IRecipeSerializer<?>> event) {
+    public static void registerRecipes(RegistryEvent.Register<RecipeSerializer<?>> event) {
         AtumRecipes.addBrewingRecipes();
     }
 
@@ -33,18 +32,18 @@ public class AtumRecipes {
         addBrewingRecipeWithSubPotions(new ItemStack(AtumItems.OPHIDIAN_TONGUE_FLOWER), Potions.POISON);
 
         //Anput's Fingers
-        Ingredient anputsFingers = Ingredient.fromItems(AtumItems.ANPUTS_FINGERS_SPORES);
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.WATER), anputsFingers, addPotionToItemStack(new ItemStack(Items.POTION), Potions.AWKWARD));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.WATER), anputsFingers, addPotionToItemStack(new ItemStack(Items.SPLASH_POTION), Potions.AWKWARD));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), Potions.WATER), anputsFingers, addPotionToItemStack(new ItemStack(Items.LINGERING_POTION), Potions.AWKWARD));
+        Ingredient anputsFingers = Ingredient.of(AtumItems.ANPUTS_FINGERS_SPORES);
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.WATER), anputsFingers, setPotion(new ItemStack(Items.POTION), Potions.AWKWARD));
+        addRecipe(setPotion(new ItemStack(Items.SPLASH_POTION), Potions.WATER), anputsFingers, setPotion(new ItemStack(Items.SPLASH_POTION), Potions.AWKWARD));
+        addRecipe(setPotion(new ItemStack(Items.LINGERING_POTION), Potions.WATER), anputsFingers, setPotion(new ItemStack(Items.LINGERING_POTION), Potions.AWKWARD));
 
         //Fertile Soil modifier (Glowstone)
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.LEAPING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_LEAPING));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.SWIFTNESS), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_SWIFTNESS));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.HEALING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_HEALING));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.HARMING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_HARMING));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.POISON), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_POISON));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.REGENERATION), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_REGENERATION));
-        addRecipe(addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRENGTH), new ItemStack(AtumItems.FERTILE_SOIL_PILE), addPotionToItemStack(new ItemStack(Items.POTION), Potions.STRONG_STRENGTH));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.LEAPING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_LEAPING));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.SWIFTNESS), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_SWIFTNESS));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.HEALING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_HEALING));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.HARMING), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_HARMING));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.POISON), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_POISON));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.REGENERATION), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_REGENERATION));
+        addRecipe(setPotion(new ItemStack(Items.POTION), Potions.STRENGTH), new ItemStack(AtumItems.FERTILE_SOIL_PILE), setPotion(new ItemStack(Items.POTION), Potions.STRONG_STRENGTH));
     }
 }

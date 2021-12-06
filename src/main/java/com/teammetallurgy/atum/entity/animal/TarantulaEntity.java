@@ -3,137 +3,139 @@ package com.teammetallurgy.atum.entity.animal;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.pathfinding.ClimberPathNavigator;
-import net.minecraft.pathfinding.PathNavigator;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.Difficulty;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
+import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TarantulaEntity extends MonsterEntity {
-    private static final DataParameter<Byte> CLIMBING = EntityDataManager.createKey(TarantulaEntity.class, DataSerializers.BYTE);
+public class TarantulaEntity extends Monster {
+    private static final EntityDataAccessor<Byte> CLIMBING = SynchedEntityData.defineId(TarantulaEntity.class, EntityDataSerializers.BYTE);
 
-    public TarantulaEntity(EntityType<? extends MonsterEntity> entityType, World world) {
+    public TarantulaEntity(EntityType<? extends Monster> entityType, Level world) {
         super(entityType, world);
-        this.experienceValue = 5;
+        this.xpReward = 5;
     }
 
     @Override
     protected void registerGoals() {
-        this.goalSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(3, new LeapAtTargetGoal(this, 0.4F));
         this.goalSelector.addGoal(4, new AITarantulaAttack(this));
-        this.goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 0.8D));
-        this.goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(6, new LookRandomlyGoal(this));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.8D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         this.targetSelector.addGoal(1, new HurtByTargetGoal(this, TarantulaEntity.class));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
         this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, UndeadBaseEntity.class, true));
     }
 
-    public static AttributeModifierMap.MutableAttribute getAttributes() {
-        return MobEntity.func_233666_p_().createMutableAttribute(Attributes.MAX_HEALTH, 15.0D).createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.4D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 4.0D).createMutableAttribute(Attributes.FOLLOW_RANGE, 36.0D);
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 15.0D).add(Attributes.MOVEMENT_SPEED, 0.4D)
+                .add(Attributes.ATTACK_DAMAGE, 4.0D).add(Attributes.FOLLOW_RANGE, 36.0D);
     }
 
     @Override
-    public boolean canSpawn(@Nonnull IWorld world, @Nonnull SpawnReason spawnReason) {
-        return spawnReason == SpawnReason.SPAWNER || super.canSpawn(world, spawnReason);
+    public boolean checkSpawnRules(@Nonnull LevelAccessor world, @Nonnull MobSpawnType spawnReason) {
+        return spawnReason == MobSpawnType.SPAWNER || super.checkSpawnRules(world, spawnReason);
     }
 
-    public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, IServerWorld world, SpawnReason spawnReason, BlockPos pos, Random random) {
-        return (spawnReason == SpawnReason.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canBlockSeeSky(pos.down())) && canMonsterSpawnInLight(tarantula, world, spawnReason, pos, random) &&
-                world instanceof ServerWorld && !StructureHelper.doesChunkHaveStructure((ServerWorld) world, pos, AtumStructures.PYRAMID_STRUCTURE);
+    public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
+        return (spawnReason == MobSpawnType.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canSeeSkyFromBelowWater(pos.below())) && checkMonsterSpawnRules(tarantula, world, spawnReason, pos, random) &&
+                world instanceof ServerLevel && !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE);
     }
 
     @Override
-    public double getMountedYOffset() {
-        return this.getHeight() * 0.5F;
+    public double getPassengersRidingOffset() {
+        return this.getBbHeight() * 0.5F;
     }
 
     @Override
     @Nonnull
-    protected PathNavigator createNavigator(@Nonnull World world) {
-        return new ClimberPathNavigator(this, world);
+    protected PathNavigation createNavigation(@Nonnull Level world) {
+        return new WallClimberNavigation(this, world);
     }
 
     @Override
-    protected void registerData() {
-        super.registerData();
-        this.dataManager.register(CLIMBING, (byte) 0);
+    protected void defineSynchedData() {
+        super.defineSynchedData();
+        this.entityData.define(CLIMBING, (byte) 0);
     }
 
     @Override
     public void tick() {
         super.tick();
-        if (!this.world.isRemote) {
-            this.setBesideClimbableBlock(this.collidedHorizontally);
+        if (!this.level.isClientSide) {
+            this.setBesideClimbableBlock(this.horizontalCollision);
         }
     }
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_SPIDER_AMBIENT;
+        return SoundEvents.SPIDER_AMBIENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(@Nonnull DamageSource damageSource) {
-        return SoundEvents.ENTITY_SPIDER_HURT;
+        return SoundEvents.SPIDER_HURT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_SPIDER_DEATH;
+        return SoundEvents.SPIDER_DEATH;
     }
 
     @Override
     protected void playStepSound(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        this.playSound(SoundEvents.ENTITY_SPIDER_STEP, 0.15F, 1.0F);
+        this.playSound(SoundEvents.SPIDER_STEP, 0.15F, 1.0F);
     }
 
     @Override
-    public boolean isOnLadder() {
+    public boolean onClimbable() {
         return this.isBesideClimbableBlock();
     }
 
     @Override
     @Nonnull
-    public CreatureAttribute getCreatureAttribute() {
-        return CreatureAttribute.ARTHROPOD;
+    public MobType getMobType() {
+        return MobType.ARTHROPOD;
     }
 
     @Override
-    public boolean attackEntityAsMob(@Nonnull Entity entity) {
-        if (super.attackEntityAsMob(entity)) {
+    public boolean doHurtTarget(@Nonnull Entity entity) {
+        if (super.doHurtTarget(entity)) {
             if (entity instanceof LivingEntity) {
                 int i = 0;
-                if (this.world.getDifficulty() == Difficulty.NORMAL) {
+                if (this.level.getDifficulty() == Difficulty.NORMAL) {
                     i = 5;
-                } else if (this.world.getDifficulty() == Difficulty.HARD) {
+                } else if (this.level.getDifficulty() == Difficulty.HARD) {
                     i = 8;
                 }
                 if (i > 0) {
-                    ((LivingEntity) entity).addPotionEffect(new EffectInstance(Effects.WEAKNESS, i * 20, 0));
+                    ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WEAKNESS, i * 20, 0));
                 }
             }
             return true;
@@ -143,16 +145,16 @@ public class TarantulaEntity extends MonsterEntity {
     }
 
     @Override
-    public boolean isPotionApplicable(@Nonnull EffectInstance effect) {
-        return effect.getPotion() != Effects.POISON && super.isPotionApplicable(effect);
+    public boolean canBeAffected(@Nonnull MobEffectInstance effect) {
+        return effect.getEffect() != MobEffects.POISON && super.canBeAffected(effect);
     }
 
     private boolean isBesideClimbableBlock() {
-        return (this.dataManager.get(CLIMBING) & 1) != 0;
+        return (this.entityData.get(CLIMBING) & 1) != 0;
     }
 
     private void setBesideClimbableBlock(boolean climbing) {
-        byte b0 = this.dataManager.get(CLIMBING);
+        byte b0 = this.entityData.get(CLIMBING);
 
         if (climbing) {
             b0 = (byte) (b0 | 1);
@@ -160,7 +162,7 @@ public class TarantulaEntity extends MonsterEntity {
             b0 = (byte) (b0 & -2);
         }
 
-        this.dataManager.set(CLIMBING, b0);
+        this.entityData.set(CLIMBING, b0);
     }
 
     @Override
@@ -175,7 +177,7 @@ public class TarantulaEntity extends MonsterEntity {
 
         @Override
         protected double getAttackReachSqr(LivingEntity attackTarget) {
-            return 4.0F + attackTarget.getWidth();
+            return 4.0F + attackTarget.getBbWidth();
         }
     }
 }

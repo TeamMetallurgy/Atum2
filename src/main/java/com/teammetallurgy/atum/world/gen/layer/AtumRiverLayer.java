@@ -1,15 +1,15 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
-import net.minecraft.world.gen.INoiseRandom;
-import net.minecraft.world.gen.layer.traits.ICastleTransformer;
+import net.minecraft.world.level.newbiome.context.Context;
+import net.minecraft.world.level.newbiome.layer.traits.CastleTransformer;
 
 import javax.annotation.Nonnull;
 
-public enum AtumRiverLayer implements ICastleTransformer {
+public enum AtumRiverLayer implements CastleTransformer {
     INSTANCE;
 
     @Override
-    public int apply(@Nonnull INoiseRandom context, int north, int west, int south, int east, int center) {
+    public int apply(@Nonnull Context context, int north, int west, int south, int east, int center) {
         int riverFilter = riverFilter(center);
         return riverFilter == riverFilter(east) && riverFilter == riverFilter(north) && riverFilter == riverFilter(west) && riverFilter == riverFilter(south) ? -1 : AtumLayerUtil.DRIED_RIVER_ID;
     }

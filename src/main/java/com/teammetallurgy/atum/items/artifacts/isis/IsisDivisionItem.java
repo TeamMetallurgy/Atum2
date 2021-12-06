@@ -6,17 +6,17 @@ import com.teammetallurgy.atum.entity.projectile.arrow.ArrowDoubleEntity;
 import com.teammetallurgy.atum.entity.projectile.arrow.CustomArrow;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.items.tools.BaseBowItem;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.item.*;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.world.World;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.AbstractArrow;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.event.ForgeEventFactory;
 
 import javax.annotation.Nonnull;
@@ -24,7 +24,7 @@ import javax.annotation.Nonnull;
 public class IsisDivisionItem extends BaseBowItem implements IArtifact {
 
     public IsisDivisionItem() {
-        super(new Item.Properties().rarity(Rarity.RARE).maxDamage(650));
+        super(new Item.Properties().rarity(Rarity.RARE).durability(650));
         this.setRepairItem(AtumItems.NEBU_INGOT);
     }
 
@@ -34,11 +34,11 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
     }
 
     @Override
-    public void onPlayerStoppedUsing(@Nonnull ItemStack stack, @Nonnull World world, @Nonnull LivingEntity entityLiving, int timeLeft) {
-        if (entityLiving instanceof PlayerEntity) {
-            PlayerEntity player = (PlayerEntity) entityLiving;
-            boolean infinity = player.abilities.isCreativeMode || EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
-            ItemStack ammoStack = player.findAmmo(stack);
+    public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity entityLiving, int timeLeft) {
+        if (entityLiving instanceof Player) {
+            Player player = (Player) entityLiving;
+            boolean infinity = player.getAbilities().instabuild || EnchantmentHelper.getItemEnchantmentLevel(Enchantments.INFINITY_ARROWS, stack) > 0;
+            ItemStack ammoStack = player.getProjectile(stack);
             int maxUses = this.getUseDuration(stack) - timeLeft;
             maxUses = ForgeEventFactory.onArrowLoose(stack, world, player, maxUses, !ammoStack.isEmpty() || infinity);
             if (maxUses < 0) return;
@@ -47,69 +47,69 @@ public class IsisDivisionItem extends BaseBowItem implements IArtifact {
                 if (ammoStack.isEmpty()) {
                     ammoStack = new ItemStack(Items.ARROW);
                 }
-                float velocity = getArrowVelocity(maxUses);
+                float velocity = getPowerForTime(maxUses);
 
                 this.onVelocity(world, player, velocity);
 
                 if (!((double) velocity < 0.1D)) {
-                    boolean hasArrow = player.abilities.isCreativeMode || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
+                    boolean hasArrow = player.getAbilities().instabuild || (ammoStack.getItem() instanceof ArrowItem && ((ArrowItem) ammoStack.getItem()).isInfinite(ammoStack, stack, player));
 
-                    if (!world.isRemote) {
+                    if (!world.isClientSide) {
                         ArrowDoubleEntity doubleShotLower = new ArrowDoubleEntity(world, player);
-                        doubleShotLower.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
+                        doubleShotLower.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity * 2.0F, 1.0F);
                         ArrowDoubleEntity doubleShotHigher = new ArrowDoubleEntity(world, player);
-                        doubleShotHigher.func_234612_a_(player, player.rotationPitch, player.rotationYaw, 0.0F, velocity * 2.0F, 1.0F);
-                        doubleShotLower.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.0F, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
-                        doubleShotHigher.getMotion().add(MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)), 0.2D, MathHelper.floor(MathHelper.nextDouble(world.rand, Math.random(), 0.3D)));
+                        doubleShotHigher.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, velocity * 2.0F, 1.0F);
+                        doubleShotLower.getDeltaMovement().add(Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)), 0.0F, Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)));
+                        doubleShotHigher.getDeltaMovement().add(Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)), 0.2D, Mth.floor(Mth.nextDouble(world.random, Math.random(), 0.3D)));
 
                         if (velocity == 1.0F) {
-                            doubleShotLower.setIsCritical(true);
-                            doubleShotHigher.setIsCritical(true);
+                            doubleShotLower.setCritArrow(true);
+                            doubleShotHigher.setCritArrow(true);
                         }
-                        int powerLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+                        int powerLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.POWER_ARROWS, stack);
 
                         if (powerLevel > 0) {
-                            doubleShotLower.setDamage(doubleShotLower.getDamage() + (double) powerLevel + 0.5D);
-                            doubleShotHigher.setDamage(doubleShotHigher.getDamage() + (double) powerLevel + 0.5D);
+                            doubleShotLower.setBaseDamage(doubleShotLower.getBaseDamage() + (double) powerLevel + 0.5D);
+                            doubleShotHigher.setBaseDamage(doubleShotHigher.getBaseDamage() + (double) powerLevel + 0.5D);
                         }
-                        int punchLevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+                        int punchLevel = EnchantmentHelper.getItemEnchantmentLevel(Enchantments.PUNCH_ARROWS, stack);
 
                         if (punchLevel > 0) {
-                            doubleShotLower.setKnockbackStrength(punchLevel);
-                            doubleShotHigher.setKnockbackStrength(punchLevel);
+                            doubleShotLower.setKnockback(punchLevel);
+                            doubleShotHigher.setKnockback(punchLevel);
                         }
-                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
-                            doubleShotLower.setFire(100);
-                            doubleShotHigher.setFire(100);
+                        if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FLAMING_ARROWS, stack) > 0) {
+                            doubleShotLower.setSecondsOnFire(100);
+                            doubleShotHigher.setSecondsOnFire(100);
                         }
-                        stack.damageItem(1, player, (e) -> {
-                            e.sendBreakAnimation(player.getActiveHand());
+                        stack.hurtAndBreak(1, player, (e) -> {
+                            e.broadcastBreakEvent(player.getUsedItemHand());
                         });
 
-                        if (hasArrow || player.abilities.isCreativeMode && (ammoStack.getItem() == Items.SPECTRAL_ARROW || ammoStack.getItem() == Items.TIPPED_ARROW)) {
-                            doubleShotLower.pickupStatus = CustomArrow.PickupStatus.CREATIVE_ONLY;
-                            doubleShotHigher.pickupStatus = CustomArrow.PickupStatus.CREATIVE_ONLY;
+                        if (hasArrow || player.getAbilities().instabuild && (ammoStack.getItem() == Items.SPECTRAL_ARROW || ammoStack.getItem() == Items.TIPPED_ARROW)) {
+                            doubleShotLower.pickup = CustomArrow.Pickup.CREATIVE_ONLY;
+                            doubleShotHigher.pickup = CustomArrow.Pickup.CREATIVE_ONLY;
                         }
-                        world.addEntity(doubleShotLower);
-                        world.addEntity(doubleShotHigher);
+                        world.addFreshEntity(doubleShotLower);
+                        world.addFreshEntity(doubleShotHigher);
                     }
-                    world.playSound(null, player.getPosX(), player.getPosY(), player.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F, 1.0F / (random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
+                    world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ARROW_SHOOT, SoundSource.PLAYERS, 1.0F, 1.0F / (world.random.nextFloat() * 0.4F + 1.2F) + velocity * 0.5F);
 
-                    if (!hasArrow && !player.abilities.isCreativeMode) {
+                    if (!hasArrow && !player.getAbilities().instabuild) {
                         ammoStack.shrink(2);
 
                         if (ammoStack.isEmpty()) {
-                            player.inventory.deleteStack(ammoStack);
+                            player.getInventory().removeItem(ammoStack);
                         }
                     }
-                    player.addStat(Stats.ITEM_USED.get(this));
+                    player.awardStat(Stats.ITEM_USED.get(this));
                 }
             }
         }
     }
 
     @Override
-    protected AbstractArrowEntity setArrow(@Nonnull ItemStack stack, World world, PlayerEntity player, float velocity) {
+    protected AbstractArrow setArrow(@Nonnull ItemStack stack, Level world, Player player, float velocity) {
         return new ArrowDoubleEntity(world, player);
     }
 }

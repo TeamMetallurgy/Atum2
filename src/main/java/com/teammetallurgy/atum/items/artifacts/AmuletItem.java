@@ -2,19 +2,20 @@ package com.teammetallurgy.atum.items.artifacts;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.integration.curios.ISimpleCurioItem;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Rarity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.Enchantments;
+import top.theillusivec4.curios.api.SlotContext;
+import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 import javax.annotation.Nonnull;
 
-public class AmuletItem extends Item implements ISimpleCurioItem {
+public class AmuletItem extends Item implements ICurioItem {
 
     public AmuletItem(Item.Properties properties) {
-        super(properties.rarity(Rarity.RARE).group(Atum.GROUP));
+        super(properties.rarity(Rarity.RARE).tab(Atum.GROUP));
     }
 
     @Override
@@ -28,12 +29,12 @@ public class AmuletItem extends Item implements ISimpleCurioItem {
     }
 
     @Override
-    public boolean canRightClickEquip(@Nonnull ItemStack stack) {
+    public boolean canEquipFromUse(SlotContext slotContext, @Nonnull ItemStack stack) {
         return true;
     }
 
     @Override
-    public boolean getIsRepairable(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
+    public boolean isValidRepairItem(@Nonnull ItemStack toRepair, @Nonnull ItemStack repair) {
         return repair.getItem() == AtumItems.NEBU_INGOT;
     }
 }

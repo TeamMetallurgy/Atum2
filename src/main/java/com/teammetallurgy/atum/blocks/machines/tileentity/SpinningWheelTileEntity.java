@@ -5,15 +5,15 @@ import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -23,8 +23,8 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements ISidedInventory {
-    public CompoundNBT input = new CompoundNBT();
+public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
+    public CompoundTag input = new CompoundTag();
     public int rotations;
 
     public SpinningWheelTileEntity() {
@@ -32,33 +32,33 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public boolean isItemValidForSlot(int index, @Nonnull ItemStack stack) {
-        return RecipeHelper.isItemValidForSlot(this.world, stack, IAtumRecipeType.SPINNING_WHEEL);
+    public boolean canPlaceItem(int index, @Nonnull ItemStack stack) {
+        return RecipeHelper.isItemValidForSlot(this.level, stack, IAtumRecipeType.SPINNING_WHEEL);
     }
 
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.pos, 0, this.getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
     }
 
     @Override
-    public void onDataPacket(NetworkManager manager, SUpdateTileEntityPacket packet) {
+    public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.read(this.getBlockState(), packet.getNbtCompound());
-        this.markDirty();
+        this.load(this.getBlockState(), packet.getTag());
+        this.setChanged();
     }
 
     @Override
     @Nonnull
-    public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return this.save(new CompoundTag());
     }
 
     @Override
-    public void markDirty() {
-        super.markDirty();
-        if (this.world != null) {
-            this.world.notifyBlockUpdate(this.pos, this.world.getBlockState(this.pos), this.world.getBlockState(this.pos), 3);
+    public void setChanged() {
+        super.setChanged();
+        if (this.level != null) {
+            this.level.sendBlockUpdated(this.worldPosition, this.level.getBlockState(this.worldPosition), this.level.getBlockState(this.worldPosition), 3);
         }
     }
 
@@ -75,16 +75,16 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public boolean canInsertItem(int index, @Nonnull ItemStack stack, Direction facing) {
+    public boolean canPlaceItemThroughFace(int index, @Nonnull ItemStack stack, Direction facing) {
         return false;
     }
 
     @Override
-    public boolean canExtractItem(int index, @Nonnull ItemStack stack, @Nonnull Direction direction) {
-        if (this.world != null) {
-            SpinningWheelBlock spinningWheel = (SpinningWheelBlock) world.getBlockState(pos).getBlock();
+    public boolean canTakeItemThroughFace(int index, @Nonnull ItemStack stack, @Nonnull Direction direction) {
+        if (this.level != null) {
+            SpinningWheelBlock spinningWheel = (SpinningWheelBlock) level.getBlockState(worldPosition).getBlock();
             if (index == 1 && direction == Direction.DOWN) {
-                spinningWheel.output(world, pos, null, this);
+                spinningWheel.output(level, worldPosition, null, this);
                 return true;
             }
             return false;
@@ -110,16 +110,16 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public void read(@Nonnull BlockState state, @Nonnull CompoundNBT compound) {
-        super.read(state, compound);
+    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
+        super.load(state, compound);
         this.rotations = compound.getInt("rotations");
         this.input = compound.getCompound("input");
     }
 
     @Nonnull
     @Override
-    public CompoundNBT write(@Nonnull CompoundNBT compound) {
-        super.write(compound);
+    public CompoundTag save(@Nonnull CompoundTag compound) {
+        super.save(compound);
         compound.putInt("rotations", this.rotations);
         if (this.input != null) {
             compound.put("input", this.input);
@@ -128,7 +128,7 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    protected Container createMenu(int windowID, @Nonnull PlayerInventory playerInventory) { //Does not have a Screen
+    protected AbstractContainerMenu createMenu(int windowID, @Nonnull Inventory playerInventory) { //Does not have a Screen
         return null;
     }
 }

@@ -1,11 +1,11 @@
 package com.teammetallurgy.atum.entity.ai.brain.sensor;
 
 import com.teammetallurgy.atum.Atum;
-import net.minecraft.entity.ai.brain.sensor.Sensor;
-import net.minecraft.entity.ai.brain.sensor.SensorType;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.world.entity.ai.sensing.Sensor;
+import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 import java.util.function.Supplier;
 

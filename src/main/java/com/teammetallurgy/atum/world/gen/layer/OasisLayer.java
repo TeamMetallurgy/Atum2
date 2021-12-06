@@ -1,19 +1,19 @@
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.misc.AtumConfig;
-import net.minecraft.world.gen.INoiseRandom;
-import net.minecraft.world.gen.layer.traits.IC1Transformer;
+import net.minecraft.world.level.newbiome.context.Context;
+import net.minecraft.world.level.newbiome.layer.traits.C1Transformer;
 
 import javax.annotation.Nonnull;
 
-public enum OasisLayer implements IC1Transformer {
+public enum OasisLayer implements C1Transformer {
     INSTANCE;
 
     @Override
-    public int apply(@Nonnull INoiseRandom noiseRandom, int value) {
-        if (AtumConfig.BIOME.subBiomeChance.get() > 0 && noiseRandom.random(AtumConfig.BIOME.subBiomeChance.get()) == 0) {
+    public int apply(@Nonnull Context noiseRandom, int value) {
+        if (AtumConfig.BIOME.subBiomeChance.get() > 0 && noiseRandom.nextRandom(AtumConfig.BIOME.subBiomeChance.get()) == 0) {
             if (value == AtumLayerUtil.SAND_PLAINS) {
-                if (noiseRandom.random(100) < AtumConfig.BIOME.oasisChance.get()) {
+                if (noiseRandom.nextRandom(100) < AtumConfig.BIOME.oasisChance.get()) {
                     value = AtumLayerUtil.OASIS;
                 } else {
                     value = AtumLayerUtil.DEAD_OASIS;

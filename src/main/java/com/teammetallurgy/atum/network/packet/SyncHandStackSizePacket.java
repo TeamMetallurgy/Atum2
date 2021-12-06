@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.network.packet;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.player.ClientPlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.Hand;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.network.NetworkEvent;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -21,26 +21,26 @@ public class SyncHandStackSizePacket {
         this.hand = hand;
     }
 
-    public static void encode(SyncHandStackSizePacket packet, PacketBuffer buf) {
-        buf.writeItemStack(packet.stack);
+    public static void encode(SyncHandStackSizePacket packet, FriendlyByteBuf buf) {
+        buf.writeItem(packet.stack);
         buf.writeVarInt(packet.hand);
     }
 
-    public static SyncHandStackSizePacket decode(PacketBuffer buf) {
-        return new SyncHandStackSizePacket(buf.readItemStack(), buf.readVarInt());
+    public static SyncHandStackSizePacket decode(FriendlyByteBuf buf) {
+        return new SyncHandStackSizePacket(buf.readItem(), buf.readVarInt());
     }
 
     public static class Handler {
         public static void handle(SyncHandStackSizePacket message, Supplier<NetworkEvent.Context> ctx) {
-            ClientPlayerEntity player = Minecraft.getInstance().player;
+            LocalPlayer player = Minecraft.getInstance().player;
             if (player != null) {
-                Hand hand = message.hand == 1 ? Hand.MAIN_HAND : Hand.OFF_HAND;
-                EquipmentSlotType handType = hand == Hand.MAIN_HAND ? EquipmentSlotType.MAINHAND : EquipmentSlotType.OFFHAND;
-                ItemStack heldStack = player.getHeldItem(hand);
+                InteractionHand hand = message.hand == 1 ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
+                EquipmentSlot handType = hand == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+                ItemStack heldStack = player.getItemInHand(hand);
                 if (heldStack.getCount() == 0) {
-                    player.setItemStackToSlot(handType, message.stack);
+                    player.setItemSlot(handType, message.stack);
                 } else if (heldStack.getItem() instanceof BlockItem) {
-                    player.setItemStackToSlot(handType, new ItemStack(heldStack.getItem(), heldStack.getCount() + 1));
+                    player.setItemSlot(handType, new ItemStack(heldStack.getItem(), heldStack.getCount() + 1));
                 }
                 ctx.get().setPacketHandled(true);
             }

@@ -5,18 +5,18 @@ import com.teammetallurgy.atum.network.packet.OpenWolfGuiPacket;
 import com.teammetallurgy.atum.network.packet.StormStrengthPacket;
 import com.teammetallurgy.atum.network.packet.SyncHandStackSizePacket;
 import com.teammetallurgy.atum.network.packet.WeatherPacket;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.network.IPacket;
-import net.minecraft.server.management.PlayerList;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 public class NetworkHandler {
     private static final SimpleChannel CHANNEL = NetworkRegistry.ChannelBuilder
@@ -33,19 +33,19 @@ public class NetworkHandler {
         CHANNEL.registerMessage(3, SyncHandStackSizePacket.class, SyncHandStackSizePacket::encode, SyncHandStackSizePacket::decode, SyncHandStackSizePacket.Handler::handle);
     }
 
-    public static void sendTo(ServerPlayerEntity playerMP, Object toSend) {
-        CHANNEL.sendTo(toSend, playerMP.connection.getNetworkManager(), NetworkDirection.PLAY_TO_CLIENT);
+    public static void sendTo(ServerPlayer playerMP, Object toSend) {
+        CHANNEL.sendTo(toSend, playerMP.connection.getConnection(), NetworkDirection.PLAY_TO_CLIENT);
     }
 
     public static void sendToServer(Object msg) {
         CHANNEL.sendToServer(msg);
     }
 
-    public static void sendToDimension(Object packet, ServerWorld serverWorld, RegistryKey<World> dimension) {
+    public static void sendToDimension(Object packet, ServerLevel serverWorld, ResourceKey<Level> dimension) {
         PlayerList playerList = serverWorld.getServer().getPlayerList();
-        for (int i = 0; i < playerList.getCurrentPlayerCount(); ++i) {
-            ServerPlayerEntity serverPlayer = playerList.getPlayers().get(i);
-            if (serverPlayer.world.getDimensionKey() == dimension) {
+        for (int i = 0; i < playerList.getPlayerCount(); ++i) {
+            ServerPlayer serverPlayer = playerList.getPlayers().get(i);
+            if (serverPlayer.level.dimension() == dimension) {
                 sendTo(serverPlayer, packet);
             }
         }
@@ -54,7 +54,7 @@ public class NetworkHandler {
     /*
      * Used to update TESRs
      */
-    public static void sendToTracking(ServerWorld world, BlockPos blockPos, IPacket<?> packet, boolean boundaryOnly) {
-        world.getChunkProvider().chunkManager.getTrackingPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.sendPacket(packet));
+    public static void sendToTracking(ServerLevel world, BlockPos blockPos, Packet<?> packet, boolean boundaryOnly) {
+        world.getChunkSource().chunkMap.getPlayers(new ChunkPos(blockPos), boundaryOnly).forEach(p -> p.connection.send(packet));
     }
 }

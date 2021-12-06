@@ -6,9 +6,9 @@ import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.client.render.entity.layer.CamelArmorLayer;
 import com.teammetallurgy.atum.client.render.entity.layer.CamelDecorLayer;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -19,7 +19,7 @@ import java.util.Map;
 public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity>> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public CamelRender(EntityRendererManager renderManager) {
+    public CamelRender(EntityRenderDispatcher renderManager) {
         super(renderManager, new CamelModel<>(0.0F), 0.7F);
         this.addLayer(new CamelDecorLayer(this));
         this.addLayer(new CamelArmorLayer(this));
@@ -27,7 +27,7 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
 
     @Override
     @Nonnull
-    public ResourceLocation getEntityTexture(@Nonnull CamelEntity camel) {
+    public ResourceLocation getTextureLocation(@Nonnull CamelEntity camel) {
         String textureName = camel.getTexture();
 
         ResourceLocation location = CACHE.get(textureName);

@@ -1,22 +1,22 @@
 package com.teammetallurgy.atum.items.tools;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTier;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tiers;
 
 import javax.annotation.Nonnull;
 
 public class PoisonDaggerItem extends DaggerItem {
 
     public PoisonDaggerItem() {
-        super(ItemTier.IRON);
+        super(Tiers.IRON);
     }
 
     @Override
-    public boolean hitEntity(@Nonnull ItemStack stack, LivingEntity target, @Nonnull LivingEntity attacker) {
-        target.addPotionEffect(new EffectInstance(Effects.POISON, 100, 1));
-        return super.hitEntity(stack, target, attacker);
+    public boolean hurtEnemy(@Nonnull ItemStack stack, LivingEntity target, @Nonnull LivingEntity attacker) {
+        target.addEffect(new MobEffectInstance(MobEffects.POISON, 100, 1));
+        return super.hurtEnemy(stack, target, attacker);
     }
 }

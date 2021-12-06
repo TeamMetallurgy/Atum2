@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.integration.waila;
+/*package com.teammetallurgy.atum.integration.waila;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.base.DoorAtumBlock;
@@ -19,4 +19,4 @@ public class WailaSupport implements IWailaPlugin {
         registrar.registerComponentProvider(WailaHUDHandler.INSTANCE, TooltipPosition.HEAD, DoorAtumBlock.class);
         registrar.registerComponentProvider(WailaHUDHandler.INSTANCE, TooltipPosition.BODY, DateBlock.class);
     }
-}
+}*/

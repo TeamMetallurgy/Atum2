@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.entity.villager;
 
 import com.google.common.collect.Maps;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.util.StringRepresentable;
 
 import javax.annotation.Nonnull;
 import java.util.Map;
 
-public enum Race implements IStringSerializable {
+public enum Race implements StringRepresentable {
     HUMAN("human", 1.0D, 18); //Change to 0.5D, when races below is added
     /*EFREET("efreet", 0.10D),
     SHABTI("shabti", 0.10D),
@@ -58,7 +58,7 @@ public enum Race implements IStringSerializable {
 
     @Override
     @Nonnull
-    public String getString() {
+    public String getSerializedName() {
         return this.name;
     }
 }
