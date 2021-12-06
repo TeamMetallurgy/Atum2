@@ -32,12 +32,12 @@ public class KilnFakeBlock extends BaseEntityBlock {
     public static final BooleanProperty UP = BooleanProperty.create("up");
 
     public KilnFakeBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 10.0F).sound(SoundType.STONE));
         this.registerDefaultState(this.stateDefinition.any().setValue(UP, false));
     }
 
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new KilnTileEntity();
     }
 
@@ -80,7 +80,8 @@ public class KilnFakeBlock extends BaseEntityBlock {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new ItemStack(AtumBlocks.KILN);
     }
 

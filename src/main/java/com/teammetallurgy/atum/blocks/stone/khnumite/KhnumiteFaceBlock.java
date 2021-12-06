@@ -40,12 +40,12 @@ public class KhnumiteFaceBlock extends HorizontalDirectionalBlock implements IKh
     private BlockPattern stonewardenPattern;
 
     public KhnumiteFaceBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.CLAY).strength(2.0F).harvestTool(ToolType.PICKAXE).harvestLevel(1));
+        super(Block.Properties.of(Material.STONE, MaterialColor.CLAY).strength(2.0F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
     @Override
-    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean isMoving) {
+    public void onPlace(BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, BlockState oldState, boolean isMoving) {
         if (oldState.getBlock() != state.getBlock()) {
             this.trySpawnStonemob(world, pos);
         }

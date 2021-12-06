@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "atum:sand",
+    "atum:sand_layer",
+    "atum:fertile_soil",
+    "atum:fertile_soil_tilled",
+    "atum:fertile_soil_path",
+    "atum:strange_sand_path",
+    "atum:khnumite_raw",
+    "atum:marl",
+    "atum:limestone_gravel"
+  ]
+}

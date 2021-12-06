@@ -624,7 +624,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public DesertWolfEntity getBreedOffspring(@Nonnull ServerWorld world, @Nonnull AgeableEntity ageable) {
+    public DesertWolfEntity getBreedOffspring(@Nonnull ServerLevel level, @Nonnull AgeableMob ageable) {
         DesertWolfEntity desertWolf = AtumEntities.DESERT_WOLF.create(this.level);
         if (desertWolf != null) {
             UUID uuid = this.getOwnerUUID();
@@ -649,7 +649,7 @@ public class DesertWolfEntity extends TamableAnimal implements PlayerRideableJum
     }
 
     @Override
-    public boolean canMate(@Nonnull AnimalEntity otherAnimal) {
+    public boolean canMate(@Nonnull AgeableMob otherAnimal) {
         if (otherAnimal == this) {
             return false;
         } else if (!this.isTame()) {

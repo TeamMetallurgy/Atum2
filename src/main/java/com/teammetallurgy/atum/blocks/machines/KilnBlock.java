@@ -35,13 +35,13 @@ public class KilnBlock extends AbstractFurnaceBlock {
     private static final BooleanProperty MULTIBLOCK_SECONDARY = BooleanProperty.create("multiblock_secondary");
 
     public KilnBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(3.5F).lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 13 : 0).sound(SoundType.STONE));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false).setValue(MULTIBLOCK_PRIMARY, false).setValue(MULTIBLOCK_SECONDARY, false));
     }
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter interactWithreader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new KilnTileEntity();
     }
 

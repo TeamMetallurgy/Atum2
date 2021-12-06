@@ -118,7 +118,8 @@ public class PortalBlock extends HalfTransparentBlock {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return ItemStack.EMPTY;
     }
 
@@ -226,7 +227,7 @@ public class PortalBlock extends HalfTransparentBlock {
         }
 
         boolean isSandBlock(BlockState state) {
-            return state.getBlock().is(Tags.Blocks.SANDSTONE) || state.getBlock().is(AtumAPI.Tags.LIMESTONE_BRICKS);
+            return Tags.Blocks.SANDSTONE.contains(state.getBlock()) || AtumAPI.Tags.LIMESTONE_BRICKS.contains(state.getBlock());
         }
 
         boolean isValid() {

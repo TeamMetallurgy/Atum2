@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "atum:godforge",
+    "atum:khnumite_block",
+    "atum:khnumite_face",
+    "atum:quandary_block",
+    "atum:iron_ore",
+    "atum:lapis_ore",
+    "atum:relic_ore"
+  ]
+}

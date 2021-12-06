@@ -78,7 +78,8 @@ public class PapyrusBlock extends SugarCaneBlock {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new ItemStack(AtumItems.PAPYRUS_PLANT);
     }
 

@@ -70,7 +70,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     }
 
     public DeadwoodBranchBlock() {
-        super(Properties.of(Material.WOOD).strength(0.8F, 5.0F).sound(SoundType.WOOD).randomTicks().harvestTool(ToolType.AXE).harvestLevel(0).noOcclusion());
+        super(Properties.of(Material.WOOD).strength(0.8F, 5.0F).sound(SoundType.WOOD).randomTicks().noOcclusion());
         this.registerDefaultState(this.getStateDefinition().any().setValue(FACING, Direction.NORTH).setValue(NORTH, false).setValue(EAST, false).setValue(SOUTH, false).setValue(WEST, false).setValue(UP, false).setValue(DOWN, false).setValue(WATERLOGGED, false));
     }
 
@@ -94,7 +94,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     @Override
     public void neighborChanged(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Block block, @Nonnull BlockPos fromPos, boolean isMoving) {
         if (!this.canSurviveAt(world, pos)) {
-            world.getBlockTicks().scheduleTick(pos, this, 1);
+            world.scheduleTick(pos, this, 1);
         }
     }
 
@@ -131,7 +131,7 @@ public class DeadwoodBranchBlock extends Block implements SimpleWaterloggedBlock
     @Nonnull
     public BlockState updateShape(BlockState state, @Nonnull Direction direction, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
         return super.updateShape(state, direction, facingState, world, currentPos, facingPos);
     }

@@ -36,7 +36,7 @@ public class QuandaryBlock extends Block implements IUnbreakable {
     private static final BooleanProperty ACTIVATED = BooleanProperty.create("activated");
 
     public QuandaryBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops().harvestTool(ToolType.PICKAXE).harvestLevel(1));
+        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(ACTIVATED, false).setValue(UNBREAKABLE, false));
     }
 

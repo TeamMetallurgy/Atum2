@@ -67,7 +67,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
     public boolean canSurvive(BlockState state, @Nonnull LevelReader world, @Nonnull BlockPos pos) {
         if (state.getBlock() == this) {
             BlockState stateUp = world.getBlockState(pos.above());
-            return stateUp.getBlock().is(BlockTags.LEAVES);
+            return BlockTags.LEAVES.contains(stateUp.getBlock());
         }
         return super.mayPlaceOn(world.getBlockState(pos.below()), world, pos);
     }
@@ -84,7 +84,7 @@ public class DateBlock extends BushBlock implements BonemealableBlock {
 
     @Override
     @Nonnull
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new ItemStack(AtumItems.DATE);
     }
 

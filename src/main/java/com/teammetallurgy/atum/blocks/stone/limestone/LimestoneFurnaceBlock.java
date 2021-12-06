@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 
@@ -24,7 +25,7 @@ public class LimestoneFurnaceBlock extends FurnaceBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new LimestoneFurnaceTileEntity();
     }
 

@@ -172,7 +172,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     @Override
-    public AgableMob getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgableMob ageable) {
+    public AgeableMob getBreedOffspring(@Nonnull ServerLevel world, @Nonnull AgeableMob ageable) {
         CamelEntity camel = new CamelEntity(AtumEntities.CAMEL, this.level);
         camel.finalizeSpawn(world, this.level.getCurrentDifficultyAt(ageable.blockPosition()), MobSpawnType.BREEDING, null, null);
         return camel;

@@ -45,13 +45,13 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     private static final BooleanProperty WHEEL = BooleanProperty.create("wheel");
 
     public SpinningWheelBlock() {
-        super(Properties.of(Material.WOOD).strength(1.2F).harvestTool(ToolType.AXE).harvestLevel(0));
+        super(Properties.of(Material.WOOD).strength(1.2F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(SPOOL, 0).setValue(WHEEL, false));
     }
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new SpinningWheelTileEntity();
     }
 
@@ -59,8 +59,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     public void attack(@Nonnull BlockState state, @Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
         BlockEntity tileEntity = world.getBlockEntity(pos);
 
-        if (tileEntity instanceof SpinningWheelTileEntity) {
-            SpinningWheelTileEntity spinningWheel = (SpinningWheelTileEntity) tileEntity;
+        if (tileEntity instanceof SpinningWheelTileEntity spinningWheel) {
             if (player.isCrouching()) {
                 StackHelper.giveItem(player, InteractionHand.MAIN_HAND, spinningWheel.getItem(0).copy());
                 StackHelper.giveItem(player, InteractionHand.MAIN_HAND, spinningWheel.getItem(1).copy());
@@ -80,8 +79,7 @@ public class SpinningWheelBlock extends BaseEntityBlock {
         BlockEntity tileEntity = world.getBlockEntity(pos);
         ItemStack heldStack = player.getItemInHand(hand);
 
-        if (tileEntity instanceof SpinningWheelTileEntity && hand == InteractionHand.MAIN_HAND) {
-            SpinningWheelTileEntity spinningWheel = (SpinningWheelTileEntity) tileEntity;
+        if (tileEntity instanceof SpinningWheelTileEntity spinningWheel && hand == InteractionHand.MAIN_HAND) {
 
             Direction facing = rayTraceResult.getDirection();
             if (facing == state.getValue(FACING)) {
@@ -175,7 +173,8 @@ public class SpinningWheelBlock extends BaseEntityBlock {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new ItemStack(AtumBlocks.SPINNING_WHEEL);
     }
 

@@ -18,7 +18,7 @@ import javax.annotation.Nonnull;
 public class LimestoneGravelBlock extends GravelBlock {
 
     public LimestoneGravelBlock() {
-        super(Block.Properties.of(Material.SAND).strength(0.6F).sound(SoundType.GRAVEL).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.of(Material.SAND).strength(0.6F).sound(SoundType.GRAVEL));
     }
 
     @Override

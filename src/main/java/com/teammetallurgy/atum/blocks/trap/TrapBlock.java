@@ -45,7 +45,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
     private static final BooleanProperty DISABLED = BooleanProperty.create("disabled");
 
     protected TrapBlock() {
-        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F).harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(DISABLED, Boolean.FALSE));
     }
 
@@ -74,8 +74,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
         } else {
             BlockEntity tileEntity = world.getBlockEntity(pos);
             boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getItemInHand(InteractionHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getItemInHand(InteractionHand.OFF_HAND));
-            if (tileEntity instanceof TrapTileEntity) {
-                TrapTileEntity trap = (TrapTileEntity) tileEntity;
+            if (tileEntity instanceof TrapTileEntity trap) {
                 if (!trap.isInsidePyramid) {
                     NetworkHooks.openGui((ServerPlayer) player, trap, pos);
                     return InteractionResult.SUCCESS;
@@ -98,7 +97,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
                 if (world.hasNeighborSignal(pos)) {
                     this.setDisabled(world, pos, state, (TrapTileEntity) tileEntity, true);
                 } else if (!world.hasNeighborSignal(pos)) {
-                    world.getBlockTicks().scheduleTick(pos, this, 4);
+                    world.scheduleTick(pos, this, 4);
                 }
             }
         }

@@ -34,7 +34,7 @@ public class CrateBlock extends BaseEntityBlock {
     }
 
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new CrateTileEntity();
     }
 

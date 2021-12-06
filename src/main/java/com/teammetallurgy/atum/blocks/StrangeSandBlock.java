@@ -22,7 +22,7 @@ import javax.annotation.Nonnull;
 public class StrangeSandBlock extends FallingBlock {
 
     public StrangeSandBlock() {
-        super(Block.Properties.of(Material.SAND).strength(0.5F).sound(SoundType.SAND).randomTicks().harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.of(Material.SAND).strength(0.5F).sound(SoundType.SAND).randomTicks());
     }
 
     @Override

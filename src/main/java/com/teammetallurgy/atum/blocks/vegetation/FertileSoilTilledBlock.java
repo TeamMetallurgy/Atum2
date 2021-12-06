@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.vegetation;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.init.AtumParticles;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -25,7 +24,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
-import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.Random;
@@ -34,7 +32,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
     public static final BooleanProperty BLESSED = BooleanProperty.create("blessed");
 
     public FertileSoilTilledBlock() {
-        super(Block.Properties.of(Material.DIRT).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).harvestTool(ToolType.SHOVEL).harvestLevel(0).isViewBlocking(AtumBlocks::needsPostProcessing).isSuffocating(AtumBlocks::needsPostProcessing));
+        super(Block.Properties.of(Material.DIRT).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).isViewBlocking(AtumBlocks::needsPostProcessing).isSuffocating(AtumBlocks::needsPostProcessing));
         this.registerDefaultState(this.stateDefinition.any().setValue(MOISTURE, 0).setValue(BLESSED, false));
     }
 
@@ -57,7 +55,7 @@ public class FertileSoilTilledBlock extends FarmBlock {
 
         Block blockUp = world.getBlockState(pos.above()).getBlock();
         if (state.getValue(BLESSED) && blockUp instanceof BonemealableBlock) {
-            world.getBlockTicks().scheduleTick(pos.above(), blockUp, 5);
+            world.scheduleTick(pos.above(), blockUp, 5);
         }
 
         if (!this.hasWater(world, pos) && !world.isRainingAt(pos.above())) {

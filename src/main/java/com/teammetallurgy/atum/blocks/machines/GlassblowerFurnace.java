@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Material;
 
@@ -22,7 +23,7 @@ public class GlassblowerFurnace extends AbstractFurnaceBlock {
     }
 
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter world) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new GlassblowerFurnaceTileEntity();
     }
 

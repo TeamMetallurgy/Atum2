@@ -30,7 +30,7 @@ public class LimestoneBrickBlock extends FallingBlock implements IUnbreakable {
     public static final BooleanProperty CAN_FALL = BooleanProperty.create("can_fall");
 
     public LimestoneBrickBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops().harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F, 8.0F).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(UNBREAKABLE, false).setValue(CAN_FALL, false));
     }
 

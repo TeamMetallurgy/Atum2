@@ -53,15 +53,14 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
 
     @Override
     @Nullable
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new QuernTileEntity();
     }
 
     @Override
     public void attack(@Nonnull BlockState state, Level world, @Nonnull BlockPos pos, @Nonnull Player player) {
         BlockEntity tileEntity = world.getBlockEntity(pos);
-        if (tileEntity instanceof QuernTileEntity) {
-            QuernTileEntity quern = (QuernTileEntity) tileEntity;
+        if (tileEntity instanceof QuernTileEntity quern) {
             if (!quern.isEmpty()) {
                 if (player.isCrouching()) {
                     StackHelper.dropInventoryItems(world, pos, quern);
@@ -133,7 +132,7 @@ public class QuernBlock extends BaseEntityBlock implements SimpleWaterloggedBloc
     @Nonnull
     public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         if (state.getValue(WATERLOGGED)) {
-            world.getLiquidTicks().scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
+            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
         }
         return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
     }

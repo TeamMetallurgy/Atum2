@@ -33,7 +33,6 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -49,7 +48,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
     }
 
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter reader) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new SarcophagusTileEntity();
     }
 
@@ -83,16 +82,14 @@ public class SarcophagusBlock extends ChestBaseBlock {
         //Right-Click left block, when right-clicking right block
         BlockPos posLeft = pos.relative(facing.getClockWise());
         BlockEntity tileLeft = world.getBlockEntity(posLeft);
-        if (world.getBlockState(posLeft).getBlock() == this && tileLeft instanceof SarcophagusTileEntity) {
-            SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileLeft;
+        if (world.getBlockState(posLeft).getBlock() == this && tileLeft instanceof SarcophagusTileEntity sarcophagus) {
             if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
                 this.use(state, world, pos.relative(facing.getClockWise()), player, hand, hit);
                 return InteractionResult.PASS;
             }
         }
 
-        if (tileEntity instanceof SarcophagusTileEntity) {
-            SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileEntity;
+        if (tileEntity instanceof SarcophagusTileEntity sarcophagus) {
             if (world.getDifficulty() != Difficulty.PEACEFUL && !sarcophagus.hasSpawned) {
                 if (QuandaryBlock.Helper.canSpawnPharaoh(world, pos, facing, player, sarcophagus)) {
                     return InteractionResult.PASS;
@@ -118,8 +115,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
         super.setPlacedBy(world, pos, state, placer, stack);
         BlockEntity tileEntity = world.getBlockEntity(pos);
 
-        if (tileEntity instanceof SarcophagusTileEntity) {
-            SarcophagusTileEntity sarcophagus = (SarcophagusTileEntity) tileEntity;
+        if (tileEntity instanceof SarcophagusTileEntity sarcophagus) {
             sarcophagus.hasSpawned = true;
             sarcophagus.setOpenable();
             sarcophagus.clearCache();
@@ -141,8 +137,7 @@ public class SarcophagusBlock extends ChestBaseBlock {
         if (placedState.getBlock() instanceof SarcophagusBlock) {
             if (!canPlaceRightSac(event.getWorld(), event.getPos(), placedState.getValue(FACING))) {
                 event.setCanceled(true);
-                if (event.getEntity() instanceof ServerPlayer) {
-                    ServerPlayer player = (ServerPlayer) event.getEntity();
+                if (event.getEntity() instanceof ServerPlayer player) {
                     ItemStack placedStack = new ItemStack(placedState.getBlock().asItem());
                     InteractionHand hand = player.getMainHandItem().getItem() == placedStack.getItem() ? InteractionHand.MAIN_HAND : InteractionHand.OFF_HAND;
                     NetworkHandler.sendTo(player, new SyncHandStackSizePacket(placedStack, hand == InteractionHand.MAIN_HAND ? 1 : 0));
@@ -160,9 +155,9 @@ public class SarcophagusBlock extends ChestBaseBlock {
         return false;
     }
 
-    @Nonnull
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new ItemStack(AtumBlocks.SARCOPHAGUS);
     }
 }

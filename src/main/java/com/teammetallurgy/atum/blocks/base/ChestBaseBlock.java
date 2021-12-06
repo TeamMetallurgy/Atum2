@@ -28,9 +28,7 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
@@ -42,11 +40,12 @@ public class ChestBaseBlock extends ChestBlock {
     }
 
     protected ChestBaseBlock(Supplier<BlockEntityType<? extends ChestBlockEntity>> tileEntitySupplier, BlockBehaviour.Properties properties) {
-        super(properties.strength(3.0F, 10.0F).sound(SoundType.STONE).harvestTool(ToolType.PICKAXE).harvestLevel(0), tileEntitySupplier);
+        super(properties.strength(3.0F, 10.0F).sound(SoundType.STONE), tileEntitySupplier);
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new ItemStack(AtumBlocks.LIMESTONE_CHEST);
     }
 
@@ -67,8 +66,7 @@ public class ChestBaseBlock extends ChestBlock {
         }
         world.removeBlock(pos, false);
 
-        if (tileEntity instanceof ChestBaseTileEntity) {
-            ChestBaseTileEntity chestBase = (ChestBaseTileEntity) tileEntity;
+        if (tileEntity instanceof ChestBaseTileEntity chestBase) {
             if (chestBase.canBeDouble && !chestBase.canBeSingle) {
                 for (int i = 0; i < 4; i++) {
                     Direction direction = state.getValue(FACING);
@@ -91,8 +89,7 @@ public class ChestBaseBlock extends ChestBlock {
     private void breakDoubleChest(Level world, BlockPos pos) {
         BlockEntity tileEntity = world.getBlockEntity(pos);
 
-        if (tileEntity instanceof ChestBaseTileEntity) {
-            ChestBaseTileEntity chestBase = (ChestBaseTileEntity) tileEntity;
+        if (tileEntity instanceof ChestBaseTileEntity chestBase) {
             if (!chestBase.isEmpty()) {
                 Containers.dropContents(world, pos, chestBase);
             }
@@ -105,8 +102,7 @@ public class ChestBaseBlock extends ChestBlock {
     @Nonnull
     public BlockState updateShape(@Nonnull BlockState state, @Nonnull Direction facing, @Nonnull BlockState facingState, @Nonnull LevelAccessor world, @Nonnull BlockPos currentPos, @Nonnull BlockPos facingPos) {
         BlockEntity tileEntity = world.getBlockEntity(currentPos);
-        if (tileEntity instanceof ChestBaseTileEntity) {
-            ChestBaseTileEntity chest = (ChestBaseTileEntity) tileEntity;
+        if (tileEntity instanceof ChestBaseTileEntity chest) {
             if (chest.canBeSingle && !chest.canBeDouble) {
                 return state;
             } else {
@@ -119,8 +115,8 @@ public class ChestBaseBlock extends ChestBlock {
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context) {
         Block block = Block.byItem(context.getItemInHand().getItem());
-        if (block instanceof ChestBaseBlock && block.hasTileEntity(block.defaultBlockState())) {
-            BlockEntity tileEntity = this.newBlockEntity(context.getLevel());
+        if (block instanceof ChestBaseBlock) {
+            BlockEntity tileEntity = this.newBlockEntity(context.getClickedPos(), context.getLevel().getBlockState(context.getClickedPos()));
             if (tileEntity instanceof ChestBaseTileEntity && !((ChestBaseTileEntity) tileEntity).canBeDouble) {
                 return super.getStateForPlacement(context).setValue(TYPE, ChestType.SINGLE);
             }
@@ -133,15 +129,14 @@ public class ChestBaseBlock extends ChestBlock {
         super.setPlacedBy(world, pos, state, placer, stack);
         if (placer instanceof Player) {
             BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof ChestBaseTileEntity) {
-                ChestBaseTileEntity chest = (ChestBaseTileEntity) tileEntity;
+            if (tileEntity instanceof ChestBaseTileEntity chest) {
                 if (chest.canBeDouble && !chest.canBeSingle) {
                     Direction direction = Direction.from2DDataValue(Mth.floor(placer.getYRot() * 4.0F / 360.0F + 0.5D) & 3).getOpposite();
                     BlockPos posRight = pos.relative(direction.getClockWise().getOpposite());
                     BlockState rightState = world.getBlockState(posRight);
                     BlockHitResult rayTrace = new BlockHitResult(new Vec3(posRight.getX(), posRight.getY(), posRight.getZ()), direction, pos, false);
                     BlockPlaceContext context = new BlockPlaceContext(new UseOnContext((Player) placer, InteractionHand.MAIN_HAND, rayTrace));
-                    if (rightState.isAir(world, posRight) || rightState.canBeReplaced(context)) {
+                    if (rightState.isAir() || rightState.canBeReplaced(context)) {
                         placer.level.setBlockAndUpdate(posRight, state.setValue(TYPE, ChestType.LEFT)); //Left and right is reversed? o.O
                     }
                 }

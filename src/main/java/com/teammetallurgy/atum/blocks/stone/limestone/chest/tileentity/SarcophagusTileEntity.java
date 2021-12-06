@@ -74,19 +74,17 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        this.hasSpawned = compound.getBoolean("spawned");
-        this.isOpenable = compound.getBoolean("openable");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        this.hasSpawned = tag.getBoolean("spawned");
+        this.isOpenable = tag.getBoolean("openable");
     }
 
     @Override
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        compound.putBoolean("spawned", this.hasSpawned);
-        compound.putBoolean("openable", this.isOpenable);
-        return compound;
+    protected void saveAdditional(CompoundTag tag) {
+        super.save(tag);
+        tag.putBoolean("spawned", this.hasSpawned);
+        tag.putBoolean("openable", this.isOpenable);
     }
 
     @Override

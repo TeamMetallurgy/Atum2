@@ -47,41 +47,41 @@ public class SandstormHandler {
         }
     }
 
-    private boolean canPlaceSandAt(ServerLevel serverWorld, BlockPos pos) {
-        BlockState state = serverWorld.getBlockState(pos.below());
-        return ((state.getBlock() != AtumBlocks.SAND && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL) || state.getBlock().is(BlockTags.LEAVES)) && DimensionHelper.canPlaceSandLayer(serverWorld, pos);
+    private boolean canPlaceSandAt(ServerLevel serverLevel, BlockPos pos) {
+        BlockState state = serverLevel.getBlockState(pos.below());
+        return ((state.getBlock() != AtumBlocks.SAND && state.getBlock() != AtumBlocks.LIMESTONE_GRAVEL) || BlockTags.LEAVES.contains(state.getBlock())) && DimensionHelper.canPlaceSandLayer(serverLevel, pos);
     }
 
     public void updateWeather(Level world) {
         if (world instanceof ServerLevel && !world.isClientSide) {
-            ServerLevel serverWorld = (ServerLevel) world;
-            ServerLevelData worldInfo = serverWorld.getServer().getWorldData().overworldData();
+            ServerLevel serverLevel = (ServerLevel) world;
+            ServerLevelData worldInfo = serverLevel.getServer().getWorldData().overworldData();
             int cleanWeatherTime = worldInfo.getClearWeatherTime();
 
             if (cleanWeatherTime > 0) {
                 --cleanWeatherTime;
-                this.stormTime = DimensionHelper.getData(serverWorld).isStorming() ? 1 : 2;
+                this.stormTime = DimensionHelper.getData(serverLevel).isStorming() ? 1 : 2;
             }
 
             if (this.stormTime <= 0) {
-                if (DimensionHelper.getData(serverWorld).isStorming()) {
-                    this.stormTime = serverWorld.random.nextInt(6000) + 6000;
+                if (DimensionHelper.getData(serverLevel).isStorming()) {
+                    this.stormTime = serverLevel.random.nextInt(6000) + 6000;
                 } else {
-                    this.stormTime = serverWorld.random.nextInt(168000) + 12000;
+                    this.stormTime = serverLevel.random.nextInt(168000) + 12000;
                 }
-                DimensionHelper.getData(serverWorld).setStorming(DimensionHelper.getData(serverWorld).isStorming());
-                NetworkHandler.sendToDimension(new WeatherPacket(this.stormTime), serverWorld, Atum.ATUM);
+                DimensionHelper.getData(serverLevel).setStorming(DimensionHelper.getData(serverLevel).isStorming());
+                NetworkHandler.sendToDimension(new WeatherPacket(this.stormTime), serverLevel, Atum.ATUM);
             } else {
                 this.stormTime--;
                 if (this.stormTime <= 0) {
-                    DimensionHelper.getData(serverWorld).setStorming(!DimensionHelper.getData(serverWorld).isStorming());
+                    DimensionHelper.getData(serverLevel).setStorming(!DimensionHelper.getData(serverLevel).isStorming());
                 }
             }
 
             worldInfo.setClearWeatherTime(cleanWeatherTime);
 
             this.prevStormStrength = this.stormStrength;
-            if (DimensionHelper.getData(serverWorld).isStorming()) {
+            if (DimensionHelper.getData(serverLevel).isStorming()) {
                 this.stormStrength += 1.0F / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
             } else {
                 this.stormStrength -= 1.0F / (float) (20 * AtumConfig.SANDSTORM.sandstormTransitionTime.get());
@@ -89,32 +89,32 @@ public class SandstormHandler {
             this.stormStrength = Mth.clamp(this.stormStrength, 0.0F, 1.0F);
 
             if (this.stormStrength != this.prevStormStrength || this.lastUpdateTime < System.currentTimeMillis() - 1000) {
-                NetworkHandler.sendToDimension(new StormStrengthPacket(this.stormStrength), serverWorld, Atum.ATUM);
+                NetworkHandler.sendToDimension(new StormStrengthPacket(this.stormStrength), serverLevel, Atum.ATUM);
                 this.lastUpdateTime = System.currentTimeMillis();
             }
 
             try {
-                if (AtumConfig.SANDSTORM.sandstormSandLayerChance.get() > 0 && serverWorld.random.nextInt(AtumConfig.SANDSTORM.sandstormSandLayerChance.get()) == 0) {
+                if (AtumConfig.SANDSTORM.sandstormSandLayerChance.get() > 0 && serverLevel.random.nextInt(AtumConfig.SANDSTORM.sandstormSandLayerChance.get()) == 0) {
                     if (this.stormStrength > 0.9F) {
-                        ChunkMap chunkManager = serverWorld.getWorldServer().getChunkSource().chunkMap;
+                        ChunkMap chunkManager = serverLevel.getChunkSource().chunkMap;
 
                         chunkManager.getChunks().forEach(chunkHolder -> {
                             Optional<LevelChunk> optionalChunk = chunkHolder.getEntityTickingChunkFuture().getNow(ChunkHolder.UNLOADED_LEVEL_CHUNK).left();
                             if (optionalChunk.isPresent()) {
                                 ChunkPos chunkPos = optionalChunk.get().getPos();
-                                if (!chunkManager.noPlayersCloseForSpawning(chunkPos)) {
-                                    BlockPos pos = serverWorld.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, serverWorld.getBlockRandomPos(chunkPos.getMinBlockX(), 0, chunkPos.getMinBlockZ(), 15));
+                                if (!chunkManager.getPlayersCloseForSpawning(chunkPos).isEmpty()) {
+                                    BlockPos pos = serverLevel.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, serverLevel.getBlockRandomPos(chunkPos.getMinBlockX(), 0, chunkPos.getMinBlockZ(), 15));
                                     BlockPos posDown = pos.below();
 
-                                    if (serverWorld.isAreaLoaded(posDown, 1)) {
-                                        BlockState sandState = serverWorld.getBlockState(pos);
+                                    if (serverLevel.isAreaLoaded(posDown, 1)) {
+                                        BlockState sandState = serverLevel.getBlockState(pos);
                                         if (sandState.getBlock() == AtumBlocks.SAND_LAYERED) {
                                             int layers = sandState.getValue(SandLayersBlock.LAYERS);
                                             if (layers < 3) {
-                                                serverWorld.setBlockAndUpdate(pos, sandState.setValue(SandLayersBlock.LAYERS, ++layers));
+                                                serverLevel.setBlockAndUpdate(pos, sandState.setValue(SandLayersBlock.LAYERS, ++layers));
                                             }
-                                        } else if (this.canPlaceSandAt(serverWorld, pos)) {
-                                            serverWorld.setBlockAndUpdate(pos, AtumBlocks.SAND_LAYERED.defaultBlockState());
+                                        } else if (this.canPlaceSandAt(serverLevel, pos)) {
+                                            serverLevel.setBlockAndUpdate(pos, AtumBlocks.SAND_LAYERED.defaultBlockState());
                                         }
                                     }
                                 }

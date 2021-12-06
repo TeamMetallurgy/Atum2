@@ -57,12 +57,12 @@ public class RasStep extends RingItem implements IArtifact {
                 if (posBox.closerThan(living.position(), area)) {
                     mutablePos.set(posBox.getX(), posBox.getY() + 1, posBox.getZ());
                     BlockState state = world.getBlockState(mutablePos);
-                    if (state.isAir(world, mutablePos)) {
+                    if (state.isAir()) {
                         BlockState checkState = world.getBlockState(posBox);
                         boolean isFull = checkState.getFluidState().is(FluidTags.LAVA) && checkState.hasProperty(LiquidBlock.LEVEL) && checkState.getValue(LiquidBlock.LEVEL) == 0;
                         if (checkState.getMaterial() == Material.LAVA && isFull && raStone.canSurvive(world, posBox) && world.isUnobstructed(raStone, posBox, CollisionContext.empty()) && !ForgeEventFactory.onBlockPlace(living, BlockSnapshot.create(world.dimension(), world, posBox), Direction.UP)) {
                             world.setBlockAndUpdate(posBox, raStone);
-                            world.getBlockTicks().scheduleTick(posBox, raStone.getBlock(), Mth.nextInt(living.getRandom(), 60, 120));
+                            world.scheduleTick(posBox, raStone.getBlock(), Mth.nextInt(living.getRandom(), 60, 120));
                         }
                     }
                 }

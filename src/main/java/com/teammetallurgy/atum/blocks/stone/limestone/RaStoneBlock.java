@@ -52,11 +52,11 @@ public class RaStoneBlock extends HalfTransparentBlock {
                 mutablePos.set(pos).move(direction);
                 BlockState stateDirection = world.getBlockState(mutablePos);
                 if (stateDirection.is(this) && !this.slightlyRemove(stateDirection, world, mutablePos)) {
-                    world.getBlockTicks().scheduleTick(mutablePos, this, Mth.nextInt(random, 20, 40));
+                    world.scheduleTick(mutablePos, this, Mth.nextInt(random, 20, 40));
                 }
             }
         } else {
-            world.getBlockTicks().scheduleTick(pos, this, Mth.nextInt(random, 20, 40));
+            world.scheduleTick(pos, this, Mth.nextInt(random, 20, 40));
         }
     }
 
@@ -100,7 +100,8 @@ public class RaStoneBlock extends HalfTransparentBlock {
     }
 
     @Override
-    public ItemStack getPickBlock(BlockState state, HitResult target, BlockGetter world, BlockPos pos, Player player) {
+    @Nonnull
+    public ItemStack getCloneItemStack(@Nonnull BlockGetter getter, @Nonnull BlockPos pos, @Nonnull BlockState state) {
         return ItemStack.EMPTY;
     }
 

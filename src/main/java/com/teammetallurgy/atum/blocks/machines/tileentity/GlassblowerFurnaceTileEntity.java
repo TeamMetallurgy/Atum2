@@ -46,7 +46,7 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
 
     public boolean isGlassOutput(@Nonnull ItemStack output) {
         Item item = output.getItem();
-        return item.is(Tags.Items.GLASS);
+        return Tags.Items.GLASS.contains(item);
     }
 
     @Override

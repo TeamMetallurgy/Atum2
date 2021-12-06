@@ -31,7 +31,7 @@ import java.util.Random;
 public class FertileSoilBlock extends Block implements BonemealableBlock {
 
     public FertileSoilBlock() {
-        super(Block.Properties.of(Material.GRASS, MaterialColor.GRASS).randomTicks().strength(0.5F).sound(SoundType.GRAVEL).harvestTool(ToolType.SHOVEL).harvestLevel(0));
+        super(Block.Properties.of(Material.GRASS, MaterialColor.GRASS).randomTicks().strength(0.5F).sound(SoundType.GRAVEL));
     }
 
     @Override

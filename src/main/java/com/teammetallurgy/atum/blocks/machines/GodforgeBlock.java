@@ -43,12 +43,12 @@ public class GodforgeBlock extends BaseEntityBlock {
     public static final EnumProperty<God> GOD = EnumProperty.create("god", God.class);
 
     public GodforgeBlock() {
-        super(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().harvestTool(ToolType.PICKAXE).harvestLevel(1).strength(3.5F).lightLevel((state) -> state.getValue(LIT) ? 13 : 0));
+        super(BlockBehaviour.Properties.of(Material.STONE).requiresCorrectToolForDrops().strength(3.5F).lightLevel((state) -> state.getValue(LIT) ? 13 : 0));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false).setValue(GOD, God.ANPUT));
     }
 
     @Override
-    public BlockEntity newBlockEntity(@Nonnull BlockGetter world) {
+    public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
         return new GodforgeTileEntity();
     }
 
@@ -59,8 +59,7 @@ public class GodforgeBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         } else {
             BlockEntity tileEntity = world.getBlockEntity(pos);
-            if (tileEntity instanceof GodforgeTileEntity && player instanceof ServerPlayer) {
-                GodforgeTileEntity godForge = (GodforgeTileEntity) tileEntity;
+            if (tileEntity instanceof GodforgeTileEntity godForge && player instanceof ServerPlayer) {
                 NetworkHooks.openGui((ServerPlayer) player, godForge, pos);
             }
             return InteractionResult.CONSUME;

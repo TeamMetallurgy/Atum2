@@ -19,7 +19,7 @@ public class LimestoneBlock extends Block {
     public static final BooleanProperty HAS_SCARAB = BooleanProperty.create("contains_scarab");
 
     public LimestoneBlock() {
-        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.8F, 6.0F).requiresCorrectToolForDrops().harvestTool(ToolType.PICKAXE).harvestLevel(0));
+        super(Block.Properties.of(Material.STONE, MaterialColor.SAND).strength(1.8F, 6.0F).requiresCorrectToolForDrops());
         this.registerDefaultState(this.stateDefinition.any().setValue(HAS_SCARAB, false));
     }
 

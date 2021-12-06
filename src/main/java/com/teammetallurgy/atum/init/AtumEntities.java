@@ -151,7 +151,7 @@ public class AtumEntities {
 
     public static boolean canAnimalSpawn(EntityType<? extends Animal> animal, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
         Block spawnBlock = world.getBlockState(pos.below()).getBlock();
-        return (spawnBlock.is(BlockTags.SAND) || spawnBlock.is(Tags.Blocks.SAND) || DimensionHelper.SURFACE_BLOCKS.contains(spawnBlock) ||
+        return (BlockTags.SAND.contains(spawnBlock) || Tags.Blocks.SAND.contains(spawnBlock) || DimensionHelper.SURFACE_BLOCKS.contains(spawnBlock) ||
                 spawnBlock == Blocks.GRASS_BLOCK) && world.getRawBrightness(pos, 0) > 8;
     }
 }
