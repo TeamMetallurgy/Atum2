@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
 import com.teammetallurgy.atum.Atum;
@@ -26,7 +27,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TombPieces {
+public class TombPieces { //TODO
     public static final ResourceLocation TOMB = new ResourceLocation(Atum.MOD_ID, "tomb");
 
     public static class TombTemplate extends TemplateStructurePiece {
@@ -90,4 +91,4 @@ public class TombPieces {
             compound.putString("Rot", this.placeSettings.getRotation().name());
         }
     }
-}
+}*/

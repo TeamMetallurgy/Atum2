@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.google.common.collect.Sets;
@@ -23,7 +24,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import javax.annotation.Nonnull;
 import java.util.*;
 
-public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> {
+public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> { //TODO
     private static final BlockState LOG = AtumBlocks.DEADWOOD_LOG.defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true);
     private static final BlockState BRANCH = AtumBlocks.DEADWOOD_BRANCH.defaultBlockState();
 
@@ -200,4 +201,4 @@ public class DeadwoodFeature extends Feature<NoneFeatureConfiguration> {
             }
         }
     }
-}
+}*/

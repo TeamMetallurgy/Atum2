@@ -23,6 +23,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -32,6 +33,7 @@ import net.minecraftforge.fml.common.Mod;
 import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtemArmor extends ArtifactArmor {
@@ -43,9 +45,13 @@ public class AtemArmor extends ArtifactArmor {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, @Nonnull ItemStack stack, EquipmentSlot armorSlot, A _default) {
-        return (A) new AtemArmorModel(armorSlot, hasFullSet(entityLiving));
+    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
+        consumer.accept(new IItemRenderProperties() {
+            @Override
+            public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A _default) {
+                return (A) new AtemArmorModel(armorSlot, hasFullSet(entityLiving));
+            }
+        });
     }
 
     @Override

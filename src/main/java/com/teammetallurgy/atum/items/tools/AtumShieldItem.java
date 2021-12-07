@@ -5,14 +5,14 @@ import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 public class AtumShieldItem extends ShieldItem {
     private Item repairItem;
@@ -27,8 +27,8 @@ public class AtumShieldItem extends ShieldItem {
     }
 
     @Override
-    public boolean isShield(@Nonnull ItemStack stack, @Nullable LivingEntity entity) {
-        return true;
+    public boolean canPerformAction(@Nonnull ItemStack stack, @Nonnull ToolAction toolAction) {
+        return toolAction.equals(ToolActions.SHIELD_BLOCK);
     }
 
     @Override

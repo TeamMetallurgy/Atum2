@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.google.common.collect.Lists;
@@ -40,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class PyramidPieces {
+public class PyramidPieces { //TODO
     public static final ResourceLocation PYRAMID = new ResourceLocation(Atum.MOD_ID, "pyramid");
 
     // For the maze to generate correctly, it must be an odd width and depth
@@ -383,4 +384,4 @@ public class PyramidPieces {
             }
         }
     }
-}
+}*/

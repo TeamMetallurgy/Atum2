@@ -61,7 +61,7 @@ public class OrbAttackGoal<T extends Monster & RangedAttackMob> extends Goal { /
         LivingEntity livingentity = this.entity.getTarget();
         if (livingentity != null) {
             double d0 = this.entity.distanceToSqr(livingentity.getX(), livingentity.getY(), livingentity.getZ());
-            boolean flag = this.entity.getSensing().canSee(livingentity);
+            boolean flag = this.entity.getSensing().hasLineOfSight(livingentity);
             boolean flag1 = this.seeTime > 0;
             if (flag != flag1) {
                 this.seeTime = 0;

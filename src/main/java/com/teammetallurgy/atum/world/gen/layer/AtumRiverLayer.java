@@ -1,11 +1,11 @@
-package com.teammetallurgy.atum.world.gen.layer;
+/*package com.teammetallurgy.atum.world.gen.layer;
 
 import net.minecraft.world.level.newbiome.context.Context;
 import net.minecraft.world.level.newbiome.layer.traits.CastleTransformer;
 
 import javax.annotation.Nonnull;
 
-public enum AtumRiverLayer implements CastleTransformer {
+public enum AtumRiverLayer implements CastleTransformer { //TODO?
     INSTANCE;
 
     @Override
@@ -17,4 +17,4 @@ public enum AtumRiverLayer implements CastleTransformer {
     private static int riverFilter(int i) {
         return i >= 2 ? 2 + (i & 1) : i;
     }
-}
+}*/

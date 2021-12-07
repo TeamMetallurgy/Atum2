@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.mojang.serialization.Codec;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class AtumMineshaftStructure extends StructureFeature<AtumMineshaftConfig> {
+public class AtumMineshaftStructure extends StructureFeature<AtumMineshaftConfig> { //TODO
 
     public AtumMineshaftStructure(Codec<AtumMineshaftConfig> config) {
         super(config);
@@ -101,4 +102,4 @@ public class AtumMineshaftStructure extends StructureFeature<AtumMineshaftConfig
             return this.name;
         }
     }
-}
+}*/

@@ -44,12 +44,12 @@ import javax.annotation.Nullable;
 public class SarcophagusBlock extends ChestBaseBlock {
 
     public SarcophagusBlock() {
-        super(() -> AtumTileEntities.SARCOPHAGUS, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND).strength(4.0F));
+        super(AtumTileEntities.SARCOPHAGUS::get, BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND).strength(4.0F));
     }
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new SarcophagusTileEntity();
+        return new SarcophagusTileEntity(pos, state);
     }
 
     @SubscribeEvent

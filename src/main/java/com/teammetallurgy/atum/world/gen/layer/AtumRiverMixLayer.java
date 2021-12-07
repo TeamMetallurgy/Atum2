@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.layer;
+/*package com.teammetallurgy.atum.world.gen.layer;
 
 import net.minecraft.world.level.newbiome.area.Area;
 import net.minecraft.world.level.newbiome.context.Context;
@@ -7,7 +7,7 @@ import net.minecraft.world.level.newbiome.layer.traits.DimensionOffset0Transform
 
 import javax.annotation.Nonnull;
 
-public enum AtumRiverMixLayer implements AreaTransformer2, DimensionOffset0Transformer {
+public enum AtumRiverMixLayer implements AreaTransformer2, DimensionOffset0Transformer { //TODO?
     INSTANCE;
 
     @Override
@@ -19,4 +19,4 @@ public enum AtumRiverMixLayer implements AreaTransformer2, DimensionOffset0Trans
         }
         return i;
     }
-}
+}*/

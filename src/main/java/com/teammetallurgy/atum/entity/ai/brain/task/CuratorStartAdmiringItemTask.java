@@ -6,6 +6,7 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.npc.Villager;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 
@@ -17,7 +18,7 @@ public class CuratorStartAdmiringItemTask <E extends Villager> extends Behavior<
 
     @Override
     protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, @Nonnull E owner) {
-        return !owner.getOffhandItem().isEmpty() && !owner.getOffhandItem().isShield(owner);
+        return !owner.getOffhandItem().isEmpty() && !owner.getOffhandItem().canPerformAction(ToolActions.SHIELD_BLOCK);
     }
 
     @Override

@@ -1,10 +1,11 @@
+/*
 package com.teammetallurgy.atum.world.gen;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class AtumSurfaceBuilders {
+public class AtumSurfaceBuilders { //TODO
     //States
     public static final BlockState SAND = AtumBlocks.SAND.defaultBlockState();
     public static final BlockState LIMESTONE = AtumBlocks.LIMESTONE.defaultBlockState();
@@ -27,4 +28,4 @@ public class AtumSurfaceBuilders {
     private static <SC extends SurfaceBuilderConfiguration> ConfiguredSurfaceBuilder<SC> registerConfig(String name, ConfiguredSurfaceBuilder<SC> csb) {
         return BuiltinRegistries.register(BuiltinRegistries.CONFIGURED_SURFACE_BUILDER, name, csb);
     }
-}
+}*/

@@ -39,8 +39,7 @@ public class HammerItem extends SwordItem {
         if (trueSource instanceof Player && COOLDOWN.containsKey(trueSource)) {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 Item heldItem = ((Player)trueSource).getMainHandItem().getItem();
-                if (heldItem instanceof HammerItem) {
-                    HammerItem hammerItem = (HammerItem) heldItem;
+                if (heldItem instanceof HammerItem hammerItem) {
                     LivingEntity target = event.getEntityLiving();
                     AttributeInstance attribute = target.getAttribute(Attributes.MOVEMENT_SPEED);
                     if (attribute != null && !attribute.hasModifier(STUN_MODIFIER)) {

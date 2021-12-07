@@ -24,6 +24,7 @@ import com.teammetallurgy.atum.blocks.vegetation.*;
 import com.teammetallurgy.atum.blocks.wood.*;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -39,8 +40,8 @@ import net.minecraftforge.registries.ObjectHolder;
 import javax.annotation.Nonnull;
 
 import static com.teammetallurgy.atum.misc.AtumRegistry.*;
-import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.copy;
+import static net.minecraft.world.level.block.state.BlockBehaviour.Properties.of;
 
 @ObjectHolder(value = Atum.MOD_ID)
 public class AtumBlocks {
@@ -120,17 +121,17 @@ public class AtumBlocks {
     public static final Block ARROW_TRAP = registerBlock(new ArrowTrapBlock(), "arrow_trap");
     public static final Block SARCOPHAGUS = registerBlock(new SarcophagusBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "sarcophagus");
     public static final Block LIMESTONE_CHEST = registerBlock(new LimestoneChestBlock(), () -> ItemStackRenderer::new, new Item.Properties(), "limestone_chest");
-    public static final Block GOLD_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "gold_ore");
-    public static final Block IRON_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "iron_ore");
-    public static final Block COAL_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "coal_ore");
-    public static final Block LAPIS_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "lapis_ore");
-    public static final Block DIAMOND_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "diamond_ore");
-    public static final Block EMERALD_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "emerald_ore");
-    public static final Block REDSTONE_ORE = registerBlock(new RedStoneOreBlock(of(Material.STONE).randomTicks().lightLevel(s -> 9).strength(3.0F, 3.0F)), "redstone_ore");
+    public static final Block GOLD_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "gold_ore");
+    public static final Block IRON_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "iron_ore");
+    public static final Block COAL_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "coal_ore");
+    public static final Block LAPIS_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(2, 5)), "lapis_ore");
+    public static final Block DIAMOND_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "diamond_ore");
+    public static final Block EMERALD_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(3, 7)), "emerald_ore");
+    public static final Block REDSTONE_ORE = registerBlock(new RedStoneOreBlock(of(Material.STONE).requiresCorrectToolForDrops().randomTicks().lightLevel(s -> 9).strength(3.0F, 3.0F)), "redstone_ore");
     public static final Block KHNUMITE_RAW = registerBlock(new Block(of(Material.CLAY).strength(0.6F).sound(SoundType.GRAVEL)), "khnumite_raw");
-    public static final Block BONE_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "bone_ore");
-    public static final Block RELIC_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "relic_ore");
-    public static final Block NEBU_ORE = registerBlock(new AtumOresBlock(of(Material.STONE).strength(3.0F, 3.0F)), "nebu_ore");
+    public static final Block BONE_ORE = registerBlock(new OreBlock(of(Material.STONE).strength(3.0F, 3.0F), UniformInt.of(0, 2)), "bone_ore");
+    public static final Block RELIC_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), UniformInt.of(0, 2)), "relic_ore");
+    public static final Block NEBU_ORE = registerBlock(new OreBlock(of(Material.STONE).requiresCorrectToolForDrops().strength(3.0F, 3.0F)), "nebu_ore");
     public static final Block NEBU_BLOCK = registerBlock(new Block(BlockBehaviour.Properties.of(Material.METAL, MaterialColor.GOLD).requiresCorrectToolForDrops().strength(3.0F, 6.0F).sound(SoundType.METAL)), "nebu_block");
     public static final Block GODFORGED_BLOCK = registerBlock(new GodforgedBlock(), "godforged_block");
     public static final Block ANPUT_GODFORGED_BLOCK = registerBlock(new GodGodforgedBlock(God.ANPUT), "anput_godforged_block");

@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.biome;
 
 import com.mojang.serialization.Codec;
@@ -17,7 +18,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 import java.util.stream.Collectors;
 
-public class AtumBiomeProvider extends BiomeSource {
+public class AtumBiomeProvider extends BiomeSource { //TODO?
     public static final Codec<AtumBiomeProvider> CODEC = RecordCodecBuilder.create((builder) -> {
         return builder.group(Codec.BOOL.fieldOf("large_biomes").orElse(false).stable().forGetter((atumBiomeProvider) -> {
             return atumBiomeProvider.largeBiomes;
@@ -54,11 +55,13 @@ public class AtumBiomeProvider extends BiomeSource {
         return new AtumBiomeProvider(this.largeBiomes, this.lookupRegistry, this.seed);
     }
 
-    /**
+    */
+/**
      * Returns the correct dynamic registry biome instead of using get method
      * which actually returns the incorrect biome instance because it resolves the biome
      * with WorldGenRegistry first instead of the dynamic registry which is... bad.
-     */
+     *//*
+
     @Override
     @Nonnull
     public Biome getNoiseBiome(int x, int y, int z) {
@@ -84,4 +87,4 @@ public class AtumBiomeProvider extends BiomeSource {
             }
         }
     }
-}
+}*/

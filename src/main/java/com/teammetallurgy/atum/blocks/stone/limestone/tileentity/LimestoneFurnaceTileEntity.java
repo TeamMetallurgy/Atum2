@@ -2,17 +2,19 @@ package com.teammetallurgy.atum.blocks.stone.limestone.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.FurnaceBaseTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.FurnaceMenu;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 
 public class LimestoneFurnaceTileEntity extends FurnaceBaseTileEntity {
 
-    public LimestoneFurnaceTileEntity() {
-        super(AtumTileEntities.LIMESTONE_FURNACE, RecipeType.SMELTING, 3);
+    public LimestoneFurnaceTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.LIMESTONE_FURNACE.get(), RecipeType.SMELTING, 3);
     }
 
     @Override

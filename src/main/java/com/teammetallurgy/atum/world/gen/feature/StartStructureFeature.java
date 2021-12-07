@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -19,7 +20,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class StartStructureFeature extends Feature<NoneFeatureConfiguration> {
+public class StartStructureFeature extends Feature<NoneFeatureConfiguration> { //TODO
 
     public StartStructureFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -50,4 +51,4 @@ public class StartStructureFeature extends Feature<NoneFeatureConfiguration> {
         }
         return false;
     }
-}
+}*/

@@ -47,8 +47,7 @@ public class NuitsVanishingItem extends AmuletItem implements IArtifact {
     @SubscribeEvent
     public static void onAttack(LivingAttackEvent event) {
         Entity source = event.getSource().getEntity();
-        if (source instanceof LivingEntity) {
-            LivingEntity attacker = (LivingEntity) source;
+        if (source instanceof LivingEntity attacker) {
             if (INVISIBLE.getBoolean(attacker)) {
                 setNotInvisible(attacker);
                 TIMER.putIfAbsent(attacker, 200);

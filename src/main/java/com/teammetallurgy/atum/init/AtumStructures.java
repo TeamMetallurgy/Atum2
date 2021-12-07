@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
@@ -29,7 +30,7 @@ import java.util.List;
 import java.util.Locale;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AtumStructures {
+public class AtumStructures { //TODO
     private static final List<StructureFeature<?>> STRUCTURES = new ArrayList<>();
     //Structures
     public static final StructureFeature<NoneFeatureConfiguration> GIRAFI_TOMB_STRUCTURE = register("girafi_tomb", new GirafiTombStructure(NoneFeatureConfiguration.CODEC), GenerationStep.Decoration.SURFACE_STRUCTURES);
@@ -71,4 +72,4 @@ public class AtumStructures {
         }
         AtumJigsaw.registerJigsaws();
     }
-}
+}*/

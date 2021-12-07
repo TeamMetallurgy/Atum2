@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.carver;
 
 import com.google.common.collect.ImmutableSet;
@@ -19,7 +20,7 @@ import java.util.BitSet;
 import java.util.Random;
 import java.util.function.Function;
 
-public abstract class AtumCarver<C extends CarverConfiguration> extends WorldCarver<C> {
+public abstract class AtumCarver<C extends CarverConfiguration> extends WorldCarver<C> { //TODO. Is this still needed, or can vanilla carver be used?
 
     public AtumCarver(Codec<C> config, int maxHeight) {
         super(config, maxHeight);
@@ -64,4 +65,4 @@ public abstract class AtumCarver<C extends CarverConfiguration> extends WorldCar
         Block block = state.getBlock();
         return this.canReplaceBlock(state) || (block == AtumBlocks.FERTILE_SOIL || block == AtumBlocks.LIMESTONE_GRAVEL) && !aboveState.getFluidState().is(FluidTags.WATER);
     }
-}
+}*/

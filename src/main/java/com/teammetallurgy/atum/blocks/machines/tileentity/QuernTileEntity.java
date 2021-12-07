@@ -26,7 +26,6 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -38,37 +37,35 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-public class QuernTileEntity extends InventoryBaseTileEntity implements TickableBlockEntity, WorldlyContainer {
+public class QuernTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
     private int currentRotation;
     private int quernRotations;
 
-    public QuernTileEntity() {
-        super(AtumTileEntities.QUERN, 1);
+    public QuernTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.QUERN.get(), pos, state, 1);
     }
 
-    @Override
-    public void tick() {
-        if (this.level != null && !this.level.isClientSide) {
-            if (this.currentRotation >= 360) {
-                this.currentRotation = 0;
-                this.quernRotations += 1;
+    public static void serverTick(Level level, BlockPos pos, BlockState state, QuernTileEntity quern) {
+        if (level != null && !level.isClientSide) {
+            if (quern.currentRotation >= 360) {
+                quern.currentRotation = 0;
+                quern.quernRotations += 1;
             }
 
-            if (this.getItem(0).isEmpty()) {
-                this.quernRotations = 0;
+            if (quern.getItem(0).isEmpty()) {
+                quern.quernRotations = 0;
             }
 
-            if (this.quernRotations > 0) {
-                if (this.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) level;
-                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), IAtumRecipeType.QUERN);
+            if (quern.quernRotations > 0) {
+                if (level instanceof ServerLevel serverLevel) {
+                    Collection<QuernRecipe> recipes = RecipeHelper.getRecipes(serverLevel.getRecipeManager(), IAtumRecipeType.QUERN);
                     for (QuernRecipe quernRecipe : recipes) {
                         for (Ingredient ingredient : quernRecipe.getIngredients()) {
-                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, this.getItem(0)) && quernRecipe.getRotations() == this.quernRotations) {
-                                this.removeItem(0, 1);
-                                this.outputItems(quernRecipe.assemble(this), this.level, this.getBlockPos());
-                                this.quernRotations = 0;
-                                this.setChanged();
+                            if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, quern.getItem(0)) && quernRecipe.getRotations() == quern.quernRotations) {
+                                quern.removeItem(0, 1);
+                                quern.outputItems(quernRecipe.assemble(quern), level, pos);
+                                quern.quernRotations = 0;
+                                quern.setChanged();
                             }
                         }
                     }
@@ -115,19 +112,17 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements Tickable
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        this.currentRotation = compound.getInt("currentRotation");
-        this.quernRotations = compound.getInt("quernRotations");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        this.currentRotation = tag.getInt("currentRotation");
+        this.quernRotations = tag.getInt("quernRotations");
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        compound.putInt("currentRotation", this.currentRotation);
-        compound.putInt("quernRotations", this.quernRotations);
-        return compound;
+    protected void saveAdditional(@Nonnull CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("currentRotation", this.currentRotation);
+        tag.putInt("quernRotations", this.quernRotations);
     }
 
     @Override
@@ -137,13 +132,16 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements Tickable
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override
@@ -177,8 +175,8 @@ public class QuernTileEntity extends InventoryBaseTileEntity implements Tickable
         return false;
     }
 
-    @Nullable
     @Override
+    @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction direction) {
         if (capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             return LazyOptional.empty();

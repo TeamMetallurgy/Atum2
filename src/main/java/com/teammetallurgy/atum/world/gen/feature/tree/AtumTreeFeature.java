@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.mojang.serialization.Codec;
@@ -19,7 +20,7 @@ import java.util.OptionalInt;
 import java.util.Random;
 import java.util.Set;
 
-public class AtumTreeFeature extends TreeFeature {
+public class AtumTreeFeature extends TreeFeature { //TODO
 
     public AtumTreeFeature(Codec<TreeConfiguration> config) {
         super(config);
@@ -84,4 +85,4 @@ public class AtumTreeFeature extends TreeFeature {
             return isDirt(block) || block instanceof FarmBlock;
         });
     }
-}
+}*/

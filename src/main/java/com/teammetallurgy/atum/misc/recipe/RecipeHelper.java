@@ -3,20 +3,23 @@ package com.teammetallurgy.atum.misc.recipe;
 import com.teammetallurgy.atum.api.recipe.recipes.KilnRecipe;
 import com.teammetallurgy.atum.blocks.machines.tileentity.KilnTileEntity;
 import com.teammetallurgy.atum.misc.StackHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.Container;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.Potions;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.brewing.BrewingRecipeRegistry;
 
 import javax.annotation.Nonnull;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import static net.minecraft.world.item.alchemy.PotionUtils.setPotion;
 
@@ -46,15 +49,14 @@ public class RecipeHelper {
         return BrewingRecipeRegistry.addRecipe(new BrewingNBT(Ingredient.of(input), ingredient, output));
     }
 
-    public static <C extends IInventory, T extends Recipe<C>> Collection<T> getRecipes(RecipeManager recipeManager, Recipe<T> recipeType) {
+    public static <C extends Container, T extends Recipe<C>> Collection<T> getRecipes(RecipeManager recipeManager, RecipeType<T> recipeType) {
         Map<ResourceLocation, Recipe<C>> recipesMap = recipeManager.byType(recipeType);
         return (Collection<T>) recipesMap.values();
     }
 
-    public static <C extends IInventory, T extends Recipe<C>> boolean isItemValidForSlot(World world, @Nonnull ItemStack stack, Recipe<T> recipeType) {
-        if (world instanceof ServerWorld) {
-            ServerWorld serverWorld = (ServerWorld) world;
-            Collection<T> recipes = RecipeHelper.getRecipes(serverWorld.getRecipeManager(), recipeType);
+    public static <C extends Container, T extends Recipe<C>> boolean isItemValidForSlot(Level level, @Nonnull ItemStack stack, RecipeType<T> recipeType) {
+        if (level instanceof ServerLevel) {
+            Collection<T> recipes = RecipeHelper.getRecipes(level.getRecipeManager(), recipeType);
             for (Recipe<C> recipe : recipes) {
                 for (Ingredient ingredient : recipe.getIngredients()) {
                     if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, stack)) {
@@ -66,7 +68,7 @@ public class RecipeHelper {
         return false;
     }
 
-    public static  <C extends IInventory, T extends Recipe<C>> Boolean isValidRecipeInput(Collection<T> recipes, @Nonnull ItemStack input) {
+    public static  <C extends Container, T extends Recipe<C>> Boolean isValidRecipeInput(Collection<T> recipes, @Nonnull ItemStack input) {
         for (Recipe<C> recipe : recipes) {
             for (Ingredient ingredient : recipe.getIngredients()) {
                 if (StackHelper.areIngredientsEqualIgnoreSize(ingredient, input)) {
@@ -79,7 +81,7 @@ public class RecipeHelper {
 
     public static Collection<KilnRecipe> getKilnRecipesFromFurnace(RecipeManager recipeManager) {
         Collection<KilnRecipe> kilnRecipes = new ArrayList<>();
-        for (FurnaceRecipe furnaceRecipe : RecipeHelper.getRecipes(recipeManager, Recipe.SMELTING)) {
+        for (SmeltingRecipe furnaceRecipe : RecipeHelper.getRecipes(recipeManager, RecipeType.SMELTING)) {
             for (Ingredient input : furnaceRecipe.getIngredients()) {
                 ItemStack output = furnaceRecipe.getResultItem();
                 if (input != null && !output.isEmpty()) {

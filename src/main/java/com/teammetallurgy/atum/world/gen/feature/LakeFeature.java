@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -21,7 +22,7 @@ import java.util.Random;
 public class LakeFeature extends Feature<BlockStateConfiguration> { //Copied from LakesFeature
     private static final BlockState AIR = Blocks.CAVE_AIR.defaultBlockState();
 
-    public LakeFeature(Codec<BlockStateConfiguration> config) {
+    public LakeFeature(Codec<BlockStateConfiguration> config) { //TODO
         super(config);
     }
 
@@ -107,4 +108,4 @@ public class LakeFeature extends Feature<BlockStateConfiguration> { //Copied fro
             }
         }
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.ruins;
 
 import com.teammetallurgy.atum.Atum;
@@ -30,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class RuinPieces {
+public class RuinPieces { //TODO
 
     public static class RuinTemplate extends TemplateStructurePiece {
         private static final List<EntityType<?>> BANDITS = Arrays.asList(AtumEntities.BARBARIAN, AtumEntities.BRIGAND, AtumEntities.NOMAD);
@@ -97,4 +98,4 @@ public class RuinPieces {
             compound.putInt("Type", this.ruinType);
         }
     }
-}
+}*/

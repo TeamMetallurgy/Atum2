@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.layer;
+/*package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.misc.AtumConfig;
 import net.minecraft.world.level.newbiome.context.Context;
@@ -6,7 +6,7 @@ import net.minecraft.world.level.newbiome.layer.traits.C1Transformer;
 
 import javax.annotation.Nonnull;
 
-public enum OasisLayer implements C1Transformer {
+public enum OasisLayer implements C1Transformer { //TODO?
     INSTANCE;
 
     @Override
@@ -22,4 +22,4 @@ public enum OasisLayer implements C1Transformer {
         }
         return value;
     }
-}
+}*/

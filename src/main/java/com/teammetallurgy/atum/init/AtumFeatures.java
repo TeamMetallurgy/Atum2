@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.init;
 
 import com.google.common.collect.ImmutableSet;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AtumFeatures {
+public class AtumFeatures { //TODO
     private static final List<Feature<?>> FEATURES = new ArrayList<>();
     //Features
     public static final Feature<BlockStateConfiguration> SURFACE_LAVA_LAKE = register("surface_lava_lake", new LakeFeature(BlockStateConfiguration.CODEC));
@@ -137,4 +138,4 @@ public class AtumFeatures {
             event.getRegistry().register(feature);
         }
     }
-}
+}*/

@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.carver;
 
 import com.teammetallurgy.atum.Atum;
@@ -12,7 +13,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AtumCarvers {
+public class AtumCarvers { //TODO. Is this still needed, or can vanilla carver be used?
     public static final AtumCarver<ProbabilityFeatureConfiguration> CAVE = new AtumCaveCarver(ProbabilityFeatureConfiguration.CODEC, 256);
     public static final AtumCarver<ProbabilityFeatureConfiguration> CANYON = new AtumCanyonCarver(ProbabilityFeatureConfiguration.CODEC);
     public static final ConfiguredWorldCarver<ProbabilityFeatureConfiguration> CAVE_CONFIGURED = register("cave", CAVE.configured(new ProbabilityFeatureConfiguration(0.14285715F)));
@@ -29,4 +30,4 @@ public class AtumCarvers {
         event.getRegistry().register(CAVE);
         event.getRegistry().register(CANYON);
     }
-}
+}*/

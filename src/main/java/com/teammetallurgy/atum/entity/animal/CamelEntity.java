@@ -4,16 +4,12 @@ import com.teammetallurgy.atum.blocks.linen.LinenCarpetBlock;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.entity.ai.goal.CamelCaravanGoal;
 import com.teammetallurgy.atum.entity.projectile.CamelSpitEntity;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -54,7 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.Tags;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -203,9 +199,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         Biome biome = this.level.getBiome(this.blockPosition());
         int chance = this.random.nextInt(100);
 
-        Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
+        /*Optional<ResourceKey<Biome>> optional = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
 
-        if (optional.isPresent()) {
+        if (optional.isPresent()) { //TODO Require functional biomes
             ResourceKey<Biome> biomeKey = optional.get();
             if (biomeKey.equals(AtumBiomes.SAND_PLAINS)) {
                 return chance <= 50 ? 0 : 5;
@@ -218,9 +214,9 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
             } else {
                 return 0;
             }
-        } else {
+        } else {*/
             return Mth.nextInt(random, 0, 5);
-        }
+        //}
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -247,7 +243,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         double d0 = target.getX() - this.getX();
         double d1 = target.getBoundingBox().minY + (double) (target.getBbHeight() / 3.0F) - camelSpit.getY();
         double d2 = target.getZ() - this.getZ();
-        float f = Mth.sqrt(d0 * d0 + d2 * d2) * 0.2F;
+        float f = Mth.sqrt((float) (d0 * d0 + d2 * d2)) * 0.2F;
         camelSpit.shoot(d0, d1 + (double) f, d2, 1.5F, 10.0F);
         this.level.playSound(null, this.getX(), this.getY(), this.getZ(), SoundEvents.LLAMA_SPIT, this.getSoundSource(), 1.0F, 1.0F + (this.random.nextFloat() - this.random.nextFloat()) * 0.2F);
         this.level.addFreshEntity(camelSpit);
@@ -381,7 +377,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
     }
 
     public boolean isValidCarpet(@Nonnull ItemStack stack) {
-        return stack.getItem().is(ItemTags.CARPETS) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
+        return ItemTags.CARPETS.contains(stack.getItem()) || Block.byItem(stack.getItem()) instanceof LinenCarpetBlock;
     }
 
     @Override
@@ -590,7 +586,7 @@ public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuP
         int temperAmount = 0;
         Item item = stack.getItem();
 
-        if (item.is(Tags.Items.CROPS_WHEAT)) {
+        if (Tags.Items.CROPS_WHEAT.contains(item)) {
             healAmount = 2.0F;
             growthAmount = 20;
             temperAmount = 3;

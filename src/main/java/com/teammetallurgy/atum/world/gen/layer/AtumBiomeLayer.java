@@ -1,4 +1,4 @@
-package com.teammetallurgy.atum.world.gen.layer;
+/*package com.teammetallurgy.atum.world.gen.layer;
 
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.misc.AtumConfig;
@@ -15,7 +15,7 @@ import net.minecraftforge.common.BiomeManager.BiomeEntry;
 import javax.annotation.Nonnull;
 import java.util.List;
 
-public class AtumBiomeLayer implements C0Transformer {
+public class AtumBiomeLayer implements C0Transformer { //TODO?
     private final List<BiomeEntry> biomes = Lists.newArrayList();
     private final Registry<Biome> biomeRegistry;
 
@@ -43,4 +43,4 @@ public class AtumBiomeLayer implements C0Transformer {
         int weight = noiseRandom.nextRandom(totalWeight);
         return biomeRegistry.getId(biomeRegistry.get(WeighedRandom.getWeightedItem(biomeList, weight).getKey()));
     }
-}
+}*/

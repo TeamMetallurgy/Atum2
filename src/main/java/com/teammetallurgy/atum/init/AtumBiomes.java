@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
@@ -11,7 +12,7 @@ import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
-public class AtumBiomes {
+public class AtumBiomes { //TODO
     public static final ResourceKey<Biome> DEAD_OASIS = registerBiome(AtumBiomeMaker.makeDeadOasis("dead_oasis"), "dead_oasis", BiomeRegion.STRANGE_SANDS);
     public static final ResourceKey<Biome> DENSE_WOODS = registerBiome(AtumBiomeMaker.makeDenseWoods("dense_woods"), "dense_woods", 10, BiomeRegion.DESSICATED_WOODS);
     public static final ResourceKey<Biome> SPARSE_WOODS = registerBiome(AtumBiomeMaker.makeSparseWoods("sparse_woods"), "sparse_woods", 10, BiomeRegion.DESSICATED_WOODS);
@@ -58,4 +59,4 @@ public class AtumBiomes {
         public static final BiomeDictionary.Type ATUM = BiomeDictionary.Type.getType("ATUM");
         public static final BiomeDictionary.Type OASIS = BiomeDictionary.Type.getType("OASIS");
     }
-}
+}*/

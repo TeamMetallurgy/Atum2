@@ -78,9 +78,7 @@ public class AtumEventListener {
         persistedTag.putBoolean(TAG_ATUM_START, true);
         tag.put(Player.PERSISTED_NBT_TAG, persistedTag);
 
-        if (shouldStartInAtum && player instanceof ServerPlayer && player.level instanceof ServerLevel) {
-            ServerPlayer serverPlayer = (ServerPlayer) player;
-            ServerLevel world = (ServerLevel) player.level;
+        if (shouldStartInAtum && player instanceof ServerPlayer serverPlayer && player.level instanceof ServerLevel world) {
             PortalBlock.changeDimension(world, serverPlayer, new TeleporterAtumStart());
             serverPlayer.setRespawnPosition(Atum.ATUM, serverPlayer.blockPosition(), serverPlayer.getYHeadRot(), true, false); //Set players spawn point in Atum, when starting in Atum
             world.setDefaultSpawnPos(serverPlayer.blockPosition(), 16);
@@ -91,8 +89,7 @@ public class AtumEventListener {
     public static void onPlayerDeath(LivingDeathEvent event) {
         if (AtumConfig.ATUM_START.startInAtum.get()) {
             LivingEntity livingEntity = event.getEntityLiving();
-            if (livingEntity instanceof ServerPlayer) {
-                ServerPlayer serverPlayer = (ServerPlayer) livingEntity;
+            if (livingEntity instanceof ServerPlayer serverPlayer) {
                 ServerLevel serverWorld = serverPlayer.getLevel();
                 BlockPos respawnPos = serverPlayer.getRespawnPosition();
                 if (respawnPos != null) {

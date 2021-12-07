@@ -17,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 
@@ -35,7 +36,7 @@ public class RenderUtils {
                 matrixStack.mulPose(rotation);
             }
 
-            if (stack.getItem().isShield(stack, null)) {
+            if (stack.getItem().canPerformAction(stack, ToolActions.SHIELD_BLOCK)) {
                 matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
                 matrixStack.translate(0.15, 0.1F, 0.15F);
             }

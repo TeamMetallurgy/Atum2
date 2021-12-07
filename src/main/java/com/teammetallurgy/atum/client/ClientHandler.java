@@ -252,11 +252,11 @@ public class ClientHandler {
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.LANTERN_OF_TEFNUT, cutout);
         ItemBlockRenderTypes.setRenderLayer(AtumBlocks.NEBU_CHAIN, cutoutMipped);
 
-        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST, TileChestRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.SARCOPHAGUS, SarcophagusRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.CRATE, CrateRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.QUERN, QuernRender::new);
-        BlockEntityRenderers.register(AtumTileEntities.SIGN, SignRenderer::new);
+        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CHEST.get(), TileChestRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.SARCOPHAGUS.get(), SarcophagusRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.CRATE.get(), CrateRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.QUERN.get(), QuernRender::new);
+        BlockEntityRenderers.register(AtumTileEntities.SIGN.get(), SignRenderer::new);
         BlockEntityRenderers.register(AtumTileEntities.PALM_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {

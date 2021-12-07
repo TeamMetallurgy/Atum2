@@ -68,17 +68,13 @@ public abstract class ArtifactArmor extends TexturedArmorItem implements IArtifa
 
     public boolean hasArmorSetPiece(Player player, EquipmentSlot slotType) {
         ItemStack stack = player.getItemBySlot(slotType);
-        switch (slotType) {
-            case HEAD:
-                return stack.getItem() == getHelmet();
-            case CHEST:
-                return stack.getItem() == getChestplate();
-            case LEGS:
-                return stack.getItem() == getLeggings();
-            case FEET:
-                return stack.getItem() == getBoots();
-        }
-        return false;
+        return switch (slotType) {
+            case HEAD -> stack.getItem() == getHelmet();
+            case CHEST -> stack.getItem() == getChestplate();
+            case LEGS -> stack.getItem() == getLeggings();
+            case FEET -> stack.getItem() == getBoots();
+            default -> false;
+        };
     }
 
     private int getArmorPiecesEquipped(Player player) {

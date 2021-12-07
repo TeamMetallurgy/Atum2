@@ -32,7 +32,7 @@ public class PalmLeavesBlock extends LeavesAtumBlock implements BonemealableBloc
 
     @Override
     public boolean isValidBonemealTarget(@Nonnull BlockGetter reader, @Nonnull BlockPos pos, @Nonnull BlockState state, boolean isClient) {
-        return !state.getValue(PERSISTENT) && isValidLocation(reader, pos.below()) && reader.getBlockState(pos.below()).isAir(reader, pos.below());
+        return !state.getValue(PERSISTENT) && isValidLocation(reader, pos.below()) && reader.getBlockState(pos.below()).isAir();
     }
 
     private boolean isValidLocation(@Nonnull BlockGetter reader, @Nonnull BlockPos pos) {

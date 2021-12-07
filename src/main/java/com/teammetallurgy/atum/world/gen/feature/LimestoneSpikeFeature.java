@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -16,7 +17,7 @@ import java.util.Random;
 
 public class LimestoneSpikeFeature extends Feature<NoneFeatureConfiguration> { //Based on IceSpikeFeature
 
-    public LimestoneSpikeFeature(Codec<NoneFeatureConfiguration> config) {
+    public LimestoneSpikeFeature(Codec<NoneFeatureConfiguration> config) { //TODO
         super(config);
     }
 
@@ -96,4 +97,4 @@ public class LimestoneSpikeFeature extends Feature<NoneFeatureConfiguration> { /
             return true;
         }
     }
-}
+}*/

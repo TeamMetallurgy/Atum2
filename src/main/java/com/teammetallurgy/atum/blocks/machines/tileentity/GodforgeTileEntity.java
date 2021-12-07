@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.blocks.machines.GodforgeBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.inventory.container.block.GodforgeContainer;
 import com.teammetallurgy.atum.items.GodshardItem;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -20,6 +21,8 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
@@ -31,7 +34,7 @@ import net.minecraftforge.items.wrapper.SidedInvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class GodforgeTileEntity extends InventoryBaseTileEntity implements WorldlyContainer, TickableBlockEntity {
+public class GodforgeTileEntity extends InventoryBaseTileEntity implements WorldlyContainer {
     private static final int[] SLOTS_UP = new int[]{0};
     private static final int[] SLOTS_DOWN = new int[]{2, 1};
     private static final int[] SLOTS_HORIZONTAL = new int[]{1};
@@ -74,8 +77,8 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
         }
     };
 
-    public GodforgeTileEntity() {
-        super(AtumTileEntities.GODFORGE, 3);
+    public GodforgeTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.GODFORGE.get(), pos, state, 3);
     }
 
     @Override
@@ -89,80 +92,77 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag nbt) {
-        super.load(state, nbt);
-        this.burnTime = nbt.getInt("BurnTime");
-        this.cookTime = nbt.getInt("CookTime");
-        this.cookTimeTotal = nbt.getInt("CookTimeTotal");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        this.burnTime = tag.getInt("BurnTime");
+        this.cookTime = tag.getInt("CookTime");
+        this.cookTimeTotal = tag.getInt("CookTimeTotal");
     }
 
     @Override
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        compound.putInt("BurnTime", this.burnTime);
-        compound.putInt("CookTime", this.cookTime);
-        compound.putInt("CookTimeTotal", this.cookTimeTotal);
-        return compound;
+    protected void saveAdditional(@Nonnull CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("BurnTime", this.burnTime);
+        tag.putInt("CookTime", this.cookTime);
+        tag.putInt("CookTimeTotal", this.cookTimeTotal);
     }
 
-    @Override
-    public void tick() {
-        boolean isBurningCache = this.isBurning();
+    public static void serverTick(Level level, BlockPos pos, BlockState state, GodforgeTileEntity godForge) {
+        boolean isBurningCache = godForge.isBurning();
         boolean markDirty = false;
-        if (this.isBurning()) {
-            --this.burnTime;
+        if (godForge.isBurning()) {
+            --godForge.burnTime;
         }
 
-        if (!this.level.isClientSide) {
-            God godCache = this.level.getBlockState(this.worldPosition).getValue(GodforgeBlock.GOD);
+        if (!level.isClientSide) {
+            God godCache = state.getValue(GodforgeBlock.GOD);
 
-            ItemStack fuel = this.inventory.get(1);
-            ItemStack input = this.inventory.get(0);
-            if (this.isBurning() || !fuel.isEmpty() && !input.isEmpty()) {
-                if (this.canSmelt(input)) {
+            ItemStack fuel = godForge.inventory.get(1);
+            ItemStack input = godForge.inventory.get(0);
+            if (godForge.isBurning() || !fuel.isEmpty() && !input.isEmpty()) {
+                if (godForge.canSmelt(input)) {
                     if (godCache != ((IArtifact) input.getItem()).getGod()) {
                         markDirty = true;
-                        this.setGodforgeState(input);
+                        godForge.setGodforgeState(input);
                     }
-                    if (!this.isBurning()) {
-                        this.burnTime = this.getBurnTime(fuel);
-                        if (this.isBurning()) {
+                    if (!godForge.isBurning()) {
+                        godForge.burnTime = godForge.getBurnTime(fuel);
+                        if (godForge.isBurning()) {
                             markDirty = true;
                             if (fuel.hasContainerItem()) {
-                                this.inventory.set(1, fuel.getContainerItem());
+                                godForge.inventory.set(1, fuel.getContainerItem());
                             } else if (!fuel.isEmpty()) {
                                 if (fuel.isEmpty()) {
-                                    this.inventory.set(1, fuel.getContainerItem());
+                                    godForge.inventory.set(1, fuel.getContainerItem());
                                 }
                             }
                         }
                     }
                 }
 
-                if (this.isBurning() && this.canSmelt(input)) {
-                    ++this.cookTime;
-                    if (this.cookTime == this.cookTimeTotal) {
-                        this.cookTime = 0;
-                        this.cookTimeTotal = this.getCookTime();
-                        this.smelt(input);
+                if (godForge.isBurning() && godForge.canSmelt(input)) {
+                    ++godForge.cookTime;
+                    if (godForge.cookTime == godForge.cookTimeTotal) {
+                        godForge.cookTime = 0;
+                        godForge.cookTimeTotal = godForge.getCookTime();
+                        godForge.smelt(input);
                         markDirty = true;
                     }
                 } else {
-                    this.cookTime = 0;
+                    godForge.cookTime = 0;
                 }
-            } else if (!this.isBurning() && this.cookTime > 0) {
-                this.cookTime = Mth.clamp(this.cookTime - 2, 0, this.cookTimeTotal);
+            } else if (!godForge.isBurning() && godForge.cookTime > 0) {
+                godForge.cookTime = Mth.clamp(godForge.cookTime - 2, 0, godForge.cookTimeTotal);
             }
 
-            if (isBurningCache != this.isBurning()) {
+            if (isBurningCache != godForge.isBurning()) {
                 markDirty = true;
-                this.setGodforgeState(input);
+                godForge.setGodforgeState(input);
             }
         }
 
         if (markDirty) {
-            this.setChanged();
+            godForge.setChanged();
         }
     }
 
@@ -212,7 +212,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
         if (fuel.isEmpty()) {
             return 0;
         } else {
-            return ForgeHooks.getBurnTime(fuel) / 32;
+            return ForgeHooks.getBurnTime(fuel, RecipeType.SMELTING) / 32;
         }
     }
 
@@ -282,13 +282,16 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override
@@ -300,6 +303,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
     LazyOptional<? extends IItemHandler>[] handlers = SidedInvWrapper.create(this, Direction.UP, Direction.DOWN, Direction.NORTH);
 
     @Override
+    @Nonnull
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> capability, @Nullable Direction facing) {
         if (!this.remove && facing != null && capability == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
             if (facing == Direction.UP) {
@@ -314,7 +318,7 @@ public class GodforgeTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    protected void invalidateCaps() {
+    public void invalidateCaps() {
         super.invalidateCaps();
         for (LazyOptional<? extends IItemHandler> handler : handlers) {
             handler.invalidate();

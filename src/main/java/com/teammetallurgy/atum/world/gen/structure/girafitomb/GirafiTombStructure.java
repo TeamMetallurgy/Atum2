@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
 import com.mojang.serialization.Codec;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureMana
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class GirafiTombStructure extends StructureFeature<NoneFeatureConfiguration> {
+public class GirafiTombStructure extends StructureFeature<NoneFeatureConfiguration> { //TODO
 
     public GirafiTombStructure(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -101,4 +102,4 @@ public class GirafiTombStructure extends StructureFeature<NoneFeatureConfigurati
             }
         }
     }
-}
+}*/

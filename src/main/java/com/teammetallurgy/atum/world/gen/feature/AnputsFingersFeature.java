@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class AnputsFingersFeature extends RandomPatchFeature {
+public class AnputsFingersFeature extends RandomPatchFeature { //TODO
 
     public AnputsFingersFeature(Codec<RandomPatchConfiguration> config) {
         super(config);
@@ -42,4 +43,4 @@ public class AnputsFingersFeature extends RandomPatchFeature {
         }
         return false;
     }
-}
+}*/

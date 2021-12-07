@@ -15,12 +15,7 @@ public class AtumDimensionData extends SavedData {
     private boolean isStorming;
     private final List<BoundingBox> beatenPyramids = new ArrayList<>();
 
-    public AtumDimensionData() {
-        super(ID);
-    }
-
-    @Override
-    public void load(@Nonnull CompoundTag nbt) {
+    public static AtumDimensionData load(@Nonnull CompoundTag nbt) {
         this.hasStartStructureSpawned = nbt.getBoolean("HasStartStructureSpawned");
         this.isStorming = nbt.getBoolean("IsStorming");
 

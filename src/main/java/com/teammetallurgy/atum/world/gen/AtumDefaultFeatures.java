@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen;
 
 import com.teammetallurgy.atum.api.AtumAPI;
@@ -14,7 +15,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
 import static net.minecraft.world.level.levelgen.GenerationStep.Decoration.*;
 
-public class AtumDefaultFeatures {
+public class AtumDefaultFeatures { //TODO
     public static final RuleTest NATURAL_STONE = new TagMatchTest(AtumAPI.Tags.BASE_STONE_ATUM);
     public static final RuleTest LIMESTONE_CRACKED = new BlockMatchTest(AtumBlocks.LIMESTONE_CRACKED);
 
@@ -153,4 +154,4 @@ public class AtumDefaultFeatures {
             }
         }
     }
-}
+}*/

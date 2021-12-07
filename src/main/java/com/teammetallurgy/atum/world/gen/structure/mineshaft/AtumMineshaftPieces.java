@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.mineshaft;
 
 import com.google.common.collect.Lists;
@@ -34,7 +35,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class AtumMineshaftPieces {
+public class AtumMineshaftPieces { // TODO
 
     private static Piece createRandomShaftPiece(List<StructurePiece> list, Random rand, int x, int y, int z, @Nullable Direction direction, int componentType, AtumMineshaftStructure.Type type) {
         int i = rand.nextInt(100);
@@ -732,4 +733,4 @@ public class AtumMineshaftPieces {
             }
         }
     }
-}
+}*/

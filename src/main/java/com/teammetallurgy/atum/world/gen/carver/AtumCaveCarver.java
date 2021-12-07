@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.carver;
 
 import com.mojang.serialization.Codec;
@@ -14,7 +15,7 @@ import java.util.function.Function;
 
 public class AtumCaveCarver extends AtumCarver<ProbabilityFeatureConfiguration> { //Copied from CaveWorldCarver
 
-    public AtumCaveCarver(Codec<ProbabilityFeatureConfiguration> config, int maxHeight) {
+    public AtumCaveCarver(Codec<ProbabilityFeatureConfiguration> config, int maxHeight) { //TODO. Is this still needed, or can vanilla carver be used?
         super(config, maxHeight);
     }
 
@@ -116,4 +117,4 @@ public class AtumCaveCarver extends AtumCarver<ProbabilityFeatureConfiguration> 
     protected boolean skip(double p_222708_1_, double p_222708_3_, double p_222708_5_, int p_222708_7_) {
         return p_222708_3_ <= -0.7D || p_222708_1_ * p_222708_1_ + p_222708_3_ * p_222708_3_ + p_222708_5_ * p_222708_5_ >= 1.0D;
     }
-}
+}*/

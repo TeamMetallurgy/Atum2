@@ -11,6 +11,7 @@ import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -45,8 +46,8 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
     public boolean hasSpawned;
     public boolean isOpenable;
 
-    public SarcophagusTileEntity() {
-        super(AtumTileEntities.SARCOPHAGUS, false, true, AtumBlocks.SARCOPHAGUS);
+    public SarcophagusTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.SARCOPHAGUS.get(), pos, state, false, true, AtumBlocks.SARCOPHAGUS);
     }
 
     @Nullable
@@ -58,13 +59,16 @@ public class SarcophagusTileEntity extends ChestBaseTileEntity {
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override

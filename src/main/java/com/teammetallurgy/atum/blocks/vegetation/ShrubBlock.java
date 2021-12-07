@@ -26,7 +26,7 @@ public class ShrubBlock extends DeadBushBlock {
 
     @Override
     protected boolean mayPlaceOn(BlockState state, @Nonnull BlockGetter world, @Nonnull BlockPos pos) {
-        return state.getBlock().is(BlockTags.SAND);
+        return BlockTags.SAND.contains(state.getBlock());
     }
 
     @Override

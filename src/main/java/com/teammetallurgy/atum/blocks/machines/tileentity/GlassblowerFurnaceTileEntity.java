@@ -1,6 +1,7 @@
 package com.teammetallurgy.atum.blocks.machines.tileentity;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
@@ -16,6 +17,7 @@ import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.Tags;
 
 import javax.annotation.Nonnull;
@@ -23,8 +25,8 @@ import javax.annotation.Nullable;
 
 public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
 
-    public GlassblowerFurnaceTileEntity() {
-        super(AtumTileEntities.GLASSBLOWER_FURNACE, RecipeType.SMELTING);
+    public GlassblowerFurnaceTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.GLASSBLOWER_FURNACE.get(), pos, state, RecipeType.SMELTING);
     }
 
     @Override

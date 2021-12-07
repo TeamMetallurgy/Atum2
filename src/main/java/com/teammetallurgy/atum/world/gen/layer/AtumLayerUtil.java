@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.layer;
 
 import com.teammetallurgy.atum.init.AtumBiomes;
@@ -13,7 +14,7 @@ import net.minecraft.world.level.newbiome.layer.*;
 
 import java.util.function.LongFunction;
 
-public class AtumLayerUtil {
+public class AtumLayerUtil { //TODO ?
     public static int SAND_PLAINS;
     public static int OASIS;
     public static int DEAD_OASIS;
@@ -66,14 +67,16 @@ public class AtumLayerUtil {
         return new Layer(layer);
     }
 
-    /**
+    */
+/**
      * Always call this in the Biome Source's constructor so we get the correct int biome id for this world.
      * (this is because the int id for the biome in the dynamic registry can be different in a different world)
-     */
+     *//*
+
     private static void setupBiomeIntIDs(Registry<Biome> biomeRegistry) {
         SAND_PLAINS = biomeRegistry.getId(biomeRegistry.get(AtumBiomes.SAND_PLAINS));
         OASIS = biomeRegistry.getId(biomeRegistry.get(AtumBiomes.OASIS));
         DEAD_OASIS = biomeRegistry.getId(biomeRegistry.get(AtumBiomes.DEAD_OASIS));
         DRIED_RIVER_ID = biomeRegistry.getId(biomeRegistry.get(AtumBiomes.DRIED_RIVER));
     }
-}
+}*/

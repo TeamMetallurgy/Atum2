@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.mojang.serialization.Codec;
@@ -19,7 +20,7 @@ import javax.annotation.Nonnull;
 import java.util.Random;
 import java.util.Set;
 
-public class PalmFoliagePlacer extends FoliagePlacer {
+public class PalmFoliagePlacer extends FoliagePlacer { //TODO
     public static final Codec<PalmFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) -> instance.group(Codec.FLOAT.fieldOf("date_chance").orElse(0.0F).forGetter((fp) -> fp.dateChance))
             .apply(instance, PalmFoliagePlacer::new));
     private final float dateChance;
@@ -82,4 +83,4 @@ public class PalmFoliagePlacer extends FoliagePlacer {
             seedReader.setBlock(pos, config.leavesProvider.getState(rand, pos), 19);
         }
     }
-}
+}*/

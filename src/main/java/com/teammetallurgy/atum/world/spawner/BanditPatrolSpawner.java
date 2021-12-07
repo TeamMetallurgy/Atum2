@@ -2,9 +2,7 @@ package com.teammetallurgy.atum.world.spawner;
 
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.bandit.SergeantEntity;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumEntities;
-import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
@@ -53,12 +51,12 @@ public class BanditPatrolSpawner implements CustomSpawner {
                             int x = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             int z = (20 + rand.nextInt(20)) * (rand.nextBoolean() ? -1 : 1);
                             BlockPos.MutableBlockPos mutablePos = (new BlockPos.MutableBlockPos(player.getX(), player.getY(), player.getZ())).move(x, 0, z);
-                            if (!serverWorld.isAreaLoaded(mutablePos, 8) || StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos, AtumStructures.PYRAMID_STRUCTURE)) {
+                            if (!serverWorld.isAreaLoaded(mutablePos, 8) /*|| StructureHelper.doesChunkHaveStructure(serverWorld, mutablePos, AtumStructures.PYRAMID_STRUCTURE)*/) { //TDOO Uncomment when structures are re-added
                                 return 0;
                             } else {
                                 Biome biome = serverWorld.getBiome(mutablePos);
                                 Optional<ResourceKey<Biome>> biomeKey = serverWorld.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(biome);
-                                if (biomeKey.isPresent() && (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)) {
+                                if (biomeKey.isPresent() /*&& (biomeKey.get() == AtumBiomes.DRIED_RIVER || biomeKey.get() == AtumBiomes.OASIS)*/) { //TODO Uncomment when Biomes are re-added
                                     return 0;
                                 } else {
                                     int amount = 0;

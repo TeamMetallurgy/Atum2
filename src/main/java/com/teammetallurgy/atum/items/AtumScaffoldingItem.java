@@ -28,11 +28,11 @@ public class AtumScaffoldingItem extends ScaffoldingBlockItem {
     @Nullable
     public BlockPlaceContext updatePlacementContext(BlockPlaceContext context) {
         BlockPos blockpos = context.getClickedPos();
-        Level world = context.getLevel();
-        BlockState blockstate = world.getBlockState(blockpos);
+        Level level = context.getLevel();
+        BlockState blockstate = level.getBlockState(blockpos);
         Block block = this.getBlock();
         if (!blockstate.is(block)) {
-            return AtumScaffoldingBlock.getDistance(world, blockpos) == 7 ? null : context; //Only line changed, to call different getDistance method
+            return AtumScaffoldingBlock.getDistance(level, blockpos) == 7 ? null : context; //Only line changed, to call different getDistance method
         } else {
             Direction direction;
             if (context.isSecondaryUseActive()) {
@@ -45,9 +45,9 @@ public class AtumScaffoldingItem extends ScaffoldingBlockItem {
             BlockPos.MutableBlockPos blockpos$mutable = blockpos.mutable().move(direction);
 
             while (i < 7) {
-                if (!world.isClientSide && !Level.isInWorldBounds(blockpos$mutable)) {
+                if (!level.isClientSide && !level.isInWorldBounds(blockpos$mutable)) {
                     Player playerentity = context.getPlayer();
-                    int j = world.getMaxBuildHeight();
+                    int j = level.getMaxBuildHeight();
                     if (playerentity instanceof ServerPlayer && blockpos$mutable.getY() >= j) {
                         ClientboundChatPacket schatpacket = new ClientboundChatPacket((new TranslatableComponent("build.tooHigh", j)).withStyle(ChatFormatting.RED), ChatType.GAME_INFO, Util.NIL_UUID);
                         ((ServerPlayer) playerentity).connection.send(schatpacket);
@@ -55,7 +55,7 @@ public class AtumScaffoldingItem extends ScaffoldingBlockItem {
                     break;
                 }
 
-                blockstate = world.getBlockState(blockpos$mutable);
+                blockstate = level.getBlockState(blockpos$mutable);
                 if (!blockstate.is(this.getBlock())) {
                     if (blockstate.canBeReplaced(context)) {
                         return BlockPlaceContext.at(context, blockpos$mutable, direction);

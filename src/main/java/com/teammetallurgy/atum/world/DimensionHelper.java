@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.world;
 import com.google.common.collect.Lists;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.SandLayersBlock;
-import com.teammetallurgy.atum.init.AtumBiomes;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
@@ -33,7 +32,7 @@ public class DimensionHelper {
     public static final int GROUND_LEVEL = 63;
 
     public static AtumDimensionData getData(ServerLevel serverWorld) {
-        return serverWorld.getDataStorage().computeIfAbsent(AtumDimensionData::new, AtumDimensionData.ID);
+        return serverWorld.getDataStorage().get(AtumDimensionData::load, AtumDimensionData.ID);
     }
 
     @SubscribeEvent
@@ -59,7 +58,7 @@ public class DimensionHelper {
         BlockState state = world.getBlockState(pos);
         BlockState stateDown = world.getBlockState(pos.below());
         Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos));
-        return (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS)
+        return (biomeKey.isPresent() /*&& biomeKey.get() != AtumBiomes.OASIS*/) //TODO Uncomment when biomes are re-added
                 && !StructureHelper.doesChunkHaveStructure(world, pos, StructureFeature.VILLAGE)
                 && world.isEmptyBlock(pos.above())
                 && state.getMaterial().isReplaceable()
@@ -89,7 +88,7 @@ public class DimensionHelper {
     public static boolean isBeatenPyramid(ServerLevel serverWorld, BoundingBox box2) {
         boolean validBox = false;
         for (BoundingBox box1 : getData(serverWorld).getBeatenPyramids()) {
-            if (box1.x0 == box2.x0 && box1.y0 == box2.y0 && box1.z0 == box2.z0 && box1.x1 == box2.x1 && box1.y1 == box2.y1 && box1.z1 == box2.z1) {
+            if (box1.minX() == box2.minX() && box1.minY() == box2.minY() && box1.minZ() == box2.minZ() && box1.maxX() == box2.maxX() && box1.maxY() == box2.maxY() && box1.maxZ() == box2.maxZ()) {
                 validBox = true;
                 break;
             }

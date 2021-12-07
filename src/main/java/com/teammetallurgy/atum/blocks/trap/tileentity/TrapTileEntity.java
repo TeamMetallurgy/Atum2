@@ -17,6 +17,7 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.FurnaceFuelSlot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
@@ -25,12 +26,13 @@ import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TrapTileEntity extends InventoryBaseTileEntity implements TickableBlockEntity {
+public class TrapTileEntity extends InventoryBaseTileEntity {
     protected int burnTime;
     protected int currentItemBurnTime;
     protected boolean isDisabled = false;
@@ -66,8 +68,8 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements TickableB
         }
     };
 
-    public TrapTileEntity(BlockEntityType<?> tileEntityType) {
-        super(tileEntityType, 1);
+    public TrapTileEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
+        super(tileEntityType, pos, state, 1);
     }
 
     public void setDisabledStatus(boolean isDisabled) {
@@ -78,35 +80,30 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements TickableB
         }
     }
 
-    AABB getFacingBoxWithRange(Direction facing, int range) {
-        BlockPos pos = getBlockPos();
+    public static AABB getFacingBoxWithRange(BlockPos pos, Direction facing, int range) {
         Vec3i dir = facing.getNormal();
         return new AABB(pos).expandTowards(dir.getX() * range, dir.getY() * range, dir.getZ() * range);
     }
 
-    @Override
-    public void tick() {
-        boolean isBurningCheck = this.isBurning();
+    public static void serverTick(Level level, BlockPos pos, BlockState state, TrapTileEntity trap) {
+        boolean isBurningCheck = trap.isBurning();
         boolean isBurning = false;
         boolean canDamageEntity = false;
-        Level world = this.level;
-        if (world == null) return;
 
-        if (!this.isDisabled && this.isBurning()) {
-            BlockState state = world.getBlockState(this.worldPosition);
+        if (!trap.isDisabled && trap.isBurning()) {
             if (state.getBlock() instanceof TrapBlock) {
                 Direction facing = state.getValue(TrapBlock.FACING);
                 Class<? extends LivingEntity> entity;
-                if (this.isInsidePyramid) {
+                if (trap.isInsidePyramid) {
                     entity = Player.class;
                 } else {
                     entity = LivingEntity.class;
                 }
-                List<LivingEntity> entities = world.getEntitiesOfClass(entity, getFacingBoxWithRange(facing, 1).deflate(0.05D));
+                List<? extends LivingEntity> entities = level.getEntitiesOfClass(entity, getFacingBoxWithRange(pos, facing, 1).deflate(0.05D));
                 for (LivingEntity livingBase : entities) {
                     if (livingBase instanceof Player ? !((Player) livingBase).isCreative() : livingBase != null) {
                         canDamageEntity = true;
-                        this.triggerTrap(world, facing, livingBase);
+                        trap.triggerTrap(level, facing, livingBase);
                     } else {
                         canDamageEntity = false;
                     }
@@ -114,21 +111,21 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements TickableB
             }
         }
 
-        if (this.isInsidePyramid) {
-            this.burnTime = 1;
+        if (trap.isInsidePyramid) {
+            trap.burnTime = 1;
         }
 
-        if (this.isBurning() && !this.isDisabled && canDamageEntity && !this.isInsidePyramid) {
-            --this.burnTime;
+        if (trap.isBurning() && !trap.isDisabled && canDamageEntity && !trap.isInsidePyramid) {
+            --trap.burnTime;
         }
 
-        if (!world.isClientSide && !this.isDisabled) {
-            ItemStack fuel = this.inventory.get(0);
-            if (this.isBurning() || !fuel.isEmpty()) {
-                if (!this.isBurning()) {
-                    this.burnTime = ForgeHooks.getBurnTime(fuel) / 10;
-                    this.currentItemBurnTime = this.burnTime;
-                    if (this.isBurning()) {
+        if (!level.isClientSide && !trap.isDisabled) {
+            ItemStack fuel = trap.inventory.get(0);
+            if (trap.isBurning() || !fuel.isEmpty()) {
+                if (!trap.isBurning()) {
+                    trap.burnTime = ForgeHooks.getBurnTime(fuel, RecipeType.SMELTING) / 10;
+                    trap.currentItemBurnTime = trap.burnTime;
+                    if (trap.isBurning()) {
                         isBurning = true;
                         if (!fuel.isEmpty()) {
                             fuel.shrink(1);
@@ -136,12 +133,12 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements TickableB
                     }
                 }
             }
-            if (isBurningCheck != this.isBurning()) {
+            if (isBurningCheck != trap.isBurning()) {
                 isBurning = true;
             }
         }
         if (isBurning) {
-            this.setChanged();
+            trap.setChanged();
         }
     }
 
@@ -165,13 +162,16 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements TickableB
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override
@@ -181,21 +181,19 @@ public class TrapTileEntity extends InventoryBaseTileEntity implements TickableB
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        this.burnTime = compound.getInt("BurnTime");
-        this.isDisabled = compound.getBoolean("Disabled");
-        this.isInsidePyramid = compound.getBoolean("InPyramid");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        this.burnTime = tag.getInt("BurnTime");
+        this.isDisabled = tag.getBoolean("Disabled");
+        this.isInsidePyramid = tag.getBoolean("InPyramid");
     }
 
     @Override
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        compound.putInt("BurnTime", (short) this.burnTime);
-        compound.putBoolean("Disabled", this.isDisabled);
-        compound.putBoolean("InPyramid", this.isInsidePyramid);
-        return compound;
+    protected void saveAdditional(@NotNull CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("BurnTime", (short) this.burnTime);
+        tag.putBoolean("Disabled", this.isDisabled);
+        tag.putBoolean("InPyramid", this.isInsidePyramid);
     }
 
     @Override

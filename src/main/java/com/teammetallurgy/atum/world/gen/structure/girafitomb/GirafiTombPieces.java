@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.girafitomb;
 
 import com.teammetallurgy.atum.Atum;
@@ -23,7 +24,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class GirafiTombPieces {
+public class GirafiTombPieces { //TODO
     public static final ResourceLocation GIRAFI_TOMB = new ResourceLocation(Atum.MOD_ID, "girafi_tomb");
 
     public static class GirafiTombTemplate extends TemplateStructurePiece {
@@ -83,4 +84,4 @@ public class GirafiTombPieces {
             compound.putString("Rot", this.placeSettings.getRotation().name());
         }
     }
-}
+}*/

@@ -1,18 +1,15 @@
 package com.teammetallurgy.atum;
 
-import com.mojang.serialization.Codec;
 import com.teammetallurgy.atum.api.AtumAPI;
 import com.teammetallurgy.atum.blocks.stone.khnumite.KhnumiteFaceBlock;
 import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.commands.AtumWeather;
-import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.integration.IntegrationHandler;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.misc.AtumItemGroup;
 import com.teammetallurgy.atum.misc.AtumRegistry;
 import com.teammetallurgy.atum.network.NetworkHandler;
 import com.teammetallurgy.atum.world.SandstormHandler;
-import com.teammetallurgy.atum.world.biome.AtumBiomeProvider;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -43,7 +40,7 @@ public class Atum {
     public static final Logger LOG = LogManager.getLogger(StringUtils.capitalize(MOD_ID));
     public static final CreativeModeTab GROUP = new AtumItemGroup();
     public static final ResourceKey<Level> ATUM = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(MOD_ID, "atum"));
-    public static final Codec<AtumBiomeProvider> ATUM_LAYERD = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_layered"), AtumBiomeProvider.CODEC);
+    //public static final Codec<AtumBiomeProvider> ATUM_LAYERD = Registry.register(Registry.BIOME_SOURCE, new ResourceLocation(MOD_ID, "atum_layered"), AtumBiomeProvider.CODEC); //TODO?
     public static final WoodType PALM = WoodType.create("atum_palm");
     public static final WoodType DEADWOOD = WoodType.create("atum_deadwood");
 
@@ -64,7 +61,7 @@ public class Atum {
         if (AtumConfig.SANDSTORM.sandstormEnabled.get()) {
             MinecraftForge.EVENT_BUS.register(SandstormHandler.INSTANCE);
         }
-        MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE);
+        //MinecraftForge.EVENT_BUS.register(AtumStructures.PYRAMID_STRUCTURE); //TODO Require structures functioning
         KhnumiteFaceBlock.addDispenserSupport();
         NetworkHandler.initialize();
         IntegrationHandler.INSTANCE.setup();

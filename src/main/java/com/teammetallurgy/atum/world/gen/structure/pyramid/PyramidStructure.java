@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.pyramid;
 
 import com.mojang.serialization.Codec;
@@ -45,7 +46,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration> {
+public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration> { //TODO
 
     public PyramidStructure(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -202,4 +203,4 @@ public class PyramidStructure extends StructureFeature<NoneFeatureConfiguration>
             }
         }
     }
-}
+}*/

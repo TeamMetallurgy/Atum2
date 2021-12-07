@@ -8,6 +8,8 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 
 import javax.annotation.Nullable;
 import java.util.Random;
@@ -15,10 +17,10 @@ import java.util.Random;
 public class StructureHelper {
 
     public static boolean doesChunkHaveStructure(WorldGenLevel seedReader, BlockPos pos, StructureFeature<?> structure) {
-        return seedReader.startsForFeature(SectionPos.of(pos), structure).findAny().isPresent();
+        return seedReader.startsForFeature(SectionPos.of(pos), structure).stream().findAny().isPresent();
     }
 
-    public static int getYPosForStructure(int chunkX, int chunkZ, ChunkGenerator generator, @Nullable Rotation rotation) {
+    public static int getYPosForStructure(PieceGeneratorSupplier.Context<NoneFeatureConfiguration> context, @Nullable Rotation rotation) {
         if (rotation == null) {
             Random rand = new Random();
             rotation = Rotation.getRandom(rand);
@@ -34,25 +36,18 @@ public class StructureHelper {
             z = -5;
         }
 
-        int k = (chunkX << 4) + 7;
-        int l = (chunkZ << 4) + 7;
-        int i1 = generator.getFirstOccupiedHeight(k, l, Heightmap.Types.WORLD_SURFACE_WG);
-        int j1 = generator.getFirstOccupiedHeight(k, l + z, Heightmap.Types.WORLD_SURFACE_WG);
-        int k1 = generator.getFirstOccupiedHeight(k + x, l, Heightmap.Types.WORLD_SURFACE_WG);
-        int l1 = generator.getFirstOccupiedHeight(k + x, l + z, Heightmap.Types.WORLD_SURFACE_WG);
-        return Math.min(Math.min(i1, j1), Math.min(k1, l1));
+        int k = context.chunkPos().getBlockX(7);
+        int l = context.chunkPos().getBlockZ(7);
+        int[] aint = context.getCornerHeights(k, x, l, z);
+        return Math.min(Math.min(aint[0], aint[1]), Math.min(aint[2], aint[3]));
     }
 
     public static Direction getDirectionFromRotation(Rotation rotation) {
-        switch (rotation) {
-            case CLOCKWISE_90:
-                return Direction.WEST;
-            case CLOCKWISE_180:
-                return Direction.NORTH;
-            case COUNTERCLOCKWISE_90:
-                return Direction.EAST;
-            default:
-                return Direction.SOUTH;
-        }
+        return switch (rotation) {
+            case CLOCKWISE_90 -> Direction.WEST;
+            case CLOCKWISE_180 -> Direction.NORTH;
+            case COUNTERCLOCKWISE_90 -> Direction.EAST;
+            default -> Direction.SOUTH;
+        };
     }
 }

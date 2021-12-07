@@ -23,19 +23,19 @@ public class QuailEggItem extends EggItem {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(Level level, Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
-        world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-        if (!world.isClientSide) {
-            QuailEggEntity quailEggEntity = new QuailEggEntity(world, player);
+        level.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (level.random.nextFloat() * 0.4F + 0.8F));
+        if (!level.isClientSide) {
+            QuailEggEntity quailEggEntity = new QuailEggEntity(level, player);
             quailEggEntity.setItem(heldStack);
             quailEggEntity.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.5F, 1.0F);
-            world.addFreshEntity(quailEggEntity);
+            level.addFreshEntity(quailEggEntity);
         }
         player.awardStat(Stats.ITEM_USED.get(this));
         if (!player.getAbilities().instabuild) {
             heldStack.shrink(1);
         }
-        return InteractionResultHolder.sidedSuccess(heldStack, world.isClientSide());
+        return InteractionResultHolder.sidedSuccess(heldStack, level.isClientSide());
     }
 }

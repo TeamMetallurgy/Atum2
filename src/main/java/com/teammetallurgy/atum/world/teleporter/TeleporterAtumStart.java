@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.world.teleporter;
 
 import com.teammetallurgy.atum.Atum;
-import com.teammetallurgy.atum.init.AtumFeatures;
 import com.teammetallurgy.atum.misc.AtumConfig;
 import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.core.BlockPos;
@@ -31,7 +30,7 @@ public class TeleporterAtumStart implements ITeleporter {
                 teleporterAtum.makePortal(world, entity);
                 teleporterAtum.placeInPortal(world, entity, yaw);
             } else {
-                entity.getYRot() = yaw;
+                entity.setYRot(yaw);
                 entity.moveTo(spawnPos.getX(), spawnPos.getY() + 1, spawnPos.getZ());
             }
         }
@@ -39,7 +38,7 @@ public class TeleporterAtumStart implements ITeleporter {
     }
 
     private void onInitialAtumJoining(ServerLevel world, BlockPos spawnPos) {
-        if (world.dimension() == Atum.ATUM) {
+        /*if (world.dimension() == Atum.ATUM) { //TODO Requires AtumFeatures to function
             if (AtumConfig.ATUM_START.startInAtumPortal.get()) {
                 spawnPos = spawnPos.offset(4, 0, 4);
             }
@@ -51,6 +50,6 @@ public class TeleporterAtumStart implements ITeleporter {
                 ConfiguredFeature<?, ?> bonusCrate = AtumFeatures.BONUS_CRATE_CONFIGURED;
                 bonusCrate.place(world, world.getChunkSource().getGenerator(), world.random, spawnPos);
             }
-        }
+        }*/
     }
 }

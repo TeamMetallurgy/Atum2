@@ -10,6 +10,7 @@ import net.minecraft.world.item.SpawnEggItem;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Random;
 
 public class VillagerSpawnEggItem extends SpawnEggItem {
 
@@ -22,6 +23,7 @@ public class VillagerSpawnEggItem extends SpawnEggItem {
     @Nonnull
     public EntityType<?> getType(@Nullable CompoundTag nbt) {
         EntityType<? extends AtumVillagerEntity> villager = AtumEntities.VILLAGER_MALE;
+        Random random = new Random();
         if (random.nextDouble() > 0.5D) {
             villager = AtumEntities.VILLAGER_FEMALE;
         }

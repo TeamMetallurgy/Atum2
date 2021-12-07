@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature.tree;
 
 import com.mojang.serialization.Codec;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class TreePlacerTypes {
+public class TreePlacerTypes {  //TODO
     private static final List<FoliagePlacerType<?>> FOLIAGE_PLACER_TYPES = new ArrayList<>();
     public static final FoliagePlacerType<PalmFoliagePlacer> PALM_FOLIAGE = registerFoliagePlaceType("palm", PalmFoliagePlacer.CODEC);
     public static final TrunkPlacerType<PalmTrunkPlacer> PALM_Trunk = registerTrunkPlaceType("palm", PalmTrunkPlacer.CODEC);
@@ -40,4 +41,4 @@ public class TreePlacerTypes {
             event.getRegistry().register(foliagePlacerType);
         }
     }
-}
+}*/

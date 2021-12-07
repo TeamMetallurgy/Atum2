@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -16,7 +17,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class SandLayerFeature extends Feature<NoneFeatureConfiguration> {
+public class SandLayerFeature extends Feature<NoneFeatureConfiguration> { //TODO
 
     public SandLayerFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -44,4 +45,4 @@ public class SandLayerFeature extends Feature<NoneFeatureConfiguration> {
         }
         return true;
     }
-}
+}*/

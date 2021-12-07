@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.structure.tomb;
 
 import com.mojang.serialization.Codec;
@@ -25,7 +26,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureMana
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class TombStructure extends StructureFeature<NoneFeatureConfiguration> {
+public class TombStructure extends StructureFeature<NoneFeatureConfiguration> { //TODO
 
     public TombStructure(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -95,4 +96,4 @@ public class TombStructure extends StructureFeature<NoneFeatureConfiguration> {
             }
         }
     }
-}
+}*/

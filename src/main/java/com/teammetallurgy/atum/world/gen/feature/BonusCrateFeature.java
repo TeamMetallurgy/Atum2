@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -21,7 +22,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> {
+public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> { //TODO
 
     public BonusCrateFeature(Codec<NoneFeatureConfiguration> config) {
         super(config);
@@ -57,4 +58,4 @@ public class BonusCrateFeature extends Feature<NoneFeatureConfiguration> {
         }
         return false;
     }
-}
+}*/

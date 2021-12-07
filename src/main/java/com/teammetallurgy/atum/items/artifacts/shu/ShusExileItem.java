@@ -20,6 +20,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Random;
+
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class ShusExileItem extends BattleAxeItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
@@ -44,10 +46,10 @@ public class ShusExileItem extends BattleAxeItem implements IArtifact {
                 LivingEntity target = (LivingEntity) event.getTarget();
                 float defaultKnockback = 0.5F;
                 target.knockback(defaultKnockback * 3, Mth.sin(attacker.getYRot() * ((float) Math.PI / 180F)), -Mth.cos(attacker.getYRot() * ((float) Math.PI / 180F)));
-                if (target.level instanceof ServerLevel) {
+                if (target.level instanceof ServerLevel serverWorld) {
+                    Random random = target.level.random;
                     double x = Mth.nextDouble(random, 0.001D, 0.02D);
                     double z = Mth.nextDouble(random, 0.001D, 0.02D);
-                    ServerLevel serverWorld = (ServerLevel) target.level;
                     serverWorld.sendParticles(AtumParticles.SHU, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + target.getEyeHeight(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 12, x, 0.04D, -z, 0.015D);
                 }
             }

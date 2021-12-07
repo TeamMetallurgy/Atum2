@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.feature;
 
 import com.mojang.serialization.Codec;
@@ -18,7 +19,7 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.*;
 import javax.annotation.Nonnull;
 import java.util.Random;
 
-public class DirtyBoneFossilsFeature extends Feature<NoneFeatureConfiguration> {
+public class DirtyBoneFossilsFeature extends Feature<NoneFeatureConfiguration> { //TODO
     private static final int FOSSIL_AMOUNT = 15;
 
     public DirtyBoneFossilsFeature(Codec<NoneFeatureConfiguration> config) {
@@ -53,4 +54,4 @@ public class DirtyBoneFossilsFeature extends Feature<NoneFeatureConfiguration> {
         template.placeInWorld(seedReader, genPos, genPos, settings, rand, 4);
         return true;
     }
-}
+}*/

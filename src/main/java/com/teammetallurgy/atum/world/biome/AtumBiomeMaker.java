@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.biome;
 
 import com.teammetallurgy.atum.Atum;
@@ -17,7 +18,7 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 
 import static net.minecraft.world.level.levelgen.GenerationStep.Decoration.*;
 
-public class AtumBiomeMaker {
+public class AtumBiomeMaker { //TODO
 
     public static Biome makeDeadOasis(String biomeName) {
         BiomeGenerationSettings.Builder biomeGen = (new BiomeGenerationSettings.Builder().surfaceBuilder(AtumSurfaceBuilders.GRAVEL_CRACKED));
@@ -285,4 +286,4 @@ public class AtumBiomeMaker {
             return new BiomeSpecialEffects.Builder().fogColor(13876389).waterColor(7036242).waterFogColor(7036242).skyColor(DimensionHelper.getSkyColorWithTemperatureModifier(2.0F)).grassColorOverride(12889745).foliageColorOverride(12889745).ambientMoodSound(AmbientMoodSettings.LEGACY_CAVE_SETTINGS);
         }
     }
-}
+}*/

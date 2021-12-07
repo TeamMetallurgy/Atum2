@@ -23,6 +23,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
@@ -37,6 +39,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
@@ -47,6 +50,18 @@ public abstract class TrapBlock extends BaseEntityBlock {
     protected TrapBlock() {
         super(Properties.of(Material.STONE, MaterialColor.SAND).strength(1.5F));
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(DISABLED, Boolean.FALSE));
+    }
+
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<T> blockEntityType) {
+        return level.isClientSide ? null : getTrapTickerHelper(level, state, blockEntityType);
+    }
+
+    public abstract BlockEntityType<? extends TrapTileEntity> getTrapBlockEntityType();
+
+    public <E extends BlockEntity> BlockEntityTicker<E> getTrapTickerHelper(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<E> blockEntityType) {
+        return createTickerHelper(blockEntityType, getTrapBlockEntityType(), TrapTileEntity::serverTick);
     }
 
     @SubscribeEvent
@@ -73,7 +88,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
             return InteractionResult.PASS;
         } else {
             BlockEntity tileEntity = world.getBlockEntity(pos);
-            boolean isToolEffective = ForgeHooks.isToolEffective(world, pos, player.getItemInHand(InteractionHand.MAIN_HAND)) || ForgeHooks.isToolEffective(world, pos, player.getItemInHand(InteractionHand.OFF_HAND));
+            boolean isToolEffective = ForgeHooks.isCorrectToolForDrops(world.getBlockState(pos), player);
             if (tileEntity instanceof TrapTileEntity trap) {
                 if (!trap.isInsidePyramid) {
                     NetworkHooks.openGui((ServerPlayer) player, trap, pos);

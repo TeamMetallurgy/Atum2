@@ -11,10 +11,10 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.IItemRenderProperties;
 
 import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 public class RaArmor extends ArtifactArmor {
 
@@ -24,9 +24,13 @@ public class RaArmor extends ArtifactArmor {
     }
 
     @Override
-    @OnlyIn(Dist.CLIENT)
-    public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, @Nonnull ItemStack stack, EquipmentSlot armorSlot, A _default) {
-        return (A) new RaArmorModel(armorSlot, hasFullSet(entityLiving));
+    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
+        consumer.accept(new IItemRenderProperties() {
+            @Override
+            public <A extends HumanoidModel<?>> A getArmorModel(LivingEntity entityLiving, ItemStack itemStack, EquipmentSlot armorSlot, A _default) {
+                return (A) new RaArmorModel(armorSlot, hasFullSet(entityLiving));
+            }
+        });
     }
 
     @Override

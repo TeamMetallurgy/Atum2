@@ -34,7 +34,7 @@ import java.util.List;
 
 import static net.minecraftforge.common.Tags.Items.*;
 
-public class KilnTileEntity extends KilnBaseTileEntity implements TickableBlockEntity {
+public class KilnTileEntity extends KilnBaseTileEntity {
     public int burnTime;
     public int recipesUsed;
     public int cookTime;
@@ -80,37 +80,37 @@ public class KilnTileEntity extends KilnBaseTileEntity implements TickableBlockE
         }
     };
 
-    public KilnTileEntity() {
-        super(AtumTileEntities.KILN);
+    public KilnTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.KILN.get());
     }
 
-    @Override
-    public void tick() {
-        if (!isPrimary()) {
+
+    public static void serverTick(Level level, BlockPos pos, BlockState state, KilnTileEntity kiln) {
+        if (!kiln.isPrimary()) {
             return;
         }
 
-        boolean isBurning = this.isBurning();
+        boolean isBurning = kiln.isBurning();
         boolean markDirty = false;
 
-        if (this.isBurning()) {
-            --this.burnTime;
+        if (kiln.isBurning()) {
+            --kiln.burnTime;
         }
 
-        if (this.level != null && !this.level.isClientSide) {
-            ItemStack fuelStack = this.inventory.get(4);
+        if (level != null && !level.isClientSide) {
+            ItemStack fuelStack = kiln.inventory.get(4);
 
-            if (this.isBurning() || !fuelStack.isEmpty() && !this.getInputs().isEmpty()) {
+            if (kiln.isBurning() || !fuelStack.isEmpty() && !kiln.getInputs().isEmpty()) {
                 boolean canSmeltAny = false;
                 for (int i = 0; i <= 4; i++) {
-                    canSmeltAny |= this.canSmelt(i, 5, 8) != -1;
+                    canSmeltAny |= kiln.canSmelt(i, 5, 8) != -1;
                 }
 
-                if (!this.isBurning() && canSmeltAny) {
-                    this.burnTime = ForgeHooks.getBurnTime(fuelStack);
-                    this.recipesUsed = burnTime;
+                if (!kiln.isBurning() && canSmeltAny) {
+                    kiln.burnTime = ForgeHooks.getBurnTime(fuelStack, IAtumRecipeType.KILN);
+                    kiln.recipesUsed = kiln.burnTime;
 
-                    if (this.isBurning()) {
+                    if (kiln.isBurning()) {
                         markDirty = true;
                         if (!fuelStack.isEmpty()) {
                             Item fuelItemCached = fuelStack.getItem();
@@ -118,47 +118,47 @@ public class KilnTileEntity extends KilnBaseTileEntity implements TickableBlockE
 
                             if (fuelStack.isEmpty()) {
                                 ItemStack containerStack = fuelItemCached.getContainerItem(fuelStack);
-                                this.inventory.set(4, containerStack);
+                                kiln.inventory.set(4, containerStack);
                             }
                         }
                     }
                 }
 
-                if (this.isBurning() && canSmeltAny) {
-                    ++this.cookTime;
-                    if (this.cookTime == this.cookTimeTotal) {
-                        this.cookTime = 0;
-                        this.cookTimeTotal = 0;
-                        if (!this.isInputEmpty()) {
-                            this.cookTimeTotal = this.getCookTime();
+                if (kiln.isBurning() && canSmeltAny) {
+                    ++kiln.cookTime;
+                    if (kiln.cookTime == kiln.cookTimeTotal) {
+                        kiln.cookTime = 0;
+                        kiln.cookTimeTotal = 0;
+                        if (!kiln.isInputEmpty()) {
+                            kiln.cookTimeTotal = kiln.getCookTime();
                         }
                         for (int i = 0; i <= 4; i++) {
-                            this.smeltItem(i, 5, 8);
+                            kiln.smeltItem(i, 5, 8);
                         }
                         markDirty = true;
                     }
                 } else {
-                    this.cookTime = 0;
+                    kiln.cookTime = 0;
                 }
-            } else if ((!this.isBurning() && this.cookTime > 0) || this.isInputEmpty()) {
-                this.cookTime = Mth.clamp(this.cookTime - 2, 0, this.cookTimeTotal);
+            } else if ((!kiln.isBurning() && kiln.cookTime > 0) || kiln.isInputEmpty()) {
+                kiln.cookTime = Mth.clamp(kiln.cookTime - 2, 0, kiln.cookTimeTotal);
             }
 
-            if (isBurning != this.isBurning()) {
+            if (isBurning != kiln.isBurning()) {
                 markDirty = true;
-                level.setBlockAndUpdate(worldPosition, level.getBlockState(worldPosition).setValue(KilnBlock.LIT, this.isBurning()));
-                BlockPos secondaryKilnPos = KilnBlock.getSecondaryKilnFromPrimary(level, worldPosition);
+                level.setBlockAndUpdate(pos, state.setValue(KilnBlock.LIT, kiln.isBurning()));
+                BlockPos secondaryKilnPos = KilnBlock.getSecondaryKilnFromPrimary(level, pos);
                 if (secondaryKilnPos != null) {
                     BlockState secondaryState = level.getBlockState(secondaryKilnPos);
                     if (secondaryState.getBlock() == AtumBlocks.KILN) {
-                        level.setBlockAndUpdate(secondaryKilnPos, secondaryState.setValue(KilnBlock.LIT, this.isBurning()));
+                        level.setBlockAndUpdate(secondaryKilnPos, secondaryState.setValue(KilnBlock.LIT, kiln.isBurning()));
                     }
                 }
             }
         }
 
         if (markDirty) {
-            this.setChanged();
+            kiln.setChanged();
         }
     }
 
@@ -293,10 +293,10 @@ public class KilnTileEntity extends KilnBaseTileEntity implements TickableBlockE
         Block block = Block.byItem(stack.getItem());
 
         return IAtumRecipeType.kilnBlacklist.contains(item.getRegistryName()) || IAtumRecipeType.kilnBlacklist.contains(block.getRegistryName()) ||
-                item.isEdible() || block instanceof OreBlock || item.is(ItemTags.COALS) || item.is(ORES_COAL) || item.is(STORAGE_BLOCKS_COAL) ||
-                item.is(ItemTags.PLANKS) || item.is(ItemTags.LOGS) || item.is(RODS_WOODEN) || item.is(ItemTags.SMALL_FLOWERS) ||
-                item.is(ORES) || item.is(INGOTS) && !item.is(INGOTS_BRICK) || item.is(NUGGETS) || item.is(GEMS) || item.is(DUSTS) ||
-                item.is(DYES) || item.is(SLIMEBALLS) || item.is(LEATHER) || block instanceof SpongeBlock;
+                item.isEdible() || block instanceof OreBlock || ItemTags.COALS.contains(item) || ORES_COAL.contains(item) || STORAGE_BLOCKS_COAL.contains(item) ||
+                ItemTags.PLANKS.contains(item) || ItemTags.LOGS.contains(item) || RODS_WOODEN.contains(item) || ItemTags.SMALL_FLOWERS.contains(item) ||
+                ORES.contains(item) || INGOTS.contains(item) && !INGOTS_BRICK.contains(item) || NUGGETS.contains(item) || GEMS.contains(item) || DUSTS.contains(item) ||
+                DYES.contains(item) || SLIMEBALLS.contains(item) || LEATHER.contains(item) || block instanceof SpongeBlock;
     }
 
     @Override
@@ -305,16 +305,14 @@ public class KilnTileEntity extends KilnBaseTileEntity implements TickableBlockE
         this.burnTime = compound.getInt("BurnTime");
         this.cookTime = compound.getInt("CookTime");
         this.cookTimeTotal = compound.getInt("CookTimeTotal");
-        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4));
+        this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), IAtumRecipeType.KILN);
     }
 
     @Override
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        compound.putInt("BurnTime", this.burnTime);
-        compound.putInt("CookTime", this.cookTime);
-        compound.putInt("CookTimeTotal", this.cookTimeTotal);
-        return compound;
+    protected void saveAdditional(@Nonnull CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("BurnTime", this.burnTime);
+        tag.putInt("CookTime", this.cookTime);
+        tag.putInt("CookTimeTotal", this.cookTimeTotal);
     }
 }

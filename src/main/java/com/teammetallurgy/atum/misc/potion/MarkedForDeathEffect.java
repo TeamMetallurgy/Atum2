@@ -51,8 +51,7 @@ public class MarkedForDeathEffect extends MobEffect { //When on Easy difficulty 
     public void applyEffectTick(@Nonnull LivingEntity livingEntity, int amplifier) {
         Level world = livingEntity.level;
         if (!world.isClientSide()) {
-            if (world instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) world;
+            if (world instanceof ServerLevel serverWorld) {
                 if (serverWorld.dimension() == Atum.ATUM && !livingEntity.isSpectator()) {
                     Random random = serverWorld.random;
                     int x = (24 + random.nextInt(24)) * (random.nextBoolean() ? -1 : 1);

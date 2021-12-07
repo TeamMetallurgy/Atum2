@@ -22,10 +22,10 @@ public class IdolOfLaborItem extends Item {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(Level world, @Nonnull Player player, @Nonnull InteractionHand hand) {
-        if (world.isClientSide) {
-            player.displayClientMessage(new TranslatableComponent(this.getDescriptionId() + "." + Mth.nextInt(random, 1, 65)).withStyle(ChatFormatting.YELLOW), true);
+    public InteractionResultHolder<ItemStack> use(Level level, @Nonnull Player player, @Nonnull InteractionHand hand) {
+        if (level.isClientSide) {
+            player.displayClientMessage(new TranslatableComponent(this.getDescriptionId() + "." + Mth.nextInt(level.random, 1, 65)).withStyle(ChatFormatting.YELLOW), true);
         }
-        return super.use(world, player, hand);
+        return super.use(level, player, hand);
     }
 }

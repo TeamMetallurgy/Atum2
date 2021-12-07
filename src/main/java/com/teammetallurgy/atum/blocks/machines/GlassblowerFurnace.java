@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,7 +23,7 @@ public class GlassblowerFurnace extends AbstractFurnaceBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new GlassblowerFurnaceTileEntity();
+        return new GlassblowerFurnaceTileEntity(pos, state);
     }
 
     @Override

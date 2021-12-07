@@ -49,6 +49,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -245,7 +246,7 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         double x = target.getX() - this.getX();
         double y = target.getY(0.3333333333333333D) - orb.getY();
         double z = target.getZ() - this.getZ();
-        double height = Mth.sqrt(x * x + z * z);
+        double height = Mth.sqrt((float) (x * x + z * z));
         orb.shoot(x, y + height * 0.2D, z, 1.6F, 1);
         this.playSound(SoundEvents.GHAST_SHOOT, 1.0F, 1.0F / (this.getRandom().nextFloat() * 0.4F + 0.8F));
         this.level.addFreshEntity(orb);
@@ -337,8 +338,9 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
         return new TranslatableComponent(this.getType().getDescriptionId()).append(" ").append(new TranslatableComponent("entity.atum.pharaoh." + PREFIXES[p])).append(new TranslatableComponent("entity.atum.pharaoh." + SUFFIXES[s].toLowerCase(Locale.ROOT))).append(" " + NUMERALS[n]);
     }
 
+
     @Override
-    public void knockback(float strength, double xRatio, double zRatio) {
+    public void knockback(double strength, double xRatio, double zRatio) {
         if (God.getGod(this.getVariant()) != God.PTAH) {
             strength *= 0.20F;
             super.knockback(strength, xRatio, zRatio);
@@ -371,21 +373,21 @@ public class PharaohEntity extends UndeadBaseEntity implements RangedAttackMob {
             this.setBossInfo(this.getVariant());
         }
 
-        if (this.level.getDifficulty().getId() == 0) {
+        if (this.level.getDifficulty() == Difficulty.PEACEFUL) {
             if (this.getSarcophagusPos() != null) {
                 BlockEntity te = this.level.getBlockEntity(this.getSarcophagusPos());
                 if (te instanceof SarcophagusTileEntity) {
                     ((SarcophagusTileEntity) te).hasSpawned = false;
                 }
             }
-            this.remove();
+            this.discard();
         }
     }
 
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
-        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
     }
 
     @Override

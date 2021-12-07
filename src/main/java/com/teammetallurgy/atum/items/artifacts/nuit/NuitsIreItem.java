@@ -25,12 +25,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NuitsIreItem extends KhopeshItem implements IArtifact {
@@ -57,8 +59,8 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
     }
 
     @Override
-    public boolean isShield(@Nonnull ItemStack stack, @Nullable LivingEntity entity) {
-        return this.getIsOffHand(stack);
+    public boolean canPerformAction(@Nonnull ItemStack stack, @Nonnull ToolAction toolAction) {
+        return toolAction.equals(ToolActions.SHIELD_BLOCK) && getIsOffHand(stack);
     }
 
     @Override
@@ -76,7 +78,7 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
 
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
-        if (random.nextFloat() <= 0.25F) {
+        if (attacker.level.random.nextFloat() <= 0.25F) {
             applyWither(target, attacker, attacker.getOffhandItem().getItem() == AtumItems.NUITS_QUARTER);
         }
         return super.hurtEnemy(stack, target, attacker);
@@ -98,7 +100,7 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
     public static void onHurt(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getDirectEntity();
         LivingEntity livingEntity = event.getEntityLiving();
-        if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && random.nextFloat() <= 0.25F) {
+        if (trueSource instanceof LivingEntity && livingEntity instanceof Player && IS_BLOCKING.getBoolean(livingEntity) && livingEntity.level.random.nextFloat() <= 0.25F) {
             applyWither((LivingEntity) trueSource, event.getEntityLiving(), event.getEntityLiving().getMainHandItem().getItem() == AtumItems.NUITS_QUARTER);
             IS_BLOCKING.removeBoolean(livingEntity);
         }
@@ -106,9 +108,9 @@ public class NuitsIreItem extends KhopeshItem implements IArtifact {
 
     private static void applyWither(LivingEntity target, LivingEntity attacker, boolean isNuitsQuarterHeld) {
         if (attacker != target) {
-            if (target.level instanceof ServerLevel) {
-                ServerLevel serverWorld = (ServerLevel) target.level;
-                serverWorld.sendParticles(AtumParticles.NUIT_WHITE, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 1.5D), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
+            if (target.level instanceof ServerLevel serverLevel) {
+                Random random = serverLevel.random;
+                serverLevel.sendParticles(AtumParticles.NUIT_WHITE, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 1.5D), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 8, 0.01D, 0.0D, 0.01D, 0.02D);
             }
             target.addEffect(new MobEffectInstance(MobEffects.WITHER, 60, isNuitsQuarterHeld ? 2 : 1));
         }

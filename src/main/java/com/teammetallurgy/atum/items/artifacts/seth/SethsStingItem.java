@@ -23,6 +23,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Random;
+
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class SethsStingItem extends DaggerItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
@@ -54,9 +56,9 @@ public class SethsStingItem extends DaggerItem implements IArtifact {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 target.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 2));
-                if (trueSource.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) trueSource.level;
-                    serverWorld.sendParticles(AtumParticles.SETH, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
+                if (trueSource.level instanceof ServerLevel serverLevel) {
+                    Random random = serverLevel.random;
+                    serverLevel.sendParticles(AtumParticles.SETH, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY(), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 10, 0.07D, 0.6D, 0.07D, 0.4D);
                 }
             }
             COOLDOWN.removeFloat(trueSource);

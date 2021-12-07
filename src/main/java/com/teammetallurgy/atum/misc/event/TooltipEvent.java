@@ -20,7 +20,7 @@ public class TooltipEvent {
     public static void onTooltip(ItemTooltipEvent event) {
         if (!event.getItemStack().isEmpty()) {
             Item item = event.getItemStack().getItem();
-            if (!item.getTags().isEmpty() && item.is(AtumAPI.Tags.TOOLTIP)) {
+            if (!item.getTags().isEmpty() && AtumAPI.Tags.TOOLTIP.contains(item)) {
                 if (item.getRegistryName() != null) {
                     String itemIdentifier = item.getRegistryName().getPath() + ".tooltip";
                     if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_LEFT_SHIFT)) {

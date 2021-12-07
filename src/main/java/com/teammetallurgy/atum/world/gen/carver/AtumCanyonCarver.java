@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.world.gen.carver;
 
 import com.mojang.serialization.Codec;
@@ -15,7 +16,7 @@ import java.util.function.Function;
 public class AtumCanyonCarver extends AtumCarver<ProbabilityFeatureConfiguration> { //Copied from CanyonWorldCarver
     private final float[] size = new float[1024];
 
-    public AtumCanyonCarver(Codec<ProbabilityFeatureConfiguration> codec) {
+    public AtumCanyonCarver(Codec<ProbabilityFeatureConfiguration> codec) { //TODO. Is this still needed, or can vanilla carver be used?
         super(codec, 256);
     }
 
@@ -84,4 +85,4 @@ public class AtumCanyonCarver extends AtumCarver<ProbabilityFeatureConfiguration
     protected boolean skip(double d, double d1, double d2, int i) {
         return (d * d + d2 * d2) * (double)this.size[i - 1] + d1 * d1 / 6.0D >= 1.0D;
     }
-}
+}*/

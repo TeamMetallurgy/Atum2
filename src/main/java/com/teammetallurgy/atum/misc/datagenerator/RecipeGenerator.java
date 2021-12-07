@@ -32,7 +32,7 @@ public class RecipeGenerator extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(@Nonnull Consumer<FinishedRecipe> consumer) {
         for (DyeColor color : DyeColor.values()) {
             String colorName = color.getSerializedName();
             Item dye = ForgeRegistries.ITEMS.getValue(new ResourceLocation(colorName + "_dye"));

@@ -5,6 +5,7 @@ import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.blocks.machines.SpinningWheelBlock;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import com.teammetallurgy.atum.misc.recipe.RecipeHelper;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
@@ -27,8 +28,8 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     public CompoundTag input = new CompoundTag();
     public int rotations;
 
-    public SpinningWheelTileEntity() {
-        super(AtumTileEntities.SPINNING_WHEEL, 2);
+    public SpinningWheelTileEntity(BlockPos pos, BlockState state) {
+        super(AtumTileEntities.SPINNING_WHEEL.get(), pos, state, 2);
     }
 
     @Override
@@ -38,14 +39,16 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
-        this.setChanged();
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override
@@ -110,21 +113,19 @@ public class SpinningWheelTileEntity extends InventoryBaseTileEntity implements 
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        this.rotations = compound.getInt("rotations");
-        this.input = compound.getCompound("input");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        this.rotations = tag.getInt("rotations");
+        this.input = tag.getCompound("input");
     }
 
-    @Nonnull
     @Override
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        compound.putInt("rotations", this.rotations);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("rotations", this.rotations);
         if (this.input != null) {
-            compound.put("input", this.input);
+            tag.put("input", this.input);
         }
-        return compound;
     }
 
     @Override

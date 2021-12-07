@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.phys.AABB;
 
@@ -19,8 +20,8 @@ public class ChestBaseTileEntity extends ChestBlockEntity {
     public boolean canBeDouble;
     private final Block chestBlock;
 
-    public ChestBaseTileEntity(BlockEntityType<?> type, boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
-        super(type);
+    public ChestBaseTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state, boolean canBeSingle, boolean canBeDouble, Block chestBlock) {
+        super(type, pos, state);
         this.canBeSingle = canBeSingle;
         this.canBeDouble = canBeDouble;
         this.chestBlock = chestBlock;

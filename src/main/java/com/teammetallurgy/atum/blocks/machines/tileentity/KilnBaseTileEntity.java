@@ -29,8 +29,8 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     private static final int[] SLOTS_BOTTOM = new int[]{5, 6, 7, 8};
     private static final int[] SLOTS_SIDES = new int[]{4};
 
-    KilnBaseTileEntity(BlockEntityType<?> tileType) {
-        super(tileType, 9);
+    KilnBaseTileEntity(BlockEntityType<?> tileType, BlockPos pos, BlockState state) {
+        super(tileType, pos, state, 9);
     }
 
     @Override
@@ -158,30 +158,28 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        boolean hasPrimary = compound.getBoolean("has_primary");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        boolean hasPrimary = tag.getBoolean("has_primary");
         if (hasPrimary) {
-            int x = compound.getInt("px");
-            int y = compound.getInt("py");
-            int z = compound.getInt("pz");
+            int x = tag.getInt("px");
+            int y = tag.getInt("py");
+            int z = tag.getInt("pz");
             primaryPos = new BlockPos(x, y, z);
         }
     }
 
     @Override
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
+    protected void saveAdditional(@Nonnull CompoundTag tag) {
+        super.saveAdditional(tag);
         if (primaryPos != null) {
-            compound.putBoolean("has_primary", true);
-            compound.putInt("px", primaryPos.getX());
-            compound.putInt("py", primaryPos.getY());
-            compound.putInt("pz", primaryPos.getZ());
+            tag.putBoolean("has_primary", true);
+            tag.putInt("px", primaryPos.getX());
+            tag.putInt("py", primaryPos.getY());
+            tag.putInt("pz", primaryPos.getZ());
         } else {
-            compound.putBoolean("has_primary", false);
+            tag.putBoolean("has_primary", false);
         }
-        return compound;
     }
 
     @Override
@@ -197,13 +195,16 @@ public class KilnBaseTileEntity extends InventoryBaseTileEntity implements World
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override

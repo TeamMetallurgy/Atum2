@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.blocks.curio.tileentity;
 
 import com.teammetallurgy.atum.blocks.base.tileentity.InventoryBaseTileEntity;
 import com.teammetallurgy.atum.network.NetworkHandler;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.Packet;
@@ -10,13 +11,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nonnull;
 
 public class CurioDisplayTileEntity extends InventoryBaseTileEntity {
 
-    public CurioDisplayTileEntity(BlockEntityType<? extends CurioDisplayTileEntity> tileEntityType) {
-        super(tileEntityType, 1);
+    public CurioDisplayTileEntity(BlockEntityType<? extends CurioDisplayTileEntity> tileEntityType, BlockPos pos, BlockState state) {
+        super(tileEntityType, pos, state, 1);
     }
 
     @Override
@@ -26,13 +28,16 @@ public class CurioDisplayTileEntity extends InventoryBaseTileEntity {
 
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
-        return new ClientboundBlockEntityDataPacket(this.worldPosition, 0, this.getUpdateTag());
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 
     @Override
     public void onDataPacket(Connection manager, ClientboundBlockEntityDataPacket packet) {
         super.onDataPacket(manager, packet);
-        this.load(this.getBlockState(), packet.getTag());
+        if (packet.getTag() != null) {
+            this.load(packet.getTag());
+            this.setChanged();
+        }
     }
 
     @Override

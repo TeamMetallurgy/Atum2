@@ -1,8 +1,8 @@
 package com.teammetallurgy.atum.blocks.wood;
 
+import com.teammetallurgy.atum.blocks.wood.tileentity.AtumSignTileEntity;
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.StandingSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,6 +18,6 @@ public class AtumStandingSignBlock extends StandingSignBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return AtumTileEntities.SIGN.create(pos, state);
+        return new AtumSignTileEntity(pos, state);
     }
 }

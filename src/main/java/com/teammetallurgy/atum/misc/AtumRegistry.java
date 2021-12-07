@@ -412,5 +412,6 @@ public class AtumRegistry {
     public static void registerDeferredRegistries(IEventBus modBus) {
         AtumVillagerProfession.ATUM_PROFESSION_DEFERRED.register(modBus);
         AtumSensorTypes.SENSOR_TYPE_DEFERRED.register(modBus);
+        AtumTileEntities.BLOCK_ENTITY_DEFERRED.register(modBus);
     }
 }

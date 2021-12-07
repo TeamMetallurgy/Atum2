@@ -1,3 +1,4 @@
+/*
 package com.teammetallurgy.atum.init;
 
 import com.teammetallurgy.atum.Atum;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.levelgen.feature.StructurePieceType;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AtumStructurePieces {
+public class AtumStructurePieces { //TODO
     public static final StructurePieceType GIRAFI_TOMB = register(GirafiTombPieces.GirafiTombTemplate::new, "girafi_tomb_template");
     public static final StructurePieceType TOMB = register(TombPieces.TombTemplate::new, "tomb_template");
     public static final StructurePieceType RUIN = register(RuinPieces.RuinTemplate::new, "ruin_template");
@@ -26,4 +27,4 @@ public class AtumStructurePieces {
     private static StructurePieceType register(StructurePieceType type, String name) {
         return Registry.register(Registry.STRUCTURE_PIECE, new ResourceLocation(Atum.MOD_ID, name), type);
     }
-}
+}*/

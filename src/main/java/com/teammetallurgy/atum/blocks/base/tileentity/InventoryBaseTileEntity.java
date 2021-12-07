@@ -1,5 +1,6 @@
 package com.teammetallurgy.atum.blocks.base.tileentity;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -15,8 +16,8 @@ import javax.annotation.Nonnull;
 public abstract class InventoryBaseTileEntity extends RandomizableContainerBlockEntity {
     protected NonNullList<ItemStack> inventory;
 
-    public InventoryBaseTileEntity(BlockEntityType<?> tileEntityType, int slots) {
-        super(tileEntityType);
+    public InventoryBaseTileEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state, int slots) {
+        super(tileEntityType, pos, state);
         this.inventory = NonNullList.withSize(slots, ItemStack.EMPTY);
     }
 
@@ -53,21 +54,19 @@ public abstract class InventoryBaseTileEntity extends RandomizableContainerBlock
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
         this.inventory = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(compound)) {
-            ContainerHelper.loadAllItems(compound, this.getItems());
+        if (!this.tryLoadLootTable(tag)) {
+            ContainerHelper.loadAllItems(tag, this.getItems());
         }
     }
 
     @Override
-    @Nonnull
-    public CompoundTag save(@Nonnull CompoundTag compound) {
-        super.save(compound);
-        if (!this.trySaveLootTable(compound)) {
-            ContainerHelper.saveAllItems(compound, this.getItems());
+    protected void saveAdditional(@Nonnull CompoundTag tag) {
+        super.saveAdditional(tag);
+        if (!this.trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, this.getItems());
         }
-        return compound;
     }
 }

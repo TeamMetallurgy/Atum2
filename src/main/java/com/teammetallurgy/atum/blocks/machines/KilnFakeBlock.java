@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
@@ -38,7 +37,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
 
     @Override
     public BlockEntity newBlockEntity(@Nonnull BlockPos pos, @Nonnull BlockState state) {
-        return new KilnTileEntity();
+        return new KilnTileEntity(pos, state);
     }
 
     @Override
@@ -72,8 +71,7 @@ public class KilnFakeBlock extends BaseEntityBlock {
 
     private BlockPos getPrimaryKilnBlock(Level world, BlockPos pos) {
         BlockEntity te = world.getBlockEntity(pos);
-        if (te instanceof KilnBaseTileEntity) {
-            KilnBaseTileEntity tekb = (KilnBaseTileEntity) te;
+        if (te instanceof KilnBaseTileEntity tekb) {
             return tekb.getPrimaryPos();
         }
         return null;
