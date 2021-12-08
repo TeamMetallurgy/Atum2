@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.world.DimensionHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraftforge.common.util.ITeleporter;
 
 import java.util.function.Function;

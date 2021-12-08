@@ -20,6 +20,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 
@@ -54,11 +56,10 @@ public class DeadwoodLogBlock extends RotatedPillarBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> container) {
         container.add(AXIS, HAS_SCARAB);
     }
-
     @Override
-    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolType toolType) {
+    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
         if (this.canBeStripped) {
-            return toolType == ToolType.AXE ? AtumBlocks.STRIPPED_DEADWOOD_LOG.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
+            return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_DEADWOOD_LOG.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
         } else {
             return null;
         }

@@ -35,7 +35,7 @@ public class ArrowTrapTileEntity extends TrapTileEntity {
         super(AtumTileEntities.ARROW_TRAP.get(), pos, state);
     }
 
-    public static void serverTick(Level level, BlockPos pos, BlockState state, ArrowTrapTileEntity trap) {
+    public static void arrowTrackServerTick(Level level, BlockPos pos, BlockState state, ArrowTrapTileEntity trap) {
         boolean isBurningCheck = trap.isBurning();
         boolean isBurning = false;
         boolean canDamageEntity = false;

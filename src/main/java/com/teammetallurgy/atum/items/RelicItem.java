@@ -6,7 +6,6 @@ import com.teammetallurgy.atum.Atum;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +13,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.random.Weight;
+import net.minecraft.util.random.WeightedEntry;
 import net.minecraft.util.random.WeightedRandom;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -26,10 +27,12 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nonnull;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class RelicItem extends Item {
-    public static final NonNullList<RelicEntry> RELIC_ENTRIES = NonNullList.create();
+    public static final List<RelicEntry> RELIC_ENTRIES = new ArrayList<>();
 
     public RelicItem(Item.Properties properties) {
         super(properties.tab(Atum.GROUP));
@@ -76,14 +79,17 @@ public class RelicItem extends Item {
         if (state.getFluidState().is(FluidTags.WATER) || state.getBlock() instanceof CauldronBlock && state.getValue(CauldronBlock.LEVEL) > 0) {
             if (stack.getItem() instanceof RelicItem && String.valueOf(stack.getItem().getRegistryName()).contains("dirty") && !level.isClientSide) {
                 while (stack.getCount() > 0) {
-                    Item item = getRelic(getType(stack.getItem()), WeighedRandom.getRandomItem(random, RELIC_ENTRIES).quality);
-                    if (level.random.nextFloat() <= 0.10F) {
-                        stack.shrink(1);
-                        level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
-                    } else {
-                        level.addFreshEntity(new ItemEntity(level, entityItem.getX(), entityItem.getY(), entityItem.getZ(), new ItemStack(item)));
-                        level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
-                        stack.shrink(1);
+                    Optional<RelicEntry> optional = WeightedRandom.getRandomItem(level.random, RELIC_ENTRIES);
+                    if (optional.isPresent()) {
+                        Item item = getRelic(getType(stack.getItem()), optional.get().getQuality());
+                        if (level.random.nextFloat() <= 0.10F) {
+                            stack.shrink(1);
+                            level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.ITEM_BREAK, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
+                        } else {
+                            level.addFreshEntity(new ItemEntity(level, entityItem.getX(), entityItem.getY(), entityItem.getZ(), new ItemStack(item)));
+                            level.playSound(null, entityItem.getX(), entityItem.getY(), entityItem.getZ(), SoundEvents.EXPERIENCE_ORB_PICKUP, entityItem.getSoundSource(), 0.8F, 0.8F + entityItem.level.random.nextFloat() * 0.4F);
+                            stack.shrink(1);
+                        }
                     }
                 }
             }
@@ -172,12 +178,27 @@ public class RelicItem extends Item {
         }
     }
 
-    public static class RelicEntry extends WeightedRandom.WeighedRandomItem {
-        final Quality quality;
+    public static class RelicEntry implements WeightedEntry {
+        private final Quality quality;
+        private final int weight;
 
         public RelicEntry(Quality quality, int weight) {
-            super(weight);
             this.quality = quality;
+            this.weight = weight;
+        }
+
+        public Quality getQuality() {
+            return this.quality;
+        }
+
+        @Override
+        @Nonnull
+        public Weight getWeight() {
+            return Weight.of(this.weight);
+        }
+
+        public int getWeightValue() {
+            return this.weight;
         }
     }
 }

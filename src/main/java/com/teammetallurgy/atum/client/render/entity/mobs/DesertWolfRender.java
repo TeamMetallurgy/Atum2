@@ -10,6 +10,7 @@ import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfSaddleLayer;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -24,8 +25,8 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     private static final ResourceLocation TAMED_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_tame.png");
     private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_angry.png");
 
-    public DesertWolfRender(EntityRenderDispatcher renderManager) {
-        super(renderManager, new DesertWolfModel<>(0.0F), 0.5F);
+    public DesertWolfRender(EntityRendererProvider.Context context) {
+        super(context, new DesertWolfModel<>(0.0F), 0.5F);
         this.addLayer(new DesertWolfCollarLayer(this));
         this.addLayer(new DesertWolfSaddleLayer(this));
         this.addLayer(new DesertWolfArmorLayer(this));

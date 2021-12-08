@@ -6,12 +6,18 @@ import com.mojang.math.Vector3f;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.SarcophagusBlock;
 import com.teammetallurgy.atum.blocks.stone.limestone.chest.tileentity.SarcophagusTileEntity;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -24,7 +30,7 @@ import net.minecraft.world.level.block.state.properties.ChestType;
 
 import javax.annotation.Nonnull;
 
-public class SarcophagusRender extends BlockEntityRenderer<SarcophagusTileEntity> {
+public class SarcophagusRender implements BlockEntityRenderer<SarcophagusTileEntity> {
     private static final ResourceLocation SARCOPHAGUS = new ResourceLocation(Atum.MOD_ID, "textures/entity/chest/sarcophagus.png");
     private static final RenderType SARCOPHAGUS_RENDER = RenderType.entityCutout(SARCOPHAGUS);
     public ModelPart sarcophagusBase;
@@ -35,29 +41,28 @@ public class SarcophagusRender extends BlockEntityRenderer<SarcophagusTileEntity
     public ModelPart sarcophagusGemchest;
     public ModelPart sarcophagusGemhead;
 
-    public SarcophagusRender(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
-        this.sarcophagusLid = new ModelPart(128, 64, 0, 0);
-        this.sarcophagusLid.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusLid.addBox(-16.0F, -2.0F, -16.0F, 30, 2, 14, 0.0F);
-        this.sarcophagusGemchest = new ModelPart(128, 64, 0, 45);
-        this.sarcophagusGemchest.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusGemchest.addBox(0.0F, -4.5F, -10.0F, 2, 2, 2, 0.0F);
-        this.sarcophagusBase = new ModelPart(128, 64, 0, 19);
-        this.sarcophagusBase.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusBase.addBox(-16.0F, 0.0F, -16.0F, 30, 10, 14, 0.0F);
-        this.sarcophagusLiddeco3 = new ModelPart(128, 64, 0, 45);
-        this.sarcophagusLiddeco3.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusLiddeco3.addBox(-4.0F, -4.0F, -13.0F, 15, 1, 8, 0.0F);
-        this.sarcophagusGemhead = new ModelPart(128, 64, 0, 45);
-        this.sarcophagusGemhead.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusGemhead.addBox(-12.0F, -4.5F, -10.0F, 2, 2, 2, 0.0F);
-        this.sarcophagusLiddeco1 = new ModelPart(128, 64, 48, 51);
-        this.sarcophagusLiddeco1.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusLiddeco1.addBox(-15.0F, -3.0F, -15.0F, 28, 1, 12, 0.0F);
-        this.sarcophagusLiddeco2 = new ModelPart(128, 64, 90, 0);
-        this.sarcophagusLiddeco2.setPos(1.0F, 14.0F, 9.0F);
-        this.sarcophagusLiddeco2.addBox(-14.0F, -4.0F, -13.0F, 8, 1, 8, 0.0F);
+    public SarcophagusRender(BlockEntityRendererProvider.Context context) {
+        ModelPart part = context.bakeLayer(ClientHandler.SARCOPHAGUS);
+        this.sarcophagusBase = part.getChild("sarcophagusBase");
+        this.sarcophagusLid = part.getChild("sarcophagusLid");
+        this.sarcophagusLiddeco1 = part.getChild("sarcophagusLiddeco1");
+        this.sarcophagusLiddeco2 = part.getChild("sarcophagusLiddeco2");
+        this.sarcophagusLiddeco3 = part.getChild("sarcophagusLiddeco3");
+        this.sarcophagusGemchest = part.getChild("sarcophagusGemchest");
+        this.sarcophagusGemhead = part.getChild("sarcophagusGemhead");
+    }
+
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        partDefinition.addOrReplaceChild("sarcophagusBase", CubeListBuilder.create().texOffs(0, 19).addBox(-16.0F, 0.0F, -16.0F, 30, 10, 14), PartPose.offset(1.0F, 14.0F, 9.0F));
+        partDefinition.addOrReplaceChild("sarcophagusLid", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, -2.0F, -16.0F, 30, 2, 14), PartPose.offset(1.0F, 14.0F, 9.0F));
+        partDefinition.addOrReplaceChild("sarcophagusLiddeco1", CubeListBuilder.create().texOffs(48, 51).addBox(-15.0F, -3.0F, -15.0F, 28, 1, 12), PartPose.offset(1.0F, 14.0F, 9.0F));
+        partDefinition.addOrReplaceChild("sarcophagusLiddeco2", CubeListBuilder.create().texOffs(90, 0).addBox(-14.0F, -4.0F, -13.0F, 8, 1, 8), PartPose.offset(1.0F, 14.0F, 9.0F));
+        partDefinition.addOrReplaceChild("sarcophagusLiddeco3", CubeListBuilder.create().texOffs(0, 45).addBox(-4.0F, -4.0F, -13.0F, 15, 1, 8), PartPose.offset(0.0F, 24.0F, 0.0F));
+        partDefinition.addOrReplaceChild("sarcophagusGemchest", CubeListBuilder.create().texOffs(0, 45).addBox(0.0F, -4.5F, -10.0F, 2, 2, 2), PartPose.offset(1.0F, 14.0F, 9.0F));
+        partDefinition.addOrReplaceChild("sarcophagusGemhead", CubeListBuilder.create().texOffs(0, 45).addBox(-12.0F, -4.5F, -10.0F, 2, 2, 2), PartPose.offset(1.0F, 14.0F, 9.0F));
+        return LayerDefinition.create(meshDefinition, 128, 64);
     }
 
     @Override
@@ -104,12 +109,12 @@ public class SarcophagusRender extends BlockEntityRenderer<SarcophagusTileEntity
     }
 
     private void renderSarcophagus(PoseStack matrixStack, VertexConsumer vertexBuilder, ModelPart base, ModelPart lid, ModelPart liddeco1, ModelPart liddeco2, ModelPart liddeco3, ModelPart gemhead, ModelPart gemchest, float lidAngle, int light, int combinedOverlay) {
-        lid.getYRot() = -lidAngle / 2;
-        liddeco1.getYRot() = -lidAngle / 2;
-        liddeco2.getYRot() = -lidAngle / 2;
-        liddeco3.getYRot() = -lidAngle / 2;
-        gemhead.getYRot() = -lidAngle / 2;
-        gemchest.getYRot() = -lidAngle / 2;
+        lid.yRot = -lidAngle / 2;
+        liddeco1.yRot = -lidAngle / 2;
+        liddeco2.yRot = -lidAngle / 2;
+        liddeco3.yRot = -lidAngle / 2;
+        gemhead.yRot = -lidAngle / 2;
+        gemchest.yRot = -lidAngle / 2;
         base.render(matrixStack, vertexBuilder, light, combinedOverlay);
         lid.render(matrixStack, vertexBuilder, light, combinedOverlay);
         liddeco1.render(matrixStack, vertexBuilder, light, combinedOverlay);

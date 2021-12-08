@@ -4,7 +4,6 @@ import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.bandit.SergeantEntity;
 import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.misc.AtumConfig;
-import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;

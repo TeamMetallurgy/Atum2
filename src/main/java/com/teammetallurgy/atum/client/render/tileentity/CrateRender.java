@@ -7,13 +7,19 @@ import com.mojang.math.Vector3f;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.wood.CrateBlock;
 import com.teammetallurgy.atum.blocks.wood.tileentity.crate.CrateTileEntity;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -28,19 +34,23 @@ import java.util.Map;
 import java.util.Objects;
 
 @OnlyIn(Dist.CLIENT)
-public class CrateRender extends BlockEntityRenderer<CrateTileEntity> {
+public class CrateRender implements BlockEntityRenderer<CrateTileEntity> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
     private final ModelPart crateCore;
     private final ModelPart crateLid;
 
-    public CrateRender(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
-        this.crateCore = new ModelPart(64, 64, 0, 0);
-        this.crateCore.setPos(8.0F, 9.0F, 0.0F);
-        this.crateCore.addBox(-16.0F, 0.0F, -8.0F, 16, 15, 16, 0.0F);
-        this.crateLid = new ModelPart(64, 64, 0, 32);
-        this.crateLid.setPos(8.0F, 8.0F, 0.0F);
-        this.crateLid.addBox(-16.0F, 0.0F, -8.0F, 16, 1, 16, 0.0F);
+    public CrateRender(BlockEntityRendererProvider.Context context) {
+        ModelPart part = context.bakeLayer(ClientHandler.CRATE);
+        this.crateCore = part.getChild("crateCore");
+        this.crateLid = part.getChild("crateLid");
+    }
+
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        partDefinition.addOrReplaceChild("crateCore", CubeListBuilder.create().texOffs(0, 0).addBox(-16.0F, 0.0F, -8.0F, 16, 15, 16), PartPose.offset(8.0F, 9.0F, 0.0F));
+        partDefinition.addOrReplaceChild("crateLid", CubeListBuilder.create().texOffs(0, 32).addBox(-16.0F, 0.0F, -8.0F, 16, 1, 16), PartPose.offset(8.0F, 8.0F, 0.0F));
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 
     @Override
@@ -53,7 +63,7 @@ public class CrateRender extends BlockEntityRenderer<CrateTileEntity> {
             matrixStack.translate(0.5D, 0.5D, 0.5D);
             matrixStack.mulPose(Vector3f.YP.rotationDegrees(-facingAngle));
             matrixStack.translate(-0.5D, -0.5D, -0.5D);
-            float lidAngle = crate.getLidAngle(partialTicks);
+            float lidAngle = crate.getOpenNess(partialTicks);
             lidAngle = 1.0F - lidAngle;
             lidAngle = 1.0F - lidAngle * lidAngle * lidAngle;
             VertexConsumer vertexBuilder = getBuilder(crate, buffer);

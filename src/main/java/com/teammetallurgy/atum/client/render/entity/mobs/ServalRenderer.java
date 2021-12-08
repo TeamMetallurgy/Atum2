@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.client.model.entity.ServalModel;
 import com.teammetallurgy.atum.client.render.entity.layer.ServalCollorLayer;
 import com.teammetallurgy.atum.entity.animal.ServalEntity;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -19,8 +20,8 @@ import javax.annotation.Nonnull;
 public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<ServalEntity>> {
     private static final ResourceLocation AZURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/azure.png");
 
-    public ServalRenderer(EntityRenderDispatcher renderManager) {
-        super(renderManager, new ServalModel<>(0.0F), 0.5F);
+    public ServalRenderer(EntityRendererProvider.Context context) {
+        super(context, new ServalModel<>(0.0F), 0.5F);
         this.addLayer(new ServalCollorLayer(this));
     }
 

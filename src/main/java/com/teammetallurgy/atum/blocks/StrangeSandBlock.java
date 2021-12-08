@@ -16,6 +16,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 
@@ -48,7 +50,7 @@ public class StrangeSandBlock extends FallingBlock {
     }
 
     @Override
-    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolType toolType) {
-        return toolType == ToolType.SHOVEL ? AtumBlocks.STRANGE_SAND_PATH.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
+    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
+        return toolAction == ToolActions.SHOVEL_FLATTEN ? AtumBlocks.STRANGE_SAND_PATH.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
     }
 }

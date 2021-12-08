@@ -14,7 +14,7 @@ import javax.annotation.Nonnull;
 public class LimestoneFurnaceTileEntity extends FurnaceBaseTileEntity {
 
     public LimestoneFurnaceTileEntity(BlockPos pos, BlockState state) {
-        super(AtumTileEntities.LIMESTONE_FURNACE.get(), RecipeType.SMELTING, 3);
+        super(AtumTileEntities.LIMESTONE_FURNACE.get(), pos, state, RecipeType.SMELTING, 3);
     }
 
     @Override

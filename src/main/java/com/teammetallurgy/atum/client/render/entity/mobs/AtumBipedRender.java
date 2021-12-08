@@ -4,7 +4,9 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.entity.ITexture;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
@@ -19,13 +21,17 @@ import java.util.Map;
 public class AtumBipedRender<T extends Mob & ITexture, M extends HumanoidModel<T>> extends HumanoidMobRenderer<T, M> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public AtumBipedRender(EntityRenderDispatcher manager) {
-        this(manager, (M) new PlayerModel(0.0F, false), (M) new PlayerModel(0.5F, false), (M) new PlayerModel(1.0F, false));
+    public AtumBipedRender(EntityRendererProvider.Context context) {
+        this(context, false);
     }
 
-    public AtumBipedRender(EntityRenderDispatcher renderManager, M model, M modelArmorHalf, M modelArmorFull) {
-        super(renderManager, model, 0.5F);
-        this.addLayer(new HumanoidArmorLayer<>(this, modelArmorHalf, modelArmorFull));
+    public AtumBipedRender(EntityRendererProvider.Context context, boolean isSlim) {
+        this(context, (M) new PlayerModel(context.bakeLayer(isSlim ? ModelLayers.PLAYER_SLIM : ModelLayers.PLAYER), false), isSlim);
+    }
+
+    public AtumBipedRender(EntityRendererProvider.Context context, M model, boolean isSlim) {
+        super(context, model, 0.5F);
+        this.addLayer(new HumanoidArmorLayer<>(this, new HumanoidModel<>(context.bakeLayer(isSlim ? ModelLayers.PLAYER_SLIM_INNER_ARMOR : ModelLayers.PLAYER_INNER_ARMOR)), new HumanoidModel<>(context.bakeLayer(isSlim ? ModelLayers.PLAYER_SLIM_OUTER_ARMOR : ModelLayers.PLAYER_OUTER_ARMOR))));
     }
 
     @Override

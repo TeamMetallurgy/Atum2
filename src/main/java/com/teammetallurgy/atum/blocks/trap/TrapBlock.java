@@ -37,6 +37,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.network.NetworkHooks;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -58,7 +59,7 @@ public abstract class TrapBlock extends BaseEntityBlock {
         return level.isClientSide ? null : getTrapTickerHelper(level, state, blockEntityType);
     }
 
-    public abstract BlockEntityType<? extends TrapTileEntity> getTrapBlockEntityType();
+    public abstract <E extends TrapTileEntity> BlockEntityType<E> getTrapBlockEntityType();
 
     public <E extends BlockEntity> BlockEntityTicker<E> getTrapTickerHelper(@Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockEntityType<E> blockEntityType) {
         return createTickerHelper(blockEntityType, getTrapBlockEntityType(), TrapTileEntity::serverTick);

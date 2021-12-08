@@ -24,11 +24,11 @@ public class ArrowTrapBlock extends TrapBlock {
 
     @Override
     public <E extends BlockEntity> BlockEntityTicker<E> getTrapTickerHelper(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<E> blockEntityType) {
-        return createTickerHelper(blockEntityType, getTrapBlockEntityType(), ArrowTrapTileEntity::serverTick);
+        return createTickerHelper(blockEntityType, getTrapBlockEntityType(), ArrowTrapTileEntity::arrowTrackServerTick);
     }
 
     @Override
-    public BlockEntityType<? extends TrapTileEntity> getTrapBlockEntityType() {
+    public BlockEntityType<ArrowTrapTileEntity> getTrapBlockEntityType() {
         return AtumTileEntities.ARROW_TRAP.get();
     }
 }

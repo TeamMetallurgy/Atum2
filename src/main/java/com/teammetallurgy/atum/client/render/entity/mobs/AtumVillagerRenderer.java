@@ -5,7 +5,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.client.render.entity.layer.VillagerLayer;
 import com.teammetallurgy.atum.entity.villager.AtumVillagerEntity;
 import net.minecraft.client.model.PlayerModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
@@ -15,8 +17,8 @@ import java.util.Map;
 public class AtumVillagerRenderer extends MobRenderer<AtumVillagerEntity, PlayerModel<AtumVillagerEntity>> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public AtumVillagerRenderer(EntityRenderDispatcher renderManager, boolean isFemale) {
-        super(renderManager, new PlayerModel<>(0.0F, isFemale), 0.5F);
+    public AtumVillagerRenderer(EntityRendererProvider.Context context, boolean isFemale) {
+        super(context, new PlayerModel<>(context.bakeLayer(ModelLayers.PLAYER), isFemale), 0.5F);
         this.addLayer(new VillagerLayer<>(this, "villager"));
     }
 

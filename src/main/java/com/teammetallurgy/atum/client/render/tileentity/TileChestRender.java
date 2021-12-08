@@ -6,6 +6,7 @@ import com.teammetallurgy.atum.blocks.base.tileentity.ChestBaseTileEntity;
 import com.teammetallurgy.atum.client.ClientHandler;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.resources.ResourceLocation;
@@ -24,8 +25,8 @@ public class TileChestRender extends ChestRenderer<ChestBaseTileEntity> {
     private static final Material LIMESTONE_CHEST_LEFT = getChestMaterial("limestone_chest_left");
     private static final Material LIMESTONE_CHEST_RIGHT = getChestMaterial("limestone_chest_right");
 
-    public TileChestRender(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    public TileChestRender(BlockEntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override

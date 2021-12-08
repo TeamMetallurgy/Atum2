@@ -22,6 +22,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
 import java.util.Optional;
@@ -45,7 +47,7 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
 
             if (!hasWater(world, pos)) {
                 Optional<ResourceKey<Biome>> biomeKey = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getResourceKey(world.getBiome(pos));
-                if (biomeKey.isPresent() && biomeKey.get() != AtumBiomes.OASIS) {
+                if (biomeKey.isPresent() /*&& biomeKey.get() != AtumBiomes.OASIS*/) { //TODO Uncomment when biomes are re-added
                     world.setBlock(pos, AtumBlocks.SAND.defaultBlockState(), 2);
                 }
             } else if (Block.isFaceFull(world.getBlockState(pos.above()).getCollisionShape(world, pos), Direction.DOWN)) {
@@ -143,17 +145,17 @@ public class FertileSoilBlock extends Block implements BonemealableBlock {
     }
 
     @Override
-    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, @Nonnull ItemStack stack, ToolType toolType) {
-        if (toolType == ToolType.HOE) {
+    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, @Nonnull ItemStack stack, ToolAction toolAction) {
+        /*if (toolAction == ToolActions.HOE_TILL) { //TODO Requires Forge to fix HOE_TILL
             if (stack.getItem() == AtumItems.OSIRIS_BLESSING) {
                 return AtumBlocks.FERTILE_SOIL_TILLED.defaultBlockState().setValue(FertileSoilTilledBlock.MOISTURE, 7).setValue(FertileSoilTilledBlock.BLESSED, true);
             } else {
                 return AtumBlocks.FERTILE_SOIL_TILLED.defaultBlockState();
             }
-        } else if (toolType == ToolType.SHOVEL) {
+        } else */if (toolAction == ToolActions.SHOVEL_FLATTEN) {
             return AtumBlocks.FERTILE_SOIL_PATH.defaultBlockState();
         } else {
-            return super.getToolModifiedState(state, world, pos, player, stack, toolType);
+            return super.getToolModifiedState(state, world, pos, player, stack, toolAction);
         }
     }
 }

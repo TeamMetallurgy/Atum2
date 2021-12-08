@@ -1,7 +1,6 @@
 package com.teammetallurgy.atum.entity.animal;
 
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
-import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -65,7 +64,7 @@ public class TarantulaEntity extends Monster {
 
     public static boolean canSpawn(EntityType<? extends TarantulaEntity> tarantula, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
         return (spawnReason == MobSpawnType.SPAWNER || pos.getY() >= 40 && pos.getY() <= 62 && !world.canSeeSkyFromBelowWater(pos.below())) && checkMonsterSpawnRules(tarantula, world, spawnReason, pos, random) &&
-                world instanceof ServerLevel && !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE);
+                world instanceof ServerLevel /*&& !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
     }
 
     @Override

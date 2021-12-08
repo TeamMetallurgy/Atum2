@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.misc.recipe;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.init.AtumRecipeSerializers;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;

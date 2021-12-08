@@ -6,14 +6,20 @@ import com.mojang.math.Vector3f;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.blocks.machines.QuernBlock;
 import com.teammetallurgy.atum.blocks.machines.tileentity.QuernTileEntity;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.RenderUtils;
 import com.teammetallurgy.atum.init.AtumBlocks;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.CubeListBuilder;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.BrightnessCombiner;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -29,41 +35,36 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nonnull;
 
 @OnlyIn(Dist.CLIENT)
-public class QuernRender extends BlockEntityRenderer<QuernTileEntity> {
+public class QuernRender implements BlockEntityRenderer<QuernTileEntity> {
     private static final ResourceLocation QUERN_STONE = new ResourceLocation(Atum.MOD_ID, "textures/block/quern_stone.png");
     private static final RenderType QUERN_RENDER = RenderType.entityCutout(QUERN_STONE);
-    public ModelPart core;
-    private ModelPart coreLeft;
-    private ModelPart coreFront;
-    private ModelPart coreBack;
-    private ModelPart coreRight;
-    private ModelPart handle;
+    public final ModelPart core;
+    private final ModelPart coreLeft;
+    private final ModelPart coreRight;
+    private final ModelPart coreFront;
+    private final ModelPart coreBack;
+    private final ModelPart handle;
 
-    public QuernRender(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
-        this.coreBack = new ModelPart(64, 64, 0, 34);
-        this.coreBack.setPos(0.0F, 0.0F, 0.0F);
-        this.coreBack.addBox(-4.0F, -2.0F, 5.0F, 8, 4, 1, 0.0F);
-        this.coreLeft = new ModelPart(64, 64, 0, 48);
-        this.coreLeft.setPos(0.0F, 0.0F, 0.0F);
-        this.coreLeft.addBox(-6.0F, -2.0F, -4.0F, 1, 4, 8, 0.0F);
-        this.coreRight = new ModelPart(64, 64, 0, 48);
-        this.coreRight.setPos(0.0F, 0.0F, 0.0F);
-        this.coreRight.addBox(5.0F, -2.0F, -4.0F, 1, 4, 8, 0.0F);
-        this.coreFront = new ModelPart(64, 64, 0, 34);
-        this.coreFront.setPos(0.0F, 0.0F, 0.0F);
-        this.coreFront.addBox(-4.0F, -2.0F, -6.0F, 8, 4, 1, 0.0F);
-        this.core = new ModelPart(64, 64, 0, 18);
-        this.core.setPos(0.0F, 20.0F, 0.0F);
-        this.core.addBox(-5.0F, -2.0F, -5.0F, 10, 4, 10, 0.0F);
-        this.handle = new ModelPart(64, 64, 0, 0);
-        this.handle.setPos(0.0F, 0.0F, 0.0F);
-        this.handle.addBox(-5.0F, -5.0F, -3.0F, 1, 3, 1, 0.0F);
-        this.core.addChild(this.coreBack);
-        this.core.addChild(this.coreLeft);
-        this.core.addChild(this.coreRight);
-        this.core.addChild(this.coreFront);
-        this.core.addChild(this.handle);
+    public QuernRender(BlockEntityRendererProvider.Context context) {
+        ModelPart part = context.bakeLayer(ClientHandler.CURIO_DISPLAY);
+        this.core = part.getChild("core");
+        this.coreLeft = part.getChild("coreLeft");
+        this.coreRight = part.getChild("coreRight");
+        this.coreFront = part.getChild("coreFront");
+        this.coreBack = part.getChild("coreBack");
+        this.handle = part.getChild("handle");
+    }
+
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        PartDefinition core = partDefinition.addOrReplaceChild("core", CubeListBuilder.create().texOffs(0, 18).addBox(-5.0F, -2.0F, -5.0F, 10, 4, 10), PartPose.offset(0.0F, 20.0F, 0.0F));
+        core.addOrReplaceChild("coreLeft", CubeListBuilder.create().texOffs(0, 48).addBox(-6.0F, -2.0F, -4.0F, 1, 4, 8), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("coreRight", CubeListBuilder.create().texOffs(0, 48).addBox(5.0F, -2.0F, -4.0F, 1, 4, 8), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("coreFront", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -2.0F, -6.0F, 8, 4, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("coreBack", CubeListBuilder.create().texOffs(0, 34).addBox(-4.0F, -2.0F, 5.0F, 8, 4, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
+        core.addOrReplaceChild("handle", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -5.0F, -3.0F, 1, 3, 1), PartPose.offset(0.0F, 0.0F, 0.0F));
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 
     @Override

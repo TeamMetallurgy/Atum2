@@ -41,7 +41,7 @@ public class KilnScreen extends AbstractContainerScreen<KilnContainer> {
     @Override
     protected void renderBg(@Nonnull PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.getMinecraft().getTextureManager().bind(KILN_GUI);
+        this.getMinecraft().getTextureManager().bindForSetup(KILN_GUI);
         int width = (this.width - this.imageWidth) / 2;
         int height = (this.height - this.imageHeight) / 2;
         this.blit(matrixStack, width, height, 0, 0, this.imageWidth, this.imageHeight);

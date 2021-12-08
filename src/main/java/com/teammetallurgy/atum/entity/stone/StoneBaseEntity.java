@@ -3,7 +3,6 @@ package com.teammetallurgy.atum.entity.stone;
 import com.teammetallurgy.atum.entity.bandit.BanditBaseEntity;
 import com.teammetallurgy.atum.entity.undead.UndeadBaseEntity;
 import com.teammetallurgy.atum.init.AtumItems;
-import com.teammetallurgy.atum.init.AtumStructures;
 import com.teammetallurgy.atum.world.gen.structure.StructureHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -154,7 +153,7 @@ public class StoneBaseEntity extends Monster {
     }
 
     @Override
-    public void knockback(float strength, double xRatio, double zRatio) {
+    public void knockback(double strength, double xRatio, double zRatio) {
         //Immune to knockback
     }
 
@@ -183,10 +182,11 @@ public class StoneBaseEntity extends Monster {
         return SoundEvents.STONE_BREAK;
     }
 
+
     @Override
     @Nonnull
-    protected SoundEvent getFallDamageSound(int height) {
-        return height > 4 ? SoundEvents.HOSTILE_BIG_FALL : SoundEvents.STONE_FALL;
+    public Fallsounds getFallSounds() {
+        return new LivingEntity.Fallsounds(SoundEvents.STONE_FALL, SoundEvents.HOSTILE_BIG_FALL);
     }
 
     @Override
@@ -195,7 +195,7 @@ public class StoneBaseEntity extends Monster {
     }
 
     @Override
-    public boolean causeFallDamage(float distance, float damageMultiplier) {
+    public boolean causeFallDamage(float distance, float damageMultiplier, @Nonnull DamageSource source) {
         return false;
     }
 
@@ -209,8 +209,8 @@ public class StoneBaseEntity extends Monster {
     }
 
     public static boolean canSpawn(EntityType<? extends StoneBaseEntity> stoneBase, LevelAccessor world, MobSpawnType spawnReason, BlockPos pos, Random random) {
-        return isValidLightLevel(world, pos, random) && checkAnyLightMonsterSpawnRules(stoneBase, world, spawnReason, pos, random) && world instanceof ServerLevel &&
-                !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE);
+        return isValidLightLevel(world, pos, random) && checkAnyLightMonsterSpawnRules(stoneBase, world, spawnReason, pos, random) && world instanceof ServerLevel /*&&
+                !StructureHelper.doesChunkHaveStructure((ServerLevel) world, pos, AtumStructures.PYRAMID_STRUCTURE)*/; //TODO Uncomment when structures are re-added
     }
 
     boolean isPlayerCreated() {

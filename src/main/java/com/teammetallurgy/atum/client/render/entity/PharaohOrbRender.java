@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.entity.projectile.PharaohOrbEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 
@@ -16,8 +17,8 @@ import javax.annotation.Nonnull;
 public class PharaohOrbRender extends EntityRenderer<PharaohOrbEntity> {
     private final PharaohOrbModel model = new PharaohOrbModel();
 
-    public PharaohOrbRender(EntityRenderDispatcher renderManager) {
-        super(renderManager);
+    public PharaohOrbRender(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override

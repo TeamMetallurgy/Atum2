@@ -7,6 +7,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.StonewardenModel;
 import com.teammetallurgy.atum.entity.stone.StonewardenEntity;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -19,8 +20,8 @@ import java.util.Map;
 public class StonewardenRender extends MobRenderer<StonewardenEntity, StonewardenModel<StonewardenEntity>> {
     private static final Map<Integer, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public StonewardenRender(EntityRenderDispatcher manager) {
-        super(manager, new StonewardenModel<>(), 0.5F);
+    public StonewardenRender(EntityRendererProvider.Context context) {
+        super(context, new StonewardenModel<>(), 0.5F);
     }
 
     @Override

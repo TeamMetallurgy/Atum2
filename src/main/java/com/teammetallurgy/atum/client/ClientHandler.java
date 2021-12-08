@@ -22,6 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
@@ -29,7 +30,6 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.entity.ArrowRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.entity.LlamaSpitRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -55,6 +55,12 @@ import java.util.List;
 public class ClientHandler {
     private static final List<ResourceLocation> CHEST_ATLAS_TEXTURES = new ArrayList<>();
     private static final List<ResourceLocation> SHIELD_ATLAS_TEXTURES = new ArrayList<>();
+
+    //Model Layers
+    public static final ModelLayerLocation CRATE = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "crate"), "crate");
+    public static final ModelLayerLocation QUERN = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "quern"), "quern");
+    public static final ModelLayerLocation SARCOPHAGUS = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "sarcophagus"), "sarcophagus");
+    public static final ModelLayerLocation CURIO_DISPLAY = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "curio_display"), "curio_display");
 
     public static void init() {
         //Screens
@@ -257,43 +263,43 @@ public class ClientHandler {
         BlockEntityRenderers.register(AtumTileEntities.CRATE.get(), CrateRender::new);
         BlockEntityRenderers.register(AtumTileEntities.QUERN.get(), QuernRender::new);
         BlockEntityRenderers.register(AtumTileEntities.SIGN.get(), SignRenderer::new);
-        BlockEntityRenderers.register(AtumTileEntities.PALM_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.PALM_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.PALM_CURIO_DISPLAY;
             }
         });
-        BlockEntityRenderers.register(AtumTileEntities.DEADWOOD_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.DEADWOOD_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.DEADWOOD_CURIO_DISPLAY;
             }
         });
-        BlockEntityRenderers.register(AtumTileEntities.ACACIA_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.ACACIA_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.ACACIA_CURIO_DISPLAY;
             }
         });
-        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.LIMESTONE_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.LIMESTONE_CURIO_DISPLAY;
             }
         });
-        BlockEntityRenderers.register(AtumTileEntities.ALABASTER_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.ALABASTER_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.ALABASTER_CURIO_DISPLAY;
             }
         });
-        BlockEntityRenderers.register(AtumTileEntities.PORPHYRY_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.PORPHYRY_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.PORPHYRY_CURIO_DISPLAY;
             }
         });
-        BlockEntityRenderers.register(AtumTileEntities.NEBU_CURIO_DISPLAY, r -> new CurioDisplayTileEntityRender(r) {
+        BlockEntityRenderers.register(AtumTileEntities.NEBU_CURIO_DISPLAY.get(), r -> new CurioDisplayTileEntityRender(r) {
             @Override
             public Block getBlock() {
                 return AtumBlocks.NEBU_CURIO_DISPLAY;
@@ -340,11 +346,18 @@ public class ClientHandler {
                 }
             });
         }
-        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-        event.registerEntityRenderer(AtumEntities.SMALL_BONE, manager -> new ThrownItemRenderer<>(manager, itemRenderer, 0.35F, true));
+        event.registerEntityRenderer(AtumEntities.SMALL_BONE, manager -> new ThrownItemRenderer<>(manager, 0.35F, true));
         event.registerEntityRenderer(AtumEntities.TEFNUTS_CALL, TefnutsCallRender::new);
         event.registerEntityRenderer(AtumEntities.CAMEL_SPIT, LlamaSpitRenderer::new);
-        event.registerEntityRenderer(AtumEntities.QUAIL_EGG, manager -> new ThrownItemRenderer<>(manager, itemRenderer));
+        event.registerEntityRenderer(AtumEntities.QUAIL_EGG, ThrownItemRenderer::new);
+    }
+
+    @SubscribeEvent
+    public static void registerLayerDefinition(EntityRenderersEvent.RegisterLayerDefinitions event) {
+        event.registerLayerDefinition(CRATE, CrateRender::createLayer);
+        event.registerLayerDefinition(QUERN, QuernRender::createLayer);
+        event.registerLayerDefinition(SARCOPHAGUS, SarcophagusRender::createLayer);
+        event.registerLayerDefinition(CURIO_DISPLAY, CurioDisplayTileEntityRender::createLayer);
     }
 
     public static void registerBowModelProperties(BaseBowItem bow) {

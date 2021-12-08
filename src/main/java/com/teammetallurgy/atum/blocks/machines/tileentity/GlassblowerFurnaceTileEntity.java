@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.FurnaceMenu;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
@@ -41,8 +43,8 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
         return new FurnaceMenu(id, player, this, this.dataAccess);
     }
 
-    public int getGlassBlowerCookTime(@Nonnull ItemStack output, boolean fromTick) {
-        int cookTime = super.getTotalCookTime();
+    public int getGlassBlowerCookTime(Level level, @Nonnull ItemStack output, Container container) {
+        int cookTime = getTotalCookTime(level, RecipeType.SMELTING, container);
         return isGlassOutput(output) ? cookTime / 4 : cookTime;
     }
 
@@ -51,57 +53,56 @@ public class GlassblowerFurnaceTileEntity extends AbstractFurnaceBlockEntity {
         return Tags.Items.GLASS.contains(item);
     }
 
-    @Override
-    public void tick() {
-        boolean flag = this.isBurning();
+    public static void serverTick(Level level, BlockPos pos, BlockState state, GlassblowerFurnaceTileEntity glassblower) {
+        boolean flag = glassblower.isBurning();
         boolean flag1 = false;
-        if (this.isBurning()) {
-            --this.litTime;
+        if (glassblower.isBurning()) {
+            --glassblower.litTime;
         }
 
-        if (!this.level.isClientSide) {
-            ItemStack itemstack = this.items.get(1);
-            if (this.isBurning() || !itemstack.isEmpty() && !this.items.get(0).isEmpty()) {
-                Recipe<?> irecipe = this.level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) this.recipeType, this, this.level).orElse(null);
-                if (!this.isBurning() && this.canBurn(irecipe)) {
-                    this.litTime = this.getBurnDuration(itemstack);
-                    this.litDuration = this.litTime;
-                    if (this.isBurning()) {
+        if (!level.isClientSide) {
+            ItemStack itemstack = glassblower.items.get(1);
+            if (glassblower.isBurning() || !itemstack.isEmpty() && !this.items.get(0).isEmpty()) {
+                Recipe<?> irecipe = level.getRecipeManager().getRecipeFor((RecipeType<AbstractCookingRecipe>) this.recipeType, glassblower, level).orElse(null);
+                if (!glassblower.isBurning() && glassblower.canBurn(irecipe)) {
+                    glassblower.litTime = glassblower.getBurnDuration(itemstack);
+                    glassblower.litDuration = glassblower.litTime;
+                    if (glassblower.isBurning()) {
                         flag1 = true;
                         if (itemstack.hasContainerItem())
-                            this.items.set(1, itemstack.getContainerItem());
+                            glassblower.items.set(1, itemstack.getContainerItem());
                         else if (!itemstack.isEmpty()) {
                             itemstack.shrink(1);
                             if (itemstack.isEmpty()) {
-                                this.items.set(1, itemstack.getContainerItem());
+                                glassblower.items.set(1, itemstack.getContainerItem());
                             }
                         }
                     }
                 }
 
-                if (this.isBurning() && this.canBurn(irecipe)) {
-                    ++this.cookingProgress;
-                    if (this.cookingProgress == this.cookingTotalTime) {
-                        this.cookingProgress = 0;
-                        this.cookingTotalTime = this.getGlassBlowerCookTime(irecipe.getResultItem(), true);
-                        this.smelt(irecipe);
+                if (glassblower.isBurning() && glassblower.canBurn(irecipe)) {
+                    ++glassblower.cookingProgress;
+                    if (glassblower.cookingProgress == glassblower.cookingTotalTime) {
+                        glassblower.cookingProgress = 0;
+                        glassblower.cookingTotalTime = glassblower.getGlassBlowerCookTime(irecipe.getResultItem(), true);
+                        glassblower.smelt(irecipe);
                         flag1 = true;
                     }
                 } else {
-                    this.cookingProgress = 0;
+                    glassblower.cookingProgress = 0;
                 }
-            } else if (!this.isBurning() && this.cookingProgress > 0) {
-                this.cookingProgress = Mth.clamp(this.cookingProgress - 2, 0, this.cookingTotalTime);
+            } else if (!glassblower.isBurning() && glassblower.cookingProgress > 0) {
+                glassblower.cookingProgress = Mth.clamp(glassblower.cookingProgress - 2, 0, glassblower.cookingTotalTime);
             }
 
-            if (flag != this.isBurning()) {
+            if (flag != glassblower.isBurning()) {
                 flag1 = true;
-                this.level.setBlock(this.worldPosition, this.level.getBlockState(this.worldPosition).setValue(AbstractFurnaceBlock.LIT, this.isBurning()), 3);
+                glassblower.level.setBlock(glassblower.worldPosition, state.setValue(AbstractFurnaceBlock.LIT, glassblower.isBurning()), 3);
             }
         }
 
         if (flag1) {
-            this.setChanged();
+            glassblower.setChanged();
         }
     }
 

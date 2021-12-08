@@ -3,7 +3,9 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.entity.animal.DesertRabbitEntity;
 import net.minecraft.client.model.RabbitModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 
@@ -17,8 +19,8 @@ public class DesertRabbitRender extends MobRenderer<DesertRabbitEntity, RabbitMo
     private static final ResourceLocation UMBER_DARK = new ResourceLocation(Atum.MOD_ID, "textures/entity/rabbit_umber_dark.png");
     private static final ResourceLocation IRON = new ResourceLocation(Atum.MOD_ID, "textures/entity/rabbit_iron.png");
 
-    public DesertRabbitRender(EntityRenderDispatcher manager) {
-        super(manager, new RabbitModel<>(), 0.3F);
+    public DesertRabbitRender(EntityRendererProvider.Context context) {
+        super(context, new RabbitModel<>(context.bakeLayer(ModelLayers.RABBIT)), 0.3F);
     }
 
     @Override

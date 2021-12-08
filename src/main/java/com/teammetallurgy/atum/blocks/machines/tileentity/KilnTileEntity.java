@@ -81,7 +81,7 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     };
 
     public KilnTileEntity(BlockPos pos, BlockState state) {
-        super(AtumTileEntities.KILN.get());
+        super(AtumTileEntities.KILN.get(), pos ,state);
     }
 
 
@@ -300,11 +300,11 @@ public class KilnTileEntity extends KilnBaseTileEntity {
     }
 
     @Override
-    public void load(@Nonnull BlockState state, @Nonnull CompoundTag compound) {
-        super.load(state, compound);
-        this.burnTime = compound.getInt("BurnTime");
-        this.cookTime = compound.getInt("CookTime");
-        this.cookTimeTotal = compound.getInt("CookTimeTotal");
+    public void load(@Nonnull CompoundTag tag) {
+        super.load(tag);
+        this.burnTime = tag.getInt("BurnTime");
+        this.cookTime = tag.getInt("CookTime");
+        this.cookTimeTotal = tag.getInt("CookTimeTotal");
         this.recipesUsed = ForgeHooks.getBurnTime(this.inventory.get(4), IAtumRecipeType.KILN);
     }
 

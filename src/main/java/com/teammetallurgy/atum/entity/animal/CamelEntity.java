@@ -8,14 +8,12 @@ import com.teammetallurgy.atum.init.AtumEntities;
 import com.teammetallurgy.atum.init.AtumItems;
 import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
@@ -54,7 +52,6 @@ import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Optional;
 import java.util.UUID;
 
 public class CamelEntity extends AbstractHorse implements RangedAttackMob, MenuProvider {

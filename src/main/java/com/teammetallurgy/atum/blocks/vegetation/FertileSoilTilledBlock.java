@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -88,11 +89,11 @@ public class FertileSoilTilledBlock extends FarmBlock {
     }
 
     @Override
-    public void fallOn(@Nonnull Level world, @Nonnull BlockPos pos, @Nonnull Entity entity, float fallDistance) {
+    public void fallOn(@Nonnull Level world, BlockState state, @Nonnull BlockPos pos, @Nonnull Entity entity, float fallDistance) {
         if (!world.isClientSide && entity.canTrample(this.defaultBlockState(), pos, fallDistance)) {
             turnToSoil(world, pos, AtumBlocks.FERTILE_SOIL);
         }
-        entity.causeFallDamage(fallDistance, 1.0F);
+        entity.causeFallDamage(fallDistance, 1.0F, DamageSource.FALL);
     }
 
     private static void turnToSoil(Level world, BlockPos pos, Block block) {

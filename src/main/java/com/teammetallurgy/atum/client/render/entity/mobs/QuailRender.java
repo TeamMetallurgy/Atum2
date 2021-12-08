@@ -4,6 +4,7 @@ import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.model.entity.QuailModel;
 import com.teammetallurgy.atum.entity.animal.QuailEntity;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -13,8 +14,8 @@ import javax.annotation.Nonnull;
 public class QuailRender extends MobRenderer<QuailEntity, QuailModel<QuailEntity>> {
     private static final ResourceLocation QUAIL = new ResourceLocation(Atum.MOD_ID, "textures/entity/quail.png");
 
-    public QuailRender(EntityRenderDispatcher renderManager) {
-        super(renderManager, new QuailModel<>(), 0.25F);
+    public QuailRender(EntityRendererProvider.Context context) {
+        super(context, new QuailModel<>(), 0.25F);
     }
 
     @Override

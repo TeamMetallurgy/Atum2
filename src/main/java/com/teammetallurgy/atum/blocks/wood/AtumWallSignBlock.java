@@ -2,7 +2,6 @@ package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumTileEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.WallSignBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;

@@ -51,13 +51,12 @@ public class ClientEvents {
             RenderSystem.fogMode(GlStateManager.FogMode.EXP);
             float fogDensity = 0.05F;
 
-            if (entity instanceof Player) {
-                Player player = (Player) entity;
+            if (entity instanceof Player player) {
                 if (player.blockPosition().getY() <= 60) {
                     fogDensity += (float) (62 - player.blockPosition().getY()) * 0.00333F;
                 }
                 Optional<ResourceKey<Biome>> biome = world.getBiomeName(entity.blockPosition());
-                if (biome.isPresent() && biome.get() == AtumBiomes.OASIS) {
+                if (biome.isPresent() /*&& biome.get() == AtumBiomes.OASIS*/) { //TODO Uncomment when biomes are re-added
                     fogDensity = fogDensity / 2.0F;
                 }
 
@@ -103,7 +102,7 @@ public class ClientEvents {
             RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.disableAlphaTest();
-            mc.getTextureManager().bind(MUMMY_BLUR_TEXTURE);
+            mc.getTextureManager().bindForSetup(MUMMY_BLUR_TEXTURE);
             Tesselator tessellator = Tesselator.getInstance();
             BufferBuilder bufferbuilder = tessellator.getBuilder();
             bufferbuilder.begin(7, DefaultVertexFormat.POSITION_TEX);

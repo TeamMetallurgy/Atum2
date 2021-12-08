@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.entity.ITexture;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -17,8 +18,8 @@ import java.util.Map;
 public class AtumMobRender<T extends Mob & ITexture, M extends EntityModel<T>> extends MobRenderer<T, M> {
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
-    public AtumMobRender(EntityRenderDispatcher renderManager, M model) {
-        super(renderManager, model, 0.5F);
+    public AtumMobRender(EntityRendererProvider.Context context, M model) {
+        super(context, model, 0.5F);
     }
 
     @Override

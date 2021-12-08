@@ -12,15 +12,17 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 
 public class PalmLog extends RotatedPillarBlock {
 
     public PalmLog() {
-        super(BlockBehaviour.Properties.of(Material.WOOD, (state) -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MaterialColor.WOOD : MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD));
+        super(BlockBehaviour.Properties.of(Material.WOOD, (state) -> MaterialColor.WOOD).strength(2.0F).sound(SoundType.WOOD));
     }
 
     @Override
-    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolType toolType) {
-        return toolType == ToolType.AXE ? AtumBlocks.STRIPPED_PALM_LOG.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolType);
+    public BlockState getToolModifiedState(BlockState state, Level world, BlockPos pos, Player player, ItemStack stack, ToolAction toolAction) {
+        return toolAction == ToolActions.AXE_STRIP ? AtumBlocks.STRIPPED_PALM_LOG.defaultBlockState() : super.getToolModifiedState(state, world, pos, player, stack, toolAction);
     }
 }

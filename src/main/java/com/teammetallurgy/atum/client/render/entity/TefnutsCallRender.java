@@ -8,6 +8,7 @@ import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
@@ -18,8 +19,8 @@ import javax.annotation.Nonnull;
 public class TefnutsCallRender extends EntityRenderer<TefnutsCallEntity> {
     private final TefnutsCallModel tefnutsCallModel = new TefnutsCallModel();
 
-    public TefnutsCallRender(EntityRenderDispatcher renderManager) {
-        super(renderManager);
+    public TefnutsCallRender(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override

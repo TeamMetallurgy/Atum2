@@ -1,13 +1,13 @@
 package com.teammetallurgy.atum.blocks.wood;
 
 import com.teammetallurgy.atum.init.AtumBlocks;
-import com.teammetallurgy.atum.world.gen.feature.tree.PalmTree;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.grower.AcaciaTreeGrower;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -19,7 +19,7 @@ public class PalmSaplingBlock extends SaplingBlock implements BonemealableBlock 
     private static final VoxelShape PALM_SAPLING_AABB = Block.box(10.0D, 0.0D, 10.0D, 6.0D, 7.0D, 6.0D);
 
     public PalmSaplingBlock() {
-        super(new PalmTree(), Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0F).sound(SoundType.GRASS));
+        super(new AcaciaTreeGrower() /*new PalmTree() //TODO Uncomment when worldgen stuff is re-added*/, Block.Properties.of(Material.PLANT).noCollission().randomTicks().strength(0.0F).sound(SoundType.GRASS));
     }
 
     @Override
