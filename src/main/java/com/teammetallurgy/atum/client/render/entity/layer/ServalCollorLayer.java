@@ -1,8 +1,10 @@
 package com.teammetallurgy.atum.client.render.entity.layer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.ServalModel;
 import com.teammetallurgy.atum.entity.animal.ServalEntity;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -12,10 +14,11 @@ import javax.annotation.Nonnull;
 
 public class ServalCollorLayer extends RenderLayer<ServalEntity, ServalModel<ServalEntity>> {
     private static final ResourceLocation CAT_COLLAR = new ResourceLocation("textures/entity/cat/cat_collar.png");
-    private final ServalModel<ServalEntity> model = new ServalModel<>(0.01F);
+    private final ServalModel<ServalEntity> model;
 
-    public ServalCollorLayer(RenderLayerParent<ServalEntity, ServalModel<ServalEntity>> model) {
+    public ServalCollorLayer(RenderLayerParent<ServalEntity, ServalModel<ServalEntity>> model, EntityModelSet modelSet) {
         super(model);
+        this.model = new ServalModel<>(modelSet.bakeLayer(ClientHandler.SERVAL_COLLAR));
     }
 
     @Override

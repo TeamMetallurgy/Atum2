@@ -23,7 +23,7 @@ public class BegGoal extends Goal {
         this.desertWolf = desertWolf;
         this.world = desertWolf.level;
         this.minPlayerDistance = minDistance;
-        this.predicate = (new TargetingConditions()).range(minDistance).allowInvulnerable().allowSameTeam().allowNonAttackable();
+        this.predicate = TargetingConditions.forNonCombat().range(minDistance);
         this.setFlags(EnumSet.of(Flag.LOOK));
     }
 
@@ -67,7 +67,7 @@ public class BegGoal extends Goal {
         for (InteractionHand hand : InteractionHand.values()) {
             ItemStack heldStack = player.getItemInHand(hand);
 
-            if (this.desertWolf.isTame() && heldStack.getItem().is(Tags.Items.BONES)) {
+            if (this.desertWolf.isTame() && Tags.Items.BONES.contains(heldStack.getItem())) {
                 return true;
             }
             if (this.desertWolf.isFood(heldStack)) {

@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.monster.Endermite;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -90,8 +91,9 @@ public class ScarabEntity extends Monster {
     }
 
     @Override
-    protected boolean isMovementNoisy() {
-        return false;
+    @Nonnull
+    protected Entity.MovementEmission getMovementEmission() {
+        return Entity.MovementEmission.EVENTS;
     }
 
     @Override
@@ -226,12 +228,12 @@ public class ScarabEntity extends Monster {
                 if (state.getBlock() == AtumBlocks.LIMESTONE) {
                     world.setBlock(pos, AtumBlocks.LIMESTONE.defaultBlockState().setValue(LimestoneBlock.HAS_SCARAB, true), 3);
                     this.mob.spawnAnim();
-                    this.mob.remove();
+                    this.mob.discard();
                 }
                 if (state.getBlock() == AtumBlocks.DEADWOOD_LOG) {
                     world.setBlock(pos, AtumBlocks.DEADWOOD_LOG.defaultBlockState().setValue(DeadwoodLogBlock.HAS_SCARAB, true), 3);
                     this.mob.spawnAnim();
-                    this.mob.remove();
+                    this.mob.discard();
                 }
             }
         }

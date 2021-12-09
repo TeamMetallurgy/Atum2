@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.render.entity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Vector3f;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.PharaohOrbModel;
 import com.teammetallurgy.atum.entity.projectile.PharaohOrbEntity;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -15,10 +16,11 @@ import net.minecraft.resources.ResourceLocation;
 import javax.annotation.Nonnull;
 
 public class PharaohOrbRender extends EntityRenderer<PharaohOrbEntity> {
-    private final PharaohOrbModel model = new PharaohOrbModel();
+    private final PharaohOrbModel model;
 
     public PharaohOrbRender(EntityRendererProvider.Context context) {
         super(context);
+        this.model = new PharaohOrbModel(context.bakeLayer(ClientHandler.PHARAOH_ORB));
     }
 
     @Override

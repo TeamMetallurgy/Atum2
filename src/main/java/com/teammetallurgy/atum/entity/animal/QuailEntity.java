@@ -41,33 +41,21 @@ public class QuailEntity extends Animal {
     public float oFlap;
     public float wingRotDelta = 1.0F;
     public int timeUntilNextEgg = this.random.nextInt(6000) + 6000;
-    private QuailEntity flockLeader;
-    private int groupSize = 1;
 
-    public QuailEntity(EntityType<? extends QuailEntity> type, Level world) {
-        super(type, world);
+    public QuailEntity(EntityType<? extends QuailEntity> type, Level level) {
+        super(type, level);
         this.setPathfindingMalus(BlockPathTypes.WATER, 0.0F);
-    }
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 1.4D, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Wolf.class, 10.0F, 1.3D, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, DesertWolfEntity.class, 10.0F, 1.3D, 1.6D));
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Monster.class, 4.0F, 1.0D, 1.4D));
-        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
-        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, TEMPTATION_ITEMS, false));
-        this.goalSelector.addGoal(5, new FollowFlockLeaderGoal(this));
-        this.goalSelector.addGoal(5, new FollowParentGoal(this, 1.1D));
-        this.goalSelector.addGoal(6, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
         return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 4.0D).add(Attributes.MOVEMENT_SPEED, 0.32D);
+    }
+
+    @Override
+    protected void registerGoals() {
+        super.registerGoals();
+        this.goalSelector.addGoal(3, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(4, new TemptGoal(this, 1.0D, TEMPTATION_ITEMS, false));
     }
 
     @Override
@@ -83,48 +71,6 @@ public class QuailEntity extends Animal {
     @Override
     public boolean isFood(@Nonnull ItemStack stack) {
         return TEMPTATION_ITEMS.test(stack);
-    }
-
-    public int getMaxFlockSize() {
-        return 6;
-    }
-
-    public boolean hasFlockLeader() {
-        return this.flockLeader != null && this.flockLeader.isAlive();
-    }
-
-    public QuailEntity addToFlock(QuailEntity quail) { //startFollowing
-        this.flockLeader = quail;
-        quail.increaseGroupSize();
-        return quail;
-    }
-
-    public void leaveGroup() {
-        this.flockLeader.decreaseGroupSize();
-        this.flockLeader = null;
-    }
-
-    private void increaseGroupSize() {
-        ++this.groupSize;
-    }
-
-    private void decreaseGroupSize() {
-        --this.groupSize;
-    }
-
-    public boolean canGroupGrow() {
-        return this.isFlockLeader() && this.groupSize < this.getMaxFlockSize();
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-        if (this.isFlockLeader() && this.level.random.nextInt(200) == 1) {
-            List<QuailEntity> list = this.level.getEntitiesOfClass(QuailEntity.class, this.getBoundingBox().inflate(8.0D, 8.0D, 8.0D));
-            if (list.size() <= 1) {
-                this.groupSize = 1;
-            }
-        }
     }
 
     @Override
@@ -199,46 +145,6 @@ public class QuailEntity extends Animal {
         passenger.setPos(this.getX() + (double)(0.1F * f), this.getY(0.5D) + passenger.getMyRidingOffset() + 0.0D, this.getZ() - (double)(0.1F * f1));
         if (passenger instanceof LivingEntity) {
             ((LivingEntity)passenger).yBodyRot = this.yBodyRot;
-        }
-    }
-
-    public boolean isFlockLeader() {
-        return this.groupSize > 1;
-    }
-
-    public boolean inRangeOfFlockLeader() {
-        return this.distanceToSqr(this.flockLeader) <= 121.0D;
-    }
-
-    public void moveToFlockLeader() {
-        if (this.hasFlockLeader()) {
-            this.getNavigation().moveTo(this.flockLeader, 1.0D);
-        }
-    }
-
-    public void addFollowers(Stream<QuailEntity> quails) {
-        quails.limit(this.getMaxFlockSize() - this.groupSize).filter((q) -> {
-            return q != this;
-        }).forEach((quail) -> {
-            quail.addToFlock(this);
-        });
-    }
-
-    @Nullable
-    public SpawnGroupData finalizeSpawn(@Nonnull ServerLevelAccessor world, @Nonnull DifficultyInstance difficulty, @Nonnull MobSpawnType reason, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag dataTag) {
-        if (spawnData == null) {
-            spawnData = new GroupData(this);
-        } else {
-            this.addToFlock(((GroupData) spawnData).flockLeader);
-        }
-        return super.finalizeSpawn(world, difficulty, reason, spawnData, dataTag);
-    }
-
-    public static class GroupData implements SpawnGroupData {
-        public final QuailEntity flockLeader;
-
-        public GroupData(QuailEntity flockLeader) {
-            this.flockLeader = flockLeader;
         }
     }
 }

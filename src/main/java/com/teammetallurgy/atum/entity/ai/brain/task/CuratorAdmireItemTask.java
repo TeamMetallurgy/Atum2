@@ -22,7 +22,7 @@ public class CuratorAdmireItemTask<E extends Villager> extends Behavior<E> {
     @Override
     protected boolean checkExtraStartConditions(@Nonnull ServerLevel world, E owner) {
         ItemEntity itemEntity = owner.getBrain().getMemory(MemoryModuleType.NEAREST_VISIBLE_WANTED_ITEM).get();
-        return itemEntity.getItem().getItem().is(AtumAPI.Tags.RELIC_NON_DIRTY);
+        return AtumAPI.Tags.RELIC_NON_DIRTY.contains(itemEntity.getItem().getItem());
     }
 
     @Override

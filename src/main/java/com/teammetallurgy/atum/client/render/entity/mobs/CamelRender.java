@@ -2,6 +2,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 
 import com.google.common.collect.Maps;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.client.render.entity.layer.CamelArmorLayer;
 import com.teammetallurgy.atum.client.render.entity.layer.CamelDecorLayer;
@@ -21,9 +22,9 @@ public class CamelRender extends MobRenderer<CamelEntity, CamelModel<CamelEntity
     private static final Map<String, ResourceLocation> CACHE = Maps.newHashMap();
 
     public CamelRender(EntityRendererProvider.Context context) {
-        super(context, new CamelModel<>(0.0F), 0.7F);
-        this.addLayer(new CamelDecorLayer(this));
-        this.addLayer(new CamelArmorLayer(this));
+        super(context, new CamelModel<>(context.bakeLayer(ClientHandler.CAMEL)), 0.7F);
+        this.addLayer(new CamelDecorLayer(this, context.getModelSet()));
+        this.addLayer(new CamelArmorLayer(this, context.getModelSet()));
     }
 
     @Override

@@ -2,6 +2,8 @@ package com.teammetallurgy.atum.items.tools;
 
 import com.teammetallurgy.atum.Atum;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -9,10 +11,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraftforge.client.IItemRenderProperties;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
 
 import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 public class AtumShieldItem extends ShieldItem {
     private Item repairItem;
@@ -22,8 +26,19 @@ public class AtumShieldItem extends ShieldItem {
     }
 
     public AtumShieldItem(int maxDamage, Item.Properties properties) {
-        super(properties.defaultDurability(maxDamage).tab(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
+        super(properties.defaultDurability(maxDamage).tab(Atum.GROUP));
         DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
+    }
+
+    @Override
+    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
+        if (Minecraft.getInstance() == null) return;
+        consumer.accept(new IItemRenderProperties() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                return new ItemStackRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+            }
+        });
     }
 
     @Override

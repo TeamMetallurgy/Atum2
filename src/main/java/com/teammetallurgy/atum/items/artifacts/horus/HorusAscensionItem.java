@@ -31,7 +31,7 @@ public class HorusAscensionItem extends GauntletItem implements IArtifact {
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
         if (COOLDOWN.getFloat(attacker) == 1.0F) {
-            knockUp(target, attacker, random);
+            knockUp(target, attacker, attacker.getRandom());
         }
         return super.hurtEnemy(stack, target, attacker);
     }

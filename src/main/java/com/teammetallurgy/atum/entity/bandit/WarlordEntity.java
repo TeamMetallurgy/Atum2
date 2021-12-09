@@ -50,7 +50,7 @@ public class WarlordEntity extends BanditBaseEntity {
     @Override
     protected void customServerAiStep() {
         super.customServerAiStep();
-        this.bossInfo.setPercent(this.getHealth() / this.getMaxHealth());
+        this.bossInfo.setProgress(this.getHealth() / this.getMaxHealth());
     }
 
     @Override

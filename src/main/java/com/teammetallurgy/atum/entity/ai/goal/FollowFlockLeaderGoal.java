@@ -1,22 +1,24 @@
 package com.teammetallurgy.atum.entity.ai.goal;
 
+import com.mojang.datafixers.DataFixUtils;
 import com.teammetallurgy.atum.entity.animal.QuailEntity;
+import com.teammetallurgy.atum.entity.animal.QuailBase;
 import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class FollowFlockLeaderGoal extends Goal {
-    private final QuailEntity taskOwner;
+    private final QuailBase taskOwner;
     private int navigateTimer;
     private int cooldown;
 
-    public FollowFlockLeaderGoal(QuailEntity taskOwner) {
+    public FollowFlockLeaderGoal(QuailBase taskOwner) {
         this.taskOwner = taskOwner;
         this.cooldown = this.getNewCooldown(taskOwner);
     }
 
-    protected int getNewCooldown(QuailEntity taskOwner) {
+    protected int getNewCooldown(QuailBase taskOwner) {
         return 200 + taskOwner.getRandom().nextInt(200) % 20;
     }
 
@@ -31,11 +33,9 @@ public class FollowFlockLeaderGoal extends Goal {
             return false;
         } else {
             this.cooldown = this.getNewCooldown(this.taskOwner);
-            Predicate<QuailEntity> predicate = (quail) -> {
-                return quail.canGroupGrow() || !quail.hasFlockLeader();
-            };
-            List<QuailEntity> list = this.taskOwner.level.getEntitiesOfClass(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
-            QuailEntity quail = list.stream().filter(QuailEntity::canGroupGrow).findAny().orElse(this.taskOwner);
+            Predicate<QuailBase> predicate = (quail) -> quail.canGroupGrow() || !quail.hasFlockLeader();
+            List<? extends QuailBase> list = this.taskOwner.level.getEntitiesOfClass(this.taskOwner.getClass(), this.taskOwner.getBoundingBox().inflate(8.0D, 8.0D, 8.0D), predicate);
+            QuailBase quail = DataFixUtils.orElse(list.stream().filter(QuailBase::canGroupGrow).findAny(), this.taskOwner);
             quail.addFollowers(list.stream().filter((quailEntity) -> {
                 return !quailEntity.hasFlockLeader();
             }));

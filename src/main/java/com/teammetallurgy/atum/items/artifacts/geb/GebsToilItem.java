@@ -29,12 +29,12 @@ public class GebsToilItem extends ShovelItem implements IArtifact {
     }
 
     @Override
-    public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
-        super.mineBlock(stack, world, state, pos, entityLiving);
-        if (entityLiving instanceof Player && !world.isClientSide) {
+    public boolean mineBlock(@Nonnull ItemStack stack, @Nonnull Level level, @Nonnull BlockState state, @Nonnull BlockPos pos, @Nonnull LivingEntity entityLiving) {
+        super.mineBlock(stack, level, state, pos, entityLiving);
+        if (entityLiving instanceof Player && !level.isClientSide) {
             ((Player) entityLiving).getFoodData().addExhaustion(-0.005F);
-            if (random.nextFloat() <= 0.10F) {
-                world.addFreshEntity(new ExperienceOrb(world, pos.getX(), pos.getY(), pos.getZ(), 1));
+            if (level.random.nextFloat() <= 0.10F) {
+                level.addFreshEntity(new ExperienceOrb(level, pos.getX(), pos.getY(), pos.getZ(), 1));
             }
         }
         return true;

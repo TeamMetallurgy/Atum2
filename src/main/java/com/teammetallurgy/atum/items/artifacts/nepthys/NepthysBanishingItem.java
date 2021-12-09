@@ -22,6 +22,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.Random;
+
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class NepthysBanishingItem extends SwordItem implements IArtifact {
     private static final Object2FloatMap<Player> COOLDOWN = new Object2FloatOpenHashMap<>();
@@ -53,9 +55,9 @@ public class NepthysBanishingItem extends SwordItem implements IArtifact {
             if (COOLDOWN.getFloat(trueSource) == 1.0F) {
                 LivingEntity target = event.getEntityLiving();
                 event.setAmount(event.getAmount() * 2);
-                if (target.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) target.level;
-                    serverWorld.sendParticles(AtumParticles.LIGHT_SPARKLE, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 2), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
+                if (target.level instanceof ServerLevel serverLevel) {
+                    Random random = serverLevel.random;
+                    serverLevel.sendParticles(AtumParticles.LIGHT_SPARKLE, target.getX() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), target.getY() + (target.getBbHeight() / 2), target.getZ() + (random.nextDouble() - 0.5D) * (double) target.getBbWidth(), 16, 0.25D, 0.05D, 0.25D, 0.01D);
                 }
             }
             COOLDOWN.removeFloat(trueSource);

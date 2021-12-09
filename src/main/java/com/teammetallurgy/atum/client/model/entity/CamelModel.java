@@ -6,6 +6,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
 
@@ -49,8 +52,7 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
         this.saddle1 = part.getChild("saddle1");
         this.saddle2 = part.getChild("saddle2");
 
-        /*this.texWidth = 128;//TODO Needs re-exporting in Blockbench
-        this.texHeight = 64;
+        /*;//TODO Needs re-exporting in Blockbench
         this.chestLeft = new ModelPart(this, 45, 41);
         this.chestLeft.setPos(5.5F, 3.0F, 3.0F);
         this.chestLeft.addBox(-3.0F, 0.0F, 0.0F, 8, 8, 3, size);
@@ -116,6 +118,12 @@ public class CamelModel<T extends CamelEntity> extends EntityModel<T> {
         this.headModel.addChild(this.neckheadModelLower);
         this.body.addChild(this.hump1);
         this.body.addChild(this.hump2);*/
+    }
+
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        return LayerDefinition.create(meshDefinition, 128, 64);
     }
 
     @Override

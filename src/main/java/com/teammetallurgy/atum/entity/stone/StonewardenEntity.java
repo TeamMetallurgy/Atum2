@@ -80,7 +80,7 @@ public class StonewardenEntity extends StoneBaseEntity {
             --this.attackTimer;
         }
 
-        if (getHorizontalDistanceSqr(this.getDeltaMovement()) > (double) 2.5000003E-7F && this.random.nextInt(5) == 0) {
+        if (this.getDeltaMovement().horizontalDistanceSqr() > (double) 2.5000003E-7F && this.random.nextInt(5) == 0) {
             int x = Mth.floor(this.getX());
             int y = Mth.floor(this.getY() - 0.20000000298023224D);
             int z = Mth.floor(this.getZ());

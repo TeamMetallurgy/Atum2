@@ -14,6 +14,7 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SwordItem;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 public class AtemsWillItem extends SwordItem implements IArtifact {
 
@@ -28,6 +29,7 @@ public class AtemsWillItem extends SwordItem implements IArtifact {
 
     @Override
     public boolean hurtEnemy(@Nonnull ItemStack stack, @Nonnull LivingEntity target, @Nonnull LivingEntity attacker) {
+        Random random = attacker.getRandom();
         if (random.nextDouble() <= 0.15D) {
             attacker.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, (Mth.nextInt(random, 5, 20)) * 20, 0, false, false));
         }

@@ -74,9 +74,9 @@ public class CamelSpitEntity extends LlamaSpit {
         double d2 = this.getZ() + motion.z;
         this.updateRotation();
         if (this.level.getBlockStates(this.getBoundingBox()).noneMatch(BlockBehaviour.BlockStateBase::isAir)) {
-            this.remove();
+            this.discard();
         } else if (this.isInWaterOrBubble()) {
-            this.remove();
+            this.discard();
         } else {
             this.setDeltaMovement(motion.scale(0.99F));
             if (!this.isNoGravity()) {
@@ -100,9 +100,8 @@ public class CamelSpitEntity extends LlamaSpit {
     protected void onHitBlock(@Nonnull BlockHitResult rayTraceResult) {
         super.onHitBlock(rayTraceResult);
         if (!this.level.isClientSide) {
-            this.remove();
+            this.discard();
         }
-
     }
 
     @Override

@@ -108,12 +108,8 @@ public class StoneBaseEntity extends Monster {
     }
 
     @Override
-    public void remove() {
-        if (!level.isClientSide && this.isPlayerCreated() && this.level.getDifficulty() == Difficulty.PEACEFUL) {
-            //Don't set player created stone mobs as dead on peaceful
-        } else {
-            super.remove();
-        }
+    protected boolean shouldDespawnInPeaceful() {
+        return !this.isPlayerCreated();
     }
 
     @Override

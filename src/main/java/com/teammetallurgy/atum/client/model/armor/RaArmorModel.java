@@ -3,7 +3,9 @@ package com.teammetallurgy.atum.client.model.armor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -31,8 +33,9 @@ public class RaArmorModel extends ArmorModel {
     private final ModelPart leftBoot;
     private final ModelPart rightBoot;
 
-    public RaArmorModel(ModelPart part, EquipmentSlot slot, boolean hasFullSet) {
+    public RaArmorModel(EquipmentSlot slot, boolean hasFullSet) {
         super(slot);
+        ModelPart part = Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.RA_ARMOR);
         this.hasFullSet = hasFullSet;
         this.chestplate = part.getChild("chestplate");
         this.rightShoulderBlade = part.getChild("rightShoulderBlade");

@@ -23,6 +23,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nonnull;
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = Atum.MOD_ID)
 public class AtemsProtectionItem extends AtumShieldItem implements IArtifact {
@@ -71,10 +72,10 @@ public class AtemsProtectionItem extends AtumShieldItem implements IArtifact {
         Entity source = event.getSource().getDirectEntity();
         LivingEntity livingEntity = event.getEntityLiving();
         if (source instanceof LivingEntity && IS_BLOCKING.containsKey(livingEntity) && IS_BLOCKING.getBoolean(livingEntity)) {
+            Random random = ((LivingEntity) source).getRandom();
             if (random.nextDouble() <= 0.20D) {
                 TIMER.put(livingEntity, 200);
-                if (livingEntity.level instanceof ServerLevel) {
-                    ServerLevel serverWorld = (ServerLevel) livingEntity.level;
+                if (livingEntity.level instanceof ServerLevel serverWorld) {
                     serverWorld.sendParticles(AtumParticles.LIGHT_SPARKLE, livingEntity.getX(), livingEntity.getY() + 1.0D, livingEntity.getZ(), 40, 0.1D, 0.0D, 0.1D, 0.01D);
                 }
             }

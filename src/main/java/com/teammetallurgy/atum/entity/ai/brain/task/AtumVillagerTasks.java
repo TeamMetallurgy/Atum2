@@ -18,6 +18,7 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.behavior.*;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.ai.util.RandomPos;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -88,7 +89,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
         ItemStack heldStack = entity.getItemInHand(InteractionHand.OFF_HAND);
         entity.setItemInHand(InteractionHand.OFF_HAND, ItemStack.EMPTY);
         if (!entity.isBaby()) {
-            boolean isCurrency = heldStack.getItem().is(AtumAPI.Tags.RELIC_NON_DIRTY);
+            boolean isCurrency = AtumAPI.Tags.RELIC_NON_DIRTY.contains(heldStack.getItem());
             if (shouldTrade && isCurrency) {
                 spawnItem(entity, getCuratorTrades(heldStack));
             } else if (!isCurrency) {
@@ -171,7 +172,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     private static Vec3 getLandPos(Villager entity) {
-        Vec3 vector3d = RandomPos.getLandPos(entity, 4, 2);
+        Vec3 vector3d = LandRandomPos.getPos(entity, 4, 2);
         return vector3d == null ? entity.position() : vector3d;
     }
 
@@ -181,7 +182,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
     }
 
     public static boolean canPickup(Villager entity) {
-        return entity.getOffhandItem().isEmpty() || !entity.getOffhandItem().getItem().is(AtumAPI.Tags.RELIC_NON_DIRTY);
+        return entity.getOffhandItem().isEmpty() || !AtumAPI.Tags.RELIC_NON_DIRTY.contains(entity.getOffhandItem().getItem());
     }
 
     public static void putInHand(Villager entity, ItemEntity itemEntity) {
@@ -192,7 +193,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
             ItemStack stack = setEntityItemStack(itemEntity);
 
             Item item = stack.getItem();
-            if (item.is(AtumAPI.Tags.RELIC_NON_DIRTY)) {
+            if (AtumAPI.Tags.RELIC_NON_DIRTY.contains(item)) {
                 entity.getBrain().eraseMemory(MemoryModuleType.TIME_TRYING_TO_REACH_ADMIRE_ITEM);
                 dropOffhand((AtumVillagerEntity) entity, stack);
                 entity.getBrain().setMemoryWithExpiry(MemoryModuleType.ADMIRING_ITEM, true, 120L);
@@ -204,7 +205,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
         ItemStack itemstack = itemEntity.getItem();
         ItemStack itemstack1 = itemstack.split(1);
         if (itemstack.isEmpty()) {
-            itemEntity.remove();
+            itemEntity.discard();
         } else {
             itemEntity.setItem(itemstack);
         }
@@ -223,7 +224,7 @@ public class AtumVillagerTasks { //Added EntityType parameter to all methods. No
         if (entity.getBrain().hasMemoryValue(MemoryModuleType.ADMIRING_DISABLED) && entity.getBrain().hasMemoryValue(MemoryModuleType.ATTACK_TARGET)) {
             return false;
         } else {
-            if (item.is(AtumAPI.Tags.RELIC_NON_DIRTY)) {
+            if (AtumAPI.Tags.RELIC_NON_DIRTY.contains(item)) {
                 return canPickup(entity);
             }
         }

@@ -7,10 +7,7 @@ import com.teammetallurgy.atum.client.gui.block.KilnScreen;
 import com.teammetallurgy.atum.client.gui.block.TrapScreen;
 import com.teammetallurgy.atum.client.gui.entity.AlphaDesertWolfScreen;
 import com.teammetallurgy.atum.client.gui.entity.CamelScreen;
-import com.teammetallurgy.atum.client.model.entity.NonRangedSkeletonModel;
-import com.teammetallurgy.atum.client.model.entity.MonsterModel;
-import com.teammetallurgy.atum.client.model.entity.NomadModel;
-import com.teammetallurgy.atum.client.model.entity.PharaohModel;
+import com.teammetallurgy.atum.client.model.entity.*;
 import com.teammetallurgy.atum.client.render.entity.PharaohOrbRender;
 import com.teammetallurgy.atum.client.render.entity.TefnutsCallRender;
 import com.teammetallurgy.atum.client.render.entity.mobs.*;
@@ -73,7 +70,24 @@ public class ClientHandler {
     public static final ModelLayerLocation WRAITH = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "wraith"), "wraith");
     public static final ModelLayerLocation BONESTORM = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "bonestorm"), "bonestorm");
     public static final ModelLayerLocation PHARAOH = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "pharaoh"), "pharaoh");
+    public static final ModelLayerLocation PHARAOH_ORB = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "pharaoh_orb"), "pharaoh_orb");
+    public static final ModelLayerLocation STONEWARDEN = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "stonewarden"), "stonewarden");
+    public static final ModelLayerLocation QUAIL = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "quail"), "quail");
+    public static final ModelLayerLocation CAMEL = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "camel"), "camel");
+    public static final ModelLayerLocation CAMEL_DECOR = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "camel"), "camel_decor");
+    public static final ModelLayerLocation CAMEL_ARMOR = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "camel"), "camel_armor");
+    public static final ModelLayerLocation DESERT_WOLF = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "desert_wolf"), "desert_wolf");
+    public static final ModelLayerLocation DESERT_WOLF_ARMOR = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "desert_wolf"), "desert_wolf_armor");
+    public static final ModelLayerLocation DESERT_WOLF_SADDLE = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "desert_wolf"), "desert_wolf_saddle");
+    public static final ModelLayerLocation SERVAL = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "serval"), "serval");
+    public static final ModelLayerLocation SERVAL_COLLAR = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "serval"), "serval_collar");
     public static final ModelLayerLocation TEFNUTS_CALL = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "tefnuts_call"), "tefnuts_call");
+    //Items
+    public static final ModelLayerLocation ATEM_ARMOR = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "atem_armor"), "atem_armor");
+    public static final ModelLayerLocation RA_ARMOR = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "ra_armor"), "ra_armor");
+    public static final ModelLayerLocation ATEMS_PROTECTION = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "atems_protection"), "atems_protection");
+    public static final ModelLayerLocation BRIGAND_SHIELD = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "brigand_shield"), "brigand_shield");
+    public static final ModelLayerLocation STONEGUARD_SHIELD = new ModelLayerLocation(new ResourceLocation(Atum.MOD_ID, "stoneguad_shield"), "stoneguad_shield");
 
     public static void init() {
         //Screens
@@ -373,6 +387,10 @@ public class ClientHandler {
         event.registerLayerDefinition(CURIO_DISPLAY, CurioDisplayTileEntityRender::createLayer);
         event.registerLayerDefinition(BONESTORM, BlazeModel::createBodyLayer);
         event.registerLayerDefinition(PHARAOH, PharaohModel::createLayer);
+        event.registerLayerDefinition(QUAIL, QuailModel::createLayer);
+        event.registerLayerDefinition(STONEWARDEN, StonewardenModel::createLayer);
+        event.registerLayerDefinition(DESERT_WOLF, DesertWolfModel::createLayer);
+        event.registerLayerDefinition(SERVAL, ServalModel::createLayer);
         event.registerLayerDefinition(TEFNUTS_CALL, TridentModel::createLayer);
     }
 

@@ -12,6 +12,7 @@ import com.teammetallurgy.atum.inventory.container.entity.CamelContainer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.common.extensions.IForgeMenuType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -24,20 +25,20 @@ import java.util.List;
 @ObjectHolder(Atum.MOD_ID)
 public class AtumGuis {
     public static List<MenuType<?>> CONTAINERS = Lists.newArrayList();
-    public static final MenuType<AlphaDesertWolfContainer> ALPHA_DESERT_WOLF = register(IForgeContainerType.create((windowID, inv, data) -> {
+    public static final MenuType<AlphaDesertWolfContainer> ALPHA_DESERT_WOLF = register(IForgeMenuType.create((windowID, inv, data) -> {
         int entityID = data.readInt();
         return new AlphaDesertWolfContainer(windowID, inv, entityID);
     }), "alpha_desert_wolf");
-    public static final MenuType<CamelContainer> CAMEL = register(IForgeContainerType.create((windowID, inv, data) -> {
+    public static final MenuType<CamelContainer> CAMEL = register(IForgeMenuType.create((windowID, inv, data) -> {
         int entityID = data.readInt();
         return new CamelContainer(windowID, inv, entityID);
     }), "camel");
-    public static final MenuType<KilnContainer> KILN = register(IForgeContainerType.create((windowID, inv, data) -> new KilnContainer(windowID, inv, data.readBlockPos())), "kiln");
-    public static final MenuType<TrapContainer> TRAP = register(IForgeContainerType.create((windowID, inv, data) -> {
+    public static final MenuType<KilnContainer> KILN = register(IForgeMenuType.create((windowID, inv, data) -> new KilnContainer(windowID, inv, data.readBlockPos())), "kiln");
+    public static final MenuType<TrapContainer> TRAP = register(IForgeMenuType.create((windowID, inv, data) -> {
         TrapTileEntity trap = (TrapTileEntity) inv.player.level.getBlockEntity(data.readBlockPos());
         return new TrapContainer(windowID, inv, trap);
     }), "trap");
-    public static final MenuType<GodforgeContainer> GODFORGE = register(IForgeContainerType.create((windowID, inv, data) -> {
+    public static final MenuType<GodforgeContainer> GODFORGE = register(IForgeMenuType.create((windowID, inv, data) -> {
         GodforgeTileEntity godforge = (GodforgeTileEntity) inv.player.level.getBlockEntity(data.readBlockPos());
         return new GodforgeContainer(windowID, inv, godforge);
     }), "godforge");

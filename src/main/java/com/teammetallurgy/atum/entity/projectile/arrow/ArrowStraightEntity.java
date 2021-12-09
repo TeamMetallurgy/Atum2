@@ -33,7 +33,7 @@ public class ArrowStraightEntity extends CustomArrow {
         if (this.velocity == 1.0F) {
             this.setDeltaMovement(this.getDeltaMovement().add(0.0D, 0.05D, 0.0D));
             if (!this.inGround && this.tickCount > 300) {
-                this.remove();
+                this.discard();
             }
 
             if (this.getOwner() instanceof LivingEntity && !this.inGround && this.velocity == 1.0F && this.isAlive()) {

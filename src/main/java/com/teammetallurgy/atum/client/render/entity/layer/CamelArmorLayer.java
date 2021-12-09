@@ -4,9 +4,12 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.CamelModel;
 import com.teammetallurgy.atum.entity.animal.CamelEntity;
 import net.minecraft.Util;
+import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -25,10 +28,11 @@ public class CamelArmorLayer extends RenderLayer<CamelEntity, CamelModel<CamelEn
         m.put(CamelEntity.ArmorType.GOLD, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_gold.png"));
         m.put(CamelEntity.ArmorType.DIAMOND, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/camel_armor_diamond.png"));
     });
-    private final CamelModel<CamelEntity> model = new CamelModel<>(0.1F);
+    private final CamelModel<CamelEntity> model;
 
-    public CamelArmorLayer(RenderLayerParent<CamelEntity, CamelModel<CamelEntity>> entityRenderer) {
+    public CamelArmorLayer(RenderLayerParent<CamelEntity, CamelModel<CamelEntity>> entityRenderer, EntityModelSet modelSet) {
         super(entityRenderer);
+        this.model = new CamelModel<>(modelSet.bakeLayer(ClientHandler.CAMEL_ARMOR));
     }
 
     @Override

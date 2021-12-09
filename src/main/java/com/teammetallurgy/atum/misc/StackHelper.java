@@ -84,7 +84,7 @@ public class StackHelper {
         if (!player.getInventory().add(stack)) {
             player.drop(stack, false);
         } else if (player instanceof ServerPlayer) {
-            ((ServerPlayer) player).refreshContainer(player.inventoryMenu);
+            //((ServerPlayer) player).refreshContainer(player.inventoryMenu); //TODO
         }
     }
 

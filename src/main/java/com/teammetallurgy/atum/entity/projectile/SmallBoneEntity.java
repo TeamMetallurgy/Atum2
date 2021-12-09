@@ -81,7 +81,7 @@ public class SmallBoneEntity extends Fireball {
     protected void onHit(@Nonnull HitResult result) {
         super.onHit(result);
         if (!this.level.isClientSide) {
-            this.remove();
+            this.discard();
         }
     }
 

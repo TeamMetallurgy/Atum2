@@ -4,6 +4,9 @@ import com.google.common.collect.ImmutableList;
 import com.teammetallurgy.atum.entity.animal.QuailEntity;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
 import javax.annotation.Nonnull;
@@ -59,6 +62,12 @@ public class QuailModel<T extends QuailEntity> extends AgeableListModel<T> {
         this.rightFoot = new ModelPart(this);
         this.rightFoot.setPos(-2.0F, 21.0F, 1.0F);
         this.rightFoot.texOffs(26, 0).addBox(-1.0F, 0.0F, -3.0F, 3.0F, 3.0F, 3.0F, 0.0F, false);*/
+    }
+
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        return LayerDefinition.create(meshDefinition, 64, 32);
     }
 
     @Override

@@ -5,6 +5,9 @@ import com.teammetallurgy.atum.entity.animal.ServalEntity;
 import net.minecraft.client.model.AgeableListModel;
 import net.minecraft.client.model.ModelUtils;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.builders.LayerDefinition;
+import net.minecraft.client.model.geom.builders.MeshDefinition;
+import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 
 import javax.annotation.Nonnull;
@@ -36,8 +39,7 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
         this.frontLeftLeg = part.getChild("frontLeftLeg");
         this.frontRightLeg = part.getChild("frontRightLeg");
 
-        /*texWidth = 64; //TODO Needs re-exporting in Blockbench
-        texHeight = 32;
+        /*//TODO Needs re-exporting in Blockbench
 
         body = new ModelPart(this);
         body.texOffs(50, 21).addBox(2.0F, -5.0F, -8.0F, 1.0F, 5.0F, 6.0F, size, false);
@@ -75,6 +77,12 @@ public class ServalModel<T extends ServalEntity> extends AgeableListModel<T> {
 
         frontRightLeg = new ModelPart(this);
         frontRightLeg.texOffs(40, 0).addBox(-1.0F, -0.2F, -1.0F, 2.0F, 10.0F, 2.0F, size, false);*/
+    }
+
+    public static LayerDefinition createLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
+        return LayerDefinition.create(meshDefinition, 64, 32);
     }
 
     @Override

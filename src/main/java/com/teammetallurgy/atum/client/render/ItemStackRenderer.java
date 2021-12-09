@@ -42,14 +42,17 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
     private static final Material ATEMS_PROTECTION_MATERIAL = getShieldMaterial("atems_protection");
     private static final Material BRIGAND_SHIELD_MATERIAL = getShieldMaterial("brigand_shield");
     private static final Material STONEGUARD_SHIELD_MATERIAL = getShieldMaterial("stoneguard_shield");
-    private static final AtemsProtectionModel ATEMS_PROTECTION = new AtemsProtectionModel();
-    private static final BrigandShieldModel BRIGAND_SHIELD = new BrigandShieldModel();
-    private static final StoneguardShieldModel STONEGUARD_SHIELD = new StoneguardShieldModel();
+    private final AtemsProtectionModel atemsProtection;
+    private final BrigandShieldModel brigandShield;
+    private final StoneguardShieldModel stoneguardShield;
     private final TridentModel tefnutsCall;
 
     public ItemStackRenderer(BlockEntityRenderDispatcher dispatcher, EntityModelSet modelSet) {
         super(dispatcher, modelSet);
         this.tefnutsCall = new TridentModel(modelSet.bakeLayer(ClientHandler.TEFNUTS_CALL));
+        this.atemsProtection = new AtemsProtectionModel(modelSet.bakeLayer(ClientHandler.ATEMS_PROTECTION));
+        this.brigandShield = new BrigandShieldModel(modelSet.bakeLayer(ClientHandler.BRIGAND_SHIELD));
+        this.stoneguardShield = new StoneguardShieldModel(modelSet.bakeLayer(ClientHandler.STONEGUARD_SHIELD));
     }
 
     @Override
@@ -81,11 +84,11 @@ public class ItemStackRenderer extends BlockEntityWithoutLevelRenderer {
             }
         } else {
             if (item == AtumItems.BRIGAND_SHIELD) {
-                renderShield(stack, BRIGAND_SHIELD, BRIGAND_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
+                renderShield(stack, brigandShield, BRIGAND_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.STONEGUARD_SHIELD) {
-                renderShield(stack, STONEGUARD_SHIELD, STONEGUARD_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
+                renderShield(stack, stoneguardShield, STONEGUARD_SHIELD_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } else if (item == AtumItems.ATEMS_PROTECTION) {
-                renderShield(stack, ATEMS_PROTECTION, ATEMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
+                renderShield(stack, atemsProtection, ATEMS_PROTECTION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } /*else if (item == AtumItems.NEPTHYS_CONSECRATION) {
                 renderShield(stack, NEPTHYS_CONSECRATION, NEPTHYS_CONSECRATION_MATERIAL, matrixStack, buffer, combinedLight, combinedOverlay);
             } */else if (item == AtumItems.TEFNUTS_CALL) {

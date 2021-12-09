@@ -16,7 +16,7 @@ public class SwitchAtumVillagerJobTask extends Behavior<Villager> {
     final AtumVillagerProfession profession;
 
     public SwitchAtumVillagerJobTask(AtumVillagerProfession profession) {
-        super(ImmutableMap.of(MemoryModuleType.JOB_SITE, MemoryStatus.VALUE_PRESENT, MemoryModuleType.LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT));
+        super(ImmutableMap.of(MemoryModuleType.JOB_SITE, MemoryStatus.VALUE_PRESENT, MemoryModuleType.NEAREST_LIVING_ENTITIES, MemoryStatus.VALUE_PRESENT));
         this.profession = profession;
     }
 

@@ -41,11 +41,9 @@ public class KilnOutputSlot extends Slot {
     }
 
     @Override
-    @Nonnull
-    public ItemStack onTake(@Nonnull Player player, @Nonnull ItemStack stack) {
+    public void onTake(@Nonnull Player player, @Nonnull ItemStack stack) {
         this.checkTakeAchievements(stack);
         super.onTake(player, stack);
-        return stack;
     }
 
     @Override

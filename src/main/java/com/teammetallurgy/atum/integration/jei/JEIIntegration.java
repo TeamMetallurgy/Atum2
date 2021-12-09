@@ -18,6 +18,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -75,6 +76,6 @@ public class JEIIntegration implements IModPlugin {
     }
 
     private void addInfo(ItemStack stack, IRecipeRegistration registry) {
-        registry.addIngredientInfo(stack, VanillaTypes.ITEM, "jei." + stack.getItem().getDescriptionId());
+        registry.addIngredientInfo(stack, VanillaTypes.ITEM, new TranslatableComponent("jei." + stack.getItem().getDescriptionId()));
     }
 }

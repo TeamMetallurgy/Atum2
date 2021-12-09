@@ -4,9 +4,11 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.entity.animal.DesertWolfEntity;
 import net.minecraft.Util;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -25,10 +27,11 @@ public class DesertWolfArmorLayer extends RenderLayer<DesertWolfEntity, DesertWo
         m.put(DesertWolfEntity.ArmorType.GOLD, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/desert_wolf_armor_gold.png"));
         m.put(DesertWolfEntity.ArmorType.DIAMOND, new ResourceLocation(Atum.MOD_ID, "textures/entity/armor/desert_wolf_armor_diamond.png"));
     });
-    private final DesertWolfModel<DesertWolfEntity> model = new DesertWolfModel<>(0.1F);
+    private final DesertWolfModel<DesertWolfEntity> model;
 
-    public DesertWolfArmorLayer(RenderLayerParent<DesertWolfEntity, DesertWolfModel<DesertWolfEntity>> entityRenderer) {
+    public DesertWolfArmorLayer(RenderLayerParent<DesertWolfEntity, DesertWolfModel<DesertWolfEntity>> entityRenderer, EntityModelSet modelSet) {
         super(entityRenderer);
+        this.model = new DesertWolfModel<>(modelSet.bakeLayer(ClientHandler.DESERT_WOLF_ARMOR));
     }
 
     @Override

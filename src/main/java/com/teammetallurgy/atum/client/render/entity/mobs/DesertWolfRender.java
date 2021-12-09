@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.DesertWolfModel;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfArmorLayer;
 import com.teammetallurgy.atum.client.render.entity.layer.DesertWolfCollarLayer;
@@ -26,10 +27,10 @@ public class DesertWolfRender extends MobRenderer<DesertWolfEntity, DesertWolfMo
     private static final ResourceLocation ANGRY_DESERT_WOLF_TEXTURES = new ResourceLocation(Atum.MOD_ID, "textures/entity/desert_wolf_angry.png");
 
     public DesertWolfRender(EntityRendererProvider.Context context) {
-        super(context, new DesertWolfModel<>(0.0F), 0.5F);
+        super(context, new DesertWolfModel<>(context.bakeLayer(ClientHandler.DESERT_WOLF)), 0.5F);
         this.addLayer(new DesertWolfCollarLayer(this));
-        this.addLayer(new DesertWolfSaddleLayer(this));
-        this.addLayer(new DesertWolfArmorLayer(this));
+        this.addLayer(new DesertWolfSaddleLayer(this, context.getModelSet()));
+        this.addLayer(new DesertWolfArmorLayer(this, context.getModelSet()));
     }
 
     @Override

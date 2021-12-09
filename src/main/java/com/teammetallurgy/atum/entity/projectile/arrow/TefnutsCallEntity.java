@@ -126,7 +126,7 @@ public class TefnutsCallEntity extends AbstractArrow {
 
         if (shooter != entity) {
             Vec3 motion = this.getDeltaMovement();
-            float f = Mth.sqrt(motion.x * motion.x + motion.y * motion.y + motion.z * motion.z);
+            float f = Mth.sqrt((float) (motion.x * motion.x + motion.y * motion.y + motion.z * motion.z));
             int i = Mth.ceil((double) f * this.getBaseDamage());
             if (this.isCritArrow()) {
                 i += this.random.nextInt(i / 2 + 2);

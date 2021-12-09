@@ -46,7 +46,7 @@ public class ArrowExplosiveEntity extends CustomArrow {
             if (!level.isClientSide) {
                 level.explode(this, getX(), getY(), getZ(), 2.0F, Explosion.BlockInteraction.BREAK);
             }
-            this.remove();
+            this.discard();
         }
     }
 

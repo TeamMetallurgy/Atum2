@@ -8,6 +8,8 @@ import com.teammetallurgy.atum.api.IArtifact;
 import com.teammetallurgy.atum.client.render.ItemStackRenderer;
 import com.teammetallurgy.atum.entity.projectile.arrow.TefnutsCallEntity;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -27,13 +29,26 @@ import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.client.IItemRenderProperties;
 
 import javax.annotation.Nonnull;
+import java.util.function.Consumer;
 
 public class TefnutsCallItem extends Item implements IArtifact {
 
     public TefnutsCallItem() {
-        super(new Item.Properties().durability(650).rarity(Rarity.RARE).tab(Atum.GROUP).setISTER(() -> ItemStackRenderer::new));
+        super(new Item.Properties().durability(650).rarity(Rarity.RARE).tab(Atum.GROUP));
+    }
+
+    @Override
+    public void initializeClient(@Nonnull Consumer<IItemRenderProperties> consumer) {
+        if (Minecraft.getInstance() == null) return;
+        consumer.accept(new IItemRenderProperties() {
+            @Override
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer() {
+                return new ItemStackRenderer(Minecraft.getInstance().getBlockEntityRenderDispatcher(), Minecraft.getInstance().getEntityModels());
+            }
+        });
     }
 
     @Override
@@ -59,8 +74,7 @@ public class TefnutsCallItem extends Item implements IArtifact {
 
     @Override
     public void releaseUsing(@Nonnull ItemStack stack, @Nonnull Level world, @Nonnull LivingEntity entityLiving, int timeLeft) {
-        if (entityLiving instanceof Player) {
-            Player player = (Player) entityLiving;
+        if (entityLiving instanceof Player player) {
             int useDuration = this.getUseDuration(stack) - timeLeft;
             if (useDuration >= 21) {
                 if (!world.isClientSide) {

@@ -3,6 +3,7 @@ package com.teammetallurgy.atum.client.render.entity.mobs;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.client.model.entity.ServalModel;
 import com.teammetallurgy.atum.client.render.entity.layer.ServalCollorLayer;
 import com.teammetallurgy.atum.entity.animal.ServalEntity;
@@ -21,8 +22,8 @@ public class ServalRenderer extends MobRenderer<ServalEntity, ServalModel<Serval
     private static final ResourceLocation AZURE = new ResourceLocation(Atum.MOD_ID, "textures/entity/serval/azure.png");
 
     public ServalRenderer(EntityRendererProvider.Context context) {
-        super(context, new ServalModel<>(0.0F), 0.5F);
-        this.addLayer(new ServalCollorLayer(this));
+        super(context, new ServalModel<>(context.bakeLayer(ClientHandler.SERVAL)), 0.5F);
+        this.addLayer(new ServalCollorLayer(this, context.getModelSet()));
     }
 
     @Override

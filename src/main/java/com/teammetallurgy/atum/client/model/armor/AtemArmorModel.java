@@ -3,7 +3,9 @@ package com.teammetallurgy.atum.client.model.armor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.teammetallurgy.atum.Atum;
+import com.teammetallurgy.atum.client.ClientHandler;
 import com.teammetallurgy.atum.init.AtumItems;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -30,8 +32,9 @@ public class AtemArmorModel extends ArmorModel {
 	private final ModelPart leftCape;
 	private final ModelPart rightCape;
 
-	public AtemArmorModel(ModelPart part, EquipmentSlot slot, boolean hasFullSet) {
+	public AtemArmorModel(EquipmentSlot slot, boolean hasFullSet) {
 		super(slot);
+		ModelPart part = Minecraft.getInstance().getEntityModels().bakeLayer(ClientHandler.ATEM_ARMOR);
 		this.hasFullSet = hasFullSet;
 		this.fins = part.getChild("fins");
 		this.hat = part.getChild("hat");

@@ -16,6 +16,7 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -47,8 +48,8 @@ public class SpinningWheelRecipeCategory implements IRecipeCategory<SpinningWhee
 
     @Override
     @Nonnull
-    public String getTitle() {
-        return new TranslatableComponent(Atum.MOD_ID + "." + getUid().getPath()).getString();
+    public Component getTitle() {
+        return new TranslatableComponent(Atum.MOD_ID + "." + getUid().getPath());
     }
 
     @Override

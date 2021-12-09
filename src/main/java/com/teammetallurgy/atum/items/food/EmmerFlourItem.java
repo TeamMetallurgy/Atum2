@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.CauldronBlock;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 
@@ -34,33 +35,33 @@ public class EmmerFlourItem extends Item {
 
     @Override
     @Nonnull
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, @Nonnull InteractionHand hand) {
+    public InteractionResultHolder<ItemStack> use(@Nonnull Level level, Player player, @Nonnull InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
-        HitResult rayTrace = getPlayerPOVHitResult(world, player, ClipContext.Fluid.SOURCE_ONLY);
+        BlockHitResult blockHitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
 
-        if (rayTrace.getType() == HitResult.Type.MISS) {
+        if (blockHitResult.getType() == HitResult.Type.MISS) {
             return new InteractionResultHolder<>(InteractionResult.PASS, heldStack);
-        } else if (rayTrace.getType() != HitResult.Type.BLOCK) {
+        } else if (blockHitResult.getType() != HitResult.Type.BLOCK) {
             return new InteractionResultHolder<>(InteractionResult.PASS, heldStack);
         } else {
-            BlockHitResult blockRayTrace = (BlockHitResult) rayTrace;
-            BlockPos pos = blockRayTrace.getBlockPos();
-            if (world.mayInteract(player, pos) && player.mayUseItemAt(pos, blockRayTrace.getDirection(), heldStack)) {
-                BlockState state = world.getBlockState(pos);
+            BlockPos pos = blockHitResult.getBlockPos();
+            if (level.mayInteract(player, pos) && player.mayUseItemAt(pos, blockHitResult.getDirection(), heldStack)) {
+                BlockState state = level.getBlockState(pos);
 
                 if (state.getBlock() instanceof LayeredCauldronBlock) {
-                    int level = state.getValue(LayeredCauldronBlock.LEVEL);
-                    if (level > 0) {
-                        LayeredCauldronBlock.lowerFillLevel(state, world, pos);
+                    int cauldronLevel = state.getValue(LayeredCauldronBlock.LEVEL);
+                    if (cauldronLevel > 0) {
+                        LayeredCauldronBlock.lowerFillLevel(state, level, pos);
                         this.giveDough(player, hand, heldStack);
                         return new InteractionResultHolder<>(InteractionResult.SUCCESS, heldStack);
                     } else {
                         return new InteractionResultHolder<>(InteractionResult.FAIL, heldStack);
                     }
-                } else if (state.getBlock() instanceof BucketPickup) {
-                    Fluid fluid = ((BucketPickup) state.getBlock()).takeLiquid(world, pos, state);
-                    if (fluid.is(FluidTags.WATER)) {
-                        world.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
+                } else if (state.getBlock() instanceof BucketPickup bucketPickup) {
+                    ItemStack stack = ((BucketPickup) state.getBlock()).pickupBlock(level, pos, state);
+                    if (!stack.isEmpty()) {
+                        player.awardStat(Stats.ITEM_USED.get(this));
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
                         this.giveDough(player, hand, heldStack);
                         return new InteractionResultHolder<>(InteractionResult.SUCCESS, heldStack);
                     }

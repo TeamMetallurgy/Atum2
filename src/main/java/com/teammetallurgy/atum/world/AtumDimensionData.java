@@ -2,7 +2,9 @@ package com.teammetallurgy.atum.world;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nonnull;
@@ -20,10 +22,11 @@ public class AtumDimensionData extends SavedData {
         data.hasStartStructureSpawned = nbt.getBoolean("HasStartStructureSpawned");
         data.isStorming = nbt.getBoolean("IsStorming");
 
-        ListTag listNBT = nbt.getList("PyramidBoxes", Constant.NBT.TAG_INT_ARRAY);
+        /*ListTag listNBT = nbt.getList("PyramidBoxes", 10);
         for (int i = 0; i < listNBT.size(); ++i) {
-            data.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i)));
-        }
+            data.beatenPyramids.add(new BoundingBox(listNBT.getIntArray(i))); //TODO Fix. Is this needed still?
+        }*/
+        return data;
     }
 
     @Override
@@ -32,13 +35,13 @@ public class AtumDimensionData extends SavedData {
         nbt.putBoolean("HasStartStructureSpawned", this.hasStartStructureSpawned);
         nbt.putBoolean("IsStorming", this.isStorming);
 
-        if (!this.beatenPyramids.isEmpty()) {
+        /*f (!this.beatenPyramids.isEmpty()) { //TODO Fix. Is this needed still?
             ListTag listNBT = new ListTag();
             for (BoundingBox box : this.beatenPyramids) {
                 listNBT.add(box.createTag());
             }
             nbt.put("PyramidBoxes", listNBT);
-        }
+        }*/
         return nbt;
     }
 

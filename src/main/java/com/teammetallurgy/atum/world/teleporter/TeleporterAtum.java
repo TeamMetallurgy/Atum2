@@ -50,7 +50,7 @@ public class TeleporterAtum implements ITeleporter {
             Vec3 vec3d1 = portalInfo.pos;
             Vec3 vec3d2 = portalInfo.speed;
             entity.setDeltaMovement(vec3d2);
-            entity.getYRot() = yaw + portalInfo.getYRot();
+            entity.setYRot(yaw + portalInfo.yRot);
             entity.moveTo(vec3d1.x, vec3d1.y + 1, vec3d1.z);
             return true;
         }

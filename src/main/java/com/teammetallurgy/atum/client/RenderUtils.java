@@ -60,7 +60,7 @@ public class RenderUtils {
                 }
             }
             matrixStack.scale(0.25F, 0.25F, 0.25F);
-            Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrixStack, buffer);
+            Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemTransforms.TransformType.NONE, combinedLight, combinedOverlay, matrixStack, buffer, 0);
             matrixStack.popPose();
 
             if (drawStackSize) {
@@ -71,7 +71,7 @@ public class RenderUtils {
     }
 
     public static void drawString(BlockEntity te, String str, double xOffset, double yOffset, double zOffset, float scaleModifier, PoseStack matrixStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        BlockEntityRenderDispatcher rendererDispatcher = BlockEntityRenderDispatcher.instance;
+        BlockEntityRenderDispatcher rendererDispatcher = Minecraft.getInstance().getBlockEntityRenderDispatcher();
         Entity entity = rendererDispatcher.camera.getEntity();
         BlockPos tePos = te.getBlockPos();
         double distance = new Vec3(entity.getX(), entity.getY(), entity.getZ()).distanceToSqr(tePos.getX(), tePos.getY(), tePos.getZ());
@@ -79,7 +79,7 @@ public class RenderUtils {
         if (distance <= (double) (14 * 14)) {
             float yaw = rendererDispatcher.camera.getYRot();
             float pitch = rendererDispatcher.camera.getXRot();
-            Font font = rendererDispatcher.getFont();
+            Font font = rendererDispatcher.font;
             matrixStack.pushPose();
             matrixStack.translate(xOffset, yOffset, zOffset);
 

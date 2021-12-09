@@ -10,14 +10,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.PickaxeItem;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import net.minecraftforge.common.ToolAction;
+import net.minecraftforge.common.ToolActions;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -28,12 +27,17 @@ import javax.annotation.Nonnull;
 public class GebsUndoingItem extends PickaxeItem implements IArtifact {
 
     public GebsUndoingItem() {
-        super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).addToolType(ToolType.AXE, 0).tab(Atum.GROUP));
+        super(AtumMats.NEBU, 2, -2.8F, new Item.Properties().rarity(Rarity.RARE).tab(Atum.GROUP));
     }
 
     @Override
     public God getGod() {
         return God.GEB;
+    }
+
+    @Override
+    public boolean canPerformAction(@Nonnull ItemStack stack, @Nonnull ToolAction toolAction) {
+        return super.canPerformAction(stack, toolAction) || ToolActions.DEFAULT_AXE_ACTIONS.contains(toolAction);
     }
 
     @Override
@@ -44,8 +48,7 @@ public class GebsUndoingItem extends PickaxeItem implements IArtifact {
     @SubscribeEvent
     public static void onAttack(LivingHurtEvent event) {
         Entity trueSource = event.getSource().getEntity();
-        if (trueSource instanceof Player) {
-            Player player = (Player) trueSource;
+        if (trueSource instanceof Player player) {
             ItemStack held = player.getItemBySlot(EquipmentSlot.MAINHAND);
             if (held.getItem() == AtumItems.GEBS_UNDOING) {
                 LivingEntity target = event.getEntityLiving();
